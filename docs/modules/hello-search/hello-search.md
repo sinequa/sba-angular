@@ -13,7 +13,8 @@ The "Hello Search" app is the simplest kind of Search-Based Application you can 
 
 ## App module
 
-Hello Search has one Angular module (`AppModule`) in [`src/app/app.module.ts`](/sinequa/sba-angular/blob/master/projects/hello-search/src/app/app.module.ts). It looks very much like the default `app.module.ts` you would get from creating a new Angular app with `ng new`, with some specific points:
+Hello Search has one Angular module (`AppModule`) in [`src/app/app.module.ts`](https://github.com/sinequa/sba-angular/blob/master/projects/hello-search/src/app/app.module.ts). It looks very much like the default `app.module.ts` you would get from creating a new Angular app with `ng new`, with some specific points:
+
 - We import required modules from [`@sinequa/core`]({{site.baseurl}}core) and pass them configuration via their `forRoot()` methods.
 - In particular we must pass the [`StartConfig`]({{site.baseurl}}core/interfaces/StartConfig.html) object to the [`WebServicesModule`]({{site.baseurl}}core/modules/WebServicesModule.html). This object contains the **URL of the sinequa server** (which can be omitted when the app is hosted on the server) and the **name of the App** configured in the Sinequa administration.
 - We use `{provide: LocationStrategy, useClass: HashLocationStrategy},` to manage routes (which is not specific to Hello Search).
@@ -21,9 +22,10 @@ Hello Search has one Angular module (`AppModule`) in [`src/app/app.module.ts`](/
 ## App component
 
 Hello Search has one Angular component (`AppComponent`). It is made of:
-- A template: [`src/app/app.component.html`](/sinequa/sba-angular/blob/master/projects/hello-search/src/app/app.component.html)
-- A controller: [`src/app/app.component.ts`](/sinequa/sba-angular/blob/master/projects/hello-search/src/app/app.component.ts)
-- A stylesheet: [`src/app/app.component.scss`](/sinequa/sba-angular/blob/master/projects/hello-search/src/app/app.component.scss)
+
+- A template: [`src/app/app.component.html`](https://github.com/sinequa/sba-angular/blob/master/projects/hello-search/src/app/app.component.html)
+- A controller: [`src/app/app.component.ts`](https://github.com/sinequa/sba-angular/blob/master/projects/hello-search/src/app/app.component.ts)
+- A stylesheet: [`src/app/app.component.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/hello-search/src/app/app.component.scss)
 
 ### Template
 
@@ -140,6 +142,7 @@ search() {
 **Login and Logout method**:
 
 The `login()` and `logout()` methods are essentially proxies to the corresponding methods in the [`LoginService`]({{site.baseurl}}core/injectables/LoginService.html) which manages the authentication. Note that the [`LoginService`]({{site.baseurl}}core/injectables/LoginService.html) also takes care of retrieving data from the server via three services:
+
 - The [`AppWebService`]({{site.baseurl}}core/injectables/AppWebService.html), which retrieves the configuration of the applications.
 - The [`PrincipalWebService`]({{site.baseurl}}core/injectables/PrincipalWebService.html), which retrieves the user data from its domain (it includes the name, email, id, and other data).
 - The [`UserSettingsWebService`]({{site.baseurl}}core/injectables/UserSettingsWebService.html), which retrieves the *User Settings* (more information in the [Tutorial]({{site.baseurl}}tutorial/user-settings.html) and the [Tips & Tricks]({{site.baseurl}}tipstricks/user-settings.html))
@@ -190,7 +193,7 @@ The component's stylesheet contains CSS rules applied only within the component.
     }
     ```
 
-In addition to the component's stylesheet, a global stylesheet ([`src/styles/app.scss`](/sinequa/sba-angular/blob/master/projects/hello-search/src/styles/app.scss)) contains styles that apply to the whole app. This is where you would import (globally) third party styling libraries such as Bootstrap (see the [tutorial]({{site.baseurl}}tutorial/search-module#importing-bootstrap)).
+In addition to the component's stylesheet, a global stylesheet ([`src/styles/app.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/hello-search/src/styles/app.scss)) contains styles that apply to the whole app. This is where you would import (globally) third party styling libraries such as Bootstrap (see the [tutorial]({{site.baseurl}}tutorial/search-module#importing-bootstrap)).
 
 ```scss
 @import "~@angular/cdk/overlay-prebuilt";
