@@ -9,9 +9,10 @@ nav_order: 4
 
 *Vanilla Search* is a standard Enterprise Search app designed to be simple, efficient and easy to customize into a much more complex application.
 
-If you complete the [Tutorial]({{site.baseurl}}tutorial/tutorial.html), you should notice a lot of similarities between your final app and Vanilla Search. This is intentional, to make it easy for developers to transition from [Hello Search]({{site.baseurl/modules/hello-search/hello-search.html}}) and the tutorial, to a full-fledged Enterprise Search app.
+If you complete the [Tutorial]({{site.baseurl}}tutorial/tutorial.html), you should notice a lot of similarities between your final app and Vanilla Search. This is intentional, to make it easy for developers to transition from [Hello Search]({{site.baseurl}}modules/hello-search/hello-search.html) and the tutorial, to a full-fledged Enterprise Search app.
 
 The application has **three routes** made of **four components** (of course, these components include many subcomponents from the [`@sinequa/components`]({{site.baseurl}}components) library):
+
 - A **Home** route, greeting users with a search bar and some quick-access facets.
 - A **Search** route, allowing users to browse and refine search results and access other features.
 - A **Preview** route, allowing users to see the details of a document and navigate its relevant extracts and entities.
@@ -47,6 +48,7 @@ The [Search route](/sinequa/sba-angular/tree/master/projects/vanilla-search/src/
 ## Preview route
 
 The [Preview route](/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/preview) displays the HTML preview of the document on the right. On the left, a panel contains various tools to interact with the document:
+
 - A search bar ([`sq-preview-search-form`]({{site.baseurl}}components/components/BsPreviewSearchFormComponent.html)), to search and highlight text within the document (note that it uses Sinequa NLP to recognize the language and find words in all their possible forms).
 - A list of relevant extracts ([`sq-preview-extracts-panel`]({{site.baseurl}}components/components/BsPreviewExtractsPanelComponent.html)), to quickly navigate to the important parts of the document.
 - A list of entities and relevant keywords ([`sq-preview-entity-panel`]({{site.baseurl}}components/components/BsPreviewEntityPanelComponent.html)), to visualize the diversity of topics, navigate between them and control their highlighting.
@@ -64,4 +66,3 @@ Additionally, a custom [Autocomplete directive](/sinequa/sba-angular/blob/master
 ## Configuration
 
 ## Styles
-
