@@ -3,7 +3,7 @@
 
 # Search-Based Applications (SBA)
 
-## Please visit our [documentation website](https://github.com/pages/sinequa/sba-angular/)
+## Please visit our [documentation website](https://sinequa.github.io/sba-angular/)
 
 ## Quick start
 
@@ -19,13 +19,13 @@
     npm install
     ```
 
-3. Build the [`@sinequa/core`](https://github.com/pages/sinequa/sba-angular/modules/core/core.html) library:
+3. Build the [`@sinequa/core`](https://sinequa.github.io/sba-angular/modules/core/core.html) library:
 
     ```bash
     npm run buildcore
     ```
 
-4. Build the [`@sinequa/components`](https://github.com/pages/sinequa/sba-angular/modules/components/components.html) library:
+4. Build the [`@sinequa/components`](https://sinequa.github.io/sba-angular/modules/components/components.html) library:
 
     ```bash
     npm run buildcore
@@ -37,7 +37,7 @@
     ng serve vanilla-search --ssl=true --proxyConfig=./projects/vanilla-search/src/proxy.conf.json
     ```
 
-Read our [Getting Started](https://github.com/pages/sinequa/sba-angular/gettingstarted/gettingstarted.html) chapter and complete our [Tutorial](https://github.com/pages/sinequa/sba-angular/tutorial/tutorial.html) to go further.
+Read our [Getting Started](https://sinequa.github.io/sba-angular/gettingstarted/gettingstarted.html) chapter and complete our [Tutorial](https://sinequa.github.io/sba-angular/tutorial/tutorial.html) to go further.
 
 ## Contact Us
 
