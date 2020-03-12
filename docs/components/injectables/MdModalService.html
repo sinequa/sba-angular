@@ -1,0 +1,471 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>MdModalService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>modal/material/modal.service.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                    <code>ModalService</code>
+            </p>
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#openRef">openRef</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(matDialog: MatDialog, injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>, overlay: Overlay, intlService: IntlService, confirmModal: Type<any>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">modal/material/modal.service.ts:40</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>matDialog</td>
+                                                  
+                                                        <td>
+                                                                    <code>MatDialog</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>injector</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/Injector" target="_blank" >Injector</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>overlay</td>
+                                                  
+                                                        <td>
+                                                                    <code>Overlay</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>intlService</td>
+                                                  
+                                                        <td>
+                                                                    <code>IntlService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>confirmModal</td>
+                                                  
+                                                        <td>
+                                                                    <code>Type&lt;any&gt;</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openRef"></a>
+                    <span class="name">
+                        <b>
+                            openRef
+                        </b>
+                        <a href="#openRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openRef(component: Type<any>, config: ModalConfig)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">modal/material/modal.service.ts:70</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>component</td>
+                                    <td>
+                                            <code>Type&lt;any&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>config</td>
+                                    <td>
+                                            <code>ModalConfig</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>{}</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>IModalRef</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, Type, Injector} from &quot;@angular/core&quot;;
+import {Overlay} from &#x27;@angular/cdk/overlay&#x27;;
+import {MatDialog, MatDialogRef, MatDialogConfig} from &quot;@angular/material/dialog&quot;;
+import {Subject, Observable, of} from &quot;rxjs&quot;;
+import {MODAL_CONFIRM, ModalService, ModalConfig, ModalResult, IModalRef, CheckCloseEvent} from &quot;@sinequa/core/modal&quot;;
+import {Utils} from &quot;@sinequa/core/base&quot;;
+import {IntlService} from &quot;@sinequa/core/intl&quot;;
+
+export interface SqMatDialogRef&lt;T&gt; extends MatDialogRef&lt;T&gt; {
+    checkClose(): Observable&lt;CheckCloseEvent&gt;;
+}
+
+class MdModalRef implements IModalRef {
+    componentInstance: Type&lt;any&gt;;
+
+    constructor(private dialogRef: SqMatDialogRef&lt;any&gt;) {
+        this.componentInstance &#x3D; this.dialogRef.componentInstance;
+    }
+
+    checkClose(): Observable&lt;CheckCloseEvent&gt; {
+        return this.dialogRef.checkClose();
+    }
+
+    beforeClosed(): Observable&lt;ModalResult&gt; {
+        return this.dialogRef.beforeClosed();
+    }
+
+    afterClosed(): Observable&lt;ModalResult&gt; {
+        return this.dialogRef.afterClosed();
+    }
+
+    close(result &#x3D; ModalResult.Cancel) {
+        this.dialogRef.close(result);
+    }
+}
+
+@Injectable({
+    providedIn: &quot;root&quot;
+})
+export class MdModalService extends ModalService {
+    constructor(
+        protected matDialog: MatDialog,
+        injector: Injector,
+        overlay: Overlay,
+        protected intlService: IntlService,
+        @Inject(MODAL_CONFIRM) confirmModal: Type&lt;any&gt;) {
+        super(injector, overlay, confirmModal);
+    }
+
+    private monkeyPatchDialogRef(dialogRef: SqMatDialogRef&lt;any&gt;) {
+        const checkClose &#x3D; new Subject&lt;CheckCloseEvent&gt;();
+        dialogRef.checkClose &#x3D; () &#x3D;&gt; {
+            return checkClose.asObservable();
+        };
+        const originalClose &#x3D; dialogRef.close;
+        dialogRef.close &#x3D; function(result &#x3D; ModalResult.Cancel) {
+            let checkCloseEvent: CheckCloseEvent &#x3D; {result};
+            checkClose.next(checkCloseEvent);
+            (checkCloseEvent.cancelled || of(false)).subscribe(
+                (cancelled) &#x3D;&gt; {
+                    if (!cancelled) {
+                        checkClose.complete();
+                        originalClose.call(this, result);
+                    }
+                }
+            );
+        };
+    }
+
+    openRef(component: Type&lt;any&gt;, config: ModalConfig &#x3D; {}): IModalRef {
+        let matConfig: MatDialogConfig &#x3D; {
+            data: config.model
+        };
+        if (!Utils.isUndefined(config.panelClass)) {
+            matConfig.panelClass &#x3D; config.panelClass;
+        }
+        if (!Utils.isUndefined(config.hasBackdrop)) {
+            matConfig.hasBackdrop &#x3D; config.hasBackdrop;
+        }
+        if (Utils.isString(config.backdropClass)) {
+            matConfig.backdropClass &#x3D; config.backdropClass;
+        }
+        if (config.fullscreen) {
+            matConfig.maxWidth &#x3D; &quot;none&quot;;
+            if (Utils.isString(matConfig.panelClass)) {
+                matConfig.panelClass &#x3D; [matConfig.panelClass, &quot;sq-modal-fullscreen&quot;];
+            }
+            else if (matConfig.panelClass) {
+                matConfig.panelClass.push(&quot;sq-modal-fullscreen&quot;);
+            }
+            else {
+                matConfig.panelClass &#x3D; &quot;sq-modal-fullscreen&quot;;
+            }
+        }
+        else {
+            if (!Utils.isUndefined(config.width)) {
+                matConfig.width &#x3D; config.width;
+            }
+            else {
+                matConfig.width &#x3D; &quot;480px&quot;;
+            }
+            if (!Utils.isUndefined(config.height)) {
+                matConfig.height &#x3D; config.height;
+            }
+        }
+        matConfig.direction &#x3D; this.intlService.direction;
+        const dialogRef &#x3D; this.matDialog.open(component, matConfig) as SqMatDialogRef&lt;any&gt;;
+        this.monkeyPatchDialogRef(dialogRef);
+        return new MdModalRef(dialogRef);
+    }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'MdModalService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

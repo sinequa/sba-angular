@@ -1,0 +1,39 @@
+<form novalidate [formGroup]="form">
+
+    <!-- Wrapper div to ensure the autocomplete dropdown is aligned with the search input and button -->
+    <div class="d-flex flex-column flex-grow-1 position-relative">
+        
+        <div class="input-group">
+            <!-- Input with autocomplete -->
+            <input type="text" placeholder="{{ 'msg#searchForm.searchFor' | sqMessage }}" formControlName="search" class="form-control"
+                spellcheck="false" autocomplete="off"
+                [sqAutofocus]="autofocus"
+                [sqAutocompleteExtended]="autocompleteSources"
+                [dropdown]="dropdown"
+                [off]="!loginService.complete || !appService.suggestQueries"
+                [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''"
+                (submit)="search()">
+
+            <!-- Search button -->
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button" (click)="search()" 
+                    title="{{ 'msg#searchForm.search' | sqMessage }}"
+                    [attr.disabled]="!loginService.complete ? '' : null">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Autocomplete dropdown panel displaying suggestions -->
+        <sq-autocomplete-list #dropdown>
+            <ng-template #itemTpl let-item>
+                <div class="autocomplete-item p-2">
+                    <i class="{{autocompleteIcon(item.category)}}"></i><!--
+                 --><span class="mx-2" [innerHTML]="item.displayHtml || item.display"></span><!--
+                 --><small *ngIf="item.category" class="autocomplete-category ml-2">{{(item.label || item.category) | sqMessage}}</small>
+                </div>
+            </ng-template>
+        </sq-autocomplete-list>
+    </div>
+
+</form>

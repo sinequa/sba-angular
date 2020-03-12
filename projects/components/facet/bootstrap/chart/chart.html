@@ -1,0 +1,96 @@
+<div class="sq-chart-wrapper" [ngClass]="{'sq-attached' : attached}" #wrapper>
+    <ng-container [ngSwitch]="chartType">
+        <ngx-charts-bar-vertical *ngSwitchDefault #chart
+            (select)="select($event)"
+            [results]="data"
+            [xAxis]="true"
+            [yAxis]="true"
+            [customColors]="options.getItemColor"
+            [xAxisTickFormatting]="options.tickFormatter"
+            [yAxisTickFormatting]="options.tickFormatter"
+            [scheme]="colorScheme"
+            [animations]="false">
+            <ng-template #tooltipTemplate let-model="model">
+                <ng-container [ngTemplateOutlet]="tooltipTemplate1" [ngTemplateOutletContext]="{model: model}"></ng-container>
+            </ng-template>
+        </ngx-charts-bar-vertical>
+        <ngx-charts-bar-horizontal *ngSwitchCase="'horizontalbar'" #chart
+            (select)="select($event)"
+            [results]="data" 
+            [xAxis]="true"
+            [yAxis]="true"
+            [customColors]="options.getItemColor"
+            [xAxisTickFormatting]="options.tickFormatter"
+            [yAxisTickFormatting]="options.tickFormatter"
+            [scheme]="colorScheme"
+            [animations]="false">
+            <ng-template #tooltipTemplate let-model="model">
+                <ng-container [ngTemplateOutlet]="tooltipTemplate1" [ngTemplateOutletContext]="{model: model}"></ng-container>
+            </ng-template>
+        </ngx-charts-bar-horizontal>
+        <ngx-charts-pie-chart *ngSwitchCase="'pie'" #chart
+            (select)="select($event)"
+            [results]="data"
+            [customColors]="options.getItemColor"
+            [scheme]="colorScheme"
+            [animations]="false">
+            <ng-template #tooltipTemplate let-model="model">
+                <ng-container [ngTemplateOutlet]="tooltipTemplate1" [ngTemplateOutletContext]="{model: model}"></ng-container>
+            </ng-template>
+        </ngx-charts-pie-chart>
+        <ngx-charts-advanced-pie-chart *ngSwitchCase="'advancedpie'" #chart
+            (select)="select($event)"
+            [results]="data"
+            [customColors]="options.getItemColor"
+            [scheme]="colorScheme"
+            [animations]="false">
+            <ng-template #tooltipTemplate let-model="model">
+                <ng-container [ngTemplateOutlet]="tooltipTemplate1" [ngTemplateOutletContext]="{model: model}"></ng-container>
+            </ng-template>
+        </ngx-charts-advanced-pie-chart>
+        <ngx-charts-pie-grid *ngSwitchCase="'piegrid'" #chart
+            (select)="select($event)"
+            [results]="data"
+            [customColors]="options.getItemColor"
+            [scheme]="colorScheme"
+            [animations]="false">
+            <ng-template #tooltipTemplate let-model="model">
+                <ng-container [ngTemplateOutlet]="tooltipTemplate1" [ngTemplateOutletContext]="{model: model}"></ng-container>
+            </ng-template>
+        </ngx-charts-pie-grid>
+        <ngx-charts-tree-map *ngSwitchCase="'treemap'" #chart
+            (select)="select($event)"
+            [results]="data"
+            [customColors]="options.getItemColor"
+            [scheme]="colorScheme"
+            [animations]="false">
+            <ng-template #tooltipTemplate let-model="model">
+                <ng-container [ngTemplateOutlet]="tooltipTemplate1" [ngTemplateOutletContext]="{model: model}"></ng-container>
+            </ng-template>
+        </ngx-charts-tree-map>
+        <ngx-charts-number-card *ngSwitchCase="'numbercard'" #chart
+            (select)="select($event)"
+            [results]="data"
+            [customColors]="options.getItemColor"
+            [scheme]="colorScheme"
+            [animations]="false">
+            <ng-template #tooltipTemplate let-model="model">
+                <ng-container [ngTemplateOutlet]="tooltipTemplate1" [ngTemplateOutletContext]="{model: model}"></ng-container>
+            </ng-template>
+        </ngx-charts-number-card>
+        <ngx-charts-gauge *ngSwitchCase="'gauge'" #chart
+            (select)="select($event)"
+            [results]="data"
+            [customColors]="options.getItemColor"
+            [scheme]="colorScheme"
+            [animations]="false">
+            <ng-template #tooltipTemplate let-model="model">
+                <ng-container [ngTemplateOutlet]="tooltipTemplate1" [ngTemplateOutletContext]="{model: model}"></ng-container>
+            </ng-template>
+        </ngx-charts-gauge>
+    </ng-container>
+    <ng-template #tooltipTemplate1 let-model="model">
+        <span class="tooltip-label">{{model.name}}</span>
+        <span class="tooltip-val">{{model.value | sqValue}}</span>
+    </ng-template>
+</div>

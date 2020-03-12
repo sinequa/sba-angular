@@ -1,0 +1,202 @@
+
+@import "~bootstrap/scss/_functions";
+@import "~bootstrap/scss/_variables";
+@import "~sass-color-helpers/stylesheets/_color-helpers";
+@import "metadata";
+
+$extracts-color: lemonchiffon !default;
+$extractslocations-color: $extracts-color !default;
+$matchlocations-color: yellow !default;
+$matchlocations-border: 1px solid rgba(0,0,0, 0.125);
+
+$extracts-highlights:(
+    extracts: (
+        main-color: $extracts-color,
+        background-color: $extracts-color,
+        color: black
+    ),
+    extractslocations: (
+        main-color: $extractslocations-color,
+        background-color: $extractslocations-color,
+        color: black,
+        border: $matchlocations-border
+    )
+);
+
+$terms-highlights: (
+    matchlocations: (
+        main-color: $matchlocations-color,
+        background-color: $matchlocations-color, 
+        color: black,
+        border: $matchlocations-border
+    )
+);
+
+$highlights: map-merge(map-merge($extracts-highlights, $terms-highlights), $metadata);
+
+
+@function get-highlight-color($name) {
+    $highlight: map-get($highlights, $name);
+    $color: map-get($highlight, "main-color");
+    @return $color; 
+}
+
+@mixin highlight($term) {
+    $highlight: map-get($highlights, $term);
+    $color: map-get($highlight, "color");
+    $background-color: map-get($highlight, "background-color");
+    $border: map-get($highlight, "border");
+
+    span.#{$term}:not(.sq-inactive) {
+        color: $color !important;
+        background-color: $background-color !important;
+    }
+    @if $border != null {
+        .categoryIcon span.#{$term}, .currentCategories span.#{$term} {
+            border: $border;
+        }
+    }
+}
+
+@mixin svgHighlight($term) {
+    $highlight: map-get($highlights, $term);
+    $color: map-get($highlight, "color");
+    $background-color: map-get($highlight, "background-color");
+    $border: map-get($highlight, "border");
+    @if $color != null {
+        tspan.#{$term}:not(.sq-inactive) {
+            fill: $color;
+            font-weight: bold;
+        }
+    }
+    @if $background-color == null {
+        $background-color: rgba(0,0,0,0)
+    }
+    rect.#{$term}:not(.sq-inactive) {
+        fill: $background-color;
+    }
+    @if $border != null {
+        line.#{$term} {
+            border: $border;
+        }
+    }
+}
+
+
+// Actually generate highlight rules
+
+@each $name in map-keys($highlights) {
+    @include highlight($name);
+    @include svgHighlight($name);
+}
+
+
+// Currently selected highlights
+
+.sq-current {
+    border: 2px dashed rgb(5,5,5) !important;
+    animation: 0.3s linear shadowfocus;
+}
+@keyframes shadowfocus {
+    0% { 
+        box-shadow: 0px 0px 50px 11px #0000008a;
+    }
+    100% {
+        box-shadow: 0px 0px 10px 1px #0000008a;
+    }
+}
+
+.sq-current:not(.sq-first) {
+    border-left-color: transparent !important;
+}
+
+.sq-current:not(.sq-last) {
+    border-right-color: transparent !important;
+}
+
+
+// SVG highlights
+
+rect.sq-inactive {
+    fill: rgba(0,0,0,0) !important;
+}
+
+line.sq-svg {
+    stroke: rgb(5, 5, 5);
+    stroke-width: 2;
+    stroke-dasharray: 2, 2;
+}
+
+
+// Tooltip injected in the iframe
+.sq-selection-tooltip {
+
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;  
+    font-size: 14px; 
+    font-style: normal; 
+    font-variant: normal; 
+    font-weight: 400; 
+    line-height: 20px;
+    position: fixed;
+    background-color: #4c4c4c;
+    color: #eee;
+    padding: 0.5em;
+    border-radius: 12px;    
+    z-index: 100000000000;
+
+    &::after {
+        content: " ";
+        position: absolute;
+        top: 100%; /* At the bottom of the tooltip */
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #4c4c4c transparent transparent transparent;
+    }
+
+    .display {
+        font-weight: bold;
+    }
+
+    .btn-list {
+        display: flex;
+        justify-content: center;
+        margin-top: 5px;
+    }
+
+    .nav-btn {
+        font-weight: bold;
+        cursor: pointer;
+        padding: 0 5px;
+    }
+
+    .nav-btn.disabled {
+        cursor: default;
+        color: #999;
+    }
+
+    .nav-btn:not(.disabled):hover {
+        color: white;
+    }
+
+    button {
+        background-color: #4c4c4c;
+        color: #eee;
+        border: 1px solid #eee;
+        height: 25px;
+        cursor: pointer;
+        border-radius: 12px;
+        font-size: 16px;
+        line-height: 20px;
+
+        &:hover {
+            background-color: #eee;
+            color: #4c4c4c;
+        }
+    }
+
+    .sq-preview-search-icon:after {
+        content: '🔍';
+    }
+}

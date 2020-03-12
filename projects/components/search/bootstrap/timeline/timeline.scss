@@ -1,0 +1,39 @@
+
+.sq-timeline-graph {
+    height: 5rem;
+
+    svg {
+        font-family: sans-serif;
+        width: 100%;
+        height: 100%;
+    }
+
+    .area {
+        fill: #dee2e6;
+    }
+
+    .axis {
+        font-size: 62.5%;
+
+        & path,
+        & line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+    }
+
+    .brush .selection {
+        stroke: none;
+        fill: #35bed5;
+        fill-opacity: .125;
+        shape-rendering: crispEdges;
+    }
+
+    .brush .grip {
+        stroke: #35bed5;
+        fill: #35bed5;
+        shape-rendering: crispEdges;
+        cursor: ew-resize;
+    }
+}

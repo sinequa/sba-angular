@@ -1,0 +1,8 @@
+<div class="btn-toolbar" *ngIf="!!results">
+    <div class="btn-group"
+        [sq-action-buttons]="{
+            items: [pageSizingAction],
+            autoAdjust: true,
+            rightAligned: rightAligned
+        }"></div>
+</div>

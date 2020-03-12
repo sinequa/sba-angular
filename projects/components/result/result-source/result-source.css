@@ -1,0 +1,22 @@
+
+.sq-result-source {
+    color: #006621;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;    
+    width: 100%;
+    display: inline-block;
+}
+
+.link {
+    cursor: pointer;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+a {
+    color: inherit;
+}

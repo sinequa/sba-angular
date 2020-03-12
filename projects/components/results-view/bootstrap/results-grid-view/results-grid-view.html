@@ -1,0 +1,24 @@
+<table class="sq-results-grid-view">
+    <thead>
+        <tr>
+            <th class="sq-grid-view-checkbox">
+                <label class="custom-control custom-checkbox" title="{{(haveSelectedRecords ? 'msg#results.resultsGridView.unselectDocuments' : 'msg#results.resultsGridView.selectDocuments') | sqMessage}}">
+                    <input class="custom-control-input" type="checkbox" [checked]="haveSelectedRecords" (change)="toggleSelectedRecords()">
+                    <span class="custom-control-label">&#8203;</span>
+                </label>            
+            </th>
+            <th *ngFor="let columnData of columnsData" scope="col" [ngClass]="{'sq-clickable': isSortable(columnData)}" (click)="setSort(columnData)">{{columnData.config.title | sqMessage}}{{columnData.sortIndicator}}<span *ngIf="isSortable(columnData)" class="{{columnData.sortIcon}}"></span></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let record of results.records">
+            <td class="sq-grid-view-checkbox">
+                <sq-result-selector [record]="record"></sq-result-selector>
+            </td>
+            <ng-container *ngFor="let columnData of columnsData; let $index = index">
+                <td *ngIf="columnData.config.renderAsHtml" [attr.scope]="$index === 0 ? 'row' : null" [innerHTML]="record[columnData.config.field] | sqValue:columnData.column"></td>
+                <td *ngIf="!columnData.config.renderAsHtml" [attr.scope]="$index === 0 ? 'row' : null">{{record[columnData.config.field] | sqValue:columnData.column}}</td>
+            </ng-container>
+        </tr>
+    </tbody>
+</table>

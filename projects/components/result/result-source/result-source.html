@@ -1,0 +1,8 @@
+<span class="sq-result-source">
+    <ng-container *ngFor="let s of source; let i=index">
+        <span *ngIf="i > 0"> &#8250; </span>
+        <span (click)="select(s)" class="link" title="Select this source">{{s.display}}</span>
+    </ng-container>
+    <span *ngIf="source.length>0 && !!url"> - </span>
+    <a *ngIf="url" href="{{url}}" target="_blank">{{url}}</a>
+</span>

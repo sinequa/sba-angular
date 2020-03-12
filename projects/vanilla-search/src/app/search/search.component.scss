@@ -1,0 +1,37 @@
+#logo {
+    height: 30px;
+}
+
+// Styling of the result items
+.record {
+
+    &:hover {
+        background-color: rgb(0,0,0,0.03);
+    }
+
+    &.selected {
+        background-color: rgb(0,0,0,0.05);
+    }
+
+    padding: 0.5em 15px;
+    margin: 0 -15px;
+    cursor: pointer;
+    
+    sq-result-source {
+        display: grid;
+    }
+
+    sq-result-thumbnail {
+        margin-left: 1em;
+    }
+
+    sq-result-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+.full-width {
+    flex-basis: 100%;
+}

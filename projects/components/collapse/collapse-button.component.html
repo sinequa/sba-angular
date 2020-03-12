@@ -1,0 +1,3 @@
+<ng-container *ngIf="!!icon"><span class="{{icon}}"></span><ng-container *ngIf="!!text"> </ng-container></ng-container><!--
+--><span *ngIf="!!text" (click)="toggleCollapsed()">{{text | sqMessage}}</span><!--
+--><span class="fas fa-chevron-up fa-fw" role="button" (click)="toggleCollapsed()" [@toggleCollapsed]="collapsed" title="{{(collapsed ? 'msg#collapseButton.expand' : 'msg#collapseButton.collapse') | sqMessage}}"></span>

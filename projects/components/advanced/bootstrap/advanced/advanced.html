@@ -1,0 +1,4 @@
+<div *ngIf="!initDone"><span class="fas fa-sync fa-spin fa-fw"></span></div>
+<div role="form" *ngIf="initDone" [formGroup]="form">
+    <sq-advanced-form [form]="form" [items]="items" [autocompleteEnabled]="autocompleteEnabled" [suggestQuery]="suggestQuery"></sq-advanced-form>
+</div>

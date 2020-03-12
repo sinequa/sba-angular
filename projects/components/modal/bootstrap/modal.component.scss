@@ -1,0 +1,36 @@
+//TODO - need to be moved to bootstrap specific library
+//@import "~bootstrap/scss/_functions";
+//@import "~bootstrap/scss/_variables";
+
+$zindex-modal-backdrop: 1040;
+
+.cdk-overlay-container,
+.cdk-global-overlay-wrapper,
+.cdk-overlay-backdrop {
+    z-index: $zindex-modal-backdrop;
+}
+
+.sq-modal-host {
+    display: block;
+    // Make the modal host scrollable
+    pointer-events: auto;
+    overflow: auto;
+}
+
+.sq-modal-pane {
+    display: block;
+    padding: 30px;
+    height: 100%;
+    pointer-events: none !important;
+}
+
+.sq-modal-fullscreen {
+    .modal-dialog, .modal-content, * > form {
+        height: 100%;
+    }
+
+    .modal-dialog {
+        max-width: none;
+        margin: 0;
+    }
+}

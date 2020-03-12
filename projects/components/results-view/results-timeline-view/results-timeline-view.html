@@ -1,0 +1,13 @@
+<svg #svg></svg>
+
+<h4>{{'msg#results.resultsTimelineView.events' | sqMessage}}</h4> 
+
+<span class="select-style">
+  <select [(ngModel)]="selectedFlags" (change)="flagSelected()" multiple>
+     <option *ngFor="let flag of flag_idx | keyvalue" [ngValue]="flag.key">{{flag.key}}</option>
+  </select>
+</span>
+
+<button (click)="previousEvents()" [disabled]="event_page <= 0">{{'msg#results.resultsTimelineView.previous' | sqMessage}}</button>
+
+<button (click)="nextEvents()" [disabled]="n_flags <= (event_page+1)*10">{{'msg#results.resultsTimelineView.next' | sqMessage}}</button>

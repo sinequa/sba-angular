@@ -1,0 +1,779 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>SavedQueryComponents</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>saved-queries/saved-queries.service.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>The modal types are unknown to this service.
+The module using this service must provide these components
+in their forRoot() method</p>
+<p>Example below:</p>
+<div><pre class="line-numbers"><code class="language-none"> public static forRoot(): ModuleWithProviders {
+  return {
+      ngModule: SavedQueriesModule, 
+      providers: [
+          { 
+              provide: SAVEDQUERY_COMPONENTS, 
+              useValue: {
+                  editSavedQueryModal: EditSavedQuery,
+                  manageSavedQueriesModal: ManageSavedQueries,
+                  exportSavedQueryModal: ExportQuery
+              }
+          },
+          SavedQueriesService,
+          SelectionService
+      ]
+  };</code></pre></div><p>  }</p>
+
+            </p>
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#editSavedQueryModal">editSavedQueryModal</a>
+                                </li>
+                                <li>
+                                        <a href="#exportSavedQueryModal">exportSavedQueryModal</a>
+                                </li>
+                                <li>
+                                        <a href="#manageSavedQueriesModal">manageSavedQueriesModal</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="editSavedQueryModal"></a>
+                                        <span class="name"><b>editSavedQueryModal</b><a href="#editSavedQueryModal"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>editSavedQueryModal:     <code>Type&lt;any&gt;</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>Type&lt;any&gt;</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="exportSavedQueryModal"></a>
+                                        <span class="name"><b>exportSavedQueryModal</b><a href="#exportSavedQueryModal"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>exportSavedQueryModal:     <code>Type&lt;any&gt;</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>Type&lt;any&gt;</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="manageSavedQueriesModal"></a>
+                                        <span class="name"><b>manageSavedQueriesModal</b><a href="#manageSavedQueriesModal"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>manageSavedQueriesModal:     <code>Type&lt;any&gt;</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>Type&lt;any&gt;</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, InjectionToken, Inject, Type, OnDestroy} from &quot;@angular/core&quot;;
+import { HttpResponse } from &#x27;@angular/common/http&#x27;;
+import {Subject, Observable} from &quot;rxjs&quot;;
+import {UserSettingsWebService, UserSettings, QueryExportWebService, ExportSourceType, ExportOutputFormat,
+    DownloadWebService, AuditEvents, AuditEvent} from &quot;@sinequa/core/web-services&quot;;
+import {ModalService, ModalResult} from &quot;@sinequa/core/modal&quot;;
+import {AppService, Query} from &quot;@sinequa/core/app-utils&quot;;
+import {Utils} from &quot;@sinequa/core/base&quot;;
+import {SelectionService} from &quot;@sinequa/components/selection&quot;;
+import {SearchService} from &quot;@sinequa/components/search&quot;;
+import {Action} from &#x27;@sinequa/components/action&#x27;;
+
+
+export interface SavedQuery {
+    name: string;
+    description?: string;
+    query: Query;
+}
+
+// from core/models/audit
+export const enum SavedQueryEventType {
+    Loaded &#x3D; &quot;SavedQuery_Loaded&quot;,
+    Patched &#x3D; &quot;SavedQuery_Patched&quot;,
+
+    Add &#x3D; &quot;SavedQuery_Add&quot;,
+    Delete &#x3D; &quot;SavedQuery_Delete&quot;,
+    DeleteAll &#x3D; &quot;SavedQuery_DeleteAll&quot;,
+    Rename &#x3D; &quot;SavedQuery_Rename&quot;,
+    Update &#x3D; &quot;SavedQuery_Update&quot;,
+
+    Search &#x3D; &quot;Search_SavedQuery&quot;
+}
+
+// Types of events triggering a change event
+export const SAVED_QUERIES_CHANGE_EVENTS &#x3D; [
+    SavedQueryEventType.Add,
+    SavedQueryEventType.Delete,
+    SavedQueryEventType.DeleteAll,
+    SavedQueryEventType.Rename,
+    SavedQueryEventType.Update
+];
+
+
+// CRUD Events
+export interface SavedQueryChangeEvent {
+    type: SavedQueryEventType;
+    savedquery?: SavedQuery;
+}
+
+
+// Model expected by the ManageSavedQueries Modal.
+export interface ManageSavedQueriesModel { 
+    savedQueries: SavedQuery[];
+    auditEvents?: AuditEvent[];
+}
+
+// Data model of the Export dialog.
+export interface ExportQueryModel {
+    format: ExportOutputFormat;
+    export: ExportSourceType;
+    webService: string;
+    maxCount?: number;
+    queryName?: string;
+}
+
+/**
+ * The modal types are unknown to this service.
+ * The module using this service must provide these components
+ * in their forRoot() method
+ * 
+ * Example below:
+ *  
+ *     public static forRoot(): ModuleWithProviders {
+        return {
+            ngModule: SavedQueriesModule, 
+            providers: [
+                { 
+                    provide: SAVEDQUERY_COMPONENTS, 
+                    useValue: {
+                        editSavedQueryModal: EditSavedQuery,
+                        manageSavedQueriesModal: ManageSavedQueries,
+                        exportSavedQueryModal: ExportQuery
+                    }
+                },
+                SavedQueriesService,
+                SelectionService
+            ]
+        };
+    }
+ * 
+ */
+export interface SavedQueryComponents {
+    editSavedQueryModal: Type&lt;any&gt;;
+    manageSavedQueriesModal: Type&lt;any&gt;;
+    exportSavedQueryModal: Type&lt;any&gt;;
+}
+export const SAVEDQUERY_COMPONENTS &#x3D; new InjectionToken&lt;SavedQueryComponents&gt;(&#x27;SAVEDQUERY_COMPONENTS&#x27;);
+
+
+@Injectable({
+    providedIn: &#x27;root&#x27;,
+})
+export class SavedQueriesService implements OnDestroy {
+
+    private readonly _events &#x3D; new Subject&lt;SavedQueryChangeEvent&gt;();   
+    private readonly _changes &#x3D; new Subject&lt;SavedQueryChangeEvent&gt;();
+
+    // An application may want to alter the action (icon, etc.)
+    public selectedRecordsAction: Action;
+    
+    constructor(
+        public userSettingsService: UserSettingsWebService,
+        public searchService: SearchService,
+        public modalService: ModalService,
+        public appService: AppService,
+        public queryExportService: QueryExportWebService,
+        public downloadService: DownloadWebService,
+        public selectionService: SelectionService,
+        @Inject(SAVEDQUERY_COMPONENTS) public savedQueryComponents: SavedQueryComponents
+    ){        
+        // Listen to the user settings
+        this.userSettingsService.events.subscribe(event &#x3D;&gt; {
+            // E.g. new login occurs
+            // &#x3D;&#x3D;&gt; Menus need to be rebuilt
+            this.events.next({type: SavedQueryEventType.Loaded});
+        });
+        // Listen to own events, to trigger change events
+        this._events.subscribe(event &#x3D;&gt; {
+            if(SAVED_QUERIES_CHANGE_EVENTS.indexOf(event.type) !&#x3D;&#x3D; -1){                
+                this.changes.next(event);
+            }
+        });
+        // Initialize selection action
+        this.selectedRecordsAction &#x3D; new Action({
+            icon: &#x27;fas fa-download&#x27;,
+            title: &#x27;msg#exportQuery.btnTitle&#x27;,
+            action: (item: Action, event: Event) &#x3D;&gt; {
+                this.exportModal(ExportSourceType.Selection);
+            }
+        });
+    }
+    
+
+    // GETTERS
+
+    /**
+     * Returns the list of this user&#x27;s saved queries.
+     * The list is stored in the user settings (this is a redirection).
+     * Using this service creates the list of saved queries if it does not already exist.
+     */
+    public get savedqueries() : SavedQuery[]{
+        if(!this.userSettingsService.userSettings)
+            this.userSettingsService.userSettings &#x3D; {};
+        if(!this.userSettingsService.userSettings[&quot;savedQueries&quot;])
+            this.userSettingsService.userSettings[&quot;savedQueries&quot;] &#x3D; [];
+        return this.userSettingsService.userSettings[&quot;savedQueries&quot;];
+    }
+
+    /**
+     * Triggers any event among SavedQueryChangeEvent 
+     * (use for fine-grained control of saved queries workflow)
+     */
+    public get events() : Subject&lt;SavedQueryChangeEvent&gt; {
+        return this._events;
+    }
+
+    /**
+     * Triggers when events affect the list of saved queries 
+     * (use to refresh saved queries menus)
+     * Cf. CHANGE_EVENTS list
+     */
+    public get changes() : Subject&lt;SavedQueryChangeEvent&gt; {
+        return this._changes;
+    }
+
+    /**
+     * @returns true if there is at least one saved query
+     */
+    public get hasSavedQuery(): boolean {
+        return this.savedqueries.length &gt; 0;
+    }
+
+    /**
+     * @returns a saved query with the given name or null if it does not exist
+     * @param name 
+     */
+    public savedquery(name: string): SavedQuery | undefined {
+        let i &#x3D; this.savedqueryIndex(name);
+        return i&gt;&#x3D; 0? this.savedqueries[i] : undefined;
+    }
+
+    private savedqueryIndex(name: string): number {
+        for (let i &#x3D; 0, ic &#x3D; this.savedqueries.length; i &lt; ic; i++) {
+            let savedquery &#x3D; this.savedqueries[i];
+            if (savedquery &amp;&amp; savedquery.name &#x3D;&#x3D;&#x3D; name) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
+
+    // CRUD
+
+    /**
+     * Creates a new saved query unless it already exists.
+     * Emits an savedquery event.
+     * Update the data on the server.
+     * @param savedquery the savedquery to create
+     * @returns true if savedquery was created
+     */
+    public createSavedQuery(savedquery: SavedQuery) : boolean {
+
+        if(this.savedqueryIndex(savedquery.name) &gt;&#x3D; 0)
+            return false; // This savedquery already exists
+
+        this.savedqueries.unshift(savedquery);
+        this.events.next({type : SavedQueryEventType.Add, savedquery: savedquery});
+        this.patchSavedQueries([{
+            type: SavedQueryEventType.Add,
+            detail: {
+                savedquery: savedquery.name
+            }
+        }]);
+        return true;
+    }
+
+    /**
+     * Update the saved query at the given index, unless a saved query with the same name
+     * already exists in the list of saved queries.
+     * Emits an Saved Query event.
+     * Update the data on the server.
+     * @param savedquery the saved query to update
+     * @param index the index at which to update the saved query
+     * @returns true if saved query was updated
+     */
+    public updateSavedQuery(savedquery: SavedQuery, index : number) : boolean {
+
+        let prevIndex &#x3D; this.savedqueryIndex(savedquery.name);
+        if(prevIndex !&#x3D; -1 &amp;&amp; index !&#x3D; prevIndex)
+            return false; // A saved query with the same name exists at a different index
+
+        if(index &gt;&#x3D; 0 &amp;&amp; index &lt; this.savedqueries.length){
+
+            this.savedqueries.splice(index, 1, savedquery);
+            this.events.next({type : SavedQueryEventType.Update, savedquery: savedquery});
+            this.patchSavedQueries([
+                {
+                    type: SavedQueryEventType.Update,
+                    detail: {
+                        savedquery: savedquery.name
+                    }
+                }
+            ]);
+            return true;
+
+        } 
+        return false;   // This saved query does not exist
+    }
+
+    /**
+     * Updates the full list of saved queries. 
+     * Emits an SavedQuery event.     
+     * Update the data on the server.
+     * @param savedqueries the new list of saved queries
+     * @param auditEvents the list of audit events to log
+     */
+    public updateSavedQueries(savedqueries : SavedQuery[], auditEvents?: AuditEvents) : boolean {        
+        Utils.arraySet(this.savedqueries, savedqueries);
+        this.events.next({type : SavedQueryEventType.Update});
+        this.patchSavedQueries(auditEvents);
+        return true;
+    }
+
+    /**
+     * Deletes the given SavedQuery (based on its name)
+     * Emits an SavedQuery event.    
+     * Update the data on the server.
+     * @param savedquery 
+     * @returns true if saved query was deleted
+     */
+    public deleteSavedQuery(savedquery: SavedQuery) : boolean {
+
+        let index &#x3D; this.savedqueryIndex(savedquery.name);
+
+        if(index &#x3D;&#x3D;&#x3D; -1)
+            return false; // Nothing to delete
+
+        this.savedqueries.splice(index, 1);
+        this.events.next({type : SavedQueryEventType.Delete, savedquery: savedquery});
+        this.patchSavedQueries([
+            {
+                type: SavedQueryEventType.Delete,
+                detail: {
+                    savedquery: savedquery.name
+                }
+            }
+        ]);
+        return true;
+    }
+
+    /**
+     * Sets this saved query to the current search context, using the search service
+     */
+    public setSavedQueryToCurrentQuery(savedquery: SavedQuery){
+        savedquery.query &#x3D; Query.copy(this.searchService.query);
+    }
+
+    /**
+     * Updates Saved Queries in User settings.
+     * @param auditEvents : Audit Events to be triggered
+     * @returns an Observable which can be used to trigger further events
+     */
+    private patchSavedQueries(auditEvents?: AuditEvents) {
+        return this.userSettingsService.patch(&lt;UserSettings&gt;{savedQueries: this.savedqueries}, auditEvents)
+            .subscribe(
+                next &#x3D;&gt; {
+                    this.events.next({type: SavedQueryEventType.Patched});
+                },
+                error &#x3D;&gt; {
+                    console.error(&quot;Could not patch Saved queries!&quot;, error);
+                }
+            );
+    }
+    
+    
+    public rssHref(item: SavedQuery) {
+        return Utils.addSearchParams(this.appService.appWebService.makeUrl(&quot;query.rss&quot;),
+            {
+                app: this.appService.appName,
+                name: item.name
+            });
+    }
+
+
+    public hasRssEnabled(): boolean {
+        return !!this.appService.app &amp;&amp; !!this.appService.app.queryRssEnabled;
+    }
+
+
+    /**
+     * Checks if there is a configuration for the export web service.
+     *
+     * @returns true if there is a configuration for the export web service.
+     */
+    public hasExportConfig(): boolean {
+        return !!this.appService.app &amp;&amp; !!this.appService.app.queryExport;
+    }
+
+
+    public download(model : ExportQueryModel): Observable&lt;HttpResponse&lt;Blob&gt;&gt; | undefined {
+        return this.downloadService.download(this.requestExport(model));
+    }
+
+    private requestExport(model: ExportQueryModel): Observable&lt;HttpResponse&lt;Blob&gt;&gt; | undefined {
+        if (!this.searchService.results) {
+            return undefined;
+        }
+        const appName &#x3D; this.appService.appName;
+        switch (model.export) {
+            case ExportSourceType.Result:
+                return this.queryExportService.exportResult(
+                    appName,
+                    model.webService,
+                    this.searchService.query,
+                    this.searchService.results,
+                    model.format,
+                    model.maxCount);
+            case ExportSourceType.Selection:
+                return this.queryExportService.exportSelection(
+                    appName,
+                    model.webService,
+                    this.searchService.query,
+                    this.searchService.results,
+                    this.selectionService.selectedRecords,
+                    model.format,
+                    model.maxCount);
+            case ExportSourceType.SavedQuery:
+                return this.queryExportService.exportSavedQuery(
+                    appName,
+                    model.webService,
+                    model.queryName || &quot;&quot;,
+                    model.format,
+                    model.maxCount);
+            default:
+                console.log(
+                    &#x27;QueryExporter.export unexpected export type: &#x27;,
+                    ExportSourceType[model.export]);
+                return undefined;
+        }
+    }
+
+
+
+
+    // EVENT HANDLERS (Menus)
+
+    /**
+     * Uses the SearchService to perform a search returning all
+     * the documents matching this saved query.
+     * @param saved query
+     * @returns the search service promise
+     */
+    searchSavedQuery(savedquery: SavedQuery, path?: string): Promise&lt;boolean&gt; {
+        this.searchService.setQuery(Utils.extend(this.searchService.makeQuery(), Utils.copy(savedquery.query)));
+        this.events.next({type: SavedQueryEventType.Search, savedquery: savedquery});
+        return this.searchService.search({ path: path }, {
+            type: SavedQueryEventType.Search,
+            detail: {
+                &quot;saved-query&quot;: savedquery.name
+            }
+        });
+    }
+
+    /**
+     * Opens a dialog allowing a user to save the current query.
+     * @returns a boolean promise resolved when the user closes the dialog
+     * the result is true if the query was saved.
+     */
+    createSavedQueryModal(query: Query &#x3D; this.searchService.query) : Promise&lt;boolean&gt; {
+        let savedQuery: SavedQuery &#x3D; {
+            name: &quot;&quot;,
+            query: Query.copy(query)
+        };
+        return this.modalService.open(this.savedQueryComponents.editSavedQueryModal, {model: savedQuery})
+            .then((result) &#x3D;&gt; {
+                if (result &#x3D;&#x3D;&#x3D; ModalResult.OK) {
+
+                    let index &#x3D; this.savedqueryIndex(savedQuery.name);
+                    if (index !&#x3D;&#x3D; -1) {
+
+                        return this.modalService.yesNo(&quot;msg#savedQueries.savedQueryAlreadyExists&quot;)
+                            .then((result) &#x3D;&gt; {
+                                if (result &#x3D;&#x3D;&#x3D; ModalResult.Yes) {
+                                    return this.updateSavedQuery(savedQuery, index);
+                                }
+                                return false;
+                            });
+
+                    } else {
+                        return this.createSavedQuery(savedQuery);
+                    }
+                }
+                return false;
+            });
+    }
+
+    /**
+     * Opens a dialog allowing a user to reorganize and edit the
+     * list of saved queries.
+     * @returns a boolean promise resolved when the user closes the dialog
+     * the result is true is the list was updated.
+     */
+    public manageSavedQueriesModal() : Promise&lt;boolean&gt; {
+
+        const model: ManageSavedQueriesModel &#x3D;
+            { savedQueries: Utils.copy(this.savedqueries) };
+
+        return this.modalService.open(this.savedQueryComponents.manageSavedQueriesModal, {model})
+            .then((result) &#x3D;&gt; {
+                if (result &#x3D;&#x3D;&#x3D; ModalResult.OK) {
+                    return this.updateSavedQueries(model.savedQueries, model.auditEvents)
+                }
+                return false;
+            });
+
+    }
+
+    /**
+     * Exports a query via a modal dialog.
+     *
+     * @param exportType type of export to perform (selection, saved query, results)
+     * @param savedQuery The saved query
+     */
+    public exportModal(exportType: ExportSourceType, savedQuery?: SavedQuery)
+            : Promise&lt;ModalResult&gt; {
+
+        if (!this.hasExportConfig() || !this.appService.app) {
+            return Promise.resolve(ModalResult.Cancel);
+        }
+
+        const model: ExportQueryModel &#x3D; {
+            format: ExportOutputFormat.Csv,
+            export: exportType,
+            webService: this.appService.app.queryExport
+        };
+
+        if (savedQuery &amp;&amp; exportType &#x3D;&#x3D;&#x3D; ExportSourceType.SavedQuery) {
+            model.queryName &#x3D; savedQuery.name;
+        }
+
+        return this.modalService.open(this.savedQueryComponents.exportSavedQueryModal, {model});
+    }
+
+
+    ngOnDestroy() {
+        this.events.complete();
+        this.changes.complete();
+    }
+}
+</code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'SavedQueryComponents.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

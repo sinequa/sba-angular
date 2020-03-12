@@ -1,0 +1,106 @@
+<div class="card sq-facet">
+    <div class="card-header">{{'msg#preview.highlightsTitle' | sqMessage}}</div>
+    <ng-container *ngIf="noData; else normalCase">
+        <div class="card-body noEntityToHighlightMessage">
+            {{"msg#preview.noEntityToHighlight" | sqMessage}}
+        </div>
+    </ng-container>
+    <ng-template #normalCase>
+        <div class="card-body">
+            <div class="currentSelection">
+                <div class="selectedHighlightTitle">{{"msg#preview.selectedHighlight" | sqMessage}}:</div>
+                <div class="currentSelectionPanel">
+                    <div *ngIf="currentValue || currentCategories; else noSelection" class="selectedHighlight">
+                        <div class="currentCategories">
+                            <span *ngFor="let categoryId of currentCategories">
+                                <span class="fas fa-bullseye {{ categoryIconClass(categoryId) }} {{ categoryId }}"></span>
+                                <span class="currentCategoryLabel">{{categoryDisplayLabel(categoryId) | sqMessage: categoryLabelPipeParams(categoryId)}}</span>
+                            </span>
+                        </div>
+                        <div class="selectedHighlightValue" [innerHTML]="currentValue"></div>
+                    </div>
+                    <ng-template #noSelection>
+                        <div class="noSelectionMessage">
+                            {{"msg#preview.noSelectedHighlight" | sqMessage}}
+                        </div>
+                        <div>&nbsp;</div>
+                    </ng-template>
+                </div>
+            </div>
+            <div class="navigation-buttons">
+                <button class="btn btn-secondary" [disabled]="!previewReady" (click)="first()" title="{{'msg#preview.firstHighlightButtonAltText' | sqMessage}}">
+                    <span class="fas fa-fast-backward"></span>
+                </button>
+                <button class="btn btn-secondary" [disabled]="!previewReady" (click)="previous()" title="{{'msg#preview.previousHighlightButtonAltText' | sqMessage}}">
+                    <span class="fas fa-step-backward"></span>
+                </button>
+                <div class="counter-container">
+                    <span class="counter">{{current | sqNumber}} / {{total | sqNumber}}</span>
+                    <span class="counter ghost">{{total | sqNumber}} / {{total | sqNumber}}</span>
+                </div>
+                <button class="btn btn-secondary" [disabled]="!previewReady" (click)="next()" title="{{'msg#preview.nextHighlightButtonAltText' | sqMessage}}">
+                    <span class="fas fa-step-forward"></span>
+                </button>
+                <button class="btn btn-secondary" [disabled]="!previewReady" (click)="last()" title="{{'msg#preview.lastHighlightButtonAltText' | sqMessage}}">
+                    <span class="fas fa-fast-forward"></span>
+                </button>
+            </div>
+        </div>
+        <div class="card-body filterPanel">
+            <div class="filterPanelTitle">
+                <span class="fas fa-filter"></span>{{ "msg#preview.highlightFilters.title" | sqMessage }}
+            </div>
+            <div class="batchSelectButtonsContainer" *ngIf="nonEmptyCategoryIds.length > 1">
+                <div class="batchSelectButtonsPaddingPlaceholder"></div>
+                <div class="batchSelectButtonsPaddingPlaceholder"></div>
+                <div class="batchSelectButtons">
+                    <div class="batchSelectButton">
+                        <button class="btn" [disabled]="!previewReady || this.allSelected" (click)="selectAll()"
+                                title="{{'msg#preview.highlightFilters.keepAll' | sqMessage}}">
+                            <span class="far fa-check-square"></span>
+                            {{"msg#preview.highlightFilters.keepAll" | sqMessage}}
+                        </button>
+                    </div>
+                    <div class="batchSelectButton">
+                        <button class="btn" [disabled]="!previewReady || this.noneSelected" (click)="selectNone()"
+                                title="{{'msg#preview.highlightFilters.keepNone' | sqMessage}}">
+                            <span class="fas fa-times"></span>
+                            {{"msg#preview.highlightFilters.keepNone" | sqMessage}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="filters">
+                <div *ngFor="let categoryId of nonEmptyCategoryIds" class="sq-highlight">
+                    <div class="categoryIcon">
+                        <span class="fas fa-bullseye {{ categoryIconClass(categoryId) }} {{ categoryId }}"></span>
+                    </div>
+                    <div class="categoryLabel">
+                        {{getCategoryHighlightData(categoryId)?.categoryDisplayLabelPlural | sqMessage: categoryLabelPipeParams(categoryId)}}:
+                    </div>
+                    <div class="categoryFilter">
+                        <ng-container *ngIf="categoryHasMultipleValues(categoryId); else singleValue">
+                            <select class="custom-select" [(ngModel)]="navigationState.filters[categoryId]" [compareWith]="compareFilters" (ngModelChange)="selectFilter(categoryId, $event)">
+                                <option [ngValue]="keepAllFilter">{{getCategoryHighlightData(categoryId)?.categoryFilterAllLabel | sqMessage}} ({{getHighlightValueCount(categoryId) | sqNumber}})</option>
+                                <option [ngValue]="keepNoneFilter">{{getCategoryHighlightData(categoryId)?.categoryFilterNoneLabel | sqMessage}}</option>
+                                <option class="selectSeparator" disabled>&nbsp;</option>
+                                <option *ngFor="let entityValue of this.getCategoryHighlightData(categoryId)?.values" [ngValue]="newFilter(entityValue.value)">{{entityValue.displayValue}}</option>
+                            </select>
+                        </ng-container>
+                        <ng-template #singleValue>
+                            <select class="custom-select" [(ngModel)]="navigationState.filters[categoryId]" [compareWith]="compareFilters" (ngModelChange)="selectFilter(categoryId, $event)">
+                                <option [ngValue]="keepAllFilter">
+                                    {{getCategoryHighlightData(categoryId)?.categoryFilterAllLabel | sqMessage}}
+                                    <ng-container *ngIf="getCategoryHighlightData(categoryId)?.values[0].displayValue as displayValue">
+                                        ({{displayValue}})
+                                    </ng-container>
+                                </option>
+                                <option [ngValue]="keepNoneFilter">{{getCategoryHighlightData(categoryId)?.categoryFilterNoneLabel | sqMessage}}</option>
+                            </select>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>

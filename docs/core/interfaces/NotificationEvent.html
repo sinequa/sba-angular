@@ -1,0 +1,567 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Core</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Core</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>NotificationEvent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>notification/notifications.service.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Describes a base notification event.</p>
+
+            </p>
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#type">type</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="type"></a>
+                                        <span class="name"><b>type</b><a href="#type"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>type:     <code>&quot;updated&quot; | &quot;data-updated&quot;</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>&quot;updated&quot; | &quot;data-updated&quot;</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The possible notification event types.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, OnDestroy} from &quot;@angular/core&quot;;
+import {Subject, Observable} from &quot;rxjs&quot;;
+import {Utils, MapOf} from &quot;@sinequa/core/base&quot;;
+
+/**
+ * Notification types.
+ */
+export const enum NotificationType {
+    Success,
+    Info,
+    Warning,
+    Error,
+    Last &#x3D; Error
+}
+
+/**
+ * Notification visibility states.
+ */
+export const enum NotificationState {
+    Initial,
+    Showing,
+    Hidden
+}
+
+/**
+ * Describes a notification object.
+ */
+export interface Notification {
+    /**
+     * The notification title.
+     */
+    title?: string;
+    /**
+     * The notification text.
+     */
+    text?: string;
+    /**
+     * Message parameters for the notification &#x60;text&#x60;.
+     */
+    params?: MapOf&lt;any&gt;;
+    /**
+     * Determines whether the notification should close automatically after a period.
+     * The duration is determined by a particular UI implementation.
+     */
+    autoClose?: boolean;
+    /**
+     * The notification type.
+     */
+    type?: NotificationType;
+    /**
+     * The nofification state.
+     */
+    state?: NotificationState;
+}
+
+/**
+ * Describes a base notification event.
+ */
+export interface NotificationEvent {
+    /**
+     * The possible notification event types.
+     */
+    type: &quot;updated&quot; | &quot;data-updated&quot;;
+}
+
+/**
+ * Describes a notification &quot;updated&quot; event. This event is emitted
+ * when one or more notifications are added, shown, hidden or deleted.
+ */
+export interface UpdatedEvent extends NotificationEvent {
+    type: &quot;updated&quot;;
+}
+
+/**
+ * Describes a data updated event. This event is emitted by the
+ * [NotificationsService.set]{NotificationsService#set} method
+ * is called.
+ */
+export interface DataUpdatedEvent extends NotificationEvent {
+    type: &quot;data-updated&quot;;
+}
+
+/**
+ * This service provides methods for managing notifications. No user interface
+ * is imposed. It also manages a key-value data store. Events are emitted
+ * when the notifications and data store are updated.
+ */
+@Injectable({
+    providedIn: &quot;root&quot;
+})
+export class NotificationsService implements OnDestroy {
+    protected data: MapOf&lt;any&gt;;
+    /**
+     * The current notifications.
+     */
+    notifications: Notification[];
+    protected _events &#x3D; new Subject&lt;UpdatedEvent | DataUpdatedEvent&gt;();
+    protected _notificationsStream &#x3D; new Subject&lt;Notification&gt;();
+
+    constructor() {
+        this.data &#x3D; {};
+        this.notifications &#x3D; [];
+    }
+
+    ngOnDestroy() {
+        this._events.complete();
+    }
+
+    /**
+     * Get the obervable stream of notification events.
+     */
+    get events(): Observable&lt;UpdatedEvent | DataUpdatedEvent&gt; {
+        return this._events;
+    }
+
+    /**
+     * Get the observable stream of notifications. This will
+     * emit each time a notification is added. It will also emit
+     * &#x60;null&#x60; when notifications are deleted.
+     */
+    get notificationsStream(): Observable&lt;Notification&gt; {
+        return this._notificationsStream;
+    }
+
+    /**
+     * Set a value in the data store. The &#x60;data-updated&#x60; event
+     * is emitted.
+     *
+     * @param key The value&#x27;s key.
+     * @param value The value.
+     */
+    set(key: string, value: any) {
+        this.data[key] &#x3D; value;
+        this._events.next({type: &quot;data-updated&quot;});
+    }
+
+    /**
+     * Get a value from the data store.
+     *
+     * @param key The value&#x27;s key.
+     */
+    get(key: string): any {
+        return this.data[key];
+    }
+
+    /**
+     * Increment a counter in the data store identified by the passed &#x60;key&#x60;.
+     * The intial value is 0.
+     *
+     * @param key The key for the counter.
+     */
+    enter(key: string) {
+        let value &#x3D; this.data[key];
+        if (!value) {
+            value &#x3D; 0;
+        }
+        value++;
+        this.set(key, value);
+    }
+
+    /**
+     * Decrement a counter in the data store identified by the passed &#x60;key&#x60;.
+     * Calls to &#x60;leave&#x60; should match calls to &#x60;enter&#x60;. If the counter becomes negative
+     * an &quot;underflow&quot; warning is emitted to the console and the counter set to 0.
+     *
+     * @param key The key for the counter.
+     */
+    leave(key: string) {
+        let value &#x3D; this.data[key];
+        value--;
+        if (value &lt; 0) {
+            console.warn(&quot;NotificationsService.leave underflow for:&quot;, key);
+        }
+        if (!value || value &lt; 0) {
+            value &#x3D; 0;
+        }
+        this.set(key, value);
+    }
+
+    /**
+     * &#x60;true&#x60; if there are current notifications.
+     */
+    get haveNotifications(): boolean {
+        return this.notifications.length &gt; 0;
+    }
+
+    /**
+     * &#x60;true&#x60; if the all current notifications are in the &#x60;Showing&#x60; state.
+     */
+    get allNotificationsShowing(): boolean {
+        for (const notification of this.notifications) {
+            if (notification.state !&#x3D;&#x3D; NotificationState.Showing) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * &#x60;true&#x60; if all current notifications are in the &#x60;Hidden&#x60; state.
+     */
+    get allNotificationsHidden(): boolean {
+        for (const notification of this.notifications) {
+            if (notification.state !&#x3D;&#x3D; NotificationState.Hidden) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Gets the last added notification.
+     */
+    get lastNotification(): Notification | undefined {
+        if (this.notifications.length &gt; 0) {
+            return this.notifications[this.notifications.length - 1];
+        }
+        return undefined;
+    }
+
+    /**
+     * Add a notification. The &#x60;updated&#x60; event is emitted and the added notification
+     * is emitted on the notifications stream.
+     *
+     * @param type The notification type.
+     * @param text The notification message text.
+     * @param params Parameters for the message text.
+     * @param title The notification title.
+     * @param autoClose A flag determining whether the notification should auto-close.
+     */
+    notify(type: NotificationType, text: string, params?: MapOf&lt;any&gt;, title?: string, autoClose?: boolean): Notification {
+        const notification: Notification &#x3D; {
+            type,
+            text,
+            params,
+            title,
+            autoClose
+        };
+        // Replace the last notification if it is the same as the new one
+        const lastNotification &#x3D; this.lastNotification;
+        if (lastNotification) {
+            notification.state &#x3D; lastNotification.state;
+            if (Utils.equals(notification, lastNotification)) {
+                this.notifications.splice(this.notifications.length - 1, 1);
+            }
+        }
+        notification.state &#x3D; NotificationState.Initial;
+        this.notifications.push(notification);
+        this._events.next({type: &quot;updated&quot;});
+        this._notificationsStream.next(notification);
+        return notification;
+    }
+
+    /**
+     * Add a &#x60;Success&#x60; type notification. The notification will auto-close.
+     *
+     * @param text The notification message text.
+     * @param params Parameters for the message text.
+     * @param title The notification title.
+     */
+    success(text: string, params?: MapOf&lt;any&gt;, title?: string): Notification {
+        return this.notify(NotificationType.Success, text, params, title, true);
+    }
+
+    /**
+     * Add an &#x60;Info&#x60; type notification. The notification will auto-close.
+     *
+     * @param text The notification message text.
+     * @param params Parameters for the message text.
+     * @param title The notification title.
+     */
+    info(text: string, params?: MapOf&lt;any&gt;, title?: string): Notification {
+        return this.notify(NotificationType.Info, text, params, title, true);
+    }
+
+    /**
+     * Add a &#x60;Warning&#x60; type notification. The nofification will not auto-close.
+     *
+     * @param text The notification message text.
+     * @param params Parameters for the message text.
+     * @param title The notification title.
+     */
+    warning(text: string, params?: MapOf&lt;any&gt;, title?: string): Notification {
+        return this.notify(NotificationType.Warning, text, params, title, false);
+    }
+
+    /**
+     * Add an &#x60;Error&#x60; type notification. The nofification will not auto-close.
+     *
+     * @param text The notification message text.
+     * @param params Parameters for the message text.
+     * @param title The notification title.
+     */
+    error(text: string, params?: MapOf&lt;any&gt;, title?: string): Notification {
+        return this.notify(NotificationType.Error, text, params, title, false);
+    }
+
+    /**
+     * Set the state of all notifications to &#x60;Showing&#x60;. The &#x60;updated&#x60; event is
+     * emitted.
+     */
+    showNotifications() {
+        for (const notification of this.notifications) {
+            notification.state &#x3D; NotificationState.Showing;
+        }
+        this._events.next({type: &quot;updated&quot;});
+    }
+
+    /**
+     * Set the state of all notifications to &#x60;Hidden&#x60;. The &#x60;updated&#x60; event is
+     * emitted.
+     */
+    hideNotifications() {
+        for (const notification of this.notifications) {
+            notification.state &#x3D; NotificationState.Hidden;
+        }
+        this._events.next({type: &quot;updated&quot;});
+    }
+
+    /**
+     * Delete all notifications. The &#x60;updated&#x60; event is
+     * emitted. &#x60;null&#x60; is emitted on the notifications stream.
+     */
+    deleteAllNotifications() {
+        this.notifications.splice(0);
+        this._events.next({type: &quot;updated&quot;});
+        this._notificationsStream.next(undefined);
+    }
+
+    /**
+     * Delete the passed &#x60;notification&#x60;. The &#x60;updated&#x60; event is
+     * emitted. &#x60;null&#x60; is emitted on the notifications stream if no notifications
+     * remain.
+     *
+     * @param notification The notification to delete.
+     */
+    deleteNotification(notification: Notification) {
+        for (let i &#x3D; 0, ic &#x3D; this.notifications.length; i &lt; ic; i++) {
+            if (this.notifications[i] &#x3D;&#x3D;&#x3D; notification) {
+                this.notifications.splice(i, 1);
+                this._events.next({type: &quot;updated&quot;});
+                if (this.notifications.length &#x3D;&#x3D;&#x3D; 0) {
+                    this._notificationsStream.next(undefined);
+                }
+                break;
+            }
+        }
+    }
+
+    /**
+     * Close the passed &#x60;notification&#x60;. If the notification is in the
+     * &#x60;Initial&#x60; state then its state is set to &#x60;Hidden&#x60; otherwise the
+     * notification is deleted. The &#x60;updated&#x60; event is emitted.
+     *
+     * @param notification The notification to close.
+     */
+    closeNotification(notification: Notification) {
+        if (notification.state &#x3D;&#x3D;&#x3D; NotificationState.Initial) {
+            notification.state &#x3D; NotificationState.Hidden;
+            this._events.next({type: &quot;updated&quot;});
+        }
+        else {
+            this.deleteNotification(notification);
+        }
+    }
+}
+</code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'NotificationEvent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

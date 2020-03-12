@@ -1,0 +1,8 @@
+<div class="card-body">
+    <div *ngFor="let recentQuery of recentQueriesService.appRecentQueries() | slice:0:maxItemsToShow">
+        <a href="#" (click)="select(recentQuery)">{{recentQuery.text}}</a>
+    </div>
+    <div *ngIf="shouldShowPagination()" class="show-more">
+        <a href="#" (click)="foldUnfoldDisplay(!isFolded())"><span class="{{isFolded() ? 'fas fa-angle-double-down fa-fw' : 'fas fa-angle-double-up fa-fw'}}"></span>{{(isFolded() ? 'msg#facet.showMore' : 'msg#facet.showLess') | sqMessage}}</a>
+    </div>
+</div>

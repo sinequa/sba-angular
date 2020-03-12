@@ -1,0 +1,11 @@
+<div fxLayout="column" class="sq-modal-wrapper">
+    <sq-modal-header *ngIf="showHeader" [title]="title">
+        <ng-content select="[header]"></ng-content>
+    </sq-modal-header>
+    <mat-dialog-content fxFlex="auto">
+        <ng-content></ng-content>
+    </mat-dialog-content>
+    <sq-modal-footer *ngIf="showFooter" [buttons]="buttons">
+        <ng-content select="[footer]"></ng-content>
+    </sq-modal-footer>
+</div>

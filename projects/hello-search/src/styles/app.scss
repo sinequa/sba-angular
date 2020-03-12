@@ -1,0 +1,15 @@
+@import "~@angular/cdk/overlay-prebuilt";
+
+body {
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: #3434d6;
+}
+
+.record .match-highlight {
+    font-weight: bold;
+    font-style: italic;
+}

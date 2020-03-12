@@ -1,0 +1,5 @@
+<sq-modal
+    [title]="title"
+    [buttons]="model.buttons">
+    <div class="alert {{getMessageClass(model.confirmType)}}">{{model.message | sqMessage:model.messageParams}}</div>
+</sq-modal>

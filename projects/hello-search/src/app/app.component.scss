@@ -1,0 +1,39 @@
+.search {
+
+    max-width: 800px;
+    margin-left: 100px;
+
+    h1 {
+        margin-bottom: 0.25em;
+    }
+
+    .record {
+
+        h3 {
+            margin: 0.5em 0 0 0;
+            font-weight: normal;
+            font-size: 1.25em;
+        }
+    
+        .source {
+            color: #006621;
+            font-size: 0.9em;
+            margin: 0.25em 0;
+        }
+        
+        p {
+            color: #676767;
+            margin-top: 0;
+            font-size: 0.9em;
+        }
+    }    
+}
+
+.notification {
+    border: solid;
+    padding: 8px;
+
+    .title {
+        font-weight: bold;
+    }
+}

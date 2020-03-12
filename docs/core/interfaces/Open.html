@@ -1,0 +1,453 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Core</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Core</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>Open</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>web-services/query/query.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Defines the object used to request the children of a tree node in an aggregation</p>
+
+            </p>
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#aggregation">aggregation</a>
+                                </li>
+                                <li>
+                                        <a href="#expression">expression</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="aggregation"></a>
+                                        <span class="name"><b>aggregation</b><a href="#aggregation"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>aggregation:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The name of the associated aggregation</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="expression"></a>
+                                        <span class="name"><b>expression</b><a href="#expression"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>expression:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The fielded search expression of the filter used to request the tree node children. For example: <code>treepath:/folder1/folder2/*</code></p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {MapOf} from &quot;@sinequa/core/base&quot;;
+import {SpellingCorrectionMode} from &quot;../config/ccapp&quot;;
+
+/**
+ * Defines the object used to filter an {@link IQuery}. This is typically added to a query
+ * as a result of a selection in UI facet component
+ */
+export interface Select {
+    /**
+     * The fielded search expression of the filter that should be applied to the query
+     */
+    expression: string;
+    /**
+     * The name of the facet where this selection was made
+     */
+    facet: string;
+}
+
+/**
+ * Defines the object used to request the children of a tree node in an aggregation
+ */
+export interface Open {
+    /**
+     * The fielded search expression of the filter used to request the tree node children. For example: &#x60;treepath:/folder1/folder2/*&#x60;
+     */
+    expression: string;
+    /**
+     * The name of the associated aggregation
+     */
+    aggregation: string;
+}
+
+/**
+ * These options can be used to provide pagination of aggregation values
+ */
+export interface AggregationOptions {
+    /**
+     * Specifies the starting index of the values to retrieve
+     */
+    skip?: number;
+    /**
+     * Specifies the number of aggregation values to retrieve
+     */
+    count?: number;
+}
+
+/**
+ * Defines the operators that can be used when specifying advanced search values
+ */
+export enum AdvancedOperator {
+    NONE &#x3D; &quot;&quot;,
+    EQ &#x3D; &quot;&#x3D;&quot;,
+    NEQ &#x3D; &quot;&lt;&gt;&quot;,
+    LT &#x3D; &quot;&lt;&quot;,
+    LTE &#x3D; &quot;&lt;&#x3D;&quot;,
+    GT &#x3D; &quot;&gt;&quot;,
+    GTE &#x3D; &quot;&gt;&#x3D;&quot;
+}
+
+/**
+ * Defines the possible basic types of an advanced value
+ */
+export type BasicAdvancedValue &#x3D; string | number | Date | boolean | undefined;
+
+/**
+ * Defines an advamced value type as either a single basic advanved value or an array of basic advanced values
+ */
+export type AdvancedValue &#x3D; BasicAdvancedValue | BasicAdvancedValue[];
+
+/**
+ * Defines an advanced value with an operator
+ */
+export interface AdvancedValueWithOperator {
+    /**
+     * An advanced value
+     */
+    value: AdvancedValue;
+    /**
+     * An operator
+     */
+    operator: AdvancedOperator;
+}
+
+/**
+ * Defines the range of types that can be used when specifying advanced search criteria
+ */
+export type AdvancedValueEntry &#x3D; AdvancedValue | AdvancedValueWithOperator | (AdvancedValue | AdvancedValueWithOperator)[];
+
+/**
+ * Describes the query object that can be passed to the {@link QueryWebService}
+ */
+export interface IQuery {
+    /**
+     * The name of the query web service configuration object
+     */
+    name: string;
+    /**
+     * The full text of the query
+     */
+    text?: string;
+    /**
+     * Defines the action that can be performed with this query. 
+     *
+     * &#x60;search&#x60; - This action performs a standard search that returns document results and aggregation values. This is the default action
+     *
+     * &#x60;open&#x60; - Processes the objects specified in the &#x60;open&#x60; member. This is used to expand tree aggregation nodes
+     *
+     * &#x60;aggregate&#x60; - Processes the objects specified in the &#x60;aggregations&#x60; member. This is used to provide pagination of aggregation values
+     */
+    action?: &quot;&quot; | &quot;search&quot; | &quot;open&quot; | &quot;aggregate&quot;;
+    /**
+     * Specifies selection-based filtering for this query, typically from UI facets
+     */
+    select?: Select[];
+    /**
+     * Soecifies the tree aggregation nodes whose children should be returned (using the &#x60;open&#x60; action)
+     */
+    open?: Open[];
+    /**
+     * Specifies the starting page for the document results. Defaults to 1
+     */
+    page?: number;
+    /**
+     * Specifies the page size size for the document results
+     */
+    pageSize?: number;
+    /**
+     * Specifies the name of the current tab selection for the query. See {@link CCTabSearch}
+     */
+    tab?: string;
+    /**
+     * Specifies the name of the current scope selection for the query. See {@link CCScope}
+     */
+    scope?: string;
+    /**
+     * Specifies the name of the current sort selection for the query. See {@link CCSortingChoice}
+     */
+    sort?: string;
+    /**
+     * Specifies the name of a basket of document results to retrieve. If specified then the search results will be
+     * trimmed to only contain documents included in the specified basket
+     */
+    basket?: string;
+    /**
+     * If set then no document results will be returned but aggregations results will be returned. This is typically used
+     * to provide aggregation results on a home page or to retrieve values to be used in advanced search components
+     */
+    isFirstPage?: boolean;
+    /**
+     * Determines results can only include documents that were in the results set prior to the addition of a filter.
+     * In some circumstances the addition of a filter can enlarge the set of matching documents.
+     * For example, the addition of search terms using the &quot;refine&quot; facet
+     */
+    strictRefine?: boolean;
+    /**
+     * Sets the relevance threshold for document to appear in the results. This is a number between 0 and 100.
+     */
+    globalRelevance?: number;
+    /**
+     * Sets the language to be used to interpret search terms
+     */
+    questionLanguage?: string;
+    /**
+     * Sets the language to be used to interpret search terms if &#x60;questionLanguage&#x60; is not set and the
+     * language cannot be determined automatically
+     */
+    questionDefaultLanguage?: string;
+    /**
+     * Sets the spelling correction mode
+     */
+    spellingCorrectionMode?: SpellingCorrectionMode;
+    /**
+     * Sets a regular expression filter on which terms to consider for spelling corrections
+     */
+    spellingCorrectionFilter?: string;
+    /**
+     * Sets the value for the &#x60;DocumentWeight&#x60; clause to be added to the query
+     */
+    documentWeight?: string;
+    /**
+     * Sets the value for the &#x60;TextPartWeights&#x60; clause to be added to the query
+     */
+    textPartWeights?: string;
+    /**
+     * Sets the value for the &#x60;RelevanceTransforms&#x60; clause to be added to the query
+     */
+    relevanceTransforms?: string;
+    /**
+     * Determines whether duplicate documents should be filtered from the results. Duplicate document detection
+     * requires either nearhash or exacthash values to be calculated in the indexes.
+     */
+    removeDuplicates?: boolean;
+    /**
+     * Sets the query id for the query. This is used in &quot;strict refine&quot; mode and is normally populated from the
+     * results attributes
+     */
+    queryId?: string;
+    /**
+     * Specifies the aggregations to include when &#x60;action&#x60; is set to &#x60;aggregate&#x60;
+     */
+    aggregations?: MapOf&lt;AggregationOptions&gt; | string[];
+    /**
+     * Specifies a value for the &#x60;ORDER BY&#x60; clause of the query
+     */
+    orderBy?: string;
+    /**
+     * Specifies a value for the &#x60;GROUP BY&#x60; clause of the query
+     */
+    groupBy?: string;
+    /**
+     * Specifies any &quot;advanced search&quot; parameters to be included in the query
+     */
+    advanced?: MapOf&lt;AdvancedValueEntry&gt;;
+}
+</code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'Open.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

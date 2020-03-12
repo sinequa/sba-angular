@@ -1,0 +1,1512 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>MlAuditService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>machine-learning/ml-audit.service.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                    <code>HttpService</code>
+            </p>
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#query">query</a>
+                            </li>
+                            <li>
+                                <a href="#requestInitializer">requestInitializer</a>
+                            </li>
+                            <li>
+                                <a href="#results">results</a>
+                            </li>
+                            <li>
+                                <a href="#session">session</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#calcDwellTime">calcDwellTime</a>
+                            </li>
+                            <li>
+                                <a href="#endAction">endAction</a>
+                            </li>
+                            <li>
+                                <a href="#endQuery">endQuery</a>
+                            </li>
+                            <li>
+                                <a href="#endResults">endResults</a>
+                            </li>
+                            <li>
+                                <a href="#endSession">endSession</a>
+                            </li>
+                            <li>
+                                <a href="#init">init</a>
+                            </li>
+                            <li>
+                                <a href="#newAction">newAction</a>
+                            </li>
+                            <li>
+                                <a href="#newQuery">newQuery</a>
+                            </li>
+                            <li>
+                                <a href="#newResults">newResults</a>
+                            </li>
+                            <li>
+                                <a href="#newTimestamp">newTimestamp</a>
+                            </li>
+                            <li>
+                                <a href="#notify">notify</a>
+                            </li>
+                            <li>
+                                <a href="#notifyEvent">notifyEvent</a>
+                            </li>
+                            <li>
+                                <a href="#startSession">startSession</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(startConfig: StartConfig, appService: AppService, loginService: LoginService, principalService: PrincipalWebService, intlService: IntlService, httpClient: SqHttpClient, searchService: <a href="../injectables/SearchService.html">SearchService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">machine-learning/ml-audit.service.ts:18</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>startConfig</td>
+                                                  
+                                                        <td>
+                                                                    <code>StartConfig</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>appService</td>
+                                                  
+                                                        <td>
+                                                                    <code>AppService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>loginService</td>
+                                                  
+                                                        <td>
+                                                                    <code>LoginService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>principalService</td>
+                                                  
+                                                        <td>
+                                                                    <code>PrincipalWebService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>intlService</td>
+                                                  
+                                                        <td>
+                                                                    <code>IntlService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>httpClient</td>
+                                                  
+                                                        <td>
+                                                                    <code>SqHttpClient</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>searchService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SearchService.html" target="_self" >SearchService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="calcDwellTime"></a>
+                    <span class="name">
+                        <b>
+                            calcDwellTime
+                        </b>
+                        <a href="#calcDwellTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>calcDwellTime(event: <a href="../injectables/MlAuditService.html">MlAuditService.Event</a>, defaultValue?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">machine-learning/ml-audit.service.ts:35</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="../injectables/MlAuditService.html" target="_self" >MlAuditService.Event</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>defaultValue</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>number | undefined</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="endAction"></a>
+                    <span class="name">
+                        <b>
+                            endAction
+                        </b>
+                        <a href="#endAction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>endAction(action: <a href="../injectables/MlAuditService.html">MlAuditService.Action</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="176"
+                            class="link-to-prism">machine-learning/ml-audit.service.ts:176</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>action</td>
+                                    <td>
+                                                <code><a href="../injectables/MlAuditService.html" target="_self" >MlAuditService.Action</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="endQuery"></a>
+                    <span class="name">
+                        <b>
+                            endQuery
+                        </b>
+                        <a href="#endQuery"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>endQuery()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">machine-learning/ml-audit.service.ts:86</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="endResults"></a>
+                    <span class="name">
+                        <b>
+                            endResults
+                        </b>
+                        <a href="#endResults"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>endResults()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="119"
+                            class="link-to-prism">machine-learning/ml-audit.service.ts:119</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="endSession"></a>
+                    <span class="name">
+                        <b>
+                            endSession
+                        </b>
+                        <a href="#endSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>endSession()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">machine-learning/ml-audit.service.ts:57</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="init"></a>
+                    <span class="name">
+                        <b>
+                            init
+                        </b>
+                        <a href="#init"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>init()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="190"
+                            class="link-to-prism">machine-learning/ml-audit.service.ts:190</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="newAction"></a>
+                    <span class="name">
+                        <b>
+                            newAction
+                        </b>
+                        <a href="#newAction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>newAction(actionOrActionType: <a href="../injectables/MlAuditService.html">MlAuditService.ActionType | MlAuditService.ActionInitializer</a>, documentIds?: string | string[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="150"
+                            class="link-to-prism">machine-learning/ml-audit.service.ts:150</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>actionOrActionType</td>
+                                    <td>
+                                                <code><a href="../injectables/MlAuditService.html" target="_self" >MlAuditService.ActionType | MlAuditService.ActionInitializer</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>documentIds</td>
+                                    <td>
+                                            <code>string | string[]</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../injectables/MlAuditService.html" target="_self" >MlAuditService.Action</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="newQuery"></a>
+                    <span class="name">
+                        <b>
+                            newQuery
+                        </b>
+                        <a href="#newQuery"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>newQuery(event: <a href="../injectables/SearchService.html">SearchService.NewQueryEvent</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">machine-learning/ml-audit.service.ts:72</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="../injectables/SearchService.html" target="_self" >SearchService.NewQueryEvent</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="newResults"></a>
+                    <span class="name">
+                        <b>
+                            newResults
+                        </b>
+                        <a href="#newResults"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>newResults()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">machine-learning/ml-audit.service.ts:101</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="newTimestamp"></a>
+                    <span class="name">
+                        <b>
+                            newTimestamp
+                        </b>
+                        <a href="#newTimestamp"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>newTimestamp()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">machine-learning/ml-audit.service.ts:31</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notify"></a>
+                    <span class="name">
+                        <b>
+                            notify
+                        </b>
+                        <a href="#notify"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>notify(actions: <a href="../injectables/MlAuditService.html">MlAuditService.ActionInitializer | MlAuditService.ActionInitializer[] | MlAuditService.ActionType</a>, documentIds?: string | string[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="230"
+                            class="link-to-prism">machine-learning/ml-audit.service.ts:230</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>actions</td>
+                                    <td>
+                                                <code><a href="../injectables/MlAuditService.html" target="_self" >MlAuditService.ActionInitializer | MlAuditService.ActionInitializer[] | MlAuditService.ActionType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>documentIds</td>
+                                    <td>
+                                            <code>string | string[]</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notifyEvent"></a>
+                    <span class="name">
+                        <b>
+                            notifyEvent
+                        </b>
+                        <a href="#notifyEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>notifyEvent(events: <a href="../injectables/MlAuditService.html">MlAuditService.Event | MlAuditService.Event[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="213"
+                            class="link-to-prism">machine-learning/ml-audit.service.ts:213</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>events</td>
+                                    <td>
+                                                <code><a href="../injectables/MlAuditService.html" target="_self" >MlAuditService.Event | MlAuditService.Event[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="startSession"></a>
+                    <span class="name">
+                        <b>
+                            startSession
+                        </b>
+                        <a href="#startSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>startSession()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">machine-learning/ml-audit.service.ts:42</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="query"></a>
+                        <span class="name">
+                            <b>
+                            query</b>
+                            <a href="#query"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../injectables/MlAuditService.html" target="_self" >MlAuditService.Query | undefined</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">machine-learning/ml-audit.service.ts:17</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="requestInitializer"></a>
+                        <span class="name">
+                            <b>
+                            requestInitializer</b>
+                            <a href="#requestInitializer"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="257" class="link-to-prism">machine-learning/ml-audit.service.ts:257</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="results"></a>
+                        <span class="name">
+                            <b>
+                            results</b>
+                            <a href="#results"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../injectables/MlAuditService.html" target="_self" >MlAuditService.Results | undefined</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">machine-learning/ml-audit.service.ts:18</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="session"></a>
+                        <span class="name">
+                            <b>
+                            session</b>
+                            <a href="#session"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../injectables/MlAuditService.html" target="_self" >MlAuditService.Session | undefined</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">machine-learning/ml-audit.service.ts:16</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject} from &quot;@angular/core&quot;;
+import {HttpRequest} from &quot;@angular/common/http&quot;;
+import {Observable, of} from &quot;rxjs&quot;;
+import {PrincipalWebService, SqHttpClient, HttpService, START_CONFIG, StartConfig, AuditEvents, AuditRecord} from &quot;@sinequa/core/web-services&quot;;
+import {LoginService} from &quot;@sinequa/core/login&quot;;
+import {IntlService} from &quot;@sinequa/core/intl&quot;;
+import {AppService} from &quot;@sinequa/core/app-utils&quot;;
+import {Utils} from &quot;@sinequa/core/base&quot;;
+import {SearchService} from &quot;@sinequa/components/search&quot;;
+
+@Injectable({
+    providedIn: &quot;root&quot;
+})
+export class MlAuditService extends HttpService {
+    private static readonly Endpoint &#x3D; &quot;ml.audit.notify&quot;;
+    session: MlAuditService.Session | undefined;
+    query: MlAuditService.Query | undefined;
+    results: MlAuditService.Results | undefined;
+
+    constructor(
+        @Inject(START_CONFIG) startConfig: StartConfig,
+        protected appService: AppService,
+        protected loginService: LoginService,
+        protected principalService: PrincipalWebService,
+        protected intlService: IntlService,
+        protected httpClient: SqHttpClient,
+        protected searchService: SearchService) {
+        super(startConfig);
+    }
+
+    newTimestamp(): string {
+        return (new Date()).toISOString();
+    }
+
+    calcDwellTime(event: MlAuditService.Event, defaultValue?: number): number | undefined {
+        if (!event.timestamp) {
+            return defaultValue;
+        }
+        return Date.now() - (new Date(event.timestamp)).getTime();
+    }
+
+    startSession(): void {
+        this.endSession();
+        if (this.principalService.principal) {
+            this.session &#x3D; {
+                type: &quot;session&quot;,
+                subType: &quot;start&quot;,
+                id: Utils.guid(false),            
+                timestamp: this.newTimestamp(),
+                userId: this.principalService.principal.userId,
+                isAdmin: this.principalService.principal.isAdministrator,
+                locale: this.intlService.currentLocale.name
+            };
+        }
+    }
+
+    endSession(): void {
+        this.endQuery();
+        if (this.session &amp;&amp; this.session.sent) {
+            this.notifyEvent({
+                type: &quot;session&quot;,
+                subType: &quot;end&quot;,
+                id: this.session.id,
+                dwellTime: this.calcDwellTime(this.session)
+            });
+        }
+        this.session &#x3D; undefined;
+        this.query &#x3D; undefined;
+        this.results &#x3D; undefined;
+    }
+
+    newQuery(event: SearchService.NewQueryEvent): void {
+        this.endQuery();
+        if (event.query) {
+            this.query &#x3D; {
+                type: &quot;query&quot;,
+                subType: &quot;start&quot;,
+                id: Utils.guid(false),
+                sessionId: this.session ? this.session.id : undefined,
+                indexes: this.appService.ccquery ? this.appService.ccquery.searchIndexes : undefined,
+                timestamp: this.newTimestamp()
+            };
+        }
+    }
+
+    endQuery(): void {
+        this.endResults();
+        if (this.query &amp;&amp; this.query.sent) {
+            this.notifyEvent({
+                type: &quot;query&quot;,
+                subType: &quot;end&quot;,
+                id: this.query.id,                
+                sessionId: this.session ? this.session.id : undefined,
+                dwellTime: this.calcDwellTime(this.query)
+            });
+        }
+        this.query &#x3D; undefined;
+        this.results &#x3D; undefined;
+    }
+
+    newResults(): void {
+        this.endResults();
+        if (this.searchService.results &amp;&amp; this.searchService.results.records) {
+            this.results &#x3D; {
+                type: &quot;results&quot;,
+                subType: &quot;start&quot;,
+                id: Utils.guid(false),
+                queryId: this.query ? this.query.id : undefined,
+                sessionId: (!this.query &amp;&amp; this.session) ? this.session.id : undefined,
+                timestamp: this.newTimestamp(),
+                queryText: this.searchService.query.text,
+                queryHash: this.searchService.query.hash(),
+                page: this.searchService.results.page,
+                documentIds: this.searchService.results.records.map&lt;string&gt;(record &#x3D;&gt; record.id),
+            };
+        }
+    }
+
+    endResults(): void {
+        if (this.results &amp;&amp; this.results.sent) {
+            this.notifyEvent({
+                type: &quot;results&quot;,
+                subType: &quot;end&quot;,
+                id: this.results.id,
+                queryId: this.query ? this.query.id : undefined,
+                sessionId: (!this.query &amp;&amp; this.session) ? this.session.id : undefined,
+                dwellTime: this.calcDwellTime(this.results)
+            });
+        }
+        this.results &#x3D; undefined;
+    }
+
+    private flushContext() {
+        let events: MlAuditService.Event[] &#x3D; [];
+        if (this.session &amp;&amp; !this.session.sent) {
+            events.push(this.session);
+        }
+        if (this.query &amp;&amp; !this.query.sent) {
+            events.push(this.query);
+        }
+        if (this.results &amp;&amp; !this.results.sent) {
+            events.push(this.results);
+        }
+        if (events.length !&#x3D;&#x3D; 0) {
+            this.notifyEvent(events);
+            events.forEach(event &#x3D;&gt; event.sent &#x3D; true);
+        }
+    }
+
+    newAction(actionOrActionType: MlAuditService.ActionType | MlAuditService.ActionInitializer, documentIds?: string | string[]): MlAuditService.Action {
+        this.flushContext();
+        const action: MlAuditService.Action &#x3D; {
+            type: &quot;action&quot;,
+            subType: undefined,
+            actionType: &quot;click&quot;,
+            id: Utils.guid(false),
+            resultsId: this.results ? this.results.id : undefined,
+            queryId: (!this.results &amp;&amp; this.query) ? this.query.id : undefined,
+            sessionId: (!this.results &amp;&amp; !this.query &amp;&amp; this.session) ? this.session.id : undefined,
+            documentIds: []
+        };
+        delete action.actionType;
+        delete action.documentIds;
+        if (Utils.isObject(actionOrActionType)) {
+            Utils.merge(action, actionOrActionType);
+        }
+        else {
+            action.actionType &#x3D; actionOrActionType;
+            if (documentIds) {
+                action.documentIds &#x3D; documentIds;
+            }
+        }
+        return action;
+    }
+
+    endAction(action: MlAuditService.Action) {
+        if (action) {
+            this.notifyEvent({
+                type: &quot;action&quot;,
+                subType: &quot;end&quot;,
+                id: action.id,
+                resultsId: this.results ? this.results.id : undefined,
+                queryId: (!this.results &amp;&amp; this.query) ? this.query.id : undefined,
+                sessionId: (!this.results &amp;&amp; !this.query &amp;&amp; this.session) ? this.session.id : undefined,
+                dwellTime: this.calcDwellTime(action)
+            });
+        }
+    }
+
+    init() {
+        Utils.subscribe(this.loginService.events, (event) &#x3D;&gt; {
+            switch (event.type) {
+                case &quot;session-start&quot;:
+                    this.startSession();
+                    break;
+                case &quot;session-end&quot;:
+                    this.endSession();
+                    break;
+            }
+        });
+        Utils.subscribe(this.searchService.events, (event) &#x3D;&gt; {
+            switch (event.type) {
+                case &quot;new-query&quot;:
+                    this.newQuery(event);
+                    break;
+                case &quot;new-results&quot;:
+                    this.newResults();
+                    break;
+            }
+        });
+    }
+
+    notifyEvent(events: MlAuditService.Event | MlAuditService.Event[]): Observable&lt;void&gt; {
+        if (!this.startConfig.mlAuditEnabled) {
+            return of(undefined);
+        }
+        let observable &#x3D; this.httpClient.post&lt;void&gt;(this.makeUrl(MlAuditService.Endpoint), {
+            events: events
+        });
+        Utils.subscribe(observable,
+            (response) &#x3D;&gt; {
+                return response;
+            },
+            (error) &#x3D;&gt; {
+                console.log(&quot;MlAuditService.notify failure - error: &quot;, error);
+            });
+        return observable;
+    }
+
+    notify(actions: MlAuditService.ActionInitializer | MlAuditService.ActionInitializer[] | MlAuditService.ActionType, documentIds?: string | string[]): Observable&lt;void&gt; {
+        if (Utils.isString(actions)) {
+            return this.notifyEvent(this.newAction(actions, documentIds));
+        }
+        else if (Utils.isArray(actions)) {
+            return this.notifyEvent(actions.map(actionInit &#x3D;&gt; this.newAction(actionInit)));
+        }
+        else {
+            return this.notifyEvent(this.newAction(actions));
+        }
+    }
+
+    private ensureAuditRecord(auditEvents: AuditEvents): AuditRecord {
+        if (Utils.isObject(auditEvents)) {
+            let auditRecord &#x3D; &lt;AuditRecord&gt;auditEvents;
+            if (auditRecord.auditEvents || auditRecord.mlAuditEvents) {
+                if (auditRecord.mlAuditEvents) {
+                    return {
+                        auditEvents: auditRecord.auditEvents,
+                        mlAuditEvents: auditRecord.mlAuditEvents.map(actionInit &#x3D;&gt; this.newAction(actionInit))
+                    }
+                }
+            }
+        }
+        return &lt;AuditRecord&gt;auditEvents; // leave unchanged
+    } 
+
+    requestInitializer &#x3D; (request: HttpRequest&lt;any&gt;): boolean &#x3D;&gt; {
+        request.body.$auditRecord &#x3D; this.ensureAuditRecord(request.body.$auditRecord);
+        return true;
+    }
+}
+
+export module MlAuditService {
+    export type EventType &#x3D; &quot;session&quot; | &quot;query&quot; | &quot;results&quot; | &quot;action&quot;;
+    export type EventSubType &#x3D; &quot;start&quot; | &quot;end&quot;;
+    export type ActionType &#x3D; &quot;click&quot; | &quot;preview&quot; | &quot;over&quot; | 
+        &quot;addToBasket&quot; | &quot;removeFromBasket&quot; |
+        &quot;addToLabel&quot; | &quot;removeFromLabel&quot; |
+        &quot;addRating&quot; | &quot;removeRating&quot;;
+
+    export interface Event {
+        type: EventType;
+        subType?: EventSubType;
+        id?: string;
+        timestamp?: string;
+        dwellTime?: number;
+        sent?: boolean;
+        [key: string]: any; // Allow arbitrary additions
+    }
+
+    export interface Session extends Event {
+        userId: string;
+        locale: string;
+    }
+
+    export interface Query extends Event {
+        sessionId?: string;
+        indexes?: string;
+        typingHistory?: any;        
+        proposedExpansions?: any;
+        selectedExpansions?: any;
+    }
+
+    export interface Results extends Event {
+        queryId?: string;
+        sessionId?: string;
+        queryText?: string;
+        queryHash?: string;
+        documentIds?: string[];
+        page?: number;
+    }
+
+    export interface Action extends Event {
+        resultsId?: string;
+        queryId?: string;
+        sessionId?: string;
+        actionType: ActionType;
+        documentIds: string | string[];
+    }
+
+    export interface ActionInitializer {
+        actionType: ActionType;
+        documentIds: string | string[];
+        [key: string]: any; // Allow arbitrary additions
+    }
+}</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'MlAuditService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

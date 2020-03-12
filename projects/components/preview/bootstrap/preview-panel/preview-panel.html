@@ -1,0 +1,35 @@
+<div *ngIf="!!previewData" class="container-fluid sq-preview">
+    <div class="row sq-row">
+        <div class="col-lg-3 sq-col {{leftPaneAdditionalClasses}}">
+            <div class="sq-preview-bar">
+                <sq-preview-links 
+                    [record]="previewData.record" 
+                    [resultId]="previewData.resultId">
+                </sq-preview-links>
+                <sq-preview-highlights 
+                    [previewDocument]="previewDocument"
+                    [previewData]="previewData">
+                </sq-preview-highlights>
+                <sq-facet-card [title]="'msg#preview.documentPropertiesTitle'">
+                    <div class="card-body collapse show" id="documentPropertiesBody">
+                        <sq-metadata *ngIf="previewData.record" [record]="previewData.record" [items]="metadata" [showTitles]="false" [showIcons]="true" [clickable]="false" [spacing]="'comfortable'">
+                        </sq-metadata>
+                    </div>
+                </sq-facet-card>
+                <sq-similar-documents *ngIf="displaySimilarDocuments" class="d-block mt-2"
+                    [sourceDocumentId]="previewData.record.id" [query]="query">
+                </sq-similar-documents>
+            </div>
+        </div>
+        <div class="col-lg-9 sq-col d-flex flex-column">
+            <sq-preview-document-iframe 
+                [downloadUrl]="downloadUrl" 
+                (onPreviewReady)="onPreviewReady($event)">
+                <sq-preview-tooltip #tooltip
+                    [previewDocument]="previewDocument"
+                    [previewData]="previewDocument">
+                </sq-preview-tooltip>
+            </sq-preview-document-iframe>
+        </div>
+    </div>
+</div>

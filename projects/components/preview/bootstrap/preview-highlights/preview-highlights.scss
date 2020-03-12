@@ -1,0 +1,147 @@
+.noEntityToHighlightMessage {
+    opacity: 0.5;
+}
+
+.currentSelection {
+    margin-bottom: .75rem;
+}
+
+.selectedHighlightTitle {
+    padding-bottom: 0.375em;
+}
+
+.currentSelectionPanel {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    padding: .5rem .5rem;
+    text-align: center;
+}
+
+.currentCategories {
+    height: 1.5em;
+}
+
+.selectedHighlightValue {
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.noSelectionMessage {
+    opacity: 0.5;
+}
+
+.navigation-buttons {
+    text-align: center;
+}
+
+.counter-container {
+    display: inline-block;
+    position: relative;
+}
+
+.counter {
+    padding-left: .125rem;
+    padding-right: .125rem;
+    position: absolute;
+    right: 0;
+}
+
+.ghost {
+    position: static;
+    visibility: hidden;
+}
+
+.filterPanel {
+    display: table;
+    border-spacing: 0 0.375em;
+}
+
+.filterPanelTitle {
+    display:table-caption;
+    padding-top: 0.75em;
+    padding-left: 0.75em;
+    border-top: 1px solid rgba(0, 0, 0, 0.125);
+    margin-bottom: -0.5em;
+}
+
+.batchSelectButtonsContainer {
+    display: table-row;
+}
+
+.batchSelectButtonsPaddingPlaceholder {
+    display: table-cell;
+}
+
+.batchSelectButtons {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 0;
+}
+
+.batchSelectButton {
+    display: table-cell;
+}
+
+.batchSelectButton:not(:last-child) {
+    padding-right: .5rem;
+}
+
+.batchSelectButton button {
+    display: block;
+    width: 100%;
+    white-space: normal;
+}
+
+.filterPanelTitle .fa-filter {
+    padding-right: 0.375em;
+}
+
+.filters {
+    display: table-row-group;
+}
+
+.sq-highlight {
+    display: table-row;
+}
+
+.categoryIcon, .categoryLabel {
+    display: table-cell;
+    padding-right: 0.375em;
+    white-space: nowrap;
+}
+
+.categoryFilter {
+    display: table-cell;
+    width: 100%;
+}
+
+.selectSeparator {
+    font-size: 1pt;
+    background-color: #CCCCCC;
+}
+
+.sq-highlight {
+    flex-wrap: nowrap;
+
+    .btn:focus {
+        z-index: 4;
+    }
+
+    .sq-highlight-btns {
+        flex-direction: row;
+    }
+
+    .sq-highlight-item {
+        width: 100%;
+        .btn {
+            width: 100%;
+            white-space: normal;
+        }
+    }
+
+    &:not(:first-child) {
+        margin-top: .25rem;
+    }
+}

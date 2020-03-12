@@ -1,0 +1,112 @@
+$sq-rfm-action-background-color: transparent !default;
+$sq-rfm-action-color: #505050 !default;
+$sq-rfm-action-padding: 1px 5px !default;
+
+sq-rfm-action {
+    display: inline-block;
+    vertical-align: text-bottom;
+    .dropdown-menu {
+        min-width: auto;
+    }
+    button.sq-btn-action {
+        background-color: $sq-rfm-action-background-color;
+        color: $sq-rfm-action-color;
+        padding: $sq-rfm-action-padding;
+    }
+}
+
+.rfm-important-pos {
+    @extend .fas;
+    @extend .fa-exclamation;
+    &:before {
+        color: red;
+    }
+}
+
+.rfm-important-mpos {
+    @extend .fas;
+    @extend .fa-exclamation;
+    &:before {
+        color: darkred;
+    }
+}
+
+.rfm-important-neg {
+    @extend .fas;
+    @extend .fa-ban;
+    &:before {
+        color: red;
+    }
+}
+
+.rfm-important-mneg {
+    @extend .fas;
+    @extend .fa-ban;
+    &:before {
+        color: darkred;
+    }
+}
+
+.rfm-important-unrated {
+    @extend .fas;
+    @extend .fa-exclamation;
+    &:before {
+        color: lightgrey;
+    }
+}
+
+.rfm-click-pos, .rfm-click-mpos, .rfm-click-neg, .rfm-click-mneg {
+    @extend .fas;
+    @extend .fa-asterisk;
+    &:before {
+        color: orange;
+    }
+}
+
+.rfm-click-unrated {
+    @extend .fas;
+    @extend .fa-asterisk;
+    &:before {
+        color: lightgrey;
+    }
+}
+
+.rfm-like-pos {
+    @extend .far;
+    @extend .fa-thumbs-up;
+    &:before {
+        color: green;
+    }
+}
+
+.rfm-like-mpos {
+    @extend .far;
+    @extend .fa-thumbs-up;
+    &:before {
+        color: darkgreen;
+    }
+}
+
+.rfm-like-neg {
+    @extend .far;
+    @extend .fa-thumbs-down;
+    &:before {
+        color: red;
+    }
+}
+
+.rfm-like-mneg {
+    @extend .far;
+    @extend .fa-thumbs-down;
+    &:before {
+        color: darkred;
+    }
+}
+
+.rfm-like-unrated {
+    @extend .far;
+    @extend .fa-thumbs-up;
+    &:before {
+        color: lightgrey;
+    }
+}

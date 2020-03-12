@@ -1,0 +1,176 @@
+
+// select
+$sq-select-default-width: 26.5ch !default;
+
+// This is a copy of the bootstrap form-contol-focus mixin but without the style rule
+@mixin sq-inner-form-control-focus() {
+    //&:focus {
+        color: $input-focus-color;
+        background-color: $input-focus-bg;
+        border-color: $input-focus-border-color;
+        outline: 0;
+        // Avoid using mixin so we can pass custom focus shadow properly
+        @if $enable-shadows {
+          box-shadow: $input-box-shadow, $input-focus-box-shadow;
+        } @else {
+          box-shadow: $input-focus-box-shadow;
+        }
+    //}
+}
+
+/*
+Style for multi-entry input (or tags input)
+*/
+.tags-input.form-control {
+    color: #555;
+    vertical-align: middle;
+    cursor: text;
+    overflow-x: hidden;
+    overflow-y: auto;
+    line-height: 1.8em; /* Line spacing */
+    width: 23.5ch;
+    padding: 0.25rem 0.75rem;
+
+    // Make the tags input behaves like other form control when focused
+    &:focus-within { 
+        //@extend .form-control:focus; => @extend of compound selectors no longer supported
+        @include sq-inner-form-control-focus();
+    }
+
+    // See the form-validation-state mixin
+    @each $state, $data in $form-validation-states {
+        $color: map-get($data, color);
+        &.is-#{$state} {
+            &:focus-within {
+                border-color: $color;
+                box-shadow: 0 0 0 $input-focus-width rgba($color, .25);
+            }
+        }
+    }
+
+    span > * {
+        vertical-align: middle;  // Align children to middle of line
+    }
+
+    // Essentially hides input border.
+    input {
+        border: none;
+        box-shadow: none;
+        outline: none;
+        background-color: transparent;
+        padding: 0 3px;
+        margin: 0;
+        max-width: inherit;
+    }
+
+    input:focus {
+        border: none;
+        box-shadow: none;
+        outline: none;
+    }
+
+    // Hide the spin arrows of 'number' (when not in focus) input for Firefox, Chrome
+    // NOTE: input 'number' has absolutely no effect on Edge
+    // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/110895/
+    input[type="number"] {
+        appearance: textfield;
+    }
+
+    // Un-hide the spin arrows of 'number' (when in focus) input for Firefox, Chrome
+    // NOTE: input 'number' has absolutely no effect on Edge
+    // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/110895/
+    input[type="number"]:focus {
+        appearance: inherit;
+    }
+
+    .badge {
+        margin-right: 1px;
+        font-size: 0.9rem;
+
+        .sq-remove {
+            margin-left: 4px;
+            cursor: pointer;
+        }
+    }
+
+    span.sq-plus {
+        margin-left: 4px;
+        cursor: pointer;
+    }
+
+    sq-date-picker {
+        display: inline-block;
+    }
+
+    // Hides form-control border within the tags input component
+    .form-control {
+        border: none;
+        box-shadow: none;
+    }
+
+    .form-control.is-invalid {
+        border-color: unset;
+        box-shadow: none;
+    }
+
+    .form-control.is-valid {
+        border-color: unset;
+        box-shadow: none;
+    }
+}
+
+sq-select {
+        
+    .sq-button-text {
+        display: inline-block;
+        text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: text-bottom;
+        width: calc(100% - 3 * #{$caret_width});
+    }
+
+    button.form-control {
+        .form-inline & { // to beat Bootstrap's specificity
+            width: $sq-select-default-width;
+        }
+
+        @include form-control-focus();
+        
+        border: $input-border-width solid $input-border-color;
+        @if $enable-rounded {
+            // Manually use the if/else instead of the mixin to account for iOS override
+            border-radius: $input-border-radius;
+        } @else {
+            // Otherwise undo the iOS default
+            border-radius: 0;
+        }
+        @include box-shadow($input-box-shadow);
+        @include transition($input-transition);
+    }
+
+    .dropdown-menu {
+        overflow: auto;
+        min-width: 100%;
+    }
+
+    .dropdown-item {
+        position: relative;
+        cursor: pointer;
+        padding-left: $dropdown-item-padding-x/2;
+    }
+}
+
+.sq-advanced-form-range,
+.sq-date-range-picker {
+    // For spacing when the open range inputs wrap
+    margin-top: -$spacer / 2;
+
+    & > * {
+        margin-top: $spacer / 2;
+    }
+
+    & .sq-separator {
+        align-self: center;
+    }
+}

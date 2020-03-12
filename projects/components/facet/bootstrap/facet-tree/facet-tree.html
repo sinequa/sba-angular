@@ -1,0 +1,43 @@
+<div *ngIf="!isHidden()" class="list-group list-group-flush">
+    <ng-container *ngTemplateOutlet="itemsTpl; context:data"></ng-container>
+</div>
+
+<ng-template #itemsTpl let-items="items">
+    
+    <ng-container *ngFor="let item of items">
+
+        <a  class="d-flex flex-row align-items-center list-group-item border-0 pl-1 pr-3 py-1" 
+            [ngClass]="{'list-group-item-primary':isSelected(item),'list-group-item-success':isFiltered(item),'list-group-item-action':!isFiltered(item), 'filtered':isFiltered(item) }" 
+            title="{{ (isFiltered(item)? 'msg#facet.selectedValue' : 'msg#facet.itemSelect') | sqMessage}}" 
+            (click)="selectItem(item)" href="#">
+    
+            <span class="mr-auto text-truncate" [ngStyle]="{'margin-left.rem' : item['$level'] - 1}">
+
+                <a *ngIf="item['hasChildren']" class="item-opener" href="#" (click)="open(item, $event)">
+                    <span *ngIf="item['$opening']" class="fas fa-sync fa-fw fa-spin"></span>
+                    <span *ngIf="!item['$opening'] && item['$opened']" class="fas fa-caret-down fa-fw" title="{{'msg#facet.closeItem' | sqMessage}}"></span>
+                    <span *ngIf="!item['$opening'] && !item['$opened']" class="fas fa-caret-right fa-fw" title="{{'msg#facet.openItem' | sqMessage}}"></span>
+                </a>
+                <span *ngIf="!item['hasChildren']" class="fas fa-fw"></span>
+    
+                <a  href="#" (click)="filterItem(item, $event)" 
+                    role="button" title="{{item | sqValue:item.$column}}"
+                    class="text-truncate"> {{item | sqValue:item.$column}}</a>
+
+            </span>
+            
+            <i class="ml-2 far fa-check-square" *ngIf="isFiltered(item)"></i>
+
+            <span *ngIf="showCount && item.count" class="ml-2 text-muted small">{{item.count | sqNumber}}</span>
+    
+        </a>
+
+        <ng-container *ngIf="item['$opened']">
+
+            <ng-container *ngTemplateOutlet="itemsTpl; context:item"></ng-container>
+
+        </ng-container>
+
+    </ng-container>
+
+</ng-template>

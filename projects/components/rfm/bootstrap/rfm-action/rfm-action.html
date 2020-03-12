@@ -1,0 +1,8 @@
+<ng-container *ngIf="hasRFMAction">
+    <div *ngIf="displayImgAction || displayMenu" [sq-action-buttons]="{items: [action], autoAdjust: true, size: size}"></div>
+    <div *ngIf="displayNoAction">
+        <div class="btn-text rfm-no-action">
+            <span class="{{getActionIcon(rfm.image)}}"></span>
+        </div>
+    </div>
+</ng-container>

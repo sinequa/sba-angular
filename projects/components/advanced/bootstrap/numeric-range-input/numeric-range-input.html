@@ -1,0 +1,15 @@
+<div class="form-group">
+    <div class="sq-range-input form-row" id="range">
+        <div class="col-auto">
+            <input type="number" autocomplete="off" spellcheck="off" class="form-control sq-range-from"
+                [ngModel]="range[0]" (ngModelChange)="updateFrom($event)"
+                [ngModelOptions]="{standalone: true}"/>
+        </div>
+        <div class="col-auto sq-separator">{{'msg#advanced.rangeInput.separator' | sqMessage}}</div>
+        <div class="col-auto">
+            <input type="number" autocomplete="off" spellcheck="off" class="form-control sq-range-to"
+                [ngModel]="range[1]" (ngModelChange)="updateTo($event)"
+                [ngModelOptions]="{standalone: true}"/>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "rootDir": ".",
+        "paths": {
+            "@sinequa/core": ["./public-api"],
+            "@sinequa/core/*": ["./*"]
+        }
+    },
+    "include": [
+        "./**/*.ts"
+    ]
+}

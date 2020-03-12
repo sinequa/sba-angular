@@ -1,0 +1,185 @@
+
+@import "~@angular/cdk/overlay-prebuilt";
+
+// Overriding Bootstrap variables
+$grid-breakpoints: (
+        xs: 0,
+        sm: 576px,
+        md: 992px,
+        lg: 1400px,
+        xl: 1650px
+);
+
+$container-max-widths: (
+        sm: 540px,
+        md: 960px,
+        lg: 1360px,
+        xl: 1610px
+);
+
+// Bootstrap styles
+@import "~bootstrap/scss/bootstrap"; 
+
+// Fontawesome
+$fa-font-path: "@fortawesome/fontawesome-free/webfonts";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+
+// CDK drag & drop
+.cdk-drag-preview {
+    z-index: 2000 !important;
+}
+
+// Validation
+sq-validation-message {
+    @extend .invalid-feedback;
+    .form-group > .is-invalid ~ & {
+        display: block;
+    }
+}
+
+// File formats & metadata icons
+@import "icons";
+
+// Preview stylings (incl. entity highlights & metadata)
+@import "preview";
+
+// Sinequa components stylesheets
+@import "../../../components/action/bootstrap/action.scss";
+@import "../../../components/notification/bootstrap/notification.scss";
+@import "../../../components/preview/bootstrap/preview.scss";
+@import "../../../components/metadata/metadata.scss";
+
+
+$secondary-color: #6c757d;
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: #3434d6;
+}
+
+// large screens (> sm)
+@include media-breakpoint-up(sm) {
+    // Align dropdown to the right side
+    .navbar-right {
+      .dropdown-menu {
+        right: 0;
+        left: auto; // Reset the default from `.dropdown-menu`
+      }
+    }
+
+    .sq-home-facet-bar {
+        min-height: 287px;
+    }
+    
+    .card {
+        box-shadow: 0 5px 7px rgba(0,0,0,.08);
+    }
+
+    .home {
+        height: 100vh;
+    }
+}
+
+app-search-form {
+    box-shadow: 0px 0px 7px 2px rgba(0,0,0,.08);
+
+    .autocomplete-item {
+        small, i {
+            color: $secondary-color;
+        }
+    }
+}
+
+app-search nav {
+    box-shadow: 1px 3px 4px 0px rgba(0,0,0,.08);
+}
+
+
+// Results list
+
+sq-tabs {
+    .nav-item .count {
+        font-size: 0.9em;
+        color: $secondary-color;
+    }
+}
+
+sq-results-counter {
+    color: $secondary-color;
+    font-size: 0.85em;
+    padding: 0.375rem 0;
+}
+
+sq-sort-selector button.btn {
+    padding: 1px 3px;
+    color: $secondary-color;
+    background-color: inherit;
+    font-size: 0.85em;
+    border: none;
+
+    & > div {        
+        padding: 5px 0;
+    }
+}
+
+sq-result-selector label{
+    margin: 0 !important;
+    margin-left: 4px;
+}
+
+sq-result-title {
+    .record .match-highlight {
+        font-weight: bold;
+        font-style: italic;
+    }
+}
+
+sq-result-thumbnail img {
+    max-width: 100px;
+    max-height: 150px;
+    border-radius: 3px;
+}
+
+sq-sponsored-results {
+    .sponsored-item {
+        margin-top: 0.75em;
+    }
+    .sq-sponsored-link-view-summary {
+        color: $secondary-color;
+        font-size: 0.9em;
+    }
+}
+
+// Facets
+sq-facet-card.facet-preview {
+    .card-header {
+        align-items: start !important;
+
+        sq-metadata {
+            color: $secondary-color;
+            font-size: 0.9em;
+        }
+    }
+}
+
+sq-feedback-menu {
+    button.btn{
+        border-radius: 30px;
+    }
+    .dropdown-toggle::after{
+        display: none;
+    }
+}
+
+@import 'dark-mode';

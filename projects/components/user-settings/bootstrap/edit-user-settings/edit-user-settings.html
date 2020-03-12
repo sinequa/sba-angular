@@ -1,0 +1,7 @@
+<form name="editUserSettings" novalidate [formGroup]="form">
+    <sq-modal [title]="'msg#editUserSettings.title'" [buttons]="buttons">
+        <div class="sq-user-settings-modal-body" [style.max-height]="maxHeight">
+            <sq-user-settings-editor [form]="form" [model]="model" [layout]="layout"></sq-user-settings-editor>
+        </div>
+    </sq-modal>
+</form>

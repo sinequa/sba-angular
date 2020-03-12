@@ -1,0 +1,8 @@
+<form name="editBasket" novalidate [formGroup]="form">
+    <sq-modal [title]="'msg#editBasket.title'" [buttons]="buttons">
+        <div class="form-group sq-form-group">
+            <label for="basketName">{{'msg#editBasket.name' | sqMessage}}</label>
+            <input [sqValidation]="form" type="text" class="form-control" id="basketName" formControlName="basketName" spellcheck="off" sqAutofocus>
+        </div>
+    </sq-modal>
+</form>

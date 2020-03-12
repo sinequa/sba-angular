@@ -1,0 +1,24 @@
+<div class="card sq-facet sq-results-view-configurator">
+    <div class="sq-facet-header card-header">
+        <div class="sq-facet-title card-title mr-auto">
+            <span>{{"msg#results.viewTitle" | sqMessage:{values: {text:resultsViewName} } }}</span>
+        </div>
+    </div>
+    <div class="card-body">
+        <form name="resultViewConfigurator" novalidate [formGroup]="form">
+            <div class="form-group sq-form-group">
+                <div class="input-group pb-1" style="flex-wrap: nowrap;" >
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="page-size-label">{{'msg#results.viewPageSize' | sqMessage}}</span>
+                    </div>
+                    <input [sqValidation]="form" type="number" class="form-control" id="pageSize" formControlName="pageSize" spellcheck="off">
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-outline-secondary btn-light" title="{{'msg#results.viewUpdateApply' | sqMessage}}" (click)="updatePageSize()">
+                            <span class="fas fa-check"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,2823 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Core</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Core</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>ExprMessage</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>app-utils/query/expr-parser.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>An object containing the data necessary to format an <code>Expr</code> using
+<a href="../injectables/IntlService.html#formatMessage">IntlService.formatMessage</a></p>
+
+            </p>
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#message">message</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#values">values</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="message"></a>
+                                        <span class="name"><b>message</b><a href="#message"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>message:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The <code>IntlService</code> compatible message string</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="values"></a>
+                                        <span class="name"><b>values</b><a href="#values"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>values:     <code>literal type</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>literal type</code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Any values referenced by <code>message</code></p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Utils, MapOf, IRef, FieldValue} from &quot;@sinequa/core/base&quot;;
+import {AppService} from &quot;../app.service&quot;;
+import {AppServiceHelpers} from &quot;../app-service-helpers&quot;;
+import {CCColumn, EngineType, EngineTypeModifier} from &quot;@sinequa/core/web-services&quot;;
+import {IntlService} from &quot;@sinequa/core/intl&quot;;
+import {FormatService} from &quot;../format.service&quot;;
+
+/**
+ * Describes a context for processing expressions
+ */
+export interface ExprContext {
+    appService: AppService;
+    formatService: FormatService;
+    intlService: IntlService;
+    disallowFulltext?: boolean;
+}
+
+/**
+ * The operators accepted in fielded search expressions
+ */
+export const enum ExprOperator {
+    none,
+    eq,
+    gt,
+    gte,
+    lt,
+    lte,
+    neq,
+    regex,
+    like,
+    contains,
+    in,
+    between
+}
+
+/**
+ * The range operators accepted in fielded search expressions
+ */
+export const enum ExprRange {
+    none,
+    gteLte,
+    gteLt,
+    gtLte,
+    gtLt
+}
+
+/**
+ * An object containing the data necessary to format an &#x60;Expr&#x60; using
+ * [IntlService.formatMessage]{@link IntlService#formatMessage}
+ */
+export interface ExprMessage {
+    /**
+     * The &#x60;IntlService&#x60; compatible message string
+     */
+    message: string;
+    /**
+     * Any values referenced by &#x60;message&#x60;
+     */
+    values?: {
+        [key: string]: FieldValue;
+    }
+}
+
+/**
+ * Options to be used with &#x60;Expr.toMessage&#x60;
+ */
+export interface ExprMessageOptions {
+    /**
+     * If &#x60;true&#x60;, field names are included in the message
+     */
+    withFields?: boolean;
+    /**
+     * If &#x60;true&#x60;, use any display value set in the expression
+     */
+    useDisplay?: boolean;
+    /**
+     * Include HTML formatting in the message
+     */
+    asHTML?: boolean;
+    /**
+     * If &#x60;true&#x60;, don&#x27;t include any outer &#x60;NOT&#x60; operator in the message
+     */
+    hideOuterNot?: boolean;
+}
+
+/**
+ * @ignore
+ */
+interface ExprMessageCtxt {
+    inner: boolean;
+    message: string[];
+    values: {
+        [key: string]: FieldValue
+    }
+    valueIndex: number;
+}
+
+/**
+ * Describes a location in a fielded search expression
+ */
+export interface ExprLocation {
+    start: number;
+    length: number;
+}
+
+/**
+ * Describes a location and value in a fielded search expression
+ */
+export interface ExprValueLocation extends ExprLocation {
+    value: string;
+}
+
+/**
+ * Describes a location, value and field in a fielded search expression
+ */
+export interface ExprValueInfo extends ExprValueLocation {
+    field: string;
+}
+
+/**
+ * Describes the data used in [Expr.evaluate]{@link Expr#evaluate}
+ */
+export interface ExprEvaluationContext {
+    [key: string]: any;
+}
+
+/**
+ * Describes an initialization object used in the construction of an {@link Expr} from a value
+ */
+export interface ExprValueInitializer {
+    /**
+     * The expression context
+     */
+    exprContext: ExprContext;
+    /**
+     * A single value
+     */
+    value?: string;
+    /**
+     * An array of values
+     */
+    values?: string[];
+    /**
+     * Locations of the values used in range expressions
+     */
+    locations?: ExprLocation[];
+    /**
+     * The operator used in the expression
+     */
+    operator?: ExprOperator;
+    /**
+     * The field name
+     */
+    field?: string;
+    /**
+     * The display value
+     */
+    display?: string;
+}
+
+/**
+ * Describes an initialization object used in the construction of a boolean {@link Expr} with a pair of operands
+ */
+export interface ExprOperandsInitializer {
+    /**
+     * The expression context
+     */
+    exprContext: ExprContext;
+    /**
+     * The first operand
+     */
+    op1: Expr;
+    /**
+     * If &#x60;true&#x60; this &#x60;Expr&#x60; represents an &#x60;AND&#x60; expression, otherwise it represents an &#x60;OR&#x60; expression
+     */
+    and: boolean;
+    /**
+     * The second operand
+     */
+    op2: Expr;
+    /**
+     * The field name
+     */
+    field?: string;
+    /**
+     * The display value
+     */
+    display?: string;
+};
+
+/**
+ * Represents a parsed fielded search expression. A tree of expression nodes is built when an expression
+ * combines sub-expressions using boolean operators
+ */
+export class Expr {
+
+    private _field: string | undefined &#x3D; undefined;
+
+    /**
+     * Return the field name of this expression. Return the first ancestor&#x27;s non-empty field
+     * if the field on this node is empty
+     */
+    public get field(): string | undefined {
+        let expr: Expr &#x3D; this;
+        while (expr) {
+            if (!Utils.isEmpty(expr._field)) {
+                return expr._field;
+            }
+            expr &#x3D; expr.parent;
+        }
+        return undefined;
+    }
+
+    /**
+     * Set the field name of this expression
+     */
+    public set field(value: string | undefined) {
+        this._field &#x3D; value;
+    }
+
+    private _display: string | undefined &#x3D; undefined;
+    private _displayObj: {label?: string, display?: string} | undefined &#x3D; undefined;
+
+    /**
+     * Return the display value of this expression. Return the first ancestor&#x27;s non-empty display value
+     * if the display value on this node is empty
+     */
+    public get display(): string | undefined {
+        let expr: Expr &#x3D; this;
+        while (expr) {
+            if (!Utils.isEmpty(expr._display)) {
+                return expr._display;
+            }
+            expr &#x3D; expr.parent;
+        }
+        return undefined;
+    }
+
+    /**
+     * Set the display value of this expression. If the display value is a valid stringified JSON object
+     * then set &#x60;displayObj&#x60; to the parsed object
+     */
+    public set display(value: string | undefined) {
+        this._display &#x3D; value;
+        if (!this._display) {
+            this._displayObj &#x3D; undefined;
+        }
+        else {
+            if (this._display[0] &#x3D;&#x3D;&#x3D; &quot;{&quot; &amp;&amp; this._display[this._display.length - 1] &#x3D;&#x3D;&#x3D; &quot;}&quot;) {
+                try {
+                    this._displayObj &#x3D; Utils.fromJson(this._display);
+                }
+                catch (e) {
+                    this._displayObj &#x3D; undefined;
+                }
+            }
+            else {
+                this._displayObj &#x3D; undefined;
+            }
+        }
+    }
+
+    /**
+     * Return the display object of this expression. Return the first ancestor&#x27;s non-empty display object
+     * if the display object on this node is empty
+     */
+    public get displayObj(): {label?: string, display?: string} | undefined {
+        let expr: Expr &#x3D; this;
+        while (expr) {
+            if (expr._displayObj) {
+                return expr._displayObj;
+            }
+            expr &#x3D; expr.parent;
+        }
+        return undefined;
+    }
+
+    /**
+     * The values of this expression
+     */
+    public values: string[] | undefined &#x3D; undefined;
+    /**
+     * The locations of the values of this expression
+     */
+    public locations: ExprLocation[] | undefined;
+
+    /**
+     * Return the value of this expression. Note that range expressions may have multiple values
+     */
+    public get value(): string | undefined {
+        if (!this.values || this.values.length &#x3D;&#x3D;&#x3D; 0) {
+            return undefined;
+        }
+        return this.values[0];
+    }
+
+    /**
+     * Set the value of this expression
+     */
+    public set value(value: string | undefined) {
+        if (value &#x3D;&#x3D;&#x3D; undefined) {
+            this.values &#x3D; undefined;
+        }
+        else {
+            if (!this.values) {
+                this.values &#x3D; [];
+            }
+            this.values[0] &#x3D; value;
+            this.values.length &#x3D; 1;
+        }
+    }
+
+    /**
+     * The operator of this expression
+     */
+    public operator: ExprOperator;
+    /**
+     * If &#x60;true&#x60; then this expression included the &#x60;NOT&#x60; boolean operator
+     */
+    public not: boolean;
+    /**
+     * If &#x60;true&#x60; then the operands of this expression are combined with the &#x60;AND&#x60; operator.
+     * Otherwise the operands are combined with the &#x60;OR&#x60; operator
+     */
+    public and: boolean;
+    /**
+     * The operands of this expression, if any
+     */
+    public operands: Expr[];
+    /**
+     * The parent expression, if any
+     */
+    public parent: Expr;
+    /**
+     * The expression context
+     */
+    public exprContext: ExprContext;
+    /**
+     * The distance specified in a &#x60;NEAR&#x60; expression
+     */
+    public near: number;
+    /**
+     * The position of this expression&#x27;s value in the original text
+     */
+    public start: number;
+    /**
+     * The length of this expression&#x27;s value in the original text
+     */
+    public length: number;
+    private mergedStructured: boolean;
+
+    // for evaluate
+    private _evaluationRegExps: MapOf&lt;RegExp | undefined&gt;;
+    private get evaluationRegExps(): MapOf&lt;RegExp | undefined&gt; {
+        if (!this._evaluationRegExps) {
+            this._evaluationRegExps &#x3D; {}; 
+        }
+        return this._evaluationRegExps;
+    }
+
+    private static implicitColumns: MapOf&lt;CCColumn&gt; &#x3D; {
+        &quot;id&quot;: {
+            name: &quot;id&quot;,
+            type: &quot;string&quot;,
+            eType: EngineType.string,
+            eTypeModifier: EngineTypeModifier.none                
+        },
+        &quot;documentlanguages&quot;: {
+            name: &quot;documentlanguages&quot;, 
+            type: &quot;csv&quot;,
+            typeModifier: &quot;acl&quot;,
+            eType: EngineType.csv,
+            eTypeModifier: EngineTypeModifier.a | EngineTypeModifier.i | EngineTypeModifier.c | EngineTypeModifier.l 
+        }
+    };
+    
+    constructor(init: ExprValueInitializer | ExprOperandsInitializer) {
+        if (!(&lt;ExprOperandsInitializer&gt;init).op1) {
+            let valueInit: ExprValueInitializer &#x3D; &lt;ExprValueInitializer&gt;init;
+            this.exprContext &#x3D; valueInit.exprContext;
+            if (!Utils.isUndefined(valueInit.value)) {
+                this.value &#x3D; ExprParser.unescape(valueInit.value);
+            }
+            else if (!Utils.isUndefined(valueInit.values)) {
+                this.values &#x3D; ExprParser.unescapeList(valueInit.values);
+            }
+            this.locations &#x3D; valueInit.locations;
+            this.field &#x3D; valueInit.field;
+            this.display &#x3D; valueInit.display;
+            this.operator &#x3D; !Utils.isUndefined(valueInit.operator) ? valueInit.operator : ExprOperator.none;
+            this.near &#x3D; -1;
+            this.start &#x3D; -1;
+            this.length &#x3D; 0;
+        }
+        else {
+            const opsInit: ExprOperandsInitializer &#x3D; init as ExprOperandsInitializer;
+            this.exprContext &#x3D; opsInit.exprContext;
+            this.field &#x3D; opsInit.field;
+            this.display &#x3D; opsInit.display;
+            this.addOperand(opsInit.op1);
+            this.addOperand(opsInit.op2);
+            this.and &#x3D; opsInit.and;
+            this.near &#x3D; -1;
+            this.start &#x3D; -1;
+            this.length &#x3D; 0;
+        }
+    }
+
+    /**
+     * Add an operand to this expression
+     *
+     * @param operand The operand to add
+     * @param contextField The parser&#x27;s field context, if any
+     * @param prepend If &#x60;true&#x60; the operand is prepended to the operands
+     */
+    public addOperand(operand: Expr, contextField?: string, prepend &#x3D; false) {
+        if (Utils.isUndefined(contextField)) {
+            contextField &#x3D; this.field;
+        }
+        if (!this.operands) {
+            this.operands &#x3D; [];
+        }
+        if (!Utils.isEmpty(this.field) &amp;&amp; Utils.isEmpty(operand.field) &amp;&amp; !operand.isStructured) {
+            if (Utils.isEmpty(contextField)) {
+                // Prefer setting the fields explicitly on the target operands rather the Field to &quot;text&quot; on the source operand
+                // operand.field &#x3D; &quot;text&quot;;
+                for (const expr of this.operands) {
+                    if (Utils.isEmpty(expr._field)) {
+                        expr._field &#x3D; this.field;
+                    }
+                }
+                this.field &#x3D; undefined;
+            }
+        }
+        if (!Utils.eqNC(this.field || &quot;&quot;, operand.field || &quot;&quot;)) {
+            operand._field &#x3D; operand.field;
+        }
+        else {
+            operand._field &#x3D; undefined;
+        }
+        if (!Utils.isEmpty(this.display)) {
+            operand._display &#x3D; undefined;
+        }
+        if (prepend) {
+            this.operands.unshift(operand);
+        }
+        else {
+            this.operands.push(operand);
+        }
+        operand.parent &#x3D; this;
+    }
+
+    /**
+     * Return &#x60;true&#x60; if this expression is a leaf node (does not have a value)
+     */
+    public get isLeaf(): boolean {
+        // if (this.value &#x3D;&#x3D;&#x3D; null &amp;&amp; !this.operands) throw &quot;Expr.isLeaf - bad expression&quot;;
+        return !!this.value;
+    }
+
+    /**
+     * Make an expression object
+     * 
+     * @param exprContext The expression context
+     * @param text The value of the expression
+     * @param field The parser&#x27;s field context
+     * @param display The display value
+     * @param allowEmptyValue Determines how empty values will be processed when making the expression
+     */
+    public static makeExpr(exprContext: ExprContext, text: string, field: string, display: string, allowEmptyValue: boolean): Expr | undefined {
+        if (!Expr.getIsStructuredField(exprContext, Expr.resolveField(exprContext, field))) {
+            return new Expr({
+                exprContext: exprContext,
+                value: text,
+                field: field,
+                display: display
+            });
+        }
+        
+        let values: IRef&lt;string[] | undefined&gt; &#x3D; {value: undefined};
+        let locations: IRef&lt;ExprLocation[] | undefined&gt; &#x3D; {value: undefined};
+        let operator: IRef&lt;ExprOperator&gt; &#x3D; {value: ExprOperator.none};
+        let range: IRef&lt;ExprRange&gt; &#x3D; {value: ExprRange.none};
+        Expr.parseValue(exprContext, text, field, allowEmptyValue, values, locations, operator, range);
+        if (range.value !&#x3D;&#x3D; ExprRange.none &amp;&amp; values.value &amp;&amp; locations.value) {
+            let value1 &#x3D; values.value[0];
+            let value2 &#x3D; values.value[1];
+            let location1 &#x3D; locations.value[0];
+            let location2 &#x3D; locations.value[1];
+            if (range.value &#x3D;&#x3D;&#x3D; ExprRange.gteLte &amp;&amp; !Utils.eqNC(value1, &quot;*&quot;) &amp;&amp; !Utils.eqNC(value2, &quot;*&quot;)) {
+                return new Expr({
+                    exprContext: exprContext, 
+                    values: values.value,
+                    locations: locations.value, 
+                    field: field,
+                    display: display,
+                    operator: ExprOperator.between
+                });
+            }
+            let expr1 &#x3D; !Utils.eqNC(value1, &quot;*&quot;) ? new Expr({
+                exprContext: exprContext, 
+                value: value1,
+                locations: [location1], 
+                field: field,
+                display: display,
+                operator: range.value &#x3D;&#x3D;&#x3D; ExprRange.gteLt || range.value &#x3D;&#x3D;&#x3D; ExprRange.gteLte ? ExprOperator.gte : ExprOperator.gt
+            }) : null;
+            let expr2 &#x3D; !Utils.eqNC(value2, &quot;*&quot;) ? new Expr({
+                exprContext: exprContext, 
+                value: value2,
+                locations: [location2],
+                field: field,
+                display: display,
+                operator: range.value &#x3D;&#x3D;&#x3D; ExprRange.gteLte || range.value &#x3D;&#x3D; ExprRange.gtLte ? ExprOperator.lte : ExprOperator.lt
+            }) : undefined;
+            if (!expr1 &amp;&amp; !expr2) {
+                return undefined;
+            }
+            if (!(!!expr1 &amp;&amp; !!expr2)) return !!expr1 ? expr1 : expr2;
+            return new Expr({
+                exprContext: exprContext,
+                op1: expr1, 
+                and: true, 
+                op2: expr2,
+                display: display
+            });
+        }
+        return new Expr({
+            exprContext: exprContext, 
+            values: values.value,
+            locations: locations.value,
+            field: field,
+            display: display, 
+            operator: operator.value
+        });
+    }
+    
+    private static resolveField(exprContext: ExprContext, field: string | null | undefined): string {
+        if (Utils.isString(field)) {
+            return exprContext.appService.resolveColumnName(field);
+        }
+        return &quot;&quot;;
+    }
+
+    private get resolvedField(): string {
+        return Expr.resolveField(this.exprContext, this.field);
+    }
+
+    private static getColumn(exprContext: ExprContext, field: string): CCColumn {
+        let column &#x3D; exprContext.appService.getColumn(field);
+        if (column) {
+            return column;
+        }
+        column &#x3D; Expr.implicitColumns[Utils.toLowerCase(field)];
+        return column;
+    }
+
+    /**
+     * Return the {@link CCColumn} corresponding to this expression
+     */
+    get column(): CCColumn {
+        return Expr.getColumn(this.exprContext, this.resolvedField);
+    }
+
+    private static getIsStructuredField(exprContext: ExprContext, field: string): boolean {
+        if (Utils.isEmpty(field)) {
+            return false;
+        }
+        if (exprContext.disallowFulltext) {
+            return true;
+        }
+        else {
+            if (field[0] &#x3D;&#x3D;&#x3D; &quot;:&quot;) {
+                return false; // :: &#x3D;&gt; take partname over column
+            }
+            if (Utils.eqNCN(field, &quot;exists&quot;, &quot;missing&quot;)) {
+                return true;
+            }
+            return !!Expr.getColumn(exprContext, field);
+        }
+    }
+    
+    /**
+     * Return &#x60;true&#x60; if the expression has a non-fulltext field. In this case the expression will be a leaf node
+     */
+    get isStructuredField(): boolean {
+        if (!this.isLeaf) {
+            return false;
+        }
+        return Expr.getIsStructuredField(this.exprContext, this.resolvedField);
+    }
+
+    /**
+     * Return &#x60;true&#x60; if the expression only contains non-fulltext fields
+     */
+    public get isStructured(): boolean {
+        if (this.mergedStructured) {
+            return true;
+        }
+        if (this.isLeaf) {
+            return this.isStructuredField;
+        }
+        if (!this.operands) {
+            return false;
+        }
+        for (const operand of this.operands) {
+            if (!operand.isStructured) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Return &#x60;true&#x60; if the expression and its ancestors do not have &#x60;not&#x60; set to &#x60;true&#x60;
+     */
+    public get isPositive(): boolean {
+        let positive &#x3D; true;
+        let current: Expr &#x3D; this;
+        while (current !&#x3D; null) {
+            positive &#x3D; positive &amp;&amp; !current.not;
+            current &#x3D; current.parent;
+        }
+        return positive;
+    }
+
+    /**
+     * Return an &#x60;ExprValueLocation&#x60; object for the passed text. Leading and trailing
+     * whitespace is excluded
+     */
+    static getValueAndLocation(text: string): ExprValueLocation {
+        let start &#x3D; 0;
+        let length &#x3D; text.length;
+        let value1 &#x3D; Utils.trimStart(text);
+        start +&#x3D; length - value1.length;
+        length -&#x3D; length - value1.length;
+        let value2 &#x3D; Utils.trimEnd(value1);
+        length -&#x3D; length - value2.length;
+        return {
+            value: value2,
+            start: start,
+            length: length
+        };
+    }
+            
+    private static parseValue(exprContext: ExprContext, text: string, field: string, allowEmptyValue: boolean, values: IRef&lt;string[] | undefined&gt;, locations: IRef&lt;ExprLocation[] | undefined&gt;, operator: IRef&lt;ExprOperator&gt;, range: IRef&lt;ExprRange&gt;) {
+        if (Utils.isEmpty(text) &amp;&amp; !allowEmptyValue) {
+            return;
+        }
+        const first &#x3D; text[0];
+        const last &#x3D; text[text.length - 1];
+        let vl: ExprValueLocation;
+        if (&quot;[{&quot;.includes(first) &amp;&amp; &quot;]}&quot;.includes(last)) {
+            text &#x3D; text.substr(1, text.length - 2);
+            let sepLen &#x3D; 4;
+            let sep &#x3D; text.indexOf(&quot; TO &quot;);
+            if (sep &#x3D;&#x3D;&#x3D; -1) {
+                sepLen &#x3D; 2;
+                sep &#x3D; text.indexOf(&quot;..&quot;);
+            }
+            if (sep &#x3D;&#x3D;&#x3D; -1) {
+                const vls &#x3D; ExprParser.valuesAndLocationsFromText(text, &#x27;,&#x27;);
+                values.value &#x3D; [];
+                locations.value &#x3D; [];
+                vls.forEach(vl1 &#x3D;&gt; {
+                    /*tslint:disable-next-line*/
+                    values.value!.push(vl1.value);
+                    /*tslint:disable-next-line*/
+                    locations.value!.push({start: 1 + vl1.start, length: vl1.length});
+                });
+                operator.value &#x3D; ExprOperator.in;
+                return;
+            }
+            vl &#x3D; Expr.getValueAndLocation(text.substr(0, sep));
+            values.value &#x3D; [vl.value];
+            locations.value &#x3D; [{start: 1 + vl.start, length: vl.length}];
+            vl &#x3D; Expr.getValueAndLocation(text.substr(sep + sepLen));
+            values.value.push(vl.value);
+            locations.value.push({start: 1 + sep + sepLen + vl.start, length: vl.length});
+            if (first &#x3D;&#x3D;&#x3D; &quot;[&quot;) {
+                range.value &#x3D; last &#x3D;&#x3D;&#x3D; &quot;]&quot; ? ExprRange.gteLte : ExprRange.gteLt;
+            }
+            else { // &#x27;{&#x27;
+                range.value &#x3D; last &#x3D;&#x3D;&#x3D; &quot;}&quot; ? ExprRange.gtLt : ExprRange.gtLte;
+            }
+            return;
+        }
+        vl &#x3D; {
+            value: text,
+            start: 0,
+            length: text.length
+        };
+        if (text.startsWith(&quot;&#x3D;&quot;)) {
+            operator.value &#x3D; ExprOperator.eq;
+            vl &#x3D; Expr.getValueAndLocation(text.substr(1));
+            vl.start +&#x3D; 1;
+        }
+        else if (text.startsWith(&quot;&gt;&#x3D;&quot;)) {
+            operator.value &#x3D; ExprOperator.gte;
+            vl &#x3D; Expr.getValueAndLocation(text.substr(2));
+            vl.start +&#x3D; 2;
+        }
+        else if (text.startsWith(&quot;&gt;&quot;)) {
+            operator.value &#x3D; ExprOperator.gt;
+            vl &#x3D; Expr.getValueAndLocation(text.substr(1));
+            vl.start +&#x3D; 1;
+        }
+        else if (text.startsWith(&quot;&lt;&#x3D;&quot;)) {
+            operator.value &#x3D; ExprOperator.lte;
+            vl &#x3D; Expr.getValueAndLocation(text.substr(2));
+            vl.start +&#x3D; 2;
+        }
+        else if (text.startsWith(&quot;&lt;&gt;&quot;)) {
+            operator.value &#x3D; ExprOperator.neq;
+            vl &#x3D; Expr.getValueAndLocation(text.substr(2));
+            vl.start +&#x3D; 2;
+        }
+        else if (text.startsWith(&quot;&lt;&quot;)) {
+            operator.value &#x3D; ExprOperator.lt;
+            vl &#x3D; Expr.getValueAndLocation(text.substr(1));
+            vl.start +&#x3D; 1;
+        }
+        else if (text.startsWith(&quot;~&quot;)) {
+            operator.value &#x3D; ExprOperator.regex;
+            vl &#x3D; Expr.getValueAndLocation(text.substr(1));
+            vl.start +&#x3D; 1;
+        }
+        else if (text.length &gt; 1 &amp;&amp; text.startsWith(&quot;/&quot;) &amp;&amp; text.endsWith(&quot;/&quot;)) {
+            operator.value &#x3D; ExprOperator.regex;
+            vl.value &#x3D; text.substr(1, text.length - 2);
+            vl.start &#x3D; 1;
+            vl.length &#x3D; vl.value.length;
+        }
+        if (text.startsWith(&quot;\&quot;&quot;) &amp;&amp; text.endsWith(&quot;\&quot;&quot;)) {
+            vl.value &#x3D; text.substr(1, text.length - 2);
+            vl.start &#x3D; 1;
+            vl.length &#x3D; vl.value.length;
+        }
+        values.value &#x3D; [vl.value];
+        locations.value &#x3D; [{start: vl.start, length: vl.length}];
+    }
+    
+    private static getOperatorText(operator: ExprOperator): string {
+        switch (operator) {
+            case ExprOperator.eq: return &quot;&#x3D;&quot;;
+            case ExprOperator.gt: return &quot;&gt;&quot;;
+            case ExprOperator.gte: return &quot;&gt;&#x3D;&quot;;
+            case ExprOperator.lt: return &quot;&lt;&quot;;
+            case ExprOperator.lte: return &quot;&lt;&#x3D;&quot;;
+            case ExprOperator.neq: return &quot;&lt;&gt;&quot;;
+            case ExprOperator.regex: return &quot;REGEXP&quot;;
+            case ExprOperator.like: return &quot;LIKE&quot;;
+            case ExprOperator.contains: return &quot;CONTAINS&quot;;
+            case ExprOperator.in: return &quot;IN&quot;;
+            case ExprOperator.between: return &quot;BETWEEN&quot;;
+            default: return &quot;&#x3D;&quot;;
+        }
+    }
+
+    /**
+     * Find the first &#x60;ExprValueInfo&#x60; object from a starting position in this expression
+     *
+     * @param start The position at which to start the search
+     */
+    findValue(start: number): ExprValueInfo | undefined {
+        if (this.isLeaf) {
+            if (start &gt;&#x3D; this.start &amp;&amp; start &lt;&#x3D; this.start + this.length) {
+                if (!this.isStructured) {
+                    return {
+                        /*tslint:disable-next-line*/
+                        value: this.value!,
+                        /*tslint:disable-next-line*/
+                        field: this.field!,
+                        start: this.start,
+                        length: this.length
+                    };
+                }
+                else if (!!this.locations &amp;&amp; this.values &amp;&amp; this.values.length &#x3D;&#x3D;&#x3D; this.locations.length) {
+                    for (let i &#x3D; 0, ic &#x3D; this.values.length; i &lt; ic; i++) {
+                        const value &#x3D; this.values[i];
+                        const location &#x3D; this.locations[i];
+                        if (start &gt;&#x3D; this.start + location.start &amp;&amp; start &lt;&#x3D; this.start + location.start + location.length) {
+                            return {
+                                value,
+                                /*tslint:disable-next-line*/
+                                field: this.field!,
+                                start: this.start + location.start,
+                                length: location.length
+                            };
+                        }
+                    }
+                }
+            }
+        }
+        else if (!!this.operands) {
+            for (const expr of this.operands) {
+                const value &#x3D; expr.findValue(start);
+                if (value) {
+                    return value;
+                }
+            }
+        }
+        return undefined;
+    }
+
+    /**
+     * Combine two expressions into a single expression. The second expression will be added to
+     * the first expression and the first expression returned if the first expression is non-leaf
+     * and is an &#x60;AND&#x60; expression and not negated. Otherwise, a new &#x60;AND&#x60; expression will be created
+     * to which both expressions are added as operands.
+     */
+    static combine(expr1: Expr, expr2: Expr): Expr {
+        if (!expr1) {
+            return expr2;
+        }
+        if (!expr2) {
+            return expr1;
+        }
+        if (!expr1.isLeaf &amp;&amp; expr1.and &amp;&amp; !expr1.not) {
+            if (expr1.isLeaf || !expr2.and || expr2.not) {
+                expr1.addOperand(expr2);
+            }
+            else {
+                for (let expr3 of expr2.operands) {
+                    expr1.addOperand(expr3);
+                }
+            }
+            return expr1;
+        }
+        return new Expr({
+            exprContext: expr1.exprContext,
+            op1: expr1, 
+            and: true, 
+            op2: expr2
+        });
+    }
+
+    private shouldDisplayField(inner: boolean): boolean {
+        if (this.isStructured) {
+            return !!this.field &amp;&amp; (!inner || (this.parent &amp;&amp; !Utils.eqNC(this.field, this.parent.field || &quot;&quot;)));
+        }
+        else {
+            return inner;
+        }
+    }
+
+    private getOperatorString(): string {
+        if (this.operator &#x3D;&#x3D;&#x3D; ExprOperator.none || this.operator &#x3D;&#x3D;&#x3D; ExprOperator.eq) {
+            return &quot;&quot;;
+        }
+        return Expr.getOperatorText(this.operator);
+    }
+
+    private escapeValue(value: string | null | undefined): string {
+        if (!!value &amp;&amp; (AppServiceHelpers.isString(this.column) || AppServiceHelpers.isCsv(this.column))) {
+            return ExprParser.escape(value);
+        }
+        return &quot;&quot;;
+    }
+
+    private getValueString(): string {
+        if (this.operator &#x3D;&#x3D;&#x3D; ExprOperator.between &amp;&amp; this.values &amp;&amp; this.values.length &#x3D;&#x3D;&#x3D; 2) {
+            return &#x60;[${this.escapeValue(this.values[0])}..${this.escapeValue(this.values[1])}]&#x60;;
+        }
+        if (this.values &amp;&amp; this.values.length &gt; 1) {
+            let sb: string[] &#x3D; [];
+            for (let value of this.values) {
+                if (sb.length &gt; 0) {
+                    sb.push(&quot;, &quot;);
+                }
+                sb.push(this.escapeValue(value));
+            }
+            sb.unshift(&quot;[&quot;);
+            sb.push(&quot;]&quot;);
+            return sb.join(&quot;&quot;); 
+        }
+        return this.escapeValue(this.value);
+    }
+
+    private addFieldToString(sb: string[], inner: boolean): boolean {
+        let added &#x3D; false;
+        if (this.shouldDisplayField(inner)) {
+            sb.push(this.field || &quot;text&quot;);
+            added &#x3D; true;
+        }
+        if (this.display) {
+            sb.push(ExprParser.escape(this.display));
+            added &#x3D; true;
+        }
+        if (added) {
+            sb.push(&quot;:&quot;);
+        }
+        return added;
+    }
+
+    private _toString(withFields: boolean, inner: boolean): string {
+        const sb: string[] &#x3D; [];
+        if (this.isLeaf) {
+            if (this.not) {
+                sb.push(&quot;NOT &quot;);
+            }
+            if (withFields) {
+                this.addFieldToString(sb, inner);
+            }
+            sb.push(this.getOperatorString());
+            sb.push(this.getValueString());
+        }
+        else {
+            if (!this.operands) {
+                return &quot;&quot;;
+            }
+            if (this.not) { 
+                sb.push(&quot;NOT &quot;);
+            }
+            let bracketed &#x3D; inner;
+            if (this.addFieldToString(sb, inner)) {
+                bracketed &#x3D; true;
+            }
+            if (bracketed) {
+                sb.push(&quot;(&quot;);
+            }
+            let first &#x3D; true;
+            for (const operand of this.operands) {
+                if (!first) {
+                    if (this.and) {
+                        sb.push(&quot; AND &quot;);
+                    }
+                    else {
+                        sb.push(&quot; OR &quot;);
+                    }
+                }
+                first &#x3D; false;
+                sb.push(operand._toString(withFields, true));
+            }
+            if (bracketed) {
+                sb.push(&quot;)&quot;);
+            }
+        }
+        return sb.join(&quot;&quot;);
+    }
+
+    /**
+     * Return a string representation of this expression
+     *
+     * @param withFields If &#x60;true&#x60;, include field names
+     */
+    toString(withFields &#x3D; true): string {
+        return this._toString(withFields, false);
+    }
+
+    private addDisplay(options: ExprMessageOptions, ctxt: ExprMessageCtxt, display: string) {
+        this._addValue(options, ctxt, this.value || &quot;&quot;, display);
+    }
+
+    private encodeHTML(text: string, options: ExprMessageOptions): string {
+        if (options &amp;&amp; options.asHTML) {
+            return Utils.encodeHTML(text);
+        }
+        else {
+            return text;
+        }
+    }
+
+    private _addValue(options: ExprMessageOptions, ctxt: ExprMessageCtxt, value: string, display?: string) {
+        if (options.asHTML) {
+            ctxt.message.push(&#x60;&lt;span class&#x3D;&quot;sq-value&quot;&gt;&#x60;);
+        }
+        const column &#x3D; this.exprContext.appService.getColumn(this.field);
+        const valueId &#x3D; &#x60;value${ctxt.valueIndex++}&#x60;;
+        let _value: FieldValue &#x3D; value;
+        if (display) {
+            _value &#x3D; this.encodeHTML(ExprParser.unescape(display), options);
+        }
+        else if (column &amp;&amp; AppServiceHelpers.isNumber(column) &amp;&amp; Utils.testFloat(value)) {
+            _value &#x3D; +value;
+        }
+        else if (column &amp;&amp; AppServiceHelpers.isDate(column)) {
+            _value &#x3D; Utils.fromSysDateStr(value) || value;
+        }
+        else if (column &amp;&amp; AppServiceHelpers.isBoolean(column)) {
+            _value &#x3D; Utils.isTrue(value);
+        }
+        else if (Utils.isString(_value)) {
+            _value &#x3D; this.encodeHTML(_value, options);
+        }
+        ctxt.message.push(&#x60;{${valueId}}&#x60;);
+        ctxt.values[valueId] &#x3D; column ? this.exprContext.formatService.formatFieldValue(_value, column) : _value;
+        if (options.asHTML) {
+            ctxt.message.push(&#x60;&lt;/span&gt;&#x60;);
+        }
+    }
+
+    private addValue(options: ExprMessageOptions, ctxt: ExprMessageCtxt) {
+        if (this.values) {
+            if (this.operator &#x3D;&#x3D;&#x3D; ExprOperator.between &amp;&amp; this.values.length &#x3D;&#x3D;&#x3D; 2) {
+                this._addValue(options, ctxt, this.values[0]);
+                ctxt.message.push(&quot; &quot;);
+                this.addOperator(&quot;AND&quot;, options, ctxt);
+                ctxt.message.push(&quot; &quot;);
+                this._addValue(options, ctxt, this.values[1]);
+            }
+            else if (this.values.length &gt; 1) {
+                let first &#x3D; true;
+                for (let value of this.values) {
+                    ctxt.message.push(first ? &quot;[&quot; : &quot;, &quot;);
+                    first &#x3D; false;
+                    this._addValue(options, ctxt, value);
+                }
+                ctxt.message.push(&quot;]&quot;);
+            }
+            else {
+                this._addValue(options, ctxt, this.values[0]);
+            }
+        }
+    }
+
+    private addText(options: ExprMessageOptions, ctxt: ExprMessageCtxt, text: string) {
+        const valueId &#x3D; &#x60;value${ctxt.valueIndex++}&#x60;;
+        const message &#x3D; &#x60;{${valueId}}&#x60;;
+        ctxt.message.push(message);
+        ctxt.values[valueId] &#x3D; this.encodeHTML(text, options);
+    }
+
+    private addFieldLabel(options: ExprMessageOptions, ctxt: ExprMessageCtxt) {
+        const displayObj &#x3D; this.displayObj;
+        if (displayObj &amp;&amp; displayObj.label) {
+            this.addText(options, ctxt, displayObj.label);
+        }
+        else if (this.field) {
+            const label &#x3D; this.exprContext.appService.getLabel(this.field);
+            this.addText(options, ctxt, label);
+        }
+        else {
+            if (!this.isStructured) {
+                const label &#x3D; this.exprContext.appService.getLabel(&quot;text&quot;);
+                this.addText(options, ctxt, label);
+            }
+            else {
+                const fields &#x3D; this.getFields();
+                fields.forEach((field, index) &#x3D;&gt; {
+                    if (index !&#x3D;&#x3D; 0) {
+                        this.addText(options, ctxt, &quot;/&quot;);
+                    }
+                    const label &#x3D; this.exprContext.appService.getLabel(field);
+                    this.addText(options, ctxt, label);
+                });
+            }
+        }
+    }
+
+    private addField(options: ExprMessageOptions, ctxt: ExprMessageCtxt) {
+        if (options.asHTML) {
+            ctxt.message.push(&#x60;&lt;span class&#x3D;&quot;sq-field&quot;&gt;&#x60;);
+        }
+        this.addFieldLabel(options, ctxt);
+        if (options.asHTML) {
+            ctxt.message.push(&#x60;&lt;/span&gt;&#x60;);
+            ctxt.message.push(&#x60;&lt;span class&#x3D;&quot;sq-separator&quot;&gt;&#x60;);
+        }
+        this.addText(options, ctxt, &quot;msg#system.fieldSeparator&quot;);
+        if (options.asHTML) {
+            ctxt.message.push(&#x60;&lt;/span&gt;&#x60;);
+        }
+    }
+
+    private addOperator(operator: string, options: ExprMessageOptions, ctxt: ExprMessageCtxt) {
+        if (!operator) {
+            return;
+        }
+        if (options.asHTML) {
+            ctxt.message.push(&#x60;&lt;span class&#x3D;&quot;sq-operator&quot;&gt;&#x60;);
+        }
+        ctxt.message.push(this.encodeHTML(operator, options));
+        if (options.asHTML) {
+            ctxt.message.push(&#x60;&lt;/span&gt;&#x60;);
+        }
+    }
+
+    private _toMessage(ctxt: ExprMessageCtxt, options?: ExprMessageOptions): ExprMessage {
+        const inner &#x3D; ctxt.inner;
+        ctxt.inner &#x3D; true;
+        if (!options) {
+            options &#x3D; {};
+        }
+        if (Utils.isUndefined(options.useDisplay)) {
+            options.useDisplay &#x3D; true;
+        }
+
+        const displayObj &#x3D; this.displayObj;
+        const display &#x3D; (displayObj ? displayObj.display : undefined) || this.display;
+        const showNot &#x3D; this.not &amp;&amp; (inner || !options.hideOuterNot);
+        const showField &#x3D; (options.withFields || inner) &amp;&amp; this.shouldDisplayField(inner);
+        if (options.useDisplay &amp;&amp; !!display) {
+            if (showNot) {
+                this.addOperator(&quot;NOT&quot;, options, ctxt);
+                ctxt.message.push(&quot; &quot;);
+            }
+            if (showField) {
+                this.addField(options, ctxt);
+            }
+            this.addDisplay(options, ctxt, display);
+        }
+        else if (this.isLeaf) {
+            if (showNot) {
+                this.addOperator(&quot;NOT&quot;, options, ctxt);
+                ctxt.message.push(&quot; &quot;);
+            }
+            if (showField) {
+                this.addField(options, ctxt);
+            }
+            const operator &#x3D; this.getOperatorString();
+            if (operator) {
+                this.addOperator(operator, options, ctxt);
+                ctxt.message.push(&quot; &quot;);
+            }
+            this.addValue(options, ctxt);
+        }
+        else {
+            if (!this.operands) {
+                return {message: &quot;&quot;};
+            }
+            if (showNot) {
+                this.addOperator(&quot;NOT&quot;, options, ctxt);
+                ctxt.message.push(&quot; &quot;);
+            }
+            let bracketed &#x3D; inner;
+            if (showField) {
+                this.addField(options, ctxt);
+                bracketed &#x3D; true;
+            }
+            if (bracketed) {
+                ctxt.message.push(&quot;(&quot;);
+            }
+            let first &#x3D; true;
+            for (const operand of this.operands) {
+                if (!first) {
+                    if (this.and) {
+                        ctxt.message.push(&quot; &quot;);
+                        this.addOperator(&quot;AND&quot;, options, ctxt);
+                        ctxt.message.push(&quot; &quot;);
+                    }
+                    else {
+                        ctxt.message.push(&quot; &quot;);
+                        this.addOperator(&quot;OR&quot;, options, ctxt);
+                        ctxt.message.push(&quot; &quot;);
+                    }
+                }
+                first &#x3D; false;
+                operand._toMessage(ctxt, options);
+            }
+            if (bracketed) {
+                ctxt.message.push(&quot;)&quot;);
+            }
+        }
+        if (inner) {
+            return {message: &quot;&quot;};
+        }
+        return {
+            message: ctxt.message.join(&quot;&quot;),
+            values: ctxt.values
+        };
+    }
+
+    /**
+     * Return an &#x60;ExprMessage&#x60; for the expression which can be used with [IntlService.formatMessage]{@link IntlService#formatMessage}
+     * for display purposes
+     */
+    toMessage(options?: ExprMessageOptions): ExprMessage {
+        return this._toMessage({
+            inner: false,
+            message: [&quot;txt#&quot;],
+            values: {},
+            valueIndex: 0
+        }, options);
+    }
+
+    private static matchNode(context: ExprContext, expr1: Expr, expr2: Expr): boolean {
+        if (expr1.isLeaf !&#x3D;&#x3D; expr2.isLeaf) {
+            return false;
+        }
+        if (expr1.isLeaf) {
+            if (expr1.isStructured !&#x3D;&#x3D; expr2.isStructured) {
+                return false;
+            }
+            if (expr1.not !&#x3D;&#x3D; expr2.not) {
+                return false;
+            }
+            let field1 &#x3D; context.appService.resolveColumnAlias(expr1.field);
+            let field2 &#x3D; context.appService.resolveColumnAlias(expr2.field);
+            if (field1 !&#x3D;&#x3D; field2) {
+                return false;
+            }
+            let operator1 &#x3D; expr1.operator &#x3D;&#x3D;&#x3D; ExprOperator.none ? ExprOperator.eq : expr1.operator;
+            let operator2 &#x3D; expr2.operator &#x3D;&#x3D;&#x3D; ExprOperator.none ? ExprOperator.eq : expr2.operator;
+            if (operator1 !&#x3D;&#x3D; operator2) {
+                return false;
+            }
+        }
+        if (!expr1.isLeaf) {
+            if (expr1.and !&#x3D;&#x3D; expr2.and) {
+                return false;
+            }
+            // All of the structured and non-structured operands in expr2 must be in expr1 so check that there are at least enough
+            // operands available. (The actual matching of the contents of the operand nodes is done in the recursive calls to MatchNode)
+            if (!expr1.operands !&#x3D;&#x3D; !expr2.operands) {
+                return false;
+            }
+            let expr1StructuredCount &#x3D; 0, expr1UnstructuredCount &#x3D; 0, expr2StructuredCount &#x3D; 0, expr2UnstructuredCount &#x3D; 0;
+            expr1.operands.forEach((operand) &#x3D;&gt; {if (operand.isStructured) {expr1StructuredCount++} else {expr1UnstructuredCount++}});
+            expr2.operands.forEach((operand) &#x3D;&gt; {if (operand.isStructured) {expr2StructuredCount++} else {expr2UnstructuredCount++}});
+            if ((expr2StructuredCount &gt; expr1StructuredCount) || (expr2UnstructuredCount &gt; expr1UnstructuredCount)) {
+                return false;
+            }
+        }
+        let values1Length &#x3D; expr1.values ? expr1.values.length : 0;
+        let values2Length &#x3D; expr2.values ? expr2.values.length : 0;
+        if (values1Length !&#x3D;&#x3D; values2Length) {
+            return false;
+        }
+        if (values1Length &amp;&amp; expr1.values &amp;&amp; expr2.values) {
+            for (let value1 of expr1.values) {
+                let found &#x3D; false;
+                for (let value2 of expr2.values) {
+                    if (Utils.eqNC(value1, value2)) {
+                        found &#x3D; true;
+                    }
+                }
+                if (!found) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Return &#x60;true&#x60; if this expression matches the passed one
+     */
+    matchNode(expr: Expr): boolean {
+        return Expr.matchNode(this.exprContext, this, expr);
+    }
+
+    /**
+     * Returns the matching expression or sub-expression in this expression with the passed one.
+     *
+     * @param expr The expression to match
+     * @param filter An option filter function called on first level candidate sub-expressions
+     * before matching within them
+     */
+    find(expr: Expr, filter?: (expr: Expr) &#x3D;&gt; boolean): Expr | null {
+        if (this.matchNode(expr)) {
+            if (!this.isLeaf &amp;&amp; this.operands) {
+                for (const child1 of expr.operands) {
+                    let found &#x3D; false;
+                    for (const child2 of this.operands) {
+                        if (filter &amp;&amp; filter(child2)) {
+                            continue;
+                        }
+                        if (child2.find(child1)) {
+                            found &#x3D; true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        return null;
+                    }
+                }
+            }
+            return this;
+        }
+        else {
+            if (!this.isLeaf &amp;&amp; this.operands) {
+                for (const child of this.operands) {
+                    if (filter &amp;&amp; filter(child)) {
+                        continue;
+                    }
+                    if (child.find(expr)) {
+                        return child;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Perform the passed &#x60;action&#x60; on this expression and any descendant operands
+     * 
+     * @param action The action to perform
+     */
+    forEach(action: (expr: Expr) &#x3D;&gt; void) {
+        action(this);
+        if (this.operands) {
+            for (const operand of this.operands) {
+                operand.forEach(action);
+            }
+        }
+    }
+
+    /**
+     * Execute the callback function on this node and any descendants until the callback returns a truthy value
+     * in which case immediately return &#x60;true&#x60;. Otherwise return &#x60;false&#x60;.
+     */
+    some(callback: (expr: Expr) &#x3D;&gt; boolean): boolean {
+        if (callback(this)) {
+            return true;
+        }
+        if (this.operands) {
+            for (const operand of this.operands) {
+                if (operand.some(callback)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Execute the callback function on this node and any descendants until the callback returns a falsy value
+     * in which case, immediately return &#x60;false&#x60;. Otherwise return &#x60;true&#x60;.
+     */
+    every(callback: (expr: Expr) &#x3D;&gt; boolean): boolean {
+        if (!callback(this)) {
+            return false;
+        }
+        if (this.operands) {
+            for (const operand of this.operands) {
+                if (!operand.every(callback)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Return an array of all fields used in this expression
+     */
+    getFields(): string[] {
+        const fields: string[] &#x3D; [];
+        this.forEach((expr) &#x3D;&gt; {
+            const field &#x3D; this.exprContext.appService.resolveColumnAlias(expr.field);
+            if (field) {
+                if (!fields.find((field1) &#x3D;&gt; Utils.eqNC(field, field1))) {
+                    fields.push(field);
+                }
+            }
+        });
+        return fields;
+    }
+
+    /**
+     * Return an array of all values used in this expression that pertain to the passed field and where the associated &#x60;isPositive&#x60;
+     * field matches the passed &#x60;positive&#x60; parameter
+     *
+     * @param field The field for which values are to be returned
+     * @param positive The value to test against &#x60;isPositive&#x60;
+     */
+    getValues(field: string, positive &#x3D; true): string[] {
+        const values: string[] &#x3D; [];
+        const column &#x3D; this.exprContext.appService.resolveColumnName(field);
+        this.forEach((expr) &#x3D;&gt; {
+            if (column) {
+                const column1 &#x3D; this.exprContext.appService.resolveColumnName(expr.field);
+                if (!Utils.eqNC(column, column1)) {
+                    return;
+                }
+            }
+            if (expr.isLeaf &amp;&amp; expr.isPositive &#x3D;&#x3D;&#x3D; positive &amp;&amp; expr.values) {
+                values.push(...expr.values);
+            }
+        });
+        return values;
+    }
+
+    private getDataValue(data: ExprEvaluationContext, field?: string, defaultScope?: string): any {
+        if (!data) {
+            return undefined;
+        }
+        const fields &#x3D; Utils.split(field || &quot;&quot;, &quot;.&quot;);
+        if (fields.length &gt;&#x3D; 1 &amp;&amp; Utils.isUndefined(data[fields[0]]) &amp;&amp; !!defaultScope) {
+            // By default, look on the &quot;defaultScope&quot; sub-object
+            fields.unshift(...Utils.split(defaultScope, &quot;.&quot;));
+        }
+        let value: any &#x3D; data;
+        for (const _field of fields) {
+            if (!value) {
+                break;
+            }
+            value &#x3D; value[_field];
+        }
+        return value;
+    }
+
+    private getWildcardRegExp(value: string): RegExp | undefined {
+        if (value) {
+            let regExp &#x3D; this.evaluationRegExps[value];
+            if (!Utils.isUndefined(regExp)) {
+                return regExp;
+            }
+            let haveWildcards &#x3D; false;
+            let escaping &#x3D; false;
+            const sb: string[] &#x3D; [];
+            for (const ch of value) {
+                switch (ch) {
+                    // Handle wildcards and wildcard escaping
+                    case &quot;\\&quot;:
+                        if (escaping) {
+                            sb.push(&quot;\\\\&quot;);
+                            escaping &#x3D; false;
+                        }
+                        else {
+                            escaping &#x3D; true;
+                        }
+                        break;
+                    case &quot;*&quot;:
+                        if (escaping) {
+                            sb.push(&quot;\\&quot;);
+                            sb.push(ch);
+                            escaping &#x3D; false;
+                        }
+                        else {
+                            haveWildcards &#x3D; true;
+                            sb.push(&quot;.*?&quot;);
+                        }
+                        break;
+                    case &quot;?&quot;:
+                        if (escaping) {
+                            sb.push(&quot;\\&quot;);
+                            sb.push(ch);
+                            escaping &#x3D; false;
+                        }
+                        else {
+                            haveWildcards &#x3D; true;
+                            sb.push(&quot;.&quot;);
+                        }
+                        break;
+                    // Escape other regexp special characters
+                    case &quot;-&quot;:
+                    case &quot;/&quot;:
+                    case &quot;^&quot;:
+                    case &quot;$&quot;:
+                    case &quot;+&quot;:
+                    case &quot;.&quot;:
+                    case &quot;(&quot;:
+                    case &quot;)&quot;:
+                    case &quot;|&quot;:
+                    case &quot;[&quot;:
+                    case &quot;]&quot;:
+                    case &quot;{&quot;:
+                    case &quot;}&quot;:
+                        sb.push(&quot;\\&quot;);
+                        sb.push(ch);
+                        escaping &#x3D; false;
+                        break;
+                    // All other characters just emit
+                    default:
+                        sb.push(ch);
+                        escaping &#x3D; false;
+                        break;
+                }
+            }
+            if (haveWildcards) {
+                regExp &#x3D; new RegExp(&quot;^&quot; + sb.join(&quot;&quot;) + &quot;$&quot;, &quot;i&quot;);
+                this.evaluationRegExps[value] &#x3D; regExp;
+                return regExp;
+            }
+            else {
+                this.evaluationRegExps[value] &#x3D; undefined;
+            }
+        }
+        return undefined;
+    }
+
+    private compare(value: string | string[] | undefined, dataValue: any, equality?: boolean): number {
+        if (!dataValue || (Utils.isArray(dataValue) &amp;&amp; dataValue.length &#x3D;&#x3D;&#x3D; 0)) {
+            return -1;
+        }
+        const column &#x3D; Expr.getColumn(this.exprContext, this.field || &quot;&quot;);
+        if (Utils.isArray(dataValue) || Utils.isArray(value)) {
+            // &quot;in&quot; / &quot;contains&quot;
+            if (!Utils.isArray(dataValue)) {
+                dataValue &#x3D; [dataValue];
+            }
+            if (Utils.isArray(value)) {
+                if (value.length &#x3D;&#x3D;&#x3D; 0) {
+                    return -1;
+                }
+            }
+            else {
+                value &#x3D; [value + &quot;&quot;];
+            }
+            // At least one value in the value array must match a value in the dataValue array
+            for (const value1 of value) {
+                for (const dataValue1 of dataValue) {
+                    if (this.compare(value1, dataValue1, true) &#x3D;&#x3D;&#x3D; 0) {
+                        return 0;
+                    }
+                }
+            }
+            return -1;
+        }
+        if (!Utils.isArray(value)) {
+            value &#x3D; value + &quot;&quot;;
+            if (Utils.isString(value)) {
+                value &#x3D; ExprParser.unescape(value);
+            }
+            if (column &amp;&amp; column.parser) {
+                value &#x3D; this.exprContext.formatService.parseValue(value, column.parser);
+            }
+            if (Utils.isNumber(dataValue)) {
+                const _value &#x3D; Utils.toNumber(value);
+                return dataValue - _value;
+            }
+            if (Utils.isDate(dataValue)) {
+                const _value &#x3D; this.exprContext.intlService.parseDate(value);
+                if (_value) {
+                    return dataValue.getTime() - _value.getTime();
+                }
+                return -1;
+            }
+            if (Utils.isBoolean(dataValue)) {
+                const _value &#x3D; Utils.isTrue(value) ? 1 : 0;
+                return (dataValue ? 1 : 0) - _value;
+            }
+            if (Utils.isString(dataValue)) {
+                dataValue &#x3D; ExprParser.unescape(dataValue);
+                if (equality) {
+                    const regExp &#x3D; this.getWildcardRegExp(value);
+                    if (regExp) {
+                        return regExp.test(dataValue) ? 0 : -1;
+                    }
+                }
+                return Utils.compare(dataValue, value);
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Evaluate this expression using &#x60;data&#x60; to provide field values. Field values
+     * can contain scopes (full stop separated components) to reference sub-objects
+     * in the data
+     *
+     * @param data The field values to be used in the evaluation
+     * @param defaultScope If a field value cannot be resolved then try to retrieve a value with this scope prepended to the field name
+     * @return The boolean result of the expression evaluation
+     */
+    evaluate(data: ExprEvaluationContext, defaultScope?: string): boolean {
+        let ret: boolean;
+        if (this.isLeaf) {
+            if (!this.isStructured) {
+                ret &#x3D; false;
+            }
+            else {
+                if (Utils.eqNC(this.field || &quot;&quot;, &quot;exists&quot;)) {
+                    const dataValue &#x3D; this.getDataValue(data, this.value, defaultScope);
+                    ret &#x3D; !!dataValue;
+                }
+                else if (Utils.eqNC(this.field || &quot;&quot;, &quot;missing&quot;)) {
+                    const dataValue &#x3D; this.getDataValue(data, this.value, defaultScope);
+                    ret &#x3D; !dataValue;
+                }
+                else {
+                    const dataValue &#x3D; this.getDataValue(data, this.field, defaultScope);
+                    switch (this.operator) {
+                        case ExprOperator.none:
+                        case ExprOperator.eq:
+                            ret &#x3D; this.compare(this.value, dataValue, true) &#x3D;&#x3D;&#x3D; 0;
+                            break;
+                        case ExprOperator.gt:
+                            ret &#x3D; this.compare(this.value, dataValue) &gt; 0;
+                            break;
+                        case ExprOperator.gte:
+                            ret &#x3D; this.compare(this.value, dataValue) &gt;&#x3D; 0;
+                            break;
+                        case ExprOperator.lt:
+                            ret &#x3D; this.compare(this.value, dataValue) &lt; 0;
+                            break;
+                        case ExprOperator.lte:
+                            ret &#x3D; this.compare(this.value, dataValue) &lt;&#x3D; 0;
+                            break;
+                        case ExprOperator.neq:
+                            ret &#x3D; this.compare(this.value, dataValue, true) !&#x3D;&#x3D; 0;
+                            break;
+                        case ExprOperator.regex: {
+                            const regExp &#x3D; new RegExp(this.value || &quot;&quot;);
+                            ret &#x3D; regExp.test(dataValue + &quot;&quot;);
+                            break;
+                        }
+                        case ExprOperator.like: // not currently generated in parse
+                            ret &#x3D; this.compare(this.value + &quot;*&quot;, dataValue, true) &#x3D;&#x3D;&#x3D; 0;
+                            break;
+                        case ExprOperator.in:
+                            ret &#x3D; this.compare(this.values, dataValue, true) &#x3D;&#x3D;&#x3D; 0;
+                            break;
+                        case ExprOperator.contains: // not currently generated in parse
+                            ret &#x3D; this.compare(this.value, dataValue, true) &#x3D;&#x3D;&#x3D; 0;
+                            break;
+                        case ExprOperator.between:
+                            ret &#x3D; !!this.values &amp;&amp;
+                                this.compare(this.values[0], dataValue) &gt;&#x3D; 0 &amp;&amp; this.compare(this.values[1], dataValue) &lt;&#x3D; 0;
+                            break;
+                    }
+                }
+            }
+        }
+        else {
+            ret &#x3D; !!this.and;
+            for (const operand of this.operands) {
+                const ret1 &#x3D; operand.evaluate(data, defaultScope);
+                if (this.and) {
+                    ret &#x3D; ret &amp;&amp; ret1;
+                    if (!ret) {
+                        break;
+                    }
+                }
+                else {
+                    ret &#x3D; ret || ret1;
+                }
+            }
+        }
+        if (this.not) {
+            ret &#x3D; !ret;
+        }
+        return ret;
+    }
+}
+
+/**
+ * @ignore
+ */
+export const enum Token {
+    invalid&#x3D;-1,
+    or&#x3D;0,
+    and&#x3D;1,
+    not&#x3D;2,
+    near&#x3D;3,
+    infixNear&#x3D;4,
+    lPar&#x3D;5,
+    rPar&#x3D;6,
+    eof&#x3D;7,
+    value&#x3D;8
+}
+
+/**
+ * @ignore
+ */
+const enum Act {
+    s,  // shift
+    r,  // reduce
+    a,  // accept
+    e1, // error : missing right parenthesis
+    e2, // error : missing operator
+    e3, // error : unbalanced right parenthesis
+    e4  // error : invalid function argument
+}
+
+/**
+ * Parsing options
+ */
+export interface ExprParserOptions {
+    /**
+     * If &#x60;true&#x60; then a fielded search expression with no value will not generate an error. This would be used
+     * when providing feedback during text entry
+     */
+    allowEmptyValues?: boolean;
+    /**
+     * If &#x60;true&#x60;, fields can contain the scoping character (&#x60;.&#x60;). This is typically used with &#x60;Expr.evaluate&#x60;
+     */
+    allowScopedFields?: boolean;
+    /**
+     * If &#x60;true&#x60; then arbitrary field names are permitted. This is typically used with &#x60;Expr.evaluate&#x60;
+     */
+    disallowFulltext?: boolean;
+}
+
+/**
+ * @ignore
+ */
+export class ExprParserOperator {
+    public static invalid: ExprParserOperator &#x3D; new ExprParserOperator(Token.invalid);
+    public static or: ExprParserOperator &#x3D; new ExprParserOperator(Token.or);
+    public static and: ExprParserOperator &#x3D; new ExprParserOperator(Token.and);
+    public static not: ExprParserOperator &#x3D; new ExprParserOperator(Token.not);
+    public static lPar: ExprParserOperator &#x3D; new ExprParserOperator(Token.lPar);
+    public static rPar: ExprParserOperator &#x3D; new ExprParserOperator(Token.rPar);
+    public static eof: ExprParserOperator &#x3D; new ExprParserOperator(Token.eof);
+
+    public tok: Token;
+    public tokValue: string;
+    public tokValuePos: number;
+    public tokValueLen: number;
+
+    constructor(tok: Token, value: string &#x3D; &quot;&quot;, valuePos: number &#x3D; -1, valueLen: number &#x3D; -1) {
+        this.tok &#x3D; tok;
+        this.tokValue &#x3D; value;
+        this.tokValuePos &#x3D; valuePos;
+        this.tokValueLen &#x3D; valueLen;
+    }
+}
+
+/**
+ * A parser for Sinequa fielded search expressions. Such expressions allow filters to be specified in fulltext and
+ * can be combined with boolean operators to build complex queries.
+ *
+ * A single fielded search clause has this form:
+ * &#x60;&#x60;&lt;fieldname&gt;[&#x60;display value&#x60;]:[:][&lt;operator&gt;]&lt;value&gt;&#x60;&#x60;
+ *
+ * A field name is either a column name or alias or a partname. In the case of a partname and column name clashing then
+ * the field is treated as a column. Two colons can be specified as the separator to denote that the field is a partname.
+ * An optional display value can follow the fieldname enclosed in backquote characters
+ *
+ * Operators are: &#x60;&#x3D;&#x60; (default), &#x60;&gt;&#x3D;&#x60;, &#x60;&gt;&#x60;, &#x60;&lt;&#x3D;&#x60;, &#x60;&lt;&#x60;, &#x60;~&#x60; (regexp)
+ * In addition, a regular expression can be specified by enclosing the value in &#x60;/&#x60; characters
+ *
+ * An inclusive range of values can be specified using a square bracket syntax: &#x60;[value1..value2]&#x60;
+ * An exclusive range of values can be specified using a curly bracket syntax: &#x60;{value1..value2}&#x60;
+ * The brackets can be mixed. For example: &#x60;age:{5..13]&#x60; expresses &#x60;13 &gt;&#x3D; age &gt; 5&#x60;.
+ *
+ * For multi-value csv fields an &#x60;IN&#x60; condition can be expressed using a comma-separated list of values enclosed in square brackets.
+ * For example: &#x60;authors:[Proust, Orwell, Dickens]&#x60;
+ *
+ * If a value contains reserved characters then it can be enclosed in backquote characters to prevent the parser interpreting them
+ * incorrectly. For example: &#x60;&#x60;code: &#x60;a:b:c&#x60; &#x60;&#x60;
+ *
+ * The parser also supports a NEAR operator to allow searching for terms close to each other. There are two forms suppported:
+ * * infix - &#x60;term1 NEAR[/n] term2&#x60; where &#x60;n&#x60; is the maximum number of words between the two terms for them to match
+ * * function - &#x60;NEAR[/n](term1, term2, term3, ...)&#x60; where &#x60;n&#x60; is &quot;window&quot; size within which all the terms must be present for them
+ * to match. The minimum useful value for n is thus equal to the number of terms passed to the operator.
+ *
+ * Fielded search expresions can be combined with the boolean operators &#x60;AND&#x60;, &#x60;OR&#x60; and &#x60;NOT&#x60; and brackets used for grouping.
+ * For example: &#x60;football (age:&gt;&#x3D;7 AND (name:smith OR name:jones))&#x60;
+ */
+export class ExprParser {
+
+    private static fieldPartnamePrefix &#x3D; &quot;@&quot;;
+    private static parsetbl: Act[][] &#x3D; [
+    /* stk  ------------- input ------------*/
+    /*		                                 INFIX                  */
+    /*		         OR	   AND	 NOT   NEAR  NEAR  (	  )	     $  */
+    /*OR */         [Act.r, Act.s, Act.s, Act.s, Act.s, Act.s, Act.r, Act.r],
+    /*AND*/         [Act.r, Act.r, Act.s, Act.s, Act.s, Act.s, Act.r, Act.r],
+    /*NOT*/         [Act.r, Act.r, Act.s, Act.s, Act.r, Act.s, Act.r, Act.r],
+    /*NEAR*/        [Act.r, Act.r, Act.s, Act.s, Act.r, Act.s, Act.r, Act.r],
+    /*INFIXNEAR*/   [Act.r, Act.r, Act.s, Act.s, Act.r, Act.s, Act.r, Act.r],
+    /*(*/           [Act.s, Act.s, Act.s, Act.s, Act.s, Act.s, Act.s, Act.e1],
+    /*)*/           [Act.r, Act.r, Act.r, Act.r, Act.r, Act.e2, Act.r, Act.r],
+    /*$*/           [Act.s, Act.s, Act.s, Act.s, Act.s, Act.s, Act.e3, Act.a]
+    ];
+
+    private exprContext: ExprContext;
+    private options: ExprParserOptions;
+    private expressions: Expr[];
+    private operators: ExprParserOperator[];
+    private fields: string[]; // pushed on &#x27;(&#x27;, popped on &#x27;)&#x27;
+    private displays: string[]; // pushed on &#x27;(&#x27;, popped on &#x27;)&#x27;
+    private op: ExprParserOperator;
+    private prevOp: ExprParserOperator;
+    private saveOp: ExprParserOperator; // for default conjunction operator 
+    private field: string;
+    private display: string;
+    private text: string;
+    private current: number;
+    private length: number;
+
+    private constructor(exprContext: ExprContext, options?: ExprParserOptions) {
+        this.exprContext &#x3D; exprContext;
+        this.options &#x3D; options || {};
+        this.exprContext.disallowFulltext &#x3D; this.options.disallowFulltext;
+        this.expressions &#x3D; [];
+        this.operators &#x3D; [];
+        this.fields &#x3D; [];
+        this.displays &#x3D; [];
+        this.text &#x3D; &quot;&quot;;
+        this.current &#x3D; 0;
+        this.length &#x3D; 0;
+        this.op &#x3D; this.prevOp &#x3D; this.saveOp &#x3D; ExprParserOperator.invalid;
+    }
+
+    /**
+     * Escape a string so that the characters in it are not processed by the fielded search expression parser.
+     * Single occurrences of the backslash character are replaced by two backslashes and backquote characters
+     * are prefixed by a backslash. Finally, the string is enclosed in backquotes.
+     *
+     * For example: &#x60;&#x60; a\&#x60;\b &#x60;&#x60; &#x3D;&gt; &#x60;&#x60; a\\\&#x60;\\b &#x60;&#x60;
+     */
+    // \ &#x3D;&gt; \\
+    // &#x60; &#x3D;&gt; \&#x60;
+    // then surround with &#x60;&#x60;
+    public static escape(value: string | undefined): string {
+        if (!value) {
+            return &quot;&#x60;&#x60;&quot;;
+        }
+        value &#x3D; String(value); // make sure we have a string
+        if (value.search(/[\\&#x60;]/) &#x3D;&#x3D;&#x3D; -1) {
+            return &quot;&#x60;&quot; + value + &quot;&#x60;&quot;;
+        }
+        let sb: string[] &#x3D; [&quot;&#x60;&quot;];
+        for (let i &#x3D; 0, ic &#x3D; value.length; i &lt; ic; i++) {
+            let ch &#x3D; value[i];
+            if (ch &#x3D;&#x3D;&#x3D; &quot;\\&quot; || ch &#x3D;&#x3D;&#x3D; &quot;&#x60;&quot;) {
+                sb.push(&quot;\\&quot;);
+            }
+            sb.push(ch);
+        }
+        sb.push(&quot;&#x60;&quot;);
+        return sb.join(&quot;&quot;);
+    }
+
+    private static isEscaped(value: string | undefined): boolean {
+        return !!value &amp;&amp; value.length &gt;&#x3D; 2 &amp;&amp; value[0] &#x3D;&#x3D;&#x3D; &quot;&#x60;&quot; &amp;&amp; value[value.length - 1] &#x3D;&#x3D;&#x3D; &quot;&#x60;&quot;;
+    }
+
+    /**
+     * Perform the reverse operation to [ExprParser.escpae]{@link ExprParser#escape}
+     */
+    // remove surrounding &#x60;&#x60;
+    // \\ &#x3D;&gt; \
+    // \&#x60; &#x3D;&gt; &#x60;
+    public static unescape(value: string): string {
+        if (!ExprParser.isEscaped(value)) {
+            return value;
+        }
+        let sb: string[] &#x3D; [];
+        for (let i &#x3D; 1, ic &#x3D; value.length - 1; i &lt; ic; i++) {
+            let ch &#x3D; value[i];
+            if (ch &#x3D;&#x3D;&#x3D; &quot;\\&quot;) {
+                if (i &gt;&#x3D; ic - 1) { // we end with a \ &#x3D;&gt; drop it
+                    continue;
+                }
+                ch &#x3D; value[++i];
+            }
+            sb.push(ch);
+        }
+        return sb.join(&quot;&quot;);
+    }
+
+    /**
+     * @ignore
+     */
+    public static unescapeList(values: string[]): string[] {
+        if (!values) {
+            return values;
+        }
+        let values1: string[] &#x3D; [];
+        for (let _i &#x3D; 0, _a &#x3D; values; _i &lt; _a.length; _i++) {
+            let value &#x3D; _a[_i];
+            values1.push(ExprParser.unescape(value));
+        }
+        return values1;
+    }
+
+    /**
+     * @ignore
+     */
+    public static valuesAndLocationsFromText(text: string, separator: string): ExprValueLocation[] {
+        if (Utils.isEmpty(text)) {
+            return [];
+        }
+        if (!text.includes(separator)) {
+            return [{value: text, start: 0, length: text.length}];
+        }
+        let values: ExprValueLocation[] &#x3D; [];
+        let length &#x3D; text.length;
+        let current &#x3D; 0;
+        let currentStart &#x3D; 0;
+        let sb: string[] &#x3D; [];
+        let value: ExprValueLocation;
+        while (true) {
+            if (current &gt;&#x3D; length) {
+                value &#x3D; Expr.getValueAndLocation(sb.join(&quot;&quot;));
+                value.start +&#x3D; currentStart;
+                if (!Utils.isEmpty(value.value)) {
+                    values.push(value);
+                }
+                break;
+            }
+            let ch &#x3D; text[current];
+            if (ch &#x3D;&#x3D;&#x3D; &quot;\\&quot;) {
+                sb.push(ch);
+                current++;
+                if (current &lt; length) {
+                    let ch1 &#x3D; text[current];
+                    if (ch1 &#x3D;&#x3D;&#x3D; &quot;\\&quot; || ch1 &#x3D;&#x3D;&#x3D; &quot;&#x60;&quot;) {
+                        sb.push(ch1);
+                        current++;
+                    }
+                }
+            }
+            else if (ch &#x3D;&#x3D;&#x3D; &quot;&#x60;&quot;) {
+                let last: IRef&lt;number&gt; &#x3D; {value: 0};
+                let s &#x3D; ExprParser.matchUntil(text, length, current, current + 1, &quot;&#x60;&quot;, last);
+                if (!!s) {
+                    sb.push(s);
+                    current &#x3D; last.value;
+                }
+                else {
+                    sb.push(ch);
+                    current++;
+                }
+            }
+            else if (ch &#x3D;&#x3D;&#x3D; separator) {
+                value &#x3D; Expr.getValueAndLocation(sb.join(&quot;&quot;));
+                value.start +&#x3D; currentStart;
+                sb.length &#x3D; 0;
+                if (!Utils.isEmpty(value.value)) {
+                    values.push(value);
+                }
+                current++;
+                currentStart &#x3D; current;
+            }
+            else {
+                sb.push(ch);
+                current++;
+            }
+        }
+        return values;
+    }
+
+    private matchKeyword(keyword: string, sbCurrentValue: string[], suffixCh?: string): boolean {
+        if (sbCurrentValue.length !&#x3D;&#x3D; 0) {
+            let currentValue &#x3D; sbCurrentValue.join(&quot;&quot;);
+            if (!!currentValue &amp;&amp; !&quot; \r\n\t&quot;.includes(currentValue[currentValue.length - 1])) {
+                return false;
+            }
+        }
+        if (Utils.isEmpty(keyword)) {
+            return false;
+        }
+        let keywordLen &#x3D; keyword.length;
+        if (this.current + keywordLen &gt; this.length) {
+            return false;
+        }
+        for (let i &#x3D; 0, ic &#x3D; keywordLen; i &lt; ic; i++) {
+            let ch &#x3D; this.text[this.current + i];
+            let kh &#x3D; keyword[i];
+            if (ch !&#x3D;&#x3D; kh) {
+                return false;
+            }
+        }
+        if (this.current + keywordLen &lt; this.length) {
+            let nch &#x3D; this.text[this.current + keywordLen];
+            if (nch !&#x3D;&#x3D; suffixCh &amp;&amp; !&quot; \r\n\t(&quot;.includes(nch)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private matchUntil(first: number, start: number, endChars: string, last: IRef&lt;number&gt;): string | undefined {
+        return ExprParser.matchUntil(this.text, this.length, first, start, endChars, last);
+    }
+
+    private static matchUntil(text: string, length: number, first: number, start: number, endChars: string, last: IRef&lt;number&gt;): string | undefined {
+        last.value &#x3D; start;
+        let found &#x3D; false;
+        let sb: string[] &#x3D; [text.substr(first, start - first)];
+        while (last.value &lt; length) {
+            let ch &#x3D; text[last.value++];
+            if (ch &#x3D;&#x3D;&#x3D; &quot;\\&quot;) {
+                sb.push(ch);
+                if (last.value &lt; length) {
+                    ch &#x3D; text[last.value++];
+                    if (ch &#x3D;&#x3D;&#x3D; &quot;\\&quot; || ch &#x3D;&#x3D;&#x3D; &quot;&#x60;&quot;) {
+                        sb.push(ch);
+                        continue;
+                    }
+                }
+            }
+            sb.push(ch);
+            if (endChars.includes(ch)) {
+                found &#x3D; true;
+                break;
+            }
+        }
+        if (!found) {
+            return undefined;
+        }
+        return sb.join(&quot;&quot;);
+    }
+    
+    private matchSimpleValue(start: number): string {
+        let first &#x3D; this.current;
+        let last &#x3D; start;
+        while (last &lt; this.length) {
+            let ch &#x3D; this.text[last];
+            if (&quot; \r\n\t)&quot;.includes(ch)) {
+                break;
+            }
+            last++;
+        }
+        if (last &#x3D;&#x3D;&#x3D; start) {
+            return &quot;&quot;;
+        }
+        return this.text.substr(first, last - first);
+    }
+
+    private getTerminators(ch: string, allowRanges: boolean): string {
+        if (ch &#x3D;&#x3D;&#x3D; &quot;\&quot;&quot;) return &quot;\&quot;&quot;;
+        if (ch &#x3D;&#x3D;&#x3D; &quot;[&quot;) return allowRanges ? &quot;]}&quot; : &quot;]&quot;;
+        if (ch &#x3D;&#x3D;&#x3D; &quot;{&quot;) return allowRanges ? &quot;}]&quot; : &quot;}&quot;;
+        if (ch &#x3D;&#x3D;&#x3D; &quot;/&quot;) return &quot;/&quot;;
+        if (ch &#x3D;&#x3D;&#x3D; &quot;(&quot;) return &quot;)&quot;;
+        if (ch &#x3D;&#x3D;&#x3D; &quot;&#x60;&quot;) return &quot;&#x60;&quot;;
+        return &quot;&quot;;
+    }
+
+    private canBeTokValue(value: string, canBeEmpty &#x3D; true) {
+        return !Utils.isEmpty(value) || (canBeEmpty &amp;&amp; this.options.allowEmptyValues &amp;&amp; !Utils.isEmpty(this.field));
+    }
+
+    private _getTokValue(value: string, canBeEmpty &#x3D; true): boolean {
+        // Current is pointing at the next non-whitepspace character after this value
+        if (value &#x3D;&#x3D;&#x3D; null) return false;
+        let pos &#x3D; this.current;
+        let len &#x3D; value.length;
+        value &#x3D; Utils.trimEnd(value);
+        pos -&#x3D; len - value.length;
+        value &#x3D; value.trim();
+        if (this.canBeTokValue(value, canBeEmpty)) {
+            this.op &#x3D; new ExprParserOperator(Token.value, value, pos - value.length, value.length);
+            return true;
+        }
+        return false;
+    }
+
+    private getTokValue(sb: string[], canBeEmpty &#x3D; true): boolean {
+        if (!sb) {
+            return false;
+        }
+        return this._getTokValue(sb.join(&quot;&quot;), canBeEmpty);
+    }
+
+    private ensureNearValue(value: string): string {
+        const defaultNearValue &#x3D; this.exprContext.appService.ccquery ? this.exprContext.appService.ccquery.defaultNearValue : 0;
+        let near &#x3D; Utils.toInt(value, defaultNearValue);
+        if (near &lt; 0) {
+            near &#x3D; defaultNearValue;
+        }
+        return near.toString();
+    }
+
+    private findDisplay(value: string): number {
+        if (!value || value.length &lt; 3) {
+            return -1;
+        }
+        if (value[value.length - 1] !&#x3D;&#x3D; &quot;&#x60;&quot;) {
+            return -1;
+        }
+        let pos &#x3D; value.length - 2;
+        while (pos !&#x3D;&#x3D; -1) {
+            pos &#x3D; value.lastIndexOf(&quot;&#x60;&quot;, pos);
+            if (pos !&#x3D;&#x3D; -1) {
+                let escapes &#x3D; 0;
+                let pos1 &#x3D; pos - 1;
+                while (pos1 &gt;&#x3D; 0) {
+                    if (value[pos1] !&#x3D;&#x3D; &quot;\\&quot;) {
+                        break;
+                    }
+                    escapes++;
+                    pos1--;
+                }
+                if (escapes % 2 &#x3D;&#x3D;&#x3D; 0) {
+                    return pos;
+                }
+                pos--;
+            }
+        }
+        return -1;
+    }
+
+    private isValidFieldName(name: string): boolean {
+        return this.options.allowScopedFields ? Utils.isValidScopedSimpleName(name) : Utils.isValidSimpleName(name);
+    }
+
+    private readToken(): string | undefined {
+        if (this.saveOp !&#x3D;&#x3D; ExprParserOperator.invalid) {
+            this.prevOp &#x3D; this.op;
+            this.op &#x3D; this.saveOp;
+            this.saveOp &#x3D; ExprParserOperator.invalid;
+            return undefined;
+        }
+        let ch;
+        this.prevOp &#x3D; this.op;
+        let nextValue: string | undefined;
+        let sbCurrentValue: string[] &#x3D; [];
+        let candidateFieldPos &#x3D; -1;
+        let fieldSpecified &#x3D; false;
+        while (true) {
+            if (this.current &gt;&#x3D; this.length) {
+                if (this.getTokValue(sbCurrentValue)) {
+                    return undefined;
+                }
+                this.op &#x3D; ExprParserOperator.eof;
+                return undefined;
+            }
+            ch &#x3D; this.text[this.current];
+            if (ch &#x3D;&#x3D;&#x3D; &quot;\\&quot;) { // \ escapes \ and &#x60;
+                sbCurrentValue.push(ch);
+                this.current++;
+                if (this.current &lt; this.length) {
+                    let ch1 &#x3D; this.text[this.current];
+                    if (ch1 &#x3D;&#x3D;&#x3D; &quot;\\&quot; || ch1 &#x3D;&#x3D;&#x3D; &quot;&#x60;&quot;) {
+                        sbCurrentValue.push(ch1);
+                        this.current++;
+                    }
+                }
+            }
+            else if (ch &#x3D;&#x3D;&#x3D; &quot;(&quot;) {
+                if (this.getTokValue(sbCurrentValue, false)) {
+                    return undefined;
+                }
+                this.op &#x3D; ExprParserOperator.lPar;
+                this.current++;
+                return undefined;
+            }
+            else if (ch &#x3D;&#x3D;&#x3D; &quot;)&quot;) {
+                if (this.getTokValue(sbCurrentValue)) {
+                    return undefined;
+                }
+                this.op &#x3D; ExprParserOperator.rPar;
+                this.current++;
+                return undefined;
+            }
+            else if (this.matchKeyword(&quot;AND&quot;, sbCurrentValue)) {
+                if (this.getTokValue(sbCurrentValue)) {
+                    return undefined;
+                }
+                this.op &#x3D; ExprParserOperator.and;
+                this.current +&#x3D; 3;
+                return undefined;
+            }
+            else if (this.matchKeyword(&quot;OR&quot;, sbCurrentValue)) {
+                if (this.getTokValue(sbCurrentValue)) {
+                    return undefined;
+                }
+                this.op &#x3D; ExprParserOperator.or;
+                this.current +&#x3D; 2;
+                return undefined;
+            }
+            else if (this.matchKeyword(&quot;NOT&quot;, sbCurrentValue)) {
+                if (this.getTokValue(sbCurrentValue)) {
+                    return undefined;
+                }
+                this.op &#x3D; ExprParserOperator.not;
+                this.current +&#x3D; 3;
+                return undefined;
+            }
+            else if (this.matchKeyword(&quot;NEAR&quot;, sbCurrentValue, &quot;/&quot;)) {
+                if (this.getTokValue(sbCurrentValue)) {
+                    return undefined;
+                }
+                this.current +&#x3D; 4;
+                nextValue &#x3D; undefined;
+                if (this.current &lt; this.length &amp;&amp; this.text[this.current] &#x3D;&#x3D;&#x3D; &quot;/&quot;) {
+                    let last: IRef&lt;number&gt; &#x3D; {value: 0};
+                    nextValue &#x3D; this.matchUntil(this.current + 1, this.current + 1, &quot; \r\n\t&#x60;\&quot;([/&quot;, last);
+                    let near &#x3D; -1;
+                    if (nextValue !&#x3D;&#x3D; undefined) {
+                        nextValue &#x3D; nextValue.substr(0, nextValue.length - 1);
+                        near &#x3D; Utils.toInt(nextValue, -1);
+                    }
+                    if (near &lt; 0) {
+                        return &quot;bad operator&quot;;
+                    }
+                    this.current &#x3D; last.value - 1;
+                }
+                nextValue &#x3D; this.ensureNearValue(nextValue || &quot;&quot;);
+                const infix &#x3D; this.current &gt;&#x3D; this.length || this.text[this.current] !&#x3D;&#x3D; &quot;(&quot;;
+                // For infix, near value is the number of words between the two terms so add the 2 terms to
+                // the window (near/0 &#x3D; adjacent terms)
+                this.op &#x3D; infix ?
+                    new ExprParserOperator(Token.infixNear, (Utils.toInt(nextValue) + 2).toString()) :
+                    new ExprParserOperator(Token.near, nextValue);
+                return undefined;
+            }
+            else if (ch &#x3D;&#x3D;&#x3D; &quot;+&quot; || ch &#x3D;&#x3D;&#x3D; &quot;-&quot;) {
+                if (this.current + 1 &lt; this.length) {
+                    let ch1 &#x3D; this.text[this.current + 1];
+                    let last: IRef&lt;number&gt; &#x3D; {value: 0};
+                    let length: number;
+                    if (&quot;(\&quot;[/&#x60;&quot;.includes(ch1)) { // ( &quot; [ / &#x60;
+                        nextValue &#x3D; this.matchUntil(this.current, this.current + 2, this.getTerminators(ch1, false), last);
+                        length &#x3D; last.value - this.current;
+                    }
+                    else {
+                        nextValue &#x3D; this.matchSimpleValue(this.current + 1);
+                        length &#x3D; !!nextValue ? nextValue.length : 0;
+                    }
+                    if (!!nextValue) {
+                        sbCurrentValue.push(nextValue);
+                        this.current +&#x3D; length;
+                        continue;
+                    }
+                }
+                return &quot;bad operator: &quot; + ch;
+            }
+            else if (&quot;\&quot;[{/&#x60;&quot;.includes(ch)) { // &quot; [ { / &#x60;
+                let last: IRef&lt;number&gt; &#x3D; {value: 0};
+                nextValue &#x3D; this.matchUntil(this.current, this.current + 1, this.getTerminators(ch, true), last);
+                if (!!nextValue) {
+                    let forceRange &#x3D; (fieldSpecified &amp;&amp; &quot;[{&quot;.includes(ch) &amp;&amp; sbCurrentValue.length &#x3D;&#x3D;&#x3D; 0);
+                    sbCurrentValue.push(nextValue);
+                    this.current &#x3D; last.value;
+                    if (forceRange &amp;&amp; this.getTokValue(sbCurrentValue)) {
+                        return undefined;
+                    }
+                    continue;
+                }
+                return &quot;bad operator: &quot; + ch;
+            }
+            else {
+                if (ch &#x3D;&#x3D;&#x3D; &quot;:&quot;) { // Field
+                    // Pick out previous value and/or field name
+                    // Field specifier can be:
+                    // field:value
+                    // field&#x60;display&#x60;:value
+                    // &#x60;display&#x60;:value
+                    let currentValue &#x3D; sbCurrentValue.join(&quot;&quot;);
+                    if (candidateFieldPos &#x3D;&#x3D;&#x3D; -1) {
+                        // Check for display
+                        candidateFieldPos &#x3D; this.findDisplay(currentValue);
+                        if (candidateFieldPos &#x3D;&#x3D;&#x3D; -1) {
+                            this.op &#x3D; ExprParserOperator.invalid;
+                            return &quot;invalid token&quot;;
+                        }
+                    }
+                    let field &#x3D; currentValue.substr(candidateFieldPos).trim();
+                    let display &#x3D; &quot;&quot;;
+                    // Extract display
+                    let displayStart &#x3D; this.findDisplay(field);
+                    if (displayStart !&#x3D;&#x3D; -1) {
+                        display &#x3D; ExprParser.unescape(field.substr(displayStart, field.length - displayStart));
+                        field &#x3D; field.substr(0, displayStart);
+                    }
+                    if (this.isValidFieldName(field) || (Utils.isEmpty(field) &amp;&amp; !Utils.isEmpty(display))) {
+                        let value &#x3D; currentValue.substr(0, candidateFieldPos);
+                        if (this.canBeTokValue(value.trim())) {
+                            this.current -&#x3D; (sbCurrentValue.join(&quot;&quot;).length - candidateFieldPos); // back up to field
+                            this._getTokValue(value); 
+                            return undefined;
+                        }
+                        if (!Utils.isEmpty(field) &amp;&amp; this.current + 1 &lt; this.length &amp;&amp; this.text[this.current + 1] &#x3D;&#x3D;&#x3D; &quot;:&quot;) {
+                            // :: &#x3D;&gt; force partname over column
+                            field &#x3D; ExprParser.fieldPartnamePrefix + field;
+                            this.current++;
+                        }
+                        if (!Utils.isEmpty(field)) {
+                            this.field &#x3D; field;
+                            fieldSpecified &#x3D; true;
+                        }
+                        if (!Utils.isEmpty(display)) {
+                            this.display &#x3D; display;
+                        }
+                        sbCurrentValue.length &#x3D; 0;
+                        this.current++;
+                        continue;
+                    }
+                }
+                if (&quot; \r\n\t)&quot;.includes(ch)) {
+                    candidateFieldPos &#x3D; -1;
+                }
+                else if (candidateFieldPos &#x3D;&#x3D;&#x3D; -1) {
+                    candidateFieldPos &#x3D; sbCurrentValue.join(&quot;&quot;).length;
+                }
+                sbCurrentValue.push(ch);
+                this.current++;
+            }
+        }
+    }
+    
+    private clear() {
+        this.text &#x3D; &quot;&quot;;
+        this.current &#x3D; 0;
+        this.length &#x3D; 0;
+        this.operators.length &#x3D; 0;
+        this.expressions.length &#x3D; 0;
+        this.fields.length &#x3D; 0;
+        this.displays.length &#x3D; 0;
+    }
+
+    /**
+     * Parse some text using the Sinequa fielded search syntax
+     *
+     * @return The parsed &#x60;Expr&#x60; or an error string
+     */
+    public static parse(text: string, context: ExprContext, options?: ExprParserOptions): Expr | string {
+        let parser &#x3D; new ExprParser(context, options);
+        let error &#x3D; parser.parse(text);
+        if (error) {
+            return error;
+        }
+        return parser.parseResult();
+    }
+    
+    private parseResult(): Expr | string {
+        if (this.expressions.length !&#x3D;&#x3D; 1) {
+            return &quot;no expression found&quot;;
+        }
+        return this.expressions[0];
+    }
+
+    private get contextField(): string {
+        let field &#x3D; this.field;
+        if (Utils.isEmpty(field)) {
+            field &#x3D; this.peekField();
+        }
+        return field;
+    }
+
+    private get contextDisplay(): string {
+        let display &#x3D; this.display;
+        if (Utils.isEmpty(display)) {
+            display &#x3D; this.peekDisplay();
+        }
+        return display;
+    }
+
+    private parse(text: string): string {
+        this.clear();
+        if (this.options.allowEmptyValues &amp;&amp; !Utils.len(text.trim())) {
+            const expr &#x3D; Expr.makeExpr(this.exprContext, &quot;&quot;, this.contextField, this.contextDisplay, this.options.allowEmptyValues);
+            if (expr) {
+                expr.start &#x3D; 0;
+                expr.length &#x3D; 0;
+                this.expressions.push(expr);
+            }
+            return &quot;&quot;;
+        }
+        this.text &#x3D; text || &quot;&quot;;
+        this.length &#x3D; this.text.length;
+        this.operators.push(ExprParserOperator.eof);
+        let err &#x3D; this.readToken();
+        if (err) {
+            return err;
+        }
+        while (true) {
+            if ((this.op.tok &#x3D;&#x3D;&#x3D; Token.value || this.op.tok &#x3D;&#x3D;&#x3D; Token.lPar || this.op.tok &#x3D;&#x3D;&#x3D; Token.not || this.op.tok &#x3D;&#x3D;&#x3D; Token.near) &amp;&amp;
+                (this.prevOp.tok &#x3D;&#x3D;&#x3D; Token.value || this.prevOp.tok &#x3D;&#x3D;&#x3D; Token.rPar)) {
+                // Default to AND for space separated terms
+                // NOT xxx &#x3D;&gt; AND NOT xxx
+                this.saveOp &#x3D; this.op;
+                this.op &#x3D; ExprParserOperator.and;
+            }
+
+            let a: Act;
+            if (this.op.tok &#x3D;&#x3D;&#x3D; Token.value) {
+                a &#x3D; Act.s;
+            }
+            else {
+                a &#x3D; ExprParser.parsetbl[this.operators[this.operators.length - 1].tok][this.op.tok];
+            }                
+            switch (a) {
+                case Act.r:
+                    err &#x3D; this.reduce();
+                    if (err) {
+                        return err;
+                    }
+                    break;
+                case Act.s:
+                    err &#x3D; this.shift();
+                    if (err) {
+                        return err;    
+                    }
+                    break;
+                case Act.a:
+                    if (this.expressions.length !&#x3D;&#x3D; 1) {
+                        return &quot;syntax error&quot;;
+                    }
+                    return &quot;&quot;;
+                case Act.e1:	
+                    return &quot;missing &#x27;)&#x27;&quot;;
+                case Act.e2:	
+                    return &quot;missing operator (AND,OR,NOT)&quot;;
+                case Act.e3:
+                    return &quot;missing &#x27;(&#x27;&quot;;
+                case Act.e4:	
+                    return &quot;invalid argument&quot;;
+            }
+        }			
+    }
+    
+    private shift(): string | undefined {
+        if (this.op.tok &#x3D;&#x3D;&#x3D; Token.value) {
+            let value &#x3D; this.op.tokValue.trim();
+            if (Utils.isEmpty(value) &amp;&amp; !this.options.allowEmptyValues) {
+                return &quot;empty token&quot;;
+            }
+            let expr &#x3D; Expr.makeExpr(this.exprContext, value, this.contextField, this.contextDisplay, !!this.options.allowEmptyValues);
+            if (!expr) { 
+                return &quot;invalid expression&quot;;
+            }
+            expr.start &#x3D; this.op.tokValuePos;
+            expr.length &#x3D; this.op.tokValueLen;
+            if (!!expr.operands) {
+                expr.operands.forEach(operand &#x3D;&gt; {
+                    operand.start &#x3D; this.op.tokValuePos;
+                    operand.length &#x3D; this.op.tokValueLen;
+                });
+            }
+            this.expressions.push(expr);
+            this.field &#x3D; &quot;&quot;;
+            this.display &#x3D; &quot;&quot;;
+        }
+        else {
+            this.operators.push(this.op);
+            if (this.op.tok &#x3D;&#x3D;&#x3D; Token.lPar) {
+                if (Utils.isEmpty(this.field)) {
+                    this.fields.push(this.peekField());
+                }
+                else {
+                    this.fields.push(this.field);
+                }
+                this.field &#x3D; &quot;&quot;;
+                if (Utils.isEmpty(this.display)) {
+                    this.displays.push(this.peekDisplay());
+                }
+                else {
+                    this.displays.push(this.display);
+                }
+                this.display &#x3D; &quot;&quot;;
+            }
+        }
+        return this.readToken();
+    }
+
+    private peekField(): string {
+        if (this.fields.length &#x3D;&#x3D;&#x3D; 0) {
+            return &quot;&quot;;
+        }
+        return this.fields[this.fields.length - 1];
+    }
+
+    private peekDisplay(): string {
+        if (this.displays.length &#x3D;&#x3D;&#x3D; 0) {
+            return &quot;&quot;;
+        }
+        return this.displays[this.displays.length - 1];
+    }
+
+    private canBeMergeTarget(e: Expr, and: boolean): boolean {
+        if (e.isLeaf) {
+            return false;
+        }
+        if (e.near &gt;&#x3D; 0) {
+            return false;
+        }
+        if (e.and !&#x3D;&#x3D; and) {
+            return false;
+        }
+        if (e.not) {
+            return false;
+        }
+        return true;
+    }
+
+    private mergeExpr(e1: Expr, e2: Expr, and: boolean): Expr {
+        let source: Expr, target: Expr;
+        let prepend &#x3D; false;
+        if (this.canBeMergeTarget(e1, and)) {
+            target &#x3D; e1;
+            source &#x3D; e2;
+        }
+        else if (this.canBeMergeTarget(e2, and)) {
+            target &#x3D; e2;
+            source &#x3D; e1;
+            prepend &#x3D; true; // to keep the same order as in the input text
+        }
+        else {
+            return new Expr({
+                exprContext: e1.exprContext,
+                op1: e1,
+                and,
+                op2: e2,
+                field: this.peekField(),
+                display: this.peekDisplay()
+            });
+        }
+        if (source.isLeaf || source.and !&#x3D;&#x3D; and || source.not || !Utils.eq(source.display || &quot;&quot;, target.display || &quot;&quot;)) {
+            target.addOperand(source, this.peekField(), prepend);
+        }
+        else {
+            if (source.operands) {
+                for (const operand of source.operands) {
+                    target.addOperand(operand, this.peekField(), prepend);
+                }
+            }
+        }
+        return target;
+    }
+
+    private reduce(): string | undefined {
+        let e: Expr | undefined;
+        let e1: Expr | undefined;
+        let e2: Expr | undefined;
+        const op: ExprParserOperator &#x3D; this.operators[this.operators.length - 1];
+        switch (op.tok) {
+            case Token.not:
+                // Apply E :&#x3D; NOT E
+                e &#x3D; this.expressions.pop();
+                if (!e) {
+                    return &quot;syntax error&quot;;
+                }
+                e.not &#x3D; !e.not;
+                this.expressions.push(e);
+                break;
+            case Token.and:
+                e2 &#x3D; this.expressions.pop();
+                e1 &#x3D; this.expressions.pop();
+                if (!e1 || !e2) {
+                    return &quot;syntax error&quot;;
+                }
+                this.expressions.push(this.mergeExpr(e1, e2, true));
+                break;
+            case Token.or:
+                e2 &#x3D; this.expressions.pop();
+                e1 &#x3D; this.expressions.pop();
+                if (!e1 || !e2) {
+                    return &quot;syntax error&quot;;
+                }
+                this.expressions.push(this.mergeExpr(e1, e2, false));
+                break;
+            case Token.near:
+                e &#x3D; this.expressions.pop();
+                if (!e) {
+                    return &quot;syntax error&quot;;
+                }
+                e.near &#x3D; Utils.toInt(this.ensureNearValue(op.tokValue));
+                this.expressions.push(e);
+                break;
+            case Token.infixNear:
+                e2 &#x3D; this.expressions.pop();
+                e1 &#x3D; this.expressions.pop();
+                if (!e1 || !e2) {
+                    return &quot;syntax error&quot;;
+                }
+                if (!e2.isLeaf || e2.isStructured || !e1.isLeaf || e1.isStructured || e2.not || e1.not || !Utils.eqNC(e2.field || &quot;&quot;, e1.field || &quot;&quot;)) {
+                    return &quot;syntax error&quot;;
+                }
+                e &#x3D; new Expr({
+                    exprContext: e1.exprContext,
+                    op1: e1, 
+                    and: false, 
+                    op2: e2,
+                    field: this.peekField(),
+                    display: this.peekDisplay()
+                });
+                e.near &#x3D; Utils.toInt(this.ensureNearValue(op.tokValue));
+                this.expressions.push(e);
+                break;
+            case Token.rPar:
+                this.operators.pop();
+                if (this.fields.length &#x3D;&#x3D;&#x3D; 0) {
+                    return &quot;missing field&quot;;
+                }
+                if (this.expressions.length &#x3D;&#x3D;&#x3D; 0) {
+                    return &quot;syntax error&quot;;
+                }
+                const field &#x3D; this.fields.pop();
+                const display &#x3D; this.displays.pop();
+                // Set Field for single term bracketed expressions
+                e &#x3D; this.expressions[this.expressions.length - 1];
+                if (e.isLeaf) {
+                    if (Utils.isEmpty(e.field)) {
+                        e.field &#x3D; field;
+                    }
+                    if (Utils.isEmpty(e.display)) {
+                        e.display &#x3D; display;
+                    }
+                }
+                break;
+        }
+        this.operators.pop();
+        return undefined;
+    }
+}
+</code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'ExprMessage.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

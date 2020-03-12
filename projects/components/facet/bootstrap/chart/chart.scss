@@ -1,0 +1,9 @@
+.sq-chart-wrapper {
+    visibility: hidden;
+    width: 100%;
+    height: 16rem;
+    overflow: hidden;
+    &.sq-attached {
+        visibility: visible;
+    }
+}

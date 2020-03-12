@@ -1,0 +1,772 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content directive">
+                   <div class="content-data">
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Directives</li>
+  <li>BsDropdownDirective</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>action/bootstrap/dropdown.directive.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Implements</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                            <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                            <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
+            </p>
+
+
+        <section>
+            <h3>Metadata</h3>
+            <table class="table table-sm table-hover">
+                <tbody>
+
+                    <tr>
+                        <td class="col-md-3">Selector</td>
+                        <td class="col-md-9"><code>gSelector.DATA_TOGGLE</code></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </section>
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#ngAfterViewInit">ngAfterViewInit</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#show">show</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>HostListeners</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#click">click</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#dropdownMenu">dropdownMenu</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(elementRef: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, dropdownService: <a href="../injectables/BsDropdownService.html">BsDropdownService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">action/bootstrap/dropdown.directive.ts:29</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>elementRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dropdownService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/BsDropdownService.html" target="_self" >BsDropdownService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+            <section>
+    <h3>HostListeners</h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="click"></a>
+                    <span class="name">
+                        <b>
+                            click
+                        </b>
+                        <a href="#click"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <i>Arguments : </i><code>'$event' </code>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>click(event: <a href="../interfaces/Event.html">Event</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:66</a></div>
+                </td>
+            </tr>
+
+
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <b>
+                            ngAfterViewInit
+                        </b>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:55</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <b>
+                            ngOnDestroy
+                        </b>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:61</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:44</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="show"></a>
+                    <span class="name">
+                        <b>
+                            show
+                        </b>
+                        <a href="#show"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>show(usePopper)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:144</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>usePopper</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>false</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dropdownMenu"></a>
+                        <span class="name"><b>dropdownMenu</b><a href="#dropdownMenu"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>dropdownMenu()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">action/bootstrap/dropdown.directive.ts:37</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Directive, OnInit, OnDestroy, AfterViewInit, ElementRef, HostListener} from &quot;@angular/core&quot;;
+import {Subscription} from &#x27;rxjs&#x27;;
+import Popper from &#x27;popper.js&#x27;;
+import {Keys} from &quot;@sinequa/core/base&quot;;
+import {BsDropdownService, gClassName, gSelector, gAttachmentMap} from &#x27;./dropdown.service&#x27;;
+
+// Based on  Bootstrap (v4.4.1): dropdown.js
+
+function noop() {}
+
+const gConfig &#x3D; {
+    offset       : 0,
+    flip         : true,
+    boundary     : &#x27;scrollParent&#x27;,
+    reference    : &#x27;toggle&#x27;,
+    display      : &#x27;dynamic&#x27;,
+    popperConfig : null
+};
+
+@Directive({
+    selector: gSelector.DATA_TOGGLE
+})
+export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
+    private subscription: Subscription;
+    private inNavbar: boolean;
+    private dropdown: HTMLElement;
+    private dropdownToggle: HTMLElement;
+    private _dropdownMenu: HTMLElement | null;
+    private popper;
+
+    constructor(
+        private elementRef: ElementRef,
+        private dropdownService: BsDropdownService
+    ) {
+    }
+
+    get dropdownMenu(): HTMLElement | null {
+        if (!this._dropdownMenu &amp;&amp; this.dropdown) {
+            this._dropdownMenu &#x3D; this.dropdown.querySelector(gSelector.MENU);
+        }
+        return this._dropdownMenu;
+    }
+
+    ngOnInit() {
+        this.subscription &#x3D; this.dropdownService.events.subscribe((event) &#x3D;&gt; {
+            if (event.type &#x3D;&#x3D;&#x3D; &quot;clear&quot;) {
+                this.clear(event.sourceEvent);
+            }
+            else if (event.type &#x3D;&#x3D;&#x3D; &quot;toggle&quot;) {
+                this.toggle(event.element);
+            }
+        });
+    }
+
+    ngAfterViewInit() {
+        this.dropdownToggle &#x3D; this.elementRef.nativeElement;
+        this.dropdown &#x3D; this.dropdownService.getParentFromElement(this.dropdownToggle) as HTMLElement;
+        this.inNavbar &#x3D; !!this.dropdownToggle.closest(&#x27;.navbar&#x27;);
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+
+    @HostListener(&quot;click&quot;, [&quot;$event&quot;])
+    clickHandler(event: Event) {
+        event.preventDefault()
+        event.stopPropagation()
+        this.toggle(this.dropdownToggle);
+    }
+
+    private toggle(element: Element) {
+        if (!element || this.dropdownToggle !&#x3D;&#x3D; element || !this.dropdownMenu || !this.dropdown) {
+            return;
+        }
+
+        if (/*TODO element.disabled || */element.classList.contains(gClassName.DISABLED)) {
+            return;
+        }
+
+        const isActive &#x3D; this.dropdownMenu &amp;&amp; this.dropdownMenu.classList.contains(gClassName.SHOW);
+
+        this.dropdownService.raiseClear();
+
+        if (isActive) {
+            return;
+        }
+
+        this.show(true);
+    }
+
+    private getPlacement(): string {
+        let placement &#x3D; gAttachmentMap.BOTTOM;
+
+        // Handle dropup
+        if (this.dropdown.classList.contains(gClassName.DROPUP)) {
+            placement &#x3D; gAttachmentMap.TOP;
+            if (this.dropdownMenu &amp;&amp; this.dropdownMenu.classList.contains(gClassName.MENURIGHT)) {
+                placement &#x3D; gAttachmentMap.TOPEND;
+            }
+        }
+        else if (this.dropdown.classList.contains(gClassName.DROPRIGHT)) {
+            placement &#x3D; gAttachmentMap.RIGHT;
+        }
+        else if (this.dropdown.classList.contains(gClassName.DROPLEFT)) {
+            placement &#x3D; gAttachmentMap.LEFT;
+        }
+        else if (this.dropdownMenu &amp;&amp; this.dropdownMenu.classList.contains(gClassName.MENURIGHT)) {
+            placement &#x3D; gAttachmentMap.BOTTOMEND;
+        }
+        return placement;
+    }
+
+    private getOffset() {
+        return {
+            offset: gConfig.offset
+        };
+    }
+
+    private getPopperConfig() {
+        const popperConfig: any &#x3D; {
+            placement: this.getPlacement(),
+            modifiers: {
+                offset: this.getOffset(),
+                flip: {
+                    enabled: gConfig.flip
+                },
+                preventOverflow: {
+                    boundariesElement: gConfig.boundary
+                }
+            }
+        };
+
+        // Disable Popper.js if we have a static display
+        if (gConfig.display &#x3D;&#x3D;&#x3D; &#x27;static&#x27;) {
+            popperConfig.modifiers.applyStyle &#x3D; {
+                enabled: false
+            };
+        }
+
+        return popperConfig;
+    }
+
+    show(usePopper &#x3D; false) {
+        if (!this.dropdownToggle || !this.dropdownMenu || !this.dropdown) {
+            return;
+        }
+        if (/*TODO element.disabled || */
+            this.dropdownToggle.classList.contains(gClassName.DISABLED) ||
+            this.dropdownMenu.classList.contains(gClassName.SHOW)) {
+          return;
+        }
+
+        const parent &#x3D; this.dropdown;
+
+        // Disable totally Popper.js for Dropdown in Navbar
+        if (!this.inNavbar &amp;&amp; usePopper) {
+            /**
+             * Check for Popper dependency
+             * Popper - https://popper.js.org
+             */
+            if (typeof Popper &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
+                throw new TypeError(&#x27;Bootstrap\&#x27;s dropdowns require Popper.js (https://popper.js.org/)&#x27;)
+            }
+
+            let referenceElement &#x3D; this.dropdownToggle;
+
+            if (gConfig.reference &#x3D;&#x3D;&#x3D; &#x27;parent&#x27;) {
+                referenceElement &#x3D; parent;
+            }
+
+            // If boundary is not &#x60;scrollParent&#x60;, then set position to &#x60;static&#x60;
+            // to allow the menu to &quot;escape&quot; the scroll parent&#x27;s boundaries
+            // https://github.com/twbs/bootstrap/issues/24251
+            if (gConfig.boundary !&#x3D;&#x3D; &#x27;scrollParent&#x27;) {
+                parent.classList.add(gClassName.POSITION_STATIC);
+            }
+            this.popper &#x3D; new Popper(referenceElement, this.dropdownMenu, this.getPopperConfig());
+        }
+
+        // If this is a touch-enabled device we add extra
+        // empty mouseover listeners to the body&#x27;s immediate children;
+        // only needed because of broken event delegation on iOS
+        // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
+        if (&#x27;ontouchstart&#x27; in document.documentElement &amp;&amp;
+            !parent.closest(gSelector.NAVBAR_NAV)) {
+            Array.from(document.body.children).forEach((element) &#x3D;&gt; element.addEventListener(&#x27;mouseover&#x27;, noop));
+        }
+
+        this.dropdownToggle.focus();
+        this.dropdownToggle.setAttribute(&#x27;aria-expanded&#x27;, &quot;true&quot;);
+
+        this.dropdownMenu.classList.toggle(gClassName.SHOW);
+        parent.classList.toggle(gClassName.SHOW);
+    }
+
+    private clear(event: KeyboardEvent | MouseEvent | undefined) {
+        if (!this.dropdownToggle || !this.dropdownMenu || !this.dropdown) {
+            return;
+        }
+        const parent &#x3D; this.dropdown;
+
+        if (!parent.classList.contains(gClassName.SHOW)) {
+            return;
+        }
+
+        if (event &amp;&amp; (event.type &#x3D;&#x3D;&#x3D; &#x27;click&#x27; &amp;&amp;
+            /input|textarea/i.test((event.target as Element).tagName) || event.type &#x3D;&#x3D;&#x3D; &#x27;keyup&#x27; &amp;&amp; event.which &#x3D;&#x3D;&#x3D; Keys.tab) &amp;&amp;
+            parent.contains(event.target as Node)) {
+            return;
+        }
+
+        // If this is a touch-enabled device we remove the extra
+        // empty mouseover listeners we added for iOS support
+        if (&#x27;ontouchstart&#x27; in document.documentElement) {
+            Array.from(document.body.children).forEach((element) &#x3D;&gt; element.removeEventListener(&#x27;mouseover&#x27;, noop));
+        }
+
+        this.dropdownToggle.setAttribute(&#x27;aria-expanded&#x27;, &#x27;false&#x27;);
+
+        if (this.popper) {
+            this.popper.destroy();
+        }
+
+        this.dropdownMenu.classList.remove(gClassName.SHOW);
+        parent.classList.remove(gClassName.SHOW);
+    }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'directive';
+            var COMPODOC_CURRENT_PAGE_URL = 'BsDropdownDirective.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

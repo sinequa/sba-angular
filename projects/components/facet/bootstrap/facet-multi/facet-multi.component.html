@@ -1,0 +1,32 @@
+<div *ngIf="!openedFacet" class="list-group list-group-flush">
+    <div *ngFor="let facet of facets" (click)="openFacet(facet)"
+        class="open-facet d-flex flex-row list-group-item border-0 list-group-item-action px-3 py-1 align-items-center"
+        [ngClass]="{'list-group-item-success':facet.$hasFiltered, 'disabled':!facet.$hasData }">
+        <span class="flex-grow-1">{{ facet.title | sqMessage }}</span>
+        <i class="far fa-check-square" title="{{ 'msg#facet.filters.selectedFilters' | sqMessage }}" *ngIf="facet.$hasFiltered"></i>
+        <span class="mx-2 text-muted small">{{ facet.$count | sqNumber }}</span>
+        <i class="fas fa-caret-right"></i>
+    </div>
+</div>
+
+<ng-container *ngIf="openedFacet">
+    <sq-facet-list #facet *ngIf="openedFacet.type==='list'" 
+        [name]="openedFacet.name"
+        [results]="results" 
+        [aggregation]="openedFacet.aggregation"
+        [showCount]="openedFacet.showCount"
+        [searchable]="openedFacet.searchable"
+        [allowExclude]="openedFacet.allowExclude"
+        [allowOr]="openedFacet.allowOr"
+        [allowAnd]="openedFacet.allowAnd">
+    </sq-facet-list>
+
+    <sq-facet-tree #facet *ngIf="openedFacet.type==='tree'" 
+        [name]="openedFacet.name"
+        [results]="results" 
+        [aggregation]="openedFacet.aggregation"
+        [showCount]="openedFacet.showCount"
+        [allowExclude]="openedFacet.allowExclude"
+        [allowOr]="openedFacet.allowOr">
+    </sq-facet-tree>
+</ng-container>

@@ -1,0 +1,1794 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Core</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Core</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>ValidationService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>validation/validation.service.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>This service provides a set of locale-sensitive validators with support for arrays.
+The validator error messages are <a href="../injectables/IntlService.html">IntlService</a> <code>msg#</code> messages of the form:
+<code>msg#validation.&lt;validator name&gt;</code>.</p>
+
+            </p>
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#dateValidator">dateValidator</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#emailValidation">emailValidation</a>
+                            </li>
+                            <li>
+                                <a href="#getErrorText">getErrorText</a>
+                            </li>
+                            <li>
+                                <a href="#getFirstError">getFirstError</a>
+                            </li>
+                            <li>
+                                <a href="#getFirstErrorInfo">getFirstErrorInfo</a>
+                            </li>
+                            <li>
+                                <a href="#getFirstErrorText">getFirstErrorText</a>
+                            </li>
+                            <li>
+                                <a href="#integerValidator">integerValidator</a>
+                            </li>
+                            <li>
+                                <a href="#maxValidator">maxValidator</a>
+                            </li>
+                            <li>
+                                <a href="#minValidator">minValidator</a>
+                            </li>
+                            <li>
+                                <a href="#numberValidator">numberValidator</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#patternValidator">patternValidator</a>
+                            </li>
+                            <li>
+                                <a href="#rangeValidator">rangeValidator</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(formatService: <a href="../injectables/FormatService.html">FormatService</a>, intlService: <a href="../injectables/IntlService.html">IntlService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">validation/validation.service.ts:90</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>formatService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/FormatService.html" target="_self" >FormatService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>intlService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/IntlService.html" target="_self" >IntlService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dateValidator"></a>
+                    <span class="name">
+                        <b>
+                            dateValidator
+                        </b>
+                        <a href="#dateValidator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>dateValidator(parser?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="427"
+                            class="link-to-prism">validation/validation.service.ts:427</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get a validator function that validates that values are dates. The function
+supports single values and arrays of values and will optionally parse the values
+using the <a href="../injectables/FormatService.html">FormatService</a> if a parser is passed. Dates will be parsed according
+to the current locale.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>parser</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>An optional parser name.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Validator.html" target="_self" >ValidatorFn</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="emailValidation"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            emailValidation
+                        </b>
+                        <a href="#emailValidation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>emailValidation(control: <a href="https://angular.io/api/forms/AbstractControl" target="_blank">AbstractControl</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="159"
+                            class="link-to-prism">validation/validation.service.ts:159</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>A pattern validator based on Angular&#39;s <code>Validators.email</code> with support for value arrays.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>control</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/forms/AbstractControl" target="_blank" >AbstractControl</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The control to validate.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>ValidationErrors | null</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The result.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getErrorText"></a>
+                    <span class="name">
+                        <b>
+                            getErrorText
+                        </b>
+                        <a href="#getErrorText"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getErrorText(name?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="198"
+                            class="link-to-prism">validation/validation.service.ts:198</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the error message associated with the passed validator.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>The name of a validator.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The error message.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFirstError"></a>
+                    <span class="name">
+                        <b>
+                            getFirstError
+                        </b>
+                        <a href="#getFirstError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getFirstError(errors: <a href="https://angular.io/api/forms/ValidationErrors" target="_blank">ValidationErrors</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="186"
+                            class="link-to-prism">validation/validation.service.ts:186</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the name of the first validator in a map of validation errors.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>errors</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/forms/ValidationErrors" target="_blank" >ValidationErrors</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The validation errors</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>string | undefined</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The name of the first validator, if any - <code>undefined</code> otherwise.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFirstErrorInfo"></a>
+                    <span class="name">
+                        <b>
+                            getFirstErrorInfo
+                        </b>
+                        <a href="#getFirstErrorInfo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getFirstErrorInfo(errors: <a href="https://angular.io/api/forms/ValidationErrors" target="_blank">ValidationErrors</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="225"
+                            class="link-to-prism">validation/validation.service.ts:225</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the data held for the first error in a map of validation errors</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>errors</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/forms/ValidationErrors" target="_blank" >ValidationErrors</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The validation errors.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFirstErrorText"></a>
+                    <span class="name">
+                        <b>
+                            getFirstErrorText
+                        </b>
+                        <a href="#getFirstErrorText"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getFirstErrorText(errors: <a href="https://angular.io/api/forms/ValidationErrors" target="_blank">ValidationErrors</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="211"
+                            class="link-to-prism">validation/validation.service.ts:211</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the error message associated with first validator in a map of validation errors.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>errors</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/forms/ValidationErrors" target="_blank" >ValidationErrors</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The validation errors.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>string | undefined</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The error message.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="integerValidator"></a>
+                    <span class="name">
+                        <b>
+                            integerValidator
+                        </b>
+                        <a href="#integerValidator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>integerValidator(parser?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="358"
+                            class="link-to-prism">validation/validation.service.ts:358</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get a validator function that validates that values are integers. The function
+supports single values and arrays of values and will optionally parse the values
+using the <a href="../injectables/FormatService.html">FormatService</a> if a parser is passed.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>parser</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>An optional parser name.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Validator.html" target="_self" >ValidatorFn</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="maxValidator"></a>
+                    <span class="name">
+                        <b>
+                            maxValidator
+                        </b>
+                        <a href="#maxValidator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>maxValidator(max: string | number | Date, parser?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="303"
+                            class="link-to-prism">validation/validation.service.ts:303</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get a validator function that validates that values are less than or equal
+to the passed <code>max</code> value. The function supports single values and arrays of
+values and will optionally parse the values using the <a href="../injectables/FormatService.html">FormatService</a> if
+a parser is passed. Dates will be parsed according to the current locale.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>max</td>
+                                    <td>
+                                            <code>string | number | Date</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The maximum value to test against. The type determines
+how the test will be made.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>parser</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>An optional parser name.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Validator.html" target="_self" >ValidatorFn</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="minValidator"></a>
+                    <span class="name">
+                        <b>
+                            minValidator
+                        </b>
+                        <a href="#minValidator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>minValidator(min: string | number | Date, parser?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="245"
+                            class="link-to-prism">validation/validation.service.ts:245</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get a validator function that validates that values are greater than or equal
+to the passed <code>min</code> value. The function supports single values and arrays of
+values and will optionally parse the values using the <a href="../injectables/FormatService.html">FormatService</a> if
+a parser is passed. Dates will be parsed according to the current locale.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>min</td>
+                                    <td>
+                                            <code>string | number | Date</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The minimum value to test against. The type determines
+how the test will be made.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>parser</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>An optional parser name.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Validator.html" target="_self" >ValidatorFn</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="numberValidator"></a>
+                    <span class="name">
+                        <b>
+                            numberValidator
+                        </b>
+                        <a href="#numberValidator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>numberValidator(parser?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="392"
+                            class="link-to-prism">validation/validation.service.ts:392</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get a validator function that validates that values are numeric. The function
+supports single values and arrays of values and will optionally parse the values
+using the <a href="../injectables/FormatService.html">FormatService</a> if a parser is passed.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>parser</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>An optional parser name.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Validator.html" target="_self" >ValidatorFn</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="patternValidator"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            patternValidator
+                        </b>
+                        <a href="#patternValidator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>patternValidator(pattern: string | RegExp)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">validation/validation.service.ts:102</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>A pattern validator based on Angular&#39;s <code>Validators.pattern</code> with support for value arrays.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>pattern</td>
+                                    <td>
+                                            <code>string | RegExp</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The pattern.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Validator.html" target="_self" >ValidatorFn</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>The validation function.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="rangeValidator"></a>
+                    <span class="name">
+                        <b>
+                            rangeValidator
+                        </b>
+                        <a href="#rangeValidator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>rangeValidator(type: string | number | Date, parser?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="471"
+                            class="link-to-prism">validation/validation.service.ts:471</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get a validator function that validates that, for pair of values, the second value is
+greater than the first. If one or both values are empty then the validation passes.
+The validator function supports single values and arrays of values and will optionally
+parse the values using the <a href="../injectables/FormatService.html">FormatService</a> if a parser is passed. Dates will be
+parsed according to the current locale.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>type</td>
+                                    <td>
+                                            <code>string | number | Date</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>A value whose type indicates how the range test will be made.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>parser</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>An optional parser name.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Validator.html" target="_self" >ValidatorFn</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable} from &quot;@angular/core&quot;;
+import {Validators, ValidatorFn, AbstractControl, ValidationErrors} from &quot;@angular/forms&quot;;
+import {IntlService} from &quot;@sinequa/core/intl&quot;;
+import {FormatService} from &quot;@sinequa/core/app-utils&quot;;
+import {Utils} from &quot;@sinequa/core/base&quot;;
+
+/**
+ * @ignore
+ */
+function isEmptyInputValue(value: any): boolean {
+    // we don&#x27;t check for string here so it also works with arrays
+    return value &#x3D;&#x3D; null || value.length &#x3D;&#x3D;&#x3D; 0;
+}
+
+// Email regular expression, taken from built-in Angular validators.
+/**
+ * @ignore
+ */
+/* tslint:disable-next-line */
+const EMAIL_REGEXP &#x3D; /^(?&#x3D;.{1,254}$)(?&#x3D;.{1,64}@)[-!#$%&amp;&#x27;*+/0-9&#x3D;?A-Z^_&#x60;a-z{|}~]+(\.[-!#$%&amp;&#x27;*+/0-9&#x3D;?A-Z^_&#x60;a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/;
+
+/**
+ * Enumerates the supported validator types.
+ */
+export enum ValidatorType {
+    Min &#x3D; &quot;Min&quot;,
+    Max &#x3D; &quot;Max&quot;,
+    Required &#x3D; &quot;Required&quot;,
+    Email &#x3D; &quot;Email&quot;,
+    Pattern &#x3D; &quot;Pattern&quot;,
+    Integer &#x3D; &quot;Integer&quot;,
+    Number &#x3D; &quot;Number&quot;,
+    Date &#x3D; &quot;Date&quot;,
+    Range &#x3D; &quot;Range&quot;,
+}
+
+/**
+ * Describes a &#x60;Validator&#x60; object.
+ */
+export interface Validator {
+    /**
+     * The validator&#x27;s type.
+     */
+    type: ValidatorType;
+    /**
+     * The validator&#x27;s name.
+     */
+    name: string;
+    /**
+     * The validator&#x27;s error message to be displayed when a value is invalid.
+     */
+    errorMessage: string;
+    /**
+     * &#x60;true&#x60; if the validator is to be applied.
+     */
+    active: boolean;
+}
+
+/**
+ * Defines the default error messages for each validator.
+ */
+const errorMessagesMap &#x3D; {
+    // Built-in Angular validators
+    min: &quot;msg#validation.min&quot;,
+    max: &quot;msg#validation.max&quot;,
+    required: &quot;msg#validation.required&quot;,
+    requiredTrue: &quot;msg#validation.requiredTrue&quot;,
+    email: &quot;msg#validation.email&quot;,
+    minlength: &quot;msg#validation.minLength&quot;,
+    maxlength: &quot;msg#validation.maxLength&quot;,
+    pattern: &quot;msg#validation.pattern&quot;,
+
+    // Custom
+    unique: &quot;msg#validation.unique&quot;,
+    integer: &quot;msg#validation.integer&quot;,
+    number: &quot;msg#validation.number&quot;,
+    date: &quot;msg#validation.date&quot;,
+    range: &quot;msg#validation.range&quot;
+};
+
+
+/**
+ * This service provides a set of locale-sensitive validators with support for arrays.
+ * The validator error messages are {@link IntlService} &#x60;msg#&#x60; messages of the form:
+ * &#x60;msg#validation.&lt;validator name&gt;&#x60;.
+ */
+@Injectable({
+    providedIn: &quot;root&quot;
+})
+export class ValidationService {
+    constructor(
+        protected formatService: FormatService,
+        protected intlService: IntlService) {
+    }
+
+    /**
+     * A pattern validator based on Angular&#x27;s &#x60;Validators.pattern&#x60; with support for value arrays.
+     *
+     * @param pattern The pattern.
+     * @returns The validation function.
+     */
+    static patternValidator(pattern: string | RegExp): ValidatorFn {
+        // #region This code region is based on Validators.pattern()
+        if (!pattern) {
+            return Validators.nullValidator;
+        }
+
+        let regex: RegExp;
+        let regexStr: string;
+        if (typeof pattern &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
+            regexStr &#x3D; &#x27;&#x27;;
+
+            if (pattern.charAt(0) !&#x3D;&#x3D; &#x27;^&#x27;) {
+                regexStr +&#x3D; &#x27;^&#x27;;
+            }
+
+            regexStr +&#x3D; pattern;
+
+            if (pattern.charAt(pattern.length - 1) !&#x3D;&#x3D; &#x27;$&#x27;) {
+                regexStr +&#x3D; &#x27;$&#x27;;
+            }
+
+            regex &#x3D; new RegExp(regexStr);
+        } else {
+            regexStr &#x3D; pattern.toString();
+            regex &#x3D; pattern;
+        }
+        // #endregion
+
+        return (control: AbstractControl): ValidationErrors | null &#x3D;&gt; {
+            if (isEmptyInputValue(control.value)) {
+                return null;  // don&#x27;t validate empty values to allow optional controls
+            }
+
+            let values: any[] &#x3D; [];
+            if (Utils.isArray(control.value)) {
+                values &#x3D; control.value;
+            }
+            else {
+                values &#x3D; [control.value];
+            }
+
+            for (const value of values) {
+                if (!regex.test(value)) {
+                    return {pattern: {requiredPattern: pattern.toString(), actualValue: value}};
+                }
+            }
+
+            return null;
+        };
+    }
+
+    /**
+     * A pattern validator based on Angular&#x27;s &#x60;Validators.email&#x60; with support for value arrays.
+     *
+     * @param control The control to validate.
+     * @returns The result.
+     */
+    static emailValidation(control: AbstractControl): ValidationErrors | null {
+        if (isEmptyInputValue(control.value)) {
+            return null;  // don&#x27;t validate empty values to allow optional controls
+        }
+
+        let values: any[] &#x3D; [];
+        if (Utils.isArray(control.value)) {
+            values &#x3D; control.value;
+        }
+        else {
+            values &#x3D; [control.value];
+        }
+
+        for (const value of values) {
+            if (!EMAIL_REGEXP.test(value)) {
+                return {email: true};
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the name of the first validator in a map of validation errors.
+     * @param errors The validation errors
+     * @returns The name of the first validator, if any - &#x60;undefined&#x60; otherwise.
+     */
+    getFirstError(errors: ValidationErrors): string | undefined {
+        if (errors) {
+            return Object.keys(errors)[0];
+        }
+        return undefined;
+    }
+
+    /**
+     * Get the error message associated with the passed validator.
+     * @param name The name of a validator.
+     * @returns The error message.
+     */
+    getErrorText(name?: string): string {
+        const text &#x3D; name ? errorMessagesMap[name] : undefined;
+        if (!text) {
+            return &quot;Unknown validator: &quot; + name;
+        }
+        return text;
+    }
+
+    /**
+     * Get the error message associated with first validator in a map of validation errors.
+     * @param errors The validation errors.
+     * @returns The error message.
+     */
+    getFirstErrorText(errors: ValidationErrors): string | undefined {
+        if (errors) {
+            const error &#x3D; this.getFirstError(errors);
+            if (error) {
+                return this.getErrorText(error);
+            }
+        }
+        return undefined;
+    }
+
+    /**
+     * Get the data held for the first error in a map of validation errors
+     * @param errors The validation errors.
+     */
+    getFirstErrorInfo(errors: ValidationErrors): any {
+        if (errors) {
+            const error &#x3D; this.getFirstError(errors);
+            if (error) {
+                return errors[error];
+            }
+        }
+        return undefined;
+    }
+
+    /**
+     * Get a validator function that validates that values are greater than or equal
+     * to the passed &#x60;min&#x60; value. The function supports single values and arrays of
+     * values and will optionally parse the values using the {@link FormatService} if
+     * a parser is passed. Dates will be parsed according to the current locale.
+     *
+     * @param min The minimum value to test against. The type determines
+     * how the test will be made.
+     * @param parser An optional parser name.
+     */
+    minValidator(min: string | number | Date, parser?: string): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null &#x3D;&gt; {
+            if (isEmptyInputValue(control.value) || isEmptyInputValue(min)) {
+                return null;  // don&#x27;t validate empty values to allow optional controls
+            }
+            let values: any[] &#x3D; [];
+            if (Utils.isArray(control.value)) {
+                values &#x3D; control.value;
+            }
+            else {
+                values &#x3D; [control.value];
+            }
+            for (const value of values) {
+                if (!isEmptyInputValue(value)) {
+                    let value1 &#x3D; value;
+                    if (parser) {
+                        value1 &#x3D; this.formatService.parseValue(value1, parser);
+                    }
+                    let cmp &#x3D; 0;
+                    if (Utils.isNumber(min)) {
+                        if (Utils.testFloat(value1)) {
+                            value1 &#x3D; Utils.toNumber(value1);
+                            cmp &#x3D; value1 - min;
+                        }
+                    }
+                    else if (Utils.isString(min)) {
+                        cmp &#x3D; Utils.compare(value1, min);
+                    }
+                    else if (Utils.isDate(min)) {
+                        if (Utils.isString(value1)) {
+                            value1 &#x3D; this.intlService.parseDate(value1);
+                            if (value1) {
+                                cmp &#x3D; value1.getTime() - min.getTime();
+                            }
+                        }
+                        else if (Utils.isDate(value1)) { // ngx-bootstrap returns date values (new Date(NaN) if invalid)
+                            cmp &#x3D; value1.getTime() - min.getTime();
+                        }
+                    }
+                    if (cmp &lt; 0) {
+                        return {min: {min, actual: value}};
+                    }
+                }
+            }
+            return null;
+        };
+    }
+
+    /**
+     * Get a validator function that validates that values are less than or equal
+     * to the passed &#x60;max&#x60; value. The function supports single values and arrays of
+     * values and will optionally parse the values using the {@link FormatService} if
+     * a parser is passed. Dates will be parsed according to the current locale.
+     *
+     * @param max The maximum value to test against. The type determines
+     * how the test will be made.
+     * @param parser An optional parser name.
+     */
+    maxValidator(max: string | number | Date, parser?: string): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null &#x3D;&gt; {
+            if (isEmptyInputValue(control.value) || isEmptyInputValue(max)) {
+                return null;  // don&#x27;t validate empty values to allow optional controls
+            }
+            let values: any[] &#x3D; [];
+            if (Utils.isArray(control.value)) {
+                values &#x3D; control.value;
+            }
+            else {
+                values &#x3D; [control.value];
+            }
+            for (const value of values) {
+                if (!isEmptyInputValue(value)) {
+                    let value1 &#x3D; value;
+                    if (parser) {
+                        value1 &#x3D; this.formatService.parseValue(value1, parser);
+                    }
+                    let cmp &#x3D; 0;
+                    if (Utils.isNumber(max)) {
+                        if (Utils.testFloat(value1)) {
+                            value1 &#x3D; Utils.toNumber(value1);
+                            cmp &#x3D; value1 - max;
+                        }
+                    }
+                    else if (Utils.isString(max)) {
+                        cmp &#x3D; Utils.compare(value1, max);
+                    }
+                    else if (Utils.isDate(max)) {
+                        if (Utils.isString(value1)) {
+                            value1 &#x3D; this.intlService.parseDate(value1);
+                            if (value1) {
+                                cmp &#x3D; value1.getTime() - max.getTime();
+                            }
+                        }
+                        else if (Utils.isDate(value1)) { // ngx-bootstrap returns date values (new Date(NaN) if invalid)
+                            cmp &#x3D; value1.getTime() - max.getTime();
+                        }
+                    }
+                    if (cmp &gt; 0) {
+                        return {max: {max, actual: value}};
+                    }
+                }
+            }
+            return null;
+        };
+    }
+
+    /**
+     * Get a validator function that validates that values are integers. The function
+     * supports single values and arrays of values and will optionally parse the values
+     * using the {@link FormatService} if a parser is passed.
+     *
+     * @param parser An optional parser name.
+     */
+    integerValidator(parser?: string): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null &#x3D;&gt; {
+            if (isEmptyInputValue(control.value)) {
+                return null;  // don&#x27;t validate empty values to allow optional controls
+            }
+            let values: any[] &#x3D; [];
+            if (Utils.isArray(control.value)) {
+                values &#x3D; control.value;
+            }
+            else {
+                values &#x3D; [control.value];
+            }
+            for (const value of values) {
+                if (!isEmptyInputValue(value)) {
+                    let value1 &#x3D; value;
+                    if (parser) {
+                        value1 &#x3D; this.formatService.parseValue(value1, parser);
+                    }
+                    if (!Utils.testInteger(value1)) {
+                        return {integer: {value}};
+                    }
+                }
+            }
+            return null;
+        };
+    }
+
+    /**
+     * Get a validator function that validates that values are numeric. The function
+     * supports single values and arrays of values and will optionally parse the values
+     * using the {@link FormatService} if a parser is passed.
+     *
+     * @param parser An optional parser name.
+     */
+    numberValidator(parser?: string): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null &#x3D;&gt; {
+            if (isEmptyInputValue(control.value)) {
+                return null;  // don&#x27;t validate empty values to allow optional controls
+            }
+            let values: any[] &#x3D; [];
+            if (Utils.isArray(control.value)) {
+                values &#x3D; control.value;
+            }
+            else {
+                values &#x3D; [control.value];
+            }
+            for (const value of values) {
+                if (!isEmptyInputValue(value)) {
+                    let value1 &#x3D; value;
+                    if (parser) {
+                        value1 &#x3D; this.formatService.parseValue(value1, parser);
+                    }
+                    if (!Utils.testFloat(value1)) {
+                        return {number: {value}};
+                    }
+                }
+            }
+            return null;
+        };
+    }
+
+    /**
+     * Get a validator function that validates that values are dates. The function
+     * supports single values and arrays of values and will optionally parse the values
+     * using the {@link FormatService} if a parser is passed. Dates will be parsed according
+     * to the current locale.
+     *
+     * @param parser An optional parser name.
+     */
+    dateValidator(parser?: string): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null &#x3D;&gt; {
+            if (isEmptyInputValue(control.value)) {
+                return null;  // don&#x27;t validate empty values to allow optional controls
+            }
+            let values: any[] &#x3D; [];
+            if (Utils.isArray(control.value)) {
+                values &#x3D; control.value;
+            }
+            else {
+                values &#x3D; [control.value];
+            }
+            for (const value of values) {
+                if (!isEmptyInputValue(value)) {
+                    if (Utils.isString(value)) {
+                        let value1 &#x3D; value;
+                        if (parser) {
+                            value1 &#x3D; this.formatService.parseValue(value1, parser);
+                        }
+                        if (!this.intlService.parseDate(value1)) {
+                            return {date: {value}};
+                        }
+                    }
+                    else if (Utils.isDate(value)) { // ngx-bootstrap returns date values (new Date(NaN) if invalid)
+                        if (isNaN(value.getTime())) {
+                            return {date: {value}};
+                        }
+                    }
+                }
+            }
+            return null;
+        };
+    }
+
+    /**
+     * Get a validator function that validates that, for pair of values, the second value is
+     * greater than the first. If one or both values are empty then the validation passes.
+     * The validator function supports single values and arrays of values and will optionally
+     * parse the values using the {@link FormatService} if a parser is passed. Dates will be
+     * parsed according to the current locale.
+     *
+     * @param type A value whose type indicates how the range test will be made.
+     * @param parser An optional parser name.
+     */
+    rangeValidator(type: string | number | Date, parser?: string): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null &#x3D;&gt; {
+            if (isEmptyInputValue(control.value) || !Utils.isArray(control.value) || control.value.length !&#x3D;&#x3D; 2) {
+                return null;  // don&#x27;t validate empty values to allow optional controls
+            }
+            let value1 &#x3D; control.value[0];
+            let value2 &#x3D; control.value[1];
+            if (isEmptyInputValue(value1) || isEmptyInputValue(value2)) {
+                return null;
+            }
+            if (parser) {
+                value1 &#x3D; this.formatService.parseValue(value1, parser);
+                value2 &#x3D; this.formatService.parseValue(value2, parser);
+            }
+            let cmp &#x3D; 0;
+            if (Utils.isString(type)) {
+                cmp &#x3D; Utils.compare(value2, value1);
+            }
+            else if (Utils.isDate(type)) {
+                let date1: Date | undefined;
+                let date2: Date | undefined;
+                if (Utils.isString(value1)) {
+                    date1 &#x3D; this.intlService.parseDate(value1);
+                }
+                else if (Utils.isDate(value1)) { // ngx-bootstrap returns date values (new Date(NaN) if invalid)
+                    date1 &#x3D; value1;
+                }
+                if (Utils.isString(value2)) {
+                    date2 &#x3D; this.intlService.parseDate(value2);
+                }
+                else if (Utils.isDate(value2)) { // ngx-bootstrap returns date values (new Date(NaN) if invalid)
+                    date2 &#x3D; value2;
+                }
+                if (date1 &amp;&amp; date2) {
+                    cmp &#x3D; date2.getTime() - date1.getTime();
+                }
+            }
+            else if (Utils.isNumber(type)) {
+                if (Utils.testFloat(value1) &amp;&amp; Utils.testFloat(value2)) {
+                    const num1 &#x3D; Utils.toNumber(value1);
+                    const num2 &#x3D; Utils.toNumber(value2);
+                    if (num1 !&#x3D;&#x3D; null &amp;&amp; num2 !&#x3D;&#x3D; null) {
+                        cmp &#x3D; num2 - num1;
+                    }
+                }
+            }
+            return cmp &lt; 0 ? {range: {value1, value2}} : null;
+        };
+    }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'ValidationService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,20 @@
+<form novalidate [formGroup]="form">
+    <sq-modal
+        [title]="'msg#modal.login.title'"
+        [buttons]="buttons">
+        <div class="form-group sq-form-group">
+            <label for="userName">{{'msg#modal.login.userName' | sqMessage}}</label>
+            <input [sqValidation]="form" type="text" class="form-control" id="userName" formControlName="userName" spellcheck="off" cdkFocusInitial>
+        </div>
+        <div class="form-group sq-form-group">
+            <label for="password">{{'msg#modal.login.password' | sqMessage}}</label>
+            <input [sqValidation]="form" type="password" class="form-control" id="password" formControlName="password" autocomplete="off" spellcheck="off">
+        </div>
+        <div class="form-group sq-form-group" *ngIf="!!providers">
+            <label for="providerName">{{'msg#modal.login.singleSignOn' | sqMessage}}</label>
+            <select class="form-control custom-select" id="providerName" formControlName="providerName" (change)="authenticate()">
+                <option *ngFor="let provider of providers" [value]="provider.name" [hidden]="!provider.name" [disabled]="!provider.name">{{(provider.displayName || provider.name) | sqMessage}}</option>
+            </select>
+        </div>
+    </sq-modal>
+</form>

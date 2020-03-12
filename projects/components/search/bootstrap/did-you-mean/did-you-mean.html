@@ -1,0 +1,11 @@
+<div *ngIf="!!item" class="sq-did-you-mean sq-text {{'sq-' + context}}" [ngSwitch]="spellingCorrectionMode">
+    <ng-container *ngSwitchCase="spellingCorrectionModeEnum.dymOnly">
+        {{'msg#didYouMean.dymonlyBeforeCorrected' | sqMessage}}<a class="sq-did-you-mean-corrected" href="#" (click)="selectCorrected()">{{item.corrected}}</a>{{'msg#didYouMean.dymonlyAfterCorrected' | sqMessage}}
+    </ng-container>
+    <ng-container *ngSwitchCase="spellingCorrectionModeEnum.correct">
+        {{'msg#didYouMean.correctBeforeCorrected' | sqMessage}}<a class="sq-did-you-mean-corrected" href="#" (click)="selectCorrected()">{{item.corrected}}</a>{{'msg#didYouMean.correctBeforeOriginal' | sqMessage}}<a class="sq-did-you-mean-original" href="#" (click)="selectOriginal()">{{item.original}}</a>{{'msg#didYouMean.correctAfterOriginal' | sqMessage}}
+    </ng-container>
+    <ng-container *ngSwitchCase="spellingCorrectionModeEnum.smart">
+        {{'msg#didYouMean.smartBeforeOriginal' | sqMessage}}<a class="sq-did-you-mean-original" href="#" (click)="selectOriginal()">{{item.original}}</a>{{'msg#didYouMean.smartBeforeCorrected' | sqMessage}}<a class="sq-did-you-mean-original" href="#" (click)="selectCorrected()">{{item.corrected}}</a>{{'msg#didYouMean.smartAfterCorrected' | sqMessage}}
+    </ng-container>
+</div>

@@ -1,0 +1,3349 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>FacetService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>facet/facet.service.ts</code>
+        </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addFacet">addFacet</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addFilter">addFilter</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addFilterSearch">addFilterSearch</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#clearFilters">clearFilters</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#clearFiltersSearch">clearFiltersSearch</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#facet">facet</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#findFilter">findFilter</a>
+                            </li>
+                            <li>
+                                <a href="#formatValue">formatValue</a>
+                            </li>
+                            <li>
+                                <a href="#getAggregation">getAggregation</a>
+                            </li>
+                            <li>
+                                <a href="#getAggregationCount">getAggregationCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getFacets">getFacets</a>
+                            </li>
+                            <li>
+                                <a href="#getTreeAggregation">getTreeAggregation</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#hasFiltered">hasFiltered</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isFacetOpened">isFacetOpened</a>
+                            </li>
+                            <li>
+                                <a href="#itemFiltered">itemFiltered</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#loadData">loadData</a>
+                            </li>
+                            <li>
+                                <a href="#open">open</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#removeFacet">removeFacet</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#removeFilter">removeFilter</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#removeFilterSearch">removeFilterSearch</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#suggest">suggest</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#treepathLast">treepathLast</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#facets">facets</a>
+                                </li>
+                                <li>
+                                    <a href="#events">events</a>
+                                </li>
+                                <li>
+                                    <a href="#changes">changes</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(userSettingsService: UserSettingsWebService, searchService: <a href="../injectables/SearchService.html">SearchService</a>, suggestService: <a href="../injectables/SuggestService.html">SuggestService</a>, appService: AppService, intlService: IntlService, formatService: FormatService, allFacets: any[], defaultFacets: <a href="../interfaces/FacetState.html">FacetState[]</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">facet/facet.service.ts:71</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>userSettingsService</td>
+                                                  
+                                                        <td>
+                                                                    <code>UserSettingsWebService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>searchService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SearchService.html" target="_self" >SearchService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>suggestService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SuggestService.html" target="_self" >SuggestService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>appService</td>
+                                                  
+                                                        <td>
+                                                                    <code>AppService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>intlService</td>
+                                                  
+                                                        <td>
+                                                                    <code>IntlService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>formatService</td>
+                                                  
+                                                        <td>
+                                                                    <code>FormatService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>allFacets</td>
+                                                  
+                                                        <td>
+                                                                    <code>any[]</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>defaultFacets</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../interfaces/FacetState.html" target="_self" >FacetState[]</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addFacet"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addFacet
+                        </b>
+                        <a href="#addFacet"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addFacet(facet: <a href="../interfaces/FacetState.html">FacetState</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="172"
+                            class="link-to-prism">facet/facet.service.ts:172</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>facet</td>
+                                    <td>
+                                                <code><a href="../interfaces/FacetState.html" target="_self" >FacetState</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addFilter"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addFilter
+                        </b>
+                        <a href="#addFilter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addFilter(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, aggregation: Aggregation, items: <a href="../interfaces/Item.html">AggregationItem | AggregationItem[]</a>, options: <a href="../interfaces/AddFilterOptions.html">AddFilterOptions</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="250"
+                            class="link-to-prism">facet/facet.service.ts:250</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Filter/Exclude one or more item(s) in a facet (without launching a search)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>facetName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>aggregation</td>
+                                    <td>
+                                            <code>Aggregation</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>items</td>
+                                    <td>
+                                                <code><a href="../interfaces/Item.html" target="_self" >AggregationItem | AggregationItem[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../interfaces/AddFilterOptions.html" target="_self" >AddFilterOptions</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>{}</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addFilterSearch"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addFilterSearch
+                        </b>
+                        <a href="#addFilterSearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addFilterSearch(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, aggregation: Aggregation, items: <a href="../interfaces/Item.html">AggregationItem | AggregationItem[]</a>, options: <a href="../interfaces/AddFilterOptions.html">AddFilterOptions</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="222"
+                            class="link-to-prism">facet/facet.service.ts:222</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Filter/Exclude an item in a facet and launch a search.
+Triggers an internal event and an Audit Event</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>facetName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>aggregation</td>
+                                    <td>
+                                            <code>Aggregation</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>items</td>
+                                    <td>
+                                                <code><a href="../interfaces/Item.html" target="_self" >AggregationItem | AggregationItem[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../interfaces/AddFilterOptions.html" target="_self" >AddFilterOptions</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>{}</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;boolean&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearFilters"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            clearFilters
+                        </b>
+                        <a href="#clearFilters"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>clearFilters(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, all?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="307"
+                            class="link-to-prism">facet/facet.service.ts:307</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Clears the query from the current selection on the given facet</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>facetName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>all</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearFiltersSearch"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            clearFiltersSearch
+                        </b>
+                        <a href="#clearFiltersSearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>clearFiltersSearch(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, all?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="316"
+                            class="link-to-prism">facet/facet.service.ts:316</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Clears the query from the current selection on the given facet and perform a search</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>facetName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>all</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;boolean&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="facet"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            facet
+                        </b>
+                        <a href="#facet"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>facet(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">facet/facet.service.ts:121</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/FacetState.html" target="_self" >FacetState | undefined</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>a facet with the given name or undefined if it does not exist</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="findFilter"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            findFilter
+                        </b>
+                        <a href="#findFilter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>findFilter(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="404"
+                            class="link-to-prism">facet/facet.service.ts:404</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns an active selection of this facet filtering the search
+Returns it as an expression</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>facetName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Expr | undefined</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formatValue"></a>
+                    <span class="name">
+                        <b>
+                            formatValue
+                        </b>
+                        <a href="#formatValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>formatValue(item: <a href="../interfaces/Item.html">AggregationItem</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="385"
+                            class="link-to-prism">facet/facet.service.ts:385</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Format the given result item, using field formatter and/or i18n service</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>item</td>
+                                    <td>
+                                                <code><a href="../interfaces/Item.html" target="_self" >AggregationItem</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAggregation"></a>
+                    <span class="name">
+                        <b>
+                            getAggregation
+                        </b>
+                        <a href="#getAggregation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAggregation(aggregationName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, results)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="417"
+                            class="link-to-prism">facet/facet.service.ts:417</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Look for an aggregation with the given name in the search results and returns it.
+Takes care of initializing the aggregation items to insert their $column property.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>aggregationName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>results</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>this.searchService.results</code>
+                                    </td>
+
+                                    <td>
+                                        <p>The search results can be provided explicitly or taken from the SearchService implicitly.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Aggregation | undefined</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAggregationCount"></a>
+                    <span class="name">
+                        <b>
+                            getAggregationCount
+                        </b>
+                        <a href="#getAggregationCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAggregationCount(aggregationName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="457"
+                            class="link-to-prism">facet/facet.service.ts:457</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the count parameter of the given aggregation (default is 10)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>aggregationName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFacets"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getFacets
+                        </b>
+                        <a href="#getFacets"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getFacets(position: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">facet/facet.service.ts:130</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the list of facet config in the given container (position)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>position</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>0</code>
+                                    </td>
+
+                                    <td>
+                                        <p>(default to 0 if there is a single container)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>any[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTreeAggregation"></a>
+                    <span class="name">
+                        <b>
+                            getTreeAggregation
+                        </b>
+                        <a href="#getTreeAggregation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTreeAggregation(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, aggregationName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, results, levelCallback?: (nodes?: TreeAggregationNode[],level?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>,node?: TreeAggregationNode,opened?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>,filtered?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>) => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="438"
+                            class="link-to-prism">facet/facet.service.ts:438</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Look for a Tree aggregation with the given name in the search results and returns it.
+Takes care of initializing the Node aggregation items to insert their properties ($column, $path, $opened, $level)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>facetName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>aggregationName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>results</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>this.searchService.results</code>
+                                    </td>
+
+                                    <td>
+                                        <p>The search results can be provided explicitly or taken from the SearchService implicitly.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>levelCallback</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>A callback method called at every level of the tree. 
+Can be used to read or alter the properties of the nodes (opening, closing), or node list (sorting)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>TreeAggregation | undefined</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasFiltered"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            hasFiltered
+                        </b>
+                        <a href="#hasFiltered"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hasFiltered(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="395"
+                            class="link-to-prism">facet/facet.service.ts:395</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns true if this facet has at least one active selection
+filtering the search</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>facetName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isFacetOpened"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            isFacetOpened
+                        </b>
+                        <a href="#isFacetOpened"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isFacetOpened(facetName)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="142"
+                            class="link-to-prism">facet/facet.service.ts:142</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns true if this facet is opened (in any container)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>facetName</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="itemFiltered"></a>
+                    <span class="name">
+                        <b>
+                            itemFiltered
+                        </b>
+                        <a href="#itemFiltered"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>itemFiltered(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, aggregation: Aggregation, item: <a href="../interfaces/Item.html">AggregationItem</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="506"
+                            class="link-to-prism">facet/facet.service.ts:506</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns true if a given aggregation item is currently actively filtering the search</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>facetName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>aggregation</td>
+                                    <td>
+                                            <code>Aggregation</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>item</td>
+                                    <td>
+                                                <code><a href="../interfaces/Item.html" target="_self" >AggregationItem</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadData"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            loadData
+                        </b>
+                        <a href="#loadData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadData(aggregation: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, skip: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, count: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="355"
+                            class="link-to-prism">facet/facet.service.ts:355</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Queries the server for data for this aggregation</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>aggregation</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>skip</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>0</code>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>count</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>10</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;Aggregation | undefined&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="open"></a>
+                    <span class="name">
+                        <b>
+                            open
+                        </b>
+                        <a href="#open"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>open(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, aggregation: TreeAggregation, item: TreeAggregationNode, levelCallback?: (nodes?: TreeAggregationNode[],level?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>,node?: TreeAggregationNode,opened?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>,filtered?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>) => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="471"
+                            class="link-to-prism">facet/facet.service.ts:471</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Opens a Tree node of the given tree facet by querying data from the server
+Takes care of initializing the Node aggregation items to insert their properties ($column, $path, $opened, $level)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>facetName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>aggregation</td>
+                                    <td>
+                                            <code>TreeAggregation</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>item</td>
+                                    <td>
+                                            <code>TreeAggregationNode</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>levelCallback</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>A callback method called at every level of the tree. 
+Can be used to read or alter the properties of the nodes (opening, closing), or node list (sorting) </p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Results.html" target="_self" >Observable&lt;Results&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeFacet"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            removeFacet
+                        </b>
+                        <a href="#removeFacet"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeFacet(facet: <a href="../interfaces/FacetState.html">FacetState</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="183"
+                            class="link-to-prism">facet/facet.service.ts:183</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>facet</td>
+                                    <td>
+                                                <code><a href="../interfaces/FacetState.html" target="_self" >FacetState</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeFilter"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            removeFilter
+                        </b>
+                        <a href="#removeFilter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeFilter(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, aggregation: Aggregation, item: <a href="../interfaces/Item.html">AggregationItem</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="328"
+                            class="link-to-prism">facet/facet.service.ts:328</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>facetName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>aggregation</td>
+                                    <td>
+                                            <code>Aggregation</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>item</td>
+                                    <td>
+                                                <code><a href="../interfaces/Item.html" target="_self" >AggregationItem</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeFilterSearch"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            removeFilterSearch
+                        </b>
+                        <a href="#removeFilterSearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeFilterSearch(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, aggregation: Aggregation, item: <a href="../interfaces/Item.html">AggregationItem</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="336"
+                            class="link-to-prism">facet/facet.service.ts:336</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>facetName</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>aggregation</td>
+                                    <td>
+                                            <code>Aggregation</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>item</td>
+                                    <td>
+                                                <code><a href="../interfaces/Item.html" target="_self" >AggregationItem</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;boolean&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="suggest"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            suggest
+                        </b>
+                        <a href="#suggest"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>suggest(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, suggestQuery)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="377"
+                            class="link-to-prism">facet/facet.service.ts:377</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get suggestions given a text and a field name, using the Suggest service</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>text</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>field</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>suggestQuery</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>this.appService.suggestQueries[0]</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;Suggestion[]&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="treepathLast"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            treepathLast
+                        </b>
+                        <a href="#treepathLast"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>treepathLast(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="731"
+                            class="link-to-prism">facet/facet.service.ts:731</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>path</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="facets"></a>
+                        <span class="name"><b>facets</b><a href="#facets"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>facets()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">facet/facet.service.ts:104</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Returns the list of this user&#39;s facets.
+The list is stored in the user settings (this is a redirection).
+Using this service creates the list of facets if it does not already exist.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../interfaces/FacetState.html" target="_self" >FacetState[]</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="events"></a>
+                        <span class="name"><b>events</b><a href="#events"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>events()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="159" class="link-to-prism">facet/facet.service.ts:159</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Triggers any events regarding the facets</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>Subject&lt;FacetChangeEvent&gt;</code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="changes"></a>
+                        <span class="name"><b>changes</b><a href="#changes"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>changes()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="167" class="link-to-prism">facet/facet.service.ts:167</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Triggers when events affect the list of facets 
+Cf. CHANGE_EVENTS list</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>Subject&lt;FacetChangeEvent&gt;</code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+</section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, Optional, InjectionToken} from &quot;@angular/core&quot;;
+import {UserSettingsWebService, UserSettings, Suggestion,
+    Results, Aggregation, AggregationItem, TreeAggregation, TreeAggregationNode,
+    AuditEvents} from &quot;@sinequa/core/web-services&quot;;
+import {IntlService} from &quot;@sinequa/core/intl&quot;;
+import {Query, AppService, FormatService, ValueItem, Expr, ExprOperator, ExprParser} from &quot;@sinequa/core/app-utils&quot;;
+import {Utils} from &quot;@sinequa/core/base&quot;;
+import {Subject, Observable} from &quot;rxjs&quot;;
+import {map} from &quot;rxjs/operators&quot;;
+import {SearchService} from &quot;@sinequa/components/search&quot;;
+import {SuggestService} from &quot;@sinequa/components/autocomplete&quot;;
+
+// Facet interface (from models/UserSettings)
+export interface FacetState {
+    name: string;
+    position: number; // eg 0 &#x3D; left, 1 &#x3D; right
+    expanded: boolean;
+    hidden: boolean;
+    view: string;
+}
+
+/**
+ * Options for the [[FacetService.AddFilter]] and [[FacetService.AddFilterSearch]] methods
+ * 
+ * and: If multiple items are filtered, determines whether they are filtered as AND or OR
+ * not: Whether this is an exlusion of the filtered item
+ * replaceCurrent: if true, the current filter is replaced
+ */
+export interface AddFilterOptions {
+    and?: boolean;
+    not?: boolean;
+    replaceCurrent?: boolean;
+}
+
+// Audit Events (from models/Audit)
+export const enum FacetEventType {
+    Loaded &#x3D; &quot;Facet_Loaded&quot;,
+    Add &#x3D; &quot;Facet_Added&quot;,
+    Remove &#x3D; &quot;Facet_Removed&quot;,
+
+    Patched &#x3D; &quot;Facet_Patched&quot;,    
+    ClearFilters &#x3D; &quot;Facet_ClearFilters&quot;,
+    AddFilter &#x3D; &quot;Facet_AddFilter&quot;,
+    RemoveFilter &#x3D; &quot;Facet_RemoveFilter&quot;,
+    Open &#x3D; &quot;Facet_TreeOpen&quot;
+}
+
+// Types of events triggering a change event
+export const FACET_CHANGE_EVENTS &#x3D; [
+    FacetEventType.Loaded,
+    FacetEventType.Add,
+    FacetEventType.Remove
+];
+
+
+// CRUD Events
+export interface FacetChangeEvent {
+    type: FacetEventType;
+    facet?: FacetState;
+}
+
+export const ALL_FACETS &#x3D; new InjectionToken&lt;any[]&gt;(&#x27;ALL_FACETS&#x27;);
+export const DEFAULT_FACETS &#x3D; new InjectionToken&lt;FacetState[]&gt;(&#x27;DEFAULT_FACETS&#x27;);
+
+@Injectable({
+    providedIn: &#x27;root&#x27;,
+})
+export class FacetService {
+
+    private readonly _events &#x3D; new Subject&lt;FacetChangeEvent&gt;();
+    private readonly _changes &#x3D; new Subject&lt;FacetChangeEvent&gt;();
+
+    constructor(
+        private userSettingsService: UserSettingsWebService,
+        private searchService: SearchService,
+        private suggestService: SuggestService,
+        private appService: AppService,
+        private intlService: IntlService,
+        private formatService: FormatService,
+        @Optional() @Inject(ALL_FACETS) private allFacets: any[],
+        @Optional() @Inject(DEFAULT_FACETS) private defaultFacets: FacetState[]){
+
+        // Listen to the user settings
+        this.userSettingsService.events.subscribe(event &#x3D;&gt; {
+            // E.g. new login occurs
+            // &#x3D;&#x3D;&gt; Menus need to be rebuilt
+            this.events.next({type: FacetEventType.Loaded});
+        });
+        // Listen to own events, to trigger change events
+        this._events.subscribe(event &#x3D;&gt; {
+            if(FACET_CHANGE_EVENTS.indexOf(event.type) !&#x3D;&#x3D; -1){                
+                this.changes.next(event);
+            }
+        });
+    }
+
+    // GETTERS
+
+    /**
+     * Returns the list of this user&#x27;s facets.
+     * The list is stored in the user settings (this is a redirection).
+     * Using this service creates the list of facets if it does not already exist.
+     */
+    public get facets() : FacetState[] {
+        if(!this.userSettingsService.userSettings)
+            this.userSettingsService.userSettings &#x3D; {};
+        if(!this.userSettingsService.userSettings[&quot;facets&quot;]) {
+            this.userSettingsService.userSettings[&quot;facets&quot;] &#x3D; [];
+            if(!!this.defaultFacets){
+                this.userSettingsService.userSettings[&quot;facets&quot;].push(...this.defaultFacets);
+                this.patchFacets();
+            }
+        }
+        return this.userSettingsService.userSettings[&quot;facets&quot;];
+    }
+
+    /**
+     * @returns a facet with the given name or undefined if it does not exist
+     * @param name 
+     */
+    public facet(name: string): FacetState | undefined {
+        let i &#x3D; this.facetIndex(name);
+        return i&gt;&#x3D; 0? this.facets[i] : undefined;
+    }
+
+    /**
+     * Returns the list of facet config in the given container (position)
+     * @param position (default to 0 if there is a single container)
+     */
+    public getFacets(position: number &#x3D; 0) : any[] {
+        if (!this.allFacets) {
+            return [];
+        }
+        return this.facets.filter(f &#x3D;&gt; f.position &#x3D;&#x3D;&#x3D; position)
+            .map(f &#x3D;&gt; this.allFacets.find(_f &#x3D;&gt; _f.name &#x3D;&#x3D;&#x3D; f.name));
+    }
+
+    /**
+     * Returns true if this facet is opened (in any container)
+     * @param facetName 
+     */
+    public isFacetOpened(facetName): boolean {
+        return !!this.facets.find(f &#x3D;&gt; f.name &#x3D;&#x3D;&#x3D; facetName)
+    }
+ 
+    private facetIndex(name: string): number {
+        for (let i &#x3D; 0, ic &#x3D; this.facets.length; i &lt; ic; i++) {
+            let facet &#x3D; this.facets[i];
+            if (facet &amp;&amp; facet.name &#x3D;&#x3D;&#x3D; name) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Triggers any events regarding the facets
+     */
+    public get events(): Subject&lt;FacetChangeEvent&gt; {
+        return this._events;
+    }
+
+    /**
+     * Triggers when events affect the list of facets 
+     * Cf. CHANGE_EVENTS list
+     */
+    public get changes() : Subject&lt;FacetChangeEvent&gt; {
+        return this._changes;
+    }
+
+
+    public addFacet(facet: FacetState){
+        this.facets.push(facet);
+        this.events.next({type : FacetEventType.Add, facet: facet});
+        this.patchFacets([{
+            type: FacetEventType.Add,
+            detail: {
+                facet: facet.name
+            }
+        }]);
+    }
+
+    public removeFacet(facet: FacetState){
+        let i &#x3D; this.facetIndex(facet.name);
+        if(i !&#x3D;&#x3D; -1){
+            this.facets.splice(i,1);
+            this.events.next({type : FacetEventType.Remove, facet: facet});
+            this.patchFacets([{
+                type: FacetEventType.Add,
+                detail: {
+                    facet: facet.name
+                }
+            }]);
+        }
+    }
+
+
+    /**
+     * Updates facets in User settings.
+     * @param auditEvents : Audit Events to be triggered
+     * @returns an Observable which can be used to trigger further events
+     */
+    private patchFacets(auditEvents?: AuditEvents) {
+        return this.userSettingsService.patch({facets: this.facets} as UserSettings, auditEvents)
+            .subscribe(
+                next &#x3D;&gt; {
+                    this.events.next({type: FacetEventType.Patched});
+                }, 
+                error &#x3D;&gt; {
+                    console.error(&quot;Could not patch Facets!&quot;, error);
+            });
+    }
+
+    /**
+     * Filter/Exclude an item in a facet and launch a search.
+     * Triggers an internal event and an Audit Event
+     * @param facetName 
+     * @param aggregation 
+     * @param items
+     * @param options 
+     */
+    public addFilterSearch(
+        facetName: string, 
+        aggregation: Aggregation, 
+        items: AggregationItem | AggregationItem[],
+        options: AddFilterOptions &#x3D; {}): Promise&lt;boolean&gt; {
+            
+        this.addFilter(facetName, aggregation, items, options);
+        this.events.next({type: FacetEventType.AddFilter, facet: this.facet(facetName)})
+        return this.searchService.search(undefined, {
+                type: FacetEventType.AddFilter,
+                detail: {
+                    item: &lt;any&gt;this.searchService.query.lastSelect(),
+                    itembox: facetName,
+                    itemcolumn: aggregation.column,
+                    isitemexclude: options.not,
+                    &quot;from-result-id&quot;: !!this.searchService.results ? this.searchService.results.id : null
+                }
+            });
+    }
+
+
+    /**
+     * Filter/Exclude one or more item(s) in a facet (without launching a search)
+     * @param facetName 
+     * @param aggregation 
+     * @param items 
+     * @param options
+     */
+    public addFilter(
+        facetName: string, 
+        aggregation: Aggregation,
+        items: AggregationItem | AggregationItem[],
+        options: AddFilterOptions &#x3D; {}) : void {
+
+        if (!items) {
+            return;
+        }
+        if (options.replaceCurrent) {
+            this.searchService.query.removeSelect(facetName);
+        }
+        let _exprs: string[] | undefined;
+        let _expr: string &#x3D; &quot;&quot;;
+        let addGlobalField &#x3D; !aggregation.valuesAreExpressions;
+        if (Utils.isArray(items)) {
+            if (items.length &#x3D;&#x3D;&#x3D; 0) {
+                return;
+            }
+            addGlobalField &#x3D; !aggregation.valuesAreExpressions &amp;&amp; items.length &gt; 1;
+            let excludeField &#x3D; addGlobalField;
+            _exprs &#x3D; items.map(value &#x3D;&gt; FacetService.makeFacetExpr(aggregation, value, excludeField));
+            if (_exprs.length &#x3D;&#x3D;&#x3D; 1) {
+                _expr &#x3D; _exprs[0];
+            }
+        }
+        else {
+            _expr &#x3D; FacetService.makeFacetExpr(aggregation, items as AggregationItem);
+        }
+        // SINGLE VALUE CASE
+        if (_expr) {
+            this._addFacetFilter(_expr, facetName, options.not);
+            return;
+        }
+        // AND / OR
+        let operator &#x3D; options.and ? &quot; AND &quot; : &quot; OR &quot;;
+        let expr &#x3D; &quot;&quot;;
+        if (_exprs) {
+            for (let _expr of _exprs) {
+                if (expr) {
+                    expr &#x3D; expr + operator;
+                }
+                expr +&#x3D; &quot;(&quot; + _expr + &quot;)&quot;;
+            }
+            expr &#x3D; &quot;(&quot; + expr + &quot;)&quot;;
+        }
+        if (addGlobalField) {
+            expr &#x3D; aggregation.column + &quot;:&quot; + expr;
+        }
+        this._addFacetFilter(expr, facetName, options.not);
+    }
+
+    /**
+     * Clears the query from the current selection on the given facet
+     * @param facetName 
+     * @param all 
+     */
+    public clearFilters(facetName: string, all?: boolean) {
+        this.searchService.query.removeSelect(facetName, all);
+    }
+
+    /**
+     * Clears the query from the current selection on the given facet and perform a search
+     * @param facetName 
+     * @param all 
+     */
+    public clearFiltersSearch(facetName: string, all?: boolean): Promise&lt;boolean&gt; {
+        this.clearFilters(facetName, all);        
+        this._events.next({type: FacetEventType.ClearFilters, facet: this.facet(facetName)});
+        return this.searchService.search(undefined, {
+                type: FacetEventType.ClearFilters,
+                detail: {
+                    itembox: facetName,
+                    &quot;from-result-id&quot;: !!this.searchService.results ? this.searchService.results.id : null
+                }
+            });
+    }
+
+    public removeFilter(facetName: string, aggregation: Aggregation, item: AggregationItem){
+        if (this.searchService.breadcrumbs) {
+            let expr &#x3D; this.findItemFilter(facetName, aggregation, item);    
+            let i &#x3D; this.searchService.breadcrumbs.activeSelects.findIndex(select &#x3D;&gt; select.facet &#x3D;&#x3D;&#x3D; facetName &amp;&amp; select.expr &#x3D;&#x3D;&#x3D; expr);
+            this.searchService.query.removeSelect(i);
+        }
+    }
+    
+    public removeFilterSearch(facetName: string, aggregation: Aggregation, item: AggregationItem): Promise&lt;boolean&gt;{
+        this.removeFilter(facetName, aggregation, item);
+        this._events.next({type: FacetEventType.RemoveFilter, facet: this.facet(facetName)});
+        return this.searchService.search(undefined); // Note: Audit event generated by the removeBreadcrumbItem call
+    }
+
+    private _addFacetFilter(expr: string, facet: string, not?: boolean): number {
+        if (not) {
+            expr &#x3D; &quot;NOT (&quot; + expr + &quot;)&quot;;
+        }
+        return this.searchService.query.addSelect(expr, facet);
+    }
+   
+    /**
+     * Queries the server for data for this aggregation
+     * @param aggregation 
+     * @param skip 
+     * @param count 
+     */
+    public loadData(aggregation: string, skip: number &#x3D; 0, count: number &#x3D; 10): Observable&lt;Aggregation | undefined&gt; {
+        let query &#x3D; Utils.copy(this.searchService.query);
+        query.action &#x3D; &quot;aggregate&quot;;
+        query.aggregations &#x3D; {};
+        query.aggregations[aggregation] &#x3D; {skip: skip, count: count};
+        return this.searchService.getResults(query, undefined, {searchInactive: true}).pipe(
+            map((results: Results) &#x3D;&gt; {
+                let data &#x3D; results.aggregations.find(a &#x3D;&gt; Utils.eqNC(a.name, aggregation));
+                if (data) {
+                    this.setColumn(data);   // Useful for formatting and i18n
+                }
+                return data;
+            })
+        );        
+    }
+
+    /**
+     * Get suggestions given a text and a field name, using the Suggest service
+     * @param text 
+     * @param field 
+     * @param suggestQuery 
+     */
+    public suggest(text: string, field: string, suggestQuery &#x3D; this.appService.suggestQueries[0]): Observable&lt;Suggestion[]&gt; {
+        return this.suggestService.get(suggestQuery, text, [field], this.searchService.query);
+    }
+
+    /**
+     * Format the given result item, using field formatter and/or i18n service
+     * @param item 
+     */
+    formatValue(item: AggregationItem): string {
+        return this.intlService.formatMessage(
+            this.formatService.formatFieldValue(item, item.$column))
+    }
+
+    /**
+     * Returns true if this facet has at least one active selection
+     * filtering the search
+     * @param facetName 
+     */
+    public hasFiltered(facetName: string) : boolean {
+        return !!this.findFilter(facetName);
+    }
+
+    /**
+     * Returns an active selection of this facet filtering the search
+     * Returns it as an expression
+     * @param facetName 
+     */
+    public findFilter(facetName: string) : Expr | undefined {
+        if (this.searchService.breadcrumbs) {
+            return this.searchService.breadcrumbs.findSelect(facetName);
+        }
+        return undefined;
+    }
+
+    /**
+     * Look for an aggregation with the given name in the search results and returns it.
+     * Takes care of initializing the aggregation items to insert their $column property.
+     * @param aggregationName 
+     * @param results The search results can be provided explicitly or taken from the SearchService implicitly.
+     */
+    getAggregation(aggregationName: string, results &#x3D; this.searchService.results): Aggregation | undefined {
+        if (results &amp;&amp; results.aggregations) {
+            for (let aggregation of results.aggregations) {
+                if (Utils.eqNC(aggregation.name, aggregationName)) {
+                    this.setColumn(aggregation)    // Useful for formatting and i18n
+                    return aggregation;
+                }
+            }
+        }
+        return undefined;
+    }
+
+    /**
+     * Look for a Tree aggregation with the given name in the search results and returns it.
+     * Takes care of initializing the Node aggregation items to insert their properties ($column, $path, $opened, $level)
+     * @param facetName 
+     * @param aggregationName 
+     * @param results The search results can be provided explicitly or taken from the SearchService implicitly.
+     * @param levelCallback A callback method called at every level of the tree. 
+     * Can be used to read or alter the properties of the nodes (opening, closing), or node list (sorting)
+     */
+    getTreeAggregation(facetName: string, aggregationName: string, results &#x3D; this.searchService.results,
+        levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, filtered?: boolean) &#x3D;&gt; void) 
+        : TreeAggregation | undefined
+    {
+        let agg &#x3D; this.getAggregation(aggregationName, results);
+        if(agg &amp;&amp; agg.isTree){
+            let expr &#x3D; this.findFilter(facetName);
+            let expandPaths &#x3D; expr ? expr.getValues(agg.column) : [];
+            this.initTreeNodes(facetName, agg, &quot;/&quot;, agg.items as TreeAggregationNode[], expandPaths, levelCallback);
+
+            return agg as TreeAggregation;
+        }
+        return undefined;
+    }
+
+    /**
+     * Returns the count parameter of the given aggregation (default is 10)
+     * @param aggregationName 
+     */
+    getAggregationCount(aggregationName: string) : number {        
+        let ccaggregation &#x3D; this.appService.getCCAggregation(aggregationName);
+        return (ccaggregation &amp;&amp; ccaggregation.count) || 10;
+    }
+
+    /**
+     * Opens a Tree node of the given tree facet by querying data from the server
+     * Takes care of initializing the Node aggregation items to insert their properties ($column, $path, $opened, $level)
+     * @param facetName 
+     * @param aggregation 
+     * @param item 
+     * @param levelCallback A callback method called at every level of the tree. 
+     * Can be used to read or alter the properties of the nodes (opening, closing), or node list (sorting) 
+     */
+    open(facetName: string, aggregation: TreeAggregation, 
+        item: TreeAggregationNode,
+        levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, filtered?: boolean) &#x3D;&gt; void)
+        : Observable&lt;Results&gt; 
+    {
+        let value &#x3D; item.$path + &quot;*&quot;;
+        let query &#x3D; Query.copy(this.searchService.query);
+        query.action &#x3D; &quot;open&quot;;
+        let expr &#x3D; aggregation.column + &quot;:(&quot; + ExprParser.escape(value) + &quot;)&quot;;
+        query.addOpen(expr, aggregation.name);
+
+        this.events.next({type: FacetEventType.Open, facet: this.facet(facetName)});
+        return this.searchService.getResults(query, undefined, {searchInactive: true}).pipe(
+            map((results: Results) &#x3D;&gt; {
+                if (item.$path) {
+                    let source &#x3D; FacetService.getAggregationNode(results.aggregations[0].items as TreeAggregationNode[], item.$path);
+                    let target &#x3D; FacetService.getAggregationNode(aggregation.items as TreeAggregationNode[], item.$path);
+                    if (source &amp;&amp; target) {
+                        target.items &#x3D; source.items;    // Insert the new data (source) into the original (target)
+                    }      
+                    if (target &amp;&amp; target.items) {
+                        this.initTreeNodes(facetName, aggregation, item.$path, target.items, undefined, levelCallback);
+                    }
+                }
+                return results;
+            })
+        );
+    }
+    
+    /**
+     * Returns true if a given aggregation item is currently actively filtering the search
+     * @param facetName 
+     * @param aggregation 
+     * @param item 
+     */
+    itemFiltered(facetName: string, aggregation: Aggregation, item: AggregationItem): boolean {
+        return !!this.findItemFilter(facetName, aggregation, item);
+    }
+
+    private findItemFilter(facetName: string, aggregation: Aggregation, item: AggregationItem) : Expr | undefined {
+        let expr: Expr | undefined;
+        if (!aggregation.valuesAreExpressions) {
+            let value: string;
+            if (aggregation.isTree) {
+                value &#x3D; Utils.toSqlValue((&lt;TreeAggregationNode&gt;item).$path + &quot;*&quot;);
+            }
+            else {
+                value &#x3D; Utils.toSqlValue(item.value);
+            }
+            expr &#x3D; new Expr({
+                exprContext: {
+                    appService: this.appService,
+                    formatService: this.formatService,
+                    intlService: this.intlService
+                },
+                value: value,
+                operator: ExprOperator.eq,
+                field: aggregation.column
+            });
+        }
+        else {
+            let ret &#x3D; this.appService.parseExpr(&lt;string&gt;item.value);
+            if (ret instanceof Expr) {
+                expr &#x3D; &lt;Expr&gt;ret;
+            }
+        }
+        if (expr) {
+            let expr2 &#x3D; this.searchService.breadcrumbs &amp;&amp; this.searchService.breadcrumbs.findSelect(facetName, expr);
+            if(!!expr2 &amp;&amp; (!expr2.parent || !expr2.parent.parent)){
+                return expr2;
+            }
+        }
+        return undefined;
+    }
+
+    /**
+     * Initializes the nodes of a tree (private, with a callback)
+     * @param facetName 
+     * @param aggregation 
+     * @param root 
+     * @param children 
+     * @param expandPaths 
+     * @param levelCallback 
+     */
+    private initTreeNodes(facetName: string, aggregation: Aggregation, 
+        root: string, children: TreeAggregationNode[],
+        expandPaths?: string[],
+        levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, selected?: boolean) &#x3D;&gt; void)
+    {
+        if (!children) {
+            return;
+        }
+        let rootLevel: number;
+        if (root) {
+            rootLevel &#x3D; Utils.count(root, &quot;/&quot;, false) - 1;
+        }
+        else {
+            root &#x3D; &quot;/&quot;;
+            rootLevel &#x3D; 0;
+        }
+        let column &#x3D; this.appService.getColumn(aggregation.column);
+        FacetService
+            .traverse(children, (_nodes) &#x3D;&gt; {
+                if (!_nodes) {
+                    return false;
+                }
+                let path &#x3D; root;
+                let level &#x3D; rootLevel;
+                for (let _node of _nodes) {
+                    path &#x3D; path + _node.value + &quot;/&quot;;
+                    level++;
+                }
+                // console.log(path);
+                let _node &#x3D; _nodes[_nodes.length - 1];
+                _node.$path &#x3D; path;
+                _node.$column &#x3D; column;
+                _node[&quot;$level&quot;] &#x3D; level;
+                _node.$opened &#x3D; false;
+                let filtered &#x3D; false;
+                if (expandPaths) {
+                    for (let expandPath of expandPaths) {
+                        if (expandPath.indexOf(path) &#x3D;&#x3D;&#x3D; 0) {
+                            if (FacetService.getChildrenCount(_node) &gt; 0) {
+                                _node.$opened &#x3D; true;
+                            }
+                        }
+                    }
+                }
+                if (this.itemFiltered(facetName, aggregation, _node)) {
+                    filtered &#x3D; true;
+                    _nodes.forEach(node &#x3D;&gt; node.$unselectable &#x3D; true);
+                }
+                if (levelCallback) {
+                    levelCallback(_node.items, level, _node, _node.$opened, filtered);
+                }
+                return false; // don&#x27;t stop
+            });
+        if (levelCallback) {
+            levelCallback(children, rootLevel);
+        }
+    }
+
+    private setColumn(aggregation: Aggregation){
+        if(!aggregation.isTree &amp;&amp; aggregation.items){
+            let column &#x3D; this.appService.getColumn(aggregation.column);
+            aggregation.items.forEach((value) &#x3D;&gt; value.$column &#x3D; column);
+        }
+    }
+
+
+
+    // static methods
+
+    /**
+     * Create an Expression to filter or exclude an item in a facet
+     * @param aggregation the Aggregation to which the item belong
+     * @param item the filtered/excluded item (might be a tree item)
+     * @param label an optional label to display the value (by default will have none)
+     */
+    private static makeFacetExpr(
+        aggregation: Aggregation, 
+        item: AggregationItem | TreeAggregationNode,
+        excludeField?: boolean,
+        label?: string): string {
+
+        let expr: string;
+        if (aggregation.valuesAreExpressions) {
+            expr &#x3D; &lt;string&gt;item.value;
+        }
+        else {
+            let valueItem: ValueItem &#x3D; item;
+            let displayObj: {label?: string, display?: string} | undefined;
+            if (label) {
+                displayObj &#x3D; {
+                    label: label,
+                    display: item.display
+                };
+            }
+            if (aggregation.isTree) {
+                let display: string;
+                if (displayObj) {
+                    displayObj.display &#x3D; displayObj.display || &lt;string&gt;item.value;
+                    display &#x3D; Utils.toJson(displayObj);
+                }
+                else {
+                    display &#x3D; item.display || &lt;string&gt;item.value;
+                }
+                valueItem &#x3D; {
+                    value: (item as TreeAggregationNode).$path + &quot;*&quot;,
+                    display: display
+                };
+            }
+            else {
+                if (displayObj) {
+                    valueItem &#x3D; {
+                        value: item.value,
+                        display: Utils.toJson(displayObj)
+                    };
+                }
+            }
+            expr &#x3D; this.makeFilterExpr(excludeField? &quot;&quot; : aggregation.column, valueItem);
+        }
+        if (item.$excluded) {
+            expr &#x3D; &quot;NOT (&quot; + expr + &quot;)&quot;;
+        }
+        return expr;
+    }
+
+    // Copied from Search service
+    private static makeFilterExpr(field: string, valueItem: ValueItem): string {
+        let haveField &#x3D; false;
+        let sb: string[] &#x3D; [];
+        if (field) {
+            sb.push(field);
+            haveField &#x3D; true;
+        }
+        if (valueItem.display) {
+            let display &#x3D; valueItem.display;
+            if (Utils.isDate(display)) { // ES-7785
+                display &#x3D; Utils.toSysDateStr(display);
+            }
+            sb.push(ExprParser.escape(display));
+            haveField &#x3D; true;
+        }
+        if (haveField) {
+            sb.push(&quot;:(&quot;, ExprParser.escape(Utils.toSqlValue(valueItem.value)), &quot;)&quot;);
+        }
+        else {
+            sb.push(ExprParser.escape(Utils.toSqlValue(valueItem.value)));
+        }
+        return sb.join(&quot;&quot;);
+    }
+
+    private static getChildrenCount(node: TreeAggregationNode): number {
+        return !!node.items ? node.items.length : node.hasChildren ? -1 : 0;
+    }
+
+    private static splitTreepath(path: string): string[] {
+        if (!path) return [];
+        path &#x3D; path.trim();
+        if (path.length &gt; 0 &amp;&amp; path[0] &#x3D;&#x3D;&#x3D; &quot;/&quot;) {
+            path &#x3D; path.substr(1);
+        }
+        if (path.length &gt; 0 &amp;&amp; path[path.length - 1] &#x3D;&#x3D;&#x3D; &quot;/&quot;) {
+            path &#x3D; path.substr(0, path.length - 1);
+        }
+        if (path.length &#x3D;&#x3D;&#x3D; 0) {
+            return [];
+        }
+        return path.split(&quot;/&quot;);
+    }
+
+    /*private static treepathDepth(path: string): number {
+        let names &#x3D; FacetService.splitTreepath(path);
+        if (!names) {
+            return 0;
+        }
+        return names.length;
+    }*/
+
+    public static treepathLast(path: string): string {
+        let parts &#x3D; FacetService.splitTreepath(path);
+        if (!parts || parts.length &#x3D;&#x3D;&#x3D; 0) {
+            return &quot;&quot;;
+        }
+        return parts[parts.length - 1];
+    }
+
+    /*private static getTreePath(nodes: TreeAggregationNode[], node: TreeAggregationNode) {
+        let path: string &#x3D; null;
+        FacetService.traverse(nodes, (lineage) &#x3D;&gt; {
+            if (lineage) {
+                let _node &#x3D; lineage[lineage.length - 1];
+                if (node &#x3D;&#x3D;&#x3D; _node) {
+                    path &#x3D; &quot;/&quot;;
+                    for (let _node of lineage) {
+                        path &#x3D; path + _node.value + &quot;/&quot;;
+                    }
+                    console.log(path);
+                    return true; // stop
+                }
+            }
+            return false; // don&#x27;t stop
+        });
+        return path;
+    }*/
+
+    private static traverse(nodes: TreeAggregationNode[], callback: (lineage: TreeAggregationNode[] | undefined) &#x3D;&gt; boolean): boolean {
+        if (!nodes || nodes.length &#x3D;&#x3D;&#x3D; 0) {
+            return false;
+        }
+        if (!callback) {
+            return false;
+        }
+        let lineage: TreeAggregationNode[] &#x3D; [];
+        let stack: (TreeAggregationNode | undefined)[] &#x3D; [];
+        let _i &#x3D; nodes.length;
+        while (_i--) {
+            stack.push(nodes[_i]);
+        }
+        while (stack.length) {
+            let node &#x3D; stack.pop();
+            if (!node) {
+                lineage.pop();
+                callback(undefined);
+            }
+            else {
+                lineage.push(node);
+                if (callback(lineage)) {
+                    return true;
+                }
+                stack.push(undefined);
+                if (node.items &amp;&amp; node.items.length &gt; 0) {
+                    _i &#x3D; node.items.length;
+                    while (_i--) {
+                        stack.push(node.items[_i]);
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private static getAggregationNode(nodes: TreeAggregationNode[], path: string): TreeAggregationNode | undefined {
+        if (!nodes || nodes.length &#x3D;&#x3D;&#x3D; 0) {
+            return undefined;
+        }
+        let names &#x3D; FacetService.splitTreepath(path);
+        let node: TreeAggregationNode | undefined;
+        for (let _i &#x3D; 0, _a &#x3D; names; _i &lt; _a.length; _i++) {
+            if (!nodes || nodes.length &#x3D;&#x3D;&#x3D; 0) {
+                return undefined;
+            }
+            let name &#x3D; _a[_i].toLocaleLowerCase();
+            node &#x3D; undefined;
+            for (let _j &#x3D; 0, _b &#x3D; nodes; _j &lt; _b.length; _j++) {
+                let _node &#x3D; _b[_j];
+                if ((&lt;string&gt;_node.value).toLocaleLowerCase() &#x3D;&#x3D;&#x3D; name) {
+                    node &#x3D; _node;
+                    break;
+                }
+            }
+            if (!node) {
+                return undefined;
+            }
+            nodes &#x3D; node.items;
+        }
+        return node;
+    }
+
+    /*private static compareFieldValues(a: FieldValue, b: FieldValue): number {
+        if (!a &amp;&amp; !b) {
+            return 0;
+        }
+        if (!a) {
+            return -1;
+        }
+        if (!b) {
+            return 1;
+        }
+        if (Utils.isNumber(a) &amp;&amp; Utils.isNumber(b)) {
+            return a - b;
+        }
+        if (Utils.isDate(a) &amp;&amp; Utils.isDate(b)) {
+            return a.getTime() - b.getTime();
+        }
+        if (Utils.isBoolean(a) &amp;&amp; Utils.isBoolean(b)) {
+            return (a ? 1 : 0) - (b ? 1 : 0);
+        }
+        return Utils.compare(String(a), String(b));
+    }*/
+
+}</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'FacetService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

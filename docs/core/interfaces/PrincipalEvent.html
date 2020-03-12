@@ -1,0 +1,313 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Core</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Core</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>PrincipalEvent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>web-services/principal.web.service.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>A base event from which all events that can be issued by the <a href="../injectables/PrincipalWebService.html">PrincipalWebService</a> are derived</p>
+
+            </p>
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#type">type</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="type"></a>
+                                        <span class="name"><b>type</b><a href="#type"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>type:     <code></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, OnDestroy} from &quot;@angular/core&quot;;
+import {Subject, Observable} from &quot;rxjs&quot;;
+import {SqHttpClient} from &quot;./http-client&quot;;
+import {HttpService} from &quot;./http.service&quot;;
+import {START_CONFIG, StartConfig} from &quot;./start-config.web.service&quot;;
+import {Utils} from &quot;@sinequa/core/base&quot;;
+
+/**
+ * Describes a Sinequa princpal
+ */
+export interface Principal {
+    id: string;
+    id2: string;
+    id3: string;
+    id4: string;
+    id5: string;
+    name: string;
+    email: string;
+    description: string;
+    longName: string;
+    userId: string;
+    fullName: string;
+    isAdministrator: boolean;
+    param1: string;
+    param2: string;
+    param3: string;
+    param4: string;
+    param5: string;
+    param6: string;
+    param7: string;
+    param8: string;
+    param9: string;
+    param10: string;
+}
+
+/**
+ * A base event from which all events that can be issued by the {@link PrincipalWebService} are derived
+ */
+export interface PrincipalEvent {
+    type: &quot;changed&quot;;
+}
+
+/**
+ * This event is fired each time the [principal]{@link PrincipalWebService#principal} member is modified.
+ * Typically this will be at login / logoff and also if the &quot;override user&quot; admin feature is used.
+ */
+export interface PrincipalChangedEvent extends PrincipalEvent {
+    type: &quot;changed&quot;;
+}
+
+/**
+ * A service for calling the principal web service
+ */
+@Injectable({
+    providedIn: &quot;root&quot;
+})
+export class PrincipalWebService extends HttpService implements OnDestroy {
+    private _principal: Principal | undefined;
+    private _events &#x3D; new Subject&lt;PrincipalChangedEvent&gt;();
+
+    constructor(
+        @Inject(START_CONFIG) startConfig: StartConfig,
+        private httpClient: SqHttpClient) {
+        super(startConfig);
+    }
+
+    ngOnDestroy() {
+        this._events.complete();
+    }
+
+    /**
+     * The observable events emitted by this service
+     */
+    get events(): Observable&lt;PrincipalChangedEvent&gt; {
+        return this._events;
+    }
+
+    /**
+     * Gets the current {@link Principal}
+     */
+    get principal(): Principal | undefined {
+        return this._principal;
+    }
+
+    /**
+     * Sets the current {@link Principal} and issues the &quot;changed&quot; event
+     */
+    set principal(value: Principal | undefined) {
+        this._principal &#x3D; value;
+        this._events.next({type: &quot;changed&quot;});
+    }
+
+    /**
+     * Gets the principal from the server based on the current login credentials
+     *
+     * @param autoAuthenticate Determines whether the {@link HttpInterceptor} should perform HTTP 401 handling
+     * for this request
+     */
+    get(autoAuthenticate &#x3D; true): Observable&lt;Principal&gt; {
+        return this.httpClient.get&lt;Principal&gt;(this.makeUrl(&quot;principal&quot;), {
+            params: this.makeParams({
+                action: &quot;get&quot;,
+                noAutoAuthentication: !autoAuthenticate
+            })
+        });
+    }
+
+    /**
+     * Gets the principal from the server based on the current login credentials and sets the
+     * principal member
+     */
+    load(): Observable&lt;Principal&gt; {
+        const observable &#x3D; this.get();
+        Utils.subscribe(observable,
+            (response) &#x3D;&gt; {
+                this.principal &#x3D; response;
+                return response;
+            },
+            (error) &#x3D;&gt; {
+                console.log(&quot;principalService.get failure - error: &quot;, error);
+            });
+        return observable;
+    }
+}
+</code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'PrincipalEvent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

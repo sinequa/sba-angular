@@ -1,0 +1,42 @@
+
+
+.sq-preview-popup {
+
+    height: 100%;
+
+    .sq-preview .sq-row {
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+    }
+ 
+    .modal-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    sq-preview-panel {
+        height: 100%;
+        display: flex;
+    }
+
+    sq-modal {
+
+        height: 100%;
+
+        .modal-dialog {
+            max-width: none;
+            margin: 0;
+            height: 100%;
+
+            .modal-content {
+                height: 100%;
+
+                .modal-body {
+                    overflow-y: auto;
+                    padding: 0;
+                }
+            }
+        }
+    }
+}

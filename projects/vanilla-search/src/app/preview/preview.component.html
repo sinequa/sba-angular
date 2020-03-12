@@ -1,0 +1,89 @@
+<div class="container-fluid p-0 h-100">
+    <div class="row m-0 h-100">
+
+        <!-- Left panel (navigation, extracts and entities) -->
+        <div class="d-flex flex-column align-items-stretch border-right h-100 p-0" 
+            [ngClass]="{'col-sm-5 col-md-4 col-lg-3': !collapsedPanel}"
+            *ngIf="ui.screenSizeIsGreater('xs')">
+
+            <!-- Navigation buttons/links (template below) -->
+            <ng-container *ngTemplateOutlet="nav"></ng-container>
+
+            <!-- Expanded panel different subpanels available -->
+            <div class="overflow-y-scroll border-top p-2" *ngIf="!collapsedPanel">
+
+                <!-- Search form allowing the search preview -->
+                <sq-preview-search-form *ngIf="previewSearchable" [query]="query"></sq-preview-search-form>
+
+                <!-- Navigation between the active sub panels -->
+                <ul class="nav nav-pills justify-content-center mb-1">
+                    <li class="nav-item" *ngFor="let panel of subpanels">
+                        <a class="nav-link" href="#" [ngClass]="{active: subpanel === panel}" (click)="subpanel = panel; false">
+                            {{ ('msg#preview.'+panel) | sqMessage }}
+                        </a>
+                    </li>
+                </ul>
+    
+                <!-- Legacy preview highlights -->
+                <sq-preview-highlights *ngIf="subpanel === 'highlights' && !!previewData" class="my-2" 
+                    [previewData]="previewData" [previewDocument]="previewDocument">
+                </sq-preview-highlights>
+
+                <!-- Extracts panel -->
+                <sq-preview-extracts-panel *ngIf="subpanel === 'extracts'"
+                    [previewData]="previewData" [previewDocument]="previewDocument">
+                </sq-preview-extracts-panel>
+                        
+                <!-- Entities panel -->
+                <sq-preview-entity-panel *ngIf="subpanel === 'entities'"
+                    [previewData]="previewData" [previewDocument]="previewDocument" [style]="isDark()? 'dark' : 'light'" [startUnchecked]="entitiesStartUnchecked" (facetChecked)="entitiesChecked($event)">
+                </sq-preview-entity-panel>
+
+            </div>
+
+        </div>
+
+        <!-- Right panel (iframe with preview HTML) -->
+        <div class="flex-grow-1 d-flex flex-column">
+            <sq-preview-document-iframe [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)" *ngIf="downloadUrl">
+
+                <!-- Tooltip injected in the preview -->
+                <sq-preview-tooltip #tooltip [previewDocument]="previewDocument"[previewData]="previewData" 
+                    [entityActions]="tooltipEntityActions" [selectedTextActions]="tooltipTextActions">
+                </sq-preview-tooltip>
+
+            </sq-preview-document-iframe>
+        </div>
+
+    </div>
+</div>
+
+<ng-template #nav>
+    <div class="align-self-stretch d-flex justify-content-between align-items-center p-1" [ngClass]="{'flex-column flex-grow-1': collapsedPanel}">
+        <div [ngClass]="{'btn-group': !collapsedPanel, 'btn-group-vertical':collapsedPanel}">
+            
+            <!-- Toggles the left panel collapsed/expanded state -->
+            <button class="btn btn-lg btn-primary" title="Expand" (click)="collapsedPanel = !collapsedPanel">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Back button (go back to /search route) -->
+            <button class="btn btn-lg btn-light" title="Back" (click)="back()" *ngIf="showBackButton">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+
+            <!-- Home page link -->
+            <a [routerLink]="[homeRoute]" class="btn btn-lg btn-light" title="Home" *ngIf="homeRoute">
+                <i class="fas fa-home"></i>
+            </a>
+
+            <!-- Link to the original document -->
+            <a class="btn btn-lg btn-light" title="Original document" target="_blank" href="{{previewData.record.url1}}"
+                *ngIf="!!previewData && !!previewData.record.url1" (click)="openOriginalDoc()">
+                <i class="fas fa-link"></i>
+            </a>
+        </div>
+        <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="Sinequa logo" title="Sinequa" *ngIf="!isDark()">
+        <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="Sinequa logo" title="Sinequa" *ngIf="isDark()">
+    </div>
+</ng-template>

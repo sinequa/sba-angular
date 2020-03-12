@@ -1,0 +1,581 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Core</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Core</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>SessionEvent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>login/login.service.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Describes the different session events that are emitted by the <a href="../injectables/LoginService.html">LoginService</a></p>
+<ul>
+<li><code>session-start</code>: emitted after successful login</li>
+<li><code>session-end</code>: emitted after logout and also when the <a href="../injectables/LoginService.html">LoginService</a> is destroyed</li>
+<li><code>session-changed</code>: emitted whenever the login state changes - login, logout and user override</li>
+</ul>
+
+            </p>
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#type">type</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="type"></a>
+                                        <span class="name"><b>type</b><a href="#type"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>type:     <code>&quot;session-start&quot; | &quot;session-end&quot; | &quot;session-changed&quot;</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>&quot;session-start&quot; | &quot;session-end&quot; | &quot;session-changed&quot;</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Injector, Inject, OnDestroy, Type, InjectionToken, Optional} from &quot;@angular/core&quot;;
+import {HttpErrorResponse} from &quot;@angular/common/http&quot;;
+import {Router} from &quot;@angular/router&quot;;
+import {BehaviorSubject, Observable, forkJoin, of, throwError} from &quot;rxjs&quot;;
+import {flatMap} from &quot;rxjs/operators&quot;;
+import {Utils, SqError, SqErrorCode} from &quot;@sinequa/core/base&quot;;
+import {START_CONFIG, StartConfig, CCApp, PrincipalWebService, Principal,
+    UserSettingsWebService, UserSettings} from &quot;@sinequa/core/web-services&quot;;
+import {ModalService, ModalResult} from &quot;@sinequa/core/modal&quot;;
+import {NotificationsService} from &quot;@sinequa/core/notification&quot;;
+import {AppService} from &quot;@sinequa/core/app-utils&quot;;
+import {AuthenticationService, ProcessedCredentials, Credentials, UserOverride} from &quot;./authentication.service&quot;;
+
+/**
+ * Describes the different session events that are emitted by the {@link LoginService}
+ * * &#x60;session-start&#x60;: emitted after successful login
+ * * &#x60;session-end&#x60;: emitted after logout and also when the {@link LoginService} is destroyed
+ * * &#x60;session-changed&#x60;: emitted whenever the login state changes - login, logout and user override
+ */
+export interface SessionEvent {
+    type: &quot;session-start&quot; | &quot;session-end&quot; | &quot;session-changed&quot;;
+}
+
+
+/**
+ * An &#x60;InjectionToken&#x60; to set the component to use for the login modal dialog which is displayed
+ * by the {@link LoginService} when performing a manual login. This makes the service independent
+ * of any particular UI framework. If manual login is to be used a component must be configured by
+ * providing this token.
+ */
+export const MODAL_LOGIN &#x3D; new InjectionToken&lt;Type&lt;any&gt;&gt;(&#x27;MODAL_LOGIN&#x27;);
+
+/**
+ * Describes the data retrieved during the login process.
+ */
+export interface LoginData {
+    /**
+     * The application configuration.
+     */
+    app: CCApp;
+    /**
+     * The principal corresponding to the logged in user.
+     */
+    principal: Principal;
+    /**
+     * The user settings for the logged in user.
+     */
+    userSettings: UserSettings;
+}
+
+/**
+ * A high-level service to manage user login
+ */
+@Injectable({
+    providedIn: &quot;root&quot;
+})
+export class LoginService implements OnDestroy {
+    /**
+     * &#x60;true&#x60; if a user is currently logged in
+     */
+    complete: boolean;
+    // getCredentials handling (concurrent calls)
+    protected loginModalPromise: Promise&lt;ModalResult&gt; | undefined;
+    protected processCredentialsPromise: Promise&lt;ProcessedCredentials | undefined&gt; | undefined;
+    protected checkPrincipalPromise: Promise&lt;Principal&gt; | undefined;
+    protected automaticLoginPromise: Promise&lt;any&gt; | undefined;
+    protected _events &#x3D; new BehaviorSubject&lt;SessionEvent&gt;({type: &quot;session-changed&quot;});
+
+    constructor(
+        @Inject(START_CONFIG) protected startConfig: StartConfig,
+        @Inject(MODAL_LOGIN) protected loginModal: Type&lt;any&gt;,
+        @Optional() protected router: Router,
+        protected appService: AppService,
+        protected principalService: PrincipalWebService,
+        protected userSettingsService: UserSettingsWebService,
+        protected modalService: ModalService,
+        protected notificationsService: NotificationsService,
+        public authenticationService: AuthenticationService) {
+        // NB unload doesn&#x27;t fire reliably so we listen for beforeunload
+        window.addEventListener(&quot;beforeunload&quot;, this.beforeUnloadEventListener);
+    }
+
+    protected beforeUnloadEventListener &#x3D; (e: Event) &#x3D;&gt; {
+        this._events.next({type: &quot;session-end&quot;});
+    }
+
+    ngOnDestroy() {
+        this._events.complete();
+        window.removeEventListener(&quot;beforeunload&quot;, this.beforeUnloadEventListener);
+    }
+
+    /**
+     * Get an &#x60;Observable&#x60; stream of {@link SessionEvent} events emitted by the service
+     */
+    get events(): Observable&lt;SessionEvent&gt; {
+        return this._events;
+    }
+
+    private setComplete() {
+        const complete &#x3D; this.complete;
+        this.complete &#x3D; !!this.appService.app &amp;&amp; !!this.principalService.principal &amp;&amp; !!this.userSettingsService.userSettings;
+        if (this.complete) {
+            if (!this.authenticationService.userOverrideFailed) {
+                this.notificationsService.hideNotifications();
+            }
+            this.authenticationService.userOverrideFailed &#x3D; false;
+        }
+        if (!!complete !&#x3D;&#x3D; !!this.complete) {
+            this._events.next({type: &quot;session-changed&quot;});
+        }
+    }
+
+    /**
+     * Perform a logout of the currently logged in user. [AppService.app]{@link AppService#app},
+     * [PrincipalWebService.principal]{@link PrincipalWebService#prinicpal} and
+     * [UserSettingsWebService.userSettings]{@link UserSettingsWebService#userSettings} are reset.
+     * The &#x60;session-end&#x60; event is emitted
+     */
+    logout() {
+        this._events.next({type: &quot;session-end&quot;});
+        this.appService.clear();
+        this.principalService.principal &#x3D; undefined;
+        this.userSettingsService.userSettings &#x3D; undefined;
+        this.authenticationService.deactivateUserOverride();
+        this.authenticationService.logout();
+        this.setComplete();
+    }
+
+    /**
+     * Override the current user to the user specified in &#x60;userOverride&#x60;. Only an administrator
+     * is permitted to do this. They can revert to the normal login by calling this method with
+     * &#x60;undefined&#x60;
+     *
+     * @param userOverride The user override
+     */
+    overrideUser(userOverride: UserOverride | undefined) {
+        this.authenticationService.userOverride &#x3D; userOverride;
+        this.principalService.principal &#x3D; undefined;
+        this.userSettingsService.userSettings &#x3D; undefined;
+        this.setComplete();
+        Utils.delay().then(() &#x3D;&gt; this.login());
+    }
+
+    private switchPrincipal(principal: Principal) {
+        if (!principal.isAdministrator) {
+            this.authenticationService.deactivateUserOverride();
+        }
+        this.principalService.principal &#x3D; principal;
+        this.userSettingsService.userSettings &#x3D; undefined;
+        Utils.delay().then(() &#x3D;&gt; this.login());
+    }
+
+    /**
+     * Initiate the user login process. The method attempts to retrieve
+     * the [application configuration]{@link CCApp}, the
+     * [logged in user]{@link Principal} and the [user settings]{@link UserSettings}.
+     * If a user is not currently authenticated then authentication is performed using
+     * the {@link AuthenticationService} - OAuth/SAML if configured on the Sinequa Server
+     * or manual using a login modal dialog provided using the {@link MODAL_LOGIN} injection
+     * token.
+     */
+    login(): Observable&lt;LoginData&gt; {
+        const appName &#x3D; this.appService.appName;
+        if (!appName) {
+            return throwError({error: &quot;App not specified&quot;});
+        }
+        let appNeeded: boolean;
+        if (this.router) {
+            const queryParams &#x3D; Utils.copy(this.router.routerState.snapshot.root.queryParams);
+            // Pick up any user override from the query string
+            const overrideUser &#x3D; queryParams.overrideUser;
+            const overrideDomain &#x3D; queryParams.overrideDomain;
+            if (overrideUser) {
+                this.authenticationService.userOverride &#x3D; {
+                    userName: overrideUser,
+                    domain: overrideDomain
+                };
+                delete queryParams.overrideUser;
+                delete queryParams.overrideDomain;
+                const url &#x3D; Utils.makeURL(this.router.url);
+                this.router.navigate([url.pathname], {queryParams});
+            }
+        }
+
+        interface ObservableLoginData {
+            app: Observable&lt;CCApp&gt; | undefined;
+            principal: Observable&lt;Principal&gt; | undefined;
+            userSettings: Observable&lt;UserSettings&gt; | undefined;
+        }
+
+        const makeObservables &#x3D; (): ObservableLoginData &#x3D;&gt; {
+            const observables: ObservableLoginData &#x3D; {
+                app: undefined,
+                principal: undefined,
+                userSettings: undefined
+            };
+            if (!this.appService.app || (appName &amp;&amp; this.appService.app.name !&#x3D;&#x3D; appName)) {
+                appNeeded &#x3D; true;
+                observables.app &#x3D; this.appService.init();
+            }
+            else {
+                observables.app &#x3D; of(this.appService.app);
+            }
+            let loadUserSettings &#x3D; false;
+            if (!this.principalService.principal) {
+                loadUserSettings &#x3D; true;
+                observables.principal &#x3D; this.principalService.load();
+            }
+            else {
+                observables.principal &#x3D; of(this.principalService.principal);
+            }
+            if (!this.userSettingsService.userSettings || loadUserSettings) {
+                observables.userSettings &#x3D; this.userSettingsService.load();
+            }
+            else {
+                observables.userSettings &#x3D; of(this.userSettingsService.userSettings);
+            }
+            return observables;
+        };
+
+        const observable &#x3D; this.authenticationService.autoAuthenticate()
+            .pipe(flatMap((success) &#x3D;&gt; {
+                const observables &#x3D; makeObservables();
+                return forkJoin&lt;ObservableLoginData, keyof ObservableLoginData&gt;(observables);
+            }));
+        Utils.subscribe(observable,
+            (result) &#x3D;&gt; {
+                console.log(&quot;loginService.login ok: &quot;, result);
+                this.setComplete();
+                if (appNeeded) {
+                    this._events.next({type: &quot;session-start&quot;});
+                }
+            },
+            (error) &#x3D;&gt; {
+                console.log(&quot;loginService.login failed: &quot;, error);
+                return throwError(error);
+            });
+        return observable;
+    }
+
+    private getAutomaticProvider(): string | undefined {
+        if (this.startConfig.providers) {
+            return Object.keys(this.startConfig.providers).find((value, index, obj) &#x3D;&gt; {
+                const provider &#x3D; obj[value];
+                return !!provider &amp;&amp; (provider as any).automatic;
+            });
+        }
+        return undefined;
+    }
+
+    /**
+     * Called by the {@link HttpInterceptor} on reception of an &#x60;HTTP 401&#x60; response.
+     * This will either initiate an auto login process (OAuth/SAML) if configured on
+     * the Sinequa server or display the login modal dialog to request user credentials
+     *
+     * @param response An &#x60;HTTP 401&#x60; response
+     * @param acceptCurrent If &#x60;true&#x60; and the &#x60;AuthenticationService&#x60; currently has
+     * processed credentials then use them instead of starting a new login
+     * @returns A promise that is resolved when credentials have been obtained. Note that
+     * when auto-authentication is configured the promise will be rejected and the browser
+     * redirected to the OAuth/SAML redirect url
+     */
+    getCredentials(response: HttpErrorResponse, acceptCurrent: boolean): Promise&lt;void&gt; {
+        if (acceptCurrent &amp;&amp; this.authenticationService.processedCredentials) {
+            return Promise.resolve(); // initiate retry
+        }
+        if (!this.startConfig.usePopupForLogin &amp;&amp; this.authenticationService.autoLoginActive) {
+            this.authenticationService.autoAuthenticate().subscribe();
+            return Promise.reject(&quot;performing auto login&quot;);
+        }
+        let firstCaller &#x3D; false;
+        const automaticProvider &#x3D; this.getAutomaticProvider();
+        if (automaticProvider) {
+            if (!this.automaticLoginPromise) {
+                this.automaticLoginPromise &#x3D; this.authenticationService.authenticateWithProvider(automaticProvider).toPromise();
+                firstCaller &#x3D; true;
+            }
+            return this.automaticLoginPromise
+                .then((result) &#x3D;&gt; {
+                    // NB response should be the return value from JOAuth/JSaml json methods
+                    // It can be undefined eg if the popup fails to open
+                    this.automaticLoginPromise &#x3D; undefined;
+                    return result ? Promise.resolve() : Promise.reject(&quot;popup failed?&quot;);
+                })
+                .catch((reason) &#x3D;&gt; {
+                    this.automaticLoginPromise &#x3D; undefined;
+                    const error &#x3D; new SqError(SqErrorCode.autoLoginError);
+                    if (firstCaller) {
+                        this.notificationsService.error(error.message);
+                    }
+                    throw error;
+                });
+        }
+        const credentials: Credentials &#x3D; {};
+        if (this.authenticationService.processedCredentials) {
+            credentials.userName &#x3D; this.authenticationService.processedCredentials.userName;
+        }
+        if (!this.loginModalPromise) {
+            this.loginModalPromise &#x3D; this.modalService.open(this.loginModal, {model: credentials});
+            firstCaller &#x3D; true;
+        }
+        return this.loginModalPromise
+            .then((result) &#x3D;&gt; {
+                this.loginModalPromise &#x3D; undefined;
+                // result &#x3D;&#x3D;&#x3D; ModalResult.Yes is a special return from Login when using AuthenticationService.authenticateWithProvider
+                if (result &#x3D;&#x3D;&#x3D; ModalResult.OK || result &#x3D;&#x3D;&#x3D; ModalResult.Yes) {
+                    if (!this.processCredentialsPromise) {
+                        this.processCredentialsPromise &#x3D; result &#x3D;&#x3D;&#x3D; ModalResult.Yes ?
+                            Promise.resolve&lt;ProcessedCredentials | undefined&gt;(undefined) :
+                            this.authenticationService.authenticate(credentials, response);
+                    }
+                    return this.processCredentialsPromise
+                        .then((value) &#x3D;&gt; {
+                            this.processCredentialsPromise &#x3D; undefined;
+                            if (result !&#x3D;&#x3D; ModalResult.Yes) {
+                                this.authenticationService.processedCredentials &#x3D; value;
+                            }
+                            if (!this.checkPrincipalPromise) {
+                                this.checkPrincipalPromise &#x3D; this.principalService.get(false).toPromise();
+                            }
+                            return this.checkPrincipalPromise
+                                .then((principal) &#x3D;&gt; {
+                                    this.checkPrincipalPromise &#x3D; undefined;
+                                    if (!this.principalService.principal || this.principalService.principal.id &#x3D;&#x3D;&#x3D; principal.id) {
+                                        // no current principal OR prinicpal unchanged - initiate retry
+                                        return Promise.resolve();
+                                    }
+                                    const error &#x3D; new SqError(SqErrorCode.principalSwitched);
+                                    if (firstCaller) {
+                                        this.switchPrincipal(principal);
+                                        this.notificationsService.info(error.message);
+                                    }
+                                    throw error;
+                                })
+                                .catch((reason) &#x3D;&gt; {
+                                    this.checkPrincipalPromise &#x3D; undefined;
+                                    throw reason;
+                                });
+                        })
+                        .catch((reason) &#x3D;&gt; {
+                            this.processCredentialsPromise &#x3D; undefined;
+                            if (SqError.is(reason, SqErrorCode.principalSwitched)) {
+                                throw reason;
+                            }
+                            throw new SqError(SqErrorCode.processedCredentialsError);
+                        });
+                }
+                else {
+                    this.authenticationService.processedCredentials &#x3D; undefined; // clean slate
+                    const error &#x3D; new SqError(SqErrorCode.loginCancelled);
+                    if (firstCaller) {
+                        this.notificationsService.info(error.message);
+                    }
+                    throw error;
+                }
+            })
+            .catch((reason) &#x3D;&gt; {
+                if (!SqError.is(reason, SqErrorCode.principalSwitched)) {
+                    this.authenticationService.processedCredentials &#x3D; undefined; // clean slate
+                }
+                this.loginModalPromise &#x3D; undefined;
+                throw reason;
+            });
+    }
+}
+
+@Injectable({
+    providedIn: &quot;root&quot;
+})
+export class LoginServiceProxy {
+    constructor(private injector: Injector) {
+    }
+
+    private _loginService: LoginService;
+    get loginService(): LoginService {
+        if (!this._loginService) {
+            this._loginService &#x3D; this.injector.get(LoginService);
+        }
+        return this._loginService;
+    }
+}
+</code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'SessionEvent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

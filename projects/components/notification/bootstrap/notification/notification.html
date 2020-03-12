@@ -1,0 +1,18 @@
+<div [@autoClose]="autoClose" class="alert alert-{{alertClass}} sq-notification" role="alert">
+    <button *ngIf="showClose" type="button" class="close" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+    </button>
+    <div class="sq-notification-container">
+        <div class="sq-notification-icon">
+            <span class="{{notificationClass}}"></span>
+        </div>
+        <div class="sq-notification-message">
+            <ng-container *ngIf="!!notification.title">
+                <span class="sq-notification-title">{{notification.title | sqMessage}}</span>
+                <hr>
+            </ng-container>
+            <span class="sq-notification-text">{{notification.text | sqMessage:{values: notification.params} }}</span>
+        </div>                
+    </div>        
+</div>

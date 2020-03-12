@@ -1,0 +1,8 @@
+<div *ngIf="!editing" class="editable-text">{{value}}</div>
+<form *ngIf="editing" class="form-inline" role="form" novalidate [formGroup]="form">
+    <div class="form-group">
+        <!--label [hidden]="form.valid" for="editable">{{name | sqMessage}}</label-->
+        <label for="editable" class="sr-only">{{name | sqMessage}}</label>
+        <input [sqValidation]="form" type="text" id="editable" formControlName="editable" spellcheck="false" class="form-control" (keydown)="inputKeydown($event)" sqAutofocus (blur)="stopEditing()">
+    </div>
+</form>

@@ -1,0 +1,16 @@
+<div class="sq-autocomplete-list card position-absolute" *ngIf="hasItems" (mousedown)="_mouseDown($event)">
+    <div class="list-group list-group-flush">
+        <a  href="#" (click)="_itemClicked(item, $event)"
+            *ngFor="let item of _items; let i = index"
+            class="list-group-item list-group-item-action p-0 border-0" 
+            [ngClass]="{'list-group-item-primary': _isSelected(item, i)}"
+            [sqScrollIntoView]="{active: _isSelected(item, i), first: i === 0}">
+            <ng-container *ngIf="itemTpl">
+                <ng-container *ngTemplateOutlet="itemTpl; context:{$implicit: item}"></ng-container>
+            </ng-container>
+        </a>
+    </div>
+    <div class="card-footer" *ngIf="footerTpl">
+        <ng-container *ngTemplateOutlet="footerTpl"></ng-container>
+    </div>
+</div>

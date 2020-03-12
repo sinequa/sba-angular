@@ -1,0 +1,6 @@
+<ng-container *ngIf="text">
+    <p class="{{extractsClass}} sq-text" [innerHTML]="text"></p>
+    <a *ngIf="showLinesExpander" class="sq-text" href="#" (click)="collapseClick($event)">
+        <sq-collapse-button [collapsed]="collapsed"></sq-collapse-button>
+    </a>
+</ng-container>

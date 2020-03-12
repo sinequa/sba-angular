@@ -1,0 +1,14 @@
+<form name="selectBasket" novalidate>
+    <sq-modal [title]="'msg#selectBasket.title'" [buttons]="buttons">
+        <div class="form-group">
+            <div class="list-group sq-list-group">
+                <a *ngFor="let basket of baskets" href="javascript:void(0)" class="list-group-item list-group-item-action" (click)="select(basket)">
+                    <div>{{basket.name | sqMessage}}</div>
+                </a>
+                <a *ngIf="model.allowNew" href="javascript:void(0)" class="list-group-item list-group-item-action" (click)="newBasket()">
+                    <div><i>{{'msg#selectBasket.newBasket' | sqMessage}}</i></div>
+                </a>
+            </div>
+        </div>
+    </sq-modal>
+</form>

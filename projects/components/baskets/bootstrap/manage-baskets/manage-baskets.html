@@ -1,0 +1,23 @@
+<form name="manageBaskets" novalidate>
+    <sq-modal [title]="'msg#manageBaskets.title'" [buttons]="buttons">
+        <div *ngIf="model.baskets.length" class="form-group clearfix">
+            <button type="button" class="btn btn-secondary float-right" (click)="reorder()">{{(reordering ? "msg#manageBaskets.edit" : "msg#manageBaskets.reorder") | sqMessage}}</button>
+        </div>
+        <div class="form-group">
+            <div class="list-group" cdkDropList [cdkDropListData]="model.baskets" [cdkDropListDisabled]="!reordering" (cdkDropListDropped)="dropped($event)">
+                <div *ngFor="let basket of model.baskets; let $index = index" cdkDrag 
+                    [ngClass]="['list-group-item list-group-item-action d-flex w-auto-unimportant', reordering ? 'cursor-move': '']">
+                    <div *ngIf="reordering">{{basket.name}}</div>
+                    <sq-editable *ngIf="!reordering" [value]="basket.name" (valueChange)="setName(basket, $event)" name="msg#manageBaskets.name"
+                        [model]="basket" [validators]="nameValidators"></sq-editable>
+                    <div class="ml-auto">
+                        <a *ngIf="!reordering" href="#" (click)="remove(basket, $index)" title="{{'msg#manageBaskets.remove' | sqMessage}}">
+                            <span class="fas fa-times sq-remove"></span>
+                        </a>
+                        <span *ngIf="reordering" class="fas fa-bars sq-move"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </sq-modal>
+</form>

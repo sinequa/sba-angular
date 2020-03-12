@@ -1,0 +1,586 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>SelectOptions</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>advanced/bootstrap/select/select.ts</code>
+        </p>
+
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#disabled">disabled</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#height">height</a>
+                                </li>
+                                <li>
+                                        <a href="#items">items</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#multiple">multiple</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#visibleThreshold">visibleThreshold</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="disabled"></a>
+                                        <span class="name"><b>disabled</b><a href="#disabled"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>disabled:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="height"></a>
+                                        <span class="name"><b>height</b><a href="#height"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>height:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="items"></a>
+                                        <span class="name"><b>items</b><a href="#items"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>items:     <code>NameValueArrayView&lt;string | any&gt;</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>NameValueArrayView&lt;string | any&gt;</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="multiple"></a>
+                                        <span class="name"><b>multiple</b><a href="#multiple"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>multiple:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="visibleThreshold"></a>
+                                        <span class="name"><b>visibleThreshold</b><a href="#visibleThreshold"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>visibleThreshold:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, forwardRef, Input, OnInit, ViewChild, ElementRef } from &#x27;@angular/core&#x27;;
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from &#x27;@angular/forms&#x27;;
+import { Utils, NameValueArrayView, Keys } from &quot;@sinequa/core/base&quot;;
+
+export interface SelectOptions {
+    items: NameValueArrayView&lt;string, any&gt;;
+    height?: number;
+    disabled?: boolean;
+    multiple?: boolean;
+    visibleThreshold?: number;
+}
+
+@Component({
+    selector: &quot;sq-select&quot;,
+    templateUrl: &quot;./select.html&quot;,
+    providers: [{
+        provide: NG_VALUE_ACCESSOR,
+        multi: true,
+        useExisting: forwardRef(() &#x3D;&gt; BsSelectComponent),
+        }]
+})
+export class BsSelectComponent implements ControlValueAccessor, OnInit {
+    @Input() options: SelectOptions;
+    @ViewChild(&quot;button&quot;, {static: false}) buttonElement: ElementRef;
+    disabled: boolean &#x3D; false;
+    opened: boolean &#x3D; false;
+    isOpen: boolean &#x3D; false;
+    activeItem: number &#x3D; -1;
+    private cancelBlur: boolean &#x3D; false; // For IE which takes focus when clicking on dropdown scrollbar despite the mousedown handling
+    public names: string[];
+
+    //stores indices of selected items
+    private selectedItems: number[];
+    private onChangeCallback: (_: any) &#x3D;&gt; void &#x3D; () &#x3D;&gt; {};
+    
+    ngOnInit() {
+        this.clearSelected();
+        // disable an empty list
+        this.disabled &#x3D; !!this.options.disabled || this.options.items.length &#x3D;&#x3D;&#x3D; 0;
+        this.names &#x3D; [];
+        this.options.items.forEach(item &#x3D;&gt; this.names.push(item.name));
+    }
+
+    setOpen(value: boolean): void {
+        if (!this.opened) {
+            if (this.disabled || !value) {
+                return;
+            }
+            this.opened &#x3D; true;
+        }
+        this.isOpen &#x3D; value;
+        if (!value) {
+            this.activeItem &#x3D; -1;
+        }
+    }
+
+    mousedown(event: Event): void {
+        event.preventDefault();
+        this.cancelBlur &#x3D; true;
+        Utils.delay().then(() &#x3D;&gt; this.cancelBlur &#x3D; false);
+    }
+
+    blur(event: FocusEvent): void {
+        if (this.cancelBlur) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            Utils.delay().then(() &#x3D;&gt; {
+                this.buttonElement.nativeElement.focus();         
+            });
+            return;                
+        }
+        this.setOpen(false);
+    }
+
+    toggleOpen(): void {
+        if (this.disabled) {
+            return;
+        }
+        this.setOpen(!this.isOpen);
+    }
+
+    keydown($event: KeyboardEvent): void {
+        if (this.disabled) {
+            return;
+        }
+        // arrow down
+        if ($event.keyCode &#x3D;&#x3D;&#x3D; Keys.down) {
+            if (!this.isOpen) {
+                this.setOpen(true);
+            }
+            this.activeItem++;
+            if (this.activeItem &gt;&#x3D; this.options.items.length) {
+                this.activeItem &#x3D; 0;
+            }
+            $event.preventDefault();
+            $event.stopPropagation();
+        }
+        // arrow up
+        else if ($event.keyCode &#x3D;&#x3D;&#x3D; Keys.up) {
+            if (!this.isOpen) {
+                this.setOpen(true);
+            }
+            this.activeItem--;
+            if (this.activeItem &lt; 0) {
+                this.activeItem &#x3D; this.options.items.length - 1;
+            }
+            $event.preventDefault();
+            $event.stopPropagation();
+        }
+        // enter or space
+        else if (($event.keyCode &#x3D;&#x3D;&#x3D; Keys.enter || $event.keyCode &#x3D;&#x3D;&#x3D; Keys.space) &amp;&amp;
+            this.activeItem &gt;&#x3D; 0 &amp;&amp; this.activeItem &lt; this.options.items.length) {
+            this.toggleItemSelected(this.activeItem);
+            $event.preventDefault();
+            $event.stopPropagation();
+        }
+        // escape
+        else if ($event.keyCode &#x3D;&#x3D;&#x3D; Keys.esc &amp;&amp; this.isOpen) {
+            this.setOpen(false);
+            $event.preventDefault();
+            $event.stopPropagation();
+        }
+    }
+
+    private clearSelected() {
+        this.selectedItems &#x3D; [];
+    }
+
+    private countSelected(): number {
+        return this.selectedItems.length;
+    }
+
+    isItemSelected(itemIndex: number) : boolean {
+        return this.selectedItems.includes(itemIndex);
+    }
+
+    toggleItemSelected(itemIndex: number): void {
+        let idx: number &#x3D; this.selectedItems.indexOf(itemIndex);
+
+        // Remove item if it was already selected
+        if (idx &gt; -1) {
+            this.selectedItems.splice(idx, 1);
+        }
+        // regular case: just add the index, and update the active item if it exists
+        else if (this.options.multiple) {
+            this.selectedItems.push(itemIndex);
+            if (this.activeItem &gt;&#x3D; 0)
+                this.activeItem &#x3D; itemIndex;
+        }
+        // single-item case: ensure there is only one selected item, and close the menu
+        else {
+            this.selectedItems &#x3D; [itemIndex];
+            this.setOpen(false);
+        }
+        this.triggerOnChange();
+    }
+
+    /*
+        Template properties
+    */
+
+    get buttonTitleMessageParams(): any {
+        return {
+            values: {
+                count: this.countSelected()
+            }
+        };
+    }
+
+    get buttonTitle(): string {
+        const selectCount &#x3D; this.countSelected();
+        const threshold &#x3D; this.options.visibleThreshold || 4;
+
+        if (selectCount &#x3D;&#x3D; 0) {
+            return &quot;msg#advanced.select.noItems&quot;;
+        }
+        if (!this.options.multiple) {
+            return this.options.items.getName(this.selectedItems[0]);
+        }
+        if (selectCount &#x3D;&#x3D; this.options.items.length) {
+            return &quot;msg#advanced.select.allItems&quot;;
+        }
+        if (selectCount &gt; threshold) {
+            return &quot;msg#advanced.select.nItems&quot;;
+        }
+
+        //Get list of items names corresponding to selected indices
+        return this.selectedItems
+            .map(index &#x3D;&gt; this.options.items.getName(index))
+            .sort()
+            .join(&quot;, &quot;);
+    }
+
+    get itemListHeight(): string {
+        //If size is undefined use 10 as default
+        return ((this.options.height || 10) * 4) + &quot;ex&quot;;
+    }
+
+    /*
+        Change event
+    */
+
+    private triggerOnChange() {
+        // Gather selected item values
+        let values: any;
+        // We cannot pass an empty array, when empty use undefined instead
+        if (this.selectedItems.length &#x3D;&#x3D;&#x3D; 0) {
+            values &#x3D; undefined;
+        }
+        // return an array if multiple
+        else if (this.options.multiple) {
+            values &#x3D; this.selectedItems.map(index &#x3D;&gt; this.options.items.getValue(index));
+        }
+        // directly pass the value if not multiple
+        else {
+            values &#x3D; this.options.items.getValue(this.selectedItems[0]);
+        }
+
+        this.onChangeCallback(values);
+    }
+
+    /*
+        ControlValueAccessor methods
+    */
+
+    writeValue(value: any): void {
+        this.clearSelected();
+        if (value) {
+            // the value may not be an array if this select is not multiple
+            const asArray &#x3D; Array.isArray(value) ? value : [value];
+            //Mark items as selected based on input values
+            this.options.items.forEach((item, index) &#x3D;&gt; {
+                if (asArray.includes(item.value) &amp;&amp; index !&#x3D;&#x3D; undefined) {
+                    this.selectedItems.push(index);
+                }
+            });
+        }
+    }
+
+    registerOnChange(fn: any): void {
+        this.onChangeCallback &#x3D; fn;
+    }
+
+    registerOnTouched(fn: any): void {
+    }
+}
+</code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'SelectOptions.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

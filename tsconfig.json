@@ -1,0 +1,43 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "allowSyntheticDefaultImports": true,
+    "preserveSymlinks": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "projects/core/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "paths": {
+      "@sinequa/core": [
+        "dist/core"
+      ],
+      "@sinequa/core/*": [
+        "dist/core/*"
+      ],
+      "@sinequa/components": [
+        "dist/components"
+      ],
+      "@sinequa/components/*": [
+        "dist/components/*"
+      ]
+    }
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
+  }
+}

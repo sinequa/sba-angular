@@ -1,0 +1,25 @@
+.collapseButton {
+    float: right;
+}
+
+.similarDocumentsBody {
+    display: table;
+}
+
+.similarDocument {
+    display: table-row;
+}
+
+.similarDocumentIcon {
+    cursor: pointer;
+    display: table-cell;
+    padding-right: 0.5em;
+}
+
+.similarDocumentTitle {
+    display: table-cell;
+}
+
+.similarDocument:not(:first-of-type) .similarDocumentTitle {
+    padding-top: 0.5em;
+}

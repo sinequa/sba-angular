@@ -1,0 +1,20 @@
+<div class="card-body">
+    <ng-container *ngFor="let field of advancedFields">
+        <ng-container *ngFor="let value of advancedValues[field]">
+            <div class="badge badge-pill badge-light font-weight-normal m-1">
+                <span class="" title="{{value.display | sqExpr:{withFields: displayFieldNames} }}" [innerHTML]="value.display | sqExpr:{withFields: displayFieldNames, asHTML: true}"></span>
+                <a href="#" class="badge badge-pill badge-secondary" *ngIf="allowDeletion" role="button" (click)="removeAdvancedValue(field, value.value)" title="{{'msg#facet.mySearch.itemRemove' | sqMessage}}">
+                    <span class="fas fa-times" ></span>
+                </a>
+            </div>
+        </ng-container>
+    </ng-container>
+    <ng-container *ngFor="let item of searchService.breadcrumbs?.activeItems">
+        <div *ngIf="!item.hidden" class="badge badge-pill font-weight-normal badge-light m-1">
+            <span class="" title="{{item.display | sqExpr:{withFields: displayFieldNames} }}" [innerHTML]="item.display | sqExpr:{withFields: displayFieldNames, asHTML: true}"></span>
+            <a href="#" class="badge badge-pill badge-secondary" *ngIf="allowDeletion" role="button" (click)="removeItem(item)" title="{{'msg#facet.mySearch.itemRemove' | sqMessage}}">
+                <span class="fas fa-times"></span>
+            </a>
+        </div>
+    </ng-container>
+</div>

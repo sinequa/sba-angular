@@ -1,0 +1,83 @@
+{
+    "app": {
+        "name": "Vanilla Search"
+    },
+    
+    "locale": {
+        "en": "English (United States)",
+        "en-gb": "English (United Kingdom)",
+        "fr": "Français",
+        "de": "Deutsch"
+    },
+
+    "searchForm": {
+        "search": "Search",
+        "searchFor": "Search for...",
+        "advanced": "Advanced",
+        "advancedSearch": "Advanced search",
+        "scopeTitle": "Scope: {name}",
+        "recentQuery": "Recent query",
+        "recentDocument": "Recent document"
+    },
+    
+    "baskets": {
+        "baskets": "Collections",
+        "addToBasket": "Add to collection",
+        "removeFromBasket": "Remove from collection",
+        "removeFromAllBaskets": "Remove from all collections",
+        "removeFromAllBasketsConfirmation": "Are you sure you want to remove this result from these collections: {baskets}?",
+        "basketAlreadyExists": "A collection with that name already exists. Would you like to replace it?",
+        "noBasket": "You have not yet added a document to a collection...",        
+        "createBasket": "Create Collection",
+        "manageBaskets": "Manage Collections"
+    },
+
+    "editBasket": {
+        "title": "Collection"
+    },
+
+    "manageBaskets": {
+        "title": "Manage Collections"
+    },
+
+    "selectBasket": {
+        "title": "Select Collection",
+        "newBasket": "New collection..."
+    },
+
+    "facet": {
+        "filters": {
+            "title" : "Filters"
+        },
+        "preview": {
+            "title": "Preview"
+        }
+    },
+
+    "results": {
+        "tabPeople": "People",
+        "tabBusiness": "Companies",
+        "tabLocation": "Places"
+    },
+
+    "home": {
+        "recentDocumentsTooltip": "Recently opened documents",
+        "recentQueriesTooltip": "Recent search queries",
+        "savedQueriesTooltip": "Saved search queries (including filters)",
+        "basketsTooltip": "Collections of bookmarked documents",
+        "darkMode": "Dark mode",
+        "lightMode": "Light mode"
+    },
+
+    "search": {
+        "pageTitle": "Search - {search}"
+    },
+
+    "preview": {
+        "extracts": "Extracts",
+        "entities": "Entities",
+        "searchText": "Search \"{text}\" in the document",
+        "pageTitle": "Document Navigator - {title}"
+    }
+
+}

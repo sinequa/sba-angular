@@ -1,0 +1,3 @@
+const LOGIN_MODULE_PROVIDERS = [];
+
+export {LOGIN_MODULE_PROVIDERS};

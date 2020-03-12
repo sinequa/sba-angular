@@ -1,0 +1,31 @@
+<div class="search">
+    <h1>Hello Search 🔍</h1>
+    <form novalidate [formGroup]="form">
+        <input type="text" placeholder="Enter search terms..." formControlName="search" spellcheck="false" autocomplete="off" [attr.disabled]="!loginService.complete? '' : null">
+        <button type="submit" (click)="search()" [attr.disabled]="!loginService.complete? '' : null">Search</button>
+        <button *ngIf="results$ | async" type="button" (click)="clear()">Clear</button>
+    </form>
+    <div *ngIf="results$ | async; let results">
+        <hr>    
+        <div *ngFor="let record of results.records" class="record">
+            <a href="{{record.url1}}">
+                <h3 [innerHtml]="record.displayTitle || record.title"></h3>
+            </a>
+            <div class="source">{{record.url1}}</div>
+            <p *ngIf="record.relevantExtracts" [innerHTML]="record.relevantExtracts"></p>       
+        </div>
+    </div>
+    <hr>    
+    <button *ngIf="loginService.complete" type="button" (click)="logout()">Logout</button>
+    <button *ngIf="!loginService.complete" type="button" (click)="login()">Login</button>
+    <ng-container *ngIf="notificationsService.notificationsStream | async as notification">
+        <hr>
+        <div *ngIf="deleteNotification(notification)" class="notification">
+            <div *ngIf="notification.title" class="title">
+                <span>{{notification.title | sqMessage}}</span>
+                <hr>
+            </div>
+            <div>{{notification.text | sqMessage:{values: notification.params} }}</div>
+        </div>
+    </ng-container>
+</div>

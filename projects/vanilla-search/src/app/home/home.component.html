@@ -1,0 +1,78 @@
+<div class="d-flex flex-column align-items-center justify-content-center home">
+    <!-- Home page logo -->
+    <img src="assets/vanilla-logo.png" id="logo" *ngIf="!isDark()">
+    <img src="assets/vanilla-logo-dark.png" id="logo" *ngIf="isDark()">
+
+    <!-- Home page title -->
+    <h1>{{ 'msg#app.name' | sqMessage }}</h1>
+
+    <!-- Search Form (app/search-form) -->
+    <app-search-form></app-search-form>
+
+    <span class="mt-2">
+        <!-- Login/Logout link -->    
+        <a href="#" (click)="toggleLogin()">{{ (loginService.complete? 'msg#userMenu.logout' : 'msg#userMenu.login') | sqMessage}}</a>
+    
+        <span> &bull; </span>
+    
+        <!-- Dark mode -->   
+        <a href="#" (click)="toggleDark()">{{ (isDark()? 'msg#home.lightMode' : 'msg#home.darkMode') | sqMessage}}</a>
+    
+    </span>
+
+    <!-- Home facets -->
+    <div class="sq-home-facet-bar container mt-5" *ngIf="homeFacets.length">
+        <div class="row" *ngIf="loginService.complete">
+
+            <!-- For each activated facet -->
+            <ng-container *ngFor="let facet of homeFacets; let i = index" [ngSwitch]="facet">
+
+                <!-- Recent documents -->
+                <sq-facet-card *ngSwitchCase="'recent-documents'"
+                                [title]="'msg#recentDocuments.recentDocuments'" 
+                                [tooltip]="'msg#home.recentDocumentsTooltip'"
+                                [collapsible]="false"
+                                [icon]="'fas fa-file-alt'"
+                                [buttonsStyle]="isDark()? 'dark' : 'light'"
+                                class="{{ facetSizing(i, homeFacets.length) }} mb-3">
+                    <sq-facet-recent-documents #facet [maxDocuments]="5" (documentOpened)="openRecentDocument($event)"></sq-facet-recent-documents>
+                </sq-facet-card>
+
+                <!-- Recent queries -->
+                <sq-facet-card *ngSwitchCase="'recent-queries'"
+                                [title]="'msg#facet.recentQueries.title'" 
+                                [tooltip]="'msg#home.recentQueriesTooltip'"
+                                [collapsible]="false"
+                                [icon]="'fas fa-history'"
+                                [buttonsStyle]="isDark()? 'dark' : 'light'"
+                                class="{{ facetSizing(i, homeFacets.length) }} mb-3">
+                    <sq-facet-recent-queries #facet [maxQueries]="5"></sq-facet-recent-queries>
+                </sq-facet-card>
+
+                <!-- Saved queries -->
+                <sq-facet-card *ngSwitchCase="'saved-queries'"
+                                [title]="'msg#savedQueries.savedQueries'" 
+                                [tooltip]="'msg#home.savedQueriesTooltip'"
+                                [collapsible]="false"
+                                [icon]="'fas fa-save'"
+                                [buttonsStyle]="isDark()? 'dark' : 'light'"
+                                class="{{ facetSizing(i, homeFacets.length) }} mb-3">
+                    <sq-facet-saved-queries #facet [maxQueries]="5"></sq-facet-saved-queries>
+                </sq-facet-card>
+
+                <!-- Collections (baskets) -->
+                <sq-facet-card *ngSwitchCase="'baskets'"
+                                [title]="'msg#baskets.baskets'" 
+                                [tooltip]="'msg#home.basketsTooltip'"
+                                [collapsible]="false"
+                                [icon]="'fas fa-inbox'"
+                                [buttonsStyle]="isDark()? 'dark' : 'light'"
+                                class="{{ facetSizing(i, homeFacets.length) }} mb-3">
+                    <sq-facet-baskets #facet [maxBaskets]="5"></sq-facet-baskets>
+                </sq-facet-card>
+
+            </ng-container>
+
+        </div>
+    </div>
+</div>

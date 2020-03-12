@@ -1,0 +1,20 @@
+.collapseButton {
+    float: right;
+}
+
+.principalList {
+    display: table;
+}
+
+.principal {
+    display: table-row;
+}
+
+.domain, .separator, .id {
+    display: table-cell;
+}
+
+.separator {
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+}

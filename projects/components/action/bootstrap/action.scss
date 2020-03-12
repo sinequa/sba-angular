@@ -1,0 +1,230 @@
+
+// menu animation
+.show > .dropdown-menu,
+.dropdown-menu.sq-show {
+	opacity: 1;
+	animation-name: dropdownMenuOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 0.25s;
+}
+
+@keyframes dropdownMenuOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+
+/* for submenus in bootstrap 4.x */
+.dropdown-submenu {
+    position: relative;
+
+    &.show > .dropdown-menu {
+        display: block;
+    }
+
+    /* see button-groups.less - .btn-group.open .dropdown-toggle */
+    .btn-group.open & .dropdown-toggle {
+        @include box-shadow(none);
+    }
+
+    // left means the menu is going to be on the left side of the screen and therefore the submenu should open on the right hand side of its parent
+    // right means the menu is going to be on the right side of the screen and therefore the submenu should open on the left hand side of its parent
+
+    @mixin menu-left() {
+        top: 0;
+        left: 100%;
+        transform: translate(0, 0); // in case left overrides right
+        margin-top: 0;
+        margin-left: 0;
+    }
+
+    @mixin caret-left() {
+        display: inline-block;
+        content: "";
+        float: right;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: $caret_width 0 $caret_width $caret_width;
+        border-left-color: $dropdown-border-color;
+        margin-top: 0.5rem;
+	    margin-right: -2 * $caret_width;
+    }
+
+    @mixin left() {
+        > .dropdown-menu {
+            @include menu-left();
+        }
+
+        > a:before {
+            @include caret-left();
+        }
+
+        > a:after {
+            content: none;
+        }
+
+        &:hover > a:before {
+            border-left-color: $dropdown-link-hover-color;
+        }
+    }
+
+    @mixin menu-right() {
+        top: 0;
+        left: auto;
+        right: auto;
+        transform: translate(-100%, 0);
+        margin-top: 0;
+        margin-left: 0;
+    }
+
+    @mixin caret-right() {
+	    display: inline-block;
+	    content: "";
+	    float: left;
+	    width: 0;
+	    height: 0;
+	    border-color: transparent;
+	    border-style: solid;
+	    border-width: $caret_width $caret_width $caret_width 0;
+	    border-right-color: $dropdown-border-color;
+	    margin-top: 0.5rem;
+	    margin-right: 2 * $caret_width;
+    }
+
+    @mixin right() {
+        > .dropdown-menu {
+            @include menu-right();
+        }
+
+        > a:before {
+            @include caret-right();
+        }
+
+        > a::after {
+            content: none;
+        }
+
+        &:hover > a:before {
+            border-right-color: $dropdown-link-hover-color;
+        }
+    }
+
+    .btn-toolbar.ml-auto &, .btn-toolbar.ml-auto ~ .btn-toolbar.ml-auto {
+        @include right();
+    }
+
+    // first, so later rules win when specicifity the same - we want explicit .dropdown-menu-left to beat .navbar-right 
+    /* not phone */
+    @include media-breakpoint-up(md) {
+        .navbar-right & {
+            @include right();
+        }
+    }
+
+    @include left();
+
+    .dropdown-menu-left & {
+        @include left();
+    }
+
+    &.dropdown-submenu-left {
+        @include left();
+    }
+
+    .dropdown-menu-right & {
+        @include right();
+    }
+
+    &.dropdown-submenu-right {
+        @include right();
+    }
+
+    > .dropdown-menu-focus {
+        display: block;
+    }
+}
+
+.no-overflow {
+    overflow: hidden;
+}
+
+.no-text-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    overflow-wrap: break-word;
+    word-wrap: break-word; // Edge doesn't know overflow-wrap
+    word-break: break-word; // WebKit needs this
+}
+
+.no-text-overflow-nowrap {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    overflow-wrap: break-word;
+    word-wrap: break-word; // Edge doesn't know overflow-wrap
+    word-break: break-word; // WebKit needs this
+    white-space: nowrap;
+}
+
+/* so dropdown menu item keeps its highlight when showing submenu - see .nav .open > a rule in navs.less */
+.dropdown-menu > li.open > a {
+    background-color: $dropdown-link-hover-bg;
+}
+
+/* scroll menu */
+li.sq-scroll-menu-item:first-child {
+    margin-top: -(2 * $dropdown-padding-y);
+    
+    ul.sq-scroll-menu {
+        border-top: none;
+    }
+}
+
+li.sq-scroll-menu-item:last-child {
+    margin-bottom: -(2 * $dropdown-padding-y);
+
+    ul.sq-scroll-menu {
+        border-bottom: none;
+    }
+}
+
+@function sq-px2rem($size) {
+    @return (($size / 16px ) * 1rem);
+}
+
+@function scroll-menu-max-height($items) {
+    @return ($items * ($line-height-base * 1rem + 2 * $dropdown-item-padding-y)) + 2 * $dropdown-padding-y + sq-px2rem($dropdown-border-width);
+} 
+
+ul.sq-scroll-menu {
+    position: relative !important;
+    display: inherit !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100%;
+    height: auto;
+    max-height: scroll-menu-max-height(10);
+    margin: $dropdown-padding-y 0 !important;
+    border-left: none;
+    border-right: none;
+    @include box-shadow(none);
+}
+
+ul.sq-scrollable-menu {
+    max-height: scroll-menu-max-height(10);
+    overflow-y: auto;    
+}
+
+@include media-breakpoint-down(md) {
+    .navbar-expand-md .navbar-collapse.collapse.show ul.sq-scroll-menu {
+        max-height: scroll-menu-max-height(5);
+    }
+}

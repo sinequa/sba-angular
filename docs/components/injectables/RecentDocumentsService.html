@@ -1,0 +1,1148 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>RecentDocumentsService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>saved-queries/recent-documents.service.ts</code>
+        </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#searchService">searchService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#userSettingsService">userSettingsService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addDocument">addDocument</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addRecentDocument">addRecentDocument</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#deleteRecentDocument">deleteRecentDocument</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#recentdocument">recentdocument</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#recentdocuments">recentdocuments</a>
+                                </li>
+                                <li>
+                                    <a href="#events">events</a>
+                                </li>
+                                <li>
+                                    <a href="#changes">changes</a>
+                                </li>
+                                <li>
+                                    <a href="#hasRecentDocument">hasRecentDocument</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(userSettingsService: UserSettingsWebService, searchService: <a href="../injectables/SearchService.html">SearchService</a>, maxDocuments: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">saved-queries/recent-documents.service.ts:62</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>userSettingsService</td>
+                                                  
+                                                        <td>
+                                                                    <code>UserSettingsWebService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>searchService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SearchService.html" target="_self" >SearchService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>maxDocuments</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addDocument"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addDocument
+                        </b>
+                        <a href="#addDocument"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addDocument(record: Record, original: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="172"
+                            class="link-to-prism">saved-queries/recent-documents.service.ts:172</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Creates a new recent document unless it already exists, in which case the existing document is updated.
+Emits an recentdocument event.
+Update the data on the server.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>record</td>
+                                    <td>
+                                            <code>Record</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Record to add to the service</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>original</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Whether the original doc was opened or the preview</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>true if recentdocument was created</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addRecentDocument"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addRecentDocument
+                        </b>
+                        <a href="#addRecentDocument"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addRecentDocument(recentdocument: <a href="../interfaces/RecentDocument.html">RecentDocument</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="196"
+                            class="link-to-prism">saved-queries/recent-documents.service.ts:196</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Creates a new recent document unless it already exists, in which case the existing document is updated.
+Emits an recentdocument event.
+Update the data on the server.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>recentdocument</td>
+                                    <td>
+                                                <code><a href="../interfaces/RecentDocument.html" target="_self" >RecentDocument</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>the recentdocument to create</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>true if recentdocument was created</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteRecentDocument"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            deleteRecentDocument
+                        </b>
+                        <a href="#deleteRecentDocument"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>deleteRecentDocument(recentdocument: <a href="../interfaces/RecentDocument.html">RecentDocument</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="235"
+                            class="link-to-prism">saved-queries/recent-documents.service.ts:235</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Deletes the given RecentDocument (based on its name)
+Emits an RecentDocument event.<br>Update the data on the server.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>recentdocument</td>
+                                    <td>
+                                                <code><a href="../interfaces/RecentDocument.html" target="_self" >RecentDocument</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>true if recent document was deleted</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <b>
+                            ngOnDestroy
+                        </b>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="273"
+                            class="link-to-prism">saved-queries/recent-documents.service.ts:273</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="recentdocument"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            recentdocument
+                        </b>
+                        <a href="#recentdocument"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>recentdocument(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="142"
+                            class="link-to-prism">saved-queries/recent-documents.service.ts:142</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>text</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/RecentDocument.html" target="_self" >RecentDocument | undefined</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>a recent document with the given name or null if it does not exist</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="searchService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            searchService</b>
+                            <a href="#searchService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../injectables/SearchService.html" target="_self" >SearchService</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">saved-queries/recent-documents.service.ts:66</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="userSettingsService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            userSettingsService</b>
+                            <a href="#userSettingsService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>UserSettingsWebService</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">saved-queries/recent-documents.service.ts:65</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="recentdocuments"></a>
+                        <span class="name"><b>recentdocuments</b><a href="#recentdocuments"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>recentdocuments()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">saved-queries/recent-documents.service.ts:106</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Returns the list of this user&#39;s recent documents.
+The list is stored in the user settings (this is a redirection).
+Using this service creates the list of recent documents if it does not already exist.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../interfaces/RecentDocument.html" target="_self" >RecentDocument[]</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="events"></a>
+                        <span class="name"><b>events</b><a href="#events"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>events()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="118" class="link-to-prism">saved-queries/recent-documents.service.ts:118</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Triggers any event among RecentDocumentChangeEvent 
+(use for fine-grained control of recent documents workflow)</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>Subject&lt;RecentDocumentChangeEvent&gt;</code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="changes"></a>
+                        <span class="name"><b>changes</b><a href="#changes"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>changes()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">saved-queries/recent-documents.service.ts:127</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Triggers when events affect the list of recent documents 
+(use to refresh recent documents menus)
+Cf. CHANGE_EVENTS list</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>Subject&lt;RecentDocumentChangeEvent&gt;</code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="hasRecentDocument"></a>
+                        <span class="name"><b>hasRecentDocument</b><a href="#hasRecentDocument"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>hasRecentDocument()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="134" class="link-to-prism">saved-queries/recent-documents.service.ts:134</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+</section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Optional, OnDestroy, Inject, InjectionToken} from &quot;@angular/core&quot;;
+import {Subject} from &quot;rxjs&quot;;
+import {UserSettingsWebService, UserSettings, AuditEvents, Record} from &quot;@sinequa/core/web-services&quot;;
+import {SearchService} from &quot;@sinequa/components/search&quot;;
+
+
+export interface RecentDocument {
+    /**
+     * Fields from Record that we want to store/display/index for recent documents
+     */
+    id: string;
+    title: string;
+    url1: string;
+    treepath: string[];
+    docformat: string;
+    authors: string[];
+
+    /**
+     * Date at which the document was last opened
+     */
+    date: Date;
+
+    /**
+     * Store whether the doc was opened in the preview or directly via url
+     */
+    original: boolean;
+}
+
+
+// from core/models/audit
+export const enum RecentDocumentEventType {
+    Loaded &#x3D; &quot;RecentDocument_Loaded&quot;,
+    Patched &#x3D; &quot;RecentDocument_Patched&quot;,
+    Add &#x3D; &quot;RecentDocument_Add&quot;,
+    Update &#x3D; &quot;RecentDocument_Update&quot;,
+    Delete &#x3D; &quot;RecentDocument_Delete&quot;,
+    Search &#x3D; &quot;Search_RecentDocument&quot;
+}
+
+// Types of events triggering a change event
+export const RECENT_DOCUMENTS_CHANGE_EVENTS &#x3D; [
+    RecentDocumentEventType.Add,
+    RecentDocumentEventType.Update,
+    RecentDocumentEventType.Delete,
+];
+
+
+// CRUD Events
+export interface RecentDocumentChangeEvent {
+    type: RecentDocumentEventType;
+    recentdocument?: RecentDocument;
+}
+
+export const MAX_DOCUMENTS &#x3D; new InjectionToken(&quot;MAX_DOCUMENTS&quot;);
+
+@Injectable({
+    providedIn: &#x27;root&#x27;,
+})
+export class RecentDocumentsService implements OnDestroy {
+
+    private readonly _events &#x3D; new Subject&lt;RecentDocumentChangeEvent&gt;();   
+    private readonly _changes &#x3D; new Subject&lt;RecentDocumentChangeEvent&gt;();
+    
+    constructor(
+        public userSettingsService: UserSettingsWebService,
+        public searchService: SearchService,
+        @Optional() @Inject(MAX_DOCUMENTS) private maxDocuments: number,
+    ){        
+        if(!this.maxDocuments){
+            this.maxDocuments &#x3D; 20;
+        }
+
+        // Listen to the user settings
+        this.userSettingsService.events.subscribe(event &#x3D;&gt; {
+            // E.g. new login occurs
+            // &#x3D;&#x3D;&gt; Menus need to be rebuilt
+            this.events.next({type: RecentDocumentEventType.Loaded});
+        });
+        
+        // Listen to own events, to trigger change events
+        this._events.subscribe(event &#x3D;&gt; {
+            if(RECENT_DOCUMENTS_CHANGE_EVENTS.indexOf(event.type) !&#x3D;&#x3D; -1){                
+                this.changes.next(event);
+            }
+        });
+
+        /**
+         * Subscribe to the search service to capture &quot;open-original-document&quot; event 
+         * and add documents to this service
+         */
+        this.searchService.events.subscribe(event &#x3D;&gt; {
+            if(event.type &#x3D;&#x3D;&#x3D; &quot;open-original-document&quot; &amp;&amp; event.record){
+                this.addDocument(event.record, true);
+            }
+        })
+    }
+    
+
+    // GETTERS
+
+    /**
+     * Returns the list of this user&#x27;s recent documents.
+     * The list is stored in the user settings (this is a redirection).
+     * Using this service creates the list of recent documents if it does not already exist.
+     */
+    public get recentdocuments() : RecentDocument[]{
+        if(!this.userSettingsService.userSettings)
+            this.userSettingsService.userSettings &#x3D; {};
+        if(!this.userSettingsService.userSettings[&quot;recentDocuments&quot;])
+            this.userSettingsService.userSettings[&quot;recentDocuments&quot;] &#x3D; [];
+        return this.userSettingsService.userSettings[&quot;recentDocuments&quot;];
+    }
+
+    /**
+     * Triggers any event among RecentDocumentChangeEvent 
+     * (use for fine-grained control of recent documents workflow)
+     */
+    public get events() : Subject&lt;RecentDocumentChangeEvent&gt; {
+        return this._events;
+    }
+
+    /**
+     * Triggers when events affect the list of recent documents 
+     * (use to refresh recent documents menus)
+     * Cf. CHANGE_EVENTS list
+     */
+    public get changes() : Subject&lt;RecentDocumentChangeEvent&gt; {
+        return this._changes;
+    }
+
+    /**
+     * @returns true if there is at least one recent document
+     */
+    public get hasRecentDocument(): boolean {
+        return this.recentdocuments.length &gt; 0;
+    }
+
+    /**
+     * @returns a recent document with the given name or null if it does not exist
+     * @param name 
+     */
+    public recentdocument(text: string): RecentDocument | undefined {
+        let i &#x3D; this.recentdocumentIndex(text);
+        return i&gt;&#x3D; 0? this.recentdocuments[i] : undefined;
+    }
+
+    private recentdocumentIndex(id: string): number {
+        for (let i &#x3D; 0, ic &#x3D; this.recentdocuments.length; i &lt; ic; i++) {
+            let recentdocument &#x3D; this.recentdocuments[i];
+            if (recentdocument &amp;&amp; recentdocument.id &#x3D;&#x3D;&#x3D; id) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private comparator(q1: RecentDocument, q2: RecentDocument){
+        return q2.date.getTime() - q1.date.getTime();
+    }
+
+
+    // CRUD
+
+    /**
+     * Creates a new recent document unless it already exists, in which case the existing document is updated.
+     * Emits an recentdocument event.
+     * Update the data on the server.
+     * @param record Record to add to the service
+     * @param original Whether the original doc was opened or the preview
+     * @returns true if recentdocument was created
+     */
+    public addDocument(record: Record, original: boolean) {
+        if(record){
+            return this.addRecentDocument({
+                id: record.id,
+                title: record.title,
+                url1: record.url1,
+                treepath: record.treepath,
+                docformat: record.docformat,
+                authors: record.authors,
+    
+                date: new Date(),
+                original: original
+            });
+        }
+        return false;
+    }
+
+    /**
+     * Creates a new recent document unless it already exists, in which case the existing document is updated.
+     * Emits an recentdocument event.
+     * Update the data on the server.
+     * @param recentdocument the recentdocument to create
+     * @returns true if recentdocument was created
+     */
+    public addRecentDocument(recentdocument: RecentDocument) : boolean {
+
+        if(!recentdocument.id){
+            return false;
+        }
+
+        let i &#x3D; this.recentdocumentIndex(recentdocument.id); // If the document already exists
+        if(i &gt;&#x3D; 0){
+            this.recentdocuments[i].date &#x3D; recentdocument.date; // Update the date of the existing document
+            this.events.next({type : RecentDocumentEventType.Update, recentdocument: this.recentdocuments[i]});
+        }
+        else {
+            this.recentdocuments.push(recentdocument);
+            this.events.next({type : RecentDocumentEventType.Add, recentdocument: recentdocument});
+        }
+
+        // Sort the list
+        this.recentdocuments.sort(this.comparator);
+
+        // Truncate the list
+        if(this.maxDocuments &gt;&#x3D;0 )
+            this.recentdocuments.splice(this.maxDocuments);
+
+        this.patchRecentDocuments([{
+            type: RecentDocumentEventType.Add,
+            detail: {
+                recentdocument: recentdocument.id
+            }
+        }]);
+        return true;
+    }
+
+    /**
+     * Deletes the given RecentDocument (based on its name)
+     * Emits an RecentDocument event.    
+     * Update the data on the server.
+     * @param recentdocument 
+     * @returns true if recent document was deleted
+     */
+    public deleteRecentDocument(recentdocument: RecentDocument) : boolean {
+
+        let index &#x3D; this.recentdocumentIndex(recentdocument.id);
+
+        if(index &#x3D;&#x3D;&#x3D; -1)
+            return false; // Nothing to delete
+
+        this.recentdocuments.splice(index, 1);
+        this.events.next({type : RecentDocumentEventType.Delete, recentdocument: recentdocument});
+        this.patchRecentDocuments([
+            {
+                type: RecentDocumentEventType.Delete,
+                detail: {
+                    recentdocument: recentdocument.id
+                }
+            }
+        ]);
+        return true;
+    }
+
+    /**
+     * Updates Recent Documents in User settings.
+     * @param auditEvents : Audit Events to be triggered
+     * @returns an Observable which can be used to trigger further events
+     */
+    private patchRecentDocuments(auditEvents?: AuditEvents) {
+        return this.userSettingsService.patch(&lt;UserSettings&gt;{recentDocuments: this.recentdocuments}, auditEvents)
+            .subscribe(
+                next &#x3D;&gt; {
+                    this.events.next({type: RecentDocumentEventType.Patched});
+                },
+                error &#x3D;&gt; {
+                    console.error(&quot;Could not patch Recent documents!&quot;, error);
+                }
+            );
+    }
+
+
+    ngOnDestroy() {
+        this.events.complete();
+        this.changes.complete();
+    }
+}</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'RecentDocumentsService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

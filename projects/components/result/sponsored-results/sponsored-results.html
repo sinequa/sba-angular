@@ -1,0 +1,15 @@
+<ul class="sq-sponsored-links-list" *ngIf="!!sponsoredlinks" >
+    <li *ngFor="let link of sponsoredlinks" class="sponsored-item" >
+        <div class="sq-sponsored-link-view">
+            <div *ngIf="link.thumbnail" class="sq-sponsored-link-view-thumbnail">
+                <a href="{{link.url}}" (click)="click(link)" target="_blank">
+                    <img src="{{link.thumbnail}}">
+                </a>
+            </div>            
+            <div class="sq-sponsored-link-view-info">
+                <a href="{{link.url}}" (click)="click(link)" target="_blank" [innerHTML]="link.title"></a>
+                <div *ngIf="link.summary" class="sq-sponsored-link-view-summary">{{link.summary}}</div>
+            </div>
+        </div>
+    </li>
+</ul>

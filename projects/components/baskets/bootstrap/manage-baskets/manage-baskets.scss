@@ -1,0 +1,31 @@
+.list-group {
+    max-height: 18.5rem;
+    overflow-y: auto;
+    width: 100%; // for IE
+}
+
+.sq-move {
+    cursor: move;
+}
+
+span.sq-move {
+    color: gray;
+}
+
+.sq-remove {
+    cursor: pointer;
+    color: lightgray;
+
+    &:hover {
+        color: darkred;
+    }
+}
+
+// For IE (flex layout problem)
+.w-auto-unimportant {
+    width: auto;
+}
+
+.cursor-move {
+    cursor: move;
+}

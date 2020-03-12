@@ -1,0 +1,11 @@
+<ul class="pagination my-0" *ngIf="pageCount > 1">
+    <li *ngFor="let item of items" 
+        title="{{item.title | sqMessage:{values: {page: item.page} } }}" 
+        class="page-item" 
+        [ngClass]="{'active': item.active, 'disabled': item.disabled, 'sq-navigation': item.isNavigation, 'sq-page': item.isPage, 'sq-ellipsis': item.isEllipsis}" 
+        (click)="gotoPage(item.page)">
+        <a href="javascript:void(0)" class="page-link"> 
+            <span>{{item.display | sqNumber}}</span>
+        </a>            
+    </li>
+</ul>

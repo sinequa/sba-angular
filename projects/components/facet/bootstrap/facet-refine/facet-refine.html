@@ -1,0 +1,40 @@
+<div class="card-body">
+    <form role="search" novalidate [formGroup]="form">
+        
+        <div class="d-flex flex-column flex-grow-1 position-relative">        
+            <div class="input-group">
+                <label class="sr-only">{{'msg#facet.refine.input.label' | sqMessage}}</label>
+                
+                <input type="text" placeholder="{{'msg#facet.refine.input.placeholder' | sqMessage}}" formControlName="search" 
+                    class="form-control {{inputErrorMessage ? 'is-invalid' : ''}}" spellcheck="false" autocomplete="off"
+                    [title]="inputErrorMessage"
+
+                    sqAutocomplete
+                    [dropdown]="dropdown" 
+                    [suggestQuery]="suggestQuery"
+                    [off]="!autocompleteEnabled"
+                    [fieldSearch]="fieldSearch"
+                    [excludedFields]="excludedFields"
+                    [suggestDelay]="suggestDelay"                    
+
+                    (submit)="doRefine()"
+                    (parse)="setError($event)">
+    
+                <div class="input-group-append">
+                    <button class="btn btn-light" type="button" (click)="doRefine()" title="{{'msg#facet.refine.input.buttonTitle' | sqMessage}}">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+    
+            <sq-autocomplete-list #dropdown>
+                <ng-template #itemTpl let-item>
+                    <div class="py-2" style="padding-left:0.75rem;">{{item.display}}
+                        <small *ngIf="item.category" class="ml-2 text-muted">{{(item.label || item.category) | sqMessage}}</small>
+                    </div>
+                </ng-template>
+            </sq-autocomplete-list>
+        </div>
+    </form>    
+    <sq-did-you-mean [results]="results" [context]="'refine'"></sq-did-you-mean>
+</div>

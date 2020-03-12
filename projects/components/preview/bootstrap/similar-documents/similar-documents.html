@@ -1,0 +1,12 @@
+<sq-facet-card *ngIf="documents != null && documents.length > 0" [title]="'msg#preview.similarDocumentsTitle'">
+    <div class="card-body collapse show" id="similarDocumentsBody">
+        <ng-container *ngFor="let document of documents">
+            <ng-container *ngIf="document">
+                <div class="similarDocument" (click)="onLinkClick(document)" >
+                    <div class="similarDocumentIcon {{documentIconClass(document)}}"></div>
+                    <a class="similarDocumentTitle" href="javascript:void(0)" >{{ document.title }}</a>
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+</sq-facet-card>

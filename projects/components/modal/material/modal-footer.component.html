@@ -1,0 +1,6 @@
+<mat-dialog-actions>
+    <ng-container *ngFor="let button of buttons">
+        <button *ngIf="button.visible" type="{{button.primary ? 'submit' : 'button'}}" class="mat-raised-button {{button.primary ? 'mat-primary' : ''}}" (click)="buttonClick(button)">{{button.getText() | sqMessage}}</button>
+    </ng-container>
+    <ng-content></ng-content>
+</mat-dialog-actions>

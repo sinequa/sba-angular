@@ -1,0 +1,1843 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>BsResultsScatterView</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>results-view/results-scatter-view/results-scatter-view.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+            <tr>
+                <td class="col-md-3">encapsulation</td>
+                <td class="col-md-9"><code>ViewEncapsulation.None</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>sq-results-scatter-view</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./results-scatter-view.css</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./results-scatter-view.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#categories">categories</a>
+                            </li>
+                            <li>
+                                <a href="#colors">colors</a>
+                            </li>
+                            <li>
+                                <a href="#colorvalues">colorvalues</a>
+                            </li>
+                            <li>
+                                <a href="#count">count</a>
+                            </li>
+                            <li>
+                                <a href="#data">data</a>
+                            </li>
+                            <li>
+                                <a href="#field">field</a>
+                            </li>
+                            <li>
+                                <a href="#fieldalias">fieldalias</a>
+                            </li>
+                            <li>
+                                <a href="#g">g</a>
+                            </li>
+                            <li>
+                                <a href="#lengths">lengths</a>
+                            </li>
+                            <li>
+                                <a href="#max_scale">max_scale</a>
+                            </li>
+                            <li>
+                                <a href="#min_scale">min_scale</a>
+                            </li>
+                            <li>
+                                <a href="#orderby">orderby</a>
+                            </li>
+                            <li>
+                                <a href="#svg">svg</a>
+                            </li>
+                            <li>
+                                <a href="#switch_cooc">switch_cooc</a>
+                            </li>
+                            <li>
+                                <a href="#tooltip">tooltip</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#clearPlot">clearPlot</a>
+                            </li>
+                            <li>
+                                <a href="#drawScatterplot">drawScatterplot</a>
+                            </li>
+                            <li>
+                                <a href="#formatNumber">formatNumber</a>
+                            </li>
+                            <li>
+                                <a href="#getData">getData</a>
+                            </li>
+                            <li>
+                                <a href="#getSize">getSize</a>
+                            </li>
+                            <li>
+                                <a href="#groupBy">groupBy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges">ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#plotData">plotData</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#query">query</a>
+                            </li>
+                            <li>
+                                <a href="#results">results</a>
+                            </li>
+                            <li>
+                                <a href="#view">view</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(appService: AppService, searchService: <a href="../injectables/SearchService.html">SearchService</a>, loadComponentService: LoadComponentService, changeDetectorRef: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:57</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>appService</td>
+                                                  
+                                                        <td>
+                                                                    <code>AppService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>searchService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SearchService.html" target="_self" >SearchService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>loadComponentService</td>
+                                                  
+                                                        <td>
+                                                                    <code>LoadComponentService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>changeDetectorRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="query"></a>
+                        <b>query</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Query.html" target="_self" >Query</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:34</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="results"></a>
+                        <b>results</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Results.html" target="_self" >Results</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:35</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="view"></a>
+                        <b>view</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/ScatterView.html" target="_self" >ScatterView</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:36</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearPlot"></a>
+                    <span class="name">
+                        <b>
+                            clearPlot
+                        </b>
+                        <a href="#clearPlot"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>clearPlot()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:148</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawScatterplot"></a>
+                    <span class="name">
+                        <b>
+                            drawScatterplot
+                        </b>
+                        <a href="#drawScatterplot"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawScatterplot()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:155</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="formatNumber"></a>
+                    <span class="name">
+                        <b>
+                            formatNumber
+                        </b>
+                        <a href="#formatNumber"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>formatNumber(nb)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="325"
+                            class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:325</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>nb</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getData"></a>
+                    <span class="name">
+                        <b>
+                            getData
+                        </b>
+                        <a href="#getData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getData()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:67</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSize"></a>
+                    <span class="name">
+                        <b>
+                            getSize
+                        </b>
+                        <a href="#getSize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getSize(size)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="337"
+                            class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:337</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>size</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="groupBy"></a>
+                    <span class="name">
+                        <b>
+                            groupBy
+                        </b>
+                        <a href="#groupBy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>groupBy(xs, key)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="318"
+                            class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:318</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>xs</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>key</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <b>
+                            ngOnChanges
+                        </b>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="342"
+                            class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:342</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <b>
+                            ngOnDestroy
+                        </b>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="356"
+                            class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:356</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="plotData"></a>
+                    <span class="name">
+                        <b>
+                            plotData
+                        </b>
+                        <a href="#plotData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>plotData()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="140"
+                            class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:140</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="categories"></a>
+                        <span class="name">
+                            <b>
+                            categories</b>
+                            <a href="#categories"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>string[]</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:41</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="colors"></a>
+                        <span class="name">
+                            <b>
+                            colors</b>
+                            <a href="#colors"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&quot;unit&quot;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:50</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="colorvalues"></a>
+                        <span class="name">
+                            <b>
+                            colorvalues</b>
+                            <a href="#colorvalues"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>string[]</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:40</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="count"></a>
+                        <span class="name">
+                            <b>
+                            count</b>
+                            <a href="#count"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>150</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:47</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="data"></a>
+                        <span class="name">
+                            <b>
+                            data</b>
+                            <a href="#data"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/Item.html" target="_self" >ValueItem[][] | undefined</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:39</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="field"></a>
+                        <span class="name">
+                            <b>
+                            field</b>
+                            <a href="#field"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:43</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="fieldalias"></a>
+                        <span class="name">
+                            <b>
+                            fieldalias</b>
+                            <a href="#fieldalias"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&quot;value&quot;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:44</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="g"></a>
+                        <span class="name">
+                            <b>
+                            g</b>
+                            <a href="#g"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Select.html" target="_self" >d3.Selection&lt;any | any | any | any&gt; | undefined</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:56</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="lengths"></a>
+                        <span class="name">
+                            <b>
+                            lengths</b>
+                            <a href="#lengths"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>number[]</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:42</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="max_scale"></a>
+                        <span class="name">
+                            <b>
+                            max_scale</b>
+                            <a href="#max_scale"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>10000000000000</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:49</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="min_scale"></a>
+                        <span class="name">
+                            <b>
+                            min_scale</b>
+                            <a href="#min_scale"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>0.1</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:48</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="orderby"></a>
+                        <span class="name">
+                            <b>
+                            orderby</b>
+                            <a href="#orderby"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&quot;orderby&quot;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:51</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="svg"></a>
+                        <span class="name">
+                            <b>
+                            svg</b>
+                            <a href="#svg"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;svg&#x27;, {static: false})<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:55</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="switch_cooc"></a>
+                        <span class="name">
+                            <b>
+                            switch_cooc</b>
+                            <a href="#switch_cooc"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:52</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="tooltip"></a>
+                        <span class="name">
+                            <b>
+                            tooltip</b>
+                            <a href="#tooltip"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>LoadedComponent</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">results-view/results-scatter-view/results-scatter-view.ts:57</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, ViewEncapsulation, Input, OnChanges, SimpleChanges, ElementRef, ViewChild, ChangeDetectorRef} from &quot;@angular/core&quot;;
+import {Utils} from &quot;@sinequa/core/base&quot;;
+import {Query, AppService} from &quot;@sinequa/core/app-utils&quot;;
+import {Results} from &quot;@sinequa/core/web-services&quot;;
+import {LoadedComponent, LoadComponentService} from &quot;@sinequa/core/load-component&quot;;
+import {BsTimelineTooltip} from &quot;../results-timeline-tooltip/results-timeline-tooltip&quot;;
+import {SearchService} from &quot;@sinequa/components/search&quot;;
+import {ResultsView} from &quot;../results-view.service&quot;;
+
+import * as d3 from &quot;d3&quot;;
+
+export interface ScatterView extends ResultsView {
+    plotname: string;
+    aggregation: string;
+}
+
+export interface ValueItem {
+    category: string;
+    colorvalue: string;
+    value: number;
+    title: string;
+    id: string;
+    size: number;
+    position: number;
+}
+
+@Component({
+    selector: &quot;sq-results-scatter-view&quot;,
+    encapsulation: ViewEncapsulation.None,
+    templateUrl: &quot;./results-scatter-view.html&quot;,
+    styleUrls: [&quot;./results-scatter-view.css&quot;]
+})
+export class BsResultsScatterView implements OnChanges {
+    @Input() query: Query;
+    @Input() results: Results;
+    @Input() view: ScatterView;
+
+    // Data
+    data: ValueItem[][] | undefined;
+    colorvalues: string[];
+    categories: string[];
+    lengths: number[];
+    field: string;
+    fieldalias : string &#x3D; &quot;value&quot;; // TODO: Get from config
+
+    // Parameters
+    count : number &#x3D; 150;
+    min_scale : number &#x3D; 0.1;
+    max_scale : number &#x3D; 10000000000000;
+    colors : string &#x3D; &quot;unit&quot;;
+    orderby : string &#x3D; &quot;orderby&quot;;
+    switch_cooc : boolean &#x3D; false;
+
+    // Elements
+    @ViewChild(&quot;svg&quot;, {static: false}) svg: ElementRef;
+    g: d3.Selection&lt;any, any, any, any&gt; | undefined;
+    tooltip: LoadedComponent;
+    
+
+    constructor(
+        private appService: AppService,
+        private searchService: SearchService,
+        private loadComponentService: LoadComponentService, 
+        private changeDetectorRef: ChangeDetectorRef) {
+    }
+
+    getData() {
+
+        let ccaggregation &#x3D; this.appService.getCCAggregation(this.view.aggregation);
+        //console.log(ccaggregation);
+        if (!ccaggregation) {
+            this.data &#x3D; undefined;
+            return;
+        }
+        this.field &#x3D; ccaggregation.column;
+
+        let query &#x3D; Query.copy(this.searchService.query);
+        query.action &#x3D; &quot;&quot;;
+        query.aggregations &#x3D; [this.view.aggregation];   // Override distribs with only the timeline
+        query.pageSize &#x3D; this.count;
+        query.addSelect(this.field + &quot;:&lt;&gt;&#x27;&#x27;&quot;);
+        console.log(query);
+
+        Utils.subscribe(this.searchService.getResults(query),
+            (results: Results) &#x3D;&gt; {
+                            
+                var dist_counts &#x3D; {};
+
+                results.aggregations[0].items.forEach((item) &#x3D;&gt; dist_counts[item.value as string] &#x3D; item.count);
+
+                let data: any[] &#x3D; [];
+                this.colorvalues &#x3D; [];
+                this.categories &#x3D; [];
+                
+                results.records.forEach((r) &#x3D;&gt; { 
+
+                    r[&quot;value&quot;].forEach((val) &#x3D;&gt; {
+
+                        var element &#x3D; val.display;
+                        var raw &#x3D; val.value;
+                        var positions &#x3D; val.locations.split(&quot;,&quot;);
+                        var cooc &#x3D; element.replace(/[\(\)]/g, &quot;&quot;).split(&quot;#&quot;);
+                        var value &#x3D; this.switch_cooc? cooc[0].split(&quot; &quot;) : cooc[1].split(&quot; &quot;);
+                        var category &#x3D; this.switch_cooc? cooc[1] : cooc[0];
+                        //var size &#x3D; r[3];
+                        var size &#x3D; raw in dist_counts ? dist_counts[raw] * 10 : 10;
+                        var colorvalue &#x3D; this.colors &#x3D;&#x3D;&#x3D; &#x27;unit&#x27;? (this.switch_cooc? value[1]: value[0]) : 
+                                        this.colors &#x3D;&#x3D;&#x3D; &#x27;source&#x27; ? r.collection[0].substring(1,r.collection[0].length-1) :
+                                        &quot;Document&quot;;
+
+                        var datum &#x3D; {category: category, 
+                                    colorvalue: colorvalue, 
+                                    value: parseFloat(this.switch_cooc? value[0]: value[1]), 
+                                    title: r.collection[0].substring(1, r.collection[0].length-1) + &quot; - &quot;+r.title, 
+                                    id: r.id, 
+                                    size: size, 
+                                    position: positions};
+
+                        if(!isNaN(datum.value)){		   
+                            data.push(datum);
+                            if(this.colorvalues.indexOf(colorvalue) &lt; 0)
+                                this.colorvalues.push(colorvalue);
+                        }
+
+                    });
+
+                });
+                
+                console.log(data);
+
+                let datamap &#x3D; this.groupBy(data, &#x27;category&#x27;);
+                this.categories &#x3D; Object.keys(datamap).sort() as string[];
+                this.lengths &#x3D; this.categories.map((k) &#x3D;&gt; datamap[k].length);;
+                this.data &#x3D; this.categories.map((k) &#x3D;&gt; datamap[k]);
+
+                this.plotData();
+            });
+    }
+
+    plotData() {
+        this.clearPlot();
+        if (!this.data || this.data.length &#x3D;&#x3D;&#x3D; 0) {
+            return;
+        }
+        this.drawScatterplot();
+    }
+
+    clearPlot() {
+        if (this.g) {
+            this.g.remove();
+            this.g &#x3D; undefined;
+        }
+    }
+
+    drawScatterplot(){
+        if (!this.data) {
+            return;
+        }
+
+        let instance &#x3D; this;
+        
+        var margin &#x3D; {top: 50, right: 30, bottom: 100, left: 40},
+            width &#x3D; 960 - margin.left - margin.right,
+            height &#x3D; 720 - margin.top - margin.bottom;
+
+        var y &#x3D; d3.scaleLog()
+            .domain([this.min_scale, this.max_scale])
+            .range([height, 0]);
+
+        var x0 &#x3D; d3.scaleBand()
+            .domain(this.categories)
+            .range([0, width]);
+
+        var x1 &#x3D; d3.scaleLinear()
+            .domain([0, 1])
+            .range([0, x0.bandwidth()]);
+
+        var cur &#x3D; d3.scaleOrdinal(d3.schemeCategory10)
+            .domain(this.colorvalues);
+
+        var xAxis &#x3D; d3.axisBottom(x0);
+
+        var yAxis &#x3D; d3.axisLeft(y)
+            .tickSizeInner(-width)
+            .ticks(10, &quot;,.1s&quot;);
+
+        // Define the div for the tooltip
+        var div &#x3D; d3.select(&quot;body&quot;).append(&quot;div&quot;)	
+            .attr(&quot;class&quot;, &quot;tooltip&quot;)				
+            .style(&quot;opacity&quot;, 0);
+
+        let svg &#x3D; d3.select(this.svg.nativeElement)
+            .attr(&quot;width&quot;, width + margin.left + margin.right)
+            .attr(&quot;height&quot;, height + margin.top + margin.bottom);
+    
+        this.g &#x3D; svg.append(&quot;g&quot;)
+            .attr(&quot;transform&quot;, &#x60;translate(${margin.left},${margin.top})&#x60;);
+
+        // background rectangles
+        this.g.append(&quot;g&quot;).selectAll(&quot;g&quot;)
+            .data(Array.from(this.categories.keys()))
+        .enter().append(&quot;rect&quot;)
+            .attr(&quot;class&quot;, &quot;category-rect&quot;)
+            .attr(&quot;width&quot;, width / this.categories.length)
+            .attr(&quot;height&quot;, height)
+            .attr(&quot;x&quot;, (d, i) &#x3D;&gt; i*width/this.categories.length)
+            .attr(&quot;y&quot;, 0)
+            .on(&quot;mouseover&quot;, function(d) {
+                d3.select(this).style(&quot;fill&quot;, &quot;rgba(255, 255, 100, 0.5)&quot;)
+            })
+            .on(&quot;mouseout&quot;, function(d) {
+                d3.select(this).style(&quot;fill&quot;, &quot;rgba(255, 255, 255, 0.0)&quot;)	
+            });
+
+        // Y axis
+        this.g.append(&quot;g&quot;)
+            .attr(&quot;class&quot;, &quot;y axis&quot;)
+            .call(yAxis);
+
+        // X axis
+        this.g.append(&quot;g&quot;)
+            .attr(&quot;class&quot;, &quot;x axis&quot;)
+            .attr(&quot;transform&quot;, &quot;translate(0,&quot; + height + &quot;)&quot;)
+            .call(xAxis)
+            .selectAll(&quot;text&quot;)	
+                .style(&quot;text-anchor&quot;, &quot;end&quot;)
+                .attr(&quot;dx&quot;, &quot;-.8em&quot;)
+                .attr(&quot;dy&quot;, &quot;.15em&quot;)
+                .attr(&quot;transform&quot;, function(d) {
+                    return &quot;rotate(-45)&quot; 
+                    });
+
+        // Bubbles
+        this.g.append(&quot;g&quot;).selectAll(&quot;g&quot;)
+            .data(this.data)
+        .enter().append(&quot;g&quot;)
+            //.style(&quot;fill&quot;, function(d, i) { return z(i); })
+            .attr(&quot;transform&quot;, (d, i) &#x3D;&gt; &quot;translate(&quot; + x0(this.categories[i]) + &quot;,0)&quot;)
+        .selectAll(&quot;circle&quot;)
+            .data((d) &#x3D;&gt; d)
+        .enter().append(&quot;circle&quot;)
+            .attr(&quot;class&quot;,&quot;bubble&quot;)
+            .style(&quot;cursor&quot;, &quot;pointer&quot;)
+            .attr(&quot;r&quot;, (d) &#x3D;&gt; this.getSize(d.size))
+            .attr(&quot;cx&quot;, (d, i) &#x3D;&gt; x1(i/this.lengths[this.categories.indexOf(d.category)]))
+            .attr(&quot;cy&quot;, (d) &#x3D;&gt; Math.min(height,Math.max(0, y(d.value))))
+            .attr(&quot;fill&quot;, (d) &#x3D;&gt; cur(d.colorvalue))
+            .on(&quot;mouseover&quot;, function(d) {
+                if (!instance.g) {
+                    return;
+                }
+                instance.g.selectAll(&#x27;.bubble&#x27;)
+                    .transition()
+                    .duration(200)
+                    .attr(&quot;r&quot;, (d_ : any) &#x3D;&gt;  (d.id &#x3D;&#x3D;&#x3D; d_.id)? 15 : instance.getSize(d_.size));
+                div.transition()		
+                    .duration(200)
+                    .style(&quot;opacity&quot;, .9);		
+                div.html(&quot;&lt;strong&gt;&quot;+d.title+&quot;&lt;/strong&gt;&lt;br&gt;&quot;+d.colorvalue+&quot; &quot;+instance.formatNumber(d.value)+&quot; &quot;+d.category)	
+                    .style(&quot;left&quot;, (d3.event.pageX) + &quot;px&quot;)		
+                    .style(&quot;top&quot;, (d3.event.pageY - 28) + &quot;px&quot;);	
+                })					
+            .on(&quot;mouseout&quot;, function(d) {		
+                div	.transition()		
+                    .duration(200)
+                    .style(&quot;opacity&quot;, 0);
+                if (!instance.g) {
+                    return;
+                }
+                instance.g.selectAll(&#x27;.bubble&#x27;)
+                    .transition()
+                    .duration(200)
+                    .attr(&quot;r&quot;, (d_ : any) &#x3D;&gt; instance.getSize(d_.size));
+            })
+            .on(&quot;click&quot;, function(d){
+                //popup_extract(d.id, d.position, $(div), &quot;docresult?id&#x3D;&quot;+encodeURIComponent(d.id), d.title);																		   
+                //location.href &#x3D; &quot;docresult?id&#x3D;&quot;+encodeURIComponent(d.id);
+            });
+
+
+        var dataL &#x3D; 0;
+        var offset &#x3D; 30;        
+
+        var legend &#x3D; this.g.selectAll(&#x27;.legend&#x27;)
+            .data(this.colorvalues)
+            .enter().append(&#x27;g&#x27;)
+            .attr(&quot;class&quot;, &quot;legend&quot;)
+            .attr(&quot;transform&quot;, function (d, i) {
+                if (i &#x3D;&#x3D;&#x3D; 0) {
+                    dataL &#x3D; d.length*10 + offset 
+                    return &quot;translate(0, -30)&quot;
+                } else { 
+                    var newdataL &#x3D; dataL
+                    dataL +&#x3D;  d.length*10 + offset
+                    return &quot;translate(&quot; + (newdataL) + &quot;,-30)&quot;
+                }
+            });
+
+        legend.append(&#x27;circle&#x27;)
+            .attr(&quot;cx&quot;, 5)
+            .attr(&quot;cy&quot;, 5)
+            .attr(&quot;r&quot;, 6)
+            .style(&quot;fill&quot;, function (d, i) {
+                return cur(d)
+            });
+
+        legend.append(&#x27;text&#x27;)
+            .attr(&quot;x&quot;, 15)
+            .attr(&quot;y&quot;, 10)
+            .text(function (d, i) { return d })
+            .attr(&quot;class&quot;, &quot;textselected&quot;)
+            .style(&quot;text-anchor&quot;, &quot;start&quot;)
+            .style(&quot;font-size&quot;, 15);
+
+        this.changeDetectorRef.detectChanges();
+    }
+    
+    groupBy(xs, key) {
+        return xs.reduce(function(rv, x) {
+            (rv[x[key]] &#x3D; rv[x[key]] || []).push(x);
+            return rv;
+        }, {});
+    }
+
+    formatNumber(nb) {
+        if(nb &gt;&#x3D; 1000000000){
+            return (nb/1000000000)+&quot;B&quot;;
+        }else if(nb &gt;&#x3D; 1000000){
+            return (nb/1000000)+ &quot;M&quot;;
+        }else if(nb &gt;&#x3D; 1000){
+            return (nb/1000)+ &quot;K&quot;;
+        }else{
+            return &quot;&quot;+nb
+        }
+    }
+
+    getSize(size){
+        return Math.min(8,Math.max(1, Math.sqrt(size)))
+    }
+
+
+    ngOnChanges(changes: SimpleChanges) {   
+        if (!this.tooltip) {
+            this.tooltip &#x3D; this.loadComponentService.loadComponent({component: BsTimelineTooltip});
+            d3.select(this.tooltip.componentRef.location.nativeElement)
+                .style(&quot;opacity&quot;, 0);
+        }
+        if (!!changes[&quot;results&quot;]) {
+            if (changes[&quot;results&quot;].firstChange) {
+
+            }
+            this.getData();            
+        }    
+    }
+
+    ngOnDestroy() {
+        this.loadComponentService.unloadComponent(this.tooltip);
+    }
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;svg #svg&gt;&lt;/svg&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./results-scatter-view.css</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">
+.axis text {
+    font: 10px sans-serif;
+}
+  
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+  
+.category-rect {
+    fill: rgba(255, 255, 255, 0.0);
+    stroke-width: 1px;
+    stroke: lightgrey;
+    shape-rendering: crispEdges;
+}
+  
+.tick line{
+    opacity: 0.15;
+}
+
+div.tooltip {	
+    position: absolute;			
+    text-align: center;				
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: lightsteelblue;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><svg #svg></svg></div>'
+    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsChart', 'selector': 'sq-chart'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetChart', 'selector': 'sq-facet-chart'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRecentQueries', 'selector': 'sq-recent-queries'},{'name': 'BsRecentQueriesPublic', 'selector': 'sq-recent-queries-public'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsTimelineView', 'selector': 'sq-results-timeline-view'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimeline', 'selector': 'sq-timeline'},{'name': 'BsTimelineTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'Heatmap', 'selector': 'sq-heatmap'},{'name': 'HeatmapTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultsNetworkView', 'selector': 'sq-results-network-view'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'Tab', 'selector': 'tab'},{'name': 'UserRating', 'selector': 'sq-user-rating'},{'name': 'VTabs', 'selector': 'sq-vtabs'}];
+    var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sq-advanced-form-autocomplete]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sq-advanced-form-validation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'Load', 'selector': '[sqLoad]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'}];
+    var ACTUAL_COMPONENT = {'name': 'BsResultsScatterView'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'BsResultsScatterView.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

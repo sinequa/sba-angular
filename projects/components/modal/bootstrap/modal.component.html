@@ -1,0 +1,13 @@
+<div class="modal-dialog" cdkTrapFocus [cdkTrapFocusAutoCapture]="true">
+    <div class="modal-content">
+        <sq-modal-header *ngIf="showHeader" [title]="title">
+            <ng-content select="[header]"></ng-content>
+        </sq-modal-header>
+        <div class="modal-body">
+            <ng-content></ng-content>
+        </div>
+        <sq-modal-footer *ngIf="showFooter" [buttons]="buttons">
+            <ng-content select="[footer]"></ng-content>
+        </sq-modal-footer>
+    </div>
+</div>

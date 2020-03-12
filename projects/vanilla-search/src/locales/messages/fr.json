@@ -1,0 +1,82 @@
+{
+    "app": {
+        "name": "Vanilla Search"
+    },
+
+    "locale": {
+        "en": "English (United States)",
+        "en-gb": "English (United Kingdom)",
+        "fr": "Français",
+        "de": "Deutsch"
+    },
+
+    "searchForm": {
+        "search": "Rechercher",
+        "searchFor": "Rechercher ...",
+        "advanced": "Avancée",
+        "advancedSearch": "Recherche avancée",
+        "scopeTitle": "Champ d'application : {name}",
+        "recentQuery": "Recherche récente",
+        "recentDocument": "Document récent"
+    },
+
+    "baskets": {
+        "baskets": "Collections",
+        "addToBasket": "Ajouter à la collection",
+        "removeFromBasket": "Supprimer de la collection",
+        "removeFromAllBaskets": "Supprimer de toutes les collections",
+        "removeFromAllBasketsConfirmation": "Êtes-vous sûr de vouloir supprimer ce résultat de ces collections : {baskets} ?",
+        "basketAlreadyExists": "Une collection avec ce nom existe déjà. Voulez-vous le remplacer ?",
+        "noBasket": "Vous n'avez pas encore ajouté de document à une collection...",
+        "createBasket": "Créer une collection",
+        "manageBaskets": "Gérer les collections"
+    },
+
+    "editBasket": {
+        "title": "Collection"
+    },
+
+    "manageBaskets": {
+        "title": "Gérer les collections"
+    },
+
+    "selectBasket": {
+        "title": "Sélectionner une collection",
+        "newBasket": "Nouvelle collection..."
+    },
+
+    "facet": {
+        "filters": {
+            "title": "Filtres"
+        },
+        "preview": {
+            "title": "Prévisualisation"
+        }
+    },
+
+    "results": {
+        "tabPeople": "Personnes",
+        "tabBusiness": "Entreprises",
+        "tabLocation": "Lieux"
+    },
+
+    "home": {
+        "recentDocumentsTooltip": "Document récemment consultés",
+        "recentQueriesTooltip": "Requêtes de recherche récemment effectuées",
+        "savedQueriesTooltip": "Requêtes de recherche enregistrées (incluant les filtres)",
+        "basketsTooltip": "Ensembles de documents favoris",
+        "darkMode": "Mode sombre",
+        "lightMode": "Mode clair"
+    },
+
+    "search": {
+        "pageTitle": "Recherche - {search}"
+    },
+
+    "preview": {
+        "extracts": "Extraits",
+        "entities": "Entités",
+        "searchText": "Chercher \"{text}\" dans le document",
+        "pageTitle": "Navigateur de documents - {title}"
+    }
+}

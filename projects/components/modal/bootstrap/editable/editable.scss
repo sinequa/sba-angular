@@ -1,0 +1,21 @@
+:host {
+    display: block;
+    flex: 1 1 0px;
+    .editable-text {
+        min-width: 4rem;
+    }
+    form {
+        display: inline-block;
+        white-space: nowrap;
+        margin: 0;
+        width: 90%;
+        
+        .form-group {
+            width: 100%;
+            
+            input {
+                width: 100% !important;
+            }
+        }
+    }
+}

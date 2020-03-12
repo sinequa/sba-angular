@@ -1,0 +1,2473 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>ResultsNetworkView</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>network/results-network-view/results-network-view.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+            <tr>
+                <td class="col-md-3">encapsulation</td>
+                <td class="col-md-9"><code>ViewEncapsulation.None</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>sq-results-network-view</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./results-network-view.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./results-network-view.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#appService">appService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#changeDetectorRef">changeDetectorRef</a>
+                            </li>
+                            <li>
+                                <a href="#container">container</a>
+                            </li>
+                            <li>
+                                <a href="#network">network</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#pluginMethodService">pluginMethodService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#searchService">searchService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#ngOnChanges">ngOnChanges</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#query">query</a>
+                            </li>
+                            <li>
+                                <a href="#results">results</a>
+                            </li>
+                            <li>
+                                <a href="#view">view</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(appService: AppService, searchService: <a href="../injectables/SearchService.html">SearchService</a>, changeDetectorRef: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>, pluginMethodService: JsonMethodPluginService)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">network/results-network-view/results-network-view.ts:48</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>appService</td>
+                                                  
+                                                        <td>
+                                                                    <code>AppService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>searchService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SearchService.html" target="_self" >SearchService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>changeDetectorRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>pluginMethodService</td>
+                                                  
+                                                        <td>
+                                                                    <code>JsonMethodPluginService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="query"></a>
+                        <b>query</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Query.html" target="_self" >Query</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">network/results-network-view/results-network-view.ts:41</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="results"></a>
+                        <b>results</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Results.html" target="_self" >Results</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">network/results-network-view/results-network-view.ts:42</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="view"></a>
+                        <b>view</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/NetworkView.html" target="_self" >NetworkView</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">network/results-network-view/results-network-view.ts:43</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <b>
+                            ngOnChanges
+                        </b>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">network/results-network-view/results-network-view.ts:59</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="appService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            appService</b>
+                            <a href="#appService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>AppService</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">network/results-network-view/results-network-view.ts:53</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="changeDetectorRef"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            changeDetectorRef</b>
+                            <a href="#changeDetectorRef"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">network/results-network-view/results-network-view.ts:55</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="container"></a>
+                        <span class="name">
+                            <b>
+                            container</b>
+                            <a href="#container"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;networkContainer&#x27;, {static: false})<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">network/results-network-view/results-network-view.ts:45</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="network"></a>
+                        <span class="name">
+                            <b>
+                            network</b>
+                            <a href="#network"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/SQNetwork.html" target="_self" >SQNetwork</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">network/results-network-view/results-network-view.ts:48</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="pluginMethodService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            pluginMethodService</b>
+                            <a href="#pluginMethodService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>JsonMethodPluginService</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">network/results-network-view/results-network-view.ts:56</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="searchService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            searchService</b>
+                            <a href="#searchService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../injectables/SearchService.html" target="_self" >SearchService</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">network/results-network-view/results-network-view.ts:54</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, ViewEncapsulation, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ElementRef, ViewChild} from &quot;@angular/core&quot;;
+import {Utils} from &quot;@sinequa/core/base&quot;;
+import {Query, AppService} from &quot;@sinequa/core/app-utils&quot;;
+import {Results, JsonMethodPluginService} from &quot;@sinequa/core/web-services&quot;;
+import {SearchService} from &quot;@sinequa/components/search&quot;;
+import {ResultsView} from &quot;@sinequa/components/results-view&quot;;
+
+import {Network, DataSet} from &quot;vis&quot;;
+
+import $ from &quot;jquery&quot;;
+
+//import { jqxWindowComponent } from &quot;jqwidgets-scripts/jqwidgets-ng/jqxwindow&quot;;
+
+import &quot;jquery-contextmenu&quot;;
+
+export interface NetworkView extends ResultsView {
+    displayLoader : boolean;
+    allowLoop : boolean;
+    allowEmptySearch : boolean;
+	nodes : any[];
+    edges : any[];
+    height : number;
+    physics : any;
+    resultViewName : string;
+    highlightOnClick : boolean;
+    highlightDeep : number;
+    contextMenuSearch : boolean;
+    contextMenuFilter : boolean;
+    contextMenuExtend : boolean;
+    contextMenuRedirectToView : string;
+	contextMenuExtendRelations : any;
+}
+
+@Component({
+    selector: &quot;sq-results-network-view&quot;,
+    templateUrl: &quot;./results-network-view.html&quot;,
+    encapsulation: ViewEncapsulation.None,		// Needed for context menu
+    styleUrls: [&quot;./results-network-view.scss&quot;]
+})
+export class ResultsNetworkView implements OnChanges {
+    @Input() query: Query;
+    @Input() results: Results;
+	@Input() view: NetworkView;
+    
+	@ViewChild(&quot;networkContainer&quot;, {static: false}) container: ElementRef;	
+    //@ViewChild(&#x27;infoWindow&#x27;) infoWindow: jqxWindowComponent;
+
+    network: SQNetwork;
+    
+    //$ : any;
+    
+    constructor(
+        public appService: AppService,
+        public searchService: SearchService,
+        public changeDetectorRef: ChangeDetectorRef,
+        public pluginMethodService: JsonMethodPluginService) {
+    }
+
+    ngOnChanges(changes: SimpleChanges){
+
+		this.view.resultViewName &#x3D; this.view.name;
+				
+		//console.log(this.results);
+		//console.log(this.query);
+
+		this.network &#x3D; new SQNetwork();
+		this.network.initOptions(this.view, &quot;networkContainer&quot;);
+		this.network.enableQueryMode(this.appService.appName, this.query, this.results, this.pluginMethodService);
+		//this.network.enableCustomMode(from, where);
+		//this.network.initComponents(this.container);
+		this.network.initComponents(/*this.infoWindow*/);
+		
+		//CUSTOM
+		//var customIndexList &#x3D; [&quot;Index_Cooc&quot;];
+		//var customWhereClause &#x3D; &quot;&quot;;
+		//network.enableCustomMode(customIndexList, customWhereClause);
+		
+		this.network.render();
+		
+		console.log(this.network);
+    }
+}
+
+export class SQNetwork {
+    
+	//config
+	displayLoader?: boolean;						//boolean - enable or not the loader
+	resultId?: string;								//string - current resultID
+	allowLoop?: boolean;							//boolean - allow edges to loop on a node
+	allowEmptySearch?: boolean;						//boolean - allow empty text or no filter to compute network
+	nodesConf?: any[];								//array - contain nodes configuration
+	edgesConf?: any[];								//array - contains edges configuration
+	containerId?: string;							//string - Div container ID
+	physicsConf?: any;								//object - physics configuration
+	resultViewName?: string;					    //string - result view name
+	highlightOnClick?: boolean;						//boolean - highlight or not nodes when clicking
+	highlightDeep?: number;							//int - highlight deep
+	redirectResultViewName?: string;				//string - when apply filter, redirect to this view
+	redirectResultViewNameDisplay?: string;			//string - redirect ResultView Name
+	contextMenuSearch?: boolean;					//boolean - enable or not the context menu search 
+	contextMenuFilter?: boolean;					//boolean - enable or not the context menu filter 
+	contextMenuExtend?:boolean;						//boolean - enable or not the context menu extend 
+	extendedConf?: any[];							//array - contains extended configuration
+	
+	//INTERNAL VARIABLES
+	_container?: HTMLElement | null;				//DOM Object - vis network container : div
+	_visNetwork?: any;    							//Object - VIS Network
+	
+	//loader
+	_loaderBarMinWidth &#x3D; 496;				    	//int - loader min bar width in px
+	_loaderBarMaxWidth &#x3D; 20;					    //int - loader max bar width in px
+	
+	//settings
+	_settingButton?: JQuery;						//DOM Object - settings button : div
+	_settingsContainer?: JQuery;			        //DOM Object - settings container : div
+	
+	//advanced settings
+	_advancedSettingButton?: JQuery;		        //DOM Object - advanced settings button : div
+	_advancedSettingsContainer?: JQuery;	        //DOM Object - advanced settings container : div
+	
+	//other buttons
+	_reloadButton?: JQuery;					    	//DOM Object - reload button : div
+	_focusButton?: JQuery;					    	//DOM Object - focus button : div
+	_zoomoutButton?: JQuery;				        //DOM Object - zoom out button : div
+	_zoomInButton?: JQuery;					    	//DOM Object - zoom in button : div
+	
+	//search bar
+	//_searchBar &#x3D; undefined;					        //Object - JQX input text
+	//_searchBarDataAdapter &#x3D; undefined;			    //Object - JQX data adapter
+	
+	//focus node
+	_focusNode?: any;					        //object - Vis node, used to do focus action.
+	
+	//data
+	_nodesDataset?: any;					    	//VIS DataSet object
+	_edgesDataset?: any;					    	//VIS DataSet object
+	
+	//context menu
+	_contextMenuNode?: any;							//object - Vis node, current context node (right click)
+	_contextMenuEdge?: any;							//object - Vis edge, current context edge (right click)
+	//_infoWindow : jqxWindowComponent &#x3D; undefined;					//Object - JQX Window, used to show Node / Edge info
+	_clickedNodes?: any; 							//object - Vis node, current clicked node (left click)
+	
+	//errors
+	_dataIsError &#x3D; false;						//boolean - data state, true if error (from network WS plugin)
+	_dataErrorMessage &#x3D; &quot;&quot;;					//string - error code (from network WS plugin)
+	_dataIsEmpty &#x3D; false;						//boolean - data state, true if empty (no edges)
+	
+	//Physics
+	_physicsGravitationalConstant &#x3D; -2000;		//intrger -  http://visjs.org/docs/network/physics.html
+	_physicsCentralGravity &#x3D; 0.3;				//double - same as above
+	_physicsSpringLength &#x3D; 95;					//intrger - same as above
+	
+	//Custom
+	_customRender &#x3D; false;						//boolean - custom mode, change post data send to through render. When turn on, use _customIndexList and _customWhereClause. otherwise use resultid
+	_customIndexList?: any[];					//Array - custom list of index send to render network. 
+	_customWhereClause?: string;				//string - custom where clause send to render network.
+
+	// Query
+	_queryMode &#x3D; false;
+	_app?: string;
+	_query?: Query;
+	_results: Results;
+	_pluginMethodService?: JsonMethodPluginService;
+	
+	//load options
+	initOptions(options, containerId) {
+		this.resultViewName &#x3D; this.getConfiguration(&quot;resultViewName&quot;, options);
+		this.displayLoader &#x3D; this.getConfiguration(&quot;displayLoader&quot;, options);
+		this.resultId &#x3D; this.getConfiguration(&quot;resultId&quot;, options);
+		this.allowLoop &#x3D; this.getConfiguration(&quot;allowLoop&quot;, options);
+		this.allowEmptySearch &#x3D; this.getConfiguration(&quot;allowEmptySearch&quot;, options);
+		this.nodesConf &#x3D; this.getConfiguration(&quot;nodes&quot;, options);
+		this.edgesConf &#x3D; this.getConfiguration(&quot;edges&quot;, options, true);
+		this.initEdgesConf();
+		this.containerId &#x3D; containerId;
+		//this.removeBottomPagination &#x3D; this.getConfiguration(&quot;removeBottomPagination&quot;, options);
+		this.physicsConf &#x3D; this.getConfiguration(&quot;physics&quot;, options);
+		this.initPhysicsOptions();
+		this.highlightOnClick &#x3D; this.getConfiguration(&quot;highlightOnClick&quot;, options);
+		this.highlightDeep &#x3D; this.getConfiguration(&quot;highlightDeep&quot;, options);
+		this.redirectResultViewName &#x3D; this.getConfiguration(&quot;redirectResultViewName&quot;, options);
+		this.redirectResultViewNameDisplay &#x3D; this.getConfiguration(&quot;redirectResultViewNameDisplay&quot;, options);
+		this.contextMenuSearch &#x3D; this.getConfiguration(&quot;contextMenuSearch&quot;, options);
+		this.contextMenuFilter &#x3D; this.getConfiguration(&quot;contextMenuFilter&quot;, options);
+		this.contextMenuExtend &#x3D; this.getConfiguration(&quot;contextMenuExtend&quot;, options);
+		this.extendedConf &#x3D; this.getConfiguration(&quot;contextMenuExtendRelations&quot;, options);
+	}
+	
+	//initialize components
+	initComponents(/*infoWindow*/){
+		this._container &#x3D;  document.getElementById(this.containerId || &quot;&quot;);		
+		this._settingsContainer &#x3D; $(&quot;#networkSettingsPannel&quot;);
+		this._advancedSettingsContainer &#x3D; $(&quot;#networkAdvancedSettingsPannel&quot;);
+		this._settingButton &#x3D; $(&quot;#networkSettingsButton&quot;);
+		this._advancedSettingButton &#x3D; $(&quot;#networkAdvancedettingsButton&quot;);
+		this._reloadButton &#x3D; $(&quot;#networkReloadButton&quot;);
+		this._focusButton &#x3D; $(&quot;#networkFocusButton&quot;);
+		this._zoomoutButton &#x3D; $(&quot;#networkZoomOutButton&quot;);
+		this._zoomInButton &#x3D; $(&quot;#networkZoomInButton&quot;);
+		//this._infoWindow &#x3D; infoWindow;
+		//this._searchBar &#x3D; $(&quot;#networkSearch&quot;);
+		
+		//resize loader
+		this.initLoaderContainers();
+		//remove pagination
+		//if(this.removeBottomPagination) this.removePagination();
+		//init settings &amp; advanced settings
+		this.initSettings();
+		this.initSearchBar();
+		this.initAdvancedSettings();
+	}
+	
+	/*
+	*** INIT
+	*/
+	
+	//Init loader container (width, height...)
+	initLoaderContainers(){
+		var networkContainerHeight &#x3D; $(&quot;#&quot; + this.containerId).height();
+		var networkContainerWidth &#x3D; $(&quot;#&quot; + this.containerId).width();
+		
+		if (networkContainerHeight !&#x3D;&#x3D; undefined &amp;&amp; networkContainerWidth !&#x3D;&#x3D; undefined) {
+			$(&quot;#networkLoadingBarContainer&quot;).css(&quot;height&quot;, networkContainerHeight);
+			$(&quot;#networkLoadingBarContainer&quot;).css(&quot;width&quot;, networkContainerWidth);
+			
+			var progressBarPositionTop &#x3D; (networkContainerHeight / 2) - 22;
+			
+			$(&quot;div.networkLoadingBarOuterBorder&quot;).css(&quot;top&quot;, progressBarPositionTop);
+		}
+	}
+	
+    //Init globals settings (buttons, widgets...)
+    // TODO Angular tooltip to replace jqxTooltip
+	initSettings(){
+		var self &#x3D; this;
+
+		if (this._settingButton) {
+			this._settingButton.on(&#x27;click&#x27;, function () {				
+				if(self._advancedSettingsContainer &amp;&amp; self._advancedSettingsContainer.is(&quot;:visible&quot;)) self._advancedSettingsContainer.hide();
+				if (self._settingsContainer) {
+					self._settingsContainer.toggle();
+				}
+			});
+			//this._settingButton.jqxTooltip({ content: &#x27;Settings&#x27;, position: &#x27;mouse&#x27;});
+		}
+		
+		if (this._advancedSettingButton) {
+			this._advancedSettingButton.on(&#x27;click&#x27;, function () {
+				if(self._settingsContainer &amp;&amp; self._settingsContainer.is(&quot;:visible&quot;)) self._settingsContainer.hide();
+				if (self._advancedSettingsContainer) {
+					self._advancedSettingsContainer.toggle();
+				}
+			});
+			//this._advancedSettingButton.jqxTooltip({ content: &#x27;Advanced Settings&#x27;, position: &#x27;mouse&#x27;});
+		}
+		
+		if (this._reloadButton) {
+			this._reloadButton.on(&#x27;click&#x27;, function () {
+				self.render();
+			});
+			//this._reloadButton.jqxTooltip({ content: &#x27;Reload&#x27;, position: &#x27;mouse&#x27;});
+		}
+		
+		if (this._focusButton) {
+			this._focusButton.on(&#x27;click&#x27;, function () {
+				self.focusOnNode();
+			});
+			//this._focusButton.jqxTooltip({ content: &#x27;Focus on node&#x27;, position: &#x27;mouse&#x27;});
+		}
+		
+		if (this._zoomInButton) {
+			this._zoomInButton.on(&#x27;click&#x27;, function () {
+				self.zoomIn();
+			});
+			//this._zoomInButton.jqxTooltip({ content: &#x27;Zoom in&#x27;, position: &#x27;mouse&#x27;});
+		}
+		
+		if (this._zoomoutButton) {
+			this._zoomoutButton.on(&#x27;click&#x27;, function () {
+				self.zoomOut();
+			});
+			//this._zoomoutButton.jqxTooltip({ content: &#x27;Zoom out&#x27;, position: &#x27;mouse&#x27;});
+		}
+		
+		//add settings for each couple
+		$.each(this.edgesConf, function( i, edgeConf ) {
+			self.addSettingRow(i, edgeConf);
+		});
+
+		if (this._settingsContainer) {
+			this._settingsContainer.hide();
+		}
+	}
+    
+    // TODO migrate search bar
+    //Init search bar    
+	initSearchBar(){
+		/*this._searchBarDataAdapter &#x3D; new $.jqx.dataAdapter({
+			localdata: [],
+			datafields: [
+				{ name: &#x27;label&#x27; }, 
+				{ name: &#x27;id&#x27; }
+			],
+		});*/
+	}
+	
+	search(e){		
+		if (e.args) {
+			var nodeId &#x3D; e.args.item.value;
+			this._focusNode &#x3D; this._nodesDataset &amp;&amp; this._nodesDataset.get(nodeId);	//set focus node
+			this.focusOnNode();
+		}
+	}
+    
+	
+	//inititalize loader events
+	initEventListeners(){		
+		var self &#x3D; this;
+		
+		//loader
+		this._visNetwork.on(&quot;stabilizationProgress&quot;, function(params) {
+			var widthFactor &#x3D; params.iterations/params.total;
+			var width &#x3D; Math.max(self._loaderBarMinWidth,self._loaderBarMaxWidth * widthFactor);
+			$(&quot;#networkLoadingBar&quot;).css(&quot;width&quot;, width);
+			$(&quot;#networkLoadingBarText&quot;).text(Math.round(widthFactor*100) + &#x27;%&#x27;);
+		});
+		
+		//loader
+		this._visNetwork.once(&quot;stabilizationIterationsDone&quot;, function() {
+			self.doneLoader();
+		});
+		
+		//highlight
+		this._visNetwork.on(&quot;click&quot;, function(params) {
+			self._clickedNodes &#x3D; params.nodes;			
+			if(params.nodes.length &#x3D;&#x3D; 1) self._focusNode &#x3D; self._nodesDataset.get(params.nodes[0]);
+			self.doHighlight();
+		});
+		
+		//context menu
+		this._visNetwork.on(&quot;oncontext&quot;, function (params) {
+			var x &#x3D; params.pointer.DOM.x;
+			var y &#x3D; params.pointer.DOM.y;
+			var node &#x3D; self.getNodeFromPosition(x, y);
+			self._contextMenuNode &#x3D; node;
+			if(self._contextMenuNode){
+				self._contextMenuEdge &#x3D; undefined;
+				self.buildContextMenu();
+			}else{
+				var edge &#x3D; self.getEdgeFromPosition(x, y);
+				self._contextMenuEdge &#x3D; edge;
+				if(self._contextMenuEdge){
+					self.buildContextMenu();
+				}
+			}
+		});
+		
+	}
+	
+	/*
+	*** SETTINGS &amp; MENU BUTTONS
+	*/
+	
+	//build setting rows (switch label / button / widgets)
+	addSettingRow(i, edgeConf){
+		if (!this._settingsContainer) {
+			return;
+		}
+		
+		/*var self &#x3D; this;*/
+		var rowLabelsDisplay &#x3D; this.getRowdisplayLabel(i);
+		
+		//crate row title
+		var row &#x3D; $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
+		row.attr(&quot;id&quot;,&quot;settingRowTitle&quot; + i);
+		row.attr(&quot;style&quot;,&quot;font-size: 12px; font-weight: bold;&quot;);
+		row.html(rowLabelsDisplay);
+		row.appendTo(this._settingsContainer);
+	
+		//crate row for settings
+		var row &#x3D; $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
+		row.attr(&quot;id&quot;,&quot;settingRow&quot; + i);
+		row.attr(&quot;data-index&quot;, i);
+		row.attr(&quot;style&quot;,&quot;display: flex; margin-bottom: 20px;&quot;);
+		row.appendTo(this._settingsContainer);
+		
+        // TODO Replace slider and switch buttons
+        /*
+		//add switch button
+		var rowSwitchButton &#x3D;  $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
+		rowSwitchButton.attr(&quot;id&quot;,&quot;settingRowSwitchButton&quot; + i);
+		rowSwitchButton.attr(&quot;style&quot;,&quot;float: left; margin-top: 10px;&quot;);
+		rowSwitchButton.appendTo(row);
+		$(&#x27;#settingRowSwitchButton&#x27; + i).jqxSwitchButton({ 
+			height: 30, 
+			width: 80,
+			thumbSize:&#x27;30%&#x27;,
+			checked: self.edgesConf[i].enable,
+			theme: &#x27;energyblue&#x27;
+		});
+		
+		$(&#x27;#settingRowSwitchButton&#x27; + i).on(&#x27;change&#x27;, function (event) {
+			var isChecked &#x3D; event.args.checked;
+			var index &#x3D; event.currentTarget.parentElement.dataset.index;
+
+			if(isChecked) $(&#x27;#settingRowSlider&#x27; + i).jqxSlider(&#x27;enable&#x27;);
+			else $(&#x27;#settingRowSlider&#x27; + i).jqxSlider(&#x27;disable&#x27;);
+
+			self.edgesConf[index].enable &#x3D; isChecked;
+			
+			var rowLabelsDisplay &#x3D; self.getRowdisplayLabel(i);
+			$(&#x27;#settingRowTitle&#x27; + i).html(rowLabelsDisplay);
+		}); 
+        
+        //add slider
+		var slider &#x3D; $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
+		slider.attr(&quot;id&quot;,&quot;settingRowSlider&quot; + i);
+		slider.attr(&quot;style&quot;,&quot;float: left; margin-left: 20px;&quot;);
+		slider.appendTo(row);
+		
+		$(&#x27;#settingRowSlider&#x27; + i).jqxSlider({ 
+			height: 50,
+			min: 0, 
+			max: 100,
+			value: self.edgesConf[i].count,
+			disabled: !self.edgesConf[i].enable,
+			step: 1,
+			mode: &#x27;fixed&#x27;,
+			showTickLabels: true,
+			ticksPosition: &#x27;bottom&#x27;,
+			ticksFrequency: 25,
+			minorTicksFrequency: 1,
+			tooltip: true,
+			theme: &#x27;energyblue&#x27;
+		});
+		
+		$(&#x27;#settingRowSlider&#x27; + i).on(&#x27;change&#x27;, function (event) {
+			var siderValue &#x3D; event.args.value;
+			var index &#x3D; event.currentTarget.parentElement.dataset.index;
+			self.edgesConf[index].count &#x3D; siderValue;
+		});
+		*/
+	}
+	
+	//Setting label
+	getRowdisplayLabel(i) : string{
+		if (!this.edgesConf) {
+			return &quot;&quot;;
+		}
+		var nodeFrom : any &#x3D; this.getNodeConf(this.edgesConf[i].from);
+		var nodeTo : any &#x3D; this.getNodeConf(this.edgesConf[i].to);
+		var colorFrom; var colorTo;
+		
+		if(this.edgesConf[i].enable){ //get node color or default one
+			if(nodeFrom.nodeOptions.icon.color !&#x3D; undefined) colorFrom &#x3D; nodeFrom.nodeOptions.icon.color;
+			else colorFrom &#x3D; &quot;#333&quot;;
+			if(nodeTo.nodeOptions.icon.color !&#x3D; undefined) colorTo &#x3D; nodeTo.nodeOptions.icon.color;
+			else colorTo &#x3D; &quot;#333&quot;;
+		}else{ // disabled
+			colorFrom &#x3D; &quot;#e2e2e2&quot;;
+			colorTo &#x3D; &quot;#e2e2e2&quot;;
+		}
+		
+		var rowLabelsDisplay &#x3D; &quot;&quot;;
+		if(nodeFrom.nodeOptions.icon !&#x3D; undefined) rowLabelsDisplay +&#x3D; &quot;&lt;i class&#x3D;&#x27;fa fa-2x&#x27; style&#x3D;&#x27;color:&quot; + colorFrom + &quot;&#x27; data-color:&#x27;&#x27;&gt;&quot; + nodeFrom.nodeOptions.icon.code + &quot;&lt;/i&gt; &quot;;
+		rowLabelsDisplay +&#x3D; &quot;&lt;span style&#x3D;&#x27;color: &quot; + colorFrom + &quot;&#x27;&gt;&quot; + nodeFrom.display + &quot;&lt;/span&gt;&quot;;
+		rowLabelsDisplay +&#x3D; &quot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&quot;;
+		if(nodeTo.nodeOptions.icon !&#x3D; undefined) rowLabelsDisplay +&#x3D; &quot;&lt;i class&#x3D;&#x27;fa fa-2x&#x27; style&#x3D;&#x27;color:&quot; + colorTo + &quot;&#x27;&gt;&quot; + nodeTo.nodeOptions.icon.code + &quot;&lt;/i&gt; &quot;;
+		rowLabelsDisplay +&#x3D; &quot;&lt;span style&#x3D;&#x27;color: &quot; + colorTo + &quot;&#x27;&gt;&quot; + nodeTo.display + &quot;&lt;/span&gt;&quot;;
+		
+		return rowLabelsDisplay;
+	}
+		
+	//advanced settings
+	initAdvancedSettings(){
+		if (!this._advancedSettingsContainer) {
+			return;
+		}
+		/*var self &#x3D; this;*/
+		
+		//Highlight
+		var row &#x3D; $(&quot;&lt;h3&gt;&lt;/h3&gt;&quot;);
+		row.text(&quot;Highlight deep&quot;);
+		row.appendTo(this._advancedSettingsContainer);
+		
+		//crate row for settings Highlight
+		var row &#x3D; $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
+		row.attr(&quot;style&quot;,&quot;display: flex; margin-bottom: 20px;&quot;);
+		row.appendTo(this._advancedSettingsContainer);
+		
+        // TODO Replace slider and switch buttons
+        //add switch button Highlight
+        /*
+		var rowSwitchButton &#x3D;  $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
+		rowSwitchButton.attr(&quot;id&quot;,&quot;advancedSettingHighlightSwitchButton&quot;);
+		rowSwitchButton.attr(&quot;style&quot;,&quot;float: left; margin-top: 10px;&quot;);
+		rowSwitchButton.appendTo(row);
+		$(&#x27;#advancedSettingHighlightSwitchButton&#x27;).jqxSwitchButton({ 
+			height: 30, 
+			width: 80,
+			thumbSize:&#x27;30%&#x27;,
+			checked: self.highlightOnClick,
+			theme: &#x27;energyblue&#x27;
+		});
+		
+		$(&#x27;#advancedSettingHighlightSwitchButton&#x27;).on(&#x27;change&#x27;, function (event) {
+			self.highlightOnClick &#x3D; event.args.checked;
+			if(self.highlightOnClick){
+				$(&#x27;#advancedSettingHighlightSlider&#x27;).jqxSlider(&#x27;enable&#x27;);
+				self.doHighlight();
+			}
+			else{
+				$(&#x27;#advancedSettingHighlightSlider&#x27;).jqxSlider(&#x27;disable&#x27;);
+				self.stopHighlight();
+			}
+		}); 
+		
+		//add slider Highlight
+		var slider &#x3D; $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
+		slider.attr(&quot;id&quot;,&quot;advancedSettingHighlightSlider&quot;);
+		slider.attr(&quot;style&quot;,&quot;float: left; margin-left: 20px;&quot;);
+		slider.appendTo(row);
+		
+		$(&#x27;#advancedSettingHighlightSlider&#x27;).jqxSlider({ 
+			height: 50,
+			min: 1, 
+			max: 5,
+			value: self.highlightDeep,
+			disabled: !self.highlightOnClick,
+			step: 1,
+			mode: &#x27;fixed&#x27;,
+			showTickLabels: true,
+			ticksPosition: &#x27;bottom&#x27;,
+			ticksFrequency: 1,
+			minorTicksFrequency: 1,
+			tooltip: true,
+			theme: &#x27;energyblue&#x27;
+		});
+		
+		$(&#x27;#advancedSettingHighlightSlider&#x27;).on(&#x27;change&#x27;, function (event) {
+			var siderValue &#x3D; event.args.value;
+			var index &#x3D; event.currentTarget.parentElement.dataset.index;
+			self.highlightDeep &#x3D; siderValue;
+			self.doHighlight();
+        });
+        */
+		
+		///////////
+		
+		//Physics
+		var row &#x3D; $(&quot;&lt;h3&gt;&lt;/h3&gt;&quot;);
+		row.text(&quot;Physics&quot;);
+		row.appendTo(this._advancedSettingsContainer);
+		
+		///////////
+		
+		//crate row for settings Physics Gravitational Constant
+		var row &#x3D; $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
+		row.attr(&quot;style&quot;,&quot;display: flex; margin-bottom: 20px;&quot;);
+		row.appendTo(this._advancedSettingsContainer);
+		
+		//add label Physics Gravitational Constant
+		var rowLabelContainer &#x3D; $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
+		rowLabelContainer.attr(&quot;style&quot;,&quot;float: left; margin-top: 10px; width: 80px; margin-left: 1px; margin-right: 1px;&quot;);
+		rowLabelContainer.appendTo(row);
+		
+		var rowLabel &#x3D; $(&quot;&lt;h4&gt;&lt;/h4&gt;&quot;);
+		rowLabel.text(&quot;Gravitational constant&quot;);
+		rowLabel.appendTo(rowLabelContainer);
+        
+        // TODO Replace slider and switch buttons
+        //add slider Physics Gravitational Constant        
+        /*
+		var slider &#x3D; $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
+		slider.attr(&quot;id&quot;,&quot;advancedSettingPhysicsGravitationalConstantSlider&quot;);
+		slider.attr(&quot;style&quot;,&quot;float: left; margin-left: 20px;&quot;);
+		slider.appendTo(row);
+		
+		$(&#x27;#advancedSettingPhysicsGravitationalConstantSlider&#x27;).jqxSlider({ 
+			height: 50,
+			min: -30000, 
+			max: 0,
+			step: 100,
+			value: self._physicsGravitationalConstant,
+			showTicks: false,
+			mode: &#x27;fixed&#x27;,
+			theme: &#x27;energyblue&#x27;
+		});
+		
+		$(&#x27;#advancedSettingPhysicsGravitationalConstantSlider&#x27;).on(&#x27;change&#x27;, function (event) {
+			var siderValue &#x3D; event.args.value;
+			self._physicsGravitationalConstant &#x3D; siderValue;
+			self.updateOptions();
+		});
+        */
+        
+		///////////
+		
+		//crate row for settings Physics
+		var row &#x3D; $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
+		row.attr(&quot;style&quot;,&quot;display: flex; margin-bottom: 20px;&quot;);
+		row.appendTo(this._advancedSettingsContainer);
+		
+		//add label Physics Gravitational Constant
+		var rowLabelContainer &#x3D; $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
+		rowLabelContainer.attr(&quot;style&quot;,&quot;float: left; margin-top: 10px; width: 80px; margin-left: 1px; margin-right: 1px;&quot;);
+		rowLabelContainer.appendTo(row);
+		
+		var rowLabel &#x3D; $(&quot;&lt;h4&gt;&lt;/h4&gt;&quot;);
+		rowLabel.text(&quot;Central Gravity&quot;);
+		rowLabel.appendTo(rowLabelContainer);
+		
+        // TODO Replace slider and switch buttons
+        //add slider Physics Gravitational Constant
+        /*
+		var slider &#x3D; $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
+		slider.attr(&quot;id&quot;,&quot;advancedSettingPhysicsCentralGravitySlider&quot;);
+		slider.attr(&quot;style&quot;,&quot;float: left; margin-left: 20px;&quot;);
+		slider.appendTo(row);
+		
+		$(&#x27;#advancedSettingPhysicsCentralGravitySlider&#x27;).jqxSlider({ 
+			height: 50,
+			min: 0, 
+			max: 10,
+			step: 0.1,
+			value: self._physicsCentralGravity,
+			showTicks: false,
+			mode: &#x27;fixed&#x27;,
+			theme: &#x27;energyblue&#x27;
+		});
+		
+		$(&#x27;#advancedSettingPhysicsCentralGravitySlider&#x27;).on(&#x27;change&#x27;, function (event) {
+			var siderValue &#x3D; event.args.value;
+			self._physicsCentralGravity &#x3D; siderValue;
+			self.updateOptions();
+        });
+        */
+		
+		///////////
+		
+		//crate row for settings Physics
+		var row &#x3D; $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
+		row.attr(&quot;style&quot;,&quot;display: flex; margin-bottom: 20px;&quot;);
+		row.appendTo(this._advancedSettingsContainer);
+		
+		//add label Physics Gravitational Constant
+		var rowLabelContainer &#x3D; $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
+		rowLabelContainer.attr(&quot;style&quot;,&quot;float: left; margin-top: 10px; width: 80px; margin-left: 1px; margin-right: 1px;&quot;);
+		rowLabelContainer.appendTo(row);
+		
+		var rowLabel &#x3D; $(&quot;&lt;h4&gt;&lt;/h4&gt;&quot;);
+		rowLabel.text(&quot;Spring Length&quot;);
+		rowLabel.appendTo(rowLabelContainer);
+		
+        // TODO Replace slider and switch buttons
+        //add slider Physics Gravitational Constant
+        /*
+		var slider &#x3D; $(&quot;&lt;div&gt;&lt;/div&gt;&quot;);
+		slider.attr(&quot;id&quot;,&quot;advancedSettingPhysicsSpringLengthSlider&quot;);
+		slider.attr(&quot;style&quot;,&quot;float: left; margin-left: 20px;&quot;);
+		slider.appendTo(row);
+		
+		$(&#x27;#advancedSettingPhysicsSpringLengthSlider&#x27;).jqxSlider({ 
+			height: 50,
+			min: 0, 
+			max: 500,
+			step: 10,
+			value: self._physicsSpringLength,
+			showTicks: false,
+			mode: &#x27;fixed&#x27;,
+			theme: &#x27;energyblue&#x27;
+		});
+		
+		$(&#x27;#advancedSettingPhysicsSpringLengthSlider&#x27;).on(&#x27;change&#x27;, function (event) {
+			var siderValue &#x3D; event.args.value;
+			self._physicsSpringLength &#x3D; siderValue;
+			self.updateOptions();
+        });
+        */
+		
+		this._advancedSettingsContainer.hide();
+	}
+	
+		
+	/*
+	*** CONTEXT MENU
+	*/
+	
+	buildContextMenu(){
+        var self &#x3D; this;
+        
+		$.contextMenu({
+			selector: &#x27;#networkContainer&#x27;,
+			build: function($trigger, e) {
+				var node &#x3D; self._contextMenuNode;
+				var edge &#x3D; self._contextMenuEdge;
+				
+				if(!node &amp;&amp; !edge) return false;
+				var menuConf;
+				
+				if(node){	//display node menu
+					menuConf &#x3D; {
+						items: self.contextMenuNodeItems(node)
+					}
+				}
+				if(edge){	//display edge menu
+					var nodeFrom &#x3D; self._nodesDataset.get(edge.from);
+					var nodeTo &#x3D; self._nodesDataset.get(edge.to);
+					menuConf &#x3D; {
+						items: self.contextMenuEdgeItems(edge, nodeFrom, nodeTo)
+					};
+				}
+				return menuConf;
+			}
+        });
+        
+	}
+	
+	contextMenuNodeItems(node){
+		var items : any &#x3D; {};
+		items.info &#x3D; this.contextMenuInfoNodeItem(node);
+		items.sep &#x3D; this.contextMenuSeparatorItem();
+		if(this.contextMenuFilter) items.filter &#x3D; this.contextMenuFilterNodeItem(node);
+		if(this.contextMenuSearch)items.search &#x3D; this.contextMenuSearchNodeItem(node);
+		if(this.contextMenuExtend)items.extend &#x3D; this.contextMenuExtendNodeItem(node);
+		if(this.contextMenuFilter || this.contextMenuSearch || this.contextMenuExtend) items.sep1 &#x3D; this.contextMenuSeparatorItem();
+		items.close &#x3D; this.contextMenuCloseItem();
+		return items;
+	}
+	
+	contextMenuEdgeItems(edge, nodeFrom, nodeTo){
+		var items : any &#x3D; {};
+		items.info &#x3D; this.contextMenuInfoEdgeItem(edge, nodeFrom, nodeTo);
+		items.sep &#x3D; this.contextMenuSeparatorItem();
+		if(this.contextMenuFilter) items.filter &#x3D; this.contextMenuFilterEdgeItem(nodeFrom, nodeTo);
+		if(this.contextMenuFilter) items.sep1 &#x3D; this.contextMenuSeparatorItem();
+		items.close &#x3D; this.contextMenuCloseItem();
+		return items;
+	}
+	
+	contextMenuSeparatorItem(){
+		return { type: &quot;cm_separator&quot; }
+	}
+	
+	contextMenuCloseItem(){
+		return {
+			name: &quot;&lt;div style&#x3D;&#x27;font-size: 1rem;&#x27;&gt;&lt;i class&#x3D;&#x27;fas fa-times-circle&#x27;&gt;&lt;/i&gt; Close&lt;/div&gt;&quot;,
+			isHtmlName: true,
+			callback: function(itemKey, opt, rootMenu, originalEvent) {
+				$(&quot;#custom-menu&quot;).hide();
+			}
+		};
+	}
+	
+	contextMenuInfoNodeItem(node){
+		var self &#x3D; this;
+		var item &#x3D; {
+			name: &quot;&lt;div style&#x3D;&#x27;font-size: 1rem;&#x27;&gt;&lt;i class&#x3D;&#x27;fas fa-info-circle&#x27;&gt;&lt;/i&gt; &quot; +  node.label + &quot;&lt;/div&gt;&quot;,
+			isHtmlName: true,
+			callback: function(itemKey, opt, rootMenu, originalEvent) {
+				self.showNodeInfo(node);
+			}
+		};
+		return item;
+	}
+	
+	contextMenuInfoEdgeItem(edge, nodeFrom, nodeTo){
+		var self &#x3D; this;
+		var item &#x3D; {
+			name: &quot;&lt;div style&#x3D;&#x27;font-size: 1rem;&#x27;&gt;&lt;i class&#x3D;&#x27;fas fa-info-circle&#x27;&gt;&lt;/i&gt; &quot; +  nodeFrom.label + &quot; - &quot; + nodeTo.label + &quot;&lt;/div&gt;&quot;,
+			isHtmlName: true,
+			callback: function(itemKey, opt, rootMenu, originalEvent) {
+				self.showEdgeInfo(edge, nodeFrom, nodeTo);
+			}
+		};
+		return item;
+	}
+	
+	contextMenuFilterNodeItem(node){
+		var self &#x3D; this;
+		var item : any &#x3D; {
+			name: &quot;&lt;div style&#x3D;&#x27;font-size: 1rem;&#x27;&gt;&lt;i class&#x3D;&#x27;fas fa-filter&#x27;&gt;&lt;/i&gt; Filter&lt;/div&gt;&quot;,
+			isHtmlName: true,
+			&quot;items&quot;: {
+				&quot;filterOnThisView&quot;: {
+					name: &quot;&lt;div style&#x3D;&#x27;font-size: 1rem;&#x27;&gt;&lt;i class&#x3D;&#x27;fas fa-caret-right&#x27;&gt;&lt;/i&gt; Filter on this view&lt;/div&gt;&quot;,
+					isHtmlName: true,
+					callback: function(itemKey, opt, rootMenu, originalEvent) {
+						self.getRedirectFilterURL(node, null, false);
+					}
+				}
+			}
+		};
+		if(this.contextMenuDisplayRedirect()){
+			item.items.filterOnOtherView &#x3D; {
+				name: &quot;&lt;div style&#x3D;&#x27;font-size: 1rem;&#x27;&gt;&lt;i class&#x3D;&#x27;fas fa-caret-right&#x27;&gt;&lt;/i&gt; Filter on &quot; + this.redirectResultViewNameDisplay + &quot; view&lt;/div&gt;&quot;,
+				isHtmlName: true,
+				callback: function(itemKey, opt, rootMenu, originalEvent) {
+					self.getRedirectFilterURL(node, null, true);
+				}
+			}
+		}
+		return item;
+	}
+	
+	contextMenuFilterEdgeItem(nodeFrom, nodeTo){
+		var self &#x3D; this;
+		var item : any &#x3D; {
+			name: &quot;&lt;div style&#x3D;&#x27;font-size: 1rem;&#x27;&gt;&lt;i class&#x3D;&#x27;fas fa-filter&#x27;&gt;&lt;/i&gt; Filter&lt;/div&gt;&quot;,
+			isHtmlName: true,
+			&quot;items&quot;: {
+				&quot;filterOnThisView&quot;: {
+					name: &quot;&lt;div style&#x3D;&#x27;font-size: 1rem;&#x27;&gt;&lt;i class&#x3D;&#x27;fas fa-caret-right&#x27;&gt;&lt;/i&gt; Filter on this view&lt;/div&gt;&quot;,
+					isHtmlName: true,
+					callback: function(itemKey, opt, rootMenu, originalEvent) {
+						self.getRedirectFilterURL(nodeFrom, nodeTo, false);
+					}
+				}
+			}
+		};
+		if(this.contextMenuDisplayRedirect()){
+			item.items.filterOnOtherView &#x3D; {
+				name: &quot;&lt;div style&#x3D;&#x27;font-size: 1rem;&#x27;&gt;&lt;i class&#x3D;&#x27;fas fa-caret-right&#x27;&gt;&lt;/i&gt; Filter on &quot; + this.redirectResultViewNameDisplay + &quot; view&lt;/div&gt;&quot;,
+				isHtmlName: true,
+				callback: function(itemKey, opt, rootMenu, originalEvent) {
+					self.getRedirectFilterURL(nodeFrom, nodeTo, true);
+				}
+			}
+		}
+		return item;
+	}
+	
+	contextMenuSearchNodeItem(node){
+		var self &#x3D; this;
+		var item : any &#x3D; {
+			name: &quot;&lt;div style&#x3D;&#x27;font-size: 1rem;&#x27;&gt;&lt;i class&#x3D;&#x27;fas fa-search&#x27;&gt;&lt;/i&gt; Search&lt;/div&gt;&quot;,
+			isHtmlName: true,
+			&quot;items&quot;: {
+				&quot;searchOnThisView&quot;: {
+					name: &quot;&lt;div style&#x3D;&#x27;font-size: 1rem;&#x27;&gt;&lt;i class&#x3D;&#x27;fas fa-caret-right&#x27;&gt;&lt;/i&gt; Search on this view&lt;/div&gt;&quot;,
+					isHtmlName: true,
+					callback: function(itemKey, opt, rootMenu, originalEvent) {
+						self.getRedirectTextURL(node, false);
+					}
+				}
+			}
+		}
+		if(this.contextMenuDisplayRedirect()){
+			item.items.searchOnOtherView &#x3D; {
+				name: &quot;&lt;div style&#x3D;&#x27;font-size: 1rem;&#x27;&gt;&lt;i class&#x3D;&#x27;fas fa-caret-right&#x27;&gt;&lt;/i&gt; Search on &quot; + this.redirectResultViewNameDisplay + &quot; view&lt;/div&gt;&quot;,
+				isHtmlName: true,
+				callback: function(itemKey, opt, rootMenu, originalEvent) {
+					self.getRedirectTextURL(node, true);
+				}
+			}
+		}
+		return item;
+	}
+	
+	contextMenuExtendNodeItem(node){
+		var self &#x3D; this;
+		var item : any &#x3D; {
+			name: &quot;&lt;div style&#x3D;&#x27;font-size: 1rem;&#x27;&gt;&lt;i class&#x3D;&#x27;fas fa-share-alt&#x27;&gt;&lt;/i&gt; Extend&lt;/div&gt;&quot;,
+			isHtmlName: true
+		}
+		var extConfs &#x3D; this.ContextMenuGetExtendedconfs(node.type);	//get extended conf based on node type
+		var subItems &#x3D; {};
+		$.each(extConfs, function( i, extConf) {
+			var extNode : any &#x3D; self.getNodeConf(extConf.to);
+			var subItem &#x3D; {
+				name: &quot;&lt;div style&#x3D;&#x27;font-size: 1rem;&#x27;&gt;&lt;i class&#x3D;&#x27;fa&#x27;&gt;&amp;#x&quot; + self.stringifyUnicode(extNode.nodeOptions.icon.code) + &quot;;&lt;/i&gt; &quot; + extNode.display + &quot;&lt;/div&gt;&quot;,
+				isHtmlName: true,
+				callback: function(itemKey, opt, rootMenu, originalEvent){
+					var connectedNodesIds &#x3D; self._visNetwork.getConnectedNodes(node.id);	//get all connected nodes
+					var neighbors &#x3D; Array();
+					$.each(connectedNodesIds, function( i, nodeId ) {	//get connected nodesbased on wanted type
+						var n &#x3D; self._nodesDataset.get(nodeId);
+						if(n.type &#x3D;&#x3D;&#x3D; extConf.to) neighbors.push(n.basicform);
+					});
+					self.extendRender(node, extConf, neighbors);
+				}
+			};
+			subItems[extConf.to] &#x3D; subItem;	//use node type as menu key
+		});
+		if(extConfs.length &#x3D;&#x3D;&#x3D; 0) item.disabled &#x3D; true;	//no sub elements, disable
+		else item.items &#x3D; subItems;
+		return item;
+	}
+	
+	contextMenuDisplayRedirect(){
+		return this.redirectResultViewName !&#x3D;&#x3D; &quot;&quot; ? true : false;
+	}
+	
+	ContextMenuGetExtendedconfs(nodeType){
+		var extConfs: any[] &#x3D; [];
+		if (this.extendedConf) {
+			$.each(this.extendedConf, function( i, extConf ) {
+				if(extConf.from &#x3D;&#x3D;&#x3D; nodeType) extConfs.push(extConf);
+			});
+		}
+		return extConfs;
+	}
+	
+	/*
+	*** INFO WINDOW
+    */
+    // TODO migrate info Window
+    
+	buildInfoWindow(){
+		
+	}
+	
+	closeInfoWindow(){
+		/*if(this._infoWindow.isOpen()){
+			this._infoWindow.close();
+		}*/
+	}
+
+	showNodeInfo(node){
+		/*this.buildInfoWindow();
+		var titleDisplay &#x3D; this.getNodeDisplay(node, 2);
+		this._infoWindow.title(titleDisplay); 
+		var relatedNodes &#x3D; this._visNetwork.getConnectedNodes(node.id);
+		var contentdisplay &#x3D; this.getInfoWindowCount(node) + &quot;&lt;br/&gt;&lt;br/&gt;&quot; + this.getInfoWindowRelatedNodes(relatedNodes);
+		this._infoWindow.content(contentdisplay); 
+		this._infoWindow.open();*/
+	}
+	
+	showEdgeInfo(edge, nodeFrom, nodeTo){
+		/*this.buildInfoWindow();
+		var titleDisplay &#x3D; this.getNodeDisplay(nodeFrom, 2) + &quot;&amp;nbsp;&amp;nbsp;&amp;nbsp;&quot; + this.getNodeDisplay(nodeTo, 2);
+		this._infoWindow.title(titleDisplay); 
+		var relatedNodes &#x3D; Array(nodeFrom.id, nodeTo.id);
+		var contentdisplay &#x3D; this.getInfoWindowCount(edge) + &quot;&lt;br/&gt;&lt;br/&gt;&quot; + this.getInfoWindowRelatedNodes(relatedNodes);
+		this._infoWindow.content(contentdisplay);
+		this._infoWindow.open();*/
+	}
+	
+	
+	getNodeDisplay(node, iconZoom){
+		var color &#x3D; node.icon.color &#x3D;&#x3D;&#x3D; undefined ? &quot;#333&quot; : node.icon.color;
+		var display &#x3D; node.icon &#x3D;&#x3D;&#x3D; undefined ? &quot;&lt;span style&#x3D;&#x27;color: &quot; + color + &quot;&#x27;&gt;&quot; + node.label + &quot;&lt;/span&gt;&quot; : &quot;&lt;i class&#x3D;&#x27;fa fa-&quot; + iconZoom + &quot;x&#x27; style&#x3D;&#x27;color:&quot; + color + &quot;&#x27; &gt;&amp;#x&quot; + this.stringifyUnicode(node.icon.code) + &quot;;&lt;/i&gt; &quot; + node.label;
+		return display;
+	}
+	
+	
+	getInfoWindowCount(o){
+		return &quot;&lt;span style&#x3D;&#x27;font-weight : bold&#x27;&gt;Count : &lt;/span&gt;&lt;span&gt;&quot; + o.count + &quot;&lt;/span&gt;&quot;;
+	}
+	
+	getInfoWindowRelatedNodes(nodesId){
+		var self &#x3D; this;
+		var display &#x3D; &quot;&lt;span style&#x3D;&#x27;font-weight : bold&#x27;&gt;Related nodes : &lt;/span&gt;&quot;;
+		$.each(nodesId, function( i, nodeId ) {
+			display +&#x3D; &quot;&lt;br /&gt;&quot;;
+			display +&#x3D; self.getNodeDisplay(self._nodesDataset.get(nodeId), 1);
+		});
+		return display;
+	}
+	
+	/*
+	*** HIGHLIGHT / DISPLAY
+	*/
+	
+	doHighlight(){
+		if(this.highlightOnClick &amp;&amp; this._clickedNodes){
+			if (this._clickedNodes.length &gt; 0) {
+				const highlightDeep &#x3D; this.highlightDeep || 0;
+				// all nodes back to original state
+				var nodesValues &#x3D; this.stopHighlight();
+				// mark all nodes as hard to read.
+				var nodesIdsToDisable &#x3D; this._nodesDataset.getIds();
+				nodesValues &#x3D; this.disableNodes(nodesIdsToDisable, nodesValues);
+				// mark all connected nodes based on deep
+				var nodesIdsToAnable &#x3D; this.getAllConnectedNodes(this._clickedNodes, highlightDeep);
+				nodesValues &#x3D; this.enableNodes(nodesIdsToAnable, nodesValues);	
+				// select connected nodes based on deep -1  
+				var nodesToSelect &#x3D; this.getAllConnectedNodes(this._clickedNodes, highlightDeep-1);				
+				this._visNetwork.selectNodes(nodesToSelect, true);
+				this.updateNodes(nodesValues);
+			}else{
+				// all nodes back to original state
+				this.stopHighlight();
+			}
+		}
+	}
+	
+	updateNodes(nodesToUpdate){
+		var updateArray &#x3D; Array();
+		for (let nodeId in nodesToUpdate) {
+			if (nodesToUpdate.hasOwnProperty(nodeId)) {
+				updateArray.push(nodesToUpdate[nodeId]);
+			}
+		}
+		this._nodesDataset.update(updateArray);
+	}
+	
+	getAllConnectedNodes(arrNodeIds, deep, arrNodesExplored?){
+		if(arrNodesExplored &#x3D;&#x3D;&#x3D; undefined) arrNodesExplored &#x3D; Array();
+		var arrConnectedNodesIds &#x3D; Array();
+		for(var i &#x3D; 0; i &lt; arrNodeIds.length; i++){
+			if(arrNodesExplored.indexOf(arrNodeIds[i]) !&#x3D; -1){
+				continue;
+			}
+			arrNodesExplored.push(arrNodeIds[i]);
+			var connectedNodesIds &#x3D; this._visNetwork.getConnectedNodes(arrNodeIds[i]);
+			arrConnectedNodesIds &#x3D; $.unique([].concat.apply(arrConnectedNodesIds, connectedNodesIds));
+		};
+		if(deep &#x3D;&#x3D; 0) return arrNodesExplored;
+		return this.getAllConnectedNodes(arrConnectedNodesIds, --deep, arrNodesExplored);
+	}
+	
+	disableNodes(nodesToDisable, nodesReference){
+		var allNodes &#x3D; nodesReference &#x3D;&#x3D;&#x3D; undefined ? this._nodesDataset.get({returnType:&quot;Object&quot;}) : nodesReference;
+		var disableColor &#x3D; &#x27;rgba(200,200,200,0.5)&#x27;;
+		for (var i &#x3D; 0; i &lt; nodesToDisable.length; i++) {
+			var nodeId &#x3D; nodesToDisable[i];
+			if (allNodes.hasOwnProperty(nodeId)) {
+				if(allNodes[nodeId].icon !&#x3D; undefined){	//change icon color
+					if(allNodes[nodeId].icon.color !&#x3D; undefined) allNodes[nodeId].hiddenIconColor &#x3D; allNodes[nodeId].icon.color;
+					else allNodes[nodeId].hiddenIconColor &#x3D; &quot;#000000&quot;;
+					allNodes[nodeId].icon.color &#x3D; disableColor;
+				}
+				if(allNodes[nodeId].font !&#x3D; undefined){	//change font color
+					if(allNodes[nodeId].font.color !&#x3D; undefined) allNodes[nodeId].hiddenFontColor &#x3D; allNodes[nodeId].font.color;
+					else allNodes[nodeId].hiddenFontColor &#x3D; &quot;#000000&quot;;
+					allNodes[nodeId].font.color &#x3D; disableColor;
+				}else{
+					allNodes[nodeId].hiddenFontColor &#x3D; &quot;#000000&quot;;
+					allNodes[nodeId].font.color &#x3D; disableColor;
+				}
+			}
+		}
+		return allNodes;
+	}
+	
+	enableNodes(nodesToEnable, nodesReference?){
+		var allNodes &#x3D; nodesReference &#x3D;&#x3D;&#x3D; undefined ? this._nodesDataset.get({returnType:&quot;Object&quot;}) : nodesReference;
+		for (var i &#x3D; 0; i &lt; nodesToEnable.length; i++) {
+			var nodeId &#x3D; nodesToEnable[i];
+			if (allNodes.hasOwnProperty(nodeId)) {
+				if(allNodes[nodeId].hiddenIconColor !&#x3D; undefined){	//change icon color
+					allNodes[nodeId].icon.color &#x3D; allNodes[nodeId].hiddenIconColor;
+					allNodes[nodeId].hiddenIconColor &#x3D; undefined;
+				}
+			}
+			if(allNodes[nodeId].hiddenFontColor !&#x3D; undefined){	//change font color
+				allNodes[nodeId].font.color &#x3D; allNodes[nodeId].hiddenFontColor;
+				allNodes[nodeId].hiddenFontColor &#x3D; undefined;
+			}
+		}
+		return allNodes;
+	}
+	
+	stopHighlight(){
+		var nodesIdsToReset &#x3D; this._nodesDataset.getIds();
+		var nodesValues &#x3D; this.enableNodes(nodesIdsToReset);
+		this.updateNodes(nodesValues);
+		this._visNetwork.unselectAll();		
+	}
+
+	/*
+	*** LOADER
+	*/
+	
+	resetLoader(){
+		$(&quot;#networkLoadingBarText&quot;).text(&quot;0%&quot;);
+		$(&quot;#networkLoadingBar&quot;).css(&quot;width&quot;, this._loaderBarMinWidth);
+		$(&quot;#networkLoadingBarContainer&quot;).css(&quot;opacity&quot;, 1);
+		this.hideMessage();
+		this.hideLoader();
+	}
+	
+	doneLoader(){
+		var self &#x3D; this;
+		
+		$(&quot;#networkLoadingBarText&quot;).text(&quot;100%&quot;);
+		$(&quot;#networkLoadingBar&quot;).css(&quot;width&quot;, this._loaderBarMaxWidth);
+		$(&quot;#networkLoadingBarContainer&quot;).css(&quot;opacity&quot;, 0);
+		
+		// really clean the dom element
+		setTimeout(function () {
+			self.hideLoader();
+		}, 500);
+		
+		this.InitFocusNode();
+		this.focusOnNode();
+
+	}
+	
+	//hide - show  loader container
+	hideLoader(){
+		$(&quot;#networkLoadingBarContainer&quot;).css(&quot;display&quot;, &quot;none&quot;);
+		$(&quot;#networkLoadingBarContainer&quot;).css(&quot;opacity&quot;, &quot;0&quot;);
+	}
+	
+	showLoader(){
+		$(&quot;#networkLoadingBarContainer&quot;).css(&quot;display&quot;, &quot;block&quot;);
+		$(&quot;#networkLoadingBarContainer&quot;).css(&quot;opacity&quot;, &quot;1&quot;);
+	}
+	
+	/*
+	*** MESSAGES - use loader container
+	*/
+	
+	showMessage(iconClass, colorCode, message){
+		this.showLoader();
+		$(&quot;#networkLoadingBarText&quot;).css(&quot;display&quot;, &quot;none&quot;);	//hide loader bar + text
+		$(&quot;#networkLoadingBarBorder&quot;).css(&quot;display&quot;, &quot;none&quot;);
+		
+		$(&quot;#networkLoadingBarMessageIcon&quot;).removeClass();
+		$(&quot;#networkLoadingBarMessageIcon&quot;).addClass(iconClass);
+		$(&quot;#networkLoadingBarMessage&quot;).css(&quot;color&quot;, colorCode);	
+		$(&quot;#networkLoadingBarMessage&quot;).append(&quot; &quot; + message);
+		$(&quot;#networkLoadingBarMessage&quot;).css(&quot;display&quot;, &quot;block&quot;);	
+		
+	}
+	
+	hideMessage(){
+		$(&quot;#networkLoadingBarMessage&quot;).css(&quot;display&quot;, &quot;none&quot;);
+		
+		$(&quot;#networkLoadingBarText&quot;).css(&quot;display&quot;, &quot;block&quot;); //show loader bar + text
+		$(&quot;#networkLoadingBarBorder&quot;).css(&quot;display&quot;, &quot;block&quot;);
+	}
+	
+	/*
+	*** AJAX
+	*/
+	doAjax(postData, callback){
+		/*var self &#x3D; this;
+		var result &#x3D; undefined;*/
+		if (this._pluginMethodService) {
+			Utils.subscribe(this._pluginMethodService.call(&quot;NetworkWS&quot;, postData), 
+				(results) &#x3D;&gt; {
+					console.log(results);
+					callback(results);
+			});
+		}
+		/*
+		$.ajax({
+			method: &#x27;POST&#x27;,
+			dataType: &quot;json&quot;,
+			contentType : &quot;application/json&quot;,
+			async: false,
+			url: &quot;/rest&quot;,
+			data: JSON.stringify(postData)
+		}).done(function(data){
+			if(data &#x3D;&#x3D;&#x3D; undefined){	//this is realy bad...
+				self._dataIsError &#x3D; true;
+				self._dataIsEmpty &#x3D; false;
+				self._dataErrorMessage &#x3D; &quot;Something went wrong&quot;;
+			}else if(data.ErrorCode !&#x3D;&#x3D; undefined){	//error code from WS, error
+				self._dataIsError &#x3D; true;
+				self._dataIsEmpty &#x3D; false;
+				self._dataErrorMessage &#x3D; data.ErrorMessage;
+			}else if(data.edges &#x3D;&#x3D;&#x3D; undefined){	//no edges, error
+				self._dataIsError &#x3D; true;
+				self._dataIsEmpty &#x3D; false;
+				self._dataErrorMessage &#x3D; &quot;Something went wrong&quot;;
+			}else if(data.edges.length &#x3D;&#x3D;&#x3D; 0){	//no edges, no data
+				self._dataIsError &#x3D; false;
+				self._dataIsEmpty &#x3D; true;
+				self._dataErrorMessage &#x3D; &quot;No data to display&quot;;
+			}else{
+				self._dataIsError &#x3D; false;
+				self._dataIsEmpty &#x3D; false;
+				self._dataErrorMessage &#x3D; &quot;&quot;;
+				result &#x3D; data;
+			}
+		}).fail(function() {
+			self._dataIsError &#x3D; true;
+			self._dataIsEmpty &#x3D; false;
+			self._dataErrorMessage &#x3D; &quot;Something went wrong&quot;;
+		});*/
+		//return result;
+	}
+	
+	/*
+	*** VIS JS DATA
+	*/
+	// TODO : add search bar!
+	setData(data){
+		this._nodesDataset &#x3D; new DataSet(data.nodes);
+		this._edgesDataset &#x3D; new DataSet(data.edges);
+		
+		//this._searchBarDataAdapter._source.localdata &#x3D; this._nodesDataset._data;
+		//this._searchBarDataAdapter.dataBind();
+	}
+	
+	updateData(data){
+		this._nodesDataset.update(data.nodes);
+		this._edgesDataset.update(data.edges);
+		
+		//this._searchBarDataAdapter._source.localdata &#x3D; this._nodesDataset._data;
+		//this._searchBarDataAdapter.dataBind();
+	}
+	
+	getData(){
+		var data &#x3D; {
+			nodes: this._nodesDataset,
+			edges: this._edgesDataset
+		};
+		return data;
+	}
+
+	
+	/*
+	*** VIS JS OPTIONS
+	*/
+	
+	getOptions(){
+		var options &#x3D; {
+			autoResize: true,
+			clickToUse: false,
+			physics: this.getPhysicsOptions()
+		};
+		return options;
+	}
+	
+	updateOptions(){
+		this._visNetwork.setOptions(this.getOptions());
+	}
+	
+	initPhysicsOptions(){
+		if(this.physicsConf &#x3D;&#x3D;&#x3D; undefined) this.physicsConf &#x3D; {};
+		if(this.physicsConf.barnesHut &#x3D;&#x3D;&#x3D; undefined) this.physicsConf.barnesHut &#x3D; {};
+		if(this.physicsConf.barnesHut.gravitationalConstant &#x3D;&#x3D;&#x3D; undefined) this.physicsConf.barnesHut.gravitationalConstant &#x3D; this._physicsGravitationalConstant;
+		else this._physicsGravitationalConstant &#x3D; this.physicsConf.barnesHut.gravitationalConstant;
+		if(this.physicsConf.barnesHut.centralGravity &#x3D;&#x3D;&#x3D; undefined) this.physicsConf.barnesHut.gravitationalConstant &#x3D; this._physicsCentralGravity;
+		else this._physicsCentralGravity &#x3D; this.physicsConf.barnesHut.centralGravity;
+		if(this.physicsConf.barnesHut.springLength &#x3D;&#x3D;&#x3D; undefined) this.physicsConf.barnesHut.springLength &#x3D; this._physicsSpringLength;
+		else this._physicsSpringLength &#x3D; this.physicsConf.barnesHut.springLength;
+	}
+	
+	getPhysicsOptions(){
+		return {
+			barnesHut: {
+				gravitationalConstant: this._physicsGravitationalConstant,
+				centralGravity: this._physicsCentralGravity,
+				springLength: this._physicsSpringLength
+			}
+		};
+	}
+	
+	/*
+	*** POST DATA
+	*/
+	
+	getPostDataRender(){
+		var postData : any &#x3D; {};
+		postData.method &#x3D; &quot;dev.plugin&quot;;
+		postData.plugin &#x3D; &quot;NetworkWS&quot;;
+		postData.allowLoop &#x3D; this.allowLoop;
+		postData.allowEmptySearch &#x3D; this.allowEmptySearch;
+		postData.nodesConf &#x3D; this.nodesConf;
+		postData.edgesConf &#x3D; this.edgesConf;
+		postData.extendedConf &#x3D; this.extendedConf;
+		if(this._customRender){
+			postData.type &#x3D; &quot;customResultPageRender&quot;;
+			postData.indexList &#x3D; this._customIndexList;
+			postData.whereClause &#x3D; this._customWhereClause;
+		}else if(this._queryMode){
+			postData.type &#x3D; &quot;queryPageRender&quot;;
+			postData.app &#x3D; this._app;
+			postData.query &#x3D; this._query;
+			postData.sql &#x3D; this._results[&#x27;statements&#x27;][1]; // We need to pass the SQL in the request, so the server can use the right WHERE clause. Should be removed, when the Query object is enough (currently an error with tab selection)
+		}else{
+			postData.resultId &#x3D; this.resultId;
+			postData.type &#x3D; &quot;resultPageRender&quot;;
+		}
+		return postData;
+	}
+	
+	getPostDataExtend(node, extConf, connectedNodes){
+		return {
+			method: &quot;dev.plugin&quot;,
+			plugin: &quot;NetworkWS&quot;,
+			nodeType: node.type,
+			nodeBasicForm: node.basicform,
+			nodeLabel: node.label,
+			wantedNodeType: extConf.to,
+			wantedCount: extConf.count,
+			keepContext: extConf.keepContext,
+			connectedNodes: connectedNodes,
+			type: &quot;extendRender&quot;,
+			resultId: this.resultId,
+			allowLoop: this.allowLoop,
+			nodesConf: this.nodesConf,
+			edgesConf: this.edgesConf
+		};
+	}
+	
+	/*
+	*** RENDER
+	*/
+	
+	render(){
+		var postdata &#x3D; this.getPostDataRender();
+		this.storeSetConfiguration();
+		this.doAjax(postdata, (data) &#x3D;&gt; {
+			if(this._dataIsError &#x3D;&#x3D;&#x3D; false &amp;&amp; this._dataIsEmpty &#x3D;&#x3D;&#x3D; false){
+				this.setData(data);
+				this._visNetwork &#x3D; new Network(this._container, this.getData(), this.getOptions());
+				if(this.displayLoader){
+					this.resetLoader();
+					this.showLoader();
+				}
+				this.initEventListeners();
+			}else{
+				if(this._dataIsEmpty) this.showMessage(&quot;fa fa-meh-o&quot;, &quot;#f0ad4e&quot;, this._dataErrorMessage);	//no data
+				else this.showMessage(&quot;fa fa-frown-o&quot;, &quot;#d9534f&quot;, this._dataErrorMessage);	//error
+			}
+		});
+	}
+	
+	extendRender(node, extConf, connectedNodes){
+		var postdata &#x3D; this.getPostDataExtend(node, extConf, connectedNodes);
+		this.doAjax(postdata, (data) &#x3D;&gt; {
+			if(data &#x3D;&#x3D;&#x3D; undefined) return; 
+			if(this._dataIsError) this.showMessage(&quot;fa fa-frown-o&quot;, &quot;#d9534f&quot;, this._dataErrorMessage);	//error
+			else{
+				this.updateData(data);
+			}
+		});
+	}
+	
+	/*
+	*** Init options from result view settings
+	*/
+	
+	//Edges configuration options, set default values if missing
+	initEdgesConf(){
+		if (this.edgesConf) {
+			$.each(this.edgesConf, function( i, edgeConf ) {
+				if(edgeConf.enable &#x3D;&#x3D; undefined) edgeConf.enable &#x3D; true;
+				if(edgeConf.count &#x3D;&#x3D; undefined) edgeConf.count &#x3D; 10;
+			});
+		}
+	}
+	
+	/*
+	*** CUSTOM MODE
+	*/
+	
+	//turn on custom mode. Allow you to override index list and where close used to generate query.
+	enableCustomMode(indexList, whereClause){
+		this._customRender &#x3D; true;
+		this._customIndexList &#x3D; indexList;
+		this._customWhereClause &#x3D; whereClause;
+	};
+	
+	enableQueryMode(app : string, query: Query, results: Results, pluginMethodService){
+		this._queryMode &#x3D; true;
+		this._query &#x3D; query;
+		this._results &#x3D; results;
+		this._app &#x3D; app;
+		this._pluginMethodService &#x3D; pluginMethodService;
+	};
+	
+	
+	/*
+	*** Animation
+	*/
+	
+	focusOnNode(){
+		if(!this._focusNode) return;
+		var options &#x3D; {
+			scale: 2,
+			animation: {
+				duration: 1500,
+				easingFunction: &quot;easeInOutQuad&quot;
+			}
+		};
+		this.stopHighlight();
+		this._visNetwork.focus(this._focusNode.id, options);
+	}
+	
+	zoomIn(){
+		var scale &#x3D; this._visNetwork.getScale();
+		var newScale &#x3D; scale + 0.2;
+		var position &#x3D; this._visNetwork.getViewPosition();
+		var options &#x3D; {
+			scale: newScale,
+			position: position,
+			animation: {
+				duration: 500,
+				easingFunction: &quot;easeInOutQuad&quot;
+			}   
+		};
+		this._visNetwork.moveTo(options);
+	}
+	
+	zoomOut(){
+		var options &#x3D; {
+					scale: 1,
+					animation: {
+						duration: 500,
+						easingFunction: &quot;easeInOutQuad&quot;
+					}
+		};
+		this._visNetwork.fit(options);
+	}
+	
+	slectNode(node){
+		var arrNodes &#x3D; Array();
+		arrNodes.push(node.id);
+		this.slectNodes(arrNodes);
+	}
+	
+	slectNodes(nodesIds){
+		this._visNetwork.selectNodes(nodesIds);
+	}
+	
+	deselectNodes(){
+		this._visNetwork.selectNodes([]);
+	}
+
+	
+	/*
+	*** Toolbox
+	*/
+	
+	InitFocusNode(){
+		var res &#x3D; this._nodesDataset.get({
+			filter: function (o) {
+				return (o.focus &#x3D;&#x3D;&#x3D; true);
+			}
+		});
+		if(res.length &#x3D;&#x3D; 1){
+			this._focusNode &#x3D; res[0];
+			return this._focusNode;
+		}
+		return undefined;
+	}
+	
+	//Return node configuration object from type
+	getNodeConf(type){
+		if (!this.nodesConf) {
+			return undefined;
+		}
+		var res &#x3D; $.grep(this.nodesConf, function( o : any, i ) {
+			return ( o.type &#x3D;&#x3D; type);
+		});
+		if(res.length &#x3D;&#x3D; 1) return res[0];
+		return undefined;
+	}
+	
+	//return node based on mouse position X Y
+	getNodeFromPosition(Xpos, Ypos){
+		var position &#x3D; {
+			x: Xpos,
+			y: Ypos
+		};
+		var nodeId &#x3D; this._visNetwork.getNodeAt(position);
+		if(nodeId !&#x3D; undefined){
+			return this._nodesDataset.get(nodeId);
+		}
+		return null;
+	}
+	
+	//return node based on mouse position X Y
+	getEdgeFromPosition(Xpos, Ypos){
+		var position &#x3D; {
+			x: Xpos,
+			y: Ypos
+		};
+		var edgeId &#x3D; this._visNetwork.getEdgeAt(position);
+		if(edgeId !&#x3D; undefined){
+			return this._edgesDataset.get(edgeId);
+		}
+		return null;
+	}
+	
+	getRedirectFilterURL(nodeFrom, nodeTo, redirect){
+		var url &#x3D; &quot;/search?action&#x3D;custom&quot;;
+		url +&#x3D; &quot;&amp;actionType&#x3D;networkRedirectFilter&quot;;
+		url +&#x3D; &quot;&amp;resultid&#x3D;&quot; + this.resultId ;
+		url +&#x3D; &quot;&amp;filterNodeFromColumn&#x3D;&quot; + nodeFrom.column;
+		url +&#x3D; &quot;&amp;filterNodeFromValue&#x3D;&quot; + encodeURI(nodeFrom.basicform &#x3D;&#x3D;&#x3D; &quot;&quot; ? nodeFrom.label : nodeFrom.basicform);
+		url +&#x3D; &quot;&amp;filterNodeFromDisplay&#x3D;&quot; + nodeFrom.label;
+		if(nodeTo !&#x3D;&#x3D; undefined &amp;&amp; nodeTo !&#x3D;&#x3D; null) url +&#x3D; &quot;&amp;filterNodeToColumn&#x3D;&quot; + nodeTo.column;
+		if(nodeTo !&#x3D;&#x3D; undefined &amp;&amp; nodeTo !&#x3D;&#x3D; null) url +&#x3D; &quot;&amp;filterNodeToValue&#x3D;&quot; + encodeURI(nodeTo.basicform &#x3D;&#x3D;&#x3D; &quot;&quot; ? nodeTo.label : nodeTo.basicform);
+		if(nodeTo !&#x3D;&#x3D; undefined &amp;&amp; nodeTo !&#x3D;&#x3D; null) url +&#x3D; &quot;&amp;filterNodeToDisplay&#x3D;&quot; + nodeTo.label;
+		if(redirect) url +&#x3D; &quot;&amp;redirectToView&#x3D;&quot; + this.redirectResultViewName;
+		window.location.replace(url);
+	}
+	
+	getRedirectTextURL(node, redirect){
+		var url &#x3D; &quot;/search?action&#x3D;custom&quot;;
+		url +&#x3D; &quot;&amp;actionType&#x3D;networkRedirectText&quot;;
+		url +&#x3D; &quot;&amp;resultid&#x3D;&quot; + this.resultId ;
+		url +&#x3D; &quot;&amp;filterText&#x3D;&quot; + encodeURI(node.label);
+		if(redirect) url +&#x3D; &quot;&amp;redirectToView&#x3D;&quot; + this.redirectResultViewName;
+		window.location.replace(url);
+	}
+	
+	//remove pagination
+	//removePagination(){
+	//	$(&quot;#result-bottom-table&quot;).remove();
+	//}
+	
+	//font awesome: JS Unicode to HTML unicode
+	stringifyUnicode(unicode){
+		return unicode.codePointAt(0).toString(16);
+	}
+	
+	/*
+	*** Local Storage
+	*/
+	
+	getConfiguration(attribute, options, fromLocalStorage?){
+		if(fromLocalStorage){	//looking for value in local storage
+			var key &#x3D; this.getStoreKey();
+			const item &#x3D; localStorage.getItem(key);
+			if(item &#x3D;&#x3D;&#x3D; null){	//key do not exist in localStorage, return option value
+				return options[attribute];
+			}
+			else{	//key exist in localStorage
+				var storedConf &#x3D; JSON.parse(item);
+				if(storedConf[attribute] &#x3D;&#x3D;&#x3D; null || storedConf[attribute] &#x3D;&#x3D;&#x3D; undefined){	//key value is not valid, return option value
+					return options[attribute];
+				}else{	//key value is valid
+					switch(attribute) {
+						case &quot;edgesConf&quot;:
+							return this.getEdgeConfFromLocalStorage(options, storedConf) ? storedConf[attribute] : options[attribute];
+							break;
+						default:
+							return storedConf[attribute];
+					}
+				}
+			}
+		}else{	//return option value
+			return options[attribute];
+		}
+	}
+	
+	getEdgeConfFromLocalStorage(options, storedConf){
+		if(options[&quot;edgesConf&quot;].length !&#x3D; storedConf[&quot;edgesConf&quot;].length){	//compare count
+			return false;
+		}
+		$.each(options[&quot;edgesConf&quot;], function( i, o ) {
+			if(storedConf[&quot;edgesConf&quot;][i][&quot;from&quot;] !&#x3D;&#x3D; o.from) return false;
+			if(storedConf[&quot;edgesConf&quot;][i][&quot;to&quot;] !&#x3D;&#x3D; o.to) return false;
+			if(storedConf[&quot;edgesConf&quot;][i][&quot;edgeOptions&quot;] !&#x3D;&#x3D; o.edgeOptions) return false;
+			return true;
+		});
+		return true;
+	}
+	
+	getStoreKey(){
+		return &quot;network_&quot; + this.resultViewName;
+	}
+	
+	storeSetConfiguration(){
+		var data &#x3D; {
+			edgesConf: this.edgesConf
+		};
+		localStorage.setItem(this.getStoreKey(), JSON.stringify(data));
+	}
+	
+	resetLocalStrage(){
+		localStorage.removeItem(this.getStoreKey());
+    }
+    
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">
+&lt;div id&#x3D;&quot;networkWrapperContainer&quot;&gt;
+	&lt;div #networkContainer id&#x3D;&quot;networkContainer&quot; [ngStyle]&#x3D;&quot;{&#x27;height&#x27; : view.height+&#x27;px&#x27;}&quot;&gt;&lt;/div&gt;
+	&lt;div id&#x3D;&quot;menu1&quot; class&#x3D;&quot;menu1&quot;&gt;&lt;/div&gt;
+	&lt;div id&#x3D;&quot;networkLoadingBarContainer&quot;&gt;
+		&lt;div class&#x3D;&quot;networkLoadingBarOuterBorder&quot;&gt;
+			&lt;div id&#x3D;&quot;networkLoadingBarText&quot;&gt;0%&lt;/div&gt;
+			&lt;div id&#x3D;&quot;networkLoadingBarBorder&quot;&gt;
+				&lt;div id&#x3D;&quot;networkLoadingBar&quot;&gt;&lt;/div&gt;
+			&lt;/div&gt;
+			&lt;div id&#x3D;&quot;networkLoadingBarMessage&quot;&gt;&lt;i id&#x3D;&quot;networkLoadingBarMessageIcon&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id&#x3D;&quot;networkSettingsContainer&quot; style&#x3D;&quot;margin-top: 20px;&quot;&gt;
+	&lt;div id&#x3D;&quot;networkSettingsMenu&quot; style&#x3D;&quot;width: 100%; display: flex;&quot;&gt;
+		&lt;div&gt;
+			&lt;div id&#x3D;&quot;networkSettingsButton&quot; class&#x3D;&quot;network-btn network-btn-primary&quot;&gt;
+				&lt;i class&#x3D;&quot;fa-2x fas fa-sliders-h&quot; aria-hidden&#x3D;&quot;false&quot;&gt;&lt;/i&gt;
+			&lt;/div&gt;
+			&lt;div id&#x3D;&quot;networkAdvancedettingsButton&quot; class&#x3D;&quot;network-btn network-btn-primary&quot;&gt;
+				&lt;i class&#x3D;&quot;fa-2x fas fa-cogs&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/i&gt;
+			&lt;/div&gt;
+			&lt;div id&#x3D;&quot;networkReloadButton&quot; class&#x3D;&quot;network-btn network-btn-primary&quot;&gt;
+				&lt;i class&#x3D;&quot;fa-2x fas fa-sync-alt&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/i&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+		&lt;div style&#x3D;&quot;flex-grow: 1; padding-left: 50px; padding-right: 50px;&quot;&gt;
+			&lt;!--jqxInput 
+				[width]&#x3D;&quot;&#x27;100%&#x27;&quot; [height]&#x3D;&quot;45&quot; [source]&#x3D;&quot;_searchBarDataAdapter&quot;
+				[minLength]&#x3D;&quot;1&quot; [placeHolder]&#x3D;&quot;&#x27;Search for a node&#x27;&quot;
+				[theme]&#x3D;&quot;&#x27;arctic&#x27;&quot; [searchMode]&#x3D;&quot;&#x27;containsignorecase&#x27;&quot;
+				[displayMember]&#x3D;&quot;&#x27;label&#x27;&quot; [valueMember]&#x3D;&quot;&#x27;id&#x27;&quot;
+				(onSelect)&#x3D;&quot;search($event)&quot;&gt;
+			&lt;/jqxInput--&gt;
+		&lt;/div&gt;
+		&lt;div&gt;
+			&lt;div id&#x3D;&quot;networkZoomInButton&quot; class&#x3D;&quot;network-btn network-btn-primary&quot;&gt;
+				&lt;i class&#x3D;&quot;fa-2x fas fa-search-plus&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/i&gt;
+			&lt;/div&gt;
+			&lt;div id&#x3D;&quot;networkFocusButton&quot; class&#x3D;&quot;network-btn network-btn-primary&quot;&gt;
+				&lt;i class&#x3D;&quot;fa-2x fas fa-bullseye&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/i&gt;
+			&lt;/div&gt;
+			&lt;div id&#x3D;&quot;networkZoomOutButton&quot; class&#x3D;&quot;network-btn network-btn-primary&quot;&gt;
+				&lt;i class&#x3D;&quot;fa-2x fas fa-search-minus&quot; aria-hidden&#x3D;&quot;true&quot;&gt;&lt;/i&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+	&lt;div id&#x3D;&quot;networkSettingsPannel&quot; style&#x3D;&quot;margin-top: 20px;&quot;&gt;&lt;/div&gt;
+	&lt;div id&#x3D;&quot;networkAdvancedSettingsPannel&quot; style&#x3D;&quot;margin-top: 20px;&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!--jqxWindow #infoWindow [width]&#x3D;&quot;500&quot; [height]&#x3D;&quot;200&quot;
+			[showCollapseButton]&#x3D;&quot;true&quot;
+			[autoOpen]&#x3D;&quot;false&quot;
+			[theme]&#x3D;&quot;&#x27;energyblue&#x27;&quot;&gt;
+	&lt;div&gt;&lt;/div&gt;
+	&lt;div&gt;&lt;/div&gt;
+&lt;/jqxWindow--&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./results-network-view.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &quot;~jquery-contextmenu/dist/jquery.contextMenu&quot;;
+
+#networkContainer{
+    width: 100%;
+	border: 1px solid lightgray;
+}
+
+#networkWrapperContainer {
+	position:relative;
+	width: 100%;
+}
+
+#networkLoadingBarContainer {
+	position:absolute;
+	top: 1px;
+	left: 1px;
+	width: 800px;
+	height: 500px;
+	background-color:rgba(200,200,200,0.8);
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-ms-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+	opacity:1;
+}
+
+#networkLoadingBarMessage {
+	position: absolute;
+    top: 12px;
+    width: 100%;
+    height: 23px;
+    margin: auto auto auto auto;
+    font-size: 18px;
+    text-align: center;
+	color: #f0ad4e;
+	display: none;
+}
+
+#networkLoadingBarText {
+	position:absolute;
+	top:8px;
+	left:530px;
+	width:30px;
+	height:50px;
+	margin:auto auto auto auto;
+	font-size:22px;
+	color: #000000;
+}
+
+
+div.networkLoadingBarOuterBorder {
+	position:relative;
+	top:400px;
+	width:600px;
+	height:44px;
+	margin:auto auto auto auto;
+	border:8px solid rgba(0,0,0,0.1);
+	background: rgb(252,252,252); /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr&#x3D;&#x27;#fcfcfc&#x27;, endColorstr&#x3D;&#x27;#ededed&#x27;,GradientType&#x3D;0 ); /* IE6-9 */
+	border-radius:72px;
+	box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+}
+
+#networkLoadingBarBorder {
+	position:absolute;
+	top:10px;
+	left:10px;
+	width:500px;
+	height:23px;
+	margin:auto auto auto auto;
+	box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+	border-radius:10px;
+}
+
+#networkLoadingBar {
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:20px;
+	height:20px;
+	margin:auto auto auto auto;
+	border-radius:11px;
+	border:2px solid rgba(30,30,30,0.05);
+	background: rgb(0, 173, 246); /* Old browsers */
+	box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+}
+
+.network-btn-primary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+.network-btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div id="networkWrapperContainer">	<div #networkContainer id="networkContainer" [ngStyle]="{\'height\' : view.height+\'px\'}"></div>	<div id="menu1" class="menu1"></div>	<div id="networkLoadingBarContainer">		<div class="networkLoadingBarOuterBorder">			<div id="networkLoadingBarText">0%</div>			<div id="networkLoadingBarBorder">				<div id="networkLoadingBar"></div>			</div>			<div id="networkLoadingBarMessage"><i id="networkLoadingBarMessageIcon"></i></div>		</div>	</div></div><div id="networkSettingsContainer" style="margin-top: 20px;">	<div id="networkSettingsMenu" style="width: 100%; display: flex;">		<div>			<div id="networkSettingsButton" class="network-btn network-btn-primary">				<i class="fa-2x fas fa-sliders-h" aria-hidden="false"></i>			</div>			<div id="networkAdvancedettingsButton" class="network-btn network-btn-primary">				<i class="fa-2x fas fa-cogs" aria-hidden="true"></i>			</div>			<div id="networkReloadButton" class="network-btn network-btn-primary">				<i class="fa-2x fas fa-sync-alt" aria-hidden="true"></i>			</div>		</div>		<div style="flex-grow: 1; padding-left: 50px; padding-right: 50px;">			<!--jqxInput 				[width]="\'100%\'" [height]="45" [source]="_searchBarDataAdapter"				[minLength]="1" [placeHolder]="\'Search for a node\'"				[theme]="\'arctic\'" [searchMode]="\'containsignorecase\'"				[displayMember]="\'label\'" [valueMember]="\'id\'"				(onSelect)="search($event)">			</jqxInput-->		</div>		<div>			<div id="networkZoomInButton" class="network-btn network-btn-primary">				<i class="fa-2x fas fa-search-plus" aria-hidden="true"></i>			</div>			<div id="networkFocusButton" class="network-btn network-btn-primary">				<i class="fa-2x fas fa-bullseye" aria-hidden="true"></i>			</div>			<div id="networkZoomOutButton" class="network-btn network-btn-primary">				<i class="fa-2x fas fa-search-minus" aria-hidden="true"></i>			</div>		</div>	</div>	<div id="networkSettingsPannel" style="margin-top: 20px;"></div>	<div id="networkAdvancedSettingsPannel" style="margin-top: 20px;"></div></div><!--jqxWindow #infoWindow [width]="500" [height]="200"			[showCollapseButton]="true"			[autoOpen]="false"			[theme]="\'energyblue\'">	<div></div>	<div></div></jqxWindow--></div>'
+    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsChart', 'selector': 'sq-chart'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetChart', 'selector': 'sq-facet-chart'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRecentQueries', 'selector': 'sq-recent-queries'},{'name': 'BsRecentQueriesPublic', 'selector': 'sq-recent-queries-public'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsTimelineView', 'selector': 'sq-results-timeline-view'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimeline', 'selector': 'sq-timeline'},{'name': 'BsTimelineTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'Heatmap', 'selector': 'sq-heatmap'},{'name': 'HeatmapTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultsNetworkView', 'selector': 'sq-results-network-view'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'Tab', 'selector': 'tab'},{'name': 'UserRating', 'selector': 'sq-user-rating'},{'name': 'VTabs', 'selector': 'sq-vtabs'}];
+    var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sq-advanced-form-autocomplete]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sq-advanced-form-validation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'Load', 'selector': '[sqLoad]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'}];
+    var ACTUAL_COMPONENT = {'name': 'ResultsNetworkView'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ResultsNetworkView.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

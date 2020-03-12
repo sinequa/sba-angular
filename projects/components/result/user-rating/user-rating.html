@@ -1,0 +1,16 @@
+<ul class="sq-user-rating-stars">
+    <!-- caption -->
+    <li *ngIf="caption" class="sq-user-rating-caption">
+        <span>{{caption|sqMessage}}</span>
+    </li>
+    <!-- rating stars -->
+    <li *ngFor="let r of ratingValues; let i = index" class="sq-user-rating-item">
+        <a class="sq-user-rating-star" title="{{getTitle(i)}}" href="javascript:void(0)" (click)="select(i)">
+            <span class="{{(i <= userRatingIndex) ? 'fas fa-star' : 'far fa-star'}}"></span>
+        </a>
+    </li>
+    <!-- average rating -->
+    <li *ngIf="showAverage && getAverageRating() !== undefined" class="sq-user-rating-average">
+        <span>{{'msg#userRatings.average'|sqMessage:messageParams}}</span>
+    </li>
+</ul>

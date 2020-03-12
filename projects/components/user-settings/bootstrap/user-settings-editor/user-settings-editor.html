@@ -1,0 +1,9 @@
+<div [formGroup]="form">
+    <div class="form-group" style="margin-bottom: 0" [hidden]="!showLanguageSelector()">
+        <label for="locales">{{'msg#editUserSettings.language' | sqMessage}}</label>
+        <select [sqValidation]="form" class="form-control custom-select" formControlName="selectedLocale" id="selectedLocale" sqAutofocus>
+            <option [value]="locale.name" *ngFor="let locale of locales">{{locale.display | sqMessage}}</option>
+        </select>
+    </div>
+    <!--sq-json-editor [form]="form" [model]="model" [layout]="layout" [config]="config"></sq-json-editor-->
+</div>

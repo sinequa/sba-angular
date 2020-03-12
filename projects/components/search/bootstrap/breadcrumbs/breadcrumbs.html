@@ -1,0 +1,12 @@
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="#" (click)="home()" title="Home"><span class="fas fa-home"></span></a>
+    </li>
+    <ng-container *ngFor="let item of searchService.breadcrumbs?.items">
+        <li *ngIf="!item.hidden" class="breadcrumb-item {{item.active ? 'active' : ''}} sq-breadcrumb-item  sq-breadcrumb-item-{{getField(item)}}"><!--
+            --><a *ngIf="!item.active" href="#" (click)="selectItem(item)" [innerHTML]="item.display | sqExpr:{withFields: displayFieldNames, asHTML: true}"></a><!--
+            --><span *ngIf="item.active" [innerHTML]="item.display | sqExpr:{withFields: displayFieldNames, asHTML: true}"></span>
+            <span *ngIf="allowDeletion" class="fas fa-times" role="button" (click)="removeItem(item)" title="{{'msg#breadcrumbs.itemRemove' | sqMessage}}"></span>
+        </li>
+    </ng-container>
+</ol>

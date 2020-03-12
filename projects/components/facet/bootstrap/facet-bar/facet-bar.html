@@ -1,0 +1,12 @@
+<div class="container-fluid">
+    <div class="row">
+        <ng-content></ng-content>
+        <ng-container *ngFor="let f of facets">
+            <sq-facet-card [ngSwitch]="f.type" class="{{f['className']}}" [title]="f.title">
+                <sq-facet-list #facet *ngSwitchCase="'list'" [name]="f.name" [results]="results" [aggregation]="f.aggregations"></sq-facet-list>
+                <sq-facet-tree #facet *ngSwitchCase="'tree'" [name]="f.name" [results]="results" [aggregation]="f.aggregations"></sq-facet-tree>
+                <sq-facet-chart #facet *ngSwitchCase="'chart'" [results]="results" [aggregation]="f.aggregations"></sq-facet-chart>
+            </sq-facet-card>
+        </ng-container> 
+    </div>
+</div>

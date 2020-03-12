@@ -1,0 +1,1787 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>PreviewTooltip</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>preview/preview-tooltip.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>sq-preview-tooltip</code></td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./preview-tooltip.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#bottom">bottom</a>
+                            </li>
+                            <li>
+                                <a href="#entityCount">entityCount</a>
+                            </li>
+                            <li>
+                                <a href="#entityDisplay">entityDisplay</a>
+                            </li>
+                            <li>
+                                <a href="#entityIdx">entityIdx</a>
+                            </li>
+                            <li>
+                                <a href="#entityLabel">entityLabel</a>
+                            </li>
+                            <li>
+                                <a href="#entityType">entityType</a>
+                            </li>
+                            <li>
+                                <a href="#entityValue">entityValue</a>
+                            </li>
+                            <li>
+                                <a href="#handleMouseDown">handleMouseDown</a>
+                            </li>
+                            <li>
+                                <a href="#handleMouseMove">handleMouseMove</a>
+                            </li>
+                            <li>
+                                <a href="#handleMouseUp">handleMouseUp</a>
+                            </li>
+                            <li>
+                                <a href="#handleScroll">handleScroll</a>
+                            </li>
+                            <li>
+                                <a href="#left">left</a>
+                            </li>
+                            <li>
+                                <a href="#selectedText">selectedText</a>
+                            </li>
+                            <li>
+                                <a href="#tooltip">tooltip</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#entityAction">entityAction</a>
+                            </li>
+                            <li>
+                                <a href="#nextEntity">nextEntity</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges">ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#positionTooltipAbove">positionTooltipAbove</a>
+                            </li>
+                            <li>
+                                <a href="#previousEntity">previousEntity</a>
+                            </li>
+                            <li>
+                                <a href="#selectedTextAction">selectedTextAction</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#entityActions">entityActions</a>
+                            </li>
+                            <li>
+                                <a href="#entityNavActions">entityNavActions</a>
+                            </li>
+                            <li>
+                                <a href="#previewData">previewData</a>
+                            </li>
+                            <li>
+                                <a href="#previewDocument">previewDocument</a>
+                            </li>
+                            <li>
+                                <a href="#selectedTextActions">selectedTextActions</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#visibility">visibility</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(zone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>, changeDetectorRef: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">preview/preview-tooltip.component.ts:32</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>zone</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>changeDetectorRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="entityActions"></a>
+                        <b>entityActions</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Action.html" target="_self" >Action[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">preview/preview-tooltip.component.ts:14</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="entityNavActions"></a>
+                        <b>entityNavActions</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">preview/preview-tooltip.component.ts:15</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="previewData"></a>
+                        <b>previewData</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>PreviewData</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">preview/preview-tooltip.component.ts:13</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="previewDocument"></a>
+                        <b>previewDocument</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/PreviewDocument.html" target="_self" >PreviewDocument</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">preview/preview-tooltip.component.ts:12</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedTextActions"></a>
+                        <b>selectedTextActions</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Action.html" target="_self" >Action[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">preview/preview-tooltip.component.ts:16</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="entityAction"></a>
+                    <span class="name">
+                        <b>
+                            entityAction
+                        </b>
+                        <a href="#entityAction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>entityAction(action: <a href="../interfaces/Action.html">Action</a>, event: <a href="../interfaces/Event.html">Event</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="226"
+                            class="link-to-prism">preview/preview-tooltip.component.ts:226</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Executes a clicked action button in the context of a tooltip for hovered entities</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>action</td>
+                                    <td>
+                                                <code><a href="../interfaces/Action.html" target="_self" >Action</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="../interfaces/Event.html" target="_self" >Event</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="nextEntity"></a>
+                    <span class="name">
+                        <b>
+                            nextEntity
+                        </b>
+                        <a href="#nextEntity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>nextEntity(event: <a href="../interfaces/Event.html">Event</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="209"
+                            class="link-to-prism">preview/preview-tooltip.component.ts:209</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Move to the next entity if possible</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="../interfaces/Event.html" target="_self" >Event</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <b>
+                            ngOnChanges
+                        </b>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">preview/preview-tooltip.component.ts:45</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Add mouse listeners to a new preview document in order to display the tooltip
+in response to specific hover of click events</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="positionTooltipAbove"></a>
+                    <span class="name">
+                        <b>
+                            positionTooltipAbove
+                        </b>
+                        <a href="#positionTooltipAbove"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>positionTooltipAbove(box: DOMRect | ClientRect)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">preview/preview-tooltip.component.ts:82</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Position the tooltip above a bounding box </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>box</td>
+                                    <td>
+                                            <code>DOMRect | ClientRect</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="previousEntity"></a>
+                    <span class="name">
+                        <b>
+                            previousEntity
+                        </b>
+                        <a href="#previousEntity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>previousEntity(event: <a href="../interfaces/Event.html">Event</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="193"
+                            class="link-to-prism">preview/preview-tooltip.component.ts:193</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Move to the previous entity if possible</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="../interfaces/Event.html" target="_self" >Event</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedTextAction"></a>
+                    <span class="name">
+                        <b>
+                            selectedTextAction
+                        </b>
+                        <a href="#selectedTextAction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>selectedTextAction(action: <a href="../interfaces/Action.html">Action</a>, event: <a href="../interfaces/Event.html">Event</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="238"
+                            class="link-to-prism">preview/preview-tooltip.component.ts:238</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Executes a clicked action button in the context of a tooltip for text selection</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>action</td>
+                                    <td>
+                                                <code><a href="../interfaces/Action.html" target="_self" >Action</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>the action to execute</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="../interfaces/Event.html" target="_self" >Event</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="bottom"></a>
+                        <span class="name">
+                            <b>
+                            bottom</b>
+                            <a href="#bottom"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&quot;0px&quot;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">preview/preview-tooltip.component.ts:31</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="entityCount"></a>
+                        <span class="name">
+                            <b>
+                            entityCount</b>
+                            <a href="#entityCount"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">preview/preview-tooltip.component.ts:27</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="entityDisplay"></a>
+                        <span class="name">
+                            <b>
+                            entityDisplay</b>
+                            <a href="#entityDisplay"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">preview/preview-tooltip.component.ts:25</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="entityIdx"></a>
+                        <span class="name">
+                            <b>
+                            entityIdx</b>
+                            <a href="#entityIdx"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">preview/preview-tooltip.component.ts:28</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="entityLabel"></a>
+                        <span class="name">
+                            <b>
+                            entityLabel</b>
+                            <a href="#entityLabel"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">preview/preview-tooltip.component.ts:26</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="entityType"></a>
+                        <span class="name">
+                            <b>
+                            entityType</b>
+                            <a href="#entityType"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&quot;&quot;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">preview/preview-tooltip.component.ts:23</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="entityValue"></a>
+                        <span class="name">
+                            <b>
+                            entityValue</b>
+                            <a href="#entityValue"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">preview/preview-tooltip.component.ts:24</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="handleMouseDown"></a>
+                        <span class="name">
+                            <b>
+                            handleMouseDown</b>
+                            <a href="#handleMouseDown"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">preview/preview-tooltip.component.ts:99</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Handle mouse button down: reinitilizes selection</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="handleMouseMove"></a>
+                        <span class="name">
+                            <b>
+                            handleMouseMove</b>
+                            <a href="#handleMouseMove"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="126" class="link-to-prism">preview/preview-tooltip.component.ts:126</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Handle mouse movements. If hovering an entity and no text is selected, will display a tooltip for this entity</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="handleMouseUp"></a>
+                        <span class="name">
+                            <b>
+                            handleMouseUp</b>
+                            <a href="#handleMouseUp"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">preview/preview-tooltip.component.ts:108</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Handle mouse button up: get the selected text and display a tooltip above it</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="handleScroll"></a>
+                        <span class="name">
+                            <b>
+                            handleScroll</b>
+                            <a href="#handleScroll"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="178" class="link-to-prism">preview/preview-tooltip.component.ts:178</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Handle scroll events</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="left"></a>
+                        <span class="name">
+                            <b>
+                            left</b>
+                            <a href="#left"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&quot;0px&quot;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">preview/preview-tooltip.component.ts:32</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedText"></a>
+                        <span class="name">
+                            <b>
+                            selectedText</b>
+                            <a href="#selectedText"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&quot;&quot;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">preview/preview-tooltip.component.ts:20</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="tooltip"></a>
+                        <span class="name">
+                            <b>
+                            tooltip</b>
+                            <a href="#tooltip"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;tooltip&#x27;, {static: false})<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">preview/preview-tooltip.component.ts:17</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="visibility"></a>
+                        <span class="name"><b>visibility</b><a href="#visibility"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>visibility()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">preview/preview-tooltip.component.ts:75</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Control the visibility of the tooltip</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>&quot;visible&quot; | &quot;hidden&quot;</code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, NgZone, ViewChild, ElementRef} from &quot;@angular/core&quot;;
+import {PreviewData} from &quot;@sinequa/core/web-services&quot;;
+import {PreviewDocument} from &quot;./preview-document&quot;;
+import {Action} from &quot;@sinequa/components/action&quot;;
+
+@Component({
+    selector: &quot;sq-preview-tooltip&quot;,
+    templateUrl: &quot;./preview-tooltip.component.html&quot;
+})
+export class PreviewTooltip implements OnChanges {
+
+    @Input() previewDocument: PreviewDocument;
+    @Input() previewData: PreviewData;
+    @Input() entityActions: Action[] &#x3D; [];
+    @Input() entityNavActions: boolean &#x3D; true;
+    @Input() selectedTextActions: Action[] &#x3D; [];
+    @ViewChild(&#x27;tooltip&#x27;, {static: false}) tooltip : ElementRef;
+
+    // Selected text mode
+    selectedText: string &#x3D; &quot;&quot;;
+
+    // Entity hover mode
+    entityType: string &#x3D; &quot;&quot;;
+    entityValue: string;
+    entityDisplay: string;
+    entityLabel: string;
+    entityCount: number;
+    entityIdx: number;
+
+    // Tooltip fixed positioning
+    bottom: string &#x3D; &quot;0px&quot;;
+    left: string &#x3D; &quot;0px&quot;;
+
+    constructor(
+        private zone: NgZone,
+        private changeDetectorRef: ChangeDetectorRef){
+
+        }
+
+    /**
+     * Add mouse listeners to a new preview document in order to display the tooltip
+     * in response to specific hover of click events
+     * @param changes 
+     */
+    ngOnChanges(changes: SimpleChanges){
+        if(changes[&quot;previewDocument&quot;] &amp;&amp; !!this.previewDocument){
+            
+            if (typeof this.previewDocument.document.addEventListener !&#x3D;&#x3D; undefined) { 
+                this.document.addEventListener(&quot;mouseup&quot;, this.handleMouseUp, false);
+                this.document.addEventListener(&quot;mousedown&quot;, this.handleMouseDown, false);
+                this.document.addEventListener(&quot;mousemove&quot;, this.handleMouseMove, false);              
+                this.window.addEventListener(&quot;scroll&quot;, this.handleScroll, false);
+            }
+
+        }
+    }
+
+    /**
+     * Shortcut to the preview document
+     */
+    private get document(): Document{
+        return this.previewDocument.document;
+    }
+    
+    /**
+     * Shortcut to the preview Window
+     */
+    private get window(): Window {
+        return this.previewDocument.getContentWindow();
+    }
+
+    /**
+     * Control the visibility of the tooltip
+     */
+    get visibility() : &quot;visible&quot; | &quot;hidden&quot; {
+        return (this.selectedText !&#x3D;&#x3D; &quot;&quot; || this.entityType !&#x3D;&#x3D; &quot;&quot;)? &quot;visible&quot; : &quot;hidden&quot;;
+    }
+
+    /**
+     * Position the tooltip above a bounding box 
+     */ 
+    positionTooltipAbove(box: DOMRect | ClientRect){        
+        this.zone.run(() &#x3D;&gt; {   // Necessary to compute the right size of the tooltip when updating the text
+            let tooltipWidth &#x3D; this.tooltip.nativeElement.getBoundingClientRect().width;
+            this.left &#x3D; Math.round(box.left+0.5*box.width-0.5*tooltipWidth)+&quot;px&quot;;
+            //absolute top positioning
+            //this.bottom &#x3D; Math.round(box.top-tooltipHeight-5+this.window.scrollY)+&quot;px&quot;;
+            //absolute bottom positioning
+            //this.bottom &#x3D; Math.round(this.document.documentElement.clientHeight - this.window.scrollY - box.top + 5)+&quot;px&quot;;
+            //fixed bottom positioning
+            this.bottom &#x3D; Math.round(this.window.innerHeight - box.top + 5)+&quot;px&quot;;
+            this.changeDetectorRef.detectChanges();
+        });
+    }
+
+    /**
+     * Handle mouse button down: reinitilizes selection
+     */
+    handleMouseDown &#x3D; (event: MouseEvent) &#x3D;&gt; {
+        //if(event.target !&#x3D;&#x3D; this.tooltip)
+        this.selectedText &#x3D; &quot;&quot;;
+        //this.changeDetectorRef.detectChanges();
+    }
+
+    /**
+     * Handle mouse button up: get the selected text and display a tooltip above it
+     */
+    handleMouseUp &#x3D; () &#x3D;&gt; {
+        const selection &#x3D; this.document.getSelection();
+        this.selectedText &#x3D; selection ? selection.toString().trim() : &quot;&quot;;
+        if(selection &amp;&amp; this.selectedText){
+            let range &#x3D; selection.getRangeAt(0);
+            //console.log(&quot;Selected text: &quot;, text);
+            //console.log(event);
+            //console.log(range.getBoundingClientRect());
+            this.changeDetectorRef.detectChanges(); // Refresh size of tooltip
+            this.positionTooltipAbove(range.getBoundingClientRect());
+        }
+        this.changeDetectorRef.detectChanges();
+    };
+
+    private _inTime: number &#x3D; 0;
+    /**
+     * Handle mouse movements. If hovering an entity and no text is selected, will display a tooltip for this entity
+     */
+    handleMouseMove &#x3D; (event: MouseEvent) &#x3D;&gt; {
+        if(!this.selectedText &amp;&amp; event[&quot;path&quot;]){
+            let path &#x3D; &lt;Element[]&gt; event[&quot;path&quot;];
+            if(path.length&gt;0){
+                let element &#x3D; path[0];
+                if(element.nodeType &#x3D;&#x3D;&#x3D; 1 &amp;&amp; element.nodeName &#x3D;&#x3D;&#x3D; &quot;SPAN&quot; &amp;&amp; (element.attributes[&quot;data-entity-basic&quot;] || element.attributes[&quot;data-entity-display&quot;])){
+                    if(this.entityType !&#x3D;&#x3D; element.className.split(&quot; &quot;)[0] || this.entityDisplay !&#x3D;&#x3D; element.textContent){  // Tooltip not already displayed
+                        this.entityType &#x3D; element.className.split(&quot; &quot;)[0];    // Update text (and visibility)
+                        this.entityDisplay &#x3D; element.textContent || &quot;&quot;;   // Tooltip content                        
+                        let value &#x3D; element.attributes[&quot;data-entity-basic&quot;] || element.attributes[&quot;data-entity-display&quot;];
+                        this.entityValue &#x3D; value.value;
+                        const highlights &#x3D; this.previewData.highlightsPerCategory[this.entityType].values
+                            .find(v &#x3D;&gt; v.value &#x3D;&#x3D;&#x3D; value.value);
+                        this.entityCount &#x3D; highlights ? highlights.locations.length : 0;
+                        this.entityLabel &#x3D; this.previewData.highlightsPerCategory[this.entityType].categoryDisplayLabel;
+
+                        let idsplt &#x3D; element.id.split(&quot;_&quot;);
+                        let idx &#x3D; parseInt(idsplt[idsplt.length-1]);                      
+                        const entity &#x3D; this.findEntity(this.entityType, this.entityValue, (_, idIndex) &#x3D;&gt; { return idIndex &#x3D;&#x3D;&#x3D; idx });
+                        this.entityIdx &#x3D; entity ? entity.valueIndex : 0;
+
+                        this.changeDetectorRef.detectChanges(); // Refresh size of tooltip
+                        this.positionTooltipAbove(element.getBoundingClientRect());
+                    }
+                    this._inTime &#x3D; Date.now(); // Reset the timer over an entity
+                    return;
+                }
+            }
+        }   
+        // We are not hovering an entity
+        if(this.entityType){    // If still displaying the tooltip...
+            let isOverTooltip &#x3D; !!event[&quot;path&quot;].find(el &#x3D;&gt; el.localName &#x3D;&#x3D;&#x3D; &quot;sq-preview-tooltip&quot;);
+            if(!isOverTooltip) {
+                if(Date.now() - this._inTime &gt; 200){ // 200 ms tolerance before closing tooltip
+                    this.entityType &#x3D; &quot;&quot;;
+                    this.entityValue &#x3D; &quot;&quot;;
+                    this.entityDisplay &#x3D; &quot;&quot;;
+                    this.entityLabel &#x3D; &quot;&quot;;
+                    this.entityCount &#x3D; 0;
+                    this.entityIdx &#x3D; 0;
+                    this.changeDetectorRef.detectChanges(); // Turn off tooltip
+                }
+            }
+            else{
+                this._inTime &#x3D; Date.now(); // Reset the timer over the tooltip
+            }
+        }
+    }
+
+    /**
+     * Handle scroll events
+     */
+    handleScroll &#x3D; (event) &#x3D;&gt; {
+        if(this.selectedText !&#x3D;&#x3D; &quot;&quot;){
+            this.handleMouseUp(); // Reposition tooltip above selected text
+        }
+        else if(this.entityType !&#x3D;&#x3D; &quot;&quot;){
+            this.entityType &#x3D; &quot;&quot;;
+            this.entityValue &#x3D; &quot;&quot;;
+            this.changeDetectorRef.detectChanges(); // Turn off tooltip
+        }
+    }
+    
+    /**
+     * Move to the previous entity if possible
+     * @param event 
+     */
+    previousEntity(event: Event){
+        event.stopPropagation(); // stop the propagation to avoid triggering the tooltip listeners
+        if(this.entityIdx &gt; 1){
+            // Find the index of the previous entity
+            const entity &#x3D; this.findEntity(this.entityType, this.entityValue, (valueIdx,_) &#x3D;&gt; { return valueIdx &#x3D;&#x3D;&#x3D; this.entityIdx-1 });
+            if (entity) {
+                const idx &#x3D; entity.idIndex;
+                this.previewDocument.selectHighlight(this.entityType, idx);
+            }
+        }
+    }
+
+    /**
+     * Move to the next entity if possible
+     * @param event 
+     */
+    nextEntity(event: Event){
+        event.stopPropagation(); // stop the propagation to avoid triggering the tooltip listeners
+        if(this.entityIdx &lt; this.entityCount){
+            // Find the index of the next entity
+            const entity &#x3D; this.findEntity(this.entityType, this.entityValue, (valueIdx,_) &#x3D;&gt; { return valueIdx &#x3D;&#x3D;&#x3D; this.entityIdx+1 });
+            if (entity) {
+                let idx &#x3D; entity.idIndex;
+                this.previewDocument.selectHighlight(this.entityType, idx);
+            }
+        }
+    }
+
+    /**
+     * Executes a clicked action button in the context of a tooltip for hovered entities
+     * @param action 
+     * @param event 
+     */
+    entityAction(action: Action, event: Event){
+        event.stopPropagation(); // stop the propagation to avoid triggering the tooltip listeners
+        this.zone.run(() &#x3D;&gt; {
+            action.action(action, &lt;any&gt; {type: this.entityType, idx: this.entityIdx, value: this.entityValue, display: this.entityDisplay});
+        });
+    }
+
+    /**
+     * Executes a clicked action button in the context of a tooltip for text selection
+     * @param action the action to execute
+     * @param event 
+     */
+    selectedTextAction(action: Action, event: Event){
+        event.stopPropagation(); // stop the propagation to avoid triggering the tooltip listeners
+        this.zone.run(() &#x3D;&gt; {
+            action.action(action, &lt;any&gt; {text: this.selectedText});
+        });
+    }
+
+    /**
+     * Helper function to find the indexes of a specific entity *occurrence*. Returns both the index within all 
+     * of its own occurrences: valueIndex (eg. BILL GATES 3/14) AND the index corresponding to the 
+     * entity id inside the document: idIndex (eg. id&#x3D;&quot;person_32&quot;).
+     * @param category eg. person
+     * @param value eg. BILL GATES
+     * @param predicate function testing whether it is the entity occurrence of interest
+     * @returns an object with both indexes
+     */
+    private findEntity(entityType: string, entityValue: string, predicate: (index: number, idIndex: number) &#x3D;&gt; boolean)
+            : {valueIndex: number, idIndex: number} | undefined {
+        let currentIdx &#x3D; 0;
+        // For each highlight in the doc
+        for(let i&#x3D;0; i&lt;this.previewData.highlightsPerLocation[&#x27;length&#x27;]; i++) { 
+            let highlight &#x3D; this.previewData.highlightsPerLocation[i];
+            let categories &#x3D; Object.keys(highlight.positionInCategories);
+            // For each value of the highlight
+            for(let j&#x3D;0; j&lt;categories.length; j++){
+                // If this is the right entity type and value
+                if(categories[j] &#x3D;&#x3D;&#x3D; entityType &amp;&amp; highlight.values[j] &#x3D;&#x3D;&#x3D; entityValue) {
+                    // Increase the counter
+                    currentIdx++;
+                    // If this is the idx we are looking for, return
+                    if(predicate(currentIdx, highlight.positionInCategories[entityType])){
+                        return {valueIndex: currentIdx, idIndex: highlight.positionInCategories[entityType]};
+                    }
+                }
+            }
+        }
+        return undefined;
+    }
+    
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;sq-selection-tooltip&quot; [ngStyle]&#x3D;&quot;{&#x27;visibility&#x27; : visibility, &#x27;bottom&#x27; : bottom, &#x27;left&#x27; : left}&quot; #tooltip&gt;
+
+    &lt;ng-container *ngIf&#x3D;&quot;entityType &amp;&amp; !selectedText&quot;&gt;
+        &lt;span class&#x3D;&quot;display&quot;&gt;{{ entityDisplay }} &lt;/span&gt; &lt;span class&#x3D;&quot;label&quot;&gt;({{ entityLabel | sqMessage }}) &lt;/span&gt;
+        &lt;span class&#x3D;&quot;index&quot;&gt;{{ entityIdx }} &lt;/span&gt;/&lt;span class&#x3D;&quot;count&quot;&gt; {{ entityCount }} &lt;/span&gt;
+        &lt;ng-container *ngIf&#x3D;&quot;entityNavActions&quot;&gt;
+            &lt;span class&#x3D;&quot;nav-btn previous&quot; (click)&#x3D;&quot;previousEntity($event)&quot; [ngClass]&#x3D;&quot;{disabled: entityIdx &lt;&#x3D; 1}&quot; title&#x3D;&quot;{{ &#x27;msg#preview.previousHighlightButtonAltText&#x27; | sqMessage }}&quot;&gt;❬&lt;/span&gt;
+            &lt;span class&#x3D;&quot;nav-btn next&quot; (click)&#x3D;&quot;nextEntity($event)&quot; [ngClass]&#x3D;&quot;{disabled: entityIdx &gt;&#x3D; entityCount}&quot; title&#x3D;&quot;{{ &#x27;msg#preview.nextHighlightButtonAltText&#x27; | sqMessage }}&quot;&gt;❭&lt;/span&gt;
+        &lt;/ng-container&gt;
+        &lt;div class&#x3D;&quot;btn-list&quot;&gt;
+            &lt;button *ngFor&#x3D;&quot;let action of entityActions&quot; (click)&#x3D;&quot;entityAction(action, $event)&quot; [disabled]&#x3D;&quot;action.disabled&quot; [hidden]&#x3D;&quot;action.hidden&quot; title&#x3D;&quot;{{ (action.title || &#x27;&#x27;) | sqMessage:{values: {type: entityType, value: entityValue, display: entityDisplay} } }}&quot;&gt;
+                &lt;span *ngIf&#x3D;&quot;action.icon&quot; class&#x3D;&quot;{{action.icon}}&quot;&gt;&lt;/span&gt;
+                &lt;span *ngIf&#x3D;&quot;action.text&quot;&gt;{{ action.text | sqMessage:{values: {type: entityType, value: entityValue, display: entityDisplay} } }}&lt;/span&gt;
+                &lt;span *ngIf&#x3D;&quot;action.iconAfter&quot; class&#x3D;&quot;{{action.iconAfter}}&quot;&gt;&lt;/span&gt;
+            &lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/ng-container&gt;
+
+
+    &lt;ng-container *ngIf&#x3D;&quot;selectedText&quot;&gt;
+        &lt;ng-container *ngFor&#x3D;&quot;let action of selectedTextActions&quot;&gt;
+            &lt;button (click)&#x3D;&quot;selectedTextAction(action, $event)&quot; [disabled]&#x3D;&quot;action.disabled&quot; [hidden]&#x3D;&quot;action.hidden&quot; title&#x3D;&quot;{{ (action.title || &#x27;&#x27;) | sqMessage:{values: {text: selectedText.slice(0,50)} } }}&quot;&gt;
+                &lt;span *ngIf&#x3D;&quot;action.icon&quot; class&#x3D;&quot;{{action.icon}}&quot;&gt;&lt;/span&gt; &lt;span *ngIf&#x3D;&quot;action.text&quot;&gt;{{ action.text | sqMessage:{values: {text: selectedText.slice(0,50)} } }}&lt;/span&gt; &lt;span *ngIf&#x3D;&quot;action.iconAfter&quot; class&#x3D;&quot;{{action.iconAfter}}&quot;&gt;&lt;/span&gt;
+            &lt;/button&gt;
+        &lt;/ng-container&gt;
+    &lt;/ng-container&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="sq-selection-tooltip" [ngStyle]="{\'visibility\' : visibility, \'bottom\' : bottom, \'left\' : left}" #tooltip>    <ng-container *ngIf="entityType && !selectedText">        <span class="display">{{ entityDisplay }} </span> <span class="label">({{ entityLabel | sqMessage }}) </span>        <span class="index">{{ entityIdx }} </span>/<span class="count"> {{ entityCount }} </span>        <ng-container *ngIf="entityNavActions">            <span class="nav-btn previous" (click)="previousEntity($event)" [ngClass]="{disabled: entityIdx <= 1}" title="{{ \'msg#preview.previousHighlightButtonAltText\' | sqMessage }}">❬</span>            <span class="nav-btn next" (click)="nextEntity($event)" [ngClass]="{disabled: entityIdx >= entityCount}" title="{{ \'msg#preview.nextHighlightButtonAltText\' | sqMessage }}">❭</span>        </ng-container>        <div class="btn-list">            <button *ngFor="let action of entityActions" (click)="entityAction(action, $event)" [disabled]="action.disabled" [hidden]="action.hidden" title="{{ (action.title || \'\') | sqMessage:{values: {type: entityType, value: entityValue, display: entityDisplay} } }}">                <span *ngIf="action.icon" class="{{action.icon}}"></span>                <span *ngIf="action.text">{{ action.text | sqMessage:{values: {type: entityType, value: entityValue, display: entityDisplay} } }}</span>                <span *ngIf="action.iconAfter" class="{{action.iconAfter}}"></span>            </button>        </div>    </ng-container>    <ng-container *ngIf="selectedText">        <ng-container *ngFor="let action of selectedTextActions">            <button (click)="selectedTextAction(action, $event)" [disabled]="action.disabled" [hidden]="action.hidden" title="{{ (action.title || \'\') | sqMessage:{values: {text: selectedText.slice(0,50)} } }}">                <span *ngIf="action.icon" class="{{action.icon}}"></span> <span *ngIf="action.text">{{ action.text | sqMessage:{values: {text: selectedText.slice(0,50)} } }}</span> <span *ngIf="action.iconAfter" class="{{action.iconAfter}}"></span>            </button>        </ng-container>    </ng-container></div></div>'
+    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsChart', 'selector': 'sq-chart'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetChart', 'selector': 'sq-facet-chart'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRecentQueries', 'selector': 'sq-recent-queries'},{'name': 'BsRecentQueriesPublic', 'selector': 'sq-recent-queries-public'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsTimelineView', 'selector': 'sq-results-timeline-view'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimeline', 'selector': 'sq-timeline'},{'name': 'BsTimelineTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'Heatmap', 'selector': 'sq-heatmap'},{'name': 'HeatmapTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultsNetworkView', 'selector': 'sq-results-network-view'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'Tab', 'selector': 'tab'},{'name': 'UserRating', 'selector': 'sq-user-rating'},{'name': 'VTabs', 'selector': 'sq-vtabs'}];
+    var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sq-advanced-form-autocomplete]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sq-advanced-form-validation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'Load', 'selector': '[sqLoad]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'}];
+    var ACTUAL_COMPONENT = {'name': 'PreviewTooltip'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'PreviewTooltip.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

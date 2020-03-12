@@ -1,0 +1,8 @@
+<div class="sq-heatmap-tooltip-title">{{month}}</div>
+<div class="sq-heatmap-tooltip-body">
+    <ul>
+        <li *ngFor="let date of dates">
+                {{'msg#results.resultsTimelineView.tooltip.date' | sqMessage:{values: {date: date?.display, count: date?.count} } }}
+        </li>
+    </ul>
+</div>

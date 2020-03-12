@@ -1,0 +1,13 @@
+:host {
+    display: block;
+    color: #707070;
+    font-size: 0.9rem;
+}
+
+.sq-missing-term {
+    text-decoration-line: line-through;
+}
+
+.sq-missing-term:not(:first-child) {
+    margin-left: 0.25em;
+}

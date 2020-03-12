@@ -1,0 +1,42 @@
+// Standard secondary entry point configuration including UMD module ids for ng-packagr (required from ng-package.js files)
+module.exports = {
+    lib: {
+        entryFile: "index.ts",
+        umdModuleIds: {
+            "@sinequa/core/app-utils":          "sinequa.core.app-utils",
+            "@sinequa/core/base":               "sinequa.core.base",
+            "@sinequa/core/intl":               "sinequa.core.intl",
+            "@sinequa/core/load-component":     "sinequa.core.load-component",
+            "@sinequa/core/login":              "sinequa.core.login",
+            "@sinequa/core/modal":              "sinequa.core.modal",
+            "@sinequa/core/notification":       "sinequa.core.notification",
+            "@sinequa/core/validation":         "sinequa.core.validation",
+            "@sinequa/core/web-services":       "sinequa.core.web-services",
+            "@swimlane/ngx-charts":             "swimlane.ngx-charts",
+            "atomicjs":                         "atomic",
+            "d3":                               "d3",
+            "d3-format":                        "d3Format",
+            "d3-time-format":                   "d3TimeFormat",
+            "diacritics":                       "diacritics",
+            "focus-within":                     "focusWithin",
+            "intl-messageformat":               "IntlMessageFormat",
+            "intl-format-cache":                "memoizeFormatConstructor",
+            "jquery":                           "$",
+            "jssha":                            "jsSHA",
+            "jstz":                             "jstz",
+            "lodash/camelCase":                 "camelCase",
+            "lodash/escape":                    "escape",
+            "lodash/get":                       "get",
+            "lodash/isEqual":                   "isEqual",
+            "lodash/kebabCase":                 "kebabCase",
+            "lodash/snakeCase":                 "snakeCase",
+            "lodash/unescape":                  "unescape",
+            "moment":                           "moment",
+            "ng2-ui-auth":                      "ng2-ui-auth",
+            "ng5-slider":                       "ng5-slider",
+            "ngx-bootstrap/datepicker":         "ngx-bootstrap.datepicker",
+            "popper.js":                        "Popper",
+            "vis":                              "vis",
+        }
+    }
+};

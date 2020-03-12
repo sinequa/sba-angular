@@ -1,0 +1,436 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Core</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Core</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>UserRatingResponse</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>web-services/user-ratings.web.service.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Describes a user rating response object</p>
+
+            </p>
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#averagerating">averagerating</a>
+                                </li>
+                                <li>
+                                        <a href="#rating">rating</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="averagerating"></a>
+                                        <span class="name"><b>averagerating</b><a href="#averagerating"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>averagerating:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="rating"></a>
+                                        <span class="name"><b>rating</b><a href="#rating"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>rating:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject} from &quot;@angular/core&quot;;
+import {Observable} from &quot;rxjs&quot;;
+import {tap} from &quot;rxjs/operators&quot;;
+import {SqHttpClient} from &quot;./http-client&quot;;
+import {HttpService} from &quot;./http.service&quot;;
+import {START_CONFIG, StartConfig} from &quot;./start-config.web.service&quot;;
+import {Record} from &quot;./query.web.service&quot;;
+import {PrincipalWebService} from &quot;./principal.web.service&quot;;
+import {Utils} from &quot;@sinequa/core/base&quot;;
+import {AuditEventType} from &quot;./audit.web.service&quot;;
+
+/**
+ * Describes a rating configuration object
+ */
+export interface CCRating {
+    ratingsColumn: string;
+    averageColumn: string;
+
+    updateDocWeight: boolean;
+
+    ratingsDistribution: string[];
+}
+
+/**
+ * Describes a user rating response object
+ */
+export interface UserRatingResponse {
+    rating: number;
+    averagerating: number;
+}
+
+/**
+ * A service for calling the ratings web service
+ */
+@Injectable({
+    providedIn: &quot;root&quot;
+})
+export class UserRatingsWebService extends HttpService {
+    constructor(
+        @Inject(START_CONFIG) startConfig: StartConfig,
+        private httpClient: SqHttpClient,
+        private principalWebService: PrincipalWebService) {
+        super(startConfig);
+    }
+
+    /**
+     * Gets the current user rating for a document
+     *
+     * @param docid The id of a document for which to get the rating
+     * @param config The ratings configuration
+     */
+    getRating(docid: string, config: CCRating): Observable&lt;UserRatingResponse&gt; {
+        return this.httpClient.post&lt;UserRatingResponse&gt;(this.makeUrl(&quot;ratings&quot;), {
+            action: &quot;get&quot;,
+            docid,
+            ratingscolumn: config.ratingsColumn,
+            averagecolumn: config.averageColumn,
+            ratingsdistribution: config.ratingsDistribution
+        }).pipe(tap(
+            r &#x3D;&gt; {},
+            error &#x3D;&gt; console.log(&quot;ratingsService.getRating failure - error: &quot;, error)
+        ));
+    }
+
+    /**
+     * Sets the current user rating for a document
+     *
+     * @param record The document for which to set the rating
+     * @param rating A rating value
+     * @param config The ratings configuration
+     */
+    setRating(record: Record, rating: number, config: CCRating): Observable&lt;UserRatingResponse&gt; {
+        const ratingResponse &#x3D; this.getRecordRating(record, config);
+        const observable &#x3D; this.httpClient.post&lt;UserRatingResponse&gt;(this.makeUrl(&quot;ratings&quot;), {
+            action: &quot;set&quot;,
+            docid: record.id,
+            ratingscolumn: config.ratingsColumn,
+            averagecolumn: config.averageColumn,
+            ratingsdistribution: config.ratingsDistribution,
+            updatedocweight: config.updateDocWeight,
+            rating,
+            $auditRecord: {
+                auditEvents: [
+                    {
+                        type: AuditEventType.Rating_Set,
+                        detail: {
+                            docid: record.id,
+                            ratingnum: rating,
+                            value: ratingResponse.rating,
+                            average: ratingResponse.averagerating
+                        }
+                    }
+                ],
+                mlAuditEvents: [
+                    {
+                        actionType: &quot;addRating&quot;,
+                        documentIds: record.id
+                    }
+                ]
+            }
+        });
+
+        observable.subscribe(
+            response &#x3D;&gt; response,
+            error &#x3D;&gt; console.log(&quot;ratingsService.setRating failure - error: &quot;, error)
+        );
+
+        return observable;
+    }
+
+    /**
+     * Delete a rating for a document
+     *
+     * @param record The document for which to delete the rating
+     * @param config The ratings configuration
+     */
+    deleteRating(record: Record, config: CCRating): Observable&lt;UserRatingResponse&gt; {
+        const ratingResponse &#x3D; this.getRecordRating(record, config);
+        const observable &#x3D; this.httpClient.post&lt;UserRatingResponse&gt;(this.makeUrl(&quot;ratings&quot;), {
+            action: &quot;delete&quot;,
+            docid: record.id,
+            ratingscolumn: config.ratingsColumn,
+            averagecolumn: config.averageColumn,
+            ratingsdistribution: config.ratingsDistribution,
+            updatedocweight: config.updateDocWeight,
+            $auditRecord: {
+                auditEvents: [
+                    {
+                        type: AuditEventType.Rating_Delete,
+                        detail: {
+                            docid: record.id,
+                            value: ratingResponse.rating,
+                            average: ratingResponse.averagerating
+                        }
+                    }
+                ],
+                mlAuditEvents: [
+                    {
+                        actionType: &quot;removeRating&quot;,
+                        documentIds: record.id
+                    }
+                ]
+            }
+        });
+
+        observable.subscribe(
+            response &#x3D;&gt; response,
+            error &#x3D;&gt; console.log(&quot;ratingsService.deleteRating failure - error: &quot;, error)
+        );
+
+        return observable;
+    }
+
+    /**
+     * Gets user rating information from the given record
+     *
+     * @param record The record for which to get the rating 
+     * @param config The ratings configuration
+     */
+    getRecordRating(record: Record, config: CCRating): UserRatingResponse {
+        return {
+            rating: this.parseUserRatingList(record[config.ratingsColumn], config),
+            averagerating: this.parseAverageRating(record[config.averageColumn], config)
+        }
+    }
+
+    private parseAverageRating(columnEntries: string[], config: CCRating): number {
+        if (config.ratingsDistribution &amp;&amp; columnEntries) {
+            return config.ratingsDistribution.indexOf(columnEntries[0]);
+        }
+        else {
+            return -1;
+        }
+    }
+
+    private parseUserRatingList(columnEntries: string[], config: CCRating): number {
+        const principal &#x3D; this.principalWebService.principal;
+        if (!principal) {
+            return -1;
+        }
+        const userid &#x3D; principal.userId;
+        if (!userid) {
+            return -1;
+        }
+        if (columnEntries &amp;&amp; userid) {
+            for (const entry of columnEntries) {
+                // Rating Entry is of the form: userid|ratingvalue
+                // Get the rating value
+                const i &#x3D; entry.lastIndexOf(&quot;|&quot;);
+
+                if (i &gt; -1) {
+                    // If first part matches userid
+                    if (Utils.eqNC(userid, entry.slice(0, i))) {
+                        const value &#x3D; entry.slice(i + 1);
+
+                        if (config.ratingsDistribution) {
+                            return config.ratingsDistribution.indexOf(value);
+                        }
+                        else {
+                            return -1;
+                        }
+                    }
+                }
+            }
+        }
+
+        return -1;
+    }
+}
+</code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'UserRatingResponse.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

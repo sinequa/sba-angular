@@ -1,0 +1,15 @@
+
+// blinking text
+$blink-color: red !default;
+@keyframes blink {
+     0% { opacity: 1; }
+     25% { opacity: 0.25; }
+     50% { opacity: 0.5; }
+     75% { opacity: 0.75; }
+     100% { opacity: 0; }
+ }
+
+.blink {
+   animation: blink .75s linear infinite;
+   color: $blink-color;
+}

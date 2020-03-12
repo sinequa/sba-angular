@@ -1,0 +1,24 @@
+.sq-user-rating-stars {
+    padding: 0;
+    list-style-type: none;
+}
+
+.sq-user-rating-item {
+    display: inline;
+}
+
+.sq-user-rating-star {
+    text-decoration: none;
+}
+
+.sq-user-rating-caption {
+    display: inline;
+    font-size: 0.875rem;
+    margin-right: 4px;
+}
+
+.sq-user-rating-average {
+    display: inline;
+    font-size: 0.875rem;
+    margin-left: 4px;
+}

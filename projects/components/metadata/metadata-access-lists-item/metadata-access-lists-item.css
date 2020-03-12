@@ -1,0 +1,20 @@
+.accessList {
+    display: table-row;
+}
+
+.accessListIcon, .accessListValue {
+    display: table-cell;
+}
+
+.accessListValue {
+    width: 99%;
+    padding-left: 0.5em;
+}
+
+.authorizedListIcon {
+    color: green;
+}
+
+.deniedListIcon {
+    color: red;
+}

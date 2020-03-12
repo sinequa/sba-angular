@@ -1,0 +1,8 @@
+<form name="editSavedQuery" novalidate [formGroup]="form">
+    <sq-modal [title]="'msg#editSavedQuery.title'" [buttons]="buttons">
+        <div class="form-group sq-form-group">
+            <label for="savedQueryName">{{'msg#editSavedQuery.name' | sqMessage}}</label>
+            <input [sqValidation]="form" type="text" class="form-control" id="savedQueryName" formControlName="savedQueryName" spellcheck="off" sqAutofocus>
+        </div>
+    </sq-modal>
+</form>

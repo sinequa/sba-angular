@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+         <title>Vanilla Search</title>
+         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+         <meta charset="UTF-8">
+         <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+         <link rel="icon" type="image/x-icon" href="assets/vanilla-favicon.png">
+    </head>
+    <body>
+        <app>
+            <div class="h-100 d-flex flex-column justify-content-center align-items-center">
+                <img id="sinequa-logo" class="mb-3" src="assets/sinequa-logo-light-lg.png" width="180px">
+                <img src="assets/loading.gif">
+            </div>
+        </app>
+        <script>
+    let theme = localStorage.getItem('sinequa-theme');
+    if(theme && theme === 'dark'){
+        document.body.classList.toggle("dark");
+        document.getElementById("sinequa-logo").setAttribute("src", "assets/sinequa-logo-dark-lg.png")
+    }
+        </script>
+    </body>
+</html>

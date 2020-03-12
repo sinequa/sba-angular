@@ -1,0 +1,6 @@
+<a href="#" (click)="click($event)" title="{{title | sqMessage}}">
+    <ng-container *ngIf="!!icon">
+        <span class="{{icon}}"></span>
+    </ng-container>
+    <ng-container *ngIf="!!text">{{text | sqMessage}}</ng-container>
+</a>

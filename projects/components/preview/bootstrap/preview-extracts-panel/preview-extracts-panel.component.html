@@ -1,0 +1,5 @@
+<div class="list-group">
+    <a href="#" class="card my-1 list-group-item-action" *ngFor="let extract of extracts; let i=index" (click)="scrollExtract(i)">
+        <p class="card-body m-0" [innerHTML]="sanitize(extract)"></p>
+    </a>
+</div>

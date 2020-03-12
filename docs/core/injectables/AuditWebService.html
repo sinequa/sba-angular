@@ -1,0 +1,1182 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Core</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Core</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>AuditWebService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>web-services/audit.web.service.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>A service to notify the audit manager on the Sinequa server of client-side events </p>
+
+            </p>
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../classes/HttpService.html" target="_self" >HttpService</a></code>
+            </p>
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#notify">notify</a>
+                            </li>
+                            <li>
+                                <a href="#notifyDocument">notifyDocument</a>
+                            </li>
+                            <li>
+                                <a href="#notifyDocumentById">notifyDocumentById</a>
+                            </li>
+                            <li>
+                                <a href="#notifySponsoredLink">notifySponsoredLink</a>
+                            </li>
+                            <li>
+                                <a href="#makeParams">makeParams</a>
+                            </li>
+                            <li>
+                                <a href="#makeUrl">makeUrl</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(startConfig: <a href="../interfaces/StartConfig.html">StartConfig</a>, httpClient: <a href="../injectables/SqHttpClient.html">SqHttpClient</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="141" class="link-to-prism">web-services/audit.web.service.ts:141</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>startConfig</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../interfaces/StartConfig.html" target="_self" >StartConfig</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>httpClient</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SqHttpClient.html" target="_self" >SqHttpClient</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notify"></a>
+                    <span class="name">
+                        <b>
+                            notify
+                        </b>
+                        <a href="#notify"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>notify(auditEvents: <a href="../interfaces/AuditEvent.html">AuditEvents</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="272"
+                            class="link-to-prism">web-services/audit.web.service.ts:272</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Notify the Sinequa server of a set of audit events</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>auditEvents</td>
+                                    <td>
+                                                <code><a href="../interfaces/AuditEvent.html" target="_self" >AuditEvents</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The audit events</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notifyDocument"></a>
+                    <span class="name">
+                        <b>
+                            notifyDocument
+                        </b>
+                        <a href="#notifyDocument"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>notifyDocument(evt: <a href="../interfaces/AuditEvent.html">AuditEventType</a>, doc: <a href="../interfaces/Record.html">Record</a>, resultsOrId: <a href="../interfaces/Results.html">Results | string</a>, parameters?: <a href="../interfaces/MapOf.html">MapOf<string | number | boolean | undefined></a>, rfmParameters?: <a href="../interfaces/MapOf.html">MapOf<string | number | boolean | undefined></a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="186"
+                            class="link-to-prism">web-services/audit.web.service.ts:186</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Notify the Sinequa server of a document event</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>evt</td>
+                                    <td>
+                                                <code><a href="../interfaces/AuditEvent.html" target="_self" >AuditEventType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The audit event type</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>doc</td>
+                                    <td>
+                                                <code><a href="../interfaces/Record.html" target="_self" >Record</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The document (record) in question</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>resultsOrId</td>
+                                    <td>
+                                                <code><a href="../interfaces/Results.html" target="_self" >Results | string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The results or resultid that contain the document</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>parameters</td>
+                                    <td>
+                                                <code><a href="../interfaces/MapOf.html" target="_self" >MapOf&lt;string | number | boolean | undefined&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Additional parameters</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>rfmParameters</td>
+                                    <td>
+                                                <code><a href="../interfaces/MapOf.html" target="_self" >MapOf&lt;string | number | boolean | undefined&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Additional RFM parameters</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notifyDocumentById"></a>
+                    <span class="name">
+                        <b>
+                            notifyDocumentById
+                        </b>
+                        <a href="#notifyDocumentById"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>notifyDocumentById(evt: <a href="../interfaces/AuditEvent.html">AuditEventType</a>, id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, parameters?: <a href="../interfaces/MapOf.html">MapOf<string | number | boolean | undefined></a>, rfmParameters?: <a href="../interfaces/MapOf.html">MapOf<string | number | boolean | undefined></a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="240"
+                            class="link-to-prism">web-services/audit.web.service.ts:240</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Notify the Sinequa server of a document event</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>evt</td>
+                                    <td>
+                                                <code><a href="../interfaces/AuditEvent.html" target="_self" >AuditEventType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The audit event type</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The id of the document (record) in question</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>parameters</td>
+                                    <td>
+                                                <code><a href="../interfaces/MapOf.html" target="_self" >MapOf&lt;string | number | boolean | undefined&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Additional parameters</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>rfmParameters</td>
+                                    <td>
+                                                <code><a href="../interfaces/MapOf.html" target="_self" >MapOf&lt;string | number | boolean | undefined&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Additional RFM parameters</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notifySponsoredLink"></a>
+                    <span class="name">
+                        <b>
+                            notifySponsoredLink
+                        </b>
+                        <a href="#notifySponsoredLink"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>notifySponsoredLink(evt: <a href="../interfaces/AuditEvent.html">AuditEventType</a>, sl: <a href="../interfaces/LinkResult.html">LinkResult</a>, resultId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, parameters?: <a href="../interfaces/MapOf.html">MapOf<string | number | boolean | undefined></a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="157"
+                            class="link-to-prism">web-services/audit.web.service.ts:157</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Notify the Sinequa server of a sponsored link event</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>evt</td>
+                                    <td>
+                                                <code><a href="../interfaces/AuditEvent.html" target="_self" >AuditEventType</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The audit event type</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>sl</td>
+                                    <td>
+                                                <code><a href="../interfaces/LinkResult.html" target="_self" >LinkResult</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The sponsored link</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>resultId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The id of the results that showed the sponsored link </p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>parameters</td>
+                                    <td>
+                                                <code><a href="../interfaces/MapOf.html" target="_self" >MapOf&lt;string | number | boolean | undefined&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Additional information</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="makeParams"></a>
+                    <span class="name">
+                        <b>
+                            makeParams
+                        </b>
+                        <a href="#makeParams"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>makeParams(params: <a href="../interfaces/MapOf.html">MapOf<string | boolean | number | Date | object | undefined></a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/HttpService.html" target="_self" >HttpService</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/HttpService.html#source" target="_self" >HttpService:42</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Makes an Angular <a href="HttpParams">HttpParams</a> object from a basic Javascript object</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>params</td>
+                                    <td>
+                                                <code><a href="../interfaces/MapOf.html" target="_self" >MapOf&lt;string | boolean | number | Date | object | undefined&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>A map of parameter values</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://angular.io/api/common/http/HttpParams" target="_blank" >HttpParams</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="makeUrl"></a>
+                    <span class="name">
+                        <b>
+                            makeUrl
+                        </b>
+                        <a href="#makeUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>makeUrl(api: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../classes/HttpService.html" target="_self" >HttpService</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../classes/HttpService.html#source" target="_self" >HttpService:32</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Makes an API url by appending the api name to the api path
+held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>api</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>An API name</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject} from &quot;@angular/core&quot;;
+import {Observable, of} from &quot;rxjs&quot;;
+import {SqHttpClient} from &quot;./http-client&quot;;
+import {HttpService} from &quot;./http.service&quot;;
+import {START_CONFIG, StartConfig} from &quot;./start-config.web.service&quot;;
+import {Utils, MapOf, JsonObject} from &quot;@sinequa/core/base&quot;;
+import {Results, Record} from &quot;./query.web.service&quot;;
+import {LinkResult} from &quot;./sponsored-links.web.service&quot;;
+
+/**
+ * Describes a single audit event
+ */
+export interface AuditEvent {
+    type: AuditEventType | string; // allow custom event types
+    detail?: JsonObject;
+    rfmDetail?: JsonObject;
+}
+
+/**
+ * Contains an array of {@link AuditEvent} objects and an array of ML audit event records
+ */
+export interface AuditRecord {
+    auditEvents?: AuditEvent[];
+    mlAuditEvents?: any[];
+}
+
+/**
+ * A composite type describing a set of AuditEvents
+ */
+export type AuditEvents &#x3D; AuditEvent | AuditEvent[] | AuditRecord;
+
+/**
+ * The standard audit event types
+ */
+export const enum AuditEventType {
+    // Should be in par with AuditEventType enum from AuditManager.cs
+    None &#x3D; &quot;None&quot;,
+
+    // WebApp event types
+    Search_FirstPage &#x3D; &quot;Search_FirstPage&quot;,
+    Search_Text &#x3D; &quot;Search_Text&quot;,
+    Search_Refine &#x3D; &quot;Search_Refine&quot;,
+    Search_Select_Item &#x3D; &quot;Search_Select_Item&quot;,
+    Search_Select_Custom &#x3D; &quot;Search_Select_Custom&quot;,
+    Search_Select_Concept &#x3D; &quot;Search_Select_Concept&quot;,
+    Search_Select_Correction &#x3D; &quot;Search_Select_Correction&quot;,
+    Search_GotoPage &#x3D; &quot;Search_GotoPage&quot;,
+    Search_GotoTab &#x3D; &quot;Search_GotoTab&quot;,
+    Search_DisplayResult &#x3D; &quot;Search_DisplayResult&quot;,
+    Search_RemoveResult &#x3D; &quot;Search_RemoveResult&quot;,
+    Search_RemoveAdvanced &#x3D; &quot;Search_RemoveAdvanced&quot;,
+    Search_SavedQuery &#x3D; &quot;Search_SavedQuery&quot;,
+    Search_WebService &#x3D; &quot;Search_WebService&quot;,
+    Search_DidYouMean_Original &#x3D; &quot;Search_DidYouMean_Original&quot;,
+    Search_DidYouMean_Correction &#x3D; &quot;Search_DidYouMean_Correction&quot;,
+    Search_ExportCSV &#x3D; &quot;Search_ExportCSV&quot;,
+    Search_SavedQuery_ExportCSV &#x3D; &quot;Search_SavedQuery_ExportCSV&quot;,
+    Search_Selection_ExportCSV &#x3D; &quot;Search_Selection_ExportCSV&quot;,
+    Search_AlertQuery &#x3D; &quot;Search_AlertQuery&quot;,
+    Search_Select_AnalyticsItem &#x3D; &quot;Search_Select_AnalyticsItem&quot;,
+
+    SavedQuery_Add &#x3D; &quot;SavedQuery_Add&quot;,
+    SavedQuery_Delete &#x3D; &quot;SavedQuery_Delete&quot;,
+    SavedQuery_DeleteAll &#x3D; &quot;SavedQuery_DeleteAll&quot;,
+    SavedQuery_Rename &#x3D; &quot;SavedQuery_Rename&quot;,
+
+    Alert_Edit &#x3D; &quot;Alert_Edit&quot;,
+    Alert_Delete &#x3D; &quot;Alert_Delete&quot;,
+    Alert_DeleteAll &#x3D; &quot;Alert_DeleteAll&quot;,
+
+    Link_Display &#x3D; &quot;Link_Display&quot;,
+    Link_Click &#x3D; &quot;Link_Click&quot;,
+
+    Basket_Add &#x3D; &quot;Basket_Add&quot;,
+    Basket_Delete &#x3D; &quot;Basket_Delete&quot;,
+    Basket_DeleteAll &#x3D; &quot;Basket_DeleteAll&quot;,
+    Basket_Rename &#x3D; &quot;Basket_Rename&quot;,
+    Basket_AddDoc &#x3D; &quot;Basket_AddDoc&quot;,
+    Basket_RemoveDoc &#x3D; &quot;Basket_RemoveDoc&quot;,
+    Basket_Open &#x3D; &quot;Basket_Open&quot;,
+    Basket_ExportCSV &#x3D; &quot;Basket_ExportCSV&quot;,
+
+    Label_Add &#x3D; &quot;Label_Add&quot;,
+    Label_Delete &#x3D; &quot;Label_Delete&quot;,
+    Label_Rename &#x3D; &quot;Label_Rename&quot;,
+    Label_Open &#x3D; &quot;Label_Open&quot;,
+    Label_AddDoc &#x3D; &quot;Label_AddDoc&quot;,
+    Label_RemoveDoc &#x3D; &quot;Label_RemoveDoc&quot;,
+    Label_ExportCSV &#x3D; &quot;Label_ExportCSV&quot;,
+    Label_Menu_ExportCSV &#x3D; &quot;Label_Menu_ExportCSV&quot;,
+
+    Rating_Set &#x3D; &quot;Rating_Set&quot;,
+    Rating_Delete &#x3D; &quot;Rating_Delete&quot;,
+
+    Doc_Preview &#x3D; &quot;Doc_Preview&quot;,
+    Doc_CacheHtml &#x3D; &quot;Doc_CacheHtml&quot;,
+    Doc_CachePdf &#x3D; &quot;Doc_CachePdf&quot;,
+    Doc_CacheOriginal &#x3D; &quot;Doc_CacheOriginal&quot;,
+    Doc_Url1 &#x3D; &quot;Doc_Url1&quot;,
+    Doc_Url2 &#x3D; &quot;Doc_Url2&quot;,
+
+    Click_ResultLink &#x3D; &quot;Click_ResultLink&quot;,
+    Click_ResultLink1 &#x3D; &quot;Click_ResultLink1&quot;,
+    Click_ResultLink2 &#x3D; &quot;Click_ResultLink2&quot;,
+    Click_ResultLink3 &#x3D; &quot;Click_ResultLink3&quot;,
+    Click_ResultLink4 &#x3D; &quot;Click_ResultLink4&quot;,
+    Click_ResultLink5 &#x3D; &quot;Click_ResultLink5&quot;,
+    Click_ResultLink6 &#x3D; &quot;Click_ResultLink6&quot;,
+    Click_ResultLink7 &#x3D; &quot;Click_ResultLink7&quot;,
+    Click_ResultLink8 &#x3D; &quot;Click_ResultLink8&quot;,
+    Click_ResultLink9 &#x3D; &quot;Click_ResultLink9&quot;,
+    Click_ResultLink10 &#x3D; &quot;Click_ResultLink10&quot;,
+    Click_PreviewLink1 &#x3D; &quot;Click_PreviewLink1&quot;,
+    Click_PreviewLink2 &#x3D; &quot;Click_PreviewLink2&quot;,
+    Click_PreviewLink3 &#x3D; &quot;Click_PreviewLink3&quot;,
+    Click_PreviewLink4 &#x3D; &quot;Click_PreviewLink4&quot;,
+    Click_PreviewLink5 &#x3D; &quot;Click_PreviewLink5&quot;,
+    Click_PreviewLink6 &#x3D; &quot;Click_PreviewLink6&quot;,
+    Click_PreviewLink7 &#x3D; &quot;Click_PreviewLink7&quot;,
+    Click_PreviewLink8 &#x3D; &quot;Click_PreviewLink8&quot;,
+    Click_PreviewLink9 &#x3D; &quot;Click_PreviewLink9&quot;,
+    Click_PreviewLink10 &#x3D; &quot;Click_PreviewLink10&quot;,
+
+    RFM_ClickSet &#x3D; &quot;RFM_ClickSet&quot;,
+    RFM_ClickReset &#x3D; &quot;RFM_ClickReset&quot;,
+    RFM_Like &#x3D; &quot;RFM_Like&quot;,
+    RFM_LikeReset &#x3D; &quot;RFM_LikeReset&quot;,
+    RFM_Dislike &#x3D; &quot;RFM_Dislike&quot;,
+    RFM_Important &#x3D; &quot;RFM_Important&quot;,
+    RFM_ImportantReset &#x3D; &quot;RFM_ImportantReset&quot;,
+    RFM_Ban &#x3D; &quot;RFM_Ban&quot;
+}
+
+/**
+ * A service to notify the audit manager on the Sinequa server of client-side events 
+ */
+@Injectable({
+    providedIn: &quot;root&quot;
+})
+export class AuditWebService extends HttpService {
+    private static readonly endpoint &#x3D; &quot;audit.notify&quot;;
+
+    constructor(
+        @Inject(START_CONFIG) startConfig: StartConfig,
+        protected httpClient: SqHttpClient) {
+        super(startConfig);
+    }
+
+    /**
+     * Notify the Sinequa server of a sponsored link event
+     *
+     * @param evt The audit event type
+     * @param sl The sponsored link
+     * @param resultId The id of the results that showed the sponsored link 
+     * @param parameters Additional information
+     */
+    notifySponsoredLink(
+        evt: AuditEventType, sl: LinkResult, resultId: string,
+        parameters?: MapOf&lt;string | number | boolean | undefined&gt;): Observable&lt;void&gt;  {
+        const detail: JsonObject &#x3D; {
+            &quot;link-id&quot;: sl.id,
+            rank: sl.rank || 0,
+            title: sl.title,
+            url: sl.url,
+            &quot;result-id&quot;: resultId
+        };
+        if (parameters) {
+            Object.keys(parameters).forEach(key &#x3D;&gt; detail[key] &#x3D; parameters[key]);
+        }
+        const data: AuditEvent &#x3D; {
+            type: evt,
+            detail
+        };
+        return this.notify(data);
+    }
+
+    /**
+     * Notify the Sinequa server of a document event
+     *
+     * @param evt The audit event type
+     * @param doc The document (record) in question
+     * @param resultsOrId The results or resultid that contain the document
+     * @param parameters Additional parameters
+     * @param rfmParameters Additional RFM parameters
+     */
+    notifyDocument(
+        evt: AuditEventType, doc: Record, resultsOrId: Results | string,
+        parameters?: MapOf&lt;string | number | boolean | undefined&gt;,
+        rfmParameters?: MapOf&lt;string | number | boolean | undefined&gt;): Observable&lt;void&gt;  {
+        let resultId: string | null;
+        let results: Results | undefined;
+        if (Utils.isString(resultsOrId)) {
+            resultId &#x3D; resultsOrId;
+        }
+        else {
+            results &#x3D; resultsOrId;
+            resultId &#x3D; results ? results.id : null;
+        }
+        const detail: JsonObject &#x3D; {
+            app: this.appName,
+            &quot;doc-id&quot;: doc.id,
+            rank: doc.rank,
+            source: Utils.treeFirstNode(doc.collection[0]),
+            collection: doc.collection[0],
+            &quot;result-id&quot;: resultId,
+            filename: doc.filename,
+            fileext: doc.fileext,
+            index: doc.databasealias
+        };
+        if (results) {
+            detail[&quot;result-count&quot;] &#x3D; results.totalRowCount;
+        }
+        if (doc.text) {
+            /*tslint:disable-next-line*/
+            detail[&quot;text&quot;] &#x3D; doc.text;
+        }
+        if (parameters) {
+            Object.keys(parameters).forEach(key &#x3D;&gt; detail[key] &#x3D; parameters[key]);
+        }
+        const data: AuditEvent &#x3D; {
+            type: evt,
+            detail
+        };
+        if (rfmParameters) {
+            const rfmDetail: JsonObject &#x3D; {};
+            Object.keys(rfmParameters).forEach(key &#x3D;&gt; rfmDetail[key] &#x3D; rfmParameters[key]);
+            data.rfmDetail &#x3D; rfmDetail;
+        }
+        return this.notify(data);
+    }
+
+    /**
+     * Notify the Sinequa server of a document event
+     *
+     * @param evt The audit event type
+     * @param id The id of the document (record) in question
+     * @param parameters Additional parameters
+     * @param rfmParameters Additional RFM parameters
+     */
+    notifyDocumentById(
+        evt: AuditEventType, id: string,
+        parameters?: MapOf&lt;string | number | boolean | undefined&gt;,
+        rfmParameters?: MapOf&lt;string | number | boolean | undefined&gt;): Observable&lt;void&gt;  {
+        const collection &#x3D; id.substr(0, id.indexOf(&quot;|&quot;));
+        const detail: JsonObject &#x3D; {
+            app: this.appName,
+            &quot;doc-id&quot;: id,
+            rank: -1,
+            source: Utils.treeFirstNode(collection),
+            collection
+        };
+        if (parameters) {
+            Object.keys(parameters).forEach(key &#x3D;&gt; detail[key] &#x3D; parameters[key]);
+        }
+        const data: AuditEvent &#x3D; {
+            type: evt,
+            detail
+        };
+        if (rfmParameters) {
+            const rfmDetail: JsonObject &#x3D; {};
+            Object.keys(rfmParameters).forEach(key &#x3D;&gt; rfmDetail[key] &#x3D; rfmParameters[key]);
+            data.rfmDetail &#x3D; rfmDetail;
+        }
+        return this.notify(data);
+    }
+
+    /**
+     * Notify the Sinequa server of a set of audit events
+     *
+     * @param auditEvents The audit events
+     */
+    notify(auditEvents: AuditEvents): Observable&lt;void&gt; {
+        if (!this.startConfig.auditEnabled) {
+            return of(undefined);
+        }
+        const observable &#x3D; this.httpClient.post&lt;void&gt;(this.makeUrl(AuditWebService.endpoint), {
+            event: AuditEventType.None,
+            app: this.appName,
+            $auditRecord: auditEvents
+        });
+        Utils.subscribe(observable,
+            (response) &#x3D;&gt; {
+                return response;
+            },
+            (error) &#x3D;&gt; {
+                console.log(&quot;auditService.notify failure - error: &quot;, error);
+            });
+        return observable;
+    }
+}</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'AuditWebService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

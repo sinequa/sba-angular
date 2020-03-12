@@ -1,0 +1,6 @@
+<ng-container *ngFor="let item of items; let $index = index">
+    <sq-metadata-item [record]="record" [item]="item" (select)="select($event.item, $event.valueItem)"
+        [showTitle]="showTitles" [showIcon]="showIcons" [clickable]="clickable" [spacing]="spacing">
+        <span *ngIf="!tabular && $index < items.length - 1" class="sq-metadata-item-separator">{{'msg#metadata.item.separator' | sqMessage}}</span>
+    </sq-metadata-item>
+</ng-container>

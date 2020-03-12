@@ -1,0 +1,13 @@
+<div *ngIf="!!originalDocumentUrl" class="card sq-facet">
+    <div class="card-body">
+        <nav>
+            <ul class="nav nav-pills nav-stacked">
+                <li class="nav-item">
+                    <a href="{{originalDocumentUrl}}" (click)="click()" class="nav-link originalDocumentLink" target="_blank">
+                        <span class="far fa-file sq-icon-file-{{record.fileext}}"></span> {{'msg#preview.originalDocument' | sqMessage}}
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

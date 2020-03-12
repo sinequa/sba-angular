@@ -1,0 +1,27 @@
+<div class="sq-selection-tooltip" [ngStyle]="{'visibility' : visibility, 'bottom' : bottom, 'left' : left}" #tooltip>
+
+    <ng-container *ngIf="entityType && !selectedText">
+        <span class="display">{{ entityDisplay }} </span> <span class="label">({{ entityLabel | sqMessage }}) </span>
+        <span class="index">{{ entityIdx }} </span>/<span class="count"> {{ entityCount }} </span>
+        <ng-container *ngIf="entityNavActions">
+            <span class="nav-btn previous" (click)="previousEntity($event)" [ngClass]="{disabled: entityIdx <= 1}" title="{{ 'msg#preview.previousHighlightButtonAltText' | sqMessage }}">❬</span>
+            <span class="nav-btn next" (click)="nextEntity($event)" [ngClass]="{disabled: entityIdx >= entityCount}" title="{{ 'msg#preview.nextHighlightButtonAltText' | sqMessage }}">❭</span>
+        </ng-container>
+        <div class="btn-list">
+            <button *ngFor="let action of entityActions" (click)="entityAction(action, $event)" [disabled]="action.disabled" [hidden]="action.hidden" title="{{ (action.title || '') | sqMessage:{values: {type: entityType, value: entityValue, display: entityDisplay} } }}">
+                <span *ngIf="action.icon" class="{{action.icon}}"></span>
+                <span *ngIf="action.text">{{ action.text | sqMessage:{values: {type: entityType, value: entityValue, display: entityDisplay} } }}</span>
+                <span *ngIf="action.iconAfter" class="{{action.iconAfter}}"></span>
+            </button>
+        </div>
+    </ng-container>
+
+
+    <ng-container *ngIf="selectedText">
+        <ng-container *ngFor="let action of selectedTextActions">
+            <button (click)="selectedTextAction(action, $event)" [disabled]="action.disabled" [hidden]="action.hidden" title="{{ (action.title || '') | sqMessage:{values: {text: selectedText.slice(0,50)} } }}">
+                <span *ngIf="action.icon" class="{{action.icon}}"></span> <span *ngIf="action.text">{{ action.text | sqMessage:{values: {text: selectedText.slice(0,50)} } }}</span> <span *ngIf="action.iconAfter" class="{{action.iconAfter}}"></span>
+            </button>
+        </ng-container>
+    </ng-container>
+</div>

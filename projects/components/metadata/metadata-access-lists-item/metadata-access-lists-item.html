@@ -1,0 +1,16 @@
+<ng-container *ngFor="let i of accessLists.accessListIndices" >
+    <div class="accessList" *ngIf="accessLists.authorizedLists[i]">
+        <div class="accessListIcon authorizedListIcon far fa-check-circle" title="{{ 'msg#metadata.accessLists.authorizedListTitleText' | sqMessage }}"></div>
+        <div class="accessListValue">
+            <sq-metadata-access-lists-item-single-access-list [authorized]="true" [index]="i" [accessList]="accessLists.authorizedLists[i]">
+            </sq-metadata-access-lists-item-single-access-list>
+        </div>
+    </div>
+    <div class="accessList" *ngIf="accessLists.deniedLists[i]">
+        <div class="accessListIcon deniedListIcon fas fa-minus-circle" title="{{ 'msg#metadata.accessLists.deniedListTitleText' | sqMessage }}"></div>
+        <div class="accessListValue">
+            <sq-metadata-access-lists-item-single-access-list [authorized]="false" [index]="i" [accessList]="accessLists.deniedLists[i]">
+            </sq-metadata-access-lists-item-single-access-list>
+        </div>
+    </div>
+</ng-container>

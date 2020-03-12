@@ -1,0 +1,2165 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>UIService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>utils/ui.service.ts</code>
+        </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#_priorityResizeEvent">_priorityResizeEvent</a>
+                            </li>
+                            <li>
+                                <a href="#_resizeEvent">_resizeEvent</a>
+                            </li>
+                            <li>
+                                <a href="#addElementResizeListener">addElementResizeListener</a>
+                            </li>
+                            <li>
+                                <a href="#factories">factories</a>
+                            </li>
+                            <li>
+                                <a href="#removeElementResizeListener">removeElementResizeListener</a>
+                            </li>
+                            <li>
+                                <a href="#screenSize">screenSize</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#screenSizeRules">screenSizeRules</a>
+                            </li>
+                            <li>
+                                <a href="#screenSizes">screenSizes</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addResizeListener">addResizeListener</a>
+                            </li>
+                            <li>
+                                <a href="#appInit">appInit</a>
+                            </li>
+                            <li>
+                                <a href="#getCaret">getCaret</a>
+                            </li>
+                            <li>
+                                <a href="#getContentRect">getContentRect</a>
+                            </li>
+                            <li>
+                                <a href="#getTextPosition">getTextPosition</a>
+                            </li>
+                            <li>
+                                <a href="#getViewport">getViewport</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#screenSizeIsEqual">screenSizeIsEqual</a>
+                            </li>
+                            <li>
+                                <a href="#screenSizeIsGreater">screenSizeIsGreater</a>
+                            </li>
+                            <li>
+                                <a href="#screenSizeIsGreaterOrEqual">screenSizeIsGreaterOrEqual</a>
+                            </li>
+                            <li>
+                                <a href="#screenSizeIsLess">screenSizeIsLess</a>
+                            </li>
+                            <li>
+                                <a href="#screenSizeIsLessOrEqual">screenSizeIsLessOrEqual</a>
+                            </li>
+                            <li>
+                                <a href="#screenSizeTest">screenSizeTest</a>
+                            </li>
+                            <li>
+                                <a href="#setCaret">setCaret</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#resizeEvent">resizeEvent</a>
+                                </li>
+                                <li>
+                                    <a href="#priorityResizeEvent">priorityResizeEvent</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(screenSizeRules: MapOf<string>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">utils/ui.service.ts:23</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>screenSizeRules</td>
+                                                  
+                                                        <td>
+                                                                    <code>MapOf&lt;string&gt;</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addResizeListener"></a>
+                    <span class="name">
+                        <b>
+                            addResizeListener
+                        </b>
+                        <a href="#addResizeListener"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addResizeListener(listener: (event: UIEvent) => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">utils/ui.service.ts:75</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>listener</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="appInit"></a>
+                    <span class="name">
+                        <b>
+                            appInit
+                        </b>
+                        <a href="#appInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>appInit(appComponentRef: ComponentRef<any>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">utils/ui.service.ts:58</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>appComponentRef</td>
+                                    <td>
+                                            <code>ComponentRef&lt;any&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCaret"></a>
+                    <span class="name">
+                        <b>
+                            getCaret
+                        </b>
+                        <a href="#getCaret"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getCaret(input: HTMLInputElement)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="211"
+                            class="link-to-prism">utils/ui.service.ts:211</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>input</td>
+                                    <td>
+                                            <code>HTMLInputElement</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/CaretPosition.html" target="_self" >CaretPosition</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getContentRect"></a>
+                    <span class="name">
+                        <b>
+                            getContentRect
+                        </b>
+                        <a href="#getContentRect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getContentRect(element: HTMLElement)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="189"
+                            class="link-to-prism">utils/ui.service.ts:189</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>element</td>
+                                    <td>
+                                            <code>HTMLElement</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>ClientRect</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTextPosition"></a>
+                    <span class="name">
+                        <b>
+                            getTextPosition
+                        </b>
+                        <a href="#getTextPosition"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTextPosition(element: HTMLElement, position: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="312"
+                            class="link-to-prism">utils/ui.service.ts:312</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>element</td>
+                                    <td>
+                                            <code>HTMLElement</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>position</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>literal type</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getViewport"></a>
+                    <span class="name">
+                        <b>
+                            getViewport
+                        </b>
+                        <a href="#getViewport"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getViewport()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="389"
+                            class="link-to-prism">utils/ui.service.ts:389</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>ClientRect</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <b>
+                            ngOnDestroy
+                        </b>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">utils/ui.service.ts:40</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="screenSizeIsEqual"></a>
+                    <span class="name">
+                        <b>
+                            screenSizeIsEqual
+                        </b>
+                        <a href="#screenSizeIsEqual"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>screenSizeIsEqual(screenSize: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="105"
+                            class="link-to-prism">utils/ui.service.ts:105</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>screenSize</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="screenSizeIsGreater"></a>
+                    <span class="name">
+                        <b>
+                            screenSizeIsGreater
+                        </b>
+                        <a href="#screenSizeIsGreater"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>screenSizeIsGreater(screenSize: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="109"
+                            class="link-to-prism">utils/ui.service.ts:109</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>screenSize</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="screenSizeIsGreaterOrEqual"></a>
+                    <span class="name">
+                        <b>
+                            screenSizeIsGreaterOrEqual
+                        </b>
+                        <a href="#screenSizeIsGreaterOrEqual"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>screenSizeIsGreaterOrEqual(screenSize: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">utils/ui.service.ts:121</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>screenSize</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="screenSizeIsLess"></a>
+                    <span class="name">
+                        <b>
+                            screenSizeIsLess
+                        </b>
+                        <a href="#screenSizeIsLess"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>screenSizeIsLess(screenSize: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="115"
+                            class="link-to-prism">utils/ui.service.ts:115</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>screenSize</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="screenSizeIsLessOrEqual"></a>
+                    <span class="name">
+                        <b>
+                            screenSizeIsLessOrEqual
+                        </b>
+                        <a href="#screenSizeIsLessOrEqual"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>screenSizeIsLessOrEqual(screenSize: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">utils/ui.service.ts:128</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>screenSize</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="screenSizeTest"></a>
+                    <span class="name">
+                        <b>
+                            screenSizeTest
+                        </b>
+                        <a href="#screenSizeTest"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>screenSizeTest(screenSizes: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="162"
+                            class="link-to-prism">utils/ui.service.ts:162</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>screenSizes</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setCaret"></a>
+                    <span class="name">
+                        <b>
+                            setCaret
+                        </b>
+                        <a href="#setCaret"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setCaret(input: HTMLInputElement, start: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, end, text?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, selectionAction, ensureVisible, raiseEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="218"
+                            class="link-to-prism">utils/ui.service.ts:218</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>input</td>
+                                    <td>
+                                            <code>HTMLInputElement</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>start</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>end</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>start</code>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>text</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>selectionAction</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>UIService.SelectionAction.collapse</code>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>ensureVisible</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>raiseEvent</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_priorityResizeEvent"></a>
+                        <span class="name">
+                            <b>
+                            _priorityResizeEvent</b>
+                            <a href="#_priorityResizeEvent"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Subject&lt;UIEvent&gt;()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">utils/ui.service.ts:17</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_resizeEvent"></a>
+                        <span class="name">
+                            <b>
+                            _resizeEvent</b>
+                            <a href="#_resizeEvent"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Subject&lt;UIEvent&gt;()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">utils/ui.service.ts:16</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="addElementResizeListener"></a>
+                        <span class="name">
+                            <b>
+                            addElementResizeListener</b>
+                            <a href="#addElementResizeListener"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">utils/ui.service.ts:21</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="factories"></a>
+                        <span class="name">
+                            <b>
+                            factories</b>
+                            <a href="#factories"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Map&lt;Type&lt;any&gt;, ComponentFactory&lt;any&gt;&gt;()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">utils/ui.service.ts:23</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="removeElementResizeListener"></a>
+                        <span class="name">
+                            <b>
+                            removeElementResizeListener</b>
+                            <a href="#removeElementResizeListener"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">utils/ui.service.ts:22</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="screenSize"></a>
+                        <span class="name">
+                            <b>
+                            screenSize</b>
+                            <a href="#screenSize"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">utils/ui.service.ts:19</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="screenSizeRules"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            screenSizeRules</b>
+                            <a href="#screenSizeRules"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>MapOf&lt;string&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Inject(SCREEN_SIZE_RULES)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">utils/ui.service.ts:26</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="screenSizes"></a>
+                        <span class="name">
+                            <b>
+                            screenSizes</b>
+                            <a href="#screenSizes"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>string[]</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">utils/ui.service.ts:18</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="resizeEvent"></a>
+                        <span class="name"><b>resizeEvent</b><a href="#resizeEvent"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>resizeEvent()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">utils/ui.service.ts:46</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="priorityResizeEvent"></a>
+                        <span class="name"><b>priorityResizeEvent</b><a href="#priorityResizeEvent"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>priorityResizeEvent()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">utils/ui.service.ts:50</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, InjectionToken, OnDestroy, ComponentFactory, ComponentRef, Type} from &quot;@angular/core&quot;;
+import {Subject, Observable} from &quot;rxjs&quot;;
+import {Utils, MapOf} from &quot;@sinequa/core/base&quot;;
+
+export interface CaretPosition {
+	start: number;
+	end: number;	
+}
+
+export const SCREEN_SIZE_RULES &#x3D; new InjectionToken&lt;MapOf&lt;string&gt;&gt;(&#x27;SCREEN_SIZE_RULES&#x27;);
+
+@Injectable({
+    providedIn: &quot;root&quot;
+})
+export class UIService implements OnDestroy {    
+	_resizeEvent &#x3D; new Subject&lt;UIEvent&gt;();
+	_priorityResizeEvent &#x3D; new Subject&lt;UIEvent&gt;();
+	screenSizes: string[];
+	screenSize: string; // one of the screen size rules values
+	//TODO - review - use EventEmitters for this?
+    addElementResizeListener: (element, fn) &#x3D;&gt; void;
+	removeElementResizeListener: (element, fn) &#x3D;&gt; void;
+	factories &#x3D; new Map&lt;Type&lt;any&gt;, ComponentFactory&lt;any&gt;&gt;();
+	    
+    constructor(
+		@Inject(SCREEN_SIZE_RULES) public screenSizeRules: MapOf&lt;string&gt;) {
+		
+		this.screenSizes &#x3D; [&quot;xs&quot;, &quot;sm&quot;, &quot;md&quot;, &quot;lg&quot;, &quot;xl&quot;, &quot;xxl&quot;]; // in ascending size order
+		this.setScreenSize();
+        window.addEventListener(&quot;resize&quot;, this.resizeEventListener);
+        initElementResizeListener(this);
+	}
+
+    protected resizeEventListener &#x3D; Utils.frame((event: UIEvent) &#x3D;&gt; {
+		this.setScreenSize();
+		this._priorityResizeEvent.next(event);
+		this._resizeEvent.next(event);
+	});
+
+	ngOnDestroy() {
+		this._resizeEvent.complete();
+		this._priorityResizeEvent.complete();
+        window.removeEventListener(&quot;resize&quot;, this.resizeEventListener);
+	}
+
+	get resizeEvent(): Observable&lt;UIEvent&gt; {
+		return this._resizeEvent;
+	}
+
+	get priorityResizeEvent(): Observable&lt;UIEvent&gt; {
+		return this._priorityResizeEvent;
+	}
+
+    /*private setTitle(title: string) {
+        document.title &#x3D; this.intlService.formatMessage(title);
+    }*/
+	
+	appInit(appComponentRef: ComponentRef&lt;any&gt;) {
+        //this.setTitle();
+        //Utils.subscribe(this.intlService.events,
+        //    (value) &#x3D;&gt; {
+        //        this.setTitle();                    
+        //    });
+		
+        // See https://github.com/angular/angular/issues/18817
+        /*this.resizeEvent.subscribe(
+			(event) &#x3D;&gt; {
+				appComponentRef.changeDetectorRef.markForCheck();
+			});*/
+		
+        // this.loadComponent({component: DirtyChecker});
+	}
+
+	// legacy (was called from app.ts)
+	addResizeListener(listener: (event?: UIEvent) &#x3D;&gt; any) {
+		this._resizeEvent.subscribe(listener);
+	}
+ 
+    private screenSizeIs(list: string | string[]) {
+		//let rules &#x3D; this.coreConfig.screenSizeRules;
+				
+        // validate that we&#x27;re getting a string or array.
+        if (!Utils.isString(list) &amp;&amp; !Utils.isArray(list)) {
+            throw new Error(&#x27;screenSizeIs requires an array or comma-separated list&#x27;);
+        }
+
+        // if it&#x27;s a string, convert to array.
+        if (Utils.isString(list)) {
+            list &#x3D; list.split(/\s*,\s*/);
+        }
+
+        return list.some((size) &#x3D;&gt; window.matchMedia(this.screenSizeRules[size]).matches);
+    }
+
+	private setScreenSize() {
+		for (let size of this.screenSizes) {
+			if (this.screenSizeIs(size)) {
+				this.screenSize &#x3D; size;
+				return;
+			}
+		}
+		throw new Error(&quot;UIService.setScreenSize - no matching screen size&quot;);
+	}
+
+	screenSizeIsEqual(screenSize: string): boolean {
+		return this.screenSize &#x3D;&#x3D;&#x3D; screenSize;
+	}
+
+	screenSizeIsGreater(screenSize: string): boolean {
+		let index1 &#x3D; this.screenSizes.findIndex((value) &#x3D;&gt; value &#x3D;&#x3D;&#x3D; this.screenSize);
+		let index2 &#x3D; this.screenSizes.findIndex((value) &#x3D;&gt; value &#x3D;&#x3D;&#x3D; screenSize);
+		return index1 &gt; index2;			
+	}
+
+	screenSizeIsLess(screenSize: string): boolean {
+		let index1 &#x3D; this.screenSizes.findIndex((value) &#x3D;&gt; value &#x3D;&#x3D;&#x3D; this.screenSize);
+		let index2 &#x3D; this.screenSizes.findIndex((value) &#x3D;&gt; value &#x3D;&#x3D;&#x3D; screenSize);
+		return index1 &lt; index2;			
+	}
+
+	screenSizeIsGreaterOrEqual(screenSize: string): boolean {
+		if (screenSize &#x3D;&#x3D;&#x3D; this.screenSize) {
+			return true;
+		}
+		return this.screenSizeIsGreater(screenSize);
+	}
+
+	screenSizeIsLessOrEqual(screenSize: string): boolean {
+		if (screenSize &#x3D;&#x3D;&#x3D; this.screenSize) {
+			return true;
+		}
+		return this.screenSizeIsLess(screenSize);
+	}
+
+	private _screenSizeTest(screenSize: string): boolean {
+		if (Utils.eqNCN(screenSize, &quot;always&quot;, &quot;true&quot;)) {
+			return true;
+		}
+		if (Utils.eqNCN(screenSize, &quot;never&quot;, &quot;false&quot;)) {
+			return false;
+		}
+		if (Utils.startsWith(screenSize, &quot;&gt;&#x3D;&quot;)) {
+			return this.screenSizeIsGreaterOrEqual(screenSize.slice(2));
+		}
+		if (Utils.startsWith(screenSize, &quot;&gt;&quot;)) {
+			return this.screenSizeIsGreater(screenSize.slice(1));
+		}
+		if (Utils.startsWith(screenSize, &quot;&lt;&#x3D;&quot;)) {
+			return this.screenSizeIsLessOrEqual(screenSize.slice(2));
+		}
+		if (Utils.startsWith(screenSize, &quot;&lt;&quot;)) {
+			return this.screenSizeIsLess(screenSize.slice(1));
+		}
+		if (Utils.startsWith(screenSize, &quot;&#x3D;&quot;)) {
+			return this.screenSizeIsEqual(screenSize.slice(1));
+		}
+		return this.screenSizeIsEqual(screenSize);
+	}
+
+	// screenSizes is a sequence of size specs with optional operator separated by space or and (AND)
+	// Multiple sequences can be specified using , or ; as a separator (these are OR&#x27;d)	
+	screenSizeTest(screenSizes: string): boolean {
+		if (!screenSizes) {
+			return true;
+		}
+		let ors &#x3D; Utils.split(screenSizes, [&#x27;,&#x27;, &#x27;;&#x27;]);
+		for (let or of ors) {
+			let ands &#x3D; Utils.split(or, &quot; &quot;);
+			if (ands.length &#x3D;&#x3D;&#x3D; 0) {
+				continue;
+			}
+			let ok &#x3D; true;
+			for (let and of ands) {
+				if (Utils.eqNC(and, &quot;and&quot;)) { // space separated but you can use and if you want to
+					continue;
+				}
+				if (!this._screenSizeTest(and)) {
+					ok &#x3D; false;
+					break;
+				}
+			}
+			if (ok) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	getContentRect(element: HTMLElement): ClientRect {
+		let rect &#x3D; element.getBoundingClientRect();
+		let computedStyle &#x3D; window.getComputedStyle(element);
+		let borderLeft &#x3D; parseFloat(computedStyle.borderLeft);			
+		let borderRight &#x3D; parseFloat(computedStyle.borderRight);			
+		let borderTop &#x3D; parseFloat(computedStyle.borderTop);			
+		let borderBottom &#x3D; parseFloat(computedStyle.borderBottom);
+		let paddingLeft &#x3D; parseFloat(computedStyle.paddingLeft);			
+		let paddingRight &#x3D; parseFloat(computedStyle.paddingRight);			
+		let paddingTop &#x3D; parseFloat(computedStyle.paddingTop);			
+		let paddingBottom &#x3D; parseFloat(computedStyle.paddingBottom);
+		return {
+			top: rect.top + borderTop + paddingTop,
+			right: rect.right - borderRight - paddingRight,
+			bottom: rect.bottom - borderBottom - paddingBottom,
+			left: rect.left + borderLeft + paddingLeft,
+			width: rect.width - borderLeft - paddingLeft - paddingRight - borderRight,
+			height: rect.height - borderTop - paddingTop - paddingBottom - borderBottom
+		};		
+	}
+
+	// caret support
+	getCaret(input: HTMLInputElement): CaretPosition {
+		return {
+			start: input.selectionStart || 0,
+			end: input.selectionEnd || 0
+		};
+	}
+	
+	setCaret(input: HTMLInputElement, start: number, end &#x3D; start, text?: string, selectionAction &#x3D; UIService.SelectionAction.collapse, ensureVisible &#x3D; true, raiseEvent &#x3D; true) {
+		if (start &lt; 0) {
+			return;				
+		}
+		if (Utils.isString(text)) {
+			let value &#x3D; input.value;
+			if (end &gt;&#x3D; start) {
+				value &#x3D; value.slice(0, start) + text + value.slice(end);
+			}
+			else {
+				value &#x3D; value.slice(0, start) + text;
+			}
+			input.value &#x3D; value;
+			switch (selectionAction) {
+				case UIService.SelectionAction.adjust:
+					end &#x3D; start + text.length;
+					break;
+				case UIService.SelectionAction.none:
+					break;
+				case UIService.SelectionAction.collapseToStart:
+					end &#x3D; start;
+					break;
+				case UIService.SelectionAction.collapse:	
+				default:
+					end &#x3D; start + text.length;
+					start &#x3D; end;
+					break;					
+			}
+		}
+		if (end &lt; 0) {
+			end &#x3D; start;
+		}
+		input.setSelectionRange(start, end);
+		if (ensureVisible) {
+			let rect &#x3D; input.getBoundingClientRect();
+			let contentRect &#x3D; this.getContentRect(input);
+			let textPos &#x3D; this.getTextPosition(input, this.getCaret(input).end);
+			let scrollLeft &#x3D; input.scrollLeft;
+			let minX &#x3D; contentRect.left + scrollLeft;
+			let maxX &#x3D; contentRect.right + scrollLeft;
+			let caretX &#x3D; rect.left + textPos.left;
+			if (caretX &lt; minX || caretX &gt; maxX) {
+				scrollLeft &#x3D; Math.max(caretX - contentRect.right + 1/*for the caret*/, 0);
+				input.scrollLeft &#x3D; scrollLeft;
+			}
+		}
+		if (raiseEvent) {
+			let event &#x3D; new CustomEvent(&quot;input&quot;);
+			input.dispatchEvent(event);                
+		}
+	}
+
+	// See https://github.com/component/textarea-caret-position
+	// We return a lineHeight value in addition
+	private textPositionProperties &#x3D; [
+		&#x27;direction&#x27;,  // RTL support
+		&#x27;boxSizing&#x27;,
+		&#x27;width&#x27;,  // on Chrome and IE, exclude the scrollbar, so the mirror div wraps exactly as the textarea does
+		&#x27;height&#x27;,
+		&#x27;overflowX&#x27;,
+		&#x27;overflowY&#x27;,  // copy the scrollbar for IE
+
+		&#x27;borderTopWidth&#x27;,
+		&#x27;borderRightWidth&#x27;,
+		&#x27;borderBottomWidth&#x27;,
+		&#x27;borderLeftWidth&#x27;,
+		&#x27;borderStyle&#x27;,
+
+		&#x27;paddingTop&#x27;,
+		&#x27;paddingRight&#x27;,
+		&#x27;paddingBottom&#x27;,
+		&#x27;paddingLeft&#x27;,
+
+		// https://developer.mozilla.org/en-US/docs/Web/CSS/font
+		&#x27;fontStyle&#x27;,
+		&#x27;fontVariant&#x27;,
+		&#x27;fontWeight&#x27;,
+		&#x27;fontStretch&#x27;,
+		&#x27;fontSize&#x27;,
+		&#x27;fontSizeAdjust&#x27;,
+		&#x27;lineHeight&#x27;,
+		&#x27;fontFamily&#x27;,
+
+		&#x27;textAlign&#x27;,
+		&#x27;textTransform&#x27;,
+		&#x27;textIndent&#x27;,
+		&#x27;textDecoration&#x27;,  // might not make a difference, but better be safe
+
+		&#x27;letterSpacing&#x27;,
+		&#x27;wordSpacing&#x27;,
+
+		&#x27;tabSize&#x27;,
+		&#x27;MozTabSize&#x27;
+	];
+	getTextPosition(element: HTMLElement, position: number, options?: {debug: boolean}): {top: number, left: number, lineHeight: number} {
+		let debug &#x3D; options &amp;&amp; options.debug || false;
+		if (debug) {
+			let el &#x3D; document.querySelector(&#x27;#input-textarea-caret-position-mirror-div&#x27;);
+			if ( el ) {
+				if (el.parentNode) {
+					el.parentNode.removeChild(el);
+				}
+			}
+		}
+
+		// mirrored div
+		let div &#x3D; document.createElement(&#x27;div&#x27;);
+		div.id &#x3D; &#x27;input-textarea-caret-position-mirror-div&#x27;;
+		document.body.appendChild(div);
+
+		let style &#x3D; div.style;
+		let computed &#x3D; window.getComputedStyle? getComputedStyle(element) : (&lt;any&gt;element).currentStyle;  // currentStyle for IE &lt; 9
+
+		// default textarea styles
+		style.whiteSpace &#x3D; &#x27;pre-wrap&#x27;;
+		if (element.nodeName !&#x3D;&#x3D; &#x27;INPUT&#x27;)
+			style.wordWrap &#x3D; &#x27;break-word&#x27;;  // only for textarea-s
+
+		// position off-screen
+		style.position &#x3D; &#x27;absolute&#x27;;  // required to return coordinates properly
+		if (!debug)
+			style.visibility &#x3D; &#x27;hidden&#x27;;  // not &#x27;display: none&#x27; because we want rendering
+
+		// transfer the element&#x27;s properties to the div
+		this.textPositionProperties.forEach(function (prop) {
+			style[prop] &#x3D; computed[prop];
+		});
+
+		if (!Utils.isUndefined((&lt;any&gt;window).mozInnerScreenX)) {
+			// Firefox lies about the overflow property for textareas: https://bugzilla.mozilla.org/show_bug.cgi?id&#x3D;984275
+			if (element.scrollHeight &gt; parseInt(computed.height))
+			style.overflowY &#x3D; &#x27;scroll&#x27;;
+		} else {
+			style.overflow &#x3D; &#x27;hidden&#x27;;  // for Chrome to not render a scrollbar; IE keeps overflowY &#x3D; &#x27;scroll&#x27;
+		}
+
+		div.textContent &#x3D; (&lt;any&gt;element).value.substring(0, position);
+		// the second special handling for input type&#x3D;&quot;text&quot; vs textarea: spaces need to be replaced with non-breaking spaces - http://stackoverflow.com/a/13402035/1269037
+		if (element.nodeName &#x3D;&#x3D;&#x3D; &#x27;INPUT&#x27; &amp;&amp; div.textContent) {
+			div.textContent &#x3D; div.textContent.replace(/\s/g, &#x27;\u00a0&#x27;);
+		}
+
+		let span &#x3D; document.createElement(&#x27;span&#x27;);
+		// Wrapping must be replicated *exactly*, including when a long word gets
+		// onto the next line, with whitespace at the end of the line before (#7).
+		// The  *only* reliable way to do that is to copy the *entire* rest of the
+		// textarea&#x27;s content into the &lt;span&gt; created at the caret position.
+		// for inputs, just &#x27;.&#x27; would be enough, but why bother?
+		div.appendChild(span);
+
+		// return lineHeight too
+		span.textContent &#x3D; &#x27;.&#x27;;		
+		let lineHeight &#x3D; span.offsetHeight; 
+
+		span.textContent &#x3D; (&lt;any&gt;element).value.substring(position) || &#x27;.&#x27;;  // || because a completely empty faux span doesn&#x27;t render at all
+
+		let coordinates &#x3D; {
+			top: span.offsetTop + parseInt(computed[&#x27;borderTopWidth&#x27;]),
+			left: span.offsetLeft + parseInt(computed[&#x27;borderLeftWidth&#x27;]),
+			lineHeight: lineHeight
+		};
+
+		if (debug) {
+			span.style.backgroundColor &#x3D; &#x27;#aaa&#x27;;
+		} else {
+			document.body.removeChild(div);
+		}
+
+		return coordinates;
+	}
+
+	getViewport(): ClientRect {
+		return document.body.getBoundingClientRect();
+	}
+
+}
+
+export module UIService {
+	export enum SelectionAction {
+		adjust,
+		none,
+		collapseToStart,
+		collapse
+	}
+}
+
+/**
+* Detect Element Resize
+*
+* https://github.com/sdecima/javascript-detect-element-resize
+* Sebastian Decima
+*
+* version: 0.5.3
+**/
+
+function initElementResizeListener (service) {
+	let attachEvent &#x3D; (&lt;any&gt;document).attachEvent,
+		stylesCreated &#x3D; false;
+
+    //NB SCRIPT1047: In strict mode, function declarations cannot be nested inside a statement or block. They may only appear at the top level or directly inside a function body.	
+	//if (!attachEvent) {
+		let requestFrame &#x3D; (function(){
+			let raf &#x3D; window.requestAnimationFrame || (&lt;any&gt;window).mozRequestAnimationFrame || (&lt;any&gt;window).webkitRequestAnimationFrame ||
+								function(fn){ return window.setTimeout(fn, 20); };
+			return function(fn){ return raf(fn); };
+		})();
+		
+		let cancelFrame &#x3D; (function(){
+			let cancel &#x3D; window.cancelAnimationFrame || (&lt;any&gt;window).mozCancelAnimationFrame || (&lt;any&gt;window).webkitCancelAnimationFrame ||
+								   window.clearTimeout;
+		  return function(id){ return cancel(id); };
+		})();
+
+		function resetTriggers(element){
+			let triggers &#x3D; element.__resizeTriggers__,
+				expand &#x3D; triggers.firstElementChild,
+				contract &#x3D; triggers.lastElementChild,
+				expandChild &#x3D; expand.firstElementChild;
+			contract.scrollLeft &#x3D; contract.scrollWidth;
+			contract.scrollTop &#x3D; contract.scrollHeight;
+			expandChild.style.width &#x3D; expand.offsetWidth + 1 + &#x27;px&#x27;;
+			expandChild.style.height &#x3D; expand.offsetHeight + 1 + &#x27;px&#x27;;
+			expand.scrollLeft &#x3D; expand.scrollWidth;
+			expand.scrollTop &#x3D; expand.scrollHeight;
+		};
+
+		function checkTriggers(element){
+			return element.offsetWidth !&#x3D; element.__resizeLast__.width ||
+						 element.offsetHeight !&#x3D; element.__resizeLast__.height;
+		}
+		
+		function scrollListener(this: HTMLElement, e){
+			let element &#x3D; this;
+			resetTriggers(this);
+			if ((this as any).__resizeRAF__) cancelFrame((this as any).__resizeRAF__);
+			(this as any).__resizeRAF__ &#x3D; requestFrame(function(){
+				if (checkTriggers(element)) {
+					(element as any).__resizeLast__.width &#x3D; element.offsetWidth;
+					(element as any).__resizeLast__.height &#x3D; element.offsetHeight;
+					(element as any).__resizeListeners__.forEach(function(fn){
+						fn.call(element, e);
+					});
+				}
+			});
+		};
+		
+		/* Detect CSS Animations support to detect element display/re-attach */
+		let animation &#x3D; false,
+			keyframeprefix &#x3D; &#x27;&#x27;,
+			animationstartevent &#x3D; &#x27;animationstart&#x27;,
+			domPrefixes &#x3D; &#x27;Webkit Moz O ms&#x27;.split(&#x27; &#x27;),
+			startEvents &#x3D; &#x27;webkitAnimationStart animationstart oAnimationStart MSAnimationStart&#x27;.split(&#x27; &#x27;),
+			pfx  &#x3D; &#x27;&#x27;;
+		{
+			let elm &#x3D; document.createElement(&#x27;fakeelement&#x27;);
+			if( elm.style.animationName !&#x3D;&#x3D; undefined ) { animation &#x3D; true; }    
+			
+			if( animation &#x3D;&#x3D;&#x3D; false ) {
+				for( let i &#x3D; 0; i &lt; domPrefixes.length; i++ ) {
+					if( elm.style[ domPrefixes[i] + &#x27;AnimationName&#x27; ] !&#x3D;&#x3D; undefined ) {
+						pfx &#x3D; domPrefixes[ i ];
+						keyframeprefix &#x3D; &#x27;-&#x27; + pfx.toLowerCase() + &#x27;-&#x27;;
+						animationstartevent &#x3D; startEvents[ i ];
+						animation &#x3D; true;
+						break;
+					}
+				}
+			}
+		}
+		
+		let animationName &#x3D; &#x27;resizeanim&#x27;;
+		let animationKeyframes &#x3D; &#x27;@&#x27; + keyframeprefix + &#x27;keyframes &#x27; + animationName + &#x27; { from { opacity: 0; } to { opacity: 0; } } &#x27;;
+		let animationStyle &#x3D; keyframeprefix + &#x27;animation: 1ms &#x27; + animationName + &#x27;; &#x27;;
+	//}
+	
+	function createStyles() {
+		if (!stylesCreated) {
+			//opacity:0 works around a chrome bug https://code.google.com/p/chromium/issues/detail?id&#x3D;286360
+			let css &#x3D; (animationKeyframes ? animationKeyframes : &#x27;&#x27;) +
+					&#x27;.resize-triggers { &#x27; + (animationStyle ? animationStyle : &#x27;&#x27;) + &#x27;visibility: hidden; opacity: 0; } &#x27; +
+					&#x27;.resize-triggers, .resize-triggers &gt; div, .contract-trigger:before { content: \&quot; \&quot;; display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; } .resize-triggers &gt; div { background: #eee; overflow: auto; } .contract-trigger:before { width: 200%; height: 200%; }&#x27;,
+				head &#x3D; document.head || document.getElementsByTagName(&#x27;head&#x27;)[0],
+				style &#x3D; document.createElement(&#x27;style&#x27;);
+			
+			style.type &#x3D; &#x27;text/css&#x27;;
+			if ((&lt;any&gt;style).styleSheet) {
+				(&lt;any&gt;style).styleSheet.cssText &#x3D; css;
+			} else {
+				style.appendChild(document.createTextNode(css));
+			}
+
+			head.appendChild(style);
+			stylesCreated &#x3D; true;
+		}
+	}
+	
+	service.addElementResizeListener &#x3D; function(element, fn){
+		if (attachEvent) element.attachEvent(&#x27;onresize&#x27;, fn);
+		else {
+			if (!element.__resizeTriggers__) {
+				if (getComputedStyle(element).position &#x3D;&#x3D; &#x27;static&#x27;) element.style.position &#x3D; &#x27;relative&#x27;;
+				createStyles();
+				element.__resizeLast__ &#x3D; {};
+				element.__resizeListeners__ &#x3D; [];
+				(element.__resizeTriggers__ &#x3D; document.createElement(&#x27;div&#x27;)).className &#x3D; &#x27;resize-triggers&#x27;;
+				element.__resizeTriggers__.innerHTML &#x3D; &#x27;&lt;div class&#x3D;&quot;expand-trigger&quot;&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&#x27; +
+																						&#x27;&lt;div class&#x3D;&quot;contract-trigger&quot;&gt;&lt;/div&gt;&#x27;;
+				element.appendChild(element.__resizeTriggers__);
+				resetTriggers(element);
+				element.addEventListener(&#x27;scroll&#x27;, scrollListener, true);
+				
+				/* Listen for a css animation to detect element display/re-attach */
+				animationstartevent &amp;&amp; element.__resizeTriggers__.addEventListener(animationstartevent, function(e) {
+					if(e.animationName &#x3D;&#x3D; animationName)
+						resetTriggers(element);
+				});
+			}
+			element.__resizeListeners__.push(fn);
+		}
+	};
+	
+	service.removeElementResizeListener &#x3D; function(element, fn){
+		if (attachEvent) element.detachEvent(&#x27;onresize&#x27;, fn);
+		else {
+			element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(fn), 1);
+			if (!element.__resizeListeners__.length) {
+					element.removeEventListener(&#x27;scroll&#x27;, scrollListener);
+					element.__resizeTriggers__ &#x3D; !element.removeChild(element.__resizeTriggers__);
+			}
+		}
+	}
+}</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'UIService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

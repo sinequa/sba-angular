@@ -1,0 +1,12 @@
+<ng-container *ngFor="let entity of _entities">
+    <sq-facet-card *ngIf="entityValues(entity).length" class="d-block my-3" [title]="entityDisplay(entity)" [icon]="entityIcon(entity)" [collapsible]="collapsible" [buttonsStyle]="style">
+        <sq-preview-entity-facet #facet 
+            [entity]="entity" 
+            [data]="entityValues(entity)" 
+            [previewData]="previewData" 
+            [previewDocument]="previewDocument"
+            [startUnchecked]="startUnchecked[entity]"
+            (itemsChecked)="itemsChecked(entity, $event)">
+        </sq-preview-entity-facet>
+    </sq-facet-card>
+</ng-container>

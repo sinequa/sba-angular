@@ -1,0 +1,57 @@
+
+$sq-notifications-inset-x: .75rem !default;
+$sq-notifications-inset-y: .75rem !default;
+$sq-notifications-margin-top: 5rem !default;
+$sq-notifications-margin-bottom: 2rem !default;
+
+// notifications
+.sq-notifications {
+    position: fixed;
+    z-index: $zindex-modal-backdrop + 1;  /* Bootstrap variable */
+    top: $sq-notifications-inset-y;
+    right: $sq-notifications-inset-x;
+    margin-bottom: $sq-notifications-margin-bottom;
+    margin-top: $sq-notifications-margin-top;
+    max-height: calc(100% - #{($sq-notifications-margin-bottom + $sq-notifications-margin-top + 2 * $sq-notifications-inset-y)});
+    overflow-y: auto;
+
+    width: 11em;
+    @include media-breakpoint-up(xs) {
+        width: 15em;
+    }
+    @include media-breakpoint-up(sm) {
+        width: 19em;
+    }
+    @include media-breakpoint-up(md) {
+        width: 23em;
+    }
+    @include media-breakpoint-up(lg) {
+        width: 27em;
+    }
+
+    .sq-notification {
+        .sq-notification-container {
+            display: flex;
+            .sq-notification-icon {
+                padding-right: .5rem;
+            }
+            .sq-notification-message {
+                flex: 1;
+                min-width: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                overflow-wrap: break-word;
+                word-wrap: break-word; // Edge doesn't know overflow-wrap
+                word-break: break-word; // WebKit needs this
+                .sq-notification-title {
+                    font-weight: bold;
+                }
+                opacity: 0.9;
+                &:hover,
+                &:focus {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,3 @@
+const MODAL_MODULE_PROVIDERS = [];
+
+export {MODAL_MODULE_PROVIDERS};

@@ -1,0 +1,12 @@
+{
+    "dependencies": {},
+    "description": "Extra TypeScript definitions for sinequa",
+    "devDependencies": {},
+    "directories": {},
+    "license": "Sinequa",
+    "main": "",
+    "name": "@types/sq-extra-typings",
+    "optionalDependencies": {},
+    "scripts": {},
+    "version": "1.0.0"    
+}

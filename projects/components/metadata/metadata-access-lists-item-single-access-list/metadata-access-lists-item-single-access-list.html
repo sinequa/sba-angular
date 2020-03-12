@@ -1,0 +1,20 @@
+<div class="accessListHeader">
+    {{ headerMessage | sqMessage:{values: {value: index} } }}
+    <a href="#" (click)="collapseClick($event)">
+        <sq-collapse-button class="collapseButton" [collapsed]="collapsed">
+        </sq-collapse-button>
+    </a>
+</div>
+<sq-collapse [collapsed]="collapsed">
+    <ng-template>
+        <div class="accessListBody">
+            <div class="principalList">
+                <div *ngFor="let principal of accessList" class="principal">
+                    <div class="domain">{{ principal.domain }}</div>
+                    <div class="separator"> | </div>
+                    <div class="id">{{ principal.id }}</div>
+                </div>
+            </div>
+        </div>    
+    </ng-template>
+</sq-collapse>

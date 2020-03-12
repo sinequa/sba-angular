@@ -1,0 +1,41 @@
+$sq-thumbnail-max-width: 5rem !default;
+$sq-thumbnail-max-height: 7rem !default;
+
+// sponsored links
+.sq-sponsored-links-list {
+    padding: 0;
+    list-style: none;
+    
+    & > .sponsored-item {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        overflow-wrap: break-word;
+        word-wrap: break-word; // Edge doesn't know overflow-wrap
+        word-break: break-word; // WebKit needs this
+    }
+}
+
+.sq-sponsored-link-view {
+    display: flex;
+    align-items: center;
+
+    .sq-sponsored-link-view-info {
+        flex: 1;
+        min-width: 0; // Edge needs this for word-wrap: break-word to work
+
+        .sq-sponsored-link-view-summary,
+        .sq-sponsored-link-view-title {
+            min-width: 0; // Edge needs this for word-wrap: break-word to work
+        }
+    }
+
+    .sq-sponsored-link-view-thumbnail {
+
+        margin-right: 1em;
+
+        img {
+            max-width: $sq-thumbnail-max-width;
+            max-height: $sq-thumbnail-max-height;
+        }
+    }
+}

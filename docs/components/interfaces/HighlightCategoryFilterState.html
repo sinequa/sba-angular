@@ -1,0 +1,629 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>HighlightCategoryFilterState</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>preview/preview-document.ts</code>
+        </p>
+
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#choice">choice</a>
+                                </li>
+                                <li>
+                                        <a href="#filterValue">filterValue</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="choice"></a>
+                                        <span class="name"><b>choice</b><a href="#choice"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>choice:         <code><a href="../miscellaneous/enumerations.html#HighlightCategoryFilterChoice" target="_self" >HighlightCategoryFilterChoice</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#HighlightCategoryFilterChoice" target="_self" >HighlightCategoryFilterChoice</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="filterValue"></a>
+                                        <span class="name"><b>filterValue</b><a href="#filterValue"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>filterValue:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ElementRef } from &quot;@angular/core&quot;;
+
+
+export enum HighlightCategoryFilterChoice {
+    All, None, Value
+}
+
+export interface HighlightCategoryFilterState {
+    choice: HighlightCategoryFilterChoice;
+    filterValue: string;
+}
+
+/**
+ * This class offers an API to manipulate the HTML of a preview document.
+ * - Insert elements dynamically in the DOM of the preview (eg. tooltips)
+ * - Retrieve the text of entities or extracts
+ * - Select the elements of entities or extracts (by altering their CSS classes)
+ * - Highlight (or not) specific entities or categories in the HTML (by altering their CSS classes)
+ */
+export class PreviewDocument {
+
+    private static readonly SELECTED_HIGHLIGHT_CLASS: string &#x3D; &quot;sq-current&quot;;
+    private static readonly SELECTED_HIGHLIGHT_FIRST_FRAGMENT_CLASS: string &#x3D; &quot;sq-first&quot;;
+    private static readonly SELECTED_HIGHLIGHT_LAST_FRAGMENT_CLASS: string &#x3D; &quot;sq-last&quot;;
+    private static readonly FILTERED_OUT_HIGHLIGHT_CLASS: string &#x3D; &quot;sq-inactive&quot;;
+    private static readonly SVG_LINE_CLASS: string &#x3D; &quot;sq-svg&quot;;
+
+    private static readonly BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE &#x3D; &quot;data-entity-basic&quot;;
+    private static readonly ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE &#x3D; &quot;data-entity-display&quot;;
+
+    private readonly _window: Window;
+
+    constructor(iframe: ElementRef){
+        let frame &#x3D; iframe.nativeElement;
+        if (frame &amp;&amp; frame.contentWindow &amp;&amp; frame.contentWindow.frames) {
+            let sheet &#x3D; frame.contentWindow.frames[&quot;frSheet&quot;]; // aspose xls preview
+            if (sheet) {
+                return sheet;
+            }
+        }
+        this._window &#x3D; frame.contentWindow;
+    }
+
+
+    // PUBLIC METHODS
+    
+    /**
+     * Return the Window of the iframe containing the element
+     */
+    public getContentWindow(): Window {
+        return this._window;
+    }
+
+    /**
+     * Returns the root Document element of the HTML Preview
+     */
+    public get document(): Document {
+        return this._window.document;
+    }
+
+    /**
+     * Insert a given DOM Element in the body of the document preview
+     * @param component 
+     */
+    public insertComponent(component){
+        this.document.body.appendChild(component);
+    }
+    
+    /**
+     * Returns the text of a given entity
+     * @param categoryId Category of the entity
+     * @param index Index of the entity in that category
+     */
+    public getHighlightText(categoryId: string, index: number) : string {
+        if (index &lt; 0) {
+            return &quot;&quot;;
+        }
+        let nodes: NodeList &#x3D; this.document.querySelectorAll(&quot;#&quot;+categoryId + &quot;_&quot; + index);
+        if (nodes &#x3D;&#x3D; null || nodes.length &#x3D;&#x3D;&#x3D;0) {
+            return &quot;&quot;;
+        }
+        let text &#x3D; &quot;&quot;;
+        nodes.forEach(n &#x3D;&gt; text +&#x3D; (n[&#x27;innerHTML&#x27;] || n.textContent));
+        return text;
+    }
+
+    /**
+     * Update the location of the entities&#x27; SVG background (for some converters)
+     */
+    public setSvgBackgroundPositionAndSize(): void {
+        var svgList: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;svg&quot;);
+        if (svgList !&#x3D; null) {
+            for (var i &#x3D; 0, ic &#x3D; svgList.length; i &lt; ic; i++) {
+                var svg &#x3D; svgList.item(i);
+                var tspanList: HTMLCollectionOf&lt;SVGTSpanElement&gt; &#x3D; svg.getElementsByTagName(&quot;tspan&quot;);
+                if (tspanList !&#x3D; null) {
+                    for (var j &#x3D; 0, jc &#x3D; tspanList.length; j &lt; jc; j++) {
+                        var tspan &#x3D; tspanList.item(j);
+                        if (tspan) {
+                            var bgId &#x3D; tspan.getAttribute(&quot;data-entity-background&quot;);
+                            if (bgId) {
+                                var rect &#x3D; this.getFirst(this.getDocElements(bgId));
+                                if (rect) {
+                                    this.resizeSvgBackground(rect, tspan);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Select a specific entity by applying specific highlight classes 
+     * to the DOM elements and scrolling the view to center around them.
+     * @param categoryId Category of the entity
+     * @param index Index of the entity in that category
+     */
+    public selectHighlight(categoryId: string, index: number) : void {
+        
+        // Move selection
+        let targetElements &#x3D; this.getDocElements(categoryId + &quot;_&quot; + index);
+        if (!targetElements || targetElements.length &#x3D;&#x3D; 0) {
+            return;
+        }
+
+        this.clearHighlightSelection();
+
+        for (var i &#x3D; 0; i&lt; targetElements.length; i++) {
+            this.setHighlightSelection(targetElements[i], i &#x3D;&#x3D; 0, i &#x3D;&#x3D; targetElements.length - 1);
+        }
+
+        // Scroll
+        let scrollContainer: Element &#x3D; this.getScrollingContainer();
+        let [x, y]: [number,  number] &#x3D; PreviewDocument.computeTargetScroll(targetElements, scrollContainer);
+        this._window.scrollBy(x, y);
+    }
+
+    /**
+     * Removes all entity selection classes from the document HTML elements
+     */
+    public clearHighlightSelection(): void {
+        // Clear HTML elements borders
+        Array.from(this.document.getElementsByClassName(PreviewDocument.SELECTED_HIGHLIGHT_CLASS))
+            .forEach(element &#x3D;&gt; element.classList.remove(PreviewDocument.SELECTED_HIGHLIGHT_CLASS));
+        // Clear SVG elements borders
+        let elements: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;line.sq-svg&quot;);
+        for (let i &#x3D; 0; i &lt; elements.length; i++) {
+            const parentNode &#x3D; elements[i].parentNode;
+            if (parentNode) {
+                parentNode.removeChild(elements[i]);
+            }
+        }
+    }
+
+    /**
+     * Turns highlights on or off based on the provided filter object. Additionally clears the selected entity
+     * @param filters object where each key provides a filter for each category of entity/highlight
+     */
+    public filterHighlights(filters: { [key: string]: HighlightCategoryFilterState }){
+
+        this.updateHighlightFilterState(filters);
+        this.clearHighlightSelection();
+    }
+    
+    /**
+     * Loop through every highlighted element in the document and turn highlights on or off based on the filters object
+     * @param filters object where each key provides a filter for each category of entity/highlight
+     */
+    public updateHighlightFilterState(filters: { [key: string]: HighlightCategoryFilterState }):void {
+        let elements: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;[data-entity-display], .extractslocations, .matchlocations&quot;);
+        for (let i &#x3D; 0; i &lt; elements.length; i++) {
+            let element: Element &#x3D; elements[i];
+            if (PreviewDocument.elementIsFilteredOut(element, filters)) {
+                element.classList.add(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
+            }
+            else {
+                element.classList.remove(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
+            }
+        }
+    }
+
+    /**
+     * Turns on/off the highlights of one category of entities or a specific value if provided
+     * @param category e.g. person
+     * @param on true for highlighting / false for turning off
+     * @param value e.g. &quot;BILL GATES&quot;
+     */
+    public toggleHighlight(category: string, on: boolean, value?: string) {
+        let elements: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;.&quot;+category);
+        elements.forEach(element &#x3D;&gt; {
+            if(!value 
+                || (element.hasAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE) &amp;&amp; value &#x3D;&#x3D;&#x3D; element.getAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE))
+                || (element.hasAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE) &amp;&amp; value &#x3D;&#x3D;&#x3D; element.getAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE))) {
+                
+                if(on){
+                    element.classList.remove(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
+                }
+                else{
+                    element.classList.add(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
+                }
+            }
+        });
+    }
+    
+
+
+    // PRIVATE METHODS
+
+    private setHighlightSelection(elt: Element, isFirst: boolean, isLast: boolean): void {
+        if (this.isSvgElement(elt)) {
+            this.setHighlightSelectionSVG(elt, isFirst, isLast);
+        }
+        else {
+            this.setHighlightSelectionHTML(elt, isFirst, isLast);
+        }
+    }
+
+    // NB https://miketaylr.com/posts/2014/11/document-body-scrollTop.html
+    private getScrollingContainer(): Element {
+        return this.document.scrollingElement ||
+            this.document.documentElement ||
+            /*contentDocument.body.parentElement ||*/ //TODO - check desirability of this (especially in Safari)
+            this.document.body;
+    }
+
+    private setHighlightSelectionHTML(elt: Element, isFirst: boolean, isLast: boolean): void {
+        elt.classList.add(PreviewDocument.SELECTED_HIGHLIGHT_CLASS);
+        if (isFirst) {
+            elt.classList.add(PreviewDocument.SELECTED_HIGHLIGHT_FIRST_FRAGMENT_CLASS);
+        }
+        if (isLast) {
+            elt.classList.add(PreviewDocument.SELECTED_HIGHLIGHT_LAST_FRAGMENT_CLASS);
+        }
+    }
+
+    private setHighlightSelectionSVG(elt: Element, isFirst: boolean, isLast: boolean): void {
+        var bgId &#x3D; elt.getAttribute(&quot;data-entity-background&quot;);
+        if (!bgId) return;
+        var rect: SVGRectElement &#x3D; &lt;SVGRectElement&gt;this.getFirst(this.getDocElements(bgId));
+        var group &#x3D; rect.parentNode;
+        var rectPosition &#x3D; rect.getBBox();
+
+        if (group) {
+            var top &#x3D; rectPosition.y;
+            var bottom &#x3D; rectPosition.y + rectPosition.height;
+            var left &#x3D; rectPosition.x;
+            var right &#x3D; rectPosition.x + rectPosition.width;
+            var valueTransform &#x3D; rect.getAttribute(&quot;transform&quot;);
+            this.addSvgLine(group, left, top   , right, top   , valueTransform);
+            this.addSvgLine(group, left, bottom, right, bottom, valueTransform);
+            if (isFirst) this.addSvgLine(group, left , top, left , bottom, valueTransform);
+            if (isLast)  this.addSvgLine(group, right, top, right, bottom, valueTransform);
+        }
+    }
+
+    private addSvgLine(group: Node, x1: number, y1: number, x2: number, y2: number, transform: string | null): void {
+        var line: Element &#x3D; this.document.createElementNS(&quot;http://www.w3.org/2000/svg&quot;,&quot;line&quot;);
+        line.setAttribute(&quot;class&quot;, PreviewDocument.SVG_LINE_CLASS);
+        line.setAttribute(&quot;x1&quot;, String(x1));
+        line.setAttribute(&quot;y1&quot;, String(y1));
+        line.setAttribute(&quot;x2&quot;, String(x2));
+        line.setAttribute(&quot;y2&quot;, String(y2));
+        if (transform) line.setAttribute(&quot;transform&quot;, transform);
+        group.appendChild(line);
+    }
+
+
+    private resizeSvgBackground(rect: Element, tspan: SVGTSpanElement): void {
+        var elt: Element &#x3D; tspan;
+        while (elt.tagName !&#x3D; &quot;text&quot;)
+        {
+            elt &#x3D; elt.parentNode as Element;
+            if (elt &#x3D;&#x3D; null) break;
+        }
+        var text: SVGTextElement &#x3D; elt as SVGTextElement;
+        var textBoxPixel: ClientRect &#x3D; text.getBoundingClientRect();
+        var textBoxSVG: SVGRect &#x3D; text.getBBox();
+        if (textBoxPixel.height &#x3D;&#x3D; 0 || textBoxPixel.width &#x3D;&#x3D; 0) return;
+        var scaleX &#x3D; textBoxSVG.width / textBoxPixel.width;
+        var scaleY &#x3D; textBoxSVG.height / textBoxPixel.height;
+        var deltaX &#x3D; 2 * scaleX;
+        var deltaY &#x3D; 2 * scaleY;
+
+        var firstCharRect &#x3D; tspan.getExtentOfChar(0);
+        var tspanWidth &#x3D; tspan.getComputedTextLength();
+
+        rect.setAttribute(&quot;x&quot;, String(firstCharRect.x - deltaX));
+        rect.setAttribute(&quot;y&quot;, String(firstCharRect.y - deltaY));
+        rect.setAttribute(&quot;width&quot;, String(tspanWidth + 2 * deltaX));
+        rect.setAttribute(&quot;height&quot;, String(textBoxSVG.height + 2 * deltaY));
+        var valueTransform &#x3D; text.getAttribute(&quot;transform&quot;);
+        if (valueTransform) rect.setAttribute(&quot;transform&quot;, valueTransform);
+    }
+    
+    private getDocElements(id: string): Array&lt;Element&gt; {
+        var list &#x3D; Array&lt;Element&gt;();
+        // Get HTML elements directly by id
+        var eltList: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;#&quot; + id);
+        for (let i &#x3D; 0; i &lt; eltList.length; i++) {
+            list.push(eltList[i]);
+        }
+        // Get SVG tspan iterating on them (jquery querySelectorAll didn&#x27;t return SVG inner elements)
+        var svgList: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;svg&quot;);
+        if (svgList !&#x3D; null) {
+            for (var i &#x3D; 0, ic &#x3D; svgList.length; i &lt; ic; i++) {
+                var svg &#x3D; svgList.item(i);
+                var tspanList: HTMLCollectionOf&lt;SVGTSpanElement&gt; &#x3D; svg.getElementsByTagName(&quot;tspan&quot;);
+                if (tspanList !&#x3D; null) {
+                    for (var j &#x3D; 0, jc &#x3D; tspanList.length; j &lt; jc; j++) {
+                        var tspan &#x3D; tspanList.item(j);
+                        if (tspan) {
+                            if (tspan.id &#x3D;&#x3D; id) list.push(tspan);
+                        }
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    private getFirst(nodes: Array&lt;Element&gt;): Element | null {
+        return (nodes !&#x3D; null &amp;&amp; nodes.length &gt; 0) ? nodes[0] : null;
+    }
+
+    private isSvgElement(elt: Element): boolean {
+        if (elt &#x3D;&#x3D; null) return false;
+        return &quot;viewportElement&quot; in &lt;any&gt;elt;
+    }
+
+
+
+    // PRIVATE STATIC (from highlight helper)
+    
+
+    private static elementIsFilteredOut(element: Element, filters: {[key: string]: HighlightCategoryFilterState}): boolean {
+        let elementClass: string &#x3D; this.getElementCategory(element, Object.keys(filters));
+        if (elementClass &#x3D;&#x3D; null) {
+            return false;
+        }
+        let filterState &#x3D; filters[elementClass];
+        if (filterState &#x3D;&#x3D; null) {
+            return false;
+        }
+        if (filterState.choice &#x3D;&#x3D; HighlightCategoryFilterChoice.None) {
+            return true;
+        }
+        if (filterState.choice &#x3D;&#x3D; HighlightCategoryFilterChoice.All) {
+            return false;
+        }
+        if (element.hasAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE)) {
+            return filterState.filterValue !&#x3D; element.getAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE);
+        }
+        return filterState.filterValue !&#x3D; element.getAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE);
+    }
+
+    private static getElementCategory(element: Element, categoryIds: string[]): string {
+        for (let categoryId of categoryIds) {
+            if (element.classList.contains(categoryId)) {
+                return categoryId;
+            }
+        }
+        return &quot;&quot;;
+    }
+
+    private static computeTargetScroll(elementsToCenter: Array&lt;Element&gt;, container: Element): [number, number] {
+        // Check for scrollability on the container
+        let computedStyle &#x3D; getComputedStyle(container);
+        if (computedStyle.overflow &#x3D;&#x3D;&#x3D; &quot;hidden&quot;) {
+            return [0, 0];
+        }
+        let elementRectangles &#x3D; elementsToCenter.map(element &#x3D;&gt; element.getBoundingClientRect());
+        let targetRectangle &#x3D; this.computeBoundingRectangle(elementRectangles);
+        if (!targetRectangle) {
+            return [0, 0];
+        }
+        let availableWidth: number &#x3D; container.clientWidth;
+        let availableHeight: number &#x3D; container.clientHeight;
+        let x &#x3D; computedStyle.overflowX &#x3D;&#x3D;&#x3D; &quot;hidden&quot; ? 0 : targetRectangle.left - ((availableWidth - targetRectangle.width)/2);
+        let y &#x3D; computedStyle.overflowY &#x3D;&#x3D;&#x3D; &quot;hidden&quot; ? 0 : targetRectangle.top - ((availableHeight - targetRectangle.height)/2);
+        return [x, y];
+    }
+
+    private static computeBoundingRectangle(rectangles: (DOMRect | ClientRect)[]): DOMRect | ClientRect | undefined {
+        if (!rectangles || rectangles.length &#x3D;&#x3D; 0) {
+            return undefined;
+        }
+        var result: DOMRect | ClientRect | undefined;
+        for (var i &#x3D; 0; i &lt; rectangles.length; i++) {
+            result &#x3D; this.computeRectangleUnion(result, rectangles[i]);
+        }
+        return result;
+    }
+
+    private static computeRectangleUnion(rectangle1: DOMRect | ClientRect | undefined, rectangle2: DOMRect | ClientRect) {
+        if (rectangle1 &#x3D;&#x3D; null) {
+            return rectangle2;
+        }
+        if (rectangle2 &#x3D;&#x3D; null) {
+            return rectangle1;
+        }
+        let left &#x3D; Math.min(rectangle1.left, rectangle2.left);
+        let right &#x3D; Math.max(rectangle1.right, rectangle2.right);
+        let top &#x3D; Math.min(rectangle1.top, rectangle2.top);
+        let bottom &#x3D; Math.max(rectangle1.bottom, rectangle2.bottom);
+        return new DOMRect(left, top, right - left, bottom - top);
+    }
+}
+</code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'HighlightCategoryFilterState.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

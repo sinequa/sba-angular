@@ -1,0 +1,29 @@
+.sq-preview-document-properties {
+    margin-top: 0.5em;
+}
+
+.collapseButton {
+    float: right;
+}
+
+.sq-preview-bar {
+    overflow-x: hidden;
+    min-height: 100%;
+}
+
+.sq-preview {
+    
+    height: 100%;
+
+    & > .row {
+        flex-wrap: nowrap;        
+        height: 100%;
+        
+        & > div {
+            overflow-x: hidden;
+            overflow-y: auto;    
+            height: 100%;
+            -webkit-overflow-scrolling: touch; // ipad momentum scrolling   
+        }
+    }
+}
