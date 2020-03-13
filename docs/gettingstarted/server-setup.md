@@ -164,20 +164,29 @@ This is useful to avoid exposing the bare structure of the index to front-end de
 Instead, developers will see and use explicit variable names, which are used consistently across the different web services.
 
 ![Aliases]({{site.baseurl}}/assets/gettingstarted/admin-query-aliases.png)
-*Example of query alias*
+*Example of query aliases*
 {: .text-center }
 
 ### Preview web service
 
-The Preview web service form allows to configure the access to the documents' HTML preview (stored in Sinequa document cache). It has two settings:
-- **.css file**: Contains one (or more) CSS file names that are injected in the HTML previews as `<link>` elements, either with a relative path (relative to the URL of the application), or an absolute URL. By default, SBA include a `styles/preview.scss` file which get built as `/preview.css`. The default setting is therefore `preview.css`.
-- **Highlights to display**: Categories to be "highlighted" in the preview. For example, relevant extracts are highlighted by wrapping `<span>` tags around the relevant text. The visual highlight itself is effectively done by the aforementioned `preview.css` file (for example with a CSS rule of the type `background-color: yellow;`).
+The Preview web service form allows to configure the access to the documents' HTML preview (stored in Sinequa document cache).
+It has two settings:
+
+- **.css file**: Contains one (or more) CSS file names that are injected in the HTML previews as `<link>` elements,
+either with a relative path (relative to the URL of the application), or an absolute URL.
+The default SBA includes a `styles/preview.scss` file which get built as `/preview.css`.
+The default setting is therefore `preview.css`.
+- **Highlights to display**: Categories to be "highlighted" in the preview.
+For example, relevant extracts are highlighted by wrapping `<span>` tags around the relevant text.
+The visual highlight itself is effectively done by the aforementioned `preview.css` file (for example with a CSS rule of the type `background-color: yellow;`).
 
 ![Preview configuration]({{site.baseurl}}/assets/gettingstarted/admin-preview.png)
-
-Example of highlighted HTML (each colored passage corresponds to a `<span>` element with a specific class):
+*Example of preview configuration*
+{: .text-center }
 
 ![highlights]({{site.baseurl}}/assets/gettingstarted/highlights.png)
+*Example of a highlighted HTML (each colored passage corresponds to a `<span>` element with a specific highlighted entity class)*
+{: .text-center }
 
 ### Labels web service
 
