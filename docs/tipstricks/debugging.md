@@ -15,7 +15,7 @@ Modern browsers all have an inspector tool that you can open with F12, or right-
 - **Sources**: Displays the source code of the app, which includes normally Javascript and CSS, but in the case of an Angular app compiled in debug mode (the default with `ng serve`), you also have access to the Typescript and SCSS sources.
 - **Network**: Displays all the HTTP requests emitted by your app, which lets you see the details of the interactions with the Sinequa API (requests to and responses from the server), as well as all other downloaded resources.
 
-![Inspector]({{site.baseurl}}assets/tipstricks/inspector.png){: .d-block .mx-auto }
+![Inspector]({{site.baseurl}}/assets/tipstricks/inspector.png){: .d-block .mx-auto }
 *The console displayed in the Chrome inspector*
 {: .text-center }
 
@@ -29,19 +29,19 @@ Modern browsers all have an inspector tool that you can open with F12, or right-
 
 4. Look at the linked source, if any. An error message often has a source file and line number linked on the right:
 
-    ![Error message]({{site.baseurl}}assets/tipstricks/error-message.png){: .d-block .mx-auto }
+    ![Error message]({{site.baseurl}}/assets/tipstricks/error-message.png){: .d-block .mx-auto }
 
     If the source file is one of yours, it probably contains the error. If it is an Angular file, it probably means you misused an Angular feature at some point.
 
 5. You can also open a specific source file of your app (or from the Sinequa libraries) by exploring the tree in the **Source** tab.
 
-    ![Source files]({{site.baseurl}}assets/tipstricks/source-files.png){: .d-block .mx-auto }
+    ![Source files]({{site.baseurl}}/assets/tipstricks/source-files.png){: .d-block .mx-auto }
 
     The sources of your app are normally under *webpack:// > . > src*, and the (compiled) sources of the Sinequa libraries under *webpack:// > C:\\... > dist > components/fesm2015*
 
 6. In the source, add a breakpoint before the point where the app failed and refresh your app to reach that breakpoint.
 
-    ![Breakpoint]({{site.baseurl}}assets/tipstricks/breakpoint.png){: .d-block .mx-auto }
+    ![Breakpoint]({{site.baseurl}}/assets/tipstricks/breakpoint.png){: .d-block .mx-auto }
 
 7. When your app reached the breakpoint and paused, there are many things that you can try, such as:
     - Looking for the values of variables in the scope, simply by hovering your mouse over these variables in the source code.
@@ -50,14 +50,14 @@ Modern browsers all have an inspector tool that you can open with F12, or right-
 
 8. Look for failures in the **Network** tab. Failures are indicated in red. You often want to filter for *XHR requests*, which correspond to the interactions with the API (all the static resources are hidden). Both the requests and responses may contain interesting information.
 
-    ![Network]({{site.baseurl}}assets/tipstricks/network.png){: .d-block .mx-auto }
+    ![Network]({{site.baseurl}}/assets/tipstricks/network.png){: .d-block .mx-auto }
 
 9. Inspect the state of your Angular component. You can easily select an Angular component by clicking on it in the **Elements** tab (and/or by use the selection tool).
 
-    ![Elements]({{site.baseurl}}assets/tipstricks/elements.png){: .d-block .mx-auto }
+    ![Elements]({{site.baseurl}}/assets/tipstricks/elements.png){: .d-block .mx-auto }
 
     In the example above, the Angular component are easy to spot: they are the ones with non-standard HTML names (like `<div>`, `<span>`, etc.), and generally have a prefix (`<sq-...>` for Sinequa components, `<app-...>` for the components of your app).
 
     When an element is selected, you can access it with `$0` in the **console**. If the selected element is an Angular component, you can get the instance of this component by typing `ng.getComponent($0)`, which gives you access to all its fields and properties.
-    
-    ![Component state]({{site.baseurl}}assets/tipstricks/component-state.png){: .d-block .mx-auto }
+
+    ![Component state]({{site.baseurl}}/assets/tipstricks/component-state.png){: .d-block .mx-auto }

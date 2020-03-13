@@ -7,7 +7,7 @@ nav_order: 5
 
 # Theming
 
-If you test [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html), you may notice that a **dark theme** is available, and that you can dynamically switch between light and dark colors.
+If you test [Vanilla Search]({{site.baseurl}}/modules/vanilla-search/vanilla-search.html), you may notice that a **dark theme** is available, and that you can dynamically switch between light and dark colors.
 
 To build this feature, the following steps are required:
 

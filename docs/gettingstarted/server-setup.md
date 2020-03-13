@@ -25,7 +25,7 @@ In order to work, a SBA needs a named **App** object to exist on the Sinequa ser
 
 The list of Apps can be found in the administration interface under *Search-Base Applications > Apps*:
 
-![List of Apps]({{site.baseurl}}assets/gettingstarted/admin-apps.png)
+![List of Apps]({{site.baseurl}}/assets/gettingstarted/admin-apps.png)
 *List of applications in the Sinequa server administration*
 {: .text-center }
 
@@ -33,25 +33,25 @@ In this form, a new App may be created by clicking on the *New empty SBA* button
 
 The **name of the App** is important, as it will be used by the Angular application to request data via the Web Services. The configuration of an App specifies the **list of Web Services** available for this App. If the App is deployed on the Sinequa server, it needs to exist in a **Workspace**, which is also referenced in the App configuration.
 
-![App Configuration]({{site.baseurl}}assets/gettingstarted/admin-app.png)
+![App Configuration]({{site.baseurl}}/assets/gettingstarted/admin-app.png)
 *App configuration - General tab*
 {: .text-center }
 
 In the **Auto-Login** tab of the App configuration, it is possible to reference a login provider configured at the level of the Webapp. Note that for certain types of SSO (like Windows authentication), the configuration needs to be done essentially in the IIS server.
 
-![Auto-Login tab]({{site.baseurl}}assets/gettingstarted/admin-app-auth.png)
+![Auto-Login tab]({{site.baseurl}}/assets/gettingstarted/admin-app-auth.png)
 *App configuration - Auto-Login tab*
 {: .text-center }
 
 In the **Customization** tab of the App configuration, it is possible to write data (in JSON syntax), which will be passed to the Angular app on initialization. The benefit of using this field (rather than just writing the data in the app source code) is that this data may change without having to recompile the Angular app. For example, if you specify a list of widgets to be displayed, you will only need to modify this field and refresh the page to visualize the difference.
 
-![Customization tab]({{site.baseurl}}assets/gettingstarted/admin-app-conf.png)
+![Customization tab]({{site.baseurl}}/assets/gettingstarted/admin-app-conf.png)
 *App configuration - Customization tab*
 {: .text-center }
 
 In the **Advanced** tab of the App configuration, it is possible to restrict the availability of the app to certain users and groups.
 
-![Advanced tab]({{site.baseurl}}assets/gettingstarted/admin-app-sec.png)
+![Advanced tab]({{site.baseurl}}/assets/gettingstarted/admin-app-sec.png)
 *App configuration - Advanced tab*
 {: .text-center }
 
@@ -63,7 +63,7 @@ The **Web Services** configurations allow to configure the behaviour of certain 
 
 The list of Web Services can be found in the administration interface under *Search-Base Applications > Web Services*
 
-![Advanced tab]({{site.baseurl}}assets/gettingstarted/admin-ws.png)
+![Advanced tab]({{site.baseurl}}/assets/gettingstarted/admin-ws.png)
 *List of **configurable** Web Services in the Sinequa server administration*
 {: .text-center }
 
@@ -76,7 +76,7 @@ The **General** tab of the Query web service configuration allows to configure t
 - **QueryPlugin**: A server-side plugin (written in C#), which lets you customize the search queries, or post-process the responses.
 - **Aggregations**: A list of *Aggregations*. An aggregation is a short-list of metadata computed in function of a query. For example, if you search for "automobile manufacturer", the *Company* aggregation could contain entries like "Volkswagen", "BMW", "Tesla", etc.
 
-![Query Web Service configuration - General tab]({{site.baseurl}}assets/gettingstarted/admin-query.png)
+![Query Web Service configuration - General tab]({{site.baseurl}}/assets/gettingstarted/admin-query.png)
 *Query Web Service configuration - General tab*
 {: .text-center }
 
@@ -84,7 +84,7 @@ The **Results Page** tab of the Query web service configuration allows to config
 - **Search scopes**: A "scope" allows to restrict the search to a specific subset of the corpus, with SQL rules. The Angular application may select a scope by setting `query.scope = '<scope name>'`. Unlike tabs, it is not possible to compute the number of document for each scope with one query (since each scope has a specific ruleset).
 - **Relevant Extracts**: The relevant extracts are key passages and sentences found in the searched documents, which are then used to compute a short summary typically displayed in the search results.
 
-![Relevant extracts]({{site.baseurl}}assets/gettingstarted/relevant-extracts.png)
+![Relevant extracts]({{site.baseurl}}/assets/gettingstarted/relevant-extracts.png)
 
 - **Tab Search**: Allows to specify a list of tabs to search in a specific subset of the corpus. Tabs are meant to filter on a single column of the index (e.g. the format of document, name of the data source, etc.). The Angular application may select a tab by setting `query.tab = '<tab name>'`.
 
@@ -112,7 +112,7 @@ The **Relevance** tab of the Query web service configuration allows to configure
 
 The **Advanced** tab of the Query web service configuration allows to configure meaningful aliases and labels for specific columns. This is useful to avoid exposing the bare structure of the index to front-end developers. Instead, developers will see and use explicit variable names, which are used consistently across the different web services.
 
-![Aliases]({{site.baseurl}}assets/gettingstarted/admin-query-aliases.png)
+![Aliases]({{site.baseurl}}/assets/gettingstarted/admin-query-aliases.png)
 
 ### Preview web service
 
@@ -120,11 +120,11 @@ The Preview web service form allows to configure the access to the documents' HT
 - **.css file**: Contains one (or more) CSS file names that are injected in the HTML previews as `<link>` elements, either with a relative path (relative to the URL of the application), or an absolute URL. By default, SBA include a `styles/preview.scss` file which get built as `/preview.css`. The default setting is therefore `preview.css`.
 - **Highlights to display**: Categories to be "highlighted" in the preview. For example, relevant extracts are highlighted by wrapping `<span>` tags around the relevant text. The visual highlight itself is effectively done by the aforementioned `preview.css` file (for example with a CSS rule of the type `background-color: yellow;`).
 
-![Preview configuration]({{site.baseurl}}assets/gettingstarted/admin-preview.png)
+![Preview configuration]({{site.baseurl}}/assets/gettingstarted/admin-preview.png)
 
 Example of highlighted HTML (each colored passage corresponds to a `<span>` element with a specific class):
 
-![highlights]({{site.baseurl}}assets/gettingstarted/highlights.png)
+![highlights]({{site.baseurl}}/assets/gettingstarted/highlights.png)
 
 ### Labels web service
 
@@ -134,7 +134,7 @@ It is possible to restrict specific actions (Label creation, label modification)
 
 This service also exposes an autocomplete feature to easily search and select a specific label.
 
-![Labels configuration]({{site.baseurl}}assets/gettingstarted/admin-labels.png)
+![Labels configuration]({{site.baseurl}}/assets/gettingstarted/admin-labels.png)
 
 ### Autocomplete web service
 
@@ -144,7 +144,7 @@ The autocomplete web service essentially lists **suggest queries** that provide 
 
 The export web service specifies the list of columns and maximum number of lines to be exported when an user requests an export of the results list. For obvious security and performance reasons, these parameters are not exposed directly to the user himself.
 
-![Export configuration]({{site.baseurl}}assets/gettingstarted/admin-export.png)
+![Export configuration]({{site.baseurl}}/assets/gettingstarted/admin-export.png)
 
 ### Sponsored links service
 
@@ -163,11 +163,11 @@ This allows:
 
 Workspaces are unzipped in `<data folder>\sba`, which is where Sinequa looks for them, to be displayed in the administration and to serve the built applications that they contain. The **Workspace form** is located in the administration under *Search-Based Applications*:
 
-![Workspaces]({{site.baseurl}}assets/gettingstarted/admin-workspaces.png)
+![Workspaces]({{site.baseurl}}/assets/gettingstarted/admin-workspaces.png)
 
 When opening a workspace in the administration, it is possible to see its content (files and directories), as well as run the build commands listed in the `package.json` file at the root of the workspace. The build commands result in `/dist` or `/dist-debug` folders containing the actual builds. These are hidden in the administration but do exist on the file system. This is where Sinequa is looking for when serving a particular application. Obviously, the Angular app needs to be built in order to be served...
 
-![Serving an app]({{site.baseurl}}assets/gettingstarted/admin-serving.png)
+![Serving an app]({{site.baseurl}}/assets/gettingstarted/admin-serving.png)
 *When the app is hosted on Sinequa, the URL contains the name of the App, which itself points to a specific workspace and app*
 {: .text-center }
 
