@@ -213,13 +213,24 @@ Refer to the [documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/e
 
 ### Export web service
 
-The export web service specifies the list of columns and maximum number of lines to be exported when an user requests an export of the results list. For obvious security and performance reasons, these parameters are not exposed directly to the user himself.
+The export web service specifies the list of columns and maximum number of lines (records) to be exported when an user requests an export of the results list.
+For obvious security and performance reasons, these parameters are not exposed directly to the user himself.
+
+Note that this web service is always used with the query web service.
+The latter provides the query configuration to retrieve the documents that user sees in the SBA.
+Therefore, the number of exported records is also limited by the configuration of the associated query web service.
+In particular, the query configuration can limit the maximum number of records per index that can be returned by the query.
+
+You need to verify such options in the query web service when you change the maximum number of lines in the export web service.
 
 ![Export configuration]({{site.baseurl}}/assets/gettingstarted/admin-export.png)
+*Example of export configuration*
+{: .text-center }
 
 ### Sponsored links service
 
-The configuration of the sponsored links allows to specify the number of links returned by the API. Refer to the [documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-ui-sponsored-links.html) on sponsored links for more information.
+The configuration of the sponsored links allows to specify the number of links returned by the API.
+Refer to the [documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-ui-sponsored-links.html) on sponsored links for more information.
 
 ## Workspaces
 
