@@ -14,7 +14,7 @@ There is not a single way of working with the SBA Framework, but there are diffe
 Traditionally, any development done in a Sinequa project has to be implemented and tested on a Sinequa server. The Sinequa server may occasionally be on the local computer of a developer, but this is unpractical in a complex project, as the divergence between the state of the server(s) and that of the developer(s) is difficult to manage.
 
 With the SBA framework, the development can take place anywhere, as long as the REST API of the Sinequa server is accessible. This means you can work:
-- **Locally**: ie, directly on the Sinequa server (whether it's a physical or virtual server, or just your own computer with Sinequa installed on it). 
+- **Locally**: ie, directly on the Sinequa server (whether it's a physical or virtual server, or just your own computer with Sinequa installed on it).
 - **Remotely**: ie, on any regular workstation that knows nothing of Sinequa, but can access its remote REST API (This is generally the recommended approach).
 
 ### Working locally
@@ -23,7 +23,7 @@ When working **locally**, your Angular workspace lives in the `<sinequa>/data/sb
 
 Working locally makes the deployment very easy: you simply build your app for production, and it is ready to be served by Sinequa. It is adapted for quick projects with a single developer.
 
-When working locally, you can configure the [`StartConfig`]({{site.baseurl}}core/interfaces/StartConfig.html) object in your `app.module.ts` like this:
+When working locally, you can configure the [`StartConfig`]({{site.baseurl}}/core/interfaces/StartConfig.html) object in your `app.module.ts` like this:
 
 ```ts
 export const startConfig: StartConfig = {
@@ -66,13 +66,13 @@ The third step means by definition that the app is not served from the same port
             "secure": true,
             "changeOrigin": true
         },
-        
+
         "/xdownload": {
             "target": "https://your-sinequa-server.com",
             "secure": true,
             "changeOrigin": true
         },
-        
+
     }
     ```
 
@@ -106,14 +106,14 @@ Like [working locally](#working-remotely), this approach is useful for simple on
 
 The **Git-based Workflow** consists in using a Git repository to manage the code of your Angular workspace. This allows you to work collaboratively and to track the changes in your app.
 
-![Git workflow]({{site.baseurl}}assets/gettingstarted/git-workflow.png){: .d-block .mx-auto width="500px" }
+![Git workflow]({{site.baseurl}}/assets/gettingstarted/git-workflow.png){: .d-block .mx-auto width="500px" }
 
 In this process, the project repository contains the reference, and every developer (and the Sinequa server) *clones* this repository locally. Developers *commit* their changes and then *push* them to the central repository, resolving potential *merge* conflicts in the process. Deploying a new version on the server simply means running a `git pull` command on the server.
 
 When a new version of the workspace is *cloned* or *pulled* on a computer or server, it is generally necessary to run the following commands:
 - `npm install`, which updates the dependencies from the Internet. This step is required when a developer updates the list of dependencies in the `package.json` file. If the server does not have access to the Internet, the `node_modules/` folder needs to be updated manually, via file transfer.
-- `npm run buildcore`, which builds [`@sinequa/core`]({{site.baseurl}}core). This step is required in case the code of this library was modified (by a developer, of after an update of the library).
-- `npm run buildcomponents`, which builds [`@sinequa/components`]({{site.baseurl}}components). This step is required in case the code of this library was modified (by a developer, of after an update of the library).
+- `npm run buildcore`, which builds [`@sinequa/core`]({{site.baseurl}}/core). This step is required in case the code of this library was modified (by a developer, of after an update of the library).
+- `npm run buildcomponents`, which builds [`@sinequa/components`]({{site.baseurl}}/components). This step is required in case the code of this library was modified (by a developer, of after an update of the library).
 - On the server: `ng build <name-of-your-app> --prod`, which builds your app for release, which allows Sinequa to serve it.
 
 **Pros:**
@@ -128,7 +128,7 @@ When a new version of the workspace is *cloned* or *pulled* on a computer or ser
 
 The **Github-based Workflow** is a variation of the above **Git-based Workflow**, in which the Git repository is originally *cloned* or *forked* from our official [Sinequa Github repository](https://github.com/sinequa/sba-angular).
 
-![Git workflow]({{site.baseurl}}assets/gettingstarted/github-workflow.png){: .d-block .mx-auto }
+![Git workflow]({{site.baseurl}}/assets/gettingstarted/github-workflow.png){: .d-block .mx-auto }
 
 This process helps address the issue of updating the Sinequa libraries and apps. Without it, you need to download new versions of the workspace and manually copy the code into your workspace. Instead, you can *pull from the upstream repository*, as described [here](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/merging-an-upstream-repository-into-your-fork). This may look like:
 
@@ -138,6 +138,6 @@ This process helps address the issue of updating the Sinequa libraries and apps.
 
 Keep in mind `origin` is your own clone/fork, which does not get updates automatically until you push them. When you perform such an update, keep in mind the Core and Components libraries were overwritten (that's the point), so don't forget to rebuild them.
 
-![Update from Github]({{site.baseurl}}assets/gettingstarted/git-update.png)
+![Update from Github]({{site.baseurl}}/assets/gettingstarted/git-update.png)
 
 Additionally, using the Github workflow allows you to request changes (bug fixes, new features) in our official repository, by submitting pull requests.

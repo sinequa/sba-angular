@@ -13,7 +13,7 @@ Sinequa supports different login methods, which involve different types of confi
 
 By default, if nothing is configured, you log in to Sinequa via a form asking for your username and password (which must exist in the Sinequa back-end):
 
-![Login form]({{site.baseurl}}assets/tipstricks/login-form.png){: .d-block .mx-auto }
+![Login form]({{site.baseurl}}/assets/tipstricks/login-form.png){: .d-block .mx-auto }
 
 ## Windows Single-Sign-On
 
@@ -25,19 +25,19 @@ If you need to enable Windows SSO with CORS ([Cross-Origin Resource Sharing](htt
   - Windows Authentication
   - URL Authorization
 
-    ![Login form]({{site.baseurl}}assets/tipstricks/iis-deps.png){: .d-block .mx-auto }
+    ![Login form]({{site.baseurl}}/assets/tipstricks/iis-deps.png){: .d-block .mx-auto }
 
 2. Configure your site Authentication: **Enable both Anonymous and Windows Authentication**
 
-    ![Login form]({{site.baseurl}}assets/tipstricks/iis-sso.png){: .d-block .mx-auto }
+    ![Login form]({{site.baseurl}}/assets/tipstricks/iis-sso.png){: .d-block .mx-auto }
 
-3. If not already done, enable CORS in your WebApp configuration from the specified origins (See [Server-side setup]({{site.baseurl}}gettingstarted/server-setup.html)).
+3. If not already done, enable CORS in your WebApp configuration from the specified origins (See [Server-side setup]({{site.baseurl}}/gettingstarted/server-setup.html)).
 
 4. **Add security rules into the web.config file**
 
     Go into the sinequa/website folder where your WebApplication is installed. Edit the `web.config` file:
 
-    ![Login form]({{site.baseurl}}assets/tipstricks/web-config.png){: .d-block .mx-auto }
+    ![Login form]({{site.baseurl}}/assets/tipstricks/web-config.png){: .d-block .mx-auto }
 
     Add the following `<security>` tag into the `<system.webServer>` tag:
 
@@ -52,7 +52,7 @@ If you need to enable Windows SSO with CORS ([Cross-Origin Resource Sharing](htt
     </security>
     ```
 
-    ![Login form]({{site.baseurl}}assets/tipstricks/web-config-xml.png){: .d-block .mx-auto }
+    ![Login form]({{site.baseurl}}/assets/tipstricks/web-config-xml.png){: .d-block .mx-auto }
 
     **What it actually means:**
     - Allow `OPTIONS` queries for all **anonymous users**
@@ -78,11 +78,11 @@ Note that Windows SSO has **no impact on the code of your Angular application**.
 The configuration of SAML 2.0 protocol involves various steps:
 - Configure an identity provider in your Sinequa WebApp (See the [official documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-grid-webapps.html))
 
-![SAML identity provider]({{site.baseurl}}assets/tipstricks/saml.png){: .d-block .mx-auto }
+![SAML identity provider]({{site.baseurl}}/assets/tipstricks/saml.png){: .d-block .mx-auto }
 
 - Add this identity provider to your App configuration:
 
-![SAML identity provider in App]({{site.baseurl}}assets/tipstricks/saml-app.png){: .d-block .mx-auto }
+![SAML identity provider in App]({{site.baseurl}}/assets/tipstricks/saml-app.png){: .d-block .mx-auto }
 
 - Add the name of the provider to your `app.module.ts`:
 
@@ -98,11 +98,11 @@ export const startConfig: StartConfig = {
 The configuration of SAML 2.0 protocol involves various steps:
 - Configure an identity provider in your Sinequa WebApp (See the [official documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-grid-webapps.html))
 
-![OAuth identity provider]({{site.baseurl}}assets/tipstricks/oauth.png){: .d-block .mx-auto }
+![OAuth identity provider]({{site.baseurl}}/assets/tipstricks/oauth.png){: .d-block .mx-auto }
 
 - Add this identity provider to your App configuration:
 
-![OAuth identity provider in App]({{site.baseurl}}assets/tipstricks/oauth-app.png){: .d-block .mx-auto }
+![OAuth identity provider in App]({{site.baseurl}}/assets/tipstricks/oauth-app.png){: .d-block .mx-auto }
 
 - Add the name of the provider to your `app.module.ts`:
 

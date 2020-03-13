@@ -9,7 +9,7 @@ nav_order: 4
 
 We can now search our Sinequa indexes, but it would be nice to be able to filter the content based on its metadata. This is what facets are for.
 
-The [`@sinequa/components`]({{site.baseurl}}modules/components/components.html) library has a module for this: [`BsFacetModule`]({{site.baseurl}}modules/components/facet.html) (like the [Search module]({{site.baseurl}}modules/components/search.html), it is based on the Bootstrap library).
+The [`@sinequa/components`]({{site.baseurl}}/modules/components/components.html) library has a module for this: [`BsFacetModule`]({{site.baseurl}}/modules/components/facet.html) (like the [Search module]({{site.baseurl}}/modules/components/search.html), it is based on the Bootstrap library).
 
 ## Importing the Facet Module
 
@@ -52,7 +52,7 @@ We will start with a simple `sq-facet-list`:
 
 This should display something like:
 
-![Facet list]({{site.baseurl}}assets/tutorial/facet-list.png)
+![Facet list]({{site.baseurl}}/assets/tutorial/facet-list.png)
 
 Notice the `#facet` tag. It is important, as it allows the `sq-facet-card` to display the "action buttons" of its content in the top-right of the facet.
 
@@ -64,7 +64,7 @@ We can also add a tree facet `sq-facet-tree`:
 </sq-facet-card>
 ```
 
-![Facet tree]({{site.baseurl}}assets/tutorial/facet-tree.png)
+![Facet tree]({{site.baseurl}}/assets/tutorial/facet-tree.png)
 
 The facet components have many options that can be passed via *bindings*. For example, here is the full list of options for `sq-facet-list`:
 - `name`: Internal name of the facet (Optional, by default the aggregation name is used)
@@ -84,6 +84,6 @@ In real projects, you probably would not want to enable all these options at onc
 
 Now the facet should look something like this when you select multiple items:
 
-![Facet selection]({{site.baseurl}}assets/tutorial/facet-selection.png)
+![Facet selection]({{site.baseurl}}/assets/tutorial/facet-selection.png)
 
-Please refer to the [library documentation]({{site.baseurl}}modules/components/facet.html) for more information.
+Please refer to the [library documentation]({{site.baseurl}}/modules/components/facet.html) for more information.

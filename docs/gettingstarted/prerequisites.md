@@ -16,7 +16,7 @@ Apps themselves can be hosted on various types of servers:
 - Any other server will do to, with the limitation that the origin of the application being different from the origin of the Sinequa API can cause [CORS](https://developer.mozilla.org/fr/docs/Web/HTTP/CORS) issues.
 - Your own local computer (localhost), which is very useful during the development phase.
 
-![Serving a SBA]({{site.baseurl}}assets/gettingstarted/serving.png)
+![Serving a SBA]({{site.baseurl}}/assets/gettingstarted/serving.png)
 
 *An application always gets data from a Sinequa server, but the app itself can be hosted or deployed in other places*
 {: .text-center }

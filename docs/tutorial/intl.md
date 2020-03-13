@@ -9,7 +9,7 @@ nav_order: 5
 
 As mentioned earlier, our application looks strange because a lot of strings look like this: `msg#facet.loadMore`, or `msg#results.resultsAllTab`.
 
-These codes refer to dictionaries or "message files" translated in various languages. At the heart of this system is the Internationalization service [`IntlService`]({{site.baseurl}}modules/core/intl.html) from [`@sinequa/core`]({{site.baseurl}}modules/core/core.html).
+These codes refer to dictionaries or "message files" translated in various languages. At the heart of this system is the Internationalization service [`IntlService`]({{site.baseurl}}/modules/core/intl.html) from [`@sinequa/core`]({{site.baseurl}}/modules/core/core.html).
 
 This service is initialized with the dictionaries on the application startup. It then takes care of translating strings in the Angular templates, via the `sqMessage` pipe. Of course if the string is not found in the dictionary, it is just displayed as is (which explains what you see in your app).
 
@@ -74,7 +74,7 @@ To do so, we need to create our own language files. We can start with English.
     import {LocaleData} from "@sinequa/core/intl";
     import d3Format from "d3-format/locale/en-US.json";
     import d3Time from "d3-time-format/locale/en-US.json";
-    import {enCore} from "@sinequa/core"; 
+    import {enCore} from "@sinequa/core";
     import "intl/locale-data/jsonp/en-US"; // Safari
     import {Utils} from "@sinequa/core/base";
 
@@ -83,11 +83,11 @@ To do so, we need to create our own language files. We can start with English.
     import {enSearch} from "@sinequa/components/search";
 
     let appMessages = {
-        
+
         locale: {
             en: "English",
         },
-            
+
         results: {
             resultsAllTab: "All",
             tabPeople: "People",
@@ -103,13 +103,13 @@ To do so, we need to create our own language files. We can start with English.
         d3: {
             locale: "en-US",
             format: d3Format,
-            time: d3Time 
+            time: d3Time
         },
         messages: Utils.merge({}, enCore, enFacet, enResult, enSearch, appMessages)
     };
     ```
 
-    Notice the `appMessages`, which contains the messages specific to your app, is **merged** with the messages coming from the [`@sinequa/core`]({{site.baseurl}}modules/core/core.html) and [`@sinequa/components`]({{site.baseurl}}modules/components/components.html) libraries (`enCore`, `enFacet`, etc.).
+    Notice the `appMessages`, which contains the messages specific to your app, is **merged** with the messages coming from the [`@sinequa/core`]({{site.baseurl}}/modules/core/core.html) and [`@sinequa/components`]({{site.baseurl}}/modules/components/components.html) libraries (`enCore`, `enFacet`, etc.).
 
 3. Back in your `app.module.ts` file, create a new `AppLocalesConfig` class to replace `DefaultLocalesConfig`:
 
@@ -124,7 +124,7 @@ To do so, we need to create our own language files. We can start with English.
 
     ...
         import: [
-            ...            
+            ...
             IntlModule.forRoot(AppLocalesConfig),
         ]
     ```
@@ -190,7 +190,7 @@ It is of course possible to override the default messages. For example, your fac
 
 1. Find what is the key for the "Load more" message. You could go look into the source code of the `sq-facet-list` component, but a quicker approach is to use the search engine of VS Code and open the dictionary file directly. In our case, searching for "Load more" quickly tells us that the message key is `msg#facet.loadMore`.
 
-     ![Load more search]({{site.baseurl}}assets/tutorial/search-load-more.png)
+     ![Load more search]({{site.baseurl}}/assets/tutorial/search-load-more.png)
 
 2. Override that key in your own dictionary:
 
@@ -200,7 +200,7 @@ It is of course possible to override the default messages. For example, your fac
     }
     ```
 
-     ![More data please]({{site.baseurl}}assets/tutorial/more-data.png)
+     ![More data please]({{site.baseurl}}/assets/tutorial/more-data.png)
 
 ## Supporting multiple languages
 
@@ -212,7 +212,7 @@ For example:
 ```ts
 import d3Format from "d3-format/locale/fr-FR.json";
 import d3Time from "d3-time-format/locale/fr-FR.json";
-import {frCore} from "@sinequa/core"; 
+import {frCore} from "@sinequa/core";
 import "intl/locale-data/jsonp/fr-FR"; // Safari
 import {frFacet} from "@sinequa/components/facet";
 import {frResult} from "@sinequa/components/result";
@@ -234,7 +234,7 @@ search: {
     button: "Chercher",
     placeholder: "Termes de recherche...",
     clear: "Effacer"
-},    
+},
 results: {
     resultsAllTab: "Tous",
     tabPeople: "Personnes",
@@ -285,8 +285,8 @@ Let's add a button for each language, next to the Login and Logout buttons. We w
         constructor(
             ...
             public intlService: IntlService) {
-                
-            ...            
+
+            ...
             // Create one action (button) for each language
             this.languageActions = this.intlService.locales.map(locale =>
                 new Action({
@@ -294,13 +294,13 @@ Let's add a button for each language, next to the Login and Logout buttons. We w
                     data: locale,   // French locale
                     selected: locale === this.intlService.currentLocale, // If this is the current locale
                     action: (item: Action, $event: UIEvent) => {    // On click, switch to this language
-                        this.intlService.use((item.data as Locale).name).subscribe( 
-                            (value) => this.languageActions.forEach(a => a.update()));                
+                        this.intlService.use((item.data as Locale).name).subscribe(
+                            (value) => this.languageActions.forEach(a => a.update()));
                     },
                     updater: (action) => {  // Update the status of buttons
-                        action.selected = action.data === this.intlService.currentLocale; 
+                        action.selected = action.data === this.intlService.currentLocale;
                     }
-                })            
+                })
             );
     ```
 
@@ -312,7 +312,7 @@ Let's add a button for each language, next to the Login and Logout buttons. We w
     <span [sq-action-buttons]="{items: languageActions}"></span>
     ```
 
-    ![Language buttons]({{site.baseurl}}assets/tutorial/intl-buttons.png)
+    ![Language buttons]({{site.baseurl}}/assets/tutorial/intl-buttons.png)
 
 ## Loading languages lazily
 

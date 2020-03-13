@@ -17,7 +17,7 @@ The first we should think about is: what should our application look like on dev
 
 In this tutorial, We'll assume 3 different sizes (mobile, tablet and desktop), with the following layouts:
 
-![Screen sizes]({{site.baseurl}}assets/tutorial/screensizes.png)
+![Screen sizes]({{site.baseurl}}/assets/tutorial/screensizes.png)
 
 First off, we need to tell Bootstrap about these screen sizes. In your `styles/app.scss`, insert the following maps *before* importing Bootstrap:
 
@@ -35,7 +35,7 @@ $container-max-widths: (
 );
 
 // Bootstrap styles
-@import "~bootstrap/scss/bootstrap"; 
+@import "~bootstrap/scss/bootstrap";
 ```
 
 ## Styling the Search component
@@ -70,29 +70,29 @@ Of course, there are many ways you could design your component. We propose the f
                     <a href="{{record.url1}}">
                         <div class="source">{{record.url1}}</div>
                     </a>
-                    <p *ngIf="record.relevantExtracts" [innerHTML]="record.relevantExtracts"></p>       
+                    <p *ngIf="record.relevantExtracts" [innerHTML]="record.relevantExtracts"></p>
                 </div>
                 <sq-pager [results]="results"></sq-pager>
             </div>
-    
+
             <!-- Facets -->
             <div class="col-lg-4">
                 <sq-facet-card [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'">
                     <sq-facet-tree #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-tree>
                 </sq-facet-card>
-                
+
                 <sq-facet-card [title]="'msg#facet.company.title'" [icon]="'fas fa-building'">
                     <sq-facet-list #facet [results]="results" [aggregation]="'Company'" [allowExclude]="false" [allowAnd]="false"></sq-facet-list>
                 </sq-facet-card>
-        
+
                 <sq-facet-card [title]="'msg#savedQueries.savedQueries'" [icon]="'fas fa-save'">
                     <sq-facet-saved-queries #facet [maxQueries]="5"></sq-facet-saved-queries>
                 </sq-facet-card>
             </div>
-    
+
             <!-- Footer -->
-            <div class="col-12">                
-                <hr>    
+            <div class="col-12">
+                <hr>
                 <span [sq-action-buttons]="{items: languageActions}"></span>
                 <button class="btn btn-success" (click)="savedQueriesService.createSavedQueryModal()">
                     <i class="fas fa-save"></i>
@@ -100,14 +100,14 @@ Of course, there are many ways you could design your component. We propose the f
             </div>
 
         </ng-container>
-        
+
     </div>
 </div>{% endraw %}
 ```
 
 Your app should look like this on a large screen:
 
-![App large screen]({{site.baseurl}}assets/tutorial/app-large.png)
+![App large screen]({{site.baseurl}}/assets/tutorial/app-large.png)
 
 Try resizing your screen to see what happens when hitting the different breakpoints we specified at the beginning.
 
@@ -175,7 +175,7 @@ import { UIService } from '@sinequa/components/utils';
 export class SearchComponent {
     ...
     _showFacet: boolean = false;
-    
+
     ...
     get showFacet(): boolean {
         return this.ui.screenSizeIsGreaterOrEqual('lg') || this._showFacet;
@@ -216,7 +216,7 @@ Let's add a button in the navbar to take care of this. We also need to hide the 
 
 Your app should now look like this on medium and small screens, when you turn on the facet visibility:
 
-![App medium screen]({{site.baseurl}}assets/tutorial/medium-screen.png){: .d-block .mx-auto }
+![App medium screen]({{site.baseurl}}/assets/tutorial/medium-screen.png){: .d-block .mx-auto }
 
 ## Search form management
 
@@ -242,11 +242,11 @@ Let's piggy-back on the facet button feature: We will show the form on medium or
 
 This is what you should have on small screens:
 
-![App small screen]({{site.baseurl}}assets/tutorial/app-small-results.png){: .d-block .mx-auto }
+![App small screen]({{site.baseurl}}/assets/tutorial/app-small-results.png){: .d-block .mx-auto }
 
 And when toggling the facets:
 
-![App small screen]({{site.baseurl}}assets/tutorial/app-small.png){: .d-block .mx-auto }
+![App small screen]({{site.baseurl}}/assets/tutorial/app-small.png){: .d-block .mx-auto }
 
 ---
 

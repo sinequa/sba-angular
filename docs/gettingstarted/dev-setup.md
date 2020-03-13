@@ -14,19 +14,19 @@ To develop a SBA, developers need to install various utilities:
 - [**Visual Studio Code**](https://code.visualstudio.com/): The standard IDE (Integrated Development Environment) for Angular development.
 - [**Git**](https://git-scm.com/): The version control system allowing you to sync your workspace with a Github repository, work collaboratively and deploy the project on a server.
 
-![NodeJs]({{site.baseurl}}assets/gettingstarted/node.png){: width="150px" .ml-5}
-![Visual Studio Code]({{site.baseurl}}assets/gettingstarted/vscode.png){: width="90px" .ml-5}
-![Git]({{site.baseurl}}assets/gettingstarted/git.png){: width="200px" .ml-5}
+![NodeJs]({{site.baseurl}}/assets/gettingstarted/node.png){: width="150px" .ml-5}
+![Visual Studio Code]({{site.baseurl}}/assets/gettingstarted/vscode.png){: width="90px" .ml-5}
+![Git]({{site.baseurl}}/assets/gettingstarted/git.png){: width="200px" .ml-5}
 
 ## Angular Workspace
 
 A workspace is not just an Angular app or library, it is a directory that contains multiple libraries and apps, while sharing the same global configuration and dependencies (`package.json`, `tsconfig.json`, `angular.json`). For more information, please refer to the [Angular documentation](https://angular.io/guide/file-structure) on this topic.
 
-As explained in the [introduction]({{site.baseurl}}intro), the SBA framework is based on an Angular Workspace containing two libraries ([`@sinequa/core`]({{site.baseurl}}modules/core/core.html) and [`@sinequa/components`]({{site.baseurl}}modules/components/components.html)). This workspace is available from the Sinequa releases as a zip file (see [Server-side setup](server-setup.html#workspaces)) or directly from [this Github repository](https://github.com/sinequa/sba-angular).
+As explained in the [introduction]({{site.baseurl}}/intro), the SBA framework is based on an Angular Workspace containing two libraries ([`@sinequa/core`]({{site.baseurl}}/modules/core/core.html) and [`@sinequa/components`]({{site.baseurl}}/modules/components/components.html)). This workspace is available from the Sinequa releases as a zip file (see [Server-side setup](server-setup.html#workspaces)) or directly from [this Github repository](https://github.com/sinequa/sba-angular).
 
 Once downloaded or cloned on the developer's computer, the workspace can be opened in Visual Studio Code (*Add Folder to Workspace* > *Open the root of the Workspace*).
 
-![Workspace in VS Code]({{site.baseurl}}assets/gettingstarted/workspace.png){: .d-block .mx-auto }
+![Workspace in VS Code]({{site.baseurl}}/assets/gettingstarted/workspace.png){: .d-block .mx-auto }
 *Workspace opened in Visual Studio Code*
 {: .text-center }
 
@@ -53,7 +53,7 @@ For example, to upgrate the Bootstrap library, just increment the version on thi
 
 ## Building the libraries
 
-The workspace includes two libraries [`@sinequa/core`]({{site.baseurl}}modules/core/core.html) and [`@sinequa/components`]({{site.baseurl}}modules/components/components.html). These libraries need to be compiled before the apps. In the terminal, run:
+The workspace includes two libraries [`@sinequa/core`]({{site.baseurl}}/modules/core/core.html) and [`@sinequa/components`]({{site.baseurl}}/modules/components/components.html). These libraries need to be compiled before the apps. In the terminal, run:
 
     npm run buildcore
 
@@ -77,7 +77,7 @@ At this point you are ready to build one of the sample applications included in 
 
 ```ts
 export const startConfig: StartConfig = {
-    url: "http://<your sinequa server>", 
+    url: "http://<your sinequa server>",
     app: "<name of your app>",
     production: environment.production
 };
@@ -87,7 +87,7 @@ For example, if you are working on a server (or the server is your computer), an
 
 ```ts
 export const startConfig: StartConfig = {
-    url: "http://localhost", 
+    url: "http://localhost",
     app: "my-app",
     production: environment.production
 };
@@ -100,7 +100,7 @@ You can now build and serve the app with:
 Alternatively, you can run `npm run ng serve ...` if Angular CLI is not installed globally.
 {: .fs-2 .p-3 }
 
-If the build is successful, you can access your app by navigating to [`http://localhost:4200`](http://localhost:4200) in your favorite browser. Log in to the app with the same credentials as you would to log in to the administration interface. If you have set up a custom login method (SSO, SAML, OAuth...) on the Sinequa webapp, you may need to customize the `app.module.ts` a bit further (see [Login methods]({{site.baseurl}}tipstricks/login methods.html)).
+If the build is successful, you can access your app by navigating to [`http://localhost:4200`](http://localhost:4200) in your favorite browser. Log in to the app with the same credentials as you would to log in to the administration interface. If you have set up a custom login method (SSO, SAML, OAuth...) on the Sinequa webapp, you may need to customize the `app.module.ts` a bit further (see [Login methods]({{site.baseurl}}/tipstricks/login methods.html)).
 
 ## Deploying an app on a Sinequa server
 
@@ -109,9 +109,9 @@ To deploy your app on the Sinequa server:
 - Upload your workspace on the Sinequa server, in `<sinequa directory>\data\sba\` (either via file transfer or preferably a `git pull` -- See [Workflow](workflow.html))
 - In the administration, open your app (under *Search-Based Applications > Apps*) and set the **Workspace application** to the one you uploaded.
 
-![Workspace application]({{site.baseurl}}assets/gettingstarted/admin-deploy.png){: .d-block .mx-auto }
+![Workspace application]({{site.baseurl}}/assets/gettingstarted/admin-deploy.png){: .d-block .mx-auto }
 
 Your app is now served by Sinequa at the URL `http://<sinequa server>/app/<name of your App>` (note that `name of you App` refers to the name of the App object in the administration, not the name of the Angular project).
 
-Note that if the URL of the Sinequa server is different between development and production settings, you will need to use the `src/environments` files to differentiate between these two (See [Environment]({{site.baseurl}}tipstricks/environment.html)).
+Note that if the URL of the Sinequa server is different between development and production settings, you will need to use the `src/environments` files to differentiate between these two (See [Environment]({{site.baseurl}}/tipstricks/environment.html)).
 {: .fs-2 .p-3 }
