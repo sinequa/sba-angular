@@ -28,11 +28,16 @@ To create an **App** configuration, in the administration:
 ![New empty app action]({{site.baseurl}}/assets/gettingstarted/admin-new-empty-app-action.png)
 *'New empty app' action in Apps*
 {: .text-center }
-At this point your Sinequa server can be used to develop a SBA and you can go to [Developer-side setup](dev-setup.html) or spend more time reading the documentation below to fully configure the server.
+At this point your Sinequa server can be used to develop a SBA and you can go to [Developer-side setup](dev-setup.html)
+ or spend more time reading the documentation below to fully configure the server.
 
 ## Apps
 
-In order to work, a SBA needs a named **App** object to exist on the Sinequa server. This app object is the entry point which references all the [**Web Services**](#web-services) that the SBA will use. It is also where the (optional) **authentication providers** are specified. The App can also contain **configuration** (in JSON format) which may be passed to the Angular application. Finally, the App can be restricted to specific **Users and Groups**, rather than being opened to all.
+In order to work, an SBA needs a named **App** configuration object to exist on the Sinequa server.
+This object is the entry point which references all the [**Web Services**](#web-services) that the SBA will use.
+It is also where the (optional) **authentication providers** are specified.
+The App can also contain **configuration** (in JSON format) which may be passed to the Angular application.
+Finally, the App can be restricted to specific **Users and Groups**, rather than being opened to all.
 
 The list of Apps can be found in the administration interface under *Search-Base Applications > Apps*:
 
@@ -40,24 +45,40 @@ The list of Apps can be found in the administration interface under *Search-Base
 *List of applications in the Sinequa server administration*
 {: .text-center }
 
-In this form, a new App may be created by clicking on the *New empty SBA* button, or duplicating an existing application.
+In this form, a new App may be created by clicking on the *New empty SBA* button, or using a *New app (Wizard)* button,
+which lets you duplicating an existing App.
 
-The **name of the App** is important, as it will be used by the Angular application to request data via the Web Services. The configuration of an App specifies the **list of Web Services** available for this App. If the App is deployed on the Sinequa server, it needs to exist in a **Workspace**, which is also referenced in the App configuration.
+The **name of the App** is important, as it will be used by the Angular application to request data via the Web Services.
+The configuration of an App specifies the **list of Web Services** available for this App.
+If the App is deployed on the Sinequa server, it needs to point to an **Angular workspace**,
+ which is shown via the property *Workspace application*.
 
 ![App Configuration]({{site.baseurl}}/assets/gettingstarted/admin-app.png)
 *App configuration - General tab*
 {: .text-center }
 
-In the **Auto-Login** tab of the App configuration, it is possible to reference a login provider configured at the level of the Webapp. Note that for certain types of SSO (like Windows authentication), the configuration needs to be done essentially in the IIS server.
+In the **Auto-Login** tab of the App configuration, it is possible to reference a login provider configured at the level of the Webapp.
+Note that for certain types of SSO (like Windows authentication), the configuration needs to be done essentially in the IIS server.
 
 ![Auto-Login tab]({{site.baseurl}}/assets/gettingstarted/admin-app-auth.png)
 *App configuration - Auto-Login tab*
 {: .text-center }
 
-In the **Customization** tab of the App configuration, it is possible to write data (in JSON syntax), which will be passed to the Angular app on initialization. The benefit of using this field (rather than just writing the data in the app source code) is that this data may change without having to recompile the Angular app. For example, if you specify a list of widgets to be displayed, you will only need to modify this field and refresh the page to visualize the difference.
+In the **Customization (JSON)** tab of the App configuration, it is possible to write data (in JSON syntax),
+which will be passed to the Angular app on initialization.
+The benefit of using this field (rather than just writing the data in the app source code) is that
+this data may change without having to recompile the Angular app.
+For example, if you specify a list of widgets to be displayed, you will only need to modify this field and refresh the page to visualize the difference.
+
+The underlying Monaco editor can verify that your JSON is valid and in any case, Sinequa ES verifies the JSON validity
+when saving the App configuration and notifies you should the JSON is not valid.
 
 ![Customization tab]({{site.baseurl}}/assets/gettingstarted/admin-app-conf.png)
-*App configuration - Customization tab*
+*App configuration - Customization (JSON) tab*
+{: .text-center }
+
+![Customization tab with error]({{site.baseurl}}/assets/gettingstarted/admin-app-conf-with-error.png)
+*App configuration - Customization (JSON) tab - when the JSON is not valid*
 {: .text-center }
 
 In the **Advanced** tab of the App configuration, it is possible to restrict the availability of the app to certain users and groups.
