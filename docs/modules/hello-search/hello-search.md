@@ -7,7 +7,7 @@ nav_order: 3
 
 # Hello Search
 
-The "Hello Search" app is the simplest kind of Search-Based Application you can build with the SBA Framework. It is made of a single module and a single Angular component, which shows a search form and a list of results:
+*Hello Search* is the simplest kind of Search-Based Application you can build with the SBA Framework. It is made of a single module and a single Angular component, which shows a search form and a list of results:
 
 ![Hello Search]({{site.baseurl}}assets/tutorial/hello-search.png)
 
@@ -29,7 +29,7 @@ Hello Search has one Angular component (`AppComponent`). It is made of:
 
 ### Template
 
-The template is divided in four parts:
+The template ([`src/app/app.component.html`](https://github.com/sinequa/sba-angular/blob/master/projects/hello-search/src/app/app.component.html)) is divided in four parts:
 
 **Search Form**:
 
@@ -88,7 +88,7 @@ Notifications are typically some error messages coming from the Sinequa services
 
 ### Controller
 
-The controller consists of the class `AppComponent`, which is made of the main following parts:
+The controller ([`src/app/app.component.ts`](https://github.com/sinequa/sba-angular/blob/master/projects/hello-search/src/app/app.component.ts)) consists of the class `AppComponent`, which is made of the main following parts:
 
 **Fields**:
 
@@ -167,7 +167,7 @@ clear() {
 
 ### Stylesheet
 
-The component's stylesheet contains CSS rules applied only within the component. In particular:
+The component's stylesheet ([`src/app/app.component.scss`](https://github.com/sinequa/sba-angular/blob/master/projects/hello-search/src/app/app.component.scss)) contains CSS rules applied only within the component. In particular:
 
 - Page layout rules, making our search results more readable:
 

@@ -20,15 +20,15 @@ Obviously, the more people contribute, the more you benefit from more innovation
 
 We use [Git](https://git-scm.com/) (the version control system) and [Github](https://github.com/sinequa/sba-angular) (the popular online Git repository hosting service) to manage our source code.
 
-A Git repository contains files that were added and modified over time by developers. These changes are bundled in *commits* that come one after the other. Developers work in parallel, so this history is not a straight line. It is more like a tree, where *branches* stem out of the main trunk (the `master` branch). But unlike with trees, the goal of a branch is eventually to be *merged* back into the `master`. You can learn all about Git with online tutorials like [this one](https://learngitbranching.js.org/).
+A Git repository contains files that were added and modified over time by developers. These changes are bundled in *commits* that come one after the other. Developers work in parallel, so this history is not a straight line. It is more like a tree, where *branches* stem out of the main trunk (the `master` branch). But unlike real trees, the goal of a branch is eventually to be *merged* back into the `master`. You can learn all about Git with online tutorials like [this one](https://learngitbranching.js.org/).
 
-Github is a cloud service that hosts Git repositories, for communities to work collaboratively on software. Github laid down the blueprint of modern open-source development, and we choose to adopt their established conventions and guidelines. You can learn about Github collaborative workflow in the [online documentation](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests).
+Github is a cloud service that hosts Git repositories, for communities to develop software collaboratively. Github laid down the blueprint of modern open-source development, and we choose to adopt their established conventions and guidelines. You can learn about the Github collaborative workflow in the [online documentation](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests).
 
 ## Repository structure
 
 The repository has a `master` branch which contains the latest working and validated version of our source code. The `master` branch is also what gets packaged in Sinequa, when a new version is built and released.
 
-Contributors cannot push code directly to the `master` because this could unintentionally break things. Instead, contributors can push code in a new branch (eg. `my-feature`) and submit a *Pull Request*. Pull Requests (PR for shorts) are the way to say *"I've done these changes, can we merge them in the `master`?"*. Your PR may not be immediately accepted (there might be conflicts with the `master`, or the need for improvements). In that case, just push additional changes in the same branch (Github detects these changes and updates the PR) until it can be merged.
+Contributors cannot push code directly to the `master` branch because this could unintentionally break things. Instead, contributors can push code in a new branch (eg. `my-feature`) and submit a *Pull Request*. Pull Requests (PR for shorts) are the way to say *"I've done these changes, can we merge them in the `master`?"*. Your PR may not be immediately accepted (there might be conflicts with the `master`, or the need for improvements). In that case, just push additional changes in the same branch (Github detects these changes and updates the PR) until it can be merged safely.
 
 ## Rules and Good Practices
 
