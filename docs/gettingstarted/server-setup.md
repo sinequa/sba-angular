@@ -232,20 +232,32 @@ You need to verify such options in the query web service when you change the max
 The configuration of the sponsored links allows to specify the number of links returned by the API.
 Refer to the [documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-ui-sponsored-links.html) on sponsored links for more information.
 
+![Sponsored links configuration]({{site.baseurl}}/assets/gettingstarted/admin-sponsored-links.png)
+*Example of Sponsored links configuration*
+{: .text-center }
+
 ## Workspaces
 
-The third part of the server-side configuration that powers the SBA framework is the **Workspaces** section. Workspaces literally refer to Angular workspaces, (which is what [this Github repository](https://github.com/sinequa/sba-angular) contains).
+The third part of the server-side configuration that powers the SBA framework is the **Workspaces** section.
+Workspaces literally refer to Angular workspaces, (which is what [this Github repository](https://github.com/sinequa/sba-angular) contains).
 
-The Angular workspace is not only available on Github, it is also shipped with Sinequa releases as a **zip file**. A workspace can be unzipped, downloaded and uploaded on the Sinequa server via the Sinequa administration.
+The Angular workspace is not only available on Github, it is also shipped with Sinequa releases as a **zip file**.
+A workspace can be unzipped, downloaded and uploaded on the Sinequa server via the Sinequa administration.
 
 This allows:
-- To host and serve SBA on the Sinequa server, which is optional but typically the case in a production setting (cf. [Sinequa server](prerequisites.html#sinequa-server)).
-- To release pre-built SBA directly usable out-of-the-box.
-- To manually deploy a SBA on the server (after a development performed on a developer's computer). Note that deploying with Git is preferable, when possible (see [Workflow](workflow.html)).
 
-Workspaces are unzipped in `<data folder>\sba`, which is where Sinequa looks for them, to be displayed in the administration and to serve the built applications that they contain. The **Workspace form** is located in the administration under *Search-Based Applications*:
+- To host and serve an SBA on the Sinequa server, which is optional but typically the case in a production setting (cf. [Sinequa server](prerequisites.html#sinequa-server)).
+- To release a pre-built SBA directly usable out-of-the-box.
+- To manually deploy an SBA on the server (after a development performed on a developer's computer).
+Note that deploying with Git is preferable, when possible (see [Workflow](workflow.html)).
+
+Angular workspaces are unzipped in `<data folder>\sba`,
+which is where Sinequa looks for them, to be displayed in the administration and to serve the built applications that they contain.
+The **Angular workspaces** is located in the administration under *Search-Based Applications*:
 
 ![Workspaces]({{site.baseurl}}/assets/gettingstarted/admin-workspaces.png)
+*Angular workspaces in the administration*
+{: .text-center }
 
 When opening a workspace in the administration, it is possible to see its content (files and directories), as well as run the build commands listed in the `package.json` file at the root of the workspace. The build commands result in `/dist` or `/dist-debug` folders containing the actual builds. These are hidden in the administration but do exist on the file system. This is where Sinequa is looking for when serving a particular application. Obviously, the Angular app needs to be built in order to be served...
 
