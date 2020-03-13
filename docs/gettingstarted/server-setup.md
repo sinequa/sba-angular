@@ -7,16 +7,27 @@ nav_order: 2
 
 # Server-side setup
 
+## WebApp configuration
+
+Before starting, please make sure that the following options are configured as described in the your webapp:
+
+- *Webapp > Stateless Mode > Return HTTP error codes* enabled,
+- *Webapp > Stateless Mode > Permitted origins for Cross-Origin Resource Sharing (CORS) requests* set to the URL you will
+use to test your app locally. For example, `http://localhost:4200` (or just `*`).
+
 ## Minimal configuration
 
 The minimal configuration required to get started is an **App** and a **Query** web service.
 
-In the administration, under *Search-based application*:
-- In *Apps*, click *New empty SBA*, give it a name and open it.
-- *Edit*, and in the list of Queries, set the default *_query*.
+To create an **App** configuration, in the administration:
 
-In your *Webapp* configuration, go to *Stateless* mode, and in *Permitted origins for Cross-Origin Resource Sharing (CORS) requests* add the URL you will use to test your app locally. Typically: `http://localhost:4200` (or just `*`).
+- Go to *Search-based application > Apps*,
+- In *Apps*, click *New empty SBA*, give it a name then click *Ok*. You will be redirected to the configuration page of the new **App**.
+- Click *Edit*, and in the list of Queries, choose the default *_query*.
 
+![New empty app action]({{site.baseurl}}/assets/gettingstarted/admin-new-empty-app-action.png)
+*'New empty app' action in Apps*
+{: .text-center }
 At this point your Sinequa server can be used to develop a SBA and you can go to [Developer-side setup](dev-setup.html) or spend more time reading the documentation below to fully configure the server.
 
 ## Apps
