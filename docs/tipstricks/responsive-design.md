@@ -31,11 +31,11 @@ Similarly, you can hide or show elements with a `display: none;` property, or ch
 
 These media query rules are also used by UI frameworks, like [**Bootstrap**](https://getbootstrap.com/). With Bootstrap, rather than writing rules in *your* stylesheet, you assign predefined rules to your HTML elements with class names (these class names include screen size modifiers that make the app responsive).
 
-The [**Grid System**](https://getbootstrap.com/docs/4.4/layout/grid/) of Bootstrap allows you to design your app according to a layout that self-adjusts depending on the size of the screen. The names of the screen size modifiers used by bootstrap are by convention `xs`, `sm`, `md`, `lg`, `xl`, and each corresponds to a default **screen width range**. These sizes can be customized for your app, by setting your own sizes in CSS variables **before** importing Bootstrap (See [the tutorial on Responsive Design]({{site.baseurl}}//tutorial/responsive-design.html)).
+The [**Grid System**](https://getbootstrap.com/docs/4.4/layout/grid/) of Bootstrap allows you to design your app according to a layout that self-adjusts depending on the size of the screen. The names of the screen size modifiers used by bootstrap are by convention `xs`, `sm`, `md`, `lg`, `xl`, and each corresponds to a default **screen width range**. These sizes can be customized for your app, by setting your own sizes in CSS variables **before** importing Bootstrap (See [the tutorial on Responsive Design]({{site.baseurl}}/tutorial/responsive-design.html)).
 
 Using Bootstrap is a good way to make your application responsive, all while minimizing the size of your stylesheet. In the SBA Framework, Bootstrap is used extensively:
-- In the [@sinequa/components]({{site.baseurl}}/modules/components/components.html) library, in all the components whose class name are prefixed by `Bs`.
-- In the [Vanilla Search]({{site.baseurl}}/modules/vanilla-search/vanilla-search.html) application.
+- In the [@sinequa/components]({{site.baseurl}}modules/components/components.html) library, in all the components whose class name are prefixed by `Bs`.
+- In the [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html) application.
 
 The features of Bootstrap that are commonly used in the framework are:
 - The [**Grid System**](https://getbootstrap.com/docs/4.4/layout/grid/) (`.container`, `.row`, `.col-xx-y`): Control the layout of the app in a responsive way.

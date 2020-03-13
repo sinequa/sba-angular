@@ -7,9 +7,9 @@ nav_order: 3
 
 # Search Module
 
-The [Hello Search]({{site.baseurl}}/modules/hello-search/hello-search.html) app is solely based on the low-level library [`@sinequa/core`]({{site.baseurl}}/modules/core/core.html). In the next steps of this tutorial, we will incorporate high-level features from [`@sinequa/components`]({{site.baseurl}}/modules/components/components.html).
+The [Hello Search]({{site.baseurl}}modules/hello-search/hello-search.html) app is solely based on the low-level library [`@sinequa/core`]({{site.baseurl}}modules/core/core.html). In the next steps of this tutorial, we will incorporate high-level features from [`@sinequa/components`]({{site.baseurl}}modules/components/components.html).
 
-The first module that we want to integrate is the [Search module]({{site.baseurl}}/modules/components/search.html), since it powers many other modules and is very central in the architecture of the SBA framework.
+The first module that we want to integrate is the [Search module]({{site.baseurl}}modules/components/search.html), since it powers many other modules and is very central in the architecture of the SBA framework.
 
 ## Importing the Search Module
 
@@ -78,14 +78,14 @@ Now in your `app.component.html`, replace the occurrences of `results$` by `sear
 
 ```html
 <div *ngIf="searchService.resultsStream | async; let results">
-    <hr>
+    <hr>    
     <div *ngFor="let record of results.records" class="record">
 ...
 ```
 
 At this point, your application works almost correctly. Notice that the URL now contains a serialized Query object, which contains the text you have searched for. If you refresh the page, the results are still here! However, notice that the text in the search input has disappeared...
 
-![Empty input]({{site.baseurl}}/assets/tutorial/search-empty-input.png)
+![Empty input]({{site.baseurl}}assets/tutorial/search-empty-input.png)
 
 To fix this, we need to listen to the `SearchService` events and fill the input when the query changes. Back in your `app.component.ts`, add these lines to your constructor:
 
@@ -93,7 +93,7 @@ To fix this, we need to listen to the `SearchService` events and fill the input 
 constructor(
     ...
 ){
-    ...
+    ...    
     this.searchService.queryStream.subscribe({
         next: (query) => {
             this.searchControl.setValue((query && query.text) || '');
@@ -112,7 +112,7 @@ In your `styles\app.scss` stylesheet, add the following lines:
 
 ```scss
 // Bootstrap styles
-@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/bootstrap"; 
 
 /*** Fontawesome ***/
 $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
@@ -142,14 +142,14 @@ You can now insert some of the Search module components in your component's temp
             <h3 [innerHtml]="record.displayTitle || record.title"></h3>
         </a>
         <div class="source">{{record.url1}}</div>
-        <p *ngIf="record.relevantExtracts" [innerHTML]="record.relevantExtracts"></p>
+        <p *ngIf="record.relevantExtracts" [innerHTML]="record.relevantExtracts"></p>       
     </div>
 </div>
 ```
 
 If everything goes well, you should see something like this in your app:
 
-![Search components]({{site.baseurl}}/assets/tutorial/search-components.png)
+![Search components]({{site.baseurl}}assets/tutorial/search-components.png)
 
 Don't worry too much about the Look & Feel of the app, we'll come to that later. In particular the name of the tabs read like strange codes (`msg#results.resultsAllTab`): these are keys needed to internationalize your application, with a dictionary for each language (we will deal with that in the [Internationalization chapter](intl.html))
 

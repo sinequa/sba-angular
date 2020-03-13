@@ -9,9 +9,9 @@ nav_order: 7
 
 Now, we would like to display the **HTML preview** of a document when clicking on its title, including all the highlighted entities detected by Sinequa in the text of the document.
 
-As usual, the preview is packaged in a module from [`@sinequa/components`]({{site.baseurl}}/modules/components/components.html): the [`BsPreviewModule`]({{site.baseurl}}/modules/components/preview.html).
+As usual, the preview is packaged in a module from [`@sinequa/components`]({{site.baseurl}}modules/components/components.html): the [`BsPreviewModule`]({{site.baseurl}}modules/components/preview.html).
 
-Furthermore, we would like the preview to be displayed in **popup**. Again, we have a module for that: The [`BsModalModule`]({{site.baseurl}}/modules/components/modal.html).
+Furthermore, we would like the preview to be displayed in **popup**. Again, we have a module for that: The [`BsModalModule`]({{site.baseurl}}modules/components/modal.html).
 
 ## Importing the Modal and Preview modules
 
@@ -94,7 +94,7 @@ We are almost there. Refactor your `app.component.html` template to call this me
 
 Now, click on one the documents... Here is what you should see:
 
-![Modal popup]({{site.baseurl}}/assets/tutorial/modal.png){: .d-block .mx-auto }
+![Modal popup]({{site.baseurl}}assets/tutorial/modal.png){: .d-block .mx-auto }
 
 ## Passing data to a modal component
 
@@ -126,7 +126,7 @@ import { MODAL_MODEL } from '@sinequa/core/modal';
 })
 export class Preview {
 
-    constructor(
+    constructor( 
         @Inject(MODAL_MODEL) public record: Record){
     }
 
@@ -135,7 +135,7 @@ export class Preview {
 
 Now your dialog should display the title of the document (notice we also changed the HTML to set the `[title]` parameter):
 
-![Modal with title]({{site.baseurl}}/assets/tutorial/modal-title.png){: .d-block .mx-auto }
+![Modal with title]({{site.baseurl}}assets/tutorial/modal-title.png){: .d-block .mx-auto }
 
 ## Preview data
 
@@ -154,7 +154,7 @@ export class Preview {
 
     url: SafeResourceUrl; // URL of the HTML preview
 
-    constructor(
+    constructor( 
         ...
         previewService: PreviewService,
         searchService: SearchService,
@@ -183,7 +183,7 @@ We can modify the HTML template of our `Preview` component:
 </sq-modal>
 ```
 
-![Small Preview Modal]({{site.baseurl}}/assets/tutorial/modal-small.png){: .d-block .mx-auto }
+![Small Preview Modal]({{site.baseurl}}assets/tutorial/modal-small.png){: .d-block .mx-auto }
 
 This works, but our large preview is displayed in a very small dialog... To fix this, we should first ask the `ModalService` to use the full screen:
 
@@ -193,7 +193,7 @@ this.modalService.open(Preview, {model: record, fullscreen: true});
 
 Finally, a fullscreen preview!
 
-![Fullscreen preview]({{site.baseurl}}/assets/tutorial/modal-preview.png){: .d-block .mx-auto }
+![Fullscreen preview]({{site.baseurl}}assets/tutorial/modal-preview.png){: .d-block .mx-auto }
 
 ## Highlighting entities in the preview
 
@@ -201,7 +201,7 @@ Notice that our HTML does not seem to contain any highlight...
 
 But, if you look closer and inspect the content of the HTML, you can actually see that the entities detected by Sinequa are wrapper in `<span>` elements with lots of attributes:
 
-![Entities in the HTML]({{site.baseurl}}/assets/tutorial/preview-entities.png){: .d-block .mx-auto }
+![Entities in the HTML]({{site.baseurl}}assets/tutorial/preview-entities.png){: .d-block .mx-auto }
 
 What the application is missing is a `preview.css` file to apply colors to these elements.
 
@@ -258,4 +258,4 @@ By:
 
 And now... Voilà:
 
-![Highlighted entities]({{site.baseurl}}/assets/tutorial/entities-highlights.png){: .d-block .mx-auto }
+![Highlighted entities]({{site.baseurl}}assets/tutorial/entities-highlights.png){: .d-block .mx-auto }

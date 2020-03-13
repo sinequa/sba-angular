@@ -9,7 +9,7 @@ nav_order: 6
 
 Now, let's try to improve our search input with an **autocomplete**: a component that displays suggestions dynamically when the user is typing.
 
-As usual, the autocomplete is packaged in a module from [`@sinequa/components`]({{site.baseurl}}/modules/components/components.html): the [`BsAutocompleteModule`]({{site.baseurl}}/modules/components/autocomplete.html).
+As usual, the autocomplete is packaged in a module from [`@sinequa/components`]({{site.baseurl}}modules/components/components.html): the [`BsAutocompleteModule`]({{site.baseurl}}modules/components/autocomplete.html).
 
 Of course, this assumes a [**Suggest Query**](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-sba-how-to-auto-complete.html) has been configured on the Sinequa backend server. If you are doing this tutorial with our test server as the backend, a query has been configured for you 😉.
 
@@ -48,7 +48,7 @@ First, let's restyle our form with some Bootstrap classes:
 
 Notice that we inserted two extra `<div>` and some Bootstrap classes (`input-group`, `form-control`, `btn`, etc.). Your form should look something like:
 
-![Search form Bootstrap]({{site.baseurl}}/assets/tutorial/search-form.png)
+![Search form Bootstrap]({{site.baseurl}}assets/tutorial/search-form.png)
 
 ⚠️ Also change the `type` of the Search button to `button` rather than `submit` (to avoid triggering double-submits caused by the autocomplete).
 
@@ -76,10 +76,10 @@ This doesn't change anything to the display though, because the `sq-autocomplete
 Now, we insert the `sqAutocomplete` directive in the `<input>` element:
 
 ```html
-<input ...
-       sqAutocomplete
+<input ... 
+       sqAutocomplete 
        [off]="!loginService.complete || !appService.suggestQueries"
-       [dropdown]="dropdown"
+       [dropdown]="dropdown" 
        [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : null"
        (submit)="search()">
 ```
@@ -101,7 +101,7 @@ The `sq-autocomplete-list` component actually expects a input template to displa
                 {{(item.label || item.category) | sqMessage}}
             </small>
         </div>
-    </ng-template>
+    </ng-template>    
 </sq-autocomplete-list>{% endraw %}
 ```
 
@@ -109,7 +109,7 @@ You can complete customize the display for the suggestions. The `item` object ha
 
 Finally some suggestions!
 
-![Autocomplete]({{site.baseurl}}/assets/tutorial/autocomplete.png)
+![Autocomplete]({{site.baseurl}}assets/tutorial/autocomplete.png)
 
 ## Going further
 
@@ -169,20 +169,20 @@ export class AutocompleteCustom extends Autocomplete {
                 from(this.searchRecentQueries(value)),
                 this.suggestService.get(this.suggestQuery, value, fields)
             ]
-
+                                    
             this.processSuggests(
                 // The forkJoin method allows to merge the suggestions into a single array, so the parent
                 // directive only sees a single source.
                 forkJoin(...dataSources).pipe(
-                    map((suggests) => {
-                        return [].concat(...suggests);
+                    map((suggests) => { 
+                        return [].concat(...suggests); 
                     }),
                     catchError((err, caught) => {
                         console.error(err);
                         return [];
                     })
                 ), fields);
-
+            
         }
         else {  // If empty input, restart autocomplete
             this.start();
@@ -191,12 +191,12 @@ export class AutocompleteCustom extends Autocomplete {
 
     /**
      * Search for the input text in the recent queries and return autocomplete items asynchronously
-     * @param text
+     * @param text 
      */
     searchRecentQueries(text: string): Promise<AutocompleteItem[]> {
         return this.suggestService.searchData<RecentQuery>(
-            'recent-query',
-            text,
+            'recent-query', 
+            text, 
             this.recentQueriesService.recentqueries,
             (query) => query.query.text || '',
             undefined,
