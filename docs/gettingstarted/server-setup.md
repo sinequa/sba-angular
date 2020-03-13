@@ -103,26 +103,39 @@ The list of Web Services can be found in the administration interface under *Sea
 
 ### Query web service
 
-By far the most complex API, and by extension most complex Web Service configuration, is the **Query** web service. This is the service that lets you build complex queries to retrieve data from the Sinequa indexes.
+By far the most complex API, and by extension most complex Web Service configuration, is the **Query** web service.
+This is the service that lets you build complex queries to retrieve data from the Sinequa indexes.
 
 The **General** tab of the Query web service configuration allows to configure these key parameters:
+
 - **Index list**: The list of indexes which this web service may query.
 - **QueryPlugin**: A server-side plugin (written in C#), which lets you customize the search queries, or post-process the responses.
-- **Aggregations**: A list of *Aggregations*. An aggregation is a short-list of metadata computed in function of a query. For example, if you search for "automobile manufacturer", the *Company* aggregation could contain entries like "Volkswagen", "BMW", "Tesla", etc.
+- **Aggregations**: A list of *Aggregations*. An aggregation is a short-list of metadata computed in function of a query.
+For example, if you search for "automobile manufacturer", the *Company* aggregation could contain entries like "Volkswagen", "BMW", "Tesla", etc.
 
 ![Query Web Service configuration - General tab]({{site.baseurl}}/assets/gettingstarted/admin-query.png)
 *Query Web Service configuration - General tab*
 {: .text-center }
 
 The **Results Page** tab of the Query web service configuration allows to configure these key parameters:
-- **Search scopes**: A "scope" allows to restrict the search to a specific subset of the corpus, with SQL rules. The Angular application may select a scope by setting `query.scope = '<scope name>'`. Unlike tabs, it is not possible to compute the number of document for each scope with one query (since each scope has a specific ruleset).
-- **Relevant Extracts**: The relevant extracts are key passages and sentences found in the searched documents, which are then used to compute a short summary typically displayed in the search results.
+
+- **Search scopes**: A "scope" allows to restrict the search to a specific subset of the corpus, with SQL rules.
+The Angular application may select a scope by setting `query.scope = '<scope name>'`.
+Unlike tabs, it is not possible to compute the number of document for each scope with one query (since each scope has a specific ruleset).
+- **Relevant Extracts**: The relevant extracts are key passages and sentences found in the searched documents,
+which are then used to compute a short summary typically displayed in the search results.
 
 ![Relevant extracts]({{site.baseurl}}/assets/gettingstarted/relevant-extracts.png)
+*Example of relevant extracts*
+{: .text-center }
 
-- **Tab Search**: Allows to specify a list of tabs to search in a specific subset of the corpus. Tabs are meant to filter on a single column of the index (e.g. the format of document, name of the data source, etc.). The Angular application may select a tab by setting `query.tab = '<tab name>'`.
+- **Tab Search**: Allows to specify a list of tabs to search in a specific subset of the corpus.
+Tabs are meant to filter on a single column of the index (e.g. the format of document, name of the data source, etc.).
+The Angular application may select a tab by setting `query.tab = '<tab name>'`.
 
-The **Search settings** tab of the Query web service configuration allows to configure in fine details the query sent to the Sinequa engine. In particular:
+The **Search settings** tab of the Query web service configuration allows to configure in fine details the query sent to the Sinequa engine.
+In particular:
+
 - Analysis of the user query:
   - Language detection & dictionaries
   - Intent detection
@@ -136,7 +149,9 @@ The **Search settings** tab of the Query web service configuration allows to con
   - Calculation of most relevant "Concepts"
   - Similar document search settings
 
-The **Relevance** tab of the Query web service configuration allows to configure in fine details the relevance calculations performed by the Sinequa engine. In particular:
+The **Relevance** tab of the Query web service configuration allows to configure in fine details the relevance calculations performed by the Sinequa engine.
+In particular:
+
 - The statistical part of the relevance (global score formula, words & forms weighting)
 - The freshness score (favoring most recent content)
 - The part name weights (favoring specific parts of the content)
@@ -144,9 +159,13 @@ The **Relevance** tab of the Query web service configuration allows to configure
 - The relevance transforms (allowing for custom forms of relevance, such as popularity, ratings or importance)
 - The relevance feedback model (allowing to account for user feedback)
 
-The **Advanced** tab of the Query web service configuration allows to configure meaningful aliases and labels for specific columns. This is useful to avoid exposing the bare structure of the index to front-end developers. Instead, developers will see and use explicit variable names, which are used consistently across the different web services.
+The **Advanced** tab of the Query web service configuration allows to configure meaningful aliases and labels for specific columns.
+This is useful to avoid exposing the bare structure of the index to front-end developers.
+Instead, developers will see and use explicit variable names, which are used consistently across the different web services.
 
 ![Aliases]({{site.baseurl}}/assets/gettingstarted/admin-query-aliases.png)
+*Example of query alias*
+{: .text-center }
 
 ### Preview web service
 
