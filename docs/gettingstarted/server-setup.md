@@ -89,9 +89,11 @@ In the **Advanced** tab of the App configuration, it is possible to restrict the
 
 ## Web Services
 
-The **Web Services** configurations allow to configure the behaviour of certain endpoints of the REST API. Some of the endpoints have implicit configuration, which is not exposed in the Sinequa administration, and will behave the same, regardless of the App. Other (more complex) endpoints are configured on the server, which allows:
+The **Web Services** configurations allow you to configure the behaviour of certain endpoints of the REST API.
+Other (more complex) endpoints are configured on the server, which allows:
+
 - To minimize the size and complexity of the requests sent to the server
-- To prevent exposing sensitive or internal parameters and settings to the client side, which could be used maliciously or impact performance negatively
+- To prevent exposing sensitive or internal parameters and settings to the client side, which could be used maliciously or impact negatively the overal performance of Sinequa ES.
 
 The list of Web Services can be found in the administration interface under *Search-Base Applications > Web Services*
 
