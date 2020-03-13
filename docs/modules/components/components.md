@@ -11,4 +11,4 @@ parent: Modules
 
 ## Reference documentation
 
-Please checkout the [reference documentation]({{site.baseurl}}//components) auto-generated from source code.
+Please checkout the [reference documentation]({{site.baseurl}}/components) auto-generated from source code.

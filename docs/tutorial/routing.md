@@ -23,7 +23,7 @@ In this tutorial, we are going to refactor our app to have 2 routes and 4 compon
 - The **Home** component is going to be our home page.
 - The **Search form** component (which displays the Search input and autocomplete) will be displayed on both the home page and the search page.
 
-![Routing of the app]({{site.baseurl}}/assets/tutorial/routing.png){: .d-block .mx-auto width="500px" }
+![Routing of the app]({{site.baseurl}}assets/tutorial/routing.png){: .d-block .mx-auto width="500px" }
 *Our app will have four components and two routes*
 {: .text-center }
 
@@ -74,7 +74,7 @@ Note that Angular took care of add these new components to our `app.module.ts`.
 
     You should see:
 
-    ![Home works]({{site.baseurl}}/assets/tutorial/home-works.png){: .d-block .mx-auto }
+    ![Home works]({{site.baseurl}}assets/tutorial/home-works.png){: .d-block .mx-auto }
 
 4. Open your `search.component.html` and migrate all the `<form>` element to the `search-form.component.html`. Also migrate the associate dependencies and methods from the `search.component.ts` to the `search-form.component.ts` (that includes the `search()` and `clear()` methods as well as `form` initialization and the `searchService.queryStream` subscription in the constructor).
 
@@ -97,7 +97,7 @@ Note that Angular took care of add these new components to our `app.module.ts`.
 
 7. At this point, the search form should be correctly displayed on the home page, with the autocomplete working. But if you search for something, nothing happens...
 
-    ![home page]({{site.baseurl}}/assets/tutorial/home-page.png){: .d-block .mx-auto }
+    ![home page]({{site.baseurl}}assets/tutorial/home-page.png){: .d-block .mx-auto }
 
     The two next steps are going to fix this.
 

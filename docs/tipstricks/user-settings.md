@@ -7,7 +7,7 @@ nav_order: 7
 
 # User Settings
 
-User Settings were already introduced and discussed in the [tutorial]({{site.baseurl}}/tutorial/user-settings.html).
+User Settings were already introduced and discussed in the [tutorial]({{site.baseurl}}tutorial/user-settings.html).
 
 There are currently five services based on the User Settings. The table below summarizes the features available for each of them:
 
@@ -21,7 +21,7 @@ There are currently five services based on the User Settings. The table below su
 
 ## Developing your own User-Settings service
 
-The [tutorial]({{site.baseurl}}/tutorial/user-settings.html#developing-your-own-user-settings-service) already introduces the main characteristics of a User-Settings service. In this section, we will go through the code of the Recent Queries service (`RecentQueriesService`) step by step, to explain the role of each part (other services follow a very similar structure).
+The [tutorial]({{site.baseurl}}tutorial/user-settings.html#developing-your-own-user-settings-service) already introduces the main characteristics of a User-Settings service. In this section, we will go through the code of the Recent Queries service (`RecentQueriesService`) step by step, to explain the role of each part (other services follow a very similar structure).
 
 ### Data structure
 
@@ -80,7 +80,7 @@ export const MAX_QUERIES = new InjectionToken<Number>("MAX_QUERIES");
 
 Our service is defined like a regular service, using the `Injectable` annotation.
 
-By convention, we define two private sources of events (`_events` and `_changes`, where `_changes` triggers a subset of the events of `_events`, as defined [above](#events-and-event-types)), and their public getters defined below (`get changes()` and `get events()`).
+By convention, we define two private sources of events (`_events` and `_changes`, where `_changes` triggers a subset of the events of `_events`, as defined [above](#events-and-event-types)), and their public getters defined below (`get changes()` and `get events()`). 
 
 The constructor includes other services (in particular `UserSettingsWebService`), and the (optional) `maxQueries` parameter injected via the [`InjectionToken`](#injection-token) defined above (to inject a value for this parameter, add a provider to your `app.module.ts`, like `{ provide: MAX_QUERIES, useValue: 50 }`).
 
@@ -95,14 +95,14 @@ The service immediately subscribes to 3 types of events:
 })
 export class RecentQueriesService implements OnDestroy {
 
-    private readonly _events = new Subject<RecentQueryChangeEvent>();
+    private readonly _events = new Subject<RecentQueryChangeEvent>();   
     private readonly _changes = new Subject<RecentQueryChangeEvent>();
-
+    
     constructor(
         public userSettingsService: UserSettingsWebService,
         public searchService: SearchService,
         @Optional() @Inject(MAX_QUERIES) private maxQueries: number,
-    ){
+    ){        
         if(!this.maxQueries){
             this.maxQueries = 20;
         }
@@ -115,7 +115,7 @@ export class RecentQueriesService implements OnDestroy {
         });
         // Listen to own events, to trigger change events
         this._events.subscribe(event => {
-            if(RECENT_QUERIES_CHANGE_EVENTS.indexOf(event.type) !== -1){
+            if(RECENT_QUERIES_CHANGE_EVENTS.indexOf(event.type) !== -1){                
                 this.changes.next(event);
             }
         });
@@ -129,7 +129,7 @@ export class RecentQueriesService implements OnDestroy {
     }
 
     /**
-     * Triggers any event among RecentQueryChangeEvent
+     * Triggers any event among RecentQueryChangeEvent 
      * (use for fine-grained control of recent queries workflow)
      */
     public get events() : Subject<RecentQueryChangeEvent> {
@@ -137,13 +137,13 @@ export class RecentQueriesService implements OnDestroy {
     }
 
     /**
-     * Triggers when events affect the list of recent queries
+     * Triggers when events affect the list of recent queries 
      * (use to refresh recent queries menus)
      * Cf. CHANGE_EVENTS list
      */
     public get changes() : Subject<RecentQueryChangeEvent> {
         return this._changes;
-    }
+    }    
 ```
 
 ### CRUD API: Read
@@ -173,7 +173,7 @@ public get hasRecentQuery(): boolean {
 
 /**
  * @returns a recent query with the given name or null if it does not exist
- * @param name
+ * @param name 
  */
 public recentquery(text: string): RecentQuery {
     let i = this.recentqueryIndex(text);
@@ -258,9 +258,9 @@ The `deleteRecentQuery()` allows to delete a query from the user settings, based
 ```ts
 /**
  * Deletes the given RecentQuery (based on its query.text)
- * Emits an RecentQuery event.
+ * Emits an RecentQuery event.    
  * Update the data on the server.
- * @param recentquery
+ * @param recentquery 
  * @returns true if recent query was deleted
  */
 public deleteRecentQuery(recentquery: RecentQuery) : boolean {

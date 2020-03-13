@@ -25,7 +25,7 @@ To create an **App** configuration, in the administration:
 - In *Apps*, click *New empty SBA*, give it a name then click *Ok*. You will be redirected to the configuration page of the new **App**.
 - Click *Edit*, and in the list of Queries, choose the default *_query*.
 
-![New empty app action]({{site.baseurl}}/assets/gettingstarted/admin-new-empty-app-action.png)
+![New empty app action]({{site.baseurl}}assets/gettingstarted/admin-new-empty-app-action.png)
 *'New empty app' action in Apps*
 {: .text-center }
 At this point your Sinequa server can be used to develop a SBA and you can go to [Developer-side setup](dev-setup.html)
@@ -41,7 +41,7 @@ Finally, the App can be restricted to specific **Users and Groups**, rather than
 
 The list of Apps can be found in the administration interface under *Search-Base Applications > Apps*:
 
-![List of Apps]({{site.baseurl}}/assets/gettingstarted/admin-apps.png)
+![List of Apps]({{site.baseurl}}assets/gettingstarted/admin-apps.png)
 *List of applications in the Sinequa server administration*
 {: .text-center }
 
@@ -53,14 +53,14 @@ The configuration of an App specifies the **list of Web Services** available for
 If the App is deployed on the Sinequa server, it needs to point to an **Angular workspace**,
  which is shown via the property *Workspace application*.
 
-![App Configuration]({{site.baseurl}}/assets/gettingstarted/admin-app.png)
+![App Configuration]({{site.baseurl}}assets/gettingstarted/admin-app.png)
 *App configuration - General tab*
 {: .text-center }
 
 In the **Auto-Login** tab of the App configuration, it is possible to reference a login provider configured at the level of the Webapp.
 Note that for certain types of SSO (like Windows authentication), the configuration needs to be done essentially in the IIS server.
 
-![Auto-Login tab]({{site.baseurl}}/assets/gettingstarted/admin-app-auth.png)
+![Auto-Login tab]({{site.baseurl}}assets/gettingstarted/admin-app-auth.png)
 *App configuration - Auto-Login tab*
 {: .text-center }
 
@@ -73,17 +73,17 @@ For example, if you specify a list of widgets to be displayed, you will only nee
 The underlying Monaco editor can verify that your JSON is valid and in any case, Sinequa ES verifies the JSON validity
 when saving the App configuration and notifies you should the JSON is not valid.
 
-![Customization tab]({{site.baseurl}}/assets/gettingstarted/admin-app-conf.png)
+![Customization tab]({{site.baseurl}}assets/gettingstarted/admin-app-conf.png)
 *App configuration - Customization (JSON) tab*
 {: .text-center }
 
-![Customization tab with error]({{site.baseurl}}/assets/gettingstarted/admin-app-conf-with-error.png)
+![Customization tab with error]({{site.baseurl}}assets/gettingstarted/admin-app-conf-with-error.png)
 *App configuration - Customization (JSON) tab - when the JSON is not valid*
 {: .text-center }
 
 In the **Advanced** tab of the App configuration, it is possible to restrict the availability of the app to certain users and groups.
 
-![Advanced tab]({{site.baseurl}}/assets/gettingstarted/admin-app-sec.png)
+![Advanced tab]({{site.baseurl}}assets/gettingstarted/admin-app-sec.png)
 *App configuration - Advanced tab*
 {: .text-center }
 
@@ -97,7 +97,7 @@ Other (more complex) endpoints are configured on the server, which allows:
 
 The list of Web Services can be found in the administration interface under *Search-Base Applications > Web Services*
 
-![Advanced tab]({{site.baseurl}}/assets/gettingstarted/admin-ws.png)
+![Advanced tab]({{site.baseurl}}assets/gettingstarted/admin-ws.png)
 *List of **configurable** Web Services in the Sinequa server administration*
 {: .text-center }
 
@@ -113,7 +113,7 @@ The **General** tab of the Query web service configuration allows to configure t
 - **Aggregations**: A list of *Aggregations*. An aggregation is a short-list of metadata computed in function of a query.
 For example, if you search for "automobile manufacturer", the *Company* aggregation could contain entries like "Volkswagen", "BMW", "Tesla", etc.
 
-![Query Web Service configuration - General tab]({{site.baseurl}}/assets/gettingstarted/admin-query.png)
+![Query Web Service configuration - General tab]({{site.baseurl}}assets/gettingstarted/admin-query.png)
 *Query Web Service configuration - General tab*
 {: .text-center }
 
@@ -125,7 +125,7 @@ Unlike tabs, it is not possible to compute the number of document for each scope
 - **Relevant Extracts**: The relevant extracts are key passages and sentences found in the searched documents,
 which are then used to compute a short summary typically displayed in the search results.
 
-![Relevant extracts]({{site.baseurl}}/assets/gettingstarted/relevant-extracts.png)
+![Relevant extracts]({{site.baseurl}}assets/gettingstarted/relevant-extracts.png)
 *Example of relevant extracts*
 {: .text-center }
 
@@ -163,7 +163,7 @@ The **Advanced** tab of the Query web service configuration allows to configure 
 This is useful to avoid exposing the bare structure of the index to front-end developers.
 Instead, developers will see and use explicit variable names, which are used consistently across the different web services.
 
-![Aliases]({{site.baseurl}}/assets/gettingstarted/admin-query-aliases.png)
+![Aliases]({{site.baseurl}}assets/gettingstarted/admin-query-aliases.png)
 *Example of query aliases*
 {: .text-center }
 
@@ -180,11 +180,11 @@ The default setting is therefore `preview.css`.
 For example, relevant extracts are highlighted by wrapping `<span>` tags around the relevant text.
 The visual highlight itself is effectively done by the aforementioned `preview.css` file (for example with a CSS rule of the type `background-color: yellow;`).
 
-![Preview configuration]({{site.baseurl}}/assets/gettingstarted/admin-preview.png)
+![Preview configuration]({{site.baseurl}}assets/gettingstarted/admin-preview.png)
 *Example of preview configuration*
 {: .text-center }
 
-![highlights]({{site.baseurl}}/assets/gettingstarted/highlights.png)
+![highlights]({{site.baseurl}}assets/gettingstarted/highlights.png)
 *Example of a highlighted HTML (each colored passage corresponds to a `<span>` element with a specific highlighted entity class)*
 {: .text-center }
 
@@ -198,7 +198,7 @@ It is possible to restrict specific actions (Label creation, label modification)
 
 This service also exposes an autocomplete feature to easily search and select a specific label.
 
-![Labels configuration]({{site.baseurl}}/assets/gettingstarted/admin-labels.png)
+![Labels configuration]({{site.baseurl}}assets/gettingstarted/admin-labels.png)
 *Example of labels configuration*
 {: .text-center }
 
@@ -207,7 +207,7 @@ This service also exposes an autocomplete feature to easily search and select a 
 The autocomplete web service essentially lists **suggest queries** that provide suggestions when the user types some text in a form.
 Refer to the [documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-sba-how-to-auto-complete.html) on suggest queries for more information.
 
-![Autocomplete configuration]({{site.baseurl}}/assets/gettingstarted/admin-autocomplete.png)
+![Autocomplete configuration]({{site.baseurl}}assets/gettingstarted/admin-autocomplete.png)
 *Example of autocomplete configuration*
 {: .text-center }
 
@@ -223,7 +223,7 @@ In particular, the query configuration can limit the maximum number of records p
 
 You need to verify such options in the query web service when you change the maximum number of lines in the export web service.
 
-![Export configuration]({{site.baseurl}}/assets/gettingstarted/admin-export.png)
+![Export configuration]({{site.baseurl}}assets/gettingstarted/admin-export.png)
 *Example of export configuration*
 {: .text-center }
 
@@ -232,7 +232,7 @@ You need to verify such options in the query web service when you change the max
 The configuration of the sponsored links allows to specify the number of links returned by the API.
 Refer to the [documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-ui-sponsored-links.html) on sponsored links for more information.
 
-![Sponsored links configuration]({{site.baseurl}}/assets/gettingstarted/admin-sponsored-links.png)
+![Sponsored links configuration]({{site.baseurl}}assets/gettingstarted/admin-sponsored-links.png)
 *Example of Sponsored links configuration*
 {: .text-center }
 
@@ -255,13 +255,13 @@ Angular workspaces are unzipped in `<data folder>\sba`,
 which is where Sinequa looks for them, to be displayed in the administration and to serve the built applications that they contain.
 The **Angular workspaces** is located in the administration under *Search-Based Applications*:
 
-![Workspaces]({{site.baseurl}}/assets/gettingstarted/admin-workspaces.png)
+![Workspaces]({{site.baseurl}}assets/gettingstarted/admin-workspaces.png)
 *Angular workspaces in the administration*
 {: .text-center }
 
 When opening a workspace in the administration, it is possible to see its content (files and directories), as well as run the build commands listed in the `package.json` file at the root of the workspace. The build commands result in `/dist` or `/dist-debug` folders containing the actual builds. These are hidden in the administration but do exist on the file system. This is where Sinequa is looking for when serving a particular application. Obviously, the Angular app needs to be built in order to be served...
 
-![Serving an app]({{site.baseurl}}/assets/gettingstarted/admin-serving.png)
+![Serving an app]({{site.baseurl}}assets/gettingstarted/admin-serving.png)
 *When the app is hosted on Sinequa, the URL contains the name of the App, which itself points to a specific workspace and app*
 {: .text-center }
 
