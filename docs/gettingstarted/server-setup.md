@@ -259,7 +259,71 @@ The **Angular workspaces** is located in the administration under *Search-Based 
 *Angular workspaces in the administration*
 {: .text-center }
 
-When opening a workspace in the administration, it is possible to see its content (files and directories), as well as run the build commands listed in the `package.json` file at the root of the workspace. The build commands result in `/dist` or `/dist-debug` folders containing the actual builds. These are hidden in the administration but do exist on the file system. This is where Sinequa is looking for when serving a particular application. Obviously, the Angular app needs to be built in order to be served...
+At the start, there will be no workspace pre-loaded in Sinequa ES.
+You can:
+
+- either load the default Sinequa Angular workspace from a zip provided with your Sinequa,
+- or import your own Angular workspace, note that only multi-project Angular workspace is supported
+(cf. [multi-project Angular workspace](https://angular.io/guide/file-structure#multiple-projects) for more information about Angular workspace type).
+
+### Unzip the Sinequa Angular workspace
+
+To unzip the default Sinequa workspace, click **New > Unzip default Angular workspace**
+
+![Unzip default Angular workspace]({{site.baseurl}}assets/gettingstarted/admin-unzip-default-angular-workspace.png)
+*'Unzip default Angular workspace' action*
+{: .text-center }
+
+You will be prompted to choose a name for your workspace.
+This process can take a long time, you can follow its progress either by looking at the banner on the top of Workspaces adminisration page
+or going to **Tasks status** page, the progress status is named **UnzipAngularWorkspace**.
+
+![Unzip Angular workspace process status]({{site.baseurl}}assets/gettingstarted/admin-unzip-angular-workspace-status.png)
+*Status of 'Unzip default Angular workspace' action in Tasks status*
+{: .text-center }
+
+### Upload your Angular workspace to Sinequa ES
+
+To import your workspace, click **New > Import Angular workspace**
+
+![Import Angular workspace]({{site.baseurl}}assets/gettingstarted/admin-import-angular-workspace.png)
+*'Import Angular workspace' action*
+{: .text-center }
+
+A wizard will be shown to guide you through the import procedure.
+
+First you need to provide the zip of your workspace. You can only import one workspace at a time.
+Then choose the name of the exported workspace.
+If you want to overwrite an existing workspace, remember to tick the checkbox **Overwite existing workspace**.
+Otherwise, the wizard will not let you continue with the import procedure.
+
+![Import Angular workspace wizard - page 1]({{site.baseurl}}assets/gettingstarted/admin-import-wiz-1.png)
+*'Import Angular workspace' wizard - page 1*
+{: .text-center }
+
+Once you have finished, click on **Next**.
+The next page provides you a summary of the steps that will be executed to import your workspace.
+
+![Import Angular workspace wizard - page 2]({{site.baseurl}}assets/gettingstarted/admin-import-wiz-2.png)
+*'Import Angular workspace' wizard - page 2*
+{: .text-center }
+
+Click on **Next** when you are ready to begin the import procedure.
+The import can take some time, once the it is done you can click on the **Finish** button to view the newly-imported workspace.
+
+![Import Angular workspace wizard - page 3 - Finish]({{site.baseurl}}assets/gettingstarted/admin-import-wiz-3.png)
+*'Import Angular workspace' wizard - page 3 - Finish*
+{: .text-center }
+
+### Workspace
+
+When opening a workspace in the administration, you will see a variety of information related to your workspace.
+it is possible to see its content (files and directories),
+as well as to run the build commands listed in the `package.json` file at the root of the workspace.
+
+The build commands write their result to either `/dist` or `/dist-debug` depending on the configuration of the Angular workspace.
+This is where Sinequa is looking for when serving a particular application.
+Obviously, the Angular app needs to be built in order to be served...
 
 ![Serving an app]({{site.baseurl}}assets/gettingstarted/admin-serving.png)
 *When the app is hosted on Sinequa, the URL contains the name of the App, which itself points to a specific workspace and app*
