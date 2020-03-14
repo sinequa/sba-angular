@@ -318,8 +318,28 @@ The import can take some time, once the it is done you can click on the **Finish
 ### Workspace
 
 When opening a workspace in the administration, you will see a variety of information related to your workspace.
-it is possible to see its content (files and directories),
-as well as to run the build commands listed in the `package.json` file at the root of the workspace.
+
+Firstly, there is information about the download link of your workspace.
+If there is no download links, you can generate them via **More actions > Generate workspace zip** or
+**More actions > Generate minimal workspace zip (without 'node_modules' folder)**.
+Note that distributable folders `dist` and `dist-folder` are not included in download zip.
+
+Generating download zip can take some time, you can follow its progress either by looking at the banner on the top of Workspaces adminisration page
+or going to **Tasks status** page, the progress status is named **GenerateAngularWorkspaceZip**.
+
+![Workspace generate zip actions]({{site.baseurl}}assets/gettingstarted/admin-workspace-generate-download-zip.png)
+*Workspace - Generate zip actions and download link*
+{: .text-center }
+
+Secondly, there is a list of all build scripts declared in the `package.json` file at the root of the workspace.
+You can execute the build script directly in the grid or from the `Build` menu at the top-right of the administration page.
+
+You can follow its progress either by looking at the banner on the top of Workspaces adminisration page
+or going to **Tasks status** page, the progress status is named **BuildAngularWorkspace**.
+
+![Workspace build scripts]({{site.baseurl}}assets/gettingstarted/admin-workspace-build-scripts.png)
+*Workspace - Build scripts*
+{: .text-center }
 
 The build commands write their result to either `/dist` or `/dist-debug` depending on the configuration of the Angular workspace.
 This is where Sinequa is looking for when serving a particular application.
@@ -329,3 +349,34 @@ Obviously, the Angular app needs to be built in order to be served...
 *When the app is hosted on Sinequa, the URL contains the name of the App, which itself points to a specific workspace and app*
 {: .text-center }
 
+Finally, you can browse the content of workspace folder and that of its files or folders.
+Except for the `node_modules` folder, whose content is not shown in the administration due to its large number of children.
+
+![Workspace content]({{site.baseurl}}assets/gettingstarted/admin-workspace-content.png)
+*Workspace - Content*
+{: .text-center }
+
+If there is a `README` markdown file in the workspace root, this file content is also rendered at the end of the workspace page.
+
+![Workspace readme]({{site.baseurl}}assets/gettingstarted/admin-workspace-readme.png)
+*Workspace - README*
+{: .text-center }
+
+### Other actions with workspace
+
+You can execute `npm install` directly on the workspace administration page, if the WebApp machine has access to the Internet.
+By default, this action is disabled on the administration. You need to activate it via **Global options > Advanced > Enable 'npm install' (default: false)**.
+
+You can follow the execution of `npm install` action either by looking at the banner on the top of Workspaces adminisration page
+or going to **Tasks status** page, the progress status is named **ExecuteNpmInstallAngularWorkspace**.
+
+![Workspace execute npm install]({{site.baseurl}}assets/gettingstarted/admin-workspace-execute-npm-install.png)
+*Workspace - Execute 'npm install' action*
+{: .text-center }
+
+From the workspace administration, you can create an App configuration based on one of the application project of the workspace.
+To create a new App, go to **More actions > New app from**, there you can choose the base project for the App.
+
+![Workspace new ap]({{site.baseurl}}assets/gettingstarted/admin-workspace-new-app.png)
+*Workspace - New app actions*
+{: .text-center }
