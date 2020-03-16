@@ -8,8 +8,6 @@ export * from "./facet-list/facet-list";
 export * from "./facet.module";
 export * from "./facet-mysearch/facet-mysearch";
 export * from "./facet-range/facet-range";
-export * from "./facet-recent-queries/facet-recent-queries";
-export * from "./facet-recent-queries-public/facet-recent-queries-public";
 export * from "./facet-refine/facet-refine";
 export * from "./facet-tree/facet-tree";
 export * from "./facet-multi/facet-multi.component";
