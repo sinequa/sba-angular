@@ -169,7 +169,7 @@ Instead, developers will see and use explicit variable names, which are used con
 
 ### Preview web service
 
-The Preview web service form allows to configure the access to the document's HTML preview (stored in Sinequa document cache).
+The Preview web service form configures the access to document HTML previews (stored in Sinequa document cache).
 It has two settings:
 
 - **.css file**: Contains one (or more) CSS file names that are injected in the HTML previews as `<link>` elements,
