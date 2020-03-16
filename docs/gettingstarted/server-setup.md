@@ -352,7 +352,7 @@ Obviously, the Angular app needs to be built in order to be served...
 {: .text-center }
 
 Finally, you can browse the content of workspace folder and that of its files or sub-folders.
-Except for the `node_modules` folder, whose content is not shown in the administration due to its size.
+Note that the contents of the node_modules folder are not shown in the administration due to their size
 
 ![Workspace content]({{site.baseurl}}assets/gettingstarted/admin-workspace-content.png)
 *Workspace - Content*
