@@ -25,6 +25,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: npm run buildall --if-present
+    - run: npm run buildcore --if-present
+    - run: npm run buildcomponents --if-present
+    - run: npm run buildhellosearch --if-present
+    - run: npm run buildvanilla --if-present
       env:
         CI: true
