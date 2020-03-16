@@ -259,9 +259,126 @@ The **Angular workspaces** is located in the administration under *Search-Based 
 *Angular workspaces in the administration*
 {: .text-center }
 
-When opening a workspace in the administration, it is possible to see its content (files and directories), as well as run the build commands listed in the `package.json` file at the root of the workspace. The build commands result in `/dist` or `/dist-debug` folders containing the actual builds. These are hidden in the administration but do exist on the file system. This is where Sinequa is looking for when serving a particular application. Obviously, the Angular app needs to be built in order to be served...
+At the start, there will be no workspace pre-loaded in Sinequa ES.
+You can:
+
+- either load the default Sinequa Angular workspace from a zip provided with your Sinequa,
+- or import your own Angular workspace, noting that only multi-project Angular workspaces are supported
+(cf. [multi-project Angular workspace](https://angular.io/guide/file-structure#multiple-projects) for more information about Angular workspace type).
+
+### Unzip the Sinequa Angular workspace
+
+To unzip the default Sinequa workspace, click **New > Unzip default Angular workspace**
+
+![Unzip default Angular workspace]({{site.baseurl}}assets/gettingstarted/admin-unzip-default-angular-workspace.png)
+*'Unzip default Angular workspace' action*
+{: .text-center }
+
+You will be prompted to choose a name for your workspace.
+This process can take a long time.
+You can follow its progress either by looking at the banner on the top of Workspaces adminisration page
+or by going to **Tasks status** page, the progress status is named **UnzipAngularWorkspace**.
+
+![Unzip Angular workspace process status]({{site.baseurl}}assets/gettingstarted/admin-unzip-angular-workspace-status.png)
+*Status of 'Unzip default Angular workspace' action in Tasks status*
+{: .text-center }
+
+### Upload your Angular workspace to Sinequa ES
+
+To import your workspace, click **New > Import Angular workspace**
+
+![Import Angular workspace]({{site.baseurl}}assets/gettingstarted/admin-import-angular-workspace.png)
+*'Import Angular workspace' action*
+{: .text-center }
+
+A wizard will be shown to guide you through the import procedure.
+
+First you need to provide the zip of your workspace. You can only import one workspace at a time.
+Then choose the name of the exported workspace.
+If you want to overwrite an existing workspace, remember to tick the checkbox **Overwite existing workspace**.
+Otherwise, the wizard will not let you continue with the import procedure.
+
+![Import Angular workspace wizard - page 1]({{site.baseurl}}assets/gettingstarted/admin-import-wiz-1.png)
+*'Import Angular workspace' wizard - page 1*
+{: .text-center }
+
+Once you have finished, click on **Next**.
+The next page provides you a summary of the steps that will be executed to import your workspace.
+
+![Import Angular workspace wizard - page 2]({{site.baseurl}}assets/gettingstarted/admin-import-wiz-2.png)
+*'Import Angular workspace' wizard - page 2*
+{: .text-center }
+
+Click on **Next** when you are ready to begin the import procedure.
+The import can take some time, once it is complete you can click on the **Finish** button to view the newly-imported workspace.
+
+![Import Angular workspace wizard - page 3 - Finish]({{site.baseurl}}assets/gettingstarted/admin-import-wiz-3.png)
+*'Import Angular workspace' wizard - page 3 - Finish*
+{: .text-center }
+
+### Workspace
+
+When opening a workspace in the administration, you will see a variety of information related to your workspace.
+
+Firstly, there is information about the download link of your workspace.
+If there are no download links, you can generate them via **More actions > Generate workspace zip** or
+**More actions > Generate minimal workspace zip (without 'node_modules' folder)**.
+Note that distributable folders `dist` and `dist-folder` are not included in download zip.
+
+Generating download zip can take some time.
+You can follow its progress either by looking at the banner on the top of Workspaces adminisration page
+or by going to **Tasks status** page, the progress status is named **GenerateAngularWorkspaceZip**.
+
+![Workspace generate zip actions]({{site.baseurl}}assets/gettingstarted/admin-workspace-generate-download-zip.png)
+*Workspace - Generate zip actions and download link*
+{: .text-center }
+
+Secondly, there is a list of all build scripts declared in the `package.json` file at the root of the workspace.
+You can execute the build script directly in the grid or from the `Build` menu at the top-right of the administration page.
+
+You can follow its progress either by looking at the banner on the top of Workspaces adminisration page
+or by going to **Tasks status** page, the progress status is named **BuildAngularWorkspace**.
+
+![Workspace build scripts]({{site.baseurl}}assets/gettingstarted/admin-workspace-build-scripts.png)
+*Workspace - Build scripts*
+{: .text-center }
+
+The build commands write their result to either `/dist` or `/dist-debug` depending on the configuration of the Angular workspace.
+This is where Sinequa looks for when serving a particular application.
+Obviously, the Angular app needs to be built in order to be served...
 
 ![Serving an app]({{site.baseurl}}assets/gettingstarted/admin-serving.png)
 *When the app is hosted on Sinequa, the URL contains the name of the App, which itself points to a specific workspace and app*
 {: .text-center }
 
+Finally, you can browse the content of workspace folder and that of its files or sub-folders.
+Note that the contents of the `node_modules` folder are not shown in the administration due to their size
+
+![Workspace content]({{site.baseurl}}assets/gettingstarted/admin-workspace-content.png)
+*Workspace - Content*
+{: .text-center }
+
+If there is a `README` markdown file in the workspace root, this file is also rendered at the end of the workspace page.
+
+![Workspace readme]({{site.baseurl}}assets/gettingstarted/admin-workspace-readme.png)
+*Workspace - README*
+{: .text-center }
+
+### Other actions with workspace
+
+You can execute `npm install` directly on the workspace administration page, if the WebApp machine has access to the Internet.
+By default, this action is disabled on the administration. You need to activate it via **Global options > Advanced > Enable 'npm install' (default: false)**.
+
+You can follow the execution of the `npm install` action either by looking at the banner on the top of Workspaces adminisration page
+or by going to **Tasks status** page, the progress status is named **ExecuteNpmInstallAngularWorkspace**.
+
+![Workspace execute npm install]({{site.baseurl}}assets/gettingstarted/admin-workspace-execute-npm-install.png)
+*Workspace - Execute 'npm install' action*
+{: .text-center }
+
+From the workspace administration, you can create an App configuration based on one of the application project of the workspace.
+To create a new App, go to **More actions > New app from**, where you can choose the base project for the App.
+
+![Workspace new ap]({{site.baseurl}}assets/gettingstarted/admin-workspace-new-app.png)
+*Workspace - New app actions*
+{: .text-center }
