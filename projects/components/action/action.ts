@@ -8,8 +8,8 @@ export interface IAction {
     icon?: string;
     iconAfter?: string;
     separator?: boolean;
-    scrollable?: boolean; // The children are scrollable 
-    scrollGroup?: boolean; // A separate item whose children are scrollable "in place"    
+    scrollable?: boolean; // The children are scrollable
+    scrollGroup?: boolean; // A separate item whose children are scrollable "in place"
     component?: Function;
     componentInputs?: any;
     data?: any;
@@ -54,11 +54,11 @@ export class Action implements IAction {
     destroy: (item: Action) => void;
 
     children: Action[];
-    
+
     constructor(options: IAction) {
         Utils.extend(this, options);
     }
-    
+
     get hasChildren(): boolean {
         return this.children && (this.children.length > 0);
     }
