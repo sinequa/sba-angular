@@ -17,7 +17,6 @@ export class ResultExtracts implements OnChanges {
     @Input() record: Record;
     @Input() limitLinesDisplayed: boolean;
     @Input() showLinesExpander: boolean;
-    @Input() showTextIfNoRelevantExtracts: boolean = true;
     @Input() showTextAlways: boolean;
     @Input() showLongExtracts: boolean;
     @Input() hideDate: boolean;
