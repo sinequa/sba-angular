@@ -22,8 +22,6 @@ import {BsChart} from "./chart/chart";
 import {BsFacetChart} from "./facet-chart/facet-chart";
 
 import {FacetState, ALL_FACETS, DEFAULT_FACETS} from "../facet.service";
-import {BsRecentQueries} from "./facet-recent-queries/facet-recent-queries";
-import {BsRecentQueriesPublic} from "./facet-recent-queries-public/facet-recent-queries-public";
 import {BsRefine} from "./facet-refine/facet-refine";
 import {BsFacetBar} from "./facet-bar/facet-bar";
 import {BsMySearch} from "./facet-mysearch/facet-mysearch";
@@ -60,14 +58,14 @@ import {BsFacetMultiComponent} from "./facet-multi/facet-multi.component";
         Ng5SliderModule
     ],
     declarations: [
-        BsChart, BsFacetChart, BsRecentQueries, BsRecentQueriesPublic, BsRefine,
+        BsChart, BsFacetChart, BsRefine,
         BsFacetRange, BsMySearch, BsFacetBar, 
         BsFacetCard, BsFacetList, BsFacetTree,
         BsFacetFilters, BsFacetFiltersBackground,
         BsFacetMultiComponent
     ],
     exports: [
-        BsChart, BsFacetChart, BsRecentQueries, BsRecentQueriesPublic, BsRefine,
+        BsChart, BsFacetChart, BsRefine,
         BsFacetRange, BsMySearch, BsFacetBar, 
         BsFacetCard, BsFacetList, BsFacetTree,
         BsFacetFilters,

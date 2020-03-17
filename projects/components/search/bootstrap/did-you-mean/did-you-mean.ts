@@ -12,8 +12,6 @@ export class BsDidYouMean implements OnChanges {
     @Input() results: Results;
     @Input() context: "search" | "refine" = "search";
     item: DidYouMeanItem | undefined;
-    spellingCorrectionMode: SpellingCorrectionMode;
-    spellingCorrectionModeEnum = SpellingCorrectionMode;
 
     constructor(
         public searchService: SearchService) {
@@ -22,7 +20,6 @@ export class BsDidYouMean implements OnChanges {
     private handleResults() {
         this.item = undefined;
         if (this.results && this.results.didYouMean) {
-            this.spellingCorrectionMode = SpellingCorrectionMode[this.results.didYouMean.spellingCorrectionMode];
             let lastSelect = this.searchService.query.lastSelect();
             if (!lastSelect) {
                 if (this.context === "search") {
