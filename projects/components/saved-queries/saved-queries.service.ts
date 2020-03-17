@@ -1,7 +1,7 @@
 import {Injectable, InjectionToken, Inject, Type, OnDestroy} from "@angular/core";
 import { HttpResponse } from '@angular/common/http';
-import {Subject, Observable} from "rxjs";
-import {UserSettingsWebService, UserSettings, QueryExportWebService, ExportSourceType, ExportOutputFormat,
+import {Subject, Observable, throwError} from "rxjs";
+import {UserSettingsWebService, QueryExportWebService, ExportSourceType, ExportOutputFormat,
     DownloadWebService, AuditEvents, AuditEvent} from "@sinequa/core/web-services";
 import {ModalService, ModalResult} from "@sinequa/core/modal";
 import {AppService, Query} from "@sinequa/core/app-utils";
@@ -313,7 +313,7 @@ export class SavedQueriesService implements OnDestroy {
      * @returns an Observable which can be used to trigger further events
      */
     private patchSavedQueries(auditEvents?: AuditEvents) {
-        return this.userSettingsService.patch(<UserSettings>{savedQueries: this.savedqueries}, auditEvents)
+        return this.userSettingsService.patch({savedQueries: this.savedqueries}, auditEvents)
             .subscribe(
                 next => {
                     this.events.next({type: SavedQueryEventType.Patched});
@@ -349,19 +349,14 @@ export class SavedQueriesService implements OnDestroy {
     }
 
 
-    public download(model : ExportQueryModel): Observable<HttpResponse<Blob>> | undefined {
+    public download(model : ExportQueryModel): Observable<HttpResponse<Blob>> {
         return this.downloadService.download(this.requestExport(model));
     }
 
-    private requestExport(model: ExportQueryModel): Observable<HttpResponse<Blob>> | undefined {
-        if (!this.searchService.results) {
-            return undefined;
-        }
-        const appName = this.appService.appName;
+    private requestExport(model: ExportQueryModel): Observable<HttpResponse<Blob>> {
         switch (model.export) {
             case ExportSourceType.Result:
                 return this.queryExportService.exportResult(
-                    appName,
                     model.webService,
                     this.searchService.query,
                     this.searchService.results,
@@ -369,7 +364,6 @@ export class SavedQueriesService implements OnDestroy {
                     model.maxCount);
             case ExportSourceType.Selection:
                 return this.queryExportService.exportSelection(
-                    appName,
                     model.webService,
                     this.searchService.query,
                     this.searchService.results,
@@ -378,7 +372,6 @@ export class SavedQueriesService implements OnDestroy {
                     model.maxCount);
             case ExportSourceType.SavedQuery:
                 return this.queryExportService.exportSavedQuery(
-                    appName,
                     model.webService,
                     model.queryName || "",
                     model.format,
@@ -387,7 +380,7 @@ export class SavedQueriesService implements OnDestroy {
                 console.log(
                     'QueryExporter.export unexpected export type: ',
                     ExportSourceType[model.export]);
-                return undefined;
+                return throwError('QueryExporter.export unexpected export type: ');
         }
     }
 

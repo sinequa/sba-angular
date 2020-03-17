@@ -15,6 +15,7 @@ export interface UserSettings {
     language?: string;
     skipCount?: number;
     email?: string;
+    [key: string]: any;
 }
 
 /**
@@ -166,7 +167,7 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
      * @param paths The path to the setting in the JSON.
      */
     public readUserSetting(paths: string[]): any {
-        let json = this.userSettings;
+        let json: any = this.userSettings;
         if (json) {
             for (const path of paths) {
                 json = json[path];

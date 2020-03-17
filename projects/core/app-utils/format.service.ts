@@ -22,24 +22,24 @@ export interface FormatOptions {
      * A callback to provide custom behavior for the [FormatService.formatValue]{@link FormatService#formatValue} method.
      * The formatter is defined in the column's formatter property. Return a non-undefined value to prevent the default behavior
      */
-    formatValue?: (value: FieldValue, display: string, column?: CCColumn) => string;
+    formatValue?: (value: FieldValue, display: string, column?: CCColumn) => string | undefined;
     /**
      * A callback to provide custom behavior for the [FormatService.transformValue]{@link FormatService#transformValue} method.
      * Multiple transforms can be defined on a column - the callback is called per defined transform. Return a non-undefined value to
      * prevent the default behavior
      */
-    transformValue?: (transform: string, value: string, column?: CCColumn) => string;
+    transformValue?: (transform: string, value: string, column?: CCColumn) => string | undefined;
     /**
      * A callback to provide custom behavior for the [FormatService.formatFieldValue]{@link FormatService#formatFieldValue} method.
      * By default, this method calls the `formatValue` and `transformValue` methods. Return a non-undefined value to prevent the default
      * behavior
      */
-    formatFieldValue?: (valueItem: ValueItem | FieldValue, column?: CCColumn) => string;
+    formatFieldValue?: (valueItem: ValueItem | FieldValue, column?: CCColumn) => string | undefined;
     /**
      * A callback to provide custom behavior for the [FormatService.parseValue]{@link FormatService#parseValue} method. This method is
      * used to interpret values entered in fielded search expressions. Return a non-undefined value to prevent the default behavior
      */
-    parseValue?: (value: string, parser: string) => string;
+    parseValue?: (value: string, parser: string) => string | undefined;
 }
 
 /**
@@ -142,7 +142,7 @@ export class FormatService {
      * @param valueItem The value to format
      * @param column The column associated with the value
      */
-    formatValue(valueItem: ValueItem | FieldValue, column?: CCColumn) {
+    formatValue(valueItem: ValueItem | FieldValue, column?: CCColumn): string {
         let [value, display] = this.getValueAndDisplay(valueItem);
         const ret = this.options.formatValue ? this.options.formatValue(value, display, column) : undefined;
         if (ret !== undefined) {

@@ -18,11 +18,7 @@ export class DownloadWebService {
      * @param observable The observable to subscribe.
      * @returns The observable for chaining.
      */
-    public download(observable: Observable<HttpResponse<Blob>> | undefined): Observable<HttpResponse<Blob>> | undefined {
-        if (!observable) {
-            return observable;
-        }
-
+    public download(observable: Observable<HttpResponse<Blob>>): Observable<HttpResponse<Blob>> {
         Utils.subscribe(
             observable,
             (response: HttpResponse<Blob>) => {
@@ -46,7 +42,6 @@ export class DownloadWebService {
                 return response;
             }
         );
-
         return observable;
     }
 }

@@ -30,11 +30,10 @@ export class QueryExportWebService extends HttpService {
 
     private preliminaryCheck(
         methodName: string,
-        appName: string,
         webService: string,
         format: ExportOutputFormat): Observable<HttpResponse<Blob>> | undefined {
 
-        if (!appName) {
+        if (!this.appName) {
             const errorMessage = 'No app';
             this.logErrorToConsole(methodName, errorMessage);
             return throwError({ error: errorMessage});
@@ -58,22 +57,20 @@ export class QueryExportWebService extends HttpService {
     /**
      * Exports the current result.
      *
-     * @param appName The app name.
      * @param webService The configuration for the export web service.
      * @param query The query to export.
      * @param format The export format.
      * @param maxCount (Optional) The maximum number of exported rows.
      */
     public exportResult(
-        appName: string,
         webService: string,
         query: IQuery,
-        results: Results,
+        results: Results | undefined,
         format: ExportOutputFormat,
         maxCount?: number): Observable<HttpResponse<Blob>> {
 
         const methodName = 'exportResult';
-        const preliminaryCheckResult = this.preliminaryCheck(methodName, appName, webService, format);
+        const preliminaryCheckResult = this.preliminaryCheck(methodName, webService, format);
         if (preliminaryCheckResult) {
             return preliminaryCheckResult;
         }
@@ -85,7 +82,7 @@ export class QueryExportWebService extends HttpService {
         }
 
         const postData = {
-            app: appName,
+            app: this.appName,
             webService,
             query,
             type: ExportSourceType[ExportSourceType.Result],
@@ -94,7 +91,7 @@ export class QueryExportWebService extends HttpService {
             auditEvents: {
                 type: AuditEventType.Search_ExportCSV,
                 detail: {
-                    "result-id": !!results ? results.id : null
+                    "result-id": !!results ? results.id : undefined
                 }
             }
         };
@@ -105,7 +102,6 @@ export class QueryExportWebService extends HttpService {
     /**
      * Exports the current selected records.
      *
-     * @param appName The app name.
      * @param webService The configuration for the export web service.
      * @param query
      * @param selection
@@ -113,16 +109,15 @@ export class QueryExportWebService extends HttpService {
      * @param maxCount (Optional) The maximum number of exported rows.
      */
     public exportSelection(
-        appName: string,
         webService: string,
         query: IQuery,
-        results: Results,
+        results: Results | undefined,
         selection: string[],
         format: ExportOutputFormat,
         maxCount?: number): Observable<HttpResponse<Blob>> {
 
         const methodName = 'exportSelection';
-        const preliminaryCheckResult = this.preliminaryCheck(methodName, appName, webService, format);
+        const preliminaryCheckResult = this.preliminaryCheck(methodName, webService, format);
         if (preliminaryCheckResult) {
             return preliminaryCheckResult;
         }
@@ -140,7 +135,7 @@ export class QueryExportWebService extends HttpService {
         }
 
         const postData = {
-            app: appName,
+            app: this.appName,
             webService,
             query,
             selection,
@@ -150,7 +145,7 @@ export class QueryExportWebService extends HttpService {
             auditEvents: {
                 type: AuditEventType.Search_Selection_ExportCSV,
                 detail: {
-                    "result-id": !!results ? results.id : null
+                    "result-id": !!results ? results.id : undefined
                 }
             }
         };
@@ -161,21 +156,19 @@ export class QueryExportWebService extends HttpService {
     /**
      * Exports the result of a saved query.
      *
-     * @param appName The app name.
      * @param webService The configuration for the export web service.
      * @param queryName The query name.
      * @param format The export format.
      * @param maxCount (Optional) The maximum number of exported rows.
      */
     public exportSavedQuery(
-        appName: string,
         webService: string,
         queryName: string,
         format: ExportOutputFormat,
         maxCount?: number): Observable<HttpResponse<Blob>> {
 
         const methodName = 'exportSavedQuery';
-        const preliminaryCheckResult = this.preliminaryCheck(methodName, appName, webService, format);
+        const preliminaryCheckResult = this.preliminaryCheck(methodName, webService, format);
         if (preliminaryCheckResult) {
             return preliminaryCheckResult;
         }
@@ -187,7 +180,7 @@ export class QueryExportWebService extends HttpService {
         }
 
         const postData = {
-            app: appName,
+            app: this.appName,
             webService,
             type: ExportSourceType[ExportSourceType.SavedQuery],
             format: ExportOutputFormat[format],

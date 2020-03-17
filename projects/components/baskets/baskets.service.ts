@@ -1,6 +1,6 @@
 import {Injectable, Inject, InjectionToken, Type, OnDestroy} from "@angular/core";
 import {Subject} from "rxjs";
-import {UserSettingsWebService, UserSettings, AuditEvent, AuditEvents} from "@sinequa/core/web-services";
+import {UserSettingsWebService, AuditEvent, AuditEvents} from "@sinequa/core/web-services";
 import {ModalService, ModalResult} from "@sinequa/core/modal";
 import {Utils} from "@sinequa/core/base";
 import {SelectionService} from "@sinequa/components/selection";
@@ -404,7 +404,7 @@ export class BasketsService implements OnDestroy {
      * @returns an Observable which can be used to trigger further events
      */
     private patchBaskets(auditEvents?: AuditEvents) {
-        return this.userSettingsService.patch(<UserSettings> {baskets: this.baskets}, auditEvents)
+        return this.userSettingsService.patch({baskets: this.baskets}, auditEvents)
             .subscribe(
                 next => {
                     this.events.next({type: BasketEventType.Patched});

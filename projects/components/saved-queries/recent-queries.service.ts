@@ -1,6 +1,6 @@
 import {Injectable, Optional, OnDestroy, Inject, InjectionToken} from "@angular/core";
 import {Subject} from "rxjs";
-import {UserSettingsWebService, UserSettings, AuditEvents} from "@sinequa/core/web-services";
+import {UserSettingsWebService, AuditEvents} from "@sinequa/core/web-services";
 import {Query} from "@sinequa/core/app-utils";
 import {Utils} from "@sinequa/core/base";
 import {SearchService} from "@sinequa/components/search";
@@ -223,7 +223,7 @@ export class RecentQueriesService implements OnDestroy {
      * @returns an Observable which can be used to trigger further events
      */
     private patchRecentQueries(auditEvents?: AuditEvents) {
-        return this.userSettingsService.patch(<UserSettings>{recentQueries: this.recentqueries}, auditEvents)
+        return this.userSettingsService.patch({recentQueries: this.recentqueries}, auditEvents)
             .subscribe(
                 next => {
                     this.events.next({type: RecentQueryEventType.Patched});

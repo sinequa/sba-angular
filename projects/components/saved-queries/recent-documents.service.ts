@@ -1,6 +1,6 @@
 import {Injectable, Optional, OnDestroy, Inject, InjectionToken} from "@angular/core";
 import {Subject} from "rxjs";
-import {UserSettingsWebService, UserSettings, AuditEvents, Record} from "@sinequa/core/web-services";
+import {UserSettingsWebService, AuditEvents, Record} from "@sinequa/core/web-services";
 import {SearchService} from "@sinequa/components/search";
 
 
@@ -258,7 +258,7 @@ export class RecentDocumentsService implements OnDestroy {
      * @returns an Observable which can be used to trigger further events
      */
     private patchRecentDocuments(auditEvents?: AuditEvents) {
-        return this.userSettingsService.patch(<UserSettings>{recentDocuments: this.recentdocuments}, auditEvents)
+        return this.userSettingsService.patch({recentDocuments: this.recentdocuments}, auditEvents)
             .subscribe(
                 next => {
                     this.events.next({type: RecentDocumentEventType.Patched});
