@@ -217,7 +217,7 @@ import {IntlService} from &quot;@sinequa/core/intl&quot;;
 import {FormatService} from &quot;./format.service&quot;;
 import {AppWebService, AuditEvents, START_CONFIG, StartConfig,
     CCApp, CCQuery, CCLabels, CCAutocomplete, CCColumn, CCIndex, CCWebService, CCConfig, CCList, CCAggregation,
-    EngineType, EngineTypeModifier} from &quot;@sinequa/core/web-services&quot;;
+    EngineType, EngineTypeModifier, MinCompatibleServerApiVersion} from &quot;@sinequa/core/web-services&quot;;
 import {ExprParser, ExprParserOptions, Expr} from &quot;./query/expr-parser&quot;;
 import {AppServiceHelpers} from &quot;./app-service-helpers&quot;;
 
@@ -487,11 +487,24 @@ export class AppService implements OnDestroy {
 
     private setApp(app: CCApp) {
         this.app &#x3D; app;
+        this.verifyServerApiVersionCompatibility(app);
         this.cclabels &#x3D; this.getWebService&lt;CCLabels&gt;(this.app.labels);
         this.ccautocomplete &#x3D; this.getWebService&lt;CCAutocomplete&gt;(this.app.autocomplete);
         this.initDefaultQuery();
         this.makeMaps();
         this.suggestQueries &#x3D; Utils.split(this.ccautocomplete ? this.ccautocomplete.suggestQueries : &quot;&quot;, &quot;,&quot;);
+    }
+
+    private verifyServerApiVersionCompatibility(app: CCApp): void {
+        if (!app) {
+            console.warn(&#x27;Unexpected empty app configuration.&#x27;);
+            return;
+        }
+        if (app.apiVersion !&#x3D;&#x3D; MinCompatibleServerApiVersion) {
+            console.warn(&#x60;This SBA &#x27;${app.name}&#x27; is not compatible to the REST API of Sinequa Server.\n&#x60; +
+                &#x60;The SBA expects the server API version to be at least &#x27;${MinCompatibleServerApiVersion}&#x27;,&#x60; +
+                &#x60; whereas the server API version is &#x27;${!app.apiVersion ? &#x27;&lt;empty version&gt;&#x27; : app.apiVersion}&#x27;&#x60;);
+        }
     }
 
     /**
@@ -523,7 +536,7 @@ export class AppService implements OnDestroy {
 
     /**
      * Refresh the application configuration, reinitializing the service if it has changed
-     * 
+     *
      * @param auditEvents Any associated audit events that should be stored
      */
     refresh(auditEvents?: AuditEvents): Observable&lt;CCApp | undefined&gt; {
@@ -956,7 +969,7 @@ export class AppService implements OnDestroy {
         }
         value &#x3D; value + &quot;&quot;;
         const column &#x3D; this.getColumn(field);
-        if (column &amp;&amp; !AppService.isScalar(column)) { 
+        if (column &amp;&amp; !AppService.isScalar(column)) {
             // escaoe columns that might contain search operators in them (treating negative numbers as an ignorable edge case)
             return ExprParser.escape(value);
         }
