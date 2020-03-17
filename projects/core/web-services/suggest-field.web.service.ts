@@ -28,7 +28,7 @@ export class SuggestFieldWebService extends HttpService {
      * @param fields The fields for which to return suggestions
      * @param query The query context
      */
-    get(text: string, fields?: string | string[], query?: IQuery): Observable<Suggestion[]> {
+    get(text: string, fields: string | string[], query?: IQuery): Observable<Suggestion[]> {
         if (!fields) {
             return of([]);
         }

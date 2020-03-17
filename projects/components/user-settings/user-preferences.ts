@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserSettingsWebService, UserSettings } from '@sinequa/core/web-services';
+import { UserSettingsWebService } from '@sinequa/core/web-services';
 
 /**
  * The role of this service is to bundle together the simple preferences of
@@ -40,7 +40,7 @@ export class UserPreferences {
     }
 
     public sync(){
-        this.userSettingsService.patch(<UserSettings>{prefs: this.prefs});
+        this.userSettingsService.patch({prefs: this.prefs});
     }
     
 }

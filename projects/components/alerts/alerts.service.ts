@@ -1,6 +1,6 @@
 import {Injectable, InjectionToken, Inject, Type, OnDestroy} from "@angular/core";
 import {Subject} from "rxjs";
-import {UserSettingsWebService, UserSettings, AuditEvents, AuditEvent} from "@sinequa/core/web-services";
+import {UserSettingsWebService, AuditEvents, AuditEvent} from "@sinequa/core/web-services";
 import {ModalService, ModalResult} from "@sinequa/core/modal";
 import {Query} from "@sinequa/core/app-utils";
 import {Utils} from "@sinequa/core/base";
@@ -311,7 +311,7 @@ export class AlertsService implements OnDestroy {
      * @returns an Observable which can be used to trigger further events
      */
     private patchAlerts(auditEvents?: AuditEvents) {
-        return this.userSettingsService.patch(<UserSettings> {alerts: this.alerts}, auditEvents)
+        return this.userSettingsService.patch({alerts: this.alerts}, auditEvents)
             .subscribe(
                 next => {
                     this.events.next({type: AlertEventType.Patched});

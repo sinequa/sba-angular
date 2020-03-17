@@ -295,7 +295,7 @@ This private method is used by `addRecentQuery()` and `deleteRecentQuery()` to p
  * @returns an Observable which can be used to trigger further events
  */
 private patchRecentQueries(auditEvents: AuditEvents = null) {
-    return this.userSettingsService.patch(<UserSettings>{recentQueries: this.recentqueries}, auditEvents)
+    return this.userSettingsService.patch({recentQueries: this.recentqueries}, auditEvents)
         .subscribe(
             next => {
                 this.events.next({type: RecentQueryEventType.Patched});
