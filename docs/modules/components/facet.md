@@ -3,7 +3,7 @@ layout: default
 title: Facet Module
 parent: Components
 grand_parent: Modules
-nav_order: 2
+nav_order: 3
 ---
 
 # Facet Module
