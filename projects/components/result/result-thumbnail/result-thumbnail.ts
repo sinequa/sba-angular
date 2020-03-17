@@ -28,6 +28,9 @@ export class ResultThumbnail implements OnChanges {
             if (!this.thumbnailUrl && !!this.thumbnailColumn) {
                 this.thumbnailUrl = this.record[this.thumbnailColumn];
             }
+            if (!this.thumbnailUrl && !!this.defaultThumbnail) {
+                this.thumbnailUrl = this.defaultThumbnail;
+            }
             this.thumbnailUrl = this.appService.updateUrlForCors(this.thumbnailUrl);
         }
     }

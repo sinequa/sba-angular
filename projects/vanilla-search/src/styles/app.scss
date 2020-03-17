@@ -47,6 +47,7 @@ sq-validation-message {
 @import "preview";
 
 // Sinequa components stylesheets
+$action-menu-breakpoint: sm;
 @import "../../../components/action/bootstrap/action.scss";
 @import "../../../components/notification/bootstrap/notification.scss";
 @import "../../../components/preview/bootstrap/preview.scss";
@@ -70,13 +71,6 @@ a {
 
 // large screens (> sm)
 @include media-breakpoint-up(sm) {
-    // Align dropdown to the right side
-    .navbar-right {
-      .dropdown-menu {
-        right: 0;
-        left: auto; // Reset the default from `.dropdown-menu`
-      }
-    }
 
     .sq-home-facet-bar {
         min-height: 287px;

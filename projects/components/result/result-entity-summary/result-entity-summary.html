@@ -3,7 +3,7 @@
         <span class="entity-stats-label" (click)="stat.expanded = !stat.expanded"> {{stat.column.labelPlural | sqMessage}}:</span>
         <ul class="entity-stats">
             <li *ngFor="let value of stat.values">
-                <span [ngClass]="stat.column.aliases" class="entity-value" (click)="entityClick(value, stat)">{{value.display | sqValue:stat.column}} <span class="entity-count">{{value.locations.length}}</span></span> 
+                <span [ngClass]="stat.column.aliases" class="entity-value" (click)="entityClick(value, stat)">{{value.display | sqValue:stat.column}} <span class="entity-count" *ngIf="!!value.locations">{{value.locations.length}}</span></span> 
             </li>
         </ul>
     </li>

@@ -1,3 +1,4 @@
+$action-menu-breakpoint: md !default;
 
 // menu animation
 .show > .dropdown-menu,
@@ -122,7 +123,7 @@
 
     // first, so later rules win when specicifity the same - we want explicit .dropdown-menu-left to beat .navbar-right 
     /* not phone */
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up($action-menu-breakpoint) {
         .navbar-right & {
             @include right();
         }
@@ -223,8 +224,17 @@ ul.sq-scrollable-menu {
     overflow-y: auto;    
 }
 
-@include media-breakpoint-down(md) {
-    .navbar-expand-md .navbar-collapse.collapse.show ul.sq-scroll-menu {
+@include media-breakpoint-down($action-menu-breakpoint) {
+    .navbar-expand-#{$action-menu-breakpoint} .navbar-collapse.collapse.show ul.sq-scroll-menu {
         max-height: scroll-menu-max-height(5);
+    }
+}
+
+@include media-breakpoint-up($action-menu-breakpoint) {
+    .navbar-right {
+        .dropdown-menu {
+            right: 0;
+            left: auto; // Reset the default from `.dropdown-menu`
+        }
     }
 }

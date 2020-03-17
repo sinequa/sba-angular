@@ -4,12 +4,12 @@ import {AppService} from "@sinequa/core/app-utils";
 import {SearchService} from "@sinequa/components/search";
 
 export interface EntityValue {
-    display : string;
-    value : string;
-    locations : Number[];
-    lengths : Number[];
-    originalLocations : Number[];
-    originalLengths: Number[];
+    display: string;
+    value: string;
+    locations?: Number[];
+    lengths?: Number[];
+    originalLocations?: Number[];
+    originalLengths?: Number[];
 }
 
 export interface EntityStats {
@@ -54,16 +54,19 @@ export class ResultEntitySummary implements OnChanges {
 
     entityStats(raw_values : any[]) : EntityValue[]{
         return raw_values.map( value => {
-            let locations = value["locations"].split(',').map(l => +l);
-            let originalLocations = value["originalLocations"].split(',').map(l => +l);
-            return {
-                display : value["display"],
-                value : value["value"],
-                locations : locations.filter((v,i) => i % 2 == 0),
-                lengths : locations.filter((v,i) => i % 2 == 1),
-                originalLocations : originalLocations.filter((v,i) => i % 2 == 0),
-                originalLengths: originalLocations.filter((v,i) => i % 2 == 1),
+            if(!!value['locations'] && !!value["originalLocations"]){
+                let locations = value["locations"].split(',').map(l => +l);
+                let originalLocations = value["originalLocations"].split(',').map(l => +l);
+                return {
+                    display : value["display"],
+                    value : value["value"],
+                    locations : locations.filter((v,i) => i % 2 == 0),
+                    lengths : locations.filter((v,i) => i % 2 == 1),
+                    originalLocations : originalLocations.filter((v,i) => i % 2 == 0),
+                    originalLengths: originalLocations.filter((v,i) => i % 2 == 1),
+                }
             }
+            return value;
         });
     }
 
