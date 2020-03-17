@@ -1,7 +1,7 @@
 
 <img src="docs/assets/index/sinequa-logo-light-lg.png" width="300" style="margin: auto; display: block;">
 
-# Search-Based Applications (SBA)
+# Search-Based Applications (SBA) - Beta
 
 ## Please visit our [documentation website](https://sinequa.github.io/sba-angular/)
 
@@ -31,7 +31,7 @@
     npm run buildcore
     ```
 
-5. Build Vanilla-Search and test it on our demo server (Sinequa account needed):
+5. Build Vanilla-Search and test it on our demo server (Sinequa account required):
 
     ```bash
     ng serve vanilla-search --ssl=true --proxyConfig=./projects/vanilla-search/src/proxy.conf.json

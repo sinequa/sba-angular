@@ -23,6 +23,10 @@ Additionally, the framework includes sample applications (like [Hello-Search](mo
 *An application is decomposed into small building blocks*
 {: .text-center }
 
+The framework allows to create applications that are much richer and more complex than an Enterprise Search like Vanilla-Search. The project below took about three weeks to complete, using the framework as well as other third-party libraries.
+
+<iframe src="https://player.vimeo.com/video/375472589" width="100%" height="400px" frameborder="0" title="Intelligence demo" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+
 ## Design Principles
 
 ### Single-Page Applications
@@ -42,6 +46,7 @@ Note that customization which used to be done on the server (e.g. with a *Search
 At the heart of the framework is the concept of **Angular workspace**. A workspace is not just an Angular app or library, it is a directory that contains multiple libraries and apps, while sharing the same global configuration and dependencies (`package.json`, `tsconfig.json`, `angular.json`). For more information, please refer to the [Angular documentation](https://angular.io/guide/file-structure) on this topic.
 
 We release a complete workspace with:
+
 - [**Core**](modules/core/core.html): A low-level Angular library containing a wrapper of the Sinequa REST API, as well as dependencies to log in to the platform with various authentication protocols.
 - [**Components**](modules/components/components.html): A high-level library containing a set of Angular modules, each packaging an independant feature. These modules are meant to be independant from each other (with exceptions, as some features enable other features).
 - **Sample Applications**: Currently two applications are included. [**Hello Search**](modules/hello-search/hello-search.html) is a minimalistic application (the "Hello world" of search) used essentially for trainings. [**Vanilla Search**](modules/vanilla-search/vanilla-search.html) is a full-fledged Enterprise Search application which can be used as is, or as the starting point of an Enterprise Search project.
