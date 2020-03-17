@@ -1,6 +1,6 @@
 <ng-container *ngIf="missingTerms.length > 0">
     <span class="sq-missing-terms-label sq-text">{{'msg#results.missingTerms' | sqMessage}}</span>
     <span class="sq-missing-terms sq-text">
-        <span *ngFor="let term of missingTerms" class="sq-missing-term">{{term}}</span>
+        <span *ngFor="let term of missingTerms" class="sq-missing-term"> {{term}}</span>
     </span>
 </ng-container>
