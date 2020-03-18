@@ -166,7 +166,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, InjectionToken, Inject, Type, OnDestroy} from &quot;@angular/core&quot;;
 import {Subject} from &quot;rxjs&quot;;
-import {UserSettingsWebService, UserSettings, AuditEvents, AuditEvent} from &quot;@sinequa/core/web-services&quot;;
+import {UserSettingsWebService, AuditEvents, AuditEvent} from &quot;@sinequa/core/web-services&quot;;
 import {ModalService, ModalResult} from &quot;@sinequa/core/modal&quot;;
 import {Query} from &quot;@sinequa/core/app-utils&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
@@ -477,7 +477,7 @@ export class AlertsService implements OnDestroy {
      * @returns an Observable which can be used to trigger further events
      */
     private patchAlerts(auditEvents?: AuditEvents) {
-        return this.userSettingsService.patch(&lt;UserSettings&gt; {alerts: this.alerts}, auditEvents)
+        return this.userSettingsService.patch({alerts: this.alerts}, auditEvents)
             .subscribe(
                 next &#x3D;&gt; {
                     this.events.next({type: AlertEventType.Patched});

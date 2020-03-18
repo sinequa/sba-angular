@@ -166,7 +166,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Optional, OnDestroy, Inject, InjectionToken} from &quot;@angular/core&quot;;
 import {Subject} from &quot;rxjs&quot;;
-import {UserSettingsWebService, UserSettings, AuditEvents} from &quot;@sinequa/core/web-services&quot;;
+import {UserSettingsWebService, AuditEvents} from &quot;@sinequa/core/web-services&quot;;
 import {Query} from &quot;@sinequa/core/app-utils&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
 import {SearchService} from &quot;@sinequa/components/search&quot;;
@@ -389,7 +389,7 @@ export class RecentQueriesService implements OnDestroy {
      * @returns an Observable which can be used to trigger further events
      */
     private patchRecentQueries(auditEvents?: AuditEvents) {
-        return this.userSettingsService.patch(&lt;UserSettings&gt;{recentQueries: this.recentqueries}, auditEvents)
+        return this.userSettingsService.patch({recentQueries: this.recentqueries}, auditEvents)
             .subscribe(
                 next &#x3D;&gt; {
                     this.events.next({type: RecentQueryEventType.Patched});

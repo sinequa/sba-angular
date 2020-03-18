@@ -218,8 +218,8 @@ in their forRoot() method</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, InjectionToken, Inject, Type, OnDestroy} from &quot;@angular/core&quot;;
 import { HttpResponse } from &#x27;@angular/common/http&#x27;;
-import {Subject, Observable} from &quot;rxjs&quot;;
-import {UserSettingsWebService, UserSettings, QueryExportWebService, ExportSourceType, ExportOutputFormat,
+import {Subject, Observable, throwError} from &quot;rxjs&quot;;
+import {UserSettingsWebService, QueryExportWebService, ExportSourceType, ExportOutputFormat,
     DownloadWebService, AuditEvents, AuditEvent} from &quot;@sinequa/core/web-services&quot;;
 import {ModalService, ModalResult} from &quot;@sinequa/core/modal&quot;;
 import {AppService, Query} from &quot;@sinequa/core/app-utils&quot;;
@@ -531,7 +531,7 @@ export class SavedQueriesService implements OnDestroy {
      * @returns an Observable which can be used to trigger further events
      */
     private patchSavedQueries(auditEvents?: AuditEvents) {
-        return this.userSettingsService.patch(&lt;UserSettings&gt;{savedQueries: this.savedqueries}, auditEvents)
+        return this.userSettingsService.patch({savedQueries: this.savedqueries}, auditEvents)
             .subscribe(
                 next &#x3D;&gt; {
                     this.events.next({type: SavedQueryEventType.Patched});
@@ -567,19 +567,14 @@ export class SavedQueriesService implements OnDestroy {
     }
 
 
-    public download(model : ExportQueryModel): Observable&lt;HttpResponse&lt;Blob&gt;&gt; | undefined {
+    public download(model : ExportQueryModel): Observable&lt;HttpResponse&lt;Blob&gt;&gt; {
         return this.downloadService.download(this.requestExport(model));
     }
 
-    private requestExport(model: ExportQueryModel): Observable&lt;HttpResponse&lt;Blob&gt;&gt; | undefined {
-        if (!this.searchService.results) {
-            return undefined;
-        }
-        const appName &#x3D; this.appService.appName;
+    private requestExport(model: ExportQueryModel): Observable&lt;HttpResponse&lt;Blob&gt;&gt; {
         switch (model.export) {
             case ExportSourceType.Result:
                 return this.queryExportService.exportResult(
-                    appName,
                     model.webService,
                     this.searchService.query,
                     this.searchService.results,
@@ -587,7 +582,6 @@ export class SavedQueriesService implements OnDestroy {
                     model.maxCount);
             case ExportSourceType.Selection:
                 return this.queryExportService.exportSelection(
-                    appName,
                     model.webService,
                     this.searchService.query,
                     this.searchService.results,
@@ -596,7 +590,6 @@ export class SavedQueriesService implements OnDestroy {
                     model.maxCount);
             case ExportSourceType.SavedQuery:
                 return this.queryExportService.exportSavedQuery(
-                    appName,
                     model.webService,
                     model.queryName || &quot;&quot;,
                     model.format,
@@ -605,7 +598,7 @@ export class SavedQueriesService implements OnDestroy {
                 console.log(
                     &#x27;QueryExporter.export unexpected export type: &#x27;,
                     ExportSourceType[model.export]);
-                return undefined;
+                return throwError(&#x27;QueryExporter.export unexpected export type: &#x27;);
         }
     }
 

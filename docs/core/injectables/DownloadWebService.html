@@ -121,7 +121,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>download(observable: Observable<HttpResponse<Blob>> | undefined)</code>
+                    <code>download(observable: Observable<HttpResponse<Blob>>)</code>
                 </td>
             </tr>
 
@@ -155,7 +155,7 @@ when the observed object is ready.</p>
                                 <tr>
                                     <td>observable</td>
                                     <td>
-                                            <code>Observable&lt;HttpResponse&lt;Blob&gt;&gt; | undefined</code>
+                                            <code>Observable&lt;HttpResponse&lt;Blob&gt;&gt;</code>
                                     </td>
 
                                     <td>
@@ -174,7 +174,7 @@ when the observed object is ready.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable | undefined</code>
+                        <b>Returns : </b>    <code>Observable&lt;HttpResponse&lt;Blob&gt;&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -211,11 +211,7 @@ export class DownloadWebService {
      * @param observable The observable to subscribe.
      * @returns The observable for chaining.
      */
-    public download(observable: Observable&lt;HttpResponse&lt;Blob&gt;&gt; | undefined): Observable&lt;HttpResponse&lt;Blob&gt;&gt; | undefined {
-        if (!observable) {
-            return observable;
-        }
-
+    public download(observable: Observable&lt;HttpResponse&lt;Blob&gt;&gt;): Observable&lt;HttpResponse&lt;Blob&gt;&gt; {
         Utils.subscribe(
             observable,
             (response: HttpResponse&lt;Blob&gt;) &#x3D;&gt; {
@@ -239,7 +235,6 @@ export class DownloadWebService {
                 return response;
             }
         );
-
         return observable;
     }
 }

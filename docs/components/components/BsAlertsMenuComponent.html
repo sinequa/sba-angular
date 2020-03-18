@@ -805,7 +805,7 @@ export class BsAlertsMenuComponent implements OnInit, OnDestroy {
                 action: (item: Action) &#x3D;&gt; {
                   //this.searchService.query &#x3D; Utils.extend(this.searchService.makeQuery(), (&lt;UserSettings.Alert&gt;item.data).query);
                   //this.searchService.search();
-                  let alert: Alert &#x3D; &lt;Alert&gt;Utils.copy(item.data);
+                  let alert: Alert &#x3D; Utils.copy(item.data);
                   this.alertsService.editAlertModal(alert);
                 }
             }));
