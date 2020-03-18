@@ -217,7 +217,7 @@ in their forRoot() method</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, InjectionToken, Type, OnDestroy} from &quot;@angular/core&quot;;
 import {Subject} from &quot;rxjs&quot;;
-import {UserSettingsWebService, UserSettings, AuditEvent, AuditEvents} from &quot;@sinequa/core/web-services&quot;;
+import {UserSettingsWebService, AuditEvent, AuditEvents} from &quot;@sinequa/core/web-services&quot;;
 import {ModalService, ModalResult} from &quot;@sinequa/core/modal&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
 import {SelectionService} from &quot;@sinequa/components/selection&quot;;
@@ -621,7 +621,7 @@ export class BasketsService implements OnDestroy {
      * @returns an Observable which can be used to trigger further events
      */
     private patchBaskets(auditEvents?: AuditEvents) {
-        return this.userSettingsService.patch(&lt;UserSettings&gt; {baskets: this.baskets}, auditEvents)
+        return this.userSettingsService.patch({baskets: this.baskets}, auditEvents)
             .subscribe(
                 next &#x3D;&gt; {
                     this.events.next({type: BasketEventType.Patched});

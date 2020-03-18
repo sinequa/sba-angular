@@ -190,7 +190,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>get(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, fields?: string | string[], query?: <a href="../interfaces/IQuery.html">IQuery</a>)</code>
+<code>get(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, fields: string | string[], query?: <a href="../interfaces/IQuery.html">IQuery</a>)</code>
                 </td>
             </tr>
 
@@ -243,7 +243,7 @@
                                     </td>
 
                                     <td>
-                                        Yes
+                                        No
                                     </td>
 
 
@@ -487,7 +487,7 @@ export class SuggestFieldWebService extends HttpService {
      * @param fields The fields for which to return suggestions
      * @param query The query context
      */
-    get(text: string, fields?: string | string[], query?: IQuery): Observable&lt;Suggestion[]&gt; {
+    get(text: string, fields: string | string[], query?: IQuery): Observable&lt;Suggestion[]&gt; {
         if (!fields) {
             return of([]);
         }

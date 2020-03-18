@@ -591,7 +591,7 @@ export interface CCLabels extends CCWebService {
      */
     publicLabelsField: string;
     /**
-     * A semi-colon separated list of predefined public labels 
+     * A semi-colon separated list of predefined public labels
      */
     defaultPublicLabels: string;
     /**
@@ -720,4 +720,14 @@ export interface CCApp extends CCConfig {
      * Custom JSON configuration (see App Customization tab in Sinequa admin)
      */
     data: JsonObject;
+    /**
+     * The version of the server API.
+     * This field is used to compare with [MINIMUM_COMPATIBLE_SERVER_API_VERSION]{@link MINIMUM_COMPATIBLE_SERVER_API_VERSION}
+     */
+    apiVersion: string;
 }
+
+/**
+ * The minimum server api version that compatible with this version of SBA.
+ */
+export const MINIMUM_COMPATIBLE_SERVER_API_VERSION = '1.0';

@@ -6,7 +6,7 @@ import {IntlService} from "@sinequa/core/intl";
 import {FormatService} from "./format.service";
 import {AppWebService, AuditEvents, START_CONFIG, StartConfig,
     CCApp, CCQuery, CCLabels, CCAutocomplete, CCColumn, CCIndex, CCWebService, CCConfig, CCList, CCAggregation,
-    EngineType, EngineTypeModifier} from "@sinequa/core/web-services";
+    EngineType, EngineTypeModifier, MINIMUM_COMPATIBLE_SERVER_API_VERSION} from "@sinequa/core/web-services";
 import {ExprParser, ExprParserOptions, Expr} from "./query/expr-parser";
 import {AppServiceHelpers} from "./app-service-helpers";
 
@@ -276,11 +276,24 @@ export class AppService implements OnDestroy {
 
     private setApp(app: CCApp) {
         this.app = app;
+        this.verifyServerApiVersionCompatibility(app);
         this.cclabels = this.getWebService<CCLabels>(this.app.labels);
         this.ccautocomplete = this.getWebService<CCAutocomplete>(this.app.autocomplete);
         this.initDefaultQuery();
         this.makeMaps();
         this.suggestQueries = Utils.split(this.ccautocomplete ? this.ccautocomplete.suggestQueries : "", ",");
+    }
+
+    private verifyServerApiVersionCompatibility(app: CCApp): void {
+        if (!app) {
+            console.warn('Unexpected empty app configuration.');
+            return;
+        }
+        if (app.apiVersion !== MINIMUM_COMPATIBLE_SERVER_API_VERSION) {
+            console.warn(`This SBA '${app.name}' is not compatible with the REST API of Sinequa Server.\n` +
+                `The SBA expects the server API version to be at least '${MINIMUM_COMPATIBLE_SERVER_API_VERSION}',` +
+                ` whereas the server API version is '${!app.apiVersion ? '<empty version>' : app.apiVersion}'`);
+        }
     }
 
     /**
@@ -312,7 +325,7 @@ export class AppService implements OnDestroy {
 
     /**
      * Refresh the application configuration, reinitializing the service if it has changed
-     * 
+     *
      * @param auditEvents Any associated audit events that should be stored
      */
     refresh(auditEvents?: AuditEvents): Observable<CCApp | undefined> {
@@ -745,7 +758,7 @@ export class AppService implements OnDestroy {
         }
         value = value + "";
         const column = this.getColumn(field);
-        if (column && !AppService.isScalar(column)) { 
+        if (column && !AppService.isScalar(column)) {
             // escaoe columns that might contain search operators in them (treating negative numbers as an ignorable edge case)
             return ExprParser.escape(value);
         }

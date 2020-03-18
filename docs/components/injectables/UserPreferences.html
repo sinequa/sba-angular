@@ -381,7 +381,7 @@ this.userPreferences.sync()</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { UserSettingsWebService, UserSettings } from &#x27;@sinequa/core/web-services&#x27;;
+import { UserSettingsWebService } from &#x27;@sinequa/core/web-services&#x27;;
 
 /**
  * The role of this service is to bundle together the simple preferences of
@@ -422,7 +422,7 @@ export class UserPreferences {
     }
 
     public sync(){
-        this.userSettingsService.patch(&lt;UserSettings&gt;{prefs: this.prefs});
+        this.userSettingsService.patch({prefs: this.prefs});
     }
     
 }</code></pre>

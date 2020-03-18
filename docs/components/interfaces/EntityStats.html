@@ -234,12 +234,12 @@ import {AppService} from &quot;@sinequa/core/app-utils&quot;;
 import {SearchService} from &quot;@sinequa/components/search&quot;;
 
 export interface EntityValue {
-    display : string;
-    value : string;
-    locations : Number[];
-    lengths : Number[];
-    originalLocations : Number[];
-    originalLengths: Number[];
+    display: string;
+    value: string;
+    locations?: Number[];
+    lengths?: Number[];
+    originalLocations?: Number[];
+    originalLengths?: Number[];
 }
 
 export interface EntityStats {
@@ -284,16 +284,19 @@ export class ResultEntitySummary implements OnChanges {
 
     entityStats(raw_values : any[]) : EntityValue[]{
         return raw_values.map( value &#x3D;&gt; {
-            let locations &#x3D; value[&quot;locations&quot;].split(&#x27;,&#x27;).map(l &#x3D;&gt; +l);
-            let originalLocations &#x3D; value[&quot;originalLocations&quot;].split(&#x27;,&#x27;).map(l &#x3D;&gt; +l);
-            return {
-                display : value[&quot;display&quot;],
-                value : value[&quot;value&quot;],
-                locations : locations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D; 0),
-                lengths : locations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D; 1),
-                originalLocations : originalLocations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D; 0),
-                originalLengths: originalLocations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D; 1),
+            if(!!value[&#x27;locations&#x27;] &amp;&amp; !!value[&quot;originalLocations&quot;]){
+                let locations &#x3D; value[&quot;locations&quot;].split(&#x27;,&#x27;).map(l &#x3D;&gt; +l);
+                let originalLocations &#x3D; value[&quot;originalLocations&quot;].split(&#x27;,&#x27;).map(l &#x3D;&gt; +l);
+                return {
+                    display : value[&quot;display&quot;],
+                    value : value[&quot;value&quot;],
+                    locations : locations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D; 0),
+                    lengths : locations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D; 1),
+                    originalLocations : originalLocations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D; 0),
+                    originalLengths: originalLocations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D; 1),
+                }
             }
+            return value;
         });
     }
 

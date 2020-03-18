@@ -201,15 +201,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>exportResult(appName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, webService: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query: <a href="../interfaces/IQuery.html">IQuery</a>, results: <a href="../interfaces/Results.html">Results</a>, format: <a href="../undefineds/ExportOutputFormat.html">ExportOutputFormat</a>, maxCount?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>exportResult(webService: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query: <a href="../interfaces/IQuery.html">IQuery</a>, results: <a href="../interfaces/Results.html">Results | undefined</a>, format: <a href="../undefineds/ExportOutputFormat.html">ExportOutputFormat</a>, maxCount?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">web-services/query-export.web.service.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">web-services/query-export.web.service.ts:65</a></div>
                 </td>
             </tr>
 
@@ -231,22 +231,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>appName</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>The app name.</p>
-
-                                    </td>
-                                </tr>
                                 <tr>
                                     <td>webService</td>
                                     <td>
@@ -282,7 +266,7 @@
                                 <tr>
                                     <td>results</td>
                                     <td>
-                                                <code><a href="../interfaces/Results.html" target="_self" >Results</a></code>
+                                                <code><a href="../interfaces/Results.html" target="_self" >Results | undefined</a></code>
                                     </td>
 
                                     <td>
@@ -358,15 +342,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>exportSavedQuery(appName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, webService: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, queryName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, format: <a href="../undefineds/ExportOutputFormat.html">ExportOutputFormat</a>, maxCount?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>exportSavedQuery(webService: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, queryName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, format: <a href="../undefineds/ExportOutputFormat.html">ExportOutputFormat</a>, maxCount?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="170"
-                            class="link-to-prism">web-services/query-export.web.service.ts:170</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="164"
+                            class="link-to-prism">web-services/query-export.web.service.ts:164</a></div>
                 </td>
             </tr>
 
@@ -388,22 +372,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>appName</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>The app name.</p>
-
-                                    </td>
-                                </tr>
                                 <tr>
                                     <td>webService</td>
                                     <td>
@@ -501,15 +469,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>exportSelection(appName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, webService: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query: <a href="../interfaces/IQuery.html">IQuery</a>, results: <a href="../interfaces/Results.html">Results</a>, selection: string[], format: <a href="../undefineds/ExportOutputFormat.html">ExportOutputFormat</a>, maxCount?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>exportSelection(webService: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query: <a href="../interfaces/IQuery.html">IQuery</a>, results: <a href="../interfaces/Results.html">Results | undefined</a>, selection: string[], format: <a href="../undefineds/ExportOutputFormat.html">ExportOutputFormat</a>, maxCount?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="115"
-                            class="link-to-prism">web-services/query-export.web.service.ts:115</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">web-services/query-export.web.service.ts:111</a></div>
                 </td>
             </tr>
 
@@ -531,22 +499,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>appName</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>The app name.</p>
-
-                                    </td>
-                                </tr>
                                 <tr>
                                     <td>webService</td>
                                     <td>
@@ -580,7 +532,7 @@
                                 <tr>
                                     <td>results</td>
                                     <td>
-                                                <code><a href="../interfaces/Results.html" target="_self" >Results</a></code>
+                                                <code><a href="../interfaces/Results.html" target="_self" >Results | undefined</a></code>
                                     </td>
 
                                     <td>
@@ -858,11 +810,10 @@ export class QueryExportWebService extends HttpService {
 
     private preliminaryCheck(
         methodName: string,
-        appName: string,
         webService: string,
         format: ExportOutputFormat): Observable&lt;HttpResponse&lt;Blob&gt;&gt; | undefined {
 
-        if (!appName) {
+        if (!this.appName) {
             const errorMessage &#x3D; &#x27;No app&#x27;;
             this.logErrorToConsole(methodName, errorMessage);
             return throwError({ error: errorMessage});
@@ -886,22 +837,20 @@ export class QueryExportWebService extends HttpService {
     /**
      * Exports the current result.
      *
-     * @param appName The app name.
      * @param webService The configuration for the export web service.
      * @param query The query to export.
      * @param format The export format.
      * @param maxCount (Optional) The maximum number of exported rows.
      */
     public exportResult(
-        appName: string,
         webService: string,
         query: IQuery,
-        results: Results,
+        results: Results | undefined,
         format: ExportOutputFormat,
         maxCount?: number): Observable&lt;HttpResponse&lt;Blob&gt;&gt; {
 
         const methodName &#x3D; &#x27;exportResult&#x27;;
-        const preliminaryCheckResult &#x3D; this.preliminaryCheck(methodName, appName, webService, format);
+        const preliminaryCheckResult &#x3D; this.preliminaryCheck(methodName, webService, format);
         if (preliminaryCheckResult) {
             return preliminaryCheckResult;
         }
@@ -913,7 +862,7 @@ export class QueryExportWebService extends HttpService {
         }
 
         const postData &#x3D; {
-            app: appName,
+            app: this.appName,
             webService,
             query,
             type: ExportSourceType[ExportSourceType.Result],
@@ -922,7 +871,7 @@ export class QueryExportWebService extends HttpService {
             auditEvents: {
                 type: AuditEventType.Search_ExportCSV,
                 detail: {
-                    &quot;result-id&quot;: !!results ? results.id : null
+                    &quot;result-id&quot;: !!results ? results.id : undefined
                 }
             }
         };
@@ -933,7 +882,6 @@ export class QueryExportWebService extends HttpService {
     /**
      * Exports the current selected records.
      *
-     * @param appName The app name.
      * @param webService The configuration for the export web service.
      * @param query
      * @param selection
@@ -941,16 +889,15 @@ export class QueryExportWebService extends HttpService {
      * @param maxCount (Optional) The maximum number of exported rows.
      */
     public exportSelection(
-        appName: string,
         webService: string,
         query: IQuery,
-        results: Results,
+        results: Results | undefined,
         selection: string[],
         format: ExportOutputFormat,
         maxCount?: number): Observable&lt;HttpResponse&lt;Blob&gt;&gt; {
 
         const methodName &#x3D; &#x27;exportSelection&#x27;;
-        const preliminaryCheckResult &#x3D; this.preliminaryCheck(methodName, appName, webService, format);
+        const preliminaryCheckResult &#x3D; this.preliminaryCheck(methodName, webService, format);
         if (preliminaryCheckResult) {
             return preliminaryCheckResult;
         }
@@ -968,7 +915,7 @@ export class QueryExportWebService extends HttpService {
         }
 
         const postData &#x3D; {
-            app: appName,
+            app: this.appName,
             webService,
             query,
             selection,
@@ -978,7 +925,7 @@ export class QueryExportWebService extends HttpService {
             auditEvents: {
                 type: AuditEventType.Search_Selection_ExportCSV,
                 detail: {
-                    &quot;result-id&quot;: !!results ? results.id : null
+                    &quot;result-id&quot;: !!results ? results.id : undefined
                 }
             }
         };
@@ -989,21 +936,19 @@ export class QueryExportWebService extends HttpService {
     /**
      * Exports the result of a saved query.
      *
-     * @param appName The app name.
      * @param webService The configuration for the export web service.
      * @param queryName The query name.
      * @param format The export format.
      * @param maxCount (Optional) The maximum number of exported rows.
      */
     public exportSavedQuery(
-        appName: string,
         webService: string,
         queryName: string,
         format: ExportOutputFormat,
         maxCount?: number): Observable&lt;HttpResponse&lt;Blob&gt;&gt; {
 
         const methodName &#x3D; &#x27;exportSavedQuery&#x27;;
-        const preliminaryCheckResult &#x3D; this.preliminaryCheck(methodName, appName, webService, format);
+        const preliminaryCheckResult &#x3D; this.preliminaryCheck(methodName, webService, format);
         if (preliminaryCheckResult) {
             return preliminaryCheckResult;
         }
@@ -1015,7 +960,7 @@ export class QueryExportWebService extends HttpService {
         }
 
         const postData &#x3D; {
-            app: appName,
+            app: this.appName,
             webService,
             type: ExportSourceType[ExportSourceType.SavedQuery],
             format: ExportOutputFormat[format],
