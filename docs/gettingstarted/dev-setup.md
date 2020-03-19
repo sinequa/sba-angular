@@ -10,6 +10,7 @@ nav_order: 3
 ## Prerequisites
 
 To develop a SBA, developers need to install various utilities:
+
 - [**NodeJS**](https://nodejs.org/): Node and npm (Node Package Manager) are required to download and manage the dependencies of the project (like the [Angular](https://angular.io) library).
 - [**Visual Studio Code**](https://code.visualstudio.com/): The standard IDE (Integrated Development Environment) for Angular development.
 - [**Git**](https://git-scm.com/): The version control system allowing you to sync your workspace with a Github repository, work collaboratively and deploy the project on a server.
@@ -17,6 +18,26 @@ To develop a SBA, developers need to install various utilities:
 ![NodeJs]({{site.baseurl}}assets/gettingstarted/node.png){: width="150px" .ml-5}
 ![Visual Studio Code]({{site.baseurl}}assets/gettingstarted/vscode.png){: width="90px" .ml-5}
 ![Git]({{site.baseurl}}assets/gettingstarted/git.png){: width="200px" .ml-5}
+
+## Minimal Development
+
+It is possible to use sample applications, like [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html), out-of-the-box on the Sinequa server. You have to [unzip the default workspace](server-setup.html#unzip-the-sinequa-angular-workspace), and [reference one the applications in your App](#deploying-an-app-on-a-sinequa-server).
+
+As is, your app will be served at `<sinequa>/app/your-app`, but it is going to fail with the following error:
+
+![SAML Error]({{site.baseurl}}assets/gettingstarted/saml-error.png){: .d-block .mx-auto }
+
+This is because Vanilla Search is pre-configured to work with our demo server (See the [tutorial]({{site.baseurl}}tutorial/tutorial.html)). To connect the app with your own server and app, edit [`<workspace>/projects/vanilla-search/src/app/app-module.ts`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/app.module.ts) and set the following `StartConfig`:
+
+```ts
+export const startConfig: StartConfig = {
+    app: "<NAME OF YOUR APP>",
+    production: environment.production,
+    auditEnabled: true
+};
+```
+
+Then rebuild your app from the Workspace "Build Scripts" section: Your app should now be working correctly (with default login).
 
 ## Angular Workspace
 
@@ -100,7 +121,7 @@ You can now build and serve the app with:
 Alternatively, you can run `npm run ng serve ...` if Angular CLI is not installed globally.
 {: .fs-2 .p-3 }
 
-If the build is successful, you can access your app by navigating to [`http://localhost:4200`](http://localhost:4200) in your favorite browser. Log in to the app with the same credentials as you would to log in to the administration interface. If you have set up a custom login method (SSO, SAML, OAuth...) on the Sinequa webapp, you may need to customize the `app.module.ts` a bit further (see [Login methods]({{site.baseurl}}tipstricks/login methods.html)).
+If the build is successful, you can access your app by navigating to [`http://localhost:4200`](http://localhost:4200) in your favorite browser. Log in to the app with the same credentials as you would to log in to the administration interface. If you have set up a custom login method (SSO, SAML, OAuth...) on the Sinequa webapp, you may need to customize the `app.module.ts` a bit further (see [Login methods]({{site.baseurl}}tipstricks/login-methods.html)).
 
 ## Deploying an app on a Sinequa server
 

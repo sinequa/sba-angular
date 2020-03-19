@@ -9,11 +9,10 @@ nav_order: 2
 
 ## WebApp configuration
 
-Before starting, please make sure that the following options are configured as described in the your webapp:
+The SBA Framework is based on the **REST API** of Sinequa. Before starting, please make sure that the following options are properly configured in your **Webapp**:
 
 - *Webapp > Stateless Mode > Return HTTP error codes* enabled,
-- *Webapp > Stateless Mode > Permitted origins for Cross-Origin Resource Sharing (CORS) requests* set to the URL you will
-use to test your app locally. For example, `http://localhost:4200` (or just `*`).
+- *Webapp > Stateless Mode > Permitted origins for Cross-Origin Resource Sharing (CORS) requests* set to the URL you will use to test your app locally. For example, `http://localhost:4200` (or just `*`).
 
 ## Minimal configuration
 
@@ -33,20 +32,19 @@ At this point your Sinequa server can be used to develop an SBA and you can go t
 
 ## Apps
 
-In order to work, an SBA needs a named **App** configuration object to exist on the Sinequa server.
-This object is the entry point which references all the [**Web Services**](#web-services) that the SBA will use.
+In order to work, an SBA needs a named **App** configuration to exist on the Sinequa server.
+This configuration is the entry point which references all the [**Web Services**](#web-services) that the SBA will use.
 It is also where the (optional) **authentication providers** are specified.
 The App can also contain **configuration** (in JSON format) which may be passed to the Angular application.
 Finally, the App can be restricted to specific **Users and Groups**, rather than being open to all.
 
-The list of Apps can be found in the administration interface under *Search-Base Applications > Apps*:
+The list of Apps can be found in the administration interface under *Search-Based Applications > Apps*:
 
 ![List of Apps]({{site.baseurl}}assets/gettingstarted/admin-apps.png)
 *List of applications in the Sinequa server administration*
 {: .text-center }
 
-In this form, a new App may be created by clicking on the *New empty SBA* button, or using a *New app (Wizard)* button,
-which lets you duplicate an existing App.
+In this form, a new App may be created by clicking on the *New empty SBA* button, or using a *New app (Wizard)* button, which lets you duplicate an existing App.
 
 The **name of the App** is important, as it will be used by the Angular application to request data via the Web Services.
 The configuration of an App specifies the **list of Web Services** available for this App.
@@ -64,14 +62,11 @@ Note that for certain types of SSO (like Windows authentication), the configurat
 *App configuration - Auto-Login tab*
 {: .text-center }
 
-In the **Customization (JSON)** tab of the App configuration, it is possible to write data (in JSON syntax),
-which will be passed to the Angular app on initialization.
-The benefit of using this field (rather than just writing the data in the app source code) is that
-this data may change without having to recompile the Angular app.
+In the **Customization (JSON)** tab of the App configuration, it is possible to write data (in JSON syntax), which will be passed to the Angular app on initialization.
+The benefit of using this field (rather than just writing the data in the app source code) is that this data may change without having to recompile the Angular app.
 For example, if you specify a list of widgets to be displayed, you will only need to modify this field and refresh the page to visualize the difference.
 
-The underlying Monaco editor can verify that your JSON is valid and in any case, Sinequa ES verifies the JSON validity
-when saving the App configuration and notifies you should the JSON be not valid.
+The underlying Monaco editor can verify that your JSON is valid and in any case, Sinequa ES verifies the JSON validity when saving the App configuration and notifies you should the JSON be not valid.
 
 ![Customization tab]({{site.baseurl}}assets/gettingstarted/admin-app-conf.png)
 *App configuration - Customization (JSON) tab*
@@ -89,8 +84,7 @@ In the **Advanced** tab of the App configuration, it is possible to restrict the
 
 ## Web Services
 
-The **Web Services** configurations allow you to configure the behaviour of certain endpoints of the REST API.
-Other (more complex) endpoints are configured on the server, which allows:
+The **Web Services** configurations allow you to configure the behaviour of certain endpoints of the REST API, which allows:
 
 - To minimize the size and complexity of the requests sent to the server
 - To prevent exposing sensitive or internal parameters and settings to the client side, which could be used maliciously or impact negatively the overall performance of Sinequa ES.
@@ -122,8 +116,7 @@ The **Results Page** tab of the Query web service configuration allows to config
 - **Search scopes**: A "scope" can restrict the search to a specific subset of the corpus, with SQL rules.
 The Angular application may select a scope by setting `query.scope = '<scope name>'`.
 Unlike tabs, it is not possible to compute the number of documents for each scope with one query (since each scope has a specific ruleset).
-- **Relevant Extracts**: The relevant extracts are key passages and sentences found in the searched documents,
-which are then used to compute a short summary typically displayed in the search results.
+- **Relevant Extracts**: The relevant extracts are key passages and sentences found in the searched documents, which are then used to compute a short summary typically displayed in the search results.
 
 ![Relevant extracts]({{site.baseurl}}assets/gettingstarted/relevant-extracts.png)
 *Example of relevant extracts*
@@ -172,8 +165,7 @@ Instead, developers will see and use explicit variable names, which are used con
 The Preview web service form configures the access to document HTML previews (stored in Sinequa document cache).
 It has two settings:
 
-- **.css file**: Contains one (or more) CSS file names that are injected in the HTML previews as `<link>` elements,
-either with a relative path (relative to the URL of the application), or an absolute URL.
+- **.css file**: Contains one (or more) CSS file names that are injected in the HTML previews as `<link>` elements, either with a relative path (relative to the URL of the application), or an absolute URL.
 The default SBA includes a `styles/preview.scss` file which is built as `/preview.css`.
 The default setting is therefore `preview.css`.
 - **Highlights to display**: Categories to be "highlighted" in the preview.
@@ -251,8 +243,7 @@ This allows:
 - To manually deploy an SBA on the server (after a development performed on a developer's computer).
 Note that deploying with Git is preferable, when possible (see [Workflow](workflow.html)).
 
-Angular workspaces are unzipped in `<data folder>\sba`,
-which is where Sinequa looks for them, to be displayed in the administration and to serve the built applications that they contain.
+Angular workspaces are unzipped in `<data folder>\sba`, which is where Sinequa looks for them, to be displayed in the administration and to serve the built applications that they contain.
 The **Angular workspaces** is located in the administration under *Search-Based Applications*:
 
 ![Workspaces]({{site.baseurl}}assets/gettingstarted/admin-workspaces.png)
@@ -263,8 +254,7 @@ At the start, there will be no workspace pre-loaded in Sinequa ES.
 You can:
 
 - either load the default Sinequa Angular workspace from a zip provided with your Sinequa,
-- or import your own Angular workspace, noting that only multi-project Angular workspaces are supported
-(cf. [multi-project Angular workspace](https://angular.io/guide/file-structure#multiple-projects) for more information about Angular workspace type).
+- or import your own Angular workspace, noting that only multi-project Angular workspaces are supported (cf. [multi-project Angular workspace](https://angular.io/guide/file-structure#multiple-projects) for more information about Angular workspace type).
 
 ### Unzip the Sinequa Angular workspace
 
@@ -276,8 +266,7 @@ To unzip the default Sinequa workspace, click **New > Unzip default Angular work
 
 You will be prompted to choose a name for your workspace.
 This process can take a long time.
-You can follow its progress either by looking at the banner on the top of Workspaces adminisration page
-or by going to **Tasks status** page, the progress status is named **UnzipAngularWorkspace**.
+You can follow its progress either by looking at the banner on the top of Workspaces adminisration page or by going to **Tasks status** page, the progress status is named **UnzipAngularWorkspace**.
 
 ![Unzip Angular workspace process status]({{site.baseurl}}assets/gettingstarted/admin-unzip-angular-workspace-status.png)
 *Status of 'Unzip default Angular workspace' action in Tasks status*
@@ -326,8 +315,7 @@ If there are no download links, you can generate them via **More actions > Gener
 Note that distributable folders `dist` and `dist-folder` are not included in download zip.
 
 Generating download zip can take some time.
-You can follow its progress either by looking at the banner on the top of Workspaces adminisration page
-or by going to **Tasks status** page, the progress status is named **GenerateAngularWorkspaceZip**.
+You can follow its progress either by looking at the banner on the top of Workspaces adminisration page or by going to **Tasks status** page, the progress status is named **GenerateAngularWorkspaceZip**.
 
 ![Workspace generate zip actions]({{site.baseurl}}assets/gettingstarted/admin-workspace-generate-download-zip.png)
 *Workspace - Generate zip actions and download link*
@@ -336,8 +324,7 @@ or by going to **Tasks status** page, the progress status is named **GenerateAng
 Secondly, there is a list of all build scripts declared in the `package.json` file at the root of the workspace.
 You can execute the build script directly in the grid or from the `Build` menu at the top-right of the administration page.
 
-You can follow its progress either by looking at the banner on the top of Workspaces adminisration page
-or by going to **Tasks status** page, the progress status is named **BuildAngularWorkspace**.
+You can follow its progress either by looking at the banner on the top of Workspaces adminisration page or by going to **Tasks status** page, the progress status is named **BuildAngularWorkspace**.
 
 ![Workspace build scripts]({{site.baseurl}}assets/gettingstarted/admin-workspace-build-scripts.png)
 *Workspace - Build scripts*
