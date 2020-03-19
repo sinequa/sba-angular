@@ -29,11 +29,13 @@ Doing so means you can now use the components exported by this module in your ap
 ## Using the Search Service
 
 The Hello-Search has a few issues:
+
 - If you refresh the page after searching for something, your results are gone! This is not surprising, as your search criteria are not persisted anywhere.
 - You are creating local `Query` and `Results` objects which cannot be used outside of your component.
 - You are not generating events and keeping track of user search actions, which will be an issue for implementing some features.
 
 The `SearchService` solves these issues by:
+
 - Centralizing the management of the `Query` and `Results` and providing helper method to easily modify these objects.
 - Persisting the query in the URL, so that the app state is not lost on refresh.
 - Generating events and keeping track of user actions (breadcrumbs).
@@ -78,7 +80,7 @@ Now in your `app.component.html`, replace the occurrences of `results$` by `sear
 
 ```html
 <div *ngIf="searchService.resultsStream | async; let results">
-    <hr>    
+    <hr>
     <div *ngFor="let record of results.records" class="record">
 ...
 ```
@@ -93,7 +95,7 @@ To fix this, we need to listen to the `SearchService` events and fill the input 
 constructor(
     ...
 ){
-    ...    
+    ...
     this.searchService.queryStream.subscribe({
         next: (query) => {
             this.searchControl.setValue((query && query.text) || '');
@@ -127,12 +129,13 @@ You should notice that your app looks a little different. This is because Bootst
 ## Search module components
 
 You can now insert some of the Search module components in your component's template. Here are some suggestions:
+
 - `sq-tabs`: Displays some tabs to filter the search corpus (the filters are configured in the administration back-end)
 - `sq-loading-bar`: Displays a loading bar when a Search is in progress
 - `sq-pager`: Displays a pager to navigate through the search results
 
 ```html
-<div *ngIf="searchService.resultsStream | async; let results">
+{% raw %}<div *ngIf="searchService.resultsStream | async; let results">
     <hr>
     <sq-tabs [results]="results"></sq-tabs>
     <sq-loading-bar></sq-loading-bar>
@@ -142,9 +145,9 @@ You can now insert some of the Search module components in your component's temp
             <h3 [innerHtml]="record.displayTitle || record.title"></h3>
         </a>
         <div class="source">{{record.url1}}</div>
-        <p *ngIf="record.relevantExtracts" [innerHTML]="record.relevantExtracts"></p>       
+        <p *ngIf="record.relevantExtracts" [innerHTML]="record.relevantExtracts"></p>
     </div>
-</div>
+</div>{% endraw %}
 ```
 
 If everything goes well, you should see something like this in your app:

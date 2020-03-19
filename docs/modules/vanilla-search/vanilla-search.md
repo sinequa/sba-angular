@@ -43,12 +43,12 @@ You can also switch to a dark theme, by click the button under the search bar.
 You can easily change the logo and application name, at the top of the [template](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/home/home.component.html):
 
 ```html
-<!-- Home page logo -->
+{% raw %}<!-- Home page logo -->
 <img src="assets/vanilla-logo.png" id="logo" *ngIf="!isDark()">
 <img src="assets/vanilla-logo-dark.png" id="logo" *ngIf="isDark()">
 
 <!-- Home page title -->
-<h1>{{ 'msg#app.name' | sqMessage }}</h1>
+<h1>{{ 'msg#app.name' | sqMessage }}</h1>{% endraw %}
 ```
 
 This is followed by the [search form](#search-form) in the center.

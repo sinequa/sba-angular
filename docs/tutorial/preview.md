@@ -84,12 +84,12 @@ export class AppComponent implements AfterViewInit {
 We are almost there. Refactor your `app.component.html` template to call this method, rather than open the original URL of the document:
 
 ```html
-<a href="#" (click)="openDocument(record)">
+{% raw %}<a href="#" (click)="openDocument(record)">
     <h3 [innerHtml]="record.displayTitle || record.title"></h3>
 </a>
 <a href="{{record.url1}}">
     <div class="source">{{record.url1}}</div>
-</a>
+</a>{% endraw %}
 ```
 
 Now, click on one the documents... Here is what you should see:
