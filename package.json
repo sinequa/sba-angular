@@ -9,9 +9,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "buildcore": "ng build core",
-    "buildhellosearch": "ng build hello-search",
+    "buildhellosearch": "ng build hello-search --prod",
     "buildcomponents": "ng build components",
-    "buildvanilla": "ng build vanilla-search",
+    "buildvanilla": "ng build vanilla-search --prod",
     "buildall": "npm run buildcore & npm run buildhellosearch & npm run buildcomponents & npm run buildvanilla",
     "makedoc-core": "cd projects/core && node ../../scripts/makedoc.js -d ../../docs/core -p tsconfig.lib.json -n \"Core\"",
     "makedoc-components": "cd projects/components && node ../../scripts/makedoc.js -d ../../docs/components -p tsconfig.lib.json -n \"Components\""
