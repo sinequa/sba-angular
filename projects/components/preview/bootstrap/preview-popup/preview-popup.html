@@ -1,6 +1,6 @@
 <div class="modal-content sq-preview-popup">
     <sq-modal 
-        [title]="{title: recordTitle}"
+        [title]="recordTitle"
         [showFooter]="false">
         <div header *ngIf="showPreviousNext" class="previousNextDocumentButtons">
             <button class="btn btn btn-outline-primary {{!previousEnabled ? 'disabled' : ''}}" (click)="previous()">
