@@ -44,7 +44,7 @@ The most important declaration of this module is the `Action` class.
 
 ### Action class
 
-The `Action` class ([reference documentation]({{site.baseurl}}/components/classes/Action.html)) represents an element
+The [`Action` class]({{site.baseurl}}/components/classes/Action.html) represents an element
 in a dropdown menu, take for example the User menu in the above screenshot,
 the button with the user icon and the two elements of the dropdown are `Action` object.
 
@@ -52,16 +52,16 @@ An `Action` can have zero or some children, the latter represents a dropdown men
 
 Here are the list of commonly used properties of the `Action` class:
 
-* name: The name of the action, can be used as id to distinguish different actions of the same `Action` parent,
-* text: The display text of the `Action`,
-* title: The tooltip to show when hovering the `Action`,
-* icon or iconAfter: The icon (css class) of the `Action`, if the `name` property is defined, the icon defined by `icon` will be displayed before the text while that by `iconAfter` is shown after the action text,
-* separator: whether the `Action` is used as a separator in its parent `Action`,
-* selected: if true, the display of the `Action` will start with a check icon (&#10004;).
-* disabled: if true, the `Action` is grayed out when it is displayed.
-* hidden: if true, the `Action` is not shown.
-* action: A function to execute when the button is clicked,
-* updater: A function to execution *before* the button display is refreshed,
+* `name`: The name of the action, can be used as id to distinguish different actions of the same `Action` parent,
+* `text`: The display text of the `Action`,
+* `title`: The tooltip to show when hovering the `Action`,
+* `icon` or `iconAfter`: The icon (css class) of the `Action`, if the `name` property is defined, the icon defined by `icon` will be displayed before the text while that by `iconAfter` is shown after the action text,
+* `separator`: whether the `Action` is used as a separator in its parent `Action`,
+* `selected`: if true, the display of the `Action` will start with a check icon (&#10004;).
+* `disabled`: if true, the `Action` is grayed out when it is displayed.
+* `hidden`: if true, the `Action` is not shown.
+* `action`: A function to execute when the button is clicked,
+* `updater`: A function to execution *before* the button display is refreshed,
 
 #### How to create a menu action or a button
 
@@ -178,51 +178,20 @@ const alertMenu = new Action({
 });
 ```
 
-### Directives
+### Directives and components
 
 Once you have defined your menus and buttons, you need to use one of the following directives or components to display them in the HTML template of your components
 
-The `sq-dropdown-menu` directive ([reference documentation]({{site.baseurl}}/components/components/BsDropdownMenu.html)) creates a dropdown menu, like the ones you see on the navigation bar.
+you can use the [`sq-action-buttons` component]({{site.baseurl}}/components/components/BsActionItem.html) that creates a menu of buttons.
 
-The input of the directive is an `DropdownMenuOptions` object ([reference documentation]({{site.baseurl}}/components/interfaces/DropdownMenuOptions.html)):
+Its input is an [`ActionButtonsOptions` object]({{site.baseurl}}/components/interfaces/ActionButtonsOptions.html):
 
-* item: the `Action` object represents the menu,
-* rightAligned: whether the elements of the menu will be right-aligned,
-* showMenuClass: the CSS class of the menu when it is shown.
-
-Example:
-
-```html
-<ul [sq-dropdown-menu]="{item: menuAction, showMenuClass: menuClass}"></ul>
-```
-
-The `sq-action-menu` component ([reference documentation]({{site.baseurl}}/components/components/BsActionMenu.html)) is another way to create a dropdown menu.
-
-This component expects the following values:
-
-* items: the children `Action` elements of the menu,
-* size: the size of the menu, the valid values are (in ascending order): `"xs", "sm", "md", "lg", "xl", "xxl"`,
-* autoAdjust: whether to automatically change the visualisation of the menu and its children when resizing the browser window,
-* autoAdjustBreakpoint: if `autoAdjust` is activated, this property defines the size of the browser window,
+* `items`: the children `Action` elements of the menu,
+* `size`: the size of the menu, the valid values are (in ascending order): `"xs", "sm", "md", "lg", "xl", "xxl"`,
+* `autoAdjust`: whether to automatically change the visualisation of the menu and its children when resizing the browser window,
+* `autoAdjustBreakpoint`: if `autoAdjust` is activated, this property defines the size of the browser window,
 at which the menu size can be adjusted instead of always adjusting the menu each time a resizing happens,
-* right: whether the menu elements are right-aligned.
-
-Example:
-
-```html
-<sq-action-menu [items]="items" [autoAdjust]="true" [autoAdjustBreakpoint]="'xxl'" [right]="true"></sq-action-menu>
-```
-
-Alternatively, you can use the `sq-action-buttons` component ([reference documentation]({{site.baseurl}}/components/components/BsActionItem.html)) that creates a menu of buttons, with the same inputs as in `sq-action-menu`.
-
-Its input is an `ActionButtonsOptions` object ([reference documentation]({{site.baseurl}}/components/interfaces/ActionButtonsOptions.html)):
-
-* items: the children `Action` elements of the menu,
-* size: the size of the menu, the valid values are (in ascending order): `"xs", "sm", "md", "lg", "xl", "xxl"`,
-* autoAdjust: whether to automatically change the visualisation of the menu and its children when resizing the browser window,
-* autoAdjustBreakpoint: if `autoAdjust` is activated, this property defines the size of the browser window,
-at which the menu size can be adjusted instead of always adjusting the menu each time a resizing happens,
-* right: whether the menu elements are right-aligned.
+* `right`: whether the menu elements are right-aligned.
 
 Example:
 
@@ -236,18 +205,18 @@ Example:
 ></div>
 ```
 
-Finally, there is the `sq-action-item` component ([reference documentation]({{site.baseurl}}/components/components/BsActionItem.html)).
+Alternatively, you can use the [`sq-action-item` component]({{site.baseurl}}/components/components/BsActionItem.html).
 
-This component expects an `ActionItemOptions` ([reference documentation]({{site.baseurl}}/components/interfaces/ActionItemOptions.html)) as input:
+This component expects an [`ActionItemOptions` object]({{site.baseurl}}/components/interfaces/ActionItemOptions.html) as input:
 
-* item: the `Action` object representing the menu,
-* size: the size of the menu, the valid values are (in ascending order): `"xs", "sm", "md", "lg", "xl", "xxl"`,
-* style: the CSS class of the menu,
-* autoAdjust: whether to automatically change the visualisation of the menu and its children when resizing the browser window,
-* autoAdjustBreakpoint: if `autoAdjust` is activated, this property defines the size of the browser window,
+* `item`: the `Action` object representing the menu,
+* `size`: the size of the menu, the valid values are (in ascending order): `"xs", "sm", "md", "lg", "xl", "xxl"`,
+* `style`: the CSS class of the menu,
+* `autoAdjust`: whether to automatically change the visualisation of the menu and its children when resizing the browser window,
+* `autoAdjustBreakpoint`: if `autoAdjust` is activated, this property defines the size of the browser window,
 at which the menu size can be adjusted instead of always adjusting the menu each time a resizing happens,
-* inMenu: if `true`, the menu element will have `nav-link` CSS class. Otherwise, they are set to `dropdown-item`,
-* rightAligned: whether the menu elements are right-aligned.
+* `inMenu`: if `true`, the menu element will have `nav-link` CSS class. Otherwise, they are set to `dropdown-item`,
+* `rightAligned`: whether the menu elements are right-aligned.
 
 Example:
 
@@ -262,4 +231,35 @@ Example:
         autoAdjustBreakpoint: autoAdjustBreakpoint,
         rightAligned: rightAligned}"
 ></div>
+```
+
+The [`sq-action-menu` component]({{site.baseurl}}/components/components/BsActionMenu.html) is another way to create a dropdown menu.
+
+This component expects the following values:
+
+* `items`: the children `Action` elements of the menu,
+* `size`: the size of the menu, the valid values are (in ascending order): `"xs", "sm", "md", "lg", "xl", "xxl"`,
+* `autoAdjust`: whether to automatically change the visualisation of the menu and its children when resizing the browser window,
+* `autoAdjustBreakpoint`: if `autoAdjust` is activated, this property defines the size of the browser window,
+at which the menu size can be adjusted instead of always adjusting the menu each time a resizing happens,
+* `right`: whether the menu elements are right-aligned.
+
+Example:
+
+```html
+<sq-action-menu [items]="items" [autoAdjust]="true" [autoAdjustBreakpoint]="'xxl'" [right]="true"></sq-action-menu>
+```
+
+Finally, there is the [`sq-dropdown-menu` directive]({{site.baseurl}}/components/components/BsDropdownMenu.html).
+
+The input of the directive is an  ([`DropdownMenuOptions` object]({{site.baseurl}}/components/interfaces/DropdownMenuOptions.html)):
+
+* `item`: the `Action` object represents the menu,
+* `rightAligned`: whether the elements of the menu will be right-aligned,
+* `showMenuClass`: the CSS class of the menu when it is shown.
+
+Example:
+
+```html
+<ul [sq-dropdown-menu]="{item: menuAction, showMenuClass: menuClass}"></ul>
 ```
