@@ -10,13 +10,14 @@ nav_order: 9
 In Angular, [application environments](https://angular.io/guide/build) allow you to specify different configurations for different build targets (typically `dev`, `prod`, `staging`, etc.).
 
 In the case of the Sinequa SBA Framework, the parameters which often need to be environment-specific are those of the [`StartConfig`]({{site.baseurl}}core/interfaces/StartConfig.html) object:
-- `url`: URL of the Sinequa server (can be omitted if the app is hosted by Sinequa)
+
 - `app`: Name of the App configured on the server
 - `auditEnabled`: Whether or not to enable audit logging
 - `autoSAMLProvider`, `autoOAuthProvider`: Name of the login providers configured on the server
 - `production`: Whether the app is built for production or not
+- `url`: URL of the Sinequa server (if you are using [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) -- See [Workflows]({{site.baseurl}}gettingstarted/workflow.html#working-remotely)).
 
-To take an example, let's say you have to develop your SBA with a Sinequa server at `http://sinequa-dev.customer.com` and you will deploy your production application on `https://sinequa.customer.com`. You may have something like the following:
+To take an example, let's say you have to develop your SBA with a Sinequa server at `https://sinequa-dev.customer.com` and you will deploy your production application on `https://sinequa.customer.com`. You may have something like the following:
 
 `app.module.ts`:
 
@@ -36,7 +37,7 @@ export const startConfig: StartConfig = {
 
 ```ts
 export const environment = {
-  url: "http://sinequa-dev.customer.com",
+  url: "https://sinequa-dev.customer.com",
   app: "enterprise-search-app",
   auditEnabled: false,
   production: false
@@ -49,7 +50,7 @@ export const environment = {
 
 ```ts
 export const environment = {
-  url: "http://sinequa-prod.customer.com",
+  url: "https://sinequa-prod.customer.com",
   app: "enterprise-search-app",
   auditEnabled: true,
   production: true,
@@ -57,4 +58,4 @@ export const environment = {
 };
 ```
 
-Note that the `url` parameter can be omitted if your application is hosted on the Sinequa server (the `url` will just be inferred from the browser URL). It can also be omitted if you use a proxy with `ng serve` (See [workflow]({{site.baseurl}}gettingstarted/workflow#ng-serve)).
+Note that the `url` parameter can be omitted if your application is hosted on the Sinequa server or if you use a proxy (the `url` will just be inferred from the browser URL). It can also be omitted if you use a proxy with `ng serve` (See [workflows]({{site.baseurl}}gettingstarted/workflow#ng-serve)).

@@ -7,13 +7,6 @@ nav_order: 2
 
 # Server-side setup
 
-## WebApp configuration
-
-The SBA Framework is based on the **REST API** of Sinequa. Before starting, please make sure that the following options are properly configured in your **Webapp**:
-
-- *Webapp > Stateless Mode > Return HTTP error codes* enabled,
-- *Webapp > Stateless Mode > Permitted origins for Cross-Origin Resource Sharing (CORS) requests* set to the URL you will use to test your app locally. For example, `http://localhost:4200` (or just `*`).
-
 ## Minimal configuration
 
 The minimal configuration required to get started is an **App** and a **Query** web service.
@@ -27,8 +20,8 @@ To create an **App** configuration, in the administration:
 ![New empty app action]({{site.baseurl}}assets/gettingstarted/admin-new-empty-app-action.png)
 *'New empty app' action in Apps*
 {: .text-center }
-At this point your Sinequa server can be used to develop an SBA and you can go to [Developer-side setup](dev-setup.html)
- or spend more time reading the documentation below to fully configure the server.
+
+At this point your Sinequa server can be used to develop an SBA and you can go to [Developer-side setup](dev-setup.html) or spend more time reading the documentation below to fully configure the server.
 
 ## Apps
 
@@ -48,15 +41,14 @@ In this form, a new App may be created by clicking on the *New empty SBA* button
 
 The **name of the App** is important, as it will be used by the Angular application to request data via the Web Services.
 The configuration of an App specifies the **list of Web Services** available for this App.
-If the App is deployed on the Sinequa server, it needs to point to an **Angular workspace**,
- which is shown via the property *Workspace application*.
+If the App is deployed on the Sinequa server, it needs to point to an **Angular workspace**, which is shown via the property *Workspace application*.
 
 ![App Configuration]({{site.baseurl}}assets/gettingstarted/admin-app.png)
 *App configuration - General tab*
 {: .text-center }
 
 In the **Auto-Login** tab of the App configuration, it is possible to reference a login provider configured at the level of the Webapp.
-Note that for certain types of SSO (like Windows authentication), the configuration needs to be done essentially in the IIS server.
+Note that for certain types of SSO (like Windows authentication), the configuration needs to be done essentially in the IIS server (See [Login methods]({{site.baseurl}}tipstricks/login-methods.html)).
 
 ![Auto-Login tab]({{site.baseurl}}assets/gettingstarted/admin-app-auth.png)
 *App configuration - Auto-Login tab*
@@ -95,10 +87,10 @@ The list of Web Services can be found in the administration interface under *Sea
 *List of **configurable** Web Services in the Sinequa server administration*
 {: .text-center }
 
-### Query web service
+### Query web service (default: *_query*)
 
 By far the most complex API, and by extension the most complex Web Service configuration, is the **Query** web service.
-This is the service that lets you build complex queries to retrieve data from the Sinequa indexes.
+This is the service that lets you build complex search queries to retrieve data from the Sinequa indexes.
 
 The **General** tab of the Query web service configuration allows the configuration of these key parameters:
 
@@ -113,6 +105,9 @@ For example, if you search for "automobile manufacturer", the *Company* aggregat
 
 The **Results Page** tab of the Query web service configuration allows to configure these key parameters:
 
+- **Tab Search**: Specifies a list of tabs to search in a specific subset of the corpus.
+Tabs filter on a single column of the index (e.g. the format of document, name of the data source, etc.).
+The Angular application may select a tab by setting `query.tab = '<tab name>'`.
 - **Search scopes**: A "scope" can restrict the search to a specific subset of the corpus, with SQL rules.
 The Angular application may select a scope by setting `query.scope = '<scope name>'`.
 Unlike tabs, it is not possible to compute the number of documents for each scope with one query (since each scope has a specific ruleset).
@@ -121,10 +116,6 @@ Unlike tabs, it is not possible to compute the number of documents for each scop
 ![Relevant extracts]({{site.baseurl}}assets/gettingstarted/relevant-extracts.png)
 *Example of relevant extracts*
 {: .text-center }
-
-- **Tab Search**: Specifies a list of tabs to search in a specific subset of the corpus.
-Tabs filter on a single column of the index (e.g. the format of document, name of the data source, etc.).
-The Angular application may select a tab by setting `query.tab = '<tab name>'`.
 
 The **Search settings** tab of the Query web service configuration allows to configure in fine detail the query sent to the Sinequa engine.
 In particular:
@@ -160,7 +151,7 @@ Instead, developers will see and use explicit variable names, which are used con
 *Example of query aliases*
 {: .text-center }
 
-### Preview web service
+### Preview web service (default: *_preview*)
 
 The Preview web service form configures the access to document HTML previews (stored in Sinequa document cache).
 It has two settings:
@@ -180,7 +171,7 @@ The visual highlight itself is effectively done by the aforementioned `preview.c
 *Example of a highlighted HTML (each colored passage corresponds to a `<span>` element with a specific highlighted entity class)*
 {: .text-center }
 
-### Labels web service
+### Labels web service (default: *_labels*)
 
 The Labels web service form allows to configure the columns of the index where tags are stored.
 **Labels** may be **private** (specific to each user) or **public** (visible to everyone).
@@ -194,7 +185,7 @@ This service also exposes an autocomplete feature to easily search and select a 
 *Example of labels configuration*
 {: .text-center }
 
-### Autocomplete web service
+### Autocomplete web service (default: *_autocomplete*)
 
 The autocomplete web service essentially lists **suggest queries** that provide suggestions when the user types some text in a form.
 Refer to the [documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-sba-how-to-auto-complete.html) on suggest queries for more information.
@@ -203,7 +194,7 @@ Refer to the [documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/e
 *Example of autocomplete configuration*
 {: .text-center }
 
-### Export web service
+### Export web service (default: *_queryexport*)
 
 The export web service specifies the list of columns and maximum number of lines (records) to be exported when a user requests an export of the results list.
 For obvious security and performance reasons, these parameters are not exposed directly to the user themselves.
@@ -219,7 +210,7 @@ You need to verify such options in the query web service when you change the max
 *Example of export configuration*
 {: .text-center }
 
-### Sponsored links service
+### Sponsored links service (default: *_sponsoredlinks*)
 
 The configuration of the sponsored links specifies the number of links returned by the API.
 Refer to the [documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-ui-sponsored-links.html) on sponsored links for more information.
@@ -231,20 +222,14 @@ Refer to the [documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/e
 ## Workspaces
 
 The third part of the server-side configuration that powers the SBA framework is the **Workspaces** section.
-Workspaces literally refer to Angular workspaces, (which is what [this Github repository](https://github.com/sinequa/sba-angular) contains).
+"Workspaces" literally refer to Angular workspaces, (which is what [this Github repository](https://github.com/sinequa/sba-angular) contains).
 
-The Angular workspace is not only available on Github, it is also shipped with Sinequa releases as a **zip file**.
-A workspace can be unzipped, downloaded and uploaded on the Sinequa server via the Sinequa administration.
+The SBA Framework includes an Angular workspace available on [Github](https://github.com/sinequa/sba-angular), which is also shipped with Sinequa releases as a **zip file**.
+This archive can be unzipped, downloaded and uploaded on the Sinequa server via the Sinequa administration.
 
-This allows:
+The workspaces are located in `<Sinequa data folder>\sba`, which is where Sinequa looks for them, to display their content in the administration and to serve the built applications that they contain. This is also where you would deploy your application for Sinequa to serve it (via an upload, or a `git pull` -- See [Workflows](workflow.html)).
 
-- To host and serve an SBA on the Sinequa server, which is optional but typically the case in a production setting (cf. [Sinequa server](prerequisites.html#sinequa-server)).
-- To release a pre-built SBA directly usable out-of-the-box.
-- To manually deploy an SBA on the server (after a development performed on a developer's computer).
-Note that deploying with Git is preferable, when possible (see [Workflow](workflow.html)).
-
-Angular workspaces are unzipped in `<data folder>\sba`, which is where Sinequa looks for them, to be displayed in the administration and to serve the built applications that they contain.
-The **Angular workspaces** is located in the administration under *Search-Based Applications*:
+The **Workspaces** section displays the workspaces under `<Sinequa data folder>\sba`. It is located in the administration under *Search-Based Applications > Workspaces*:
 
 ![Workspaces]({{site.baseurl}}assets/gettingstarted/admin-workspaces.png)
 *Angular workspaces in the administration*
@@ -253,7 +238,8 @@ The **Angular workspaces** is located in the administration under *Search-Based 
 At the start, there will be no workspace pre-loaded in Sinequa ES.
 You can:
 
-- either load the default Sinequa Angular workspace from a zip provided with your Sinequa,
+- either load the default Sinequa Angular workspace from a default zip provided with your Sinequa release,
+- or clone the [Github repository](https://github.com/sinequa/sba-angular) in `<Sinequa data folder>/data` (See [Workflows](workflow.html)),
 - or import your own Angular workspace, noting that only multi-project Angular workspaces are supported (cf. [multi-project Angular workspace](https://angular.io/guide/file-structure#multiple-projects) for more information about Angular workspace type).
 
 ### Unzip the Sinequa Angular workspace
@@ -265,7 +251,7 @@ To unzip the default Sinequa workspace, click **New > Unzip default Angular work
 {: .text-center }
 
 You will be prompted to choose a name for your workspace.
-This process can take a long time.
+This process can take a few minutes.
 You can follow its progress either by looking at the banner on the top of Workspaces adminisration page or by going to **Tasks status** page, the progress status is named **UnzipAngularWorkspace**.
 
 ![Unzip Angular workspace process status]({{site.baseurl}}assets/gettingstarted/admin-unzip-angular-workspace-status.png)
@@ -314,8 +300,8 @@ If there are no download links, you can generate them via **More actions > Gener
 **More actions > Generate minimal workspace zip (without 'node_modules' folder)**.
 Note that distributable folders `dist` and `dist-folder` are not included in download zip.
 
-Generating download zip can take some time.
-You can follow its progress either by looking at the banner on the top of Workspaces adminisration page or by going to **Tasks status** page, the progress status is named **GenerateAngularWorkspaceZip**.
+Generating a zip file can take a few minutes.
+You can follow the generation progress either by looking at the banner on the top of Workspaces adminisration page or by going to **Tasks status** page, the progress status is named **GenerateAngularWorkspaceZip**.
 
 ![Workspace generate zip actions]({{site.baseurl}}assets/gettingstarted/admin-workspace-generate-download-zip.png)
 *Workspace - Generate zip actions and download link*
@@ -324,7 +310,7 @@ You can follow its progress either by looking at the banner on the top of Worksp
 Secondly, there is a list of all build scripts declared in the `package.json` file at the root of the workspace.
 You can execute the build script directly in the grid or from the `Build` menu at the top-right of the administration page.
 
-You can follow its progress either by looking at the banner on the top of Workspaces adminisration page or by going to **Tasks status** page, the progress status is named **BuildAngularWorkspace**.
+You can follow the script progress either by looking at the banner on the top of Workspaces adminisration page or by going to **Tasks status** page, the progress status is named **BuildAngularWorkspace**.
 
 ![Workspace build scripts]({{site.baseurl}}assets/gettingstarted/admin-workspace-build-scripts.png)
 *Workspace - Build scripts*
@@ -353,11 +339,10 @@ If there is a `README` markdown file in the workspace root, this file is also re
 
 ### Other actions with workspace
 
-You can execute `npm install` directly on the workspace administration page, if the WebApp machine has access to the Internet.
+You can execute `npm install` directly on the workspace administration page, if the WebApp server has access to the Internet.
 By default, this action is disabled on the administration. You need to activate it via **Global options > Advanced > Enable 'npm install' (default: false)**.
 
-You can follow the execution of the `npm install` action either by looking at the banner on the top of Workspaces adminisration page
-or by going to **Tasks status** page, the progress status is named **ExecuteNpmInstallAngularWorkspace**.
+You can follow the execution of the `npm install` action either by looking at the banner on the top of Workspaces adminisration page or by going to **Tasks status** page, the progress status is named **ExecuteNpmInstallAngularWorkspace**.
 
 ![Workspace execute npm install]({{site.baseurl}}assets/gettingstarted/admin-workspace-execute-npm-install.png)
 *Workspace - Execute 'npm install' action*
@@ -369,3 +354,12 @@ To create a new App, go to **More actions > New app from**, where you can choose
 ![Workspace new ap]({{site.baseurl}}assets/gettingstarted/admin-workspace-new-app.png)
 *Workspace - New app actions*
 {: .text-center }
+
+## CORS and WebApp configuration
+
+The **REST API** of Sinequa can be used by a remote application (which is the case when you serve your app with `ng serve`, without a proxy -- See [Workflows](workflow.html#ng-serve)). Note that this mode causes [Cross-Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) (CORS) issues.
+
+- *Webapp > Stateless Mode > Permitted origins for Cross-Origin Resource Sharing (CORS) requests* set to the URL you will use to test your app locally. For example, `http://localhost:4200` (or just `*`).
+- *Webapp > Stateless Mode > Return HTTP error codes* enabled (default).
+
+As some authentication methods need to store a [CSRF](https://en.wikipedia.org/wiki/Cross-site_request_forgery) token on the client, a cookie must be stored with the `SameSite=None` and `Secure` options. This means that **the Sinequa API must necessarily be served over HTTPS** for these authentication methods to work.
