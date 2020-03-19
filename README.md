@@ -28,7 +28,7 @@
 4. Build the [`@sinequa/components`](https://sinequa.github.io/sba-angular/modules/components/components.html) library:
 
     ```bash
-    npm run buildcore
+    npm run buildcomponents
     ```
 
 5. Build Vanilla-Search and test it on our demo server (Sinequa account required):
