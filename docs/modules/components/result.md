@@ -18,6 +18,8 @@ This modules provides simple components to easily display the different fields o
 
 These components do **not** depend on a styling framework like Bootstrap, nor on a global stylesheet.
 
+![Result item]({{site.baseurl}}assets/modules/result/result-item.png){: .d-block .mx-auto }
+
 ## Import
 
 Import this module in your `app.module.ts`.
