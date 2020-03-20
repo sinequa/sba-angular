@@ -21,7 +21,7 @@ To develop a SBA, developers need to install various utilities:
 
 ## Minimum Development
 
-It is possible to use sample applications, like [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html), out-of-the-box on the Sinequa server. You have to [**unzip the default workspace**](server-setup.html#unzip-the-sinequa-angular-workspace), and [**reference one the applications in your App**](#deploying-an-app-on-a-sinequa-server).
+It is possible to use sample applications, like [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html), out-of-the-box on the Sinequa server. You have to [**unzip the default workspace**](server-setup.html#unzip-the-sinequa-angular-workspace), and [**reference one of the applications in your App**](#deploying-an-app-on-a-sinequa-server).
 
 After this, your app will be served at `http(s)://<sinequa server>/app/your-app`, but it is going to fail with the following error:
 
