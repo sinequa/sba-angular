@@ -34,21 +34,21 @@ export const routes: Routes = [
 
 The [Home route](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/home) has a search bar ([Search Form component](#search-form)), and a list of facets:
 
-![Home route]({{site.baseurl}}/assets/modules/vanilla-home.png)
+![Home route]({{site.baseurl}}assets/modules/vanilla-home.png)
 
 You can also switch to a dark theme, by click the button under the search bar.
 
-![Home route]({{site.baseurl}}/assets/modules/vanilla-dark.png)
+![Home route]({{site.baseurl}}assets/modules/vanilla-dark.png)
 
 You can easily change the logo and application name, at the top of the [template](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/home/home.component.html):
 
 ```html
-<!-- Home page logo -->
+{% raw %}<!-- Home page logo -->
 <img src="assets/vanilla-logo.png" id="logo" *ngIf="!isDark()">
 <img src="assets/vanilla-logo-dark.png" id="logo" *ngIf="isDark()">
 
 <!-- Home page title -->
-<h1>{{ 'msg#app.name' | sqMessage }}</h1>
+<h1>{{ 'msg#app.name' | sqMessage }}</h1>{% endraw %}
 ```
 
 This is followed by the [search form](#search-form) in the center.
@@ -73,7 +73,7 @@ The [controller](https://github.com/sinequa/sba-angular/blob/master/projects/van
 
 The [Search route](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/search) has a *navbar* on top, which includes a search bar ([Search Form component](#search-form)), and user menus coming from various libraries of [`@sinequa/components`]({{site.baseurl}}components). Under it are a facet bar (with two facets) and the search results. It is also possible to open a preview of a document on the right, by selecting it in the results.
 
-![Search route]({{site.baseurl}}/assets/modules/vanilla-search.png)
+![Search route]({{site.baseurl}}assets/modules/vanilla-search.png)
 
 The [template](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search/search.component.html) starts with the **navbar**, which contains:
 
@@ -129,7 +129,7 @@ The [Preview route](https://github.com/sinequa/sba-angular/tree/master/projects/
 
 On the right, the HTML preview is displayed within the [`sq-preview-document-iframe`]({{site.baseurl}}components/components/PreviewDocumentIframe.html) container. Additionally, a dynamic tooltip ([`sq-preview-tooltip`]({{site.baseurl}}components/components/PreviewTooltip.html)) is inserted in the HTML preview, to provide additional functionality when users hover their mouse over entities, or select text.
 
-![Preview route]({{site.baseurl}}/assets/modules/vanilla-preview.png)
+![Preview route]({{site.baseurl}}assets/modules/vanilla-preview.png)
 
 The [controller](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/preview/preview.component.ts) manages:
 
@@ -143,7 +143,7 @@ The [Search Form component](https://github.com/sinequa/sba-angular/tree/master/p
 
 Additionally, a custom [Autocomplete directive](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/autocomplete-extended.directive.ts) allows to search into User Settings objects, such as the recent queries, documents, baskets, etc.
 
-![Search form]({{site.baseurl}}/assets/modules/search-form.png){: .d-block .mx-auto }
+![Search form]({{site.baseurl}}assets/modules/search-form.png){: .d-block .mx-auto }
 
 As in the tutorial, the [controller](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/search-form.component.ts) includes a `search()` method. Additionally, it manages the list of custom features that the autocomplete can search into, like the recent documents, the recent queries, the baskets and the saved queries (this list can be [configured](#configuration)).
 

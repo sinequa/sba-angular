@@ -47,7 +47,6 @@ import { SCREEN_SIZE_RULES } from '@sinequa/components/utils';
 
 // Sinequa Core config
 export const startConfig: StartConfig = {
-    url: "https://vm-su-sba.sinequa.com:13343",
     app: "training",
     autoSAMLProvider: "identity",
     production: environment.production,

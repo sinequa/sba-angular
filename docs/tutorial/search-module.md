@@ -24,16 +24,20 @@ import { BsSearchModule } from '@sinequa/components/search';
     BsSearchModule.forRoot({routes: [""]})
 ```
 
+Notice the call to `forRoot()`, which tells the `SearchService` to work on the empty route (Hello Search has no route).
+
 Doing so means you can now use the components exported by this module in your app. However, we need to do things in order, and there are preliminary steps before we can actually do this...
 
 ## Using the Search Service
 
 The Hello-Search has a few issues:
+
 - If you refresh the page after searching for something, your results are gone! This is not surprising, as your search criteria are not persisted anywhere.
 - You are creating local `Query` and `Results` objects which cannot be used outside of your component.
 - You are not generating events and keeping track of user search actions, which will be an issue for implementing some features.
 
 The `SearchService` solves these issues by:
+
 - Centralizing the management of the `Query` and `Results` and providing helper method to easily modify these objects.
 - Persisting the query in the URL, so that the app state is not lost on refresh.
 - Generating events and keeping track of user actions (breadcrumbs).
@@ -50,7 +54,7 @@ constructor(
 ){
 ```
 
-The `SearchService` is going to manage the `Results` observable, you can now remove the `results$` object:
+The `SearchService` is going to manage the `Results` *observable* (See [rxjs](https://angular.io/guide/rx-library)), you can now remove the `results$` object:
 
 ~~`results$: Observable<Results> | undefined`~~
 
@@ -78,7 +82,7 @@ Now in your `app.component.html`, replace the occurrences of `results$` by `sear
 
 ```html
 <div *ngIf="searchService.resultsStream | async; let results">
-    <hr>    
+    <hr>
     <div *ngFor="let record of results.records" class="record">
 ...
 ```
@@ -93,7 +97,7 @@ To fix this, we need to listen to the `SearchService` events and fill the input 
 constructor(
     ...
 ){
-    ...    
+    ...
     this.searchService.queryStream.subscribe({
         next: (query) => {
             this.searchControl.setValue((query && query.text) || '');
@@ -108,11 +112,11 @@ Now when you refresh the page after a search, everything should be fine!
 
 We are almost ready to start using the components from the Search module. But one thing remains to do: These components depend on the Bootstrap library, and our current Hello Search app does use any style library.
 
-In your `styles\app.scss` stylesheet, add the following lines:
+In your `styles/app.scss` stylesheet, add the following lines:
 
 ```scss
 // Bootstrap styles
-@import "~bootstrap/scss/bootstrap"; 
+@import "~bootstrap/scss/bootstrap";
 
 /*** Fontawesome ***/
 $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
@@ -127,24 +131,21 @@ You should notice that your app looks a little different. This is because Bootst
 ## Search module components
 
 You can now insert some of the Search module components in your component's template. Here are some suggestions:
+
 - `sq-tabs`: Displays some tabs to filter the search corpus (the filters are configured in the administration back-end)
 - `sq-loading-bar`: Displays a loading bar when a Search is in progress
 - `sq-pager`: Displays a pager to navigate through the search results
 
 ```html
-<div *ngIf="searchService.resultsStream | async; let results">
+{% raw %}<div *ngIf="searchService.resultsStream | async; let results">
     <hr>
     <sq-tabs [results]="results"></sq-tabs>
     <sq-loading-bar></sq-loading-bar>
     <sq-pager [results]="results"></sq-pager>
     <div *ngFor="let record of results.records" class="record">
-        <a href="{{record.url1}}">
-            <h3 [innerHtml]="record.displayTitle || record.title"></h3>
-        </a>
-        <div class="source">{{record.url1}}</div>
-        <p *ngIf="record.relevantExtracts" [innerHTML]="record.relevantExtracts"></p>       
+        ...
     </div>
-</div>
+</div>{% endraw %}
 ```
 
 If everything goes well, you should see something like this in your app:

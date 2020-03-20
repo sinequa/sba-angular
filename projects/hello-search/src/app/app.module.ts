@@ -18,8 +18,7 @@ export function StartConfigInitializer(startConfigWebService: StartConfigWebServ
 }
 
 export const startConfig: StartConfig = {
-    //url: "https://my-sinequa-server.local", 
-    //app: "my-hello-search-app",
+    app: "your-app-name",
     production: environment.production
 };
 

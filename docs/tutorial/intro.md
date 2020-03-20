@@ -70,9 +70,10 @@ The tutorial is divided in chapters which each deals with a new Sinequa feature.
 {: .text-center }
 
 **This gives you a natural checklist for dealing with these modules:**
-1. Look at the code of that module in the [`@sinequa/components`]({{site.baseurl}}modules/components/components.html) library. In this example, inside: `projects/components/facet/`.
 
-2. Import this module in your `app.module.ts`:
+1. Take a look at the code of that module in the [`@sinequa/components`]({{site.baseurl}}modules/components/components.html) library. In this example, inside: `projects/components/facet/`. This gives you a general idea of what components, directives and services are bundled with that module.
+
+2. Import the module you're interested in in your `app.module.ts`:
 
     ```ts
     import { BsFacetModule } from '@sinequa/components/facet';
@@ -94,7 +95,7 @@ The tutorial is divided in chapters which each deals with a new Sinequa feature.
     ```
 
 4. Inject the services in the constructor(s) of your component(s):
-    
+
     ```ts
     import { FacetService } from '@sinequa/components/facet';
 

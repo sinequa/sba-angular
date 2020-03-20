@@ -53,7 +53,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       action: () => {
         this.previewService.openModal(this.record, this.query, {
           displaySimilarDocuments: false,
-          metadata: []
+          metadata: this.metadata
         });
       }
     });

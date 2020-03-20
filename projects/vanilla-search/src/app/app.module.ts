@@ -111,8 +111,8 @@ export const breakpoints = {
         
         WebServicesModule.forRoot(startConfig),
         IntlModule.forRoot(AppLocalesConfig),
-        LoginModule.forRoot(), // Just use default login modal
-        ModalModule.forRoot(),
+        LoginModule,
+        ModalModule,
 
         BsSearchModule.forRoot(searchOptions),
         BsAutocompleteModule,

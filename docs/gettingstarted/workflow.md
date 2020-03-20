@@ -38,7 +38,9 @@ When working **remotely**, your Angular workspace can live anywhere on your comp
 
 Working remotely is well suited to complex projects, involving multiple developers. Each developer can work on the app independently and merge their work via a system like Git (See [Git-based workflow](#git-based-workflow)). At some point, of course, you have to deploy your application on the Sinequa server. This can be done via file transfers or via Git (more on that below).
 
-When working remotely, you need to specify the URL of your Sinequa server in the `StartConfig` like this (unless you use a proxy -- see [ng serve](#ng-serve)):
+When working remotely, you can use a **proxy**, as demonstrated in [Developer-side setup](dev-setup.html#building-an-app). Also read [`ng serve`](#ng-serve) below.
+
+Alternatively, you can use Cross-Origin requests, in which case you can to specify the URL of your Sinequa server in the `StartConfig` object like this:
 
 ```ts
 export const startConfig: StartConfig = {
@@ -48,15 +50,18 @@ export const startConfig: StartConfig = {
 };
 ```
 
+⚠️ Using [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) limits some functionalities of the framework and requires the Sinequa API to be served over HTTPS, as discussed in [Deploying an app on another server](dev-setup.html#deploying-an-app-on-another-server).
+
 ### ng serve
 
 `ng serve` performs three actions:
+
 - It builds your application (by default with the debug settings)
 - It watches for changes in your code and updates the build immediately (the two first steps are equivalent to `ng build --watch`)
 - It serves your application on a local development server (by default `http://localhost:4200`)
 
-The third step means by definition that the app is not served from the same port as Sinequa, which causes [CORS](https://developer.mozilla.org/fr/docs/Web/HTTP/CORS) issues. To resolve them, there are two options:
-- Simply configure the Sinequa Webapp to allow cross-origin requests (In the configuration of your *Webapp > Stateless Mode > Permitted origins for Cross-Origin Resource Sharing (CORS) requests*, write `http://localhost:4200` or just `*`). But this does not resolves all CORS issues (in particular if you are working on the document preview).
+The third step means by definition that the app is not served from the same URL as Sinequa, which causes [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) issues. To resolve them, there are two options:
+
 - Proxy the Sinequa server so that your browser "thinks" that your app and the Sinequa server both live on the same server at `http://localhost:4200`. To do this, create a file `proxy.json` with the following content:
 
     ```json
@@ -66,17 +71,17 @@ The third step means by definition that the app is not served from the same port
             "secure": true,
             "changeOrigin": true
         },
-        
+
         "/xdownload": {
             "target": "https://your-sinequa-server.com",
             "secure": true,
             "changeOrigin": true
         },
-        
+
     }
     ```
 
-    (Note that if your app uses auth protocols like SAML, you may also need to proxy additional URLs, like /saml/redirect)
+    ⚠️ Note that if your app uses auth protocols like SAML, you may also need to proxy additional URLs, like `/saml/redirect`.
 
     Then modify your `ng serve` command to use your proxy:
 
@@ -84,9 +89,11 @@ The third step means by definition that the app is not served from the same port
     ng serve <your-app> --ssl=true --proxyConfig=<path-to-proxy.json>
     ```
 
-    Note that you can remove the `url` parameter from your `StartConfig` object, since from the point of view of your app, this is equivalent to working locally.
+    The proxy file can have various other options. Read the [online documentation]((https://github.com/angular/angular-cli/blob/master/docs/documentation/stories/proxy.md)).
 
-Whether you work locally or remotely, you can build your app and use `ng serve`, as long as you correctly configure your `app.module.ts` (and/or a proxy) as described above. Alternatively, if you work locally, you can use `ng build --watch`, to build your app continuously but let Sinequa serve it at the URL `<sinequa>/app-debug/<name-of-the-app>`.
+- Alternatively, configure the Sinequa Webapp to allow cross-origin requests (In the configuration of your *Webapp > Stateless Mode > Permitted origins for Cross-Origin Resource Sharing (CORS) requests*, write `http://localhost:4200` or just `*`). As mentioned in [Deploying an app on another server](dev-setup.html#deploying-an-app-on-another-server), the Sinequa API must be accessible over HTTPS. This does not resolve all CORS issues (in particular if you are working on the document preview).
+
+Whether you work locally or remotely, you can build your app and use `ng serve`, as long as you correctly configure your `app.module.ts` (and/or a proxy) as described above. Alternatively, if you work locally, you can use `ng build --watch`, to build your app continuously but let Sinequa serve it at the URL `http(s)://<sinequa server>/app-debug/<name-of-the-app>`.
 
 ## File-based Workflow
 
@@ -95,9 +102,11 @@ The **File-based Workflow** consists in working with simple file transfers to mo
 Like [working locally](#working-remotely), this approach is useful for simple one-off projects with a single developer..
 
 **Pros:**
+
 - Simplest workflow possible.
 
 **Cons:**
+
 - Incompatible with team work.
 - Difficult to track changes in the code.
 - Difficult to update the code.
@@ -111,16 +120,21 @@ The **Git-based Workflow** consists in using a Git repository to manage the code
 In this process, the project repository contains the reference, and every developer (and the Sinequa server) *clones* this repository locally. Developers *commit* their changes and then *push* them to the central repository, resolving potential *merge* conflicts in the process. Deploying a new version on the server simply means running a `git pull` command on the server.
 
 When a new version of the workspace is *cloned* or *pulled* on a computer or server, it is generally necessary to run the following commands:
+
 - `npm install`, which updates the dependencies from the Internet. This step is required when a developer updates the list of dependencies in the `package.json` file. If the server does not have access to the Internet, the `node_modules/` folder needs to be updated manually, via file transfer.
 - `npm run buildcore`, which builds [`@sinequa/core`]({{site.baseurl}}core). This step is required in case the code of this library was modified (by a developer, of after an update of the library).
 - `npm run buildcomponents`, which builds [`@sinequa/components`]({{site.baseurl}}components). This step is required in case the code of this library was modified (by a developer, of after an update of the library).
 - On the server: `ng build <name-of-your-app> --prod`, which builds your app for release, which allows Sinequa to serve it.
 
+Note that all the commands above can be run directly from the administration user interface.
+
 **Pros:**
+
 - Enables collaborative team work.
 - Allows to track changes in the app.
 
 **Cons:**
+
 - Requires hosting a Git repository on a server.
 - Still difficult to update the code.
 
@@ -132,12 +146,14 @@ The **Github-based Workflow** is a variation of the above **Git-based Workflow**
 
 This process helps address the issue of updating the Sinequa libraries and apps. Without it, you need to download new versions of the workspace and manually copy the code into your workspace. Instead, you can *pull from the upstream repository*, as described [here](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/merging-an-upstream-repository-into-your-fork). This may look like:
 
-    git pull https://github.com/sinequa/sba.git master   # Pull from the official repository
-    # Resolve potential conflicts...
-    git push origin master   # Update your project clone/fork
+```bash
+git pull https://github.com/sinequa/sba-angular.git master   # Pull from the official repository
+# Resolve potential conflicts...
+git push origin master   # Update your project clone/fork
+```
 
 Keep in mind `origin` is your own clone/fork, which does not get updates automatically until you push them. When you perform such an update, keep in mind the Core and Components libraries were overwritten (that's the point), so don't forget to rebuild them.
 
 ![Update from Github]({{site.baseurl}}assets/gettingstarted/git-update.png)
 
-Additionally, using the Github workflow allows you to request changes (bug fixes, new features) in our official repository, by submitting pull requests.
+Additionally, using the Github workflow allows you to **report issues** and **request changes** (bug fixes, new features) in our official repository, by submitting *pull requests*.

@@ -27,6 +27,7 @@ import { BsAutocompleteModule } from '@sinequa/components/autocomplete';
 ```
 
 The autocomplete module includes two important concepts:
+
 - The `sqAutocomplete` directive: This directive is the "brain" of the autocomplete. It listens to the changes in the `<input>` and queries the `SuggestWebService` to get suggestions.
 - The `sq-autocomplete-list` component: This component takes an input template to display the suggestions in a custom way.
 
@@ -50,7 +51,7 @@ Notice that we inserted two extra `<div>` and some Bootstrap classes (`input-gro
 
 ![Search form Bootstrap]({{site.baseurl}}assets/tutorial/search-form.png)
 
-⚠️ Also change the `type` of the Search button to `button` rather than `submit` (to avoid triggering double-submits caused by the autocomplete).
+⚠️ Also notice the change of the `type` of the Search button from `submit` to `button` (to avoid triggering double-submits caused by the autocomplete).
 
 ## Display the Autocomplete list
 
@@ -76,10 +77,10 @@ This doesn't change anything to the display though, because the `sq-autocomplete
 Now, we insert the `sqAutocomplete` directive in the `<input>` element:
 
 ```html
-<input ... 
-       sqAutocomplete 
+<input ...
+       sqAutocomplete
        [off]="!loginService.complete || !appService.suggestQueries"
-       [dropdown]="dropdown" 
+       [dropdown]="dropdown"
        [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : null"
        (submit)="search()">
 ```
@@ -90,7 +91,7 @@ However, still nothing is displayed...
 
 ## Displaying suggestions
 
-The `sq-autocomplete-list` component actually expects a input template to display the suggestions. Let's provide one with:
+The `sq-autocomplete-list` component actually expects a input template (`ng-template`) to display the suggestions. Let's provide one with:
 
 ```html
 ...
@@ -101,23 +102,24 @@ The `sq-autocomplete-list` component actually expects a input template to displa
                 {{(item.label || item.category) | sqMessage}}
             </small>
         </div>
-    </ng-template>    
+    </ng-template>
 </sq-autocomplete-list>{% endraw %}
 ```
 
-You can complete customize the display for the suggestions. The `item` object has a type of `AutocompleteItem`, which has at least the `display` and `category` properties. You can easily add icons that depend on the category, etc.
+You can easily customize the display of the suggestions. Here, `item` is an `AutocompleteItem` object, which has at least the `display` and `category` properties. You could easily enrich the template with some icons or images (eg. which would depend on `item.category`), etc.
 
-Finally some suggestions!
+Finally some autocomplete suggestions!
 
 ![Autocomplete]({{site.baseurl}}assets/tutorial/autocomplete.png)
 
 ## Going further
 
 Every aspect of the autocomplete can be deeply customized.
-- The display can be customized by customizing the template passed to the `sq-autocomplete-list` component (or by implementing your own custom version of the component, which only needs to implement the `AutocompleteComponent` interface).
-- The behavior of the autocomplete (change of state, source of the suggestions, etc.) can be customized by implementing your own directive, which can of course extend the `Autocomplete` directive to modify only a small part of it.
 
-In the example below, we implement a custom directive that searches in the user's **recent queries** in addition to the suggestions coming from the server:
+- The display can be customized by modifying the template (`ng-template`) passed to the `sq-autocomplete-list` component (or by implementing your own custom autocomplete component from scratch, which would require implementing the `AutocompleteComponent` interface).
+- The behavior of the autocomplete (change of state, source of the suggestions, etc.) can be customized by implementing your own directive. You can do this from scratch, or more efficiently by extending the `Autocomplete` directive to modify only a small part of it.
+
+In the example below, we implement a custom directive that searches in the user's **recent queries** in addition to the autocomplete suggestions coming from the server:
 
 ```ts
 import { Directive, ElementRef } from '@angular/core';
@@ -169,20 +171,20 @@ export class AutocompleteCustom extends Autocomplete {
                 from(this.searchRecentQueries(value)),
                 this.suggestService.get(this.suggestQuery, value, fields)
             ]
-                                    
+
             this.processSuggests(
                 // The forkJoin method allows to merge the suggestions into a single array, so the parent
                 // directive only sees a single source.
                 forkJoin(...dataSources).pipe(
-                    map((suggests) => { 
-                        return [].concat(...suggests); 
+                    map((suggests) => {
+                        return [].concat(...suggests);
                     }),
                     catchError((err, caught) => {
                         console.error(err);
                         return [];
                     })
                 ), fields);
-            
+
         }
         else {  // If empty input, restart autocomplete
             this.start();
@@ -191,12 +193,12 @@ export class AutocompleteCustom extends Autocomplete {
 
     /**
      * Search for the input text in the recent queries and return autocomplete items asynchronously
-     * @param text 
+     * @param text
      */
     searchRecentQueries(text: string): Promise<AutocompleteItem[]> {
         return this.suggestService.searchData<RecentQuery>(
-            'recent-query', 
-            text, 
+            'recent-query',
+            text,
             this.recentQueriesService.recentqueries,
             (query) => query.query.text || '',
             undefined,
@@ -205,3 +207,5 @@ export class AutocompleteCustom extends Autocomplete {
 
 }
 ```
+
+Notice that we directly search in the recent queries list (`recentQueriesService.recentqueries`) on the client side, without interrogating the server.

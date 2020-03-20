@@ -24,7 +24,7 @@ import { BsFacetModule } from '@sinequa/components/facet';
     BsFacetModule
 ```
 
-Unlike the `BsSearchModule` (and others), you do not need to use the `.forRoot()` method (it exists, but is optional).
+Unlike the `BsSearchModule` (and others), you do not need to use the `.forRoot()` method to pass configuration to the module (the method exists, but is optional).
 
 ## Other prerequisites
 
@@ -39,6 +39,7 @@ The Facet module depends on the Bootstrap CSS library, but since we already impo
 You can now insert some of the Facet module components in your component's template (`app.component.html`).
 
 Facets are actually composed of two components:
+
 - The outside "frame" or "card": `sq-facet-card`
 - The inside content, which depends of the type of data or visualization: `sq-facet-list`, `sq-facet`, `sq-facet-chart`, `sq-facet-range`, `sq-facet-chart`, `sq-facet-refine`, or in fact any other custom content you want!
 
@@ -67,6 +68,7 @@ We can also add a tree facet `sq-facet-tree`:
 ![Facet tree]({{site.baseurl}}assets/tutorial/facet-tree.png)
 
 The facet components have many options that can be passed via *bindings*. For example, here is the full list of options for `sq-facet-list`:
+
 - `name`: Internal name of the facet (Optional, by default the aggregation name is used)
 - `results`: Results object (Required)
 - `aggregation`: Name of the aggregation configured on the back-end (Required)

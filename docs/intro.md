@@ -35,21 +35,21 @@ The SBA framework is built on top of [Angular](https://angular.io/), a TypeScrip
 
 This contrasts strongly with the former User Interface framework embarked in Sinequa in which the web pages were built by the server, which had to track the user actions in a server-side session. SPA have become an industry standard, as their speed provide a better User Experience, and their modular architecture scales better with the size of a project.
 
-![SPA](/assets/intro/spa.png)
-*Former UI framework (left) vs. SBA framework (right)*
+**Former UI framework (left) vs. SBA framework (right)**
 {: .text-center }
+![SPA](/assets/intro/spa.png)
 
 Note that customization which used to be done on the server (e.g. with a *SearchPlugin*) can now be done on the client side in Angular. In some cases, it is required to modify the behaviour of a REST API or create a new custom API. In these cases, it is still possible to use server-side plugins (*QueryPlugin*, or *JsonMethodPlugin*).
 
 ### Modular Architecture
 
-At the heart of the framework is the concept of **Angular workspace**. A workspace is not just an Angular app or library, it is a directory that contains multiple libraries and apps, while sharing the same global configuration and dependencies (`package.json`, `tsconfig.json`, `angular.json`). For more information, please refer to the [Angular documentation](https://angular.io/guide/file-structure) on this topic.
+At the heart of the SBA framework is an **Angular workspace**, a directory that contains multiple libraries and apps, while sharing the same global configuration and dependencies (`package.json`, `tsconfig.json`, `angular.json`). For more information, please refer to the [Angular documentation](https://angular.io/guide/file-structure#multiple-projects) on this topic.
 
-We release a complete workspace with:
+We release a complete workspace which includes:
 
-- [**Core**](modules/core/core.html): A low-level Angular library containing a wrapper of the Sinequa REST API, as well as dependencies to log in to the platform with various authentication protocols.
-- [**Components**](modules/components/components.html): A high-level library containing a set of Angular modules, each packaging an independant feature. These modules are meant to be independant from each other (with exceptions, as some features enable other features).
-- **Sample Applications**: Currently two applications are included. [**Hello Search**](modules/hello-search/hello-search.html) is a minimalistic application (the "Hello world" of search) used essentially for trainings. [**Vanilla Search**](modules/vanilla-search/vanilla-search.html) is a full-fledged Enterprise Search application which can be used as is, or as the starting point of an Enterprise Search project.
+- [**Core**](modules/core/core.html) (aka `@sinequa/core`): A low-level Angular library containing a wrapper of the Sinequa REST API, as well as dependencies to log in to the platform with various authentication protocols.
+- [**Components**](modules/components/components.html) (aka `@sinequa/components`): A high-level library containing a set of Angular *modules*, each packaging an independant functionality. These modules are meant to be independant from each other (with exceptions, as a functionality can enable other functionalities). These modules bundle together Angular *components*, *directives* and *services*, which are the small modular building blocks that applications are made of.
+- **Sample Applications**: Currently two applications are included. [**Hello Search**](modules/hello-search/hello-search.html) is a minimalistic application (the "Hello world" of search) used essentially for trainings and [tutorials]({{site.baseurl}}tutorial/tutorial.html). [**Vanilla Search**](modules/vanilla-search/vanilla-search.html) is a full-fledged Enterprise Search application which can be used as is, or as the starting point of an Enterprise Search project.
 
 ![SBA architecture](/assets/intro/architecture.png)
 *Content of the Angular workspace*
@@ -57,13 +57,13 @@ We release a complete workspace with:
 
 In the [Getting Started](gettingstarted/gettingstarted.html) section, you will see how to build each library and application in the workspace.
 
-The SBA framework is built in a modular way, to maximize the reusability of features and components. We package small, generic, and configurable components in the **Components library**. In contrast, our **applications** contain a small number of large, specific and monolithic components, which are meant to be taken as examples of how to assemble together the small library components.
+The SBA framework is built in a modular way, to maximize the reusability of functionalities and components. We package small, generic, and configurable components in the [**Components library**](modules/components/components.html). In contrast, our **applications** contain a small number of large, specific and hard-wired components, which are meant to be taken as examples of how to assemble together the small components packaged in the libraries.
 
 Developer are encouraged to embrace this pattern and develop their own reusable component libraries, which may eventually be used in multiple Search-Based Applications.
 
 ### Developer-Friendly Paradigm
 
-The SBA framework is optimized for developer adoption and fast delivery of custom applications. In previous approaches, administrators of the Sinequa platform were given a lot of flexibility to customize their applications with form-based configuration. In contrast, the new SBA are customized by Angular developers by modifying the HTML templates and TypeScript controllers of Angular components.
+The SBA framework is optimized for developer adoption and fast delivery of custom applications. In previous approaches, administrators of the Sinequa platform were given a lot of flexibility to customize their applications with form-based configuration. In contrast, the new SBA are customized by Angular developers by modifying the HTML templates and TypeScript controllers of the Angular components.
 
 This approach allows developers to work fairly independently from the Sinequa back-end configuration. In fact, SBA developers do not need to install Sinequa locally in order to work. They only need a single instance of Sinequa running on a server with its REST API turned on (the back-end and its API may actually be administered by a completely different team).
 
