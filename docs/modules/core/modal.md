@@ -50,7 +50,7 @@ your component when you need to inform user or to ask for user interaction befor
 
 The service provides four public methods that creates four commonly types of popup:
 
-1. `ModalService.oK()` is the simplest way to create an informative popup.
+`ModalService.oK()` is the simplest way to create an informative popup.
 
 Example 1: a component that create a simple popup with OK button to inform user
 
@@ -218,3 +218,130 @@ Which yields,
 ![Custom popup]({{site.baseurl}}/assets/modules/modal/modal-custom.png)
 *Custom popup*
 {: .text-center }
+
+All these methods are backed by `ModalService.open()`.
+All the modals displayed by `ModalService.open()` are dynamically created, not by including them in the HTML template of the caller component.
+
+The signature of this method is
+
+```typescript
+open(
+    component: Type<any>,       // The component represents the popup modal to be displayed
+    config: ModalConfig = {}    // The configuration of the popup modal
+): Promise<ModalResult>         // A Promise to wait for user interaction
+```
+
+The configuration of a modal is a [`ModalConfig`]({{site.baseurl}}/core/interfaces/ModalConfig.html)
+
+```typescript
+interface ModalConfig {
+    panelClass?: string | string[];     // Classes that should be added to the `Overlay` pane.
+    hasBackdrop?: boolean;              // Indicates whether a backdrop should be added when opening the modal.
+    backdropClass?: string | string[];  // Classes that should be added to the backdrop.
+    model?: any;                        // The data model that the modal will operate on.
+    width?: string;                     // The CSS width of the modal.
+    height?: string;                    // The CSS height of the modal.
+    fullscreen?: boolean;               // Indicates whether the modal should occupy the screen width and height.
+                                        // In this case  `width` and `height` are set to `100%`
+                                        // and the `sq-modal-fullscreen` class is added to `panelClass`
+    closeOnBackdropClick?: boolean;     // Indicates whether a click on the backdrop should close the modal. The default value is `true`.
+}
+```
+
+As it is shown in the signature of `ModalService.open()`, any component can be hoisted by this method as a popup modal in the application.
+The default popup component is injected via the Injection token `MODAL_CONFIRM`.
+You can change the default popup component in the Angular provider declaration of your `app.module.ts`.
+
+```typescript
+import { /*...,*/ MODAL_CONFIRM} from "@sinequa/core/modal";
+
+@NgModule({
+    /*....*/
+    providers: [
+        /*....*/
+        { provide: MODAL_CONFIRM, useValue: MyConfirmComponent }
+        /*....*/
+    ],
+    /*....*/
+})
+```
+
+Or you can call your popup component directly with `ModalService.open()`.
+
+In effect, many of the popups used by Sinequa components are created using this method. Here are some examples of popup components:
+
+| Component name | UI popup |
+| ---------------|----------|
+|[`BsEditSavedQuery`]({{site.baseurl}}/components/components/BsEditSavedQuery.html) | New saved query |
+|[`BsManageSavedQueries`]({{site.baseurl}}/components/components/BsManageSavedQueries.html) | Manage saved queries |
+| [`BsEditAlert`]({{site.baseurl}}/components/components/BsEditAlert.html) | Alert |
+| [`BsEditBasket`]({{site.baseurl}}/components/components/BsEditBasket.html) | Basket |
+
+When hoisting the modal popup with your own component, you may want to transfer data back and forth with the component.
+
+For that you need to inject `MODAL_MODEL` into your component, and then transfer the data object to `model` property when calling `ModalService.open()`.
+
+Example 5: transferring data to custom popup component
+
+```typescript
+/********* mypopup.component.ts *********/
+
+import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
+import { MODAL_MODEL } from "@sinequa/core/modal";
+/* ... */
+@Component({
+    /* ... */
+})
+
+export class MyPopup implements OnInit, OnDestroy {
+    /* ... */
+    constructor(
+        /* ... */
+        @Inject(MODAL_MODEL) public model: SomeDataObject,
+        /* ... */
+    ) {
+        /* ... */
+    }
+    /* ... */
+}
+
+
+/********* some component calling mypopup.component.ts *********/
+
+import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
+import { ModalService, ModalResult, ModalConfig } from "@sinequa/core/modal";
+import { MyPopup, SomeDataObject } from "the/path/to/mypopup";
+/* ... */
+@Component({
+    /* ... */
+})
+
+export class MyComponent implements OnInit, OnDestroy {
+    /* ... */
+
+    constructor(
+        /* ... */
+        private modalService: ModalService,
+        /* ... */
+    ) {
+        /* ... */
+    }
+
+    private callMyPopup(): Promise<void> {
+        const data: SomeDataObject = { /* ... */ };
+        const modalConfig: ModalConfig = {
+            /* ... */
+            model: data,
+            /* ... */
+        }
+        this.modalService
+            .open(MyPopup, modalConfig)
+            .then((popupResult: ModalResult) => {
+                switch (modalResult) {
+                    /* react to the modal result*/
+                }
+            });
+    }
+    /* ... */
+}
+```
