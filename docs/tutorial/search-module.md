@@ -24,6 +24,8 @@ import { BsSearchModule } from '@sinequa/components/search';
     BsSearchModule.forRoot({routes: [""]})
 ```
 
+Notice the call to `forRoot()`, which tells the `SearchService` to work on the empty route (Hello Search has no route).
+
 Doing so means you can now use the components exported by this module in your app. However, we need to do things in order, and there are preliminary steps before we can actually do this...
 
 ## Using the Search Service
@@ -52,7 +54,7 @@ constructor(
 ){
 ```
 
-The `SearchService` is going to manage the `Results` observable, you can now remove the `results$` object:
+The `SearchService` is going to manage the `Results` *observable* (See [rxjs](https://angular.io/guide/rx-library)), you can now remove the `results$` object:
 
 ~~`results$: Observable<Results> | undefined`~~
 
@@ -110,11 +112,11 @@ Now when you refresh the page after a search, everything should be fine!
 
 We are almost ready to start using the components from the Search module. But one thing remains to do: These components depend on the Bootstrap library, and our current Hello Search app does use any style library.
 
-In your `styles\app.scss` stylesheet, add the following lines:
+In your `styles/app.scss` stylesheet, add the following lines:
 
 ```scss
 // Bootstrap styles
-@import "~bootstrap/scss/bootstrap"; 
+@import "~bootstrap/scss/bootstrap";
 
 /*** Fontawesome ***/
 $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
@@ -141,11 +143,7 @@ You can now insert some of the Search module components in your component's temp
     <sq-loading-bar></sq-loading-bar>
     <sq-pager [results]="results"></sq-pager>
     <div *ngFor="let record of results.records" class="record">
-        <a href="{{record.url1}}">
-            <h3 [innerHtml]="record.displayTitle || record.title"></h3>
-        </a>
-        <div class="source">{{record.url1}}</div>
-        <p *ngIf="record.relevantExtracts" [innerHTML]="record.relevantExtracts"></p>
+        ...
     </div>
 </div>{% endraw %}
 ```

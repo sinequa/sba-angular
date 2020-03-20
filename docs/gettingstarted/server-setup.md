@@ -7,15 +7,15 @@ nav_order: 2
 
 # Server-side setup
 
-## Minimal configuration
+## Minimum configuration
 
-The minimal configuration required to get started is an **App** and a **Query** web service.
+The minimum configuration required to get started is an **App** and a **Query** web service.
 
 To create an **App** configuration, in the administration:
 
 - Go to *Search-based application > Apps*,
 - In *Apps*, click *New empty SBA*, give it a name then click *Ok*. You will be redirected to the configuration page of the new **App**.
-- Click *Edit*, and in the list of Queries, choose the default *_query*.
+- Click *Edit*, and in the list of Queries, choose the default *_query* and save.
 
 ![New empty app action]({{site.baseurl}}assets/gettingstarted/admin-new-empty-app-action.png)
 *'New empty app' action in Apps*
@@ -359,7 +359,7 @@ To create a new App, go to **More actions > New app from**, where you can choose
 
 The **REST API** of Sinequa can be used by a remote application (which is the case when you serve your app with `ng serve`, without a proxy -- See [Workflows](workflow.html#ng-serve)). Note that this mode causes [Cross-Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) (CORS) issues.
 
-- *Webapp > Stateless Mode > Permitted origins for Cross-Origin Resource Sharing (CORS) requests* set to the URL you will use to test your app locally. For example, `http://localhost:4200` (or just `*`).
-- *Webapp > Stateless Mode > Return HTTP error codes* enabled (default).
+- *Distributed Architecture > Webapp > Stateless Mode > Permitted origins for Cross-Origin Resource Sharing (CORS) requests* set to the URL you will use to test your app locally. For example, `http://localhost:4200` (or just `*`).
+- *Distributed Architecture > Webapp > Stateless Mode > Return HTTP error codes* enabled (default).
 
 As some authentication methods need to store a [CSRF](https://en.wikipedia.org/wiki/Cross-site_request_forgery) token on the client, a cookie must be stored with the `SameSite=None` and `Secure` options. This means that **the Sinequa API must necessarily be served over HTTPS** for these authentication methods to work.

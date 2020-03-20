@@ -19,7 +19,7 @@ To develop a SBA, developers need to install various utilities:
 ![Visual Studio Code]({{site.baseurl}}assets/gettingstarted/vscode.png){: width="80px" .ml-5}
 ![Git]({{site.baseurl}}assets/gettingstarted/git.png){: width="180px" .ml-5}
 
-## Minimal Development
+## Minimum Development
 
 It is possible to use sample applications, like [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html), out-of-the-box on the Sinequa server. You have to [**unzip the default workspace**](server-setup.html#unzip-the-sinequa-angular-workspace), and [**reference one the applications in your App**](#deploying-an-app-on-a-sinequa-server).
 

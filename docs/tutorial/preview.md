@@ -109,7 +109,7 @@ openDocument(record: Record){
 }
 ```
 
-The `ModalService` is going to inject the `Record` object into our component. We can get this input by declaring a constructor in our `Preview` component:
+The `ModalService` is going to inject the `Record` object into our `Preview` component. We can get this input by declaring a constructor in our `Preview` component:
 
 ```ts
 import { Component, Inject } from "@angular/core";
@@ -126,7 +126,7 @@ import { MODAL_MODEL } from '@sinequa/core/modal';
 })
 export class Preview {
 
-    constructor( 
+    constructor(
         @Inject(MODAL_MODEL) public record: Record){
     }
 
@@ -154,7 +154,7 @@ export class Preview {
 
     url: SafeResourceUrl; // URL of the HTML preview
 
-    constructor( 
+    constructor(
         ...
         previewService: PreviewService,
         searchService: SearchService,

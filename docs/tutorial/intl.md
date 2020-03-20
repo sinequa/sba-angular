@@ -39,7 +39,7 @@ Then this the following template is rendered as:
 ```html
 {% raw %}<ul>
     <li>{{ 'msg#fruits.strawberry' | sqMessage }}</li>
-    <li>{{ 'msg#fruits.pomme' | sqMessage }}</li>
+    <li>{{ 'msg#fruits.apple' | sqMessage }}</li>
     <li>{{ 'msg#fruits.banana' | sqMessage }}</li>
 </ul>{% endraw %}
 ```
@@ -74,7 +74,7 @@ To do so, we need to create our own language files. We can start with English.
     import {LocaleData} from "@sinequa/core/intl";
     import d3Format from "d3-format/locale/en-US.json";
     import d3Time from "d3-time-format/locale/en-US.json";
-    import {enCore} from "@sinequa/core"; 
+    import {enCore} from "@sinequa/core";
     import "intl/locale-data/jsonp/en-US"; // Safari
     import {Utils} from "@sinequa/core/base";
 
@@ -83,11 +83,11 @@ To do so, we need to create our own language files. We can start with English.
     import {enSearch} from "@sinequa/components/search";
 
     let appMessages = {
-        
+
         locale: {
             en: "English",
         },
-            
+
         results: {
             resultsAllTab: "All",
             tabPeople: "People",
@@ -103,7 +103,7 @@ To do so, we need to create our own language files. We can start with English.
         d3: {
             locale: "en-US",
             format: d3Format,
-            time: d3Time 
+            time: d3Time
         },
         messages: Utils.merge({}, enCore, enFacet, enResult, enSearch, appMessages)
     };
@@ -124,7 +124,7 @@ To do so, we need to create our own language files. We can start with English.
 
     ...
         import: [
-            ...            
+            ...
             IntlModule.forRoot(AppLocalesConfig),
         ]
     ```
@@ -159,6 +159,8 @@ And in your `en.ts` file:
 }
 ```
 
+(You can do the same for the "Clear" button and the Search placehoder.)
+
 Note that the Sinequa components that take strings as an input are already using the `sqMessage` pipe to display them. So, in the case of the facet title, you can directly write:
 
 ```html
@@ -169,7 +171,7 @@ Note that the Sinequa components that take strings as an input are already using
 
 (By the way, this message is already in the Facet module dictionaries.)
 
-Your dictionary should now have these extra entries:
+Your dictionary `en.ts` should now have these extra entries:
 
 ```ts
 app: {
@@ -202,17 +204,19 @@ It is of course possible to override the default messages. For example, your fac
 
      ![More data please]({{site.baseurl}}assets/tutorial/more-data.png)
 
+     (This is just an example, you do not have to keep in your code.)
+
 ## Supporting multiple languages
 
 Supporting multiple language means including these locales in your `AppLocalesConfig`. To support French, for example, copy and rename `en.ts` as `fr.ts`.
 
-Inside this file, you need to replace imports that point to English resources by French resources.
+Inside this file, you need to **replace imports that point to English resources by French resources**.
 For example:
 
 ```ts
 import d3Format from "d3-format/locale/fr-FR.json";
 import d3Time from "d3-time-format/locale/fr-FR.json";
-import {frCore} from "@sinequa/core"; 
+import {frCore} from "@sinequa/core";
 import "intl/locale-data/jsonp/fr-FR"; // Safari
 import {frFacet} from "@sinequa/components/facet";
 import {frResult} from "@sinequa/components/result";
@@ -234,7 +238,7 @@ search: {
     button: "Chercher",
     placeholder: "Termes de recherche...",
     clear: "Effacer"
-},    
+},
 results: {
     resultsAllTab: "Tous",
     tabPeople: "Personnes",
@@ -243,7 +247,7 @@ results: {
 },
 ```
 
-Notice that the languages themselves should have an entry (`locale.en`, `locale.fr`) in order to display them in the future language menu.
+Notice in this dictionary that the language names themselves ("English", "Français", etc.) need to have an entry (`locale.en`, `locale.fr`) in order to display them in the future language menu.
 
 Finally, import this locale and add it to your `AppLocalesConfig`:
 
@@ -258,7 +262,7 @@ locales: Locale[] = [
 
 Now your application supports multiple language, but you have no way to easily switch between them!
 
-Let's add a button for each language, next to the Login and Logout buttons. We will use another module to this end: the **Action module**. This module, which is used extensively across the framework, allows to easily create dynamic lists of buttons and menus and support many useful options.
+Let's add a button for each language, next to the Login and Logout buttons. We will use another module to this end: the [**Action module**]({{site.baseurl}}modules/components/action.html). This module, which is used extensively across the framework, allows to easily create dynamic lists of buttons and menus and support many useful options.
 
 1. Import the Action module in your `app.module.ts`.
 
@@ -272,7 +276,7 @@ Let's add a button for each language, next to the Login and Logout buttons. We w
             BsActionModule,
     ```
 
-2. Create a list of action objects (one for each language) in the constructor of your `app.component.ts`:
+2. Create a list of [`Action`]({{site.baseurl}}components/classes/Action.html) objects (one for each language) in the constructor of your `app.component.ts`:
 
     ```ts
     import { Action } from '@sinequa/components/action';
@@ -285,8 +289,8 @@ Let's add a button for each language, next to the Login and Logout buttons. We w
         constructor(
             ...
             public intlService: IntlService) {
-                
-            ...            
+
+            ...
             // Create one action (button) for each language
             this.languageActions = this.intlService.locales.map(locale =>
                 new Action({
@@ -294,17 +298,17 @@ Let's add a button for each language, next to the Login and Logout buttons. We w
                     data: locale,   // French locale
                     selected: locale === this.intlService.currentLocale, // If this is the current locale
                     action: (item: Action, $event: UIEvent) => {    // On click, switch to this language
-                        this.intlService.use((item.data as Locale).name).subscribe( 
-                            (value) => this.languageActions.forEach(a => a.update()));                
+                        this.intlService.use((item.data as Locale).name).subscribe(
+                            (value) => this.languageActions.forEach(a => a.update()));
                     },
                     updater: (action) => {  // Update the status of buttons
-                        action.selected = action.data === this.intlService.currentLocale; 
+                        action.selected = action.data === this.intlService.currentLocale;
                     }
-                })            
+                })
             );
     ```
 
-3. Insert this list of buttons in your `app.component.html` with the `sq-action-buttons` directive, next to the Login/Logout buttons:
+3. Insert this list of buttons in your `app.component.html` with the `sq-action-buttons` directive, next to the existing Login/Logout buttons:
 
     ```html
     <button class="btn btn-light" ...>Logout</button>
@@ -316,7 +320,8 @@ Let's add a button for each language, next to the Login and Logout buttons. We w
 
 ## Loading languages lazily
 
-If your app supports many languages, your might not want to load of them on startup. It is possible to modify your `AppLocalesConfig` to load a new language only when requested by the user.
+If your app supports many languages, your might not want to load of them on startup. It is possible to modify your `AppLocalesConfig` to load a new language only when requested by the user:
+
 - Skip the `data` field of the `Locale` object: `{name: "de", display: "msg#locale.de"}`
 - Add a `loadLocale()` method to `AppLocalesConfig`, which takes care of importing the data lazily:
 
@@ -334,4 +339,3 @@ loadLocale(locale: string): Observable<LocaleData> {
     "src/locales/*.ts"
 ]
 ```
-
