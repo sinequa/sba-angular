@@ -135,3 +135,4 @@ The [`sq-result-timeline`]({{site.baseurl}}components/components/ResultTimeline.
 ```html
 <sq-result-timeline [record]="record" [dates]="record['date']" [events]="record['event']"></sq-result-timeline>
 ```
+
