@@ -39,6 +39,98 @@ import { BsSearchModule } from '@sinequa/components/search';
 
 ## Search Service
 
+### Overview
+
+The [SearchService]({{site.baseurl}}/components/injectables/SearchService.html) provides an opinionated way to manage the lifecycle of Sinequa
+search queries and their results. It has a `query` property which determines the [Query]({{site.baseurl}}/core/classes/Query.html) that will be
+used when executing any of the service's `search` methods. When you access the `query` property a new `Query` is created if one does not already
+exist. The query name used is taken from the current `ccquery` held on the [AppService]({{site.baseurl}}/core/injectables/AppService.html). This
+determines the query web service used on the server when executing the query.
+
+After a query has been executed its [Results]({{site.baseurl}}/core/interfaces/Results.html) are stored in the `results` property.
+A corresponding [Breadcrumbs]({{site.baseurl}}/components/classes/Breadcrumbs.html) instance is also maintained and stored in the `breadcrumbs`
+property.
+
+As you work with the Search Service it issues a number of events (`new-query`, `new-results`, ...) on the `events` property that can be listened
+to by other services and components. In addition, there is the `resultsStream` behavior subject that is convenient to use in components when
+displaying results:
+
+```html
+<ng-container *ngIf="searchService.resultsStream | async; let results">
+  <my-results-component [results]="results"></my-results-component>
+</ng-container>
+```
+
+### Usage
+
+Initial fulltext search:
+
+```ts
+// Clear the current query, if any
+this.searchService.clearQuery();
+// Set the text on the query (a new query is created by the query getter)
+this.searchService.query.text = 'some fulltext';
+// Initiate the search
+this.searchService.search();
+```
+
+Faceted search:
+
+```ts
+// Add the filter
+this.searchService.query.addSelect('authors:proust', 'Authors');
+// Initiate the search
+this.searchService.search();
+```
+
+Did you mean:
+
+```ts
+this.searchService.didYouMean('corrected text', DidYouMeanKind.Original);
+```
+
+Pagination:
+
+```ts
+this.searchService.gotoPage(3);
+```
+
+Tab selection:
+
+```ts
+this.searchService.selectTab('mytab');
+```
+
+### Routing
+
+By default, the Search Service works with the Angular router. A search issued by the service updates the `query` query string parameter and uses the
+router to navigate to the new URL. The query is actually executed on completion of the navigation which lets the service react to external navigations
+too. The routes for which the service is active are defined in the [SearchOptions]({{site.baseurl}}components/interfaces/SearchOptions.html)) specified
+when importing the `SearchModule`. If no `SearchOptions` are specified then default options are created with the `routes` array set to `['search']`.
+Urls with routes that include the current query can be shared with other users. When they click on the URL the associated query will automatically
+be executed (in the context of that user).
+
+Owing to this interaction with the router, `navigate` is the fundamental method for executing queries with the `SearchService`. The most common method
+used is `search` which resets the currently selected page and "did-you-mean" status before calling `navigate`. The methods which call `navigate` are
+`search`, `gotoPage` and `didYouMean`. The `search` method is called by `searchText`, `selectBreadcrumbsItem`, `searchRefine` and  `selectTab`. These
+methods send auditing information with the queries.
+
+The `SearchService.home` method clears the current query and navigates to the `homeRoute` defined on the `SearchOptions` unless an explicit route is
+passed. If no route is specified and the `homeRoute` is empty then navigation remains in the context of the current route.
+
+It is possible to deactivate routing in the `SearchService` using `SearchOptions`:
+
+```ts
+NgModule({
+  imports: [
+    SearchModule.forRoot({deactivateRouting: true})
+  ]
+})
+```
+
+The search methods will all still work but they will execute the queries immediately rather than passing via the router.
+
+
 ## Components
 
 ### Tabs
