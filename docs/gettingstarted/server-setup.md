@@ -239,7 +239,7 @@ At the start, there will be no workspace pre-loaded in Sinequa ES.
 You can:
 
 - either load the default Sinequa Angular workspace from a default zip provided with your Sinequa release,
-- or clone the [Github repository](https://github.com/sinequa/sba-angular) in `<Sinequa data folder>/data` (See [Workflows](workflow.html)),
+- or clone the [Github repository](https://github.com/sinequa/sba-angular) in `<Sinequa data folder>/sba` (See [Workflows](workflow.html)),
 - or import your own Angular workspace, noting that only multi-project Angular workspaces are supported (cf. [multi-project Angular workspace](https://angular.io/guide/file-structure#multiple-projects) for more information about Angular workspace type).
 
 ### Unzip the Sinequa Angular workspace

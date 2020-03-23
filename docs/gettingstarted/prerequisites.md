@@ -14,7 +14,7 @@ SBA are built on top of the Sinequa REST API. You need to properly setup and con
 Apps themselves can be hosted on various types of servers:
 
 - The Sinequa server itself, which is generally the case in production, although not an obligation.
-- Any other server will do to, with the limitation that the origin of the application being different from the origin of the Sinequa API can cause [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) issues.
+- Any other server will do too, with the limitation that the origin of the application being different from the origin of the Sinequa API can cause [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) issues.
 - Your own local computer (localhost), which is very useful during the development phase.
 
 ![Serving a SBA]({{site.baseurl}}assets/gettingstarted/serving.png)
