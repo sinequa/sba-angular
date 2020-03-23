@@ -84,7 +84,7 @@ export class UserRatingsWebService extends HttpService {
                     {
                         type: AuditEventType.Rating_Set,
                         detail: {
-                            docid: record.id,
+                            "doc-id": record.id,
                             ratingnum: rating,
                             value: ratingResponse.rating,
                             average: ratingResponse.averagerating
@@ -128,7 +128,7 @@ export class UserRatingsWebService extends HttpService {
                     {
                         type: AuditEventType.Rating_Delete,
                         detail: {
-                            docid: record.id,
+                            "doc-id": record.id,
                             value: ratingResponse.rating,
                             average: ratingResponse.averagerating
                         }

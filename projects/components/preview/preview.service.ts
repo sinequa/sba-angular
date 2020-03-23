@@ -86,7 +86,7 @@ export class PreviewService {
             auditEvent = {
                 type: AuditEventType.Doc_Preview,
                 detail: {
-                    "docid": id,
+                    "doc-id": id,
                     rank: rank,
                     collection: collection,
                     source: Utils.treeFirstNode(collection),
