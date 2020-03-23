@@ -45,3 +45,5 @@ Note: the searchable content is composed of a few wikipedia pages and the Sinequ
 ---
 
 Before going to the [next step](search-module.html), take some time to analyze the source code of [Hello Search]({{site.baseurl}}modules/hello-search/hello-search.html) and more specifically the `src/app/` subfolder, to fully understand its internal logic.
+
+Previous: [Introduction](intro.html)

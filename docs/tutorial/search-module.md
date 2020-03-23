@@ -110,7 +110,7 @@ Now when you refresh the page after a search, everything should be fine!
 
 ## Importing **Bootstrap**
 
-We are almost ready to start using the components from the Search module. But one thing remains to do: These components depend on the Bootstrap library, and our current Hello Search app does use any style library.
+We are almost ready to start using the components from the Search module. But one thing remains to do: These components depend on the Bootstrap library, and our current Hello Search app does not use any style library.
 
 In your `styles/app.scss` stylesheet, add the following lines:
 
@@ -156,4 +156,7 @@ Don't worry too much about the Look & Feel of the app, we'll come to that later.
 
 ---
 
-In the [next chapter](facet-module.html), we are going to add some facets to this SBA.
+Next: [Facet Module](facet-module.html)
+{: style="float: right;" }
+
+Previous: [Connection to Sinequa](connection.html)

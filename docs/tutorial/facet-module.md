@@ -89,3 +89,10 @@ Now the facet should look something like this when you select multiple items:
 ![Facet selection]({{site.baseurl}}assets/tutorial/facet-selection.png)
 
 Please refer to the [library documentation]({{site.baseurl}}modules/components/facet.html) for more information.
+
+---
+
+Next: [Internationalization](intl.html)
+{: style="float: right;" }
+
+Previous: [Search Module](search-module.html)

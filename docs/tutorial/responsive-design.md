@@ -35,7 +35,7 @@ $container-max-widths: (
 );
 
 // Bootstrap styles
-@import "~bootstrap/scss/bootstrap"; 
+@import "~bootstrap/scss/bootstrap";
 ```
 
 ## Styling the Search component
@@ -70,29 +70,29 @@ Of course, there are many ways you could design your component. We propose the f
                     <a href="{{record.url1}}">
                         <div class="source">{{record.url1}}</div>
                     </a>
-                    <p *ngIf="record.relevantExtracts" [innerHTML]="record.relevantExtracts"></p>       
+                    <p *ngIf="record.relevantExtracts" [innerHTML]="record.relevantExtracts"></p>
                 </div>
                 <sq-pager [results]="results"></sq-pager>
             </div>
-    
+
             <!-- Facets -->
             <div class="col-lg-4">
                 <sq-facet-card [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'">
                     <sq-facet-tree #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-tree>
                 </sq-facet-card>
-                
+
                 <sq-facet-card [title]="'msg#facet.company.title'" [icon]="'fas fa-building'">
                     <sq-facet-list #facet [results]="results" [aggregation]="'Company'" [allowExclude]="false" [allowAnd]="false"></sq-facet-list>
                 </sq-facet-card>
-        
+
                 <sq-facet-card [title]="'msg#savedQueries.savedQueries'" [icon]="'fas fa-save'">
                     <sq-facet-saved-queries #facet [maxQueries]="5"></sq-facet-saved-queries>
                 </sq-facet-card>
             </div>
-    
+
             <!-- Footer -->
-            <div class="col-12">                
-                <hr>    
+            <div class="col-12">
+                <hr>
                 <span [sq-action-buttons]="{items: languageActions}"></span>
                 <button class="btn btn-success" (click)="savedQueriesService.createSavedQueryModal()">
                     <i class="fas fa-save"></i>
@@ -100,7 +100,7 @@ Of course, there are many ways you could design your component. We propose the f
             </div>
 
         </ng-container>
-        
+
     </div>
 </div>{% endraw %}
 ```
@@ -112,6 +112,7 @@ Your app should look like this on a large screen:
 Try resizing your screen to see what happens when hitting the different breakpoints we specified at the beginning.
 
 Notice a few things in the code:
+
 - We put the search form inside the `<nav>` (of course, you can make a different choice)
 - We display the results, facets and footer only if there are results (with the `<ng-container *ngIf="searchService.resultsStream | async as results">` element)
 - We wrapped our components inside `.container`, `.row` and `.col` elements. These are standard Boostrap classes (see [Grid system](https://getbootstrap.com/docs/4.0/layout/grid/)).
@@ -158,6 +159,7 @@ import { UIService } from '@sinequa/components/utils';
 ```
 
 We need to fix our Saved Queries menu, which by default works with different breakpoints. In your `search.component.html`, add these parameters:
+
 ```html
 <sq-saved-queries-menu [autoAdjustBreakpoint]="'lg'" [collapseBreakpoint]="'xs'"></sq-saved-queries-menu>
 ```
@@ -175,7 +177,7 @@ import { UIService } from '@sinequa/components/utils';
 export class SearchComponent {
     ...
     _showFacet: boolean = false;
-    
+
     ...
     get showFacet(): boolean {
         return this.ui.screenSizeIsGreaterOrEqual('lg') || this._showFacet;
@@ -253,5 +255,13 @@ And when toggling the facets:
 Of course, we could go much further in this exercise of making the application responsive and good-looking. We also left out the Home route and other details, like menus, autocomplete, etc.
 
 But the main tools for making your application responsive have been illustrated:
+
 - CSS rules (media queries, via Bootstrap classes, or directly in your `app.scss`)
 - Angular logic and `UIService` to toggle the visibility of elements via state variables.
+
+---
+
+Next: [Completed App](completed-app.html)
+{: style="float: right;" }
+
+Previous: [Routing](routing.html)

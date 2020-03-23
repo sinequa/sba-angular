@@ -320,7 +320,7 @@ Let's add a button for each language, next to the Login and Logout buttons. We w
 
 ## Loading languages lazily
 
-If your app supports many languages, your might not want to load of them on startup. It is possible to modify your `AppLocalesConfig` to load a new language only when requested by the user:
+If your app supports many languages, your might not want to load all of them on startup. It is possible to modify your `AppLocalesConfig` to load a new language only when requested by the user:
 
 - Skip the `data` field of the `Locale` object: `{name: "de", display: "msg#locale.de"}`
 - Add a `loadLocale()` method to `AppLocalesConfig`, which takes care of importing the data lazily:
@@ -339,3 +339,10 @@ loadLocale(locale: string): Observable<LocaleData> {
     "src/locales/*.ts"
 ]
 ```
+
+---
+
+Next: [Autocomplete](autocomplete.html)
+{: style="float: right;" }
+
+Previous: [Facet Module](facet-module.html)
