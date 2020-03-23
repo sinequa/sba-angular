@@ -640,7 +640,7 @@ export class SearchService implements OnDestroy {
         }));
     }
 
-    searchDidYouMean(text: string, kind: DidYouMeanKind): Promise<boolean> {
+    didYouMean(text: string, kind: DidYouMeanKind): Promise<boolean> {
         let lastSelect = this.query.lastSelect();
         if (!lastSelect) {
             this.query.text = text;
@@ -652,17 +652,13 @@ export class SearchService implements OnDestroy {
             this.query.popSelect();
             this.query.pushSelect(lastSelect);
         }
-        return this.didYouMean(this.makeAuditEvent({
+        this.query.spellingCorrectionMode = SpellingCorrectionMode.dymOnly;
+        return this.navigate(undefined, this.makeAuditEvent({
             type: kind === DidYouMeanKind.Original ? AuditEventType.Search_DidYouMean_Original : AuditEventType.Search_DidYouMean_Correction,
             detail: {
                 text: text
             }
         }));
-    }
-
-    didYouMean(auditEvents?: AuditEvents): Promise<boolean> {
-        this.query.spellingCorrectionMode = SpellingCorrectionMode.dymOnly;
-        return this.navigate(undefined, auditEvents);
     }
 
     getCurrentRecordIds(): string[]{

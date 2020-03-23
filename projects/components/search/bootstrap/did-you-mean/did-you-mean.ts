@@ -50,14 +50,14 @@ export class BsDidYouMean implements OnChanges {
 
     selectOriginal() {
         if (this.item) {
-            this.searchService.searchDidYouMean(this.item.original, DidYouMeanKind.Original);
+            this.searchService.didYouMean(this.item.original, DidYouMeanKind.Original);
         }
         return false;
     }
 
     selectCorrected() {
         if (this.item) {
-            this.searchService.searchDidYouMean(this.item.corrected, DidYouMeanKind.Corrected);
+            this.searchService.didYouMean(this.item.corrected, DidYouMeanKind.Corrected);
         }
         return false;
     }
