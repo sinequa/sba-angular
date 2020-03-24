@@ -68,9 +68,9 @@ export class BsExportQuery implements OnInit, OnDestroy {
                 result: ModalResult.Custom,
                 anchor: true,
                 primary: true,
-                action: (button) => {
-                    let observable = this.savedQueriesService.download(this.model);
-                    if(observable){
+                action: (_button) => {
+                    const observable = this.savedQueriesService.download(this.model);
+                    if (observable) {
                         Utils.subscribe(observable,
                             (response: HttpResponse<Blob>) => {
                                 console.log('exportQuery.download done.');
@@ -82,7 +82,7 @@ export class BsExportQuery implements OnInit, OnDestroy {
                                 console.log('exportQuery.download failure - error: ', error);
                                 this.modalRef.close(error);
                             });
-    
+
                         this.isDownloading = true;
                         this.changeDetectorRef.markForCheck();
                     }
@@ -91,25 +91,20 @@ export class BsExportQuery implements OnInit, OnDestroy {
             new ModalButton({
                 result: ModalResult.Cancel,
             })
-        ]
+        ];
 
         const onFormChanged = () => {
             const newFormat = this.form.value['format'];
             const newMaxCount = this.form.value['maxCount'];
-            const newExport = this.form.value['export'];
-    
+
             if (this.model.format !== newFormat) {
                 this.model.format = newFormat;
             }
-    
+
             if (this.model.maxCount !== newMaxCount) {
                 this.model.maxCount = newMaxCount;
             }
-    
-            if (this.model.export !== newExport) {
-                this.model.export = newExport;
-            }
-        }
+        };
 
         this.formChanges = Utils.subscribe(this.form.valueChanges, onFormChanged);
     }
@@ -121,7 +116,7 @@ export class BsExportQuery implements OnInit, OnDestroy {
     }
 
 
-   /**
+    /**
      * Check if the client has selected some records.
      *
      * @returns true if the client has selected some records.
@@ -149,17 +144,17 @@ export class BsExportQuery implements OnInit, OnDestroy {
      * @param type The new chosen source.
      */
     public sourceChanged(event: UIEvent, type: ExportSourceType): void {
-        let input = <HTMLInputElement>event.target;
+        const input = <HTMLInputElement>event.target;
         if (input.checked) {
             this.model.export = type;
         }
     }
 
     /**
-     * Checks if the dialog allows user to choose export source. 
+     * Checks if the dialog allows user to choose export source.
      * Generally, it returns false when the input model export type is already saved query.
      *
-     * @returns true if the dialog allows user to choose export source. 
+     * @returns true if the dialog allows user to choose export source.
      */
     public showSourceChooser(): boolean {
         return !this.sourceChosen(ExportSourceType.SavedQuery);
