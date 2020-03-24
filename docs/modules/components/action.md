@@ -10,14 +10,14 @@ nav_order: 7
 
 ## Reference documentation
 
-Please checkout the [reference documentation]({{site.baseurl}}/components/modules/BsActionModule.html) auto-generated from source code.
+Please checkout the [reference documentation]({{site.baseurl}}components/modules/BsActionModule.html) auto-generated from source code.
 
 ## Features
 
 This module provides the classes and directives to create menus and buttons.
 For example, all the menus in the navigation bar of Vanilla search are implemented using menu and action objects.
 
-![User menu]({{site.baseurl}}assets/modules/action/action-menus-on-navbar.png)
+![User menu]({{site.baseurl}}assets/modules/action/action-menus-on-navbar.PNG)
 *User menu in navigation bar*
 {: .text-center }
 
@@ -44,7 +44,7 @@ The most important declaration of this module is the `Action` class.
 
 ### Action class
 
-The [`Action` class]({{site.baseurl}}/components/classes/Action.html) represents an element
+The [`Action` class]({{site.baseurl}}components/classes/Action.html) represents an element
 in a dropdown menu, take for example the User menu in the above screenshot,
 the button with the user icon and the two elements of the dropdown are `Action` object.
 
@@ -148,7 +148,7 @@ A dropdown menu is simply an `Action` object who has children but no action to e
 Take for example the dropdown menu to manage user alert in the navigation bar, the following code snippet shows
 how it is defined in the navigation bar.
 
-![Alert menu]({{site.baseurl}}assets/modules/action/action-alert-dropdown-menu.png)
+![Alert menu]({{site.baseurl}}assets/modules/action/action-alert-dropdown-menu.PNG)
 *Alert menu in navigation bar*
 {: .text-center }
 
@@ -182,9 +182,9 @@ const alertMenu = new Action({
 
 Once you have defined your menus and buttons, you need to use one of the following directives or components to display them in the HTML template of your components
 
-you can use the [`sq-action-buttons` component]({{site.baseurl}}/components/components/BsActionItem.html) that creates a menu of buttons.
+you can use the [`sq-action-buttons` component]({{site.baseurl}}components/components/BsActionItem.html) that creates a menu of buttons.
 
-Its input is an [`ActionButtonsOptions` object]({{site.baseurl}}/components/interfaces/ActionButtonsOptions.html):
+Its input is an [`ActionButtonsOptions` object]({{site.baseurl}}components/interfaces/ActionButtonsOptions.html):
 
 * `items`: the children `Action` elements of the menu,
 * `size`: the size of the menu, the valid values are (in ascending order): `"xs", "sm", "md", "lg", "xl", "xxl"`,
@@ -205,9 +205,9 @@ Example:
 ></div>
 ```
 
-Alternatively, you can use the [`sq-action-item` component]({{site.baseurl}}/components/components/BsActionItem.html).
+Alternatively, you can use the [`sq-action-item` component]({{site.baseurl}}components/components/BsActionItem.html).
 
-This component expects an [`ActionItemOptions` object]({{site.baseurl}}/components/interfaces/ActionItemOptions.html) as input:
+This component expects an [`ActionItemOptions` object]({{site.baseurl}}components/interfaces/ActionItemOptions.html) as input:
 
 * `item`: the `Action` object representing the menu,
 * `size`: the size of the menu, the valid values are (in ascending order): `"xs", "sm", "md", "lg", "xl", "xxl"`,
@@ -233,7 +233,7 @@ Example:
 ></div>
 ```
 
-The [`sq-action-menu` component]({{site.baseurl}}/components/components/BsActionMenu.html) is another way to create a dropdown menu.
+The [`sq-action-menu` component]({{site.baseurl}}components/components/BsActionMenu.html) is another way to create a dropdown menu.
 
 This component expects the following values:
 
@@ -250,9 +250,9 @@ Example:
 <sq-action-menu [items]="items" [autoAdjust]="true" [autoAdjustBreakpoint]="'xxl'" [right]="true"></sq-action-menu>
 ```
 
-Finally, there is the [`sq-dropdown-menu` directive]({{site.baseurl}}/components/components/BsDropdownMenu.html).
+Finally, there is the [`sq-dropdown-menu` directive]({{site.baseurl}}components/components/BsDropdownMenu.html).
 
-The input of the directive is an  ([`DropdownMenuOptions` object]({{site.baseurl}}/components/interfaces/DropdownMenuOptions.html)):
+The input of the directive is an  ([`DropdownMenuOptions` object]({{site.baseurl}}components/interfaces/DropdownMenuOptions.html)):
 
 * `item`: the `Action` object represents the menu,
 * `rightAligned`: whether the elements of the menu will be right-aligned,

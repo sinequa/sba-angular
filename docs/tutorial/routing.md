@@ -10,6 +10,7 @@ nav_order: 9
 Typical Angular applications have multiple [routes](https://angular.io/guide/router). Routes allow to separate functionality into specific components that are served with specific URL schemes.
 
 SBA are no expection. In a complex Entreprise Search app, we might have routes for:
+
 - A home page
 - A search page
 - The document preview
@@ -18,6 +19,7 @@ SBA are no expection. In a complex Entreprise Search app, we might have routes f
 - etc.
 
 In this tutorial, we are going to refactor our app to have 2 routes and 4 components:
+
 - The **App** component is going to host our **router outlet**.
 - The **Search** component is going to be equivalent to the current component we have at the moment.
 - The **Home** component is going to be our home page.
@@ -126,12 +128,20 @@ Note that Angular took care of add these new components to our `app.module.ts`.
 
 ## Adding new routes
 
-The refactoring above is relatively complicated because we decided to add routes to a single-component app. More realisticly, your app would have multiple routes from the start.
+The refactoring above is relatively complicated because we decided to add routes to a single-component app. More realistically, your app would have multiple routes from the start.
 
 Adding new routes to an existing SBA is fairly simple:
+
 - Create a new component (manually or with `ng generate component` as [above](#creating-the-new-components))
 - Wire the component to your routes in your `app.module.ts`, as in **step 3**. above.
 - Then create links from you existing routes to the new route:
   - Either via HTML, with a router link (as above in **step 10**)
   - Or programmatically, using `router.navigate()` (which is what the `SearchService` is doing in **step 8** above)
 - If you want the `SearchService` to be active on your route (resolve search queries based on the URL), add the route to the list passed to the `BsSearchModule` (as in **step 9** above). Note that the `SearchService` does not have to be tied to routing. You can deactivate that by passing a `deactivateRouting: true` parameter to the service, via the `BsSearchModule.forRoot()` method.
+
+---
+
+Next: [Responsive Design](responsive-design.html)
+{: style="float: right;" }
+
+Previous: [User Settings](user-settings.html)

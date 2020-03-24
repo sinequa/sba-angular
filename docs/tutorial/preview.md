@@ -259,3 +259,10 @@ By:
 And now... Voilà:
 
 ![Highlighted entities]({{site.baseurl}}assets/tutorial/entities-highlights.png){: .d-block .mx-auto }
+
+---
+
+Next: [User Settings](user-settings.html)
+{: style="float: right;" }
+
+Previous: [Autocomplete](autocomplete.html)

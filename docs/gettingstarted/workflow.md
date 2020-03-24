@@ -40,7 +40,7 @@ Working remotely is well suited to complex projects, involving multiple develope
 
 When working remotely, you can use a **proxy**, as demonstrated in [Developer-side setup](dev-setup.html#building-an-app). Also read [`ng serve`](#ng-serve) below.
 
-Alternatively, you can use Cross-Origin requests, in which case you can to specify the URL of your Sinequa server in the `StartConfig` object like this:
+Alternatively, you can use Cross-Origin requests, in which case you can specify the URL of your Sinequa server in the `StartConfig` object like this:
 
 ```ts
 export const startConfig: StartConfig = {

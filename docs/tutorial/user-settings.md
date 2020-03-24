@@ -8,6 +8,7 @@ nav_order: 8
 # User Settings Features
 
 [`User Settings`]({{site.baseurl}}modules/core/user-settings.html) allow you to store and retrieve user-specific data on the Sinequa server. Multiple features are based on User Settings:
+
 - Saved Queries (Save a particular query to reuse it later)
 - Recent Queries (Indifferently save all latest queries)
 - Recent Documents (Save all documents recently opened)
@@ -49,6 +50,7 @@ The menu is packaged in a component called `sq-saved-queries-menu`. We will add 
 ![Navbar issues]({{site.baseurl}}assets/tutorial/navbar-issue.png)
 
 This sort of works, but there are some issues:
+
 - We are missing the language files for the Saved Queries
 - The dropdown menus do not display correctly
 
@@ -113,6 +115,7 @@ The module also includes a facet that displays your saved queries (as a possible
 ## Developing your own User-Settings Service
 
 You can leverage the User-Settings system to develop your own features. Keep in mind the following:
+
 - User settings store data per user and per App unencrypted on the Sinequa server.
 - User settings are systematically and fully downloaded from the server on your app initialization (during login). This means the amount of data you can store is necessarily restricted for scalability reasons. If your feature requires more storage, consider using an index on the backend and a custom REST API interact with that index.
 - When you make changes to User Settings on the client-side (eg. Saving a query), the User Settings are synced with the server. Only a subset of the data is sent to the server to improve performance (See the [`UserSettingsService.patch()`]({{site.baseurl}}core/injectables/UserSettingsWebService.html#patch) method).
@@ -133,7 +136,7 @@ import { UserPreferences } from '@sinequa/components/user-settings';
 
 ...
     constructor(
-        ...        
+        ...
         public prefs: UserPreferences,
     )
 
@@ -145,3 +148,10 @@ import { UserPreferences } from '@sinequa/components/user-settings';
         this.prefs.set("user-likes-pizza", pizza);
     }
 ```
+
+---
+
+Next: [Routing](routing.html)
+{: style="float: right;" }
+
+Previous: [Preview & Modals](preview.html)

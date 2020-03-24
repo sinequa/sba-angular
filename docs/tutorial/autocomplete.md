@@ -209,3 +209,10 @@ export class AutocompleteCustom extends Autocomplete {
 ```
 
 Notice that we directly search in the recent queries list (`recentQueriesService.recentqueries`) on the client side, without interrogating the server.
+
+---
+
+Next: [Preview & Modals](preview.html)
+{: style="float: right;" }
+
+Previous: [Internationalization](intl.html)

@@ -120,3 +120,7 @@ The tutorial is divided in chapters which each deals with a new Sinequa feature.
     ```ts
     import {enFacet} from "@sinequa/components/facet";
     ```
+
+---
+
+Next: [Connection to Sinequa](connection.html)

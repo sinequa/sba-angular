@@ -10,18 +10,18 @@ nav_order: 6
 
 ## Reference documentation
 
-Please checkout the [reference documentation]({{site.baseurl}}/components/modules/BsModalModule.html) auto-generated from source code.
+Please checkout the [reference documentation]({{site.baseurl}}components/modules/BsModalModule.html) auto-generated from source code.
 
 ## Features
 
 The `Modal` module is divised into two parts:
 
 1. The generic part in `@sinequa\core` provides service, and components declartion for the creation of popup modals,
-2. The components in `@sinequa\components` provides overrides for the components in `@sinequa\core` for styling, for Bootstrap ([BsModalModule]({{site.baseurl}}/components/modules/BsModalModule.html)) and Material ([MdModalModule]({{site.baseurl}}/components/modules/MdModalModule.html)).
+2. The components in `@sinequa\components` provides overrides for the components in `@sinequa\core` for styling, for Bootstrap ([BsModalModule]({{site.baseurl}}components/modules/BsModalModule.html)) and Material ([MdModalModule]({{site.baseurl}}components/modules/MdModalModule.html)).
 
 This documentation page focuses on the Bootstrap flavor components of `Modal`.
 
-Please refer to the document of the [core modal module]({{site.baseurl}}/modules/core/modal.html) for the usage of the generic module.
+Please refer to the document of the [core modal module]({{site.baseurl}}modules/core/modal.html) for the usage of the generic module.
 
 ## Import
 
@@ -45,7 +45,7 @@ import { BsModalModule } from "@sinequa/components/modal"; // Bootstrap flavor o
 
 ## API usage
 
-This module introduces the [BsModal component]({{site.baseurl}}/components/components/BsModal.html) that helps creating popup modal with Bootstrap styling.
+This module introduces the [BsModal component]({{site.baseurl}}components/components/BsModal.html) that helps creating popup modal with Bootstrap styling.
 
 This component provides the `sq-modal` selector that can be used to display a modal in the HTML template of your component
 
@@ -74,13 +74,13 @@ Example: The "New saved query" popup with `BsModal`
 
 which yields the following popup
 
-![New saved query popup]({{site.baseurl}}/assets/modules/modal/modal-new-saved-query.png)
+![New saved query popup]({{site.baseurl}}assets/modules/modal/modal-new-saved-query.png)
 *New saved query popup*
 {: .text-center }
 
 The input of the components are
 
 * `title`: The title of the popup, could be internationalized (i18n) message
-* `buttons`: The list of the buttons in the popup, each follows the interface [`IModalButton`]({{site.baseurl}}/core/interfaces/IModalButton.html),
+* `buttons`: The list of the buttons in the popup, each follows the interface [`IModalButton`]({{site.baseurl}}core/interfaces/IModalButton.html),
 * `showHeader`: whether to show the header of the modal, `true` by default,
 * `showFooter`: whether to show the footer of the modal, `true` by default.
