@@ -94,7 +94,7 @@ The `Collapse` component only expects a `boolean` property `collapsed`, which in
 You can manage the variable/property that is used as input of this property as you like.
 You can change it using an HTML button like in the above example or with any other HTML components.
 
-`@sinequa\components` provides two syntactic sugar components - [CollapseButton component]({{site.baseurl}}/components/components/CollapseButton.html) and [CollapseLink component]({{site.baseurl}}/components/components/CollapseLink.html) - to help you radidly create input components to toggle the `collapsed` property.
+`@sinequa\components` provides two syntactic sugar components - [CollapseButton component]({{site.baseurl}}/components/components/CollapseButton.html) and [CollapseLink component]({{site.baseurl}}/components/components/CollapseLink.html) - to help you rapidly create input components to toggle the `collapsed` property.
 
 Example 2: Usage of the `CollapseButton`
 
