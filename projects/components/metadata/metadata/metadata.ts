@@ -2,8 +2,6 @@ import {Component, Input, Output, EventEmitter, HostBinding} from "@angular/core
 import {AppService, ValueItem} from "@sinequa/core/app-utils";
 import {Record} from "@sinequa/core/web-services";
 
-export type Spacing = "compact" | "default" | "comfortable"
-
 @Component({
     selector: "sq-metadata",
     templateUrl: "./metadata.html"
@@ -14,9 +12,8 @@ export class Metadata {
     @Input() showTitles: boolean = true;
     @Input() showIcons: boolean = false;
     @Input() clickable: boolean = true;
-    @Input() spacing: Spacing = "default";
-    @Input() tabular: boolean = true;
-    @HostBinding("class.sq-tabular") get isTabular(): boolean {return this.tabular;};
+    @Input() spacing: "compact" | "default" | "comfortable" = "default";
+    @HostBinding("class.sq-tabular") @Input() tabular: boolean = true;
     @Output("select") _select = new EventEmitter<{item: string, valueItem: ValueItem}>();
 
     constructor(

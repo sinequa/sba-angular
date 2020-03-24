@@ -2,7 +2,7 @@
 layout: default
 title: Home
 nav_order: 1
-description: "Documentation of SBA framework"
+description: "Sinequa's SBA Framework Documentation"
 ---
 
 # SBA Framework Documentation

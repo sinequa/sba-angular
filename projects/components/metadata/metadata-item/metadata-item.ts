@@ -2,7 +2,6 @@ import {Component, Input, Output, OnChanges, SimpleChanges, EventEmitter} from "
 import {Utils} from "@sinequa/core/base";
 import {AppService, FormatService, ValueItem} from "@sinequa/core/app-utils";
 import {Record, EntityItem, DocumentAccessLists, CCColumn} from "@sinequa/core/web-services";
-import {Spacing} from "../metadata/metadata";
 import {FacetService} from "@sinequa/components/facet";
 
 export interface TreeValueItem extends ValueItem {
@@ -19,7 +18,7 @@ export class MetadataItem implements OnChanges {
     @Input() showTitle = true;
     @Input() showIcon: boolean = false;
     @Input() clickable: boolean = true;
-    @Input() spacing: Spacing = "default";
+    @Input() spacing: "compact" | "default" | "comfortable" = "default";
     @Output("select") _select = new EventEmitter<{item: string, valueItem: ValueItem}>();
     valueItems: (ValueItem | TreeValueItem)[];
     column: CCColumn | undefined;

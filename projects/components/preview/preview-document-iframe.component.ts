@@ -34,6 +34,7 @@ import { PreviewDocument } from "./preview-document";
 }
 
 iframe {
+    background-color: white;
     flex: 1;
     position: relative;
     display: block;
