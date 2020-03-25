@@ -3,7 +3,7 @@ import {RfmWebService, AuditWebService, Results, Record, RFMDisplay} from "@sine
 import {AppService} from "@sinequa/core/app-utils";
 import {Utils} from "@sinequa/core/base";
 import {SearchService} from "@sinequa/components/search";
-import { Subscription } from 'rxjs';
+import {Subject, Observable, Subscription} from 'rxjs';
 
 export type RFMType = "important" | "click" | "like";
 
@@ -36,11 +36,17 @@ export enum RFMEventType {
     Ban = "RFM_Ban"
 }
 
+export interface RFMEvent {
+    type: "updated";
+}
 
 @Injectable({
     providedIn: 'root',
 })
 export class RFMService implements OnDestroy {
+
+    private _events = new Subject<RFMEvent>();
+    private _subscription: Subscription;
 
     constructor(
         public appService: AppService,
@@ -53,11 +59,13 @@ export class RFMService implements OnDestroy {
         });
     }
 
-    private _subscription: Subscription;
+    get events(): Observable<RFMEvent> {
+        return this._events;
+    }
+
     ngOnDestroy(){
-        if(this._subscription){
-            this._subscription.unsubscribe();
-        }
+        this._events.complete();
+        this._subscription.unsubscribe();
     }    
     
     public getMenuActions(config: CCRFM.Action): RFMDisplay[] {
@@ -158,7 +166,7 @@ export class RFMService implements OnDestroy {
                                     record.rfm = rfmData;
                                 }
                             }
-                            // TODO: Trigger event for components to update
+                            this._events.next({type: "updated"});
                         }
                     });
             }
