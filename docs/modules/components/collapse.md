@@ -10,25 +10,26 @@ nav_order: 9
 
 ## Reference documentation
 
-Please checkout the [reference documentation]({{site.baseurl}}/components/modules/CollapseModule.html) auto-generated from source code.
+Please checkout the [reference documentation]({{site.baseurl}}components/modules/CollapseModule.html) auto-generated from source code.
 
 ## Features
 
-This module provides components to add a collapse/expand button and collapsible parts of your components.
+This module provides components to add collapsible panels to your components as well as collapse/expand buttons to trigger this effect.
 
-One of the usages of this module is the filter collapse/expend button of the facets.
+One of the usages of this module is the collapse/expand functionality of the facets (with `collapsible = true`).
 
-![Collapse functionality in facet]({{site.baseurl}}/assets/modules/collapse/collapse-facet-example.png)
+![Collapse functionality in facet]({{site.baseurl}}assets/modules/collapse/collapse-facet-example.png){: .d-block .mx-auto }
 *Collapse functionality in facet*
 {: .text-center }
 
 ## Import
 
-Add `import { CollapseModule } from "@sinequa/components/collapse";` into your `app.module.ts`.
+Add [`CollapseModule`]({{site.baseurl}}components/modules/CollapseModule.html) to you Angular imports in `app.module.ts`:
 
-Include `CollapseModule` in Angular import declaration of `app.module.ts`.
+```ts
+import { CollapseModule } from "@sinequa/components/collapse";
+/*....*/
 
-```typescript
 @NgModule({
     imports: [
         /*....*/
@@ -41,28 +42,25 @@ Include `CollapseModule` in Angular import declaration of `app.module.ts`.
 
 ## API usage
 
-This module introduces the [Collapse component]({{site.baseurl}}/components/components/Collapse.html) that helps creating a collapsible section for your component.
+The [`sq-collapse`]({{site.baseurl}}components/components/Collapse.html) component can be used in Angular templates to create collapsible panels.
 
-This component provides the `sq-collapse` selector that wraps the part of your component in the HTML template.
+Wrap the collapsible content into `<sq-collapse>` and `<ng-template>` elements (meaning the content will be instantiated only once displayed).
 
 Example 1: A collapsible list of element in the HTML template
 
-```typescript
-import { /*..., */Component } from "@angular/core";
-
-@Component({
+```ts
+{% raw %}@Component({
     /*...*/
     template: `
-        <div class="myListHeader">
-            <button type="button" onclick="toggleCollapse()">{{ buttonText }}</button>
-        </div>
+        <button type="button" onclick="collapsed = !collapsed">{{ collapsed ? 'Expand' : 'Collapse' }}</button>
+
         <sq-collapse [collapsed]="collapsed">
             <ng-template>
-                <span class="myList">
-                    <li *ngFor="let element of list" class="myList_element">
+                <ul>
+                    <li *ngFor="let element of list">
                         <span>{{ element }}</span>
                     </li>
-                </span>
+                </ul>
             </ng-template>
         </sq-collapse>
     `,
@@ -77,42 +75,31 @@ export class MyComponent {
         'element 2',
         'element 3',
     ];
-
-    public get buttonText(): string {
-        return this.collapsed ? 'collapse' : 'expand';
-    }
-
-    public toggleCollapse(): void {
-        this.collapse = !this.collapse;
-    }
     /*...*/
-}
+}{% endraw %}
 ```
 
-The `Collapse` component only expects a `boolean` property `collapsed`, which instructs it whether to show the collapsible content or not.
+The [`Collapse`]({{site.baseurl}}components/components/Collapse.html) component only expects a `boolean` property `collapsed`, which instructs it whether to show the collapsible content or not.
 
 You can manage the variable/property that is used as input of this property as you like.
 You can change it using an HTML button like in the above example or with any other HTML components.
 
-`@sinequa\components` provides two syntactic sugar components - [CollapseButton component]({{site.baseurl}}/components/components/CollapseButton.html) and [CollapseLink component]({{site.baseurl}}/components/components/CollapseLink.html) - to help you rapidly create input components to toggle the `collapsed` property.
+`@sinequa/components/collapse` also includes two syntactic sugar components - [`sq-collapse-button`]({{site.baseurl}}components/components/CollapseButton.html) and [`sq-collapse-link`]({{site.baseurl}}components/components/CollapseLink.html) - to help you quickly create input components to toggle the `collapsed` property. By default, these components display a chevron icon (as in the image above), but the icon and text can be customized via the `icon` and `text` inputs respectively.
 
-Example 2: Usage of the `CollapseButton`
+Example 2: Usage of the [`sq-collapse-button`]({{site.baseurl}}components/components/CollapseButton.html)
 
 ```html
-<div class="myListHeader">
-    <a href="#" (click)="toggleCollapse()">
-        <sq-collapse-button class="collapseButton" [collapsed]="collapsed">
-            {{ buttonText }}
-        </sq-collapse-button>
-    </a>
-</div>
+{% raw %}<a href="#" (click)="collapsed = !collapsed">
+    <sq-collapse-button [collapsed]="collapsed" [text]="collapsed ? 'Expand' : 'Collapse'"></sq-collapse-button>
+</a>
+
 <sq-collapse [collapsed]="collapsed">
     <ng-template>
-        <span class="myList">
-            <li *ngFor="let element of list" class="myList_element">
+        <ul>
+            <li *ngFor="let element of list">
                 <span>{{ element }}</span>
             </li>
-        </span>
+        </ul>
     </ng-template>
-</sq-collapse>
+</sq-collapse>{% endraw %}
 ```
