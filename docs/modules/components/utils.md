@@ -19,6 +19,7 @@ This module provides the following Angular declarations that are useful for the 
 1. Angular pipes that can be used to format the display of value on your components,
 2. Directives that can be used to control the user interaction with your components,
 3. The injection token `SCREEN_SIZE_RULES` to override the component sizing rules based on window/screen size of the application.
+4. The `UIService`
 
 ## Import
 
@@ -61,9 +62,17 @@ This modules provides the following Angular pipes
 
 Example:
 
+{% raw %}
+
 ```html
-<span>Date:</span><span>{{ someDate | sqDate }}</span>
+<span>Date:</span><span style="color: red;">{{ new Date('2020-03-25') | sqDate }}</span>
 ```
+
+{% endraw %}
+
+yields (for English locale)
+
+<span>Date:</span><span style="color: red;">03/25/2020</span>
 
 This is equivalent as importing [`IntlService`]({{site.baseurl}}core/injectables/IntlService.html) and calling `IntlService.formatDate()`.
 
@@ -109,10 +118,14 @@ see [`moment.diff()`](https://momentjs.com/docs/#/displaying/difference/).
 {% raw %}
 
 ```html
-<span>Moment:</span><span>{{ aMoment | sqMoment:{'type': 'fromNow'} }}</span>
+<span>Moment:</span><span style="color: red;">{{ moment('1995-12-25') | sqMoment:{ type: 'fromNow', reference: moment('2015-12-25') } }}</span>
 ```
 
 {% endraw %}
+
+yields
+
+<span>Moment:</span><span style="color: red;">24 years</span>
 
 #### RelativeTimePipe
 
@@ -137,10 +150,14 @@ Example:
 {% raw %}
 
 ```html
-<span>Time:</span><span>{{ someDate | sqTime }}</span>
+<span>Time:</span><span style="color:red;">{{ new Date('2020-03-25 12:20:00.00Z') | sqTime }}</span>
 ```
 
 {% endraw %}
+
+yields (for English locale and UTC)
+
+<span>Time:</span><span style="color:red;">12:20:00</span>
 
 This is equivalent as importing [`IntlService`]({{site.baseurl}}core/injectables/IntlService.html) and calling `IntlService.formatTime()`.
 
@@ -152,10 +169,13 @@ Example:
 {% raw %}
 
 ```html
-<span>Size:</span><span>{{ fileSize | sqMemorySize }}</span>
+<span>Size:</span><span style="color:red;">{{ 16384 | sqMemorySize }}</span>
 ```
 
 {% endraw %}
+
+yeilds (for English locale)
+<span>Size:</span><span style="color:red;">16KB</span>
 
 This is equivalent as importing [`FormatService`]({{site.baseurl}}core/injectables/FormatService.html) and calling `FormatService.formatMemorySize()`.
 
@@ -167,10 +187,14 @@ Example:
 {% raw %}
 
 ```html
-<span>Decimal number:</span><span>{{ someNumber | sqNumber }}</span>
+<span>Decimal number:</span><span style="color:red;">{{ 3.14 | sqNumber }}</span>
 ```
 
 {% endraw %}
+
+yeilds (for French locale)
+
+<span>Size:</span><span style="color:red;">3,14</span>
 
 This is equivalent as importing [`IntlService`]({{site.baseurl}}core/injectables/IntlService.html) and calling `Intl.formatNumber()`.
 
@@ -346,3 +370,28 @@ Example:
 ```
 
 {% endraw %}
+
+### Services
+
+#### UIService
+
+The [`UIService`]({{site.baseurl}}components/injectables/UIService.html) provides helper methods
+to listen to screen sizing events and to verify the current screen size to the sizing rules of your component.
+
+There are two event streams that you can subscribe to receive the screen sizing events:
+
+* `priorityResizeEvent: Observable<UIEvent>` This listeners of this stream will be be notified of the resize events first.
+This may be useful when you want to hierarchize the behaviour of your components w.r.t to a resizing event.
+* `resizeEvent: Observable<UIEvent>`
+
+Or you can simply add your listeners by calling `UIService.addElementResizeListener(htmlElement, callback)` without bothering about the priority of your listener.
+
+In order to remove a listener added by `UIService.addElementResizeListener()`, use `UIService.addElementResizeListener(htmlElement, callback)`.
+
+Then there are a family of methods to compare the current screen size to a scren size in input:
+
+* `screenSizeIsEqual(screenSize: string): boolean`
+* `screenSizeIsGreater(screenSize: string): boolean`
+* `screenSizeIsLess(screenSize: string): boolean`
+* `screenSizeIsGreaterOrEqual(screenSize: string): boolean`
+* `screenSizeIsLessOrEqual(screenSize: string): boolean`
