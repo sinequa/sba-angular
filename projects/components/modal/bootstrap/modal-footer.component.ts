@@ -22,5 +22,6 @@ export class BsModalFooter {
             }
         }
         button.click(this.modalRef);
+        return false;
     }
 }
