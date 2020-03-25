@@ -20,8 +20,6 @@ import {Load} from "./directives/load";
 import {MediaIf} from "./directives/media-if";
 import {ScrollIntoView} from "./directives/scroll-into-view";
 
-import {Tab, VTabs} from "./vtabs/vtabs";
-
 // UI Service
 import {SCREEN_SIZE_RULES} from "./ui.service";
 
@@ -42,12 +40,10 @@ export const defaultScreenSizeRules = {
     declarations: [
         DatePipe, ExprPipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
         Autofocus, ClickOutside, Load, MediaIf, ScrollIntoView,
-        Tab, VTabs,
     ],
     exports: [
         DatePipe, ExprPipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
         Autofocus, ClickOutside, Load, MediaIf, ScrollIntoView,
-        Tab, VTabs,
     ],
     providers: [
         {
