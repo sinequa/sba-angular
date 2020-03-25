@@ -12,5 +12,4 @@ export * from "./pipes/relative-time-pipe";
 export * from "./pipes/time-pipe";
 export * from "./pipes/value-pipe";
 export * from "./utils.module";
-export * from "./vtabs/vtabs";
 export * from "./ui.service";
