@@ -242,22 +242,12 @@ Example:
 {% raw %}
 
 ```html
-<form name="myform" novalidate [formGroup]="form">
-  <sq-modal [title]="model.title" [buttons]="buttons">
-    <div class="form-group sq-form-group">
-      <label for="myInput">Input:</label>
-      <textarea
-        type="text"
-        class="form-control"
-        id="myInput"
-        formControlName="myInput"
-        spellcheck="on"
-        sqAutofocus
-      >
-      </textarea>
-    </div>
-</sq-modal>
-</form>
+<textarea
+  type="text"
+  class="form-control"
+  id="myInput"
+  sqAutofocus
+>
 ```
 
 {% endraw %}
@@ -335,38 +325,7 @@ Example:
 {% raw %}
 
 ```html
-<div class="dropdown">
-  <!-- item-list toggle -->
-  <button #button
-    class="btn btn-light {{disabled ? ' disabled' : ''}} dropdown-toggle form-control"
-    data-toggle="dropdown"
-    (click)="toggleOpen()" tabindex="0"
-  >
-    <span class="sq-button-text">
-      {{buttonTitle | sqMessage:buttonTitleMessageParams}}
-    </span>
-  </button>
-  <!-- item-list view -->
-  <div *ngIf="opened"
-    [hidden]="!isOpen"
-    class="dropdown-menu dropdown-menu-left show"
-    [style.max-height]="itemListHeight"
-    role="combobox"
-    (mousedown)="mousedown($event)"
-  >
-    <!-- items -->
-    <a *ngFor="let itemName of names; let i = index"
-      class="dropdown-item{{activeItem === i ? ' active' : ''}}"
-      (click)="toggleItemSelected(i)"
-      (keydown)="keydown($event)"
-      tabindex="-1"
-      [sqScrollIntoView]="{active: i === activeItem, first: i === 0}"
-    >
-      <span class="fas fa-check {{isItemSelected(i) ? '' : ' invisible'}} left"></span>
-      <span>{{itemName}}</span>
-    </a>
-  </div>
-</div>
+<span [sqScrollIntoView]="{active: true}">Some item that is needed to be scrolled into visible area</span>
 ```
 
 {% endraw %}
@@ -384,9 +343,9 @@ There are two event streams that you can subscribe to receive the screen sizing 
 This may be useful when you want to hierarchize the behaviour of your components w.r.t to a resizing event.
 * `resizeEvent: Observable<UIEvent>`
 
-Or you can simply add your listeners by calling `UIService.addElementResizeListener(htmlElement, callback)` without bothering about the priority of your listener.
+You can also listen to the resizing of a specific HTML element by adding your listeners with `UIService.addElementResizeListener(htmlElement, callback)` without bothering about the priority of your listener.
 
-In order to remove a listener added by `UIService.addElementResizeListener()`, use `UIService.addElementResizeListener(htmlElement, callback)`.
+In order to remove a listener added by `UIService.addElementResizeListener()`, use `UIService.removeElementResizeListener(htmlElement, callback)`.
 
 Then there are a family of methods to compare the current screen size to a scren size in input:
 
@@ -395,3 +354,14 @@ Then there are a family of methods to compare the current screen size to a scren
 * `screenSizeIsLess(screenSize: string): boolean`
 * `screenSizeIsGreaterOrEqual(screenSize: string): boolean`
 * `screenSizeIsLessOrEqual(screenSize: string): boolean`
+
+In combination with the screen sizing rules represented by the injection token `SCREEN_SIZE_RULES`, you can design the UI content of your component to be responsive to the size of the application
+(cf. [Responsive design]({{site.baseurl}}tutorial/responsive-design.html)).
+
+For example, you can decide to replace the display text of a button by its icon if the overall application screen size if less than a given threshold.
+
+```typescript
+public get showButtonText(): boolean {
+  return this.uiService.screenSizeIsGreaterOrEqual('lg');
+}
+```
