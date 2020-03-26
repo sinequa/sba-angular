@@ -19,7 +19,7 @@ export class MemorySizePipe extends AbstractIntlPipe {
     }
 
     updateValue(key: number): void {
-        super.updateValue(key, {});
+        super.updateValue(key);
         this.value = this.formatService.formatMemorySize(key);
     }
 }

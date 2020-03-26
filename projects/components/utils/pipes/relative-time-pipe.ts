@@ -11,6 +11,6 @@ export class RelativeTimePipe extends AbstractIntlPipe {
 
     updateValue(key: number, params: {unit: Intl.RelativeTimeUnit} & Intl.RelativeTimeFormatOptions & { format?: string; }): void {
         super.updateValue(key, params);
-        this.value = this.intlService.formatRelativeTime(key, params.unit, params);
+        this.value = this.intlService.formatRelativeTime(key, params ? params.unit : undefined, params);
     }
 }
