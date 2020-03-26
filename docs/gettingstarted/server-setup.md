@@ -273,21 +273,21 @@ Then choose the name of the exported workspace.
 If you want to overwrite an existing workspace, remember to tick the checkbox **Overwite existing workspace**.
 Otherwise, the wizard will not let you continue with the import procedure.
 
-![Import Angular workspace wizard - page 1]({{site.baseurl}}assets/gettingstarted/admin-import-wiz-1.png)
+![Import Angular workspace wizard - page 1]({{site.baseurl}}assets/gettingstarted/admin-import-wiz-1.PNG)
 *'Import Angular workspace' wizard - page 1*
 {: .text-center }
 
 Once you have finished, click on **Next**.
 The next page provides you a summary of the steps that will be executed to import your workspace.
 
-![Import Angular workspace wizard - page 2]({{site.baseurl}}assets/gettingstarted/admin-import-wiz-2.png)
+![Import Angular workspace wizard - page 2]({{site.baseurl}}assets/gettingstarted/admin-import-wiz-2.PNG)
 *'Import Angular workspace' wizard - page 2*
 {: .text-center }
 
 Click on **Next** when you are ready to begin the import procedure.
 The import can take some time, once it is complete you can click on the **Finish** button to view the newly-imported workspace.
 
-![Import Angular workspace wizard - page 3 - Finish]({{site.baseurl}}assets/gettingstarted/admin-import-wiz-3.png)
+![Import Angular workspace wizard - page 3 - Finish]({{site.baseurl}}assets/gettingstarted/admin-import-wiz-3.PNG)
 *'Import Angular workspace' wizard - page 3 - Finish*
 {: .text-center }
 
