@@ -2,6 +2,7 @@ import {Component, Input} from "@angular/core";
 import {ValueItem} from "@sinequa/core/app-utils";
 import {Record} from "@sinequa/core/web-services";
 import {SearchService} from "@sinequa/components/search";
+import {Spacing} from "@sinequa/components/metadata";
 
 @Component({
     selector: "sq-result-metadata",
@@ -13,7 +14,7 @@ export class ResultMetadata {
     @Input() showTitles: boolean = true;
     @Input() showIcons: boolean = false;
     @Input() clickable: boolean = true;
-    @Input() spacing: "compact" | "default" | "comfortable" = "default";
+    @Input() spacing: Spacing = "default";
     @Input() tabular: boolean = true;
 
     constructor(
