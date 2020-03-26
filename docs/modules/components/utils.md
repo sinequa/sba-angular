@@ -131,14 +131,20 @@ yields
 
 [`RelativeTimePipe`]({{site.baseurl}}components/pipes/RelativeTimePipe.html) provides the `sqRelativeTime` that formats a number, specifying a date time relative to the current time, to a localized date time string.
 
+This pipe is inspired from [ECMA-402 RelativeTimeFormat Objects](https://tc39.es/ecma402/#relativetimeformat-objects).
+
 Example:
 {% raw %}
 
 ```html
-<span>Relative time:</span><span>{{ someNumber | sqRelativeTime }}</span>
+<span>Relative time:</span><span style="color: red;">{{ -7 | sqRelativeTime:{unit: 'days'} }}</span>
 ```
 
 {% endraw %}
+
+yields (in English locale)
+
+<span>Relative time:</span><span style="color: red;">7 days ago</span>
 
 This is equivalent as importing [`IntlService`]({{site.baseurl}}core/injectables/IntlService.html) and calling `IntlService.formatRelativeTime()`.
 
@@ -206,10 +212,16 @@ Example:
 {% raw %}
 
 ```html
-<span>Column:</span><span>{{ columnValue | sqValue:columnInfo }}</span>
+<div>boolean:<span style="color:red;">{{ true | sqValue }}</span></div>
+<div>number:<span style="color:red;">{{ 3.14 | sqValue }}</span></div>
 ```
 
 {% endraw %}
+
+yields (in French locale)
+
+<div>boolean:<span style="color:red;">vrai</span></div>
+<div>number:<span style="color:red;">3,14</span></div>
 
 This is equivalent as importing [`FormatService`]({{site.baseurl}}core/injectables/FormatService.html) and calling `Intl.formatFieldValue()`.
 
