@@ -20,13 +20,13 @@ export abstract class AbstractIntlPipe implements PipeTransform, OnDestroy {
         protected changeDetectorRef: ChangeDetectorRef) {
     }
 
-    protected updateValue(value: any, params: any): void {
+    protected updateValue(value: any, params?: any): void {
         this.lastValue = value;
         this.lastParams = params;
         this.changeDetectorRef.markForCheck();
     }
 
-    transform(value: any, params: any = {}): any {
+    transform(value: any, params?: any): any {
         // if we ask another time for the same key, return the last value
         if (Utils.equals(value, this.lastValue) && Utils.equals(params, this.lastParams)) {
             return this.value;
@@ -50,6 +50,8 @@ export abstract class AbstractIntlPipe implements PipeTransform, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.localeChange.unsubscribe();
+        if (this.localeChange) {
+            this.localeChange.unsubscribe();
+        }
     }
 }
