@@ -13,6 +13,7 @@
     "target": "es2015",
     "allowSyntheticDefaultImports": true,
     "preserveSymlinks": true,
+    "types": ["sq-extra-typings"],
     "typeRoots": [
       "node_modules/@types",
       "projects/core/@types"
