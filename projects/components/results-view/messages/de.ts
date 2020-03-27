@@ -41,6 +41,8 @@ export default {
         
         "resultsAllTab": "Alle",
         "resultsTextTab": "Text",
+        "results_all_tab": "Alle",
+        "results_text_tab": "Text",
 
         "resultsTimelineView": {
           "display": "Zeitleiste",
