@@ -1867,6 +1867,13 @@ export class Utils {
         return /^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/.test(str);
     }
 
+    /**
+     * Round the passed number away from zero: 4.5 => 5, -4.5 => -5
+     */
+    static roundAway(num: number): number {
+        return num >= 0 ? Math.round(num) : Math.sign(num) * Math.round(Math.abs(num));
+    }
+
     private static matchSuffix(str: string, factor: number, ...suffixes: string[]): {str: string, factor: number} | undefined {
         for (const suffix of suffixes) {
             if (Utils.endsWith(str, suffix)) {

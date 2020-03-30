@@ -782,18 +782,55 @@ export class IntlService implements OnDestroy {
         return String(date);
     }
 
+    private makeRelativeTimeParams(value: Date): { value: number, unit: Intl.RelativeTimeUnit } {
+        const diff = value.getTime() - Utils.now.getTime();
+        const absDiff = Math.abs(diff);
+        if (absDiff < Utils.oneSecond) {
+            return { value: 0, unit: "seconds" };
+        }
+        else if (absDiff < Utils.oneMinute) {
+            return { value: Utils.roundAway(diff / Utils.oneSecond), unit: "seconds" };
+        }
+        else if (absDiff < Utils.oneHour) {
+            return { value: Utils.roundAway(diff / Utils.oneMinute), unit: "minutes" };
+        }
+        else if (absDiff < Utils.oneDay) {
+            return { value: Utils.roundAway(diff / Utils.oneHour), unit: "hours" };
+        }
+        else if (absDiff < (Utils.oneDay * 30)) {
+            return { value: Utils.roundAway(diff / Utils.oneDay), unit: "days" };
+        }
+        else if (absDiff < (Utils.oneDay * 365)) {
+            return { value: Utils.roundAway(diff / (Utils.oneDay * 30)), unit: "months" };
+        }
+        else {
+            return { value: Utils.roundAway(diff / (Utils.oneDay * 365)), unit: "years" };
+        }
+    }
+
     /**
      * Format a relative time in the current locale according to the passed options
      *
-     * @param value The relative time to format. Negative values represent times in the past
-     * @param unit The relative time unit (eg years, days or seconds)
+     * @param value The relative time to format. Negative number values represent times in the past.
+     * If a Date value is passed then a number value and unit are deduced automatically based on
+     * the current date and time.
+     * @param unit The relative time unit (eg years, days or seconds). Must be passed if value
+     * is a number.
      * @param options The options can include a custom format
      */
     formatRelativeTime(
-        value: number, unit: Intl.RelativeTimeUnit,
+        value: number | Date | undefined, unit?: Intl.RelativeTimeUnit,
         options: Intl.RelativeTimeFormatOptions & { format?: string; } = {}
     ): string {
-        const {format} = options;
+        if (value === undefined) {
+            return "";
+        }
+        if (Utils.isDate(value)) {
+            const params =  this.makeRelativeTimeParams(value);
+            value = params.value;
+            unit = params.unit;
+        }
+        const { format } = options;
         const defaults = (format && this.getNamedFormat("relativeTime", format)) || {};
         const filteredOptions = this.filterProps(options, RELATIVE_TIME_FORMAT_OPTIONS, defaults);
         if (!filteredOptions.numeric) {
