@@ -200,7 +200,7 @@ export class SearchService implements OnDestroy {
                         if (!event.actionProcessed) {
                             if (!!action.data) {
                                 switch (action.type) {
-                                    case "tab": 
+                                    case "tab":
                                         if (results.queryAnalysis.initial && this.query &&
                                             this.query.tab && !Utils.eqNC(this.query.tab, action.data)) {
                                             this.selectTab(action.data, {skipLocationChange: true});
@@ -338,7 +338,7 @@ export class SearchService implements OnDestroy {
             if (query.basket) {
                 return false;
             }
-            // Test no advanced 
+            // Test no advanced
             if (query.advanced && Object.keys(query.advanced).length > 0) {
                 return false;
             }
@@ -498,7 +498,7 @@ export class SearchService implements OnDestroy {
             // The url query should be the same as the current query on SearchService unless
             // it's the initial navigation or if the url is changed manually.
             // In any case, we always set the query from the url. We only send a new-query
-            // event if the current query is empty so that we don't systematically create a 
+            // event if the current query is empty so that we don't systematically create a
             // new query "session" (ml-audit)
             this.setQuery(query, !this._query);
         }
@@ -618,7 +618,7 @@ export class SearchService implements OnDestroy {
 
     searchRefine(text: string): Promise<boolean> {
         this.query.addSelect(this.makeSelectExpr("refine", {value: text}), "refine");
-        return this.search(undefined, 
+        return this.search(undefined,
             this.makeAuditEvent({
                 type: AuditEventType.Search_Refine,
                 detail: {
@@ -852,12 +852,23 @@ export class SearchService implements OnDestroy {
 
     notifyOpenOriginalDocument(record: Record, resultId?: string): void {
         const results = this.results && this.results.records && this.results.records.includes(record) ? this.results : undefined;
-        this._events.next({type: "open-original-document", record});
-        this.auditService.notifyDocument(AuditEventType.Click_ResultLink, record, results || resultId || "", undefined, {
-            queryhash: results ? results.rfmQueryHash : undefined,
-            querytext: this.query.text,
-            querylang: this.query.questionLanguage || (this.appService.ccquery && this.appService.ccquery.questionLanguage)
-        });
+        this._events.next({ type: "open-original-document", record });
+        const querylang = this.query.questionLanguage ||
+            (this.appService.ccquery && this.appService.ccquery.questionLanguage);
+        this.auditService.notifyDocument(
+            AuditEventType.Click_ResultLink,
+            record,
+            results || resultId || "",
+            {
+                querytext: this.query.text,
+                querylang,
+            },
+            {
+                queryhash: results ? results.rfmQueryHash : undefined,
+                querytext: this.query.text,
+                querylang: querylang
+            }
+        );
     }
 
     checkBeforeSearch(cancelReasons?: string[]): boolean {
@@ -925,7 +936,7 @@ export module SearchService {
 
     export interface MakeQueryEvent extends Event {
         type: "make-query";
-        query: Query;        
+        query: Query;
     }
 
     export interface NewResultsEvent extends Event {
@@ -977,11 +988,11 @@ export module SearchService {
         cancelReasons?: string[];
     }
 
-    export type Events =         
-        NewQueryEvent | 
+    export type Events =
+        NewQueryEvent |
         UpdateQueryEvent |
         MakeQueryEvent |
-        NewResultsEvent | 
+        NewResultsEvent |
         MakeQueryIntentDataEvent |
         ProcessQueryIntentActionEvent |
         MakeAuditEventEvent |
