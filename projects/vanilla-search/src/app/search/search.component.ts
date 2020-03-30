@@ -154,9 +154,6 @@ export class SearchComponent implements OnInit {
    */
   closeDocument(){
     if(this.openedDoc){
-      if(this.selectionService.selectedRecords.includes(this.openedDoc.id)){
-        this.selectionService.toggleSelectedRecords(this.openedDoc, "results");
-      }
       this.openedDoc = undefined;
       if(this.ui.screenSizeIsEqual('md')){
         this._showFilters = true; // Show filters on medium screen when document is closed
