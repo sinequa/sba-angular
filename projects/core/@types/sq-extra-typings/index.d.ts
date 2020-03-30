@@ -114,7 +114,7 @@ declare module "focus-within";
 
 // Not in any standard type definitions yet...
 declare namespace Intl {
-    type RelativeTimeUnit = "year" | "years" | "quarter" | "quarters" | "month" | "months " | "week" | "weeks" |
+    type RelativeTimeUnit = "year" | "years" | "quarter" | "quarters" | "month" | "months" | "week" | "weeks" |
         "day" | "days" | "hour" | "hours" | "minute" | "minutes" | "second" | "seconds";
 
     interface RelativeTimeFormatOptions {
