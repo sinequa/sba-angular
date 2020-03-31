@@ -12,7 +12,7 @@ export interface TreeValueItem extends ValueItem {
 @Component({
     selector: "sq-metadata-item",
     templateUrl: "./metadata-item.html"
-})            
+})
 export class MetadataItem implements OnChanges {
     @Input() record: Record;
     @Input() item: string;
@@ -45,7 +45,7 @@ export class MetadataItem implements OnChanges {
         }
         return value;
     }
-    
+
     ngOnChanges(changes: SimpleChanges) {
         if (!this.column) {
             this.column = this.appService.getColumn(this.item);
@@ -60,7 +60,7 @@ export class MetadataItem implements OnChanges {
             let paths: string[] = values;
             if (paths) {
                 for (let path of paths) {
-                    let parts = path.split("/"); 
+                    let parts = path.split("/");
                     if (parts.length > 0 && parts[0] === "") {
                         parts.splice(0, 1);
                     }
@@ -83,13 +83,13 @@ export class MetadataItem implements OnChanges {
                 this.valueItems.push(...values.map<ValueItem>(value => ({value: value})));
             }
             else if (!Utils.isEmpty(values)) {
-                this.valueItems.push({value: values});                    
+                this.valueItems.push({value: values});
             }
         }
         else {
             let value = this.ensureScalarValue(values);
             if (!Utils.isEmpty(value)) {
-                this.valueItems.push({value: value});                    
+                this.valueItems.push({value: value});
             }
         }
     }

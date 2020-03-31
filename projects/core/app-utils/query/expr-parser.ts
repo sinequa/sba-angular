@@ -353,7 +353,7 @@ export class Expr {
     private _evaluationRegExps: MapOf<RegExp | undefined>;
     private get evaluationRegExps(): MapOf<RegExp | undefined> {
         if (!this._evaluationRegExps) {
-            this._evaluationRegExps = {}; 
+            this._evaluationRegExps = {};
         }
         return this._evaluationRegExps;
     }
@@ -363,17 +363,17 @@ export class Expr {
             name: "id",
             type: "string",
             eType: EngineType.string,
-            eTypeModifier: EngineTypeModifier.none                
+            eTypeModifier: EngineTypeModifier.none
         },
         "documentlanguages": {
-            name: "documentlanguages", 
+            name: "documentlanguages",
             type: "csv",
             typeModifier: "acl",
             eType: EngineType.csv,
-            eTypeModifier: EngineTypeModifier.a | EngineTypeModifier.i | EngineTypeModifier.c | EngineTypeModifier.l 
+            eTypeModifier: EngineTypeModifier.a | EngineTypeModifier.i | EngineTypeModifier.c | EngineTypeModifier.l
         }
     };
-    
+
     constructor(init: ExprValueInitializer | ExprOperandsInitializer) {
         if (!(<ExprOperandsInitializer>init).op1) {
             let valueInit: ExprValueInitializer = <ExprValueInitializer>init;
@@ -460,7 +460,7 @@ export class Expr {
 
     /**
      * Make an expression object
-     * 
+     *
      * @param exprContext The expression context
      * @param text The value of the expression
      * @param field The parser's field context
@@ -476,7 +476,7 @@ export class Expr {
                 display: display
             });
         }
-        
+
         let values: IRef<string[] | undefined> = {value: undefined};
         let locations: IRef<ExprLocation[] | undefined> = {value: undefined};
         let operator: IRef<ExprOperator> = {value: ExprOperator.none};
@@ -489,24 +489,24 @@ export class Expr {
             let location2 = locations.value[1];
             if (range.value === ExprRange.gteLte && !Utils.eqNC(value1, "*") && !Utils.eqNC(value2, "*")) {
                 return new Expr({
-                    exprContext: exprContext, 
+                    exprContext: exprContext,
                     values: values.value,
-                    locations: locations.value, 
+                    locations: locations.value,
                     field: field,
                     display: display,
                     operator: ExprOperator.between
                 });
             }
             let expr1 = !Utils.eqNC(value1, "*") ? new Expr({
-                exprContext: exprContext, 
+                exprContext: exprContext,
                 value: value1,
-                locations: [location1], 
+                locations: [location1],
                 field: field,
                 display: display,
                 operator: range.value === ExprRange.gteLt || range.value === ExprRange.gteLte ? ExprOperator.gte : ExprOperator.gt
             }) : null;
             let expr2 = !Utils.eqNC(value2, "*") ? new Expr({
-                exprContext: exprContext, 
+                exprContext: exprContext,
                 value: value2,
                 locations: [location2],
                 field: field,
@@ -519,22 +519,22 @@ export class Expr {
             if (!(!!expr1 && !!expr2)) return !!expr1 ? expr1 : expr2;
             return new Expr({
                 exprContext: exprContext,
-                op1: expr1, 
-                and: true, 
+                op1: expr1,
+                and: true,
                 op2: expr2,
                 display: display
             });
         }
         return new Expr({
-            exprContext: exprContext, 
+            exprContext: exprContext,
             values: values.value,
             locations: locations.value,
             field: field,
-            display: display, 
+            display: display,
             operator: operator.value
         });
     }
-    
+
     private static resolveField(exprContext: ExprContext, field: string | null | undefined): string {
         if (Utils.isString(field)) {
             return exprContext.appService.resolveColumnName(field);
@@ -579,7 +579,7 @@ export class Expr {
             return !!Expr.getColumn(exprContext, field);
         }
     }
-    
+
     /**
      * Return `true` if the expression has a non-fulltext field. In this case the expression will be a leaf node
      */
@@ -642,7 +642,7 @@ export class Expr {
             length: length
         };
     }
-            
+
     private static parseValue(exprContext: ExprContext, text: string, field: string, allowEmptyValue: boolean, values: IRef<string[] | undefined>, locations: IRef<ExprLocation[] | undefined>, operator: IRef<ExprOperator>, range: IRef<ExprRange>) {
         if (Utils.isEmpty(text) && !allowEmptyValue) {
             return;
@@ -739,7 +739,7 @@ export class Expr {
         values.value = [vl.value];
         locations.value = [{start: vl.start, length: vl.length}];
     }
-    
+
     private static getOperatorText(operator: ExprOperator): string {
         switch (operator) {
             case ExprOperator.eq: return "=";
@@ -829,8 +829,8 @@ export class Expr {
         }
         return new Expr({
             exprContext: expr1.exprContext,
-            op1: expr1, 
-            and: true, 
+            op1: expr1,
+            and: true,
             op2: expr2
         });
     }
@@ -872,7 +872,7 @@ export class Expr {
             }
             sb.unshift("[");
             sb.push("]");
-            return sb.join(""); 
+            return sb.join("");
         }
         return this.escapeValue(this.value);
     }
@@ -909,7 +909,7 @@ export class Expr {
             if (!this.operands) {
                 return "";
             }
-            if (this.not) { 
+            if (this.not) {
                 sb.push("NOT ");
             }
             let bracketed = inner;
@@ -1285,7 +1285,7 @@ export class Expr {
 
     /**
      * Perform the passed `action` on this expression and any descendant operands
-     * 
+     *
      * @param action The action to perform
      */
     forEach(action: (expr: Expr) => void) {
@@ -1757,7 +1757,7 @@ export class ExprParser {
     private displays: string[]; // pushed on '(', popped on ')'
     private op: ExprParserOperator;
     private prevOp: ExprParserOperator;
-    private saveOp: ExprParserOperator; // for default conjunction operator 
+    private saveOp: ExprParserOperator; // for default conjunction operator
     private field: string;
     private display: string;
     private text: string;
@@ -1979,7 +1979,7 @@ export class ExprParser {
         }
         return sb.join("");
     }
-    
+
     private matchSimpleValue(start: number): string {
         let first = this.current;
         let last = start;
@@ -2238,7 +2238,7 @@ export class ExprParser {
                         let value = currentValue.substr(0, candidateFieldPos);
                         if (this.canBeTokValue(value.trim())) {
                             this.current -= (sbCurrentValue.join("").length - candidateFieldPos); // back up to field
-                            this._getTokValue(value); 
+                            this._getTokValue(value);
                             return undefined;
                         }
                         if (!Utils.isEmpty(field) && this.current + 1 < this.length && this.text[this.current + 1] === ":") {
@@ -2269,7 +2269,7 @@ export class ExprParser {
             }
         }
     }
-    
+
     private clear() {
         this.text = "";
         this.current = 0;
@@ -2293,7 +2293,7 @@ export class ExprParser {
         }
         return parser.parseResult();
     }
-    
+
     private parseResult(): Expr | string {
         if (this.expressions.length !== 1) {
             return "no expression found";
@@ -2350,7 +2350,7 @@ export class ExprParser {
             }
             else {
                 a = ExprParser.parsetbl[this.operators[this.operators.length - 1].tok][this.op.tok];
-            }                
+            }
             switch (a) {
                 case Act.r:
                     err = this.reduce();
@@ -2361,7 +2361,7 @@ export class ExprParser {
                 case Act.s:
                     err = this.shift();
                     if (err) {
-                        return err;    
+                        return err;
                     }
                     break;
                 case Act.a:
@@ -2369,18 +2369,18 @@ export class ExprParser {
                         return "syntax error";
                     }
                     return "";
-                case Act.e1:	
+                case Act.e1:
                     return "missing ')'";
-                case Act.e2:	
+                case Act.e2:
                     return "missing operator (AND,OR,NOT)";
                 case Act.e3:
                     return "missing '('";
-                case Act.e4:	
+                case Act.e4:
                     return "invalid argument";
             }
-        }			
+        }
     }
-    
+
     private shift(): string | undefined {
         if (this.op.tok === Token.value) {
             let value = this.op.tokValue.trim();
@@ -2388,7 +2388,7 @@ export class ExprParser {
                 return "empty token";
             }
             let expr = Expr.makeExpr(this.exprContext, value, this.contextField, this.contextDisplay, !!this.options.allowEmptyValues);
-            if (!expr) { 
+            if (!expr) {
                 return "invalid expression";
             }
             expr.start = this.op.tokValuePos;
@@ -2540,8 +2540,8 @@ export class ExprParser {
                 }
                 e = new Expr({
                     exprContext: e1.exprContext,
-                    op1: e1, 
-                    and: false, 
+                    op1: e1,
+                    and: false,
                     op2: e2,
                     field: this.peekField(),
                     display: this.peekDisplay()

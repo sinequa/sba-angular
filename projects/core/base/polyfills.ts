@@ -126,7 +126,7 @@ if (!window.location.origin) { // Some browsers (mainly IE) do not have this pro
     try {
         window.location[/*foo readonly*/<string>"origin"] = window.location.protocol + '//' + window.location.hostname + (window.location.port ? (':' + window.location.port) : '');
     }
-    catch (e) {        
+    catch (e) {
     }
 }
 
@@ -141,11 +141,11 @@ function fakeStorage(storageName: string) {
         try {
             window[storageName].setItem("fakeStorageTest", "1");
             window[storageName].removeItem("fakeStorageTest");
-        } 
+        }
         catch (e) {
             needed = true;
         }
-    } 
+    }
     else {
         needed = true;
     }
@@ -157,7 +157,7 @@ function fakeStorage(storageName: string) {
     if (typeof window[storageName] === "object") {
         // Override with fake implementation
         storage = window[storageName];
-    } 
+    }
     else {
         // Implement with fake
         try {
@@ -166,7 +166,7 @@ function fakeStorage(storageName: string) {
         catch (e) {
             console.warn("Unable to set fake", storageName);
             return;
-        } 
+        }
     }
 
     console.warn("Using fake", storageName);

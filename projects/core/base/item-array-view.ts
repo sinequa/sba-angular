@@ -89,7 +89,7 @@ class ArrayBasedView<T, U, V> implements NameValueArrayView<U, V> {
 export class NameValueArrayViewHelper {
     /**
      * Creates a {@link NameValueArrayView} from an array of {@link NameValuePair} items
-     * 
+     *
      * @param items An array of `NameValuePair` items
      */
     static fromArray<U, V>(items: NameValuePair<U, V>[]): NameValueArrayView<U, V> {

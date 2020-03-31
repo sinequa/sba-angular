@@ -50,7 +50,7 @@ export class RFMService implements OnDestroy {
 
     constructor(
         public appService: AppService,
-        public rfmService: RfmWebService, 
+        public rfmService: RfmWebService,
         public searchService: SearchService,
         public auditService: AuditWebService
     ){
@@ -66,8 +66,8 @@ export class RFMService implements OnDestroy {
     ngOnDestroy(){
         this._events.complete();
         this._subscription.unsubscribe();
-    }    
-    
+    }
+
     public getMenuActions(config: CCRFM.Action): RFMDisplay[] {
         let actions = [RFMDisplay.positiveRate, RFMDisplay.unrate];
         if(config.negAvailable)
@@ -81,7 +81,7 @@ export class RFMService implements OnDestroy {
                 return "pos";
             case RFMDisplay.mainlyPosRate:
                 return "mpos";
-            case RFMDisplay.unrate:  
+            case RFMDisplay.unrate:
                 return "unrated";
             case RFMDisplay.mainlyNegRate:
                 return "mneg";
@@ -138,7 +138,7 @@ export class RFMService implements OnDestroy {
         }
         return aet;
     }
-    
+
     public notifyRfmAction(rfmEvent: any, record: Record, results: Results) {
         this.auditService.notifyDocument(rfmEvent, record, results, undefined, {
             queryhash: this.searchService.results ? this.searchService.results.rfmQueryHash : undefined,
@@ -151,7 +151,7 @@ export class RFMService implements OnDestroy {
     /**
      * Called every time new results come in.
      * Performs a request for
-     * @param results 
+     * @param results
      */
     private updateRfm(results: Results | undefined) {
         if (results && results.records) {

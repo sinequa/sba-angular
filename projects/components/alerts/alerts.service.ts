@@ -40,7 +40,7 @@ export interface Alert {
     days: Alert.Days;
     interval: number; // every "n"...
     index: number; // day of month
-    times: string; //times: number[]; // offsets from 00:00 in milliseconds 
+    times: string; //times: number[]; // offsets from 00:00 in milliseconds
     active: boolean;
     combine: boolean;
     respectTabSelection: boolean;
@@ -76,7 +76,7 @@ export interface AlertChangeEvent {
 
 
 // Model expected by the ManageAlerts Modal.
-export interface ManageAlertsModel { 
+export interface ManageAlertsModel {
     alerts: Alert[];
     auditEvents?: AuditEvent[];
 }
@@ -85,17 +85,17 @@ export interface ManageAlertsModel {
  * The modal types are unknown to this service.
  * The module using this service must provide these components
  * in their forRoot() method
- * 
+ *
  * Example below:
- * 
+ *
  *  public static forRoot(): ModuleWithProviders {
         return {
-            ngModule: AlertsModule, 
+            ngModule: AlertsModule,
             providers: [
-                { 
-                    provide: ALERT_COMPONENTS, 
+                {
+                    provide: ALERT_COMPONENTS,
                     useValue: {
-                        editAlertModal: EditAlert, 
+                        editAlertModal: EditAlert,
                         manageAlertsModal: ManageAlerts
                     }
                 },
@@ -103,7 +103,7 @@ export interface ManageAlertsModel {
             ]
         };
     }
- * 
+ *
  */
 export interface AlertComponents {
     editAlertModal: Type<any>;
@@ -117,7 +117,7 @@ export const ALERT_COMPONENTS = new InjectionToken<AlertComponents>('ALERT_COMPO
 })
 export class AlertsService implements OnDestroy {
 
-    private readonly _events = new Subject<AlertChangeEvent>();   
+    private readonly _events = new Subject<AlertChangeEvent>();
     private readonly _changes = new Subject<AlertChangeEvent>();
 
     constructor(
@@ -125,7 +125,7 @@ export class AlertsService implements OnDestroy {
         public searchService: SearchService,
         public modalService: ModalService,
         @Inject(ALERT_COMPONENTS) public alertComponents: AlertComponents
-    ){        
+    ){
         // Listen to the user settings
         this.userSettingsService.events.subscribe(event => {
             // E.g. new login occurs
@@ -134,7 +134,7 @@ export class AlertsService implements OnDestroy {
         });
         // Listen to own events, to trigger change events
         this._events.subscribe(event => {
-            if(ALERT_CHANGE_EVENTS.indexOf(event.type) !== -1){                
+            if(ALERT_CHANGE_EVENTS.indexOf(event.type) !== -1){
                 this.changes.next(event);
             }
         });
@@ -156,7 +156,7 @@ export class AlertsService implements OnDestroy {
     } // TODO: remove cast when UserSettings is updated
 
     /**
-     * Triggers any event among AlertChangeEvent 
+     * Triggers any event among AlertChangeEvent
      * (use for fine-grained control of alerts workflow)
      */
     public get events() : Subject<AlertChangeEvent> {
@@ -164,7 +164,7 @@ export class AlertsService implements OnDestroy {
     }
 
     /**
-     * Triggers when events affect the list of alerts 
+     * Triggers when events affect the list of alerts
      * (use to refresh alert menus)
      * Cf. CHANGE_EVENTS list
      */
@@ -181,7 +181,7 @@ export class AlertsService implements OnDestroy {
 
     /**
      * @returns an alert with the given name or undefined if it does not exist
-     * @param name 
+     * @param name
      */
     public alert(name: string): Alert | undefined {
         let i = this.alertIndex(name);
@@ -253,18 +253,18 @@ export class AlertsService implements OnDestroy {
             ]);
             return true;
 
-        } 
+        }
         return false;   // This alert does not exist
     }
 
     /**
-     * Updates the full list of alerts. 
-     * Emits an Alert event.     
+     * Updates the full list of alerts.
+     * Emits an Alert event.
      * Update the data on the server.
      * @param alerts the new list of alerts
      * @param auditEvents the list of audit events to log
      */
-    public updateAlerts(alerts : Alert[], auditEvents?: AuditEvents) : boolean {        
+    public updateAlerts(alerts : Alert[], auditEvents?: AuditEvents) : boolean {
         Utils.arraySet(this.alerts, alerts);
         this.events.next({type : AlertEventType.Update});
         this.patchAlerts(auditEvents);
@@ -273,9 +273,9 @@ export class AlertsService implements OnDestroy {
 
     /**
      * Deletes the given alert (based on its name)
-     * Emits an Alert event.    
+     * Emits an Alert event.
      * Update the data on the server.
-     * @param alert 
+     * @param alert
      * @returns true if alert was deleted
      */
     public deleteAlert(alert: Alert) : boolean {
@@ -321,7 +321,7 @@ export class AlertsService implements OnDestroy {
                 }
             );
     }
-    
+
 
 
 
@@ -343,7 +343,7 @@ export class AlertsService implements OnDestroy {
             }
         });
     }
-    
+
     /**
      * Opens a dialog allowing a user to create a new alert.
      * @returns a boolean promise resolved when the user closes the dialog
@@ -367,7 +367,7 @@ export class AlertsService implements OnDestroy {
         return this.modalService.open(this.alertComponents.editAlertModal, {model: alert})
             .then((result) => {
                 if (result === ModalResult.OK) {
-                    
+
                     let index = this.alertIndex(alert.name);
                     if (index !== -1) {
 
@@ -402,20 +402,20 @@ export class AlertsService implements OnDestroy {
             .then((result) => {
 
                 if (result === ModalResult.OK) {
-                        
+
                     if(noUpdate) return true;
 
                     let prevIndex = this.alertIndex(prevName);
                     if(prevIndex === -1) return false; // this alert did not exist
-                    
-                    let index = this.alertIndex(alert.name); 
+
+                    let index = this.alertIndex(alert.name);
                     if (index !== -1 && index!=prevIndex) {  // An alert with the same (new) name exists
 
                         return this.modalService.yesNo("msg#alerts.alertAlreadyExists")
                             .then((result) => {
                                 if (result === ModalResult.Yes) {
                                     const prevAlert = this.alert(prevName);
-                                    if (prevAlert) { 
+                                    if (prevAlert) {
                                         this.deleteAlert(prevAlert); // Remove the alert with old name
                                     }
                                     return this.updateAlert(alert, this.alertIndex(alert.name)); // Update the alert with new name (index might have changed due to delete of old name)

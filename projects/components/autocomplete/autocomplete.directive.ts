@@ -25,7 +25,7 @@ export interface AutocompleteItem {
  * also manage navigation through the list (next/previous and selectedValue).
  */
 export interface AutocompleteComponent {
-    
+
     /**
      * Whether there are any item to display
      */
@@ -35,7 +35,7 @@ export interface AutocompleteComponent {
      * Event emitter for clicks on an autocomplete item
      */
     clicked: EventEmitter<AutocompleteItem>;
-    
+
     /**
      * Returns the currently selected item, if any
      */
@@ -47,12 +47,12 @@ export interface AutocompleteComponent {
      * @param items The list of items to display
      */
     update(active: boolean, items?: AutocompleteItem[]): void;
-    
+
     /**
      * Select the next item in the list and returns it
      */
     selectNext(): AutocompleteItem | undefined;
-    
+
     /**
      * Select the previous item in the list and returns it
      */
@@ -94,11 +94,11 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     private _state: AutocompleteState = AutocompleteState.INIT;
 
     // The input HTML element to which this directive is attached
-    private readonly inputElement: HTMLInputElement;    
+    private readonly inputElement: HTMLInputElement;
 
 
     // Initialization
-    
+
     constructor(
         elementRef: ElementRef,
         protected suggestService: SuggestService,
@@ -115,16 +115,16 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      */
     ngOnInit(){
         this._dropdownSubscription = this.dropdown.clicked.subscribe(item => {
-            this.select(item, true);  // An item was selected from the autocomplete => take the value 
+            this.select(item, true);  // An item was selected from the autocomplete => take the value
         });
-        
+
         this.inputElement.focus();
         this.start();
     }
 
     /**
      * If the off input changes state, react accordingly
-     * @param changes 
+     * @param changes
      */
     ngOnChanges(changes: SimpleChanges){
         if(changes["off"]){
@@ -194,7 +194,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * Sets the content of the <input> based on the given
      * Autocomplete Item (various implementations are possible,
      * depending on the item content and nature).
-     * This would be the right method to override to implement 
+     * This would be the right method to override to implement
      * fielded search autocomplete.
      * @returns true if this autocomplete item should be searched
      */
@@ -227,7 +227,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
         this.setState(AutocompleteState.INIT);
         this.dropdown.update(false);    // If the dropdown was active
     }
-    
+
     /**
      * START state (Input is focused, no text typed in, dropdown is closed)
      */
@@ -239,7 +239,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     /**
      * START state and if the <input> has content, immediately switch to ACTIVE
      */
-    protected startOrActive(): void {        
+    protected startOrActive(): void {
         if(this.getState()!== AutocompleteState.ACTIVE && this.getState()!== AutocompleteState.OPENED){ // Avoid flickering
             this.start();
             if(!!this.getInputValue()){
@@ -247,7 +247,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
             }
         }
     }
-    
+
     /**
      * ACTIVE state (Input is focused, text is typed, suggests are being queried, dropdown is closed)
      */
@@ -268,7 +268,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
         this.setState(AutocompleteState.SELECTED); // Change state BEFORE setting input value, so the event is correctly processed
         let searchable = this.setAutocompleteItem(item);
         this.dropdown.update(false);    // Close dropdown
-        
+
         if(submit && searchable) this.submit.next();
     }
 
@@ -285,7 +285,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * Request suggestions from the server, and update the dropdown contents
      * and autocomplete state asynchronously.
      * Override this method for a synchronous implementation.
-     */    
+     */
     protected suggest() {
         this.debounceSuggest();
     }
@@ -312,7 +312,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
             this.processSuggests(
                 this.suggestService.get(this.suggestQuery, value, fields), fields
             );
-            
+
         }
         else {  // If empty input, restart autocomplete
             this.start();
@@ -334,7 +334,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
                 if(this.getState() === AutocompleteState.ACTIVE || this.getState() === AutocompleteState.OPENED){
                     this.dropdown.update(true, suggests
                         .filter(item => this.fieldSearch || item.category !== "$field$")  // Filter out fields if not in fieldSearch mode
-                        .map(item => { 
+                        .map(item => {
                             if(!item.label){
                                 if(this.fieldSearch && item.category === "$field$") {
                                     item.label = "Field";
@@ -394,7 +394,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * The events affect the state of the autocomplete, which triggers
      * various actions (call to suggest API, etc.).
      */
-    
+
     /**
      * Listens to click events on the <input> host
      */
@@ -410,7 +410,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
         //console.log("input touchstart");
         this.startOrActive();
     }
-    
+
     /**
      * Listens to focus events on the <input> host
      */
@@ -426,16 +426,16 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
         //console.log("input focus lost");
         this.init();
     }
-    
+
     /**
      * Listen to any change in the <input> content and react
      * according to the current state of the autocomplete
-     * @param event 
+     * @param event
      */
     @HostListener("input", ["$event"]) inputChanged(event: Event) {
         //console.log("input value changed");
         switch(this.getState()){
-            case AutocompleteState.OPENED:                
+            case AutocompleteState.OPENED:
                 this.suggest(); // Just request more data, but no state change
                 break;
             case AutocompleteState.START:
@@ -454,7 +454,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     /**
      * Listen to user's keyboard actions in the <input>, in order to navigate
      * and select the autocomplete suggestions.
-     * @param event the keyboard 
+     * @param event the keyboard
      */
     @HostListener("keydown", ["$event"]) keydown(event: KeyboardEvent) {
         // Navigation in the opened dropdown

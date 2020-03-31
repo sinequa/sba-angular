@@ -32,7 +32,7 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
     //stores indices of selected items
     private selectedItems: number[];
     private onChangeCallback: (_: any) => void = () => {};
-    
+
     ngOnInit() {
         this.clearSelected();
         // disable an empty list
@@ -65,9 +65,9 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
             event.preventDefault();
             event.stopImmediatePropagation();
             Utils.delay().then(() => {
-                this.buttonElement.nativeElement.focus();         
+                this.buttonElement.nativeElement.focus();
             });
-            return;                
+            return;
         }
         this.setOpen(false);
     }

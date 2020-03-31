@@ -36,10 +36,10 @@ import {BsAlertsMenuComponent} from "./alerts-menu/alerts-menu.component";
         BsEditAlert, BsManageAlerts, BsAlertsMenuComponent
     ],
     providers: [
-        { 
-            provide: ALERT_COMPONENTS, 
+        {
+            provide: ALERT_COMPONENTS,
             useValue: {
-                editAlertModal: BsEditAlert, 
+                editAlertModal: BsEditAlert,
                 manageAlertsModal: BsManageAlerts
             }
         }

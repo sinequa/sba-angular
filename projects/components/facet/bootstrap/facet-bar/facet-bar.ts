@@ -9,7 +9,7 @@ import {FacetService} from "../../facet.service";
 export class BsFacetBar {
     @Input() results: Results;
     @Input() containerIndex: number = 0; // There could be various facet bars (but only one service and storage array)
-   
+
     constructor(
         private facetService: FacetService) {
     }

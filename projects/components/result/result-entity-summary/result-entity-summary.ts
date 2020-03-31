@@ -36,7 +36,7 @@ export class ResultEntitySummary implements OnChanges {
     }
 
     ngOnChanges(){
-        
+
         this.entity_stats = [];
 
         this.highlightedEntities.forEach(highlight => {
@@ -49,7 +49,7 @@ export class ResultEntitySummary implements OnChanges {
                 });
             }
         });
-        
+
     }
 
     entityStats(raw_values : any[]) : EntityValue[]{

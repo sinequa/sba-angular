@@ -45,7 +45,7 @@ export class MlAuditService extends HttpService {
             this.session = {
                 type: "session",
                 subType: "start",
-                id: Utils.guid(false),            
+                id: Utils.guid(false),
                 timestamp: this.newTimestamp(),
                 userId: this.principalService.principal.userId,
                 isAdmin: this.principalService.principal.isAdministrator,
@@ -89,7 +89,7 @@ export class MlAuditService extends HttpService {
             this.notifyEvent({
                 type: "query",
                 subType: "end",
-                id: this.query.id,                
+                id: this.query.id,
                 sessionId: this.session ? this.session.id : undefined,
                 dwellTime: this.calcDwellTime(this.query)
             });
@@ -252,7 +252,7 @@ export class MlAuditService extends HttpService {
             }
         }
         return <AuditRecord>auditEvents; // leave unchanged
-    } 
+    }
 
     requestInitializer = (request: HttpRequest<any>): boolean => {
         request.body.$auditRecord = this.ensureAuditRecord(request.body.$auditRecord);
@@ -263,7 +263,7 @@ export class MlAuditService extends HttpService {
 export module MlAuditService {
     export type EventType = "session" | "query" | "results" | "action";
     export type EventSubType = "start" | "end";
-    export type ActionType = "click" | "preview" | "over" | 
+    export type ActionType = "click" | "preview" | "over" |
         "addToBasket" | "removeFromBasket" |
         "addToLabel" | "removeFromLabel" |
         "addRating" | "removeRating";
@@ -286,7 +286,7 @@ export module MlAuditService {
     export interface Query extends Event {
         sessionId?: string;
         indexes?: string;
-        typingHistory?: any;        
+        typingHistory?: any;
         proposedExpansions?: any;
         selectedExpansions?: any;
     }

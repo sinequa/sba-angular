@@ -24,15 +24,15 @@ export class ResultTimeline implements OnChanges {
     timeline : Timeline;
 
     ngOnChanges(changes:SimpleChanges) {
-        
+
         if(!!changes['record']){
             this.updateTimeline();
         }
     }
 
     updateTimeline(){
-        
-        if(!this.items){            
+
+        if(!this.items){
             this.items = new DataSet();
         }
 
@@ -75,9 +75,9 @@ export class ResultTimeline implements OnChanges {
                 all_ids.push(id);
             }
         });
- 
+
         if(data.length >= this.min_dates){
-            
+
             if(data.length> this.max_dates )
                 data = data.slice(0, this.max_dates)
 
@@ -93,9 +93,9 @@ export class ResultTimeline implements OnChanges {
 
             try{
                 this.timeline.removeCustomTime("date-modified");
-            }catch{ 
-                // No date-modified             
-            }                
+            }catch{
+                // No date-modified
+            }
 
             if(Utils.isString(this.record.modified) && this.record.modified.length>=10){
                 this.timeline.addCustomTime(this.record.modified.substring(0,10), "date-modified");

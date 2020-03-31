@@ -57,7 +57,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
 
   /**
    * Autocomplete icon per category
-   * @param category 
+   * @param category
    */
   autocompleteIcon(category): string {
     switch(category){

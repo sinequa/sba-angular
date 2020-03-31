@@ -42,13 +42,13 @@ export class LabelsService {
         private labelsWebService: LabelsWebService,
         private appService: AppService,
         private searchService: SearchService,
-        private modalService: ModalService,        
+        private modalService: ModalService,
         private principalWebService: PrincipalWebService,
         private intlService: IntlService,
         private selectionService: SelectionService,
         @Inject(LABELS_COMPONENTS) public labelsComponents: LabelsComponents,
         ){
-            
+
         this.principalWebService.events.subscribe(
             (event) => {
                 switch (event.type) {
@@ -147,7 +147,7 @@ export class LabelsService {
         }
 
         let children: Action[];
-        let combined = !!this.publicLabelsField && !!this.privateLabelsField;        
+        let combined = !!this.publicLabelsField && !!this.privateLabelsField;
 
         if (combined) {
             children = [
@@ -187,14 +187,14 @@ export class LabelsService {
 
         return menu;
     }
-    
+
     toggle = (item: Action, open: boolean) => {
         if (open) {
             let formItem = item.children[0];
             (<IFormData>formItem.data).autofocus++;
         }
     };
-    
+
     public buildSelectionAction(): Action | undefined {
         let action = this.buildLabelsMenu(
             (items: Action[], _public: boolean) => {
@@ -251,20 +251,20 @@ export class LabelsService {
         let items: Action[] = [
             this._makeFormItem(_public),
             new Action({
-                separator: true 
+                separator: true
             })
         ];
-        addItems(items, _public);      
+        addItems(items, _public);
         return items;
     }
 
-    
+
     // Labels
     /**
      * The following methods update the modify the labels for some documents via
      * the LabelsWebService, and they update the records in searchService.results
      * (for immediate display)
-     **/ 
+     **/
 
     private updateLabels(action: UpdateLabelsAction, labels: string[], ids: string[], newLabel: string, _public: boolean) {
 
@@ -451,7 +451,7 @@ export class LabelsService {
         return observable;
     }
 
- 
+
     get privateLabelsPrefix(): string {
         if (!this.principalWebService.principal) {
             return "";
@@ -497,7 +497,7 @@ export class LabelsService {
         }
         else {
             return this.privateLabelsPrefix + label;
-        }   
+        }
     }
 
     addPrivatePrefix(labels: string|string[]): string|string[] {
@@ -507,7 +507,7 @@ export class LabelsService {
         else {
             for (let i = 0, ic = labels.length; i < ic; i++) {
                 labels[i] = this._addPrivatePrefix(labels[i]);
-            }            
+            }
             return labels;
         }
     }
@@ -534,5 +534,5 @@ export class LabelsService {
             }
             return labels;
         }
-    } 
+    }
 }

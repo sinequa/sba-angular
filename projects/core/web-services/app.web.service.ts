@@ -23,8 +23,8 @@ export interface CCAppRefresh {
 })
 export class AppWebService extends HttpService {
     /**
-     * Constructor 
-     * 
+     * Constructor
+     *
      * @param startConfig Provides the app name
      * @param httpClient The HTTP client
      */
@@ -40,7 +40,7 @@ export class AppWebService extends HttpService {
 
     /**
      * Gets the app configuration for the app name
-     * 
+     *
      * @returns An observable of the app configuration
      */
     get(): Observable<CCApp> {
@@ -63,10 +63,10 @@ export class AppWebService extends HttpService {
 
     /**
      * Refreshes the app configuration based on a version identifier
-     * 
+     *
      * @param appVersionId The current app version id [CCApp.versionId]{@link CCApp#versionId}
      * @param auditEvents Audit events to be recorded for this call
-     * 
+     *
      * @returns An observable of an object containing a flag indicating whether the configuration was up to date. If false
      * then the app member of the object will be set to the new version of the configuration.
      */

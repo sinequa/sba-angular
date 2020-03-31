@@ -3,8 +3,8 @@ import {AbstractIntlPipe, IntlService} from "@sinequa/core/intl";
 
 @Pipe({name: "sqDate", pure: false})
 export class DatePipe extends AbstractIntlPipe {
-    constructor(        
-        intlService: IntlService, 
+    constructor(
+        intlService: IntlService,
         changeDetectorRef: ChangeDetectorRef) {
         super(intlService, changeDetectorRef);
     }

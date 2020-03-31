@@ -22,7 +22,7 @@ export class BsAutocompleteList implements AutocompleteComponent {
      * Event emitter for clicks on an autocomplete item
      */
     @Output() clicked = new EventEmitter<AutocompleteItem>();
-   
+
     _active: boolean = false;
     _items: AutocompleteItem[] | undefined;
 
@@ -32,7 +32,7 @@ export class BsAutocompleteList implements AutocompleteComponent {
     constructor(
         private changeDetectorRef: ChangeDetectorRef){
     }
-    
+
 
     /**
      * Update the data and state of this component
@@ -44,9 +44,9 @@ export class BsAutocompleteList implements AutocompleteComponent {
         this._active = active;
         this._items = items;
         this._cursor = -1;
-        
+
         this.changeDetectorRef.markForCheck();
-    } 
+    }
 
     /**
      * Whether there are any item to display
@@ -85,8 +85,8 @@ export class BsAutocompleteList implements AutocompleteComponent {
 
     /**
      * Test whether an item is selected
-     * @param item 
-     * @param i 
+     * @param item
+     * @param i
      */
     _isSelected(item: AutocompleteItem, i: number): boolean {
         return this._cursor === i;
@@ -94,8 +94,8 @@ export class BsAutocompleteList implements AutocompleteComponent {
 
     /**
      * Listen to click events and emits events
-     * @param item 
-     * @param event 
+     * @param item
+     * @param event
      */
     _itemClicked(item: AutocompleteItem, event){
         this.clicked.next(item);
@@ -109,5 +109,5 @@ export class BsAutocompleteList implements AutocompleteComponent {
     _mouseDown(event){
         event.preventDefault();
     }
-    
+
 }

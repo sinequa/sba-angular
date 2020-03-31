@@ -50,7 +50,7 @@ export interface BasketChangeEvent {
 }
 
 
-// Model expected by the SelectBasket Modal. 
+// Model expected by the SelectBasket Modal.
 // The filter allows to filter out baskets from the complete list
 export interface SelectBasketModel {
     basket: Basket | undefined;
@@ -59,7 +59,7 @@ export interface SelectBasketModel {
 }
 
 // Model expected by the ManageBaskets Modal.
-export interface ManageBasketsModel { 
+export interface ManageBasketsModel {
     baskets: Basket[];
     auditEvents?: AuditEvent[];
 }
@@ -69,18 +69,18 @@ export interface ManageBasketsModel {
  * The modal types are unknown to this service.
  * The module using this service must provide these components
  * in their forRoot() method
- * 
+ *
  * Example below:
- * 
+ *
  *  public static forRoot(): ModuleWithProviders {
         return {
-            ngModule: BasketsModule, 
+            ngModule: BasketsModule,
             providers: [
-                { 
-                    provide: BASKET_COMPONENTS, 
+                {
+                    provide: BASKET_COMPONENTS,
                     useValue: {
-                        selectBasketModal: SelectBasket,  
-                        editBasketModal: EditBasket, 
+                        selectBasketModal: SelectBasket,
+                        editBasketModal: EditBasket,
                         manageBasketsModal: ManageBaskets
                     }
                 },
@@ -123,7 +123,7 @@ export class BasketsService implements OnDestroy {
         });
         // Listen to own events, to trigger change events
         this._events.subscribe(event => {
-            if(BASKET_CHANGE_EVENTS.indexOf(event.type) !== -1){                
+            if(BASKET_CHANGE_EVENTS.indexOf(event.type) !== -1){
                 this.changes.next(event);
             }
         });
@@ -147,15 +147,15 @@ export class BasketsService implements OnDestroy {
     }
 
     /**
-     * Triggers any event among BasketChangeEvent 
+     * Triggers any event among BasketChangeEvent
      * (use for fine-grained control of baskets workflow)
      */
     public get events() : Subject<BasketChangeEvent> {
         return this._events;
     }
-    
+
     /**
-     * Triggers when events affect the list of baskets 
+     * Triggers when events affect the list of baskets
      * (use to refresh basket menus)
      * Cf. CHANGE_EVENTS list
      */
@@ -172,7 +172,7 @@ export class BasketsService implements OnDestroy {
 
     /**
      * @returns a basket with the given name or null if it does not exist
-     * @param name 
+     * @param name
      */
     public basket(name: string): Basket | undefined {
         let i = this.basketIndex(name);
@@ -244,13 +244,13 @@ export class BasketsService implements OnDestroy {
             ]);
             return true;
 
-        } 
+        }
         return false;   // This basket does not exist
     }
 
     /**
-     * Updates the full list of Baskets. 
-     * Emits a Basket event.     
+     * Updates the full list of Baskets.
+     * Emits a Basket event.
      * Update the data on the server.
      * @param baskets the new list of baskets
      * @param auditEvents the list of audit events to log
@@ -264,9 +264,9 @@ export class BasketsService implements OnDestroy {
 
     /**
      * Deletes the given Basket (based on its name)
-     * Emits an Basket event.    
+     * Emits an Basket event.
      * Update the data on the server.
-     * @param basket 
+     * @param basket
      * @returns true if basket was deleted
      */
     public deleteBasket(basket: Basket) : boolean {
@@ -408,7 +408,7 @@ export class BasketsService implements OnDestroy {
             .subscribe(
                 next => {
                     this.events.next({type: BasketEventType.Patched});
-                }, 
+                },
                 error => {
                     console.error("Could not patch Baskets!", error);
             });
@@ -423,7 +423,7 @@ export class BasketsService implements OnDestroy {
      * Uses the SearchService to perform a search returning all
      * the documents in this basket
      * @param basket
-     * @param path 
+     * @param path
      * @returns the search service promise
      */
     public searchBasket(basket : Basket, path?: string) : Promise<boolean> {
@@ -447,7 +447,7 @@ export class BasketsService implements OnDestroy {
      * @returns a boolean promise resolved when the user closes the dialog
      * the result is true if the document was added to a basket
      */
-    public addToBasketModal(ids: string | string[], recordBaskets?: string[]) 
+    public addToBasketModal(ids: string | string[], recordBaskets?: string[])
             : Promise<boolean> {
         const model : SelectBasketModel = {
             basket: undefined,
@@ -472,7 +472,7 @@ export class BasketsService implements OnDestroy {
      * @returns a boolean promise resolved when the user closes the dialog
      * the result is true if the document was removed from a basket
      */
-    public removeFromBasketModal(ids: string | string[], recordBaskets?: string[]) 
+    public removeFromBasketModal(ids: string | string[], recordBaskets?: string[])
             : Promise<boolean> {
         const model : SelectBasketModel = {
             basket: undefined,
@@ -487,7 +487,7 @@ export class BasketsService implements OnDestroy {
                 return false;
             });
     }
-    
+
     /**
      * Opens a dialog allowing a user to create new basket.
      * @param model the initial basket object model
@@ -498,7 +498,7 @@ export class BasketsService implements OnDestroy {
 
         return this.modalService.open(this.basketComponents.editBasketModal, {model: model})
             .then((result) => {
-                
+
                 if (result === ModalResult.OK) {
                     let index = this.basketIndex(model.name);
                     if (index !== -1) {

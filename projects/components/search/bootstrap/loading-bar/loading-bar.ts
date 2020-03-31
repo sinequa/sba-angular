@@ -33,7 +33,7 @@ import {SearchService} from "../../search.service";
 .subline{
   position:absolute;
   background:#4a8df8;
-  height:5px; 
+  height:5px;
 }
 .inc{
 animation: increase 1s infinite;

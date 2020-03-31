@@ -47,13 +47,13 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
     private selectionChange: Subscription;
 
     constructor(
-        private facetService: FacetService, 
-        private intlService: IntlService,       
+        private facetService: FacetService,
+        private intlService: IntlService,
         private selectionService: SelectionService,
         private appService: AppService
     ){
         super();
-            
+
         // Clear the current filters
         this.clearFilters = new Action({
             icon: "far fa-minus-square",
@@ -62,7 +62,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
                 this.facetService.clearFiltersSearch(this.getName(), true);
             }
         });
-        
+
         this.selectField = new Action({
             title: "Select field",
             updater: (action) => {
@@ -74,7 +74,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
                         .map(a => {
                             return new Action({
                                 name: a,
-                                text: a,                            
+                                text: a,
                                 action : (item, event) => {
                                     this.aggregation = a;
                                     this.ngOnChanges(<SimpleChanges> <any> {results: true});
@@ -88,7 +88,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
     }
 
     /**
-     * Name of the facet, used to create and retrieve selections 
+     * Name of the facet, used to create and retrieve selections
      * through the facet service.
      */
     getName() : string {
@@ -100,7 +100,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
      */
     get actions(): Action[] {
         let actions: Action[] = [];
-        if(this.hasFiltered()) {            
+        if(this.hasFiltered()) {
             actions.push(this.clearFilters);
         }
         if(!!this.selectField.name) {
@@ -191,7 +191,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
     tickFormatter = (value: any): string => {
         if (Utils.isNumber(value)) {
             // No fractional counts
-            if (value % 1 !== 0) {                
+            if (value % 1 !== 0) {
                 return "";
             }
             return this.intlService.formatNumber(value);
@@ -213,7 +213,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
         });
     }
 
-    
+
     ngOnChanges(changes: SimpleChanges) {
         this.selectField.update();
 
@@ -229,7 +229,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
         }
     }
 
-    ngOnDestroy() { 
+    ngOnDestroy() {
         this.localeChange.unsubscribe();
         this.selectionChange.unsubscribe();
     }
@@ -248,7 +248,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
 
     /**
      * Returns true if the given AggregationItem is filtered
-     * @param item 
+     * @param item
      */
     isFiltered(item: AggregationItem) : boolean {
         return !!this.data && this.facetService.itemFiltered(this.getName(), this.data, item);
@@ -261,11 +261,11 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
         }
         return undefined;
     }
-    
+
     /* AbstractFacet abstract methods */
     isHidden(): boolean {
         // Always display if multivalued
         return !this.aggregations && (!this.data || !this.dataPoints);
     }
 
-}   
+}

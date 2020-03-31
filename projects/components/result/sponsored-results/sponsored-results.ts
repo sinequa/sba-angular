@@ -138,7 +138,7 @@ export class SponsoredResults implements OnChanges, OnInit {
     }
 
     click(link: LinkResult) {
-        this.auditService.notifySponsoredLink(AuditEventType.Link_Click, link, 
+        this.auditService.notifySponsoredLink(AuditEventType.Link_Click, link,
             this.searchService.results && this.searchService.results.id || "");
     }
 }

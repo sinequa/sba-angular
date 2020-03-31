@@ -43,4 +43,4 @@ export class BsFacetPreview implements OnChanges {
         });
         return false;
     }
-}   
+}

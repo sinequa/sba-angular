@@ -10,7 +10,7 @@ export default {
     "recentQueries": {
         "noRecentQuery": "Vous n'avez pas encore effectué de recherche..."
     },
-    
+
     "recentDocuments": {
         "recentDocuments": "Documents récents",
         "noRecentDocument": "Vous n'avez pas encore ouvert de document..."

@@ -20,11 +20,11 @@ export class BsFullscreenActivator {
     getFullscreenIcon(): string {
         return !this.isFullscreen() ? "fas fa-expand" : "fas fa-compress";
     }
-    
+
     getFullscreenTitle(): string {
         return !this.isFullscreen() ? "msg#statusbar.fullscreenTitleEnter" : "msg#statusbar.fullscreenTitleExit";
     }
-        
+
     buildAction() {
         this.action = new Action({
             icon: this.getFullscreenIcon(),
@@ -35,25 +35,25 @@ export class BsFullscreenActivator {
                 item.title = this.getFullscreenTitle();
             },
             init: (item) => {
-                
+
                 this.resizeSubscription = Utils.subscribe(this.uiService.resizeEvent,
                     (event) => {
                         this.action.icon = this.getFullscreenIcon();
                         this.action.title = this.getFullscreenTitle();
                     });
-                
+
             },
             destroy: (item) => {
-                
+
                 if (this.resizeSubscription) {
                     this.resizeSubscription.unsubscribe();
                     this.resizeSubscription = undefined;
                 }
-                
+
             }
-        });        
+        });
     }
-    
+
     requestFullscreen() {
         let doc = window.document;
         let docEl = doc.documentElement;
@@ -83,5 +83,5 @@ export class BsFullscreenActivator {
         else {
             this.cancelFullscreen();
         }
-    }     
+    }
 }

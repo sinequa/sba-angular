@@ -55,12 +55,12 @@ export class BsResultsScatterView implements OnChanges {
     @ViewChild("svg", {static: false}) svg: ElementRef;
     g: d3.Selection<any, any, any, any> | undefined;
     tooltip: LoadedComponent;
-    
+
 
     constructor(
         private appService: AppService,
         private searchService: SearchService,
-        private loadComponentService: LoadComponentService, 
+        private loadComponentService: LoadComponentService,
         private changeDetectorRef: ChangeDetectorRef) {
     }
 
@@ -83,7 +83,7 @@ export class BsResultsScatterView implements OnChanges {
 
         Utils.subscribe(this.searchService.getResults(query),
             (results: Results) => {
-                            
+
                 var dist_counts = {};
 
                 results.aggregations[0].items.forEach((item) => dist_counts[item.value as string] = item.count);
@@ -91,8 +91,8 @@ export class BsResultsScatterView implements OnChanges {
                 let data: any[] = [];
                 this.colorvalues = [];
                 this.categories = [];
-                
-                results.records.forEach((r) => { 
+
+                results.records.forEach((r) => {
 
                     r["value"].forEach((val) => {
 
@@ -104,19 +104,19 @@ export class BsResultsScatterView implements OnChanges {
                         var category = this.switch_cooc? cooc[1] : cooc[0];
                         //var size = r[3];
                         var size = raw in dist_counts ? dist_counts[raw] * 10 : 10;
-                        var colorvalue = this.colors === 'unit'? (this.switch_cooc? value[1]: value[0]) : 
+                        var colorvalue = this.colors === 'unit'? (this.switch_cooc? value[1]: value[0]) :
                                         this.colors === 'source' ? r.collection[0].substring(1,r.collection[0].length-1) :
                                         "Document";
 
-                        var datum = {category: category, 
-                                    colorvalue: colorvalue, 
-                                    value: parseFloat(this.switch_cooc? value[0]: value[1]), 
-                                    title: r.collection[0].substring(1, r.collection[0].length-1) + " - "+r.title, 
-                                    id: r.id, 
-                                    size: size, 
+                        var datum = {category: category,
+                                    colorvalue: colorvalue,
+                                    value: parseFloat(this.switch_cooc? value[0]: value[1]),
+                                    title: r.collection[0].substring(1, r.collection[0].length-1) + " - "+r.title,
+                                    id: r.id,
+                                    size: size,
                                     position: positions};
 
-                        if(!isNaN(datum.value)){		   
+                        if(!isNaN(datum.value)){
                             data.push(datum);
                             if(this.colorvalues.indexOf(colorvalue) < 0)
                                 this.colorvalues.push(colorvalue);
@@ -125,7 +125,7 @@ export class BsResultsScatterView implements OnChanges {
                     });
 
                 });
-                
+
                 console.log(data);
 
                 let datamap = this.groupBy(data, 'category');
@@ -158,7 +158,7 @@ export class BsResultsScatterView implements OnChanges {
         }
 
         let instance = this;
-        
+
         var margin = {top: 50, right: 30, bottom: 100, left: 40},
             width = 960 - margin.left - margin.right,
             height = 720 - margin.top - margin.bottom;
@@ -185,14 +185,14 @@ export class BsResultsScatterView implements OnChanges {
             .ticks(10, ",.1s");
 
         // Define the div for the tooltip
-        var div = d3.select("body").append("div")	
-            .attr("class", "tooltip")				
+        var div = d3.select("body").append("div")
+            .attr("class", "tooltip")
             .style("opacity", 0);
 
         let svg = d3.select(this.svg.nativeElement)
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom);
-    
+
         this.g = svg.append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -209,7 +209,7 @@ export class BsResultsScatterView implements OnChanges {
                 d3.select(this).style("fill", "rgba(255, 255, 100, 0.5)")
             })
             .on("mouseout", function(d) {
-                d3.select(this).style("fill", "rgba(255, 255, 255, 0.0)")	
+                d3.select(this).style("fill", "rgba(255, 255, 255, 0.0)")
             });
 
         // Y axis
@@ -222,12 +222,12 @@ export class BsResultsScatterView implements OnChanges {
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis)
-            .selectAll("text")	
+            .selectAll("text")
                 .style("text-anchor", "end")
                 .attr("dx", "-.8em")
                 .attr("dy", ".15em")
                 .attr("transform", function(d) {
-                    return "rotate(-45)" 
+                    return "rotate(-45)"
                     });
 
         // Bubbles
@@ -253,15 +253,15 @@ export class BsResultsScatterView implements OnChanges {
                     .transition()
                     .duration(200)
                     .attr("r", (d_ : any) =>  (d.id === d_.id)? 15 : instance.getSize(d_.size));
-                div.transition()		
+                div.transition()
                     .duration(200)
-                    .style("opacity", .9);		
-                div.html("<strong>"+d.title+"</strong><br>"+d.colorvalue+" "+instance.formatNumber(d.value)+" "+d.category)	
-                    .style("left", (d3.event.pageX) + "px")		
-                    .style("top", (d3.event.pageY - 28) + "px");	
-                })					
-            .on("mouseout", function(d) {		
-                div	.transition()		
+                    .style("opacity", .9);
+                div.html("<strong>"+d.title+"</strong><br>"+d.colorvalue+" "+instance.formatNumber(d.value)+" "+d.category)
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px");
+                })
+            .on("mouseout", function(d) {
+                div	.transition()
                     .duration(200)
                     .style("opacity", 0);
                 if (!instance.g) {
@@ -273,13 +273,13 @@ export class BsResultsScatterView implements OnChanges {
                     .attr("r", (d_ : any) => instance.getSize(d_.size));
             })
             .on("click", function(d){
-                //popup_extract(d.id, d.position, $(div), "docresult?id="+encodeURIComponent(d.id), d.title);																		   
+                //popup_extract(d.id, d.position, $(div), "docresult?id="+encodeURIComponent(d.id), d.title);
                 //location.href = "docresult?id="+encodeURIComponent(d.id);
             });
 
 
         var dataL = 0;
-        var offset = 30;        
+        var offset = 30;
 
         var legend = this.g.selectAll('.legend')
             .data(this.colorvalues)
@@ -287,9 +287,9 @@ export class BsResultsScatterView implements OnChanges {
             .attr("class", "legend")
             .attr("transform", function (d, i) {
                 if (i === 0) {
-                    dataL = d.length*10 + offset 
+                    dataL = d.length*10 + offset
                     return "translate(0, -30)"
-                } else { 
+                } else {
                     var newdataL = dataL
                     dataL +=  d.length*10 + offset
                     return "translate(" + (newdataL) + ",-30)"
@@ -314,7 +314,7 @@ export class BsResultsScatterView implements OnChanges {
 
         this.changeDetectorRef.detectChanges();
     }
-    
+
     groupBy(xs, key) {
         return xs.reduce(function(rv, x) {
             (rv[x[key]] = rv[x[key]] || []).push(x);
@@ -339,7 +339,7 @@ export class BsResultsScatterView implements OnChanges {
     }
 
 
-    ngOnChanges(changes: SimpleChanges) {   
+    ngOnChanges(changes: SimpleChanges) {
         if (!this.tooltip) {
             this.tooltip = this.loadComponentService.loadComponent({component: BsTimelineTooltip});
             d3.select(this.tooltip.componentRef.location.nativeElement)
@@ -349,8 +349,8 @@ export class BsResultsScatterView implements OnChanges {
             if (changes["results"].firstChange) {
 
             }
-            this.getData();            
-        }    
+            this.getData();
+        }
     }
 
     ngOnDestroy() {

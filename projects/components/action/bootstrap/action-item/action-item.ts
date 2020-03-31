@@ -20,12 +20,12 @@ export interface ActionItemOptions {
 export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges {
     @Input("sq-action-item") options: ActionItemOptions;
     @Input() collapseBreakpoint: string = "md";
-    inListItem: boolean;    
+    inListItem: boolean;
     dropdownButton: Element;
     dropdownListItem: Element;
     autoAdjustBreakpoint: string;
     focussed: boolean;
-    
+
     constructor(
         private uiService: UIService,
         private elementRef: ElementRef) {
@@ -44,11 +44,11 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
     }
 
     get isDropdownButton(): boolean {
-        return this.isVisible && !this.inListItem && this.options.item.hasChildren;        
+        return this.isVisible && !this.inListItem && this.options.item.hasChildren;
     }
 
     get isButton(): boolean {
-        return this.isVisible && !this.inListItem && !this.options.item.hasChildren && this.hasAction;        
+        return this.isVisible && !this.inListItem && !this.options.item.hasChildren && this.hasAction;
     }
 
     get isDropdownListItem(): boolean {
@@ -59,14 +59,14 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
         return this.isVisible && this.inListItem && !this.options.item.hasChildren && this.hasAction;
     }
 
-    get haveSpace(): boolean {        
+    get haveSpace(): boolean {
         if (this.uiService.screenSizeIsGreaterOrEqual(this.autoAdjustBreakpoint)) {
             return true;
         }
         if (this.inListItem && this.uiService.screenSizeIsLess(this.collapseBreakpoint)) {
             return true;
         }
-        return false;        
+        return false;
     }
 
     get haveIcon(): boolean {
@@ -82,7 +82,7 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
             return this.haveSpace ? text : "";
         }
         else {
-            return text;            
+            return text;
         }
     }
 
@@ -93,10 +93,10 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
         let text = this.options.item.text || "";
         let title = this.options.item.title || "";
         if (this.options.autoAdjust && this.haveIcon) {
-            return this.haveSpace ? (title !== text ? title : "") : title || text;                
+            return this.haveSpace ? (title !== text ? title : "") : title || text;
         }
         else {
-            return title;            
+            return title;
         }
     }
 
@@ -106,46 +106,46 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
         }
         return this.options.item.messageParams;
     }
-        
+
     get sizeClass(): string {
         return this.options.size ? `btn-${this.options.size}` : "";
     }
-    
+
     get styleClass(): string {
         return this.options.style ? `btn-${this.options.style}` : "btn-light";
     }
-    
+
     ngAfterViewInit() {
         this.dropdownButton = this.elementRef.nativeElement.querySelector("div.dropdown");
         this.dropdownListItem = this.elementRef.nativeElement.querySelector("li.dropdown-toggle");
     }
-    
+
     ngOnInit() {
         if (this.options.item.init) {
             this.options.item.init(this.options.item);
         }
-        this.autoAdjustBreakpoint = this.options.autoAdjustBreakpoint;         
+        this.autoAdjustBreakpoint = this.options.autoAdjustBreakpoint;
     }
-    
+
     ngOnDestroy() {
         if (this.options.item.destroy) {
             this.options.item.destroy(this.options.item);
         }
-        this.unbind();         
+        this.unbind();
     }
-    
+
     ngOnChanges(changes: SimpleChanges) {
         this.unbind();
         this.bind();
     }
-    
+
     bind() {
         this.inListItem = (this.elementRef.nativeElement.nodeName === "LI");
     }
-    
+
     unbind() {
     }
-        
+
     click(event: UIEvent) {
         if (!this.options.item.disabled) {
             if (this.options.item.action) {

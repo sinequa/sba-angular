@@ -4,7 +4,7 @@ import {Record} from "@sinequa/core/web-services";
 
 @Component({
     selector: "sq-result-extracts",
-    templateUrl: "./result-extracts.html", 
+    templateUrl: "./result-extracts.html",
     styles: [`
 p {
     margin: 0;
@@ -30,13 +30,13 @@ export class ResultExtracts implements OnChanges {
             this.extractsClass = "sq-text-extracts";
         }
         else {
-            
+
             if(this.showLongExtracts && this.record["extracts"]) {
                 let extracts = "";
                 for(let i=0; i<this.record["extracts"].length; i+=3)
                     extracts += "<li>"+this.record["extracts"][i].replace(/\{b\}/g,"<strong>").replace(/\{nb\}/g,"</strong>")+"</li>";
                 this.text = "<ul>"+extracts+"</ul>"
-                this.extractsClass = "sq-long-extracts";    
+                this.extractsClass = "sq-long-extracts";
             }
             else if (this.record.relevantExtracts) {
                 this.text = this.record.relevantExtracts;
@@ -51,7 +51,7 @@ export class ResultExtracts implements OnChanges {
         if (!this.limitLinesDisplayed || !this.collapsed) {
             this.extractsClass += " sq-show-all";
         }
-        
+
         if(this.record.modified && !this.hideDate){
             var modified = new Date(this.record.modified);
             var date = modified.toLocaleDateString(navigator.language, { year: 'numeric', month: 'short', day: 'numeric' });

@@ -58,7 +58,7 @@ export class BsPreviewHighlights implements OnChanges {
     public reset(): void {
         this.navigationState.current = -1;  // Resets the navigationState entity selection.
         if(this.previewReady)               // Applies the filters to the preview document.
-            this.previewDocument.filterHighlights(this.navigationState.filters);   
+            this.previewDocument.filterHighlights(this.navigationState.filters);
         // Updates the filtered data.
         this.filteredHighlightData = this.highlightDataPerLocation ?
             new FilteredHighlightDataPerLocation(this.highlightDataPerLocation, this.navigationState.filters) : undefined;
@@ -323,9 +323,9 @@ export class BsPreviewHighlights implements OnChanges {
                     this.navigationState.filters[key] = this.keepAllFilter;
                 }
             }
-            
+
             // Search the entity ID
-            let highlight;            
+            let highlight;
             for(let key in this.highlightDataPerLocation){
                 highlight = this.highlightDataPerLocation[key];
                 if(highlight.positionInCategories[categoryId] && highlight.values.includes(value.filterValue)){
@@ -359,7 +359,7 @@ export class BsPreviewHighlights implements OnChanges {
     public compareFilters(filter1: HighlightCategoryFilterState, filter2: HighlightCategoryFilterState): boolean {
         return SimpleHighlightCategoryFilterState.compare(filter1, filter2);
     }
-    
+
 
 }
 
@@ -375,7 +375,7 @@ class SimpleHighlightNavigationState {
 
     constructor(categories: string[]) {
         this.current = -1;  // No selection
-        this.filters = {}; 
+        this.filters = {};
         for (let category of categories) {
             this.filters[category] = new SimpleHighlightCategoryFilterState(); // All entities visible by default
         }
@@ -449,7 +449,7 @@ class FilteredHighlightDataPerLocation implements HighlightDataPerLocation {
     size(): number {
         return Object.keys(this).length;
     }
-    
+
     public locationIsIncluded(values: string[], categories: string[], filters: { [key: string] : HighlightCategoryFilterState }): boolean {
         if (!categories) {
             return false;

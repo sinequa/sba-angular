@@ -17,7 +17,7 @@ export class BsAdvanced implements OnChanges, OnDestroy {
     @Input() query: Query;
     @Input() form: FormGroup;
     @Input() showing: boolean;
-    
+
     // Former CCAdvanced
     @Input() items: Control[];
     @Input() autocompleteEnabled: boolean = true;
@@ -69,7 +69,7 @@ export class BsAdvanced implements OnChanges, OnDestroy {
         }
         return false;
     }
-      
+
     makeValidatorFns(control: Control): ValidatorFn[] {
         let column = this.appService.getColumn(control.field);
         let parser = column ? column.parser : undefined;
@@ -272,7 +272,7 @@ export class BsAdvanced implements OnChanges, OnDestroy {
             });
         }
     }
-    
+
     ngOnChanges(changes: SimpleChanges) {
         if (!this.formInitDone) {
             this.formInitDone = true;

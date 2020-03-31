@@ -30,7 +30,7 @@ export class BsNotificationsManager implements OnInit, OnDestroy {
                 this.action.update();
         });
     }
-    
+
     unbind() {
         if (this.subscription) {
             this.subscription.unsubscribe();
@@ -41,7 +41,7 @@ export class BsNotificationsManager implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.unbind();
     }
-    
+
     buildAction() {
         this.action = new Action({
             icon: "fas fa-shield-alt",
@@ -78,6 +78,6 @@ export class BsNotificationsManager implements OnInit, OnDestroy {
                     }
                 })
             ]
-        });        
+        });
     }
 }

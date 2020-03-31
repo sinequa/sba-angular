@@ -30,7 +30,7 @@ export class BsFacetBasketsComponent extends AbstractFacet {
   nextPage: Action;
 
   constructor(
-    public basketsService: BasketsService) { 
+    public basketsService: BasketsService) {
     super();
 
     this.createBasket = new Action({
@@ -48,7 +48,7 @@ export class BsFacetBasketsComponent extends AbstractFacet {
         this.basketsService.manageBasketsModal();
       }
     });
-    
+
     this.previousPage = new Action({
       icon: "fas fa-chevron-left",
       title: "msg#facet.previous",
@@ -96,7 +96,7 @@ export class BsFacetBasketsComponent extends AbstractFacet {
     this.nextPage.update();
     return [this.createBasket, this.previousPage, this.nextPage, this.manageBasket];
   }
-  
+
   deleteBasket(basket: Basket, event: Event){
     event.stopPropagation();
     this.basketsService.deleteBasket(basket);

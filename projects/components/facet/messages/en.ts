@@ -101,7 +101,7 @@ export default {
             "clear": "Clear",
             "unavailable": "No documents available in the current range"
         },
-        
+
         "filters":{
             "add":"Add facet",
             "remove":"Remove facet",

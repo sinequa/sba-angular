@@ -43,7 +43,7 @@ export class PreviewDocument {
 
 
     // PUBLIC METHODS
-    
+
     /**
      * Return the Window of the iframe containing the element
      */
@@ -60,12 +60,12 @@ export class PreviewDocument {
 
     /**
      * Insert a given DOM Element in the body of the document preview
-     * @param component 
+     * @param component
      */
     public insertComponent(component){
         this.document.body.appendChild(component);
     }
-    
+
     /**
      * Returns the text of a given entity
      * @param categoryId Category of the entity
@@ -112,13 +112,13 @@ export class PreviewDocument {
     }
 
     /**
-     * Select a specific entity by applying specific highlight classes 
+     * Select a specific entity by applying specific highlight classes
      * to the DOM elements and scrolling the view to center around them.
      * @param categoryId Category of the entity
      * @param index Index of the entity in that category
      */
     public selectHighlight(categoryId: string, index: number) : void {
-        
+
         // Move selection
         let targetElements = this.getDocElements(categoryId + "_" + index);
         if (!targetElements || targetElements.length == 0) {
@@ -163,7 +163,7 @@ export class PreviewDocument {
         this.updateHighlightFilterState(filters);
         this.clearHighlightSelection();
     }
-    
+
     /**
      * Loop through every highlighted element in the document and turn highlights on or off based on the filters object
      * @param filters object where each key provides a filter for each category of entity/highlight
@@ -190,10 +190,10 @@ export class PreviewDocument {
     public toggleHighlight(category: string, on: boolean, value?: string) {
         let elements: NodeListOf<Element> = this.document.querySelectorAll("."+category);
         elements.forEach(element => {
-            if(!value 
+            if(!value
                 || (element.hasAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE) && value === element.getAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE))
                 || (element.hasAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE) && value === element.getAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE))) {
-                
+
                 if(on){
                     element.classList.remove(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
                 }
@@ -203,7 +203,7 @@ export class PreviewDocument {
             }
         });
     }
-    
+
 
 
     // PRIVATE METHODS
@@ -293,7 +293,7 @@ export class PreviewDocument {
         var valueTransform = text.getAttribute("transform");
         if (valueTransform) rect.setAttribute("transform", valueTransform);
     }
-    
+
     private getDocElements(id: string): Array<Element> {
         var list = Array<Element>();
         // Get HTML elements directly by id
@@ -332,7 +332,7 @@ export class PreviewDocument {
 
 
     // PRIVATE STATIC (from highlight helper)
-    
+
 
     private static elementIsFilteredOut(element: Element, filters: {[key: string]: HighlightCategoryFilterState}): boolean {
         let elementClass: string = this.getElementCategory(element, Object.keys(filters));

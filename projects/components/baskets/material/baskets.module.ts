@@ -8,5 +8,5 @@ import {NgModule} from "@angular/core";
     exports: [
     ],
 })
-export class MdBasketsModule {    
+export class MdBasketsModule {
 }

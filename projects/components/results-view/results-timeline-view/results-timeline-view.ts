@@ -53,7 +53,7 @@ export class BsResultsTimelineView implements OnChanges {
     datemin = new Date("2010-01-01");
     datemax = new Date("2020-01-01");
     dates: DateItem[] | undefined;
-    events: EventItem[];    
+    events: EventItem[];
     datefield: string;
     eventfield: string;
 
@@ -133,7 +133,7 @@ export class BsResultsTimelineView implements OnChanges {
             (results: Results) => {
                 this.dates = results.aggregations[0].items
                     .filter((item) => item.value && item.value > this.datemin && item.value <  this.datemax )
-                    .map((item) => { 
+                    .map((item) => {
                         return {
                             "date" : item.value as Date,
                             "count" : item.count,
@@ -153,7 +153,7 @@ export class BsResultsTimelineView implements OnChanges {
                         });
                     this.events = results.aggregations[1].items
                         .filter((item) => item["date"] && item["date"] > this.datemin && item["date"] < this.datemax)
-                        .map((item) => { 
+                        .map((item) => {
                             return {
                                 "date" : item["date"],
                                 "count" : item.count,
@@ -194,7 +194,7 @@ export class BsResultsTimelineView implements OnChanges {
     }
 
     drawTimeline(){
-        
+
         // Initial flags: top-5 dates + top-10 events
         if (!this.dates) {
             return;
@@ -202,7 +202,7 @@ export class BsResultsTimelineView implements OnChanges {
         this.data_flags = this.dates.slice(0,this.N_DATES);
         if(this.events)
             this.data_flags = this.data_flags.concat(this.events.slice(0,this.N_EVENTS));
-            
+
         // Aggregates dates by months and weeks
         var data_hist = this.histo_data(this.dates, "months");
         var data_hist_weeks = this.histo_data(this.dates, "weeks");
@@ -247,14 +247,14 @@ export class BsResultsTimelineView implements OnChanges {
             .on("zoom", () => this.redraw());
 
         // Define the div for the tooltip
-        //var div = d3.select("body").append("div")	
-        //    .attr("class", "tooltip")				
+        //var div = d3.select("body").append("div")
+        //    .attr("class", "tooltip")
         //    .style("opacity", 0);
 
         let svg = d3.select(this.svg.nativeElement)
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom);
-    
+
         this.g = svg.append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -284,7 +284,7 @@ export class BsResultsTimelineView implements OnChanges {
         this.add_tooltips(bars);
 
         this.draw_flags();
-            
+
         // draw the axes
         this.g.append("g")
             .attr("class", "x axis")
@@ -302,17 +302,17 @@ export class BsResultsTimelineView implements OnChanges {
         var date_extent = d3.extent(data, function(d){return d.date});
 
         var numHistBins : Date[];
-        
+
         if(scale === "months")
             numHistBins = d3.timeMonths(d3.timeMonth.offset(date_extent[0]!,-1), d3.timeMonth.offset(date_extent[1]!,1))
         else
             numHistBins = d3.timeWeeks(d3.timeWeek.offset(date_extent[0]!,-1), d3.timeMonth.offset(date_extent[1]!,1))
-            
+
         // the histogram function
         var histo = d3.histogram<DateItem,Date>()
             .value(function(d){ return d.date })
             .thresholds(numHistBins);
-            
+
         var data_hist = histo(data);
 
         //console.log(data_hist);
@@ -328,17 +328,17 @@ export class BsResultsTimelineView implements OnChanges {
     draw_bars(bars, height, nmonths){
 
         bars
-            .attr("class", "bar")                 
+            .attr("class", "bar")
             .attr("x", (d) => this.x(d.x0) + 1)
             .attr("width", (d) => this.x(d.x1) - this.x(d.x0))
             .attr("y", (d) => this.y(d.y))
-            .attr("height", (d) => height - this.y(d.y))            
+            .attr("height", (d) => height - this.y(d.y))
             .attr("clip-path", "url(#clip)")
             .style("cursor", "pointer")
             .style("fill", (d) => this.colorscale(d.x0.getMonth()))
             .style("opacity", (d) => (d.scale === "months" && nmonths > 32) || (d.scale === "weeks" && nmonths <= 32) ? 1 : 0)
             ;
- 
+
     }
 
     add_tooltips(bars){
@@ -351,25 +351,25 @@ export class BsResultsTimelineView implements OnChanges {
                 if(instance.redrawing) return;
                 if(! ((d.scale === "months" && instance.nmonths > 32) || (d.scale === "weeks" && instance.nmonths <= 32))) return;
                 d3.select(this)
-                    //.transition("t1")		
+                    //.transition("t1")
                     //.duration(200)
                     .style("fill", "#d00")
-                tooltip //.transition("t2")		
+                tooltip //.transition("t2")
                     //.duration(200)
-                    .style("opacity", .9);		
-                tooltip	
-                    .style("left", (d3.event.pageX) + "px")		
+                    .style("opacity", .9);
+                tooltip
+                    .style("left", (d3.event.pageX) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
                 instance.setTooltip(instance.formatMonth(d.x0), d);
                 })
-            .on("mouseout", function(this: any, d) {	
-                if(instance.redrawing) return;	
+            .on("mouseout", function(this: any, d) {
+                if(instance.redrawing) return;
                 if(! ((d.scale === "months" && instance.nmonths > 32) || (d.scale === "weeks" && instance.nmonths <= 32))) return;
-                tooltip	//.transition("t3")		
+                tooltip	//.transition("t3")
                     //.duration(200)
                     .style("opacity", 0);
                 d3.select(this)
-                    //.transition("t4")		
+                    //.transition("t4")
                     //.duration(200)
                     .style("fill", (d : any) => instance.colorscale(d.x0.getMonth()))
             })
@@ -380,12 +380,12 @@ export class BsResultsTimelineView implements OnChanges {
                 this.filter(month_start, month_end);
             });
     }
-    
+
     setTooltip(month, dates) {
         this.loadComponentService.bindComponent({component: BsTimelineTooltip, inputs: {month: month, dates: dates}}, this.tooltip);
     }
 
-    draw_flags() {        
+    draw_flags() {
         console.log(this.data_flags);
         if (!this.g) {
             return;
@@ -408,7 +408,7 @@ export class BsResultsTimelineView implements OnChanges {
         flags.append("rect");   // placeholder for background rect, position and size will be defined later
         flags.append("text") // content of text will be defined later
             .attr("x", (d : any) => this.x(d.date)+10)
-            .attr("y", (d : any,i) => { 
+            .attr("y", (d : any,i) => {
                 d.index = i;
                 return this.y_flag(i, this.data_flags.length); })
             .attr("fill", "#000")
@@ -416,16 +416,16 @@ export class BsResultsTimelineView implements OnChanges {
             .attr("text-anchor", "left")
             .style("cursor", "pointer")
             .text((d : any) =>  d.display)
-            .on("click", (d : any) => { 
-                if(d.event) 
-                    this.filter_cooc(d.value, d.value) 
-                else 
+            .on("click", (d : any) => {
+                if(d.event)
+                    this.filter_cooc(d.value, d.value)
+                else
                     this.filter_date(d.value, d.display);
             })
             .each(function(d : any) {
                 d.bb = this.getBBox(); // get bounding box of text field and store it in texts array
             });
-                
+
         flags.selectAll("rect")
             .attr("x", (d : any) => this.x(d.date))
             .attr("y", (d : any) => this.y_flag(d.index, this.data_flags.length) - d.bb.height)
@@ -433,9 +433,9 @@ export class BsResultsTimelineView implements OnChanges {
             .attr("height", (d : any) => d.bb.height+3)
             .attr("rx", 3)
             .attr("ry", 3);
-            
+
     }
-    
+
     y_flag(i, n_flags){
         return this.y(0)*(0.2+0.8*i/n_flags); // First at 30%, Last at ~80%
     }
@@ -472,7 +472,7 @@ export class BsResultsTimelineView implements OnChanges {
         this.g.selectAll(".bar")
             .transition(t as any)
             .attr("x", (d : any) => xt(d.x0) + 1 )
-            .attr("width", (d : any) => xt(d.x1) - xt(d.x0) )            
+            .attr("width", (d : any) => xt(d.x1) - xt(d.x0) )
             .style("opacity", (d : any) => (d.scale === "months" && this.nmonths > 32) || (d.scale === "weeks" && this.nmonths <= 32) ? 1 : 0);
 
         //add_tooltips(bars);
@@ -498,7 +498,7 @@ export class BsResultsTimelineView implements OnChanges {
         if (!this.dates) {
             return;
         }
-        
+
         var new_flags: any[] = [];
 
         this.selectedFlags.forEach((flag) => new_flags = new_flags.concat(this.flag_idx[flag]));
@@ -526,7 +526,7 @@ export class BsResultsTimelineView implements OnChanges {
     }
 
     // called from template
-    flagSelected(){        
+    flagSelected(){
         this.event_page = 0;
         this.n_flags = this.updateFlags();
     }
@@ -564,7 +564,7 @@ export class BsResultsTimelineView implements OnChanges {
             });
     }
 
-    ngOnChanges(changes: SimpleChanges) {   
+    ngOnChanges(changes: SimpleChanges) {
         if (!this.tooltip) {
             this.tooltip = this.loadComponentService.loadComponent({component: BsTimelineTooltip});
             d3.select(this.tooltip.componentRef.location.nativeElement)
@@ -574,8 +574,8 @@ export class BsResultsTimelineView implements OnChanges {
             if (changes["results"].firstChange) {
 
             }
-            this.getData();            
-        }    
+            this.getData();
+        }
     }
 
     ngOnDestroy() {

@@ -172,7 +172,7 @@ export class Query implements IQuery {
     /**
      * Find the first `Select` matching the passed facet name
      *
-     * @param facet A facet name 
+     * @param facet A facet name
      * @param fromEnd If `true` start searching backwards from the last `Select`
      */
     findSelect(facet: string, fromEnd = true): Select | undefined {
@@ -252,7 +252,7 @@ export class Query implements IQuery {
 
     /**
      * Remove all properties from the query except `advanced` and optionally `text`
-     * 
+     *
      * @param withText If `true` do not remove the `text` field
      */
     toAdvanced(withText: boolean = false): Query {
@@ -266,7 +266,7 @@ export class Query implements IQuery {
 
     /**
      * Return a copy of this query including just the advanced fields and optionally `text`
-     * 
+     *
      * @param withText If `true` include the `text` field
      */
     copyAdvanced(withText: boolean = false): Query {
@@ -659,7 +659,7 @@ export class Query implements IQuery {
     /**
      * Remove the advanced value associated with the passed field. If the operator
      * is specified then it is matched when testing the value to be removed
-     * 
+     *
      * @param field The field for which an advanced value should be removed
      * @param operator An optional advanced operator
      */

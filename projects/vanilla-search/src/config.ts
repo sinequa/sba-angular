@@ -5,12 +5,12 @@ import { FacetConfig } from '@sinequa/components/facet';
  * The order below determines the order of menus, buttons, facets, etc.
  */
 export const FEATURES: string[] = [
-    "recent-documents", 
-    "recent-queries", 
-    "saved-queries", 
-    "baskets", 
-    "labels", 
-    "alerts", 
+    "recent-documents",
+    "recent-queries",
+    "saved-queries",
+    "baskets",
+    "labels",
+    "alerts",
     "suggests"
 ];
 

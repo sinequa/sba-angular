@@ -70,7 +70,7 @@ export class SuggestService {
             }));
     }
 
-    
+
     /**
      * Search for the input text in a list of objects and return autocomplete items asynchronously
      * @param query The text to search for
@@ -80,14 +80,14 @@ export class SuggestService {
      */
     public async searchData<T>(
         category: string,
-        query: string, 
-        data: T[], 
-        primaryText: (obj:T) => string, 
+        query: string,
+        data: T[],
+        primaryText: (obj:T) => string,
         secondaryText?: (obj:T) => string[],
         label?: string) : Promise<AutocompleteItem[]> {
 
         return data
-            .map(obj => SuggestService.findMatch(primaryText(obj), query, 
+            .map(obj => SuggestService.findMatch(primaryText(obj), query,
                 !!secondaryText ? secondaryText(obj) : [], obj)) // Look for matches in all saved queries
             .filter(item => !!item) // Keep only the matches
             /*tslint:disable-next-line*/
@@ -96,8 +96,8 @@ export class SuggestService {
                 /*tslint:disable-next-line*/
                 item = item!;
                 return {    // Make an autocomplete item
-                    display: item.display, 
-                    displayHtml: item.displayHtml, 
+                    display: item.display,
+                    displayHtml: item.displayHtml,
                     category,
                     label: label || category,
                     data: item.data
@@ -142,7 +142,7 @@ export class SuggestService {
             }
             i = textLower.indexOf(query, i+query.length);
         }
-        
+
         // Format HTML display
         let html = text;
         for(let j=matches.length-1; j>=0; j--) { // decreasing order so the indices remain valid

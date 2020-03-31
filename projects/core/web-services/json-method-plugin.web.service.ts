@@ -6,7 +6,7 @@ import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import {Utils} from "@sinequa/core/base";
 
 /**
- * A generic service for invoking JsonMethod plugins 
+ * A generic service for invoking JsonMethod plugins
  */
 @Injectable({
   providedIn: "root"
@@ -21,7 +21,7 @@ export class JsonMethodPluginService extends HttpService{
 
   /**
    * Call a JsonMethod plugin
-   * 
+   *
    * @param method The name of the JsonMethod plugin
    * @param query Parameters to pass to the plugin
    * @returns An observable of the plugin's return value
@@ -30,7 +30,7 @@ export class JsonMethodPluginService extends HttpService{
     if (!Utils.isObject(query)) {
       return throwError({error: "invalid query object"});
     }
-    const observable = this.httpClient.post(this.makeUrl(method), query);                                                  
+    const observable = this.httpClient.post(this.makeUrl(method), query);
 
     Utils.subscribe(observable,
       (response) => {

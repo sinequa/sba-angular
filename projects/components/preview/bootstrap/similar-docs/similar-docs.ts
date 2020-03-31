@@ -35,7 +35,7 @@ export class BsSimilarDocs implements OnInit {
         private changeDetectorRef: ChangeDetectorRef,
         private similarDocumentsService: SimilarDocumentsWebService) {
     }
-    
+
     ngOnInit() {
 
         //console.log(this.config);
@@ -46,11 +46,11 @@ export class BsSimilarDocs implements OnInit {
             let docs : SimilarDoc[] = docids.map(
                 obj => {
                     return {
-                        id : Object.keys(obj)[0], 
-                        pct : Math.round(100*obj[Object.keys(obj)[0]]), 
-                        near_similarity : false, 
+                        id : Object.keys(obj)[0],
+                        pct : Math.round(100*obj[Object.keys(obj)[0]]),
+                        near_similarity : false,
                         record : null
-                    }; 
+                    };
                 });
             let ids : string[] = docs.map(obj => obj.id);
 
@@ -61,17 +61,17 @@ export class BsSimilarDocs implements OnInit {
                 query.aggregations = [];
                 query.select = [];
                 query.addSelect("id:["+ids.join(',')+"]");
-    
+
                 Utils.subscribe(this.searchService.getResults(query),
                     (results: Results) => {
                         //console.log("similar docs!");
                         docs.forEach(obj => { obj.record = results.records.find(r => r.id === obj.id); }); // Add records to the doc objects
                         this.docs = this.docs.filter(obj => ids.indexOf(obj.id) === -1)   // Remove previous docs that are in the new list
                                         .concat(docs)
-                                        .sort((a,b) => b.pct - a.pct);        
+                                        .sort((a,b) => b.pct - a.pct);
                         this.changeDetectorRef.markForCheck();
                     });
-    
+
             }
         }
 
@@ -82,13 +82,13 @@ export class BsSimilarDocs implements OnInit {
                     let ids = this.docs.map(d => d.id);
                     this.docs = this.docs.concat(results
                         .filter(r => ids.indexOf(r.id) === -1)  // Keep results not already in the list
-                        .map(r => { 
-                            return { 
-                                pct: Math.round(100*r.globalrelevance), 
-                                near_similarity : true, 
-                                record : r, 
-                                id : r.id 
-                            }; 
+                        .map(r => {
+                            return {
+                                pct: Math.round(100*r.globalrelevance),
+                                near_similarity : true,
+                                record : r,
+                                id : r.id
+                            };
                         }))
                         .sort((a,b) => b.pct - a.pct);
                     this.changeDetectorRef.markForCheck();

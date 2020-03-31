@@ -18,11 +18,11 @@ export interface DropdownMenuOptions {
 export class BsDropdownMenu implements OnInit {
     @Input("sq-dropdown-menu") options: DropdownMenuOptions;
     @HostBinding("class.dropdown-menu-right") rightAligned;
-    
+
     constructor(
         private elementRef: ElementRef) {
     }
-    
+
     ngOnInit() {
         let element: HTMLElement = this.elementRef.nativeElement;
         if (this.options.item.scrollable) {
@@ -33,7 +33,7 @@ export class BsDropdownMenu implements OnInit {
         }
         this.rightAligned = this.options.rightAligned;
     }
-    
+
     private getLi(element: HTMLElement): HTMLElement | null {
         let element1: HTMLElement | null = element;
         while (element1 && element1.nodeName !== "LI") {
@@ -41,7 +41,7 @@ export class BsDropdownMenu implements OnInit {
         }
         return element1;
     }
-    
+
     click(item: Action, event: UIEvent) {
         if (!this.options.item.disabled) {
             // Handle sub-menu opening
@@ -67,5 +67,5 @@ export class BsDropdownMenu implements OnInit {
                 item.toggle(item, !isOpen);
             }
         }
-    } 
+    }
 }

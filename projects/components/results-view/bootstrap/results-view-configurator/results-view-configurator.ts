@@ -29,7 +29,7 @@ export class BsResultsViewConfigurator implements OnChanges {
 
         this.form = this.formBuilder.group({
             'pageSize': [this.pageSize, Validators.min(1)]
-        });    
+        });
     }
 
     /**

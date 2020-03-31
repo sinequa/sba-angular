@@ -55,7 +55,7 @@ export default {
         },
         "person": {
             "title": "Personen"
-        },		
+        },
         "refine": {
             "title": "Suche verfeinern",
             "input": {
@@ -101,7 +101,7 @@ export default {
             "clear": "Löschen",
             "unavailable": "Keine Dokumente im aktuellen Bereich verfügbar"
         },
-        
+
         "filters":{
             "add":"Filter hinzufügen",
             "remove":"Filter entfernen",

@@ -23,7 +23,7 @@ export class SuggestFieldWebService extends HttpService {
 
     /**
      * Gets suggestions for the passed text for a set of fields and in the context of the passed query
-     * 
+     *
      * @param text The text to match
      * @param fields The fields for which to return suggestions
      * @param query The query context

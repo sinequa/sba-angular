@@ -46,7 +46,7 @@ export class SearchComponent implements OnInit {
     private appService: AppService,
     public loginService: LoginService,
     public ui: UIService
-  ) { 
+  ) {
 
     // Initialize the facet preview action (opens the preview route)
     this.previewCustomActions = [new Action({
@@ -83,7 +83,7 @@ export class SearchComponent implements OnInit {
   ngOnDestroy(){
     this._searchServiceSubscription.unsubscribe();
   }
-  
+
   /**
    * Returns the configuration of the facets displayed in the facet-multi component.
    * The configuration from the config.ts file can be overriden by configuration from
@@ -113,7 +113,7 @@ export class SearchComponent implements OnInit {
    * The configuration from the config.ts file can be overriden by configuration from
    * the app configuration on the server
    */
-  public get metadata(): string[] {    
+  public get metadata(): string[] {
     if(this.appService.app && this.appService.app.data && this.appService.app.data.metadata){
       return <string[]> <any> this.appService.app.data.metadata;
     }
@@ -122,7 +122,7 @@ export class SearchComponent implements OnInit {
 
   /**
    * Responds to a change of facet in the multi facet
-   * @param facet 
+   * @param facet
    */
   facetChanged(facet: FacetConfig){
     if(!facet) {
@@ -137,8 +137,8 @@ export class SearchComponent implements OnInit {
 
   /**
    * Responds to a click on a document (setting openedDoc will open the preview facet)
-   * @param record 
-   * @param event 
+   * @param record
+   * @param event
    */
   onDocumentClicked(record: Record, event: Event) {
     if(!this.isClickAction(event)){
@@ -171,8 +171,8 @@ export class SearchComponent implements OnInit {
       return false;
     }
     return event.type !== 'click' ||
-        event.target['tagName'] === 'A' || 
-        event.target['tagName'] === 'INPUT' || 
+        event.target['tagName'] === 'A' ||
+        event.target['tagName'] === 'INPUT' ||
         event.target['tagName'] === 'SPAN' && event.target['classList'] && (event.target['classList'].contains('link') || event.target['classList'].contains('custom-control-label')) ||
         event.target['tagName'] === 'DIV' && event.target['classList'] && event.target['classList'].contains('sq-result-title');
   }
@@ -198,7 +198,7 @@ export class SearchComponent implements OnInit {
   /**
    * Controls visibility of menu (small screen sizes)
    */
-  get showMenu(): boolean {    
+  get showMenu(): boolean {
     return this.ui.screenSizeIsGreaterOrEqual('sm') || (this._showMenu && !this._showFilters);
   }
 
@@ -225,7 +225,7 @@ export class SearchComponent implements OnInit {
   get showForm(): boolean {
     return this.ui.screenSizeIsGreaterOrEqual('sm') || this.showFilters;
   }
-  
+
   /**
    * Whether the UI is in dark or light mode
    */

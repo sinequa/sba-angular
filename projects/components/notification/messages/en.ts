@@ -1,4 +1,4 @@
-export default {    
+export default {
     "notification": {
         "title": "Notifications",
         "showNotifications": "Show notifications",

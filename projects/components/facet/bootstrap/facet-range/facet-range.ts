@@ -43,8 +43,8 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
     @Input() min : string;
     @Input() max : string;
     @Input() stepDefs: StepDef[];;
-    @ViewChild("slider", {static: false}) slider: ElementRef;  
-    
+    @ViewChild("slider", {static: false}) slider: ElementRef;
+
     // Aggregation from the Results object
     data: Aggregation | undefined;
 
@@ -75,7 +75,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
     }
 
     protected translate = (value: number, label: LabelType): string => {
-        let value1 = this.roundNearest(value); // to accommodate fractional steps generated for years/months 
+        let value1 = this.roundNearest(value); // to accommodate fractional steps generated for years/months
 
         if (this.format) {
             if (this.column && AppService.isDate(this.column)) {
@@ -141,7 +141,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
                 return this._getNearestDate(date, new Date(date.getFullYear(), date.getMonth() + 1), new Date(date.getFullYear(), date.getMonth()));
             }
             default:
-            case RoundTarget.week: 
+            case RoundTarget.week:
             case RoundTarget.day: {
                 return this._getNearestDate(date, new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1), new Date(date.getFullYear(), date.getMonth(), date.getDate()));
             }
@@ -158,7 +158,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
             switch (target) {
                 case RoundTarget.year: {
                     let year = date.getFullYear();
-                    if (year % multiple !== 0 || date.getMonth() !== 0 || date.getDate() !== 1 || 
+                    if (year % multiple !== 0 || date.getMonth() !== 0 || date.getDate() !== 1 ||
                         date.getHours() !== 0 || date.getMinutes() !== 0 || date.getSeconds() !== 0 || date.getMilliseconds() !== 0) {
                         date = new Date(year + this.roundAdjustment(year, multiple, roundType), 0);
                     }
@@ -166,7 +166,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
                 }
                 case RoundTarget.month: {
                     let month = date.getMonth();
-                    if (month % multiple !== 0 || date.getDate() !== 1 || 
+                    if (month % multiple !== 0 || date.getDate() !== 1 ||
                         date.getHours() !== 0 || date.getMinutes() !== 0 || date.getSeconds() !== 0 || date.getMilliseconds() !== 0) {
                         date = new Date(date.getFullYear(), month + this.roundAdjustment(month, multiple, roundType));
                     }
@@ -175,7 +175,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
                 case RoundTarget.week: {
                     let day = date.getDay();
                     // First, round to Monday
-                    if (day !== 1/*Monday*/ || 
+                    if (day !== 1/*Monday*/ ||
                         date.getHours() !== 0 || date.getMinutes() !== 0 || date.getSeconds() !== 0 || date.getMilliseconds() !== 0) {
                         let adjust: number;
                         let up = 7 - (day - 1);
@@ -199,7 +199,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
                     let week = m.week();
                     if (week % multiple !== 0) {
                         date = new Date(date.getFullYear(), date.getMonth(), date.getDate() + (this.roundAdjustment(week, multiple, roundType) * 7));
-                    } 
+                    }
                     break;
                 }
                 case RoundTarget.day: {
@@ -518,13 +518,13 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
         let query = this.searchService.query.copy();
         this.setFrom(query, this.roundNearest(this.value));
         this.setTo(query, this.roundNearest(this.highValue));
-        this.searchService.applyAdvanced(query);       
+        this.searchService.applyAdvanced(query);
     }
 
     clearRange() {
         let query = this.searchService.query.copy();
         this.setFrom(query, undefined);
         this.setTo(query, undefined);
-        this.searchService.applyAdvanced(query);       
+        this.searchService.applyAdvanced(query);
     }
 }

@@ -14,7 +14,7 @@ export interface MomentParams {
 @Pipe({name: "sqMoment", pure: false})
 export class MomentPipe extends AbstractIntlPipe {
     constructor(
-        intlService: IntlService, 
+        intlService: IntlService,
         changeDetectorRef: ChangeDetectorRef) {
         super(intlService, changeDetectorRef);
     }
@@ -56,7 +56,7 @@ export class MomentPipe extends AbstractIntlPipe {
                     break;
                 case "iso":
                     this.value = m.toISOString();
-                    break;                                                                                
+                    break;
             }
         }
     }

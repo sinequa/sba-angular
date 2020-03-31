@@ -108,7 +108,7 @@ export class Heatmap implements OnChanges, OnDestroy {
         let svg = d3.select(this.svg.nativeElement)
             .attr("width", width + this.margin.left + this.margin.right)
             .attr("height", height + this.margin.top + this.margin.bottom);
-    
+
         this.g = svg.append("g")
             .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
 
@@ -145,14 +145,14 @@ export class Heatmap implements OnChanges, OnDestroy {
 
         this.g.selectAll(".sq-heatmap-tile").remove();
         this.g.selectAll(".sq-heatmap-legend").remove();
-    
+
         let min_data = d3.min(this.filteredData, value => value.count);
         var max_data = d3.max(this.filteredData, value => value.count);
-            
+
         let colorScale = d3.scaleQuantile<string>()
             .domain([min_data, this.buckets - 1, max_data])
             .range(colorClasses);
-    
+
         let instance = this;
         let tooltip = d3.select(this.tooltip.componentRef.location.nativeElement);
         let tiles = this.g.selectAll(".sq-heatmap-tile")
@@ -167,15 +167,15 @@ export class Heatmap implements OnChanges, OnDestroy {
             .attr("height", this.gridSize)
             .on("mouseover", function (value) {
                 instance.setItem(value);
-                tooltip.transition()		
+                tooltip.transition()
                     .duration(200)
-                    .style("opacity", .9);		
+                    .style("opacity", .9);
                 tooltip
-                    .style("left", (d3.event.pageX) + "px")		
+                    .style("left", (d3.event.pageX) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
-                })					
-            .on("mouseout", function (value) {		
-                tooltip.transition()		
+                })
+            .on("mouseout", function (value) {
+                tooltip.transition()
                     .duration(200)
                     .style("opacity", 0);
             })
@@ -202,9 +202,9 @@ export class Heatmap implements OnChanges, OnDestroy {
                 .text(value => `\u2265 ${Math.round(value)}`)
                     .attr("x", (value, i) => legendElementWidth * i)
                     .attr("y", - this.margin.top + this.gridSize + 10);
-        legend.exit().remove(); 
+        legend.exit().remove();
     }
-    
+
     ngOnChanges(changes: SimpleChanges) {
         if (!this.tooltip) {
             this.tooltip = this.loadComponentService.loadComponent({component: HeatmapTooltip});
@@ -220,17 +220,17 @@ export class Heatmap implements OnChanges, OnDestroy {
                 gridSize: 30,
                 minWidth: 500,
                 buckets: 9 // must correspond to number of entries in $sq-heatmap-tile-colors (app.scss)
-            }, options);            
+            }, options);
         }
         if (!!changes["data"]) {
             this.handleData();
         }
         else if (!!changes["zValue"]) {
             this.filteredData = this.filteredDataAllZ.filter(value => value.z === this.zValue);
-            this.drawHeatmap();            
+            this.drawHeatmap();
         }
     }
-    
+
     ngOnDestroy() {
         this.loadComponentService.unloadComponent(this.tooltip);
     }

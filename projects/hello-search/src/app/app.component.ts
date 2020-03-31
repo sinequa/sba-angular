@@ -22,7 +22,7 @@ export class AppComponent implements AfterViewInit {
         public appService: AppService,
         public queryWebService: QueryWebService,
         public notificationsService: NotificationsService) {
-            
+
 
         this.searchControl = new FormControl("");
         this.form = this.formBuilder.group({

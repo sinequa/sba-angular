@@ -47,7 +47,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   constructor(
     public facetService: FacetService,
     private changeDetectorRef: ChangeDetectorRef
-  ) { 
+  ) {
 
     super();
 
@@ -91,17 +91,17 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 
   /**
    * Open this sub facet
-   * @param facet 
+   * @param facet
    */
   openFacet(facet: FacetConfig){
     this.openedFacet = facet;
     this.events.next(facet);
-    this.changeDetectorRef.detectChanges();    
+    this.changeDetectorRef.detectChanges();
   }
 
   /**
    * Return the number of items to display for a given facet
-   * @param facet 
+   * @param facet
    */
   private getFacetCount(facet: FacetConfig): string {
     if(facet.type==='tree'){
@@ -121,7 +121,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 
   /**
    * Return whether a given facet has data to show
-   * @param facet 
+   * @param facet
    */
   private hasData(facet: FacetConfig): boolean {
     if(facet.type==='tree'){

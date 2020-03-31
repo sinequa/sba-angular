@@ -46,7 +46,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
         this.recordClosed.next();
       }
     });
-    
+
     this._expandModalAction = new Action({
       icon: "far fa-window-maximize",
       title: "msg#facet.preview.expandTitle",
@@ -76,7 +76,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       this.previewService.getPreviewData(this.record.id, this.query).subscribe(
         previewData => {
           this.data = previewData;
-          this.downloadUrl = this.data ? this.previewService.makeDownloadUrl(this.data.documentCachedContentUrl) : undefined; 
+          this.downloadUrl = this.data ? this.previewService.makeDownloadUrl(this.data.documentCachedContentUrl) : undefined;
         });
       this.downloadUrl = undefined;
       this.data = undefined;

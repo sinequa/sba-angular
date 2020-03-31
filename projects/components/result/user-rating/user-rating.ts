@@ -22,7 +22,7 @@ export class UserRating implements OnInit {
 
     constructor(
         private userRatingService: UserRatingsWebService,
-        private changeDetector: ChangeDetectorRef) {            
+        private changeDetector: ChangeDetectorRef) {
     }
 
     ngOnInit() {
@@ -69,7 +69,7 @@ export class UserRating implements OnInit {
         }
     }
 
-    select(selectedRatingIndex: number) {        
+    select(selectedRatingIndex: number) {
         //If selected rating was already selected, remove the rating
         if (this.userRatingIndex == selectedRatingIndex) {
             this.userRatingService.deleteRating(this.record, this.getCCRating()).subscribe(this.handleResponse);
@@ -82,12 +82,12 @@ export class UserRating implements OnInit {
     private ensureRatingValues() {
         if (!this.ratingValues) {
             let count = this.count || 0;
-    
+
             //Work out rating value range
             if (this.values) {
                 //Use predefined values
                 this.ratingValues = this.values.split(";");
-                
+
                 //Initialize missing values - so that ratingValues.length matches config.count
                 for (let i = this.ratingValues.length; i < count; i++) {
                     this.ratingValues.push((i + 1).toString());
@@ -103,7 +103,7 @@ export class UserRating implements OnInit {
     private handleResponse = (response: UserRatingResponse) => {
         this.userRatingIndex    = response.rating;
         this.averageRatingIndex = response.averagerating;
-        
+
         this.changeDetector.markForCheck();
     }
 }

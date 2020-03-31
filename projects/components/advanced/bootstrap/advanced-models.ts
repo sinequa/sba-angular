@@ -33,13 +33,13 @@ export enum AdvancedFormType {
     MultiEntry = "AdvancedFormMultiEntry"
 }
 
-export interface Checkbox extends Control {        
+export interface Checkbox extends Control {
 }
 
-export interface Entry extends Control {        
+export interface Entry extends Control {
 }
 
-export interface Range extends Control {      
+export interface Range extends Control {
 }
 
 export interface Select extends ListControl {

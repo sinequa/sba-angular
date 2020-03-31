@@ -40,8 +40,8 @@ export class BsOverrideUser implements OnInit, OnDestroy {
             }),
             new ModalButton({
                 result: ModalResult.Cancel
-            })            
-        ];         
+            })
+        ];
     }
 
     ngOnDestroy() {

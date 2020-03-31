@@ -1,4 +1,4 @@
-export default {    
+export default {
     collapseButton: {
         collapse: "Collapse",
         expand: "Expand"

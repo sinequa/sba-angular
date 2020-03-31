@@ -40,15 +40,15 @@ export class PreviewTooltip implements OnChanges {
     /**
      * Add mouse listeners to a new preview document in order to display the tooltip
      * in response to specific hover of click events
-     * @param changes 
+     * @param changes
      */
     ngOnChanges(changes: SimpleChanges){
         if(changes["previewDocument"] && !!this.previewDocument){
-            
-            if (typeof this.previewDocument.document.addEventListener !== undefined) { 
+
+            if (typeof this.previewDocument.document.addEventListener !== undefined) {
                 this.document.addEventListener("mouseup", this.handleMouseUp, false);
                 this.document.addEventListener("mousedown", this.handleMouseDown, false);
-                this.document.addEventListener("mousemove", this.handleMouseMove, false);              
+                this.document.addEventListener("mousemove", this.handleMouseMove, false);
                 this.window.addEventListener("scroll", this.handleScroll, false);
             }
 
@@ -61,7 +61,7 @@ export class PreviewTooltip implements OnChanges {
     private get document(): Document{
         return this.previewDocument.document;
     }
-    
+
     /**
      * Shortcut to the preview Window
      */
@@ -77,9 +77,9 @@ export class PreviewTooltip implements OnChanges {
     }
 
     /**
-     * Position the tooltip above a bounding box 
-     */ 
-    positionTooltipAbove(box: DOMRect | ClientRect){        
+     * Position the tooltip above a bounding box
+     */
+    positionTooltipAbove(box: DOMRect | ClientRect){
         this.zone.run(() => {   // Necessary to compute the right size of the tooltip when updating the text
             let tooltipWidth = this.tooltip.nativeElement.getBoundingClientRect().width;
             this.left = Math.round(box.left+0.5*box.width-0.5*tooltipWidth)+"px";
@@ -131,7 +131,7 @@ export class PreviewTooltip implements OnChanges {
                 if(element.nodeType === 1 && element.nodeName === "SPAN" && (element.attributes["data-entity-basic"] || element.attributes["data-entity-display"])){
                     if(this.entityType !== element.className.split(" ")[0] || this.entityDisplay !== element.textContent){  // Tooltip not already displayed
                         this.entityType = element.className.split(" ")[0];    // Update text (and visibility)
-                        this.entityDisplay = element.textContent || "";   // Tooltip content                        
+                        this.entityDisplay = element.textContent || "";   // Tooltip content
                         let value = element.attributes["data-entity-basic"] || element.attributes["data-entity-display"];
                         this.entityValue = value.value;
                         const highlights = this.previewData.highlightsPerCategory[this.entityType].values
@@ -140,7 +140,7 @@ export class PreviewTooltip implements OnChanges {
                         this.entityLabel = this.previewData.highlightsPerCategory[this.entityType].categoryDisplayLabel;
 
                         let idsplt = element.id.split("_");
-                        let idx = parseInt(idsplt[idsplt.length-1]);                      
+                        let idx = parseInt(idsplt[idsplt.length-1]);
                         const entity = this.findEntity(this.entityType, this.entityValue, (_, idIndex) => { return idIndex === idx });
                         this.entityIdx = entity ? entity.valueIndex : 0;
 
@@ -151,7 +151,7 @@ export class PreviewTooltip implements OnChanges {
                     return;
                 }
             }
-        }   
+        }
         // We are not hovering an entity
         if(this.entityType){    // If still displaying the tooltip...
             let isOverTooltip = !!event["path"].find(el => el.localName === "sq-preview-tooltip");
@@ -185,10 +185,10 @@ export class PreviewTooltip implements OnChanges {
             this.changeDetectorRef.detectChanges(); // Turn off tooltip
         }
     }
-    
+
     /**
      * Move to the previous entity if possible
-     * @param event 
+     * @param event
      */
     previousEntity(event: Event){
         event.stopPropagation(); // stop the propagation to avoid triggering the tooltip listeners
@@ -204,7 +204,7 @@ export class PreviewTooltip implements OnChanges {
 
     /**
      * Move to the next entity if possible
-     * @param event 
+     * @param event
      */
     nextEntity(event: Event){
         event.stopPropagation(); // stop the propagation to avoid triggering the tooltip listeners
@@ -220,8 +220,8 @@ export class PreviewTooltip implements OnChanges {
 
     /**
      * Executes a clicked action button in the context of a tooltip for hovered entities
-     * @param action 
-     * @param event 
+     * @param action
+     * @param event
      */
     entityAction(action: Action, event: Event){
         event.stopPropagation(); // stop the propagation to avoid triggering the tooltip listeners
@@ -233,7 +233,7 @@ export class PreviewTooltip implements OnChanges {
     /**
      * Executes a clicked action button in the context of a tooltip for text selection
      * @param action the action to execute
-     * @param event 
+     * @param event
      */
     selectedTextAction(action: Action, event: Event){
         event.stopPropagation(); // stop the propagation to avoid triggering the tooltip listeners
@@ -243,8 +243,8 @@ export class PreviewTooltip implements OnChanges {
     }
 
     /**
-     * Helper function to find the indexes of a specific entity *occurrence*. Returns both the index within all 
-     * of its own occurrences: valueIndex (eg. BILL GATES 3/14) AND the index corresponding to the 
+     * Helper function to find the indexes of a specific entity *occurrence*. Returns both the index within all
+     * of its own occurrences: valueIndex (eg. BILL GATES 3/14) AND the index corresponding to the
      * entity id inside the document: idIndex (eg. id="person_32").
      * @param category eg. person
      * @param value eg. BILL GATES
@@ -255,7 +255,7 @@ export class PreviewTooltip implements OnChanges {
             : {valueIndex: number, idIndex: number} | undefined {
         let currentIdx = 0;
         // For each highlight in the doc
-        for(let i=0; i<this.previewData.highlightsPerLocation['length']; i++) { 
+        for(let i=0; i<this.previewData.highlightsPerLocation['length']; i++) {
             let highlight = this.previewData.highlightsPerLocation[i];
             let categories = Object.keys(highlight.positionInCategories);
             // For each value of the highlight
@@ -273,5 +273,5 @@ export class PreviewTooltip implements OnChanges {
         }
         return undefined;
     }
-    
+
 }

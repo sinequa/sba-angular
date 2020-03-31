@@ -11,7 +11,7 @@ import {SearchService} from "@sinequa/components/search";
 export class ResultSource implements OnInit {
     @Input() record: Record;
     @Input() displayTreepath: boolean;
-    @Input() displayUrl: boolean = true;  
+    @Input() displayUrl: boolean = true;
 
     source: ValueItem[] = [];
     url: string;

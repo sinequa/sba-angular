@@ -1,7 +1,7 @@
 import {LocaleData} from "@sinequa/core/intl";
 import d3Format from "d3-format/locale/en-US.json";
 import d3Time from "d3-time-format/locale/en-US.json";
-import {enCore} from "@sinequa/core"; 
+import {enCore} from "@sinequa/core";
 import appMessages from "./messages/en.json";
 import "intl/locale-data/jsonp/en-US"; // Safari
 import {Utils} from "@sinequa/core/base";
@@ -23,7 +23,7 @@ import {enSearch} from "@sinequa/components/search";
 import {enStatusBar} from "@sinequa/components/status-bar";
 import {enUserSettings} from "@sinequa/components/user-settings";
 
-const messages = Utils.merge({}, enCore, enAdvanced, enAlerts, enBaskets, enFacet, enFeedback, enHeatmap, enLabels, enMetadata, 
+const messages = Utils.merge({}, enCore, enAdvanced, enAlerts, enBaskets, enFacet, enFeedback, enHeatmap, enLabels, enMetadata,
     enNotification, enPreview, enResult, enResultsView, enSavedQueries, enSelection, enSearch, enStatusBar, enUserSettings, appMessages);
 
 export default <LocaleData>{
@@ -33,7 +33,7 @@ export default <LocaleData>{
     d3: {
         locale: "en-US",
         format: d3Format,
-        time: d3Time 
+        time: d3Time
     },
     messages: messages
 };

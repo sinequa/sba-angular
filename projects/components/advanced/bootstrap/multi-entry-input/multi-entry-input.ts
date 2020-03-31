@@ -153,7 +153,7 @@ export class BsMultiEntryInput implements ControlValueAccessor, OnInit, AfterVie
      */
     public get maxHeight(): string {
         //If size is undefined use 5 as default
-        const nbVisibleRows = this.options.nbVisibleLines ? Math.max(this.options.nbVisibleLines, 1) : 5; 
+        const nbVisibleRows = this.options.nbVisibleLines ? Math.max(this.options.nbVisibleLines, 1) : 5;
         return (2.5 + (nbVisibleRows - 1) * 1.7) + 'em';
     }
 

@@ -23,16 +23,16 @@ export class BsSelectBasket implements OnInit {
         this.buttons = [
             new ModalButton({
                 result: ModalResult.Cancel
-            })            
-        ];         
+            })
+        ];
     }
-    
+
     ngOnInit(): void {
         if (!!this.model.basketFilter) {
             this.baskets = this.baskets.filter(this.model.basketFilter);
         }
     }
-    
+
     activate(model) {
         this.model = model;
     }

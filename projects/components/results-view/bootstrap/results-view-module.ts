@@ -21,7 +21,7 @@ import {BsResultsGridView} from "./results-grid-view/results-grid-view";
     imports: [
         CommonModule,
         FormsModule, ReactiveFormsModule,
-        
+
         LoadComponentModule,
         IntlModule,
         ValidationModule,
@@ -32,13 +32,13 @@ import {BsResultsGridView} from "./results-grid-view/results-grid-view";
         ResultsViewModule
     ],
     declarations: [
-        BsResultsViewSelector, 
+        BsResultsViewSelector,
         BsResultsViewConfigurator,
         BsResultsGridView,
     ],
     exports: [
         ResultsViewModule,
-        BsResultsViewSelector, 
+        BsResultsViewSelector,
         BsResultsViewConfigurator,
         BsResultsGridView,
     ],
@@ -46,14 +46,14 @@ import {BsResultsGridView} from "./results-grid-view/results-grid-view";
 export class BsResultsViewModule {
     public static forRoot(resultsViews: ResultsView[], defaultView: ResultsView): ModuleWithProviders {
         return {
-            ngModule: BsResultsViewModule, 
+            ngModule: BsResultsViewModule,
             providers: [
-                { 
-                    provide: RESULTS_VIEWS, 
+                {
+                    provide: RESULTS_VIEWS,
                     useValue: resultsViews
                 },
-                { 
-                    provide: DEFAULT_VIEW, 
+                {
+                    provide: DEFAULT_VIEW,
                     useValue: defaultView
                 }
             ]

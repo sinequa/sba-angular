@@ -25,7 +25,7 @@ import {ResultTimeline} from "./result-timeline/result-timeline";
     imports: [
         CommonModule,
         FormsModule, ReactiveFormsModule,
-        
+
         IntlModule,
 
         UtilsModule,
@@ -35,7 +35,7 @@ import {ResultTimeline} from "./result-timeline/result-timeline";
     ],
     declarations: [
         ResultTitle, ResultExtracts,
-        ResultMissingTerms, ResultMetadata, 
+        ResultMissingTerms, ResultMetadata,
         ResultThumbnail, UserRating,
         SponsoredResults, ResultsCounter,
         ResultIcon, ResultSource,
@@ -43,7 +43,7 @@ import {ResultTimeline} from "./result-timeline/result-timeline";
     ],
     exports: [
         ResultTitle, ResultExtracts,
-        ResultMissingTerms, ResultMetadata, 
+        ResultMissingTerms, ResultMetadata,
         ResultThumbnail, UserRating,
         SponsoredResults, ResultsCounter,
         ResultIcon, ResultSource,

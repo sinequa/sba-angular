@@ -7,7 +7,7 @@ export type Spacing = "compact" | "default" | "comfortable";
 @Component({
     selector: "sq-metadata",
     templateUrl: "./metadata.html"
-})       
+})
 export class Metadata {
     @Input() record: Record;
     @Input() items: string[];
@@ -21,7 +21,7 @@ export class Metadata {
     constructor(
         public appService: AppService) {
     }
-    
+
     select(item: string, valueItem: ValueItem) {
         this._select.emit({item: item, valueItem: valueItem});
     }

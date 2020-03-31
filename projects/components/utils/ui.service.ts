@@ -4,7 +4,7 @@ import {Utils, MapOf} from "@sinequa/core/base";
 
 export interface CaretPosition {
 	start: number;
-	end: number;	
+	end: number;
 }
 
 export const SCREEN_SIZE_RULES = new InjectionToken<MapOf<string>>('SCREEN_SIZE_RULES');
@@ -12,7 +12,7 @@ export const SCREEN_SIZE_RULES = new InjectionToken<MapOf<string>>('SCREEN_SIZE_
 @Injectable({
     providedIn: "root"
 })
-export class UIService implements OnDestroy {    
+export class UIService implements OnDestroy {
 	_resizeEvent = new Subject<UIEvent>();
 	_priorityResizeEvent = new Subject<UIEvent>();
 	screenSizes: string[];
@@ -21,10 +21,10 @@ export class UIService implements OnDestroy {
     addElementResizeListener: (element, fn) => void;
 	removeElementResizeListener: (element, fn) => void;
 	factories = new Map<Type<any>, ComponentFactory<any>>();
-	    
+
     constructor(
 		@Inject(SCREEN_SIZE_RULES) public screenSizeRules: MapOf<string>) {
-		
+
 		this.screenSizes = ["xs", "sm", "md", "lg", "xl", "xxl"]; // in ascending size order
 		this.setScreenSize();
         window.addEventListener("resize", this.resizeEventListener);
@@ -54,20 +54,20 @@ export class UIService implements OnDestroy {
     /*private setTitle(title: string) {
         document.title = this.intlService.formatMessage(title);
     }*/
-	
+
 	appInit(appComponentRef: ComponentRef<any>) {
         //this.setTitle();
         //Utils.subscribe(this.intlService.events,
         //    (value) => {
-        //        this.setTitle();                    
+        //        this.setTitle();
         //    });
-		
+
         // See https://github.com/angular/angular/issues/18817
         /*this.resizeEvent.subscribe(
 			(event) => {
 				appComponentRef.changeDetectorRef.markForCheck();
 			});*/
-		
+
         // this.loadComponent({component: DirtyChecker});
 	}
 
@@ -75,10 +75,10 @@ export class UIService implements OnDestroy {
 	addResizeListener(listener: (event?: UIEvent) => any) {
 		this._resizeEvent.subscribe(listener);
 	}
- 
+
     private screenSizeIs(list: string | string[]) {
 		//let rules = this.coreConfig.screenSizeRules;
-				
+
         // validate that we're getting a string or array.
         if (!Utils.isString(list) && !Utils.isArray(list)) {
             throw new Error('screenSizeIs requires an array or comma-separated list');
@@ -109,13 +109,13 @@ export class UIService implements OnDestroy {
 	screenSizeIsGreater(screenSize: string): boolean {
 		let index1 = this.screenSizes.findIndex((value) => value === this.screenSize);
 		let index2 = this.screenSizes.findIndex((value) => value === screenSize);
-		return index1 > index2;			
+		return index1 > index2;
 	}
 
 	screenSizeIsLess(screenSize: string): boolean {
 		let index1 = this.screenSizes.findIndex((value) => value === this.screenSize);
 		let index2 = this.screenSizes.findIndex((value) => value === screenSize);
-		return index1 < index2;			
+		return index1 < index2;
 	}
 
 	screenSizeIsGreaterOrEqual(screenSize: string): boolean {
@@ -158,7 +158,7 @@ export class UIService implements OnDestroy {
 	}
 
 	// screenSizes is a sequence of size specs with optional operator separated by space or and (AND)
-	// Multiple sequences can be specified using , or ; as a separator (these are OR'd)	
+	// Multiple sequences can be specified using , or ; as a separator (these are OR'd)
 	screenSizeTest(screenSizes: string): boolean {
 		if (!screenSizes) {
 			return true;
@@ -189,13 +189,13 @@ export class UIService implements OnDestroy {
 	getContentRect(element: HTMLElement): ClientRect {
 		let rect = element.getBoundingClientRect();
 		let computedStyle = window.getComputedStyle(element);
-		let borderLeft = parseFloat(computedStyle.borderLeft);			
-		let borderRight = parseFloat(computedStyle.borderRight);			
-		let borderTop = parseFloat(computedStyle.borderTop);			
+		let borderLeft = parseFloat(computedStyle.borderLeft);
+		let borderRight = parseFloat(computedStyle.borderRight);
+		let borderTop = parseFloat(computedStyle.borderTop);
 		let borderBottom = parseFloat(computedStyle.borderBottom);
-		let paddingLeft = parseFloat(computedStyle.paddingLeft);			
-		let paddingRight = parseFloat(computedStyle.paddingRight);			
-		let paddingTop = parseFloat(computedStyle.paddingTop);			
+		let paddingLeft = parseFloat(computedStyle.paddingLeft);
+		let paddingRight = parseFloat(computedStyle.paddingRight);
+		let paddingTop = parseFloat(computedStyle.paddingTop);
 		let paddingBottom = parseFloat(computedStyle.paddingBottom);
 		return {
 			top: rect.top + borderTop + paddingTop,
@@ -204,7 +204,7 @@ export class UIService implements OnDestroy {
 			left: rect.left + borderLeft + paddingLeft,
 			width: rect.width - borderLeft - paddingLeft - paddingRight - borderRight,
 			height: rect.height - borderTop - paddingTop - paddingBottom - borderBottom
-		};		
+		};
 	}
 
 	// caret support
@@ -214,10 +214,10 @@ export class UIService implements OnDestroy {
 			end: input.selectionEnd || 0
 		};
 	}
-	
+
 	setCaret(input: HTMLInputElement, start: number, end = start, text?: string, selectionAction = UIService.SelectionAction.collapse, ensureVisible = true, raiseEvent = true) {
 		if (start < 0) {
-			return;				
+			return;
 		}
 		if (Utils.isString(text)) {
 			let value = input.value;
@@ -237,11 +237,11 @@ export class UIService implements OnDestroy {
 				case UIService.SelectionAction.collapseToStart:
 					end = start;
 					break;
-				case UIService.SelectionAction.collapse:	
+				case UIService.SelectionAction.collapse:
 				default:
 					end = start + text.length;
 					start = end;
-					break;					
+					break;
 			}
 		}
 		if (end < 0) {
@@ -263,7 +263,7 @@ export class UIService implements OnDestroy {
 		}
 		if (raiseEvent) {
 			let event = new CustomEvent("input");
-			input.dispatchEvent(event);                
+			input.dispatchEvent(event);
 		}
 	}
 
@@ -366,8 +366,8 @@ export class UIService implements OnDestroy {
 		div.appendChild(span);
 
 		// return lineHeight too
-		span.textContent = '.';		
-		let lineHeight = span.offsetHeight; 
+		span.textContent = '.';
+		let lineHeight = span.offsetHeight;
 
 		span.textContent = (<any>element).value.substring(position) || '.';  // || because a completely empty faux span doesn't render at all
 
@@ -414,14 +414,14 @@ function initElementResizeListener (service) {
 	let attachEvent = (<any>document).attachEvent,
 		stylesCreated = false;
 
-    //NB SCRIPT1047: In strict mode, function declarations cannot be nested inside a statement or block. They may only appear at the top level or directly inside a function body.	
+    //NB SCRIPT1047: In strict mode, function declarations cannot be nested inside a statement or block. They may only appear at the top level or directly inside a function body.
 	//if (!attachEvent) {
 		let requestFrame = (function(){
 			let raf = window.requestAnimationFrame || (<any>window).mozRequestAnimationFrame || (<any>window).webkitRequestAnimationFrame ||
 								function(fn){ return window.setTimeout(fn, 20); };
 			return function(fn){ return raf(fn); };
 		})();
-		
+
 		let cancelFrame = (function(){
 			let cancel = window.cancelAnimationFrame || (<any>window).mozCancelAnimationFrame || (<any>window).webkitCancelAnimationFrame ||
 								   window.clearTimeout;
@@ -445,7 +445,7 @@ function initElementResizeListener (service) {
 			return element.offsetWidth != element.__resizeLast__.width ||
 						 element.offsetHeight != element.__resizeLast__.height;
 		}
-		
+
 		function scrollListener(this: HTMLElement, e){
 			let element = this;
 			resetTriggers(this);
@@ -460,7 +460,7 @@ function initElementResizeListener (service) {
 				}
 			});
 		};
-		
+
 		/* Detect CSS Animations support to detect element display/re-attach */
 		let animation = false,
 			keyframeprefix = '',
@@ -470,8 +470,8 @@ function initElementResizeListener (service) {
 			pfx  = '';
 		{
 			let elm = document.createElement('fakeelement');
-			if( elm.style.animationName !== undefined ) { animation = true; }    
-			
+			if( elm.style.animationName !== undefined ) { animation = true; }
+
 			if( animation === false ) {
 				for( let i = 0; i < domPrefixes.length; i++ ) {
 					if( elm.style[ domPrefixes[i] + 'AnimationName' ] !== undefined ) {
@@ -484,12 +484,12 @@ function initElementResizeListener (service) {
 				}
 			}
 		}
-		
+
 		let animationName = 'resizeanim';
 		let animationKeyframes = '@' + keyframeprefix + 'keyframes ' + animationName + ' { from { opacity: 0; } to { opacity: 0; } } ';
 		let animationStyle = keyframeprefix + 'animation: 1ms ' + animationName + '; ';
 	//}
-	
+
 	function createStyles() {
 		if (!stylesCreated) {
 			//opacity:0 works around a chrome bug https://code.google.com/p/chromium/issues/detail?id=286360
@@ -498,7 +498,7 @@ function initElementResizeListener (service) {
 					'.resize-triggers, .resize-triggers > div, .contract-trigger:before { content: \" \"; display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; } .resize-triggers > div { background: #eee; overflow: auto; } .contract-trigger:before { width: 200%; height: 200%; }',
 				head = document.head || document.getElementsByTagName('head')[0],
 				style = document.createElement('style');
-			
+
 			style.type = 'text/css';
 			if ((<any>style).styleSheet) {
 				(<any>style).styleSheet.cssText = css;
@@ -510,7 +510,7 @@ function initElementResizeListener (service) {
 			stylesCreated = true;
 		}
 	}
-	
+
 	service.addElementResizeListener = function(element, fn){
 		if (attachEvent) element.attachEvent('onresize', fn);
 		else {
@@ -525,7 +525,7 @@ function initElementResizeListener (service) {
 				element.appendChild(element.__resizeTriggers__);
 				resetTriggers(element);
 				element.addEventListener('scroll', scrollListener, true);
-				
+
 				/* Listen for a css animation to detect element display/re-attach */
 				animationstartevent && element.__resizeTriggers__.addEventListener(animationstartevent, function(e) {
 					if(e.animationName == animationName)
@@ -535,7 +535,7 @@ function initElementResizeListener (service) {
 			element.__resizeListeners__.push(fn);
 		}
 	};
-	
+
 	service.removeElementResizeListener = function(element, fn){
 		if (attachEvent) element.detachEvent('onresize', fn);
 		else {

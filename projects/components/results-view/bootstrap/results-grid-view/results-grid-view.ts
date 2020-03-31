@@ -38,7 +38,7 @@ export class BsResultsGridView implements OnChanges {
     @Input() view: GridView;
     private orderBy: string | undefined;
     columnsData: ColumnData[] | undefined;
-    
+
     constructor(
         public appService: AppService,
         public searchService: SearchService,
@@ -49,9 +49,9 @@ export class BsResultsGridView implements OnChanges {
     observeQueryFields() {
         this.initSorts();
     }
-    
+
     ngOnChanges(changes: SimpleChanges) {
-        if (!this.columnsData) {            
+        if (!this.columnsData) {
             if (!!this.view.columns) {
                 this.columnsData = this.view.columns.filter(config => config.active).map(config => ({
                     config: config,
@@ -97,7 +97,7 @@ export class BsResultsGridView implements OnChanges {
             default: return "\u207A";
         }
     }
-    
+
     ascendingFirst(column: Column): boolean {
         //return this.appService.isNumber(column.field);
         return false;
@@ -182,9 +182,9 @@ export class BsResultsGridView implements OnChanges {
                     }
                 }
             }
-        }        
+        }
     }
- 
+
     setSort(columnData: ColumnData) {
         if (this.isSortable(columnData)) {
             if (columnData.sortIndex !== -1) {

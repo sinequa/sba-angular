@@ -47,7 +47,7 @@ export class Breadcrumbs {
         }
         return undefined;
     }
- 
+
     get text(): Expr | string {
         return this.items[0].display;
     }

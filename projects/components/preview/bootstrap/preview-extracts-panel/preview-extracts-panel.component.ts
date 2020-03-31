@@ -23,7 +23,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   ngOnChanges() {
     if(this.previewData && this.previewDocument){
       let extracts = this.previewData.highlightsPerCategory["extractslocations"].values;
-      if(!!extracts && extracts.length > 0){      
+      if(!!extracts && extracts.length > 0){
         this.extracts = extracts[0].locations.map((_, i) => this.previewDocument.getHighlightText("extractslocations", i));
       }
     }
@@ -34,7 +34,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
 
   /**
    * Scroll to a specific extract
-   * @param i 
+   * @param i
    */
   scrollExtract(i: number){
     this.previewDocument.selectHighlight("extractslocations", i);
@@ -43,7 +43,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
 
   /**
    * Sanitize the text of a HTML formatted extract
-   * @param text 
+   * @param text
    */
   sanitize(text: string){
     return this.domSanitizer.bypassSecurityTrustHtml(text.replace(/sq\-current/, ""));

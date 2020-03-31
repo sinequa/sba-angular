@@ -48,4 +48,4 @@ export class BsBreadcrumbs {
     removeItem(item: BreadcrumbsItem) {
         this.searchService.removeBreadcrumbsItem(item);
     }
-} 
+}

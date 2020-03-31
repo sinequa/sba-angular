@@ -11,13 +11,13 @@ export class BsFeedbackMenu implements OnInit {
     @Input() size: string;
     @Input() style: string;
     @Input() rightAligned: boolean;
-    
+
     items: Action[];
 
     constructor(
         public feedbackService: FeedbackService) {
     }
-    
+
     ngOnInit() {
         this.items = this.feedbackService.buildFeedbackAction();
     }

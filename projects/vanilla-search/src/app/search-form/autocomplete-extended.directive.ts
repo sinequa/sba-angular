@@ -13,7 +13,7 @@ import { Basket } from 'projects/components/baskets';
 
 
 /**
- * This directive extends the autocomplete directive to provide autocomplete on 
+ * This directive extends the autocomplete directive to provide autocomplete on
  * additional objects, such as recent queries, documents and baskets
  */
 @Directive({
@@ -22,7 +22,7 @@ import { Basket } from 'projects/components/baskets';
 export class AutocompleteExtended extends Autocomplete {
 
     /**
-     * List of features within which to search in 
+     * List of features within which to search in
      * (list of 'recent-documents', 'recent-queries', 'saved-queries', 'baskets')
      */
     @Input() sqAutocompleteExtended: string[] = [];
@@ -75,20 +75,20 @@ export class AutocompleteExtended extends Autocomplete {
                 }
                 return of([]);
             });
-                        
+
             this.processSuggests(
                 // The forkJoin method allows to merge the suggestions into a single array, so the parent
                 // directive only sees a single source.
                 forkJoin(...dataSources).pipe(
-                    map((suggests) => { 
-                        return [].concat(...suggests); 
+                    map((suggests) => {
+                        return [].concat(...suggests);
                     }),
                     catchError((err, caught) => {
                         console.error(err);
                         return [];
                     })
                 ), fields);
-            
+
         }
         else {  // If empty input, restart autocomplete
             this.start();
@@ -99,8 +99,8 @@ export class AutocompleteExtended extends Autocomplete {
      * This method overrides the Autocomplete.select() method from the sqAutocomplete directive.
      * It performs custom actions when a specific category of autocomplete item is selected, such
      * as selecting a basket, a saved query or a recent document.
-     * @param item 
-     * @param submit 
+     * @param item
+     * @param submit
      */
     protected select(item: AutocompleteItem, submit?: boolean) {
         if(item.category === "recent-document"){
@@ -123,12 +123,12 @@ export class AutocompleteExtended extends Autocomplete {
 
     /**
      * Search for the input text in the recent queries and return autocomplete items asynchronously
-     * @param text 
+     * @param text
      */
     searchRecentQueries(text: string): Promise<AutocompleteItem[]> {
         return this.suggestService.searchData<RecentQuery>(
-            'recent-query', 
-            text, 
+            'recent-query',
+            text,
             this.recentQueriesService.recentqueries,
             (query) => query.query.text || "",
             undefined,
@@ -137,26 +137,26 @@ export class AutocompleteExtended extends Autocomplete {
 
     /**
      * Search for the input text in the recent documents and return autocomplete items asynchronously
-     * @param text 
+     * @param text
      */
     searchRecentDocuments(text: string): Promise<AutocompleteItem[]> {
         return this.suggestService.searchData<RecentDocument>(
-            'recent-document', 
-            text, 
+            'recent-document',
+            text,
             this.recentDocumentsService.recentdocuments,
             (doc: RecentDocument) => doc.title,
             (doc: RecentDocument) => ([] as string[]).concat(doc.url1, doc.treepath, doc.authors),
             "msg#searchForm.recentDocument");
     }
-    
+
     /**
      * Search for the input text in the saved queries and return autocomplete items asynchronously
-     * @param text 
+     * @param text
      */
     searchSavedQueries(text: string): Promise<AutocompleteItem[]> {
         return this.suggestService.searchData<SavedQuery>(
-            'saved-query', 
-            text, 
+            'saved-query',
+            text,
             this.savedQueriesService.savedqueries,
             (query) => query.name,
             (query) => [query.description || "", query.query.text || ""],
@@ -165,12 +165,12 @@ export class AutocompleteExtended extends Autocomplete {
 
     /**
      * Search for the input text in the baskets and return autocomplete items asynchronously
-     * @param text 
+     * @param text
      */
     searchBaskets(text: string): Promise<AutocompleteItem[]> {
         return this.suggestService.searchData<Basket>(
-            'basket', 
-            text, 
+            'basket',
+            text,
             this.basketsService.baskets,
             (bsk) => bsk.name,
             (bsk) => [bsk.description || ""],

@@ -25,7 +25,7 @@ export class LabelsAutocomplete extends Autocomplete {
     }
 
     /**
-     * The getSuggests() method from the original directive is overriden to 
+     * The getSuggests() method from the original directive is overriden to
      * use the labelsService rather than suggest service.
      */
     protected getSuggests(){
@@ -56,7 +56,7 @@ export class LabelsAutocomplete extends Autocomplete {
             // Get suggestions from web service
             if(val) {
                 this.labelsWebService.list(val.value, this.public).subscribe(
-                            
+
                     (labels: Labels) => {
                         if(this.getState() === AutocompleteState.ACTIVE || this.getState() === AutocompleteState.OPENED){
                             this.dropdown.update(true, labels.labels.map(label => {
@@ -79,8 +79,8 @@ export class LabelsAutocomplete extends Autocomplete {
                         }
                     }
                 );
-            }       
-            
+            }
+
         }
         else {  // If empty input, restart autocomplete
             this.start();

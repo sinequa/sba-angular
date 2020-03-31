@@ -10,7 +10,7 @@ import {Utils} from "@sinequa/core/base";
 export const START_CONFIG = new InjectionToken<StartConfig>("START_CONFIG");
 
 /**
- * Defines members whose values are automatically deduced from direct {@link StartConfig} members 
+ * Defines members whose values are automatically deduced from direct {@link StartConfig} members
  */
 export interface DeducedStartConfig {
     /**
@@ -42,7 +42,7 @@ export interface DeducedStartConfig {
 export interface PreloginAppConfig {
     /**
      * Specifies which storage should be used to hold the CSRF token used to protect Sinequa API calls against
-     * CSRF attacks 
+     * CSRF attacks
      */
     authenticationStorage?: 'session' | 'local';
     /**
@@ -63,7 +63,7 @@ export interface PreloginAppConfig {
     usePopupForLogin?: boolean;
     /**
      * The URL to be used to display online help
-     */    
+     */
     helpUrl?: string;
     /**
      * A boolean value indicating whether auditing is enabled
@@ -87,8 +87,8 @@ export interface PreloginAppConfig {
  * Contains start-up configuration for the application. An instance of this object
  * must be provided when registering the {@link WebServicesModule} either by providing the START_CONFIG
  * injection token or by using the [forRoot]{@link WebServicesModule#forRoot} static method.
- * 
- * Typically only the members declared directly (url, app, production) should be specified. 
+ *
+ * Typically only the members declared directly (url, app, production) should be specified.
  * The other values are either deduced from these members or are retrieved from the Sinequa configuration
  */
 export interface StartConfig extends DeducedStartConfig, PreloginAppConfig {
@@ -101,7 +101,7 @@ export interface StartConfig extends DeducedStartConfig, PreloginAppConfig {
      */
     app?: string;
     /**
-     * A flag indicating whether the app is running in production mode or not 
+     * A flag indicating whether the app is running in production mode or not
      * (can be deduced from the browser url when the app is served by Sinequa)
      */
     production?: boolean;
@@ -136,7 +136,7 @@ export class StartConfigWebService {
     /**
      * Initializes the injected {@link StartConfig} instance. Outputs an error to the
      * console if no instance is injected.
-     * 
+     *
      * @param startConfig The start configuration instance
      */
     constructor(@Optional() @Inject(START_CONFIG) private startConfig: StartConfig) {
@@ -144,7 +144,7 @@ export class StartConfigWebService {
             console.error("START_CONFIG must be provided in your app module");
             return;
         }
-        this.initStartConfig();        
+        this.initStartConfig();
     }
 
     private getDefaultStartConfig(): StartConfig {
@@ -186,7 +186,7 @@ export class StartConfigWebService {
     /**
      * Fetches pre-login app configuration from the Sinequa server and merges it
      * into the start config instance
-     * 
+     *
      * @returns An observable of the start config after being merged with the pre-login app configuration
      */
     fetchPreLoginAppConfig(): Observable<StartConfig> {
@@ -214,16 +214,16 @@ export class StartConfigWebService {
                 })
                 .catch(error => {
                     console.error("Error retrieving app config");
-                    observer.error(error);                        
+                    observer.error(error);
                 });
         });
     }
 
     /**
      * Retrieves Sinequa server configuration from a web server hosting the app
-     * 
+     *
      * @param url A URL to a JSON file containing the Sinequa server configuration
-     * 
+     *
      * @returns An observable of the Sinequa server configuration
      */
     fetchServerConfig(url?: string): Observable<ServerConfig> {

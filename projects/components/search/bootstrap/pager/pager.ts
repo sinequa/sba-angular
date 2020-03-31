@@ -25,11 +25,11 @@ export class BsPager implements OnChanges {
     static NEXT_PAGE = "›";
     static LAST_PAGE = "»";
     static ELLIPSIS = "…";
-    
+
     constructor(
         private searchService: SearchService) {
     }
-    
+
     ngOnChanges(changes: SimpleChanges) {
         if (changes["results"]) {
             this.makeItems();
@@ -135,26 +135,26 @@ export namespace BsPager {
                 this.title = "msg#pager.pageNumberTitle";
             }
         }
-    
+
         get active(): boolean {
             return this.isPage && (this.currentPage === this.page);
         }
-    
+
         get disabled(): boolean {
             return this.isEllipsis || ((this.currentPage === this.page) && this.isNavigation);
         }
-    
+
         get isNavigation(): boolean {
             return this.display === BsPager.FIRST_PAGE ||
                 this.display === BsPager.PREVIOUS_PAGE ||
                 this.display === BsPager.NEXT_PAGE ||
                 this.display === BsPager.LAST_PAGE;
         }
-    
+
         get isPage(): boolean {
             return !!this.page && !this.isNavigation;
         }
-    
+
         get isEllipsis(): boolean {
             return this.display === BsPager.ELLIPSIS;
         }

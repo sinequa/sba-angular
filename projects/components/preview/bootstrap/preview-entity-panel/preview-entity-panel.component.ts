@@ -32,12 +32,12 @@ export class BsPreviewEntityPanelComponent implements OnChanges {
   /**
    * Allows to uncheck all items from specific facets
    */
-  @Input() startUnchecked: {[entity: string]: boolean} = {};  
+  @Input() startUnchecked: {[entity: string]: boolean} = {};
 
   /**
    * The list of entities to display (if ignored, will be deducted from the preview data)
    */
-  @Input() entities: string[];  
+  @Input() entities: string[];
 
   /**
    * Triggers an event when check all / check none is use in a facet
@@ -45,7 +45,7 @@ export class BsPreviewEntityPanelComponent implements OnChanges {
   @Output() facetChecked = new EventEmitter<{entity: string, checked: boolean}>();
 
   _entities: string[] = [];
-  
+
   constructor() { }
 
   /**
@@ -65,7 +65,7 @@ export class BsPreviewEntityPanelComponent implements OnChanges {
 
   /**
    * Return the data for a specific entity category
-   * @param entity 
+   * @param entity
    */
   data(entity: string) {
     return this.previewData.highlightsPerCategory[entity];
@@ -73,7 +73,7 @@ export class BsPreviewEntityPanelComponent implements OnChanges {
 
   /**
    * Returns the display value of a specific entity
-   * @param entity 
+   * @param entity
    */
   entityDisplay(entity: string): string {
     return this.data(entity).categoryDisplayLabelPlural || this.data(entity).categoryDisplayLabel || entity;
@@ -81,7 +81,7 @@ export class BsPreviewEntityPanelComponent implements OnChanges {
 
   /**
    * Returns the icon of a specific entity
-   * @param entity 
+   * @param entity
    */
   entityIcon(entity: string): string {
     return "sq-icon-"+entity;
@@ -89,7 +89,7 @@ export class BsPreviewEntityPanelComponent implements OnChanges {
 
   /**
    * Returns the list of values of a specific entity
-   * @param entity 
+   * @param entity
    */
   entityValues(entity: string): HighlightValue[] {
     return this.data(entity).values;
@@ -97,8 +97,8 @@ export class BsPreviewEntityPanelComponent implements OnChanges {
 
   /**
    * Called by child facet when items are checked/unchecked
-   * @param entity 
-   * @param checked 
+   * @param entity
+   * @param checked
    */
   itemsChecked(entity: string, checked: boolean){
     this.facetChecked.next({entity: entity, checked: checked});

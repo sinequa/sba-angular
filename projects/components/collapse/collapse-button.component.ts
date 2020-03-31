@@ -8,7 +8,7 @@ export function collapseButtonAnimations(timings: number | string): AnimationTri
             state('1', style({transform: 'rotate(-180deg)'})),
             transition('0 <=> 1', [
                 animate(timings)
-            ])                
+            ])
         ]),
     ];
 }
@@ -28,7 +28,7 @@ export class CollapseButton {
         this.state = new EventEmitter<boolean>();
         this.collapsed = true;
     }
-    
+
     toggleCollapsed() {
         this.collapsed = !this.collapsed;
         this.state.emit(this.collapsed);

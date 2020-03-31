@@ -38,7 +38,7 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
      * Whether the facet can be collapsed (default: true)
      */
     @Input() collapsible: boolean = true;
-    
+
     /**
      * Whether the facet starts collapsed (if collapsible / default: false)
      */
@@ -58,7 +58,7 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
      * Whether the facet starts expanded (if expandable / default: false)
      */
     @Input() startExpanded: boolean = false;
-    
+
     /**
      * Whether the facet starts with opened settings (default: false)
      */
@@ -126,7 +126,7 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
                 }
                 action.update();
             },
-            updater: (action) => {                
+            updater: (action) => {
                 action.icon = this._expanded ? "fas fa-compress" : "fas fa-expand";
                 action.title = this._expanded ? "msg#facetCard.reduce" : "msg#facetCard.enlarge";
             }
@@ -141,7 +141,7 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
                 }
                 action.update();
             },
-            updater: (action) => {                
+            updater: (action) => {
                 action.icon = this._settingsOpened ? "far fa-save" : "fas fa-cog";
                 action.title = this._settingsOpened ? "msg#facetCard.saveSettings" : "msg#facetCard.openSettings";
             }
@@ -187,7 +187,7 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
         if(this.collapsible) actions.push(this.collapseAction);
         return actions;
     }
-    
+
     public get hasSettings(){
         return !!this.facetComponent && !!this.facetComponent.settingsTpl;
     }

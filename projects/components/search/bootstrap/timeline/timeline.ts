@@ -35,25 +35,25 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
     ready: boolean;
     timelineSvg: d3.Selection<any, any, any, any> | undefined;
     timelineG: d3.Selection<any, any, any, any>;
-    xG: d3.Selection<any, any, any, any>; 
+    xG: d3.Selection<any, any, any, any>;
     yG: d3.Selection<any, any, any, any>;
-    xScale: d3.ScaleTime<number, number>; 
+    xScale: d3.ScaleTime<number, number>;
     yScale: d3.ScaleLinear<number, number>;
-    xAxis: d3.Axis<Date>; 
+    xAxis: d3.Axis<Date>;
     yAxis: d3.Axis<number>;
-    axes: {xHeight: number, yWidth: number}; 
+    axes: {xHeight: number, yWidth: number};
     margin: {top: number, right: number, bottom: number, left: number};
     area: d3.Area<AggregationItem>;
     prevChartWidth: number; prevChartHeight: number;
     updateTransistionMS = 100;
-    brush: d3.BrushBehavior<any>; 
+    brush: d3.BrushBehavior<any>;
     brushG: d3.Selection<any, any, any, any> | undefined;
     gripsG: d3.Selection<any, any, any, any>;
-    selection: [Date, Date] | undefined; 
-    minDate: Date; 
+    selection: [Date, Date] | undefined;
+    minDate: Date;
     maxDate: Date;
     hidden: boolean;
-    
+
     constructor(
         private root: ElementRef,
         private appService: AppService,
@@ -62,7 +62,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
         private intlService: IntlService,
         private changeDetectorRef: ChangeDetectorRef) {
     }
-    
+
     private noSwipe = (event: Event) => {
         event.stopPropagation();
     };
@@ -104,7 +104,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
     updateGrips(selection: [number, number]) {
         if (!selection) {
-            this.gripsG.attr("display", "none");    
+            this.gripsG.attr("display", "none");
         }
         else {
             this.gripsG.attr("display", null).attr("transform", (d, i) => { return "translate(" + selection[i] + ")"; });
@@ -125,7 +125,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
         let chartWidth = Math.max(0, this.graph.nativeElement.offsetWidth - this.margin.left - this.margin.right);
         let chartHeight = Math.max(0, this.graph.nativeElement.offsetHeight - this.margin.top - this.margin.bottom);
-        
+
         // only update if chart size has changed
         if (this.prevChartWidth != chartWidth || this.prevChartHeight != chartHeight) {
             let init = !this.prevChartWidth;
@@ -167,10 +167,10 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             }
 
             this.area.y0(chartHeight);
-    
-            // bind up the data to the area			
+
+            // bind up the data to the area
             let areas = this.timelineG.selectAll(".area").data([this.aggregation.items]);
-    
+
             // transistion to new position if already exists
             if (withTransition) {
                 areas.transition()
@@ -185,7 +185,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             areas.enter().insert("path", ":first-child")
                 .attr("class", "area")
                 .attr("d", this.area);
-    
+
             // add brush + grips if not already existing
             let newBrush = !this.brushG;
             if (!this.brushG) {
@@ -217,7 +217,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                     return path;
                 });
             }
-            
+
             if (this.selection) {
                 let selection: [number, number] = [this.xScale(this.selection[0]), this.xScale(this.selection[1])];
                 this.moveBrush(selection, !newBrush && withTransition);
@@ -303,7 +303,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 }
                 if (!d3.event.sourceEvent || d3.event.sourceEvent.type === "brush") {
                     return;
-                }                                                            
+                }
                 let selection = [this.xScale.invert(numericSelection[0]), this.xScale.invert(numericSelection[1])];
                 let selection1: Date[];
                 // if dragging, preserve the width of the extent
@@ -333,7 +333,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 this.updateGrips(numericSelection);
                 if (!d3.event.sourceEvent || d3.event.sourceEvent.type === "end") {
                     return;
-                }                                                            
+                }
                 if (!this.selection && !numericSelection) {
                     return;
                 }
@@ -341,7 +341,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 if (numericSelection) {
                     selection = [this.xScale.invert(numericSelection[0]), this.xScale.invert(numericSelection[1])];
                     if (this.selection) {
-                        if (selection[0].getTime() == this.selection[0].getTime() && selection[1].getTime() == this.selection[1].getTime()) { 
+                        if (selection[0].getTime() == this.selection[0].getTime() && selection[1].getTime() == this.selection[1].getTime()) {
                             return;
                         }
                     }
@@ -358,7 +358,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 let query = this.searchService.query.copy();
                 this.setFrom(query, from);
                 this.setTo(query, to);
-                this.searchService.applyAdvanced(query);       
+                this.searchService.applyAdvanced(query);
             });
 
         if (!this.zoomSelection) {
@@ -367,7 +367,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             let to = this.getTo(this.searchService.query);
             if (from || to) {
                 if (!from) {
-                    from = this.minDate;                
+                    from = this.minDate;
                 }
                 else {
                     from = new Date(Math.max(from.getTime(), this.minDate.getTime()));
@@ -459,7 +459,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             }
             this.query = query;
             // Use the aggregation in results if possible
-            const aggregation = this.searchService.results && 
+            const aggregation = this.searchService.results &&
                 this.searchService.results.aggregations
                     .find(value => Utils.eqNC(value.name, this.ccaggregation ? this.ccaggregation.name : ""));
             if (!!aggregation && (!this.hasSelection(this.searchService.query) || this.zoomSelection)) {
@@ -501,38 +501,38 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 this.drawGraph();
             });
     }
-    
+
     ngAfterViewInit() {
         if (!this.ccaggregation) {
             return;
         }
 
         this.viewInitDone = true;
-        
+
         this.field = this.ccaggregation.column;
-                
+
         // Prevent swiping being activated on ancestors when selecting a range
         this.root.nativeElement.addEventListener("mousedown", this.noSwipe);
         this.root.nativeElement.addEventListener("touchstart", this.noSwipe);
-        
+
         this.handleResults();
 
         this.uiService.addElementResizeListener(this.graph.nativeElement, this.onResize);
     }
-    
+
     ngOnDestroy() {
         if (!this.ccaggregation) {
             return;
         }
-        
+
         this.localeChange.unsubscribe();
-        
+
         this.root.nativeElement.removeEventListener("mousedown", this.noSwipe);
         this.root.nativeElement.removeEventListener("touchstart", this.noSwipe);
-        
+
         this.uiService.removeElementResizeListener(this.graph.nativeElement, this.onResize);
     }
-    
+
     private nextTimelineDate(value: Date): Date {
         if (this.ccaggregation && Utils.isDate(value)) {
             switch (this.ccaggregation.mask) {
@@ -619,7 +619,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
         if (!this.ccaggregation || !this.aggregation.items) {
             this.setHidden(this.autoHide);
             return;
-        }        
+        }
         // Convert value fields to date ones
         switch (this.ccaggregation.mask) {
             case "YYYY-MM-DD":

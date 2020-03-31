@@ -33,16 +33,16 @@ export class Labels implements OnChanges {
         private appService: AppService,
         private labelsService: LabelsService) {
         this.adding = false;
-        this.newLabelRef = {value: ""};     
+        this.newLabelRef = {value: ""};
     }
-    
+
     ngOnChanges() {
         this.labelsField = this.appService.resolveColumnAlias(this.field);
         this.showLabels = !!this.labelsField;
         this.hostClasses = [this.class, this.public ? "sq-labels-public" : "sq-labels-private"].join(" ");
-        this.makeLabels();  
+        this.makeLabels();
     }
-        
+
     private makeLabels() {
         if (!this.showLabels) {
             this.labels = [];

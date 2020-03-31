@@ -43,15 +43,15 @@ import {BsFacetBasketsComponent} from './facet-baskets/facet-baskets.component';
         BsFacetBasketsComponent
     ],
     providers: [
-        { 
-            provide: BASKET_COMPONENTS, 
+        {
+            provide: BASKET_COMPONENTS,
             useValue: {
-                selectBasketModal: BsSelectBasket,  
-                editBasketModal: BsEditBasket, 
+                selectBasketModal: BsSelectBasket,
+                editBasketModal: BsEditBasket,
                 manageBasketsModal: BsManageBaskets
             }
         }
     ]
 })
-export class BsBasketsModule {    
+export class BsBasketsModule {
 }

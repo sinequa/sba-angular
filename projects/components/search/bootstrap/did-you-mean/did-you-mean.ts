@@ -23,9 +23,9 @@ export class BsDidYouMean implements OnChanges {
             let lastSelect = this.searchService.query.lastSelect();
             if (!lastSelect) {
                 if (this.context === "search") {
-                    let item = this.results.didYouMean.text; 
+                    let item = this.results.didYouMean.text;
                     if (item && item.corrected) {
-                        this.item = item;                        
+                        this.item = item;
                     }
                 }
             }
@@ -35,7 +35,7 @@ export class BsDidYouMean implements OnChanges {
                         let dymItem = this.results.didYouMean.refine[this.results.didYouMean.refine.length - 1];
                         if (dymItem.corrected) {
                             this.item = dymItem;
-                        }                        
+                        }
                     }
                 }
             }

@@ -89,7 +89,7 @@ export class BsEditUserSettings implements OnInit {
                 this.form.removeControl('selectedLocale');
                 if (!Utils.eqNC(this.model['language'], newLocale)) {
                     Utils.subscribe(
-                        this.intlService.use(newLocale), 
+                        this.intlService.use(newLocale),
                         response => console.log('editUserSettings UI language changed.')
                     );
                 }
@@ -121,7 +121,7 @@ export class BsEditUserSettings implements OnInit {
             new ModalButton({
                 result: ModalResult.Cancel
             })
-        ]; 
+        ];
     }
 
     private setNewValue(obj: MapOf<any>, newObj: MapOf<any>): void {

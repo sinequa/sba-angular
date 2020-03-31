@@ -6,7 +6,7 @@ import {Utils} from "@sinequa/core/base";
 @Pipe({name: "sqExpr", pure: false})
 export class ExprPipe extends AbstractIntlPipe {
     constructor(
-        intlService: IntlService, 
+        intlService: IntlService,
         changeDetectorRef: ChangeDetectorRef) {
         super(intlService, changeDetectorRef);
     }

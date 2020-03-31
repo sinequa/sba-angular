@@ -4,5 +4,5 @@ export default {
         "showNotifications": "Afficher les notifications",
         "hideNotifications": "Masquer les notifications",
         "clearNotifications": "Effacer les notifications",
-    }    
+    }
 }

@@ -3,7 +3,7 @@ import {FormGroup, AbstractControl} from "@angular/forms";
 import {AppService} from "@sinequa/core/app-utils";
 import {CCColumn, Aggregation} from "@sinequa/core/web-services";
 import {Utils, NameValueArrayView, NameValueArrayViewHelper, FieldValue} from "@sinequa/core/base";
-import {SelectOptions} from "../select/select"; 
+import {SelectOptions} from "../select/select";
 import {Subscription} from "rxjs";
 import {Select} from "../advanced-models";
 import {FirstPageService} from "@sinequa/components/search";
@@ -19,17 +19,17 @@ export class BsAdvancedFormSelect implements OnInit, OnDestroy {
     column: CCColumn | undefined;
     name: string;
     label: string;
-    
+
     options: SelectOptions;
     selectedValues: FieldValue[]; //selected item value list
-    
+
     valueChangesSubscription: Subscription;
 
     constructor(
         private appService: AppService,
         private firstPageService: FirstPageService) {
     }
-    
+
     ngOnInit() {
         this.name = this.config.name || this.config.field;
 
@@ -45,7 +45,7 @@ export class BsAdvancedFormSelect implements OnInit, OnDestroy {
         };
 
         this.label = this.config.label || (this.options.multiple ? this.appService.getPluralLabel(this.config.field) : this.appService.getSingularLabel(this.config.field));
-        
+
         this.selectedValues = [];
 
         if (this.control) {
@@ -75,7 +75,7 @@ export class BsAdvancedFormSelect implements OnInit, OnDestroy {
                 (aggr: Aggregation) => this.column && Utils.eqNC(aggr.column, this.column.name);
 
             let aggregation = firstPage.aggregations.find(condition);
-            
+
             if (aggregation && aggregation.items) {
                 let nameKey = "display";
                 let valueKey = "value";

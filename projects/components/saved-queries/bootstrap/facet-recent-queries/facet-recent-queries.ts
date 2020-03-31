@@ -34,9 +34,9 @@ export class BsFacetRecentQueries extends AbstractFacet  {
     constructor(
         public searchService: SearchService,
         public recentQueriesService: RecentQueriesService,
-        public savedQueriesService: SavedQueriesService) { 
+        public savedQueriesService: SavedQueriesService) {
         super();
-        
+
         this.previousPage = new Action({
             icon: "fas fa-chevron-left",
             title: "msg#facet.previous",
@@ -89,7 +89,7 @@ export class BsFacetRecentQueries extends AbstractFacet  {
         this.recentQueriesService.deleteRecentQuery(query);
         this.page = Math.min(this.page, this.maxPage);
     }
-    
+
     saveQuery(query: RecentQuery, event: Event){
         event.stopPropagation();
         let q = Utils.extend(this.searchService.makeQuery(), Utils.copy(query.query))

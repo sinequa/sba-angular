@@ -108,7 +108,7 @@ export const breakpoints = {
         RouterModule.forRoot(routes),
         FormsModule,
         ReactiveFormsModule,
-        
+
         WebServicesModule.forRoot(startConfig),
         IntlModule.forRoot(AppLocalesConfig),
         LoginModule,
@@ -141,7 +141,7 @@ export const breakpoints = {
         AutocompleteExtended
     ],
     providers: [
-        // {provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true}, 
+        // {provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true},
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         {provide: SCREEN_SIZE_RULES, useValue: breakpoints}
     ],

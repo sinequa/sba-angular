@@ -6,9 +6,9 @@ import {Utils, FieldValue} from "@sinequa/core/base";
 
 @Pipe({name: "sqValue", pure: false})
 export class ValuePipe extends AbstractIntlPipe {
-    constructor(        
-        protected formatService: FormatService, 
-        intlService: IntlService, 
+    constructor(
+        protected formatService: FormatService,
+        intlService: IntlService,
         changeDetectorRef: ChangeDetectorRef) {
         super(intlService, changeDetectorRef);
     }

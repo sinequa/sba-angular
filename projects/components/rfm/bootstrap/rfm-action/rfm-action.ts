@@ -61,8 +61,8 @@ export class BsRfmAction implements OnChanges, OnDestroy {
         return (!this.rfm) ? RFMDisplay.unrate : this.rfm.status;
     }
 
-    get hasRfmImage() : boolean { 
-        return this.rfmImage !== RFMDisplay.none; 
+    get hasRfmImage() : boolean {
+        return this.rfmImage !== RFMDisplay.none;
     }
 
     get rfmImage(): RFMDisplay {

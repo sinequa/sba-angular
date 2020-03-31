@@ -134,7 +134,7 @@ export interface DidYouMeanItem {
  */
 export interface DidYouMean {
     /**
-     * The spelling correction mode used for these results 
+     * The spelling correction mode used for these results
      */
     spellingCorrectionMode: SpellingCorrectionMode;
     /**
@@ -170,7 +170,7 @@ export interface  Attributes {
 }
 
 /**
- * Describes a single query intent item 
+ * Describes a single query intent item
  */
 export interface QueryIntent {
     name: string;
@@ -710,7 +710,7 @@ export class QueryWebService extends HttpService {
 
     /**
      * Get the results for a set of queries
-     * 
+     *
      * @param queries The queries to execute
      * @param auditEvents Any audit events to store on the server
      */

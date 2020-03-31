@@ -18,13 +18,13 @@ import { JsonInfo } from "../edit-user-settings/edit-user-settings";
     templateUrl: './user-settings-editor.html'
 })
 export class BsUserSettingsEditor implements OnInit {
-    
+
     @Input() public form: FormGroup;
     @Input() public model: MapOf<any>;
     @Input() public layout: MapOf<JsonInfo.Entry>;
     @Input() showUILanguageSelector: boolean;
     public locales: Locale[];
-    
+
     constructor(
         private appService: AppService,
         private intlService: IntlService,

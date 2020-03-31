@@ -28,7 +28,7 @@ export class BsAlertsMenuComponent implements OnInit, OnDestroy {
     public loginService: LoginService,
     public alertsService: AlertsService,
     public searchService: SearchService
-  ) { 
+  ) {
 
     this.createAction = new Action({
       text: "msg#alerts.createAlert",

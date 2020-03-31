@@ -41,9 +41,9 @@ export function StartConfigInitializer(startConfigWebService: StartConfigWebServ
 export class WebServicesModule {
     /**
      * Configures the module with a start configuration
-     * 
+     *
      * @param startConfig The start configuration object
-     * 
+     *
      * @returns The configured module
      */
     static forRoot(startConfig: StartConfig) : ModuleWithProviders {

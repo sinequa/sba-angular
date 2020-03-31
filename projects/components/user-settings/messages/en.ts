@@ -18,5 +18,5 @@ export default {
         "pageSize": "Number of results per page",
         "email": "Email"
     }
-    
+
 }

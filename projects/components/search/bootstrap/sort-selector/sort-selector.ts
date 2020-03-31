@@ -75,7 +75,7 @@ export class BsSortSelector implements OnChanges {
                 data: sortingChoice,
                 action: (item: Action, event: Event) => {
                     this.selectSort(item.data);
-                } 
+                }
             }));
         }
         if (!!this.searchService.results) {
@@ -125,7 +125,7 @@ export class BsSortSelector implements OnChanges {
                 }
             }
         }
-        let q = this.appService.ccquery; 
+        let q = this.appService.ccquery;
         return q && q.sortingChoices;
     }
 }

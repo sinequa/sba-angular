@@ -197,7 +197,7 @@ export class BsResultsHeatmapView implements OnChanges {
                 }
             });
     }
-    
+
     onXSelect(value: string, event: MouseEvent) {
         let expr = `${ExprParser.escape(value)}:(${this.xField.name}:${ExprParser.escape(Utils.normalize(value))})`;
         this.searchService.addFieldSelect(this.xField.name, {value: expr}, {valuesAreExpressions: true});

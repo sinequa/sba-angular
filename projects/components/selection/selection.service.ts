@@ -35,7 +35,7 @@ export class SelectionService implements OnDestroy {
         this.searchService.events.subscribe(event => {
 
             if(event.type === "new-results" && this.searchService.haveRecords){
-                
+
                 let newSelectedRecords: Record[] = [];
                 if (this.searchService.results && this.searchService.results.records) {
                     for (let record of this.searchService.results.records) {
@@ -75,7 +75,7 @@ export class SelectionService implements OnDestroy {
     ngOnDestroy(){
         this._events.complete();
     }
-    
+
     /**
      * @returns true if at least one record is selected
      */
@@ -190,7 +190,7 @@ export class SelectionService implements OnDestroy {
         if(newUnselectedRecords.length > 0)
             this._events.next({type: SelectionEventType.UNSELECT, records: newUnselectedRecords});
     }
-    
+
     private buildSelectRecordsAction(): Action {
         return new Action({
             icon: "far fa-square",

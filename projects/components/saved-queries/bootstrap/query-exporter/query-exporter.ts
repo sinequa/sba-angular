@@ -54,7 +54,7 @@ export class BsQueryExporter {
 
         this.savedQueriesService.exportModal(
             this.hasSelectedRecords() ? ExportSourceType.Selection : ExportSourceType.Result);
-        
+
     }
 
 }

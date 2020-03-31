@@ -6,6 +6,6 @@ export default {
             "password": "Password",
             "singleSignOn": "Single sign-on",
             "signInWith": "Sign in with..."
-        }        
+        }
     }
 }

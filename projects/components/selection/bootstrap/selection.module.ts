@@ -14,7 +14,7 @@ import {BsResultSelector} from "./result-selector/result-selector";
 
         IntlModule,
 
-        BsActionModule, 
+        BsActionModule,
     ],
     declarations: [
         BsResultsSelector, BsResultSelector,

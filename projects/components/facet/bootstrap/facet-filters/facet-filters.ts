@@ -19,7 +19,7 @@ export class BsFacetFilters implements OnChanges {
     @Input() itemCount: number = 5;
     filters : Action[];
     hidden: boolean;
-    
+
     facetStatus : any = {
         add : {
             title : "msg#facet.filters.add",
@@ -110,7 +110,7 @@ export class BsFacetFilters implements OnChanges {
 
     //Build filters bar : getting children and adding extra option (add/clear filter)
     buildFilters(){
-        
+
         // For each facet
         this.facets.forEach((facet : any) => {
 
@@ -126,7 +126,7 @@ export class BsFacetFilters implements OnChanges {
                 childrenActions.push(new Action({ separator: true }));
 
             this.getChildren(facet, childrenActions)
-                .forEach(a => childrenActions.push(a));            
+                .forEach(a => childrenActions.push(a));
 
             if(childrenActions.length == 0){
                 return;
@@ -171,7 +171,7 @@ export class BsFacetFilters implements OnChanges {
             item.text = item.title = this.facetStatus.remove.title;
             item.icon = this.facetStatus.remove.icon;
             this.facetService.addFacet({name:facet.name, position:0, hidden:false, expanded:true, view:""});
-        }     
+        }
         else{
             item.text = item.title =  this.facetStatus.add.title;
             item.icon = this.facetStatus.add.icon;
@@ -206,21 +206,21 @@ export class BsFacetFilters implements OnChanges {
             if(this.enableAddFacet){
                 item.children.pop();
                 const child = current.children.pop();
-                if (child) { 
+                if (child) {
                     item.children.push(child);
                 }
             }
-            this.filters[this.filters.indexOf(current)] = item; 
-            return; 
+            this.filters[this.filters.indexOf(current)] = item;
+            return;
         }
-        this.filters.push(item); 
+        this.filters.push(item);
     }
 
     removeSelect(select: Select): Action {
-        
+
         let expr = this.appService.parseExpr(select.expression) as Expr;
         let display = expr.display || expr.value;
-        
+
         return new Action({
             name: expr.value,
             text: display,

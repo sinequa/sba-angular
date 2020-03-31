@@ -26,7 +26,7 @@ export const defaultLabelComponents: LabelsComponents = {
     imports: [
         FormsModule, ReactiveFormsModule,
         CommonModule,
-        
+
         IntlModule,
         ValidationModule,
 
@@ -42,7 +42,7 @@ export const defaultLabelComponents: LabelsComponents = {
     exports: [
         BsLabelsActionItem, BsRenameLabel, BsLabelsMenuComponent
     ],
-    providers: [        
+    providers: [
         {provide: LABELS_COMPONENTS, useValue: defaultLabelComponents},
     ]
 })

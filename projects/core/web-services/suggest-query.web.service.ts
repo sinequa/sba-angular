@@ -21,7 +21,7 @@ export class SuggestQueryWebService extends HttpService {
 
     /**
      * Gets suggestions for the passed text for a set of fields using the passed suggestquery web service
-     * 
+     *
      * @param suggestQuery The name of the suggestquery web service to use
      * @param text The text to match
      * @param query The name of the current query

@@ -145,20 +145,20 @@ export class Utils {
                 if (deep && Utils.isObject(src)) {
                     if (Utils.isDate(src)) {
                         dst[key] = new Date(src.valueOf());
-                    } 
+                    }
                     else if (Utils.isRegExp(src)) {
                         dst[key] = new RegExp(src);
-                    } 
+                    }
                     else if (src.nodeName) {
                         dst[key] = src.cloneNode(true);
-                    } 
+                    }
                     else {
                         if (!Utils.isObject(dst[key])) {
                             dst[key] = Utils.isArray(src) ? [] : {};
                         }
                         Utils.baseExtend(dst[key], [src], true);
                     }
-                } 
+                }
                 else {
                     dst[key] = src;
                 }
@@ -259,9 +259,9 @@ export class Utils {
     /**
      * Makes a deep copy of the passed object or array and returns it.
      * Copies of source objects of the following types: `TypedArray`, `Date`, `RegExp` `Node` are
-     * made using the appropriate constructor. Arrays are created using `[]`. Other objects are created 
+     * made using the appropriate constructor. Arrays are created using `[]`. Other objects are created
      * using `Object.create` passing the source object's protptype, if any.
-     * 
+     *
      * @param source The source item to copy (`Object`, `Array`, `TypedArray`, `Date`, `RegExp`, `Node`)
      * @param destination An optional item to use as the destination. If passed, the item is cleared
      * before the source is copied to it. The destination cannot be a `TypedArray` and cannot be the same
@@ -405,7 +405,7 @@ export class Utils {
     /**
      * Makes a shallow copy of the passed object. Empty string values are removed from the copied object.
      * A string value containing `""` is copied as an empty string.
-     * 
+     *
      * @param defaults The object to copy
      * @return The copied object
      */
@@ -571,7 +571,7 @@ export class Utils {
      * @param options Options for the conversion. The default is `{reviveDates: true}`
      */
     static fromJson(str: string, options: FromJsonOptions = {reviveDates: true}): any {
-        if (!str || typeof str !== "string") { 
+        if (!str || typeof str !== "string") {
             return {};
         }
         try {
@@ -932,9 +932,9 @@ export class Utils {
     }
 
     /**
-     * 
-     * @param value 
-     * @param _default 
+     *
+     * @param value
+     * @param _default
      */
     static isTrue(
         value,
@@ -962,7 +962,7 @@ export class Utils {
      * Compares two strings using the current locale. The return value is negative
      * if `a` comes before `b` and positive if `a` comes after `b`. If the values
      * are equal then `0` is returned
-     * 
+     *
      * @param a The first string
      * @param b The second string
      * @param ignoreCase If set, do a case-insensitive comparison
@@ -1189,7 +1189,7 @@ export class Utils {
     /**
      * Replaces patterns in a string with a replacement string. The pattern can either a string
      * or a `RegExp`.
-     * 
+     *
      * @param s The string in which to search for a pattern
      * @param pattern The pattern
      * @param replacement The replacement string to replace any occurrences of the pattern in the string
@@ -1478,7 +1478,7 @@ export class Utils {
                 Object.keys(obj).forEach(key => {
                     if (keys(obj[key], key, obj)) {
                         ret[key] = obj[key];
-                    } 
+                    }
                 });
             }
             else {
@@ -1508,7 +1508,7 @@ export class Utils {
 
             if (last < wait && last >= 0) {
                 timeout = setTimeout(later, wait - last);
-            } 
+            }
             else {
                 timeout = null;
                 if (!immediate) {
@@ -1572,7 +1572,7 @@ export class Utils {
                 previous = now;
                 result = func.apply(context, args);
                 if (!timeout) context = args = null;
-            } 
+            }
             else if (!timeout && options.trailing !== false) {
                 timeout = setTimeout(later, remaining);
             }
@@ -1587,7 +1587,7 @@ export class Utils {
 
         return throttled;
     }
-    
+
     private static frameTasks: Map<(...params) => any, FrameTask> = new Map<(...params) => any, FrameTask>();
 
     /**
@@ -1639,7 +1639,7 @@ export class Utils {
         const urlObj = Utils.makeURL(url);
         for (const param in params) {
             if (params.hasOwnProperty(param)) {
-                urlObj.searchParams.set(param, params[param]); 
+                urlObj.searchParams.set(param, params[param]);
             }
         }
         const index = url.indexOf("?");
@@ -1677,7 +1677,7 @@ export class Utils {
 
     /**
      * Add paths to a url adding path separators as necessary
-     * 
+     *
      * @param url The url
      * @param paths One or more paths to add to the url
      */

@@ -23,7 +23,7 @@ export class BsEditAlert implements OnInit, OnDestroy {
     private alertFrequencyControl: FormControl;
     private alertTimesControl: FormControl;
     private alertActiveControl: FormControl;
-    private updateQueryControl: FormControl; 
+    private updateQueryControl: FormControl;
 
     constructor(
         @Inject(MODAL_MODEL) public model: Alert,

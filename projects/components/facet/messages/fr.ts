@@ -1,5 +1,5 @@
 export default {
-    "facet": {        
+    "facet": {
         "showFacetTextView": "Afficher le texte",
         "showFacetChartView": "Afficher le graphique",
         "itemExclude": "Exclure",
@@ -101,7 +101,7 @@ export default {
             "clear": "Effacer",
             "unavailable": "Aucun document disponible dans la plage courante"
         },
-        
+
         "filters":{
             "add":"Ajouter la facette",
             "remove":"Retirer la facette",

@@ -43,7 +43,7 @@ export default {
         "resultsTextTab": "Text",
         "results_all_tab": "All",
         "results_text_tab": "Text",
-        
+
         "resultsTimelineView" : {
             "display" : "Timeline",
             "events" : "Events",

@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
 
   /**
    * Open recent documents in the preview
-   * @param document 
+   * @param document
    */
   openRecentDocument(document: RecentDocument) {
     this.previewService.openRoute(document as any, this.searchService.makeQuery());
@@ -66,7 +66,7 @@ export class HomeComponent implements OnInit {
     localStorage.setItem('sinequa-theme', this.isDark()? 'dark' : 'normal');
     return false;
   }
-  
+
   /**
    * Returns the list of features activated in the top right menus.
    * The configuration from the config.ts file can be overriden by configuration from
