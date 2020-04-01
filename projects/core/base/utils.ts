@@ -126,7 +126,7 @@ export class Utils {
 
     private static baseExtend(dst, objs, deep?: boolean, sort?: boolean | ((a: string, b: string) => number)) {
         for (let i = 0, ii = objs.length; i < ii; ++i) {
-            let obj = objs[i];
+            const obj = objs[i];
             if (!Utils.isObject(obj) && !Utils.isFunction(obj)) {
                 continue;
             }
@@ -140,8 +140,8 @@ export class Utils {
                 }
             }
             for (let j = 0, jj = keys.length; j < jj; j++) {
-                let key = keys[j];
-                let src = obj[key];
+                const key = keys[j];
+                const src = obj[key];
                 if (deep && Utils.isObject(src)) {
                     if (Utils.isDate(src)) {
                         dst[key] = new Date(src.valueOf());
@@ -224,7 +224,7 @@ export class Utils {
                     }
                 }
             } else if (Utils.isArray(obj) || Utils.isArrayLike(obj)) {
-                let isPrimitive = typeof obj !== 'object';
+                const isPrimitive = typeof obj !== 'object';
                 for (key = 0, length = obj.length; key < length; key++) {
                     if (isPrimitive || key in obj) {
                         iterator.call(context, obj[key], key, obj);
@@ -335,7 +335,7 @@ export class Utils {
             }
 
             // Already copied values
-            let index = stackSource.indexOf(source);
+            const index = stackSource.indexOf(source);
             if (index !== -1) {
                 return stackDest[index];
             }
@@ -374,10 +374,10 @@ export class Utils {
 
     // Not currently used
     private static copyWithoutNullOrEmpty(dst: MapOf<any>, src: MapOf<any>): MapOf<any> {
-        let keys = Object.keys(src);
+        const keys = Object.keys(src);
         for (let j = 0, jj = keys.length; j < jj; j++) {
-            let key = keys[j];
-            let value = src[key];
+            const key = keys[j];
+            const value = src[key];
             if (value === null || Utils.isEmpty(null)) {
                 continue;
             }
@@ -410,13 +410,13 @@ export class Utils {
      * @return The copied object
      */
     static copyDefaults(defaults: {}): {} {
-        let _defaults = Utils.copy(defaults);
+        const _defaults = Utils.copy(defaults);
         if (_defaults) {
             Object.keys(_defaults).forEach(key => {
                 // Unset parameters will come through as empty strings (regardless of type)
                 // Filter these out (to not hide defaults on the server) and accept "" as a way of explicitly
                 // setting a parameter to be an empty string
-                let value = _defaults[key];
+                const value = _defaults[key];
                 if (value === "") {
                     delete _defaults[key];
                 }
@@ -473,7 +473,7 @@ export class Utils {
      * @return The converted `Date` in UTC or `undefined`
      */
     static toDate(str: string): Date | undefined {
-        let ms = Date.parse(str);
+        const ms = Date.parse(str);
         if (!ms && ms !== 0) {
             return undefined;
         }
@@ -510,7 +510,7 @@ export class Utils {
         if (!date)  {
             return "";
         }
-        let m = moment(date);
+        const m = moment(date);
         if (Utils.getTime(date) === 0) {
             return m.format("YYYY-MM-DD");
         }
@@ -526,7 +526,7 @@ export class Utils {
      * @param date The Sinequa system date string to convert
      */
     static fromSysDateStr(value: string): Date | undefined {
-        let m = moment(value, "YYYY-MM-DD HH:mm:ss");
+        const m = moment(value, "YYYY-MM-DD HH:mm:ss");
         if (m.isValid()) {
             return m.toDate();
         }
@@ -555,7 +555,7 @@ export class Utils {
         return JSON.stringify(value,
             function(key: string, value: any): any  {
                 if (key && Utils.isDate(this[key])) {
-                    let str = Utils.toSysDateStr(this[key]);
+                    const str = Utils.toSysDateStr(this[key]);
                     return str;
                 }
                 return value;
@@ -579,13 +579,13 @@ export class Utils {
                 (key, value) => {
                     if (options.reviveDates && typeof value === "string") {
                         if (Utils.isSysDateLike(value)) {
-                            let m = moment(value, "YYYY-MM-DD HH:mm:ss");
+                            const m = moment(value, "YYYY-MM-DD HH:mm:ss");
                             if (m.isValid()) {
                                 return m.toDate();
                             }
                         }
                         else if (Utils.isISO8601Like(value)) {
-                            let m = moment(value, moment.ISO_8601);
+                            const m = moment(value, moment.ISO_8601);
                             if (m.isValid()) {
                                 return m.toDate();
                             }
@@ -895,7 +895,7 @@ export class Utils {
 
         // Support: iOS 8.2 (not reproducible in simulator)
         // "length" in obj used to prevent JIT error (gh-11508)
-        let length = "length" in Object(obj) && obj.length;
+        const length = "length" in Object(obj) && obj.length;
 
         // NodeList objects (with `item` method) and
         // other objects with suitable length characteristics are array-like
@@ -1395,7 +1395,7 @@ export class Utils {
         if (!Utils.isObject(obj) || Utils.isEmpty(name)) {
             return undefined;
         }
-        let keys = Object.keys(obj).filter(key => Utils.eqNC(key, name));
+        const keys = Object.keys(obj).filter(key => Utils.eqNC(key, name));
         if (keys.length === 0) {
             return undefined;
         }
@@ -1472,7 +1472,7 @@ export class Utils {
      * @param keys An array of keys or a callback function
      */
     static pick(obj: {}, keys: string[] | ((value: any, key: string, obj: object) => boolean)): {} {
-        let ret = {};
+        const ret = {};
         if (!!obj) {
             if (Utils.isFunction(keys)) {
                 Object.keys(obj).forEach(key => {
@@ -1482,7 +1482,7 @@ export class Utils {
                 });
             }
             else {
-                for (let key of keys) {
+                for (const key of keys) {
                     if (obj.hasOwnProperty(key)) {
                         ret[key] = obj[key];
                     }
@@ -1503,8 +1503,8 @@ export class Utils {
     static debounce(func: (...params) => any, wait = 0, immediate = false, every?: (...params) => any): (...params) => any {
         let timeout, args, context, timestamp, result;
 
-        let later = function() {
-            let last = Date.now() - timestamp;
+        const later = function() {
+            const last = Date.now() - timestamp;
 
             if (last < wait && last >= 0) {
                 timeout = setTimeout(later, wait - last);
@@ -1551,17 +1551,17 @@ export class Utils {
         let timeout, context, args, result;
         let previous = 0;
 
-        let later = function() {
+        const later = function() {
             previous = options.leading === false ? 0 : Date.now();
             timeout = null;
             result = func.apply(context, args);
             if (!timeout) context = args = null;
         };
 
-        let throttled = function(this: any) {
-            let now = Date.now();
+        const throttled = function(this: any) {
+            const now = Date.now();
             if (!previous && options.leading === false) previous = now;
-            let remaining = wait - (now - previous);
+            const remaining = wait - (now - previous);
             context = this;
             args = arguments;
             if (remaining <= 0 || remaining > wait) {
@@ -1603,7 +1603,7 @@ export class Utils {
                     Utils.frameTasks.clear();
                 });
             }
-            let task = Utils.frameTasks.get(callback);
+            const task = Utils.frameTasks.get(callback);
             if (task) {
                 // Update params
                 task.params = params;
@@ -1702,9 +1702,9 @@ export class Utils {
     static makeHttpParams(params: MapOf<string | boolean | number | Date | object | undefined>): HttpParams {
         let httpParams = new HttpParams({encoder: new SqHttpParameterCodec()});
         if (params) {
-            for (let param in params) {
+            for (const param in params) {
                 if (params.hasOwnProperty(param)) {
-                    let _value = params[param];
+                    const _value = params[param];
                     let value = "";
                     if (Utils.isString(_value)) {
                         value = _value;
@@ -1969,7 +1969,7 @@ export class Utils {
         if (str) {
             let current = 0;
             const tokens = str.match(/[0-9\.,]+|[a-zA-Z]+/g) || [];
-            for (let token of tokens) {
+            for (const token of tokens) {
                 if (/[a-zA-Z]/.test(token)) {
                     total += Utils.calculateDuration(current, token);
                     current = 0;

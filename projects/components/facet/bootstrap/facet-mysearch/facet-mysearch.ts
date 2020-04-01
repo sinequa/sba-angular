@@ -37,7 +37,7 @@ export class BsMySearch extends AbstractFacet implements OnChanges {
                     return "text";
                 }
                 else {
-                    let fields = item.expr.getFields();
+                    const fields = item.expr.getFields();
                     return fields.join("-");
                 }
             }
@@ -47,10 +47,10 @@ export class BsMySearch extends AbstractFacet implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes["results"]) {
-            let advancedValues = this.searchService.query.getAdvancedValues();
+            const advancedValues = this.searchService.query.getAdvancedValues();
             this.advancedFields = Object.keys(advancedValues);
             this.advancedValues = {};
-            for (let key of this.advancedFields) {
+            for (const key of this.advancedFields) {
                 this.advancedValues[key] = advancedValues[key].map(value => ({
                     value: value,
                     display: this.searchService.query.getAdvancedValueExpr(this.appService, key, value)

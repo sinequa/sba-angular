@@ -61,7 +61,7 @@ export class PreviewDocumentIframe  {
 
 
     public onPreviewDocLoad(event: Event) {
-        let previewDocument = new PreviewDocument(this.documentFrame);
+        const previewDocument = new PreviewDocument(this.documentFrame);
 
         // SVG highlight:
         //   background rectangle (highlight) were added to the SVG by the HTML generator (C#), but html generation is

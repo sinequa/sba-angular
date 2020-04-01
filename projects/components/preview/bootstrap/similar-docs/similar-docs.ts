@@ -42,8 +42,8 @@ export class BsSimilarDocs implements OnInit {
 
         if(this.similarDocsColumn){
 
-            let docids = JSON.parse(this.record[this.similarDocsColumn]);
-            let docs : SimilarDoc[] = docids.map(
+            const docids = JSON.parse(this.record[this.similarDocsColumn]);
+            const docs : SimilarDoc[] = docids.map(
                 obj => {
                     return {
                         id : Object.keys(obj)[0],
@@ -52,11 +52,11 @@ export class BsSimilarDocs implements OnInit {
                         record : null
                     };
                 });
-            let ids : string[] = docs.map(obj => obj.id);
+            const ids : string[] = docs.map(obj => obj.id);
 
             if(docs.length > 0) {
 
-                let query = Query.copy(this.searchService.query);
+                const query = Query.copy(this.searchService.query);
                 query.text = "";
                 query.aggregations = [];
                 query.select = [];
@@ -76,10 +76,10 @@ export class BsSimilarDocs implements OnInit {
         }
 
         if(this.nearSimilarity){
-            let sourceDocumentId = this.record.id;
+            const sourceDocumentId = this.record.id;
             this.similarDocumentsService.get(sourceDocumentId, this.searchService.query.name).subscribe(
                 (results) => {
-                    let ids = this.docs.map(d => d.id);
+                    const ids = this.docs.map(d => d.id);
                     this.docs = this.docs.concat(results
                         .filter(r => ids.indexOf(r.id) === -1)  // Keep results not already in the list
                         .map(r => {

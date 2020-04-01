@@ -36,7 +36,7 @@ export class SuggestFieldWebService extends HttpService {
             if (!Utils.isArray(fields)) {
                 fields = [fields];
             }
-            let observable = this.httpClient.post<{suggests: Suggestion[]}>(this.makeUrl("suggestfield"), {
+            const observable = this.httpClient.post<{suggests: Suggestion[]}>(this.makeUrl("suggestfield"), {
                 app: this.appName,
                 text: text,
                 fields: fields,

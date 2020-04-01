@@ -376,7 +376,7 @@ export class Expr {
 
     constructor(init: ExprValueInitializer | ExprOperandsInitializer) {
         if (!(<ExprOperandsInitializer>init).op1) {
-            let valueInit: ExprValueInitializer = <ExprValueInitializer>init;
+            const valueInit: ExprValueInitializer = <ExprValueInitializer>init;
             this.exprContext = valueInit.exprContext;
             if (!Utils.isUndefined(valueInit.value)) {
                 this.value = ExprParser.unescape(valueInit.value);
@@ -477,16 +477,16 @@ export class Expr {
             });
         }
 
-        let values: IRef<string[] | undefined> = {value: undefined};
-        let locations: IRef<ExprLocation[] | undefined> = {value: undefined};
-        let operator: IRef<ExprOperator> = {value: ExprOperator.none};
-        let range: IRef<ExprRange> = {value: ExprRange.none};
+        const values: IRef<string[] | undefined> = {value: undefined};
+        const locations: IRef<ExprLocation[] | undefined> = {value: undefined};
+        const operator: IRef<ExprOperator> = {value: ExprOperator.none};
+        const range: IRef<ExprRange> = {value: ExprRange.none};
         Expr.parseValue(exprContext, text, field, allowEmptyValue, values, locations, operator, range);
         if (range.value !== ExprRange.none && values.value && locations.value) {
-            let value1 = values.value[0];
-            let value2 = values.value[1];
-            let location1 = locations.value[0];
-            let location2 = locations.value[1];
+            const value1 = values.value[0];
+            const value2 = values.value[1];
+            const location1 = locations.value[0];
+            const location2 = locations.value[1];
             if (range.value === ExprRange.gteLte && !Utils.eqNC(value1, "*") && !Utils.eqNC(value2, "*")) {
                 return new Expr({
                     exprContext: exprContext,
@@ -497,7 +497,7 @@ export class Expr {
                     operator: ExprOperator.between
                 });
             }
-            let expr1 = !Utils.eqNC(value1, "*") ? new Expr({
+            const expr1 = !Utils.eqNC(value1, "*") ? new Expr({
                 exprContext: exprContext,
                 value: value1,
                 locations: [location1],
@@ -505,7 +505,7 @@ export class Expr {
                 display: display,
                 operator: range.value === ExprRange.gteLt || range.value === ExprRange.gteLte ? ExprOperator.gte : ExprOperator.gt
             }) : null;
-            let expr2 = !Utils.eqNC(value2, "*") ? new Expr({
+            const expr2 = !Utils.eqNC(value2, "*") ? new Expr({
                 exprContext: exprContext,
                 value: value2,
                 locations: [location2],
@@ -631,10 +631,10 @@ export class Expr {
     static getValueAndLocation(text: string): ExprValueLocation {
         let start = 0;
         let length = text.length;
-        let value1 = Utils.trimStart(text);
+        const value1 = Utils.trimStart(text);
         start += length - value1.length;
         length -= length - value1.length;
-        let value2 = Utils.trimEnd(value1);
+        const value2 = Utils.trimEnd(value1);
         length -= length - value2.length;
         return {
             value: value2,
@@ -821,7 +821,7 @@ export class Expr {
                 expr1.addOperand(expr2);
             }
             else {
-                for (let expr3 of expr2.operands) {
+                for (const expr3 of expr2.operands) {
                     expr1.addOperand(expr3);
                 }
             }
@@ -863,8 +863,8 @@ export class Expr {
             return `[${this.escapeValue(this.values[0])}..${this.escapeValue(this.values[1])}]`;
         }
         if (this.values && this.values.length > 1) {
-            let sb: string[] = [];
-            for (let value of this.values) {
+            const sb: string[] = [];
+            for (const value of this.values) {
                 if (sb.length > 0) {
                     sb.push(", ");
                 }
@@ -1001,7 +1001,7 @@ export class Expr {
             }
             else if (this.values.length > 1) {
                 let first = true;
-                for (let value of this.values) {
+                for (const value of this.values) {
                     ctxt.message.push(first ? "[" : ", ");
                     first = false;
                     this._addValue(options, ctxt, value);
@@ -1185,13 +1185,13 @@ export class Expr {
             if (expr1.not !== expr2.not) {
                 return false;
             }
-            let field1 = context.appService.resolveColumnAlias(expr1.field);
-            let field2 = context.appService.resolveColumnAlias(expr2.field);
+            const field1 = context.appService.resolveColumnAlias(expr1.field);
+            const field2 = context.appService.resolveColumnAlias(expr2.field);
             if (field1 !== field2) {
                 return false;
             }
-            let operator1 = expr1.operator === ExprOperator.none ? ExprOperator.eq : expr1.operator;
-            let operator2 = expr2.operator === ExprOperator.none ? ExprOperator.eq : expr2.operator;
+            const operator1 = expr1.operator === ExprOperator.none ? ExprOperator.eq : expr1.operator;
+            const operator2 = expr2.operator === ExprOperator.none ? ExprOperator.eq : expr2.operator;
             if (operator1 !== operator2) {
                 return false;
             }
@@ -1212,15 +1212,15 @@ export class Expr {
                 return false;
             }
         }
-        let values1Length = expr1.values ? expr1.values.length : 0;
-        let values2Length = expr2.values ? expr2.values.length : 0;
+        const values1Length = expr1.values ? expr1.values.length : 0;
+        const values2Length = expr2.values ? expr2.values.length : 0;
         if (values1Length !== values2Length) {
             return false;
         }
         if (values1Length && expr1.values && expr2.values) {
-            for (let value1 of expr1.values) {
+            for (const value1 of expr1.values) {
                 let found = false;
-                for (let value2 of expr2.values) {
+                for (const value2 of expr2.values) {
                     if (Utils.eqNC(value1, value2)) {
                         found = true;
                     }
@@ -1796,9 +1796,9 @@ export class ExprParser {
         if (value.search(/[\\`]/) === -1) {
             return "`" + value + "`";
         }
-        let sb: string[] = ["`"];
+        const sb: string[] = ["`"];
         for (let i = 0, ic = value.length; i < ic; i++) {
-            let ch = value[i];
+            const ch = value[i];
             if (ch === "\\" || ch === "`") {
                 sb.push("\\");
             }
@@ -1822,7 +1822,7 @@ export class ExprParser {
         if (!ExprParser.isEscaped(value)) {
             return value;
         }
-        let sb: string[] = [];
+        const sb: string[] = [];
         for (let i = 1, ic = value.length - 1; i < ic; i++) {
             let ch = value[i];
             if (ch === "\\") {
@@ -1843,9 +1843,9 @@ export class ExprParser {
         if (!values) {
             return values;
         }
-        let values1: string[] = [];
+        const values1: string[] = [];
         for (let _i = 0, _a = values; _i < _a.length; _i++) {
-            let value = _a[_i];
+            const value = _a[_i];
             values1.push(ExprParser.unescape(value));
         }
         return values1;
@@ -1861,11 +1861,11 @@ export class ExprParser {
         if (!text.includes(separator)) {
             return [{value: text, start: 0, length: text.length}];
         }
-        let values: ExprValueLocation[] = [];
-        let length = text.length;
+        const values: ExprValueLocation[] = [];
+        const length = text.length;
         let current = 0;
         let currentStart = 0;
-        let sb: string[] = [];
+        const sb: string[] = [];
         let value: ExprValueLocation;
         while (true) {
             if (current >= length) {
@@ -1876,12 +1876,12 @@ export class ExprParser {
                 }
                 break;
             }
-            let ch = text[current];
+            const ch = text[current];
             if (ch === "\\") {
                 sb.push(ch);
                 current++;
                 if (current < length) {
-                    let ch1 = text[current];
+                    const ch1 = text[current];
                     if (ch1 === "\\" || ch1 === "`") {
                         sb.push(ch1);
                         current++;
@@ -1889,8 +1889,8 @@ export class ExprParser {
                 }
             }
             else if (ch === "`") {
-                let last: IRef<number> = {value: 0};
-                let s = ExprParser.matchUntil(text, length, current, current + 1, "`", last);
+                const last: IRef<number> = {value: 0};
+                const s = ExprParser.matchUntil(text, length, current, current + 1, "`", last);
                 if (!!s) {
                     sb.push(s);
                     current = last.value;
@@ -1920,7 +1920,7 @@ export class ExprParser {
 
     private matchKeyword(keyword: string, sbCurrentValue: string[], suffixCh?: string): boolean {
         if (sbCurrentValue.length !== 0) {
-            let currentValue = sbCurrentValue.join("");
+            const currentValue = sbCurrentValue.join("");
             if (!!currentValue && !" \r\n\t".includes(currentValue[currentValue.length - 1])) {
                 return false;
             }
@@ -1928,19 +1928,19 @@ export class ExprParser {
         if (Utils.isEmpty(keyword)) {
             return false;
         }
-        let keywordLen = keyword.length;
+        const keywordLen = keyword.length;
         if (this.current + keywordLen > this.length) {
             return false;
         }
         for (let i = 0, ic = keywordLen; i < ic; i++) {
-            let ch = this.text[this.current + i];
-            let kh = keyword[i];
+            const ch = this.text[this.current + i];
+            const kh = keyword[i];
             if (ch !== kh) {
                 return false;
             }
         }
         if (this.current + keywordLen < this.length) {
-            let nch = this.text[this.current + keywordLen];
+            const nch = this.text[this.current + keywordLen];
             if (nch !== suffixCh && !" \r\n\t(".includes(nch)) {
                 return false;
             }
@@ -1955,7 +1955,7 @@ export class ExprParser {
     private static matchUntil(text: string, length: number, first: number, start: number, endChars: string, last: IRef<number>): string | undefined {
         last.value = start;
         let found = false;
-        let sb: string[] = [text.substr(first, start - first)];
+        const sb: string[] = [text.substr(first, start - first)];
         while (last.value < length) {
             let ch = text[last.value++];
             if (ch === "\\") {
@@ -1981,10 +1981,10 @@ export class ExprParser {
     }
 
     private matchSimpleValue(start: number): string {
-        let first = this.current;
+        const first = this.current;
         let last = start;
         while (last < this.length) {
-            let ch = this.text[last];
+            const ch = this.text[last];
             if (" \r\n\t)".includes(ch)) {
                 break;
             }
@@ -2014,7 +2014,7 @@ export class ExprParser {
         // Current is pointing at the next non-whitepspace character after this value
         if (value === null) return false;
         let pos = this.current;
-        let len = value.length;
+        const len = value.length;
         value = Utils.trimEnd(value);
         pos -= len - value.length;
         value = value.trim();
@@ -2084,7 +2084,7 @@ export class ExprParser {
         let ch;
         this.prevOp = this.op;
         let nextValue: string | undefined;
-        let sbCurrentValue: string[] = [];
+        const sbCurrentValue: string[] = [];
         let candidateFieldPos = -1;
         let fieldSpecified = false;
         while (true) {
@@ -2100,7 +2100,7 @@ export class ExprParser {
                 sbCurrentValue.push(ch);
                 this.current++;
                 if (this.current < this.length) {
-                    let ch1 = this.text[this.current];
+                    const ch1 = this.text[this.current];
                     if (ch1 === "\\" || ch1 === "`") {
                         sbCurrentValue.push(ch1);
                         this.current++;
@@ -2154,7 +2154,7 @@ export class ExprParser {
                 this.current += 4;
                 nextValue = undefined;
                 if (this.current < this.length && this.text[this.current] === "/") {
-                    let last: IRef<number> = {value: 0};
+                    const last: IRef<number> = {value: 0};
                     nextValue = this.matchUntil(this.current + 1, this.current + 1, " \r\n\t`\"([/", last);
                     let near = -1;
                     if (nextValue !== undefined) {
@@ -2177,8 +2177,8 @@ export class ExprParser {
             }
             else if (ch === "+" || ch === "-") {
                 if (this.current + 1 < this.length) {
-                    let ch1 = this.text[this.current + 1];
-                    let last: IRef<number> = {value: 0};
+                    const ch1 = this.text[this.current + 1];
+                    const last: IRef<number> = {value: 0};
                     let length: number;
                     if ("(\"[/`".includes(ch1)) { // ( " [ / `
                         nextValue = this.matchUntil(this.current, this.current + 2, this.getTerminators(ch1, false), last);
@@ -2197,10 +2197,10 @@ export class ExprParser {
                 return "bad operator: " + ch;
             }
             else if ("\"[{/`".includes(ch)) { // " [ { / `
-                let last: IRef<number> = {value: 0};
+                const last: IRef<number> = {value: 0};
                 nextValue = this.matchUntil(this.current, this.current + 1, this.getTerminators(ch, true), last);
                 if (!!nextValue) {
-                    let forceRange = (fieldSpecified && "[{".includes(ch) && sbCurrentValue.length === 0);
+                    const forceRange = (fieldSpecified && "[{".includes(ch) && sbCurrentValue.length === 0);
                     sbCurrentValue.push(nextValue);
                     this.current = last.value;
                     if (forceRange && this.getTokValue(sbCurrentValue)) {
@@ -2217,7 +2217,7 @@ export class ExprParser {
                     // field:value
                     // field`display`:value
                     // `display`:value
-                    let currentValue = sbCurrentValue.join("");
+                    const currentValue = sbCurrentValue.join("");
                     if (candidateFieldPos === -1) {
                         // Check for display
                         candidateFieldPos = this.findDisplay(currentValue);
@@ -2229,13 +2229,13 @@ export class ExprParser {
                     let field = currentValue.substr(candidateFieldPos).trim();
                     let display = "";
                     // Extract display
-                    let displayStart = this.findDisplay(field);
+                    const displayStart = this.findDisplay(field);
                     if (displayStart !== -1) {
                         display = ExprParser.unescape(field.substr(displayStart, field.length - displayStart));
                         field = field.substr(0, displayStart);
                     }
                     if (this.isValidFieldName(field) || (Utils.isEmpty(field) && !Utils.isEmpty(display))) {
-                        let value = currentValue.substr(0, candidateFieldPos);
+                        const value = currentValue.substr(0, candidateFieldPos);
                         if (this.canBeTokValue(value.trim())) {
                             this.current -= (sbCurrentValue.join("").length - candidateFieldPos); // back up to field
                             this._getTokValue(value);
@@ -2286,8 +2286,8 @@ export class ExprParser {
      * @return The parsed `Expr` or an error string
      */
     public static parse(text: string, context: ExprContext, options?: ExprParserOptions): Expr | string {
-        let parser = new ExprParser(context, options);
-        let error = parser.parse(text);
+        const parser = new ExprParser(context, options);
+        const error = parser.parse(text);
         if (error) {
             return error;
         }
@@ -2383,11 +2383,11 @@ export class ExprParser {
 
     private shift(): string | undefined {
         if (this.op.tok === Token.value) {
-            let value = this.op.tokValue.trim();
+            const value = this.op.tokValue.trim();
             if (Utils.isEmpty(value) && !this.options.allowEmptyValues) {
                 return "empty token";
             }
-            let expr = Expr.makeExpr(this.exprContext, value, this.contextField, this.contextDisplay, !!this.options.allowEmptyValues);
+            const expr = Expr.makeExpr(this.exprContext, value, this.contextField, this.contextDisplay, !!this.options.allowEmptyValues);
             if (!expr) {
                 return "invalid expression";
             }

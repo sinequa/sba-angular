@@ -548,7 +548,7 @@ export class Query implements IQuery {
      * @param escapeValue If `true` the value is escaped
      */
     setAdvancedValue(field: string, value: AdvancedValue, operator?: AdvancedOperator, escapeValue = false) {
-        let advanced = this.advanced || {};
+        const advanced = this.advanced || {};
         let currentValue = advanced[field];
         if (escapeValue) {
             value = this.escapeAdvancedValue(field, value);

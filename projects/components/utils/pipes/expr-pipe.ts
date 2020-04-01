@@ -14,7 +14,7 @@ export class ExprPipe extends AbstractIntlPipe {
     updateValue(key: Expr | string, params: ExprMessageOptions): void {
         super.updateValue(key, params);
         if (key instanceof Expr) {
-            let message = key.toMessage(params);
+            const message = key.toMessage(params);
             this.value = this.intlService.formatMessage(message.message, message.values);
         }
         else {

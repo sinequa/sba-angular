@@ -57,9 +57,9 @@ export class ClickOutside implements OnInit, OnDestroy {
             while (!!targetRoot.parentElement) {
                 targetRoot = targetRoot.parentElement;
             }
-            for (let selector of this.options.exclude) {
-                let elts = Array.from(targetRoot.querySelectorAll(selector));
-                for (let elt of elts) {
+            for (const selector of this.options.exclude) {
+                const elts = Array.from(targetRoot.querySelectorAll(selector));
+                for (const elt of elts) {
                     if (elt && elt.contains(<Node>event.target)) {
                         return;
                     }

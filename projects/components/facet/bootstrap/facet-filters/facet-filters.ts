@@ -52,9 +52,9 @@ export class BsFacetFilters implements OnChanges {
     getChildren(CCFacetItem: any, previousActions: Action[]): Action[] {
 
         let childrenActions: Action[] = [];
-        let aggregationName = CCFacetItem.aggregations;
-        let facetName = CCFacetItem.name || aggregationName;
-        let aggregation = this.results.aggregations.find(x => x.name === aggregationName);
+        const aggregationName = CCFacetItem.aggregations;
+        const facetName = CCFacetItem.name || aggregationName;
+        const aggregation = this.results.aggregations.find(x => x.name === aggregationName);
 
         if(Utils.isUndefined(aggregation)) return [];
 
@@ -83,13 +83,13 @@ export class BsFacetFilters implements OnChanges {
         if(items.length === 0) return [];
 
         // Keep top values
-        let topValues = (items.slice(0,this.itemCount).length === 0) ?  items : items.slice(0,this.itemCount);
-        let maxcount = topValues.reduce((a,b) => a.count > b.count? a : b).count;
+        const topValues = (items.slice(0,this.itemCount).length === 0) ?  items : items.slice(0,this.itemCount);
+        const maxcount = topValues.reduce((a,b) => a.count > b.count? a : b).count;
 
         // Create select actions
         childrenActions = topValues.map(item => {
-            let display : string = (item.display == null) ? item.value as string : item.display;
-            let count : string = item.count? " ("+item.count+")" : "";
+            const display : string = (item.display == null) ? item.value as string : item.display;
+            const count : string = item.count? " ("+item.count+")" : "";
             return new Action({
                 name: item.value as string,
                 text: display,
@@ -114,7 +114,7 @@ export class BsFacetFilters implements OnChanges {
         // For each facet
         this.facets.forEach((facet : any) => {
 
-            let childrenActions : Action[] = [];
+            const childrenActions : Action[] = [];
 
             if(this.searchService.query.select)
                 this.searchService.query.select
@@ -136,7 +136,7 @@ export class BsFacetFilters implements OnChanges {
 
                 childrenActions.push(new Action({ separator: true }));
 
-                let isOpened = this.facetService.isFacetOpened(facet.name);
+                const isOpened = this.facetService.isFacetOpened(facet.name);
 
                 childrenActions.push(new Action({
                     name: "toggle-facet",
@@ -165,7 +165,7 @@ export class BsFacetFilters implements OnChanges {
 
     onClickToggleFacet(item: Action, $event: UIEvent){
 
-        let facet = item.data as any;
+        const facet = item.data as any;
 
         if(item.title === this.facetStatus.add.title){
             item.text = item.title = this.facetStatus.remove.title;
@@ -201,7 +201,7 @@ export class BsFacetFilters implements OnChanges {
 
     // TODO: Refactor to avoid unclear pop/push
     updateOrInitFilter(item: Action, current: Action | undefined): void {
-        let index = current && this.filters.indexOf(current);
+        const index = current && this.filters.indexOf(current);
         if(current && index !== -1) {
             if(this.enableAddFacet){
                 item.children.pop();
@@ -218,8 +218,8 @@ export class BsFacetFilters implements OnChanges {
 
     removeSelect(select: Select): Action {
 
-        let expr = this.appService.parseExpr(select.expression) as Expr;
-        let display = expr.display || expr.value;
+        const expr = this.appService.parseExpr(select.expression) as Expr;
+        const display = expr.display || expr.value;
 
         return new Action({
             name: expr.value,

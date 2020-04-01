@@ -120,13 +120,13 @@ export class RecentQueriesService implements OnDestroy {
      * @param name
      */
     public recentquery(text: string): RecentQuery | undefined {
-        let i = this.recentqueryIndex(text);
+        const i = this.recentqueryIndex(text);
         return i>= 0? this.recentqueries[i] : undefined;
     }
 
     private recentqueryIndex(text: string): number {
         for (let i = 0, ic = this.recentqueries.length; i < ic; i++) {
-            let recentquery = this.recentqueries[i];
+            const recentquery = this.recentqueries[i];
             if (recentquery && recentquery.query.text.toLowerCase() === text.toLowerCase()) {
                 return i;
             }
@@ -154,7 +154,7 @@ export class RecentQueriesService implements OnDestroy {
             return false;
         }
 
-        let i = this.recentqueryIndex(recentquery.query.text); // If the query already exists
+        const i = this.recentqueryIndex(recentquery.query.text); // If the query already exists
         if(i >= 0){
             // Ignore identical queries issued within a certain time window (1s)
             // to avoid flooding the server. NB the request flooding mitigation in
@@ -199,7 +199,7 @@ export class RecentQueriesService implements OnDestroy {
      */
     public deleteRecentQuery(recentquery: RecentQuery) : boolean {
 
-        let index = this.recentqueryIndex(recentquery.query.text || "");
+        const index = this.recentqueryIndex(recentquery.query.text || "");
 
         if(index === -1)
             return false; // Nothing to delete

@@ -81,7 +81,7 @@ export class PreviewTooltip implements OnChanges {
      */
     positionTooltipAbove(box: DOMRect | ClientRect){
         this.zone.run(() => {   // Necessary to compute the right size of the tooltip when updating the text
-            let tooltipWidth = this.tooltip.nativeElement.getBoundingClientRect().width;
+            const tooltipWidth = this.tooltip.nativeElement.getBoundingClientRect().width;
             this.left = Math.round(box.left+0.5*box.width-0.5*tooltipWidth)+"px";
             //absolute top positioning
             //this.bottom = Math.round(box.top-tooltipHeight-5+this.window.scrollY)+"px";
@@ -109,7 +109,7 @@ export class PreviewTooltip implements OnChanges {
         const selection = this.document.getSelection();
         this.selectedText = selection ? selection.toString().trim() : "";
         if(selection && this.selectedText){
-            let range = selection.getRangeAt(0);
+            const range = selection.getRangeAt(0);
             //console.log("Selected text: ", text);
             //console.log(event);
             //console.log(range.getBoundingClientRect());
@@ -125,22 +125,22 @@ export class PreviewTooltip implements OnChanges {
      */
     handleMouseMove = (event: MouseEvent) => {
         if(!this.selectedText && event["path"]){
-            let path = <Element[]> event["path"];
+            const path = <Element[]> event["path"];
             if(path.length>0){
-                let element = path[0];
+                const element = path[0];
                 if(element.nodeType === 1 && element.nodeName === "SPAN" && (element.attributes["data-entity-basic"] || element.attributes["data-entity-display"])){
                     if(this.entityType !== element.className.split(" ")[0] || this.entityDisplay !== element.textContent){  // Tooltip not already displayed
                         this.entityType = element.className.split(" ")[0];    // Update text (and visibility)
                         this.entityDisplay = element.textContent || "";   // Tooltip content
-                        let value = element.attributes["data-entity-basic"] || element.attributes["data-entity-display"];
+                        const value = element.attributes["data-entity-basic"] || element.attributes["data-entity-display"];
                         this.entityValue = value.value;
                         const highlights = this.previewData.highlightsPerCategory[this.entityType].values
                             .find(v => v.value === value.value);
                         this.entityCount = highlights ? highlights.locations.length : 0;
                         this.entityLabel = this.previewData.highlightsPerCategory[this.entityType].categoryDisplayLabel;
 
-                        let idsplt = element.id.split("_");
-                        let idx = parseInt(idsplt[idsplt.length-1]);
+                        const idsplt = element.id.split("_");
+                        const idx = parseInt(idsplt[idsplt.length-1]);
                         const entity = this.findEntity(this.entityType, this.entityValue, (_, idIndex) => idIndex === idx);
                         this.entityIdx = entity ? entity.valueIndex : 0;
 
@@ -154,7 +154,7 @@ export class PreviewTooltip implements OnChanges {
         }
         // We are not hovering an entity
         if(this.entityType){    // If still displaying the tooltip...
-            let isOverTooltip = !!event["path"].find(el => el.localName === "sq-preview-tooltip");
+            const isOverTooltip = !!event["path"].find(el => el.localName === "sq-preview-tooltip");
             if(!isOverTooltip) {
                 if(Date.now() - this._inTime > 200){ // 200 ms tolerance before closing tooltip
                     this.entityType = "";
@@ -212,7 +212,7 @@ export class PreviewTooltip implements OnChanges {
             // Find the index of the next entity
             const entity = this.findEntity(this.entityType, this.entityValue, (valueIdx,_) => valueIdx === this.entityIdx+1);
             if (entity) {
-                let idx = entity.idIndex;
+                const idx = entity.idIndex;
                 this.previewDocument.selectHighlight(this.entityType, idx);
             }
         }
@@ -256,8 +256,8 @@ export class PreviewTooltip implements OnChanges {
         let currentIdx = 0;
         // For each highlight in the doc
         for(let i=0; i<this.previewData.highlightsPerLocation['length']; i++) {
-            let highlight = this.previewData.highlightsPerLocation[i];
-            let categories = Object.keys(highlight.positionInCategories);
+            const highlight = this.previewData.highlightsPerLocation[i];
+            const categories = Object.keys(highlight.positionInCategories);
             // For each value of the highlight
             for(let j=0; j<categories.length; j++){
                 // If this is the right entity type and value

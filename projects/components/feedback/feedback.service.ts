@@ -52,7 +52,7 @@ export class FeedbackService {
     }
 
     public sendUserFeedback(message: string, thankUser: boolean){
-        let event : AuditEvent = {
+        const event : AuditEvent = {
             type: AuditFeedbackType,
             detail: {
                 app: this.appService.appName,
@@ -94,7 +94,7 @@ export class FeedbackService {
     }
 
     public openFeedbackModal(title: string){
-        let message = {"message" : "", "title" : title};
+        const message = {"message" : "", "title" : title};
         this.modalService.open(this.feedbackComponents.feedbackForm, {model: message})
             .then((result) => {
                 if (result === ModalResult.OK && message.message.trim() !== "") {

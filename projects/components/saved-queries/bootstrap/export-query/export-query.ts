@@ -48,7 +48,7 @@ export class BsExportQuery implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.savedQueries = [];
-        for (let query of this.savedQueriesService.savedqueries) {
+        for (const query of this.savedQueriesService.savedqueries) {
             this.savedQueries.push(query.name);
         }
 

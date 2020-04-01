@@ -12,6 +12,7 @@ export interface AdvancedFormAutocompleteOptions {
 }
 
 @Directive({
+    // tslint:disable-next-line: directive-selector
     selector: "[sq-advanced-form-autocomplete]"
 })
 export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
@@ -27,7 +28,7 @@ export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
     }
 
     protected getSuggests() {
-        let value = this.getInputValue();
+        const value = this.getInputValue();
         if(value) { // If there is text, make a call to the suggest API
 
             this.processSuggests(

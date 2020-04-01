@@ -15,7 +15,7 @@ export class ResultMissingTerms implements OnChanges {
         if (changes["record"]) {
             this.missingTerms = [];
             if (this.record.termspresence) {
-                for (let tp of this.record.termspresence) {
+                for (const tp of this.record.termspresence) {
                     if (Utils.eqNC(tp.presence, "missing")) {
                         this.missingTerms.push(tp.term);
                     }

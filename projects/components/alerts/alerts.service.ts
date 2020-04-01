@@ -184,13 +184,13 @@ export class AlertsService implements OnDestroy {
      * @param name
      */
     public alert(name: string): Alert | undefined {
-        let i = this.alertIndex(name);
+        const i = this.alertIndex(name);
         return i>= 0? this.alerts[i] : undefined;
     }
 
     private alertIndex(name: string): number {
         for (let i = 0, ic = this.alerts.length; i < ic; i++) {
-            let alert = this.alerts[i];
+            const alert = this.alerts[i];
             if (alert && alert.name === name) {
                 return i;
             }
@@ -235,7 +235,7 @@ export class AlertsService implements OnDestroy {
      */
     public updateAlert(alert: Alert, index : number) : boolean {
 
-        let prevIndex = this.alertIndex(alert.name);
+        const prevIndex = this.alertIndex(alert.name);
         if(prevIndex !== -1 && index !== prevIndex)
             return false; // An alert with the same name exists at a different index
 
@@ -280,7 +280,7 @@ export class AlertsService implements OnDestroy {
      */
     public deleteAlert(alert: Alert) : boolean {
 
-        let index = this.alertIndex(alert.name);
+        const index = this.alertIndex(alert.name);
 
         if(index === -1)
             return false; // Nothing to delete
@@ -350,7 +350,7 @@ export class AlertsService implements OnDestroy {
      * the result is true if the alert was created.
      */
     public createAlertModal() : Promise<boolean> {
-        let alert: Alert = {
+        const alert: Alert = {
             name: "",
             description: "",
             timezone: this.userSettingsService.timezone,
@@ -368,7 +368,7 @@ export class AlertsService implements OnDestroy {
             .then((result) => {
                 if (result === ModalResult.OK) {
 
-                    let index = this.alertIndex(alert.name);
+                    const index = this.alertIndex(alert.name);
                     if (index !== -1) {
 
                         return this.modalService.yesNo("msg#alerts.alertAlreadyExists")
@@ -396,7 +396,7 @@ export class AlertsService implements OnDestroy {
      */
     public editAlertModal(alert: Alert, noUpdate?: boolean) : Promise<boolean> {
 
-        let prevName = alert.name;
+        const prevName = alert.name;
 
         return this.modalService.open(this.alertComponents.editAlertModal, {model: alert})
             .then((result) => {
@@ -405,10 +405,10 @@ export class AlertsService implements OnDestroy {
 
                     if(noUpdate) return true;
 
-                    let prevIndex = this.alertIndex(prevName);
+                    const prevIndex = this.alertIndex(prevName);
                     if(prevIndex === -1) return false; // this alert did not exist
 
-                    let index = this.alertIndex(alert.name);
+                    const index = this.alertIndex(alert.name);
                     if (index !== -1 && index !== prevIndex) {  // An alert with the same (new) name exists
 
                         return this.modalService.yesNo("msg#alerts.alertAlreadyExists")
@@ -442,7 +442,7 @@ export class AlertsService implements OnDestroy {
      */
     public manageAlertsModal() : Promise<boolean> {
 
-        let model: ManageAlertsModel = { alerts: Utils.copy(this.alerts) };
+        const model: ManageAlertsModel = { alerts: Utils.copy(this.alerts) };
 
         return this.modalService.open(this.alertComponents.manageAlertsModal, {model})
             .then((result) => {

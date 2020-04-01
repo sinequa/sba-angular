@@ -70,7 +70,7 @@ export class BsAdvancedFormRange implements OnInit, OnDestroy {
 
     ensureValue(value: string): string | number | Date {
         if (this.isDate) {
-            let value1 = Utils.toDate(value);
+            const value1 = Utils.toDate(value);
             if (value1 !== undefined) {
                 return value1;
             }

@@ -22,7 +22,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    */
   ngOnChanges() {
     if(this.previewData && this.previewDocument){
-      let extracts = this.previewData.highlightsPerCategory["extractslocations"].values;
+      const extracts = this.previewData.highlightsPerCategory["extractslocations"].values;
       if(!!extracts && extracts.length > 0){
         this.extracts = extracts[0].locations.map((_, i) => this.previewDocument.getHighlightText("extractslocations", i));
       }

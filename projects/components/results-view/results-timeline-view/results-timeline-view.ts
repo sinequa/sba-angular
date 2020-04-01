@@ -112,18 +112,18 @@ export class BsResultsTimelineView implements OnChanges {
             this.N_EVENTS = parseInt(this.view.n_events, 10);
         }
 
-        let ccaggregation = this.appService.getCCAggregation(this.view.aggregation);
+        const ccaggregation = this.appService.getCCAggregation(this.view.aggregation);
         //console.log(ccaggregation);
         if (!ccaggregation) {
             this.dates = undefined;
             return;
         }
-        let query = Query.copy(this.searchService.query);
+        const query = Query.copy(this.searchService.query);
         query.action = "aggregate";
         query.aggregations = [this.view.aggregation];   // Override distribs with only the timeline
         this.datefield = ccaggregation.column;
 
-        let ccaggregationevent = this.appService.getCCAggregation(this.view.aggregationEvent);
+        const ccaggregationevent = this.appService.getCCAggregation(this.view.aggregationEvent);
         if(ccaggregationevent){
             query.aggregations.push(this.view.aggregationEvent);
             this.eventfield = ccaggregationevent.column;
@@ -146,8 +146,8 @@ export class BsResultsTimelineView implements OnChanges {
                     //console.log(results.aggregations[1].items);
                     results.aggregations[1].items
                         .forEach((item) => {
-                            var cooc = item.display as string;
-                            var coocs = cooc.substr(1,cooc.length-2).split(")#(");
+                            const cooc = item.display as string;
+                            const coocs = cooc.substr(1,cooc.length-2).split(")#(");
                             item["event"] = coocs[0];
                             item["date"] = new Date(coocs[1]);
                         });
@@ -204,12 +204,12 @@ export class BsResultsTimelineView implements OnChanges {
             this.data_flags = this.data_flags.concat(this.events.slice(0,this.N_EVENTS));
 
         // Aggregates dates by months and weeks
-        var data_hist = this.histo_data(this.dates, "months");
-        var data_hist_weeks = this.histo_data(this.dates, "weeks");
+        const data_hist = this.histo_data(this.dates, "months");
+        const data_hist_weeks = this.histo_data(this.dates, "weeks");
 
         // console.log(data_hist);
 
-        var margin = {top: 10, right: 20, bottom: 20, left: 20},
+        const margin = {top: 10, right: 20, bottom: 20, left: 20},
             width = 960 - margin.left - margin.right,
             height = 550 - margin.top - margin.bottom;
 
@@ -224,7 +224,7 @@ export class BsResultsTimelineView implements OnChanges {
             .domain([data_hist[0].x0!, data_hist[data_hist.length-1].x1!])
             .range([0, width]);
 
-        var domain = this.x.domain();
+        const domain = this.x.domain();
         this.nmonths = d3.timeMonths(domain[0],domain[1]).length;
 
         // the y-scale parameters
@@ -239,11 +239,11 @@ export class BsResultsTimelineView implements OnChanges {
             .x(function(this: any, d) { return this.x(d[0]); })
             .y(function(this: any, d) { return this.y(d[1]); });*/
 
-        var brush = d3.brushX()
+        const brush = d3.brushX()
             .extent([[this.x.range()[0], 0], [this.x.range()[1], height]])
             .on('end', () => this.brushed(brush));
 
-        var zoom_ = d3.zoom<SVGGElement, unknown>()
+        const zoom_ = d3.zoom<SVGGElement, unknown>()
             .on("zoom", () => this.redraw());
 
         // Define the div for the tooltip
@@ -251,7 +251,7 @@ export class BsResultsTimelineView implements OnChanges {
         //    .attr("class", "tooltip")
         //    .style("opacity", 0);
 
-        let svg = d3.select(this.svg.nativeElement)
+        const svg = d3.select(this.svg.nativeElement)
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom);
 
@@ -276,7 +276,7 @@ export class BsResultsTimelineView implements OnChanges {
             .attr('y', 0)
             .attr('height', height);
 
-        var bars = this.g.selectAll(".bar")
+        const bars = this.g.selectAll(".bar")
             .data(data_hist.concat(data_hist_weeks))
             .enter().append("rect");
 
@@ -299,9 +299,9 @@ export class BsResultsTimelineView implements OnChanges {
 
     histo_data(data : DateItem[], scale : string){
 
-        var date_extent = d3.extent(data, function(d){return d.date;});
+        const date_extent = d3.extent(data, function(d){return d.date;});
 
-        var numHistBins : Date[];
+        let numHistBins : Date[];
 
         if(scale === "months")
             numHistBins = d3.timeMonths(d3.timeMonth.offset(date_extent[0]!,-1), d3.timeMonth.offset(date_extent[1]!,1));
@@ -309,11 +309,11 @@ export class BsResultsTimelineView implements OnChanges {
             numHistBins = d3.timeWeeks(d3.timeWeek.offset(date_extent[0]!,-1), d3.timeMonth.offset(date_extent[1]!,1));
 
         // the histogram function
-        var histo = d3.histogram<DateItem,Date>()
+        const histo = d3.histogram<DateItem,Date>()
             .value(function(d){ return d.date; })
             .thresholds(numHistBins);
 
-        var data_hist = histo(data);
+        const data_hist = histo(data);
 
         //console.log(data_hist);
 
@@ -343,8 +343,8 @@ export class BsResultsTimelineView implements OnChanges {
 
     add_tooltips(bars){
 
-        let tooltip = d3.select(this.tooltip.componentRef.location.nativeElement);
-        let instance = this;
+        const tooltip = d3.select(this.tooltip.componentRef.location.nativeElement);
+        const instance = this;
 
         bars
             .on("mouseover", function(this: any, d) {
@@ -375,8 +375,8 @@ export class BsResultsTimelineView implements OnChanges {
             })
             .on("click", (d) => {
                 if(! ((d.scale === "months" && this.nmonths > 32) || (d.scale === "weeks" && this.nmonths <= 32))) return;
-                var month_start = this.formatDayRequest(d.x0);
-                var month_end = this.formatDayRequest(d.x1);
+                const month_start = this.formatDayRequest(d.x0);
+                const month_end = this.formatDayRequest(d.x1);
                 this.filter(month_start, month_end);
             });
     }
@@ -393,7 +393,7 @@ export class BsResultsTimelineView implements OnChanges {
 
         this.g.selectAll(".flag").remove();
 
-        var flags = this.g.selectAll(".flag")
+        const flags = this.g.selectAll(".flag")
             .data(this.data_flags)
             .enter()
             .append("g").attr("class", "flag");
@@ -443,7 +443,7 @@ export class BsResultsTimelineView implements OnChanges {
     brushed(brush){
         console.log("brushed!", brush);
         if(d3.event.selection !== null){
-            var ext = d3.event.selection.map(this.x.invert);
+            const ext = d3.event.selection.map(this.x.invert);
             this.filter(this.formatDayRequest(ext[0]), this.formatDayRequest(ext[1]));
         }
     }
@@ -457,13 +457,13 @@ export class BsResultsTimelineView implements OnChanges {
 
         this.redrawing = true;
 
-        var xt = d3.event.transform.rescaleX(this.x);
-        var scaledAxis = this.xAxis.scale(xt);
+        const xt = d3.event.transform.rescaleX(this.x);
+        const scaledAxis = this.xAxis.scale(xt);
 
-        var domain = xt.domain();
+        const domain = xt.domain();
         this.nmonths = d3.timeMonths(domain[0],domain[1]).length;
 
-        var t = d3.transition("redrawing").duration(500);
+        const t = d3.transition("redrawing").duration(500);
 
         this.g.select(".x.axis") // change the x axis
             .transition(t as any)
@@ -499,7 +499,7 @@ export class BsResultsTimelineView implements OnChanges {
             return;
         }
 
-        var new_flags: any[] = [];
+        let new_flags: any[] = [];
 
         this.selectedFlags.forEach((flag) => new_flags = new_flags.concat(this.flag_idx[flag]));
 

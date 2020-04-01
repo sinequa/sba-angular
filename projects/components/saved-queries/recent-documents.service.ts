@@ -140,13 +140,13 @@ export class RecentDocumentsService implements OnDestroy {
      * @param name
      */
     public recentdocument(text: string): RecentDocument | undefined {
-        let i = this.recentdocumentIndex(text);
+        const i = this.recentdocumentIndex(text);
         return i>= 0? this.recentdocuments[i] : undefined;
     }
 
     private recentdocumentIndex(id: string): number {
         for (let i = 0, ic = this.recentdocuments.length; i < ic; i++) {
-            let recentdocument = this.recentdocuments[i];
+            const recentdocument = this.recentdocuments[i];
             if (recentdocument && recentdocument.id === id) {
                 return i;
             }
@@ -199,7 +199,7 @@ export class RecentDocumentsService implements OnDestroy {
             return false;
         }
 
-        let i = this.recentdocumentIndex(recentdocument.id); // If the document already exists
+        const i = this.recentdocumentIndex(recentdocument.id); // If the document already exists
         if(i >= 0){
             this.recentdocuments[i].date = recentdocument.date; // Update the date of the existing document
             this.events.next({type : RecentDocumentEventType.Update, recentdocument: this.recentdocuments[i]});
@@ -234,7 +234,7 @@ export class RecentDocumentsService implements OnDestroy {
      */
     public deleteRecentDocument(recentdocument: RecentDocument) : boolean {
 
-        let index = this.recentdocumentIndex(recentdocument.id);
+        const index = this.recentdocumentIndex(recentdocument.id);
 
         if(index === -1)
             return false; // Nothing to delete

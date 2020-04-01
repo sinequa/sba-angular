@@ -99,7 +99,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
      * Returns all the actions that are relevant in the current context
      */
     get actions(): Action[] {
-        let actions: Action[] = [];
+        const actions: Action[] = [];
         if(this.hasFiltered()) {
             actions.push(this.clearFilters);
         }
@@ -122,7 +122,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
     private makeData() {
         this.dataPoints = [];
         if(this.data && this.data.items){
-            for (let item of this.data.items) {
+            for (const item of this.data.items) {
                 this.dataPoints.push({
                     name: this.facetService.formatValue(item),
                     value: item.count,
@@ -138,9 +138,9 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
     private updateSelectedValues(){
         this.selectedValues.clear();
         this.selectionService.selectedRecords.forEach(id => {
-            let record = this.results.records.find(record => record.id === id);
+            const record = this.results.records.find(record => record.id === id);
             if(!!record && !!this.data){
-                let val = record[this.appService.getColumnAlias(this.appService.getColumn(this.data.column))];
+                const val = record[this.appService.getColumnAlias(this.appService.getColumn(this.data.column))];
                 if(val){
                     if(Utils.isString(val)){    // Sourcestr
                         this.selectedValues.add(val.toLowerCase());
@@ -170,11 +170,11 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
 
         if (this.colors && this.colors.length > 0) {
             this.options.getItemColor = (value: string): string => {
-                let index = this.dataPoints.findIndex(dataPoint => dataPoint.name === value);
+                const index = this.dataPoints.findIndex(dataPoint => dataPoint.name === value);
                 if (index === -1) {
                     return "black";
                 }
-                let item = this.getItem(this.dataPoints[index]);
+                const item = this.getItem(this.dataPoints[index]);
                 if (item) {
                     if (this.isFiltered(item)) {
                         return this.filteredColor;
@@ -236,7 +236,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
 
     click(dataPoint: ChartDataPoint) {
         if (this.data) {
-            let item = this.getItem(dataPoint);
+            const item = this.getItem(dataPoint);
             if (!!item) {
                 if(!this.isFiltered(item))
                     this.facetService.addFilterSearch(this.getName(), this.data, item);
@@ -255,7 +255,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
     }
 
     getItem(dataPoint: ChartDataPoint): AggregationItem | undefined {
-        let _dataPoint = this.dataPoints.find(_dataPoint => _dataPoint.name === dataPoint.name && _dataPoint.value === dataPoint.value);
+        const _dataPoint = this.dataPoints.find(_dataPoint => _dataPoint.name === dataPoint.name && _dataPoint.value === dataPoint.value);
         if (!!_dataPoint && !!_dataPoint.$item) {
             return _dataPoint.$item;
         }

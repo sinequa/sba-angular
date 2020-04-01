@@ -120,7 +120,7 @@ export class SponsoredResults implements OnChanges, OnInit {
 
     auditLinksDisplay() {
         if (!!this.sponsoredlinks && this.sponsoredlinks.length > 0) {
-            let auditEvents: AuditEvent[] = [];
+            const auditEvents: AuditEvent[] = [];
             this.sponsoredlinks.forEach(link => {
                 auditEvents.push({
                     type: AuditEventType.Link_Display,

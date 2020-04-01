@@ -55,25 +55,25 @@ export class MetadataItem implements OnChanges {
         this.isTree = !!this.column && AppService.isTree(this.column);
         this.isEntity = !!this.column && AppService.isEntity(this.column);
         this.isCsv = !!this.column && AppService.isCsv(this.column);
-        let values = this.record[this.appService.getColumnAlias(this.column, this.item)];
+        const values = this.record[this.appService.getColumnAlias(this.column, this.item)];
         if (this.isTree) {
-            let paths: string[] = values;
+            const paths: string[] = values;
             if (paths) {
-                for (let path of paths) {
-                    let parts = path.split("/");
+                for (const path of paths) {
+                    const parts = path.split("/");
                     if (parts.length > 0 && parts[0] === "") {
                         parts.splice(0, 1);
                     }
                     if (parts.length > 0 && parts[parts.length - 1] === "") {
                         parts.splice(parts.length - 1, 1);
                     }
-                    let item: TreeValueItem = {value: path, parts: parts.map(value => ({value: value}))};
+                    const item: TreeValueItem = {value: path, parts: parts.map(value => ({value: value}))};
                     this.valueItems.push(item);
                 }
             }
         }
         else if (this.isEntity) {
-            let entityItems: EntityItem[] = values;
+            const entityItems: EntityItem[] = values;
             if (entityItems) {
                 this.valueItems.push(...entityItems);
             }
@@ -87,7 +87,7 @@ export class MetadataItem implements OnChanges {
             }
         }
         else {
-            let value = this.ensureScalarValue(values);
+            const value = this.ensureScalarValue(values);
             if (!Utils.isEmpty(value)) {
                 this.valueItems.push({value: value});
             }
@@ -144,7 +144,7 @@ export class MetadataItem implements OnChanges {
         if (this.item == null || this.item !== "docformat" && this.item !== "fileext") {
             return "";
         }
-        let value: string = this.record[this.item];
+        const value: string = this.record[this.item];
         if (!value) {
             return "far fa-file";
         }
@@ -153,13 +153,13 @@ export class MetadataItem implements OnChanges {
 
     select(index: number, subIndex = 0) {
         if (this.isTree) {
-            let valueItem = <TreeValueItem>this.valueItems[index];
-            let parts = valueItem.parts.map((item) => item.value).slice(0, subIndex + 1);
+            const valueItem = <TreeValueItem>this.valueItems[index];
+            const parts = valueItem.parts.map((item) => item.value).slice(0, subIndex + 1);
             if (parts.length > 0) {
                 parts.unshift("");
                 parts.push("");
             }
-            let path = parts.join("/");
+            const path = parts.join("/");
             this._select.emit({item: this.item, valueItem: {value: path + "*", display: FacetService.treepathLast(path)}});
         }
         else {

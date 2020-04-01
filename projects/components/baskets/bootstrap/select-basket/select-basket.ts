@@ -45,7 +45,7 @@ export class BsSelectBasket implements OnInit {
     }
 
     newBasket(){
-        let model : Basket = {name : ""};
+        const model : Basket = {name : ""};
         this.basketsService.createBasketModal(model)
             .then((result) => {
                 if(result){ // The basket was created

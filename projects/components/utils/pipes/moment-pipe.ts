@@ -21,7 +21,7 @@ export class MomentPipe extends AbstractIntlPipe {
 
     updateValue(key:moment.MomentInput, params: MomentParams = {}): void {
         super.updateValue(key, params);
-        let m = moment(key);
+        const m = moment(key);
         if (params.format) {
             this.value = m.format(params.format);
         }

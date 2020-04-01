@@ -266,7 +266,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      */
     protected select(item: AutocompleteItem, submit?: boolean): void {
         this.setState(AutocompleteState.SELECTED); // Change state BEFORE setting input value, so the event is correctly processed
-        let searchable = this.setAutocompleteItem(item);
+        const searchable = this.setAutocompleteItem(item);
         this.dropdown.update(false);    // Close dropdown
 
         if(submit && searchable) this.submit.next();
@@ -297,11 +297,11 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     protected getSuggests() {
         let value = this.getInputValue();
         if(value) { // If there is text, make a call to the suggest API
-            let parseResult = this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
+            const parseResult = this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
             let fields: string[] | undefined = undefined;
             if(parseResult.result && this.fieldSearch){
-                let position = this.getInputPosition(); // Position of the caret, if needed
-                let res = parseResult.result.findValue(position);
+                const position = this.getInputPosition(); // Position of the caret, if needed
+                const res = parseResult.result.findValue(position);
                 // Field Search suggest
                 if(!!res && !!res.field){
                     fields = Utils.startsWith(res.field, "@") ? ["text"] : [res.field];
@@ -373,9 +373,9 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * Parse the query for syntax error (also allows to detect field search if needed)
      */
     protected parseQuery() : ParseResult {
-        let value = this.getInputValue();
-        let result = this.appService.parseExpr(value, {allowEmptyValues: true});
-        let event = result instanceof Expr? { result: result } : { error: result };
+        const value = this.getInputValue();
+        const result = this.appService.parseExpr(value, {allowEmptyValues: true});
+        const event = result instanceof Expr? { result: result } : { error: result };
         this.parse.next(event);
         return event;
     }
@@ -383,8 +383,8 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     protected getInputPosition(): number {
         // Come back before trailing spaces so the preceding value is still seen as the input value
         // (needed for ExprParser to stop autocomplete being cancelled on entering trailing spaces)
-        let position = this.uiService.getCaret(this.inputElement).start;
-        let length = Utils.len(Utils.trimEnd(this.getInputValue()));
+        const position = this.uiService.getCaret(this.inputElement).start;
+        const length = Utils.len(Utils.trimEnd(this.getInputValue()));
         return Math.min(position, length);
     }
 

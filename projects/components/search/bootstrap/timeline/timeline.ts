@@ -68,13 +68,13 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
     }
 
     private measureAxes(g, xG, yG, xAxis, yAxis) {
-        let opacity = g.style("opacity");
+        const opacity = g.style("opacity");
         g.style("opacity", "0");
         try {
             xG.call(xAxis);
             yG.call(yAxis);
-            let xRect = xG.node().getBoundingClientRect();
-            let yRect = yG.node().getBoundingClientRect();
+            const xRect = xG.node().getBoundingClientRect();
+            const yRect = yG.node().getBoundingClientRect();
             return {
                 xHeight: Math.ceil(xRect.height),
                 yWidth: Math.ceil(yRect.width)
@@ -123,12 +123,12 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             return;
         }
 
-        let chartWidth = Math.max(0, this.graph.nativeElement.offsetWidth - this.margin.left - this.margin.right);
-        let chartHeight = Math.max(0, this.graph.nativeElement.offsetHeight - this.margin.top - this.margin.bottom);
+        const chartWidth = Math.max(0, this.graph.nativeElement.offsetWidth - this.margin.left - this.margin.right);
+        const chartHeight = Math.max(0, this.graph.nativeElement.offsetHeight - this.margin.top - this.margin.bottom);
 
         // only update if chart size has changed
         if (this.prevChartWidth !== chartWidth || this.prevChartHeight !== chartHeight) {
-            let init = !this.prevChartWidth;
+            const init = !this.prevChartWidth;
             this.prevChartWidth = chartWidth;
             this.prevChartHeight = chartHeight;
 
@@ -143,7 +143,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             this.brush.extent([[0, -this.margin.top], [chartWidth, chartHeight]]);
 
             // Adjust number of ticks on x-axis to avoid overlapping
-            let xTickCount = Math.max(Math.trunc(chartWidth / 80), 2);
+            const xTickCount = Math.max(Math.trunc(chartWidth / 80), 2);
             this.xAxis.ticks(xTickCount);
 
             if (init || !withTransition) {
@@ -157,7 +157,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             }
             else {
                 // for subsequent updates use a transistion to animate the axis to the new position
-                let t = this.timelineG.transition().duration(this.updateTransistionMS);
+                const t = this.timelineG.transition().duration(this.updateTransistionMS);
                 t.select<SVGGElement>(".x")
                     .attr("transform", "translate(0," + chartHeight + ")")
                     .call(this.xAxis);
@@ -169,7 +169,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             this.area.y0(chartHeight);
 
             // bind up the data to the area
-            let areas = this.timelineG.selectAll(".area").data([this.aggregation.items]);
+            const areas = this.timelineG.selectAll(".area").data([this.aggregation.items]);
 
             // transistion to new position if already exists
             if (withTransition) {
@@ -187,7 +187,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 .attr("d", this.area);
 
             // add brush + grips if not already existing
-            let newBrush = !this.brushG;
+            const newBrush = !this.brushG;
             if (!this.brushG) {
                 this.brushG = this.timelineG.append("g")
                     .attr("class", "x brush");
@@ -200,13 +200,13 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                     .attr("display", "none");
                 this.gripsG.append("path")
                     .attr("d", (d) => {
-                    let gripHeight = Math.max(chartHeight / 8, 4);
-                    let gripWidth = gripHeight;
+                    const gripHeight = Math.max(chartHeight / 8, 4);
+                    const gripWidth = gripHeight;
 
-                    let x = -gripWidth / 2;
-                    let y = chartHeight / 2 - gripHeight / 2;
+                    const x = -gripWidth / 2;
+                    const y = chartHeight / 2 - gripHeight / 2;
 
-                    let path =
+                    const path =
                         'M ' + x + ' ' + y +
                         ' l ' + -gripWidth + ' ' + gripHeight / 2 +
                         ' l ' + gripWidth + ' ' + gripHeight / 2 + ' z ' +
@@ -219,7 +219,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             }
 
             if (this.selection) {
-                let selection: [number, number] = [this.xScale(this.selection[0]), this.xScale(this.selection[1])];
+                const selection: [number, number] = [this.xScale(this.selection[0]), this.xScale(this.selection[1])];
                 this.moveBrush(selection, !newBrush && withTransition);
             }
             else {
@@ -296,7 +296,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 if (!this.brushG) {
                     return;
                 }
-                let numericSelection = <[number, number]>d3.brushSelection(this.brushG.node());
+                const numericSelection = <[number, number]>d3.brushSelection(this.brushG.node());
                 this.updateGrips(numericSelection);
                 if (!numericSelection) {
                     return;
@@ -304,11 +304,11 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 if (!d3.event.sourceEvent || d3.event.sourceEvent.type === "brush") {
                     return;
                 }
-                let selection = [this.xScale.invert(numericSelection[0]), this.xScale.invert(numericSelection[1])];
+                const selection = [this.xScale.invert(numericSelection[0]), this.xScale.invert(numericSelection[1])];
                 let selection1: Date[];
                 // if dragging, preserve the width of the extent
                 if (d3.event["mode"] === "move") {
-                    let d0 = d3.timeDay.round(selection[0]),
+                    const d0 = d3.timeDay.round(selection[0]),
                         d1 = d3.timeDay.offset(d0, Math.round((selection[1].getTime() - selection[0].getTime()) / 864e5));
                     selection1 = [d0, d1];
                 }
@@ -329,7 +329,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 if (!this.brushG) {
                     return;
                 }
-                let numericSelection = <[number, number]>d3.brushSelection(this.brushG.node());
+                const numericSelection = <[number, number]>d3.brushSelection(this.brushG.node());
                 this.updateGrips(numericSelection);
                 if (!d3.event.sourceEvent || d3.event.sourceEvent.type === "end") {
                     return;
@@ -355,7 +355,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 if (!this.zoomSelection) {
                     this.selection = selection;
                 }
-                let query = this.searchService.query.copy();
+                const query = this.searchService.query.copy();
                 this.setFrom(query, from);
                 this.setTo(query, to);
                 this.searchService.applyAdvanced(query);
@@ -405,8 +405,8 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
     }
 
     hasSelection(query: Query): boolean {
-        let from = this.getFrom(query);
-        let to = this.getTo(query);
+        const from = this.getFrom(query);
+        const to = this.getTo(query);
         return !!from || !!to;
     }
 
@@ -425,7 +425,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             this.setHidden(this.autoHide);
         }
         else {
-            let query = this.searchService.query.copy();
+            const query = this.searchService.query.copy();
             query.action = "aggregate";
             if (!this.zoomSelection) {
                 this.setFrom(query, undefined);
@@ -434,8 +434,8 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             query.aggregations = [this.ccaggregation.name];
             if (!this.zoomSelection && Utils.equals(query, this.query)) {
                 if (this.brush && this.brushG) {
-                    let from = this.getFrom(this.searchService.query);
-                    let to = this.getTo(this.searchService.query);
+                    const from = this.getFrom(this.searchService.query);
+                    const to = this.getTo(this.searchService.query);
                     if ((!from || !to) && !this.selection) {
                         return;
                     }
@@ -468,7 +468,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 this.drawGraphAsync();
             }
             else {
-                let subscription = Utils.subscribe(this.searchService.getResults(this.query),
+                const subscription = Utils.subscribe(this.searchService.getResults(this.query),
                     (results) => {
                         console.log("timeline results: ", results);
                         this.aggregation = results.aggregations[0] as ListAggregation;
@@ -576,7 +576,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
         }
 
         // get the min/max dates
-        let dateExtent = d3.extent(this.aggregation.items, (d) => { return d["date"]; }),
+        const dateExtent = d3.extent(this.aggregation.items, (d) => { return d["date"]; }),
             // hash the existing days for easy lookup
             dateHash = this.aggregation.items.reduce((agg, d) => {
                 agg[d["date"]] = true;
@@ -590,7 +590,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
         })
             // and push them into the array
             .forEach((date) => {
-                let emptyRow = { date: date, count: 0 };
+                const emptyRow = { date: date, count: 0 };
                 this.aggregation.items.push(<any>emptyRow);
             });
         // re-sort the data
@@ -608,7 +608,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             if (!format) {
                 format = "YYYY-MM-DD";
             }
-            let m = moment(item.value + postfix, format);
+            const m = moment(item.value + postfix, format);
             if (m.isValid()) {
                 item["date"] = m.toDate();
             }
@@ -624,7 +624,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
         switch (this.ccaggregation.mask) {
             case "YYYY-MM-DD":
                 for (let i = 0, ic = this.aggregation.items.length; i < ic; i++) {
-                    let item = this.aggregation.items[i];
+                    const item = this.aggregation.items[i];
                     if (item.value) {
                         this.setDate(item);
                     }
@@ -639,7 +639,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
             case "YYYY-MM":
                 for (let i = 0, ic = this.aggregation.items.length; i < ic; i++) {
-                    let item = this.aggregation.items[i];
+                    const item = this.aggregation.items[i];
                     if (item.value) {
                         this.setDate(item, "-01");
                     }
@@ -654,7 +654,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
             case "YYYY":
                 for (let i = 0, ic = this.aggregation.items.length; i < ic; i++) {
-                    let item = this.aggregation.items[i];
+                    const item = this.aggregation.items[i];
                     if (item.value) {
                         this.setDate(item, "-01-01");
                     }
@@ -669,7 +669,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
             case "YYYY-WW":
                 for (let i = 0, ic = this.aggregation.items.length; i < ic; i++) {
-                    let item = this.aggregation.items[i];
+                    const item = this.aggregation.items[i];
                     if (item.value) {
                         this.setDate(item, "", moment.ISO_8601);
                     }
@@ -689,10 +689,10 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
         // Add a zero count data point to the end so a "before" selection of all the data is possible
         if (this.aggregation.items.length > 0) {
-            let endItem = this.aggregation.items[this.aggregation.items.length - 1];
+            const endItem = this.aggregation.items[this.aggregation.items.length - 1];
             if (endItem.value) {
-                let nextItem = Utils.copy(endItem);
-                let nextDate = this.nextTimelineDate(endItem["date"]);
+                const nextItem = Utils.copy(endItem);
+                const nextDate = this.nextTimelineDate(endItem["date"]);
                 if (nextDate) {
                     nextItem.count = 0;
                     nextItem["date"] = nextDate;

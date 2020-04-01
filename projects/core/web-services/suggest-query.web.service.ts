@@ -32,7 +32,7 @@ export class SuggestQueryWebService extends HttpService {
             return of([]);
         }
         else {
-            let observable = this.httpClient.post<{suggests: Suggestion[]}>(this.makeUrl("suggestquery"), {
+            const observable = this.httpClient.post<{suggests: Suggestion[]}>(this.makeUrl("suggestquery"), {
                 app: this.appName,
                 suggestQuery: suggestQuery,
                 text: text,

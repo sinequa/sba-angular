@@ -51,11 +51,11 @@ export class AutocompleteExtended extends Autocomplete {
     protected getSuggests(){
         let value = this.getInputValue();
         if(value) { // If there is text, make a call to the suggest API
-            let parseResult = this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
+            const parseResult = this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
             let fields: string[] | undefined;
             if(parseResult.result && this.fieldSearch){
-                let position = this.getInputPosition(); // Position of the caret, if needed
-                let res = parseResult.result.findValue(position);
+                const position = this.getInputPosition(); // Position of the caret, if needed
+                const res = parseResult.result.findValue(position);
                 // Field Search suggest
                 if(!!res && !!res.field){
                     fields = Utils.startsWith(res.field, "@") ? ["text"] : [res.field];
@@ -65,7 +65,7 @@ export class AutocompleteExtended extends Autocomplete {
 
             // Methods returning (observable of) suggestions from different sources
 
-            let dataSources: Observable<AutocompleteItem[]>[] = this.sqAutocompleteExtended.map(source => {
+            const dataSources: Observable<AutocompleteItem[]>[] = this.sqAutocompleteExtended.map(source => {
                 switch(source) {
                     case 'suggests': return  this.suggestService.get(this.suggestQuery, value, fields);
                     case 'baskets': return from(this.searchBaskets(value));

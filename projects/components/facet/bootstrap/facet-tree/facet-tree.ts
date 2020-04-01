@@ -122,9 +122,9 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
      */
     get actions(): Action[] {
 
-        let actions: Action[] = [];
+        const actions: Action[] = [];
 
-        let selected = this.getSelectedItems();
+        const selected = this.getSelectedItems();
 
         if(selected.length > 0) {
             if(this.allowOr){

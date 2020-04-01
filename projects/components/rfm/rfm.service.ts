@@ -69,7 +69,7 @@ export class RFMService implements OnDestroy {
     }
 
     public getMenuActions(config: CCRFM.Action): RFMDisplay[] {
-        let actions = [RFMDisplay.positiveRate, RFMDisplay.unrate];
+        const actions = [RFMDisplay.positiveRate, RFMDisplay.unrate];
         if(config.negAvailable)
             actions.push(RFMDisplay.negativeRate);
         return actions;
@@ -155,13 +155,13 @@ export class RFMService implements OnDestroy {
      */
     private updateRfm(results: Results | undefined) {
         if (results && results.records) {
-            let ccquery = this.appService.ccquery;
+            const ccquery = this.appService.ccquery;
             if (ccquery && ccquery.rFM) {
                 Utils.subscribe(this.rfmService.getRfmData(ccquery.rFM, results),
                     (value) => {
                         if (value) {
-                            for (let record of results.records) {
-                                let rfmData = value[record.id];
+                            for (const record of results.records) {
+                                const rfmData = value[record.id];
                                 if (!!rfmData) {
                                     record.rfm = rfmData;
                                 }

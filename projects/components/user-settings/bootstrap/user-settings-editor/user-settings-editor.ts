@@ -40,7 +40,7 @@ export class BsUserSettingsEditor implements OnInit {
         // Locale is treated separately because it is not really stored in the user settings.
         this.locales = [];
         if (this.intlService.locales.length > 0) {
-            for (let locale of this.intlService.locales) {
+            for (const locale of this.intlService.locales) {
                 this.locales.push(locale);
             }
         }

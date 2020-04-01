@@ -164,14 +164,14 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
     zeroTimes() {
         if (this.value) {
             if (Utils.isDate(this.value[0])) {
-                let date = this.value[0];
+                const date = this.value[0];
                 date.setHours(0);
                 date.setMinutes(0);
                 date.setSeconds(0);
                 date.setMilliseconds(0);
             }
             if (Utils.isDate(this.value[1])) {
-                let date = this.value[1];
+                const date = this.value[1];
                 date.setHours(0);
                 date.setMinutes(0);
                 date.setSeconds(0);

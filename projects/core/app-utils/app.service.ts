@@ -413,7 +413,7 @@ export class AppService implements OnDestroy {
                     columnMap[columnName] = column;
                     if (columnInfo.aliases) {
                         column.aliases = Utils.split(columnInfo.aliases, [",", ";"]);
-                        for (let alias of column.aliases) {
+                        for (const alias of column.aliases) {
                             columnMap[Utils.toLowerCase(alias)] = column;
                         }
                     }

@@ -60,7 +60,7 @@ export class BsLabelsMenuComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   addLabelsMenuItems = (items: Action[], _public: boolean) => {
-    let formItem = items[0];
+    const formItem = items[0];
     items.push(
       new Action({
         text: "msg#labels.selectLabel",

@@ -30,18 +30,18 @@ export class LabelsAutocomplete extends Autocomplete {
      */
     protected getSuggests(){
 
-        let value = this.getInputValue();
+        const value = this.getInputValue();
 
         if(value) { // If there is text
 
             // parse
-            let labels = value.split(";");
+            const labels = value.split(";");
 
             // find label at caret location
-            let position = this.getInputPosition();
+            const position = this.getInputPosition();
             let length = 0;
             let val: { value: string, start : number, length: number } | undefined;
-            for (let label of labels) {
+            for (const label of labels) {
                 if (position >= length && position <= length + label.length) {
                     val = {
                         value: label,

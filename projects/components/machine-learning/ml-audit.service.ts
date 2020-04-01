@@ -131,7 +131,7 @@ export class MlAuditService extends HttpService {
     }
 
     private flushContext() {
-        let events: MlAuditService.Event[] = [];
+        const events: MlAuditService.Event[] = [];
         if (this.session && !this.session.sent) {
             events.push(this.session);
         }
@@ -214,7 +214,7 @@ export class MlAuditService extends HttpService {
         if (!this.startConfig.mlAuditEnabled) {
             return of(undefined);
         }
-        let observable = this.httpClient.post<void>(this.makeUrl(MlAuditService.Endpoint), {
+        const observable = this.httpClient.post<void>(this.makeUrl(MlAuditService.Endpoint), {
             events: events
         });
         Utils.subscribe(observable,
@@ -241,7 +241,7 @@ export class MlAuditService extends HttpService {
 
     private ensureAuditRecord(auditEvents: AuditEvents): AuditRecord {
         if (Utils.isObject(auditEvents)) {
-            let auditRecord = <AuditRecord>auditEvents;
+            const auditRecord = <AuditRecord>auditEvents;
             if (auditRecord.auditEvents || auditRecord.mlAuditEvents) {
                 if (auditRecord.mlAuditEvents) {
                     return {

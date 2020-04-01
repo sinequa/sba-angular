@@ -69,7 +69,7 @@ export class BsRefine extends AbstractFacet implements OnChanges {
 
     doRefine = () => {
         if (this.searchControl) {
-            let text = Utils.trim(this.searchControl.value);
+            const text = Utils.trim(this.searchControl.value);
             if (text) {
                 this.searchService.searchRefine(text);
             }

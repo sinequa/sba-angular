@@ -61,24 +61,24 @@ export class BsAdvancedFormSelect implements OnInit, OnDestroy {
 
     private getItems(): NameValueArrayView<string, any> {
         if (this.config.list) {
-            let cclist = this.appService.getList(this.config.list);
+            const cclist = this.appService.getList(this.config.list);
             if (cclist) {
                 return NameValueArrayViewHelper.fromObjects(cclist.items, "name", "value");
             }
         }
 
-        let firstPage = this.firstPageService.firstPage;
+        const firstPage = this.firstPageService.firstPage;
         if (firstPage) {
             // Find aggregation for field
-            let condition = (this.config.aggregation) ?
+            const condition = (this.config.aggregation) ?
                 (aggr: Aggregation) => Utils.eqNC(aggr.name, this.config.aggregation) :
                 (aggr: Aggregation) => this.column && Utils.eqNC(aggr.column, this.column.name);
 
-            let aggregation = firstPage.aggregations.find(condition);
+            const aggregation = firstPage.aggregations.find(condition);
 
             if (aggregation && aggregation.items) {
                 let nameKey = "display";
-                let valueKey = "value";
+                const valueKey = "value";
 
                 // If first item does not have a name field, use the value field as a name
                 if (aggregation.items.length > 0 && (!aggregation.items[0][nameKey])) {

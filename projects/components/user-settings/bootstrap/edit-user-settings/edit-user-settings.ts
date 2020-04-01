@@ -125,7 +125,7 @@ export class BsEditUserSettings implements OnInit {
     }
 
     private setNewValue(obj: MapOf<any>, newObj: MapOf<any>): void {
-        for (let key of Object.keys(newObj)) {
+        for (const key of Object.keys(newObj)) {
             const value = newObj[key];
             if (value === null) {
                 /* NOTE: Don't use delete obj[key] because some component may put an observer on the user settings property */
@@ -234,7 +234,7 @@ export class BsEditUserSettings implements OnInit {
                 case JsonInfo.InputType.MultiEntry:
                 case JsonInfo.InputType.Range:
                     const result: T[] = [];
-                    for (let v of array) {
+                    for (const v of array) {
                         result.push(castFn(v) as T);
                     }
                     return result;

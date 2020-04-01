@@ -55,24 +55,24 @@ export class BsFullscreenActivator {
     }
 
     requestFullscreen() {
-        let doc = window.document;
-        let docEl = doc.documentElement;
-        let requestFullScreen = docEl["requestFullscreen"] || docEl["mozRequestFullScreen"] || docEl["webkitRequestFullScreen"] || docEl["msRequestFullscreen"];
+        const doc = window.document;
+        const docEl = doc.documentElement;
+        const requestFullScreen = docEl["requestFullscreen"] || docEl["mozRequestFullScreen"] || docEl["webkitRequestFullScreen"] || docEl["msRequestFullscreen"];
         if (requestFullScreen) {
             requestFullScreen.call(docEl);
         }
     }
 
     cancelFullscreen() {
-        let doc = window.document;
-        let cancelFullScreen = doc["exitFullscreen"] || doc["mozCancelFullScreen"] || doc["webkitExitFullscreen"] || doc["msExitFullscreen"];
+        const doc = window.document;
+        const cancelFullScreen = doc["exitFullscreen"] || doc["mozCancelFullScreen"] || doc["webkitExitFullscreen"] || doc["msExitFullscreen"];
         if (cancelFullScreen) {
             cancelFullScreen.call(doc);
         }
     }
 
     isFullscreen() {
-        let doc = window.document;
+        const doc = window.document;
         return doc["fullscreenElement"] || doc["mozFullScreenElement"] || doc["webkitFullscreenElement"] || doc["msFullscreenElement"];
     }
 

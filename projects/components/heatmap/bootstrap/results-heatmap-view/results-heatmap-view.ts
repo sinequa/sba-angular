@@ -55,15 +55,15 @@ export class BsResultsHeatmapView implements OnChanges {
     }
 
     getData() {
-        let ccaggregation = this.appService.getCCAggregation(this.view.aggregation);
+        const ccaggregation = this.appService.getCCAggregation(this.view.aggregation);
         if (!ccaggregation) {
             this.data = undefined;
             this.zValue = "";
             this.buildZValuesAction([]);
             return;
         }
-        let displayKeySeparator = ccaggregation.displayKeySeparator || ccaggregation.keySeparator || "/";
-        let query = Utils.copy(this.searchService.query);
+        const displayKeySeparator = ccaggregation.displayKeySeparator || ccaggregation.keySeparator || "/";
+        const query = Utils.copy(this.searchService.query);
         query.action = "aggregate";
         query.aggregations = [this.view.aggregation];
         if (!!this.view.field) {
@@ -77,16 +77,16 @@ export class BsResultsHeatmapView implements OnChanges {
         let haveZ = false;
         Utils.subscribe(this.searchService.getResults(query),
             (results: Results) => {
-                let indices = !!this.view.field ? Utils.split(this.view.fieldIndices, [",", ";", " "]).map(value => Utils.toInt(value)) : [];
-                let xIndex = indices.length > 0 ? indices[0] : 0;
-                let yIndex = indices.length > 1 ? indices[1] : 1;
-                let zIndex = indices.length > 2 ? indices[2] : 2;
+                const indices = !!this.view.field ? Utils.split(this.view.fieldIndices, [",", ";", " "]).map(value => Utils.toInt(value)) : [];
+                const xIndex = indices.length > 0 ? indices[0] : 0;
+                const yIndex = indices.length > 1 ? indices[1] : 1;
+                const zIndex = indices.length > 2 ? indices[2] : 2;
                 let data: Heatmap.Item[] = [];
                 let zValue = "";
-                let rawData = results.aggregations[0] as ListAggregation;
+                const rawData = results.aggregations[0] as ListAggregation;
                 if (!!rawData.items) {
                     data = rawData.items.map(value => {
-                        let parts = value.display ? value.display.split(displayKeySeparator) : [];
+                        const parts = value.display ? value.display.split(displayKeySeparator) : [];
                         haveZ = parts.length >= 3;
                         return {
                             x: parts[xIndex],
@@ -102,7 +102,7 @@ export class BsResultsHeatmapView implements OnChanges {
                 if (haveZ) {
                     labelsZ = Array.from(new Set(data.map(value => value.z || ""))).sort(Utils.compare);
                     // Initial z is the one with the highest frequency 'z'
-                    let counts = labelsZ.map(() => 0);
+                    const counts = labelsZ.map(() => 0);
                     data.forEach((value) => counts[labelsZ.indexOf(value.z || "")]++);
                     zValue = labelsZ[counts.indexOf(Math.max.apply(Math, counts))];
                 }
@@ -126,18 +126,18 @@ export class BsResultsHeatmapView implements OnChanges {
 
     setFieldName(fieldName: BsResultsHeatmapView.FieldName, field: string, fieldAction: Action) {
         fieldName.name = field;
-        let column = this.appService.getColumn(field);
+        const column = this.appService.getColumn(field);
         fieldAction.text = (column && column.labelPlural) || field;
     }
 
     buildFieldAxisAction(fieldName: BsResultsHeatmapView.FieldName, fields: string): Action {
-        let action = new Action({
+        const action = new Action({
             flattenable: true,
             children: []
         });
-        let _fields = Utils.split(fields, [",", ";", " "]);
-        for (let field of _fields) {
-            let column = this.appService.getColumn(field);
+        const _fields = Utils.split(fields, [",", ";", " "]);
+        for (const field of _fields) {
+            const column = this.appService.getColumn(field);
             if (!!column) {
                 if (!fieldName.name) {
                     this.setFieldName(fieldName, field, action);
@@ -170,7 +170,7 @@ export class BsResultsHeatmapView implements OnChanges {
             children: []
         });
         if (!!values) {
-            for (let value of values) {
+            for (const value of values) {
                 this.zValuesAction.children.push(new Action({
                     text: value,
                     action: (item: Action) => {
@@ -199,7 +199,7 @@ export class BsResultsHeatmapView implements OnChanges {
     }
 
     onXSelect(value: string, event: MouseEvent) {
-        let expr = `${ExprParser.escape(value)}:(${this.xField.name}:${ExprParser.escape(Utils.normalize(value))})`;
+        const expr = `${ExprParser.escape(value)}:(${this.xField.name}:${ExprParser.escape(Utils.normalize(value))})`;
         this.searchService.addFieldSelect(this.xField.name, {value: expr}, {valuesAreExpressions: true});
         this.searchService.search().then(
             results => {
@@ -210,7 +210,7 @@ export class BsResultsHeatmapView implements OnChanges {
     }
 
     onYSelect(value: string, event: MouseEvent) {
-        let expr = `${ExprParser.escape(value)}:(${this.yField.name}:${ExprParser.escape(Utils.normalize(value))})`;
+        const expr = `${ExprParser.escape(value)}:(${this.yField.name}:${ExprParser.escape(Utils.normalize(value))})`;
         this.searchService.addFieldSelect(this.yField.name, {value: expr}, {valuesAreExpressions: true});
         this.searchService.search().then(
             results => {

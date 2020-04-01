@@ -95,24 +95,24 @@ export class Heatmap implements OnChanges, OnDestroy {
     }
 
     drawHeatmap() {
-        let width = Math.max(this.gridSize * this.xLabels.length, this.minWidth);
-        let height = this.gridSize * this.yLabels.length;
-        let legendElementWidth = width / 10;
-        let colorClasses: string[] = [];
+        const width = Math.max(this.gridSize * this.xLabels.length, this.minWidth);
+        const height = this.gridSize * this.yLabels.length;
+        const legendElementWidth = width / 10;
+        const colorClasses: string[] = [];
         for (let i = 0, ic = this.options.buckets!; i < ic; i++) {
             colorClasses.push(`sq-heatmap-tile-fadein-${i}`);
         }
 
         this.clearHeatmap();
 
-        let svg = d3.select(this.svg.nativeElement)
+        const svg = d3.select(this.svg.nativeElement)
             .attr("width", width + this.margin.left + this.margin.right)
             .attr("height", height + this.margin.top + this.margin.bottom);
 
         this.g = svg.append("g")
             .attr("transform", `translate(${this.margin.left},${this.margin.top})`);
 
-        let yAxis = this.g.selectAll(".sq-heatmap-y-label")
+        const yAxis = this.g.selectAll(".sq-heatmap-y-label")
             .data(this.yLabels)
             .enter().append("text")
                 .text(value => Utils.truncate(value, 25))
@@ -121,7 +121,7 @@ export class Heatmap implements OnChanges, OnDestroy {
                     .attr("transform", `translate(-6,${this.gridSize / 1.5})`)
                     .attr("class", value => "sq-heatmap-y-label");
 
-        let xAxis = this.g.selectAll(".sq-heatmap-x-label")
+        const xAxis = this.g.selectAll(".sq-heatmap-x-label")
             .data(this.xLabels)
             .enter().append("g")
                 .attr("transform", (value, i) => `translate(${(i + 0.5) * this.gridSize},-6)`)
@@ -146,16 +146,16 @@ export class Heatmap implements OnChanges, OnDestroy {
         this.g.selectAll(".sq-heatmap-tile").remove();
         this.g.selectAll(".sq-heatmap-legend").remove();
 
-        let min_data = d3.min(this.filteredData, value => value.count);
-        var max_data = d3.max(this.filteredData, value => value.count);
+        const min_data = d3.min(this.filteredData, value => value.count);
+        const max_data = d3.max(this.filteredData, value => value.count);
 
-        let colorScale = d3.scaleQuantile<string>()
+        const colorScale = d3.scaleQuantile<string>()
             .domain([min_data, this.buckets - 1, max_data])
             .range(colorClasses);
 
-        let instance = this;
-        let tooltip = d3.select(this.tooltip.componentRef.location.nativeElement);
-        let tiles = this.g.selectAll(".sq-heatmap-tile")
+        const instance = this;
+        const tooltip = d3.select(this.tooltip.componentRef.location.nativeElement);
+        const tiles = this.g.selectAll(".sq-heatmap-tile")
             .data(this.filteredData);
         tiles.enter().append("rect")
             .attr("x", value => this.xLabels.indexOf(value.x) * this.gridSize)
@@ -185,9 +185,9 @@ export class Heatmap implements OnChanges, OnDestroy {
             });
         tiles.exit().remove();
 
-        let legend = this.g.selectAll<d3.BaseType, number>(".sq-heatmap-legend")
+        const legend = this.g.selectAll<d3.BaseType, number>(".sq-heatmap-legend")
             .data(colorScale.quantiles(), value => value.toString());
-        let legendG = legend.enter().append("g")
+        const legendG = legend.enter().append("g")
             .attr("class", "sq-heatmap-legend");
         legendG
             .append("rect")
@@ -212,7 +212,7 @@ export class Heatmap implements OnChanges, OnDestroy {
                 .style("opacity", 0);
         }
         if (!this.options || !!changes["config"]) {
-            let options: HeatmapConfig = this.config;
+            const options: HeatmapConfig = this.config;
             this.options = Utils.merge({}, {
                 maxX: 30,
                 maxY: 100,

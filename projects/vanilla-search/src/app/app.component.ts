@@ -69,7 +69,7 @@ export class AppComponent extends ComponentWithLogin {
                         break;
                     }
                     case 'labels': {
-                        let action = this.labelsService.buildSelectionAction();
+                        const action = this.labelsService.buildSelectionAction();
                         if(action){
                             this.selectionService.selectionActions.push(action);
                         }

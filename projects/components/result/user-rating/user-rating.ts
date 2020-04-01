@@ -81,7 +81,7 @@ export class UserRating implements OnInit {
 
     private ensureRatingValues() {
         if (!this.ratingValues) {
-            let count = this.count || 0;
+            const count = this.count || 0;
 
             //Work out rating value range
             if (this.values) {

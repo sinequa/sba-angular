@@ -135,7 +135,7 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
     }
 
     toggleItemSelected(itemIndex: number): void {
-        let idx: number = this.selectedItems.indexOf(itemIndex);
+        const idx: number = this.selectedItems.indexOf(itemIndex);
 
         // Remove item if it was already selected
         if (idx > -1) {

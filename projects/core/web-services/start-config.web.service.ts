@@ -148,12 +148,12 @@ export class StartConfigWebService {
     }
 
     private getDefaultStartConfig(): StartConfig {
-        let startConfig: StartConfig = {};
-        let browserUrl = Utils.makeURL(window.location.href);
+        const startConfig: StartConfig = {};
+        const browserUrl = Utils.makeURL(window.location.href);
         let parts = Utils.split(browserUrl.pathname, "/");
-        let appSpecifierIndex = parts.findIndex(value => Utils.eqNCN(value, "app", "app-debug"));
+        const appSpecifierIndex = parts.findIndex(value => Utils.eqNCN(value, "app", "app-debug"));
         if (appSpecifierIndex !== -1 && appSpecifierIndex < parts.length - 1) {
-            let appSpecifier = parts[appSpecifierIndex];
+            const appSpecifier = parts[appSpecifierIndex];
             startConfig.app = parts[appSpecifierIndex + 1];
             startConfig.production = appSpecifier === "app" ? true : false;
             parts = parts.slice(0, appSpecifierIndex);
@@ -205,7 +205,7 @@ export class StartConfigWebService {
                 .then(response => {
                     const initialStartConfig = Utils.copy(this.startConfig);
                     Utils.extend(this.startConfig, response.data, initialStartConfig);
-                    let versionDate = this.startConfig.versionDate;
+                    const versionDate = this.startConfig.versionDate;
                     if (Utils.isString(versionDate)) { // it will be
                         this.startConfig.versionDate = Utils.fromSysDateStr(versionDate);
                     }
@@ -229,7 +229,7 @@ export class StartConfigWebService {
     fetchServerConfig(url?: string): Observable<ServerConfig> {
         return Observable.create(observer => {
             if (!url) {
-                let _url = Utils.makeURL(window.location.href);
+                const _url = Utils.makeURL(window.location.href);
                 url = Utils.addUrl(_url.pathname, "sinequa-config.json");
             }
             atomic(url)

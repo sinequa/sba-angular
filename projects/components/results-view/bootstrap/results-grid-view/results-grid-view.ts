@@ -106,7 +106,7 @@ export class BsResultsGridView implements OnChanges {
     get maxSortIndex(): number {
         let sortIndex = -1;
         if (this.columnsData) {
-            for (let columnData of this.columnsData) {
+            for (const columnData of this.columnsData) {
                 if (columnData.sortIndex !== undefined && columnData.sortIndex > sortIndex) {
                     sortIndex = columnData.sortIndex;
                 }
@@ -116,7 +116,7 @@ export class BsResultsGridView implements OnChanges {
     }
 
     _setSort(columnData: ColumnData, ascending: boolean) {
-        let previousSortIndex = columnData.sortIndex;
+        const previousSortIndex = columnData.sortIndex;
         if (previousSortIndex === -1) {
             columnData.sortIndex = this.maxSortIndex + 1;
         }
@@ -125,7 +125,7 @@ export class BsResultsGridView implements OnChanges {
         columnData.sortIndicator = this.getSortIndicator(columnData);
         if (previousSortIndex === -1) {
             if (this.columnsData) {
-                for (let columnData1 of this.columnsData) {
+                for (const columnData1 of this.columnsData) {
                     columnData1.sortIndicator = this.getSortIndicator(columnData1);
                 }
             }
@@ -133,14 +133,14 @@ export class BsResultsGridView implements OnChanges {
     }
 
     _clearSort(columnData: ColumnData) {
-        let previousSortIndex = columnData.sortIndex || -1;
+        const previousSortIndex = columnData.sortIndex || -1;
         columnData.sortIndex = -1;
         columnData.ascending = false;
         columnData.sortIcon = "fas fa-sort";
         columnData.sortIndicator = undefined;
         if (previousSortIndex !== -1) {
             if (this.columnsData) {
-                for (let columnData1 of this.columnsData) {
+                for (const columnData1 of this.columnsData) {
                     if (columnData1.sortIndex !== undefined && columnData1.sortIndex > previousSortIndex) {
                         columnData1.sortIndex--;
                     }
@@ -152,7 +152,7 @@ export class BsResultsGridView implements OnChanges {
 
     clearSorts() {
         if (this.columnsData) {
-            for (let columnData of this.columnsData) {
+            for (const columnData of this.columnsData) {
                 this._clearSort(columnData);
             }
         }
@@ -169,13 +169,13 @@ export class BsResultsGridView implements OnChanges {
         this.orderBy = this.searchService.query.orderBy;
         this.clearSorts();
         if (!!this.orderBy) {
-            let parts = Utils.split(this.orderBy, ",");
-            for (let part of parts) {
-                let tokens = Utils.split(part, " ");
+            const parts = Utils.split(this.orderBy, ",");
+            for (const part of parts) {
+                const tokens = Utils.split(part, " ");
                 if (tokens.length > 0) {
-                    let field = tokens[0];
+                    const field = tokens[0];
                     if (this.columnsData) {
-                        let columnData = this.columnsData.find(value => Utils.eqNC(field, value.config.field));
+                        const columnData = this.columnsData.find(value => Utils.eqNC(field, value.config.field));
                         if (columnData && this.isSortable(columnData)) {
                             this._setSort(columnData, tokens.length > 1 ? Utils.eqNC(tokens[1], "asc") : true);
                         }
@@ -208,10 +208,10 @@ export class BsResultsGridView implements OnChanges {
             else {
                 this._setSort(columnData, this.ascendingFirst(columnData.config));
             }
-            let orderBy: string[] = [];
+            const orderBy: string[] = [];
             if (this.columnsData) {
                 for (let sortIndex = 0; ; sortIndex++) {
-                    let columnData = this.columnsData.find(columnData => columnData.sortIndex === sortIndex);
+                    const columnData = this.columnsData.find(columnData => columnData.sortIndex === sortIndex);
                     if (!columnData) {
                         break;
                     }

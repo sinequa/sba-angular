@@ -191,11 +191,11 @@ export class SearchService implements OnDestroy {
 
     private treatQueryIntents (results: Results | undefined) {
         if (results && results.queryAnalysis && results.queryIntents) {
-            let queryIntents = results.queryIntents;
-            for (let intent of queryIntents) {
+            const queryIntents = results.queryIntents;
+            for (const intent of queryIntents) {
                 if (intent.actions) {
-                    for (let action of intent.actions) {
-                        let event: SearchService.ProcessQueryIntentActionEvent = {type: "process-query-intent-action", action: action, intent: intent, analysis: results.queryAnalysis};
+                    for (const action of intent.actions) {
+                        const event: SearchService.ProcessQueryIntentActionEvent = {type: "process-query-intent-action", action: action, intent: intent, analysis: results.queryAnalysis};
                         this._events.next(event);
                         if (!event.actionProcessed) {
                             if (!!action.data) {
@@ -252,8 +252,8 @@ export class SearchService implements OnDestroy {
     }
 
     makeQuery(): Query {
-        let ccquery = this.appService.ccquery;
-        let query = new Query(ccquery ? ccquery.name : "_unknown");
+        const ccquery = this.appService.ccquery;
+        const query = new Query(ccquery ? ccquery.name : "_unknown");
         this._events.next({type: "make-query", query: query});
         return query;
     }
@@ -641,7 +641,7 @@ export class SearchService implements OnDestroy {
     }
 
     didYouMean(text: string, kind: DidYouMeanKind): Promise<boolean> {
-        let lastSelect = this.query.lastSelect();
+        const lastSelect = this.query.lastSelect();
         if (!lastSelect) {
             this.query.text = text;
         }
@@ -794,7 +794,7 @@ export class SearchService implements OnDestroy {
 
     get lastRefineText(): string {
         if (this.breadcrumbs) {
-            let refineExpr = this.breadcrumbs.findSelect("refine");
+            const refineExpr = this.breadcrumbs.findSelect("refine");
             if (refineExpr) {
                 return ExprParser.unescape(refineExpr.toString(false));
             }
@@ -809,13 +809,13 @@ export class SearchService implements OnDestroy {
         if (this.breadcrumbs.textExpr) {
             return true;
         }
-        let refineExpr = this.breadcrumbs.findSelect("refine");
+        const refineExpr = this.breadcrumbs.findSelect("refine");
         return refineExpr != null;
     }
 
     selectTab(arg: string | Tab, options: SearchService.NavigationOptions = {}): Promise<boolean> {
         options.selectTab = true;
-        let tabName = typeof arg === 'string' ? arg : arg.name;
+        const tabName = typeof arg === 'string' ? arg : arg.name;
         this.query.tab = tabName;
         this._events.next({type: "before-select-tab", query: this.query});
         return this.search(options,
@@ -834,7 +834,7 @@ export class SearchService implements OnDestroy {
 
     getTab(tabName: string): Tab | undefined {
         if (this.results && this.results.tabs) {
-            for (let tab of this.results.tabs) {
+            for (const tab of this.results.tabs) {
                 if (Utils.equals(tab.name, tabName)) {
                     return tab;
                 }

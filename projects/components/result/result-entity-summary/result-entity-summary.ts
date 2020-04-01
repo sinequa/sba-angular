@@ -55,8 +55,8 @@ export class ResultEntitySummary implements OnChanges {
     entityStats(raw_values : any[]) : EntityValue[]{
         return raw_values.map( value => {
             if(!!value['locations'] && !!value["originalLocations"]){
-                let locations = value["locations"].split(',').map(l => +l);
-                let originalLocations = value["originalLocations"].split(',').map(l => +l);
+                const locations = value["locations"].split(',').map(l => +l);
+                const originalLocations = value["originalLocations"].split(',').map(l => +l);
                 return {
                     display : value["display"],
                     value : value["value"],

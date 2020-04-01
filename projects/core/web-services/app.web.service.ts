@@ -44,7 +44,7 @@ export class AppWebService extends HttpService {
      * @returns An observable of the app configuration
      */
     get(): Observable<CCApp> {
-        let observable = this.httpClient.get<CCApp>(this.makeUrl("app"), {
+        const observable = this.httpClient.get<CCApp>(this.makeUrl("app"), {
             params: this.makeParams({
                 app: this.appName || ""
             })
@@ -71,7 +71,7 @@ export class AppWebService extends HttpService {
      * then the app member of the object will be set to the new version of the configuration.
      */
     refresh(appVersionId: string, auditEvents?: AuditEvents): Observable<CCAppRefresh> {
-        let observable = this.httpClient.get<{upToDate: boolean, app: CCApp}>(this.makeUrl("app"), {
+        const observable = this.httpClient.get<{upToDate: boolean, app: CCApp}>(this.makeUrl("app"), {
             params: this.makeParams({
                 app: this.appName || "",
                 versionId: appVersionId,

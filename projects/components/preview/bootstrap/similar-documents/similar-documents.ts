@@ -36,7 +36,7 @@ export class BsSimilarDocuments implements OnChanges {
     }
 
     public documentIconClass(document: Record): string {
-        var documentFormat = document.fileext;
+        const documentFormat = document.fileext;
         if (!documentFormat) {
             return "far fa-file";
         }

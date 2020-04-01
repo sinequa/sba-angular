@@ -66,7 +66,7 @@ export class BsResultsScatterView implements OnChanges {
 
     getData() {
 
-        let ccaggregation = this.appService.getCCAggregation(this.view.aggregation);
+        const ccaggregation = this.appService.getCCAggregation(this.view.aggregation);
         //console.log(ccaggregation);
         if (!ccaggregation) {
             this.data = undefined;
@@ -74,7 +74,7 @@ export class BsResultsScatterView implements OnChanges {
         }
         this.field = ccaggregation.column;
 
-        let query = Query.copy(this.searchService.query);
+        const query = Query.copy(this.searchService.query);
         query.action = "";
         query.aggregations = [this.view.aggregation];   // Override distribs with only the timeline
         query.pageSize = this.count;
@@ -84,11 +84,11 @@ export class BsResultsScatterView implements OnChanges {
         Utils.subscribe(this.searchService.getResults(query),
             (results: Results) => {
 
-                var dist_counts = {};
+                const dist_counts = {};
 
                 results.aggregations[0].items.forEach((item) => dist_counts[item.value as string] = item.count);
 
-                let data: any[] = [];
+                const data: any[] = [];
                 this.colorvalues = [];
                 this.categories = [];
 
@@ -96,19 +96,19 @@ export class BsResultsScatterView implements OnChanges {
 
                     r["value"].forEach((val) => {
 
-                        var element = val.display;
-                        var raw = val.value;
-                        var positions = val.locations.split(",");
-                        var cooc = element.replace(/[\(\)]/g, "").split("#");
-                        var value = this.switch_cooc? cooc[0].split(" ") : cooc[1].split(" ");
-                        var category = this.switch_cooc? cooc[1] : cooc[0];
+                        const element = val.display;
+                        const raw = val.value;
+                        const positions = val.locations.split(",");
+                        const cooc = element.replace(/[\(\)]/g, "").split("#");
+                        const value = this.switch_cooc? cooc[0].split(" ") : cooc[1].split(" ");
+                        const category = this.switch_cooc? cooc[1] : cooc[0];
                         //var size = r[3];
-                        var size = raw in dist_counts ? dist_counts[raw] * 10 : 10;
-                        var colorvalue = this.colors === 'unit'? (this.switch_cooc? value[1]: value[0]) :
+                        const size = raw in dist_counts ? dist_counts[raw] * 10 : 10;
+                        const colorvalue = this.colors === 'unit'? (this.switch_cooc? value[1]: value[0]) :
                                         this.colors === 'source' ? r.collection[0].substring(1,r.collection[0].length-1) :
                                         "Document";
 
-                        var datum = {category: category,
+                        const datum = {category: category,
                                     colorvalue: colorvalue,
                                     value: parseFloat(this.switch_cooc? value[0]: value[1]),
                                     title: r.collection[0].substring(1, r.collection[0].length-1) + " - "+r.title,
@@ -128,7 +128,7 @@ export class BsResultsScatterView implements OnChanges {
 
                 console.log(data);
 
-                let datamap = this.groupBy(data, 'category');
+                const datamap = this.groupBy(data, 'category');
                 this.categories = Object.keys(datamap).sort() as string[];
                 this.lengths = this.categories.map((k) => datamap[k].length);
                 this.data = this.categories.map((k) => datamap[k]);
@@ -157,39 +157,39 @@ export class BsResultsScatterView implements OnChanges {
             return;
         }
 
-        let instance = this;
+        const instance = this;
 
-        var margin = {top: 50, right: 30, bottom: 100, left: 40},
+        const margin = {top: 50, right: 30, bottom: 100, left: 40},
             width = 960 - margin.left - margin.right,
             height = 720 - margin.top - margin.bottom;
 
-        var y = d3.scaleLog()
+        const y = d3.scaleLog()
             .domain([this.min_scale, this.max_scale])
             .range([height, 0]);
 
-        var x0 = d3.scaleBand()
+        const x0 = d3.scaleBand()
             .domain(this.categories)
             .range([0, width]);
 
-        var x1 = d3.scaleLinear()
+        const x1 = d3.scaleLinear()
             .domain([0, 1])
             .range([0, x0.bandwidth()]);
 
-        var cur = d3.scaleOrdinal(d3.schemeCategory10)
+        const cur = d3.scaleOrdinal(d3.schemeCategory10)
             .domain(this.colorvalues);
 
-        var xAxis = d3.axisBottom(x0);
+        const xAxis = d3.axisBottom(x0);
 
-        var yAxis = d3.axisLeft(y)
+        const yAxis = d3.axisLeft(y)
             .tickSizeInner(-width)
             .ticks(10, ",.1s");
 
         // Define the div for the tooltip
-        var div = d3.select("body").append("div")
+        const div = d3.select("body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
 
-        let svg = d3.select(this.svg.nativeElement)
+        const svg = d3.select(this.svg.nativeElement)
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom);
 
@@ -278,10 +278,10 @@ export class BsResultsScatterView implements OnChanges {
             });
 
 
-        var dataL = 0;
-        var offset = 30;
+        let dataL = 0;
+        const offset = 30;
 
-        var legend = this.g.selectAll('.legend')
+        const legend = this.g.selectAll('.legend')
             .data(this.colorvalues)
             .enter().append('g')
             .attr("class", "legend")
@@ -290,7 +290,7 @@ export class BsResultsScatterView implements OnChanges {
                     dataL = d.length*10 + offset;
                     return "translate(0, -30)";
                 } else {
-                    var newdataL = dataL;
+                    const newdataL = dataL;
                     dataL +=  d.length*10 + offset;
                     return "translate(" + (newdataL) + ",-30)";
                 }

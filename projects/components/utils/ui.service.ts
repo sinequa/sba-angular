@@ -93,7 +93,7 @@ export class UIService implements OnDestroy {
     }
 
 	private setScreenSize() {
-		for (let size of this.screenSizes) {
+		for (const size of this.screenSizes) {
 			if (this.screenSizeIs(size)) {
 				this.screenSize = size;
 				return;
@@ -107,14 +107,14 @@ export class UIService implements OnDestroy {
 	}
 
 	screenSizeIsGreater(screenSize: string): boolean {
-		let index1 = this.screenSizes.findIndex((value) => value === this.screenSize);
-		let index2 = this.screenSizes.findIndex((value) => value === screenSize);
+		const index1 = this.screenSizes.findIndex((value) => value === this.screenSize);
+		const index2 = this.screenSizes.findIndex((value) => value === screenSize);
 		return index1 > index2;
 	}
 
 	screenSizeIsLess(screenSize: string): boolean {
-		let index1 = this.screenSizes.findIndex((value) => value === this.screenSize);
-		let index2 = this.screenSizes.findIndex((value) => value === screenSize);
+		const index1 = this.screenSizes.findIndex((value) => value === this.screenSize);
+		const index2 = this.screenSizes.findIndex((value) => value === screenSize);
 		return index1 < index2;
 	}
 
@@ -163,14 +163,14 @@ export class UIService implements OnDestroy {
 		if (!screenSizes) {
 			return true;
 		}
-		let ors = Utils.split(screenSizes, [',', ';']);
-		for (let or of ors) {
-			let ands = Utils.split(or, " ");
+		const ors = Utils.split(screenSizes, [',', ';']);
+		for (const or of ors) {
+			const ands = Utils.split(or, " ");
 			if (ands.length === 0) {
 				continue;
 			}
 			let ok = true;
-			for (let and of ands) {
+			for (const and of ands) {
 				if (Utils.eqNC(and, "and")) { // space separated but you can use and if you want to
 					continue;
 				}
@@ -187,16 +187,16 @@ export class UIService implements OnDestroy {
 	}
 
 	getContentRect(element: HTMLElement): ClientRect {
-		let rect = element.getBoundingClientRect();
-		let computedStyle = window.getComputedStyle(element);
-		let borderLeft = parseFloat(computedStyle.borderLeft);
-		let borderRight = parseFloat(computedStyle.borderRight);
-		let borderTop = parseFloat(computedStyle.borderTop);
-		let borderBottom = parseFloat(computedStyle.borderBottom);
-		let paddingLeft = parseFloat(computedStyle.paddingLeft);
-		let paddingRight = parseFloat(computedStyle.paddingRight);
-		let paddingTop = parseFloat(computedStyle.paddingTop);
-		let paddingBottom = parseFloat(computedStyle.paddingBottom);
+		const rect = element.getBoundingClientRect();
+		const computedStyle = window.getComputedStyle(element);
+		const borderLeft = parseFloat(computedStyle.borderLeft);
+		const borderRight = parseFloat(computedStyle.borderRight);
+		const borderTop = parseFloat(computedStyle.borderTop);
+		const borderBottom = parseFloat(computedStyle.borderBottom);
+		const paddingLeft = parseFloat(computedStyle.paddingLeft);
+		const paddingRight = parseFloat(computedStyle.paddingRight);
+		const paddingTop = parseFloat(computedStyle.paddingTop);
+		const paddingBottom = parseFloat(computedStyle.paddingBottom);
 		return {
 			top: rect.top + borderTop + paddingTop,
 			right: rect.right - borderRight - paddingRight,
@@ -249,20 +249,20 @@ export class UIService implements OnDestroy {
 		}
 		input.setSelectionRange(start, end);
 		if (ensureVisible) {
-			let rect = input.getBoundingClientRect();
-			let contentRect = this.getContentRect(input);
-			let textPos = this.getTextPosition(input, this.getCaret(input).end);
+			const rect = input.getBoundingClientRect();
+			const contentRect = this.getContentRect(input);
+			const textPos = this.getTextPosition(input, this.getCaret(input).end);
 			let scrollLeft = input.scrollLeft;
-			let minX = contentRect.left + scrollLeft;
-			let maxX = contentRect.right + scrollLeft;
-			let caretX = rect.left + textPos.left;
+			const minX = contentRect.left + scrollLeft;
+			const maxX = contentRect.right + scrollLeft;
+			const caretX = rect.left + textPos.left;
 			if (caretX < minX || caretX > maxX) {
 				scrollLeft = Math.max(caretX - contentRect.right + 1/*for the caret*/, 0);
 				input.scrollLeft = scrollLeft;
 			}
 		}
 		if (raiseEvent) {
-			let event = new CustomEvent("input");
+			const event = new CustomEvent("input");
 			input.dispatchEvent(event);
 		}
 	}
@@ -310,9 +310,9 @@ export class UIService implements OnDestroy {
 		'MozTabSize'
 	];
 	getTextPosition(element: HTMLElement, position: number, options?: {debug: boolean}): {top: number, left: number, lineHeight: number} {
-		let debug = options && options.debug || false;
+		const debug = options && options.debug || false;
 		if (debug) {
-			let el = document.querySelector('#input-textarea-caret-position-mirror-div');
+			const el = document.querySelector('#input-textarea-caret-position-mirror-div');
 			if ( el ) {
 				if (el.parentNode) {
 					el.parentNode.removeChild(el);
@@ -321,12 +321,12 @@ export class UIService implements OnDestroy {
 		}
 
 		// mirrored div
-		let div = document.createElement('div');
+		const div = document.createElement('div');
 		div.id = 'input-textarea-caret-position-mirror-div';
 		document.body.appendChild(div);
 
-		let style = div.style;
-		let computed = window.getComputedStyle? getComputedStyle(element) : (<any>element).currentStyle;  // currentStyle for IE < 9
+		const style = div.style;
+		const computed = window.getComputedStyle? getComputedStyle(element) : (<any>element).currentStyle;  // currentStyle for IE < 9
 
 		// default textarea styles
 		style.whiteSpace = 'pre-wrap';
@@ -357,7 +357,7 @@ export class UIService implements OnDestroy {
 			div.textContent = div.textContent.replace(/\s/g, '\u00a0');
 		}
 
-		let span = document.createElement('span');
+		const span = document.createElement('span');
 		// Wrapping must be replicated *exactly*, including when a long word gets
 		// onto the next line, with whitespace at the end of the line before (#7).
 		// The  *only* reliable way to do that is to copy the *entire* rest of the
@@ -367,11 +367,11 @@ export class UIService implements OnDestroy {
 
 		// return lineHeight too
 		span.textContent = '.';
-		let lineHeight = span.offsetHeight;
+		const lineHeight = span.offsetHeight;
 
 		span.textContent = (<any>element).value.substring(position) || '.';  // || because a completely empty faux span doesn't render at all
 
-		let coordinates = {
+		const coordinates = {
 			top: span.offsetTop + parseInt(computed['borderTopWidth']),
 			left: span.offsetLeft + parseInt(computed['borderLeftWidth']),
 			lineHeight: lineHeight
@@ -411,89 +411,89 @@ export module UIService {
 **/
 
 function initElementResizeListener (service) {
-	let attachEvent = (<any>document).attachEvent,
-		stylesCreated = false;
+	const attachEvent = (<any>document).attachEvent;
+	let stylesCreated = false;
 
     //NB SCRIPT1047: In strict mode, function declarations cannot be nested inside a statement or block. They may only appear at the top level or directly inside a function body.
 	//if (!attachEvent) {
-		let requestFrame = (function(){
-			let raf = window.requestAnimationFrame || (<any>window).mozRequestAnimationFrame || (<any>window).webkitRequestAnimationFrame ||
-								function(fn){ return window.setTimeout(fn, 20); };
-			return function(fn){ return raf(fn); };
-		})();
+	const requestFrame = (function(){
+		const raf = window.requestAnimationFrame || (<any>window).mozRequestAnimationFrame || (<any>window).webkitRequestAnimationFrame ||
+							function(fn){ return window.setTimeout(fn, 20); };
+		return function(fn){ return raf(fn); };
+	})();
 
-		let cancelFrame = (function(){
-			let cancel = window.cancelAnimationFrame || (<any>window).mozCancelAnimationFrame || (<any>window).webkitCancelAnimationFrame ||
-								   window.clearTimeout;
-		  return function(id){ return cancel(id); };
-		})();
+	const cancelFrame = (function(){
+		const cancel = window.cancelAnimationFrame || (<any>window).mozCancelAnimationFrame || (<any>window).webkitCancelAnimationFrame ||
+								window.clearTimeout;
+		return function(id){ return cancel(id); };
+	})();
 
-		function resetTriggers(element){
-			let triggers = element.__resizeTriggers__,
-				expand = triggers.firstElementChild,
-				contract = triggers.lastElementChild,
-				expandChild = expand.firstElementChild;
-			contract.scrollLeft = contract.scrollWidth;
-			contract.scrollTop = contract.scrollHeight;
-			expandChild.style.width = expand.offsetWidth + 1 + 'px';
-			expandChild.style.height = expand.offsetHeight + 1 + 'px';
-			expand.scrollLeft = expand.scrollWidth;
-			expand.scrollTop = expand.scrollHeight;
-		}
+	function resetTriggers(element){
+		const triggers = element.__resizeTriggers__,
+			expand = triggers.firstElementChild,
+			contract = triggers.lastElementChild,
+			expandChild = expand.firstElementChild;
+		contract.scrollLeft = contract.scrollWidth;
+		contract.scrollTop = contract.scrollHeight;
+		expandChild.style.width = expand.offsetWidth + 1 + 'px';
+		expandChild.style.height = expand.offsetHeight + 1 + 'px';
+		expand.scrollLeft = expand.scrollWidth;
+		expand.scrollTop = expand.scrollHeight;
+	}
 
-		function checkTriggers(element){
-			return element.offsetWidth !== element.__resizeLast__.width ||
+	function checkTriggers(element){
+		return element.offsetWidth !== element.__resizeLast__.width ||
 						element.offsetHeight !== element.__resizeLast__.height;
-		}
+	}
 
-		function scrollListener(this: HTMLElement, e){
-			let element = this;
-			resetTriggers(this);
-			if ((this as any).__resizeRAF__) cancelFrame((this as any).__resizeRAF__);
-			(this as any).__resizeRAF__ = requestFrame(function(){
-				if (checkTriggers(element)) {
-					(element as any).__resizeLast__.width = element.offsetWidth;
-					(element as any).__resizeLast__.height = element.offsetHeight;
-					(element as any).__resizeListeners__.forEach(function(fn){
-						fn.call(element, e);
-					});
-				}
-			});
-		}
+	function scrollListener(this: HTMLElement, e){
+		const element = this;
+		resetTriggers(this);
+		if ((this as any).__resizeRAF__) cancelFrame((this as any).__resizeRAF__);
+		(this as any).__resizeRAF__ = requestFrame(function(){
+			if (checkTriggers(element)) {
+				(element as any).__resizeLast__.width = element.offsetWidth;
+				(element as any).__resizeLast__.height = element.offsetHeight;
+				(element as any).__resizeListeners__.forEach(function(fn){
+					fn.call(element, e);
+				});
+			}
+		});
+	}
 
 		/* Detect CSS Animations support to detect element display/re-attach */
-		let animation = false,
-			keyframeprefix = '',
-			animationstartevent = 'animationstart',
-			domPrefixes = 'Webkit Moz O ms'.split(' '),
-			startEvents = 'webkitAnimationStart animationstart oAnimationStart MSAnimationStart'.split(' '),
-			pfx  = '';
-		{
-			let elm = document.createElement('fakeelement');
-			if( elm.style.animationName !== undefined ) { animation = true; }
+	let animation = false,
+		keyframeprefix = '',
+		animationstartevent = 'animationstart';
+	const domPrefixes = 'Webkit Moz O ms'.split(' ');
+	const startEvents = 'webkitAnimationStart animationstart oAnimationStart MSAnimationStart'.split(' ');
+	let pfx  = '';
+	{
+		const elm = document.createElement('fakeelement');
+		if( elm.style.animationName !== undefined ) { animation = true; }
 
-			if( animation === false ) {
-				for( let i = 0; i < domPrefixes.length; i++ ) {
-					if( elm.style[ domPrefixes[i] + 'AnimationName' ] !== undefined ) {
-						pfx = domPrefixes[ i ];
-						keyframeprefix = '-' + pfx.toLowerCase() + '-';
-						animationstartevent = startEvents[ i ];
-						animation = true;
-						break;
-					}
+		if( animation === false ) {
+			for( let i = 0; i < domPrefixes.length; i++ ) {
+				if( elm.style[ domPrefixes[i] + 'AnimationName' ] !== undefined ) {
+					pfx = domPrefixes[ i ];
+					keyframeprefix = '-' + pfx.toLowerCase() + '-';
+					animationstartevent = startEvents[ i ];
+					animation = true;
+					break;
 				}
 			}
 		}
+	}
 
-		let animationName = 'resizeanim';
-		let animationKeyframes = '@' + keyframeprefix + 'keyframes ' + animationName + ' { from { opacity: 0; } to { opacity: 0; } } ';
-		let animationStyle = keyframeprefix + 'animation: 1ms ' + animationName + '; ';
+	const animationName = 'resizeanim';
+	const animationKeyframes = '@' + keyframeprefix + 'keyframes ' + animationName + ' { from { opacity: 0; } to { opacity: 0; } } ';
+	const animationStyle = keyframeprefix + 'animation: 1ms ' + animationName + '; ';
 	//}
 
 	function createStyles() {
 		if (!stylesCreated) {
 			//opacity:0 works around a chrome bug https://code.google.com/p/chromium/issues/detail?id=286360
-			let css = (animationKeyframes ? animationKeyframes : '') +
+			const css = (animationKeyframes ? animationKeyframes : '') +
 					'.resize-triggers { ' + (animationStyle ? animationStyle : '') + 'visibility: hidden; opacity: 0; } ' +
 					'.resize-triggers, .resize-triggers > div, .contract-trigger:before { content: \" \"; display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; } .resize-triggers > div { background: #eee; overflow: auto; } .contract-trigger:before { width: 200%; height: 200%; }',
 				head = document.head || document.getElementsByTagName('head')[0],

@@ -95,7 +95,7 @@ export class PreviewService {
             };
         }
         query = this.makeQuery(query);
-        let observable = this.previewWebService.get(id, query, auditEvent);
+        const observable = this.previewWebService.get(id, query, auditEvent);
         Utils.subscribe(observable,
             (previewData) => {
                 previewData.resultId = resultId || "";
@@ -124,7 +124,7 @@ export class PreviewService {
     }
 
     openNewWindow(record: Record, query: Query): Window | null {
-        let params = {
+        const params = {
             id: record.id,
             query: this.getQueryStr(query),
             app: this.appService.appName

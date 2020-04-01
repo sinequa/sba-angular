@@ -72,7 +72,7 @@ class ArrayBasedView<T, U, V> implements NameValueArrayView<U, V> {
 
     forEach(callback: (item: NameValuePair<U, V>, index?: number, items?: NameValueArrayView<U, V>) => void, thisArg?: any) {
         for (let idx = 0; idx < this.length; idx++) {
-            let r = this.get(idx);
+            const r = this.get(idx);
             if (thisArg)
                 callback.call(thisArg, r, idx, this);
             else

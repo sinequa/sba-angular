@@ -36,9 +36,9 @@ export class SelectionService implements OnDestroy {
 
             if(event.type === "new-results" && this.searchService.haveRecords){
 
-                let newSelectedRecords: Record[] = [];
+                const newSelectedRecords: Record[] = [];
                 if (this.searchService.results && this.searchService.results.records) {
-                    for (let record of this.searchService.results.records) {
+                    for (const record of this.searchService.results.records) {
                         if (this.selectedRecords.includes(record.id) && !record.$selected) {
                             record.$selected = true;    // Select previously selected records
                             newSelectedRecords.push(record);
@@ -91,7 +91,7 @@ export class SelectionService implements OnDestroy {
             return false;
         }
         let allSelected = true;
-        for (let record of this.searchService.results.records) {
+        for (const record of this.searchService.results.records) {
             if (!record.$selected) {
                 allSelected = false;
             }
@@ -103,9 +103,9 @@ export class SelectionService implements OnDestroy {
         if (!this.searchService.results || !this.searchService.results.records) {
             return;
         }
-        let newSelectedRecords: Record[] = [];
+        const newSelectedRecords: Record[] = [];
         if (this.searchService.results && this.searchService.results.records) {
-            for (let record of this.searchService.results.records) {
+            for (const record of this.searchService.results.records) {
                 if (!record.$selected) {
                     this.selectedRecords.push(record.id);
                     newSelectedRecords.push(record);
@@ -121,11 +121,11 @@ export class SelectionService implements OnDestroy {
         if (!this.searchService.results || !this.searchService.results.records) {
             return;
         }
-        let newUnselectedRecords: Record[] = [];
+        const newUnselectedRecords: Record[] = [];
         if (this.searchService.results && this.searchService.results.records) {
-            for (let record of this.searchService.results.records) {
+            for (const record of this.searchService.results.records) {
                 if (record.$selected) {
-                    let index = this.selectedRecords.indexOf(record.id);
+                    const index = this.selectedRecords.indexOf(record.id);
                     if (index !== -1) {
                         this.selectedRecords.splice(index, 1);
                         newUnselectedRecords.push(record);
@@ -145,7 +145,7 @@ export class SelectionService implements OnDestroy {
      */
     public toggleSelectedRecords(record?: Record, source?: string) {
         if (!!record) {
-            let index = this.selectedRecords.indexOf(record.id);
+            const index = this.selectedRecords.indexOf(record.id);
             let event : SelectionEvent;
             if (index > -1) {
                 this.selectedRecords.splice(index, 1);
@@ -178,10 +178,10 @@ export class SelectionService implements OnDestroy {
      */
     public clearSelectedRecords() {
         this.selectedRecords.splice(0);
-        let newUnselectedRecords: Record[] = [];
+        const newUnselectedRecords: Record[] = [];
         if (this.searchService.results && this.searchService.results.records) {
             if (this.searchService.haveRecords) {
-                for (let record of this.searchService.results.records) {
+                for (const record of this.searchService.results.records) {
                     record.$selected = false;
                     newUnselectedRecords.push(record);
                 }

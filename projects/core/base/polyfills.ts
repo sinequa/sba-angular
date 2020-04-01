@@ -78,8 +78,8 @@ if (!(<any>Element.prototype).scrollIntoViewIfNeeded) {
             this.offsetLeft, this.offsetTop,
             this.offsetWidth, this.offsetHeight);
         while ((parent = elem.parentNode) instanceof HTMLElement) {
-            let clientLeft = parent.offsetLeft + parent.clientLeft;
-            let clientTop = parent.offsetTop + parent.clientTop;
+            const clientLeft = parent.offsetLeft + parent.clientLeft;
+            const clientTop = parent.offsetTop + parent.clientTop;
 
             // Make area relative to parent's client area.
             area = area.
@@ -111,7 +111,7 @@ if (!(<any>Element.prototype).scrollIntoViewIfNeeded) {
 
   function CustomEvent ( event, params ) {
     params = params || { bubbles: false, cancelable: false, detail: undefined };
-    let evt = document.createEvent( 'CustomEvent' );
+    const evt = document.createEvent( 'CustomEvent' );
     evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
     return evt;
    }
@@ -171,17 +171,17 @@ function fakeStorage(storageName: string) {
 
     console.warn("Using fake", storageName);
 
-    let dispatchStorageEvent = function(key, newValue) {
-        let oldValue = (!key) ? null : storage.getItem(key);
-        let url = location.href.substr(location.origin.length);
-        let storageEvent = document.createEvent("StorageEvent"); // For IE, http://stackoverflow.com/a/25514935/1214183
+    const dispatchStorageEvent = function(key, newValue) {
+        const oldValue = (!key) ? null : storage.getItem(key);
+        const url = location.href.substr(location.origin.length);
+        const storageEvent = document.createEvent("StorageEvent"); // For IE, http://stackoverflow.com/a/25514935/1214183
 
         storageEvent["initStorageEvent"]("storage", false, false, key, oldValue, newValue, url, storage);
         window.dispatchEvent(storageEvent);
     };
 
     storage.key = function(i) {
-        let key = Object.keys(fakeStorage)[i];
+        const key = Object.keys(fakeStorage)[i];
         return typeof key === "string" ? key : null;
     };
 

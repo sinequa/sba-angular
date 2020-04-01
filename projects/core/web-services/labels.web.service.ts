@@ -40,7 +40,7 @@ export class LabelsWebService extends HttpService {
     list(
         prefix: string,
         _public: boolean): Observable<Labels> {
-        let observable = this.httpClient.get<Labels>(this.makeUrl("labels"), {
+        const observable = this.httpClient.get<Labels>(this.makeUrl("labels"), {
             params: this.makeParams({
                 app: this.appName,
                 action: "list",
@@ -85,7 +85,7 @@ export class LabelsWebService extends HttpService {
     add(labels: string[],
         ids: string[],
         _public: boolean): Observable<void> {
-        let observable = this.httpClient.post<void>(this.makeUrl("labels"), {
+        const observable = this.httpClient.post<void>(this.makeUrl("labels"), {
             app: this.appName,
             action: "add",
             labels: labels,
@@ -130,7 +130,7 @@ export class LabelsWebService extends HttpService {
     remove(labels: string[],
         ids: string[],
         _public: boolean): Observable<void> {
-        let observable = this.httpClient.post<void>(this.makeUrl("labels"), {
+        const observable = this.httpClient.post<void>(this.makeUrl("labels"), {
             app: this.appName,
             action: "remove",
             labels: labels,
@@ -175,7 +175,7 @@ export class LabelsWebService extends HttpService {
     rename(labels: string[],
         newLabel: string,
         _public: boolean): Observable<void> {
-        let observable = this.httpClient.post<void>(this.makeUrl("labels"), {
+        const observable = this.httpClient.post<void>(this.makeUrl("labels"), {
             app: this.appName,
             action: "rename",
             labels: labels,
@@ -208,7 +208,7 @@ export class LabelsWebService extends HttpService {
      */
     delete(labels: string[],
         _public: boolean): Observable<void> {
-        let observable = this.httpClient.post<void>(this.makeUrl("labels"), {
+        const observable = this.httpClient.post<void>(this.makeUrl("labels"), {
             app: this.appName,
             action: "delete",
             labels: labels,
@@ -241,7 +241,7 @@ export class LabelsWebService extends HttpService {
     bulkAdd(labels: string[],
         query: IQuery,
         _public: boolean): Observable<void> {
-        let observable = this.httpClient.post<void>(this.makeUrl("labels"), {
+        const observable = this.httpClient.post<void>(this.makeUrl("labels"), {
             app: this.appName,
             action: "bulkAdd",
             labels: labels,
@@ -276,7 +276,7 @@ export class LabelsWebService extends HttpService {
     bulkRemove(labels: string[],
         query: IQuery,
         _public: boolean): Observable<void> {
-        let observable = this.httpClient.post<void>(this.makeUrl("labels"), {
+        const observable = this.httpClient.post<void>(this.makeUrl("labels"), {
             app: this.appName,
             action: "bulkRemove",
             labels: labels,

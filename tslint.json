@@ -85,6 +85,12 @@
     "typedef-whitespace": false,
     "space-before-function-paren": false,
     "curly": false,
-    "forin": false
+    "forin": false,
+    "prefer-const": [
+      true,
+      {
+        "destructuring": "all"
+      }
+    ]
   }
 }

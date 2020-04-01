@@ -185,13 +185,13 @@ export class SavedQueriesService implements OnDestroy {
      * @param name
      */
     public savedquery(name: string): SavedQuery | undefined {
-        let i = this.savedqueryIndex(name);
+        const i = this.savedqueryIndex(name);
         return i>= 0? this.savedqueries[i] : undefined;
     }
 
     private savedqueryIndex(name: string): number {
         for (let i = 0, ic = this.savedqueries.length; i < ic; i++) {
-            let savedquery = this.savedqueries[i];
+            const savedquery = this.savedqueries[i];
             if (savedquery && savedquery.name === name) {
                 return i;
             }
@@ -237,7 +237,7 @@ export class SavedQueriesService implements OnDestroy {
      */
     public updateSavedQuery(savedquery: SavedQuery, index : number) : boolean {
 
-        let prevIndex = this.savedqueryIndex(savedquery.name);
+        const prevIndex = this.savedqueryIndex(savedquery.name);
         if(prevIndex !== -1 && index !== prevIndex)
             return false; // A saved query with the same name exists at a different index
 
@@ -282,7 +282,7 @@ export class SavedQueriesService implements OnDestroy {
      */
     public deleteSavedQuery(savedquery: SavedQuery) : boolean {
 
-        let index = this.savedqueryIndex(savedquery.name);
+        const index = this.savedqueryIndex(savedquery.name);
 
         if(index === -1)
             return false; // Nothing to delete
@@ -412,7 +412,7 @@ export class SavedQueriesService implements OnDestroy {
      * the result is true if the query was saved.
      */
     createSavedQueryModal(query: Query = this.searchService.query) : Promise<boolean> {
-        let savedQuery: SavedQuery = {
+        const savedQuery: SavedQuery = {
             name: "",
             query: Query.copy(query)
         };
@@ -420,7 +420,7 @@ export class SavedQueriesService implements OnDestroy {
             .then((result) => {
                 if (result === ModalResult.OK) {
 
-                    let index = this.savedqueryIndex(savedQuery.name);
+                    const index = this.savedqueryIndex(savedQuery.name);
                     if (index !== -1) {
 
                         return this.modalService.yesNo("msg#savedQueries.savedQueryAlreadyExists")

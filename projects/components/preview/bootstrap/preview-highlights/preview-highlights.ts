@@ -70,7 +70,7 @@ export class BsPreviewHighlights implements OnChanges {
     private moveToFirstSearchTerm(): void {
         if (this.filteredHighlightData) {
             for (let i = 0, ic = this.total; i < ic; i++) {
-                let highlight = this.filteredHighlightData[i];
+                const highlight = this.filteredHighlightData[i];
                 if (highlight.positionInCategories) {
                     let category = "term1";
                     let position = highlight.positionInCategories[category];
@@ -124,11 +124,11 @@ export class BsPreviewHighlights implements OnChanges {
         if (this.navigationState.current < 0 || !this.filteredHighlightData) {
             return "";
         }
-        var result: string = this.filteredHighlightData[this.navigationState.current].displayValue;
+        const result: string = this.filteredHighlightData[this.navigationState.current].displayValue;
         if (result) {
             return result;
         }
-        var values: string[] = this.filteredHighlightData[this.navigationState.current].values;
+        const values: string[] = this.filteredHighlightData[this.navigationState.current].values;
         if (values && values.length > 0 && values[0] && values[0].length > 0) {
             return values[0];
         }
@@ -146,11 +146,11 @@ export class BsPreviewHighlights implements OnChanges {
      * based on the filtered Highlight data per location
      */
     get currentCategories(): string[] {
-        var result: string[] = [];
+        const result: string[] = [];
         if (this.navigationState.current < 0 || !this.filteredHighlightData || this.navigationState.current >= this.filteredHighlightData.size()) {
             return result;
         }
-        for (let categoryId in this.filteredHighlightData[this.navigationState.current].positionInCategories) {
+        for (const categoryId in this.filteredHighlightData[this.navigationState.current].positionInCategories) {
             result.push(categoryId);
         }
         return result;
@@ -175,7 +175,7 @@ export class BsPreviewHighlights implements OnChanges {
         if (!categoryId.startsWith("term")) {
             return {};
         }
-        let index = Number(categoryId.slice("term".length));
+        const index = Number(categoryId.slice("term".length));
         if (isNaN(index)) {
             return {};
         }
@@ -187,8 +187,8 @@ export class BsPreviewHighlights implements OnChanges {
      * Returns the list of entity categories that contain values
      */
     get nonEmptyCategoryIds(): string[] {
-        var result: string[] = [];
-        for (let categoryId in this.highlightDataPerCategory) {
+        const result: string[] = [];
+        for (const categoryId in this.highlightDataPerCategory) {
             if (!this.categoryIsEmpty(categoryId, this.highlightDataPerCategory)) {
                 result.push(categoryId);
             }
@@ -218,7 +218,7 @@ export class BsPreviewHighlights implements OnChanges {
         if (!this.highlightDataPerCategory || this.categoryIsEmpty(categoryId, this.highlightDataPerCategory)) {
             return 0;
         }
-        let values = this.highlightDataPerCategory[categoryId].values;
+        const values = this.highlightDataPerCategory[categoryId].values;
         if (values == null) {
             return 0;
         }
@@ -258,29 +258,29 @@ export class BsPreviewHighlights implements OnChanges {
 
     private selectHighlight(): void {
         if (this.filteredHighlightData) {
-            var positionInCategories: { [categoryId: string]: number } = this.filteredHighlightData[this.navigationState.current].positionInCategories;
-            var firstCategory: string = Object.keys(positionInCategories)[0];
+            const positionInCategories: { [categoryId: string]: number } = this.filteredHighlightData[this.navigationState.current].positionInCategories;
+            const firstCategory: string = Object.keys(positionInCategories)[0];
             this.previewDocument.selectHighlight(firstCategory, positionInCategories[firstCategory]);
         }
     }
 
     public selectAll(): void {
-        for (let categoryId in this.navigationState.filters) {
+        for (const categoryId in this.navigationState.filters) {
             this.navigationState.filters[categoryId] = this.keepAllFilter;
         }
         this.reset();
     }
 
     public selectNone(): void {
-        for (let categoryId in this.navigationState.filters) {
+        for (const categoryId in this.navigationState.filters) {
             this.navigationState.filters[categoryId] = this.keepNoneFilter;
         }
         this.reset();
     }
 
     get allSelected(): boolean {
-        for (let categoryId in this.navigationState.filters) {
-            var filter: HighlightCategoryFilterState = this.navigationState.filters[categoryId];
+        for (const categoryId in this.navigationState.filters) {
+            const filter: HighlightCategoryFilterState = this.navigationState.filters[categoryId];
             if (filter && filter.choice !== HighlightCategoryFilterChoice.All) {
                 return false;
             }
@@ -289,8 +289,8 @@ export class BsPreviewHighlights implements OnChanges {
     }
 
     get noneSelected(): boolean {
-        for (let categoryId in this.navigationState.filters) {
-            var filter: HighlightCategoryFilterState = this.navigationState.filters[categoryId];
+        for (const categoryId in this.navigationState.filters) {
+            const filter: HighlightCategoryFilterState = this.navigationState.filters[categoryId];
             if (!filter || filter.choice !== HighlightCategoryFilterChoice.None) {
                 return false;
             }
@@ -318,7 +318,7 @@ export class BsPreviewHighlights implements OnChanges {
         if(value.choice === HighlightCategoryFilterChoice.Value){
 
             // First, let's cancel value filters EXCEPT the one that was just selected
-            for(let key in this.navigationState.filters){
+            for(const key in this.navigationState.filters){
                 if(key !== categoryId && this.navigationState.filters[key] !== this.keepAllFilter && this.navigationState.filters[key] !== this.keepNoneFilter){
                     this.navigationState.filters[key] = this.keepAllFilter;
                 }
@@ -326,7 +326,7 @@ export class BsPreviewHighlights implements OnChanges {
 
             // Search the entity ID
             let highlight;
-            for(let key in this.highlightDataPerLocation){
+            for(const key in this.highlightDataPerLocation){
                 highlight = this.highlightDataPerLocation[key];
                 if(highlight.positionInCategories[categoryId] && highlight.values.includes(value.filterValue)){
                     break;
@@ -341,7 +341,7 @@ export class BsPreviewHighlights implements OnChanges {
         else {
 
             // Cancel value filters
-            for(let key in this.navigationState.filters){
+            for(const key in this.navigationState.filters){
                 if(this.navigationState.filters[key] !== this.keepAllFilter && this.navigationState.filters[key] !== this.keepNoneFilter){
                     this.navigationState.filters[key] = this.keepAllFilter;
                 }
@@ -376,7 +376,7 @@ class SimpleHighlightNavigationState {
     constructor(categories: string[]) {
         this.current = -1;  // No selection
         this.filters = {};
-        for (let category of categories) {
+        for (const category of categories) {
             this.filters[category] = new SimpleHighlightCategoryFilterState(); // All entities visible by default
         }
     }
@@ -436,9 +436,9 @@ class FilteredHighlightDataPerLocation implements HighlightDataPerLocation {
     };
 
     public constructor(baseData: HighlightDataPerLocation, filters: { [key: string] : HighlightCategoryFilterState }) {
-        var counter: number = 0;
-        for (let i in baseData) {
-            let categories = !baseData[i].positionInCategories ? undefined : Object.keys(baseData[i].positionInCategories);
+        let counter: number = 0;
+        for (const i in baseData) {
+            const categories = !baseData[i].positionInCategories ? undefined : Object.keys(baseData[i].positionInCategories);
             if (categories && this.locationIsIncluded(baseData[i].values, categories, filters)) {
                 this[counter] = baseData[i];
                 counter++;
@@ -454,7 +454,7 @@ class FilteredHighlightDataPerLocation implements HighlightDataPerLocation {
         if (!categories) {
             return false;
         }
-        for (let category of categories) {
+        for (const category of categories) {
             if (filters[category] &&
                 (filters[category].choice === HighlightCategoryFilterChoice.All
                 || filters[category].choice === HighlightCategoryFilterChoice.Value && values != null && values.includes(filters[category].filterValue))) {

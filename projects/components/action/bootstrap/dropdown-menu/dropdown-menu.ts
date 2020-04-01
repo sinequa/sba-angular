@@ -24,7 +24,7 @@ export class BsDropdownMenu implements OnInit {
     }
 
     ngOnInit() {
-        let element: HTMLElement = this.elementRef.nativeElement;
+        const element: HTMLElement = this.elementRef.nativeElement;
         if (this.options.item.scrollable) {
             element.classList.add("sq-scrollable-menu");
         }
@@ -46,15 +46,15 @@ export class BsDropdownMenu implements OnInit {
         if (!this.options.item.disabled) {
             // Handle sub-menu opening
             let isOpen = false;
-            let li = this.getLi(<HTMLElement>event.target);
+            const li = this.getLi(<HTMLElement>event.target);
             if (!!li && li.classList.contains("dropdown-submenu")) {
                 event.preventDefault();
                 event.stopPropagation();
                 isOpen = li.classList.contains(this.options.showMenuClass);
-                let ul = li.parentElement;
+                const ul = li.parentElement;
                 if (ul) {
                     for (let i = 0, ic = ul.children.length; i < ic; i++) {
-                        let _li = ul.children[i];
+                        const _li = ul.children[i];
                         _li.classList.remove(this.options.showMenuClass);
                     }
                 }

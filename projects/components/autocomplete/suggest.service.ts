@@ -24,7 +24,7 @@ export class SuggestService {
         if (text.includes(" ")) {
             return;
         }
-        for (let field of this.appService.fields) {
+        for (const field of this.appService.fields) {
             if (Utils.startsWith(field, text)) {
                 suggests.unshift({
                     category: this.fieldCategory,
@@ -49,10 +49,10 @@ export class SuggestService {
                 }
                 else {
                     if (!suggests || suggests.length === 0) {
-                        let _fields = Utils.isArray(fields) ? fields : [fields];
+                        const _fields = Utils.isArray(fields) ? fields : [fields];
                         fields = [];
-                        for (let field of _fields) {
-                            let column = this.appService.getColumn(field);
+                        for (const field of _fields) {
+                            const column = this.appService.getColumn(field);
                             if (!!column && (column.eType === EngineType.csv || AppService.isScalar(column))) {
                                 fields.push(field);
                             }
@@ -121,10 +121,10 @@ export class SuggestService {
         }
 
         // pass text and query in lower case and no accent to make search case insensitive
-        let textLower = Utils.removeAccents(text.toLowerCase());
+        const textLower = Utils.removeAccents(text.toLowerCase());
         query = Utils.removeAccents(query.toLowerCase());
         let i = 0;
-        let matches: number[] = [];
+        const matches: number[] = [];
         let score = 0;
 
         // Compute score of the match

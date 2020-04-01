@@ -111,7 +111,7 @@ export class BsRfmAction implements OnChanges, OnDestroy {
     }
 
     getActionIcon(rfmDisplay: RFMDisplay): string {
-        let name = RFMService.getActionName(rfmDisplay);
+        const name = RFMService.getActionName(rfmDisplay);
         return `rfm-${this.type}-${name}`;
     }
 
@@ -128,7 +128,7 @@ export class BsRfmAction implements OnChanges, OnDestroy {
             };
         }
         if (this.displayMenu) {
-            for (let rfmDisplay of this.menuActions) {
+            for (const rfmDisplay of this.menuActions) {
                 this.action.children.push(new Action({
                     icon: this.getActionIcon(rfmDisplay),
                     data: rfmDisplay,
@@ -146,7 +146,7 @@ export class BsRfmAction implements OnChanges, OnDestroy {
 
     selectRfmDisplay(rfmDisplay: RFMDisplay) {
         if (rfmDisplay !== this.rfmStatus) {
-            let eventtype = RFMService.toAuditEventType(this.type, rfmDisplay);
+            const eventtype = RFMService.toAuditEventType(this.type, rfmDisplay);
             this.rFMService.notifyRfmAction(eventtype, this.record, this.results);
             // Update RFM data for the record (created a new RFM data can be necessary)
             this.updateRfmData(rfmDisplay, this.rfmStatus);
@@ -154,7 +154,7 @@ export class BsRfmAction implements OnChanges, OnDestroy {
     }
 
     private updateRfmData(newStatus: RFMDisplay, newAction: RFMDisplay) {
-        let updateNeeded = false;
+        const updateNeeded = false;
         if (!this.rfm) {
             this.rfm = {
                 eventCount: 1,

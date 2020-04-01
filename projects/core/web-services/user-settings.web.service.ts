@@ -94,7 +94,7 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
      * Sets the userSettings member and issues the "changed" event
      */
     public load(): Observable<UserSettings> {
-        let observable = this.httpClient.get<UserSettings>(this.makeUrl("usersettings"), {
+        const observable = this.httpClient.get<UserSettings>(this.makeUrl("usersettings"), {
             params: this.makeParams({
                 app: this.appName,
                 action: "load"
@@ -121,7 +121,7 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
      * @param auditEvents
      */
     public save(auditEvents?: AuditEvents): Observable<void> {
-        let observable = this.httpClient.post<void>(this.makeUrl("usersettings"), {
+        const observable = this.httpClient.post<void>(this.makeUrl("usersettings"), {
             app: this.appName,
             action: "save",
             userSettings: this.userSettings,
@@ -145,7 +145,7 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
      * @param auditEvents Any associated audit events to store on the server
      */
     public patch(userSettings: UserSettings, auditEvents?: AuditEvents): Observable<void> {
-        let observable = this.httpClient.post<void>(this.makeUrl("usersettings"), {
+        const observable = this.httpClient.post<void>(this.makeUrl("usersettings"), {
             app: this.appName,
             action: "patch",
             userSettings: userSettings,

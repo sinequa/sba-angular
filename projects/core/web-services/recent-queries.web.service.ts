@@ -33,7 +33,7 @@ export class RecentQueriesWebService extends HttpService {
     }
 
     load(): Observable<RecentQueries> {
-        let observable = this.httpClient.get<RecentQueries>(this.makeUrl("recentqueries"), {
+        const observable = this.httpClient.get<RecentQueries>(this.makeUrl("recentqueries"), {
             params: this.makeParams({
                 app: this.appName,
                 action: "load"

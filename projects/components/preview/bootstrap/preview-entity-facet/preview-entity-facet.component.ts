@@ -74,7 +74,7 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
   }
 
   get actions(): Action[]{
-    let actions: Action[] = [];
+    const actions: Action[] = [];
     if(this.previewDocument){
       actions.push(this.checkAction);
     }
@@ -114,7 +114,7 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
    */
   get entityValues(): HighlightValue[] {
     return this.data.sort((a,b) => {
-      let d = b.locations.length - a.locations.length;
+      const d = b.locations.length - a.locations.length;
       return this.sortFreq && d !== 0?  d : a.displayValue.localeCompare(b.displayValue);
     }).slice(0, this.count);
   }
@@ -238,7 +238,7 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
    * @param i
    */
   selectEntity(category: string, value: string, i: number){
-    let indexes = this.getEntityIndexes(category, value);
+    const indexes = this.getEntityIndexes(category, value);
     this.previewDocument.selectHighlight(category, indexes[i]);
   }
 
@@ -248,10 +248,10 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
    * @param value
    */
   private getEntityIndexes(category: string, value: string) {
-    let indexes: number[] = [];
+    const indexes: number[] = [];
     for(let i=0; i<this.previewData.highlightsPerLocation['length']; i++){
-      let highlight = this.previewData.highlightsPerLocation[i];
-      let categories = Object.keys(highlight.positionInCategories);
+      const highlight = this.previewData.highlightsPerLocation[i];
+      const categories = Object.keys(highlight.positionInCategories);
       for(let j=0; j<categories.length; j++){
         if(categories[j] === category && highlight.values[j] === value){
           indexes.push(highlight.positionInCategories[category]);

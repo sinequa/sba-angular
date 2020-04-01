@@ -22,7 +22,7 @@ export class ResultSource implements OnInit {
 
     public ngOnInit() {
         if(this.displayTreepath){
-            let treepath = this.record.treepath[0];
+            const treepath = this.record.treepath[0];
             if(!!treepath && treepath.length >= 2){
                 this.source = treepath.substr(1, treepath.length-2).split('/').map((path,i,array) => {
                     return {

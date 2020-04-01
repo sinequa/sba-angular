@@ -265,7 +265,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   entitiesChecked(event: {entity: string, checked: boolean}) {
-    let startUnchecked = this.entitiesStartUnchecked;
+    const startUnchecked = this.entitiesStartUnchecked;
     startUnchecked[event.entity] = !event.checked;
     this.prefs.set("preview-entities-checked", startUnchecked);
   }

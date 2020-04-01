@@ -69,7 +69,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    * the actions of the facet.
    */
   get actions(): Action[] {
-    let actions: Action[] = [];
+    const actions: Action[] = [];
     if(this.openedFacet){
       actions.push(this.backAction);
     }
@@ -105,12 +105,12 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    */
   private getFacetCount(facet: FacetConfig): string {
     if(facet.type==='tree'){
-      let agg = this.facetService.getTreeAggregation(facet.name, facet.aggregation, this.results);
+      const agg = this.facetService.getTreeAggregation(facet.name, facet.aggregation, this.results);
       if(!agg || !agg.items) return "";
       return agg.items.length + "";
     }
-    let agg = this.facetService.getAggregation(facet.aggregation, this.results);
-    let count = this.facetService.getAggregationCount(facet.aggregation);
+    const agg = this.facetService.getAggregation(facet.aggregation, this.results);
+    const count = this.facetService.getAggregationCount(facet.aggregation);
     if(!agg || !agg.items) return "";
     if(agg.items.length >= count){
       return count+"+";
@@ -125,10 +125,10 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    */
   private hasData(facet: FacetConfig): boolean {
     if(facet.type==='tree'){
-      let agg = this.facetService.getTreeAggregation(facet.name, facet.aggregation, this.results);
+      const agg = this.facetService.getTreeAggregation(facet.name, facet.aggregation, this.results);
       return !!agg && !!agg.items && agg.items.length > 0;
     }
-    let agg = this.facetService.getAggregation(facet.aggregation, this.results);
+    const agg = this.facetService.getAggregation(facet.aggregation, this.results);
     return !!agg && !!agg.items && agg.items.length > 0;
   }
 

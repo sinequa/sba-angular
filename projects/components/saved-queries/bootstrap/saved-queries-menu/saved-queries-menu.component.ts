@@ -79,16 +79,16 @@ export class BsSavedQueriesMenuComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let savedQueriesActions: Action[] = [];
+    const savedQueriesActions: Action[] = [];
 
     if (this.savedQueriesService.hasSavedQuery) {
-        let scrollGroup = new Action({
+        const scrollGroup = new Action({
             scrollGroup: true,
             children: []
         });
         savedQueriesActions.push(scrollGroup);
         for (let i = 0, ic = this.savedQueriesService.savedqueries.length; i < ic; i++) {
-            let savedQuery = this.savedQueriesService.savedqueries[i];
+            const savedQuery = this.savedQueriesService.savedqueries[i];
             scrollGroup.children.push(new Action({
                 text: savedQuery.name,
                 title: savedQuery.name,

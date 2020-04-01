@@ -77,7 +77,7 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
         if (!this.haveItem) {
             return "";
         }
-        let text = this.options.item.text || "";
+        const text = this.options.item.text || "";
         if (this.options.autoAdjust && this.haveIcon) {
             return this.haveSpace ? text : "";
         }
@@ -90,8 +90,8 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
         if (!this.haveItem) {
             return "";
         }
-        let text = this.options.item.text || "";
-        let title = this.options.item.title || "";
+        const text = this.options.item.text || "";
+        const title = this.options.item.title || "";
         if (this.options.autoAdjust && this.haveIcon) {
             return this.haveSpace ? (title !== text ? title : "") : title || text;
         }
@@ -152,7 +152,7 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
                 this.options.item.action(this.options.item, event);
             }
             if (this.options.item.toggle && (this.isDropdownButton || this.isDropdownListItem)) {
-                let openElement = this.dropdownButton || (this.dropdownListItem ? this.dropdownListItem.parentElement : null);
+            const openElement = this.dropdownButton || (this.dropdownListItem ? this.dropdownListItem.parentElement : null);
                 if (openElement) {
                     this.options.item.toggle(this.options.item, !openElement.classList.contains("open"));
                 }

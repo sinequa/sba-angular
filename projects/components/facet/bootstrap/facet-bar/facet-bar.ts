@@ -15,7 +15,7 @@ export class BsFacetBar {
     }
 
     get facets(): any[] { // Which facets are actually displayed in this facet bar
-        let facets = this.facetService.getFacets(this.containerIndex);
+        const facets = this.facetService.getFacets(this.containerIndex);
         return facets;
     }
 

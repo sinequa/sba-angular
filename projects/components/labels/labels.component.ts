@@ -48,7 +48,7 @@ export class Labels implements OnChanges {
             this.labels = [];
             return;
         }
-        let labels = this.record[this.labelsField];
+        const labels = this.record[this.labelsField];
         if (Utils.isArray(labels)) {
             this.labels = this.labelsService.sort(labels.slice(), this.public);
         }
@@ -74,7 +74,7 @@ export class Labels implements OnChanges {
 
     onSubmit(){
         if (this.newLabelRef.value) {
-            let labels = this.labelsService.split(this.newLabelRef.value).filter((value) => { return this.labels.indexOf(value) === -1; });
+            const labels = this.labelsService.split(this.newLabelRef.value).filter((value) => { return this.labels.indexOf(value) === -1; });
             Utils.subscribe(this.labelsService.addLabels(labels, [this.record.id], this.public),
                 (value) => {
                     this.adding = false;
