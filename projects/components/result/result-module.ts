@@ -15,7 +15,7 @@ import {ResultMissingTerms} from "./result-missing-terms/result-missing-terms";
 import {ResultMetadata} from "./result-metadata/result-metadata";
 import {ResultThumbnail} from "./result-thumbnail/result-thumbnail";
 import {UserRating} from "./user-rating/user-rating";
-import {SponsoredResults} from './sponsored-results/sponsored-results'
+import {SponsoredResults} from './sponsored-results/sponsored-results';
 import {ResultsCounter} from "./results-counter/results-counter";
 import {ResultIcon} from "./result-icon/result-icon";
 import {ResultEntitySummary} from "./result-entity-summary/result-entity-summary";

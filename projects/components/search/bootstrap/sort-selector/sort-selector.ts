@@ -33,7 +33,7 @@ export class BsSortSelector implements OnChanges {
                 return Utils.eqNC(value.name, name);
             });
             if (current) {
-                const queryOrderBy = this.searchService.query.orderBy
+                const queryOrderBy = this.searchService.query.orderBy;
                 this.sortAction.text = !!queryOrderBy ? "msg#sortSelector.sortOther" : current.display || current.name;
                 this.sortAction.icon = !!queryOrderBy ? 'fas fa-sort'
                     : this.isAscendingSort(current.orderByClause) ? 'fas fa-sort-amount-up'

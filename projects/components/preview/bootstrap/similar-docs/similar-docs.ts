@@ -93,7 +93,7 @@ export class BsSimilarDocs implements OnInit {
                         .sort((a,b) => b.pct - a.pct);
                     this.changeDetectorRef.markForCheck();
                 }
-            )
+            );
         }
     }
 

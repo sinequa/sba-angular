@@ -20,7 +20,7 @@ import {LABELS_COMPONENTS, LabelsComponents} from "../labels.service";
 export const defaultLabelComponents: LabelsComponents = {
     labelActionItem: BsLabelsActionItem,
     renameModal: BsRenameLabel
-}
+};
 
 @NgModule({
     imports: [

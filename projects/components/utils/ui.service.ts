@@ -439,7 +439,7 @@ function initElementResizeListener (service) {
 			expandChild.style.height = expand.offsetHeight + 1 + 'px';
 			expand.scrollLeft = expand.scrollWidth;
 			expand.scrollTop = expand.scrollHeight;
-		};
+		}
 
 		function checkTriggers(element){
 			return element.offsetWidth !== element.__resizeLast__.width ||
@@ -459,7 +459,7 @@ function initElementResizeListener (service) {
 					});
 				}
 			});
-		};
+		}
 
 		/* Detect CSS Animations support to detect element display/re-attach */
 		let animation = false,
@@ -545,5 +545,5 @@ function initElementResizeListener (service) {
 					element.__resizeTriggers__ = !element.removeChild(element.__resizeTriggers__);
 			}
 		}
-	}
+	};
 }

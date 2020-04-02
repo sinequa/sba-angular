@@ -34,17 +34,17 @@ export module JsonInfo {
     }
 
     export interface EntryInput extends Entry {
-        type: InputType.Entry,
+        type: InputType.Entry;
     }
 
     export interface RangeInput extends Entry {
-        type: InputType.Range,
+        type: InputType.Range;
     }
 
     export interface MultiEntryInput extends Entry {
-        type: InputType.MultiEntry,
-        distinct?: boolean,
-        nbVisibleLines?: number,
+        type: InputType.MultiEntry;
+        distinct?: boolean;
+        nbVisibleLines?: number;
     }
 }
 

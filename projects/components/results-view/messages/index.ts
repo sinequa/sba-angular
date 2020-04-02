@@ -10,4 +10,4 @@ const enResultsView = Utils.merge({}, _enResultsView, enSearch, enSelection);
 const frResultsView = Utils.merge({}, _frResultsView, frSearch, frSelection);
 const deResultsView = Utils.merge({}, _deResultsView, deSearch, deSelection);
 
-export {enResultsView, frResultsView, deResultsView}
+export { enResultsView, frResultsView, deResultsView };

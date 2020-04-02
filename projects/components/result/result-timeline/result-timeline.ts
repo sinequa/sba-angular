@@ -79,7 +79,7 @@ export class ResultTimeline implements OnChanges {
         if(data.length >= this.min_dates){
 
             if(data.length> this.max_dates )
-                data = data.slice(0, this.max_dates)
+                data = data.slice(0, this.max_dates);
 
             //console.log(data);
 

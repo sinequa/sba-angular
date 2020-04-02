@@ -69,7 +69,7 @@ export const routes: Routes = [
 export const searchOptions: SearchOptions = {
     routes: ["search"],
     homeRoute: "home"
-}
+};
 
 
 // Application languages (intl service)
@@ -86,7 +86,7 @@ export class AppLocalesConfig implements LocalesConfig {
             { name: "en", display: "msg#locale.en", data: enLocale},
             { name: "fr", display: "msg#locale.fr", data: frLocale},
             { name: "de", display: "msg#locale.de", data: deLocale},
-        ]
+        ];
         this.defaultLocale = this.locales[0];
     }
 }
@@ -99,7 +99,7 @@ export const breakpoints = {
     md: "(min-width: 992px) and (max-width: 1399px)",
     sm: "(min-width: 576px) and (max-width: 991px)",
     xs: "(max-width: 575px)",
-}
+};
 
 
 @NgModule({

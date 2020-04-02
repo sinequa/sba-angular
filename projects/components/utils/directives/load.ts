@@ -14,7 +14,7 @@ export class Load implements OnInit, OnDestroy {
 
     loadListener = (event: Event) => {
         this.load.emit({event: event});
-    };
+    }
 
     ngOnInit() {
         this.element.addEventListener("load", this.loadListener);

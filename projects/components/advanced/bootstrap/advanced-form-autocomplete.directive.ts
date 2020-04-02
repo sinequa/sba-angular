@@ -8,8 +8,8 @@ import {SuggestFieldWebService} from '@sinequa/core/web-services';
 export interface AdvancedFormAutocompleteOptions {
     autocompleteEnabled: boolean;
     suggestQuery: string;
-    control: Control
-};
+    control: Control;
+}
 
 @Directive({
     selector: "[sq-advanced-form-autocomplete]"

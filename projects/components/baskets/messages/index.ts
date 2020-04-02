@@ -10,4 +10,4 @@ const enBaskets = Utils.merge({}, _enBaskets, enSearch, enSelection, enModal);
 const frBaskets = Utils.merge({}, _frBaskets, frSearch, frSelection, frModal);
 const deBaskets = Utils.merge({}, _deBaskets, deSearch, deSelection, deModal);
 
-export {enBaskets, frBaskets, deBaskets}
+export { enBaskets, frBaskets, deBaskets };

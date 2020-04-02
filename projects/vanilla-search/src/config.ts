@@ -115,4 +115,4 @@ export const FACETS: FacetConfig[] = [
 
 export const METADATA: string[] = [
     "authors", "docformat", "modified", "size", "treepath", "filename"
-]
+];

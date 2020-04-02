@@ -127,4 +127,4 @@ export default {
         "openSettings": "Einstellungen öffnen",
         "saveSettings": "Einstellungen speichern"
     }
-}
+};

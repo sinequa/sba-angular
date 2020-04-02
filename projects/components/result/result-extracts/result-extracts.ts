@@ -35,7 +35,7 @@ export class ResultExtracts implements OnChanges {
                 let extracts = "";
                 for(let i=0; i<this.record["extracts"].length; i+=3)
                     extracts += "<li>"+this.record["extracts"][i].replace(/\{b\}/g,"<strong>").replace(/\{nb\}/g,"</strong>")+"</li>";
-                this.text = "<ul>"+extracts+"</ul>"
+                this.text = "<ul>"+extracts+"</ul>";
                 this.extractsClass = "sq-long-extracts";
             }
             else if (this.record.relevantExtracts) {

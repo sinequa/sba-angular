@@ -247,7 +247,7 @@ export class MlAuditService extends HttpService {
                     return {
                         auditEvents: auditRecord.auditEvents,
                         mlAuditEvents: auditRecord.mlAuditEvents.map(actionInit => this.newAction(actionInit))
-                    }
+                    };
                 }
             }
         }

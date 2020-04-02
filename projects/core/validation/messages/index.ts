@@ -8,4 +8,4 @@ const enValidation = Utils.merge({}, _enValidation, enIntl);
 const frValidation = Utils.merge({}, _frValidation, frIntl);
 const deValidation = Utils.merge({}, _deValidation, deIntl);
 
-export {enValidation, frValidation, deValidation}
+export { enValidation, frValidation, deValidation };

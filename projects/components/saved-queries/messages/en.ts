@@ -47,4 +47,4 @@ export default {
         "rss": "RSS Feed"
     },
 
-}
+};

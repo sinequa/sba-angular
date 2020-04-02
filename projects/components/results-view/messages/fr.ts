@@ -57,4 +57,4 @@ export default {
             "display" : "Nuage de Valeurs"
         }
     }
-}
+};

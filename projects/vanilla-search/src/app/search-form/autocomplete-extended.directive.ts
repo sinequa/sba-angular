@@ -69,7 +69,7 @@ export class AutocompleteExtended extends Autocomplete {
                 switch(source) {
                     case 'suggests': return  this.suggestService.get(this.suggestQuery, value, fields);
                     case 'baskets': return from(this.searchBaskets(value));
-                    case 'recent-documents': return from(this.searchRecentDocuments(value))
+                    case 'recent-documents': return from(this.searchRecentDocuments(value));
                     case 'recent-queries': return from(this.searchRecentQueries(value));
                     case 'saved-queries': return from(this.searchSavedQueries(value));
                 }

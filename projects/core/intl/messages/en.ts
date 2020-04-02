@@ -50,4 +50,4 @@ export default {
         "zs": "Simplified Chinese",
         "zz": "Unknown"
     }
-}
+};

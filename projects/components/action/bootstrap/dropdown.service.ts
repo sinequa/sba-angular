@@ -96,7 +96,7 @@ export class BsDropdownService implements OnDestroy {
         let selector = element.getAttribute('data-target');
 
         if (!selector || selector === '#') {
-            const hrefAttr = element.getAttribute('href')
+            const hrefAttr = element.getAttribute('href');
             selector = hrefAttr && hrefAttr !== '#' ? hrefAttr.trim() : '';
         }
 

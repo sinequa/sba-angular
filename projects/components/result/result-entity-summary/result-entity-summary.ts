@@ -64,7 +64,7 @@ export class ResultEntitySummary implements OnChanges {
                     lengths : locations.filter((v,i) => i % 2 === 1),
                     originalLocations : originalLocations.filter((v,i) => i % 2 === 0),
                     originalLengths: originalLocations.filter((v,i) => i % 2 === 1),
-                }
+                };
             }
             return value;
         });

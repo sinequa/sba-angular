@@ -117,7 +117,7 @@ export class PreviewTooltip implements OnChanges {
             this.positionTooltipAbove(range.getBoundingClientRect());
         }
         this.changeDetectorRef.detectChanges();
-    };
+    }
 
     private _inTime: number = 0;
     /**
@@ -141,7 +141,7 @@ export class PreviewTooltip implements OnChanges {
 
                         let idsplt = element.id.split("_");
                         let idx = parseInt(idsplt[idsplt.length-1]);
-                        const entity = this.findEntity(this.entityType, this.entityValue, (_, idIndex) => { return idIndex === idx });
+                        const entity = this.findEntity(this.entityType, this.entityValue, (_, idIndex) => idIndex === idx);
                         this.entityIdx = entity ? entity.valueIndex : 0;
 
                         this.changeDetectorRef.detectChanges(); // Refresh size of tooltip
@@ -194,7 +194,7 @@ export class PreviewTooltip implements OnChanges {
         event.stopPropagation(); // stop the propagation to avoid triggering the tooltip listeners
         if(this.entityIdx > 1){
             // Find the index of the previous entity
-            const entity = this.findEntity(this.entityType, this.entityValue, (valueIdx,_) => { return valueIdx === this.entityIdx-1 });
+            const entity = this.findEntity(this.entityType, this.entityValue, (valueIdx,_) => valueIdx === this.entityIdx-1);
             if (entity) {
                 const idx = entity.idIndex;
                 this.previewDocument.selectHighlight(this.entityType, idx);
@@ -210,7 +210,7 @@ export class PreviewTooltip implements OnChanges {
         event.stopPropagation(); // stop the propagation to avoid triggering the tooltip listeners
         if(this.entityIdx < this.entityCount){
             // Find the index of the next entity
-            const entity = this.findEntity(this.entityType, this.entityValue, (valueIdx,_) => { return valueIdx === this.entityIdx+1 });
+            const entity = this.findEntity(this.entityType, this.entityValue, (valueIdx,_) => valueIdx === this.entityIdx+1);
             if (entity) {
                 let idx = entity.idIndex;
                 this.previewDocument.selectHighlight(this.entityType, idx);

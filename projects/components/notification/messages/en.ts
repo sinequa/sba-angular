@@ -5,4 +5,4 @@ export default {
         "hideNotifications": "Hide notifications",
         "clearNotifications": "Clear notifications",
     }
-}
+};

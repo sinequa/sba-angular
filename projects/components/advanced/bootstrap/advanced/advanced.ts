@@ -7,7 +7,7 @@ import {AdvancedValue, AdvancedOperator} from "@sinequa/core/web-services";
 import {AppService, Query} from "@sinequa/core/app-utils";
 import {ValidationService, ValidatorType} from "@sinequa/core/validation";
 import {Control, AdvancedFormType} from "../advanced-models";
-import {SearchService, FirstPageService} from "@sinequa/components/search"
+import { SearchService, FirstPageService } from "@sinequa/components/search";
 
 @Component({
     selector: "sq-advanced",

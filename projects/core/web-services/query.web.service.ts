@@ -214,7 +214,7 @@ export interface QueryIntentDatasets {
     [name: string] : {
         attributes : [any];
         rows : [any];
-    }
+    };
 }
 
 /**

@@ -10,7 +10,7 @@ export abstract class AbstractFacet {
     /**
      * List of custom actions of this facet
      */
-    public get actions(): Action[] { return []; };
+    public get actions(): Action[] { return []; }
 
     /**
      * Event emitter triggered when the list of action changes

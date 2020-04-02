@@ -143,7 +143,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
                 let val = record[this.appService.getColumnAlias(this.appService.getColumn(this.data.column))];
                 if(val){
                     if(Utils.isString(val)){    // Sourcestr
-                        this.selectedValues.add(val.toLowerCase())
+                        this.selectedValues.add(val.toLowerCase());
                     }
                     if(Utils.isArray(val)){
                         val.forEach(v => {

@@ -161,7 +161,7 @@ export class UserRatingsWebService extends HttpService {
         return {
             rating: this.parseUserRatingList(record[config.ratingsColumn], config),
             averagerating: this.parseAverageRating(record[config.averageColumn], config)
-        }
+        };
     }
 
     private parseAverageRating(columnEntries: string[], config: CCRating): number {

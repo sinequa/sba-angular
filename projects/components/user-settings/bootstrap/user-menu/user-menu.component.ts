@@ -78,7 +78,7 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
           userOverride = {
             userName: "",
             domain: ""
-          }
+          };
         }
         this.modalService.open(BsOverrideUser, {model: userOverride})
           .then((result) => {

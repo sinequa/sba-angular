@@ -1,12 +1,12 @@
-import { ArrayView } from "./array-view"
-import { IteratorAdaptor } from "./iterator-adaptor"
+import { ArrayView } from "./array-view";
+import { IteratorAdaptor } from "./iterator-adaptor";
 
 /**
  * A generic interface describing a name and associated value
  */
 export interface NameValuePair<U, V> {
-    name: U,
-    value: V
+    name: U;
+    value: V;
 }
 
 /**

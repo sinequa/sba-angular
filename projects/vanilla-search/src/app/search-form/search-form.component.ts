@@ -64,9 +64,9 @@ export class SearchFormComponent implements OnInit, OnDestroy {
       case "recent-document": return "far fa-file-alt fa-fw";
       case "recent-query": return "fas fa-history fa-fw";
       case "basket": return "fas fa-inbox fa-fw";
-      case "saved-query": return "far fa-save fa-fw"
+      case "saved-query": return "far fa-save fa-fw";
     }
-    return "far fa-lightbulb fa-fw"
+    return "far fa-lightbulb fa-fw";
   }
 
   /**

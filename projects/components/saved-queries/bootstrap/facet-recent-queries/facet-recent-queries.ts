@@ -92,7 +92,7 @@ export class BsFacetRecentQueries extends AbstractFacet  {
 
     saveQuery(query: RecentQuery, event: Event){
         event.stopPropagation();
-        let q = Utils.extend(this.searchService.makeQuery(), Utils.copy(query.query))
+        let q = Utils.extend(this.searchService.makeQuery(), Utils.copy(query.query));
         this.savedQueriesService.createSavedQueryModal(q);
     }
 }

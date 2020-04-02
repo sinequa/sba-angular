@@ -32,4 +32,4 @@ export default {
         "removeAll": "Effacer tout"
     },
 
-}
+};

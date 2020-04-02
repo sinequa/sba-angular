@@ -8,4 +8,4 @@ export default {
             "signInWith": "Sign in with..."
         }
     }
-}
+};

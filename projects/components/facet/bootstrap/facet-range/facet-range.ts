@@ -17,7 +17,7 @@ export enum RoundTarget {
     month,
     week, // ISO
     day
-};
+}
 
 export enum RoundType {
     up,
@@ -42,7 +42,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
     @Input() aggregation: string;
     @Input() min : string;
     @Input() max : string;
-    @Input() stepDefs: StepDef[];;
+    @Input() stepDefs: StepDef[];
     @ViewChild("slider", {static: false}) slider: ElementRef;
 
     // Aggregation from the Results object

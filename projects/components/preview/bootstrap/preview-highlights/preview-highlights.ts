@@ -177,7 +177,7 @@ export class BsPreviewHighlights implements OnChanges {
         }
         let index = Number(categoryId.slice("term".length));
         if (isNaN(index)) {
-            return {}
+            return {};
         }
         return {values: {index: index}};
     }

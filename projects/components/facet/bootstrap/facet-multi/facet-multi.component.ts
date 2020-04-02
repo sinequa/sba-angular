@@ -1,5 +1,5 @@
 import { Component, OnChanges, Input, Output, ViewChild, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { Results } from '@sinequa/core/web-services'
+import { Results } from '@sinequa/core/web-services';
 import { AbstractFacet } from '../../abstract-facet';
 import { Action } from '@sinequa/components/action';
 import { FacetService } from '../../facet.service';

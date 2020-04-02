@@ -33,4 +33,4 @@ export default {
             "expandTitle": "Maximize"
         }
     }
-}
+};

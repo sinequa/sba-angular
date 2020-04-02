@@ -59,7 +59,7 @@ export class BsPreviewEntityPanelComponent implements OnChanges {
       this._entities = Object.keys(this.previewData.highlightsPerCategory).filter(value => value !== "extractslocations");
     }
     else {  // No entity to show
-      this._entities = []
+      this._entities = [];
     }
   }
 

@@ -54,7 +54,7 @@ export class BsResultsViewSelector implements OnChanges, OnDestroy {
             else {
                 this.viewAction.forEach(action => {
                     action.selected = Utils.eqNC(action.data.name, this.resultsViewService.resultsView.name);
-                })
+                });
             }
         }
     }

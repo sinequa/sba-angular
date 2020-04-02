@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {MapOf} from "@sinequa/core/base";
 import {AppService, Expr} from "@sinequa/core/app-utils";
 import {Results, AdvancedValue, AdvancedValueWithOperator} from "@sinequa/core/web-services";
-import {SearchService, BreadcrumbsItem} from "@sinequa/components/search"
+import {SearchService, BreadcrumbsItem} from "@sinequa/components/search";
 import {AbstractFacet} from "../../abstract-facet";
 
 @Component({

@@ -453,7 +453,7 @@ export class SavedQueriesService implements OnDestroy {
         return this.modalService.open(this.savedQueryComponents.manageSavedQueriesModal, {model})
             .then((result) => {
                 if (result === ModalResult.OK) {
-                    return this.updateSavedQueries(model.savedQueries, model.auditEvents)
+                    return this.updateSavedQueries(model.savedQueries, model.auditEvents);
                 }
                 return false;
             });

@@ -130,7 +130,7 @@ export class BsResultsScatterView implements OnChanges {
 
                 let datamap = this.groupBy(data, 'category');
                 this.categories = Object.keys(datamap).sort() as string[];
-                this.lengths = this.categories.map((k) => datamap[k].length);;
+                this.lengths = this.categories.map((k) => datamap[k].length);
                 this.data = this.categories.map((k) => datamap[k]);
 
                 this.plotData();
@@ -206,10 +206,10 @@ export class BsResultsScatterView implements OnChanges {
             .attr("x", (d, i) => i*width/this.categories.length)
             .attr("y", 0)
             .on("mouseover", function(d) {
-                d3.select(this).style("fill", "rgba(255, 255, 100, 0.5)")
+                d3.select(this).style("fill", "rgba(255, 255, 100, 0.5)");
             })
             .on("mouseout", function(d) {
-                d3.select(this).style("fill", "rgba(255, 255, 255, 0.0)")
+                d3.select(this).style("fill", "rgba(255, 255, 255, 0.0)");
             });
 
         // Y axis
@@ -227,7 +227,7 @@ export class BsResultsScatterView implements OnChanges {
                 .attr("dx", "-.8em")
                 .attr("dy", ".15em")
                 .attr("transform", function(d) {
-                    return "rotate(-45)"
+                    return "rotate(-45)";
                     });
 
         // Bubbles
@@ -287,12 +287,12 @@ export class BsResultsScatterView implements OnChanges {
             .attr("class", "legend")
             .attr("transform", function (d, i) {
                 if (i === 0) {
-                    dataL = d.length*10 + offset
-                    return "translate(0, -30)"
+                    dataL = d.length*10 + offset;
+                    return "translate(0, -30)";
                 } else {
-                    var newdataL = dataL
-                    dataL +=  d.length*10 + offset
-                    return "translate(" + (newdataL) + ",-30)"
+                    var newdataL = dataL;
+                    dataL +=  d.length*10 + offset;
+                    return "translate(" + (newdataL) + ",-30)";
                 }
             });
 
@@ -301,13 +301,13 @@ export class BsResultsScatterView implements OnChanges {
             .attr("cy", 5)
             .attr("r", 6)
             .style("fill", function (d, i) {
-                return cur(d)
+                return cur(d);
             });
 
         legend.append('text')
             .attr("x", 15)
             .attr("y", 10)
-            .text(function (d, i) { return d })
+            .text(function (d, i) { return d; })
             .attr("class", "textselected")
             .style("text-anchor", "start")
             .style("font-size", 15);
@@ -330,12 +330,12 @@ export class BsResultsScatterView implements OnChanges {
         }else if(nb >= 1000){
             return (nb/1000)+ "K";
         }else{
-            return ""+nb
+            return ""+nb;
         }
     }
 
     getSize(size){
-        return Math.min(8,Math.max(1, Math.sqrt(size)))
+        return Math.min(8,Math.max(1, Math.sqrt(size)));
     }
 
 

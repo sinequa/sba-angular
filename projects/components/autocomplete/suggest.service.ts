@@ -161,7 +161,7 @@ export class SuggestService {
                     /*tslint:disable-next-line*/
                     match = match!;
                     score += match.score / 2;  // Secondary matches added to the score, but count half
-                    html += " <small>" + match.displayHtml + "</small>" // Concatenate secondary match html to the main html
+                    html += " <small>" + match.displayHtml + "</small>"; // Concatenate secondary match html to the main html
                 });
         }
 
@@ -171,7 +171,7 @@ export class SuggestService {
                 displayHtml: html,
                 score: score,
                 data: data
-            }
+            };
         }
         return undefined;
     }

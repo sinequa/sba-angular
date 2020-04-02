@@ -521,7 +521,7 @@ export class Query implements IQuery {
                 if (index > 0) {
                     expression += ",";
                 }
-                expression += appService.escapeFieldValue(field, value1)
+                expression += appService.escapeFieldValue(field, value1);
             });
             expression += "]";
         }
@@ -644,7 +644,7 @@ export class Query implements IQuery {
                 currentValue.push(valueWithOperator);
             }
             else {
-                currentValue.push(value)
+                currentValue.push(value);
             }
             advanced[field] = currentValue;
         }

@@ -14,4 +14,4 @@ const enPreview = Utils.merge({}, _enPreview, enSearch, enCollapse, enMetadata, 
 const frPreview = Utils.merge({}, _frPreview, frSearch, frCollapse, frMetadata, frModal, frFacet, frResult);
 const dePreview = Utils.merge({}, _dePreview, deSearch, deCollapse, deMetadata, deModal, deFacet, deResult);
 
-export {enPreview, frPreview, dePreview}
+export { enPreview, frPreview, dePreview };

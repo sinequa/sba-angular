@@ -65,7 +65,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
     private noSwipe = (event: Event) => {
         event.stopPropagation();
-    };
+    }
 
     private measureAxes(g, xG, yG, xAxis, yAxis) {
         let opacity = g.style("opacity");
@@ -480,7 +480,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                     });
             }
         }
-    };
+    }
 
     ngOnChanges(changes: SimpleChanges) {
         if (!!changes["results"]) {

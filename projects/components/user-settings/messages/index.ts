@@ -9,4 +9,4 @@ const enUserSettings = Utils.merge({}, _enUserSettings, enModal);
 const frUserSettings = Utils.merge({}, _frUserSettings, frModal);
 const deUserSettings = Utils.merge({}, _deUserSettings, deModal);
 
-export {enUserSettings, frUserSettings, deUserSettings}
+export { enUserSettings, frUserSettings, deUserSettings };

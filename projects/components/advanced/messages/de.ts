@@ -13,4 +13,4 @@ export default {
             "noItems": "Keine Elemente ausgewählt"
         }
     }
-}
+};

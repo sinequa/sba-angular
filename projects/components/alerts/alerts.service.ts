@@ -447,7 +447,7 @@ export class AlertsService implements OnDestroy {
         return this.modalService.open(this.alertComponents.manageAlertsModal, {model})
             .then((result) => {
                 if (result === ModalResult.OK) {
-                    return this.updateAlerts(model.alerts, model.auditEvents)
+                    return this.updateAlerts(model.alerts, model.auditEvents);
                 }
                 return false;
             });

@@ -73,7 +73,7 @@ export class SponsoredResults implements OnChanges, OnInit {
                         this.changeDetectorRef.markForCheck();
                     },
                     (error) => console.log(`Could not retrieve sponsored links: ${error}.`)
-                )
+                );
             } else {
                 this.sponsoredlinks = [];
             }

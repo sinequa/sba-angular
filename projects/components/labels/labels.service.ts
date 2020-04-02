@@ -3,7 +3,7 @@ import {Observable, of} from "rxjs";
 import {LabelsWebService, AuditEventType, Record} from "@sinequa/core/web-services";
 import {AppService} from "@sinequa/core/app-utils";
 import {Utils, IRef} from "@sinequa/core/base";
-import {SearchService} from "@sinequa/components/search"
+import {SearchService} from "@sinequa/components/search";
 import {ModalService, ModalResult} from "@sinequa/core/modal";
 import {Action} from "@sinequa/components/action";
 import {PrincipalWebService} from "@sinequa/core/web-services";
@@ -193,7 +193,7 @@ export class LabelsService {
             let formItem = item.children[0];
             (<IFormData>formItem.data).autofocus++;
         }
-    };
+    }
 
     public buildSelectionAction(): Action | undefined {
         let action = this.buildLabelsMenu(
@@ -223,7 +223,7 @@ export class LabelsService {
         if(action){
             action.updater = (action) => {
                 action.hidden = this.selectionService.selectedRecords.length === 0;
-            }
+            };
             action.hidden = true;
         }
         return action;
@@ -241,7 +241,7 @@ export class LabelsService {
         });
         action.componentInputs = {
             model: action
-        }
+        };
         return action;
     }
 

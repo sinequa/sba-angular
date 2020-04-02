@@ -5,4 +5,4 @@ const enCore = Utils.merge({}, enLogin);
 const frCore = Utils.merge({}, frLogin);
 const deCore = Utils.merge({}, deLogin);
 
-export {enCore, frCore, deCore}
+export { enCore, frCore, deCore };

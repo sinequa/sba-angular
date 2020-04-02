@@ -8,4 +8,4 @@ export default {
         "userName": "User name",
         "domain": "Domain"
     }
-}
+};

@@ -6,4 +6,4 @@ export default {
     userRatings: {
         average: "Moyenne : {average}"
     },
-}
+};

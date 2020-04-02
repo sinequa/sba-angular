@@ -14,4 +14,4 @@ export default {
         "date": "",
         "range": "The first value must be less than or equal to the second"
     }
-}
+};

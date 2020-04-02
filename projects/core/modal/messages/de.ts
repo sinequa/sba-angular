@@ -1,6 +1,6 @@
 export default {
     "modal": {
-        "buttons":{
+        "buttons": {
             "ok": "OK",
             "cancel": "Abbrechen",
             "yes": "Ja",
@@ -14,4 +14,4 @@ export default {
             "title": "Bestätigen"
         }
     }
-}
+};

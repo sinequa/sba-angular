@@ -9,4 +9,4 @@ const enHeatmap = Utils.merge({}, _enHeatmap, enResultsView, enSearch);
 const frHeatmap = Utils.merge({}, _frHeatmap, frResultsView, frSearch);
 const deHeatmap = Utils.merge({}, _deHeatmap, deResultsView, deSearch);
 
-export {enHeatmap, frHeatmap, deHeatmap}
+export { enHeatmap, frHeatmap, deHeatmap };

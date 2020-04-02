@@ -74,5 +74,5 @@ export class ClickOutside implements OnInit, OnDestroy {
                     this.clickOutside.emit({click: event});
                 }
             });
-    };
+    }
 }

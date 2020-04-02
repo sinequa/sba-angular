@@ -154,7 +154,7 @@ export class MetadataItem implements OnChanges {
     select(index: number, subIndex = 0) {
         if (this.isTree) {
             let valueItem = <TreeValueItem>this.valueItems[index];
-            let parts = valueItem.parts.map((item) => item.value).slice(0, subIndex + 1)
+            let parts = valueItem.parts.map((item) => item.value).slice(0, subIndex + 1);
             if (parts.length > 0) {
                 parts.unshift("");
                 parts.push("");

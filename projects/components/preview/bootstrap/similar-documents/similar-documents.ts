@@ -32,7 +32,7 @@ export class BsSimilarDocuments implements OnChanges {
                 this.documentList = results;
                 this.changeDetectorRef.markForCheck();
             }
-        )
+        );
     }
 
     public documentIconClass(document: Record): string {

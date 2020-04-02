@@ -10,7 +10,7 @@ export const DATE_PICKER_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => BsDatePicker),
     multi: true
-}
+};
 
 export interface DatePickerOptions {
     name?: string;

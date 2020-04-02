@@ -11,7 +11,7 @@ export const DATE_RANGE_PICKER_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => BsDateRangePicker),
     multi: true
-}
+};
 
 export interface DateRangePickerOptions extends DatePickerOptions {
     closedRange?: boolean;

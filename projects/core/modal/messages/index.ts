@@ -8,4 +8,4 @@ const enModal = Utils.merge({}, _enModal, enIntl);
 const frModal = Utils.merge({}, _frModal, frIntl);
 const deModal = Utils.merge({}, _deModal, deIntl);
 
-export {enModal, frModal, deModal}
+export { enModal, frModal, deModal };

@@ -3,4 +3,4 @@ export default {
         collapse: "Collapse",
         expand: "Expand"
     }
-}
+};

@@ -92,7 +92,7 @@ export class RecentDocumentsService implements OnDestroy {
             if(event.type === "open-original-document" && event.record){
                 this.addDocument(event.record, true);
             }
-        })
+        });
     }
 
 

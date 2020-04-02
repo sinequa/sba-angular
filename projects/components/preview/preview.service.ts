@@ -5,7 +5,7 @@ import {Observable, Subject} from "rxjs";
 import {AppService, Query} from "@sinequa/core/app-utils";
 import {AuthenticationService} from "@sinequa/core/login";
 import {PreviewWebService, PreviewData, AuditEventType, Record, AuditEvent} from "@sinequa/core/web-services";
-import {Utils} from "@sinequa/core/base"
+import {Utils} from "@sinequa/core/base";
 import {ModalService} from "@sinequa/core/modal";
 import {SearchService} from "@sinequa/components/search";
 import {RecentDocumentsService} from '@sinequa/components/saved-queries';

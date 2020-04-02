@@ -4,7 +4,7 @@ import {AppService, Expr} from "@sinequa/core/app-utils";
 import {Utils} from "@sinequa/core/base";
 import {FacetService} from "../../facet.service";
 import {BsFacetFiltersBackground} from "../facet-filters-background/facet-filters-background";
-import {Action} from "@sinequa/components/action"
+import { Action } from "@sinequa/components/action";
 import {SearchService} from "@sinequa/components/search";
 
 @Component({
@@ -102,7 +102,7 @@ export class BsFacetFilters implements OnChanges {
                         this.facetService.addFilterSearch(facetName, _aggregation, item);
                     }
                 },
-            })
+            });
         }, this);
 
         return childrenActions;
@@ -160,7 +160,7 @@ export class BsFacetFilters implements OnChanges {
             }),this.filters.find(x => x.name === facet.name));
 
             return;
-        })
+        });
     }
 
     onClickToggleFacet(item: Action, $event: UIEvent){

@@ -84,7 +84,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     @Input() dropdown: AutocompleteComponent;
     @Input() off: boolean;
     @Input() fieldSearch: boolean;
-    @Input() excludedFields: string[] = ["concept"]
+    @Input() excludedFields: string[] = ["concept"];
     @Input() suggestDelay: number = 200;
     @Input() suggestQuery: string;
     @Output() stateChange = new EventEmitter<AutocompleteState>();
@@ -492,5 +492,5 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
             this.start();
         }
         return undefined;
-    };
+    }
 }

@@ -140,7 +140,7 @@ export class FacetService {
      * @param facetName
      */
     public isFacetOpened(facetName): boolean {
-        return !!this.facets.find(f => f.name === facetName)
+        return !!this.facets.find(f => f.name === facetName);
     }
 
     private facetIndex(name: string): number {
@@ -226,7 +226,7 @@ export class FacetService {
         options: AddFilterOptions = {}): Promise<boolean> {
 
         this.addFilter(facetName, aggregation, items, options);
-        this.events.next({type: FacetEventType.AddFilter, facet: this.facet(facetName)})
+        this.events.next({ type: FacetEventType.AddFilter, facet: this.facet(facetName) });
         return this.searchService.search(undefined, {
                 type: FacetEventType.AddFilter,
                 detail: {
@@ -384,7 +384,7 @@ export class FacetService {
      */
     formatValue(item: AggregationItem): string {
         return this.intlService.formatMessage(
-            this.formatService.formatFieldValue(item, item.$column))
+            this.formatService.formatFieldValue(item, item.$column));
     }
 
     /**
@@ -418,7 +418,7 @@ export class FacetService {
         if (results && results.aggregations) {
             for (let aggregation of results.aggregations) {
                 if (Utils.eqNC(aggregation.name, aggregationName)) {
-                    this.setColumn(aggregation)    // Useful for formatting and i18n
+                    this.setColumn(aggregation);    // Useful for formatting and i18n
                     return aggregation;
                 }
             }

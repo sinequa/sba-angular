@@ -182,7 +182,7 @@ export class Heatmap implements OnChanges, OnDestroy {
             .on("click", value => {
                 this.setItem(value);
                 this.select.emit({value: value, event: d3.event});
-            })
+            });
         tiles.exit().remove();
 
         let legend = this.g.selectAll<d3.BaseType, number>(".sq-heatmap-legend")

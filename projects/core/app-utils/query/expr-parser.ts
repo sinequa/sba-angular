@@ -58,7 +58,7 @@ export interface ExprMessage {
      */
     values?: {
         [key: string]: FieldValue;
-    }
+    };
 }
 
 /**
@@ -91,7 +91,7 @@ interface ExprMessageCtxt {
     message: string[];
     values: {
         [key: string]: FieldValue
-    }
+    };
     valueIndex: number;
 }
 
@@ -186,7 +186,7 @@ export interface ExprOperandsInitializer {
      * The display value
      */
     display?: string;
-};
+}
 
 /**
  * Represents a parsed fielded search expression. A tree of expression nodes is built when an expression
@@ -1206,8 +1206,8 @@ export class Expr {
                 return false;
             }
             let expr1StructuredCount = 0, expr1UnstructuredCount = 0, expr2StructuredCount = 0, expr2UnstructuredCount = 0;
-            expr1.operands.forEach((operand) => {if (operand.isStructured) {expr1StructuredCount++} else {expr1UnstructuredCount++}});
-            expr2.operands.forEach((operand) => {if (operand.isStructured) {expr2StructuredCount++} else {expr2UnstructuredCount++}});
+            expr1.operands.forEach((operand) => { if (operand.isStructured) { expr1StructuredCount++; } else { expr1UnstructuredCount++; }});
+            expr2.operands.forEach((operand) => { if (operand.isStructured) { expr2StructuredCount++; } else { expr2UnstructuredCount++; }});
             if ((expr2StructuredCount > expr1StructuredCount) || (expr2UnstructuredCount > expr1UnstructuredCount)) {
                 return false;
             }

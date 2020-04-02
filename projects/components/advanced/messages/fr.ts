@@ -13,4 +13,4 @@ export default {
             "noItems": "Aucun élément"
         }
     }
-}
+};
