@@ -81,6 +81,7 @@
     "no-bitwise": false,
     "no-namespace": false,
     "no-internal-module": false,
-    "one-variable-per-declaration": false
+    "one-variable-per-declaration": false,
+    "comment-format": false
   }
 }
