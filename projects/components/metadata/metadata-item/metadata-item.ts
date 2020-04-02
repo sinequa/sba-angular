@@ -133,7 +133,7 @@ export class MetadataItem implements OnChanges {
     }
 
     public get isAccessLists(): boolean {
-        return this.item == "accesslists";
+        return this.item === "accesslists";
     }
 
     public get accessListsData(): DocumentAccessLists {
@@ -141,11 +141,11 @@ export class MetadataItem implements OnChanges {
     }
 
     public get docFormatIconClass(): string {
-        if (this.item == null || this.item != "docformat" && this.item != "fileext") {
+        if (this.item == null || this.item !== "docformat" && this.item !== "fileext") {
             return "";
         }
         let value: string = this.record[this.item];
-        if (value == null || value == "") {
+        if (value == null || value === "") {
             return "far fa-file";
         }
         return "far fa-file sq-icon-file-" + value;

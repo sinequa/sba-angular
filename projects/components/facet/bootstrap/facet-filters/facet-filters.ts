@@ -80,10 +80,10 @@ export class BsFacetFilters implements OnChanges {
         // Remove already filtered iteams
         items = items.filter(item => previousActions.find(a => a.name === (item.value as string)) === undefined); // Filter out items which are already selected
 
-        if(items.length == 0) return [];
+        if(items.length === 0) return [];
 
         // Keep top values
-        let topValues = (items.slice(0,this.itemCount).length == 0) ?  items : items.slice(0,this.itemCount);
+        let topValues = (items.slice(0,this.itemCount).length === 0) ?  items : items.slice(0,this.itemCount);
         let maxcount = topValues.reduce((a,b) => a.count > b.count? a : b).count;
 
         // Create select actions
@@ -128,7 +128,7 @@ export class BsFacetFilters implements OnChanges {
             this.getChildren(facet, childrenActions)
                 .forEach(a => childrenActions.push(a));
 
-            if(childrenActions.length == 0){
+            if(childrenActions.length === 0){
                 return;
             }
 
@@ -167,7 +167,7 @@ export class BsFacetFilters implements OnChanges {
 
         let facet = item.data as any;
 
-        if(item.title == this.facetStatus.add.title){
+        if(item.title === this.facetStatus.add.title){
             item.text = item.title = this.facetStatus.remove.title;
             item.icon = this.facetStatus.remove.icon;
             this.facetService.addFacet({name:facet.name, position:0, hidden:false, expanded:true, view:""});

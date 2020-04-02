@@ -60,10 +60,10 @@ export class ResultEntitySummary implements OnChanges {
                 return {
                     display : value["display"],
                     value : value["value"],
-                    locations : locations.filter((v,i) => i % 2 == 0),
-                    lengths : locations.filter((v,i) => i % 2 == 1),
-                    originalLocations : originalLocations.filter((v,i) => i % 2 == 0),
-                    originalLengths: originalLocations.filter((v,i) => i % 2 == 1),
+                    locations : locations.filter((v,i) => i % 2 === 0),
+                    lengths : locations.filter((v,i) => i % 2 === 1),
+                    originalLocations : originalLocations.filter((v,i) => i % 2 === 0),
+                    originalLengths: originalLocations.filter((v,i) => i % 2 === 1),
                 }
             }
             return value;

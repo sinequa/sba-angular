@@ -81,7 +81,7 @@ export class BsAdvancedFormSelect implements OnInit, OnDestroy {
                 let valueKey = "value";
 
                 // If first item does not have a name field, use the value field as a name
-                if (aggregation.items.length > 0 && (aggregation.items[0][nameKey] == undefined)) {
+                if (aggregation.items.length > 0 && (!aggregation.items[0][nameKey] === undefined)) {
                     nameKey = valueKey;
                 }
 

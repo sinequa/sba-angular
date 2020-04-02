@@ -121,14 +121,14 @@ export class PreviewDocument {
 
         // Move selection
         let targetElements = this.getDocElements(categoryId + "_" + index);
-        if (!targetElements || targetElements.length == 0) {
+        if (!targetElements || targetElements.length === 0) {
             return;
         }
 
         this.clearHighlightSelection();
 
         for (var i = 0; i< targetElements.length; i++) {
-            this.setHighlightSelection(targetElements[i], i == 0, i == targetElements.length - 1);
+            this.setHighlightSelection(targetElements[i], i === 0, i === targetElements.length - 1);
         }
 
         // Scroll
@@ -269,7 +269,7 @@ export class PreviewDocument {
 
     private resizeSvgBackground(rect: Element, tspan: SVGTSpanElement): void {
         var elt: Element = tspan;
-        while (elt.tagName != "text")
+        while (elt.tagName !== "text")
         {
             elt = elt.parentNode as Element;
             if (elt == null) break;
@@ -277,7 +277,7 @@ export class PreviewDocument {
         var text: SVGTextElement = elt as SVGTextElement;
         var textBoxPixel: ClientRect = text.getBoundingClientRect();
         var textBoxSVG: SVGRect = text.getBBox();
-        if (textBoxPixel.height == 0 || textBoxPixel.width == 0) return;
+        if (textBoxPixel.height === 0 || textBoxPixel.width === 0) return;
         var scaleX = textBoxSVG.width / textBoxPixel.width;
         var scaleY = textBoxSVG.height / textBoxPixel.height;
         var deltaX = 2 * scaleX;
@@ -311,7 +311,7 @@ export class PreviewDocument {
                     for (var j = 0, jc = tspanList.length; j < jc; j++) {
                         var tspan = tspanList.item(j);
                         if (tspan) {
-                            if (tspan.id == id) list.push(tspan);
+                            if (tspan.id === id) list.push(tspan);
                         }
                     }
                 }
@@ -343,16 +343,16 @@ export class PreviewDocument {
         if (filterState == null) {
             return false;
         }
-        if (filterState.choice == HighlightCategoryFilterChoice.None) {
+        if (filterState.choice === HighlightCategoryFilterChoice.None) {
             return true;
         }
-        if (filterState.choice == HighlightCategoryFilterChoice.All) {
+        if (filterState.choice === HighlightCategoryFilterChoice.All) {
             return false;
         }
         if (element.hasAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE)) {
-            return filterState.filterValue != element.getAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE);
+            return filterState.filterValue !== element.getAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE);
         }
-        return filterState.filterValue != element.getAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE);
+        return filterState.filterValue !== element.getAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE);
     }
 
     private static getElementCategory(element: Element, categoryIds: string[]): string {
@@ -383,7 +383,7 @@ export class PreviewDocument {
     }
 
     private static computeBoundingRectangle(rectangles: (DOMRect | ClientRect)[]): DOMRect | ClientRect | undefined {
-        if (!rectangles || rectangles.length == 0) {
+        if (!rectangles || rectangles.length === 0) {
             return undefined;
         }
         var result: DOMRect | ClientRect | undefined;

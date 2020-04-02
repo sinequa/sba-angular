@@ -152,7 +152,7 @@ export class StartConfigWebService {
         let browserUrl = Utils.makeURL(window.location.href);
         let parts = Utils.split(browserUrl.pathname, "/");
         let appSpecifierIndex = parts.findIndex(value => Utils.eqNCN(value, "app", "app-debug"));
-        if (appSpecifierIndex != -1 && appSpecifierIndex < parts.length - 1) {
+        if (appSpecifierIndex !== -1 && appSpecifierIndex < parts.length - 1) {
             let appSpecifier = parts[appSpecifierIndex];
             startConfig.app = parts[appSpecifierIndex + 1];
             startConfig.production = appSpecifier === "app" ? true : false;

@@ -127,7 +127,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
         let chartHeight = Math.max(0, this.graph.nativeElement.offsetHeight - this.margin.top - this.margin.bottom);
 
         // only update if chart size has changed
-        if (this.prevChartWidth != chartWidth || this.prevChartHeight != chartHeight) {
+        if (this.prevChartWidth !== chartWidth || this.prevChartHeight !== chartHeight) {
             let init = !this.prevChartWidth;
             this.prevChartWidth = chartWidth;
             this.prevChartHeight = chartHeight;
@@ -341,7 +341,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 if (numericSelection) {
                     selection = [this.xScale.invert(numericSelection[0]), this.xScale.invert(numericSelection[1])];
                     if (this.selection) {
-                        if (selection[0].getTime() == this.selection[0].getTime() && selection[1].getTime() == this.selection[1].getTime()) {
+                        if (selection[0].getTime() === this.selection[0].getTime() && selection[1].getTime() === this.selection[1].getTime()) {
                             return;
                         }
                     }
