@@ -274,10 +274,10 @@ export class Utils {
 
         if (destination) {
             if (Utils.isTypedArray(destination)) {
-                throw "Can't copy! TypedArray destination cannot be mutated.";
+                throw new Error("Can't copy! TypedArray destination cannot be mutated.");
             }
             if (source === destination) {
-                throw "Can't copy! Source and destination are identical.";
+                throw new Error("Can't copy! Source and destination are identical.");
             }
 
             // Empty the destination object
@@ -341,7 +341,7 @@ export class Utils {
             }
 
             if (Utils.isWindow(source)) {
-                throw "Can't copy! Making copies of Window instances is not supported.";
+                throw new Error("Can't copy! Making copies of Window instances is not supported.");
             }
 
             let needsRecurse = false;
