@@ -90,6 +90,7 @@
     "template-no-negated-async": true,
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
-    "eofline": false
+    "eofline": false,
+    "no-bitwise": false
   }
 }
