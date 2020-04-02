@@ -83,6 +83,7 @@
     "no-internal-module": false,
     "one-variable-per-declaration": false,
     "comment-format": false,
-    "no-string-literal": false
+    "no-string-literal": false,
+    "only-arrow-functions": false
   }
 }
