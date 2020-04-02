@@ -252,7 +252,7 @@ To unzip the default Sinequa workspace, click **New > Unzip default Angular work
 
 You will be prompted to choose a name for your workspace.
 This process can take a few minutes.
-You can follow its progress either by looking at the banner on the top of Workspaces adminisration page or by going to **Tasks status** page, the progress status is named **UnzipAngularWorkspace**.
+You can follow its progress either by looking at the banner on the top of Workspaces administration page or by going to **Tasks status** page, the progress status is named **UnzipAngularWorkspace**.
 
 ![Unzip Angular workspace process status]({{site.baseurl}}assets/gettingstarted/admin-unzip-angular-workspace-status.png)
 *Status of 'Unzip default Angular workspace' action in Tasks status*
@@ -301,7 +301,7 @@ If there are no download links, you can generate them via **More actions > Gener
 Note that distributable folders `dist` and `dist-folder` are not included in download zip.
 
 Generating a zip file can take a few minutes.
-You can follow the generation progress either by looking at the banner on the top of Workspaces adminisration page or by going to **Tasks status** page, the progress status is named **GenerateAngularWorkspaceZip**.
+You can follow the generation progress either by looking at the banner on the top of Workspaces administration page or by going to **Tasks status** page, the progress status is named **GenerateAngularWorkspaceZip**.
 
 ![Workspace generate zip actions]({{site.baseurl}}assets/gettingstarted/admin-workspace-generate-download-zip.png)
 *Workspace - Generate zip actions and download link*
@@ -310,7 +310,7 @@ You can follow the generation progress either by looking at the banner on the to
 Secondly, there is a list of all build scripts declared in the `package.json` file at the root of the workspace.
 You can execute the build script directly in the grid or from the `Build` menu at the top-right of the administration page.
 
-You can follow the script progress either by looking at the banner on the top of Workspaces adminisration page or by going to **Tasks status** page, the progress status is named **BuildAngularWorkspace**.
+You can follow the script progress either by looking at the banner on the top of Workspaces administration page or by going to **Tasks status** page, the progress status is named **BuildAngularWorkspace**.
 
 ![Workspace build scripts]({{site.baseurl}}assets/gettingstarted/admin-workspace-build-scripts.png)
 *Workspace - Build scripts*
@@ -342,7 +342,7 @@ If there is a `README` markdown file in the workspace root, this file is also re
 You can execute `npm install` directly on the workspace administration page, if the WebApp server has access to the Internet.
 By default, this action is disabled on the administration. You need to activate it via **Global options > Advanced > Enable 'npm install' (default: false)**.
 
-You can follow the execution of the `npm install` action either by looking at the banner on the top of Workspaces adminisration page or by going to **Tasks status** page, the progress status is named **ExecuteNpmInstallAngularWorkspace**.
+You can follow the execution of the `npm install` action either by looking at the banner on the top of Workspaces administration page or by going to **Tasks status** page, the progress status is named **ExecuteNpmInstallAngularWorkspace**.
 
 ![Workspace execute npm install]({{site.baseurl}}assets/gettingstarted/admin-workspace-execute-npm-install.png)
 *Workspace - Execute 'npm install' action*
