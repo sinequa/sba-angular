@@ -84,6 +84,7 @@
     "one-variable-per-declaration": false,
     "comment-format": false,
     "no-string-literal": false,
-    "only-arrow-functions": false
+    "only-arrow-functions": false,
+    "no-angle-bracket-type-assertion": false
   }
 }
