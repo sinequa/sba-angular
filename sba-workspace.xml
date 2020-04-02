@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Sinequa>
-    <ZipFile>ng9-ws.1</ZipFile>
-    <Title>Default Sinequa Angular 9 Workspace</Title>
+    <ZipFile>sba-angular</ZipFile>
+    <Title>Default Sinequa Angular Workspace</Title>
     <Description>This is the default SBA workspace for Sinequa ES. It contains the Sinequa core and components libraries and hello-search and vanilla-search applications.</Description>
 </Sinequa>
