@@ -127,7 +127,7 @@ export class RecentQueriesService implements OnDestroy {
     private recentqueryIndex(text: string): number {
         for (let i = 0, ic = this.recentqueries.length; i < ic; i++) {
             let recentquery = this.recentqueries[i];
-            if (recentquery && recentquery.query.text === text) {
+            if (recentquery && recentquery.query.text.toLowerCase() === text.toLowerCase()) {
                 return i;
             }
         }
