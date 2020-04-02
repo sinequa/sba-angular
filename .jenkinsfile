@@ -1,0 +1,32 @@
+pipeline {
+    agent { label 'Sun' }
+	options { disableConcurrentBuilds() }
+	stages {
+		stage('NPM Install') {
+			steps {
+				bat "npm ci"	
+			}
+		}
+		stage('Build Core') {
+			steps {
+				bat "npm run buildcore --if-present"	
+			}
+		}
+		stage('Build Components') {
+			steps {
+				bat "npm run buildcomponents --if-present"					
+			}
+		}
+		stage('Build HelloSearch') {
+			steps {
+				bat "npm run buildhellosearch --if-present"	
+			}
+		}
+		stage('Build Vanilla') {
+			steps {
+				bat "npm run buildvanilla --if-present"	
+			}
+		}
+	}
+}
+
