@@ -80,6 +80,7 @@
     "no-string-literal": false,
     "only-arrow-functions": false,
     "no-angle-bracket-type-assertion": false,
-    "no-shadowed-variable": false
+    "no-shadowed-variable": false,
+    "object-literal-shorthand": false
   }
 }
