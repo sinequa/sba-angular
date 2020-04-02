@@ -55,7 +55,7 @@ export class ResultExtracts implements OnChanges {
         if(this.record.modified && !this.hideDate){
             var modified = new Date(this.record.modified);
             var date = modified.toLocaleDateString(navigator.language, { year: 'numeric', month: 'short', day: 'numeric' });
-            this.text = date + " - " + this.text;
+            this.text = date + this.text.trim() ? " - " + this.text : "";
         }
     }
 
