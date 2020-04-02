@@ -78,6 +78,8 @@
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
     "eofline": false,
-    "no-bitwise": false
+    "no-bitwise": false,
+    "no-namespace": false,
+    "no-internal-module": false
   }
 }
