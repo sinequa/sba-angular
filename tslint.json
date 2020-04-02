@@ -31,17 +31,7 @@
     "max-classes-per-file": false,
     "max-line-length": false,
     "member-access": false,
-    "member-ordering": [
-      true,
-      {
-        "order": [
-          "static-field",
-          "instance-field",
-          "static-method",
-          "instance-method"
-        ]
-      }
-    ],
+    "member-ordering": false,
     "no-consecutive-blank-lines": false,
     "no-console": [
       true,
