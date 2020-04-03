@@ -145,7 +145,7 @@ export class MetadataItem implements OnChanges {
             return "";
         }
         let value: string = this.record[this.item];
-        if (value == null || value === "") {
+        if (!value) {
             return "far fa-file";
         }
         return "far fa-file sq-icon-file-" + value;
