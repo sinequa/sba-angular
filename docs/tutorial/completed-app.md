@@ -328,7 +328,7 @@ export class SearchComponent {
                 </sq-facet-card>
         
                 <sq-facet-card [title]="'msg#savedQueries.savedQueries'" [icon]="'fas fa-save'">
-                    <sq-facet-saved-queries #facet [maxQueries]="5"></sq-facet-saved-queries>
+                    <sq-facet-saved-queries #facet [maxQueries]="5" [searchRoute]=""></sq-facet-saved-queries>
                 </sq-facet-card>
             </div>
     
