@@ -442,8 +442,8 @@ function initElementResizeListener (service) {
 		};
 
 		function checkTriggers(element){
-			return element.offsetWidth != element.__resizeLast__.width ||
-						 element.offsetHeight != element.__resizeLast__.height;
+			return element.offsetWidth !== element.__resizeLast__.width ||
+						element.offsetHeight !== element.__resizeLast__.height;
 		}
 
 		function scrollListener(this: HTMLElement, e){
@@ -515,7 +515,7 @@ function initElementResizeListener (service) {
 		if (attachEvent) element.attachEvent('onresize', fn);
 		else {
 			if (!element.__resizeTriggers__) {
-				if (getComputedStyle(element).position == 'static') element.style.position = 'relative';
+				if (getComputedStyle(element).position === 'static') element.style.position = 'relative';
 				createStyles();
 				element.__resizeLast__ = {};
 				element.__resizeListeners__ = [];
@@ -528,7 +528,7 @@ function initElementResizeListener (service) {
 
 				/* Listen for a css animation to detect element display/re-attach */
 				animationstartevent && element.__resizeTriggers__.addEventListener(animationstartevent, function(e) {
-					if(e.animationName == animationName)
+					if(e.animationName === animationName)
 						resetTriggers(element);
 				});
 			}

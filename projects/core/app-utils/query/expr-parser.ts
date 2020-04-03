@@ -511,7 +511,7 @@ export class Expr {
                 locations: [location2],
                 field: field,
                 display: display,
-                operator: range.value === ExprRange.gteLte || range.value == ExprRange.gtLte ? ExprOperator.lte : ExprOperator.lt
+                operator: range.value === ExprRange.gteLte || range.value === ExprRange.gtLte ? ExprOperator.lte : ExprOperator.lt
             }) : undefined;
             if (!expr1 && !expr2) {
                 return undefined;

@@ -83,7 +83,7 @@ export class HomeComponent implements OnInit {
    * Returns the sublist of features which gets displayed on the home page.
    */
   public get homeFacets(): string[] {
-    return this.features.filter(feature => ['recent-documents', 'recent-queries', 'saved-queries', 'baskets'].indexOf(feature) != -1);
+    return this.features.filter(feature => ['recent-documents', 'recent-queries', 'saved-queries', 'baskets'].indexOf(feature) !== -1);
   }
 
   /**
@@ -94,11 +94,11 @@ export class HomeComponent implements OnInit {
   public facetSizing(i: number, n: number): string {
     switch(n){
       case 1: return 'offset-md-3 col-md-6 offset-lg-4 col-lg-4';
-      case 2: return i==0? 'offset-md-1 col-md-5 offset-lg-3 col-lg-3' : 'col-md-5 col-lg-3';
-      case 3: return i==0? 'offset-md-1 col-md-5 offset-lg-0 col-lg-4' : i==1? 'col-md-5 col-lg-4' : 'offset-md-3 col-md-6 offset-lg-0 col-lg-4';
-      case 4: return i%2==0? 'offset-md-1 col-md-5 offset-lg-0 col-lg-3' : 'col-md-5 col-lg-3';
-      case 5: return i==0 || i==2? 'offset-md-1 col-md-5 offset-lg-0 col-lg-4' : i==1? 'col-md-5 col-lg-4' : i==3? 'offset-md-0 col-md-5 offset-lg-3 col-lg-3' : 'offset-md-3 col-md-6 offset-lg-0 col-lg-3';
+      case 2: return i === 0 ? 'offset-md-1 col-md-5 offset-lg-3 col-lg-3' : 'col-md-5 col-lg-3';
+      case 3: return i === 0 ? 'offset-md-1 col-md-5 offset-lg-0 col-lg-4' : i === 1 ? 'col-md-5 col-lg-4' : 'offset-md-3 col-md-6 offset-lg-0 col-lg-4';
+      case 4: return i%2 === 0 ? 'offset-md-1 col-md-5 offset-lg-0 col-lg-3' : 'col-md-5 col-lg-3';
+      case 5: return i === 0 || i === 2 ? 'offset-md-1 col-md-5 offset-lg-0 col-lg-4' : i === 1 ? 'col-md-5 col-lg-4' : i === 3 ? 'offset-md-0 col-md-5 offset-lg-3 col-lg-3' : 'offset-md-3 col-md-6 offset-lg-0 col-lg-3';
     }
-    return i%2==0? 'offset-md-1 col-md-5 offset-lg-0 col-lg-3' : 'col-md-5 col-lg-3';
+    return i%2 === 0? 'offset-md-1 col-md-5 offset-lg-0 col-lg-3' : 'col-md-5 col-lg-3';
   }
 }

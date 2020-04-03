@@ -99,7 +99,7 @@ export class BsPreviewHighlights implements OnChanges {
      * No categories to highlight
      */
     get noData(): boolean {
-        return this.nonEmptyCategoryIds.length == 0;
+        return this.nonEmptyCategoryIds.length === 0;
     }
 
     /**
@@ -132,7 +132,7 @@ export class BsPreviewHighlights implements OnChanges {
         if (values && values.length > 0 && values[0] && values[0].length > 0) {
             return values[0];
         }
-        if (Object.keys(this.filteredHighlightData[this.navigationState.current].positionInCategories).length == 1
+        if (Object.keys(this.filteredHighlightData[this.navigationState.current].positionInCategories).length === 1
                 && this.filteredHighlightData[this.navigationState.current].positionInCategories["extractslocations"]) {
             return this.previewDocument.getHighlightText(
                 "extractslocations",
@@ -250,7 +250,7 @@ export class BsPreviewHighlights implements OnChanges {
     }
 
     last() {
-        if (this.navigationState.current != this.total - 1) {
+        if (this.navigationState.current !== this.total - 1) {
             this.navigationState.current = this.total - 1;
             this.selectHighlight();
         }
@@ -281,7 +281,7 @@ export class BsPreviewHighlights implements OnChanges {
     get allSelected(): boolean {
         for (let categoryId in this.navigationState.filters) {
             var filter: HighlightCategoryFilterState = this.navigationState.filters[categoryId];
-            if (filter && filter.choice != HighlightCategoryFilterChoice.All) {
+            if (filter && filter.choice !== HighlightCategoryFilterChoice.All) {
                 return false;
             }
         }
@@ -291,7 +291,7 @@ export class BsPreviewHighlights implements OnChanges {
     get noneSelected(): boolean {
         for (let categoryId in this.navigationState.filters) {
             var filter: HighlightCategoryFilterState = this.navigationState.filters[categoryId];
-            if (!filter || filter.choice != HighlightCategoryFilterChoice.None) {
+            if (!filter || filter.choice !== HighlightCategoryFilterChoice.None) {
                 return false;
             }
         }
@@ -397,7 +397,7 @@ class SimpleHighlightCategoryFilterState implements HighlightCategoryFilterState
         if (param == null) {
             return;
         }
-        if (typeof param == "string") {
+        if (typeof param === "string") {
             this.choice = HighlightCategoryFilterChoice.Value;
             this._filterValue = param;
         } else {
@@ -406,7 +406,7 @@ class SimpleHighlightCategoryFilterState implements HighlightCategoryFilterState
     }
 
     get filterValue(): string {
-        if (this.choice == HighlightCategoryFilterChoice.Value) {
+        if (this.choice === HighlightCategoryFilterChoice.Value) {
             return this._filterValue;
         }
         return "";
@@ -414,11 +414,11 @@ class SimpleHighlightCategoryFilterState implements HighlightCategoryFilterState
 
     public static compare(filter1: HighlightCategoryFilterState, filter2: HighlightCategoryFilterState) {
         if(filter1 && filter2) {
-            if(filter1.choice != filter2.choice) {
+            if(filter1.choice !== filter2.choice) {
                 return false;
             }
-            return filter1.choice != HighlightCategoryFilterChoice.Value
-                || filter1.filterValue == filter2.filterValue;
+            return filter1.choice !== HighlightCategoryFilterChoice.Value
+                || filter1.filterValue === filter2.filterValue;
         }
         return filter1 === filter2;
     }
@@ -456,8 +456,8 @@ class FilteredHighlightDataPerLocation implements HighlightDataPerLocation {
         }
         for (let category of categories) {
             if (filters[category] &&
-                (filters[category].choice == HighlightCategoryFilterChoice.All
-                || filters[category].choice == HighlightCategoryFilterChoice.Value && values != null && values.includes(filters[category].filterValue))) {
+                (filters[category].choice === HighlightCategoryFilterChoice.All
+                || filters[category].choice === HighlightCategoryFilterChoice.Value && values != null && values.includes(filters[category].filterValue))) {
                 return true;
             }
         }

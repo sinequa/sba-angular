@@ -222,7 +222,7 @@ export class LabelsService {
             });
         if(action){
             action.updater = (action) => {
-                action.hidden = this.selectionService.selectedRecords.length == 0;
+                action.hidden = this.selectionService.selectedRecords.length === 0;
             }
             action.hidden = true;
         }

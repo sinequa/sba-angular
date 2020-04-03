@@ -236,7 +236,7 @@ export class AlertsService implements OnDestroy {
     public updateAlert(alert: Alert, index : number) : boolean {
 
         let prevIndex = this.alertIndex(alert.name);
-        if(prevIndex != -1 && index != prevIndex)
+        if(prevIndex !== -1 && index !== prevIndex)
             return false; // An alert with the same name exists at a different index
 
         if(index >= 0 && index < this.alerts.length){
@@ -409,7 +409,7 @@ export class AlertsService implements OnDestroy {
                     if(prevIndex === -1) return false; // this alert did not exist
 
                     let index = this.alertIndex(alert.name);
-                    if (index !== -1 && index!=prevIndex) {  // An alert with the same (new) name exists
+                    if (index !== -1 && index !== prevIndex) {  // An alert with the same (new) name exists
 
                         return this.modalService.yesNo("msg#alerts.alertAlreadyExists")
                             .then((result) => {

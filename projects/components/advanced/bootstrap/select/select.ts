@@ -171,13 +171,13 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
         const selectCount = this.countSelected();
         const threshold = this.options.visibleThreshold || 4;
 
-        if (selectCount == 0) {
+        if (selectCount === 0) {
             return "msg#advanced.select.noItems";
         }
         if (!this.options.multiple) {
             return this.options.items.getName(this.selectedItems[0]);
         }
-        if (selectCount == this.options.items.length) {
+        if (selectCount === this.options.items.length) {
             return "msg#advanced.select.allItems";
         }
         if (selectCount > threshold) {

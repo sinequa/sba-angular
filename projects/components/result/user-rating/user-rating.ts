@@ -71,7 +71,7 @@ export class UserRating implements OnInit {
 
     select(selectedRatingIndex: number) {
         //If selected rating was already selected, remove the rating
-        if (this.userRatingIndex == selectedRatingIndex) {
+        if (this.userRatingIndex === selectedRatingIndex) {
             this.userRatingService.deleteRating(this.record, this.getCCRating()).subscribe(this.handleResponse);
         }
         else {

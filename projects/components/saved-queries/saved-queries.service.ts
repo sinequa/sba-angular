@@ -238,7 +238,7 @@ export class SavedQueriesService implements OnDestroy {
     public updateSavedQuery(savedquery: SavedQuery, index : number) : boolean {
 
         let prevIndex = this.savedqueryIndex(savedquery.name);
-        if(prevIndex != -1 && index != prevIndex)
+        if(prevIndex !== -1 && index !== prevIndex)
             return false; // A saved query with the same name exists at a different index
 
         if(index >= 0 && index < this.savedqueries.length){

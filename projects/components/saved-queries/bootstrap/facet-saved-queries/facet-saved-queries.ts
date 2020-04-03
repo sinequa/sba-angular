@@ -48,7 +48,7 @@ export class BsFacetSavedQueries extends AbstractFacet  {
             },
             updater: (action: Action) => {
                 action.disabled = this.page <= 0;
-                action.hidden = this.maxPage == 0;
+                action.hidden = this.maxPage === 0;
             }
         });
 
@@ -60,7 +60,7 @@ export class BsFacetSavedQueries extends AbstractFacet  {
             },
             updater: (action: Action) => {
                 action.disabled = this.page >= this.maxPage;
-                action.hidden = this.maxPage == 0;
+                action.hidden = this.maxPage === 0;
             }
         });
     }

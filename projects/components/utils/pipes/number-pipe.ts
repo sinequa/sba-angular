@@ -11,6 +11,6 @@ export class NumberPipe extends AbstractIntlPipe {
 
     updateValue(key: number | string, params: Intl.NumberFormatOptions): void {
         super.updateValue(key, params);
-        this.value = typeof key == "number" ? this.intlService.formatNumber(key, params) : key;
+        this.value = typeof key === "number" ? this.intlService.formatNumber(key, params) : key;
     }
 }

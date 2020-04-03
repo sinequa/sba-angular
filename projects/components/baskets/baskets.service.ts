@@ -227,7 +227,7 @@ export class BasketsService implements OnDestroy {
     public updateBasket(basket: Basket, index : number) : boolean {
 
         let prevIndex = this.basketIndex(basket.name);
-        if(prevIndex !== -1 && index != prevIndex)
+        if(prevIndex !== -1 && index !== prevIndex)
             return false; // A basket with the same name exists at a different index
 
         if(index >= 0 && index < this.baskets.length){
@@ -567,7 +567,7 @@ export class BasketsService implements OnDestroy {
                 })
             ],
             updater: (action) => {
-                action.hidden = this.selectionService.selectedRecords.length == 0;
+                action.hidden = this.selectionService.selectedRecords.length === 0;
             }
         });
     }

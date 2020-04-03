@@ -219,7 +219,7 @@ export class Utils {
                 for (key in obj) {
                     // Need to check if hasOwnProperty exists,
                     // as on IE8 the result of querySelectorAll is an object without a hasOwnProperty function
-                    if (key != 'prototype' && key != 'length' && key != 'name' && (!obj.hasOwnProperty || obj.hasOwnProperty(key))) {
+                    if (key !== 'prototype' && key !== 'length' && key !== 'name' && (!obj.hasOwnProperty || obj.hasOwnProperty(key))) {
                     iterator.call(context, obj[key], key, obj);
                     }
                 }
@@ -900,7 +900,7 @@ export class Utils {
         // NodeList objects (with `item` method) and
         // other objects with suitable length characteristics are array-like
         return Utils.isNumber(length) &&
-            (length >= 0 && (length - 1) in obj || typeof obj.item == 'function');
+            (length >= 0 && (length - 1) in obj || typeof obj.item === 'function');
     }
 
     /**
@@ -939,7 +939,7 @@ export class Utils {
     static isTrue(
         value,
         _default?: boolean): boolean {
-        if (typeof (value) == 'string') {
+        if (typeof (value) === 'string') {
             value = value.toLowerCase();
         }
         switch (value) {

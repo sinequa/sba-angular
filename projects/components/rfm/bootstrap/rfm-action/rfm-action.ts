@@ -96,18 +96,18 @@ export class BsRfmAction implements OnChanges, OnDestroy {
     }
 
     get displayImgAction(): boolean {
-        return this.rfmImageAction != RFMDisplay.none;
+        return this.rfmImageAction !== RFMDisplay.none;
     }
 
     get displayMenu(): boolean {
-        return this.rfmImageAction == RFMDisplay.none &&
-            this.rfmAvailableActions != RFMDisplay.none &&
+        return this.rfmImageAction === RFMDisplay.none &&
+            this.rfmAvailableActions !== RFMDisplay.none &&
             !this.config.noMenu;
     }
 
     get displayNoAction(): boolean {
-        return this.rfmImageAction == RFMDisplay.none &&
-            this.rfmAvailableActions == RFMDisplay.none;
+        return this.rfmImageAction === RFMDisplay.none &&
+            this.rfmAvailableActions === RFMDisplay.none;
     }
 
     getActionIcon(rfmDisplay: RFMDisplay): string {
@@ -166,7 +166,7 @@ export class BsRfmAction implements OnChanges, OnDestroy {
             };
         }
         else {
-            if (newStatus == RFMDisplay.unrate) {
+            if (newStatus === RFMDisplay.unrate) {
                 this.rfm.eventCount--;
             }
             else {
