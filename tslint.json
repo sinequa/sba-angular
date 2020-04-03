@@ -84,6 +84,7 @@
     "whitespace": false,
     "typedef-whitespace": false,
     "space-before-function-paren": false,
-    "curly": false
+    "curly": false,
+    "forin": false
   }
 }
