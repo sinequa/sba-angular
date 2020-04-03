@@ -179,19 +179,19 @@ Both options may be enabled simultaneously.
 
 It is possible to restrict specific actions (Label creation, label modification) to specific populations of users.
 
-This service also exposes an autocomplete feature to easily search and select a specific label.
+This service also exposes an auto-complete feature to easily search and select a specific label.
 
 ![Labels configuration]({{site.baseurl}}assets/gettingstarted/admin-labels.png)
 *Example of labels configuration*
 {: .text-center }
 
-### Autocomplete web service (default: *_autocomplete*)
+### Auto-complete web service (default: *_autocomplete*)
 
-The autocomplete web service essentially lists **suggest queries** that provide suggestions when the user types some text in a form.
+The auto-complete web service essentially lists **suggest queries** that provide suggestions when the user types some text in a form.
 Refer to the [documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-sba-how-to-auto-complete.html) on suggest queries for more information.
 
 ![Autocomplete configuration]({{site.baseurl}}assets/gettingstarted/admin-autocomplete.png)
-*Example of autocomplete configuration*
+*Example of auto-complete configuration*
 {: .text-center }
 
 ### Export web service (default: *_queryexport*)
