@@ -289,10 +289,12 @@ export class AppService implements OnDestroy {
             console.warn('Unexpected empty app configuration.');
             return;
         }
-        if (app.apiVersion !== MINIMUM_COMPATIBLE_SERVER_API_VERSION) {
-            console.warn(`This SBA '${app.name}' is not compatible with the REST API of Sinequa Server.\n` +
+        if (!app.apiVersion) {
+            console.error(`The App config '${app.name}' is not of 'Angular Workspace application' type.`);
+        } else if (app.apiVersion !== MINIMUM_COMPATIBLE_SERVER_API_VERSION) {
+            console.warn(`This SBA is not compatible with the REST API of Sinequa Server.\n` +
                 `The SBA expects the server API version to be at least '${MINIMUM_COMPATIBLE_SERVER_API_VERSION}',` +
-                ` whereas the server API version is '${!app.apiVersion ? '<empty version>' : app.apiVersion}'`);
+                ` whereas the server API version is '${app.apiVersion}'.`);
         }
     }
 
