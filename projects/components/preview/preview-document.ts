@@ -269,8 +269,7 @@ export class PreviewDocument {
 
     private resizeSvgBackground(rect: Element, tspan: SVGTSpanElement): void {
         let elt: Element = tspan;
-        while (elt.tagName !== "text")
-        {
+        while (elt.tagName !== "text") {
             elt = elt.parentNode as Element;
             if (elt == null) break;
         }
