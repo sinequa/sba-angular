@@ -94,6 +94,7 @@
       {
         "destructuring": "all"
       }
-    ]
+    ],
+    "ban-types": false
   }
 }
