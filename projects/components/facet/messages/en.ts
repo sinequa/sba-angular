@@ -26,7 +26,7 @@ export default {
         "concepts": {
             "title": "Concepts"
         },
-		"company": {
+        "company": {
             "title": "Companies"
         },
         "docformat": {

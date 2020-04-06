@@ -23,7 +23,7 @@ export default {
         "authors": {
             "title": "Auteurs"
         },
-         "concepts": {
+        "concepts": {
             "title": "Concepts"
         },
         "company": {
