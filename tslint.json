@@ -101,6 +101,7 @@
       "elements",
       "members",
       "statements"
-    ]
+    ],
+    "jsdoc-format": false
   }
 }
