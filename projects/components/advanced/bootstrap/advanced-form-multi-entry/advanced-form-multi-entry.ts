@@ -76,7 +76,7 @@ export class BsAdvancedFormMultiEntry implements OnInit {
         }
     }
 
-    public onKeyDown(event: KeyboardEvent, addFn: (any) => void, removeLastFn: () => void): void {
+    public onKeyDown(event: KeyboardEvent, addFn: (params: any) => void, removeLastFn: () => void): void {
         switch (event.keyCode) {
             case Keys.backspace: {
                 if (this.hasNoInput) {
@@ -95,7 +95,7 @@ export class BsAdvancedFormMultiEntry implements OnInit {
         }
     }
 
-    private addNewTag(addFn: (any: any) => void) {
+    private addNewTag(addFn: (params: any) => void) {
         addFn(this.tagsInputValue);
         this.tagsInputValue = '';
     }
@@ -110,7 +110,7 @@ export class BsAdvancedFormMultiEntry implements OnInit {
         this.tagsInputValue = value;
     }
 
-    public onPlusClicked(addFn: (any) => void): void {
+    public onPlusClicked(addFn: (params: any) => void): void {
         this.addNewTag(addFn);
     }
     //#endregion
