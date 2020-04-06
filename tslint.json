@@ -102,6 +102,7 @@
       "members",
       "statements"
     ],
-    "jsdoc-format": false
+    "jsdoc-format": false,
+    "prefer-for-of": false
   }
 }
