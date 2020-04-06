@@ -1,4 +1,6 @@
-import {Component, ViewEncapsulation, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ElementRef, ViewChild} from "@angular/core";
+import {
+    Component, ViewEncapsulation, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ElementRef, ViewChild, OnDestroy
+} from "@angular/core";
 import {Utils} from "@sinequa/core/base";
 import {Query, AppService} from "@sinequa/core/app-utils";
 import {Results} from "@sinequa/core/web-services";
@@ -41,7 +43,7 @@ export interface TimelineView extends ResultsView {
     templateUrl: "./results-timeline-view.html",
     styleUrls: ["./results-timeline-view.css"]
 })
-export class BsResultsTimelineView implements OnChanges {
+export class BsResultsTimelineView implements OnChanges, OnDestroy {
     @Input() query: Query;
     @Input() results: Results;
     @Input() view: TimelineView;

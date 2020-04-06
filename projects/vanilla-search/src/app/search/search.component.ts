@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { AppService } from '@sinequa/core/app-utils';
@@ -18,7 +18,7 @@ import { FACETS, METADATA, FEATURES } from '../../config';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
 
   // Dynamic display of facets titles/icons in the multi-facet component
   public multiFacetIcon? = "fas fa-filter fa-fw";
