@@ -6,8 +6,7 @@
   "rules": {
     "one-line": {
       "options": [
-          "check-open-brace",
-          "check-whitespace"
+          "check-open-brace"
       ]
     },
     "variable-name": {
@@ -81,6 +80,11 @@
     "only-arrow-functions": false,
     "no-angle-bracket-type-assertion": false,
     "no-shadowed-variable": false,
-    "object-literal-shorthand": false
+    "object-literal-shorthand": false,
+    "whitespace": false,
+    "typedef-whitespace": false,
+    "space-before-function-paren": false,
+    "curly": false,
+    "forin": false
   }
 }
