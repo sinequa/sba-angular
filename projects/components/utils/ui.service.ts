@@ -345,7 +345,7 @@ export class UIService implements OnDestroy {
 
         if (!Utils.isUndefined((<any>window).mozInnerScreenX)) {
             // Firefox lies about the overflow property for textareas: https://bugzilla.mozilla.org/show_bug.cgi?id=984275
-            if (element.scrollHeight > parseInt(computed.height))
+            if (element.scrollHeight > parseInt(computed.height, 10))
             style.overflowY = 'scroll';
         } else {
             style.overflow = 'hidden';  // for Chrome to not render a scrollbar; IE keeps overflowY = 'scroll'
@@ -372,8 +372,8 @@ export class UIService implements OnDestroy {
         span.textContent = (<any>element).value.substring(position) || '.';  // || because a completely empty faux span doesn't render at all
 
         const coordinates = {
-            top: span.offsetTop + parseInt(computed['borderTopWidth']),
-            left: span.offsetLeft + parseInt(computed['borderLeftWidth']),
+            top: span.offsetTop + parseInt(computed['borderTopWidth'], 10),
+            left: span.offsetLeft + parseInt(computed['borderLeftWidth'], 10),
             lineHeight: lineHeight
         };
 

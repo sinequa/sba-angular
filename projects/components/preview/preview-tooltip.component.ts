@@ -140,7 +140,7 @@ export class PreviewTooltip implements OnChanges {
                         this.entityLabel = this.previewData.highlightsPerCategory[this.entityType].categoryDisplayLabel;
 
                         const idsplt = element.id.split("_");
-                        const idx = parseInt(idsplt[idsplt.length-1]);
+                        const idx = parseInt(idsplt[idsplt.length-1], 10);
                         const entity = this.findEntity(this.entityType, this.entityValue, (_, idIndex) => idIndex === idx);
                         this.entityIdx = entity ? entity.valueIndex : 0;
 
