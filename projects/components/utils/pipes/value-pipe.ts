@@ -1,11 +1,11 @@
-import {Pipe, ChangeDetectorRef} from "@angular/core";
+import {Pipe, ChangeDetectorRef, PipeTransform} from "@angular/core";
 import {AbstractIntlPipe, IntlService} from "@sinequa/core/intl";
 import {FormatService, ValueItem} from "@sinequa/core/app-utils";
 import {CCColumn} from "@sinequa/core/web-services";
 import {Utils, FieldValue} from "@sinequa/core/base";
 
 @Pipe({name: "sqValue", pure: false})
-export class ValuePipe extends AbstractIntlPipe {
+export class ValuePipe extends AbstractIntlPipe implements PipeTransform {
     constructor(
         protected formatService: FormatService,
         intlService: IntlService,

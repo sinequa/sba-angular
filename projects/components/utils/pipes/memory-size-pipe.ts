@@ -1,4 +1,4 @@
-import {Pipe, ChangeDetectorRef} from "@angular/core";
+import {Pipe, ChangeDetectorRef, PipeTransform} from "@angular/core";
 import {AbstractIntlPipe, IntlService} from "@sinequa/core/intl";
 import {FormatService} from "@sinequa/core/app-utils";
 
@@ -10,7 +10,7 @@ import {FormatService} from "@sinequa/core/app-utils";
  * <span>Size:</span><span>{{ documentSize | sqMemorySize }}</span>
  */
 @Pipe({name: "sqMemorySize", pure: false})
-export class MemorySizePipe extends AbstractIntlPipe {
+export class MemorySizePipe extends AbstractIntlPipe implements PipeTransform {
     constructor(
         protected formatService: FormatService,
         intlService: IntlService,

@@ -1,9 +1,9 @@
-import {Pipe, ChangeDetectorRef} from "@angular/core";
+import {Pipe, ChangeDetectorRef, PipeTransform} from "@angular/core";
 import {AbstractIntlPipe, IntlService} from "@sinequa/core/intl";
 import {LabelsService} from "./labels.service";
 
 @Pipe({name: "sqLabel", pure: false})
-export class LabelPipe extends AbstractIntlPipe {
+export class LabelPipe extends AbstractIntlPipe implements PipeTransform {
     constructor(
         protected labelsService: LabelsService,
         intlService: IntlService,

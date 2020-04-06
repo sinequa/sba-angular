@@ -1,10 +1,10 @@
-import {Pipe, ChangeDetectorRef} from "@angular/core";
+import {Pipe, ChangeDetectorRef, PipeTransform} from "@angular/core";
 import {AbstractIntlPipe, IntlService} from "@sinequa/core/intl";
 import {Expr, ExprMessageOptions} from "@sinequa/core/app-utils";
 import {Utils} from "@sinequa/core/base";
 
 @Pipe({name: "sqExpr", pure: false})
-export class ExprPipe extends AbstractIntlPipe {
+export class ExprPipe extends AbstractIntlPipe implements PipeTransform {
     constructor(
         intlService: IntlService,
         changeDetectorRef: ChangeDetectorRef) {
