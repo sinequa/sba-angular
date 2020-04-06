@@ -107,7 +107,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             this.gripsG.attr("display", "none");
         }
         else {
-            this.gripsG.attr("display", null).attr("transform", (d, i) => { return "translate(" + selection[i] + ")"; });
+            this.gripsG.attr("display", null).attr("transform", (d, i) => "translate(" + selection[i] + ")");
         }
     }
 
@@ -576,7 +576,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
         }
 
         // get the min/max dates
-        const dateExtent = d3.extent(this.aggregation.items, (d) => { return d["date"]; }),
+        const dateExtent = d3.extent(this.aggregation.items, (d) => d["date"]),
             // hash the existing days for easy lookup
             dateHash = this.aggregation.items.reduce((agg, d) => {
                 agg[d["date"]] = true;
@@ -594,7 +594,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 this.aggregation.items.push(<any>emptyRow);
             });
         // re-sort the data
-        this.aggregation.items.sort((a, b) => { return d3.ascending(a["date"], b["date"]); });
+        this.aggregation.items.sort((a, b) => d3.ascending(a["date"], b["date"]));
     }
 
     private setDate(item: AggregationItem, postfix?: string, format?: any) {
