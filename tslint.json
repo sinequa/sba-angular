@@ -65,7 +65,7 @@
     "no-host-metadata-property": true,
     "no-input-rename": true,
     "no-inputs-metadata-property": true,
-    "no-output-native": true,
+    "no-output-native": false,
     "no-output-on-prefix": true,
     "no-output-rename": false,
     "no-outputs-metadata-property": true,
