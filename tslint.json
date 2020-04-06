@@ -13,7 +13,10 @@
       "options": [
         "ban-keywords",
         "check-format",
-        "allow-leading-underscore"
+        "allow-leading-underscore",
+        "allow-trailing-underscore",
+        "allow-pascal-case",
+        "allow-snake-case"
       ]
     },
 
