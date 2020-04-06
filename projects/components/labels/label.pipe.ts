@@ -1,9 +1,10 @@
-import {Pipe, ChangeDetectorRef, PipeTransform} from "@angular/core";
+import {Pipe, ChangeDetectorRef} from "@angular/core";
 import {AbstractIntlPipe, IntlService} from "@sinequa/core/intl";
 import {LabelsService} from "./labels.service";
 
+// tslint:disable-next-line: use-pipe-transform-interface
 @Pipe({name: "sqLabel", pure: false})
-export class LabelPipe extends AbstractIntlPipe implements PipeTransform {
+export class LabelPipe extends AbstractIntlPipe {
     constructor(
         protected labelsService: LabelsService,
         intlService: IntlService,

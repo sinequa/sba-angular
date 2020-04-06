@@ -1,4 +1,4 @@
-import {Pipe, ChangeDetectorRef, PipeTransform} from "@angular/core";
+import {Pipe, ChangeDetectorRef} from "@angular/core";
 import {AbstractIntlPipe, IntlService} from "@sinequa/core/intl";
 import moment from "moment";
 
@@ -11,8 +11,9 @@ export interface MomentParams {
     precise?: boolean; // diff
 }
 
+// tslint:disable-next-line: use-pipe-transform-interface
 @Pipe({name: "sqMoment", pure: false})
-export class MomentPipe extends AbstractIntlPipe implements PipeTransform {
+export class MomentPipe extends AbstractIntlPipe {
     constructor(
         intlService: IntlService,
         changeDetectorRef: ChangeDetectorRef) {
