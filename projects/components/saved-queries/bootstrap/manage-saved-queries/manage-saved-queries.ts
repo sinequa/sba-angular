@@ -46,7 +46,7 @@ export class BsManageSavedQueries implements OnInit {
 
     ngOnInit() {
         this.buttons = [
-             this.removeAllButton = new ModalButton({
+            this.removeAllButton = new ModalButton({
                 text: "msg#manageSavedQueries.removeAll",
                 result: ModalResult.Custom,
                 action: (button) => {

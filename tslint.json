@@ -95,6 +95,12 @@
         "destructuring": "all"
       }
     ],
-    "ban-types": false
+    "ban-types": false,
+    "align": [
+      true,
+      "elements",
+      "members",
+      "statements"
+    ]
   }
 }

@@ -108,13 +108,15 @@ export class BsResultsScatterView implements OnChanges {
                                         this.colors === 'source' ? r.collection[0].substring(1,r.collection[0].length-1) :
                                         "Document";
 
-                        const datum = {category: category,
-                                    colorvalue: colorvalue,
-                                    value: parseFloat(this.switch_cooc? value[0]: value[1]),
-                                    title: r.collection[0].substring(1, r.collection[0].length-1) + " - "+r.title,
-                                    id: r.id,
-                                    size: size,
-                                    position: positions};
+                        const datum = {
+                            category: category,
+                            colorvalue: colorvalue,
+                            value: parseFloat(this.switch_cooc? value[0]: value[1]),
+                            title: r.collection[0].substring(1, r.collection[0].length-1) + " - "+r.title,
+                            id: r.id,
+                            size: size,
+                            position: positions
+                        };
 
                         if(!isNaN(datum.value)){
                             data.push(datum);

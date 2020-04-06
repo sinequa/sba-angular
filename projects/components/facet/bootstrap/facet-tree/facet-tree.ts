@@ -49,36 +49,36 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
         private changeDetectorRef: ChangeDetectorRef){
             super();
 
-        // Keep documents with ANY of the selected items
-        this.filterItemsOr = new Action({
-            icon: "fas fa-filter",
-            title: "msg#facet.filterItems",
-            action: () => {
-                if (this.data) {
-                    this.facetService.addFilterSearch(this.getName(), this.data, this.getSelectedItems());
+            // Keep documents with ANY of the selected items
+            this.filterItemsOr = new Action({
+                icon: "fas fa-filter",
+                title: "msg#facet.filterItems",
+                action: () => {
+                    if (this.data) {
+                        this.facetService.addFilterSearch(this.getName(), this.data, this.getSelectedItems());
+                    }
                 }
-            }
-        });
+            });
 
-        // Exclude document with selected items
-        this.excludeItems = new Action({
-            icon: "fas fa-times",
-            title: "msg#facet.excludeItems",
-            action: () => {
-                if (this.data) {
-                    this.facetService.addFilterSearch(this.getName(), this.data, this.getSelectedItems(), {not: true});
+            // Exclude document with selected items
+            this.excludeItems = new Action({
+                icon: "fas fa-times",
+                title: "msg#facet.excludeItems",
+                action: () => {
+                    if (this.data) {
+                        this.facetService.addFilterSearch(this.getName(), this.data, this.getSelectedItems(), {not: true});
+                    }
                 }
-            }
-        });
+            });
 
-        // Clear the current filters
-        this.clearFilters = new Action({
-            icon: "far fa-minus-square",
-            title: "msg#facet.clearSelects",
-            action: () => {
-                this.facetService.clearFiltersSearch(this.getName(), true);
-            }
-        });
+            // Clear the current filters
+            this.clearFilters = new Action({
+                icon: "far fa-minus-square",
+                title: "msg#facet.clearSelects",
+                action: () => {
+                    this.facetService.clearFiltersSearch(this.getName(), true);
+                }
+            });
 
     }
 
