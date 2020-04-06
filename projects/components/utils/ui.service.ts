@@ -527,6 +527,7 @@ function initElementResizeListener (service) {
                 element.addEventListener('scroll', scrollListener, true);
 
                 /* Listen for a css animation to detect element display/re-attach */
+                // tslint:disable-next-line: no-unused-expression
                 animationstartevent && element.__resizeTriggers__.addEventListener(animationstartevent, function(e) {
                     if(e.animationName === animationName)
                         resetTriggers(element);
