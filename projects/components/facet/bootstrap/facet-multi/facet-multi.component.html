@@ -4,15 +4,20 @@
         [ngClass]="{'list-group-item-success':facet.$hasFiltered, 'disabled':!facet.$hasData }">
         <span class="flex-grow-1">{{ facet.title | sqMessage }}</span>
         <i class="far fa-check-square" title="{{ 'msg#facet.filters.selectedFilters' | sqMessage }}" *ngIf="facet.$hasFiltered"></i>
-        <span class="mx-2 text-muted small">{{ facet.$count | sqNumber }}</span>
+        <span
+            class="mx-2 text-muted small"
+            title="{{ 'msg#facet.filterItemCountTooltip' | sqMessage:{ values: { count: facet.$count } } }}"
+        >
+            {{ facet.$count | sqNumber }}
+        </span>
         <i class="fas fa-caret-right"></i>
     </div>
 </div>
 
 <ng-container *ngIf="openedFacet">
-    <sq-facet-list #facet *ngIf="openedFacet.type==='list'" 
+    <sq-facet-list #facet *ngIf="openedFacet.type==='list'"
         [name]="openedFacet.name"
-        [results]="results" 
+        [results]="results"
         [aggregation]="openedFacet.aggregation"
         [showCount]="openedFacet.showCount"
         [searchable]="openedFacet.searchable"
@@ -21,9 +26,9 @@
         [allowAnd]="openedFacet.allowAnd">
     </sq-facet-list>
 
-    <sq-facet-tree #facet *ngIf="openedFacet.type==='tree'" 
+    <sq-facet-tree #facet *ngIf="openedFacet.type==='tree'"
         [name]="openedFacet.name"
-        [results]="results" 
+        [results]="results"
         [aggregation]="openedFacet.aggregation"
         [showCount]="openedFacet.showCount"
         [allowExclude]="openedFacet.allowExclude"
