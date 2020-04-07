@@ -1,5 +1,20 @@
-<div class="list-group">
-    <a href="#" class="card my-1 list-group-item-action" *ngFor="let extract of extracts; let i=index" (click)="scrollExtract(i)">
-        <p class="card-body m-0" [innerHTML]="sanitize(extract)"></p>
-    </a>
+<ng-container *ngIf="!!previewData && !!previewDocument">
+    <div class="clearfix">
+        <button class="btn btn-light" (click)="previousExtract()" [disabled]="currentExtract < 1">
+            <i class="fas fa-arrow-left"></i> {{ 'msg#preview.previousHighlightButtonAltText' | sqMessage}}
+        </button>
+        <button class="btn btn-light float-right" (click)="nextExtract()" [disabled]="currentExtract >= extracts.length-1">
+            {{ 'msg#preview.nextHighlightButtonAltText' | sqMessage}} <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+    
+    <div class="list-group">
+        <a href="#" class="card my-1 list-group-item-action" *ngFor="let extract of extracts; let i=index" (click)="scrollExtract(i)" [ngClass]="{'bg-light': currentExtract === i}">
+            <p class="card-body m-0" [innerHTML]="sanitize(extract)"></p>
+        </a>
+    </div>    
+</ng-container>
+
+<div class="text-center" *ngIf="!previewData || !previewDocument">
+    {{ 'msg#preview.loading' | sqMessage}}
 </div>

@@ -25,7 +25,8 @@ export default {
         "similarDocumentsTitle": "Similar documents",
         "showAll": "Show all values",
         "sortAlphabetically": "Sort alphabetically",
-        "sortFrequency": "Sort by frequency"
+        "sortFrequency": "Sort by frequency",
+        "loading": "Loading..."
     },
     "facet": {
         "preview": {
