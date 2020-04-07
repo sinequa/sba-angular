@@ -43,7 +43,7 @@ export class RecentQueriesWebService extends HttpService {
             (response) => {
                 this.recentQueries = response;
                 if (!this.recentQueries)
-                	this.recentQueries = new RecentQueries();
+                    this.recentQueries = new RecentQueries();
                 if (this.recentQueries) {
                     if (!this.recentQueries.app)
                         this.recentQueries.app = new RecentQueriesList(this.appName);

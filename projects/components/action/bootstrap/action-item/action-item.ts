@@ -152,7 +152,7 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
                 this.options.item.action(this.options.item, event);
             }
             if (this.options.item.toggle && (this.isDropdownButton || this.isDropdownListItem)) {
-            const openElement = this.dropdownButton || (this.dropdownListItem ? this.dropdownListItem.parentElement : null);
+                const openElement = this.dropdownButton || (this.dropdownListItem ? this.dropdownListItem.parentElement : null);
                 if (openElement) {
                     this.options.item.toggle(this.options.item, !openElement.classList.contains("open"));
                 }

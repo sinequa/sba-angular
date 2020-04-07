@@ -1,6 +1,7 @@
 import {Pipe, ChangeDetectorRef} from "@angular/core";
 import {AbstractIntlPipe, IntlService} from "@sinequa/core/intl";
 
+// tslint:disable-next-line: use-pipe-transform-interface
 @Pipe({name: "sqDate", pure: false})
 export class DatePipe extends AbstractIntlPipe {
     constructor(

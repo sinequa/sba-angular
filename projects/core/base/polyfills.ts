@@ -77,6 +77,7 @@ if (!(<any>Element.prototype).scrollIntoViewIfNeeded) {
         let parent, elem = this, area = makeArea(
             this.offsetLeft, this.offsetTop,
             this.offsetWidth, this.offsetHeight);
+        // tslint:disable-next-line: no-conditional-assignment
         while ((parent = elem.parentNode) instanceof HTMLElement) {
             const clientLeft = parent.offsetLeft + parent.clientLeft;
             const clientTop = parent.offsetTop + parent.clientTop;

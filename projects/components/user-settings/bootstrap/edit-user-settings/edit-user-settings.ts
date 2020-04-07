@@ -224,7 +224,9 @@ export class BsEditUserSettings implements OnInit {
      * @param castFn The casting function.
      * @returns the cast result.
      */
-    private cast<T>(inputType: JsonInfo.InputType, value: any, castFn: (any) => T | undefined): T | T[] | undefined {
+    private cast<T>(
+        inputType: JsonInfo.InputType, value: any, castFn: (params: any) => T | undefined
+    ): T | T[] | undefined {
         if (Utils.isArray(value)) {
             const array = value as any[];
             const empty = array.length === 0;

@@ -436,9 +436,8 @@ export class FacetService {
      * Can be used to read or alter the properties of the nodes (opening, closing), or node list (sorting)
      */
     getTreeAggregation(facetName: string, aggregationName: string, results = this.searchService.results,
-        levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, filtered?: boolean) => void)
-        : TreeAggregation | undefined
-    {
+        levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, filtered?: boolean) => void
+    ): TreeAggregation | undefined {
         const agg = this.getAggregation(aggregationName, results);
         if(agg && agg.isTree){
             const expr = this.findFilter(facetName);
@@ -470,9 +469,8 @@ export class FacetService {
      */
     open(facetName: string, aggregation: TreeAggregation,
         item: TreeAggregationNode,
-        levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, filtered?: boolean) => void)
-        : Observable<Results>
-    {
+        levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, filtered?: boolean) => void
+    ): Observable<Results> {
         const value = item.$path + "*";
         const query = Query.copy(this.searchService.query);
         query.action = "open";
@@ -555,8 +553,8 @@ export class FacetService {
     private initTreeNodes(facetName: string, aggregation: Aggregation,
         root: string, children: TreeAggregationNode[],
         expandPaths?: string[],
-        levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, selected?: boolean) => void)
-    {
+        levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, selected?: boolean) => void
+    ) {
         if (!children) {
             return;
         }

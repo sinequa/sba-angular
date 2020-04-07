@@ -13,7 +13,10 @@
       "options": [
         "ban-keywords",
         "check-format",
-        "allow-leading-underscore"
+        "allow-leading-underscore",
+        "allow-trailing-underscore",
+        "allow-pascal-case",
+        "allow-snake-case"
       ]
     },
 
@@ -42,10 +45,10 @@
     ],
     "no-empty": false,
     "no-inferrable-types": false,
-    "no-non-null-assertion": true,
-    "no-redundant-jsdoc": true,
+    "no-non-null-assertion": false,
+    "no-redundant-jsdoc": false,
     "no-switch-case-fall-through": true,
-    "no-use-before-declare": true,
+    "no-use-before-declare": false,
     "no-var-requires": false,
     "object-literal-key-quotes":false,
     "object-literal-sort-keys": false,
@@ -60,11 +63,11 @@
     "directive-class-suffix": true,
     "no-conflicting-lifecycle": true,
     "no-host-metadata-property": true,
-    "no-input-rename": true,
+    "no-input-rename": false,
     "no-inputs-metadata-property": true,
-    "no-output-native": true,
+    "no-output-native": false,
     "no-output-on-prefix": true,
-    "no-output-rename": true,
+    "no-output-rename": false,
     "no-outputs-metadata-property": true,
     "template-banana-in-box": true,
     "template-no-negated-async": true,
@@ -91,6 +94,15 @@
       {
         "destructuring": "all"
       }
-    ]
+    ],
+    "ban-types": false,
+    "align": [
+      true,
+      "elements",
+      "members",
+      "statements"
+    ],
+    "jsdoc-format": false,
+    "prefer-for-of": false
   }
 }

@@ -74,7 +74,8 @@ export class Labels implements OnChanges {
 
     onSubmit(){
         if (this.newLabelRef.value) {
-            const labels = this.labelsService.split(this.newLabelRef.value).filter((value) => { return this.labels.indexOf(value) === -1; });
+            const labels = this.labelsService.split(this.newLabelRef.value)
+                .filter((value) => this.labels.indexOf(value) === -1);
             Utils.subscribe(this.labelsService.addLabels(labels, [this.record.id], this.public),
                 (value) => {
                     this.adding = false;
