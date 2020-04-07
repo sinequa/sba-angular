@@ -113,7 +113,7 @@ export const startConfig: StartConfig = {
 };
 ```
 
-For example, if you named your app "my-app" in the [Server-side setup](dev-setup.html), this might look like this:
+For example, if you named your app "my-app" in the [Server-side setup](server-setup.html), this might look like this:
 
 ```ts
 export const startConfig: StartConfig = {
