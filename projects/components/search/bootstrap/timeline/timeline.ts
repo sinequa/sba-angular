@@ -468,14 +468,13 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 this.drawGraphAsync();
             }
             else {
-                const subscription = Utils.subscribe(this.searchService.getResults(this.query),
+                Utils.subscribe(this.searchService.getResults(this.query, undefined, {searchInactive: true}),
                     (results) => {
                         console.log("timeline results: ", results);
                         this.aggregation = results.aggregations[0] as ListAggregation;
                         this.fixAggregation();
                         // Async as fixAggregation sets hidden flag (autoHide) and we do getBoundingClientRect in drawGraph
                         this.drawGraphAsync();
-                        subscription.unsubscribe();
                         this.changeDetectorRef.markForCheck();
                     });
             }

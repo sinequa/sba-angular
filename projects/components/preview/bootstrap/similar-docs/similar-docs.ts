@@ -62,7 +62,7 @@ export class BsSimilarDocs implements OnInit {
                 query.select = [];
                 query.addSelect("id:["+ids.join(',')+"]");
 
-                Utils.subscribe(this.searchService.getResults(query),
+                Utils.subscribe(this.searchService.getResults(query, undefined, {searchInactive: true}),
                     (results: Results) => {
                         //console.log("similar docs!");
                         docs.forEach(obj => { obj.record = results.records.find(r => r.id === obj.id); }); // Add records to the doc objects

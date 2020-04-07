@@ -138,6 +138,10 @@ export class BsResultsScatterView implements OnChanges, OnDestroy {
                 this.data = this.categories.map((k) => datamap[k]);
 
                 this.plotData();
+            },
+            undefined,
+            () => {
+                this.searchService.searchActive = false;
             });
     }
 
