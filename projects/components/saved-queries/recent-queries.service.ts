@@ -116,7 +116,7 @@ export class RecentQueriesService implements OnDestroy {
     }
 
     /**
-     * @returns a recent query with the given name or null if it does not exist
+     * @returns a recent query with the given name or undefined if it does not exist
      * @param name
      */
     public recentquery(text: string): RecentQuery | undefined {
@@ -127,7 +127,7 @@ export class RecentQueriesService implements OnDestroy {
     private recentqueryIndex(text: string): number {
         for (let i = 0, ic = this.recentqueries.length; i < ic; i++) {
             const recentquery = this.recentqueries[i];
-            if (recentquery && recentquery.query.text.toLowerCase() === text.toLowerCase()) {
+            if (recentquery && recentquery.query.text && recentquery.query.text.toLowerCase() === text.toLowerCase()) {
                 return i;
             }
         }

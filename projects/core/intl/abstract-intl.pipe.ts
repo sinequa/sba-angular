@@ -1,4 +1,4 @@
-import {PipeTransform, OnDestroy, ChangeDetectorRef} from "@angular/core";
+import {Pipe, PipeTransform, OnDestroy, ChangeDetectorRef} from "@angular/core";
 import {Subscription} from "rxjs";
 import {IntlService} from "./intl.service";
 import {Utils} from "@sinequa/core/base";
@@ -9,6 +9,7 @@ import {Utils} from "@sinequa/core/base";
  * be declared as `pure: false` - the current value is cached to avoid
  * unnecessary processing
  */
+@Pipe({name: "sqAbstractIntlPipe", pure: false})
 export abstract class AbstractIntlPipe implements PipeTransform, OnDestroy {
     protected value: any = "";
     protected lastValue: any;
