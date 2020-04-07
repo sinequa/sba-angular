@@ -78,6 +78,7 @@ export class BsResultsViewSelector implements OnChanges, OnDestroy {
             for (const view of includedViews) {
                 this.viewAction.children.push(new Action({
                     text: view.display,
+                    icon: view.icon,
                     data: view,
                     action: (item: Action, event: Event) => {
                         this.selectView(item.data);
