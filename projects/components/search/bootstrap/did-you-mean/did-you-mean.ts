@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {Utils} from "@sinequa/core/base";
-import {Results, DidYouMeanItem, DidYouMeanKind, SpellingCorrectionMode} from "@sinequa/core/web-services";
+import {Results, DidYouMeanItem, DidYouMeanKind} from "@sinequa/core/web-services";
 import {SearchService} from "../../search.service";
 
 @Component({

@@ -458,9 +458,9 @@ export interface RFMActionDisplay {
  * Describes the RFM data returned with a set of results
  */
 export interface RFMData {
-    click: RFMActionDisplay;
-    like: RFMActionDisplay;
-    important: RFMActionDisplay;
+    click?: RFMActionDisplay;
+    like?: RFMActionDisplay;
+    important?: RFMActionDisplay;
 }
 
 /**

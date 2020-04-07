@@ -154,7 +154,7 @@ export class BsRfmAction implements OnChanges, OnDestroy {
     }
 
     private updateRfmData(newStatus: RFMDisplay, newAction: RFMDisplay) {
-        const updateNeeded = false;
+        let updateNeeded = false;
         if (!this.rfm) {
             this.rfm = {
                 eventCount: 1,
@@ -164,6 +164,7 @@ export class BsRfmAction implements OnChanges, OnDestroy {
                 imageAction: newAction,
                 availableActions: this.rfmDefaultAvailableActions
             };
+            updateNeeded = true;
         }
         else {
             if (newStatus === RFMDisplay.unrate) {
@@ -182,7 +183,7 @@ export class BsRfmAction implements OnChanges, OnDestroy {
             let updateRfm = false;
             if (!rfm) {
                 updateRfm = true;
-                rfm = { click: null, like: null, important: null };
+                rfm = {};
             }
             rfm[this.type] = this.rfm;
             if (updateRfm) {

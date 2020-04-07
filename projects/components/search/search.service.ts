@@ -3,7 +3,7 @@ import {Router, NavigationStart, NavigationEnd, Params} from "@angular/router";
 import {Subject, BehaviorSubject, Observable, Subscription, of, throwError} from "rxjs";
 import {map, catchError} from "rxjs/operators";
 import {QueryWebService, AuditWebService, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
-    QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab, SpellingCorrectionMode,
+    QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
     AdvancedValue, AdvancedValueWithOperator, AdvancedOperator,
     AuditEvents, AuditEventType, AuditEvent} from "@sinequa/core/web-services";
 import {AppService, FormatService, ValueItem, Query, ExprParser} from "@sinequa/core/app-utils";
@@ -652,7 +652,7 @@ export class SearchService implements OnDestroy {
             this.query.popSelect();
             this.query.pushSelect(lastSelect);
         }
-        this.query.spellingCorrectionMode = SpellingCorrectionMode.dymOnly;
+        this.query.spellingCorrectionMode = "dymonly";
         return this.navigate(undefined, this.makeAuditEvent({
             type: kind === DidYouMeanKind.Original ? AuditEventType.Search_DidYouMean_Original : AuditEventType.Search_DidYouMean_Correction,
             detail: {
