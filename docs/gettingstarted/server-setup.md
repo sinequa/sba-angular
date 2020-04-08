@@ -260,6 +260,24 @@ You can follow its progress either by looking at the banner on the top of Worksp
 
 ### Upload your Angular workspace to Sinequa ES
 
+**IMPORTANT:**
+
+Please verify with the administrator of your Sinequa server that the size of your zip does not exceed the upload size limit of the server.
+If it is the case, the server will refuse the upload request with HTTP 413 (Request Entity Too Large).
+
+This size limit is controlled in IIS by the option `maxAllowedContentLength`:
+
+{% raw %}
+
+```XML
+<requestFiltering>
+  <requestLimits maxAllowedContentLength="<limit-in-bytes>" />
+</requestFiltering>
+```
+
+{% endraw %}
+
+<br/>
 To import your workspace, click **New > Import Angular workspace**
 
 ![Import Angular workspace]({{site.baseurl}}assets/gettingstarted/admin-import-angular-workspace.png)
