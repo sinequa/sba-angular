@@ -395,6 +395,11 @@ export class SearchService implements OnDestroy {
                 queryIntents: options.queryIntents,
                 queryAnalysis: options.queryAnalysis
             })
+        ).pipe(
+            map((results) => {
+                this.searchActive = false;
+                return results;
+            })
         );
     }
 
@@ -560,10 +565,6 @@ export class SearchService implements OnDestroy {
                     advanced: navigationOptions.advanced
                 });
                 return results;
-            },
-            undefined,
-            () => {
-                this.searchActive = false;
             });
         if (navigationOptions.selectTab) {
             const afterSelectTabEvent: SearchService.AfterSelectTabEvent = {

@@ -177,10 +177,6 @@ export class BsResultsTimelineView implements OnChanges, OnDestroy {
                 }
 
                 this.plotData();
-            },
-            undefined,
-            () => {
-                this.searchService.searchActive = false;
             });
     }
 

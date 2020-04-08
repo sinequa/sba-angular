@@ -110,10 +110,6 @@ export class BsResultsHeatmapView implements OnChanges {
                 this.zValue = zValue;
                 this.buildZValuesAction(labelsZ);
                 this.changeDetectorRef.markForCheck();
-            },
-            undefined,
-            () => {
-                this.searchService.searchActive = false;
             });
     }
 
