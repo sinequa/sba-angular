@@ -13,6 +13,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   @Input() previewDocument: PreviewDocument;
 
   extracts: string[] = [];
+  currentExtract = -1;
 
   constructor(
     private domSanitizer: DomSanitizer) { }
@@ -30,6 +31,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
     else {
       this.extracts = [];
     }
+    this.currentExtract = -1;
   }
 
   /**
@@ -49,4 +51,19 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
     return this.domSanitizer.bypassSecurityTrustHtml(text.replace(/sq\-current/, ""));
   }
 
+  /**
+   * Select the previous extract in the list
+   */
+  previousExtract(){
+    this.currentExtract--;
+    this.scrollExtract(this.currentExtract);
+  }
+
+  /**
+   * Select the next extract in the list
+   */
+  nextExtract(){
+    this.currentExtract++;
+    this.scrollExtract(this.currentExtract);
+  }
 }

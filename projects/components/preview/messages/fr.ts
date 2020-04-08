@@ -25,7 +25,8 @@ export default {
         "similarDocumentsTitle": "Documents similaires",
         "showAll": "Montrer toutes les valeurs",
         "sortAlphabetically": "Trier par ordre alphabetique",
-        "sortFrequency": "Trier par fréquence"
+        "sortFrequency": "Trier par fréquence",
+        "loading": "Chargement..."
     },
     "facet": {
         "preview": {

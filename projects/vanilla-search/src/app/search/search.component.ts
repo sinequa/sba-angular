@@ -150,6 +150,17 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Open the preview when this record has no url1
+   * @param record 
+   * @param isLink 
+   */
+  openPreviewIfNoUrl(record: Record, isLink: boolean) {
+    if(!isLink){
+      this.previewService.openRoute(record, this.searchService.query);
+    }
+  }
+
+  /**
    * Responds to the preview facet being closed by a user action
    */
   closeDocument(){
