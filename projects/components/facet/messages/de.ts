@@ -114,9 +114,10 @@ export default {
             "selectedFilters": "Dieser Filter ist in der aktuellen Suchanfrage aktiv"
         },
 
-        "selectedValue": "This value is selected in the current query",
-        "previous": "Précédent",
-        "next": "Suivant"
+        "selectedValue": "Dieser Wert ist in der aktuellen Anfrage ausgewählt.",
+        "previous": "Zurück",
+        "next": "Weiter",
+        "filterItemCountTooltip": "{count} mögliche Werte für diesen Filter",
     },
 
     "facetCard": {

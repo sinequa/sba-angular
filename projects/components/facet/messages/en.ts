@@ -115,8 +115,9 @@ export default {
         },
 
         "selectedValue": "This value is selected in the current query",
-        "previous": "Précédent",
-        "next": "Suivant"
+        "previous": "Previous",
+        "next": "Next",
+        "filterItemCountTooltip": "{count} possible values for this filter",
     },
 
     "facetCard": {

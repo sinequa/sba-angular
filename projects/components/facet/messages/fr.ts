@@ -116,7 +116,8 @@ export default {
 
         "selectedValue": "Cette valeur est sélectionnée dans la recherche actuelle",
         "previous": "Précédent",
-        "next": "Suivant"
+        "next": "Suivant",
+        "filterItemCountTooltip": "{count} valeurs possibles pour ce filtre",
     },
 
     "facetCard": {
