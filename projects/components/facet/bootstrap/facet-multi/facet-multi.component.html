@@ -23,7 +23,9 @@
         [searchable]="openedFacet.searchable"
         [allowExclude]="openedFacet.allowExclude"
         [allowOr]="openedFacet.allowOr"
-        [allowAnd]="openedFacet.allowAnd">
+        [allowAnd]="openedFacet.allowAnd"
+        [displayEmptyDistributionIntervals]="openedFacet.displayEmptyDistributionIntervals"
+    >
     </sq-facet-list>
 
     <sq-facet-tree #facet *ngIf="openedFacet.type==='tree'"

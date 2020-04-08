@@ -25,7 +25,8 @@ export const FACETS: FacetConfig[] = [
         searchable: true,
         allowExclude: true,
         allowOr: true,
-        allowAnd: false
+        allowAnd: false,
+        displayEmptyDistributionIntervals: false,
     },
     {
         name: "company",
@@ -37,7 +38,8 @@ export const FACETS: FacetConfig[] = [
         searchable: true,
         allowExclude: true,
         allowOr: true,
-        allowAnd: false
+        allowAnd: false,
+        displayEmptyDistributionIntervals: false,
     },
     {
         name: "person",
@@ -49,7 +51,8 @@ export const FACETS: FacetConfig[] = [
         searchable: true,
         allowExclude: true,
         allowOr: true,
-        allowAnd: false
+        allowAnd: false,
+        displayEmptyDistributionIntervals: false,
     },
     {
         name: "docformat",
@@ -61,7 +64,8 @@ export const FACETS: FacetConfig[] = [
         searchable: true,
         allowExclude: true,
         allowOr: true,
-        allowAnd: false
+        allowAnd: false,
+        displayEmptyDistributionIntervals: false,
     },
     {
         name: "modified",
@@ -73,7 +77,8 @@ export const FACETS: FacetConfig[] = [
         searchable: true,
         allowExclude: true,
         allowOr: true,
-        allowAnd: false
+        allowAnd: false,
+        displayEmptyDistributionIntervals: false,
     },
     {
         name: "size",
@@ -85,7 +90,8 @@ export const FACETS: FacetConfig[] = [
         searchable: true,
         allowExclude: true,
         allowOr: true,
-        allowAnd: false
+        allowAnd: false,
+        displayEmptyDistributionIntervals: false,
     },
     {
         name: "documentlanguages",
@@ -97,7 +103,8 @@ export const FACETS: FacetConfig[] = [
         searchable: true,
         allowExclude: true,
         allowOr: true,
-        allowAnd: false
+        allowAnd: false,
+        displayEmptyDistributionIntervals: false,
     },
     {
         name: "concepts",
@@ -109,7 +116,8 @@ export const FACETS: FacetConfig[] = [
         searchable: true,
         allowExclude: true,
         allowOr: true,
-        allowAnd: false
+        allowAnd: false,
+        displayEmptyDistributionIntervals: false,
     },
 ];
 

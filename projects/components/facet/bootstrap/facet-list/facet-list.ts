@@ -25,6 +25,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
     @Input() allowExclude: boolean = true; // Allow to exclude selected items
     @Input() allowOr: boolean = true; // Allow to search various items in OR mode
     @Input() allowAnd: boolean = true; // Allow to search various items in AND mode
+    @Input() displayEmptyDistributionIntervals: boolean = false; // If the aggregration is a distribution, then this property controls whether empty distribution intervals will be displayed
 
     // Aggregation from the Results object
     data: Aggregation | undefined;
@@ -395,4 +396,20 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
         return !this.data;
     }
 
+    /**
+     * The items in the aggregation.
+     *
+     * @readonly
+     * @type {AggregationItem[]}
+     * @memberof BsFacetList
+     */
+    public get items(): AggregationItem[] {
+        if (!this.data) {
+            return [];
+        }
+        if (!this.data.isDistribution || this.displayEmptyDistributionIntervals) {
+            return this.data.items;
+        }
+        return this.data.items.filter(item => item.count > 0);
+    }
 }

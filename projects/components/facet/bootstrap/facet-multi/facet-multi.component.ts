@@ -15,6 +15,7 @@ export interface FacetConfig {
   allowExclude?: boolean;
   allowOr?: boolean;
   allowAnd?: boolean;
+  displayEmptyDistributionIntervals?: boolean;
 
   // Parameters set by the component
   $count?: string;
@@ -111,12 +112,12 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
     }
     const agg = this.facetService.getAggregation(facet.aggregation, this.results);
     const count = this.facetService.getAggregationCount(facet.aggregation);
-    if(!agg || !agg.items) return "";
-    if(agg.items.length >= count){
-      return count+"+";
-    }else{
-      return agg.items.length+"";
-    }
+    if (!agg || !agg.items)
+      return "";
+    const aggItemCounter = (!agg.isDistribution || facet.displayEmptyDistributionIntervals)
+      ? agg.items.length
+      : agg.items.filter(item => item.count > 0).length;
+    return aggItemCounter >= count ? `${count}+` : `${aggItemCounter}`;
   }
 
   /**
