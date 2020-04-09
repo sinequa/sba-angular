@@ -99,7 +99,7 @@ export default {
             "weekYear": "W{week, number, sqWeek} {weekYear, number, sqYear}",
             "apply": "Apply",
             "clear": "Clear",
-            "unavailable": "No documents available in the current range"
+            "unavailable": "No available range"
         },
 
         "filters":{

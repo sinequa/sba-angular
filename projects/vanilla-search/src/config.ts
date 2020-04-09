@@ -1,7 +1,7 @@
 import { FacetConfig } from '@sinequa/components/facet';
 
 /**
- * This list is used by Hello Search to activate key features in the UI.
+ * This list is used by Vanilla Search to activate key features in the UI.
  * The order below determines the order of menus, buttons, facets, etc.
  */
 export const FEATURES: string[] = [

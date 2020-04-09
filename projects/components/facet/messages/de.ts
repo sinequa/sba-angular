@@ -99,7 +99,7 @@ export default {
             "weekYear": "W{week, number, sqWeek} {weekYear, number, sqYear}",
             "apply": "Anwenden",
             "clear": "Löschen",
-            "unavailable": "Keine Dokumente im aktuellen Bereich verfügbar"
+            "unavailable": "Kein Bereich verfügbar"
         },
 
         "filters":{

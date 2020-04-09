@@ -99,7 +99,7 @@ export default {
             "weekYear": "s{week, number, sqWeek} {weekYear, number, sqYear}",
             "apply": "Appliquer",
             "clear": "Effacer",
-            "unavailable": "Aucun document disponible dans la plage courante"
+            "unavailable": "Aucune plage disponible"
         },
 
         "filters":{
