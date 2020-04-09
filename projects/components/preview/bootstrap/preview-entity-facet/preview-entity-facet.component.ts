@@ -249,12 +249,16 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
    */
   private getEntityIndexes(category: string, value: string) {
     const indexes: number[] = [];
-    for(let i=0; i<this.previewData.highlightsPerLocation['length']; i++){
+    for (let i = 0; i < this.previewData.highlightsPerLocation['length']; i++) {
       const highlight = this.previewData.highlightsPerLocation[i];
       const categories = Object.keys(highlight.positionInCategories);
-      for(let j=0; j<categories.length; j++){
-        if(categories[j] === category && highlight.values[j] === value){
-          indexes.push(highlight.positionInCategories[category]);
+      for (const currentCategory of categories) {
+        if (currentCategory === category) {
+          for (const highlightValue of highlight.values) {
+            if (highlightValue === value) {
+              indexes.push(highlight.positionInCategories[category]);
+            }
+          }
         }
       }
     }
