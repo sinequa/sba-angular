@@ -54,18 +54,48 @@ Note that for certain types of SSO (like Windows authentication), the configurat
 *App configuration - Auto-Login tab*
 {: .text-center }
 
-In the **Customization (JSON)** tab of the App configuration, it is possible to write data (in JSON syntax), which will be passed to the Angular app on initialization.
-The benefit of using this field (rather than just writing the data in the app source code) is that this data may change without having to recompile the Angular app.
-For example, if you specify a list of widgets to be displayed, you will only need to modify this field and refresh the page to visualize the difference.
+In the **Customization (JSON)** tab of the App configuration, it is possible to write data (in JSON syntax),
+which will be passed to the Angular app on initialization.
+The benefit of using this field (rather than just writing the data in the app source code) is that this data may change
+without having to recompile the Angular app.
+For example, if you specify a list of widgets to be displayed, you will only need to modify this field
+and refresh the page to visualize the difference.
 
-The underlying Monaco editor can verify that your JSON is valid and in any case, Sinequa ES verifies the JSON validity when saving the App configuration and notifies you should the JSON be not valid.
+The underlying Monaco editor can verify that your JSON is valid and in any case, Sinequa ES verifies the JSON validity
+when saving the App configuration and notifies you should the JSON be not valid.
 
 ![Customization tab]({{site.baseurl}}assets/gettingstarted/admin-app-conf.png)
+{: .d-block .mx-auto }
 *App configuration - Customization (JSON) tab*
 {: .text-center }
 
 ![Customization tab with error]({{site.baseurl}}assets/gettingstarted/admin-app-conf-with-error.png)
+{: .d-block .mx-auto }
 *App configuration - Customization (JSON) tab - when the JSON is not valid*
+{: .text-center }
+
+For example, if you want to change the list of metadata that is displayed in the document preview in vanilla-search,
+you can specify a JSON as follows.
+
+```json
+{
+  "metadata": [
+      "filename",
+      "documentlanguages",
+      "geo",
+      "company"
+  ]
+}
+```
+
+![The preview metadata before customization]({{site.baseurl}}assets/gettingstarted/admin-vanilla-search-json-customization-before.png)
+{: .d-block .mx-auto }
+*The preview metadata before customization*
+{: .text-center }
+
+![The preview metadata after customization]({{site.baseurl}}assets/gettingstarted/admin-vanilla-search-json-customization-after.png)
+{: .d-block .mx-auto }
+*The preview metadata after customization*
 {: .text-center }
 
 In the **Advanced** tab of the App configuration, it is possible to restrict the availability of the app to certain users and groups.
