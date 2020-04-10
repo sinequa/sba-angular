@@ -65,38 +65,14 @@ The underlying Monaco editor can verify that your JSON is valid and in any case,
 when saving the App configuration and notifies you should the JSON be not valid.
 
 ![Customization tab]({{site.baseurl}}assets/gettingstarted/admin-app-conf.png)
-{: .d-block .mx-auto }
 *App configuration - Customization (JSON) tab*
 {: .text-center }
 
 ![Customization tab with error]({{site.baseurl}}assets/gettingstarted/admin-app-conf-with-error.png)
-{: .d-block .mx-auto }
 *App configuration - Customization (JSON) tab - when the JSON is not valid*
 {: .text-center }
 
-For example, if you want to change the list of metadata that is displayed in the document preview in vanilla-search,
-you can specify a JSON as follows.
-
-```json
-{
-  "metadata": [
-      "filename",
-      "documentlanguages",
-      "geo",
-      "company"
-  ]
-}
-```
-
-![The preview metadata before customization]({{site.baseurl}}assets/gettingstarted/admin-vanilla-search-json-customization-before.png)
-{: .d-block .mx-auto }
-*The preview metadata before customization*
-{: .text-center }
-
-![The preview metadata after customization]({{site.baseurl}}assets/gettingstarted/admin-vanilla-search-json-customization-after.png)
-{: .d-block .mx-auto }
-*The preview metadata after customization*
-{: .text-center }
+Please refer to [Tips & tricks - Server-side-configuration]({{site.baseurl}}sba-angular/tipstricks/configuration.html#server-side-configuration) for an example of how to use the JSON data to customize vanilla-search.
 
 In the **Advanced** tab of the App configuration, it is possible to restrict the availability of the app to certain users and groups.
 
