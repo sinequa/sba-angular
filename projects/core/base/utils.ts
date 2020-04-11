@@ -534,14 +534,20 @@ export class Utils {
     }
 
     private static rxSysDateTime = /^\d{4}-(?:0[1-9]|1[012])-(?:0[1-9]|[12][0-9]|3[01])(?: (?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d)?$/;
-    private static rxISO8601 = /^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$/;
+    // private static rxISO8601 = /^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$/;
+    // Restricted ISO8601 => ISO8601 but obligatory date component separators and no YYYY-DDD form to reduce false +ves
+    private static rxRestrictedISO8601 = /^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?)([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$/;
 
     private static isSysDateLike(str: string): boolean {
         return Utils.rxSysDateTime.test(str);
     }
 
-    private static isISO8601Like(str: string): boolean {
+    /*private static isISO8601Like(str: string): boolean {
         return Utils.rxISO8601.test(str);
+    }*/
+
+    private static isRestrictedISO8601Like(str: string): boolean {
+        return Utils.rxRestrictedISO8601.test(str);
     }
 
     /**
@@ -584,7 +590,7 @@ export class Utils {
                                 return m.toDate();
                             }
                         }
-                        else if (Utils.isISO8601Like(value)) {
+                        else if (Utils.isRestrictedISO8601Like(value)) {
                             const m = moment(value, moment.ISO_8601);
                             if (m.isValid()) {
                                 return m.toDate();
