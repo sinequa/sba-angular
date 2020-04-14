@@ -107,18 +107,23 @@ column.formatter = 'language';
 console.log('language:', this.formatService.format('fr', column));
 ```
 
-Custom formatters can be specified by injecting the `FORMAT_OPTIONS` token with a callback object.
+Custom formatters can be provided by overriding the `FormatService`
 
 ```ts
-import { FORMAT_OPTIONS, FormatOptions } from '@sinequa/core/app-utils';
+import { Injectable } from '@angular/core/';
+import { FormatService, ValueItem } from '@sinequa/core/app-utils';
 import { FieldValue } from '@sinequa/core/base';
 import { CCColumn } from '@sinequa/core/web-services';
 ...
-// Define a custom formatter callback
-const formatOptions: FormatOptions = {
-    formatValue: (valueItem: FieldValue, column?: CCColumn): string | undefined => {
+@Injectable({
+    providedIn: 'root'
+})
+export class MyFormatService extends FormatService {
+    // Add support for a custom formatter
+    formatValue: (valueItem: ValueItem | FieldValue, column?: CCColumn): string {
         if (column && column.formatter === 'mycustomformatter') {
-            switch (valueItem) {
+            let [value, display] = this.getValueAndDisplay(valueItem);
+            switch (value) {
                 case 0:
                     return "zero";
                 case 1:
@@ -127,14 +132,14 @@ const formatOptions: FormatOptions = {
                     return "two";
             }
         }
-        return undefined;
+        return super.formatValue(valueItem, column);
     }
 };
 ...
 // Provide
 @NgModule({
     providers: [
-        { provider: FORMAT_OPTIONS, useValue: formatOptions }
+        { provider: FormatService, useClass: MyFormatService }
     ]
 })
 ```
