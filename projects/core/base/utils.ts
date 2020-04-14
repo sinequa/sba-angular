@@ -534,14 +534,16 @@ export class Utils {
     }
 
     private static rxSysDateTime = /^\d{4}-(?:0[1-9]|1[012])-(?:0[1-9]|[12][0-9]|3[01])(?: (?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d)?$/;
-    private static rxISO8601 = /^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$/;
+    // private static rxISO8601 = /^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$/;
+    // ISO8601 combined date and time
+    private static rxISO8601DateTime = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*))(?:Z|(\+|-)([\d|:]*))?$/;
 
-    private static isSysDateLike(str: string): boolean {
+    private static isSysDateTime(str: string): boolean {
         return Utils.rxSysDateTime.test(str);
     }
 
-    private static isISO8601Like(str: string): boolean {
-        return Utils.rxISO8601.test(str);
+    private static isISO8601DateTime(str: string): boolean {
+        return Utils.rxISO8601DateTime.test(str);
     }
 
     /**
@@ -575,16 +577,16 @@ export class Utils {
             return {};
         }
         try {
-            return JSON.parse(str,
+            return JSON.parse(str, options.reviveDates ?
                 (key, value) => {
                     if (options.reviveDates && typeof value === "string") {
-                        if (Utils.isSysDateLike(value)) {
+                        if (Utils.isSysDateTime(value)) {
                             const m = moment(value, "YYYY-MM-DD HH:mm:ss");
                             if (m.isValid()) {
                                 return m.toDate();
                             }
                         }
-                        else if (Utils.isISO8601Like(value)) {
+                        else if (Utils.isISO8601DateTime(value)) {
                             const m = moment(value, moment.ISO_8601);
                             if (m.isValid()) {
                                 return m.toDate();
@@ -592,7 +594,7 @@ export class Utils {
                         }
                     }
                     return value;
-                });
+                } : undefined);
         }
         catch (exception) {
             console.log("Utils.fromJson exception:", exception);
