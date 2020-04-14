@@ -17,8 +17,8 @@ To create an **App** configuration, in the administration:
 - In *Apps*, click *New empty SBA*, give it a name then click *Ok*. You will be redirected to the configuration page of the new **App**.
 - Click *Edit*, and in the list of Queries, choose the default *_query* and save.
 
-![New empty app action]({{site.baseurl}}assets/gettingstarted/admin-new-empty-app-action.png)
-*'New empty app' action in Apps*
+![New Angular app action]({{site.baseurl}}assets/gettingstarted/admin-new-angular-app-action.png)
+*'New Angular app' action in Apps*
 {: .text-center }
 
 At this point your Sinequa server can be used to develop an SBA and you can go to [Developer-side setup](dev-setup.html) or spend more time reading the documentation below to fully configure the server.
