@@ -1,9 +1,9 @@
 import {Component, Input, OnChanges} from "@angular/core";
 import {Record, CCColumn} from "@sinequa/core/web-services";
-import {AppService} from "@sinequa/core/app-utils";
+import {AppService, ValueItem} from "@sinequa/core/app-utils";
 import {SearchService} from "@sinequa/components/search";
 
-export interface EntityValue {
+export interface EntityValue extends ValueItem {
     display: string;
     value: string;
     locations?: Number[];
