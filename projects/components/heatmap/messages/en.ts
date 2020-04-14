@@ -1,19 +1,19 @@
 export default {
     "heatmap": {
-        "tooltip": {
-            "tileText": "{count, plural, one {# item} other {# items}}"
-        }
+        "name": "Heatmap",
+        "nodata": "No data to display",
+        "maxX": "Max items on X axis",
+        "maxY": "Max items on Y axis",
+        "rescale": "Re-scale axes",
+        "colors": "Color scheme",
+        "blue": "Blue",
+        "red": "Red",
+        "green": "Green",
+        "diverging": "Diverging",
+        "spectral": "Spectral",
+        "cool": "Cool",
+        "defaults": "Defaults",
+        "showing": "Showing {shown, number} of {total, number} tiles",
+        "tooltip": "{count, plural, one {# item} other {# items}}"
     },
-
-    "results": {
-        "resultsHeatmapView": {
-            "display": "Heatmap",
-            "toolbar": {
-                "xAxisLabel": "X axis:",
-                "yAxisLabel": "Y axis:",
-                "zAxisLabel": "Z axis:",
-                "zValueLabel": "Z value:"
-            }
-        }
-    }
 };
