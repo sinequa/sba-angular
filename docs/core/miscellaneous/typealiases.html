@@ -73,9 +73,6 @@
                             <a href="#BasicAdvancedValue" title="web-services/query/query.ts"><b>BasicAdvancedValue</b>&nbsp;&nbsp;&nbsp;(web-services/.../query.ts)</a>
                         </li>
                         <li>
-                            <a href="#CCWebService" title="web-services/config/ccapp.ts"><b>CCWebService</b>&nbsp;&nbsp;&nbsp;(web-services/.../ccapp.ts)</a>
-                        </li>
-                        <li>
                             <a href="#FieldValue" title="base/field-value.ts"><b>FieldValue</b>&nbsp;&nbsp;&nbsp;(base/.../field-value.ts)</a>
                         </li>
                         <li>
@@ -89,6 +86,15 @@
                         </li>
                         <li>
                             <a href="#ListAggregationItem" title="web-services/query.web.service.ts"><b>ListAggregationItem</b>&nbsp;&nbsp;&nbsp;(web-services/.../query.web.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#QueryPrecision" title="web-services/config/ccapp.ts"><b>QueryPrecision</b>&nbsp;&nbsp;&nbsp;(web-services/.../ccapp.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#QueryStrategy" title="web-services/config/ccapp.ts"><b>QueryStrategy</b>&nbsp;&nbsp;&nbsp;(web-services/.../ccapp.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#SpellingCorrectionMode" title="web-services/config/ccapp.ts"><b>SpellingCorrectionMode</b>&nbsp;&nbsp;&nbsp;(web-services/.../ccapp.ts)</a>
                         </li>
                         <li>
                             <a href="#TreeAggregation" title="web-services/query.web.service.ts"><b>TreeAggregation</b>&nbsp;&nbsp;&nbsp;(web-services/.../query.web.service.ts)</a>
@@ -211,30 +217,6 @@
             <tr>
                 <td class="col-md-4">
                     <code>    <code>AuditEvent | AuditEvent[] | AuditRecord</code>
-</code>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</section>    <h3>web-services/config/ccapp.ts</h3>
-    <section>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="CCWebService"></a>
-                    <span class="name"><b>CCWebService</b><a href="#CCWebService"><span class="icon ion-ios-link"></span></a></span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Describes the fields available in all web service configuration objects</p>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <code>        <code><a href="../interfaces/CCConfig.html" target="_self" >CCConfig</a></code>
 </code>
                 </td>
             </tr>
@@ -369,6 +351,103 @@
             <tr>
                 <td class="col-md-4">
                     <code>        <code><a href="../interfaces/Aggregation.html" target="_self" >Aggregation</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>    <h3>web-services/config/ccapp.ts</h3>
+    <section>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="QueryPrecision"></a>
+                    <span class="name"><b>QueryPrecision</b><a href="#QueryPrecision"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines different precision operators that can be automatically added to a <code>text contains</code> clause
+when no precision operators are present.</p>
+<p><code>Default</code> - no operators are added</p>
+<p><code>ExactExpression</code> - text surrounded by <code>&quot;...&quot;</code></p>
+<p><code>InTheSamePhrase</code> - text surrounded by <code>[...]</code></p>
+<p><code>EveryWord</code> - text surrounded by <code>+(...)</code></p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>        <code><a href="../classes/Expr.html" target="_self" >&quot;Default&quot; | &quot;ExactExpression&quot; | &quot;InTheSamePhrase&quot; | &quot;EveryWord&quot;</a></code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="QueryStrategy"></a>
+                    <span class="name"><b>QueryStrategy</b><a href="#QueryStrategy"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines strategies that can used in the query search parameters. Each strategy defines a pair of word weight (<code>ww</code>) and meaning
+weight (<code>mw</code>) values to be used.</p>
+<p><code>Default</code> - no <code>ww</code> and <code>mw</code> parameters used</p>
+<p><code>WordsOnly</code> - <code>ww=1;mw=0</code></p>
+<p><code>WordsFirst</code> - <code>ww=0.8;mw=0.2</code></p>
+<p><code>WordsAndMeaning</code> - <code>ww=0.6;mw=0.4</code></p>
+<p><code>MeaningFirst</code> - <code>ww=0.3;mw=0.7</code></p>
+<p><code>MeaningOnly</code> - <code>ww=0;mw=1</code></p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;Default&quot; | &quot;WordsOnly&quot; | &quot;WordsFirst&quot; | &quot;WordsAndMeaning&quot; | &quot;MeaningFirst&quot; | &quot;MeaningOnly&quot;</code>
+</code>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SpellingCorrectionMode"></a>
+                    <span class="name"><b>SpellingCorrectionMode</b><a href="#SpellingCorrectionMode"><span class="icon ion-ios-link"></span></a></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Defines modes for the spelling correction of search terms and did-you-mean functionality. Corrections
+are based on edit and phonetic distance and exist among the searched documents</p>
+<p><code>default | classic</code> - corrections are sought for terms that are not present in any documents. The original terms
+and corrections are included in the query</p>
+<p><code>smart</code> - corrections are sought for terms that are present in less than 10 documents and where the correction
+is 20 times more frequent than the original term. Only the best corrections are kept. The original terms and corrections
+are included in the query. The [Results.didYouMean]{@link Results#didYouMean] member is populated allowing for a &quot;We included
+results for these terms...&quot; feedback to be displayed</p>
+<p><code>correct</code> - corrections are sought for terms that are present in less than 10 documents and where the correction is
+20 times more frequent than the original term. Only the best corrections are kept. The original terms that have corrections
+are not included in the query. The [Results.didYouMean]{@link Results#didYouMean] member is populated allowing for a &quot;Your query
+has been corrected to...&quot; feedback to be displayed</p>
+<p><code>dymonly</code> - corrections are sought for terms that are present in less than 10 documents and where the correction is
+20 times more frequent than the original term. The actual query is unaffected but the
+[Results.didYouMean]{@link Results#didYouMean] member will be populated allowing for a &quot;Did you mean...&quot; feedback to be
+displayed</p>
+<p><code>force</code> - corrections are sought for all terms. All terms and corrections are included in the query</p>
+<p><code>false</code> - no spelling correction processing occurs</p>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <code>    <code>&quot;default&quot; | &quot;classic&quot; | &quot;smart&quot; | &quot;correct&quot; | &quot;dymonly&quot; | &quot;force&quot; | &quot;false&quot;</code>
 </code>
                 </td>
             </tr>

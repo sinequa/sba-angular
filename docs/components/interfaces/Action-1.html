@@ -291,7 +291,7 @@ import {RfmWebService, AuditWebService, Results, Record, RFMDisplay} from &quot;
 import {AppService} from &quot;@sinequa/core/app-utils&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
 import {SearchService} from &quot;@sinequa/components/search&quot;;
-import { Subscription } from &#x27;rxjs&#x27;;
+import {Subject, Observable, Subscription} from &#x27;rxjs&#x27;;
 
 export type RFMType &#x3D; &quot;important&quot; | &quot;click&quot; | &quot;like&quot;;
 
@@ -324,15 +324,21 @@ export enum RFMEventType {
     Ban &#x3D; &quot;RFM_Ban&quot;
 }
 
+export interface RFMEvent {
+    type: &quot;updated&quot;;
+}
 
 @Injectable({
     providedIn: &#x27;root&#x27;,
 })
 export class RFMService implements OnDestroy {
 
+    private _events &#x3D; new Subject&lt;RFMEvent&gt;();
+    private _subscription: Subscription;
+
     constructor(
         public appService: AppService,
-        public rfmService: RfmWebService, 
+        public rfmService: RfmWebService,
         public searchService: SearchService,
         public auditService: AuditWebService
     ){
@@ -341,15 +347,17 @@ export class RFMService implements OnDestroy {
         });
     }
 
-    private _subscription: Subscription;
+    get events(): Observable&lt;RFMEvent&gt; {
+        return this._events;
+    }
+
     ngOnDestroy(){
-        if(this._subscription){
-            this._subscription.unsubscribe();
-        }
-    }    
-    
+        this._events.complete();
+        this._subscription.unsubscribe();
+    }
+
     public getMenuActions(config: CCRFM.Action): RFMDisplay[] {
-        let actions &#x3D; [RFMDisplay.positiveRate, RFMDisplay.unrate];
+        const actions &#x3D; [RFMDisplay.positiveRate, RFMDisplay.unrate];
         if(config.negAvailable)
             actions.push(RFMDisplay.negativeRate);
         return actions;
@@ -361,7 +369,7 @@ export class RFMService implements OnDestroy {
                 return &quot;pos&quot;;
             case RFMDisplay.mainlyPosRate:
                 return &quot;mpos&quot;;
-            case RFMDisplay.unrate:  
+            case RFMDisplay.unrate:
                 return &quot;unrated&quot;;
             case RFMDisplay.mainlyNegRate:
                 return &quot;mneg&quot;;
@@ -418,7 +426,7 @@ export class RFMService implements OnDestroy {
         }
         return aet;
     }
-    
+
     public notifyRfmAction(rfmEvent: any, record: Record, results: Results) {
         this.auditService.notifyDocument(rfmEvent, record, results, undefined, {
             queryhash: this.searchService.results ? this.searchService.results.rfmQueryHash : undefined,
@@ -431,22 +439,22 @@ export class RFMService implements OnDestroy {
     /**
      * Called every time new results come in.
      * Performs a request for
-     * @param results 
+     * @param results
      */
     private updateRfm(results: Results | undefined) {
         if (results &amp;&amp; results.records) {
-            let ccquery &#x3D; this.appService.ccquery;
+            const ccquery &#x3D; this.appService.ccquery;
             if (ccquery &amp;&amp; ccquery.rFM) {
                 Utils.subscribe(this.rfmService.getRfmData(ccquery.rFM, results),
                     (value) &#x3D;&gt; {
                         if (value) {
-                            for (let record of results.records) {
-                                let rfmData &#x3D; value[record.id];
+                            for (const record of results.records) {
+                                const rfmData &#x3D; value[record.id];
                                 if (!!rfmData) {
                                     record.rfm &#x3D; rfmData;
                                 }
                             }
-                            // TODO: Trigger event for components to update
+                            this._events.next({type: &quot;updated&quot;});
                         }
                     });
             }

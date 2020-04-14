@@ -215,11 +215,11 @@ export class BsAdvancedFormValidation extends ValidationDirective implements OnI
     @Input(&quot;sq-advanced-form-validation&quot;) afvOptions: {form: FormGroup, config: Control};
 
     ngOnInit() {
-        let config &#x3D; this.afvOptions.config;
-        let controlName &#x3D; config.name || config.field;
-        let errorMessages: MapOf&lt;string&gt; &#x3D; {};
+        const config &#x3D; this.afvOptions.config;
+        const controlName &#x3D; config.name || config.field;
+        const errorMessages: MapOf&lt;string&gt; &#x3D; {};
         if (this.afvOptions.config.validators) {
-            for (let validator of config.validators) {
+            for (const validator of config.validators) {
                 if (validator.active &amp;&amp; !!validator.errorMessage) {
                     errorMessages[validator.name || Utils.toLowerCase(validator.type)] &#x3D; validator.errorMessage;
                 }

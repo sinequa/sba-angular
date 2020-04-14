@@ -270,7 +270,7 @@ export interface UserSettingsChangedEvent extends UserSettingsEvent {
 }
 
 /**
- * A service for calling the usersettings web service 
+ * A service for calling the usersettings web service
  */
 @Injectable({
     providedIn: &quot;root&quot;
@@ -330,7 +330,7 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
      * Sets the userSettings member and issues the &quot;changed&quot; event
      */
     public load(): Observable&lt;UserSettings&gt; {
-        let observable &#x3D; this.httpClient.get&lt;UserSettings&gt;(this.makeUrl(&quot;usersettings&quot;), {
+        const observable &#x3D; this.httpClient.get&lt;UserSettings&gt;(this.makeUrl(&quot;usersettings&quot;), {
             params: this.makeParams({
                 app: this.appName,
                 action: &quot;load&quot;
@@ -353,11 +353,11 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
 
     /**
      * Saves the current user settings on the server
-     * 
-     * @param auditEvents 
+     *
+     * @param auditEvents
      */
     public save(auditEvents?: AuditEvents): Observable&lt;void&gt; {
-        let observable &#x3D; this.httpClient.post&lt;void&gt;(this.makeUrl(&quot;usersettings&quot;), {
+        const observable &#x3D; this.httpClient.post&lt;void&gt;(this.makeUrl(&quot;usersettings&quot;), {
             app: this.appName,
             action: &quot;save&quot;,
             userSettings: this.userSettings,
@@ -370,22 +370,22 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
             (error) &#x3D;&gt; {
                 console.log(&quot;userSettingsService.save failure - error: &quot;, error);
             });
-        return observable;            
+        return observable;
     }
 
     /**
      * Patches the user settings on the server using a partial user settings object. The partial
      * object is used to update the user settings on the server according to [RFC7396]{@link https://tools.ietf.org/html/rfc7396}
-     * 
+     *
      * @param userSettings The partial user settings
      * @param auditEvents Any associated audit events to store on the server
      */
     public patch(userSettings: UserSettings, auditEvents?: AuditEvents): Observable&lt;void&gt; {
-        let observable &#x3D; this.httpClient.post&lt;void&gt;(this.makeUrl(&quot;usersettings&quot;), {
+        const observable &#x3D; this.httpClient.post&lt;void&gt;(this.makeUrl(&quot;usersettings&quot;), {
             app: this.appName,
             action: &quot;patch&quot;,
             userSettings: userSettings,
-            $auditRecord: auditEvents 
+            $auditRecord: auditEvents
         });
         Utils.subscribe(observable,
             (response) &#x3D;&gt; {
@@ -394,7 +394,7 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
             (error) &#x3D;&gt; {
                 console.log(&quot;userSettingsService.patch failure - error: &quot;, error);
             });
-        return observable;            
+        return observable;
     }
 
     /**

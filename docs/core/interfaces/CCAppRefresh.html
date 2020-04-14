@@ -197,8 +197,8 @@ export interface CCAppRefresh {
 })
 export class AppWebService extends HttpService {
     /**
-     * Constructor 
-     * 
+     * Constructor
+     *
      * @param startConfig Provides the app name
      * @param httpClient The HTTP client
      */
@@ -214,11 +214,11 @@ export class AppWebService extends HttpService {
 
     /**
      * Gets the app configuration for the app name
-     * 
+     *
      * @returns An observable of the app configuration
      */
     get(): Observable&lt;CCApp&gt; {
-        let observable &#x3D; this.httpClient.get&lt;CCApp&gt;(this.makeUrl(&quot;app&quot;), {
+        const observable &#x3D; this.httpClient.get&lt;CCApp&gt;(this.makeUrl(&quot;app&quot;), {
             params: this.makeParams({
                 app: this.appName || &quot;&quot;
             })
@@ -237,15 +237,15 @@ export class AppWebService extends HttpService {
 
     /**
      * Refreshes the app configuration based on a version identifier
-     * 
+     *
      * @param appVersionId The current app version id [CCApp.versionId]{@link CCApp#versionId}
      * @param auditEvents Audit events to be recorded for this call
-     * 
+     *
      * @returns An observable of an object containing a flag indicating whether the configuration was up to date. If false
      * then the app member of the object will be set to the new version of the configuration.
      */
     refresh(appVersionId: string, auditEvents?: AuditEvents): Observable&lt;CCAppRefresh&gt; {
-        let observable &#x3D; this.httpClient.get&lt;{upToDate: boolean, app: CCApp}&gt;(this.makeUrl(&quot;app&quot;), {
+        const observable &#x3D; this.httpClient.get&lt;{upToDate: boolean, app: CCApp}&gt;(this.makeUrl(&quot;app&quot;), {
             params: this.makeParams({
                 app: this.appName || &quot;&quot;,
                 versionId: appVersionId,

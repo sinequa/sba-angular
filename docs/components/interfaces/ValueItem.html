@@ -318,7 +318,9 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, ViewEncapsulation, Input, OnChanges, SimpleChanges, ElementRef, ViewChild, ChangeDetectorRef} from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+    Component, ViewEncapsulation, Input, OnChanges, SimpleChanges, ElementRef, ViewChild, ChangeDetectorRef, OnDestroy,
+} from &quot;@angular/core&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
 import {Query, AppService} from &quot;@sinequa/core/app-utils&quot;;
 import {Results} from &quot;@sinequa/core/web-services&quot;;
@@ -350,7 +352,7 @@ export interface ValueItem {
     templateUrl: &quot;./results-scatter-view.html&quot;,
     styleUrls: [&quot;./results-scatter-view.css&quot;]
 })
-export class BsResultsScatterView implements OnChanges {
+export class BsResultsScatterView implements OnChanges, OnDestroy {
     @Input() query: Query;
     @Input() results: Results;
     @Input() view: ScatterView;
@@ -375,18 +377,18 @@ export class BsResultsScatterView implements OnChanges {
     @ViewChild(&quot;svg&quot;, {static: false}) svg: ElementRef;
     g: d3.Selection&lt;any, any, any, any&gt; | undefined;
     tooltip: LoadedComponent;
-    
+
 
     constructor(
         private appService: AppService,
         private searchService: SearchService,
-        private loadComponentService: LoadComponentService, 
+        private loadComponentService: LoadComponentService,
         private changeDetectorRef: ChangeDetectorRef) {
     }
 
     getData() {
 
-        let ccaggregation &#x3D; this.appService.getCCAggregation(this.view.aggregation);
+        const ccaggregation &#x3D; this.appService.getCCAggregation(this.view.aggregation);
         //console.log(ccaggregation);
         if (!ccaggregation) {
             this.data &#x3D; undefined;
@@ -394,7 +396,7 @@ export class BsResultsScatterView implements OnChanges {
         }
         this.field &#x3D; ccaggregation.column;
 
-        let query &#x3D; Query.copy(this.searchService.query);
+        const query &#x3D; Query.copy(this.searchService.query);
         query.action &#x3D; &quot;&quot;;
         query.aggregations &#x3D; [this.view.aggregation];   // Override distribs with only the timeline
         query.pageSize &#x3D; this.count;
@@ -403,40 +405,42 @@ export class BsResultsScatterView implements OnChanges {
 
         Utils.subscribe(this.searchService.getResults(query),
             (results: Results) &#x3D;&gt; {
-                            
-                var dist_counts &#x3D; {};
+
+                const dist_counts &#x3D; {};
 
                 results.aggregations[0].items.forEach((item) &#x3D;&gt; dist_counts[item.value as string] &#x3D; item.count);
 
-                let data: any[] &#x3D; [];
+                const data: any[] &#x3D; [];
                 this.colorvalues &#x3D; [];
                 this.categories &#x3D; [];
-                
-                results.records.forEach((r) &#x3D;&gt; { 
+
+                results.records.forEach((r) &#x3D;&gt; {
 
                     r[&quot;value&quot;].forEach((val) &#x3D;&gt; {
 
-                        var element &#x3D; val.display;
-                        var raw &#x3D; val.value;
-                        var positions &#x3D; val.locations.split(&quot;,&quot;);
-                        var cooc &#x3D; element.replace(/[\(\)]/g, &quot;&quot;).split(&quot;#&quot;);
-                        var value &#x3D; this.switch_cooc? cooc[0].split(&quot; &quot;) : cooc[1].split(&quot; &quot;);
-                        var category &#x3D; this.switch_cooc? cooc[1] : cooc[0];
+                        const element &#x3D; val.display;
+                        const raw &#x3D; val.value;
+                        const positions &#x3D; val.locations.split(&quot;,&quot;);
+                        const cooc &#x3D; element.replace(/[\(\)]/g, &quot;&quot;).split(&quot;#&quot;);
+                        const value &#x3D; this.switch_cooc? cooc[0].split(&quot; &quot;) : cooc[1].split(&quot; &quot;);
+                        const category &#x3D; this.switch_cooc? cooc[1] : cooc[0];
                         //var size &#x3D; r[3];
-                        var size &#x3D; raw in dist_counts ? dist_counts[raw] * 10 : 10;
-                        var colorvalue &#x3D; this.colors &#x3D;&#x3D;&#x3D; &#x27;unit&#x27;? (this.switch_cooc? value[1]: value[0]) : 
+                        const size &#x3D; raw in dist_counts ? dist_counts[raw] * 10 : 10;
+                        const colorvalue &#x3D; this.colors &#x3D;&#x3D;&#x3D; &#x27;unit&#x27;? (this.switch_cooc? value[1]: value[0]) :
                                         this.colors &#x3D;&#x3D;&#x3D; &#x27;source&#x27; ? r.collection[0].substring(1,r.collection[0].length-1) :
                                         &quot;Document&quot;;
 
-                        var datum &#x3D; {category: category, 
-                                    colorvalue: colorvalue, 
-                                    value: parseFloat(this.switch_cooc? value[0]: value[1]), 
-                                    title: r.collection[0].substring(1, r.collection[0].length-1) + &quot; - &quot;+r.title, 
-                                    id: r.id, 
-                                    size: size, 
-                                    position: positions};
+                        const datum &#x3D; {
+                            category: category,
+                            colorvalue: colorvalue,
+                            value: parseFloat(this.switch_cooc? value[0]: value[1]),
+                            title: r.collection[0].substring(1, r.collection[0].length-1) + &quot; - &quot;+r.title,
+                            id: r.id,
+                            size: size,
+                            position: positions
+                        };
 
-                        if(!isNaN(datum.value)){		   
+                        if(!isNaN(datum.value)){
                             data.push(datum);
                             if(this.colorvalues.indexOf(colorvalue) &lt; 0)
                                 this.colorvalues.push(colorvalue);
@@ -445,12 +449,12 @@ export class BsResultsScatterView implements OnChanges {
                     });
 
                 });
-                
+
                 console.log(data);
 
-                let datamap &#x3D; this.groupBy(data, &#x27;category&#x27;);
+                const datamap &#x3D; this.groupBy(data, &#x27;category&#x27;);
                 this.categories &#x3D; Object.keys(datamap).sort() as string[];
-                this.lengths &#x3D; this.categories.map((k) &#x3D;&gt; datamap[k].length);;
+                this.lengths &#x3D; this.categories.map((k) &#x3D;&gt; datamap[k].length);
                 this.data &#x3D; this.categories.map((k) &#x3D;&gt; datamap[k]);
 
                 this.plotData();
@@ -477,42 +481,42 @@ export class BsResultsScatterView implements OnChanges {
             return;
         }
 
-        let instance &#x3D; this;
-        
-        var margin &#x3D; {top: 50, right: 30, bottom: 100, left: 40},
+        const instance &#x3D; this;
+
+        const margin &#x3D; {top: 50, right: 30, bottom: 100, left: 40},
             width &#x3D; 960 - margin.left - margin.right,
             height &#x3D; 720 - margin.top - margin.bottom;
 
-        var y &#x3D; d3.scaleLog()
+        const y &#x3D; d3.scaleLog()
             .domain([this.min_scale, this.max_scale])
             .range([height, 0]);
 
-        var x0 &#x3D; d3.scaleBand()
+        const x0 &#x3D; d3.scaleBand()
             .domain(this.categories)
             .range([0, width]);
 
-        var x1 &#x3D; d3.scaleLinear()
+        const x1 &#x3D; d3.scaleLinear()
             .domain([0, 1])
             .range([0, x0.bandwidth()]);
 
-        var cur &#x3D; d3.scaleOrdinal(d3.schemeCategory10)
+        const cur &#x3D; d3.scaleOrdinal(d3.schemeCategory10)
             .domain(this.colorvalues);
 
-        var xAxis &#x3D; d3.axisBottom(x0);
+        const xAxis &#x3D; d3.axisBottom(x0);
 
-        var yAxis &#x3D; d3.axisLeft(y)
+        const yAxis &#x3D; d3.axisLeft(y)
             .tickSizeInner(-width)
             .ticks(10, &quot;,.1s&quot;);
 
         // Define the div for the tooltip
-        var div &#x3D; d3.select(&quot;body&quot;).append(&quot;div&quot;)	
-            .attr(&quot;class&quot;, &quot;tooltip&quot;)				
+        const div &#x3D; d3.select(&quot;body&quot;).append(&quot;div&quot;)
+            .attr(&quot;class&quot;, &quot;tooltip&quot;)
             .style(&quot;opacity&quot;, 0);
 
-        let svg &#x3D; d3.select(this.svg.nativeElement)
+        const svg &#x3D; d3.select(this.svg.nativeElement)
             .attr(&quot;width&quot;, width + margin.left + margin.right)
             .attr(&quot;height&quot;, height + margin.top + margin.bottom);
-    
+
         this.g &#x3D; svg.append(&quot;g&quot;)
             .attr(&quot;transform&quot;, &#x60;translate(${margin.left},${margin.top})&#x60;);
 
@@ -526,10 +530,10 @@ export class BsResultsScatterView implements OnChanges {
             .attr(&quot;x&quot;, (d, i) &#x3D;&gt; i*width/this.categories.length)
             .attr(&quot;y&quot;, 0)
             .on(&quot;mouseover&quot;, function(d) {
-                d3.select(this).style(&quot;fill&quot;, &quot;rgba(255, 255, 100, 0.5)&quot;)
+                d3.select(this).style(&quot;fill&quot;, &quot;rgba(255, 255, 100, 0.5)&quot;);
             })
             .on(&quot;mouseout&quot;, function(d) {
-                d3.select(this).style(&quot;fill&quot;, &quot;rgba(255, 255, 255, 0.0)&quot;)	
+                d3.select(this).style(&quot;fill&quot;, &quot;rgba(255, 255, 255, 0.0)&quot;);
             });
 
         // Y axis
@@ -542,12 +546,12 @@ export class BsResultsScatterView implements OnChanges {
             .attr(&quot;class&quot;, &quot;x axis&quot;)
             .attr(&quot;transform&quot;, &quot;translate(0,&quot; + height + &quot;)&quot;)
             .call(xAxis)
-            .selectAll(&quot;text&quot;)	
+            .selectAll(&quot;text&quot;)
                 .style(&quot;text-anchor&quot;, &quot;end&quot;)
                 .attr(&quot;dx&quot;, &quot;-.8em&quot;)
                 .attr(&quot;dy&quot;, &quot;.15em&quot;)
                 .attr(&quot;transform&quot;, function(d) {
-                    return &quot;rotate(-45)&quot; 
+                    return &quot;rotate(-45)&quot;;
                     });
 
         // Bubbles
@@ -573,15 +577,15 @@ export class BsResultsScatterView implements OnChanges {
                     .transition()
                     .duration(200)
                     .attr(&quot;r&quot;, (d_ : any) &#x3D;&gt;  (d.id &#x3D;&#x3D;&#x3D; d_.id)? 15 : instance.getSize(d_.size));
-                div.transition()		
+                div.transition()
                     .duration(200)
-                    .style(&quot;opacity&quot;, .9);		
-                div.html(&quot;&lt;strong&gt;&quot;+d.title+&quot;&lt;/strong&gt;&lt;br&gt;&quot;+d.colorvalue+&quot; &quot;+instance.formatNumber(d.value)+&quot; &quot;+d.category)	
-                    .style(&quot;left&quot;, (d3.event.pageX) + &quot;px&quot;)		
-                    .style(&quot;top&quot;, (d3.event.pageY - 28) + &quot;px&quot;);	
-                })					
-            .on(&quot;mouseout&quot;, function(d) {		
-                div	.transition()		
+                    .style(&quot;opacity&quot;, .9);
+                div.html(&quot;&lt;strong&gt;&quot;+d.title+&quot;&lt;/strong&gt;&lt;br&gt;&quot;+d.colorvalue+&quot; &quot;+instance.formatNumber(d.value)+&quot; &quot;+d.category)
+                    .style(&quot;left&quot;, (d3.event.pageX) + &quot;px&quot;)
+                    .style(&quot;top&quot;, (d3.event.pageY - 28) + &quot;px&quot;);
+                })
+            .on(&quot;mouseout&quot;, function(d) {
+                div	.transition()
                     .duration(200)
                     .style(&quot;opacity&quot;, 0);
                 if (!instance.g) {
@@ -593,26 +597,26 @@ export class BsResultsScatterView implements OnChanges {
                     .attr(&quot;r&quot;, (d_ : any) &#x3D;&gt; instance.getSize(d_.size));
             })
             .on(&quot;click&quot;, function(d){
-                //popup_extract(d.id, d.position, $(div), &quot;docresult?id&#x3D;&quot;+encodeURIComponent(d.id), d.title);																		   
+                //popup_extract(d.id, d.position, $(div), &quot;docresult?id&#x3D;&quot;+encodeURIComponent(d.id), d.title);
                 //location.href &#x3D; &quot;docresult?id&#x3D;&quot;+encodeURIComponent(d.id);
             });
 
 
-        var dataL &#x3D; 0;
-        var offset &#x3D; 30;        
+        let dataL &#x3D; 0;
+        const offset &#x3D; 30;
 
-        var legend &#x3D; this.g.selectAll(&#x27;.legend&#x27;)
+        const legend &#x3D; this.g.selectAll(&#x27;.legend&#x27;)
             .data(this.colorvalues)
             .enter().append(&#x27;g&#x27;)
             .attr(&quot;class&quot;, &quot;legend&quot;)
             .attr(&quot;transform&quot;, function (d, i) {
                 if (i &#x3D;&#x3D;&#x3D; 0) {
-                    dataL &#x3D; d.length*10 + offset 
-                    return &quot;translate(0, -30)&quot;
-                } else { 
-                    var newdataL &#x3D; dataL
-                    dataL +&#x3D;  d.length*10 + offset
-                    return &quot;translate(&quot; + (newdataL) + &quot;,-30)&quot;
+                    dataL &#x3D; d.length*10 + offset;
+                    return &quot;translate(0, -30)&quot;;
+                } else {
+                    const newdataL &#x3D; dataL;
+                    dataL +&#x3D;  d.length*10 + offset;
+                    return &quot;translate(&quot; + (newdataL) + &quot;,-30)&quot;;
                 }
             });
 
@@ -621,20 +625,20 @@ export class BsResultsScatterView implements OnChanges {
             .attr(&quot;cy&quot;, 5)
             .attr(&quot;r&quot;, 6)
             .style(&quot;fill&quot;, function (d, i) {
-                return cur(d)
+                return cur(d);
             });
 
         legend.append(&#x27;text&#x27;)
             .attr(&quot;x&quot;, 15)
             .attr(&quot;y&quot;, 10)
-            .text(function (d, i) { return d })
+            .text(function (d, i) { return d; })
             .attr(&quot;class&quot;, &quot;textselected&quot;)
             .style(&quot;text-anchor&quot;, &quot;start&quot;)
             .style(&quot;font-size&quot;, 15);
 
         this.changeDetectorRef.detectChanges();
     }
-    
+
     groupBy(xs, key) {
         return xs.reduce(function(rv, x) {
             (rv[x[key]] &#x3D; rv[x[key]] || []).push(x);
@@ -650,16 +654,16 @@ export class BsResultsScatterView implements OnChanges {
         }else if(nb &gt;&#x3D; 1000){
             return (nb/1000)+ &quot;K&quot;;
         }else{
-            return &quot;&quot;+nb
+            return &quot;&quot;+nb;
         }
     }
 
     getSize(size){
-        return Math.min(8,Math.max(1, Math.sqrt(size)))
+        return Math.min(8,Math.max(1, Math.sqrt(size)));
     }
 
 
-    ngOnChanges(changes: SimpleChanges) {   
+    ngOnChanges(changes: SimpleChanges) {
         if (!this.tooltip) {
             this.tooltip &#x3D; this.loadComponentService.loadComponent({component: BsTimelineTooltip});
             d3.select(this.tooltip.componentRef.location.nativeElement)
@@ -669,8 +673,8 @@ export class BsResultsScatterView implements OnChanges {
             if (changes[&quot;results&quot;].firstChange) {
 
             }
-            this.getData();            
-        }    
+            this.getData();
+        }
     }
 
     ngOnDestroy() {

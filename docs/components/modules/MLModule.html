@@ -199,7 +199,7 @@ export function HttpRequestListener(mlAuditService: MlAuditService) {
     ],
     exports: [
     ],
-    providers: [        
+    providers: [
         {provide: APP_BOOTSTRAP_LISTENER, useFactory: AppBootstrapListener, deps: [MlAuditService], multi: true},
         {provide: HTTP_REQUEST_INITIALIZERS, useFactory: HttpRequestListener, deps: [MlAuditService], multi: true},
     ]

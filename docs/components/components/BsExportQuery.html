@@ -392,8 +392,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="169"
-                            class="link-to-prism">saved-queries/bootstrap/export-query/export-query.ts:169</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="164"
+                            class="link-to-prism">saved-queries/bootstrap/export-query/export-query.ts:164</a></div>
                 </td>
             </tr>
 
@@ -433,8 +433,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="129"
-                            class="link-to-prism">saved-queries/bootstrap/export-query/export-query.ts:129</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="124"
+                            class="link-to-prism">saved-queries/bootstrap/export-query/export-query.ts:124</a></div>
                 </td>
             </tr>
 
@@ -480,8 +480,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="117"
-                            class="link-to-prism">saved-queries/bootstrap/export-query/export-query.ts:117</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">saved-queries/bootstrap/export-query/export-query.ts:112</a></div>
                 </td>
             </tr>
 
@@ -560,15 +560,15 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="164"
-                            class="link-to-prism">saved-queries/bootstrap/export-query/export-query.ts:164</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="159"
+                            class="link-to-prism">saved-queries/bootstrap/export-query/export-query.ts:159</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Checks if the dialog allows user to choose export source. 
+                    <div class="io-description"><p>Checks if the dialog allows user to choose export source.
 Generally, it returns false when the input model export type is already saved query.</p>
 </div>
 
@@ -579,7 +579,7 @@ Generally, it returns false when the input model export type is already saved qu
 
                     </div>
                     <div class="io-description">
-                        <p>true if the dialog allows user to choose export source. </p>
+                        <p>true if the dialog allows user to choose export source.</p>
 
                     </div>
                 </td>
@@ -610,8 +610,8 @@ Generally, it returns false when the input model export type is already saved qu
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="151"
-                            class="link-to-prism">saved-queries/bootstrap/export-query/export-query.ts:151</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="146"
+                            class="link-to-prism">saved-queries/bootstrap/export-query/export-query.ts:146</a></div>
                 </td>
             </tr>
 
@@ -705,8 +705,8 @@ Generally, it returns false when the input model export type is already saved qu
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="141"
-                            class="link-to-prism">saved-queries/bootstrap/export-query/export-query.ts:141</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="136"
+                            class="link-to-prism">saved-queries/bootstrap/export-query/export-query.ts:136</a></div>
                 </td>
             </tr>
 
@@ -1095,7 +1095,7 @@ export class BsExportQuery implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.savedQueries &#x3D; [];
-        for (let query of this.savedQueriesService.savedqueries) {
+        for (const query of this.savedQueriesService.savedqueries) {
             this.savedQueries.push(query.name);
         }
 
@@ -1115,9 +1115,9 @@ export class BsExportQuery implements OnInit, OnDestroy {
                 result: ModalResult.Custom,
                 anchor: true,
                 primary: true,
-                action: (button) &#x3D;&gt; {
-                    let observable &#x3D; this.savedQueriesService.download(this.model);
-                    if(observable){
+                action: (_button) &#x3D;&gt; {
+                    const observable &#x3D; this.savedQueriesService.download(this.model);
+                    if (observable) {
                         Utils.subscribe(observable,
                             (response: HttpResponse&lt;Blob&gt;) &#x3D;&gt; {
                                 console.log(&#x27;exportQuery.download done.&#x27;);
@@ -1129,7 +1129,7 @@ export class BsExportQuery implements OnInit, OnDestroy {
                                 console.log(&#x27;exportQuery.download failure - error: &#x27;, error);
                                 this.modalRef.close(error);
                             });
-    
+
                         this.isDownloading &#x3D; true;
                         this.changeDetectorRef.markForCheck();
                     }
@@ -1138,25 +1138,20 @@ export class BsExportQuery implements OnInit, OnDestroy {
             new ModalButton({
                 result: ModalResult.Cancel,
             })
-        ]
+        ];
 
         const onFormChanged &#x3D; () &#x3D;&gt; {
             const newFormat &#x3D; this.form.value[&#x27;format&#x27;];
             const newMaxCount &#x3D; this.form.value[&#x27;maxCount&#x27;];
-            const newExport &#x3D; this.form.value[&#x27;export&#x27;];
-    
+
             if (this.model.format !&#x3D;&#x3D; newFormat) {
                 this.model.format &#x3D; newFormat;
             }
-    
+
             if (this.model.maxCount !&#x3D;&#x3D; newMaxCount) {
                 this.model.maxCount &#x3D; newMaxCount;
             }
-    
-            if (this.model.export !&#x3D;&#x3D; newExport) {
-                this.model.export &#x3D; newExport;
-            }
-        }
+        };
 
         this.formChanges &#x3D; Utils.subscribe(this.form.valueChanges, onFormChanged);
     }
@@ -1168,7 +1163,7 @@ export class BsExportQuery implements OnInit, OnDestroy {
     }
 
 
-   /**
+    /**
      * Check if the client has selected some records.
      *
      * @returns true if the client has selected some records.
@@ -1196,17 +1191,17 @@ export class BsExportQuery implements OnInit, OnDestroy {
      * @param type The new chosen source.
      */
     public sourceChanged(event: UIEvent, type: ExportSourceType): void {
-        let input &#x3D; &lt;HTMLInputElement&gt;event.target;
+        const input &#x3D; &lt;HTMLInputElement&gt;event.target;
         if (input.checked) {
             this.model.export &#x3D; type;
         }
     }
 
     /**
-     * Checks if the dialog allows user to choose export source. 
+     * Checks if the dialog allows user to choose export source.
      * Generally, it returns false when the input model export type is already saved query.
      *
-     * @returns true if the dialog allows user to choose export source. 
+     * @returns true if the dialog allows user to choose export source.
      */
     public showSourceChooser(): boolean {
         return !this.sourceChosen(ExportSourceType.SavedQuery);
@@ -1312,7 +1307,7 @@ A loading icon that spins indefinitely with a 2s revolution.
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><form name="exportQuery" novalidate [formGroup]="form">    <sq-modal        [title]="\'msg#exportQuery.dialogTitle\'"        [buttons]="!isDownloading? buttons : []">        <div class="form-group sq-form-group">            <label for="format">{{ \'msg#exportQuery.dialogOutputFormat\' | sqMessage }}</label>            <select [sqValidation]="form" class="form-control custom-select" formControlName="format" id="format" sqAutofocus>                <option [value]="format" *ngFor="let format of supportedFormats">{{ outputFormats[format].toUpperCase() }}</option>            </select>        </div>        <div class="form-group sq-form-group">            <label for="maxCount">{{ \'msg#exportQuery.dialogMaxCount\' | sqMessage }}</label>            <input [sqValidation]="form" type="number" class="form-control" id="maxCount" formControlName="maxCount" autocomplete="off" spellcheck="off">        </div>        <div class="form-group sq-form-group" *ngIf="showSourceChooser()">            <label for="export">{{ \'msg#exportQuery.dialogSourceType\' | sqMessage }}</label>            <div>                <div class="form-check form-check-inline">                    <label class="form-check-label">                        <input class="form-check-input" type="radio" [checked]="sourceChosen(sourceTypes.Result)" (change)="sourceChanged($event, sourceTypes.Result)" >                        {{ \'msg#exportQuery.dialogResult\' | sqMessage }}                    </label>                </div>                <div class="form-check form-check-inline">                    <label class="form-check-label">                        <input class="form-check-input" type="radio" [checked]="sourceChosen(sourceTypes.Selection)" (change)="sourceChanged($event, sourceTypes.Selection)"                         [disabled]="!hasSelectedRecords()" >                        {{ \'msg#exportQuery.dialogSelection\' | sqMessage }}                    </label>                </div>            </div>        </div>        <!--div *ngIf="isDownloading" class="modal-footer">            <span class="loader"></span>             <button type="button" class="btn" (click)="close()">{{ \'msg#exportQuery.btnClose\' | sqMessage }}</button>        </div-->    </sq-modal></form></div>'
-    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsChart', 'selector': 'sq-chart'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetChart', 'selector': 'sq-facet-chart'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsTimelineView', 'selector': 'sq-results-timeline-view'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimeline', 'selector': 'sq-timeline'},{'name': 'BsTimelineTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'Heatmap', 'selector': 'sq-heatmap'},{'name': 'HeatmapTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'Tab', 'selector': 'tab'},{'name': 'UserRating', 'selector': 'sq-user-rating'},{'name': 'VTabs', 'selector': 'sq-vtabs'}];
+    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsChart', 'selector': 'sq-chart'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetChart', 'selector': 'sq-facet-chart'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsTimelineView', 'selector': 'sq-results-timeline-view'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimeline', 'selector': 'sq-timeline'},{'name': 'BsTimelineTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
     var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sq-advanced-form-autocomplete]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sq-advanced-form-validation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'Load', 'selector': '[sqLoad]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'}];
     var ACTUAL_COMPONENT = {'name': 'BsExportQuery'};
 </script>

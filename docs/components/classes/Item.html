@@ -494,11 +494,11 @@ export class BsPager implements OnChanges {
     static NEXT_PAGE &#x3D; &quot;›&quot;;
     static LAST_PAGE &#x3D; &quot;»&quot;;
     static ELLIPSIS &#x3D; &quot;…&quot;;
-    
+
     constructor(
         private searchService: SearchService) {
     }
-    
+
     ngOnChanges(changes: SimpleChanges) {
         if (changes[&quot;results&quot;]) {
             this.makeItems();
@@ -517,7 +517,7 @@ export class BsPager implements OnChanges {
             endPages &#x3D; 1;
         }
 
-        let endWidth &#x3D; endPages + 1; // +1 for the …
+        const endWidth &#x3D; endPages + 1; // +1 for the …
 
         let pages &#x3D; this.pages;
         if (!pages) {
@@ -533,8 +533,8 @@ export class BsPager implements OnChanges {
         else {
             // pages must be an odd number to accommodate:  (First page) … (Current page - 1) (Current page) (Current page + 1) … (Last page)
             pages &#x3D; Math.floor(pages / 2) * 2 + 1;
-            let mid &#x3D; pages - endWidth * 2;
-            let delta &#x3D; Math.floor(mid / 2);
+            const mid &#x3D; pages - endWidth * 2;
+            const delta &#x3D; Math.floor(mid / 2);
             if ((this.currentPage - delta) &gt; endPages + 1 + 1) {
                 split1 &#x3D; this.currentPage - delta;
             }
@@ -604,26 +604,26 @@ export namespace BsPager {
                 this.title &#x3D; &quot;msg#pager.pageNumberTitle&quot;;
             }
         }
-    
+
         get active(): boolean {
             return this.isPage &amp;&amp; (this.currentPage &#x3D;&#x3D;&#x3D; this.page);
         }
-    
+
         get disabled(): boolean {
             return this.isEllipsis || ((this.currentPage &#x3D;&#x3D;&#x3D; this.page) &amp;&amp; this.isNavigation);
         }
-    
+
         get isNavigation(): boolean {
             return this.display &#x3D;&#x3D;&#x3D; BsPager.FIRST_PAGE ||
                 this.display &#x3D;&#x3D;&#x3D; BsPager.PREVIOUS_PAGE ||
                 this.display &#x3D;&#x3D;&#x3D; BsPager.NEXT_PAGE ||
                 this.display &#x3D;&#x3D;&#x3D; BsPager.LAST_PAGE;
         }
-    
+
         get isPage(): boolean {
             return !!this.page &amp;&amp; !this.isNavigation;
         }
-    
+
         get isEllipsis(): boolean {
             return this.display &#x3D;&#x3D;&#x3D; BsPager.ELLIPSIS;
         }

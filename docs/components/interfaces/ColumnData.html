@@ -350,7 +350,7 @@ export class BsResultsGridView implements OnChanges {
     @Input() view: GridView;
     private orderBy: string | undefined;
     columnsData: ColumnData[] | undefined;
-    
+
     constructor(
         public appService: AppService,
         public searchService: SearchService,
@@ -361,9 +361,9 @@ export class BsResultsGridView implements OnChanges {
     observeQueryFields() {
         this.initSorts();
     }
-    
+
     ngOnChanges(changes: SimpleChanges) {
-        if (!this.columnsData) {            
+        if (!this.columnsData) {
             if (!!this.view.columns) {
                 this.columnsData &#x3D; this.view.columns.filter(config &#x3D;&gt; config.active).map(config &#x3D;&gt; ({
                     config: config,
@@ -409,7 +409,7 @@ export class BsResultsGridView implements OnChanges {
             default: return &quot;\u207A&quot;;
         }
     }
-    
+
     ascendingFirst(column: Column): boolean {
         //return this.appService.isNumber(column.field);
         return false;
@@ -418,7 +418,7 @@ export class BsResultsGridView implements OnChanges {
     get maxSortIndex(): number {
         let sortIndex &#x3D; -1;
         if (this.columnsData) {
-            for (let columnData of this.columnsData) {
+            for (const columnData of this.columnsData) {
                 if (columnData.sortIndex !&#x3D;&#x3D; undefined &amp;&amp; columnData.sortIndex &gt; sortIndex) {
                     sortIndex &#x3D; columnData.sortIndex;
                 }
@@ -428,7 +428,7 @@ export class BsResultsGridView implements OnChanges {
     }
 
     _setSort(columnData: ColumnData, ascending: boolean) {
-        let previousSortIndex &#x3D; columnData.sortIndex;
+        const previousSortIndex &#x3D; columnData.sortIndex;
         if (previousSortIndex &#x3D;&#x3D;&#x3D; -1) {
             columnData.sortIndex &#x3D; this.maxSortIndex + 1;
         }
@@ -437,7 +437,7 @@ export class BsResultsGridView implements OnChanges {
         columnData.sortIndicator &#x3D; this.getSortIndicator(columnData);
         if (previousSortIndex &#x3D;&#x3D;&#x3D; -1) {
             if (this.columnsData) {
-                for (let columnData1 of this.columnsData) {
+                for (const columnData1 of this.columnsData) {
                     columnData1.sortIndicator &#x3D; this.getSortIndicator(columnData1);
                 }
             }
@@ -445,14 +445,14 @@ export class BsResultsGridView implements OnChanges {
     }
 
     _clearSort(columnData: ColumnData) {
-        let previousSortIndex &#x3D; columnData.sortIndex || -1;
+        const previousSortIndex &#x3D; columnData.sortIndex || -1;
         columnData.sortIndex &#x3D; -1;
         columnData.ascending &#x3D; false;
         columnData.sortIcon &#x3D; &quot;fas fa-sort&quot;;
         columnData.sortIndicator &#x3D; undefined;
         if (previousSortIndex !&#x3D;&#x3D; -1) {
             if (this.columnsData) {
-                for (let columnData1 of this.columnsData) {
+                for (const columnData1 of this.columnsData) {
                     if (columnData1.sortIndex !&#x3D;&#x3D; undefined &amp;&amp; columnData1.sortIndex &gt; previousSortIndex) {
                         columnData1.sortIndex--;
                     }
@@ -464,7 +464,7 @@ export class BsResultsGridView implements OnChanges {
 
     clearSorts() {
         if (this.columnsData) {
-            for (let columnData of this.columnsData) {
+            for (const columnData of this.columnsData) {
                 this._clearSort(columnData);
             }
         }
@@ -481,22 +481,22 @@ export class BsResultsGridView implements OnChanges {
         this.orderBy &#x3D; this.searchService.query.orderBy;
         this.clearSorts();
         if (!!this.orderBy) {
-            let parts &#x3D; Utils.split(this.orderBy, &quot;,&quot;);
-            for (let part of parts) {
-                let tokens &#x3D; Utils.split(part, &quot; &quot;);
+            const parts &#x3D; Utils.split(this.orderBy, &quot;,&quot;);
+            for (const part of parts) {
+                const tokens &#x3D; Utils.split(part, &quot; &quot;);
                 if (tokens.length &gt; 0) {
-                    let field &#x3D; tokens[0];
+                    const field &#x3D; tokens[0];
                     if (this.columnsData) {
-                        let columnData &#x3D; this.columnsData.find(value &#x3D;&gt; Utils.eqNC(field, value.config.field));
+                        const columnData &#x3D; this.columnsData.find(value &#x3D;&gt; Utils.eqNC(field, value.config.field));
                         if (columnData &amp;&amp; this.isSortable(columnData)) {
                             this._setSort(columnData, tokens.length &gt; 1 ? Utils.eqNC(tokens[1], &quot;asc&quot;) : true);
                         }
                     }
                 }
             }
-        }        
+        }
     }
- 
+
     setSort(columnData: ColumnData) {
         if (this.isSortable(columnData)) {
             if (columnData.sortIndex !&#x3D;&#x3D; -1) {
@@ -520,10 +520,10 @@ export class BsResultsGridView implements OnChanges {
             else {
                 this._setSort(columnData, this.ascendingFirst(columnData.config));
             }
-            let orderBy: string[] &#x3D; [];
+            const orderBy: string[] &#x3D; [];
             if (this.columnsData) {
                 for (let sortIndex &#x3D; 0; ; sortIndex++) {
-                    let columnData &#x3D; this.columnsData.find(columnData &#x3D;&gt; columnData.sortIndex &#x3D;&#x3D;&#x3D; sortIndex);
+                    const columnData &#x3D; this.columnsData.find(columnData &#x3D;&gt; columnData.sortIndex &#x3D;&#x3D;&#x3D; sortIndex);
                     if (!columnData) {
                         break;
                     }

@@ -319,7 +319,7 @@ export class BsPreviewPopup implements OnInit, OnDestroy {
         if (!this.searchService.results || !this.searchService.results.records) {
             return false;
         }
-        let searchPosition &#x3D; this.getSearchPositionInPage();
+        const searchPosition &#x3D; this.getSearchPositionInPage();
         return searchPosition &gt;&#x3D; 0 &amp;&amp; searchPosition &lt; (this.searchService.results.records.length - 1);
     }
 
@@ -327,7 +327,7 @@ export class BsPreviewPopup implements OnInit, OnDestroy {
         const id &#x3D; this.currentId;
         if (id &amp;&amp; this.searchService.results &amp;&amp; this.searchService.results.records) {
             for (let i &#x3D; 0, ic &#x3D; this.searchService.results.records.length; i &lt; ic; i++) {
-                let record &#x3D; this.searchService.results.records[i];
+                const record &#x3D; this.searchService.results.records[i];
                 if (record.id &#x3D;&#x3D;&#x3D; id) {
                     return i;
                 }
@@ -340,11 +340,11 @@ export class BsPreviewPopup implements OnInit, OnDestroy {
         if (!this.searchService.results || !this.searchService.results.records) {
             return;
         }
-        let index &#x3D; this.getSearchPositionInPage();
+        const index &#x3D; this.getSearchPositionInPage();
         if (index &lt;&#x3D; 0) {
             return;
         }
-        let item &#x3D; this.searchService.results.records[index - 1];
+        const item &#x3D; this.searchService.results.records[index - 1];
         this.updatePreviewData(item.id);
     }
 
@@ -352,11 +352,11 @@ export class BsPreviewPopup implements OnInit, OnDestroy {
         if (!this.searchService.results || !this.searchService.results.records) {
             return;
         }
-        let index &#x3D; this.getSearchPositionInPage();
+        const index &#x3D; this.getSearchPositionInPage();
         if (index &#x3D;&#x3D;&#x3D; -1 || index &gt;&#x3D; (this.searchService.results.records.length - 1)) {
             return;
         }
-        let item &#x3D; this.searchService.results.records[index + 1];
+        const item &#x3D; this.searchService.results.records[index + 1];
         this.updatePreviewData(item.id);
     }
 }</code></pre>

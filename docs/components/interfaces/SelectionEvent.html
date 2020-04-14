@@ -233,10 +233,10 @@ export class SelectionService implements OnDestroy {
         this.searchService.events.subscribe(event &#x3D;&gt; {
 
             if(event.type &#x3D;&#x3D;&#x3D; &quot;new-results&quot; &amp;&amp; this.searchService.haveRecords){
-                
-                let newSelectedRecords: Record[] &#x3D; [];
+
+                const newSelectedRecords: Record[] &#x3D; [];
                 if (this.searchService.results &amp;&amp; this.searchService.results.records) {
-                    for (let record of this.searchService.results.records) {
+                    for (const record of this.searchService.results.records) {
                         if (this.selectedRecords.includes(record.id) &amp;&amp; !record.$selected) {
                             record.$selected &#x3D; true;    // Select previously selected records
                             newSelectedRecords.push(record);
@@ -273,7 +273,7 @@ export class SelectionService implements OnDestroy {
     ngOnDestroy(){
         this._events.complete();
     }
-    
+
     /**
      * @returns true if at least one record is selected
      */
@@ -289,7 +289,7 @@ export class SelectionService implements OnDestroy {
             return false;
         }
         let allSelected &#x3D; true;
-        for (let record of this.searchService.results.records) {
+        for (const record of this.searchService.results.records) {
             if (!record.$selected) {
                 allSelected &#x3D; false;
             }
@@ -301,9 +301,9 @@ export class SelectionService implements OnDestroy {
         if (!this.searchService.results || !this.searchService.results.records) {
             return;
         }
-        let newSelectedRecords: Record[] &#x3D; [];
+        const newSelectedRecords: Record[] &#x3D; [];
         if (this.searchService.results &amp;&amp; this.searchService.results.records) {
-            for (let record of this.searchService.results.records) {
+            for (const record of this.searchService.results.records) {
                 if (!record.$selected) {
                     this.selectedRecords.push(record.id);
                     newSelectedRecords.push(record);
@@ -319,11 +319,11 @@ export class SelectionService implements OnDestroy {
         if (!this.searchService.results || !this.searchService.results.records) {
             return;
         }
-        let newUnselectedRecords: Record[] &#x3D; [];
+        const newUnselectedRecords: Record[] &#x3D; [];
         if (this.searchService.results &amp;&amp; this.searchService.results.records) {
-            for (let record of this.searchService.results.records) {
+            for (const record of this.searchService.results.records) {
                 if (record.$selected) {
-                    let index &#x3D; this.selectedRecords.indexOf(record.id);
+                    const index &#x3D; this.selectedRecords.indexOf(record.id);
                     if (index !&#x3D;&#x3D; -1) {
                         this.selectedRecords.splice(index, 1);
                         newUnselectedRecords.push(record);
@@ -343,7 +343,7 @@ export class SelectionService implements OnDestroy {
      */
     public toggleSelectedRecords(record?: Record, source?: string) {
         if (!!record) {
-            let index &#x3D; this.selectedRecords.indexOf(record.id);
+            const index &#x3D; this.selectedRecords.indexOf(record.id);
             let event : SelectionEvent;
             if (index &gt; -1) {
                 this.selectedRecords.splice(index, 1);
@@ -376,10 +376,10 @@ export class SelectionService implements OnDestroy {
      */
     public clearSelectedRecords() {
         this.selectedRecords.splice(0);
-        let newUnselectedRecords: Record[] &#x3D; [];
+        const newUnselectedRecords: Record[] &#x3D; [];
         if (this.searchService.results &amp;&amp; this.searchService.results.records) {
             if (this.searchService.haveRecords) {
-                for (let record of this.searchService.results.records) {
+                for (const record of this.searchService.results.records) {
                     record.$selected &#x3D; false;
                     newUnselectedRecords.push(record);
                 }
@@ -388,7 +388,7 @@ export class SelectionService implements OnDestroy {
         if(newUnselectedRecords.length &gt; 0)
             this._events.next({type: SelectionEventType.UNSELECT, records: newUnselectedRecords});
     }
-    
+
     private buildSelectRecordsAction(): Action {
         return new Action({
             icon: &quot;far fa-square&quot;,

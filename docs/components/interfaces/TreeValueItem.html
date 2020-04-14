@@ -108,7 +108,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>parts:         <code><a href="../classes/Item.html" target="_self" >ValueItem[]</a></code>
+                                        <code>parts:         <code><a href="../interfaces/ValueItem.html" target="_self" >ValueItem[]</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -116,7 +116,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../classes/Item.html" target="_self" >ValueItem[]</a></code>
+                                            <i>Type : </i>        <code><a href="../interfaces/ValueItem.html" target="_self" >ValueItem[]</a></code>
 
                                         </td>
                                     </tr>
@@ -136,8 +136,8 @@
 import {Utils} from &quot;@sinequa/core/base&quot;;
 import {AppService, FormatService, ValueItem} from &quot;@sinequa/core/app-utils&quot;;
 import {Record, EntityItem, DocumentAccessLists, CCColumn} from &quot;@sinequa/core/web-services&quot;;
-import {Spacing} from &quot;../metadata/metadata&quot;;
 import {FacetService} from &quot;@sinequa/components/facet&quot;;
+import {Spacing} from &quot;../metadata/metadata&quot;;
 
 export interface TreeValueItem extends ValueItem {
     parts: ValueItem[];
@@ -146,7 +146,7 @@ export interface TreeValueItem extends ValueItem {
 @Component({
     selector: &quot;sq-metadata-item&quot;,
     templateUrl: &quot;./metadata-item.html&quot;
-})            
+})
 export class MetadataItem implements OnChanges {
     @Input() record: Record;
     @Input() item: string;
@@ -179,7 +179,7 @@ export class MetadataItem implements OnChanges {
         }
         return value;
     }
-    
+
     ngOnChanges(changes: SimpleChanges) {
         if (!this.column) {
             this.column &#x3D; this.appService.getColumn(this.item);
@@ -189,25 +189,25 @@ export class MetadataItem implements OnChanges {
         this.isTree &#x3D; !!this.column &amp;&amp; AppService.isTree(this.column);
         this.isEntity &#x3D; !!this.column &amp;&amp; AppService.isEntity(this.column);
         this.isCsv &#x3D; !!this.column &amp;&amp; AppService.isCsv(this.column);
-        let values &#x3D; this.record[this.appService.getColumnAlias(this.column, this.item)];
+        const values &#x3D; this.record[this.appService.getColumnAlias(this.column, this.item)];
         if (this.isTree) {
-            let paths: string[] &#x3D; values;
+            const paths: string[] &#x3D; values;
             if (paths) {
-                for (let path of paths) {
-                    let parts &#x3D; path.split(&quot;/&quot;); 
+                for (const path of paths) {
+                    const parts &#x3D; path.split(&quot;/&quot;);
                     if (parts.length &gt; 0 &amp;&amp; parts[0] &#x3D;&#x3D;&#x3D; &quot;&quot;) {
                         parts.splice(0, 1);
                     }
                     if (parts.length &gt; 0 &amp;&amp; parts[parts.length - 1] &#x3D;&#x3D;&#x3D; &quot;&quot;) {
                         parts.splice(parts.length - 1, 1);
                     }
-                    let item: TreeValueItem &#x3D; {value: path, parts: parts.map(value &#x3D;&gt; ({value: value}))};
+                    const item: TreeValueItem &#x3D; {value: path, parts: parts.map(value &#x3D;&gt; ({value: value}))};
                     this.valueItems.push(item);
                 }
             }
         }
         else if (this.isEntity) {
-            let entityItems: EntityItem[] &#x3D; values;
+            const entityItems: EntityItem[] &#x3D; values;
             if (entityItems) {
                 this.valueItems.push(...entityItems);
             }
@@ -217,13 +217,13 @@ export class MetadataItem implements OnChanges {
                 this.valueItems.push(...values.map&lt;ValueItem&gt;(value &#x3D;&gt; ({value: value})));
             }
             else if (!Utils.isEmpty(values)) {
-                this.valueItems.push({value: values});                    
+                this.valueItems.push({value: values});
             }
         }
         else {
-            let value &#x3D; this.ensureScalarValue(values);
+            const value &#x3D; this.ensureScalarValue(values);
             if (!Utils.isEmpty(value)) {
-                this.valueItems.push({value: value});                    
+                this.valueItems.push({value: value});
             }
         }
     }
@@ -267,7 +267,7 @@ export class MetadataItem implements OnChanges {
     }
 
     public get isAccessLists(): boolean {
-        return this.item &#x3D;&#x3D; &quot;accesslists&quot;;
+        return this.item &#x3D;&#x3D;&#x3D; &quot;accesslists&quot;;
     }
 
     public get accessListsData(): DocumentAccessLists {
@@ -275,11 +275,11 @@ export class MetadataItem implements OnChanges {
     }
 
     public get docFormatIconClass(): string {
-        if (this.item &#x3D;&#x3D; null || this.item !&#x3D; &quot;docformat&quot; &amp;&amp; this.item !&#x3D; &quot;fileext&quot;) {
+        if (this.item &#x3D;&#x3D; null || this.item !&#x3D;&#x3D; &quot;docformat&quot; &amp;&amp; this.item !&#x3D;&#x3D; &quot;fileext&quot;) {
             return &quot;&quot;;
         }
-        let value: string &#x3D; this.record[this.item];
-        if (value &#x3D;&#x3D; null || value &#x3D;&#x3D; &quot;&quot;) {
+        const value: string &#x3D; this.record[this.item];
+        if (!value) {
             return &quot;far fa-file&quot;;
         }
         return &quot;far fa-file sq-icon-file-&quot; + value;
@@ -287,20 +287,21 @@ export class MetadataItem implements OnChanges {
 
     select(index: number, subIndex &#x3D; 0) {
         if (this.isTree) {
-            let valueItem &#x3D; &lt;TreeValueItem&gt;this.valueItems[index];
-            let parts &#x3D; valueItem.parts.map((item) &#x3D;&gt; item.value).slice(0, subIndex + 1)
+            const valueItem &#x3D; &lt;TreeValueItem&gt;this.valueItems[index];
+            const parts &#x3D; valueItem.parts.map((item) &#x3D;&gt; item.value).slice(0, subIndex + 1);
             if (parts.length &gt; 0) {
                 parts.unshift(&quot;&quot;);
                 parts.push(&quot;&quot;);
             }
-            let path &#x3D; parts.join(&quot;/&quot;);
+            const path &#x3D; parts.join(&quot;/&quot;);
             this._select.emit({item: this.item, valueItem: {value: path + &quot;*&quot;, display: FacetService.treepathLast(path)}});
         }
         else {
             this._select.emit({item: this.item, valueItem: this.valueItems[index]});
         }
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
 

@@ -334,13 +334,13 @@ import {LABELS_COMPONENTS, LabelsComponents} from &quot;../labels.service&quot;;
 export const defaultLabelComponents: LabelsComponents &#x3D; {
     labelActionItem: BsLabelsActionItem,
     renameModal: BsRenameLabel
-}
+};
 
 @NgModule({
     imports: [
         FormsModule, ReactiveFormsModule,
         CommonModule,
-        
+
         IntlModule,
         ValidationModule,
 
@@ -356,7 +356,7 @@ export const defaultLabelComponents: LabelsComponents &#x3D; {
     exports: [
         BsLabelsActionItem, BsRenameLabel, BsLabelsMenuComponent
     ],
-    providers: [        
+    providers: [
         {provide: LABELS_COMPONENTS, useValue: defaultLabelComponents},
     ]
 })

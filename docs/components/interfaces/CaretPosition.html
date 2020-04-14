@@ -163,8 +163,8 @@ import {Subject, Observable} from &quot;rxjs&quot;;
 import {Utils, MapOf} from &quot;@sinequa/core/base&quot;;
 
 export interface CaretPosition {
-	start: number;
-	end: number;	
+    start: number;
+    end: number;
 }
 
 export const SCREEN_SIZE_RULES &#x3D; new InjectionToken&lt;MapOf&lt;string&gt;&gt;(&#x27;SCREEN_SIZE_RULES&#x27;);
@@ -172,73 +172,73 @@ export const SCREEN_SIZE_RULES &#x3D; new InjectionToken&lt;MapOf&lt;string&gt;&
 @Injectable({
     providedIn: &quot;root&quot;
 })
-export class UIService implements OnDestroy {    
-	_resizeEvent &#x3D; new Subject&lt;UIEvent&gt;();
-	_priorityResizeEvent &#x3D; new Subject&lt;UIEvent&gt;();
-	screenSizes: string[];
-	screenSize: string; // one of the screen size rules values
-	//TODO - review - use EventEmitters for this?
+export class UIService implements OnDestroy {
+    _resizeEvent &#x3D; new Subject&lt;UIEvent&gt;();
+    _priorityResizeEvent &#x3D; new Subject&lt;UIEvent&gt;();
+    screenSizes: string[];
+    screenSize: string; // one of the screen size rules values
+    //TODO - review - use EventEmitters for this?
     addElementResizeListener: (element, fn) &#x3D;&gt; void;
-	removeElementResizeListener: (element, fn) &#x3D;&gt; void;
-	factories &#x3D; new Map&lt;Type&lt;any&gt;, ComponentFactory&lt;any&gt;&gt;();
-	    
+    removeElementResizeListener: (element, fn) &#x3D;&gt; void;
+    factories &#x3D; new Map&lt;Type&lt;any&gt;, ComponentFactory&lt;any&gt;&gt;();
+
     constructor(
-		@Inject(SCREEN_SIZE_RULES) public screenSizeRules: MapOf&lt;string&gt;) {
-		
-		this.screenSizes &#x3D; [&quot;xs&quot;, &quot;sm&quot;, &quot;md&quot;, &quot;lg&quot;, &quot;xl&quot;, &quot;xxl&quot;]; // in ascending size order
-		this.setScreenSize();
+        @Inject(SCREEN_SIZE_RULES) public screenSizeRules: MapOf&lt;string&gt;) {
+
+        this.screenSizes &#x3D; [&quot;xs&quot;, &quot;sm&quot;, &quot;md&quot;, &quot;lg&quot;, &quot;xl&quot;, &quot;xxl&quot;]; // in ascending size order
+        this.setScreenSize();
         window.addEventListener(&quot;resize&quot;, this.resizeEventListener);
         initElementResizeListener(this);
-	}
+    }
 
     protected resizeEventListener &#x3D; Utils.frame((event: UIEvent) &#x3D;&gt; {
-		this.setScreenSize();
-		this._priorityResizeEvent.next(event);
-		this._resizeEvent.next(event);
-	});
+        this.setScreenSize();
+        this._priorityResizeEvent.next(event);
+        this._resizeEvent.next(event);
+    });
 
-	ngOnDestroy() {
-		this._resizeEvent.complete();
-		this._priorityResizeEvent.complete();
+    ngOnDestroy() {
+        this._resizeEvent.complete();
+        this._priorityResizeEvent.complete();
         window.removeEventListener(&quot;resize&quot;, this.resizeEventListener);
-	}
+    }
 
-	get resizeEvent(): Observable&lt;UIEvent&gt; {
-		return this._resizeEvent;
-	}
+    get resizeEvent(): Observable&lt;UIEvent&gt; {
+        return this._resizeEvent;
+    }
 
-	get priorityResizeEvent(): Observable&lt;UIEvent&gt; {
-		return this._priorityResizeEvent;
-	}
+    get priorityResizeEvent(): Observable&lt;UIEvent&gt; {
+        return this._priorityResizeEvent;
+    }
 
     /*private setTitle(title: string) {
         document.title &#x3D; this.intlService.formatMessage(title);
     }*/
-	
-	appInit(appComponentRef: ComponentRef&lt;any&gt;) {
+
+    appInit(appComponentRef: ComponentRef&lt;any&gt;) {
         //this.setTitle();
         //Utils.subscribe(this.intlService.events,
         //    (value) &#x3D;&gt; {
-        //        this.setTitle();                    
+        //        this.setTitle();
         //    });
-		
+
         // See https://github.com/angular/angular/issues/18817
         /*this.resizeEvent.subscribe(
-			(event) &#x3D;&gt; {
-				appComponentRef.changeDetectorRef.markForCheck();
-			});*/
-		
-        // this.loadComponent({component: DirtyChecker});
-	}
+            (event) &#x3D;&gt; {
+                appComponentRef.changeDetectorRef.markForCheck();
+            });*/
 
-	// legacy (was called from app.ts)
-	addResizeListener(listener: (event?: UIEvent) &#x3D;&gt; any) {
-		this._resizeEvent.subscribe(listener);
-	}
- 
+        // this.loadComponent({component: DirtyChecker});
+    }
+
+    // legacy (was called from app.ts)
+    addResizeListener(listener: (event?: UIEvent) &#x3D;&gt; any) {
+        this._resizeEvent.subscribe(listener);
+    }
+
     private screenSizeIs(list: string | string[]) {
-		//let rules &#x3D; this.coreConfig.screenSizeRules;
-				
+        //let rules &#x3D; this.coreConfig.screenSizeRules;
+
         // validate that we&#x27;re getting a string or array.
         if (!Utils.isString(list) &amp;&amp; !Utils.isArray(list)) {
             throw new Error(&#x27;screenSizeIs requires an array or comma-separated list&#x27;);
@@ -252,313 +252,313 @@ export class UIService implements OnDestroy {
         return list.some((size) &#x3D;&gt; window.matchMedia(this.screenSizeRules[size]).matches);
     }
 
-	private setScreenSize() {
-		for (let size of this.screenSizes) {
-			if (this.screenSizeIs(size)) {
-				this.screenSize &#x3D; size;
-				return;
-			}
-		}
-		throw new Error(&quot;UIService.setScreenSize - no matching screen size&quot;);
-	}
+    private setScreenSize() {
+        for (const size of this.screenSizes) {
+            if (this.screenSizeIs(size)) {
+                this.screenSize &#x3D; size;
+                return;
+            }
+        }
+        throw new Error(&quot;UIService.setScreenSize - no matching screen size&quot;);
+    }
 
-	screenSizeIsEqual(screenSize: string): boolean {
-		return this.screenSize &#x3D;&#x3D;&#x3D; screenSize;
-	}
+    screenSizeIsEqual(screenSize: string): boolean {
+        return this.screenSize &#x3D;&#x3D;&#x3D; screenSize;
+    }
 
-	screenSizeIsGreater(screenSize: string): boolean {
-		let index1 &#x3D; this.screenSizes.findIndex((value) &#x3D;&gt; value &#x3D;&#x3D;&#x3D; this.screenSize);
-		let index2 &#x3D; this.screenSizes.findIndex((value) &#x3D;&gt; value &#x3D;&#x3D;&#x3D; screenSize);
-		return index1 &gt; index2;			
-	}
+    screenSizeIsGreater(screenSize: string): boolean {
+        const index1 &#x3D; this.screenSizes.findIndex((value) &#x3D;&gt; value &#x3D;&#x3D;&#x3D; this.screenSize);
+        const index2 &#x3D; this.screenSizes.findIndex((value) &#x3D;&gt; value &#x3D;&#x3D;&#x3D; screenSize);
+        return index1 &gt; index2;
+    }
 
-	screenSizeIsLess(screenSize: string): boolean {
-		let index1 &#x3D; this.screenSizes.findIndex((value) &#x3D;&gt; value &#x3D;&#x3D;&#x3D; this.screenSize);
-		let index2 &#x3D; this.screenSizes.findIndex((value) &#x3D;&gt; value &#x3D;&#x3D;&#x3D; screenSize);
-		return index1 &lt; index2;			
-	}
+    screenSizeIsLess(screenSize: string): boolean {
+        const index1 &#x3D; this.screenSizes.findIndex((value) &#x3D;&gt; value &#x3D;&#x3D;&#x3D; this.screenSize);
+        const index2 &#x3D; this.screenSizes.findIndex((value) &#x3D;&gt; value &#x3D;&#x3D;&#x3D; screenSize);
+        return index1 &lt; index2;
+    }
 
-	screenSizeIsGreaterOrEqual(screenSize: string): boolean {
-		if (screenSize &#x3D;&#x3D;&#x3D; this.screenSize) {
-			return true;
-		}
-		return this.screenSizeIsGreater(screenSize);
-	}
+    screenSizeIsGreaterOrEqual(screenSize: string): boolean {
+        if (screenSize &#x3D;&#x3D;&#x3D; this.screenSize) {
+            return true;
+        }
+        return this.screenSizeIsGreater(screenSize);
+    }
 
-	screenSizeIsLessOrEqual(screenSize: string): boolean {
-		if (screenSize &#x3D;&#x3D;&#x3D; this.screenSize) {
-			return true;
-		}
-		return this.screenSizeIsLess(screenSize);
-	}
+    screenSizeIsLessOrEqual(screenSize: string): boolean {
+        if (screenSize &#x3D;&#x3D;&#x3D; this.screenSize) {
+            return true;
+        }
+        return this.screenSizeIsLess(screenSize);
+    }
 
-	private _screenSizeTest(screenSize: string): boolean {
-		if (Utils.eqNCN(screenSize, &quot;always&quot;, &quot;true&quot;)) {
-			return true;
-		}
-		if (Utils.eqNCN(screenSize, &quot;never&quot;, &quot;false&quot;)) {
-			return false;
-		}
-		if (Utils.startsWith(screenSize, &quot;&gt;&#x3D;&quot;)) {
-			return this.screenSizeIsGreaterOrEqual(screenSize.slice(2));
-		}
-		if (Utils.startsWith(screenSize, &quot;&gt;&quot;)) {
-			return this.screenSizeIsGreater(screenSize.slice(1));
-		}
-		if (Utils.startsWith(screenSize, &quot;&lt;&#x3D;&quot;)) {
-			return this.screenSizeIsLessOrEqual(screenSize.slice(2));
-		}
-		if (Utils.startsWith(screenSize, &quot;&lt;&quot;)) {
-			return this.screenSizeIsLess(screenSize.slice(1));
-		}
-		if (Utils.startsWith(screenSize, &quot;&#x3D;&quot;)) {
-			return this.screenSizeIsEqual(screenSize.slice(1));
-		}
-		return this.screenSizeIsEqual(screenSize);
-	}
+    private _screenSizeTest(screenSize: string): boolean {
+        if (Utils.eqNCN(screenSize, &quot;always&quot;, &quot;true&quot;)) {
+            return true;
+        }
+        if (Utils.eqNCN(screenSize, &quot;never&quot;, &quot;false&quot;)) {
+            return false;
+        }
+        if (Utils.startsWith(screenSize, &quot;&gt;&#x3D;&quot;)) {
+            return this.screenSizeIsGreaterOrEqual(screenSize.slice(2));
+        }
+        if (Utils.startsWith(screenSize, &quot;&gt;&quot;)) {
+            return this.screenSizeIsGreater(screenSize.slice(1));
+        }
+        if (Utils.startsWith(screenSize, &quot;&lt;&#x3D;&quot;)) {
+            return this.screenSizeIsLessOrEqual(screenSize.slice(2));
+        }
+        if (Utils.startsWith(screenSize, &quot;&lt;&quot;)) {
+            return this.screenSizeIsLess(screenSize.slice(1));
+        }
+        if (Utils.startsWith(screenSize, &quot;&#x3D;&quot;)) {
+            return this.screenSizeIsEqual(screenSize.slice(1));
+        }
+        return this.screenSizeIsEqual(screenSize);
+    }
 
-	// screenSizes is a sequence of size specs with optional operator separated by space or and (AND)
-	// Multiple sequences can be specified using , or ; as a separator (these are OR&#x27;d)	
-	screenSizeTest(screenSizes: string): boolean {
-		if (!screenSizes) {
-			return true;
-		}
-		let ors &#x3D; Utils.split(screenSizes, [&#x27;,&#x27;, &#x27;;&#x27;]);
-		for (let or of ors) {
-			let ands &#x3D; Utils.split(or, &quot; &quot;);
-			if (ands.length &#x3D;&#x3D;&#x3D; 0) {
-				continue;
-			}
-			let ok &#x3D; true;
-			for (let and of ands) {
-				if (Utils.eqNC(and, &quot;and&quot;)) { // space separated but you can use and if you want to
-					continue;
-				}
-				if (!this._screenSizeTest(and)) {
-					ok &#x3D; false;
-					break;
-				}
-			}
-			if (ok) {
-				return true;
-			}
-		}
-		return false;
-	}
+    // screenSizes is a sequence of size specs with optional operator separated by space or and (AND)
+    // Multiple sequences can be specified using , or ; as a separator (these are OR&#x27;d)
+    screenSizeTest(screenSizes: string): boolean {
+        if (!screenSizes) {
+            return true;
+        }
+        const ors &#x3D; Utils.split(screenSizes, [&#x27;,&#x27;, &#x27;;&#x27;]);
+        for (const or of ors) {
+            const ands &#x3D; Utils.split(or, &quot; &quot;);
+            if (ands.length &#x3D;&#x3D;&#x3D; 0) {
+                continue;
+            }
+            let ok &#x3D; true;
+            for (const and of ands) {
+                if (Utils.eqNC(and, &quot;and&quot;)) { // space separated but you can use and if you want to
+                    continue;
+                }
+                if (!this._screenSizeTest(and)) {
+                    ok &#x3D; false;
+                    break;
+                }
+            }
+            if (ok) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	getContentRect(element: HTMLElement): ClientRect {
-		let rect &#x3D; element.getBoundingClientRect();
-		let computedStyle &#x3D; window.getComputedStyle(element);
-		let borderLeft &#x3D; parseFloat(computedStyle.borderLeft);			
-		let borderRight &#x3D; parseFloat(computedStyle.borderRight);			
-		let borderTop &#x3D; parseFloat(computedStyle.borderTop);			
-		let borderBottom &#x3D; parseFloat(computedStyle.borderBottom);
-		let paddingLeft &#x3D; parseFloat(computedStyle.paddingLeft);			
-		let paddingRight &#x3D; parseFloat(computedStyle.paddingRight);			
-		let paddingTop &#x3D; parseFloat(computedStyle.paddingTop);			
-		let paddingBottom &#x3D; parseFloat(computedStyle.paddingBottom);
-		return {
-			top: rect.top + borderTop + paddingTop,
-			right: rect.right - borderRight - paddingRight,
-			bottom: rect.bottom - borderBottom - paddingBottom,
-			left: rect.left + borderLeft + paddingLeft,
-			width: rect.width - borderLeft - paddingLeft - paddingRight - borderRight,
-			height: rect.height - borderTop - paddingTop - paddingBottom - borderBottom
-		};		
-	}
+    getContentRect(element: HTMLElement): ClientRect {
+        const rect &#x3D; element.getBoundingClientRect();
+        const computedStyle &#x3D; window.getComputedStyle(element);
+        const borderLeft &#x3D; parseFloat(computedStyle.borderLeft);
+        const borderRight &#x3D; parseFloat(computedStyle.borderRight);
+        const borderTop &#x3D; parseFloat(computedStyle.borderTop);
+        const borderBottom &#x3D; parseFloat(computedStyle.borderBottom);
+        const paddingLeft &#x3D; parseFloat(computedStyle.paddingLeft);
+        const paddingRight &#x3D; parseFloat(computedStyle.paddingRight);
+        const paddingTop &#x3D; parseFloat(computedStyle.paddingTop);
+        const paddingBottom &#x3D; parseFloat(computedStyle.paddingBottom);
+        return {
+            top: rect.top + borderTop + paddingTop,
+            right: rect.right - borderRight - paddingRight,
+            bottom: rect.bottom - borderBottom - paddingBottom,
+            left: rect.left + borderLeft + paddingLeft,
+            width: rect.width - borderLeft - paddingLeft - paddingRight - borderRight,
+            height: rect.height - borderTop - paddingTop - paddingBottom - borderBottom
+        };
+    }
 
-	// caret support
-	getCaret(input: HTMLInputElement): CaretPosition {
-		return {
-			start: input.selectionStart || 0,
-			end: input.selectionEnd || 0
-		};
-	}
-	
-	setCaret(input: HTMLInputElement, start: number, end &#x3D; start, text?: string, selectionAction &#x3D; UIService.SelectionAction.collapse, ensureVisible &#x3D; true, raiseEvent &#x3D; true) {
-		if (start &lt; 0) {
-			return;				
-		}
-		if (Utils.isString(text)) {
-			let value &#x3D; input.value;
-			if (end &gt;&#x3D; start) {
-				value &#x3D; value.slice(0, start) + text + value.slice(end);
-			}
-			else {
-				value &#x3D; value.slice(0, start) + text;
-			}
-			input.value &#x3D; value;
-			switch (selectionAction) {
-				case UIService.SelectionAction.adjust:
-					end &#x3D; start + text.length;
-					break;
-				case UIService.SelectionAction.none:
-					break;
-				case UIService.SelectionAction.collapseToStart:
-					end &#x3D; start;
-					break;
-				case UIService.SelectionAction.collapse:	
-				default:
-					end &#x3D; start + text.length;
-					start &#x3D; end;
-					break;					
-			}
-		}
-		if (end &lt; 0) {
-			end &#x3D; start;
-		}
-		input.setSelectionRange(start, end);
-		if (ensureVisible) {
-			let rect &#x3D; input.getBoundingClientRect();
-			let contentRect &#x3D; this.getContentRect(input);
-			let textPos &#x3D; this.getTextPosition(input, this.getCaret(input).end);
-			let scrollLeft &#x3D; input.scrollLeft;
-			let minX &#x3D; contentRect.left + scrollLeft;
-			let maxX &#x3D; contentRect.right + scrollLeft;
-			let caretX &#x3D; rect.left + textPos.left;
-			if (caretX &lt; minX || caretX &gt; maxX) {
-				scrollLeft &#x3D; Math.max(caretX - contentRect.right + 1/*for the caret*/, 0);
-				input.scrollLeft &#x3D; scrollLeft;
-			}
-		}
-		if (raiseEvent) {
-			let event &#x3D; new CustomEvent(&quot;input&quot;);
-			input.dispatchEvent(event);                
-		}
-	}
+    // caret support
+    getCaret(input: HTMLInputElement): CaretPosition {
+        return {
+            start: input.selectionStart || 0,
+            end: input.selectionEnd || 0
+        };
+    }
 
-	// See https://github.com/component/textarea-caret-position
-	// We return a lineHeight value in addition
-	private textPositionProperties &#x3D; [
-		&#x27;direction&#x27;,  // RTL support
-		&#x27;boxSizing&#x27;,
-		&#x27;width&#x27;,  // on Chrome and IE, exclude the scrollbar, so the mirror div wraps exactly as the textarea does
-		&#x27;height&#x27;,
-		&#x27;overflowX&#x27;,
-		&#x27;overflowY&#x27;,  // copy the scrollbar for IE
+    setCaret(input: HTMLInputElement, start: number, end &#x3D; start, text?: string, selectionAction &#x3D; UIService.SelectionAction.collapse, ensureVisible &#x3D; true, raiseEvent &#x3D; true) {
+        if (start &lt; 0) {
+            return;
+        }
+        if (Utils.isString(text)) {
+            let value &#x3D; input.value;
+            if (end &gt;&#x3D; start) {
+                value &#x3D; value.slice(0, start) + text + value.slice(end);
+            }
+            else {
+                value &#x3D; value.slice(0, start) + text;
+            }
+            input.value &#x3D; value;
+            switch (selectionAction) {
+                case UIService.SelectionAction.adjust:
+                    end &#x3D; start + text.length;
+                    break;
+                case UIService.SelectionAction.none:
+                    break;
+                case UIService.SelectionAction.collapseToStart:
+                    end &#x3D; start;
+                    break;
+                case UIService.SelectionAction.collapse:
+                default:
+                    end &#x3D; start + text.length;
+                    start &#x3D; end;
+                    break;
+            }
+        }
+        if (end &lt; 0) {
+            end &#x3D; start;
+        }
+        input.setSelectionRange(start, end);
+        if (ensureVisible) {
+            const rect &#x3D; input.getBoundingClientRect();
+            const contentRect &#x3D; this.getContentRect(input);
+            const textPos &#x3D; this.getTextPosition(input, this.getCaret(input).end);
+            let scrollLeft &#x3D; input.scrollLeft;
+            const minX &#x3D; contentRect.left + scrollLeft;
+            const maxX &#x3D; contentRect.right + scrollLeft;
+            const caretX &#x3D; rect.left + textPos.left;
+            if (caretX &lt; minX || caretX &gt; maxX) {
+                scrollLeft &#x3D; Math.max(caretX - contentRect.right + 1/*for the caret*/, 0);
+                input.scrollLeft &#x3D; scrollLeft;
+            }
+        }
+        if (raiseEvent) {
+            const event &#x3D; new CustomEvent(&quot;input&quot;);
+            input.dispatchEvent(event);
+        }
+    }
 
-		&#x27;borderTopWidth&#x27;,
-		&#x27;borderRightWidth&#x27;,
-		&#x27;borderBottomWidth&#x27;,
-		&#x27;borderLeftWidth&#x27;,
-		&#x27;borderStyle&#x27;,
+    // See https://github.com/component/textarea-caret-position
+    // We return a lineHeight value in addition
+    private textPositionProperties &#x3D; [
+        &#x27;direction&#x27;,  // RTL support
+        &#x27;boxSizing&#x27;,
+        &#x27;width&#x27;,  // on Chrome and IE, exclude the scrollbar, so the mirror div wraps exactly as the textarea does
+        &#x27;height&#x27;,
+        &#x27;overflowX&#x27;,
+        &#x27;overflowY&#x27;,  // copy the scrollbar for IE
 
-		&#x27;paddingTop&#x27;,
-		&#x27;paddingRight&#x27;,
-		&#x27;paddingBottom&#x27;,
-		&#x27;paddingLeft&#x27;,
+        &#x27;borderTopWidth&#x27;,
+        &#x27;borderRightWidth&#x27;,
+        &#x27;borderBottomWidth&#x27;,
+        &#x27;borderLeftWidth&#x27;,
+        &#x27;borderStyle&#x27;,
 
-		// https://developer.mozilla.org/en-US/docs/Web/CSS/font
-		&#x27;fontStyle&#x27;,
-		&#x27;fontVariant&#x27;,
-		&#x27;fontWeight&#x27;,
-		&#x27;fontStretch&#x27;,
-		&#x27;fontSize&#x27;,
-		&#x27;fontSizeAdjust&#x27;,
-		&#x27;lineHeight&#x27;,
-		&#x27;fontFamily&#x27;,
+        &#x27;paddingTop&#x27;,
+        &#x27;paddingRight&#x27;,
+        &#x27;paddingBottom&#x27;,
+        &#x27;paddingLeft&#x27;,
 
-		&#x27;textAlign&#x27;,
-		&#x27;textTransform&#x27;,
-		&#x27;textIndent&#x27;,
-		&#x27;textDecoration&#x27;,  // might not make a difference, but better be safe
+        // https://developer.mozilla.org/en-US/docs/Web/CSS/font
+        &#x27;fontStyle&#x27;,
+        &#x27;fontVariant&#x27;,
+        &#x27;fontWeight&#x27;,
+        &#x27;fontStretch&#x27;,
+        &#x27;fontSize&#x27;,
+        &#x27;fontSizeAdjust&#x27;,
+        &#x27;lineHeight&#x27;,
+        &#x27;fontFamily&#x27;,
 
-		&#x27;letterSpacing&#x27;,
-		&#x27;wordSpacing&#x27;,
+        &#x27;textAlign&#x27;,
+        &#x27;textTransform&#x27;,
+        &#x27;textIndent&#x27;,
+        &#x27;textDecoration&#x27;,  // might not make a difference, but better be safe
 
-		&#x27;tabSize&#x27;,
-		&#x27;MozTabSize&#x27;
-	];
-	getTextPosition(element: HTMLElement, position: number, options?: {debug: boolean}): {top: number, left: number, lineHeight: number} {
-		let debug &#x3D; options &amp;&amp; options.debug || false;
-		if (debug) {
-			let el &#x3D; document.querySelector(&#x27;#input-textarea-caret-position-mirror-div&#x27;);
-			if ( el ) {
-				if (el.parentNode) {
-					el.parentNode.removeChild(el);
-				}
-			}
-		}
+        &#x27;letterSpacing&#x27;,
+        &#x27;wordSpacing&#x27;,
 
-		// mirrored div
-		let div &#x3D; document.createElement(&#x27;div&#x27;);
-		div.id &#x3D; &#x27;input-textarea-caret-position-mirror-div&#x27;;
-		document.body.appendChild(div);
+        &#x27;tabSize&#x27;,
+        &#x27;MozTabSize&#x27;
+    ];
+    getTextPosition(element: HTMLElement, position: number, options?: {debug: boolean}): {top: number, left: number, lineHeight: number} {
+        const debug &#x3D; options &amp;&amp; options.debug || false;
+        if (debug) {
+            const el &#x3D; document.querySelector(&#x27;#input-textarea-caret-position-mirror-div&#x27;);
+            if ( el ) {
+                if (el.parentNode) {
+                    el.parentNode.removeChild(el);
+                }
+            }
+        }
 
-		let style &#x3D; div.style;
-		let computed &#x3D; window.getComputedStyle? getComputedStyle(element) : (&lt;any&gt;element).currentStyle;  // currentStyle for IE &lt; 9
+        // mirrored div
+        const div &#x3D; document.createElement(&#x27;div&#x27;);
+        div.id &#x3D; &#x27;input-textarea-caret-position-mirror-div&#x27;;
+        document.body.appendChild(div);
 
-		// default textarea styles
-		style.whiteSpace &#x3D; &#x27;pre-wrap&#x27;;
-		if (element.nodeName !&#x3D;&#x3D; &#x27;INPUT&#x27;)
-			style.wordWrap &#x3D; &#x27;break-word&#x27;;  // only for textarea-s
+        const style &#x3D; div.style;
+        const computed &#x3D; window.getComputedStyle? getComputedStyle(element) : (&lt;any&gt;element).currentStyle;  // currentStyle for IE &lt; 9
 
-		// position off-screen
-		style.position &#x3D; &#x27;absolute&#x27;;  // required to return coordinates properly
-		if (!debug)
-			style.visibility &#x3D; &#x27;hidden&#x27;;  // not &#x27;display: none&#x27; because we want rendering
+        // default textarea styles
+        style.whiteSpace &#x3D; &#x27;pre-wrap&#x27;;
+        if (element.nodeName !&#x3D;&#x3D; &#x27;INPUT&#x27;)
+            style.wordWrap &#x3D; &#x27;break-word&#x27;;  // only for textarea-s
 
-		// transfer the element&#x27;s properties to the div
-		this.textPositionProperties.forEach(function (prop) {
-			style[prop] &#x3D; computed[prop];
-		});
+        // position off-screen
+        style.position &#x3D; &#x27;absolute&#x27;;  // required to return coordinates properly
+        if (!debug)
+            style.visibility &#x3D; &#x27;hidden&#x27;;  // not &#x27;display: none&#x27; because we want rendering
 
-		if (!Utils.isUndefined((&lt;any&gt;window).mozInnerScreenX)) {
-			// Firefox lies about the overflow property for textareas: https://bugzilla.mozilla.org/show_bug.cgi?id&#x3D;984275
-			if (element.scrollHeight &gt; parseInt(computed.height))
-			style.overflowY &#x3D; &#x27;scroll&#x27;;
-		} else {
-			style.overflow &#x3D; &#x27;hidden&#x27;;  // for Chrome to not render a scrollbar; IE keeps overflowY &#x3D; &#x27;scroll&#x27;
-		}
+        // transfer the element&#x27;s properties to the div
+        this.textPositionProperties.forEach(function (prop) {
+            style[prop] &#x3D; computed[prop];
+        });
 
-		div.textContent &#x3D; (&lt;any&gt;element).value.substring(0, position);
-		// the second special handling for input type&#x3D;&quot;text&quot; vs textarea: spaces need to be replaced with non-breaking spaces - http://stackoverflow.com/a/13402035/1269037
-		if (element.nodeName &#x3D;&#x3D;&#x3D; &#x27;INPUT&#x27; &amp;&amp; div.textContent) {
-			div.textContent &#x3D; div.textContent.replace(/\s/g, &#x27;\u00a0&#x27;);
-		}
+        if (!Utils.isUndefined((&lt;any&gt;window).mozInnerScreenX)) {
+            // Firefox lies about the overflow property for textareas: https://bugzilla.mozilla.org/show_bug.cgi?id&#x3D;984275
+            if (element.scrollHeight &gt; parseInt(computed.height, 10))
+            style.overflowY &#x3D; &#x27;scroll&#x27;;
+        } else {
+            style.overflow &#x3D; &#x27;hidden&#x27;;  // for Chrome to not render a scrollbar; IE keeps overflowY &#x3D; &#x27;scroll&#x27;
+        }
 
-		let span &#x3D; document.createElement(&#x27;span&#x27;);
-		// Wrapping must be replicated *exactly*, including when a long word gets
-		// onto the next line, with whitespace at the end of the line before (#7).
-		// The  *only* reliable way to do that is to copy the *entire* rest of the
-		// textarea&#x27;s content into the &lt;span&gt; created at the caret position.
-		// for inputs, just &#x27;.&#x27; would be enough, but why bother?
-		div.appendChild(span);
+        div.textContent &#x3D; (&lt;any&gt;element).value.substring(0, position);
+        // the second special handling for input type&#x3D;&quot;text&quot; vs textarea: spaces need to be replaced with non-breaking spaces - http://stackoverflow.com/a/13402035/1269037
+        if (element.nodeName &#x3D;&#x3D;&#x3D; &#x27;INPUT&#x27; &amp;&amp; div.textContent) {
+            div.textContent &#x3D; div.textContent.replace(/\s/g, &#x27;\u00a0&#x27;);
+        }
 
-		// return lineHeight too
-		span.textContent &#x3D; &#x27;.&#x27;;		
-		let lineHeight &#x3D; span.offsetHeight; 
+        const span &#x3D; document.createElement(&#x27;span&#x27;);
+        // Wrapping must be replicated *exactly*, including when a long word gets
+        // onto the next line, with whitespace at the end of the line before (#7).
+        // The  *only* reliable way to do that is to copy the *entire* rest of the
+        // textarea&#x27;s content into the &lt;span&gt; created at the caret position.
+        // for inputs, just &#x27;.&#x27; would be enough, but why bother?
+        div.appendChild(span);
 
-		span.textContent &#x3D; (&lt;any&gt;element).value.substring(position) || &#x27;.&#x27;;  // || because a completely empty faux span doesn&#x27;t render at all
+        // return lineHeight too
+        span.textContent &#x3D; &#x27;.&#x27;;
+        const lineHeight &#x3D; span.offsetHeight;
 
-		let coordinates &#x3D; {
-			top: span.offsetTop + parseInt(computed[&#x27;borderTopWidth&#x27;]),
-			left: span.offsetLeft + parseInt(computed[&#x27;borderLeftWidth&#x27;]),
-			lineHeight: lineHeight
-		};
+        span.textContent &#x3D; (&lt;any&gt;element).value.substring(position) || &#x27;.&#x27;;  // || because a completely empty faux span doesn&#x27;t render at all
 
-		if (debug) {
-			span.style.backgroundColor &#x3D; &#x27;#aaa&#x27;;
-		} else {
-			document.body.removeChild(div);
-		}
+        const coordinates &#x3D; {
+            top: span.offsetTop + parseInt(computed[&#x27;borderTopWidth&#x27;], 10),
+            left: span.offsetLeft + parseInt(computed[&#x27;borderLeftWidth&#x27;], 10),
+            lineHeight: lineHeight
+        };
 
-		return coordinates;
-	}
+        if (debug) {
+            span.style.backgroundColor &#x3D; &#x27;#aaa&#x27;;
+        } else {
+            document.body.removeChild(div);
+        }
 
-	getViewport(): ClientRect {
-		return document.body.getBoundingClientRect();
-	}
+        return coordinates;
+    }
+
+    getViewport(): ClientRect {
+        return document.body.getBoundingClientRect();
+    }
 
 }
 
 export module UIService {
-	export enum SelectionAction {
-		adjust,
-		none,
-		collapseToStart,
-		collapse
-	}
+    export enum SelectionAction {
+        adjust,
+        none,
+        collapseToStart,
+        collapse
+    }
 }
 
 /**
@@ -571,142 +571,144 @@ export module UIService {
 **/
 
 function initElementResizeListener (service) {
-	let attachEvent &#x3D; (&lt;any&gt;document).attachEvent,
-		stylesCreated &#x3D; false;
+    const attachEvent &#x3D; (&lt;any&gt;document).attachEvent;
+    let stylesCreated &#x3D; false;
 
-    //NB SCRIPT1047: In strict mode, function declarations cannot be nested inside a statement or block. They may only appear at the top level or directly inside a function body.	
-	//if (!attachEvent) {
-		let requestFrame &#x3D; (function(){
-			let raf &#x3D; window.requestAnimationFrame || (&lt;any&gt;window).mozRequestAnimationFrame || (&lt;any&gt;window).webkitRequestAnimationFrame ||
-								function(fn){ return window.setTimeout(fn, 20); };
-			return function(fn){ return raf(fn); };
-		})();
-		
-		let cancelFrame &#x3D; (function(){
-			let cancel &#x3D; window.cancelAnimationFrame || (&lt;any&gt;window).mozCancelAnimationFrame || (&lt;any&gt;window).webkitCancelAnimationFrame ||
-								   window.clearTimeout;
-		  return function(id){ return cancel(id); };
-		})();
+    //NB SCRIPT1047: In strict mode, function declarations cannot be nested inside a statement or block. They may only appear at the top level or directly inside a function body.
+    //if (!attachEvent) {
+    const requestFrame &#x3D; (function(){
+        const raf &#x3D; window.requestAnimationFrame || (&lt;any&gt;window).mozRequestAnimationFrame || (&lt;any&gt;window).webkitRequestAnimationFrame ||
+                            function(fn){ return window.setTimeout(fn, 20); };
+        return function(fn){ return raf(fn); };
+    })();
 
-		function resetTriggers(element){
-			let triggers &#x3D; element.__resizeTriggers__,
-				expand &#x3D; triggers.firstElementChild,
-				contract &#x3D; triggers.lastElementChild,
-				expandChild &#x3D; expand.firstElementChild;
-			contract.scrollLeft &#x3D; contract.scrollWidth;
-			contract.scrollTop &#x3D; contract.scrollHeight;
-			expandChild.style.width &#x3D; expand.offsetWidth + 1 + &#x27;px&#x27;;
-			expandChild.style.height &#x3D; expand.offsetHeight + 1 + &#x27;px&#x27;;
-			expand.scrollLeft &#x3D; expand.scrollWidth;
-			expand.scrollTop &#x3D; expand.scrollHeight;
-		};
+    const cancelFrame &#x3D; (function(){
+        const cancel &#x3D; window.cancelAnimationFrame || (&lt;any&gt;window).mozCancelAnimationFrame || (&lt;any&gt;window).webkitCancelAnimationFrame ||
+                                window.clearTimeout;
+        return function(id){ return cancel(id); };
+    })();
 
-		function checkTriggers(element){
-			return element.offsetWidth !&#x3D; element.__resizeLast__.width ||
-						 element.offsetHeight !&#x3D; element.__resizeLast__.height;
-		}
-		
-		function scrollListener(this: HTMLElement, e){
-			let element &#x3D; this;
-			resetTriggers(this);
-			if ((this as any).__resizeRAF__) cancelFrame((this as any).__resizeRAF__);
-			(this as any).__resizeRAF__ &#x3D; requestFrame(function(){
-				if (checkTriggers(element)) {
-					(element as any).__resizeLast__.width &#x3D; element.offsetWidth;
-					(element as any).__resizeLast__.height &#x3D; element.offsetHeight;
-					(element as any).__resizeListeners__.forEach(function(fn){
-						fn.call(element, e);
-					});
-				}
-			});
-		};
-		
-		/* Detect CSS Animations support to detect element display/re-attach */
-		let animation &#x3D; false,
-			keyframeprefix &#x3D; &#x27;&#x27;,
-			animationstartevent &#x3D; &#x27;animationstart&#x27;,
-			domPrefixes &#x3D; &#x27;Webkit Moz O ms&#x27;.split(&#x27; &#x27;),
-			startEvents &#x3D; &#x27;webkitAnimationStart animationstart oAnimationStart MSAnimationStart&#x27;.split(&#x27; &#x27;),
-			pfx  &#x3D; &#x27;&#x27;;
-		{
-			let elm &#x3D; document.createElement(&#x27;fakeelement&#x27;);
-			if( elm.style.animationName !&#x3D;&#x3D; undefined ) { animation &#x3D; true; }    
-			
-			if( animation &#x3D;&#x3D;&#x3D; false ) {
-				for( let i &#x3D; 0; i &lt; domPrefixes.length; i++ ) {
-					if( elm.style[ domPrefixes[i] + &#x27;AnimationName&#x27; ] !&#x3D;&#x3D; undefined ) {
-						pfx &#x3D; domPrefixes[ i ];
-						keyframeprefix &#x3D; &#x27;-&#x27; + pfx.toLowerCase() + &#x27;-&#x27;;
-						animationstartevent &#x3D; startEvents[ i ];
-						animation &#x3D; true;
-						break;
-					}
-				}
-			}
-		}
-		
-		let animationName &#x3D; &#x27;resizeanim&#x27;;
-		let animationKeyframes &#x3D; &#x27;@&#x27; + keyframeprefix + &#x27;keyframes &#x27; + animationName + &#x27; { from { opacity: 0; } to { opacity: 0; } } &#x27;;
-		let animationStyle &#x3D; keyframeprefix + &#x27;animation: 1ms &#x27; + animationName + &#x27;; &#x27;;
-	//}
-	
-	function createStyles() {
-		if (!stylesCreated) {
-			//opacity:0 works around a chrome bug https://code.google.com/p/chromium/issues/detail?id&#x3D;286360
-			let css &#x3D; (animationKeyframes ? animationKeyframes : &#x27;&#x27;) +
-					&#x27;.resize-triggers { &#x27; + (animationStyle ? animationStyle : &#x27;&#x27;) + &#x27;visibility: hidden; opacity: 0; } &#x27; +
-					&#x27;.resize-triggers, .resize-triggers &gt; div, .contract-trigger:before { content: \&quot; \&quot;; display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; } .resize-triggers &gt; div { background: #eee; overflow: auto; } .contract-trigger:before { width: 200%; height: 200%; }&#x27;,
-				head &#x3D; document.head || document.getElementsByTagName(&#x27;head&#x27;)[0],
-				style &#x3D; document.createElement(&#x27;style&#x27;);
-			
-			style.type &#x3D; &#x27;text/css&#x27;;
-			if ((&lt;any&gt;style).styleSheet) {
-				(&lt;any&gt;style).styleSheet.cssText &#x3D; css;
-			} else {
-				style.appendChild(document.createTextNode(css));
-			}
+    function resetTriggers(element){
+        const triggers &#x3D; element.__resizeTriggers__,
+            expand &#x3D; triggers.firstElementChild,
+            contract &#x3D; triggers.lastElementChild,
+            expandChild &#x3D; expand.firstElementChild;
+        contract.scrollLeft &#x3D; contract.scrollWidth;
+        contract.scrollTop &#x3D; contract.scrollHeight;
+        expandChild.style.width &#x3D; expand.offsetWidth + 1 + &#x27;px&#x27;;
+        expandChild.style.height &#x3D; expand.offsetHeight + 1 + &#x27;px&#x27;;
+        expand.scrollLeft &#x3D; expand.scrollWidth;
+        expand.scrollTop &#x3D; expand.scrollHeight;
+    }
 
-			head.appendChild(style);
-			stylesCreated &#x3D; true;
-		}
-	}
-	
-	service.addElementResizeListener &#x3D; function(element, fn){
-		if (attachEvent) element.attachEvent(&#x27;onresize&#x27;, fn);
-		else {
-			if (!element.__resizeTriggers__) {
-				if (getComputedStyle(element).position &#x3D;&#x3D; &#x27;static&#x27;) element.style.position &#x3D; &#x27;relative&#x27;;
-				createStyles();
-				element.__resizeLast__ &#x3D; {};
-				element.__resizeListeners__ &#x3D; [];
-				(element.__resizeTriggers__ &#x3D; document.createElement(&#x27;div&#x27;)).className &#x3D; &#x27;resize-triggers&#x27;;
-				element.__resizeTriggers__.innerHTML &#x3D; &#x27;&lt;div class&#x3D;&quot;expand-trigger&quot;&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&#x27; +
-																						&#x27;&lt;div class&#x3D;&quot;contract-trigger&quot;&gt;&lt;/div&gt;&#x27;;
-				element.appendChild(element.__resizeTriggers__);
-				resetTriggers(element);
-				element.addEventListener(&#x27;scroll&#x27;, scrollListener, true);
-				
-				/* Listen for a css animation to detect element display/re-attach */
-				animationstartevent &amp;&amp; element.__resizeTriggers__.addEventListener(animationstartevent, function(e) {
-					if(e.animationName &#x3D;&#x3D; animationName)
-						resetTriggers(element);
-				});
-			}
-			element.__resizeListeners__.push(fn);
-		}
-	};
-	
-	service.removeElementResizeListener &#x3D; function(element, fn){
-		if (attachEvent) element.detachEvent(&#x27;onresize&#x27;, fn);
-		else {
-			element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(fn), 1);
-			if (!element.__resizeListeners__.length) {
-					element.removeEventListener(&#x27;scroll&#x27;, scrollListener);
-					element.__resizeTriggers__ &#x3D; !element.removeChild(element.__resizeTriggers__);
-			}
-		}
-	}
-}</code></pre>
+    function checkTriggers(element){
+        return element.offsetWidth !&#x3D;&#x3D; element.__resizeLast__.width ||
+                        element.offsetHeight !&#x3D;&#x3D; element.__resizeLast__.height;
+    }
+
+    function scrollListener(this: HTMLElement, e){
+        const element &#x3D; this;
+        resetTriggers(this);
+        if ((this as any).__resizeRAF__) cancelFrame((this as any).__resizeRAF__);
+        (this as any).__resizeRAF__ &#x3D; requestFrame(function(){
+            if (checkTriggers(element)) {
+                (element as any).__resizeLast__.width &#x3D; element.offsetWidth;
+                (element as any).__resizeLast__.height &#x3D; element.offsetHeight;
+                (element as any).__resizeListeners__.forEach(function(fn){
+                    fn.call(element, e);
+                });
+            }
+        });
+    }
+
+        /* Detect CSS Animations support to detect element display/re-attach */
+    let animation &#x3D; false,
+        keyframeprefix &#x3D; &#x27;&#x27;,
+        animationstartevent &#x3D; &#x27;animationstart&#x27;;
+    const domPrefixes &#x3D; &#x27;Webkit Moz O ms&#x27;.split(&#x27; &#x27;);
+    const startEvents &#x3D; &#x27;webkitAnimationStart animationstart oAnimationStart MSAnimationStart&#x27;.split(&#x27; &#x27;);
+    let pfx  &#x3D; &#x27;&#x27;;
+    {
+        const elm &#x3D; document.createElement(&#x27;fakeelement&#x27;);
+        if( elm.style.animationName !&#x3D;&#x3D; undefined ) { animation &#x3D; true; }
+
+        if( animation &#x3D;&#x3D;&#x3D; false ) {
+            for( let i &#x3D; 0; i &lt; domPrefixes.length; i++ ) {
+                if( elm.style[ domPrefixes[i] + &#x27;AnimationName&#x27; ] !&#x3D;&#x3D; undefined ) {
+                    pfx &#x3D; domPrefixes[ i ];
+                    keyframeprefix &#x3D; &#x27;-&#x27; + pfx.toLowerCase() + &#x27;-&#x27;;
+                    animationstartevent &#x3D; startEvents[ i ];
+                    animation &#x3D; true;
+                    break;
+                }
+            }
+        }
+    }
+
+    const animationName &#x3D; &#x27;resizeanim&#x27;;
+    const animationKeyframes &#x3D; &#x27;@&#x27; + keyframeprefix + &#x27;keyframes &#x27; + animationName + &#x27; { from { opacity: 0; } to { opacity: 0; } } &#x27;;
+    const animationStyle &#x3D; keyframeprefix + &#x27;animation: 1ms &#x27; + animationName + &#x27;; &#x27;;
+    //}
+
+    function createStyles() {
+        if (!stylesCreated) {
+            //opacity:0 works around a chrome bug https://code.google.com/p/chromium/issues/detail?id&#x3D;286360
+            const css &#x3D; (animationKeyframes ? animationKeyframes : &#x27;&#x27;) +
+                    &#x27;.resize-triggers { &#x27; + (animationStyle ? animationStyle : &#x27;&#x27;) + &#x27;visibility: hidden; opacity: 0; } &#x27; +
+                    &#x27;.resize-triggers, .resize-triggers &gt; div, .contract-trigger:before { content: \&quot; \&quot;; display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; } .resize-triggers &gt; div { background: #eee; overflow: auto; } .contract-trigger:before { width: 200%; height: 200%; }&#x27;,
+                head &#x3D; document.head || document.getElementsByTagName(&#x27;head&#x27;)[0],
+                style &#x3D; document.createElement(&#x27;style&#x27;);
+
+            style.type &#x3D; &#x27;text/css&#x27;;
+            if ((&lt;any&gt;style).styleSheet) {
+                (&lt;any&gt;style).styleSheet.cssText &#x3D; css;
+            } else {
+                style.appendChild(document.createTextNode(css));
+            }
+
+            head.appendChild(style);
+            stylesCreated &#x3D; true;
+        }
+    }
+
+    service.addElementResizeListener &#x3D; function(element, fn){
+        if (attachEvent) element.attachEvent(&#x27;onresize&#x27;, fn);
+        else {
+            if (!element.__resizeTriggers__) {
+                if (getComputedStyle(element).position &#x3D;&#x3D;&#x3D; &#x27;static&#x27;) element.style.position &#x3D; &#x27;relative&#x27;;
+                createStyles();
+                element.__resizeLast__ &#x3D; {};
+                element.__resizeListeners__ &#x3D; [];
+                (element.__resizeTriggers__ &#x3D; document.createElement(&#x27;div&#x27;)).className &#x3D; &#x27;resize-triggers&#x27;;
+                element.__resizeTriggers__.innerHTML &#x3D; &#x27;&lt;div class&#x3D;&quot;expand-trigger&quot;&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&#x27; +
+                                                                                        &#x27;&lt;div class&#x3D;&quot;contract-trigger&quot;&gt;&lt;/div&gt;&#x27;;
+                element.appendChild(element.__resizeTriggers__);
+                resetTriggers(element);
+                element.addEventListener(&#x27;scroll&#x27;, scrollListener, true);
+
+                /* Listen for a css animation to detect element display/re-attach */
+                // tslint:disable-next-line: no-unused-expression
+                animationstartevent &amp;&amp; element.__resizeTriggers__.addEventListener(animationstartevent, function(e) {
+                    if(e.animationName &#x3D;&#x3D;&#x3D; animationName)
+                        resetTriggers(element);
+                });
+            }
+            element.__resizeListeners__.push(fn);
+        }
+    };
+
+    service.removeElementResizeListener &#x3D; function(element, fn){
+        if (attachEvent) element.detachEvent(&#x27;onresize&#x27;, fn);
+        else {
+            element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(fn), 1);
+            if (!element.__resizeListeners__.length) {
+                    element.removeEventListener(&#x27;scroll&#x27;, scrollListener);
+                    element.__resizeTriggers__ &#x3D; !element.removeChild(element.__resizeTriggers__);
+            }
+        }
+    };
+}
+</code></pre>
     </div>
 </div>
 

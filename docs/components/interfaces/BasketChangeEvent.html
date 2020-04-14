@@ -216,7 +216,7 @@ export interface BasketChangeEvent {
 }
 
 
-// Model expected by the SelectBasket Modal. 
+// Model expected by the SelectBasket Modal.
 // The filter allows to filter out baskets from the complete list
 export interface SelectBasketModel {
     basket: Basket | undefined;
@@ -225,7 +225,7 @@ export interface SelectBasketModel {
 }
 
 // Model expected by the ManageBaskets Modal.
-export interface ManageBasketsModel { 
+export interface ManageBasketsModel {
     baskets: Basket[];
     auditEvents?: AuditEvent[];
 }
@@ -235,18 +235,18 @@ export interface ManageBasketsModel {
  * The modal types are unknown to this service.
  * The module using this service must provide these components
  * in their forRoot() method
- * 
+ *
  * Example below:
- * 
+ *
  *  public static forRoot(): ModuleWithProviders {
         return {
-            ngModule: BasketsModule, 
+            ngModule: BasketsModule,
             providers: [
-                { 
-                    provide: BASKET_COMPONENTS, 
+                {
+                    provide: BASKET_COMPONENTS,
                     useValue: {
-                        selectBasketModal: SelectBasket,  
-                        editBasketModal: EditBasket, 
+                        selectBasketModal: SelectBasket,
+                        editBasketModal: EditBasket,
                         manageBasketsModal: ManageBaskets
                     }
                 },
@@ -289,7 +289,7 @@ export class BasketsService implements OnDestroy {
         });
         // Listen to own events, to trigger change events
         this._events.subscribe(event &#x3D;&gt; {
-            if(BASKET_CHANGE_EVENTS.indexOf(event.type) !&#x3D;&#x3D; -1){                
+            if(BASKET_CHANGE_EVENTS.indexOf(event.type) !&#x3D;&#x3D; -1){
                 this.changes.next(event);
             }
         });
@@ -313,15 +313,15 @@ export class BasketsService implements OnDestroy {
     }
 
     /**
-     * Triggers any event among BasketChangeEvent 
+     * Triggers any event among BasketChangeEvent
      * (use for fine-grained control of baskets workflow)
      */
     public get events() : Subject&lt;BasketChangeEvent&gt; {
         return this._events;
     }
-    
+
     /**
-     * Triggers when events affect the list of baskets 
+     * Triggers when events affect the list of baskets
      * (use to refresh basket menus)
      * Cf. CHANGE_EVENTS list
      */
@@ -338,16 +338,16 @@ export class BasketsService implements OnDestroy {
 
     /**
      * @returns a basket with the given name or null if it does not exist
-     * @param name 
+     * @param name
      */
     public basket(name: string): Basket | undefined {
-        let i &#x3D; this.basketIndex(name);
+        const i &#x3D; this.basketIndex(name);
         return i&gt;&#x3D; 0? this.baskets[i] : undefined;
     }
 
     private basketIndex(name: string): number {
         for (let i &#x3D; 0, ic &#x3D; this.baskets.length; i &lt; ic; i++) {
-            let basket &#x3D; this.baskets[i];
+            const basket &#x3D; this.baskets[i];
             if (basket &amp;&amp; basket.name &#x3D;&#x3D;&#x3D; name) {
                 return i;
             }
@@ -392,8 +392,8 @@ export class BasketsService implements OnDestroy {
      */
     public updateBasket(basket: Basket, index : number) : boolean {
 
-        let prevIndex &#x3D; this.basketIndex(basket.name);
-        if(prevIndex !&#x3D;&#x3D; -1 &amp;&amp; index !&#x3D; prevIndex)
+        const prevIndex &#x3D; this.basketIndex(basket.name);
+        if(prevIndex !&#x3D;&#x3D; -1 &amp;&amp; index !&#x3D;&#x3D; prevIndex)
             return false; // A basket with the same name exists at a different index
 
         if(index &gt;&#x3D; 0 &amp;&amp; index &lt; this.baskets.length){
@@ -410,13 +410,13 @@ export class BasketsService implements OnDestroy {
             ]);
             return true;
 
-        } 
+        }
         return false;   // This basket does not exist
     }
 
     /**
-     * Updates the full list of Baskets. 
-     * Emits a Basket event.     
+     * Updates the full list of Baskets.
+     * Emits a Basket event.
      * Update the data on the server.
      * @param baskets the new list of baskets
      * @param auditEvents the list of audit events to log
@@ -430,14 +430,14 @@ export class BasketsService implements OnDestroy {
 
     /**
      * Deletes the given Basket (based on its name)
-     * Emits an Basket event.    
+     * Emits an Basket event.
      * Update the data on the server.
-     * @param basket 
+     * @param basket
      * @returns true if basket was deleted
      */
     public deleteBasket(basket: Basket) : boolean {
 
-        let index &#x3D; this.basketIndex(basket.name);
+        const index &#x3D; this.basketIndex(basket.name);
 
         if(index &#x3D;&#x3D;&#x3D; -1)
             return false; // Nothing to delete
@@ -468,12 +468,12 @@ export class BasketsService implements OnDestroy {
         if (!ids) {
             return false;
         }
-        let basket &#x3D; this.basket(name);
+        const basket &#x3D; this.basket(name);
         if (!basket) return false;
         if (!basket.ids) basket.ids &#x3D; [];
         if (Utils.isArray(ids)) {
             for (let i &#x3D; 0, ic &#x3D; ids.length; i &lt; ic; i++) {
-                let id &#x3D; ids[i];
+                const id &#x3D; ids[i];
                 if (basket.ids.indexOf(id) &#x3D;&#x3D;&#x3D; -1) {
                     basket.ids.push(id);
                 }
@@ -490,7 +490,7 @@ export class BasketsService implements OnDestroy {
                 type: BasketEventType.AddDoc,
                 detail: {
                     basket: name,
-                    docid: basket.ids[0]
+                    &quot;doc-id&quot;: basket.ids[0]
                 }
             });
         }
@@ -510,20 +510,20 @@ export class BasketsService implements OnDestroy {
         if (!ids) {
             return false;
         }
-        let basket &#x3D; this.basket(name);
+        const basket &#x3D; this.basket(name);
         if (!basket) return false;
         if (!basket.ids) basket.ids &#x3D; [];
         if (Utils.isArray(ids)) {
             for (let i &#x3D; 0, ic &#x3D; ids.length; i &lt; ic; i++) {
-                let id &#x3D; ids[i];
-                let index &#x3D; basket.ids.indexOf(id);
+                const id &#x3D; ids[i];
+                const index &#x3D; basket.ids.indexOf(id);
                 if (index !&#x3D;&#x3D; -1) {
                     basket.ids.splice(index, 1);
                 }
             }
         }
         else {
-            let index &#x3D; basket.ids.indexOf(&lt;string&gt;ids);
+            const index &#x3D; basket.ids.indexOf(&lt;string&gt;ids);
             if (index !&#x3D;&#x3D; -1) {
                 basket.ids.splice(index, 1);
             }
@@ -534,7 +534,7 @@ export class BasketsService implements OnDestroy {
                 type: BasketEventType.RemoveDoc,
                 detail: {
                     basket: name,
-                    docid: basket.ids[0]
+                    &quot;doc-id&quot;: basket.ids[0]
                 }
             });
         }
@@ -546,14 +546,14 @@ export class BasketsService implements OnDestroy {
      * @param id id of the document to remove
      */
     public removeFromAllBaskets(id: string) : boolean {
-        let auditEvents: AuditEvent[] &#x3D; [];
+        const auditEvents: AuditEvent[] &#x3D; [];
         for (const basket of this.baskets) {
             if( this.removeFromBasket(basket.name, id, true) ){
                 auditEvents.push({
                     type: BasketEventType.RemoveDoc,
                     detail: {
                         basket: basket.name,
-                        docid: id
+                        &quot;doc-id&quot;: id
                     }
                 });
             }
@@ -574,7 +574,7 @@ export class BasketsService implements OnDestroy {
             .subscribe(
                 next &#x3D;&gt; {
                     this.events.next({type: BasketEventType.Patched});
-                }, 
+                },
                 error &#x3D;&gt; {
                     console.error(&quot;Could not patch Baskets!&quot;, error);
             });
@@ -589,11 +589,11 @@ export class BasketsService implements OnDestroy {
      * Uses the SearchService to perform a search returning all
      * the documents in this basket
      * @param basket
-     * @param path 
+     * @param path
      * @returns the search service promise
      */
     public searchBasket(basket : Basket, path?: string) : Promise&lt;boolean&gt; {
-        let query &#x3D; this.searchService.makeQuery();
+        const query &#x3D; this.searchService.makeQuery();
         query.basket &#x3D; basket.name;
         this.searchService.setQuery(query);
         this.events.next({type: BasketEventType.Open, basket: basket});
@@ -613,7 +613,7 @@ export class BasketsService implements OnDestroy {
      * @returns a boolean promise resolved when the user closes the dialog
      * the result is true if the document was added to a basket
      */
-    public addToBasketModal(ids: string | string[], recordBaskets?: string[]) 
+    public addToBasketModal(ids: string | string[], recordBaskets?: string[])
             : Promise&lt;boolean&gt; {
         const model : SelectBasketModel &#x3D; {
             basket: undefined,
@@ -638,7 +638,7 @@ export class BasketsService implements OnDestroy {
      * @returns a boolean promise resolved when the user closes the dialog
      * the result is true if the document was removed from a basket
      */
-    public removeFromBasketModal(ids: string | string[], recordBaskets?: string[]) 
+    public removeFromBasketModal(ids: string | string[], recordBaskets?: string[])
             : Promise&lt;boolean&gt; {
         const model : SelectBasketModel &#x3D; {
             basket: undefined,
@@ -653,7 +653,7 @@ export class BasketsService implements OnDestroy {
                 return false;
             });
     }
-    
+
     /**
      * Opens a dialog allowing a user to create new basket.
      * @param model the initial basket object model
@@ -664,9 +664,9 @@ export class BasketsService implements OnDestroy {
 
         return this.modalService.open(this.basketComponents.editBasketModal, {model: model})
             .then((result) &#x3D;&gt; {
-                
+
                 if (result &#x3D;&#x3D;&#x3D; ModalResult.OK) {
-                    let index &#x3D; this.basketIndex(model.name);
+                    const index &#x3D; this.basketIndex(model.name);
                     if (index !&#x3D;&#x3D; -1) {
 
                         return this.modalService.yesNo(&quot;msg#baskets.basketAlreadyExists&quot;)
@@ -700,7 +700,7 @@ export class BasketsService implements OnDestroy {
      */
     public manageBasketsModal() : Promise&lt;boolean&gt; {
 
-        let model: ManageBasketsModel &#x3D; { baskets: Utils.copy(this.baskets) };
+        const model: ManageBasketsModel &#x3D; { baskets: Utils.copy(this.baskets) };
 
         return this.modalService.open(this.basketComponents.manageBasketsModal, {model: model})
             .then((result) &#x3D;&gt; {
@@ -733,7 +733,7 @@ export class BasketsService implements OnDestroy {
                 })
             ],
             updater: (action) &#x3D;&gt; {
-                action.hidden &#x3D; this.selectionService.selectedRecords.length &#x3D;&#x3D; 0;
+                action.hidden &#x3D; this.selectionService.selectedRecords.length &#x3D;&#x3D;&#x3D; 0;
             }
         });
     }
@@ -742,7 +742,8 @@ export class BasketsService implements OnDestroy {
         this.events.complete();
         this.changes.complete();
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
 

@@ -203,7 +203,7 @@ export class BsChart implements OnInit, OnDestroy, OnChanges, DoCheck {
         if (!!this.chart) this.chart.update();
     }
 
-    private onResize &#x3D; () &#x3D;&gt; { this.updateChart(); }
+    private onResize &#x3D; () &#x3D;&gt; this.updateChart();
 
     ngOnInit() {
         this.uiService.addElementResizeListener(this.wrapper.nativeElement, this.onResize);

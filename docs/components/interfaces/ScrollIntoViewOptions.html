@@ -161,7 +161,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Directive, Input, OnChanges, ElementRef} from &quot;@angular/core&quot;;
 
 export interface ScrollIntoViewOptions {
-    active: boolean;    
+    active: boolean;
     first: boolean;
 }
 
@@ -172,7 +172,7 @@ export class ScrollIntoView implements OnChanges {
     @Input(&quot;sqScrollIntoView&quot;) options: ScrollIntoViewOptions;
 
     constructor(
-        private elementRef: ElementRef) {            
+        private elementRef: ElementRef) {
     }
 
     ngOnChanges() {

@@ -685,8 +685,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="618"
-                            class="link-to-prism">search/bootstrap/timeline/timeline.ts:618</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="617"
+                            class="link-to-prism">search/bootstrap/timeline/timeline.ts:617</a></div>
                 </td>
             </tr>
 
@@ -1021,8 +1021,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="505"
-                            class="link-to-prism">search/bootstrap/timeline/timeline.ts:505</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="504"
+                            class="link-to-prism">search/bootstrap/timeline/timeline.ts:504</a></div>
                 </td>
             </tr>
 
@@ -1060,8 +1060,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="485"
-                            class="link-to-prism">search/bootstrap/timeline/timeline.ts:485</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="484"
+                            class="link-to-prism">search/bootstrap/timeline/timeline.ts:484</a></div>
                 </td>
             </tr>
 
@@ -1130,8 +1130,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="523"
-                            class="link-to-prism">search/bootstrap/timeline/timeline.ts:523</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="522"
+                            class="link-to-prism">search/bootstrap/timeline/timeline.ts:522</a></div>
                 </td>
             </tr>
 
@@ -1169,8 +1169,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="493"
-                            class="link-to-prism">search/bootstrap/timeline/timeline.ts:493</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="492"
+                            class="link-to-prism">search/bootstrap/timeline/timeline.ts:492</a></div>
                 </td>
             </tr>
 
@@ -1607,7 +1607,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../interfaces/Item.html" target="_self" >d3.Area&lt;AggregationItem&gt;</a></code>
+                            <i>Type : </i>        <code><a href="../classes/Item.html" target="_self" >d3.Area&lt;AggregationItem&gt;</a></code>
 
                         </td>
                     </tr>
@@ -2458,25 +2458,25 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
     ready: boolean;
     timelineSvg: d3.Selection&lt;any, any, any, any&gt; | undefined;
     timelineG: d3.Selection&lt;any, any, any, any&gt;;
-    xG: d3.Selection&lt;any, any, any, any&gt;; 
+    xG: d3.Selection&lt;any, any, any, any&gt;;
     yG: d3.Selection&lt;any, any, any, any&gt;;
-    xScale: d3.ScaleTime&lt;number, number&gt;; 
+    xScale: d3.ScaleTime&lt;number, number&gt;;
     yScale: d3.ScaleLinear&lt;number, number&gt;;
-    xAxis: d3.Axis&lt;Date&gt;; 
+    xAxis: d3.Axis&lt;Date&gt;;
     yAxis: d3.Axis&lt;number&gt;;
-    axes: {xHeight: number, yWidth: number}; 
+    axes: {xHeight: number, yWidth: number};
     margin: {top: number, right: number, bottom: number, left: number};
     area: d3.Area&lt;AggregationItem&gt;;
     prevChartWidth: number; prevChartHeight: number;
     updateTransistionMS &#x3D; 100;
-    brush: d3.BrushBehavior&lt;any&gt;; 
+    brush: d3.BrushBehavior&lt;any&gt;;
     brushG: d3.Selection&lt;any, any, any, any&gt; | undefined;
     gripsG: d3.Selection&lt;any, any, any, any&gt;;
-    selection: [Date, Date] | undefined; 
-    minDate: Date; 
+    selection: [Date, Date] | undefined;
+    minDate: Date;
     maxDate: Date;
     hidden: boolean;
-    
+
     constructor(
         private root: ElementRef,
         private appService: AppService,
@@ -2485,19 +2485,19 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
         private intlService: IntlService,
         private changeDetectorRef: ChangeDetectorRef) {
     }
-    
+
     private noSwipe &#x3D; (event: Event) &#x3D;&gt; {
         event.stopPropagation();
-    };
+    }
 
     private measureAxes(g, xG, yG, xAxis, yAxis) {
-        let opacity &#x3D; g.style(&quot;opacity&quot;);
+        const opacity &#x3D; g.style(&quot;opacity&quot;);
         g.style(&quot;opacity&quot;, &quot;0&quot;);
         try {
             xG.call(xAxis);
             yG.call(yAxis);
-            let xRect &#x3D; xG.node().getBoundingClientRect();
-            let yRect &#x3D; yG.node().getBoundingClientRect();
+            const xRect &#x3D; xG.node().getBoundingClientRect();
+            const yRect &#x3D; yG.node().getBoundingClientRect();
             return {
                 xHeight: Math.ceil(xRect.height),
                 yWidth: Math.ceil(yRect.width)
@@ -2527,10 +2527,10 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
     updateGrips(selection: [number, number]) {
         if (!selection) {
-            this.gripsG.attr(&quot;display&quot;, &quot;none&quot;);    
+            this.gripsG.attr(&quot;display&quot;, &quot;none&quot;);
         }
         else {
-            this.gripsG.attr(&quot;display&quot;, null).attr(&quot;transform&quot;, (d, i) &#x3D;&gt; { return &quot;translate(&quot; + selection[i] + &quot;)&quot;; });
+            this.gripsG.attr(&quot;display&quot;, null).attr(&quot;transform&quot;, (d, i) &#x3D;&gt; &quot;translate(&quot; + selection[i] + &quot;)&quot;);
         }
     }
 
@@ -2546,12 +2546,12 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             return;
         }
 
-        let chartWidth &#x3D; Math.max(0, this.graph.nativeElement.offsetWidth - this.margin.left - this.margin.right);
-        let chartHeight &#x3D; Math.max(0, this.graph.nativeElement.offsetHeight - this.margin.top - this.margin.bottom);
-        
+        const chartWidth &#x3D; Math.max(0, this.graph.nativeElement.offsetWidth - this.margin.left - this.margin.right);
+        const chartHeight &#x3D; Math.max(0, this.graph.nativeElement.offsetHeight - this.margin.top - this.margin.bottom);
+
         // only update if chart size has changed
-        if (this.prevChartWidth !&#x3D; chartWidth || this.prevChartHeight !&#x3D; chartHeight) {
-            let init &#x3D; !this.prevChartWidth;
+        if (this.prevChartWidth !&#x3D;&#x3D; chartWidth || this.prevChartHeight !&#x3D;&#x3D; chartHeight) {
+            const init &#x3D; !this.prevChartWidth;
             this.prevChartWidth &#x3D; chartWidth;
             this.prevChartHeight &#x3D; chartHeight;
 
@@ -2566,7 +2566,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             this.brush.extent([[0, -this.margin.top], [chartWidth, chartHeight]]);
 
             // Adjust number of ticks on x-axis to avoid overlapping
-            let xTickCount &#x3D; Math.max(Math.trunc(chartWidth / 80), 2);
+            const xTickCount &#x3D; Math.max(Math.trunc(chartWidth / 80), 2);
             this.xAxis.ticks(xTickCount);
 
             if (init || !withTransition) {
@@ -2580,7 +2580,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             }
             else {
                 // for subsequent updates use a transistion to animate the axis to the new position
-                let t &#x3D; this.timelineG.transition().duration(this.updateTransistionMS);
+                const t &#x3D; this.timelineG.transition().duration(this.updateTransistionMS);
                 t.select&lt;SVGGElement&gt;(&quot;.x&quot;)
                     .attr(&quot;transform&quot;, &quot;translate(0,&quot; + chartHeight + &quot;)&quot;)
                     .call(this.xAxis);
@@ -2590,10 +2590,10 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             }
 
             this.area.y0(chartHeight);
-    
-            // bind up the data to the area			
-            let areas &#x3D; this.timelineG.selectAll(&quot;.area&quot;).data([this.aggregation.items]);
-    
+
+            // bind up the data to the area
+            const areas &#x3D; this.timelineG.selectAll(&quot;.area&quot;).data([this.aggregation.items]);
+
             // transistion to new position if already exists
             if (withTransition) {
                 areas.transition()
@@ -2608,9 +2608,9 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             areas.enter().insert(&quot;path&quot;, &quot;:first-child&quot;)
                 .attr(&quot;class&quot;, &quot;area&quot;)
                 .attr(&quot;d&quot;, this.area);
-    
+
             // add brush + grips if not already existing
-            let newBrush &#x3D; !this.brushG;
+            const newBrush &#x3D; !this.brushG;
             if (!this.brushG) {
                 this.brushG &#x3D; this.timelineG.append(&quot;g&quot;)
                     .attr(&quot;class&quot;, &quot;x brush&quot;);
@@ -2623,13 +2623,13 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                     .attr(&quot;display&quot;, &quot;none&quot;);
                 this.gripsG.append(&quot;path&quot;)
                     .attr(&quot;d&quot;, (d) &#x3D;&gt; {
-                    let gripHeight &#x3D; Math.max(chartHeight / 8, 4);
-                    let gripWidth &#x3D; gripHeight;
+                    const gripHeight &#x3D; Math.max(chartHeight / 8, 4);
+                    const gripWidth &#x3D; gripHeight;
 
-                    let x &#x3D; -gripWidth / 2;
-                    let y &#x3D; chartHeight / 2 - gripHeight / 2;
+                    const x &#x3D; -gripWidth / 2;
+                    const y &#x3D; chartHeight / 2 - gripHeight / 2;
 
-                    let path &#x3D;
+                    const path &#x3D;
                         &#x27;M &#x27; + x + &#x27; &#x27; + y +
                         &#x27; l &#x27; + -gripWidth + &#x27; &#x27; + gripHeight / 2 +
                         &#x27; l &#x27; + gripWidth + &#x27; &#x27; + gripHeight / 2 + &#x27; z &#x27; +
@@ -2640,9 +2640,9 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                     return path;
                 });
             }
-            
+
             if (this.selection) {
-                let selection: [number, number] &#x3D; [this.xScale(this.selection[0]), this.xScale(this.selection[1])];
+                const selection: [number, number] &#x3D; [this.xScale(this.selection[0]), this.xScale(this.selection[1])];
                 this.moveBrush(selection, !newBrush &amp;&amp; withTransition);
             }
             else {
@@ -2719,19 +2719,19 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 if (!this.brushG) {
                     return;
                 }
-                let numericSelection &#x3D; &lt;[number, number]&gt;d3.brushSelection(this.brushG.node());
+                const numericSelection &#x3D; &lt;[number, number]&gt;d3.brushSelection(this.brushG.node());
                 this.updateGrips(numericSelection);
                 if (!numericSelection) {
                     return;
                 }
                 if (!d3.event.sourceEvent || d3.event.sourceEvent.type &#x3D;&#x3D;&#x3D; &quot;brush&quot;) {
                     return;
-                }                                                            
-                let selection &#x3D; [this.xScale.invert(numericSelection[0]), this.xScale.invert(numericSelection[1])];
+                }
+                const selection &#x3D; [this.xScale.invert(numericSelection[0]), this.xScale.invert(numericSelection[1])];
                 let selection1: Date[];
                 // if dragging, preserve the width of the extent
                 if (d3.event[&quot;mode&quot;] &#x3D;&#x3D;&#x3D; &quot;move&quot;) {
-                    let d0 &#x3D; d3.timeDay.round(selection[0]),
+                    const d0 &#x3D; d3.timeDay.round(selection[0]),
                         d1 &#x3D; d3.timeDay.offset(d0, Math.round((selection[1].getTime() - selection[0].getTime()) / 864e5));
                     selection1 &#x3D; [d0, d1];
                 }
@@ -2752,11 +2752,11 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 if (!this.brushG) {
                     return;
                 }
-                let numericSelection &#x3D; &lt;[number, number]&gt;d3.brushSelection(this.brushG.node());
+                const numericSelection &#x3D; &lt;[number, number]&gt;d3.brushSelection(this.brushG.node());
                 this.updateGrips(numericSelection);
                 if (!d3.event.sourceEvent || d3.event.sourceEvent.type &#x3D;&#x3D;&#x3D; &quot;end&quot;) {
                     return;
-                }                                                            
+                }
                 if (!this.selection &amp;&amp; !numericSelection) {
                     return;
                 }
@@ -2764,7 +2764,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 if (numericSelection) {
                     selection &#x3D; [this.xScale.invert(numericSelection[0]), this.xScale.invert(numericSelection[1])];
                     if (this.selection) {
-                        if (selection[0].getTime() &#x3D;&#x3D; this.selection[0].getTime() &amp;&amp; selection[1].getTime() &#x3D;&#x3D; this.selection[1].getTime()) { 
+                        if (selection[0].getTime() &#x3D;&#x3D;&#x3D; this.selection[0].getTime() &amp;&amp; selection[1].getTime() &#x3D;&#x3D;&#x3D; this.selection[1].getTime()) {
                             return;
                         }
                     }
@@ -2778,10 +2778,10 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 if (!this.zoomSelection) {
                     this.selection &#x3D; selection;
                 }
-                let query &#x3D; this.searchService.query.copy();
+                const query &#x3D; this.searchService.query.copy();
                 this.setFrom(query, from);
                 this.setTo(query, to);
-                this.searchService.applyAdvanced(query);       
+                this.searchService.applyAdvanced(query);
             });
 
         if (!this.zoomSelection) {
@@ -2790,7 +2790,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             let to &#x3D; this.getTo(this.searchService.query);
             if (from || to) {
                 if (!from) {
-                    from &#x3D; this.minDate;                
+                    from &#x3D; this.minDate;
                 }
                 else {
                     from &#x3D; new Date(Math.max(from.getTime(), this.minDate.getTime()));
@@ -2828,8 +2828,8 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
     }
 
     hasSelection(query: Query): boolean {
-        let from &#x3D; this.getFrom(query);
-        let to &#x3D; this.getTo(query);
+        const from &#x3D; this.getFrom(query);
+        const to &#x3D; this.getTo(query);
         return !!from || !!to;
     }
 
@@ -2848,7 +2848,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             this.setHidden(this.autoHide);
         }
         else {
-            let query &#x3D; this.searchService.query.copy();
+            const query &#x3D; this.searchService.query.copy();
             query.action &#x3D; &quot;aggregate&quot;;
             if (!this.zoomSelection) {
                 this.setFrom(query, undefined);
@@ -2857,8 +2857,8 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             query.aggregations &#x3D; [this.ccaggregation.name];
             if (!this.zoomSelection &amp;&amp; Utils.equals(query, this.query)) {
                 if (this.brush &amp;&amp; this.brushG) {
-                    let from &#x3D; this.getFrom(this.searchService.query);
-                    let to &#x3D; this.getTo(this.searchService.query);
+                    const from &#x3D; this.getFrom(this.searchService.query);
+                    const to &#x3D; this.getTo(this.searchService.query);
                     if ((!from || !to) &amp;&amp; !this.selection) {
                         return;
                     }
@@ -2882,7 +2882,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             }
             this.query &#x3D; query;
             // Use the aggregation in results if possible
-            const aggregation &#x3D; this.searchService.results &amp;&amp; 
+            const aggregation &#x3D; this.searchService.results &amp;&amp;
                 this.searchService.results.aggregations
                     .find(value &#x3D;&gt; Utils.eqNC(value.name, this.ccaggregation ? this.ccaggregation.name : &quot;&quot;));
             if (!!aggregation &amp;&amp; (!this.hasSelection(this.searchService.query) || this.zoomSelection)) {
@@ -2891,19 +2891,18 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 this.drawGraphAsync();
             }
             else {
-                let subscription &#x3D; Utils.subscribe(this.searchService.getResults(this.query),
+                Utils.subscribe(this.searchService.getResults(this.query, undefined, {searchInactive: true}),
                     (results) &#x3D;&gt; {
                         console.log(&quot;timeline results: &quot;, results);
                         this.aggregation &#x3D; results.aggregations[0] as ListAggregation;
                         this.fixAggregation();
                         // Async as fixAggregation sets hidden flag (autoHide) and we do getBoundingClientRect in drawGraph
                         this.drawGraphAsync();
-                        subscription.unsubscribe();
                         this.changeDetectorRef.markForCheck();
                     });
             }
         }
-    };
+    }
 
     ngOnChanges(changes: SimpleChanges) {
         if (!!changes[&quot;results&quot;]) {
@@ -2924,38 +2923,38 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
                 this.drawGraph();
             });
     }
-    
+
     ngAfterViewInit() {
         if (!this.ccaggregation) {
             return;
         }
 
         this.viewInitDone &#x3D; true;
-        
+
         this.field &#x3D; this.ccaggregation.column;
-                
+
         // Prevent swiping being activated on ancestors when selecting a range
         this.root.nativeElement.addEventListener(&quot;mousedown&quot;, this.noSwipe);
         this.root.nativeElement.addEventListener(&quot;touchstart&quot;, this.noSwipe);
-        
+
         this.handleResults();
 
         this.uiService.addElementResizeListener(this.graph.nativeElement, this.onResize);
     }
-    
+
     ngOnDestroy() {
         if (!this.ccaggregation) {
             return;
         }
-        
+
         this.localeChange.unsubscribe();
-        
+
         this.root.nativeElement.removeEventListener(&quot;mousedown&quot;, this.noSwipe);
         this.root.nativeElement.removeEventListener(&quot;touchstart&quot;, this.noSwipe);
-        
+
         this.uiService.removeElementResizeListener(this.graph.nativeElement, this.onResize);
     }
-    
+
     private nextTimelineDate(value: Date): Date {
         if (this.ccaggregation &amp;&amp; Utils.isDate(value)) {
             switch (this.ccaggregation.mask) {
@@ -2999,7 +2998,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
         }
 
         // get the min/max dates
-        let dateExtent &#x3D; d3.extent(this.aggregation.items, (d) &#x3D;&gt; { return d[&quot;date&quot;]; }),
+        const dateExtent &#x3D; d3.extent(this.aggregation.items, (d) &#x3D;&gt; d[&quot;date&quot;]),
             // hash the existing days for easy lookup
             dateHash &#x3D; this.aggregation.items.reduce((agg, d) &#x3D;&gt; {
                 agg[d[&quot;date&quot;]] &#x3D; true;
@@ -3013,11 +3012,11 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
         })
             // and push them into the array
             .forEach((date) &#x3D;&gt; {
-                let emptyRow &#x3D; { date: date, count: 0 };
+                const emptyRow &#x3D; { date: date, count: 0 };
                 this.aggregation.items.push(&lt;any&gt;emptyRow);
             });
         // re-sort the data
-        this.aggregation.items.sort((a, b) &#x3D;&gt; { return d3.ascending(a[&quot;date&quot;], b[&quot;date&quot;]); });
+        this.aggregation.items.sort((a, b) &#x3D;&gt; d3.ascending(a[&quot;date&quot;], b[&quot;date&quot;]));
     }
 
     private setDate(item: AggregationItem, postfix?: string, format?: any) {
@@ -3031,7 +3030,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
             if (!format) {
                 format &#x3D; &quot;YYYY-MM-DD&quot;;
             }
-            let m &#x3D; moment(item.value + postfix, format);
+            const m &#x3D; moment(item.value + postfix, format);
             if (m.isValid()) {
                 item[&quot;date&quot;] &#x3D; m.toDate();
             }
@@ -3042,12 +3041,12 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
         if (!this.ccaggregation || !this.aggregation.items) {
             this.setHidden(this.autoHide);
             return;
-        }        
+        }
         // Convert value fields to date ones
         switch (this.ccaggregation.mask) {
             case &quot;YYYY-MM-DD&quot;:
                 for (let i &#x3D; 0, ic &#x3D; this.aggregation.items.length; i &lt; ic; i++) {
-                    let item &#x3D; this.aggregation.items[i];
+                    const item &#x3D; this.aggregation.items[i];
                     if (item.value) {
                         this.setDate(item);
                     }
@@ -3062,7 +3061,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
             case &quot;YYYY-MM&quot;:
                 for (let i &#x3D; 0, ic &#x3D; this.aggregation.items.length; i &lt; ic; i++) {
-                    let item &#x3D; this.aggregation.items[i];
+                    const item &#x3D; this.aggregation.items[i];
                     if (item.value) {
                         this.setDate(item, &quot;-01&quot;);
                     }
@@ -3077,7 +3076,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
             case &quot;YYYY&quot;:
                 for (let i &#x3D; 0, ic &#x3D; this.aggregation.items.length; i &lt; ic; i++) {
-                    let item &#x3D; this.aggregation.items[i];
+                    const item &#x3D; this.aggregation.items[i];
                     if (item.value) {
                         this.setDate(item, &quot;-01-01&quot;);
                     }
@@ -3092,7 +3091,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
             case &quot;YYYY-WW&quot;:
                 for (let i &#x3D; 0, ic &#x3D; this.aggregation.items.length; i &lt; ic; i++) {
-                    let item &#x3D; this.aggregation.items[i];
+                    const item &#x3D; this.aggregation.items[i];
                     if (item.value) {
                         this.setDate(item, &quot;&quot;, moment.ISO_8601);
                     }
@@ -3112,10 +3111,10 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
         // Add a zero count data point to the end so a &quot;before&quot; selection of all the data is possible
         if (this.aggregation.items.length &gt; 0) {
-            let endItem &#x3D; this.aggregation.items[this.aggregation.items.length - 1];
+            const endItem &#x3D; this.aggregation.items[this.aggregation.items.length - 1];
             if (endItem.value) {
-                let nextItem &#x3D; Utils.copy(endItem);
-                let nextDate &#x3D; this.nextTimelineDate(endItem[&quot;date&quot;]);
+                const nextItem &#x3D; Utils.copy(endItem);
+                const nextDate &#x3D; this.nextTimelineDate(endItem[&quot;date&quot;]);
                 if (nextDate) {
                     nextItem.count &#x3D; 0;
                     nextItem[&quot;date&quot;] &#x3D; nextDate;
@@ -3126,7 +3125,8 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 
         this.zeroComplete();
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
@@ -3206,7 +3206,7 @@ export class BsTimeline implements OnChanges, OnInit, AfterViewInit, OnDestroy {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div [hidden]="hidden" class="sq-timeline-header" #header></div><div [hidden]="hidden" class="sq-timeline-graph" #graph></div><div [hidden]="hidden" class="sq-timeline-footer" #footer></div></div>'
-    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsChart', 'selector': 'sq-chart'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetChart', 'selector': 'sq-facet-chart'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsTimelineView', 'selector': 'sq-results-timeline-view'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimeline', 'selector': 'sq-timeline'},{'name': 'BsTimelineTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'Heatmap', 'selector': 'sq-heatmap'},{'name': 'HeatmapTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'Tab', 'selector': 'tab'},{'name': 'UserRating', 'selector': 'sq-user-rating'},{'name': 'VTabs', 'selector': 'sq-vtabs'}];
+    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsChart', 'selector': 'sq-chart'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetChart', 'selector': 'sq-facet-chart'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsTimelineView', 'selector': 'sq-results-timeline-view'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimeline', 'selector': 'sq-timeline'},{'name': 'BsTimelineTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
     var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sq-advanced-form-autocomplete]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sq-advanced-form-validation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'Load', 'selector': '[sqLoad]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'}];
     var ACTUAL_COMPONENT = {'name': 'BsTimeline'};
 </script>

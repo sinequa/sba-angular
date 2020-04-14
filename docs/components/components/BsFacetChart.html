@@ -732,7 +732,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/Item.html" target="_self" >AggregationItem | undefined</a></code>
+                        <b>Returns : </b>        <code><a href="../classes/Item.html" target="_self" >AggregationItem | undefined</a></code>
 
                     </div>
                     <div class="io-description">
@@ -772,7 +772,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Name of the facet, used to create and retrieve selections 
+                    <div class="io-description"><p>Name of the facet, used to create and retrieve selections
 through the facet service.</p>
 </div>
 
@@ -840,7 +840,7 @@ through the facet service.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>isFiltered(item: <a href="../interfaces/Item.html">AggregationItem</a>)</code>
+<code>isFiltered(item: <a href="../classes/Item.html">AggregationItem</a>)</code>
                 </td>
             </tr>
 
@@ -872,7 +872,7 @@ through the facet service.</p>
                                 <tr>
                                     <td>item</td>
                                     <td>
-                                                <code><a href="../interfaces/Item.html" target="_self" >AggregationItem</a></code>
+                                                <code><a href="../classes/Item.html" target="_self" >AggregationItem</a></code>
                                     </td>
 
                                     <td>
@@ -1735,13 +1735,13 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
     private selectionChange: Subscription;
 
     constructor(
-        private facetService: FacetService, 
-        private intlService: IntlService,       
+        private facetService: FacetService,
+        private intlService: IntlService,
         private selectionService: SelectionService,
         private appService: AppService
     ){
         super();
-            
+
         // Clear the current filters
         this.clearFilters &#x3D; new Action({
             icon: &quot;far fa-minus-square&quot;,
@@ -1750,7 +1750,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
                 this.facetService.clearFiltersSearch(this.getName(), true);
             }
         });
-        
+
         this.selectField &#x3D; new Action({
             title: &quot;Select field&quot;,
             updater: (action) &#x3D;&gt; {
@@ -1762,7 +1762,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
                         .map(a &#x3D;&gt; {
                             return new Action({
                                 name: a,
-                                text: a,                            
+                                text: a,
                                 action : (item, event) &#x3D;&gt; {
                                     this.aggregation &#x3D; a;
                                     this.ngOnChanges(&lt;SimpleChanges&gt; &lt;any&gt; {results: true});
@@ -1776,7 +1776,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
     }
 
     /**
-     * Name of the facet, used to create and retrieve selections 
+     * Name of the facet, used to create and retrieve selections
      * through the facet service.
      */
     getName() : string {
@@ -1787,8 +1787,8 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
      * Returns all the actions that are relevant in the current context
      */
     get actions(): Action[] {
-        let actions: Action[] &#x3D; [];
-        if(this.hasFiltered()) {            
+        const actions: Action[] &#x3D; [];
+        if(this.hasFiltered()) {
             actions.push(this.clearFilters);
         }
         if(!!this.selectField.name) {
@@ -1810,7 +1810,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
     private makeData() {
         this.dataPoints &#x3D; [];
         if(this.data &amp;&amp; this.data.items){
-            for (let item of this.data.items) {
+            for (const item of this.data.items) {
                 this.dataPoints.push({
                     name: this.facetService.formatValue(item),
                     value: item.count,
@@ -1826,12 +1826,12 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
     private updateSelectedValues(){
         this.selectedValues.clear();
         this.selectionService.selectedRecords.forEach(id &#x3D;&gt; {
-            let record &#x3D; this.results.records.find(record &#x3D;&gt; record.id &#x3D;&#x3D;&#x3D; id);
+            const record &#x3D; this.results.records.find(record &#x3D;&gt; record.id &#x3D;&#x3D;&#x3D; id);
             if(!!record &amp;&amp; !!this.data){
-                let val &#x3D; record[this.appService.getColumnAlias(this.appService.getColumn(this.data.column))];
+                const val &#x3D; record[this.appService.getColumnAlias(this.appService.getColumn(this.data.column))];
                 if(val){
                     if(Utils.isString(val)){    // Sourcestr
-                        this.selectedValues.add(val.toLowerCase())
+                        this.selectedValues.add(val.toLowerCase());
                     }
                     if(Utils.isArray(val)){
                         val.forEach(v &#x3D;&gt; {
@@ -1858,11 +1858,11 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
 
         if (this.colors &amp;&amp; this.colors.length &gt; 0) {
             this.options.getItemColor &#x3D; (value: string): string &#x3D;&gt; {
-                let index &#x3D; this.dataPoints.findIndex(dataPoint &#x3D;&gt; dataPoint.name &#x3D;&#x3D;&#x3D; value);
+                const index &#x3D; this.dataPoints.findIndex(dataPoint &#x3D;&gt; dataPoint.name &#x3D;&#x3D;&#x3D; value);
                 if (index &#x3D;&#x3D;&#x3D; -1) {
                     return &quot;black&quot;;
                 }
-                let item &#x3D; this.getItem(this.dataPoints[index]);
+                const item &#x3D; this.getItem(this.dataPoints[index]);
                 if (item) {
                     if (this.isFiltered(item)) {
                         return this.filteredColor;
@@ -1879,7 +1879,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
     tickFormatter &#x3D; (value: any): string &#x3D;&gt; {
         if (Utils.isNumber(value)) {
             // No fractional counts
-            if (value % 1 !&#x3D;&#x3D; 0) {                
+            if (value % 1 !&#x3D;&#x3D; 0) {
                 return &quot;&quot;;
             }
             return this.intlService.formatNumber(value);
@@ -1901,7 +1901,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
         });
     }
 
-    
+
     ngOnChanges(changes: SimpleChanges) {
         this.selectField.update();
 
@@ -1917,14 +1917,14 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
         }
     }
 
-    ngOnDestroy() { 
+    ngOnDestroy() {
         this.localeChange.unsubscribe();
         this.selectionChange.unsubscribe();
     }
 
     click(dataPoint: ChartDataPoint) {
         if (this.data) {
-            let item &#x3D; this.getItem(dataPoint);
+            const item &#x3D; this.getItem(dataPoint);
             if (!!item) {
                 if(!this.isFiltered(item))
                     this.facetService.addFilterSearch(this.getName(), this.data, item);
@@ -1936,27 +1936,27 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
 
     /**
      * Returns true if the given AggregationItem is filtered
-     * @param item 
+     * @param item
      */
     isFiltered(item: AggregationItem) : boolean {
         return !!this.data &amp;&amp; this.facetService.itemFiltered(this.getName(), this.data, item);
     }
 
     getItem(dataPoint: ChartDataPoint): AggregationItem | undefined {
-        let _dataPoint &#x3D; this.dataPoints.find(_dataPoint &#x3D;&gt; _dataPoint.name &#x3D;&#x3D;&#x3D; dataPoint.name &amp;&amp; _dataPoint.value &#x3D;&#x3D;&#x3D; dataPoint.value);
+        const _dataPoint &#x3D; this.dataPoints.find(_dataPoint &#x3D;&gt; _dataPoint.name &#x3D;&#x3D;&#x3D; dataPoint.name &amp;&amp; _dataPoint.value &#x3D;&#x3D;&#x3D; dataPoint.value);
         if (!!_dataPoint &amp;&amp; !!_dataPoint.$item) {
             return _dataPoint.$item;
         }
         return undefined;
     }
-    
+
     /* AbstractFacet abstract methods */
     isHidden(): boolean {
         // Always display if multivalued
         return !this.aggregations &amp;&amp; (!this.data || !this.dataPoints);
     }
 
-}   </code></pre>
+}</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
@@ -1992,7 +1992,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div *ngIf="!isHidden()" class="card-body">    <sq-chart [options]="options" [data]="dataPoints" (item-click)="click($event)" #chart></sq-chart></div></div>'
-    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsChart', 'selector': 'sq-chart'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetChart', 'selector': 'sq-facet-chart'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsTimelineView', 'selector': 'sq-results-timeline-view'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimeline', 'selector': 'sq-timeline'},{'name': 'BsTimelineTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'Heatmap', 'selector': 'sq-heatmap'},{'name': 'HeatmapTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'Tab', 'selector': 'tab'},{'name': 'UserRating', 'selector': 'sq-user-rating'},{'name': 'VTabs', 'selector': 'sq-vtabs'}];
+    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsChart', 'selector': 'sq-chart'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetChart', 'selector': 'sq-facet-chart'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsTimelineView', 'selector': 'sq-results-timeline-view'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimeline', 'selector': 'sq-timeline'},{'name': 'BsTimelineTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
     var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sq-advanced-form-autocomplete]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sq-advanced-form-validation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'Load', 'selector': '[sqLoad]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'}];
     var ACTUAL_COMPONENT = {'name': 'BsFacetChart'};
 </script>

@@ -305,15 +305,17 @@ export interface CCConfig {
      */
     name: string;
     /**
-     * A description of the configuration object
+     * An optional description of the configuration object
      */
-    description: string;
+    description?: string;
 }
 
 /**
  * Describes the fields available in all web service configuration objects
  */
-export type CCWebService &#x3D; CCConfig;
+export interface CCWebService extends CCConfig {
+    webServiceType: &quot;Query&quot; | &quot;sponsoredlinks&quot; | &quot;queryexport&quot; | &quot;Preview&quot; | &quot;Labels&quot; | &quot;Autocomplete&quot;;
+}
 
 /**
  * Describes the fields available in the index configuration object
@@ -326,7 +328,7 @@ export interface CCIndex extends CCConfig {
     /**
      * The columns in the index
      */
-    columns: MapOf&lt;CCColumn&gt;;
+    columns?: MapOf&lt;CCColumn&gt;;
 }
 
 /**
@@ -391,6 +393,10 @@ export interface CCAggregation {
      * The underlying column in the aggregation
      */
     column: string;
+    /**
+     * Determines whether this aggregation should be included in a regular search
+     */
+    includeInStandardSearch: boolean;
     /**
      * The maximum number of values to retrieve
      */
@@ -565,57 +571,33 @@ export interface CCScope {
  * Defines different precision operators that can be automatically added to a &#x60;text contains&#x60; clause
  * when no precision operators are present.
  *
- * &#x60;default&#x60; - no operators are added
+ * &#x60;Default&#x60; - no operators are added
  *
- * &#x60;exactExpression&#x60; - text surrounded by &#x60;&quot;...&quot;&#x60;
+ * &#x60;ExactExpression&#x60; - text surrounded by &#x60;&quot;...&quot;&#x60;
  *
- * &#x60;inTheSamePhrase&#x60; - text surrounded by &#x60;[...]&#x60;
+ * &#x60;InTheSamePhrase&#x60; - text surrounded by &#x60;[...]&#x60;
  *
- * &#x60;everyWord&#x60; - text surrounded by &#x60;+(...)&#x60;
+ * &#x60;EveryWord&#x60; - text surrounded by &#x60;+(...)&#x60;
  */
-export enum QueryPrecision {
-    /**
-     * No operators are added
-     */
-    default &#x3D; &quot;Default&quot;,
-    /**
-     * The text is surrounded by &#x60;&quot;...&quot;&#x60;
-     */
-    exactExpression &#x3D; &quot;ExactExpression&quot;,
-    /**
-     * The text is surrounded by &#x60;[...]&#x60;
-     */
-    inTheSamePhrase &#x3D; &quot;InTheSamePhrase&quot;,
-    /**
-     * The text is surrounded by &#x60;+(...)&#x60;
-     */
-    everyWord  &#x3D; &quot;EveryWord&quot;
-}
+export type QueryPrecision  &#x3D; &quot;Default&quot; | &quot;ExactExpression&quot; | &quot;InTheSamePhrase&quot; | &quot;EveryWord&quot;;
 
 /**
  * Defines strategies that can used in the query search parameters. Each strategy defines a pair of word weight (&#x60;ww&#x60;) and meaning
  * weight (&#x60;mw&#x60;) values to be used.
  *
- * &#x60;default&#x60; - no &#x60;ww&#x60; and &#x60;mw&#x60; parameters used
+ * &#x60;Default&#x60; - no &#x60;ww&#x60; and &#x60;mw&#x60; parameters used
  *
- * &#x60;wordsOnly&#x60; - &#x60;ww&#x3D;1;mw&#x3D;0&#x60;
+ * &#x60;WordsOnly&#x60; - &#x60;ww&#x3D;1;mw&#x3D;0&#x60;
  *
- * &#x60;wordsFirst&#x60; - &#x60;ww&#x3D;0.8;mw&#x3D;0.2&#x60;
+ * &#x60;WordsFirst&#x60; - &#x60;ww&#x3D;0.8;mw&#x3D;0.2&#x60;
  *
- * &#x60;wordsAndMeaning&#x60; - &#x60;ww&#x3D;0.6;mw&#x3D;0.4&#x60;
+ * &#x60;WordsAndMeaning&#x60; - &#x60;ww&#x3D;0.6;mw&#x3D;0.4&#x60;
  *
- * &#x60;meaningFirst&#x60; - &#x60;ww&#x3D;0.3;mw&#x3D;0.7&#x60;
+ * &#x60;MeaningFirst&#x60; - &#x60;ww&#x3D;0.3;mw&#x3D;0.7&#x60;
  *
- * &#x60;meaningOnly&#x60; - &#x60;ww&#x3D;0;mw&#x3D;1&#x60;
+ * &#x60;MeaningOnly&#x60; - &#x60;ww&#x3D;0;mw&#x3D;1&#x60;
  */
-export enum QueryStrategy {
-    default &#x3D; &quot;Default&quot;,
-    wordsOnly &#x3D; &quot;WordsOnly&quot;,
-    wordsFirst &#x3D; &quot;WordsFirst&quot;,
-    wordsAndMeaning &#x3D; &quot;WordsAndMeaning&quot;,
-    meaningFirst &#x3D; &quot;MeaningFirst&quot;,
-    meaningOnly &#x3D; &quot;MeaningOnly&quot;
-}
+export type QueryStrategy &#x3D; &quot;Default&quot; | &quot;WordsOnly&quot; | &quot;WordsFirst&quot; | &quot;WordsAndMeaning&quot; | &quot;MeaningFirst&quot; | &quot;MeaningOnly&quot;;
 
 /**
  * Defines modes for the spelling correction of search terms and did-you-mean functionality. Corrections
@@ -634,7 +616,7 @@ export enum QueryStrategy {
  * are not included in the query. The [Results.didYouMean]{@link Results#didYouMean] member is populated allowing for a &quot;Your query
  * has been corrected to...&quot; feedback to be displayed
  *
- * &#x60;dymOnly&#x60; - corrections are sought for terms that are present in less than 10 documents and where the correction is
+ * &#x60;dymonly&#x60; - corrections are sought for terms that are present in less than 10 documents and where the correction is
  * 20 times more frequent than the original term. The actual query is unaffected but the
  * [Results.didYouMean]{@link Results#didYouMean] member will be populated allowing for a &quot;Did you mean...&quot; feedback to be
  * displayed
@@ -643,15 +625,7 @@ export enum QueryStrategy {
  *
  * &#x60;false&#x60; - no spelling correction processing occurs
  */
-export enum SpellingCorrectionMode {
-    default &#x3D; &quot;Default&quot;,
-    classic &#x3D; &quot;Classic&quot;,
-    smart &#x3D; &quot;Smart&quot;,
-    correct &#x3D; &quot;Correct&quot;,
-    dymOnly &#x3D; &quot;DYMOnly&quot;,
-    force &#x3D; &quot;Force&quot;,
-    false &#x3D; &quot;False&quot;
-}
+export type SpellingCorrectionMode &#x3D; &quot;default&quot; | &quot;classic&quot; | &quot;smart&quot; | &quot;correct&quot; | &quot;dymonly&quot; | &quot;force&quot; | &quot;false&quot;;
 
 /**
  * Describes the query web service configuration object
@@ -1020,6 +994,10 @@ export interface CCApp extends CCConfig {
      * This field is used to compare with [MINIMUM_COMPATIBLE_SERVER_API_VERSION]{@link MINIMUM_COMPATIBLE_SERVER_API_VERSION}
      */
     apiVersion: string;
+    /**
+     * The workspace associated with this app
+     */
+    workspaceApp: string;
 }
 
 /**

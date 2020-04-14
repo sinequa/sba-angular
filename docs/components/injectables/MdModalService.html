@@ -348,7 +348,7 @@ export class MdModalService extends ModalService {
         };
         const originalClose &#x3D; dialogRef.close;
         dialogRef.close &#x3D; function(result &#x3D; ModalResult.Cancel) {
-            let checkCloseEvent: CheckCloseEvent &#x3D; {result};
+            const checkCloseEvent: CheckCloseEvent &#x3D; {result};
             checkClose.next(checkCloseEvent);
             (checkCloseEvent.cancelled || of(false)).subscribe(
                 (cancelled) &#x3D;&gt; {
@@ -362,7 +362,7 @@ export class MdModalService extends ModalService {
     }
 
     openRef(component: Type&lt;any&gt;, config: ModalConfig &#x3D; {}): IModalRef {
-        let matConfig: MatDialogConfig &#x3D; {
+        const matConfig: MatDialogConfig &#x3D; {
             data: config.model
         };
         if (!Utils.isUndefined(config.panelClass)) {

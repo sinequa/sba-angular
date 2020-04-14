@@ -971,7 +971,7 @@ export interface AutocompleteItem {
  * also manage navigation through the list (next/previous and selectedValue).
  */
 export interface AutocompleteComponent {
-    
+
     /**
      * Whether there are any item to display
      */
@@ -981,7 +981,7 @@ export interface AutocompleteComponent {
      * Event emitter for clicks on an autocomplete item
      */
     clicked: EventEmitter&lt;AutocompleteItem&gt;;
-    
+
     /**
      * Returns the currently selected item, if any
      */
@@ -993,12 +993,12 @@ export interface AutocompleteComponent {
      * @param items The list of items to display
      */
     update(active: boolean, items?: AutocompleteItem[]): void;
-    
+
     /**
      * Select the next item in the list and returns it
      */
     selectNext(): AutocompleteItem | undefined;
-    
+
     /**
      * Select the previous item in the list and returns it
      */
@@ -1030,7 +1030,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     @Input() dropdown: AutocompleteComponent;
     @Input() off: boolean;
     @Input() fieldSearch: boolean;
-    @Input() excludedFields: string[] &#x3D; [&quot;concept&quot;]
+    @Input() excludedFields: string[] &#x3D; [&quot;concept&quot;];
     @Input() suggestDelay: number &#x3D; 200;
     @Input() suggestQuery: string;
     @Output() stateChange &#x3D; new EventEmitter&lt;AutocompleteState&gt;();
@@ -1040,11 +1040,11 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     private _state: AutocompleteState &#x3D; AutocompleteState.INIT;
 
     // The input HTML element to which this directive is attached
-    private readonly inputElement: HTMLInputElement;    
+    private readonly inputElement: HTMLInputElement;
 
 
     // Initialization
-    
+
     constructor(
         elementRef: ElementRef,
         protected suggestService: SuggestService,
@@ -1061,16 +1061,16 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      */
     ngOnInit(){
         this._dropdownSubscription &#x3D; this.dropdown.clicked.subscribe(item &#x3D;&gt; {
-            this.select(item, true);  // An item was selected from the autocomplete &#x3D;&gt; take the value 
+            this.select(item, true);  // An item was selected from the autocomplete &#x3D;&gt; take the value
         });
-        
+
         this.inputElement.focus();
         this.start();
     }
 
     /**
      * If the off input changes state, react accordingly
-     * @param changes 
+     * @param changes
      */
     ngOnChanges(changes: SimpleChanges){
         if(changes[&quot;off&quot;]){
@@ -1140,7 +1140,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * Sets the content of the &lt;input&gt; based on the given
      * Autocomplete Item (various implementations are possible,
      * depending on the item content and nature).
-     * This would be the right method to override to implement 
+     * This would be the right method to override to implement
      * fielded search autocomplete.
      * @returns true if this autocomplete item should be searched
      */
@@ -1173,7 +1173,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
         this.setState(AutocompleteState.INIT);
         this.dropdown.update(false);    // If the dropdown was active
     }
-    
+
     /**
      * START state (Input is focused, no text typed in, dropdown is closed)
      */
@@ -1185,7 +1185,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     /**
      * START state and if the &lt;input&gt; has content, immediately switch to ACTIVE
      */
-    protected startOrActive(): void {        
+    protected startOrActive(): void {
         if(this.getState()!&#x3D;&#x3D; AutocompleteState.ACTIVE &amp;&amp; this.getState()!&#x3D;&#x3D; AutocompleteState.OPENED){ // Avoid flickering
             this.start();
             if(!!this.getInputValue()){
@@ -1193,7 +1193,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
             }
         }
     }
-    
+
     /**
      * ACTIVE state (Input is focused, text is typed, suggests are being queried, dropdown is closed)
      */
@@ -1212,9 +1212,9 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      */
     protected select(item: AutocompleteItem, submit?: boolean): void {
         this.setState(AutocompleteState.SELECTED); // Change state BEFORE setting input value, so the event is correctly processed
-        let searchable &#x3D; this.setAutocompleteItem(item);
+        const searchable &#x3D; this.setAutocompleteItem(item);
         this.dropdown.update(false);    // Close dropdown
-        
+
         if(submit &amp;&amp; searchable) this.submit.next();
     }
 
@@ -1231,7 +1231,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * Request suggestions from the server, and update the dropdown contents
      * and autocomplete state asynchronously.
      * Override this method for a synchronous implementation.
-     */    
+     */
     protected suggest() {
         this.debounceSuggest();
     }
@@ -1243,11 +1243,11 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     protected getSuggests() {
         let value &#x3D; this.getInputValue();
         if(value) { // If there is text, make a call to the suggest API
-            let parseResult &#x3D; this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
+            const parseResult &#x3D; this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
             let fields: string[] | undefined &#x3D; undefined;
             if(parseResult.result &amp;&amp; this.fieldSearch){
-                let position &#x3D; this.getInputPosition(); // Position of the caret, if needed
-                let res &#x3D; parseResult.result.findValue(position);
+                const position &#x3D; this.getInputPosition(); // Position of the caret, if needed
+                const res &#x3D; parseResult.result.findValue(position);
                 // Field Search suggest
                 if(!!res &amp;&amp; !!res.field){
                     fields &#x3D; Utils.startsWith(res.field, &quot;@&quot;) ? [&quot;text&quot;] : [res.field];
@@ -1258,7 +1258,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
             this.processSuggests(
                 this.suggestService.get(this.suggestQuery, value, fields), fields
             );
-            
+
         }
         else {  // If empty input, restart autocomplete
             this.start();
@@ -1280,7 +1280,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
                 if(this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.ACTIVE || this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.OPENED){
                     this.dropdown.update(true, suggests
                         .filter(item &#x3D;&gt; this.fieldSearch || item.category !&#x3D;&#x3D; &quot;$field$&quot;)  // Filter out fields if not in fieldSearch mode
-                        .map(item &#x3D;&gt; { 
+                        .map(item &#x3D;&gt; {
                             if(!item.label){
                                 if(this.fieldSearch &amp;&amp; item.category &#x3D;&#x3D;&#x3D; &quot;$field$&quot;) {
                                     item.label &#x3D; &quot;Field&quot;;
@@ -1319,9 +1319,9 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * Parse the query for syntax error (also allows to detect field search if needed)
      */
     protected parseQuery() : ParseResult {
-        let value &#x3D; this.getInputValue();
-        let result &#x3D; this.appService.parseExpr(value, {allowEmptyValues: true});
-        let event &#x3D; result instanceof Expr? { result: result } : { error: result };
+        const value &#x3D; this.getInputValue();
+        const result &#x3D; this.appService.parseExpr(value, {allowEmptyValues: true});
+        const event &#x3D; result instanceof Expr? { result: result } : { error: result };
         this.parse.next(event);
         return event;
     }
@@ -1329,8 +1329,8 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     protected getInputPosition(): number {
         // Come back before trailing spaces so the preceding value is still seen as the input value
         // (needed for ExprParser to stop autocomplete being cancelled on entering trailing spaces)
-        let position &#x3D; this.uiService.getCaret(this.inputElement).start;
-        let length &#x3D; Utils.len(Utils.trimEnd(this.getInputValue()));
+        const position &#x3D; this.uiService.getCaret(this.inputElement).start;
+        const length &#x3D; Utils.len(Utils.trimEnd(this.getInputValue()));
         return Math.min(position, length);
     }
 
@@ -1340,7 +1340,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * The events affect the state of the autocomplete, which triggers
      * various actions (call to suggest API, etc.).
      */
-    
+
     /**
      * Listens to click events on the &lt;input&gt; host
      */
@@ -1356,7 +1356,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
         //console.log(&quot;input touchstart&quot;);
         this.startOrActive();
     }
-    
+
     /**
      * Listens to focus events on the &lt;input&gt; host
      */
@@ -1372,16 +1372,16 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
         //console.log(&quot;input focus lost&quot;);
         this.init();
     }
-    
+
     /**
      * Listen to any change in the &lt;input&gt; content and react
      * according to the current state of the autocomplete
-     * @param event 
+     * @param event
      */
     @HostListener(&quot;input&quot;, [&quot;$event&quot;]) inputChanged(event: Event) {
         //console.log(&quot;input value changed&quot;);
         switch(this.getState()){
-            case AutocompleteState.OPENED:                
+            case AutocompleteState.OPENED:
                 this.suggest(); // Just request more data, but no state change
                 break;
             case AutocompleteState.START:
@@ -1400,7 +1400,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     /**
      * Listen to user&#x27;s keyboard actions in the &lt;input&gt;, in order to navigate
      * and select the autocomplete suggestions.
-     * @param event the keyboard 
+     * @param event the keyboard
      */
     @HostListener(&quot;keydown&quot;, [&quot;$event&quot;]) keydown(event: KeyboardEvent) {
         // Navigation in the opened dropdown
@@ -1438,7 +1438,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
             this.start();
         }
         return undefined;
-    };
+    }
 }</code></pre>
     </div>
 

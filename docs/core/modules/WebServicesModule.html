@@ -559,7 +559,7 @@ import {WEB_SERVICES_MODULE_PROVIDERS} from &quot;./module.providers&quot;;
 
 // Used to ensure that the StartConfigWebService is instantiated
 export function StartConfigInitializer(startConfigWebService: StartConfigWebService): () &#x3D;&gt; Promise&lt;void&gt; {
-    let init &#x3D; () &#x3D;&gt; Promise.resolve();
+    const init &#x3D; () &#x3D;&gt; Promise.resolve();
     return init;
 }
 
@@ -587,9 +587,9 @@ export function StartConfigInitializer(startConfigWebService: StartConfigWebServ
 export class WebServicesModule {
     /**
      * Configures the module with a start configuration
-     * 
+     *
      * @param startConfig The start configuration object
-     * 
+     *
      * @returns The configured module
      */
     static forRoot(startConfig: StartConfig) : ModuleWithProviders {

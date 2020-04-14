@@ -103,7 +103,7 @@
 
             <tr>
                 <td class="col-md-3">styles</td>
-                <td class="col-md-9"><code>    
+                <td class="col-md-9"><code>
 .item-opener {
     text-decoration: none !important;
 }
@@ -586,7 +586,7 @@ a.filtered, a.filtered:hover {
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>filterItem(item: <a href="../interfaces/Item.html">AggregationItem</a>, event)</code>
+<code>filterItem(item: <a href="../classes/Item.html">AggregationItem</a>, event)</code>
                 </td>
             </tr>
 
@@ -618,7 +618,7 @@ a.filtered, a.filtered:hover {
                                 <tr>
                                     <td>item</td>
                                     <td>
-                                                <code><a href="../interfaces/Item.html" target="_self" >AggregationItem</a></code>
+                                                <code><a href="../classes/Item.html" target="_self" >AggregationItem</a></code>
                                     </td>
 
                                     <td>
@@ -684,7 +684,7 @@ a.filtered, a.filtered:hover {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Name of the facet, used to create and retrieve selections 
+                    <div class="io-description"><p>Name of the facet, used to create and retrieve selections
 through the facet service.</p>
 </div>
 
@@ -793,7 +793,7 @@ through the facet service.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>isFiltered(item: <a href="../interfaces/Item.html">AggregationItem</a>)</code>
+<code>isFiltered(item: <a href="../classes/Item.html">AggregationItem</a>)</code>
                 </td>
             </tr>
 
@@ -825,7 +825,7 @@ through the facet service.</p>
                                 <tr>
                                     <td>item</td>
                                     <td>
-                                                <code><a href="../interfaces/Item.html" target="_self" >AggregationItem</a></code>
+                                                <code><a href="../classes/Item.html" target="_self" >AggregationItem</a></code>
                                     </td>
 
                                     <td>
@@ -904,7 +904,7 @@ through the facet service.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>isSelected(item: <a href="../interfaces/Item.html">AggregationItem</a>)</code>
+<code>isSelected(item: <a href="../classes/Item.html">AggregationItem</a>)</code>
                 </td>
             </tr>
 
@@ -936,7 +936,7 @@ through the facet service.</p>
                                 <tr>
                                     <td>item</td>
                                     <td>
-                                                <code><a href="../interfaces/Item.html" target="_self" >AggregationItem</a></code>
+                                                <code><a href="../classes/Item.html" target="_self" >AggregationItem</a></code>
                                     </td>
 
                                     <td>
@@ -1174,7 +1174,7 @@ This completely resets the display</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>selectItem(item: <a href="../interfaces/Item.html">AggregationItem</a>)</code>
+<code>selectItem(item: <a href="../classes/Item.html">AggregationItem</a>)</code>
                 </td>
             </tr>
 
@@ -1206,7 +1206,7 @@ This completely resets the display</p>
                                 <tr>
                                     <td>item</td>
                                     <td>
-                                                <code><a href="../interfaces/Item.html" target="_self" >AggregationItem</a></code>
+                                                <code><a href="../classes/Item.html" target="_self" >AggregationItem</a></code>
                                     </td>
 
                                     <td>
@@ -1760,7 +1760,7 @@ import {AbstractFacet} from &quot;../../abstract-facet&quot;;
 @Component({
     selector: &quot;sq-facet-tree&quot;,
     templateUrl: &quot;./facet-tree.html&quot;,
-    styles: [&#x60;    
+    styles: [&#x60;
 .item-opener {
     text-decoration: none !important;
 }
@@ -1780,13 +1780,13 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
     @Input() allowExclude: boolean &#x3D; true; // Allow to exclude selected items
     @Input() allowOr: boolean &#x3D; true; // Allow to search various items in OR mode
     @Input() expandedLevel: number &#x3D; 2;
-    
+
     // Aggregation from the Results object
     data: TreeAggregation | undefined;
 
     // Sets to keep track of selected/excluded/filtered items
     private readonly filtered &#x3D; new Set&lt;AggregationItem&gt;();
-    // TODO keep track of excluded terms and display them with specific color private 
+    // TODO keep track of excluded terms and display them with specific color private
     // readonly filtered &#x3D; new Set&lt;AggregationItem&gt;();
 
     // Actions (displayed in facet menu)
@@ -1801,41 +1801,41 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
         private changeDetectorRef: ChangeDetectorRef){
             super();
 
-        // Keep documents with ANY of the selected items
-        this.filterItemsOr &#x3D; new Action({
-            icon: &quot;fas fa-filter&quot;,
-            title: &quot;msg#facet.filterItems&quot;,
-            action: () &#x3D;&gt; {
-                if (this.data) {
-                    this.facetService.addFilterSearch(this.getName(), this.data, this.getSelectedItems());
+            // Keep documents with ANY of the selected items
+            this.filterItemsOr &#x3D; new Action({
+                icon: &quot;fas fa-filter&quot;,
+                title: &quot;msg#facet.filterItems&quot;,
+                action: () &#x3D;&gt; {
+                    if (this.data) {
+                        this.facetService.addFilterSearch(this.getName(), this.data, this.getSelectedItems());
+                    }
                 }
-            }
-        });
+            });
 
-        // Exclude document with selected items
-        this.excludeItems &#x3D; new Action({
-            icon: &quot;fas fa-times&quot;,
-            title: &quot;msg#facet.excludeItems&quot;,
-            action: () &#x3D;&gt; {
-                if (this.data) {
-                    this.facetService.addFilterSearch(this.getName(), this.data, this.getSelectedItems(), {not: true});
+            // Exclude document with selected items
+            this.excludeItems &#x3D; new Action({
+                icon: &quot;fas fa-times&quot;,
+                title: &quot;msg#facet.excludeItems&quot;,
+                action: () &#x3D;&gt; {
+                    if (this.data) {
+                        this.facetService.addFilterSearch(this.getName(), this.data, this.getSelectedItems(), {not: true});
+                    }
                 }
-            }
-        });
+            });
 
-        // Clear the current filters
-        this.clearFilters &#x3D; new Action({
-            icon: &quot;far fa-minus-square&quot;,
-            title: &quot;msg#facet.clearSelects&quot;,
-            action: () &#x3D;&gt; {
-                this.facetService.clearFiltersSearch(this.getName(), true);
-            }
-        });
-        
+            // Clear the current filters
+            this.clearFilters &#x3D; new Action({
+                icon: &quot;far fa-minus-square&quot;,
+                title: &quot;msg#facet.clearSelects&quot;,
+                action: () &#x3D;&gt; {
+                    this.facetService.clearFiltersSearch(this.getName(), true);
+                }
+            });
+
     }
 
     /**
-     * Name of the facet, used to create and retrieve selections 
+     * Name of the facet, used to create and retrieve selections
      * through the facet service.
      */
     getName() : string {
@@ -1845,13 +1845,13 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
     /**
      * OnChanges listener awaits new results from the search service
      * This completely resets the display
-     * @param changes 
+     * @param changes
      */
     ngOnChanges(changes: SimpleChanges) {
         if (!!changes[&quot;results&quot;]) {     // New data from the search service
             this.filtered.clear();
             this.data &#x3D; this.facetService.getTreeAggregation(this.getName(), this.aggregation, this.results, this.initNodes);
-            
+
             this.refreshFiltered();
         }
     }
@@ -1874,9 +1874,9 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
      */
     get actions(): Action[] {
 
-        let actions: Action[] &#x3D; [];
+        const actions: Action[] &#x3D; [];
 
-        let selected &#x3D; this.getSelectedItems();
+        const selected &#x3D; this.getSelectedItems();
 
         if(selected.length &gt; 0) {
             if(this.allowOr){
@@ -1887,7 +1887,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
             }
         }
 
-        if(this.hasFiltered()) {            
+        if(this.hasFiltered()) {
             actions.push(this.clearFilters);
         }
 
@@ -1912,12 +1912,12 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
 
     /**
      * Returns true if the given AggregationItem is filtered
-     * @param item 
+     * @param item
      */
     isFiltered(item: AggregationItem) : boolean {
         return this.filtered.has(item);
     }
-    
+
     /**
      * Returns true if there is an active selection (or exclusion) from this facet
      */
@@ -1927,8 +1927,8 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
 
     /**
      * Called when clicking on a facet item text
-     * @param item 
-     * @param event 
+     * @param item
+     * @param event
      */
     filterItem(item: AggregationItem, event) : boolean {
         if (this.data) {
@@ -1949,7 +1949,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
 
     /**
      * Returns true if the given AggregationItem is selected
-     * @param item 
+     * @param item
      */
     isSelected(item: AggregationItem) : boolean {
         return !!item.$selected;
@@ -1970,7 +1970,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
         if(items){
             items.forEach(item &#x3D;&gt; {
                 if(this.isSelected(item))
-                    selected.push(item);                
+                    selected.push(item);
                 if(item.items){
                     this._getSelectedItems(item.items, selected);
                 }
@@ -1978,10 +1978,10 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
         }
         return selected;
     }
-    
+
     /**
      * Called when selecting/unselecting an item in the facet
-     * @param item 
+     * @param item
      */
     selectItem(item: AggregationItem) : boolean {
         if(!this.isFiltered(item)){
@@ -1989,11 +1989,11 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
         }
         return false;
     }
-    
+
 
     /**
      * Expand/Collapse a Tree node (the data may need to downloaded from the server)
-     * @param item 
+     * @param item
      */
     open(item: TreeAggregationNode, event: Event){
         if (item.hasChildren) {
@@ -2013,7 +2013,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
         event.stopPropagation();
         return false; // Prevent default action
     }
-    
+
     /* AbstractFacet abstract methods */
     isHidden(): boolean {
         return !this.data;
@@ -2070,7 +2070,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
     </div>
 
     <div class="tab-pane fade " id="c-styleData">
-            <pre class="line-numbers"><code class="language-scss">    
+            <pre class="line-numbers"><code class="language-scss">
 .item-opener {
     text-decoration: none !important;
 }
@@ -2110,7 +2110,7 @@ a.filtered, a.filtered:hover {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div *ngIf="!isHidden()" class="list-group list-group-flush">    <ng-container *ngTemplateOutlet="itemsTpl; context:data"></ng-container></div><ng-template #itemsTpl let-items="items">        <ng-container *ngFor="let item of items">        <a  class="d-flex flex-row align-items-center list-group-item border-0 pl-1 pr-3 py-1"             [ngClass]="{\'list-group-item-primary\':isSelected(item),\'list-group-item-success\':isFiltered(item),\'list-group-item-action\':!isFiltered(item), \'filtered\':isFiltered(item) }"             title="{{ (isFiltered(item)? \'msg#facet.selectedValue\' : \'msg#facet.itemSelect\') | sqMessage}}"             (click)="selectItem(item)" href="#">                <span class="mr-auto text-truncate" [ngStyle]="{\'margin-left.rem\' : item[\'$level\'] - 1}">                <a *ngIf="item[\'hasChildren\']" class="item-opener" href="#" (click)="open(item, $event)">                    <span *ngIf="item[\'$opening\']" class="fas fa-sync fa-fw fa-spin"></span>                    <span *ngIf="!item[\'$opening\'] && item[\'$opened\']" class="fas fa-caret-down fa-fw" title="{{\'msg#facet.closeItem\' | sqMessage}}"></span>                    <span *ngIf="!item[\'$opening\'] && !item[\'$opened\']" class="fas fa-caret-right fa-fw" title="{{\'msg#facet.openItem\' | sqMessage}}"></span>                </a>                <span *ngIf="!item[\'hasChildren\']" class="fas fa-fw"></span>                    <a  href="#" (click)="filterItem(item, $event)"                     role="button" title="{{item | sqValue:item.$column}}"                    class="text-truncate"> {{item | sqValue:item.$column}}</a>            </span>                        <i class="ml-2 far fa-check-square" *ngIf="isFiltered(item)"></i>            <span *ngIf="showCount && item.count" class="ml-2 text-muted small">{{item.count | sqNumber}}</span>            </a>        <ng-container *ngIf="item[\'$opened\']">            <ng-container *ngTemplateOutlet="itemsTpl; context:item"></ng-container>        </ng-container>    </ng-container></ng-template></div>'
-    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsChart', 'selector': 'sq-chart'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetChart', 'selector': 'sq-facet-chart'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsTimelineView', 'selector': 'sq-results-timeline-view'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimeline', 'selector': 'sq-timeline'},{'name': 'BsTimelineTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'Heatmap', 'selector': 'sq-heatmap'},{'name': 'HeatmapTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'Tab', 'selector': 'tab'},{'name': 'UserRating', 'selector': 'sq-user-rating'},{'name': 'VTabs', 'selector': 'sq-vtabs'}];
+    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsChart', 'selector': 'sq-chart'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetChart', 'selector': 'sq-facet-chart'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsTimelineView', 'selector': 'sq-results-timeline-view'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimeline', 'selector': 'sq-timeline'},{'name': 'BsTimelineTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
     var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sq-advanced-form-autocomplete]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sq-advanced-form-validation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'Load', 'selector': '[sqLoad]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'}];
     var ACTUAL_COMPONENT = {'name': 'BsFacetTree'};
 </script>

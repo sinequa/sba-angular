@@ -375,9 +375,9 @@
     selector: &quot;[sqLoad]&quot;
 })
 export class Load implements OnInit, OnDestroy {
-    element: HTMLElement;    
+    element: HTMLElement;
     @Output(&quot;sqLoad&quot;) load: EventEmitter&lt;{event: Event}&gt;;
-    
+
     constructor(elementRef: ElementRef) {
         this.element &#x3D; &lt;HTMLElement&gt;elementRef.nativeElement;
         this.load &#x3D; new EventEmitter&lt;{event: Event}&gt;();
@@ -385,12 +385,12 @@ export class Load implements OnInit, OnDestroy {
 
     loadListener &#x3D; (event: Event) &#x3D;&gt; {
         this.load.emit({event: event});
-    };
-    
+    }
+
     ngOnInit() {
         this.element.addEventListener(&quot;load&quot;, this.loadListener);
     }
-    
+
     ngOnDestroy() {
         this.element.removeEventListener(&quot;load&quot;, this.loadListener);
     }

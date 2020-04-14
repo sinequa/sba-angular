@@ -203,7 +203,7 @@ import {Observable, Subject} from &quot;rxjs&quot;;
 import {AppService, Query} from &quot;@sinequa/core/app-utils&quot;;
 import {AuthenticationService} from &quot;@sinequa/core/login&quot;;
 import {PreviewWebService, PreviewData, AuditEventType, Record, AuditEvent} from &quot;@sinequa/core/web-services&quot;;
-import {Utils} from &quot;@sinequa/core/base&quot;
+import {Utils} from &quot;@sinequa/core/base&quot;;
 import {ModalService} from &quot;@sinequa/core/modal&quot;;
 import {SearchService} from &quot;@sinequa/components/search&quot;;
 import {RecentDocumentsService} from &#x27;@sinequa/components/saved-queries&#x27;;
@@ -229,7 +229,7 @@ export const PREVIEW_MODAL &#x3D; new InjectionToken&lt;Type&lt;any&gt;&gt;(&quo
 })
 export class PreviewService {
 
-    private readonly _events &#x3D; new Subject&lt;PreviewEvent&gt;();   
+    private readonly _events &#x3D; new Subject&lt;PreviewEvent&gt;();
 
     constructor(
         @Inject(PREVIEW_MODAL) public previewModal: Type&lt;any&gt;,
@@ -241,7 +241,7 @@ export class PreviewService {
         private modalService: ModalService,
         private recentDocumentsService: RecentDocumentsService,
         private sanitizer: DomSanitizer) {
-            
+
         // Subscribe to own events and add documents to the recent documents service
         this.events.subscribe(event &#x3D;&gt; {
             if(event.record &amp;&amp; (event.type &#x3D;&#x3D;&#x3D; PreviewEventType.Modal || event.type &#x3D;&#x3D;&#x3D; PreviewEventType.Route || event.type &#x3D;&#x3D;&#x3D; PreviewEventType.Window)){
@@ -251,7 +251,7 @@ export class PreviewService {
     }
 
     /**
-     * Triggers any event among PreviewEvent 
+     * Triggers any event among PreviewEvent
      */
     public get events() : Subject&lt;PreviewEvent&gt; {
         return this._events;
@@ -273,7 +273,7 @@ export class PreviewService {
         }
         return query;
     }
- 
+
     public getPreviewData(id: string, query: Query, audit &#x3D; true): Observable&lt;PreviewData&gt; {
         let auditEvent: AuditEvent | undefined;
         const record &#x3D; this.searchService.getRecordFromId(id);
@@ -284,7 +284,7 @@ export class PreviewService {
             auditEvent &#x3D; {
                 type: AuditEventType.Doc_Preview,
                 detail: {
-                    &quot;docid&quot;: id,
+                    &quot;doc-id&quot;: id,
                     rank: rank,
                     collection: collection,
                     source: Utils.treeFirstNode(collection),
@@ -293,7 +293,7 @@ export class PreviewService {
             };
         }
         query &#x3D; this.makeQuery(query);
-        let observable &#x3D; this.previewWebService.get(id, query, auditEvent);
+        const observable &#x3D; this.previewWebService.get(id, query, auditEvent);
         Utils.subscribe(observable,
             (previewData) &#x3D;&gt; {
                 previewData.resultId &#x3D; resultId || &quot;&quot;;
@@ -322,7 +322,7 @@ export class PreviewService {
     }
 
     openNewWindow(record: Record, query: Query): Window | null {
-        let params &#x3D; {
+        const params &#x3D; {
             id: record.id,
             query: this.getQueryStr(query),
             app: this.appService.appName

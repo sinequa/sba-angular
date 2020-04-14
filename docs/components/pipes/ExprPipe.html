@@ -104,8 +104,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">utils/pipes/expr-pipe.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="15"
+                            class="link-to-prism">utils/pipes/expr-pipe.ts:15</a></div>
                 </td>
             </tr>
 
@@ -175,10 +175,11 @@ import {AbstractIntlPipe, IntlService} from &quot;@sinequa/core/intl&quot;;
 import {Expr, ExprMessageOptions} from &quot;@sinequa/core/app-utils&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
 
+// tslint:disable-next-line: use-pipe-transform-interface
 @Pipe({name: &quot;sqExpr&quot;, pure: false})
 export class ExprPipe extends AbstractIntlPipe {
     constructor(
-        intlService: IntlService, 
+        intlService: IntlService,
         changeDetectorRef: ChangeDetectorRef) {
         super(intlService, changeDetectorRef);
     }
@@ -186,7 +187,7 @@ export class ExprPipe extends AbstractIntlPipe {
     updateValue(key: Expr | string, params: ExprMessageOptions): void {
         super.updateValue(key, params);
         if (key instanceof Expr) {
-            let message &#x3D; key.toMessage(params);
+            const message &#x3D; key.toMessage(params);
             this.value &#x3D; this.intlService.formatMessage(message.message, message.values);
         }
         else {
