@@ -6,8 +6,10 @@ import {IntlModule} from "@sinequa/core/intl";
 
 import {BsActionModule} from "@sinequa/components/action";
 
-import {HeatmapModule} from "../heatmap.module";
-import {BsResultsHeatmapView} from "./results-heatmap-view/results-heatmap-view";
+import {BsTooltipComponent} from "./tooltip.component";
+import {BsHeatmapComponent} from "./heatmap.component";
+import {BsFacetHeatmapComponent} from "./facet-heatmap.component";
+import {BsResultsHeatmapView} from "./results-heatmap-view";
 
 @NgModule({
     imports: [
@@ -15,15 +17,19 @@ import {BsResultsHeatmapView} from "./results-heatmap-view/results-heatmap-view"
         CommonModule,
         IntlModule,
 
-        HeatmapModule,
         BsActionModule
     ],
     declarations: [
-        BsResultsHeatmapView
+        BsResultsHeatmapView,
+        BsTooltipComponent,
+        BsHeatmapComponent,
+        BsFacetHeatmapComponent
     ],
     exports: [
-        HeatmapModule,
-        BsResultsHeatmapView
+        BsResultsHeatmapView,
+        BsTooltipComponent,
+        BsHeatmapComponent,
+        BsFacetHeatmapComponent
     ]
 })
 export class BsHeatmapModule {

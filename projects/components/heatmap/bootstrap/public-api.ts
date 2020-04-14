@@ -1,2 +1,5 @@
 export * from "./heatmap.module";
-export * from "./results-heatmap-view/results-heatmap-view";
+export * from "./facet-heatmap.component";
+export * from "./heatmap.component";
+export * from "./tooltip.component";
+export * from "./results-heatmap-view";

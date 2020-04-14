@@ -230,7 +230,7 @@ This is equivalent as importing [`FormatService`]({{site.baseurl}}core/injectabl
 [`ExprPipe`]({{site.baseurl}}components/pipes/ExprPipe.html) provides the `sqExpr` that is mainly used to display a query filter.
 You can see the usage of this pipe in the breadscrumbs or MySearch facet.
 
-![Filters displayed in breadcrumbs]({{site.baseurl}}assets/modules/utils/utils-expr-pipe.PNG)
+![Filters displayed in breadcrumbs]({{site.baseurl}}assets/modules/utils/utils-expr-pipe.png)
 *Filters displayed with ExprPipe in breadcrumbs*
 {: .text-center }
 

@@ -496,9 +496,9 @@ export class BsResultsTimelineView implements OnChanges, OnDestroy {
 
     }
 
-    updateFlags() {
+    updateFlags(): number {
         if (!this.dates) {
-            return;
+            return 0;
         }
 
         let new_flags: any[] = [];
