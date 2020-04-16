@@ -329,6 +329,8 @@ Note that distributable folders `dist` and `dist-folder` are not included in dow
 Generating a zip file can take a few minutes.
 You can follow the generation progress either by looking at the banner on the top of Workspaces administration page or by going to **Tasks status** page, the progress status is named **GenerateAngularWorkspaceZip**.
 
+Note that if your workspace does not contain a `node_modules` folder, only the generation action and entry of the minimal zip are shown.
+
 ![Workspace generate zip actions]({{site.baseurl}}assets/gettingstarted/admin-workspace-generate-download-zip.png)
 *Workspace - Generate zip actions and download link*
 {: .text-center }
