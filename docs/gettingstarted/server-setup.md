@@ -14,8 +14,10 @@ The minimum configuration required to get started is an **App** and a **Query** 
 To create an **App** configuration, in the administration:
 
 - Go to *Search-based application > Apps*,
-- In *Apps*, click *New empty SBA*, give it a name then click *Ok*. You will be redirected to the configuration page of the new **App**.
-- Click *Edit*, and in the list of Queries, choose the default *_query* and save.
+- In *Apps*, click *New Angular app*, give it a name then click *Ok*. You will be redirected to the configuration page of the new **App**.
+It is also pre-filled with the default web services.
+- If you want to use a different **Query** web service other than the default one, click *Edit*, and in the list of Queries,
+choose your web service and save.
 
 ![New Angular app action]({{site.baseurl}}assets/gettingstarted/admin-new-angular-app-action.png)
 *'New Angular app' action in Apps*
