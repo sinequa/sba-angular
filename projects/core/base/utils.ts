@@ -521,7 +521,7 @@ export class Utils {
 
     /**
      * Converts a Sinequa system date string (`dd-mm-yyyy[ hh:mm:ss]`) to a `Date`
-     * If the string cannot be converted then `null` is returned
+     * If the string cannot be converted then `undefined` is returned
      *
      * @param date The Sinequa system date string to convert
      */
