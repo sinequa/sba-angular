@@ -1,4 +1,4 @@
-export default {    
+export default {
     "results": {
         "missingTerms": "fehlende Begriffe:",
         "resultsCount": "{count, plural, =0 {keine Ergebnisse} one {# Ergebnis} other {# Ergebnisse}}"
@@ -6,4 +6,4 @@ export default {
     "userRatings": {
         "average": "Durchschnittlich: {average}"
     },
-}
+};

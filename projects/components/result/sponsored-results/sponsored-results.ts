@@ -73,7 +73,7 @@ export class SponsoredResults implements OnChanges, OnInit {
                         this.changeDetectorRef.markForCheck();
                     },
                     (error) => console.log(`Could not retrieve sponsored links: ${error}.`)
-                )
+                );
             } else {
                 this.sponsoredlinks = [];
             }
@@ -120,7 +120,7 @@ export class SponsoredResults implements OnChanges, OnInit {
 
     auditLinksDisplay() {
         if (!!this.sponsoredlinks && this.sponsoredlinks.length > 0) {
-            let auditEvents: AuditEvent[] = [];
+            const auditEvents: AuditEvent[] = [];
             this.sponsoredlinks.forEach(link => {
                 auditEvents.push({
                     type: AuditEventType.Link_Display,
@@ -138,7 +138,7 @@ export class SponsoredResults implements OnChanges, OnInit {
     }
 
     click(link: LinkResult) {
-        this.auditService.notifySponsoredLink(AuditEventType.Link_Click, link, 
+        this.auditService.notifySponsoredLink(AuditEventType.Link_Click, link,
             this.searchService.results && this.searchService.results.id || "");
     }
 }

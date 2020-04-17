@@ -8,7 +8,7 @@ import { BasketsService } from '../../baskets.service';
   templateUrl: './baskets-menu.component.html'
 })
 export class BsBasketsMenuComponent implements OnInit {
-  
+
   @Input() icon: string = "fas fa-shopping-basket";
   @Input() autoAdjust: boolean = true;
   @Input() autoAdjustBreakpoint: string = 'xl';
@@ -23,7 +23,7 @@ export class BsBasketsMenuComponent implements OnInit {
 
   constructor(
     public loginService: LoginService,
-    public basketsService: BasketsService) { 
+    public basketsService: BasketsService) {
 
     this.createAction = new Action({
       text: "msg#baskets.createBasket",
@@ -57,16 +57,16 @@ export class BsBasketsMenuComponent implements OnInit {
         return;
     }
 
-    let basketsActions: Action[] = [];
-    
+    const basketsActions: Action[] = [];
+
     if (this.basketsService.hasBasket) {
-        let scrollGroup = new Action({
+        const scrollGroup = new Action({
             scrollGroup: true,
-            children: []                
+            children: []
         });
         basketsActions.push(scrollGroup);
         for (let i = 0, ic = this.basketsService.baskets.length; i < ic; i++) {
-            let basket = this.basketsService.baskets[i];
+            const basket = this.basketsService.baskets[i];
             scrollGroup.children.push(new Action({
                 text: basket.name,
                 title: basket.name,
@@ -81,7 +81,7 @@ export class BsBasketsMenuComponent implements OnInit {
     if (this.basketsService.hasBasket) {
       basketsActions.push(this.manageAction);
     }
-    
+
     this.menu = new Action({
       icon: this.icon,
       text: "msg#baskets.baskets",

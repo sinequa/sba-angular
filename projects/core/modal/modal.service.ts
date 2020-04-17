@@ -327,7 +327,7 @@ export class ModalService {
      * @retuns The `ModalResult` when the modal is closed.
      */
     open(component: Type<any>, config: ModalConfig = {}): Promise<ModalResult> {
-        let modalRef = this.openRef(component, config);
+        const modalRef = this.openRef(component, config);
         return modalRef.afterClosed().toPromise();
     }
 

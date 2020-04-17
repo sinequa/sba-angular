@@ -41,7 +41,9 @@ export default {
 
         "resultsAllTab": "All",
         "resultsTextTab": "Text",
-        
+        "results_all_tab": "All",
+        "results_text_tab": "Text",
+
         "resultsTimelineView" : {
             "display" : "Timeline",
             "events" : "Events",
@@ -59,4 +61,4 @@ export default {
             "buttonLabel": "Class:"
         }
     }
-}
+};

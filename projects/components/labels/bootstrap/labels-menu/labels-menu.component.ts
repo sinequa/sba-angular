@@ -53,14 +53,14 @@ export class BsLabelsMenuComponent implements OnInit, OnChanges, OnDestroy {
       this.menu = undefined;
       return;
     }
-    
+
     this.menu = this.labelsService.buildLabelsMenu(this.addLabelsMenuItems,
       this.icon, "msg#labels.labels", "msg#labels.labels", "msg#labels.publicLabels", "msg#labels.privateLabels");
 
   }
 
   addLabelsMenuItems = (items: Action[], _public: boolean) => {
-    let formItem = items[0];
+    const formItem = items[0];
     items.push(
       new Action({
         text: "msg#labels.selectLabel",

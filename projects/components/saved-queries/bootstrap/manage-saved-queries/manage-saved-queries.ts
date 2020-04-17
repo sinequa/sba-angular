@@ -46,7 +46,7 @@ export class BsManageSavedQueries implements OnInit {
 
     ngOnInit() {
         this.buttons = [
-             this.removeAllButton = new ModalButton({
+            this.removeAllButton = new ModalButton({
                 text: "msg#manageSavedQueries.removeAll",
                 result: ModalResult.Custom,
                 action: (button) => {
@@ -85,7 +85,7 @@ export class BsManageSavedQueries implements OnInit {
                 type: SavedQueryEventType.Rename,
                 detail: {
                     query: name,
-                    "old-name": savedQuery.name 
+                    "old-name": savedQuery.name
                 }
             });
             savedQuery.name = name;
@@ -98,7 +98,7 @@ export class BsManageSavedQueries implements OnInit {
         this.addAuditEvent({
             type: SavedQueryEventType.Delete,
             detail: {
-                query: savedQuery.name 
+                query: savedQuery.name
             }
         });
         return false;

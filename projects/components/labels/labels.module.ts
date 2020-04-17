@@ -19,7 +19,7 @@ import {LabelsAutocomplete} from "./labels-autocomplete.directive";
     imports: [
         FormsModule, ReactiveFormsModule,
         CommonModule,
-        
+
         IntlModule,
         ValidationModule,
 
@@ -34,5 +34,5 @@ import {LabelsAutocomplete} from "./labels-autocomplete.directive";
         LabelPipe, Labels, ResultLabels, LabelsAutocomplete
     ],
 })
-export class LabelsModule {    
+export class LabelsModule {
 }

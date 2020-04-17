@@ -99,7 +99,7 @@ export interface IQuery {
      */
     text?: string;
     /**
-     * Defines the action that can be performed with this query. 
+     * Defines the action that can be performed with this query.
      *
      * `search` - This action performs a standard search that returns document results and aggregation values. This is the default action
      *

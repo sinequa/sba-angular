@@ -200,10 +200,11 @@ import {SuggestFieldWebService} from &#x27;@sinequa/core/web-services&#x27;;
 export interface AdvancedFormAutocompleteOptions {
     autocompleteEnabled: boolean;
     suggestQuery: string;
-    control: Control
-};
+    control: Control;
+}
 
 @Directive({
+    // tslint:disable-next-line: directive-selector
     selector: &quot;[sq-advanced-form-autocomplete]&quot;
 })
 export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
@@ -215,17 +216,17 @@ export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
         appService: AppService,
         uiService: UIService,
         private suggestFieldWebService: SuggestFieldWebService) {
-        super(elementRef, suggestService, appService, uiService);        
+        super(elementRef, suggestService, appService, uiService);
     }
-    
+
     protected getSuggests() {
-        let value &#x3D; this.getInputValue();
+        const value &#x3D; this.getInputValue();
         if(value) { // If there is text, make a call to the suggest API
-            
+
             this.processSuggests(
                 this.suggestFieldWebService.get(value, this.afaOptions.control.field), [this.afaOptions.control.field]
             );
-            
+
         }
         else {  // If empty input, restart autocomplete
             this.start();

@@ -7,7 +7,7 @@ import {BsRfmAction} from "./rfm-action/rfm-action";
 @NgModule({
     imports: [
         CommonModule,
-                
+
         BsActionModule
     ],
     declarations: [

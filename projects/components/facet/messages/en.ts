@@ -26,7 +26,7 @@ export default {
         "concepts": {
             "title": "Concepts"
         },
-		"company": {
+        "company": {
             "title": "Companies"
         },
         "docformat": {
@@ -99,9 +99,9 @@ export default {
             "weekYear": "W{week, number, sqWeek} {weekYear, number, sqYear}",
             "apply": "Apply",
             "clear": "Clear",
-            "unavailable": "No documents available in the current range"
+            "unavailable": "No available range"
         },
-        
+
         "filters":{
             "add":"Add facet",
             "remove":"Remove facet",
@@ -115,8 +115,9 @@ export default {
         },
 
         "selectedValue": "This value is selected in the current query",
-        "previous": "Précédent",
-        "next": "Suivant"
+        "previous": "Previous",
+        "next": "Next",
+        "filterItemCountTooltip": "{count} possible values for this filter",
     },
 
     "facetCard": {
@@ -127,4 +128,4 @@ export default {
         "openSettings": "Open settings",
         "saveSettings": "Save settings"
     }
-}
+};

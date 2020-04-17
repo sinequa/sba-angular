@@ -25,23 +25,23 @@ export class LabelsAutocomplete extends Autocomplete {
     }
 
     /**
-     * The getSuggests() method from the original directive is overriden to 
+     * The getSuggests() method from the original directive is overriden to
      * use the labelsService rather than suggest service.
      */
     protected getSuggests(){
 
-        let value = this.getInputValue();
+        const value = this.getInputValue();
 
         if(value) { // If there is text
 
             // parse
-            let labels = value.split(";");
+            const labels = value.split(";");
 
             // find label at caret location
-            let position = this.getInputPosition();
+            const position = this.getInputPosition();
             let length = 0;
             let val: { value: string, start : number, length: number } | undefined;
-            for (let label of labels) {
+            for (const label of labels) {
                 if (position >= length && position <= length + label.length) {
                     val = {
                         value: label,
@@ -56,7 +56,7 @@ export class LabelsAutocomplete extends Autocomplete {
             // Get suggestions from web service
             if(val) {
                 this.labelsWebService.list(val.value, this.public).subscribe(
-                            
+
                     (labels: Labels) => {
                         if(this.getState() === AutocompleteState.ACTIVE || this.getState() === AutocompleteState.OPENED){
                             this.dropdown.update(true, labels.labels.map(label => {
@@ -79,8 +79,8 @@ export class LabelsAutocomplete extends Autocomplete {
                         }
                     }
                 );
-            }       
-            
+            }
+
         }
         else {  // If empty input, restart autocomplete
             this.start();

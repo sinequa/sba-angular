@@ -154,14 +154,14 @@ export class UserRatingsWebService extends HttpService {
     /**
      * Gets user rating information from the given record
      *
-     * @param record The record for which to get the rating 
+     * @param record The record for which to get the rating
      * @param config The ratings configuration
      */
     getRecordRating(record: Record, config: CCRating): UserRatingResponse {
         return {
             rating: this.parseUserRatingList(record[config.ratingsColumn], config),
             averagerating: this.parseAverageRating(record[config.averageColumn], config)
-        }
+        };
     }
 
     private parseAverageRating(columnEntries: string[], config: CCRating): number {

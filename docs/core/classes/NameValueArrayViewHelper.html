@@ -424,15 +424,15 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ArrayView } from &quot;./array-view&quot;
-import { IteratorAdaptor } from &quot;./iterator-adaptor&quot;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ArrayView } from &quot;./array-view&quot;;
+import { IteratorAdaptor } from &quot;./iterator-adaptor&quot;;
 
 /**
  * A generic interface describing a name and associated value
  */
 export interface NameValuePair&lt;U, V&gt; {
-    name: U,
-    value: V
+    name: U;
+    value: V;
 }
 
 /**
@@ -498,7 +498,7 @@ class ArrayBasedView&lt;T, U, V&gt; implements NameValueArrayView&lt;U, V&gt; {
 
     forEach(callback: (item: NameValuePair&lt;U, V&gt;, index?: number, items?: NameValueArrayView&lt;U, V&gt;) &#x3D;&gt; void, thisArg?: any) {
         for (let idx &#x3D; 0; idx &lt; this.length; idx++) {
-            let r &#x3D; this.get(idx);
+            const r &#x3D; this.get(idx);
             if (thisArg)
                 callback.call(thisArg, r, idx, this);
             else
@@ -515,7 +515,7 @@ class ArrayBasedView&lt;T, U, V&gt; implements NameValueArrayView&lt;U, V&gt; {
 export class NameValueArrayViewHelper {
     /**
      * Creates a {@link NameValueArrayView} from an array of {@link NameValuePair} items
-     * 
+     *
      * @param items An array of &#x60;NameValuePair&#x60; items
      */
     static fromArray&lt;U, V&gt;(items: NameValuePair&lt;U, V&gt;[]): NameValueArrayView&lt;U, V&gt; {

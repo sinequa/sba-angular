@@ -41,7 +41,9 @@ export default {
 
         "resultsAllTab": "Tous",
         "resultsTextTab": "Texte",
-        
+        "results_all_tab": "Tous",
+        "results_text_tab": "Texte",
+
         "resultsTimelineView" : {
             "display" : "Timeline",
             "events" : "Evénements",
@@ -55,4 +57,4 @@ export default {
             "display" : "Nuage de Valeurs"
         }
     }
-}
+};

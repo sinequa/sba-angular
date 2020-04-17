@@ -496,7 +496,7 @@ export class SuggestQueryWebService extends HttpService {
 
     /**
      * Gets suggestions for the passed text for a set of fields using the passed suggestquery web service
-     * 
+     *
      * @param suggestQuery The name of the suggestquery web service to use
      * @param text The text to match
      * @param query The name of the current query
@@ -507,7 +507,7 @@ export class SuggestQueryWebService extends HttpService {
             return of([]);
         }
         else {
-            let observable &#x3D; this.httpClient.post&lt;{suggests: Suggestion[]}&gt;(this.makeUrl(&quot;suggestquery&quot;), {
+            const observable &#x3D; this.httpClient.post&lt;{suggests: Suggestion[]}&gt;(this.makeUrl(&quot;suggestquery&quot;), {
                 app: this.appName,
                 suggestQuery: suggestQuery,
                 text: text,

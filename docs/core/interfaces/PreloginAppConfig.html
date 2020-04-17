@@ -211,7 +211,7 @@
                             <tr>
                                 <td class="col-md-4">
                                     <div class="io-description"><p>Specifies which storage should be used to hold the CSRF token used to protect Sinequa API calls against
-CSRF attacks </p>
+CSRF attacks</p>
 </div>
                                 </td>
                             </tr>
@@ -554,7 +554,7 @@ import {Utils} from &quot;@sinequa/core/base&quot;;
 export const START_CONFIG &#x3D; new InjectionToken&lt;StartConfig&gt;(&quot;START_CONFIG&quot;);
 
 /**
- * Defines members whose values are automatically deduced from direct {@link StartConfig} members 
+ * Defines members whose values are automatically deduced from direct {@link StartConfig} members
  */
 export interface DeducedStartConfig {
     /**
@@ -586,7 +586,7 @@ export interface DeducedStartConfig {
 export interface PreloginAppConfig {
     /**
      * Specifies which storage should be used to hold the CSRF token used to protect Sinequa API calls against
-     * CSRF attacks 
+     * CSRF attacks
      */
     authenticationStorage?: &#x27;session&#x27; | &#x27;local&#x27;;
     /**
@@ -607,7 +607,7 @@ export interface PreloginAppConfig {
     usePopupForLogin?: boolean;
     /**
      * The URL to be used to display online help
-     */    
+     */
     helpUrl?: string;
     /**
      * A boolean value indicating whether auditing is enabled
@@ -631,8 +631,8 @@ export interface PreloginAppConfig {
  * Contains start-up configuration for the application. An instance of this object
  * must be provided when registering the {@link WebServicesModule} either by providing the START_CONFIG
  * injection token or by using the [forRoot]{@link WebServicesModule#forRoot} static method.
- * 
- * Typically only the members declared directly (url, app, production) should be specified. 
+ *
+ * Typically only the members declared directly (url, app, production) should be specified.
  * The other values are either deduced from these members or are retrieved from the Sinequa configuration
  */
 export interface StartConfig extends DeducedStartConfig, PreloginAppConfig {
@@ -645,7 +645,7 @@ export interface StartConfig extends DeducedStartConfig, PreloginAppConfig {
      */
     app?: string;
     /**
-     * A flag indicating whether the app is running in production mode or not 
+     * A flag indicating whether the app is running in production mode or not
      * (can be deduced from the browser url when the app is served by Sinequa)
      */
     production?: boolean;
@@ -680,7 +680,7 @@ export class StartConfigWebService {
     /**
      * Initializes the injected {@link StartConfig} instance. Outputs an error to the
      * console if no instance is injected.
-     * 
+     *
      * @param startConfig The start configuration instance
      */
     constructor(@Optional() @Inject(START_CONFIG) private startConfig: StartConfig) {
@@ -688,16 +688,16 @@ export class StartConfigWebService {
             console.error(&quot;START_CONFIG must be provided in your app module&quot;);
             return;
         }
-        this.initStartConfig();        
+        this.initStartConfig();
     }
 
     private getDefaultStartConfig(): StartConfig {
-        let startConfig: StartConfig &#x3D; {};
-        let browserUrl &#x3D; Utils.makeURL(window.location.href);
+        const startConfig: StartConfig &#x3D; {};
+        const browserUrl &#x3D; Utils.makeURL(window.location.href);
         let parts &#x3D; Utils.split(browserUrl.pathname, &quot;/&quot;);
-        let appSpecifierIndex &#x3D; parts.findIndex(value &#x3D;&gt; Utils.eqNCN(value, &quot;app&quot;, &quot;app-debug&quot;));
-        if (appSpecifierIndex !&#x3D; -1 &amp;&amp; appSpecifierIndex &lt; parts.length - 1) {
-            let appSpecifier &#x3D; parts[appSpecifierIndex];
+        const appSpecifierIndex &#x3D; parts.findIndex(value &#x3D;&gt; Utils.eqNCN(value, &quot;app&quot;, &quot;app-debug&quot;));
+        if (appSpecifierIndex !&#x3D;&#x3D; -1 &amp;&amp; appSpecifierIndex &lt; parts.length - 1) {
+            const appSpecifier &#x3D; parts[appSpecifierIndex];
             startConfig.app &#x3D; parts[appSpecifierIndex + 1];
             startConfig.production &#x3D; appSpecifier &#x3D;&#x3D;&#x3D; &quot;app&quot; ? true : false;
             parts &#x3D; parts.slice(0, appSpecifierIndex);
@@ -730,7 +730,7 @@ export class StartConfigWebService {
     /**
      * Fetches pre-login app configuration from the Sinequa server and merges it
      * into the start config instance
-     * 
+     *
      * @returns An observable of the start config after being merged with the pre-login app configuration
      */
     fetchPreLoginAppConfig(): Observable&lt;StartConfig&gt; {
@@ -749,7 +749,7 @@ export class StartConfigWebService {
                 .then(response &#x3D;&gt; {
                     const initialStartConfig &#x3D; Utils.copy(this.startConfig);
                     Utils.extend(this.startConfig, response.data, initialStartConfig);
-                    let versionDate &#x3D; this.startConfig.versionDate;
+                    const versionDate &#x3D; this.startConfig.versionDate;
                     if (Utils.isString(versionDate)) { // it will be
                         this.startConfig.versionDate &#x3D; Utils.fromSysDateStr(versionDate);
                     }
@@ -758,22 +758,22 @@ export class StartConfigWebService {
                 })
                 .catch(error &#x3D;&gt; {
                     console.error(&quot;Error retrieving app config&quot;);
-                    observer.error(error);                        
+                    observer.error(error);
                 });
         });
     }
 
     /**
      * Retrieves Sinequa server configuration from a web server hosting the app
-     * 
+     *
      * @param url A URL to a JSON file containing the Sinequa server configuration
-     * 
+     *
      * @returns An observable of the Sinequa server configuration
      */
     fetchServerConfig(url?: string): Observable&lt;ServerConfig&gt; {
         return Observable.create(observer &#x3D;&gt; {
             if (!url) {
-                let _url &#x3D; Utils.makeURL(window.location.href);
+                const _url &#x3D; Utils.makeURL(window.location.href);
                 url &#x3D; Utils.addUrl(_url.pathname, &quot;sinequa-config.json&quot;);
             }
             atomic(url)
@@ -794,7 +794,8 @@ export class StartConfigWebService {
                 });
         });
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
 

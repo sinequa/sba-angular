@@ -29,4 +29,4 @@ export default {
         "title": "Select Basket",
         "newBasket": "New basket..."
     }
-}
+};

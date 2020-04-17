@@ -9,13 +9,13 @@ export interface ArrayView<U> extends Iterable<U> {
 
     /**
      * Returns the element at the passed index
-     * 
+     *
      * @param index The index of an element
      */
     get(index: number): U;
 
     /**
-     * Executes a passed function once for each element 
+     * Executes a passed function once for each element
      *
      * @param callback The function to execute on each element
      * @param thisArg The value to use as `this` when executing `callback`

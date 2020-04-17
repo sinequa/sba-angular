@@ -15,7 +15,7 @@ import {ResultMissingTerms} from "./result-missing-terms/result-missing-terms";
 import {ResultMetadata} from "./result-metadata/result-metadata";
 import {ResultThumbnail} from "./result-thumbnail/result-thumbnail";
 import {UserRating} from "./user-rating/user-rating";
-import {SponsoredResults} from './sponsored-results/sponsored-results'
+import {SponsoredResults} from './sponsored-results/sponsored-results';
 import {ResultsCounter} from "./results-counter/results-counter";
 import {ResultIcon} from "./result-icon/result-icon";
 import {ResultEntitySummary} from "./result-entity-summary/result-entity-summary";
@@ -25,7 +25,7 @@ import {ResultTimeline} from "./result-timeline/result-timeline";
     imports: [
         CommonModule,
         FormsModule, ReactiveFormsModule,
-        
+
         IntlModule,
 
         UtilsModule,
@@ -35,7 +35,7 @@ import {ResultTimeline} from "./result-timeline/result-timeline";
     ],
     declarations: [
         ResultTitle, ResultExtracts,
-        ResultMissingTerms, ResultMetadata, 
+        ResultMissingTerms, ResultMetadata,
         ResultThumbnail, UserRating,
         SponsoredResults, ResultsCounter,
         ResultIcon, ResultSource,
@@ -43,7 +43,7 @@ import {ResultTimeline} from "./result-timeline/result-timeline";
     ],
     exports: [
         ResultTitle, ResultExtracts,
-        ResultMissingTerms, ResultMetadata, 
+        ResultMissingTerms, ResultMetadata,
         ResultThumbnail, UserRating,
         SponsoredResults, ResultsCounter,
         ResultIcon, ResultSource,

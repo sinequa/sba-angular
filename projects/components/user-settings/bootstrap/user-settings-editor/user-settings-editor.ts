@@ -18,13 +18,13 @@ import { JsonInfo } from "../edit-user-settings/edit-user-settings";
     templateUrl: './user-settings-editor.html'
 })
 export class BsUserSettingsEditor implements OnInit {
-    
+
     @Input() public form: FormGroup;
     @Input() public model: MapOf<any>;
     @Input() public layout: MapOf<JsonInfo.Entry>;
     @Input() showUILanguageSelector: boolean;
     public locales: Locale[];
-    
+
     constructor(
         private appService: AppService,
         private intlService: IntlService,
@@ -40,7 +40,7 @@ export class BsUserSettingsEditor implements OnInit {
         // Locale is treated separately because it is not really stored in the user settings.
         this.locales = [];
         if (this.intlService.locales.length > 0) {
-            for (let locale of this.intlService.locales) {
+            for (const locale of this.intlService.locales) {
                 this.locales.push(locale);
             }
         }

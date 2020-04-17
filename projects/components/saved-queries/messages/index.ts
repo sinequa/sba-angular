@@ -11,4 +11,4 @@ const enSavedQueries = Utils.merge({}, _enSavedQueries, enSearch, enSelection, e
 const frSavedQueries = Utils.merge({}, _frSavedQueries, frSearch, frSelection, frModal);
 const deSavedQueries = Utils.merge({}, _deSavedQueries, deSearch, deSelection, deModal);
 
-export {enSavedQueries, frSavedQueries, deSavedQueries}
+export { enSavedQueries, frSavedQueries, deSavedQueries };

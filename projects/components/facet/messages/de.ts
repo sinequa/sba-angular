@@ -26,7 +26,7 @@ export default {
         "concepts": {
             "title": "Konzepte"
         },
-		"company": {
+        "company": {
             "title": "Firmen"
         },
         "docformat": {
@@ -55,7 +55,7 @@ export default {
         },
         "person": {
             "title": "Personen"
-        },		
+        },
         "refine": {
             "title": "Suche verfeinern",
             "input": {
@@ -99,9 +99,9 @@ export default {
             "weekYear": "W{week, number, sqWeek} {weekYear, number, sqYear}",
             "apply": "Anwenden",
             "clear": "Löschen",
-            "unavailable": "Keine Dokumente im aktuellen Bereich verfügbar"
+            "unavailable": "Kein Bereich verfügbar"
         },
-        
+
         "filters":{
             "add":"Filter hinzufügen",
             "remove":"Filter entfernen",
@@ -114,9 +114,10 @@ export default {
             "selectedFilters": "Dieser Filter ist in der aktuellen Suchanfrage aktiv"
         },
 
-        "selectedValue": "This value is selected in the current query",
-        "previous": "Précédent",
-        "next": "Suivant"
+        "selectedValue": "Dieser Wert ist in der aktuellen Anfrage ausgewählt.",
+        "previous": "Zurück",
+        "next": "Weiter",
+        "filterItemCountTooltip": "{count} mögliche Werte für diesen Filter",
     },
 
     "facetCard": {
@@ -127,4 +128,4 @@ export default {
         "openSettings": "Einstellungen öffnen",
         "saveSettings": "Einstellungen speichern"
     }
-}
+};

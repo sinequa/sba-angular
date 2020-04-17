@@ -34,17 +34,17 @@ export module JsonInfo {
     }
 
     export interface EntryInput extends Entry {
-        type: InputType.Entry,
+        type: InputType.Entry;
     }
 
     export interface RangeInput extends Entry {
-        type: InputType.Range,
+        type: InputType.Range;
     }
 
     export interface MultiEntryInput extends Entry {
-        type: InputType.MultiEntry,
-        distinct?: boolean,
-        nbVisibleLines?: number,
+        type: InputType.MultiEntry;
+        distinct?: boolean;
+        nbVisibleLines?: number;
     }
 }
 
@@ -89,7 +89,7 @@ export class BsEditUserSettings implements OnInit {
                 this.form.removeControl('selectedLocale');
                 if (!Utils.eqNC(this.model['language'], newLocale)) {
                     Utils.subscribe(
-                        this.intlService.use(newLocale), 
+                        this.intlService.use(newLocale),
                         response => console.log('editUserSettings UI language changed.')
                     );
                 }
@@ -121,11 +121,11 @@ export class BsEditUserSettings implements OnInit {
             new ModalButton({
                 result: ModalResult.Cancel
             })
-        ]; 
+        ];
     }
 
     private setNewValue(obj: MapOf<any>, newObj: MapOf<any>): void {
-        for (let key of Object.keys(newObj)) {
+        for (const key of Object.keys(newObj)) {
             const value = newObj[key];
             if (value === null) {
                 /* NOTE: Don't use delete obj[key] because some component may put an observer on the user settings property */
@@ -224,7 +224,9 @@ export class BsEditUserSettings implements OnInit {
      * @param castFn The casting function.
      * @returns the cast result.
      */
-    private cast<T>(inputType: JsonInfo.InputType, value: any, castFn: (any) => T | undefined): T | T[] | undefined {
+    private cast<T>(
+        inputType: JsonInfo.InputType, value: any, castFn: (params: any) => T | undefined
+    ): T | T[] | undefined {
         if (Utils.isArray(value)) {
             const array = value as any[];
             const empty = array.length === 0;
@@ -234,7 +236,7 @@ export class BsEditUserSettings implements OnInit {
                 case JsonInfo.InputType.MultiEntry:
                 case JsonInfo.InputType.Range:
                     const result: T[] = [];
-                    for (let v of array) {
+                    for (const v of array) {
                         result.push(castFn(v) as T);
                     }
                     return result;

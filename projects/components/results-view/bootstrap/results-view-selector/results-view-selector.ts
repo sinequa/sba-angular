@@ -23,13 +23,13 @@ export class BsResultsViewSelector implements OnChanges, OnDestroy {
 
     constructor(
         public resultsViewService : ResultsViewService
-    ) {        
+    ) {
         this._subscription = this.resultsViewService.resultsViewSelected.subscribe(
             (view : ResultsView) => {
                 this.setCurrentViewAction();
         });
     }
-    
+
     private _subscription: Subscription;
     ngOnDestroy(){
         if(this._subscription){
@@ -40,7 +40,7 @@ export class BsResultsViewSelector implements OnChanges, OnDestroy {
     private setCurrentViewAction() {
         if (!!this.viewAction && !!this.resultsViewService.resultsView) {
             if (!Utils.isArray(this.viewAction)) {
-                let view = this.resultsViewService.views.find(view => Utils.eqNC(this.resultsViewService.resultsView.name, view.name));
+                const view = this.resultsViewService.views.find(view => Utils.eqNC(this.resultsViewService.resultsView.name, view.name));
                 if (view) {
                     this.viewAction.text = view.display || view.name;
                     this.viewAction.icon = view.icon || 'fas fa-list';
@@ -54,7 +54,7 @@ export class BsResultsViewSelector implements OnChanges, OnDestroy {
             else {
                 this.viewAction.forEach(action => {
                     action.selected = Utils.eqNC(action.data.name, this.resultsViewService.resultsView.name);
-                })
+                });
             }
         }
     }
@@ -75,27 +75,28 @@ export class BsResultsViewSelector implements OnChanges, OnDestroy {
                 children: [
                 ]
             });
-            for (let view of includedViews) {
+            for (const view of includedViews) {
                 this.viewAction.children.push(new Action({
                     text: view.display,
+                    icon: view.icon,
                     data: view,
                     action: (item: Action, event: Event) => {
                         this.selectView(item.data);
-                    } 
+                    }
                 }));
             }
             this.items = [this.viewAction];
         }
         else {
             this.viewAction = [];
-            for (let view of includedViews) {
+            for (const view of includedViews) {
                 this.viewAction.push(new Action({
                     icon: view.icon,
                     title: view.display,
                     data: view,
                     action: (item: Action, event: Event) => {
                         this.selectView(item.data);
-                    } 
+                    }
                 }));
             }
             this.items = this.viewAction;
@@ -105,7 +106,7 @@ export class BsResultsViewSelector implements OnChanges, OnDestroy {
 
     private getIncludedViews(): ResultsView[] {
         // NOTE: this method returns the list of result views that are "included" with the current query tab
-        // This is to reproduce the included results views configuration that can be done in profile but not in SBA due 
+        // This is to reproduce the included results views configuration that can be done in profile but not in SBA due
         // to the fact that result tabs are configured in the SBA query thus has no knowledge of the results views.
         const views: ResultsView[] = [];
         const currentTab = this.query.tab;

@@ -251,7 +251,7 @@ export class UserRatingsWebService extends HttpService {
                     {
                         type: AuditEventType.Rating_Set,
                         detail: {
-                            docid: record.id,
+                            &quot;doc-id&quot;: record.id,
                             ratingnum: rating,
                             value: ratingResponse.rating,
                             average: ratingResponse.averagerating
@@ -295,7 +295,7 @@ export class UserRatingsWebService extends HttpService {
                     {
                         type: AuditEventType.Rating_Delete,
                         detail: {
-                            docid: record.id,
+                            &quot;doc-id&quot;: record.id,
                             value: ratingResponse.rating,
                             average: ratingResponse.averagerating
                         }
@@ -321,14 +321,14 @@ export class UserRatingsWebService extends HttpService {
     /**
      * Gets user rating information from the given record
      *
-     * @param record The record for which to get the rating 
+     * @param record The record for which to get the rating
      * @param config The ratings configuration
      */
     getRecordRating(record: Record, config: CCRating): UserRatingResponse {
         return {
             rating: this.parseUserRatingList(record[config.ratingsColumn], config),
             averagerating: this.parseAverageRating(record[config.averageColumn], config)
-        }
+        };
     }
 
     private parseAverageRating(columnEntries: string[], config: CCRating): number {

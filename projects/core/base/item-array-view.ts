@@ -1,12 +1,12 @@
-import { ArrayView } from "./array-view"
-import { IteratorAdaptor } from "./iterator-adaptor"
+import { ArrayView } from "./array-view";
+import { IteratorAdaptor } from "./iterator-adaptor";
 
 /**
  * A generic interface describing a name and associated value
  */
 export interface NameValuePair<U, V> {
-    name: U,
-    value: V
+    name: U;
+    value: V;
 }
 
 /**
@@ -72,7 +72,7 @@ class ArrayBasedView<T, U, V> implements NameValueArrayView<U, V> {
 
     forEach(callback: (item: NameValuePair<U, V>, index?: number, items?: NameValueArrayView<U, V>) => void, thisArg?: any) {
         for (let idx = 0; idx < this.length; idx++) {
-            let r = this.get(idx);
+            const r = this.get(idx);
             if (thisArg)
                 callback.call(thisArg, r, idx, this);
             else
@@ -89,7 +89,7 @@ class ArrayBasedView<T, U, V> implements NameValueArrayView<U, V> {
 export class NameValueArrayViewHelper {
     /**
      * Creates a {@link NameValueArrayView} from an array of {@link NameValuePair} items
-     * 
+     *
      * @param items An array of `NameValuePair` items
      */
     static fromArray<U, V>(items: NameValuePair<U, V>[]): NameValueArrayView<U, V> {

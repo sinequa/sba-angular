@@ -79,11 +79,11 @@
             <!-- List of documents (for loop) -->
             <div *ngFor="let record of results.records" class="record d-flex" 
                 (click)="onDocumentClicked(record, $event)"
-                [ngClass]="{'selected': selectionService.selectedRecords.includes(record.id)}">
+                [ngClass]="{'selected': selectionService.selectedRecords.includes(record.id) || record === openedDoc}">
                 <div class="flex-grow-1 overflow-hidden">
                     <div class="d-flex align-items-center">
                         <sq-result-selector [record]="record" class="ml-1"></sq-result-selector>
-                        <sq-result-title [record]="record"></sq-result-title>
+                        <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
                     </div>
                     <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
                     <sq-result-extracts [record]="record"></sq-result-extracts>

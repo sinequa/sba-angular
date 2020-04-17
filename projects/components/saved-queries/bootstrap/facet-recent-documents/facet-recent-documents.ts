@@ -31,9 +31,9 @@ export class BsFacetRecentDocuments extends AbstractFacet  {
 
     constructor(
         public recentDocumentsService: RecentDocumentsService,
-        public searchService: SearchService) { 
+        public searchService: SearchService) {
         super();
-        
+
         this.previousPage = new Action({
             icon: "fas fa-chevron-left",
             title: "msg#facet.previous",
@@ -42,7 +42,7 @@ export class BsFacetRecentDocuments extends AbstractFacet  {
             },
             updater: (action: Action) => {
                 action.disabled = this.page <= 0;
-                action.hidden = this.maxPage == 0;
+                action.hidden = this.maxPage === 0;
             }
         });
         this.nextPage = new Action({
@@ -53,7 +53,7 @@ export class BsFacetRecentDocuments extends AbstractFacet  {
             },
             updater: (action: Action) => {
                 action.disabled = this.page >= this.maxPage;
-                action.hidden = this.maxPage == 0;
+                action.hidden = this.maxPage === 0;
             }
         });
     }
@@ -77,10 +77,10 @@ export class BsFacetRecentDocuments extends AbstractFacet  {
     }
 
     openRecentDocument(document: RecentDocument){
-        if(this.openOriginal && !!document.url1){            
+        if(this.openOriginal && !!document.url1){
             this.searchService.notifyOpenOriginalDocument(<any> document);
             window.open(document.url1, "_blank");
-        }        
+        }
         this.documentOpened.emit(document); // Can be use to trigger actions, like the preview
         return false;
     }
@@ -90,5 +90,5 @@ export class BsFacetRecentDocuments extends AbstractFacet  {
         this.recentDocumentsService.deleteRecentDocument(document);
         this.page = Math.min(this.page, this.maxPage);
     }
-    
+
 }

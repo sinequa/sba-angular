@@ -47,12 +47,12 @@ export interface Location {
  */
 export interface HighlightDataPerLocation {
     [index: number]: {
-        start:  number;
+        start: number;
         length: number;
         values: string[];
         displayValue: string;
         positionInCategories: { [category: string]: number };
-    }
+    };
 
     size(): number;
 }
@@ -85,7 +85,7 @@ export class PreviewWebService extends HttpService {
 
     /**
      * Gets {@link PreviewData} for a document in the context of a {@link IQuery}
-     * 
+     *
      * @param id The document id
      * @param query The query context
      * @param auditEvents Audit events to store on the server

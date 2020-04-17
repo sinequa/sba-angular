@@ -277,7 +277,7 @@ export interface FacetState {
 
 /**
  * Options for the [[FacetService.AddFilter]] and [[FacetService.AddFilterSearch]] methods
- * 
+ *
  * and: If multiple items are filtered, determines whether they are filtered as AND or OR
  * not: Whether this is an exlusion of the filtered item
  * replaceCurrent: if true, the current filter is replaced
@@ -294,7 +294,7 @@ export const enum FacetEventType {
     Add &#x3D; &quot;Facet_Added&quot;,
     Remove &#x3D; &quot;Facet_Removed&quot;,
 
-    Patched &#x3D; &quot;Facet_Patched&quot;,    
+    Patched &#x3D; &quot;Facet_Patched&quot;,
     ClearFilters &#x3D; &quot;Facet_ClearFilters&quot;,
     AddFilter &#x3D; &quot;Facet_AddFilter&quot;,
     RemoveFilter &#x3D; &quot;Facet_RemoveFilter&quot;,
@@ -344,7 +344,7 @@ export class FacetService {
         });
         // Listen to own events, to trigger change events
         this._events.subscribe(event &#x3D;&gt; {
-            if(FACET_CHANGE_EVENTS.indexOf(event.type) !&#x3D;&#x3D; -1){                
+            if(FACET_CHANGE_EVENTS.indexOf(event.type) !&#x3D;&#x3D; -1){
                 this.changes.next(event);
             }
         });
@@ -372,10 +372,10 @@ export class FacetService {
 
     /**
      * @returns a facet with the given name or undefined if it does not exist
-     * @param name 
+     * @param name
      */
     public facet(name: string): FacetState | undefined {
-        let i &#x3D; this.facetIndex(name);
+        const i &#x3D; this.facetIndex(name);
         return i&gt;&#x3D; 0? this.facets[i] : undefined;
     }
 
@@ -393,15 +393,15 @@ export class FacetService {
 
     /**
      * Returns true if this facet is opened (in any container)
-     * @param facetName 
+     * @param facetName
      */
     public isFacetOpened(facetName): boolean {
-        return !!this.facets.find(f &#x3D;&gt; f.name &#x3D;&#x3D;&#x3D; facetName)
+        return !!this.facets.find(f &#x3D;&gt; f.name &#x3D;&#x3D;&#x3D; facetName);
     }
- 
+
     private facetIndex(name: string): number {
         for (let i &#x3D; 0, ic &#x3D; this.facets.length; i &lt; ic; i++) {
-            let facet &#x3D; this.facets[i];
+            const facet &#x3D; this.facets[i];
             if (facet &amp;&amp; facet.name &#x3D;&#x3D;&#x3D; name) {
                 return i;
             }
@@ -417,7 +417,7 @@ export class FacetService {
     }
 
     /**
-     * Triggers when events affect the list of facets 
+     * Triggers when events affect the list of facets
      * Cf. CHANGE_EVENTS list
      */
     public get changes() : Subject&lt;FacetChangeEvent&gt; {
@@ -437,7 +437,7 @@ export class FacetService {
     }
 
     public removeFacet(facet: FacetState){
-        let i &#x3D; this.facetIndex(facet.name);
+        const i &#x3D; this.facetIndex(facet.name);
         if(i !&#x3D;&#x3D; -1){
             this.facets.splice(i,1);
             this.events.next({type : FacetEventType.Remove, facet: facet});
@@ -461,7 +461,7 @@ export class FacetService {
             .subscribe(
                 next &#x3D;&gt; {
                     this.events.next({type: FacetEventType.Patched});
-                }, 
+                },
                 error &#x3D;&gt; {
                     console.error(&quot;Could not patch Facets!&quot;, error);
             });
@@ -470,19 +470,19 @@ export class FacetService {
     /**
      * Filter/Exclude an item in a facet and launch a search.
      * Triggers an internal event and an Audit Event
-     * @param facetName 
-     * @param aggregation 
+     * @param facetName
+     * @param aggregation
      * @param items
-     * @param options 
+     * @param options
      */
     public addFilterSearch(
-        facetName: string, 
-        aggregation: Aggregation, 
+        facetName: string,
+        aggregation: Aggregation,
         items: AggregationItem | AggregationItem[],
         options: AddFilterOptions &#x3D; {}): Promise&lt;boolean&gt; {
-            
+
         this.addFilter(facetName, aggregation, items, options);
-        this.events.next({type: FacetEventType.AddFilter, facet: this.facet(facetName)})
+        this.events.next({ type: FacetEventType.AddFilter, facet: this.facet(facetName) });
         return this.searchService.search(undefined, {
                 type: FacetEventType.AddFilter,
                 detail: {
@@ -498,13 +498,13 @@ export class FacetService {
 
     /**
      * Filter/Exclude one or more item(s) in a facet (without launching a search)
-     * @param facetName 
-     * @param aggregation 
-     * @param items 
+     * @param facetName
+     * @param aggregation
+     * @param items
      * @param options
      */
     public addFilter(
-        facetName: string, 
+        facetName: string,
         aggregation: Aggregation,
         items: AggregationItem | AggregationItem[],
         options: AddFilterOptions &#x3D; {}) : void {
@@ -523,7 +523,7 @@ export class FacetService {
                 return;
             }
             addGlobalField &#x3D; !aggregation.valuesAreExpressions &amp;&amp; items.length &gt; 1;
-            let excludeField &#x3D; addGlobalField;
+            const excludeField &#x3D; addGlobalField;
             _exprs &#x3D; items.map(value &#x3D;&gt; FacetService.makeFacetExpr(aggregation, value, excludeField));
             if (_exprs.length &#x3D;&#x3D;&#x3D; 1) {
                 _expr &#x3D; _exprs[0];
@@ -538,10 +538,10 @@ export class FacetService {
             return;
         }
         // AND / OR
-        let operator &#x3D; options.and ? &quot; AND &quot; : &quot; OR &quot;;
+        const operator &#x3D; options.and ? &quot; AND &quot; : &quot; OR &quot;;
         let expr &#x3D; &quot;&quot;;
         if (_exprs) {
-            for (let _expr of _exprs) {
+            for (const _expr of _exprs) {
                 if (expr) {
                     expr &#x3D; expr + operator;
                 }
@@ -557,8 +557,8 @@ export class FacetService {
 
     /**
      * Clears the query from the current selection on the given facet
-     * @param facetName 
-     * @param all 
+     * @param facetName
+     * @param all
      */
     public clearFilters(facetName: string, all?: boolean) {
         this.searchService.query.removeSelect(facetName, all);
@@ -566,11 +566,11 @@ export class FacetService {
 
     /**
      * Clears the query from the current selection on the given facet and perform a search
-     * @param facetName 
-     * @param all 
+     * @param facetName
+     * @param all
      */
     public clearFiltersSearch(facetName: string, all?: boolean): Promise&lt;boolean&gt; {
-        this.clearFilters(facetName, all);        
+        this.clearFilters(facetName, all);
         this._events.next({type: FacetEventType.ClearFilters, facet: this.facet(facetName)});
         return this.searchService.search(undefined, {
                 type: FacetEventType.ClearFilters,
@@ -583,12 +583,12 @@ export class FacetService {
 
     public removeFilter(facetName: string, aggregation: Aggregation, item: AggregationItem){
         if (this.searchService.breadcrumbs) {
-            let expr &#x3D; this.findItemFilter(facetName, aggregation, item);    
-            let i &#x3D; this.searchService.breadcrumbs.activeSelects.findIndex(select &#x3D;&gt; select.facet &#x3D;&#x3D;&#x3D; facetName &amp;&amp; select.expr &#x3D;&#x3D;&#x3D; expr);
+            const expr &#x3D; this.findItemFilter(facetName, aggregation, item);
+            const i &#x3D; this.searchService.breadcrumbs.activeSelects.findIndex(select &#x3D;&gt; select.facet &#x3D;&#x3D;&#x3D; facetName &amp;&amp; select.expr &#x3D;&#x3D;&#x3D; expr);
             this.searchService.query.removeSelect(i);
         }
     }
-    
+
     public removeFilterSearch(facetName: string, aggregation: Aggregation, item: AggregationItem): Promise&lt;boolean&gt;{
         this.removeFilter(facetName, aggregation, item);
         this._events.next({type: FacetEventType.RemoveFilter, facet: this.facet(facetName)});
@@ -601,34 +601,34 @@ export class FacetService {
         }
         return this.searchService.query.addSelect(expr, facet);
     }
-   
+
     /**
      * Queries the server for data for this aggregation
-     * @param aggregation 
-     * @param skip 
-     * @param count 
+     * @param aggregation
+     * @param skip
+     * @param count
      */
     public loadData(aggregation: string, skip: number &#x3D; 0, count: number &#x3D; 10): Observable&lt;Aggregation | undefined&gt; {
-        let query &#x3D; Utils.copy(this.searchService.query);
+        const query &#x3D; Utils.copy(this.searchService.query);
         query.action &#x3D; &quot;aggregate&quot;;
         query.aggregations &#x3D; {};
         query.aggregations[aggregation] &#x3D; {skip: skip, count: count};
         return this.searchService.getResults(query, undefined, {searchInactive: true}).pipe(
             map((results: Results) &#x3D;&gt; {
-                let data &#x3D; results.aggregations.find(a &#x3D;&gt; Utils.eqNC(a.name, aggregation));
+                const data &#x3D; results.aggregations.find(a &#x3D;&gt; Utils.eqNC(a.name, aggregation));
                 if (data) {
                     this.setColumn(data);   // Useful for formatting and i18n
                 }
                 return data;
             })
-        );        
+        );
     }
 
     /**
      * Get suggestions given a text and a field name, using the Suggest service
-     * @param text 
-     * @param field 
-     * @param suggestQuery 
+     * @param text
+     * @param field
+     * @param suggestQuery
      */
     public suggest(text: string, field: string, suggestQuery &#x3D; this.appService.suggestQueries[0]): Observable&lt;Suggestion[]&gt; {
         return this.suggestService.get(suggestQuery, text, [field], this.searchService.query);
@@ -636,17 +636,17 @@ export class FacetService {
 
     /**
      * Format the given result item, using field formatter and/or i18n service
-     * @param item 
+     * @param item
      */
     formatValue(item: AggregationItem): string {
         return this.intlService.formatMessage(
-            this.formatService.formatFieldValue(item, item.$column))
+            this.formatService.formatFieldValue(item, item.$column));
     }
 
     /**
      * Returns true if this facet has at least one active selection
      * filtering the search
-     * @param facetName 
+     * @param facetName
      */
     public hasFiltered(facetName: string) : boolean {
         return !!this.findFilter(facetName);
@@ -655,7 +655,7 @@ export class FacetService {
     /**
      * Returns an active selection of this facet filtering the search
      * Returns it as an expression
-     * @param facetName 
+     * @param facetName
      */
     public findFilter(facetName: string) : Expr | undefined {
         if (this.searchService.breadcrumbs) {
@@ -667,14 +667,14 @@ export class FacetService {
     /**
      * Look for an aggregation with the given name in the search results and returns it.
      * Takes care of initializing the aggregation items to insert their $column property.
-     * @param aggregationName 
+     * @param aggregationName
      * @param results The search results can be provided explicitly or taken from the SearchService implicitly.
      */
     getAggregation(aggregationName: string, results &#x3D; this.searchService.results): Aggregation | undefined {
         if (results &amp;&amp; results.aggregations) {
-            for (let aggregation of results.aggregations) {
+            for (const aggregation of results.aggregations) {
                 if (Utils.eqNC(aggregation.name, aggregationName)) {
-                    this.setColumn(aggregation)    // Useful for formatting and i18n
+                    this.setColumn(aggregation);    // Useful for formatting and i18n
                     return aggregation;
                 }
             }
@@ -685,20 +685,19 @@ export class FacetService {
     /**
      * Look for a Tree aggregation with the given name in the search results and returns it.
      * Takes care of initializing the Node aggregation items to insert their properties ($column, $path, $opened, $level)
-     * @param facetName 
-     * @param aggregationName 
+     * @param facetName
+     * @param aggregationName
      * @param results The search results can be provided explicitly or taken from the SearchService implicitly.
-     * @param levelCallback A callback method called at every level of the tree. 
+     * @param levelCallback A callback method called at every level of the tree.
      * Can be used to read or alter the properties of the nodes (opening, closing), or node list (sorting)
      */
     getTreeAggregation(facetName: string, aggregationName: string, results &#x3D; this.searchService.results,
-        levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, filtered?: boolean) &#x3D;&gt; void) 
-        : TreeAggregation | undefined
-    {
-        let agg &#x3D; this.getAggregation(aggregationName, results);
+        levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, filtered?: boolean) &#x3D;&gt; void
+    ): TreeAggregation | undefined {
+        const agg &#x3D; this.getAggregation(aggregationName, results);
         if(agg &amp;&amp; agg.isTree){
-            let expr &#x3D; this.findFilter(facetName);
-            let expandPaths &#x3D; expr ? expr.getValues(agg.column) : [];
+            const expr &#x3D; this.findFilter(facetName);
+            const expandPaths &#x3D; expr ? expr.getValues(agg.column) : [];
             this.initTreeNodes(facetName, agg, &quot;/&quot;, agg.items as TreeAggregationNode[], expandPaths, levelCallback);
 
             return agg as TreeAggregation;
@@ -708,42 +707,41 @@ export class FacetService {
 
     /**
      * Returns the count parameter of the given aggregation (default is 10)
-     * @param aggregationName 
+     * @param aggregationName
      */
-    getAggregationCount(aggregationName: string) : number {        
-        let ccaggregation &#x3D; this.appService.getCCAggregation(aggregationName);
+    getAggregationCount(aggregationName: string) : number {
+        const ccaggregation &#x3D; this.appService.getCCAggregation(aggregationName);
         return (ccaggregation &amp;&amp; ccaggregation.count) || 10;
     }
 
     /**
      * Opens a Tree node of the given tree facet by querying data from the server
      * Takes care of initializing the Node aggregation items to insert their properties ($column, $path, $opened, $level)
-     * @param facetName 
-     * @param aggregation 
-     * @param item 
-     * @param levelCallback A callback method called at every level of the tree. 
-     * Can be used to read or alter the properties of the nodes (opening, closing), or node list (sorting) 
+     * @param facetName
+     * @param aggregation
+     * @param item
+     * @param levelCallback A callback method called at every level of the tree.
+     * Can be used to read or alter the properties of the nodes (opening, closing), or node list (sorting)
      */
-    open(facetName: string, aggregation: TreeAggregation, 
+    open(facetName: string, aggregation: TreeAggregation,
         item: TreeAggregationNode,
-        levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, filtered?: boolean) &#x3D;&gt; void)
-        : Observable&lt;Results&gt; 
-    {
-        let value &#x3D; item.$path + &quot;*&quot;;
-        let query &#x3D; Query.copy(this.searchService.query);
+        levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, filtered?: boolean) &#x3D;&gt; void
+    ): Observable&lt;Results&gt; {
+        const value &#x3D; item.$path + &quot;*&quot;;
+        const query &#x3D; Query.copy(this.searchService.query);
         query.action &#x3D; &quot;open&quot;;
-        let expr &#x3D; aggregation.column + &quot;:(&quot; + ExprParser.escape(value) + &quot;)&quot;;
+        const expr &#x3D; aggregation.column + &quot;:(&quot; + ExprParser.escape(value) + &quot;)&quot;;
         query.addOpen(expr, aggregation.name);
 
         this.events.next({type: FacetEventType.Open, facet: this.facet(facetName)});
         return this.searchService.getResults(query, undefined, {searchInactive: true}).pipe(
             map((results: Results) &#x3D;&gt; {
                 if (item.$path) {
-                    let source &#x3D; FacetService.getAggregationNode(results.aggregations[0].items as TreeAggregationNode[], item.$path);
-                    let target &#x3D; FacetService.getAggregationNode(aggregation.items as TreeAggregationNode[], item.$path);
+                    const source &#x3D; FacetService.getAggregationNode(results.aggregations[0].items as TreeAggregationNode[], item.$path);
+                    const target &#x3D; FacetService.getAggregationNode(aggregation.items as TreeAggregationNode[], item.$path);
                     if (source &amp;&amp; target) {
                         target.items &#x3D; source.items;    // Insert the new data (source) into the original (target)
-                    }      
+                    }
                     if (target &amp;&amp; target.items) {
                         this.initTreeNodes(facetName, aggregation, item.$path, target.items, undefined, levelCallback);
                     }
@@ -752,12 +750,12 @@ export class FacetService {
             })
         );
     }
-    
+
     /**
      * Returns true if a given aggregation item is currently actively filtering the search
-     * @param facetName 
-     * @param aggregation 
-     * @param item 
+     * @param facetName
+     * @param aggregation
+     * @param item
      */
     itemFiltered(facetName: string, aggregation: Aggregation, item: AggregationItem): boolean {
         return !!this.findItemFilter(facetName, aggregation, item);
@@ -785,13 +783,13 @@ export class FacetService {
             });
         }
         else {
-            let ret &#x3D; this.appService.parseExpr(&lt;string&gt;item.value);
+            const ret &#x3D; this.appService.parseExpr(&lt;string&gt;item.value);
             if (ret instanceof Expr) {
                 expr &#x3D; &lt;Expr&gt;ret;
             }
         }
         if (expr) {
-            let expr2 &#x3D; this.searchService.breadcrumbs &amp;&amp; this.searchService.breadcrumbs.findSelect(facetName, expr);
+            const expr2 &#x3D; this.searchService.breadcrumbs &amp;&amp; this.searchService.breadcrumbs.findSelect(facetName, expr);
             if(!!expr2 &amp;&amp; (!expr2.parent || !expr2.parent.parent)){
                 return expr2;
             }
@@ -801,18 +799,18 @@ export class FacetService {
 
     /**
      * Initializes the nodes of a tree (private, with a callback)
-     * @param facetName 
-     * @param aggregation 
-     * @param root 
-     * @param children 
-     * @param expandPaths 
-     * @param levelCallback 
+     * @param facetName
+     * @param aggregation
+     * @param root
+     * @param children
+     * @param expandPaths
+     * @param levelCallback
      */
-    private initTreeNodes(facetName: string, aggregation: Aggregation, 
+    private initTreeNodes(facetName: string, aggregation: Aggregation,
         root: string, children: TreeAggregationNode[],
         expandPaths?: string[],
-        levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, selected?: boolean) &#x3D;&gt; void)
-    {
+        levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, selected?: boolean) &#x3D;&gt; void
+    ) {
         if (!children) {
             return;
         }
@@ -824,7 +822,7 @@ export class FacetService {
             root &#x3D; &quot;/&quot;;
             rootLevel &#x3D; 0;
         }
-        let column &#x3D; this.appService.getColumn(aggregation.column);
+        const column &#x3D; this.appService.getColumn(aggregation.column);
         FacetService
             .traverse(children, (_nodes) &#x3D;&gt; {
                 if (!_nodes) {
@@ -832,19 +830,19 @@ export class FacetService {
                 }
                 let path &#x3D; root;
                 let level &#x3D; rootLevel;
-                for (let _node of _nodes) {
+                for (const _node of _nodes) {
                     path &#x3D; path + _node.value + &quot;/&quot;;
                     level++;
                 }
                 // console.log(path);
-                let _node &#x3D; _nodes[_nodes.length - 1];
+                const _node &#x3D; _nodes[_nodes.length - 1];
                 _node.$path &#x3D; path;
                 _node.$column &#x3D; column;
                 _node[&quot;$level&quot;] &#x3D; level;
                 _node.$opened &#x3D; false;
                 let filtered &#x3D; false;
                 if (expandPaths) {
-                    for (let expandPath of expandPaths) {
+                    for (const expandPath of expandPaths) {
                         if (expandPath.indexOf(path) &#x3D;&#x3D;&#x3D; 0) {
                             if (FacetService.getChildrenCount(_node) &gt; 0) {
                                 _node.$opened &#x3D; true;
@@ -868,7 +866,7 @@ export class FacetService {
 
     private setColumn(aggregation: Aggregation){
         if(!aggregation.isTree &amp;&amp; aggregation.items){
-            let column &#x3D; this.appService.getColumn(aggregation.column);
+            const column &#x3D; this.appService.getColumn(aggregation.column);
             aggregation.items.forEach((value) &#x3D;&gt; value.$column &#x3D; column);
         }
     }
@@ -884,7 +882,7 @@ export class FacetService {
      * @param label an optional label to display the value (by default will have none)
      */
     private static makeFacetExpr(
-        aggregation: Aggregation, 
+        aggregation: Aggregation,
         item: AggregationItem | TreeAggregationNode,
         excludeField?: boolean,
         label?: string): string {
@@ -935,7 +933,7 @@ export class FacetService {
     // Copied from Search service
     private static makeFilterExpr(field: string, valueItem: ValueItem): string {
         let haveField &#x3D; false;
-        let sb: string[] &#x3D; [];
+        const sb: string[] &#x3D; [];
         if (field) {
             sb.push(field);
             haveField &#x3D; true;
@@ -985,7 +983,7 @@ export class FacetService {
     }*/
 
     public static treepathLast(path: string): string {
-        let parts &#x3D; FacetService.splitTreepath(path);
+        const parts &#x3D; FacetService.splitTreepath(path);
         if (!parts || parts.length &#x3D;&#x3D;&#x3D; 0) {
             return &quot;&quot;;
         }
@@ -1018,14 +1016,14 @@ export class FacetService {
         if (!callback) {
             return false;
         }
-        let lineage: TreeAggregationNode[] &#x3D; [];
-        let stack: (TreeAggregationNode | undefined)[] &#x3D; [];
+        const lineage: TreeAggregationNode[] &#x3D; [];
+        const stack: (TreeAggregationNode | undefined)[] &#x3D; [];
         let _i &#x3D; nodes.length;
         while (_i--) {
             stack.push(nodes[_i]);
         }
         while (stack.length) {
-            let node &#x3D; stack.pop();
+            const node &#x3D; stack.pop();
             if (!node) {
                 lineage.pop();
                 callback(undefined);
@@ -1051,16 +1049,16 @@ export class FacetService {
         if (!nodes || nodes.length &#x3D;&#x3D;&#x3D; 0) {
             return undefined;
         }
-        let names &#x3D; FacetService.splitTreepath(path);
+        const names &#x3D; FacetService.splitTreepath(path);
         let node: TreeAggregationNode | undefined;
         for (let _i &#x3D; 0, _a &#x3D; names; _i &lt; _a.length; _i++) {
             if (!nodes || nodes.length &#x3D;&#x3D;&#x3D; 0) {
                 return undefined;
             }
-            let name &#x3D; _a[_i].toLocaleLowerCase();
+            const name &#x3D; _a[_i].toLocaleLowerCase();
             node &#x3D; undefined;
             for (let _j &#x3D; 0, _b &#x3D; nodes; _j &lt; _b.length; _j++) {
-                let _node &#x3D; _b[_j];
+                const _node &#x3D; _b[_j];
                 if ((&lt;string&gt;_node.value).toLocaleLowerCase() &#x3D;&#x3D;&#x3D; name) {
                     node &#x3D; _node;
                     break;

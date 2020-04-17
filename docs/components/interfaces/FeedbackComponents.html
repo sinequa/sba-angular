@@ -74,10 +74,10 @@ in their forRoot() method</p>
 <p>Example below:</p>
 <p>  public static forRoot(): ModuleWithProviders {
       return {
-          ngModule: FeedbackModule, 
+          ngModule: FeedbackModule,
           providers: [
-              { 
-                  provide: FEEDBACK_COMPONENTS, 
+              {
+                  provide: FEEDBACK_COMPONENTS,
                   useValue: {
                       feedbackForm: FeedbackForm
                   }
@@ -164,15 +164,15 @@ export const AuditFeedbackType &#x3D; &quot;UserFeedback&quot;;
  * The modal types are unknown to this service.
  * The module using this service must provide these components
  * in their forRoot() method
- * 
+ *
  * Example below:
- *  
+ *
     public static forRoot(): ModuleWithProviders {
         return {
-            ngModule: FeedbackModule, 
+            ngModule: FeedbackModule,
             providers: [
-                { 
-                    provide: FEEDBACK_COMPONENTS, 
+                {
+                    provide: FEEDBACK_COMPONENTS,
                     useValue: {
                         feedbackForm: FeedbackForm
                     }
@@ -181,7 +181,7 @@ export const AuditFeedbackType &#x3D; &quot;UserFeedback&quot;;
             ]
         };
     }
-    
+
  */
 export interface FeedbackComponents {
     feedbackForm: Type&lt;any&gt;;
@@ -204,7 +204,7 @@ export class FeedbackService {
     }
 
     public sendUserFeedback(message: string, thankUser: boolean){
-        let event : AuditEvent &#x3D; {
+        const event : AuditEvent &#x3D; {
             type: AuditFeedbackType,
             detail: {
                 app: this.appService.appName,
@@ -212,14 +212,14 @@ export class FeedbackService {
                 detail: message,
             }
         };
-        Utils.subscribe(this.auditService.notify([event]), 
+        Utils.subscribe(this.auditService.notify([event]),
             (result) &#x3D;&gt; {
                 if(thankUser)
                     this.notificationsService.success(&quot;msg#feedback.thankyou&quot;);
         });
     }
-    
-    public buildFeedbackAction() : Action[] {        
+
+    public buildFeedbackAction() : Action[] {
         return [new Action({
             text: &quot;msg#feedback.text&quot;,
             title: &quot;msg#feedback.title&quot;,
@@ -246,7 +246,7 @@ export class FeedbackService {
     }
 
     public openFeedbackModal(title: string){
-        let message &#x3D; {&quot;message&quot; : &quot;&quot;, &quot;title&quot; : title};
+        const message &#x3D; {&quot;message&quot; : &quot;&quot;, &quot;title&quot; : title};
         this.modalService.open(this.feedbackComponents.feedbackForm, {model: message})
             .then((result) &#x3D;&gt; {
                 if (result &#x3D;&#x3D;&#x3D; ModalResult.OK &amp;&amp; message.message.trim() !&#x3D;&#x3D; &quot;&quot;) {

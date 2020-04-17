@@ -265,65 +265,65 @@ export class BsSimilarDocs implements OnInit {
         private changeDetectorRef: ChangeDetectorRef,
         private similarDocumentsService: SimilarDocumentsWebService) {
     }
-    
+
     ngOnInit() {
 
         //console.log(this.config);
 
         if(this.similarDocsColumn){
 
-            let docids &#x3D; JSON.parse(this.record[this.similarDocsColumn]);
-            let docs : SimilarDoc[] &#x3D; docids.map(
+            const docids &#x3D; JSON.parse(this.record[this.similarDocsColumn]);
+            const docs : SimilarDoc[] &#x3D; docids.map(
                 obj &#x3D;&gt; {
                     return {
-                        id : Object.keys(obj)[0], 
-                        pct : Math.round(100*obj[Object.keys(obj)[0]]), 
-                        near_similarity : false, 
+                        id : Object.keys(obj)[0],
+                        pct : Math.round(100*obj[Object.keys(obj)[0]]),
+                        near_similarity : false,
                         record : null
-                    }; 
+                    };
                 });
-            let ids : string[] &#x3D; docs.map(obj &#x3D;&gt; obj.id);
+            const ids : string[] &#x3D; docs.map(obj &#x3D;&gt; obj.id);
 
             if(docs.length &gt; 0) {
 
-                let query &#x3D; Query.copy(this.searchService.query);
+                const query &#x3D; Query.copy(this.searchService.query);
                 query.text &#x3D; &quot;&quot;;
                 query.aggregations &#x3D; [];
                 query.select &#x3D; [];
                 query.addSelect(&quot;id:[&quot;+ids.join(&#x27;,&#x27;)+&quot;]&quot;);
-    
-                Utils.subscribe(this.searchService.getResults(query),
+
+                Utils.subscribe(this.searchService.getResults(query, undefined, {searchInactive: true}),
                     (results: Results) &#x3D;&gt; {
                         //console.log(&quot;similar docs!&quot;);
                         docs.forEach(obj &#x3D;&gt; { obj.record &#x3D; results.records.find(r &#x3D;&gt; r.id &#x3D;&#x3D;&#x3D; obj.id); }); // Add records to the doc objects
                         this.docs &#x3D; this.docs.filter(obj &#x3D;&gt; ids.indexOf(obj.id) &#x3D;&#x3D;&#x3D; -1)   // Remove previous docs that are in the new list
                                         .concat(docs)
-                                        .sort((a,b) &#x3D;&gt; b.pct - a.pct);        
+                                        .sort((a,b) &#x3D;&gt; b.pct - a.pct);
                         this.changeDetectorRef.markForCheck();
                     });
-    
+
             }
         }
 
         if(this.nearSimilarity){
-            let sourceDocumentId &#x3D; this.record.id;
+            const sourceDocumentId &#x3D; this.record.id;
             this.similarDocumentsService.get(sourceDocumentId, this.searchService.query.name).subscribe(
                 (results) &#x3D;&gt; {
-                    let ids &#x3D; this.docs.map(d &#x3D;&gt; d.id);
+                    const ids &#x3D; this.docs.map(d &#x3D;&gt; d.id);
                     this.docs &#x3D; this.docs.concat(results
                         .filter(r &#x3D;&gt; ids.indexOf(r.id) &#x3D;&#x3D;&#x3D; -1)  // Keep results not already in the list
-                        .map(r &#x3D;&gt; { 
-                            return { 
-                                pct: Math.round(100*r.globalrelevance), 
-                                near_similarity : true, 
-                                record : r, 
-                                id : r.id 
-                            }; 
+                        .map(r &#x3D;&gt; {
+                            return {
+                                pct: Math.round(100*r.globalrelevance),
+                                near_similarity : true,
+                                record : r,
+                                id : r.id
+                            };
                         }))
                         .sort((a,b) &#x3D;&gt; b.pct - a.pct);
                     this.changeDetectorRef.markForCheck();
                 }
-            )
+            );
         }
     }
 

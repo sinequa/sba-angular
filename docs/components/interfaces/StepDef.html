@@ -241,7 +241,7 @@ export enum RoundTarget {
     month,
     week, // ISO
     day
-};
+}
 
 export enum RoundType {
     up,
@@ -266,9 +266,9 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
     @Input() aggregation: string;
     @Input() min : string;
     @Input() max : string;
-    @Input() stepDefs: StepDef[];;
-    @ViewChild(&quot;slider&quot;, {static: false}) slider: ElementRef;  
-    
+    @Input() stepDefs: StepDef[];
+    @ViewChild(&quot;slider&quot;, {static: false}) slider: ElementRef;
+
     // Aggregation from the Results object
     data: Aggregation | undefined;
 
@@ -299,12 +299,12 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
     }
 
     protected translate &#x3D; (value: number, label: LabelType): string &#x3D;&gt; {
-        let value1 &#x3D; this.roundNearest(value); // to accommodate fractional steps generated for years/months 
+        const value1 &#x3D; this.roundNearest(value); // to accommodate fractional steps generated for years/months
 
         if (this.format) {
             if (this.column &amp;&amp; AppService.isDate(this.column)) {
-                let date &#x3D; new Date(value1);
-                let m &#x3D; moment(date);
+                const date &#x3D; new Date(value1);
+                const m &#x3D; moment(date);
                 return this.intlService.formatMessage(this.format, {date: date, time: Utils.getTime(date), weekDay: m.weekday(), week: m.week(), weekYear: m.weekYear()});
             }
             else {
@@ -322,8 +322,8 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
             case RoundType.down:
                 return -(value % multiple);
             case RoundType.nearest: {
-                let adjustUp &#x3D; multiple - value % multiple;
-                let adjustDown &#x3D; -(value % multiple);
+                const adjustUp &#x3D; multiple - value % multiple;
+                const adjustDown &#x3D; -(value % multiple);
                 return Math.abs(adjustUp) &lt;&#x3D; Math.abs(adjustDown) ? adjustUp : adjustDown;
             }
         }
@@ -345,8 +345,8 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
             case RoundType.down:
                 return this._roundNumberDown(value, step);
             case RoundType.nearest: {
-                let up &#x3D; this._roundNumberUp(value, step);
-                let down &#x3D; this._roundNumberDown(value, step);
+                const up &#x3D; this._roundNumberUp(value, step);
+                const down &#x3D; this._roundNumberDown(value, step);
                 return Math.abs(up - value) &lt;&#x3D; Math.abs(down - value) ? up : down;
             }
         }
@@ -365,7 +365,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
                 return this._getNearestDate(date, new Date(date.getFullYear(), date.getMonth() + 1), new Date(date.getFullYear(), date.getMonth()));
             }
             default:
-            case RoundTarget.week: 
+            case RoundTarget.week:
             case RoundTarget.day: {
                 return this._getNearestDate(date, new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1), new Date(date.getFullYear(), date.getMonth(), date.getDate()));
             }
@@ -381,29 +381,29 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
             }
             switch (target) {
                 case RoundTarget.year: {
-                    let year &#x3D; date.getFullYear();
-                    if (year % multiple !&#x3D;&#x3D; 0 || date.getMonth() !&#x3D;&#x3D; 0 || date.getDate() !&#x3D;&#x3D; 1 || 
+                    const year &#x3D; date.getFullYear();
+                    if (year % multiple !&#x3D;&#x3D; 0 || date.getMonth() !&#x3D;&#x3D; 0 || date.getDate() !&#x3D;&#x3D; 1 ||
                         date.getHours() !&#x3D;&#x3D; 0 || date.getMinutes() !&#x3D;&#x3D; 0 || date.getSeconds() !&#x3D;&#x3D; 0 || date.getMilliseconds() !&#x3D;&#x3D; 0) {
                         date &#x3D; new Date(year + this.roundAdjustment(year, multiple, roundType), 0);
                     }
                     break;
                 }
                 case RoundTarget.month: {
-                    let month &#x3D; date.getMonth();
-                    if (month % multiple !&#x3D;&#x3D; 0 || date.getDate() !&#x3D;&#x3D; 1 || 
+                    const month &#x3D; date.getMonth();
+                    if (month % multiple !&#x3D;&#x3D; 0 || date.getDate() !&#x3D;&#x3D; 1 ||
                         date.getHours() !&#x3D;&#x3D; 0 || date.getMinutes() !&#x3D;&#x3D; 0 || date.getSeconds() !&#x3D;&#x3D; 0 || date.getMilliseconds() !&#x3D;&#x3D; 0) {
                         date &#x3D; new Date(date.getFullYear(), month + this.roundAdjustment(month, multiple, roundType));
                     }
                     break;
                 }
                 case RoundTarget.week: {
-                    let day &#x3D; date.getDay();
+                    const day &#x3D; date.getDay();
                     // First, round to Monday
-                    if (day !&#x3D;&#x3D; 1/*Monday*/ || 
+                    if (day !&#x3D;&#x3D; 1/*Monday*/ ||
                         date.getHours() !&#x3D;&#x3D; 0 || date.getMinutes() !&#x3D;&#x3D; 0 || date.getSeconds() !&#x3D;&#x3D; 0 || date.getMilliseconds() !&#x3D;&#x3D; 0) {
                         let adjust: number;
-                        let up &#x3D; 7 - (day - 1);
-                        let down &#x3D; -(day - 1);
+                        const up &#x3D; 7 - (day - 1);
+                        const down &#x3D; -(day - 1);
                         switch (roundType) {
                             case RoundType.up:
                                 adjust &#x3D; up;
@@ -419,15 +419,15 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
                         date &#x3D; new Date(date.getFullYear(), date.getMonth(), date.getDate() + adjust);
                     }
                     // Then, round to week number
-                    let m &#x3D; moment(date);
-                    let week &#x3D; m.week();
+                    const m &#x3D; moment(date);
+                    const week &#x3D; m.week();
                     if (week % multiple !&#x3D;&#x3D; 0) {
                         date &#x3D; new Date(date.getFullYear(), date.getMonth(), date.getDate() + (this.roundAdjustment(week, multiple, roundType) * 7));
-                    } 
+                    }
                     break;
                 }
                 case RoundTarget.day: {
-                    let _date &#x3D; date.getDate();
+                    const _date &#x3D; date.getDate();
                     if (date.getHours() !&#x3D;&#x3D; 0 || date.getMinutes() !&#x3D;&#x3D; 0 || date.getSeconds() !&#x3D;&#x3D; 0 || date.getMilliseconds() !&#x3D;&#x3D; 0) {
                         date &#x3D; new Date(date.getFullYear(), date.getMonth(), _date + this.roundAdjustment(_date, multiple, roundType));
                     }
@@ -460,7 +460,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
     protected getFrom(): number | undefined {
         if (this.column) {
             if (AppService.isDate(this.column)) {
-                let date &#x3D; &lt;Date&gt;this.searchService.query.getAdvancedValue(this.column.name, AdvancedOperator.GTE);
+                const date &#x3D; &lt;Date&gt;this.searchService.query.getAdvancedValue(this.column.name, AdvancedOperator.GTE);
                 if (date) {
                     return date.getTime();
                 }
@@ -475,7 +475,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
     protected getTo(): number | undefined {
         if (this.column) {
             if (AppService.isDate(this.column)) {
-                let date &#x3D; &lt;Date&gt;this.searchService.query.getAdvancedValue(this.column.name, AdvancedOperator.LTE);
+                const date &#x3D; &lt;Date&gt;this.searchService.query.getAdvancedValue(this.column.name, AdvancedOperator.LTE);
                 if (date) {
                     return date.getTime();
                 }
@@ -490,7 +490,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
     protected setFrom(query: Query, value: number | undefined) {
         if (this.column) {
             if (AppService.isDate(this.column)) {
-                let date &#x3D; Utils.isNumber(value) ? new Date(value) : undefined;
+                const date &#x3D; Utils.isNumber(value) ? new Date(value) : undefined;
                 query.setAdvancedValue(this.column.name, date, AdvancedOperator.GTE);
             }
             else {
@@ -502,7 +502,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
     protected setTo(query: Query, value: number | undefined) {
         if (this.column) {
             if (AppService.isDate(this.column)) {
-                let date &#x3D; Utils.isNumber(value) ? new Date(value) : undefined;
+                const date &#x3D; Utils.isNumber(value) ? new Date(value) : undefined;
                 query.setAdvancedValue(this.column.name, date, AdvancedOperator.LTE);
             }
             else {
@@ -514,7 +514,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
     //TODO - remove fix engine hack
     private fixDate(dateStr: string): string {
         if (dateStr) {
-            let secondsSep &#x3D; dateStr.lastIndexOf(&quot;:&quot;);
+            const secondsSep &#x3D; dateStr.lastIndexOf(&quot;:&quot;);
             if (secondsSep &gt; 0) {
                 let seconds &#x3D; Utils.toInt(dateStr.substr(secondsSep + 1));
                 if (seconds &lt; 0) {
@@ -538,7 +538,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
         }
         else {
             if (this.data) {
-                let item &#x3D; this.data.items[0];
+                const item &#x3D; this.data.items[0];
                 if (item &amp;&amp; item.operatorResults) {
                     if (this.column &amp;&amp; AppService.isDate(this.column)) {
                         //TODO - remove fix engine hack
@@ -593,9 +593,9 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
         let format: string | undefined;
         let step: number | undefined;
         if (this.stepDefs) {
-            for (let stepDef of this.stepDefs) {
+            for (const stepDef of this.stepDefs) {
                 if (stepDef.step) {
-                    let thisStep &#x3D; this.parseValue(stepDef.step);
+                    const thisStep &#x3D; this.parseValue(stepDef.step);
                     if (thisStep &amp;&amp; stepDef.active) {
                         if (!stepDef.minRange) {
                             step &#x3D; thisStep;
@@ -604,11 +604,11 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
                         }
                         else {
                             // Round min/max for thisStep
-                            let {roundTarget, roundMultiple} &#x3D; this.getRoundTarget(thisStep);
-                            let min &#x3D; this._round(this.options.floor || 0, thisStep, roundTarget, roundMultiple, RoundType.down);
-                            let max &#x3D; this._round(this.options.ceil || 0, thisStep, roundTarget, roundMultiple, RoundType.up);
-                            let range &#x3D; max - min;
-                            let minRange &#x3D; this.parseValue(stepDef.minRange);
+                            const {roundTarget, roundMultiple} &#x3D; this.getRoundTarget(thisStep);
+                            const min &#x3D; this._round(this.options.floor || 0, thisStep, roundTarget, roundMultiple, RoundType.down);
+                            const max &#x3D; this._round(this.options.ceil || 0, thisStep, roundTarget, roundMultiple, RoundType.up);
+                            const range &#x3D; max - min;
+                            const minRange &#x3D; this.parseValue(stepDef.minRange);
                             if (range &gt;&#x3D; minRange) {
                                 step &#x3D; thisStep;
                                 format &#x3D; stepDef.format;
@@ -624,7 +624,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
             step &#x3D; this.column &amp;&amp; AppService.isDate(this.column) ? Utils.oneDay : 1;
         }
         // Adjust step for year/month rounding (we assume daylight savings will balance out over the year)
-        let {roundTarget, roundMultiple} &#x3D; this.getRoundTarget(step);
+        const {roundTarget, roundMultiple} &#x3D; this.getRoundTarget(step);
         switch (roundTarget) {
             case RoundTarget.year:
                 step &#x3D; roundMultiple * 365.25 * Utils.oneDay;
@@ -657,7 +657,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
     }
 
     protected getRoundTarget(step: number): { roundTarget: RoundTarget, roundMultiple: number } {
-        let ret &#x3D; {
+        const ret &#x3D; {
             roundTarget: RoundTarget.number,
             roundMultiple: 1
         };
@@ -739,17 +739,17 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
     }
 
     applyRange() {
-        let query &#x3D; this.searchService.query.copy();
+        const query &#x3D; this.searchService.query.copy();
         this.setFrom(query, this.roundNearest(this.value));
         this.setTo(query, this.roundNearest(this.highValue));
-        this.searchService.applyAdvanced(query);       
+        this.searchService.applyAdvanced(query);
     }
 
     clearRange() {
-        let query &#x3D; this.searchService.query.copy();
+        const query &#x3D; this.searchService.query.copy();
         this.setFrom(query, undefined);
         this.setTo(query, undefined);
-        this.searchService.applyAdvanced(query);       
+        this.searchService.applyAdvanced(query);
     }
 }</code></pre>
     </div>

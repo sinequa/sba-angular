@@ -34,9 +34,9 @@ export class BsFacetRecentQueries extends AbstractFacet  {
     constructor(
         public searchService: SearchService,
         public recentQueriesService: RecentQueriesService,
-        public savedQueriesService: SavedQueriesService) { 
+        public savedQueriesService: SavedQueriesService) {
         super();
-        
+
         this.previousPage = new Action({
             icon: "fas fa-chevron-left",
             title: "msg#facet.previous",
@@ -45,7 +45,7 @@ export class BsFacetRecentQueries extends AbstractFacet  {
             },
             updater: (action: Action) => {
                 action.disabled = this.page <= 0;
-                action.hidden = this.maxPage == 0;
+                action.hidden = this.maxPage === 0;
             }
         });
         this.nextPage = new Action({
@@ -56,7 +56,7 @@ export class BsFacetRecentQueries extends AbstractFacet  {
             },
             updater: (action: Action) => {
                 action.disabled = this.page >= this.maxPage;
-                action.hidden = this.maxPage == 0;
+                action.hidden = this.maxPage === 0;
             }
         });
     }
@@ -89,10 +89,10 @@ export class BsFacetRecentQueries extends AbstractFacet  {
         this.recentQueriesService.deleteRecentQuery(query);
         this.page = Math.min(this.page, this.maxPage);
     }
-    
+
     saveQuery(query: RecentQuery, event: Event){
         event.stopPropagation();
-        let q = Utils.extend(this.searchService.makeQuery(), Utils.copy(query.query))
+        const q = Utils.extend(this.searchService.makeQuery(), Utils.copy(query.query));
         this.savedQueriesService.createSavedQueryModal(q);
     }
 }

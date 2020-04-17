@@ -1808,7 +1808,7 @@ import {Observable, of} from &quot;rxjs&quot;;
 import {LabelsWebService, AuditEventType, Record} from &quot;@sinequa/core/web-services&quot;;
 import {AppService} from &quot;@sinequa/core/app-utils&quot;;
 import {Utils, IRef} from &quot;@sinequa/core/base&quot;;
-import {SearchService} from &quot;@sinequa/components/search&quot;
+import {SearchService} from &quot;@sinequa/components/search&quot;;
 import {ModalService, ModalResult} from &quot;@sinequa/core/modal&quot;;
 import {Action} from &quot;@sinequa/components/action&quot;;
 import {PrincipalWebService} from &quot;@sinequa/core/web-services&quot;;
@@ -1847,13 +1847,13 @@ export class LabelsService {
         private labelsWebService: LabelsWebService,
         private appService: AppService,
         private searchService: SearchService,
-        private modalService: ModalService,        
+        private modalService: ModalService,
         private principalWebService: PrincipalWebService,
         private intlService: IntlService,
         private selectionService: SelectionService,
         @Inject(LABELS_COMPONENTS) public labelsComponents: LabelsComponents,
         ){
-            
+
         this.principalWebService.events.subscribe(
             (event) &#x3D;&gt; {
                 switch (event.type) {
@@ -1952,7 +1952,7 @@ export class LabelsService {
         }
 
         let children: Action[];
-        let combined &#x3D; !!this.publicLabelsField &amp;&amp; !!this.privateLabelsField;        
+        const combined &#x3D; !!this.publicLabelsField &amp;&amp; !!this.privateLabelsField;
 
         if (combined) {
             children &#x3D; [
@@ -1979,7 +1979,7 @@ export class LabelsService {
             return undefined;
         }
 
-        let menu &#x3D; new Action({
+        const menu &#x3D; new Action({
             text: labelsText,
             title: labelsTitle,
             icon: icon,
@@ -1992,24 +1992,24 @@ export class LabelsService {
 
         return menu;
     }
-    
+
     toggle &#x3D; (item: Action, open: boolean) &#x3D;&gt; {
         if (open) {
-            let formItem &#x3D; item.children[0];
+            const formItem &#x3D; item.children[0];
             (&lt;IFormData&gt;formItem.data).autofocus++;
         }
-    };
-    
+    }
+
     public buildSelectionAction(): Action | undefined {
-        let action &#x3D; this.buildLabelsMenu(
+        const action &#x3D; this.buildLabelsMenu(
             (items: Action[], _public: boolean) &#x3D;&gt; {
-                let formItem &#x3D; items[0];
+                const formItem &#x3D; items[0];
                 items.push(
                     new Action({
                         text: _public? &quot;msg#labels.addPublicLabelTitle&quot; : &quot;msg#labels.addPrivateLabelTitle&quot;,
                         action: (item, $event) &#x3D;&gt; {
                             if ((&lt;IFormData&gt;formItem.data).labelRef.value) {
-                                let labels &#x3D; this.split((&lt;IFormData&gt;formItem.data).labelRef.value);
+                                const labels &#x3D; this.split((&lt;IFormData&gt;formItem.data).labelRef.value);
                                 this.addLabels(labels, this.selectionService.selectedRecords, _public);
                             }
                         }
@@ -2019,7 +2019,7 @@ export class LabelsService {
                         text: _public? &quot;msg#labels.removePublicLabelTitle&quot; : &quot;msg#labels.removePrivateLabelTitle&quot;,
                         action: (item, $event) &#x3D;&gt; {
                             if ((&lt;IFormData&gt;formItem.data).labelRef.value) {
-                                let labels &#x3D; this.split((&lt;IFormData&gt;formItem.data).labelRef.value);
+                                const labels &#x3D; this.split((&lt;IFormData&gt;formItem.data).labelRef.value);
                                 this.removeLabels(labels, this.selectionService.selectedRecords, _public);
                             }
                         }
@@ -2027,8 +2027,8 @@ export class LabelsService {
             });
         if(action){
             action.updater &#x3D; (action) &#x3D;&gt; {
-                action.hidden &#x3D; this.selectionService.selectedRecords.length &#x3D;&#x3D; 0;
-            }
+                action.hidden &#x3D; this.selectionService.selectedRecords.length &#x3D;&#x3D;&#x3D; 0;
+            };
             action.hidden &#x3D; true;
         }
         return action;
@@ -2036,7 +2036,7 @@ export class LabelsService {
 
     // menu support
     private _makeFormItem(_public: boolean): Action {
-        let action &#x3D; new Action({
+        const action &#x3D; new Action({
                 component: this.labelsComponents.labelActionItem,
                 data: &lt;IFormData&gt;{
                 labelRef: {value: &quot;&quot;},
@@ -2046,30 +2046,30 @@ export class LabelsService {
         });
         action.componentInputs &#x3D; {
             model: action
-        }
+        };
         return action;
     }
 
 
     // Build a standard labels menu with label entry form at the top and additional items added by a passed callback
     private _buildLabelsMenu(_public: boolean, addItems: (items: Action[], _public: boolean) &#x3D;&gt; void): Action[] {
-        let items: Action[] &#x3D; [
+        const items: Action[] &#x3D; [
             this._makeFormItem(_public),
             new Action({
-                separator: true 
+                separator: true
             })
         ];
-        addItems(items, _public);      
+        addItems(items, _public);
         return items;
     }
 
-    
+
     // Labels
     /**
      * The following methods update the modify the labels for some documents via
      * the LabelsWebService, and they update the records in searchService.results
      * (for immediate display)
-     **/ 
+     **/
 
     private updateLabels(action: UpdateLabelsAction, labels: string[], ids: string[], newLabel: string, _public: boolean) {
 
@@ -2080,7 +2080,7 @@ export class LabelsService {
             this.appService.cclabels.publicLabelsField : this.appService.cclabels.privateLabelsField);
         if (field &amp;&amp; this.searchService.results &amp;&amp; this.searchService.results.records) {
             for (let j &#x3D; 0, jc &#x3D; this.searchService.results.records.length; j &lt; jc; j++) {
-                let record &#x3D; this.searchService.results.records[j];
+                const record &#x3D; this.searchService.results.records[j];
                 if (!ids || ids.indexOf(record.id) !&#x3D;&#x3D; -1) {
                     let currentLabels: string[] &#x3D; record[field];
                     if (action &#x3D;&#x3D;&#x3D; UpdateLabelsAction.add) {
@@ -2090,7 +2090,7 @@ export class LabelsService {
                     }
                     if (currentLabels) {
                         for (let k &#x3D; 0, kc &#x3D; labels.length; k &lt; kc; k++) {
-                            let label &#x3D; labels[k];
+                            const label &#x3D; labels[k];
                             let index;
                             switch (action) {
                                 case UpdateLabelsAction.add:
@@ -2137,7 +2137,7 @@ export class LabelsService {
         if (!labels || labels.length &#x3D;&#x3D;&#x3D; 0 || !ids || ids.length &#x3D;&#x3D;&#x3D; 0) {
             return of();
         }
-        let observable &#x3D; this.labelsWebService.add(labels, ids, _public);
+        const observable &#x3D; this.labelsWebService.add(labels, ids, _public);
         Utils.subscribe(observable,
             () &#x3D;&gt; {
                 this.updateLabels(UpdateLabelsAction.add, labels, ids, &quot;&quot;, _public);
@@ -2149,7 +2149,7 @@ export class LabelsService {
         if (!labels || labels.length &#x3D;&#x3D;&#x3D; 0 || !ids || ids.length &#x3D;&#x3D;&#x3D; 0) {
             return of();
         }
-        let observable &#x3D; this.labelsWebService.remove(labels, ids, _public);
+        const observable &#x3D; this.labelsWebService.remove(labels, ids, _public);
         Utils.subscribe(observable,
             () &#x3D;&gt; {
                 this.updateLabels(UpdateLabelsAction.remove, labels, ids, &quot;&quot;, _public);
@@ -2163,9 +2163,9 @@ export class LabelsService {
         if (!field) {
             return Promise.resolve(false);
         }
-        let items: {value: string, display: string}[] &#x3D; [];
+        const items: {value: string, display: string}[] &#x3D; [];
         for (let label of labels) {
-            let display &#x3D; label;
+            const display &#x3D; label;
             if (!_public) {
                 label &#x3D; &lt;string&gt;this.addPrivatePrefix(label);
             }
@@ -2186,7 +2186,7 @@ export class LabelsService {
         if (!labels || labels.length &#x3D;&#x3D;&#x3D; 0) {
             return of();
         }
-        let observable &#x3D; this.labelsWebService.rename(labels, newLabel, _public);
+        const observable &#x3D; this.labelsWebService.rename(labels, newLabel, _public);
         Utils.subscribe(observable,
             () &#x3D;&gt; {
                 this.updateLabels(UpdateLabelsAction.rename, labels, [], newLabel, _public);
@@ -2198,7 +2198,7 @@ export class LabelsService {
         if (!labels || labels.length &#x3D;&#x3D;&#x3D; 0) {
             return of();
         }
-        let observable &#x3D; this.labelsWebService.delete(labels, _public);
+        const observable &#x3D; this.labelsWebService.delete(labels, _public);
         Utils.subscribe(observable,
             () &#x3D;&gt; {
                 this.updateLabels(UpdateLabelsAction.delete, labels, [], &quot;&quot;, _public);
@@ -2210,10 +2210,10 @@ export class LabelsService {
      * Get the ids of the record currently in searchService.results
      */
     getCurrentRecordIds(): string[]{
-        let ids: string[] &#x3D; [];
+        const ids: string[] &#x3D; [];
         if (this.searchService.results &amp;&amp; this.searchService.results.records) {
             for (let i &#x3D; 0, ic &#x3D; this.searchService.results ? this.searchService.results.records.length : 0; i &lt; ic; i++) {
-                let record &#x3D; this.searchService.results.records[i];
+                const record &#x3D; this.searchService.results.records[i];
                 ids.push(record.id);
             }
         }
@@ -2236,7 +2236,7 @@ export class LabelsService {
         if (!labels || labels.length &#x3D;&#x3D;&#x3D; 0) {
             return of();
         }
-        let observable &#x3D; this.labelsWebService.bulkAdd(labels, this.searchService.query, _public);
+        const observable &#x3D; this.labelsWebService.bulkAdd(labels, this.searchService.query, _public);
         Utils.subscribe(observable,
             () &#x3D;&gt; {
                 this.updateLabels(UpdateLabelsAction.bulkAdd, labels, this.getCurrentRecordIds(), &quot;&quot;, _public);
@@ -2248,7 +2248,7 @@ export class LabelsService {
         if (!labels || labels.length &#x3D;&#x3D;&#x3D; 0) {
             return of();
         }
-        let observable &#x3D; this.labelsWebService.bulkRemove(labels, this.searchService.query, _public);
+        const observable &#x3D; this.labelsWebService.bulkRemove(labels, this.searchService.query, _public);
         Utils.subscribe(observable,
             () &#x3D;&gt; {
                 this.updateLabels(UpdateLabelsAction.bulkRemove, labels, this.getCurrentRecordIds(), &quot;&quot;, _public);
@@ -2256,7 +2256,7 @@ export class LabelsService {
         return observable;
     }
 
- 
+
     get privateLabelsPrefix(): string {
         if (!this.principalWebService.principal) {
             return &quot;&quot;;
@@ -2302,7 +2302,7 @@ export class LabelsService {
         }
         else {
             return this.privateLabelsPrefix + label;
-        }   
+        }
     }
 
     addPrivatePrefix(labels: string|string[]): string|string[] {
@@ -2312,7 +2312,7 @@ export class LabelsService {
         else {
             for (let i &#x3D; 0, ic &#x3D; labels.length; i &lt; ic; i++) {
                 labels[i] &#x3D; this._addPrivatePrefix(labels[i]);
-            }            
+            }
             return labels;
         }
     }
@@ -2339,7 +2339,7 @@ export class LabelsService {
             }
             return labels;
         }
-    } 
+    }
 }
 </code></pre>
     </div>

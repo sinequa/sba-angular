@@ -26,7 +26,7 @@ export class BsSavedQueriesMenuComponent implements OnInit, OnDestroy {
   constructor(
     public loginService: LoginService,
     public savedQueriesService: SavedQueriesService,
-    public searchService: SearchService) { 
+    public searchService: SearchService) {
 
     this.saveAction = new Action({
       text: "msg#savedQueries.saveCurrentQuery",
@@ -42,7 +42,7 @@ export class BsSavedQueriesMenuComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnInit() {    
+  ngOnInit() {
     this.updateMenu();
     this._savedQueriesSubscription = this.savedQueriesService.changes.subscribe({
       next: () => { this.updateMenu(); }
@@ -78,17 +78,17 @@ export class BsSavedQueriesMenuComponent implements OnInit, OnDestroy {
       this.menu = undefined;
       return;
     }
-    
-    let savedQueriesActions: Action[] = [];
+
+    const savedQueriesActions: Action[] = [];
 
     if (this.savedQueriesService.hasSavedQuery) {
-        let scrollGroup = new Action({
+        const scrollGroup = new Action({
             scrollGroup: true,
             children: []
         });
         savedQueriesActions.push(scrollGroup);
         for (let i = 0, ic = this.savedQueriesService.savedqueries.length; i < ic; i++) {
-            let savedQuery = this.savedQueriesService.savedqueries[i];
+            const savedQuery = this.savedQueriesService.savedqueries[i];
             scrollGroup.children.push(new Action({
                 text: savedQuery.name,
                 title: savedQuery.name,

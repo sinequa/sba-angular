@@ -7,11 +7,11 @@ import {Utils} from "@sinequa/core/base";
 export class Autofocus implements OnChanges {
     @Input("sqAutofocus") value: number;
     element: HTMLElement;
-    
+
     constructor(elementRef: ElementRef) {
-        this.element = <HTMLElement>elementRef.nativeElement;        
+        this.element = <HTMLElement>elementRef.nativeElement;
     }
-    
+
     private setFocus() {
         Utils.delay()
             .then(() => {
@@ -20,8 +20,8 @@ export class Autofocus implements OnChanges {
                 }
             });
     }
-    
+
     ngOnChanges() {
         this.setFocus();
-    }    
+    }
 }

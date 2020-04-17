@@ -23,16 +23,16 @@ export class BsSelectBasket implements OnInit {
         this.buttons = [
             new ModalButton({
                 result: ModalResult.Cancel
-            })            
-        ];         
+            })
+        ];
     }
-    
+
     ngOnInit(): void {
         if (!!this.model.basketFilter) {
             this.baskets = this.baskets.filter(this.model.basketFilter);
         }
     }
-    
+
     activate(model) {
         this.model = model;
     }
@@ -45,7 +45,7 @@ export class BsSelectBasket implements OnInit {
     }
 
     newBasket(){
-        let model : Basket = {name : ""};
+        const model : Basket = {name : ""};
         this.basketsService.createBasketModal(model)
             .then((result) => {
                 if(result){ // The basket was created

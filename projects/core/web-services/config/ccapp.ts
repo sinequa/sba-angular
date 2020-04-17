@@ -10,15 +10,17 @@ export interface CCConfig {
      */
     name: string;
     /**
-     * A description of the configuration object
+     * An optional description of the configuration object
      */
-    description: string;
+    description?: string;
 }
 
 /**
  * Describes the fields available in all web service configuration objects
  */
-export type CCWebService = CCConfig;
+export interface CCWebService extends CCConfig {
+    webServiceType: "Query" | "sponsoredlinks" | "queryexport" | "Preview" | "Labels" | "Autocomplete";
+}
 
 /**
  * Describes the fields available in the index configuration object
@@ -31,7 +33,7 @@ export interface CCIndex extends CCConfig {
     /**
      * The columns in the index
      */
-    columns: MapOf<CCColumn>;
+    columns?: MapOf<CCColumn>;
 }
 
 /**
@@ -96,6 +98,10 @@ export interface CCAggregation {
      * The underlying column in the aggregation
      */
     column: string;
+    /**
+     * Determines whether this aggregation should be included in a regular search
+     */
+    includeInStandardSearch: boolean;
     /**
      * The maximum number of values to retrieve
      */
@@ -270,57 +276,33 @@ export interface CCScope {
  * Defines different precision operators that can be automatically added to a `text contains` clause
  * when no precision operators are present.
  *
- * `default` - no operators are added
+ * `Default` - no operators are added
  *
- * `exactExpression` - text surrounded by `"..."`
+ * `ExactExpression` - text surrounded by `"..."`
  *
- * `inTheSamePhrase` - text surrounded by `[...]`
+ * `InTheSamePhrase` - text surrounded by `[...]`
  *
- * `everyWord` - text surrounded by `+(...)`
+ * `EveryWord` - text surrounded by `+(...)`
  */
-export enum QueryPrecision {
-    /**
-     * No operators are added
-     */
-    default = "Default",
-    /**
-     * The text is surrounded by `"..."`
-     */
-    exactExpression = "ExactExpression",
-    /**
-     * The text is surrounded by `[...]`
-     */
-    inTheSamePhrase = "InTheSamePhrase",
-    /**
-     * The text is surrounded by `+(...)`
-     */
-    everyWord  = "EveryWord"
-}
+export type QueryPrecision  = "Default" | "ExactExpression" | "InTheSamePhrase" | "EveryWord";
 
 /**
  * Defines strategies that can used in the query search parameters. Each strategy defines a pair of word weight (`ww`) and meaning
  * weight (`mw`) values to be used.
  *
- * `default` - no `ww` and `mw` parameters used
+ * `Default` - no `ww` and `mw` parameters used
  *
- * `wordsOnly` - `ww=1;mw=0`
+ * `WordsOnly` - `ww=1;mw=0`
  *
- * `wordsFirst` - `ww=0.8;mw=0.2`
+ * `WordsFirst` - `ww=0.8;mw=0.2`
  *
- * `wordsAndMeaning` - `ww=0.6;mw=0.4`
+ * `WordsAndMeaning` - `ww=0.6;mw=0.4`
  *
- * `meaningFirst` - `ww=0.3;mw=0.7`
+ * `MeaningFirst` - `ww=0.3;mw=0.7`
  *
- * `meaningOnly` - `ww=0;mw=1`
+ * `MeaningOnly` - `ww=0;mw=1`
  */
-export enum QueryStrategy {
-    default = "Default",
-    wordsOnly = "WordsOnly",
-    wordsFirst = "WordsFirst",
-    wordsAndMeaning = "WordsAndMeaning",
-    meaningFirst = "MeaningFirst",
-    meaningOnly = "MeaningOnly"
-}
+export type QueryStrategy = "Default" | "WordsOnly" | "WordsFirst" | "WordsAndMeaning" | "MeaningFirst" | "MeaningOnly";
 
 /**
  * Defines modes for the spelling correction of search terms and did-you-mean functionality. Corrections
@@ -339,7 +321,7 @@ export enum QueryStrategy {
  * are not included in the query. The [Results.didYouMean]{@link Results#didYouMean] member is populated allowing for a "Your query
  * has been corrected to..." feedback to be displayed
  *
- * `dymOnly` - corrections are sought for terms that are present in less than 10 documents and where the correction is
+ * `dymonly` - corrections are sought for terms that are present in less than 10 documents and where the correction is
  * 20 times more frequent than the original term. The actual query is unaffected but the
  * [Results.didYouMean]{@link Results#didYouMean] member will be populated allowing for a "Did you mean..." feedback to be
  * displayed
@@ -348,15 +330,7 @@ export enum QueryStrategy {
  *
  * `false` - no spelling correction processing occurs
  */
-export enum SpellingCorrectionMode {
-    default = "Default",
-    classic = "Classic",
-    smart = "Smart",
-    correct = "Correct",
-    dymOnly = "DYMOnly",
-    force = "Force",
-    false = "False"
-}
+export type SpellingCorrectionMode = "default" | "classic" | "smart" | "correct" | "dymonly" | "force" | "false";
 
 /**
  * Describes the query web service configuration object
@@ -725,6 +699,10 @@ export interface CCApp extends CCConfig {
      * This field is used to compare with [MINIMUM_COMPATIBLE_SERVER_API_VERSION]{@link MINIMUM_COMPATIBLE_SERVER_API_VERSION}
      */
     apiVersion: string;
+    /**
+     * The workspace associated with this app
+     */
+    workspaceApp: string;
 }
 
 /**

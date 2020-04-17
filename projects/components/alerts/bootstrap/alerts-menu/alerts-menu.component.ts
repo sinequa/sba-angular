@@ -28,7 +28,7 @@ export class BsAlertsMenuComponent implements OnInit, OnDestroy {
     public loginService: LoginService,
     public alertsService: AlertsService,
     public searchService: SearchService
-  ) { 
+  ) {
 
     this.createAction = new Action({
       text: "msg#alerts.createAlert",
@@ -81,23 +81,23 @@ export class BsAlertsMenuComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let alertsActions: Action[] = [];
+    const alertsActions: Action[] = [];
 
     if (this.alertsService.hasAlert) {
-        let scrollGroup = new Action({
+        const scrollGroup = new Action({
             scrollGroup: true,
             children: []
         });
         alertsActions.push(scrollGroup);
         for (let i = 0, ic = this.alertsService.alerts.length; i < ic; i++) {
-            let alert = this.alertsService.alerts[i];
+            const alert = this.alertsService.alerts[i];
             scrollGroup.children.push(new Action({
                 text: alert.name,
                 data: alert,
                 action: (item: Action) => {
                   //this.searchService.query = Utils.extend(this.searchService.makeQuery(), (<UserSettings.Alert>item.data).query);
                   //this.searchService.search();
-                  let alert: Alert = Utils.copy(item.data);
+                  const alert: Alert = Utils.copy(item.data);
                   this.alertsService.editAlertModal(alert);
                 }
             }));

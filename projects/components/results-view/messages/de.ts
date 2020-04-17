@@ -38,9 +38,11 @@ export default {
         "viewUpdateApply": "Anwenden",
         "warningNoViewForTab": "Der Reiter '{tab}' hat keine zugewiesenen Ergebnisansichten.",
         "warningCannotDisplayTabOnView": "Der Reiter '{tab}' kann nicht mit der Ansicht '{view}' angezeigt werden, da diese nicht in der Ansichtskonfiguration enthalten ist.",
-        
+
         "resultsAllTab": "Alle",
         "resultsTextTab": "Text",
+        "results_all_tab": "Alle",
+        "results_text_tab": "Text",
 
         "resultsTimelineView": {
           "display": "Zeitleiste",
@@ -59,4 +61,4 @@ export default {
             "buttonLabel": "Klasse:"
         }
     }
-}
+};

@@ -261,23 +261,23 @@ export class LabelsAutocomplete extends Autocomplete {
     }
 
     /**
-     * The getSuggests() method from the original directive is overriden to 
+     * The getSuggests() method from the original directive is overriden to
      * use the labelsService rather than suggest service.
      */
     protected getSuggests(){
 
-        let value &#x3D; this.getInputValue();
+        const value &#x3D; this.getInputValue();
 
         if(value) { // If there is text
 
             // parse
-            let labels &#x3D; value.split(&quot;;&quot;);
+            const labels &#x3D; value.split(&quot;;&quot;);
 
             // find label at caret location
-            let position &#x3D; this.getInputPosition();
+            const position &#x3D; this.getInputPosition();
             let length &#x3D; 0;
             let val: { value: string, start : number, length: number } | undefined;
-            for (let label of labels) {
+            for (const label of labels) {
                 if (position &gt;&#x3D; length &amp;&amp; position &lt;&#x3D; length + label.length) {
                     val &#x3D; {
                         value: label,
@@ -292,7 +292,7 @@ export class LabelsAutocomplete extends Autocomplete {
             // Get suggestions from web service
             if(val) {
                 this.labelsWebService.list(val.value, this.public).subscribe(
-                            
+
                     (labels: Labels) &#x3D;&gt; {
                         if(this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.ACTIVE || this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.OPENED){
                             this.dropdown.update(true, labels.labels.map(label &#x3D;&gt; {
@@ -315,8 +315,8 @@ export class LabelsAutocomplete extends Autocomplete {
                         }
                     }
                 );
-            }       
-            
+            }
+
         }
         else {  // If empty input, restart autocomplete
             this.start();

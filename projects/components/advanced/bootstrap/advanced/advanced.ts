@@ -7,7 +7,7 @@ import {AdvancedValue, AdvancedOperator} from "@sinequa/core/web-services";
 import {AppService, Query} from "@sinequa/core/app-utils";
 import {ValidationService, ValidatorType} from "@sinequa/core/validation";
 import {Control, AdvancedFormType} from "../advanced-models";
-import {SearchService, FirstPageService} from "@sinequa/components/search"
+import { SearchService, FirstPageService } from "@sinequa/components/search";
 
 @Component({
     selector: "sq-advanced",
@@ -17,7 +17,7 @@ export class BsAdvanced implements OnChanges, OnDestroy {
     @Input() query: Query;
     @Input() form: FormGroup;
     @Input() showing: boolean;
-    
+
     // Former CCAdvanced
     @Input() items: Control[];
     @Input() autocompleteEnabled: boolean = true;
@@ -51,7 +51,7 @@ export class BsAdvanced implements OnChanges, OnDestroy {
     getAdvancedValue(control: Control): AdvancedValue | AdvancedValue[] {
         let value: AdvancedValue | AdvancedValue[];
         if (Utils.eqNC(control.type, AdvancedFormType.Range)) {
-            let range: AdvancedValue[] = [];
+            const range: AdvancedValue[] = [];
             range.push(this.query.getAdvancedValue(control.field, AdvancedOperator.GTE));
             range.push(this.query.getAdvancedValue(control.field, AdvancedOperator.LTE));
             return range;
@@ -64,15 +64,15 @@ export class BsAdvanced implements OnChanges, OnDestroy {
 
     isDistribution(control: Control): boolean {
         if (control.aggregation) {
-            let ccaggregation = this.appService.getCCAggregation(control.aggregation);
+            const ccaggregation = this.appService.getCCAggregation(control.aggregation);
             return !!ccaggregation && !!ccaggregation.distribution;
         }
         return false;
     }
-      
+
     makeValidatorFns(control: Control): ValidatorFn[] {
-        let column = this.appService.getColumn(control.field);
-        let parser = column ? column.parser : undefined;
+        const column = this.appService.getColumn(control.field);
+        const parser = column ? column.parser : undefined;
         let doneMin = false;
         let doneMax = false;
         let donePattern = false;
@@ -90,9 +90,9 @@ export class BsAdvanced implements OnChanges, OnDestroy {
         else {
             rangeType = "";
         }
-        let fns: ValidatorFn[] = [];
+        const fns: ValidatorFn[] = [];
         if (control.validators) {
-            for (let validator of control.validators) {
+            for (const validator of control.validators) {
                 if (!validator.active) {
                     continue;
                 }
@@ -178,19 +178,19 @@ export class BsAdvanced implements OnChanges, OnDestroy {
 
     makeAdvancedForm() {
         if (!!this.items) {
-            let map: MapOf<any> = {};
+            const map: MapOf<any> = {};
             this.items.forEach(item => {
                 if (item.active) {
-                    let control = <Control>item;
-                    let name = control.name || control.field;
+                    const control = <Control>item;
+                    const name = control.name || control.field;
                     if (name) {
-                        let value = this.getAdvancedValue(control);
+                        const value = this.getAdvancedValue(control);
                         map[name] = [value, Validators.compose(this.makeValidatorFns(control))];
                     }
                 }
             });
-            let advanced = this.formBuilder.group(map);
-            for (let name in advanced.controls) {
+            const advanced = this.formBuilder.group(map);
+            for (const name in advanced.controls) {
                 this.form.addControl(name, advanced.controls[name]);
             }
         }
@@ -248,7 +248,7 @@ export class BsAdvanced implements OnChanges, OnDestroy {
         if (!!this.items) {
             this.items.forEach(item => {
                 if (item.active) {
-                    let control = item as Control;
+                    const control = item as Control;
                     this.setAdvancedValue(control);
                 }
             });
@@ -259,8 +259,8 @@ export class BsAdvanced implements OnChanges, OnDestroy {
         if (!!this.items) {
             this.items.forEach(item => {
                 if (item.active) {
-                    let control = <Control>item;
-                    let name = control.name || control.field;
+                    const control = <Control>item;
+                    const name = control.name || control.field;
                     if (name) {
                         const value = this.getAdvancedValue(control);
                         const formControl = this.form.get(name);
@@ -272,7 +272,7 @@ export class BsAdvanced implements OnChanges, OnDestroy {
             });
         }
     }
-    
+
     ngOnChanges(changes: SimpleChanges) {
         if (!this.formInitDone) {
             this.formInitDone = true;

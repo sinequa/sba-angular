@@ -12,11 +12,11 @@ export class BsConfirm {
         @Inject(MODAL_MODEL) public model: ConfirmOptions,
         protected modalRef: ModalRef) {
     }
-    
+
     get title(): string {
         return this.model.title ? this.model.title : "msg#modal.confirm.title";
     }
-    
+
     public getMessageClass(confirmType): string {
         switch (confirmType) {
             case ConfirmType.Info:

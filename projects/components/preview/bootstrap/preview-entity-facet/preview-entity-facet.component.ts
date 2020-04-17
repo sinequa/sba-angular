@@ -17,7 +17,7 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
   @Input() startUnchecked: boolean;
   @Output() itemsChecked = new EventEmitter<boolean>();
 
-  count: number = 10; 
+  count: number = 10;
   sortFreq: boolean = true;
   hidden = new Map<string, boolean>();
   nav = new Map<string, number>();
@@ -56,7 +56,7 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
           action.title = "msg#preview.highlightFilters.keepAll";
         }
       }
-    });    
+    });
     this.sortAlphaAction = new Action({
       icon: "fas fa-sort-alpha-down",
       title: "msg#preview.sortAlphabetically",
@@ -74,7 +74,7 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
   }
 
   get actions(): Action[]{
-    let actions: Action[] = [];
+    const actions: Action[] = [];
     if(this.previewDocument){
       actions.push(this.checkAction);
     }
@@ -93,9 +93,9 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
   }
 
   /**
-   * Since the preview document comes after the preview data, we need to wait for that change 
-   * and apply the hidden state in the document. 
-   * @param changes 
+   * Since the preview document comes after the preview data, we need to wait for that change
+   * and apply the hidden state in the document.
+   * @param changes
    */
   ngOnChanges(changes: SimpleChanges) {
     if(changes["previewDocument"]){
@@ -114,7 +114,7 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
    */
   get entityValues(): HighlightValue[] {
     return this.data.sort((a,b) => {
-      let d = b.locations.length - a.locations.length;
+      const d = b.locations.length - a.locations.length;
       return this.sortFreq && d !== 0?  d : a.displayValue.localeCompare(b.displayValue);
     }).slice(0, this.count);
   }
@@ -122,7 +122,7 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
   /**
    * Returns the number of occurrences of a given value.
    * If the user used the facet to navigate, the format is "i / count"
-   * @param value 
+   * @param value
    */
   entityCount(value: HighlightValue): string {
     let count = value.locations.length + "";
@@ -135,7 +135,7 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
 
   /**
    * Return whether the entity is hidden (unchecked) or not
-   * @param value 
+   * @param value
    */
   entityHidden(value: HighlightValue): boolean {
     return !!this.hidden.get(value.value);
@@ -152,7 +152,7 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
   /**
    * Toggles the hidden (checked/unchecked) state of a value in the list.
    * Modifies the provided preview document.
-   * @param value 
+   * @param value
    */
   toggleEntity(value: HighlightValue){
     this.hidden.set(value.value, !this.hidden.get(value.value));
@@ -177,7 +177,7 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
       this.itemsChecked.next(false);
     }
   }
-  
+
   /**
    * Select all entities (unset hidden)
    */
@@ -197,7 +197,7 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
   /**
    * Navigate to the next value of this entity.
    * Modifies the provided preview document.
-   * @param value 
+   * @param value
    */
   nextEntity(value: HighlightValue){
     let navValue = this.nav.get(value.value);
@@ -215,7 +215,7 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
   /**
    * Navigate to the next value of this entity.
    * Modifies the provided preview document.
-   * @param value 
+   * @param value
    */
   prevEntity(value: HighlightValue){
     let navValue = this.nav.get(value.value);
@@ -233,28 +233,32 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
   /**
    * Navigate to the given occurrence of an entity in a specific category
    * Modifies the provided preview document.
-   * @param category 
-   * @param value 
-   * @param i 
+   * @param category
+   * @param value
+   * @param i
    */
   selectEntity(category: string, value: string, i: number){
-    let indexes = this.getEntityIndexes(category, value);
+    const indexes = this.getEntityIndexes(category, value);
     this.previewDocument.selectHighlight(category, indexes[i]);
   }
 
   /**
    * Helper function to find the indexes of all occurrences of a entity value in the document
-   * @param category 
-   * @param value 
+   * @param category
+   * @param value
    */
   private getEntityIndexes(category: string, value: string) {
-    let indexes: number[] = [];
-    for(let i=0; i<this.previewData.highlightsPerLocation['length']; i++){
-      let highlight = this.previewData.highlightsPerLocation[i];
-      let categories = Object.keys(highlight.positionInCategories);
-      for(let j=0; j<categories.length; j++){
-        if(categories[j] === category && highlight.values[j] === value){
-          indexes.push(highlight.positionInCategories[category]);
+    const indexes: number[] = [];
+    for (let i = 0; i < this.previewData.highlightsPerLocation['length']; i++) {
+      const highlight = this.previewData.highlightsPerLocation[i];
+      const categories = Object.keys(highlight.positionInCategories);
+      for (const currentCategory of categories) {
+        if (currentCategory === category) {
+          for (const highlightValue of highlight.values) {
+            if (highlightValue === value) {
+              indexes.push(highlight.positionInCategories[category]);
+            }
+          }
         }
       }
     }

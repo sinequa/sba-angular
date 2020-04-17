@@ -11,17 +11,18 @@ export interface MomentParams {
     precise?: boolean; // diff
 }
 
+// tslint:disable-next-line: use-pipe-transform-interface
 @Pipe({name: "sqMoment", pure: false})
 export class MomentPipe extends AbstractIntlPipe {
     constructor(
-        intlService: IntlService, 
+        intlService: IntlService,
         changeDetectorRef: ChangeDetectorRef) {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(key:moment.MomentInput, params: MomentParams): void {
+    updateValue(key:moment.MomentInput, params: MomentParams = {}): void {
         super.updateValue(key, params);
-        let m = moment(key);
+        const m = moment(key);
         if (params.format) {
             this.value = m.format(params.format);
         }
@@ -56,7 +57,7 @@ export class MomentPipe extends AbstractIntlPipe {
                     break;
                 case "iso":
                     this.value = m.toISOString();
-                    break;                                                                                
+                    break;
             }
         }
     }

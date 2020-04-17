@@ -61,8 +61,8 @@ export class BsRfmAction implements OnChanges, OnDestroy {
         return (!this.rfm) ? RFMDisplay.unrate : this.rfm.status;
     }
 
-    get hasRfmImage() : boolean { 
-        return this.rfmImage !== RFMDisplay.none; 
+    get hasRfmImage() : boolean {
+        return this.rfmImage !== RFMDisplay.none;
     }
 
     get rfmImage(): RFMDisplay {
@@ -96,22 +96,22 @@ export class BsRfmAction implements OnChanges, OnDestroy {
     }
 
     get displayImgAction(): boolean {
-        return this.rfmImageAction != RFMDisplay.none;
+        return this.rfmImageAction !== RFMDisplay.none;
     }
 
     get displayMenu(): boolean {
-        return this.rfmImageAction == RFMDisplay.none &&
-            this.rfmAvailableActions != RFMDisplay.none &&
+        return this.rfmImageAction === RFMDisplay.none &&
+            this.rfmAvailableActions !== RFMDisplay.none &&
             !this.config.noMenu;
     }
 
     get displayNoAction(): boolean {
-        return this.rfmImageAction == RFMDisplay.none &&
-            this.rfmAvailableActions == RFMDisplay.none;
+        return this.rfmImageAction === RFMDisplay.none &&
+            this.rfmAvailableActions === RFMDisplay.none;
     }
 
     getActionIcon(rfmDisplay: RFMDisplay): string {
-        let name = RFMService.getActionName(rfmDisplay);
+        const name = RFMService.getActionName(rfmDisplay);
         return `rfm-${this.type}-${name}`;
     }
 
@@ -128,7 +128,7 @@ export class BsRfmAction implements OnChanges, OnDestroy {
             };
         }
         if (this.displayMenu) {
-            for (let rfmDisplay of this.menuActions) {
+            for (const rfmDisplay of this.menuActions) {
                 this.action.children.push(new Action({
                     icon: this.getActionIcon(rfmDisplay),
                     data: rfmDisplay,
@@ -146,7 +146,7 @@ export class BsRfmAction implements OnChanges, OnDestroy {
 
     selectRfmDisplay(rfmDisplay: RFMDisplay) {
         if (rfmDisplay !== this.rfmStatus) {
-            let eventtype = RFMService.toAuditEventType(this.type, rfmDisplay);
+            const eventtype = RFMService.toAuditEventType(this.type, rfmDisplay);
             this.rFMService.notifyRfmAction(eventtype, this.record, this.results);
             // Update RFM data for the record (created a new RFM data can be necessary)
             this.updateRfmData(rfmDisplay, this.rfmStatus);
@@ -164,9 +164,10 @@ export class BsRfmAction implements OnChanges, OnDestroy {
                 imageAction: newAction,
                 availableActions: this.rfmDefaultAvailableActions
             };
+            updateNeeded = true;
         }
         else {
-            if (newStatus == RFMDisplay.unrate) {
+            if (newStatus === RFMDisplay.unrate) {
                 this.rfm.eventCount--;
             }
             else {
@@ -182,7 +183,7 @@ export class BsRfmAction implements OnChanges, OnDestroy {
             let updateRfm = false;
             if (!rfm) {
                 updateRfm = true;
-                rfm = { click: null, like: null, important: null };
+                rfm = {};
             }
             rfm[this.type] = this.rfm;
             if (updateRfm) {

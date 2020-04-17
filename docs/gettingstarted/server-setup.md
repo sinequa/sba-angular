@@ -17,8 +17,8 @@ To create an **App** configuration, in the administration:
 - In *Apps*, click *New empty SBA*, give it a name then click *Ok*. You will be redirected to the configuration page of the new **App**.
 - Click *Edit*, and in the list of Queries, choose the default *_query* and save.
 
-![New empty app action]({{site.baseurl}}assets/gettingstarted/admin-new-empty-app-action.png)
-*'New empty app' action in Apps*
+![New Angular app action]({{site.baseurl}}assets/gettingstarted/admin-new-angular-app-action.png)
+*'New Angular app' action in Apps*
 {: .text-center }
 
 At this point your Sinequa server can be used to develop an SBA and you can go to [Developer-side setup](dev-setup.html) or spend more time reading the documentation below to fully configure the server.
@@ -54,11 +54,15 @@ Note that for certain types of SSO (like Windows authentication), the configurat
 *App configuration - Auto-Login tab*
 {: .text-center }
 
-In the **Customization (JSON)** tab of the App configuration, it is possible to write data (in JSON syntax), which will be passed to the Angular app on initialization.
-The benefit of using this field (rather than just writing the data in the app source code) is that this data may change without having to recompile the Angular app.
-For example, if you specify a list of widgets to be displayed, you will only need to modify this field and refresh the page to visualize the difference.
+In the **Customization (JSON)** tab of the App configuration, it is possible to write data (in JSON syntax),
+which will be passed to the Angular app on initialization.
+The benefit of using this field (rather than just writing the data in the app source code) is that this data may change
+without having to recompile the Angular app.
+For example, if you specify a list of widgets to be displayed, you will only need to modify this field
+and refresh the page to visualize the difference.
 
-The underlying Monaco editor can verify that your JSON is valid and in any case, Sinequa ES verifies the JSON validity when saving the App configuration and notifies you should the JSON be not valid.
+The underlying Monaco editor can verify that your JSON is valid and in any case, Sinequa ES verifies the JSON validity
+when saving the App configuration and notifies you should the JSON be not valid.
 
 ![Customization tab]({{site.baseurl}}assets/gettingstarted/admin-app-conf.png)
 *App configuration - Customization (JSON) tab*
@@ -67,6 +71,8 @@ The underlying Monaco editor can verify that your JSON is valid and in any case,
 ![Customization tab with error]({{site.baseurl}}assets/gettingstarted/admin-app-conf-with-error.png)
 *App configuration - Customization (JSON) tab - when the JSON is not valid*
 {: .text-center }
+
+Please refer to [Tips & tricks - Server-side-configuration]({{site.baseurl}}sba-angular/tipstricks/configuration.html#server-side-configuration) for an example of how to use the JSON data to customize vanilla-search.
 
 In the **Advanced** tab of the App configuration, it is possible to restrict the availability of the app to certain users and groups.
 
@@ -179,19 +185,19 @@ Both options may be enabled simultaneously.
 
 It is possible to restrict specific actions (Label creation, label modification) to specific populations of users.
 
-This service also exposes an autocomplete feature to easily search and select a specific label.
+This service also exposes an auto-complete feature to easily search and select a specific label.
 
 ![Labels configuration]({{site.baseurl}}assets/gettingstarted/admin-labels.png)
 *Example of labels configuration*
 {: .text-center }
 
-### Autocomplete web service (default: *_autocomplete*)
+### Auto-complete web service (default: *_autocomplete*)
 
-The autocomplete web service essentially lists **suggest queries** that provide suggestions when the user types some text in a form.
+The auto-complete web service essentially lists **suggest queries** that provide suggestions when the user types some text in a form.
 Refer to the [documentation](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-sba-how-to-auto-complete.html) on suggest queries for more information.
 
 ![Autocomplete configuration]({{site.baseurl}}assets/gettingstarted/admin-autocomplete.png)
-*Example of autocomplete configuration*
+*Example of auto-complete configuration*
 {: .text-center }
 
 ### Export web service (default: *_queryexport*)
@@ -252,7 +258,7 @@ To unzip the default Sinequa workspace, click **New > Unzip default Angular work
 
 You will be prompted to choose a name for your workspace.
 This process can take a few minutes.
-You can follow its progress either by looking at the banner on the top of Workspaces adminisration page or by going to **Tasks status** page, the progress status is named **UnzipAngularWorkspace**.
+You can follow its progress either by looking at the banner on the top of Workspaces administration page or by going to **Tasks status** page, the progress status is named **UnzipAngularWorkspace**.
 
 ![Unzip Angular workspace process status]({{site.baseurl}}assets/gettingstarted/admin-unzip-angular-workspace-status.png)
 *Status of 'Unzip default Angular workspace' action in Tasks status*
@@ -260,6 +266,24 @@ You can follow its progress either by looking at the banner on the top of Worksp
 
 ### Upload your Angular workspace to Sinequa ES
 
+**IMPORTANT:**
+
+Please verify with the administrator of your Sinequa server that the size of your zip does not exceed the upload size limit of the server.
+If it is the case, the server will refuse the upload request with HTTP 413 (Request Entity Too Large).
+
+This size limit is controlled in IIS by the option `maxAllowedContentLength`:
+
+{% raw %}
+
+```XML
+<requestFiltering>
+  <requestLimits maxAllowedContentLength="<limit-in-bytes>" />
+</requestFiltering>
+```
+
+{% endraw %}
+
+<br/>
 To import your workspace, click **New > Import Angular workspace**
 
 ![Import Angular workspace]({{site.baseurl}}assets/gettingstarted/admin-import-angular-workspace.png)
@@ -301,7 +325,7 @@ If there are no download links, you can generate them via **More actions > Gener
 Note that distributable folders `dist` and `dist-folder` are not included in download zip.
 
 Generating a zip file can take a few minutes.
-You can follow the generation progress either by looking at the banner on the top of Workspaces adminisration page or by going to **Tasks status** page, the progress status is named **GenerateAngularWorkspaceZip**.
+You can follow the generation progress either by looking at the banner on the top of Workspaces administration page or by going to **Tasks status** page, the progress status is named **GenerateAngularWorkspaceZip**.
 
 ![Workspace generate zip actions]({{site.baseurl}}assets/gettingstarted/admin-workspace-generate-download-zip.png)
 *Workspace - Generate zip actions and download link*
@@ -310,7 +334,7 @@ You can follow the generation progress either by looking at the banner on the to
 Secondly, there is a list of all build scripts declared in the `package.json` file at the root of the workspace.
 You can execute the build script directly in the grid or from the `Build` menu at the top-right of the administration page.
 
-You can follow the script progress either by looking at the banner on the top of Workspaces adminisration page or by going to **Tasks status** page, the progress status is named **BuildAngularWorkspace**.
+You can follow the script progress either by looking at the banner on the top of Workspaces administration page or by going to **Tasks status** page, the progress status is named **BuildAngularWorkspace**.
 
 ![Workspace build scripts]({{site.baseurl}}assets/gettingstarted/admin-workspace-build-scripts.png)
 *Workspace - Build scripts*
@@ -342,7 +366,7 @@ If there is a `README` markdown file in the workspace root, this file is also re
 You can execute `npm install` directly on the workspace administration page, if the WebApp server has access to the Internet.
 By default, this action is disabled on the administration. You need to activate it via **Global options > Advanced > Enable 'npm install' (default: false)**.
 
-You can follow the execution of the `npm install` action either by looking at the banner on the top of Workspaces adminisration page or by going to **Tasks status** page, the progress status is named **ExecuteNpmInstallAngularWorkspace**.
+You can follow the execution of the `npm install` action either by looking at the banner on the top of Workspaces administration page or by going to **Tasks status** page, the progress status is named **ExecuteNpmInstallAngularWorkspace**.
 
 ![Workspace execute npm install]({{site.baseurl}}assets/gettingstarted/admin-workspace-execute-npm-install.png)
 *Workspace - Execute 'npm install' action*

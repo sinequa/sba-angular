@@ -11,7 +11,7 @@ export const DATE_RANGE_PICKER_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => BsDateRangePicker),
     multi: true
-}
+};
 
 export interface DateRangePickerOptions extends DatePickerOptions {
     closedRange?: boolean;
@@ -52,7 +52,7 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
     toName: string;
 
     constructor(
-        public intlService: IntlService) {        
+        public intlService: IntlService) {
     }
 
     ngOnInit() {
@@ -103,9 +103,9 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
     //#region closedRange
     bsFromToConfig(): BsDaterangepickerConfig {
         return <any>{
-            minDate: this.options.minDate, 
-            maxDate: this.options.maxDate, 
-            containerClass:'theme-default', 
+            minDate: this.options.minDate,
+            maxDate: this.options.maxDate,
+            containerClass:'theme-default',
             showWeekNumbers: false,
             rangeInputFormat: this.options.system ? this.SystemFormat : "L"
         };
@@ -122,9 +122,9 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
     minDate: Date | undefined;
     bsFromConfig(): BsDatepickerConfig {
         return <any>{
-            minDate: this.options.minDate, 
-            maxDate: this.maxDate, 
-            containerClass:'theme-default', 
+            minDate: this.options.minDate,
+            maxDate: this.maxDate,
+            containerClass:'theme-default',
             showWeekNumbers: false,
             dateInputFormat: this.options.system ? this.SystemFormat : "L",
         };
@@ -132,9 +132,9 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
 
     bsToConfig(): BsDatepickerConfig {
         return <any>{
-            minDate: this.minDate, 
-            maxDate: this.options.maxDate, 
-            containerClass:'theme-default', 
+            minDate: this.minDate,
+            maxDate: this.options.maxDate,
+            containerClass:'theme-default',
             showWeekNumbers: false,
             dateInputFormat: this.options.system ? this.SystemFormat : "L",
         };
@@ -164,14 +164,14 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
     zeroTimes() {
         if (this.value) {
             if (Utils.isDate(this.value[0])) {
-                let date = this.value[0];
+                const date = this.value[0];
                 date.setHours(0);
                 date.setMinutes(0);
                 date.setSeconds(0);
                 date.setMilliseconds(0);
             }
             if (Utils.isDate(this.value[1])) {
-                let date = this.value[1];
+                const date = this.value[1];
                 date.setHours(0);
                 date.setMinutes(0);
                 date.setSeconds(0);

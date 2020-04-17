@@ -443,7 +443,7 @@ export class BsDropdownService implements OnDestroy {
         let selector &#x3D; element.getAttribute(&#x27;data-target&#x27;);
 
         if (!selector || selector &#x3D;&#x3D;&#x3D; &#x27;#&#x27;) {
-            const hrefAttr &#x3D; element.getAttribute(&#x27;href&#x27;)
+            const hrefAttr &#x3D; element.getAttribute(&#x27;href&#x27;);
             selector &#x3D; hrefAttr &amp;&amp; hrefAttr !&#x3D;&#x3D; &#x27;#&#x27; ? hrefAttr.trim() : &#x27;&#x27;;
         }
 

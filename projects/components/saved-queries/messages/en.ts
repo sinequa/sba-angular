@@ -10,7 +10,7 @@ export default {
     "recentQueries": {
         "noRecentQuery": "You have not yet searched for something..."
     },
-    
+
     "recentDocuments": {
         "recentDocuments": "Recent documents",
         "noRecentDocument": "You have not yet opened a document..."
@@ -47,4 +47,4 @@ export default {
         "rss": "RSS Feed"
     },
 
-}
+};

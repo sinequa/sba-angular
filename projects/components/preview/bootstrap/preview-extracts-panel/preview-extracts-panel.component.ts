@@ -13,6 +13,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   @Input() previewDocument: PreviewDocument;
 
   extracts: string[] = [];
+  currentExtract = -1;
 
   constructor(
     private domSanitizer: DomSanitizer) { }
@@ -22,19 +23,20 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    */
   ngOnChanges() {
     if(this.previewData && this.previewDocument){
-      let extracts = this.previewData.highlightsPerCategory["extractslocations"].values;
-      if(!!extracts && extracts.length > 0){      
+      const extracts = this.previewData.highlightsPerCategory["extractslocations"].values;
+      if(!!extracts && extracts.length > 0){
         this.extracts = extracts[0].locations.map((_, i) => this.previewDocument.getHighlightText("extractslocations", i));
       }
     }
     else {
       this.extracts = [];
     }
+    this.currentExtract = -1;
   }
 
   /**
    * Scroll to a specific extract
-   * @param i 
+   * @param i
    */
   scrollExtract(i: number){
     this.previewDocument.selectHighlight("extractslocations", i);
@@ -43,10 +45,25 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
 
   /**
    * Sanitize the text of a HTML formatted extract
-   * @param text 
+   * @param text
    */
   sanitize(text: string){
     return this.domSanitizer.bypassSecurityTrustHtml(text.replace(/sq\-current/, ""));
   }
 
+  /**
+   * Select the previous extract in the list
+   */
+  previousExtract(){
+    this.currentExtract--;
+    this.scrollExtract(this.currentExtract);
+  }
+
+  /**
+   * Select the next extract in the list
+   */
+  nextExtract(){
+    this.currentExtract++;
+    this.scrollExtract(this.currentExtract);
+  }
 }

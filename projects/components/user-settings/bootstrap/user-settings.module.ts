@@ -17,7 +17,7 @@ import {BsUserMenuComponent} from './user-menu/user-menu.component';
     imports: [
         CommonModule,
         FormsModule, ReactiveFormsModule,
-        
+
         IntlModule,
         ValidationModule,
 

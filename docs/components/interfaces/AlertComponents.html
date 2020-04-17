@@ -74,12 +74,12 @@ in their forRoot() method</p>
 <p>Example below:</p>
 <p>  public static forRoot(): ModuleWithProviders {
       return {
-          ngModule: AlertsModule, 
+          ngModule: AlertsModule,
           providers: [
-              { 
-                  provide: ALERT_COMPONENTS, 
+              {
+                  provide: ALERT_COMPONENTS,
                   useValue: {
-                      editAlertModal: EditAlert, 
+                      editAlertModal: EditAlert,
                       manageAlertsModal: ManageAlerts
                   }
               },
@@ -225,7 +225,7 @@ export interface Alert {
     days: Alert.Days;
     interval: number; // every &quot;n&quot;...
     index: number; // day of month
-    times: string; //times: number[]; // offsets from 00:00 in milliseconds 
+    times: string; //times: number[]; // offsets from 00:00 in milliseconds
     active: boolean;
     combine: boolean;
     respectTabSelection: boolean;
@@ -261,7 +261,7 @@ export interface AlertChangeEvent {
 
 
 // Model expected by the ManageAlerts Modal.
-export interface ManageAlertsModel { 
+export interface ManageAlertsModel {
     alerts: Alert[];
     auditEvents?: AuditEvent[];
 }
@@ -270,17 +270,17 @@ export interface ManageAlertsModel {
  * The modal types are unknown to this service.
  * The module using this service must provide these components
  * in their forRoot() method
- * 
+ *
  * Example below:
- * 
+ *
  *  public static forRoot(): ModuleWithProviders {
         return {
-            ngModule: AlertsModule, 
+            ngModule: AlertsModule,
             providers: [
-                { 
-                    provide: ALERT_COMPONENTS, 
+                {
+                    provide: ALERT_COMPONENTS,
                     useValue: {
-                        editAlertModal: EditAlert, 
+                        editAlertModal: EditAlert,
                         manageAlertsModal: ManageAlerts
                     }
                 },
@@ -288,7 +288,7 @@ export interface ManageAlertsModel {
             ]
         };
     }
- * 
+ *
  */
 export interface AlertComponents {
     editAlertModal: Type&lt;any&gt;;
@@ -302,7 +302,7 @@ export const ALERT_COMPONENTS &#x3D; new InjectionToken&lt;AlertComponents&gt;(&
 })
 export class AlertsService implements OnDestroy {
 
-    private readonly _events &#x3D; new Subject&lt;AlertChangeEvent&gt;();   
+    private readonly _events &#x3D; new Subject&lt;AlertChangeEvent&gt;();
     private readonly _changes &#x3D; new Subject&lt;AlertChangeEvent&gt;();
 
     constructor(
@@ -310,7 +310,7 @@ export class AlertsService implements OnDestroy {
         public searchService: SearchService,
         public modalService: ModalService,
         @Inject(ALERT_COMPONENTS) public alertComponents: AlertComponents
-    ){        
+    ){
         // Listen to the user settings
         this.userSettingsService.events.subscribe(event &#x3D;&gt; {
             // E.g. new login occurs
@@ -319,7 +319,7 @@ export class AlertsService implements OnDestroy {
         });
         // Listen to own events, to trigger change events
         this._events.subscribe(event &#x3D;&gt; {
-            if(ALERT_CHANGE_EVENTS.indexOf(event.type) !&#x3D;&#x3D; -1){                
+            if(ALERT_CHANGE_EVENTS.indexOf(event.type) !&#x3D;&#x3D; -1){
                 this.changes.next(event);
             }
         });
@@ -341,7 +341,7 @@ export class AlertsService implements OnDestroy {
     } // TODO: remove cast when UserSettings is updated
 
     /**
-     * Triggers any event among AlertChangeEvent 
+     * Triggers any event among AlertChangeEvent
      * (use for fine-grained control of alerts workflow)
      */
     public get events() : Subject&lt;AlertChangeEvent&gt; {
@@ -349,7 +349,7 @@ export class AlertsService implements OnDestroy {
     }
 
     /**
-     * Triggers when events affect the list of alerts 
+     * Triggers when events affect the list of alerts
      * (use to refresh alert menus)
      * Cf. CHANGE_EVENTS list
      */
@@ -366,16 +366,16 @@ export class AlertsService implements OnDestroy {
 
     /**
      * @returns an alert with the given name or undefined if it does not exist
-     * @param name 
+     * @param name
      */
     public alert(name: string): Alert | undefined {
-        let i &#x3D; this.alertIndex(name);
+        const i &#x3D; this.alertIndex(name);
         return i&gt;&#x3D; 0? this.alerts[i] : undefined;
     }
 
     private alertIndex(name: string): number {
         for (let i &#x3D; 0, ic &#x3D; this.alerts.length; i &lt; ic; i++) {
-            let alert &#x3D; this.alerts[i];
+            const alert &#x3D; this.alerts[i];
             if (alert &amp;&amp; alert.name &#x3D;&#x3D;&#x3D; name) {
                 return i;
             }
@@ -420,8 +420,8 @@ export class AlertsService implements OnDestroy {
      */
     public updateAlert(alert: Alert, index : number) : boolean {
 
-        let prevIndex &#x3D; this.alertIndex(alert.name);
-        if(prevIndex !&#x3D; -1 &amp;&amp; index !&#x3D; prevIndex)
+        const prevIndex &#x3D; this.alertIndex(alert.name);
+        if(prevIndex !&#x3D;&#x3D; -1 &amp;&amp; index !&#x3D;&#x3D; prevIndex)
             return false; // An alert with the same name exists at a different index
 
         if(index &gt;&#x3D; 0 &amp;&amp; index &lt; this.alerts.length){
@@ -438,18 +438,18 @@ export class AlertsService implements OnDestroy {
             ]);
             return true;
 
-        } 
+        }
         return false;   // This alert does not exist
     }
 
     /**
-     * Updates the full list of alerts. 
-     * Emits an Alert event.     
+     * Updates the full list of alerts.
+     * Emits an Alert event.
      * Update the data on the server.
      * @param alerts the new list of alerts
      * @param auditEvents the list of audit events to log
      */
-    public updateAlerts(alerts : Alert[], auditEvents?: AuditEvents) : boolean {        
+    public updateAlerts(alerts : Alert[], auditEvents?: AuditEvents) : boolean {
         Utils.arraySet(this.alerts, alerts);
         this.events.next({type : AlertEventType.Update});
         this.patchAlerts(auditEvents);
@@ -458,14 +458,14 @@ export class AlertsService implements OnDestroy {
 
     /**
      * Deletes the given alert (based on its name)
-     * Emits an Alert event.    
+     * Emits an Alert event.
      * Update the data on the server.
-     * @param alert 
+     * @param alert
      * @returns true if alert was deleted
      */
     public deleteAlert(alert: Alert) : boolean {
 
-        let index &#x3D; this.alertIndex(alert.name);
+        const index &#x3D; this.alertIndex(alert.name);
 
         if(index &#x3D;&#x3D;&#x3D; -1)
             return false; // Nothing to delete
@@ -506,7 +506,7 @@ export class AlertsService implements OnDestroy {
                 }
             );
     }
-    
+
 
 
 
@@ -528,14 +528,14 @@ export class AlertsService implements OnDestroy {
             }
         });
     }
-    
+
     /**
      * Opens a dialog allowing a user to create a new alert.
      * @returns a boolean promise resolved when the user closes the dialog
      * the result is true if the alert was created.
      */
     public createAlertModal() : Promise&lt;boolean&gt; {
-        let alert: Alert &#x3D; {
+        const alert: Alert &#x3D; {
             name: &quot;&quot;,
             description: &quot;&quot;,
             timezone: this.userSettingsService.timezone,
@@ -552,8 +552,8 @@ export class AlertsService implements OnDestroy {
         return this.modalService.open(this.alertComponents.editAlertModal, {model: alert})
             .then((result) &#x3D;&gt; {
                 if (result &#x3D;&#x3D;&#x3D; ModalResult.OK) {
-                    
-                    let index &#x3D; this.alertIndex(alert.name);
+
+                    const index &#x3D; this.alertIndex(alert.name);
                     if (index !&#x3D;&#x3D; -1) {
 
                         return this.modalService.yesNo(&quot;msg#alerts.alertAlreadyExists&quot;)
@@ -581,26 +581,26 @@ export class AlertsService implements OnDestroy {
      */
     public editAlertModal(alert: Alert, noUpdate?: boolean) : Promise&lt;boolean&gt; {
 
-        let prevName &#x3D; alert.name;
+        const prevName &#x3D; alert.name;
 
         return this.modalService.open(this.alertComponents.editAlertModal, {model: alert})
             .then((result) &#x3D;&gt; {
 
                 if (result &#x3D;&#x3D;&#x3D; ModalResult.OK) {
-                        
+
                     if(noUpdate) return true;
 
-                    let prevIndex &#x3D; this.alertIndex(prevName);
+                    const prevIndex &#x3D; this.alertIndex(prevName);
                     if(prevIndex &#x3D;&#x3D;&#x3D; -1) return false; // this alert did not exist
-                    
-                    let index &#x3D; this.alertIndex(alert.name); 
-                    if (index !&#x3D;&#x3D; -1 &amp;&amp; index!&#x3D;prevIndex) {  // An alert with the same (new) name exists
+
+                    const index &#x3D; this.alertIndex(alert.name);
+                    if (index !&#x3D;&#x3D; -1 &amp;&amp; index !&#x3D;&#x3D; prevIndex) {  // An alert with the same (new) name exists
 
                         return this.modalService.yesNo(&quot;msg#alerts.alertAlreadyExists&quot;)
                             .then((result) &#x3D;&gt; {
                                 if (result &#x3D;&#x3D;&#x3D; ModalResult.Yes) {
                                     const prevAlert &#x3D; this.alert(prevName);
-                                    if (prevAlert) { 
+                                    if (prevAlert) {
                                         this.deleteAlert(prevAlert); // Remove the alert with old name
                                     }
                                     return this.updateAlert(alert, this.alertIndex(alert.name)); // Update the alert with new name (index might have changed due to delete of old name)
@@ -627,12 +627,12 @@ export class AlertsService implements OnDestroy {
      */
     public manageAlertsModal() : Promise&lt;boolean&gt; {
 
-        let model: ManageAlertsModel &#x3D; { alerts: Utils.copy(this.alerts) };
+        const model: ManageAlertsModel &#x3D; { alerts: Utils.copy(this.alerts) };
 
         return this.modalService.open(this.alertComponents.manageAlertsModal, {model})
             .then((result) &#x3D;&gt; {
                 if (result &#x3D;&#x3D;&#x3D; ModalResult.OK) {
-                    return this.updateAlerts(model.alerts, model.auditEvents)
+                    return this.updateAlerts(model.alerts, model.auditEvents);
                 }
                 return false;
             });
@@ -643,7 +643,8 @@ export class AlertsService implements OnDestroy {
         this.events.complete();
         this.changes.complete();
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
 

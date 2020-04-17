@@ -4,4 +4,4 @@ export default {
         "fullscreenTitleExit": "Exit fullscreen",
         "networkActivity": "Network activity"
     }
-}
+};

@@ -4,7 +4,7 @@ import { UserSettingsWebService } from '@sinequa/core/web-services';
 /**
  * The role of this service is to bundle together the simple preferences of
  * the user and synchronise them with the user settings.
- * 
+ *
  * Usage:
  * this.userPreferences.get("foo")
  * this.userPreferences.set("foo", "bar")
@@ -42,5 +42,5 @@ export class UserPreferences {
     public sync(){
         this.userSettingsService.patch({prefs: this.prefs});
     }
-    
+
 }

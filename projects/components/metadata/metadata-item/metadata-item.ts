@@ -3,6 +3,7 @@ import {Utils} from "@sinequa/core/base";
 import {AppService, FormatService, ValueItem} from "@sinequa/core/app-utils";
 import {Record, EntityItem, DocumentAccessLists, CCColumn} from "@sinequa/core/web-services";
 import {FacetService} from "@sinequa/components/facet";
+import {Spacing} from "../metadata/metadata";
 
 export interface TreeValueItem extends ValueItem {
     parts: ValueItem[];
@@ -11,14 +12,14 @@ export interface TreeValueItem extends ValueItem {
 @Component({
     selector: "sq-metadata-item",
     templateUrl: "./metadata-item.html"
-})            
+})
 export class MetadataItem implements OnChanges {
     @Input() record: Record;
     @Input() item: string;
     @Input() showTitle = true;
     @Input() showIcon: boolean = false;
     @Input() clickable: boolean = true;
-    @Input() spacing: "compact" | "default" | "comfortable" = "default";
+    @Input() spacing: Spacing = "default";
     @Output("select") _select = new EventEmitter<{item: string, valueItem: ValueItem}>();
     valueItems: (ValueItem | TreeValueItem)[];
     column: CCColumn | undefined;
@@ -44,7 +45,7 @@ export class MetadataItem implements OnChanges {
         }
         return value;
     }
-    
+
     ngOnChanges(changes: SimpleChanges) {
         if (!this.column) {
             this.column = this.appService.getColumn(this.item);
@@ -54,25 +55,25 @@ export class MetadataItem implements OnChanges {
         this.isTree = !!this.column && AppService.isTree(this.column);
         this.isEntity = !!this.column && AppService.isEntity(this.column);
         this.isCsv = !!this.column && AppService.isCsv(this.column);
-        let values = this.record[this.appService.getColumnAlias(this.column, this.item)];
+        const values = this.record[this.appService.getColumnAlias(this.column, this.item)];
         if (this.isTree) {
-            let paths: string[] = values;
+            const paths: string[] = values;
             if (paths) {
-                for (let path of paths) {
-                    let parts = path.split("/"); 
+                for (const path of paths) {
+                    const parts = path.split("/");
                     if (parts.length > 0 && parts[0] === "") {
                         parts.splice(0, 1);
                     }
                     if (parts.length > 0 && parts[parts.length - 1] === "") {
                         parts.splice(parts.length - 1, 1);
                     }
-                    let item: TreeValueItem = {value: path, parts: parts.map(value => ({value: value}))};
+                    const item: TreeValueItem = {value: path, parts: parts.map(value => ({value: value}))};
                     this.valueItems.push(item);
                 }
             }
         }
         else if (this.isEntity) {
-            let entityItems: EntityItem[] = values;
+            const entityItems: EntityItem[] = values;
             if (entityItems) {
                 this.valueItems.push(...entityItems);
             }
@@ -82,13 +83,13 @@ export class MetadataItem implements OnChanges {
                 this.valueItems.push(...values.map<ValueItem>(value => ({value: value})));
             }
             else if (!Utils.isEmpty(values)) {
-                this.valueItems.push({value: values});                    
+                this.valueItems.push({value: values});
             }
         }
         else {
-            let value = this.ensureScalarValue(values);
+            const value = this.ensureScalarValue(values);
             if (!Utils.isEmpty(value)) {
-                this.valueItems.push({value: value});                    
+                this.valueItems.push({value: value});
             }
         }
     }
@@ -132,7 +133,7 @@ export class MetadataItem implements OnChanges {
     }
 
     public get isAccessLists(): boolean {
-        return this.item == "accesslists";
+        return this.item === "accesslists";
     }
 
     public get accessListsData(): DocumentAccessLists {
@@ -140,11 +141,11 @@ export class MetadataItem implements OnChanges {
     }
 
     public get docFormatIconClass(): string {
-        if (this.item == null || this.item != "docformat" && this.item != "fileext") {
+        if (this.item == null || this.item !== "docformat" && this.item !== "fileext") {
             return "";
         }
-        let value: string = this.record[this.item];
-        if (value == null || value == "") {
+        const value: string = this.record[this.item];
+        if (!value) {
             return "far fa-file";
         }
         return "far fa-file sq-icon-file-" + value;
@@ -152,13 +153,13 @@ export class MetadataItem implements OnChanges {
 
     select(index: number, subIndex = 0) {
         if (this.isTree) {
-            let valueItem = <TreeValueItem>this.valueItems[index];
-            let parts = valueItem.parts.map((item) => item.value).slice(0, subIndex + 1)
+            const valueItem = <TreeValueItem>this.valueItems[index];
+            const parts = valueItem.parts.map((item) => item.value).slice(0, subIndex + 1);
             if (parts.length > 0) {
                 parts.unshift("");
                 parts.push("");
             }
-            let path = parts.join("/");
+            const path = parts.join("/");
             this._select.emit({item: this.item, valueItem: {value: path + "*", display: FacetService.treepathLast(path)}});
         }
         else {

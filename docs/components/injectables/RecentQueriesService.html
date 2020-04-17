@@ -340,7 +340,8 @@ Update the data on the server.</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Deletes the given RecentQuery (based on its name)
-Emits an RecentQuery event.<br>Update the data on the server.</p>
+Emits an RecentQuery event.
+Update the data on the server.</p>
 </div>
 
                     <div class="io-description">
@@ -488,7 +489,7 @@ Emits an RecentQuery event.<br>Update the data on the server.</p>
 
                     </div>
                     <div class="io-description">
-                        <p>a recent query with the given name or null if it does not exist</p>
+                        <p>a recent query with the given name or undefined if it does not exist</p>
 
                     </div>
                 </td>
@@ -705,7 +706,7 @@ Using this service creates the list of recent queries if it does not already exi
                             </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-description"><p>Triggers any event among RecentQueryChangeEvent 
+                                <div class="io-description"><p>Triggers any event among RecentQueryChangeEvent
 (use for fine-grained control of recent queries workflow)</p>
 </div>
 
@@ -739,7 +740,7 @@ Using this service creates the list of recent queries if it does not already exi
                             </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-description"><p>Triggers when events affect the list of recent queries 
+                                <div class="io-description"><p>Triggers when events affect the list of recent queries
 (use to refresh recent queries menus)
 Cf. CHANGE_EVENTS list</p>
 </div>
@@ -836,14 +837,14 @@ export const MAX_QUERIES &#x3D; new InjectionToken(&quot;MAX_QUERIES&quot;);
 })
 export class RecentQueriesService implements OnDestroy {
 
-    private readonly _events &#x3D; new Subject&lt;RecentQueryChangeEvent&gt;();   
+    private readonly _events &#x3D; new Subject&lt;RecentQueryChangeEvent&gt;();
     private readonly _changes &#x3D; new Subject&lt;RecentQueryChangeEvent&gt;();
-    
+
     constructor(
         public userSettingsService: UserSettingsWebService,
         public searchService: SearchService,
         @Optional() @Inject(MAX_QUERIES) private maxQueries: number,
-    ){        
+    ){
         if(!this.maxQueries){
             this.maxQueries &#x3D; 20;
         }
@@ -856,7 +857,7 @@ export class RecentQueriesService implements OnDestroy {
         });
         // Listen to own events, to trigger change events
         this._events.subscribe(event &#x3D;&gt; {
-            if(RECENT_QUERIES_CHANGE_EVENTS.indexOf(event.type) !&#x3D;&#x3D; -1){                
+            if(RECENT_QUERIES_CHANGE_EVENTS.indexOf(event.type) !&#x3D;&#x3D; -1){
                 this.changes.next(event);
             }
         });
@@ -885,7 +886,7 @@ export class RecentQueriesService implements OnDestroy {
     }
 
     /**
-     * Triggers any event among RecentQueryChangeEvent 
+     * Triggers any event among RecentQueryChangeEvent
      * (use for fine-grained control of recent queries workflow)
      */
     public get events() : Subject&lt;RecentQueryChangeEvent&gt; {
@@ -893,7 +894,7 @@ export class RecentQueriesService implements OnDestroy {
     }
 
     /**
-     * Triggers when events affect the list of recent queries 
+     * Triggers when events affect the list of recent queries
      * (use to refresh recent queries menus)
      * Cf. CHANGE_EVENTS list
      */
@@ -909,18 +910,18 @@ export class RecentQueriesService implements OnDestroy {
     }
 
     /**
-     * @returns a recent query with the given name or null if it does not exist
-     * @param name 
+     * @returns a recent query with the given name or undefined if it does not exist
+     * @param name
      */
     public recentquery(text: string): RecentQuery | undefined {
-        let i &#x3D; this.recentqueryIndex(text);
+        const i &#x3D; this.recentqueryIndex(text);
         return i&gt;&#x3D; 0? this.recentqueries[i] : undefined;
     }
 
     private recentqueryIndex(text: string): number {
         for (let i &#x3D; 0, ic &#x3D; this.recentqueries.length; i &lt; ic; i++) {
-            let recentquery &#x3D; this.recentqueries[i];
-            if (recentquery &amp;&amp; recentquery.query.text &#x3D;&#x3D;&#x3D; text) {
+            const recentquery &#x3D; this.recentqueries[i];
+            if (recentquery &amp;&amp; recentquery.query.text &amp;&amp; recentquery.query.text.toLowerCase() &#x3D;&#x3D;&#x3D; text.toLowerCase()) {
                 return i;
             }
         }
@@ -947,7 +948,7 @@ export class RecentQueriesService implements OnDestroy {
             return false;
         }
 
-        let i &#x3D; this.recentqueryIndex(recentquery.query.text); // If the query already exists
+        const i &#x3D; this.recentqueryIndex(recentquery.query.text); // If the query already exists
         if(i &gt;&#x3D; 0){
             // Ignore identical queries issued within a certain time window (1s)
             // to avoid flooding the server. NB the request flooding mitigation in
@@ -985,14 +986,14 @@ export class RecentQueriesService implements OnDestroy {
 
     /**
      * Deletes the given RecentQuery (based on its name)
-     * Emits an RecentQuery event.    
+     * Emits an RecentQuery event.
      * Update the data on the server.
-     * @param recentquery 
+     * @param recentquery
      * @returns true if recent query was deleted
      */
     public deleteRecentQuery(recentquery: RecentQuery) : boolean {
 
-        let index &#x3D; this.recentqueryIndex(recentquery.query.text || &quot;&quot;);
+        const index &#x3D; this.recentqueryIndex(recentquery.query.text || &quot;&quot;);
 
         if(index &#x3D;&#x3D;&#x3D; -1)
             return false; // Nothing to delete
@@ -1051,7 +1052,8 @@ export class RecentQueriesService implements OnDestroy {
         this.events.complete();
         this.changes.complete();
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 
 </div>

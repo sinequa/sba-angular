@@ -18,7 +18,7 @@ import {MetadataAccessListsItemSingleAccessList} from "./metadata-access-lists-i
         CollapseModule,
     ],
     declarations: [
-        Metadata, MetadataItem, 
+        Metadata, MetadataItem,
         MetadataAccessListsItem, MetadataAccessListsItemSingleAccessList
     ],
     exports: [

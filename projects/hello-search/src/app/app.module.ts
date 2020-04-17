@@ -38,7 +38,7 @@ export const startConfig: StartConfig = {
         AppComponent,
     ],
     providers: [
-        // {provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true}, 
+        // {provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true},
         {provide: LocationStrategy, useClass: HashLocationStrategy},
     ],
     bootstrap: [

@@ -12,7 +12,7 @@ export class BsActionMenu implements OnInit{
     @Input() autoAdjust: boolean;
     @Input() autoAdjustBreakpoint: string;
     @Input() right: boolean;
-    
+
     ngOnInit() {
         if (!Utils.isArray(this.items)) {
             this.items = [<Action>this.items];

@@ -132,7 +132,7 @@ export const enum AuditEventType {
 }
 
 /**
- * A service to notify the audit manager on the Sinequa server of client-side events 
+ * A service to notify the audit manager on the Sinequa server of client-side events
  */
 @Injectable({
     providedIn: "root"
@@ -151,7 +151,7 @@ export class AuditWebService extends HttpService {
      *
      * @param evt The audit event type
      * @param sl The sponsored link
-     * @param resultId The id of the results that showed the sponsored link 
+     * @param resultId The id of the results that showed the sponsored link
      * @param parameters Additional information
      */
     notifySponsoredLink(

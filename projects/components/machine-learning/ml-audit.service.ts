@@ -45,7 +45,7 @@ export class MlAuditService extends HttpService {
             this.session = {
                 type: "session",
                 subType: "start",
-                id: Utils.guid(false),            
+                id: Utils.guid(false),
                 timestamp: this.newTimestamp(),
                 userId: this.principalService.principal.userId,
                 isAdmin: this.principalService.principal.isAdministrator,
@@ -89,7 +89,7 @@ export class MlAuditService extends HttpService {
             this.notifyEvent({
                 type: "query",
                 subType: "end",
-                id: this.query.id,                
+                id: this.query.id,
                 sessionId: this.session ? this.session.id : undefined,
                 dwellTime: this.calcDwellTime(this.query)
             });
@@ -131,7 +131,7 @@ export class MlAuditService extends HttpService {
     }
 
     private flushContext() {
-        let events: MlAuditService.Event[] = [];
+        const events: MlAuditService.Event[] = [];
         if (this.session && !this.session.sent) {
             events.push(this.session);
         }
@@ -214,7 +214,7 @@ export class MlAuditService extends HttpService {
         if (!this.startConfig.mlAuditEnabled) {
             return of(undefined);
         }
-        let observable = this.httpClient.post<void>(this.makeUrl(MlAuditService.Endpoint), {
+        const observable = this.httpClient.post<void>(this.makeUrl(MlAuditService.Endpoint), {
             events: events
         });
         Utils.subscribe(observable,
@@ -241,18 +241,18 @@ export class MlAuditService extends HttpService {
 
     private ensureAuditRecord(auditEvents: AuditEvents): AuditRecord {
         if (Utils.isObject(auditEvents)) {
-            let auditRecord = <AuditRecord>auditEvents;
+            const auditRecord = <AuditRecord>auditEvents;
             if (auditRecord.auditEvents || auditRecord.mlAuditEvents) {
                 if (auditRecord.mlAuditEvents) {
                     return {
                         auditEvents: auditRecord.auditEvents,
                         mlAuditEvents: auditRecord.mlAuditEvents.map(actionInit => this.newAction(actionInit))
-                    }
+                    };
                 }
             }
         }
         return <AuditRecord>auditEvents; // leave unchanged
-    } 
+    }
 
     requestInitializer = (request: HttpRequest<any>): boolean => {
         request.body.$auditRecord = this.ensureAuditRecord(request.body.$auditRecord);
@@ -263,7 +263,7 @@ export class MlAuditService extends HttpService {
 export module MlAuditService {
     export type EventType = "session" | "query" | "results" | "action";
     export type EventSubType = "start" | "end";
-    export type ActionType = "click" | "preview" | "over" | 
+    export type ActionType = "click" | "preview" | "over" |
         "addToBasket" | "removeFromBasket" |
         "addToLabel" | "removeFromLabel" |
         "addRating" | "removeRating";
@@ -286,7 +286,7 @@ export module MlAuditService {
     export interface Query extends Event {
         sessionId?: string;
         indexes?: string;
-        typingHistory?: any;        
+        typingHistory?: any;
         proposedExpansions?: any;
         selectedExpansions?: any;
     }

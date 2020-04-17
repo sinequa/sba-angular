@@ -10,20 +10,20 @@ export interface ClickOutsideOptions {
 })
 export class ClickOutside implements OnInit, OnDestroy {
     @Input("sqClickOutside") options: ClickOutsideOptions;
-    @Output("sqClickOutside") clickOutside = new EventEmitter<{click: UIEvent}>(); 
-    element: HTMLElement;    
-    
+    @Output("sqClickOutside") clickOutside = new EventEmitter<{click: UIEvent}>();
+    element: HTMLElement;
+
     constructor(elementRef: ElementRef) {
         this.element = <HTMLElement>elementRef.nativeElement;
     }
-    
+
     ngOnInit() {
         document.addEventListener("click", this.clickHandler);
         if (!this.options) {
             this.options = { exclude: ['.bs-datepicker'] }; // By default exclude bootstrap date picker
         }
     }
-    
+
     ngOnDestroy() {
         document.removeEventListener("click", this.clickHandler);
     }
@@ -38,7 +38,7 @@ export class ClickOutside implements OnInit, OnDestroy {
         }
         return false;
     }
-    
+
     clickHandler = (event: MouseEvent) => {
         if (!event || !event.target) {
             return;
@@ -51,18 +51,18 @@ export class ClickOutside implements OnInit, OnDestroy {
         }
         if (this.element.contains(<HTMLElement>event.target)) {
             return;
-        }        
+        }
         if (this.options.exclude) {
             let targetRoot = <HTMLElement>event.target;
             while (!!targetRoot.parentElement) {
                 targetRoot = targetRoot.parentElement;
             }
-            for (let selector of this.options.exclude) {
-                let elts = Array.from(targetRoot.querySelectorAll(selector));
-                for (let elt of elts) {
+            for (const selector of this.options.exclude) {
+                const elts = Array.from(targetRoot.querySelectorAll(selector));
+                for (const elt of elts) {
                     if (elt && elt.contains(<Node>event.target)) {
                         return;
-                    } 
+                    }
                 }
             }
         }
@@ -74,5 +74,5 @@ export class ClickOutside implements OnInit, OnDestroy {
                     this.clickOutside.emit({click: event});
                 }
             });
-    };
+    }
 }

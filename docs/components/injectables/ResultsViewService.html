@@ -506,7 +506,7 @@ export class ResultsViewService {
     protected readonly _resultsViews : ResultsView[];
 
     public resultsViewSelected &#x3D; new Subject&lt;any&gt;();
-    
+
 
     /**
      * Constructor
@@ -533,12 +533,12 @@ export class ResultsViewService {
     }
 
     // EVENT HANDLERS
-    
+
     public selectResultsView(view: ResultsView){
         if (view) {
             this._resultsView &#x3D; view;
             this.resultsViewSelected.next(view);
-            // Set resultsview in URL : 
+            // Set resultsview in URL :
             this.searchService.queryStringParams.resultsView &#x3D; view.name;
         }
         else {
@@ -573,10 +573,10 @@ export class ResultsViewService {
         return queryParams;
     }
 
-    
+
     updateQueryParams(query: Query, oldParams: CCResults.QueryParams, newParams: CCResults.QueryParams): void {
-        
-        if (!!query &amp;&amp; !!oldParams &amp;&amp; Object.keys(oldParams).length &gt; 0) {            
+
+        if (!!query &amp;&amp; !!oldParams &amp;&amp; Object.keys(oldParams).length &gt; 0) {
             for (let key of Object.keys(oldParams)) {
                 const paramsValue &#x3D; oldParams[key];
                 const queryValue &#x3D; query[key];
@@ -591,7 +591,7 @@ export class ResultsViewService {
         }
 
         Utils.extend(query, newParams);
-        
+
     }
     */
 }</code></pre>

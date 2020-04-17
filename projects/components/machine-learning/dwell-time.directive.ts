@@ -14,7 +14,7 @@ export class DwellTime implements OnInit, OnDestroy {
     action: MlAuditService.Action | undefined;
 
     constructor(
-        protected mlAuditService: MlAuditService) {            
+        protected mlAuditService: MlAuditService) {
     }
 
     ngOnInit() {

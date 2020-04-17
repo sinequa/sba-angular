@@ -2,7 +2,7 @@ import {LocaleData} from "@sinequa/core/intl";
 import "moment/locale/de";
 import d3Format from "d3-format/locale/de-DE.json";
 import d3Time from "d3-time-format/locale/de-DE.json";
-import {deCore} from "@sinequa/core"; 
+import {deCore} from "@sinequa/core";
 import appMessages from "./messages/de.json";
 import "intl/locale-data/jsonp/de-DE"; // Safari
 import "@formatjs/intl-relativetimeformat/dist/locale-data/de";
@@ -25,7 +25,7 @@ import {deSearch} from "@sinequa/components/search";
 import {deStatusBar} from "@sinequa/components/status-bar";
 import {deUserSettings} from "@sinequa/components/user-settings";
 
-const messages = Utils.merge({}, deCore, deAdvanced, deAlerts, deBaskets, deFacet, deFeedback, deHeatmap, deLabels, deMetadata, 
+const messages = Utils.merge({}, deCore, deAdvanced, deAlerts, deBaskets, deFacet, deFeedback, deHeatmap, deLabels, deMetadata,
     deNotification, dePreview, deResult, deResultsView, deSavedQueries, deSelection, deSearch, deStatusBar, deUserSettings, appMessages);
 
 export default <LocaleData>{

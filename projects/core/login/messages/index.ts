@@ -10,4 +10,4 @@ const enLogin = Utils.merge({}, _enLogin, enIntl, enModal, enValidation);
 const frLogin = Utils.merge({}, _frLogin, frIntl, frModal, frValidation);
 const deLogin = Utils.merge({}, _deLogin, deIntl, deModal, deValidation);
 
-export {enLogin, frLogin, deLogin}
+export { enLogin, frLogin, deLogin };

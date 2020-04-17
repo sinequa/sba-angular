@@ -102,11 +102,11 @@ For example, to display a button that saves the current query, you can:
 
 ## Saved Queries Facet
 
-The module also includes a facet that displays your saved queries (as a possible alternative to the menu).
+The module also includes a facet that displays your saved queries (as a possible alternative to the menu). Note that we need to set an empty `searchRoute` parameter since our application has no route.
 
 ```html
 <sq-facet-card [title]="'msg#savedQueries.savedQueries'" [icon]="'fas fa-save'">
-    <sq-facet-saved-queries #facet [maxQueries]="5"></sq-facet-saved-queries>
+    <sq-facet-saved-queries #facet [maxQueries]="5" [searchRoute]=""></sq-facet-saved-queries>
 </sq-facet-card>
 ```
 

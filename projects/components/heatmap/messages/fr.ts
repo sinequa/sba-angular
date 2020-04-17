@@ -1,19 +1,19 @@
 export default {
     "heatmap": {
-        "tooltip": {
-            "tileText": "{count, plural, one {# élément} other {# éléments}}"
-        }
-    },
-
-    "results": {
-        "resultsHeatmapView": {
-            "display": "Carte de chaleur",
-            "toolbar": {
-                "xAxisLabel": "Axe X :",
-                "yAxisLabel": "Axe Y :",
-                "zAxisLabel": "Axe Z :",
-                "zValueLabel": "Valeur Z :"
-            }
-        },
+        "name": "Carte de chaleur",
+        "nodata": "Pas de données à afficher",
+        "maxX": "Nombre maximum d'éléments sur l'axe X",
+        "maxY": "Nombre maximum d'éléments sur l'axe Y",
+        "rescale": "Redimensionner les axes",
+        "colors": "Jeu de couleurs",
+        "blue": "Bleu",
+        "red": "Rouge",
+        "green": "Vert",
+        "diverging": "Divergent",
+        "spectral": "Spectre",
+        "cool": "Froid",
+        "defaults": "Valeurs par défauts",
+        "showing": "{shown, number} sur {total, number} éléments affichés",
+        "tooltip": "{count, plural, one {# élément} other {# éléments}}"
     }
-}
+};

@@ -1856,7 +1856,7 @@ export class BsPreviewHighlights implements OnChanges {
     public reset(): void {
         this.navigationState.current &#x3D; -1;  // Resets the navigationState entity selection.
         if(this.previewReady)               // Applies the filters to the preview document.
-            this.previewDocument.filterHighlights(this.navigationState.filters);   
+            this.previewDocument.filterHighlights(this.navigationState.filters);
         // Updates the filtered data.
         this.filteredHighlightData &#x3D; this.highlightDataPerLocation ?
             new FilteredHighlightDataPerLocation(this.highlightDataPerLocation, this.navigationState.filters) : undefined;
@@ -1868,7 +1868,7 @@ export class BsPreviewHighlights implements OnChanges {
     private moveToFirstSearchTerm(): void {
         if (this.filteredHighlightData) {
             for (let i &#x3D; 0, ic &#x3D; this.total; i &lt; ic; i++) {
-                let highlight &#x3D; this.filteredHighlightData[i];
+                const highlight &#x3D; this.filteredHighlightData[i];
                 if (highlight.positionInCategories) {
                     let category &#x3D; &quot;term1&quot;;
                     let position &#x3D; highlight.positionInCategories[category];
@@ -1897,7 +1897,7 @@ export class BsPreviewHighlights implements OnChanges {
      * No categories to highlight
      */
     get noData(): boolean {
-        return this.nonEmptyCategoryIds.length &#x3D;&#x3D; 0;
+        return this.nonEmptyCategoryIds.length &#x3D;&#x3D;&#x3D; 0;
     }
 
     /**
@@ -1922,15 +1922,15 @@ export class BsPreviewHighlights implements OnChanges {
         if (this.navigationState.current &lt; 0 || !this.filteredHighlightData) {
             return &quot;&quot;;
         }
-        var result: string &#x3D; this.filteredHighlightData[this.navigationState.current].displayValue;
+        const result: string &#x3D; this.filteredHighlightData[this.navigationState.current].displayValue;
         if (result) {
             return result;
         }
-        var values: string[] &#x3D; this.filteredHighlightData[this.navigationState.current].values;
+        const values: string[] &#x3D; this.filteredHighlightData[this.navigationState.current].values;
         if (values &amp;&amp; values.length &gt; 0 &amp;&amp; values[0] &amp;&amp; values[0].length &gt; 0) {
             return values[0];
         }
-        if (Object.keys(this.filteredHighlightData[this.navigationState.current].positionInCategories).length &#x3D;&#x3D; 1
+        if (Object.keys(this.filteredHighlightData[this.navigationState.current].positionInCategories).length &#x3D;&#x3D;&#x3D; 1
                 &amp;&amp; this.filteredHighlightData[this.navigationState.current].positionInCategories[&quot;extractslocations&quot;]) {
             return this.previewDocument.getHighlightText(
                 &quot;extractslocations&quot;,
@@ -1944,11 +1944,11 @@ export class BsPreviewHighlights implements OnChanges {
      * based on the filtered Highlight data per location
      */
     get currentCategories(): string[] {
-        var result: string[] &#x3D; [];
+        const result: string[] &#x3D; [];
         if (this.navigationState.current &lt; 0 || !this.filteredHighlightData || this.navigationState.current &gt;&#x3D; this.filteredHighlightData.size()) {
             return result;
         }
-        for (let categoryId in this.filteredHighlightData[this.navigationState.current].positionInCategories) {
+        for (const categoryId in this.filteredHighlightData[this.navigationState.current].positionInCategories) {
             result.push(categoryId);
         }
         return result;
@@ -1973,9 +1973,9 @@ export class BsPreviewHighlights implements OnChanges {
         if (!categoryId.startsWith(&quot;term&quot;)) {
             return {};
         }
-        let index &#x3D; Number(categoryId.slice(&quot;term&quot;.length));
+        const index &#x3D; Number(categoryId.slice(&quot;term&quot;.length));
         if (isNaN(index)) {
-            return {}
+            return {};
         }
         return {values: {index: index}};
     }
@@ -1985,8 +1985,8 @@ export class BsPreviewHighlights implements OnChanges {
      * Returns the list of entity categories that contain values
      */
     get nonEmptyCategoryIds(): string[] {
-        var result: string[] &#x3D; [];
-        for (let categoryId in this.highlightDataPerCategory) {
+        const result: string[] &#x3D; [];
+        for (const categoryId in this.highlightDataPerCategory) {
             if (!this.categoryIsEmpty(categoryId, this.highlightDataPerCategory)) {
                 result.push(categoryId);
             }
@@ -2016,7 +2016,7 @@ export class BsPreviewHighlights implements OnChanges {
         if (!this.highlightDataPerCategory || this.categoryIsEmpty(categoryId, this.highlightDataPerCategory)) {
             return 0;
         }
-        let values &#x3D; this.highlightDataPerCategory[categoryId].values;
+        const values &#x3D; this.highlightDataPerCategory[categoryId].values;
         if (values &#x3D;&#x3D; null) {
             return 0;
         }
@@ -2048,7 +2048,7 @@ export class BsPreviewHighlights implements OnChanges {
     }
 
     last() {
-        if (this.navigationState.current !&#x3D; this.total - 1) {
+        if (this.navigationState.current !&#x3D;&#x3D; this.total - 1) {
             this.navigationState.current &#x3D; this.total - 1;
             this.selectHighlight();
         }
@@ -2056,30 +2056,30 @@ export class BsPreviewHighlights implements OnChanges {
 
     private selectHighlight(): void {
         if (this.filteredHighlightData) {
-            var positionInCategories: { [categoryId: string]: number } &#x3D; this.filteredHighlightData[this.navigationState.current].positionInCategories;
-            var firstCategory: string &#x3D; Object.keys(positionInCategories)[0];
+            const positionInCategories: { [categoryId: string]: number } &#x3D; this.filteredHighlightData[this.navigationState.current].positionInCategories;
+            const firstCategory: string &#x3D; Object.keys(positionInCategories)[0];
             this.previewDocument.selectHighlight(firstCategory, positionInCategories[firstCategory]);
         }
     }
 
     public selectAll(): void {
-        for (let categoryId in this.navigationState.filters) {
+        for (const categoryId in this.navigationState.filters) {
             this.navigationState.filters[categoryId] &#x3D; this.keepAllFilter;
         }
         this.reset();
     }
 
     public selectNone(): void {
-        for (let categoryId in this.navigationState.filters) {
+        for (const categoryId in this.navigationState.filters) {
             this.navigationState.filters[categoryId] &#x3D; this.keepNoneFilter;
         }
         this.reset();
     }
 
     get allSelected(): boolean {
-        for (let categoryId in this.navigationState.filters) {
-            var filter: HighlightCategoryFilterState &#x3D; this.navigationState.filters[categoryId];
-            if (filter &amp;&amp; filter.choice !&#x3D; HighlightCategoryFilterChoice.All) {
+        for (const categoryId in this.navigationState.filters) {
+            const filter: HighlightCategoryFilterState &#x3D; this.navigationState.filters[categoryId];
+            if (filter &amp;&amp; filter.choice !&#x3D;&#x3D; HighlightCategoryFilterChoice.All) {
                 return false;
             }
         }
@@ -2087,9 +2087,9 @@ export class BsPreviewHighlights implements OnChanges {
     }
 
     get noneSelected(): boolean {
-        for (let categoryId in this.navigationState.filters) {
-            var filter: HighlightCategoryFilterState &#x3D; this.navigationState.filters[categoryId];
-            if (!filter || filter.choice !&#x3D; HighlightCategoryFilterChoice.None) {
+        for (const categoryId in this.navigationState.filters) {
+            const filter: HighlightCategoryFilterState &#x3D; this.navigationState.filters[categoryId];
+            if (!filter || filter.choice !&#x3D;&#x3D; HighlightCategoryFilterChoice.None) {
                 return false;
             }
         }
@@ -2116,15 +2116,15 @@ export class BsPreviewHighlights implements OnChanges {
         if(value.choice &#x3D;&#x3D;&#x3D; HighlightCategoryFilterChoice.Value){
 
             // First, let&#x27;s cancel value filters EXCEPT the one that was just selected
-            for(let key in this.navigationState.filters){
+            for(const key in this.navigationState.filters){
                 if(key !&#x3D;&#x3D; categoryId &amp;&amp; this.navigationState.filters[key] !&#x3D;&#x3D; this.keepAllFilter &amp;&amp; this.navigationState.filters[key] !&#x3D;&#x3D; this.keepNoneFilter){
                     this.navigationState.filters[key] &#x3D; this.keepAllFilter;
                 }
             }
-            
+
             // Search the entity ID
-            let highlight;            
-            for(let key in this.highlightDataPerLocation){
+            let highlight;
+            for(const key in this.highlightDataPerLocation){
                 highlight &#x3D; this.highlightDataPerLocation[key];
                 if(highlight.positionInCategories[categoryId] &amp;&amp; highlight.values.includes(value.filterValue)){
                     break;
@@ -2139,7 +2139,7 @@ export class BsPreviewHighlights implements OnChanges {
         else {
 
             // Cancel value filters
-            for(let key in this.navigationState.filters){
+            for(const key in this.navigationState.filters){
                 if(this.navigationState.filters[key] !&#x3D;&#x3D; this.keepAllFilter &amp;&amp; this.navigationState.filters[key] !&#x3D;&#x3D; this.keepNoneFilter){
                     this.navigationState.filters[key] &#x3D; this.keepAllFilter;
                 }
@@ -2157,7 +2157,7 @@ export class BsPreviewHighlights implements OnChanges {
     public compareFilters(filter1: HighlightCategoryFilterState, filter2: HighlightCategoryFilterState): boolean {
         return SimpleHighlightCategoryFilterState.compare(filter1, filter2);
     }
-    
+
 
 }
 
@@ -2173,8 +2173,8 @@ class SimpleHighlightNavigationState {
 
     constructor(categories: string[]) {
         this.current &#x3D; -1;  // No selection
-        this.filters &#x3D; {}; 
-        for (let category of categories) {
+        this.filters &#x3D; {};
+        for (const category of categories) {
             this.filters[category] &#x3D; new SimpleHighlightCategoryFilterState(); // All entities visible by default
         }
     }
@@ -2195,7 +2195,7 @@ class SimpleHighlightCategoryFilterState implements HighlightCategoryFilterState
         if (param &#x3D;&#x3D; null) {
             return;
         }
-        if (typeof param &#x3D;&#x3D; &quot;string&quot;) {
+        if (typeof param &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
             this.choice &#x3D; HighlightCategoryFilterChoice.Value;
             this._filterValue &#x3D; param;
         } else {
@@ -2204,7 +2204,7 @@ class SimpleHighlightCategoryFilterState implements HighlightCategoryFilterState
     }
 
     get filterValue(): string {
-        if (this.choice &#x3D;&#x3D; HighlightCategoryFilterChoice.Value) {
+        if (this.choice &#x3D;&#x3D;&#x3D; HighlightCategoryFilterChoice.Value) {
             return this._filterValue;
         }
         return &quot;&quot;;
@@ -2212,11 +2212,11 @@ class SimpleHighlightCategoryFilterState implements HighlightCategoryFilterState
 
     public static compare(filter1: HighlightCategoryFilterState, filter2: HighlightCategoryFilterState) {
         if(filter1 &amp;&amp; filter2) {
-            if(filter1.choice !&#x3D; filter2.choice) {
+            if(filter1.choice !&#x3D;&#x3D; filter2.choice) {
                 return false;
             }
-            return filter1.choice !&#x3D; HighlightCategoryFilterChoice.Value
-                || filter1.filterValue &#x3D;&#x3D; filter2.filterValue;
+            return filter1.choice !&#x3D;&#x3D; HighlightCategoryFilterChoice.Value
+                || filter1.filterValue &#x3D;&#x3D;&#x3D; filter2.filterValue;
         }
         return filter1 &#x3D;&#x3D;&#x3D; filter2;
     }
@@ -2234,9 +2234,9 @@ class FilteredHighlightDataPerLocation implements HighlightDataPerLocation {
     };
 
     public constructor(baseData: HighlightDataPerLocation, filters: { [key: string] : HighlightCategoryFilterState }) {
-        var counter: number &#x3D; 0;
-        for (let i in baseData) {
-            let categories &#x3D; !baseData[i].positionInCategories ? undefined : Object.keys(baseData[i].positionInCategories);
+        let counter: number &#x3D; 0;
+        for (const i in baseData) {
+            const categories &#x3D; !baseData[i].positionInCategories ? undefined : Object.keys(baseData[i].positionInCategories);
             if (categories &amp;&amp; this.locationIsIncluded(baseData[i].values, categories, filters)) {
                 this[counter] &#x3D; baseData[i];
                 counter++;
@@ -2247,15 +2247,15 @@ class FilteredHighlightDataPerLocation implements HighlightDataPerLocation {
     size(): number {
         return Object.keys(this).length;
     }
-    
+
     public locationIsIncluded(values: string[], categories: string[], filters: { [key: string] : HighlightCategoryFilterState }): boolean {
         if (!categories) {
             return false;
         }
-        for (let category of categories) {
+        for (const category of categories) {
             if (filters[category] &amp;&amp;
-                (filters[category].choice &#x3D;&#x3D; HighlightCategoryFilterChoice.All
-                || filters[category].choice &#x3D;&#x3D; HighlightCategoryFilterChoice.Value &amp;&amp; values !&#x3D; null &amp;&amp; values.includes(filters[category].filterValue))) {
+                (filters[category].choice &#x3D;&#x3D;&#x3D; HighlightCategoryFilterChoice.All
+                || filters[category].choice &#x3D;&#x3D;&#x3D; HighlightCategoryFilterChoice.Value &amp;&amp; values !&#x3D; null &amp;&amp; values.includes(filters[category].filterValue))) {
                 return true;
             }
         }
@@ -2553,7 +2553,7 @@ class FilteredHighlightDataPerLocation implements HighlightDataPerLocation {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div class="card sq-facet">    <div class="card-header">{{\'msg#preview.highlightsTitle\' | sqMessage}}</div>    <ng-container *ngIf="noData; else normalCase">        <div class="card-body noEntityToHighlightMessage">            {{"msg#preview.noEntityToHighlight" | sqMessage}}        </div>    </ng-container>    <ng-template #normalCase>        <div class="card-body">            <div class="currentSelection">                <div class="selectedHighlightTitle">{{"msg#preview.selectedHighlight" | sqMessage}}:</div>                <div class="currentSelectionPanel">                    <div *ngIf="currentValue || currentCategories; else noSelection" class="selectedHighlight">                        <div class="currentCategories">                            <span *ngFor="let categoryId of currentCategories">                                <span class="fas fa-bullseye {{ categoryIconClass(categoryId) }} {{ categoryId }}"></span>                                <span class="currentCategoryLabel">{{categoryDisplayLabel(categoryId) | sqMessage: categoryLabelPipeParams(categoryId)}}</span>                            </span>                        </div>                        <div class="selectedHighlightValue" [innerHTML]="currentValue"></div>                    </div>                    <ng-template #noSelection>                        <div class="noSelectionMessage">                            {{"msg#preview.noSelectedHighlight" | sqMessage}}                        </div>                        <div>&nbsp;</div>                    </ng-template>                </div>            </div>            <div class="navigation-buttons">                <button class="btn btn-secondary" [disabled]="!previewReady" (click)="first()" title="{{\'msg#preview.firstHighlightButtonAltText\' | sqMessage}}">                    <span class="fas fa-fast-backward"></span>                </button>                <button class="btn btn-secondary" [disabled]="!previewReady" (click)="previous()" title="{{\'msg#preview.previousHighlightButtonAltText\' | sqMessage}}">                    <span class="fas fa-step-backward"></span>                </button>                <div class="counter-container">                    <span class="counter">{{current | sqNumber}} / {{total | sqNumber}}</span>                    <span class="counter ghost">{{total | sqNumber}} / {{total | sqNumber}}</span>                </div>                <button class="btn btn-secondary" [disabled]="!previewReady" (click)="next()" title="{{\'msg#preview.nextHighlightButtonAltText\' | sqMessage}}">                    <span class="fas fa-step-forward"></span>                </button>                <button class="btn btn-secondary" [disabled]="!previewReady" (click)="last()" title="{{\'msg#preview.lastHighlightButtonAltText\' | sqMessage}}">                    <span class="fas fa-fast-forward"></span>                </button>            </div>        </div>        <div class="card-body filterPanel">            <div class="filterPanelTitle">                <span class="fas fa-filter"></span>{{ "msg#preview.highlightFilters.title" | sqMessage }}            </div>            <div class="batchSelectButtonsContainer" *ngIf="nonEmptyCategoryIds.length > 1">                <div class="batchSelectButtonsPaddingPlaceholder"></div>                <div class="batchSelectButtonsPaddingPlaceholder"></div>                <div class="batchSelectButtons">                    <div class="batchSelectButton">                        <button class="btn" [disabled]="!previewReady || this.allSelected" (click)="selectAll()"                                title="{{\'msg#preview.highlightFilters.keepAll\' | sqMessage}}">                            <span class="far fa-check-square"></span>                            {{"msg#preview.highlightFilters.keepAll" | sqMessage}}                        </button>                    </div>                    <div class="batchSelectButton">                        <button class="btn" [disabled]="!previewReady || this.noneSelected" (click)="selectNone()"                                title="{{\'msg#preview.highlightFilters.keepNone\' | sqMessage}}">                            <span class="fas fa-times"></span>                            {{"msg#preview.highlightFilters.keepNone" | sqMessage}}                        </button>                    </div>                </div>            </div>            <div class="filters">                <div *ngFor="let categoryId of nonEmptyCategoryIds" class="sq-highlight">                    <div class="categoryIcon">                        <span class="fas fa-bullseye {{ categoryIconClass(categoryId) }} {{ categoryId }}"></span>                    </div>                    <div class="categoryLabel">                        {{getCategoryHighlightData(categoryId)?.categoryDisplayLabelPlural | sqMessage: categoryLabelPipeParams(categoryId)}}:                    </div>                    <div class="categoryFilter">                        <ng-container *ngIf="categoryHasMultipleValues(categoryId); else singleValue">                            <select class="custom-select" [(ngModel)]="navigationState.filters[categoryId]" [compareWith]="compareFilters" (ngModelChange)="selectFilter(categoryId, $event)">                                <option [ngValue]="keepAllFilter">{{getCategoryHighlightData(categoryId)?.categoryFilterAllLabel | sqMessage}} ({{getHighlightValueCount(categoryId) | sqNumber}})</option>                                <option [ngValue]="keepNoneFilter">{{getCategoryHighlightData(categoryId)?.categoryFilterNoneLabel | sqMessage}}</option>                                <option class="selectSeparator" disabled>&nbsp;</option>                                <option *ngFor="let entityValue of this.getCategoryHighlightData(categoryId)?.values" [ngValue]="newFilter(entityValue.value)">{{entityValue.displayValue}}</option>                            </select>                        </ng-container>                        <ng-template #singleValue>                            <select class="custom-select" [(ngModel)]="navigationState.filters[categoryId]" [compareWith]="compareFilters" (ngModelChange)="selectFilter(categoryId, $event)">                                <option [ngValue]="keepAllFilter">                                    {{getCategoryHighlightData(categoryId)?.categoryFilterAllLabel | sqMessage}}                                    <ng-container *ngIf="getCategoryHighlightData(categoryId)?.values[0].displayValue as displayValue">                                        ({{displayValue}})                                    </ng-container>                                </option>                                <option [ngValue]="keepNoneFilter">{{getCategoryHighlightData(categoryId)?.categoryFilterNoneLabel | sqMessage}}</option>                            </select>                        </ng-template>                    </div>                </div>            </div>        </div>    </ng-template></div></div>'
-    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsChart', 'selector': 'sq-chart'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetChart', 'selector': 'sq-facet-chart'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsTimelineView', 'selector': 'sq-results-timeline-view'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimeline', 'selector': 'sq-timeline'},{'name': 'BsTimelineTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'Heatmap', 'selector': 'sq-heatmap'},{'name': 'HeatmapTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'Tab', 'selector': 'tab'},{'name': 'UserRating', 'selector': 'sq-user-rating'},{'name': 'VTabs', 'selector': 'sq-vtabs'}];
+    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsChart', 'selector': 'sq-chart'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetChart', 'selector': 'sq-facet-chart'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsTimelineView', 'selector': 'sq-results-timeline-view'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimeline', 'selector': 'sq-timeline'},{'name': 'BsTimelineTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
     var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sq-advanced-form-autocomplete]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sq-advanced-form-validation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'Load', 'selector': '[sqLoad]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'}];
     var ACTUAL_COMPONENT = {'name': 'BsPreviewHighlights'};
 </script>

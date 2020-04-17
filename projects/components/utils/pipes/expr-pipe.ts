@@ -3,10 +3,11 @@ import {AbstractIntlPipe, IntlService} from "@sinequa/core/intl";
 import {Expr, ExprMessageOptions} from "@sinequa/core/app-utils";
 import {Utils} from "@sinequa/core/base";
 
+// tslint:disable-next-line: use-pipe-transform-interface
 @Pipe({name: "sqExpr", pure: false})
 export class ExprPipe extends AbstractIntlPipe {
     constructor(
-        intlService: IntlService, 
+        intlService: IntlService,
         changeDetectorRef: ChangeDetectorRef) {
         super(intlService, changeDetectorRef);
     }
@@ -14,7 +15,7 @@ export class ExprPipe extends AbstractIntlPipe {
     updateValue(key: Expr | string, params: ExprMessageOptions): void {
         super.updateValue(key, params);
         if (key instanceof Expr) {
-            let message = key.toMessage(params);
+            const message = key.toMessage(params);
             this.value = this.intlService.formatMessage(message.message, message.values);
         }
         else {

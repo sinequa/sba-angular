@@ -45,7 +45,7 @@ export class MediaIf implements OnDestroy {
         private viewContainer: ViewContainerRef,
         private breakpoints: BreakPointRegistry,
         private matchMedia: ɵMatchMedia,
-        private changeDetectorRef: ChangeDetectorRef) {        
+        private changeDetectorRef: ChangeDetectorRef) {
     }
 
     ngOnDestroy() {

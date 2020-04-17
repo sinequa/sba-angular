@@ -218,7 +218,7 @@ export class BsPreviewHighlights implements OnChanges {
     public reset(): void {
         this.navigationState.current &#x3D; -1;  // Resets the navigationState entity selection.
         if(this.previewReady)               // Applies the filters to the preview document.
-            this.previewDocument.filterHighlights(this.navigationState.filters);   
+            this.previewDocument.filterHighlights(this.navigationState.filters);
         // Updates the filtered data.
         this.filteredHighlightData &#x3D; this.highlightDataPerLocation ?
             new FilteredHighlightDataPerLocation(this.highlightDataPerLocation, this.navigationState.filters) : undefined;
@@ -230,7 +230,7 @@ export class BsPreviewHighlights implements OnChanges {
     private moveToFirstSearchTerm(): void {
         if (this.filteredHighlightData) {
             for (let i &#x3D; 0, ic &#x3D; this.total; i &lt; ic; i++) {
-                let highlight &#x3D; this.filteredHighlightData[i];
+                const highlight &#x3D; this.filteredHighlightData[i];
                 if (highlight.positionInCategories) {
                     let category &#x3D; &quot;term1&quot;;
                     let position &#x3D; highlight.positionInCategories[category];
@@ -259,7 +259,7 @@ export class BsPreviewHighlights implements OnChanges {
      * No categories to highlight
      */
     get noData(): boolean {
-        return this.nonEmptyCategoryIds.length &#x3D;&#x3D; 0;
+        return this.nonEmptyCategoryIds.length &#x3D;&#x3D;&#x3D; 0;
     }
 
     /**
@@ -284,15 +284,15 @@ export class BsPreviewHighlights implements OnChanges {
         if (this.navigationState.current &lt; 0 || !this.filteredHighlightData) {
             return &quot;&quot;;
         }
-        var result: string &#x3D; this.filteredHighlightData[this.navigationState.current].displayValue;
+        const result: string &#x3D; this.filteredHighlightData[this.navigationState.current].displayValue;
         if (result) {
             return result;
         }
-        var values: string[] &#x3D; this.filteredHighlightData[this.navigationState.current].values;
+        const values: string[] &#x3D; this.filteredHighlightData[this.navigationState.current].values;
         if (values &amp;&amp; values.length &gt; 0 &amp;&amp; values[0] &amp;&amp; values[0].length &gt; 0) {
             return values[0];
         }
-        if (Object.keys(this.filteredHighlightData[this.navigationState.current].positionInCategories).length &#x3D;&#x3D; 1
+        if (Object.keys(this.filteredHighlightData[this.navigationState.current].positionInCategories).length &#x3D;&#x3D;&#x3D; 1
                 &amp;&amp; this.filteredHighlightData[this.navigationState.current].positionInCategories[&quot;extractslocations&quot;]) {
             return this.previewDocument.getHighlightText(
                 &quot;extractslocations&quot;,
@@ -306,11 +306,11 @@ export class BsPreviewHighlights implements OnChanges {
      * based on the filtered Highlight data per location
      */
     get currentCategories(): string[] {
-        var result: string[] &#x3D; [];
+        const result: string[] &#x3D; [];
         if (this.navigationState.current &lt; 0 || !this.filteredHighlightData || this.navigationState.current &gt;&#x3D; this.filteredHighlightData.size()) {
             return result;
         }
-        for (let categoryId in this.filteredHighlightData[this.navigationState.current].positionInCategories) {
+        for (const categoryId in this.filteredHighlightData[this.navigationState.current].positionInCategories) {
             result.push(categoryId);
         }
         return result;
@@ -335,9 +335,9 @@ export class BsPreviewHighlights implements OnChanges {
         if (!categoryId.startsWith(&quot;term&quot;)) {
             return {};
         }
-        let index &#x3D; Number(categoryId.slice(&quot;term&quot;.length));
+        const index &#x3D; Number(categoryId.slice(&quot;term&quot;.length));
         if (isNaN(index)) {
-            return {}
+            return {};
         }
         return {values: {index: index}};
     }
@@ -347,8 +347,8 @@ export class BsPreviewHighlights implements OnChanges {
      * Returns the list of entity categories that contain values
      */
     get nonEmptyCategoryIds(): string[] {
-        var result: string[] &#x3D; [];
-        for (let categoryId in this.highlightDataPerCategory) {
+        const result: string[] &#x3D; [];
+        for (const categoryId in this.highlightDataPerCategory) {
             if (!this.categoryIsEmpty(categoryId, this.highlightDataPerCategory)) {
                 result.push(categoryId);
             }
@@ -378,7 +378,7 @@ export class BsPreviewHighlights implements OnChanges {
         if (!this.highlightDataPerCategory || this.categoryIsEmpty(categoryId, this.highlightDataPerCategory)) {
             return 0;
         }
-        let values &#x3D; this.highlightDataPerCategory[categoryId].values;
+        const values &#x3D; this.highlightDataPerCategory[categoryId].values;
         if (values &#x3D;&#x3D; null) {
             return 0;
         }
@@ -410,7 +410,7 @@ export class BsPreviewHighlights implements OnChanges {
     }
 
     last() {
-        if (this.navigationState.current !&#x3D; this.total - 1) {
+        if (this.navigationState.current !&#x3D;&#x3D; this.total - 1) {
             this.navigationState.current &#x3D; this.total - 1;
             this.selectHighlight();
         }
@@ -418,30 +418,30 @@ export class BsPreviewHighlights implements OnChanges {
 
     private selectHighlight(): void {
         if (this.filteredHighlightData) {
-            var positionInCategories: { [categoryId: string]: number } &#x3D; this.filteredHighlightData[this.navigationState.current].positionInCategories;
-            var firstCategory: string &#x3D; Object.keys(positionInCategories)[0];
+            const positionInCategories: { [categoryId: string]: number } &#x3D; this.filteredHighlightData[this.navigationState.current].positionInCategories;
+            const firstCategory: string &#x3D; Object.keys(positionInCategories)[0];
             this.previewDocument.selectHighlight(firstCategory, positionInCategories[firstCategory]);
         }
     }
 
     public selectAll(): void {
-        for (let categoryId in this.navigationState.filters) {
+        for (const categoryId in this.navigationState.filters) {
             this.navigationState.filters[categoryId] &#x3D; this.keepAllFilter;
         }
         this.reset();
     }
 
     public selectNone(): void {
-        for (let categoryId in this.navigationState.filters) {
+        for (const categoryId in this.navigationState.filters) {
             this.navigationState.filters[categoryId] &#x3D; this.keepNoneFilter;
         }
         this.reset();
     }
 
     get allSelected(): boolean {
-        for (let categoryId in this.navigationState.filters) {
-            var filter: HighlightCategoryFilterState &#x3D; this.navigationState.filters[categoryId];
-            if (filter &amp;&amp; filter.choice !&#x3D; HighlightCategoryFilterChoice.All) {
+        for (const categoryId in this.navigationState.filters) {
+            const filter: HighlightCategoryFilterState &#x3D; this.navigationState.filters[categoryId];
+            if (filter &amp;&amp; filter.choice !&#x3D;&#x3D; HighlightCategoryFilterChoice.All) {
                 return false;
             }
         }
@@ -449,9 +449,9 @@ export class BsPreviewHighlights implements OnChanges {
     }
 
     get noneSelected(): boolean {
-        for (let categoryId in this.navigationState.filters) {
-            var filter: HighlightCategoryFilterState &#x3D; this.navigationState.filters[categoryId];
-            if (!filter || filter.choice !&#x3D; HighlightCategoryFilterChoice.None) {
+        for (const categoryId in this.navigationState.filters) {
+            const filter: HighlightCategoryFilterState &#x3D; this.navigationState.filters[categoryId];
+            if (!filter || filter.choice !&#x3D;&#x3D; HighlightCategoryFilterChoice.None) {
                 return false;
             }
         }
@@ -478,15 +478,15 @@ export class BsPreviewHighlights implements OnChanges {
         if(value.choice &#x3D;&#x3D;&#x3D; HighlightCategoryFilterChoice.Value){
 
             // First, let&#x27;s cancel value filters EXCEPT the one that was just selected
-            for(let key in this.navigationState.filters){
+            for(const key in this.navigationState.filters){
                 if(key !&#x3D;&#x3D; categoryId &amp;&amp; this.navigationState.filters[key] !&#x3D;&#x3D; this.keepAllFilter &amp;&amp; this.navigationState.filters[key] !&#x3D;&#x3D; this.keepNoneFilter){
                     this.navigationState.filters[key] &#x3D; this.keepAllFilter;
                 }
             }
-            
+
             // Search the entity ID
-            let highlight;            
-            for(let key in this.highlightDataPerLocation){
+            let highlight;
+            for(const key in this.highlightDataPerLocation){
                 highlight &#x3D; this.highlightDataPerLocation[key];
                 if(highlight.positionInCategories[categoryId] &amp;&amp; highlight.values.includes(value.filterValue)){
                     break;
@@ -501,7 +501,7 @@ export class BsPreviewHighlights implements OnChanges {
         else {
 
             // Cancel value filters
-            for(let key in this.navigationState.filters){
+            for(const key in this.navigationState.filters){
                 if(this.navigationState.filters[key] !&#x3D;&#x3D; this.keepAllFilter &amp;&amp; this.navigationState.filters[key] !&#x3D;&#x3D; this.keepNoneFilter){
                     this.navigationState.filters[key] &#x3D; this.keepAllFilter;
                 }
@@ -519,7 +519,7 @@ export class BsPreviewHighlights implements OnChanges {
     public compareFilters(filter1: HighlightCategoryFilterState, filter2: HighlightCategoryFilterState): boolean {
         return SimpleHighlightCategoryFilterState.compare(filter1, filter2);
     }
-    
+
 
 }
 
@@ -535,8 +535,8 @@ class SimpleHighlightNavigationState {
 
     constructor(categories: string[]) {
         this.current &#x3D; -1;  // No selection
-        this.filters &#x3D; {}; 
-        for (let category of categories) {
+        this.filters &#x3D; {};
+        for (const category of categories) {
             this.filters[category] &#x3D; new SimpleHighlightCategoryFilterState(); // All entities visible by default
         }
     }
@@ -557,7 +557,7 @@ class SimpleHighlightCategoryFilterState implements HighlightCategoryFilterState
         if (param &#x3D;&#x3D; null) {
             return;
         }
-        if (typeof param &#x3D;&#x3D; &quot;string&quot;) {
+        if (typeof param &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
             this.choice &#x3D; HighlightCategoryFilterChoice.Value;
             this._filterValue &#x3D; param;
         } else {
@@ -566,7 +566,7 @@ class SimpleHighlightCategoryFilterState implements HighlightCategoryFilterState
     }
 
     get filterValue(): string {
-        if (this.choice &#x3D;&#x3D; HighlightCategoryFilterChoice.Value) {
+        if (this.choice &#x3D;&#x3D;&#x3D; HighlightCategoryFilterChoice.Value) {
             return this._filterValue;
         }
         return &quot;&quot;;
@@ -574,11 +574,11 @@ class SimpleHighlightCategoryFilterState implements HighlightCategoryFilterState
 
     public static compare(filter1: HighlightCategoryFilterState, filter2: HighlightCategoryFilterState) {
         if(filter1 &amp;&amp; filter2) {
-            if(filter1.choice !&#x3D; filter2.choice) {
+            if(filter1.choice !&#x3D;&#x3D; filter2.choice) {
                 return false;
             }
-            return filter1.choice !&#x3D; HighlightCategoryFilterChoice.Value
-                || filter1.filterValue &#x3D;&#x3D; filter2.filterValue;
+            return filter1.choice !&#x3D;&#x3D; HighlightCategoryFilterChoice.Value
+                || filter1.filterValue &#x3D;&#x3D;&#x3D; filter2.filterValue;
         }
         return filter1 &#x3D;&#x3D;&#x3D; filter2;
     }
@@ -596,9 +596,9 @@ class FilteredHighlightDataPerLocation implements HighlightDataPerLocation {
     };
 
     public constructor(baseData: HighlightDataPerLocation, filters: { [key: string] : HighlightCategoryFilterState }) {
-        var counter: number &#x3D; 0;
-        for (let i in baseData) {
-            let categories &#x3D; !baseData[i].positionInCategories ? undefined : Object.keys(baseData[i].positionInCategories);
+        let counter: number &#x3D; 0;
+        for (const i in baseData) {
+            const categories &#x3D; !baseData[i].positionInCategories ? undefined : Object.keys(baseData[i].positionInCategories);
             if (categories &amp;&amp; this.locationIsIncluded(baseData[i].values, categories, filters)) {
                 this[counter] &#x3D; baseData[i];
                 counter++;
@@ -609,15 +609,15 @@ class FilteredHighlightDataPerLocation implements HighlightDataPerLocation {
     size(): number {
         return Object.keys(this).length;
     }
-    
+
     public locationIsIncluded(values: string[], categories: string[], filters: { [key: string] : HighlightCategoryFilterState }): boolean {
         if (!categories) {
             return false;
         }
-        for (let category of categories) {
+        for (const category of categories) {
             if (filters[category] &amp;&amp;
-                (filters[category].choice &#x3D;&#x3D; HighlightCategoryFilterChoice.All
-                || filters[category].choice &#x3D;&#x3D; HighlightCategoryFilterChoice.Value &amp;&amp; values !&#x3D; null &amp;&amp; values.includes(filters[category].filterValue))) {
+                (filters[category].choice &#x3D;&#x3D;&#x3D; HighlightCategoryFilterChoice.All
+                || filters[category].choice &#x3D;&#x3D;&#x3D; HighlightCategoryFilterChoice.Value &amp;&amp; values !&#x3D; null &amp;&amp; values.includes(filters[category].filterValue))) {
                 return true;
             }
         }

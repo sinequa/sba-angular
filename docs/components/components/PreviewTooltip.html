@@ -697,7 +697,7 @@ in response to specific hover of click events</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Position the tooltip above a bounding box </p>
+                    <div class="io-description"><p>Position the tooltip above a bounding box</p>
 </div>
 
                     <div class="io-description">
@@ -1421,15 +1421,15 @@ export class PreviewTooltip implements OnChanges {
     /**
      * Add mouse listeners to a new preview document in order to display the tooltip
      * in response to specific hover of click events
-     * @param changes 
+     * @param changes
      */
     ngOnChanges(changes: SimpleChanges){
         if(changes[&quot;previewDocument&quot;] &amp;&amp; !!this.previewDocument){
-            
-            if (typeof this.previewDocument.document.addEventListener !&#x3D;&#x3D; undefined) { 
+
+            if (typeof this.previewDocument.document.addEventListener !&#x3D;&#x3D; undefined) {
                 this.document.addEventListener(&quot;mouseup&quot;, this.handleMouseUp, false);
                 this.document.addEventListener(&quot;mousedown&quot;, this.handleMouseDown, false);
-                this.document.addEventListener(&quot;mousemove&quot;, this.handleMouseMove, false);              
+                this.document.addEventListener(&quot;mousemove&quot;, this.handleMouseMove, false);
                 this.window.addEventListener(&quot;scroll&quot;, this.handleScroll, false);
             }
 
@@ -1442,7 +1442,7 @@ export class PreviewTooltip implements OnChanges {
     private get document(): Document{
         return this.previewDocument.document;
     }
-    
+
     /**
      * Shortcut to the preview Window
      */
@@ -1458,11 +1458,11 @@ export class PreviewTooltip implements OnChanges {
     }
 
     /**
-     * Position the tooltip above a bounding box 
-     */ 
-    positionTooltipAbove(box: DOMRect | ClientRect){        
+     * Position the tooltip above a bounding box
+     */
+    positionTooltipAbove(box: DOMRect | ClientRect){
         this.zone.run(() &#x3D;&gt; {   // Necessary to compute the right size of the tooltip when updating the text
-            let tooltipWidth &#x3D; this.tooltip.nativeElement.getBoundingClientRect().width;
+            const tooltipWidth &#x3D; this.tooltip.nativeElement.getBoundingClientRect().width;
             this.left &#x3D; Math.round(box.left+0.5*box.width-0.5*tooltipWidth)+&quot;px&quot;;
             //absolute top positioning
             //this.bottom &#x3D; Math.round(box.top-tooltipHeight-5+this.window.scrollY)+&quot;px&quot;;
@@ -1490,7 +1490,7 @@ export class PreviewTooltip implements OnChanges {
         const selection &#x3D; this.document.getSelection();
         this.selectedText &#x3D; selection ? selection.toString().trim() : &quot;&quot;;
         if(selection &amp;&amp; this.selectedText){
-            let range &#x3D; selection.getRangeAt(0);
+            const range &#x3D; selection.getRangeAt(0);
             //console.log(&quot;Selected text: &quot;, text);
             //console.log(event);
             //console.log(range.getBoundingClientRect());
@@ -1498,7 +1498,7 @@ export class PreviewTooltip implements OnChanges {
             this.positionTooltipAbove(range.getBoundingClientRect());
         }
         this.changeDetectorRef.detectChanges();
-    };
+    }
 
     private _inTime: number &#x3D; 0;
     /**
@@ -1506,23 +1506,23 @@ export class PreviewTooltip implements OnChanges {
      */
     handleMouseMove &#x3D; (event: MouseEvent) &#x3D;&gt; {
         if(!this.selectedText &amp;&amp; event[&quot;path&quot;]){
-            let path &#x3D; &lt;Element[]&gt; event[&quot;path&quot;];
+            const path &#x3D; &lt;Element[]&gt; event[&quot;path&quot;];
             if(path.length&gt;0){
-                let element &#x3D; path[0];
+                const element &#x3D; path[0];
                 if(element.nodeType &#x3D;&#x3D;&#x3D; 1 &amp;&amp; element.nodeName &#x3D;&#x3D;&#x3D; &quot;SPAN&quot; &amp;&amp; (element.attributes[&quot;data-entity-basic&quot;] || element.attributes[&quot;data-entity-display&quot;])){
                     if(this.entityType !&#x3D;&#x3D; element.className.split(&quot; &quot;)[0] || this.entityDisplay !&#x3D;&#x3D; element.textContent){  // Tooltip not already displayed
                         this.entityType &#x3D; element.className.split(&quot; &quot;)[0];    // Update text (and visibility)
-                        this.entityDisplay &#x3D; element.textContent || &quot;&quot;;   // Tooltip content                        
-                        let value &#x3D; element.attributes[&quot;data-entity-basic&quot;] || element.attributes[&quot;data-entity-display&quot;];
+                        this.entityDisplay &#x3D; element.textContent || &quot;&quot;;   // Tooltip content
+                        const value &#x3D; element.attributes[&quot;data-entity-basic&quot;] || element.attributes[&quot;data-entity-display&quot;];
                         this.entityValue &#x3D; value.value;
                         const highlights &#x3D; this.previewData.highlightsPerCategory[this.entityType].values
                             .find(v &#x3D;&gt; v.value &#x3D;&#x3D;&#x3D; value.value);
                         this.entityCount &#x3D; highlights ? highlights.locations.length : 0;
                         this.entityLabel &#x3D; this.previewData.highlightsPerCategory[this.entityType].categoryDisplayLabel;
 
-                        let idsplt &#x3D; element.id.split(&quot;_&quot;);
-                        let idx &#x3D; parseInt(idsplt[idsplt.length-1]);                      
-                        const entity &#x3D; this.findEntity(this.entityType, this.entityValue, (_, idIndex) &#x3D;&gt; { return idIndex &#x3D;&#x3D;&#x3D; idx });
+                        const idsplt &#x3D; element.id.split(&quot;_&quot;);
+                        const idx &#x3D; parseInt(idsplt[idsplt.length-1], 10);
+                        const entity &#x3D; this.findEntity(this.entityType, this.entityValue, (_, idIndex) &#x3D;&gt; idIndex &#x3D;&#x3D;&#x3D; idx);
                         this.entityIdx &#x3D; entity ? entity.valueIndex : 0;
 
                         this.changeDetectorRef.detectChanges(); // Refresh size of tooltip
@@ -1532,10 +1532,10 @@ export class PreviewTooltip implements OnChanges {
                     return;
                 }
             }
-        }   
+        }
         // We are not hovering an entity
         if(this.entityType){    // If still displaying the tooltip...
-            let isOverTooltip &#x3D; !!event[&quot;path&quot;].find(el &#x3D;&gt; el.localName &#x3D;&#x3D;&#x3D; &quot;sq-preview-tooltip&quot;);
+            const isOverTooltip &#x3D; !!event[&quot;path&quot;].find(el &#x3D;&gt; el.localName &#x3D;&#x3D;&#x3D; &quot;sq-preview-tooltip&quot;);
             if(!isOverTooltip) {
                 if(Date.now() - this._inTime &gt; 200){ // 200 ms tolerance before closing tooltip
                     this.entityType &#x3D; &quot;&quot;;
@@ -1566,16 +1566,16 @@ export class PreviewTooltip implements OnChanges {
             this.changeDetectorRef.detectChanges(); // Turn off tooltip
         }
     }
-    
+
     /**
      * Move to the previous entity if possible
-     * @param event 
+     * @param event
      */
     previousEntity(event: Event){
         event.stopPropagation(); // stop the propagation to avoid triggering the tooltip listeners
         if(this.entityIdx &gt; 1){
             // Find the index of the previous entity
-            const entity &#x3D; this.findEntity(this.entityType, this.entityValue, (valueIdx,_) &#x3D;&gt; { return valueIdx &#x3D;&#x3D;&#x3D; this.entityIdx-1 });
+            const entity &#x3D; this.findEntity(this.entityType, this.entityValue, (valueIdx,_) &#x3D;&gt; valueIdx &#x3D;&#x3D;&#x3D; this.entityIdx-1);
             if (entity) {
                 const idx &#x3D; entity.idIndex;
                 this.previewDocument.selectHighlight(this.entityType, idx);
@@ -1585,15 +1585,15 @@ export class PreviewTooltip implements OnChanges {
 
     /**
      * Move to the next entity if possible
-     * @param event 
+     * @param event
      */
     nextEntity(event: Event){
         event.stopPropagation(); // stop the propagation to avoid triggering the tooltip listeners
         if(this.entityIdx &lt; this.entityCount){
             // Find the index of the next entity
-            const entity &#x3D; this.findEntity(this.entityType, this.entityValue, (valueIdx,_) &#x3D;&gt; { return valueIdx &#x3D;&#x3D;&#x3D; this.entityIdx+1 });
+            const entity &#x3D; this.findEntity(this.entityType, this.entityValue, (valueIdx,_) &#x3D;&gt; valueIdx &#x3D;&#x3D;&#x3D; this.entityIdx+1);
             if (entity) {
-                let idx &#x3D; entity.idIndex;
+                const idx &#x3D; entity.idIndex;
                 this.previewDocument.selectHighlight(this.entityType, idx);
             }
         }
@@ -1601,8 +1601,8 @@ export class PreviewTooltip implements OnChanges {
 
     /**
      * Executes a clicked action button in the context of a tooltip for hovered entities
-     * @param action 
-     * @param event 
+     * @param action
+     * @param event
      */
     entityAction(action: Action, event: Event){
         event.stopPropagation(); // stop the propagation to avoid triggering the tooltip listeners
@@ -1614,7 +1614,7 @@ export class PreviewTooltip implements OnChanges {
     /**
      * Executes a clicked action button in the context of a tooltip for text selection
      * @param action the action to execute
-     * @param event 
+     * @param event
      */
     selectedTextAction(action: Action, event: Event){
         event.stopPropagation(); // stop the propagation to avoid triggering the tooltip listeners
@@ -1624,8 +1624,8 @@ export class PreviewTooltip implements OnChanges {
     }
 
     /**
-     * Helper function to find the indexes of a specific entity *occurrence*. Returns both the index within all 
-     * of its own occurrences: valueIndex (eg. BILL GATES 3/14) AND the index corresponding to the 
+     * Helper function to find the indexes of a specific entity *occurrence*. Returns both the index within all
+     * of its own occurrences: valueIndex (eg. BILL GATES 3/14) AND the index corresponding to the
      * entity id inside the document: idIndex (eg. id&#x3D;&quot;person_32&quot;).
      * @param category eg. person
      * @param value eg. BILL GATES
@@ -1636,9 +1636,9 @@ export class PreviewTooltip implements OnChanges {
             : {valueIndex: number, idIndex: number} | undefined {
         let currentIdx &#x3D; 0;
         // For each highlight in the doc
-        for(let i&#x3D;0; i&lt;this.previewData.highlightsPerLocation[&#x27;length&#x27;]; i++) { 
-            let highlight &#x3D; this.previewData.highlightsPerLocation[i];
-            let categories &#x3D; Object.keys(highlight.positionInCategories);
+        for(let i&#x3D;0; i&lt;this.previewData.highlightsPerLocation[&#x27;length&#x27;]; i++) {
+            const highlight &#x3D; this.previewData.highlightsPerLocation[i];
+            const categories &#x3D; Object.keys(highlight.positionInCategories);
             // For each value of the highlight
             for(let j&#x3D;0; j&lt;categories.length; j++){
                 // If this is the right entity type and value
@@ -1654,8 +1654,9 @@ export class PreviewTooltip implements OnChanges {
         }
         return undefined;
     }
-    
-}</code></pre>
+
+}
+</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
@@ -1715,7 +1716,7 @@ export class PreviewTooltip implements OnChanges {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div class="sq-selection-tooltip" [ngStyle]="{\'visibility\' : visibility, \'bottom\' : bottom, \'left\' : left}" #tooltip>    <ng-container *ngIf="entityType && !selectedText">        <span class="display">{{ entityDisplay }} </span> <span class="label">({{ entityLabel | sqMessage }}) </span>        <span class="index">{{ entityIdx }} </span>/<span class="count"> {{ entityCount }} </span>        <ng-container *ngIf="entityNavActions">            <span class="nav-btn previous" (click)="previousEntity($event)" [ngClass]="{disabled: entityIdx <= 1}" title="{{ \'msg#preview.previousHighlightButtonAltText\' | sqMessage }}">❬</span>            <span class="nav-btn next" (click)="nextEntity($event)" [ngClass]="{disabled: entityIdx >= entityCount}" title="{{ \'msg#preview.nextHighlightButtonAltText\' | sqMessage }}">❭</span>        </ng-container>        <div class="btn-list">            <button *ngFor="let action of entityActions" (click)="entityAction(action, $event)" [disabled]="action.disabled" [hidden]="action.hidden" title="{{ (action.title || \'\') | sqMessage:{values: {type: entityType, value: entityValue, display: entityDisplay} } }}">                <span *ngIf="action.icon" class="{{action.icon}}"></span>                <span *ngIf="action.text">{{ action.text | sqMessage:{values: {type: entityType, value: entityValue, display: entityDisplay} } }}</span>                <span *ngIf="action.iconAfter" class="{{action.iconAfter}}"></span>            </button>        </div>    </ng-container>    <ng-container *ngIf="selectedText">        <ng-container *ngFor="let action of selectedTextActions">            <button (click)="selectedTextAction(action, $event)" [disabled]="action.disabled" [hidden]="action.hidden" title="{{ (action.title || \'\') | sqMessage:{values: {text: selectedText.slice(0,50)} } }}">                <span *ngIf="action.icon" class="{{action.icon}}"></span> <span *ngIf="action.text">{{ action.text | sqMessage:{values: {text: selectedText.slice(0,50)} } }}</span> <span *ngIf="action.iconAfter" class="{{action.iconAfter}}"></span>            </button>        </ng-container>    </ng-container></div></div>'
-    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsChart', 'selector': 'sq-chart'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetChart', 'selector': 'sq-facet-chart'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsTimelineView', 'selector': 'sq-results-timeline-view'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimeline', 'selector': 'sq-timeline'},{'name': 'BsTimelineTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'Heatmap', 'selector': 'sq-heatmap'},{'name': 'HeatmapTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'Tab', 'selector': 'tab'},{'name': 'UserRating', 'selector': 'sq-user-rating'},{'name': 'VTabs', 'selector': 'sq-vtabs'}];
+    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsChart', 'selector': 'sq-chart'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetChart', 'selector': 'sq-facet-chart'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsTimelineView', 'selector': 'sq-results-timeline-view'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimeline', 'selector': 'sq-timeline'},{'name': 'BsTimelineTooltip', 'selector': 'sq-heatmap-tooltip'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
     var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sq-advanced-form-autocomplete]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sq-advanced-form-validation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'Load', 'selector': '[sqLoad]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'}];
     var ACTUAL_COMPONENT = {'name': 'PreviewTooltip'};
 </script>

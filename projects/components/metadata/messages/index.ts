@@ -10,4 +10,4 @@ const enMetadata = Utils.merge({}, _enMetadata, enFacet, enCollapse);
 const frMetadata = Utils.merge({}, _frMetadata, frFacet, frCollapse);
 const deMetadata = Utils.merge({}, _deMetadata, deFacet, deCollapse);
 
-export {enMetadata, frMetadata, deMetadata}
+export { enMetadata, frMetadata, deMetadata };

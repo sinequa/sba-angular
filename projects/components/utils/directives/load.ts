@@ -4,9 +4,9 @@ import {Directive, ElementRef, OnInit, OnDestroy, Output, EventEmitter} from "@a
     selector: "[sqLoad]"
 })
 export class Load implements OnInit, OnDestroy {
-    element: HTMLElement;    
+    element: HTMLElement;
     @Output("sqLoad") load: EventEmitter<{event: Event}>;
-    
+
     constructor(elementRef: ElementRef) {
         this.element = <HTMLElement>elementRef.nativeElement;
         this.load = new EventEmitter<{event: Event}>();
@@ -14,12 +14,12 @@ export class Load implements OnInit, OnDestroy {
 
     loadListener = (event: Event) => {
         this.load.emit({event: event});
-    };
-    
+    }
+
     ngOnInit() {
         this.element.addEventListener("load", this.loadListener);
     }
-    
+
     ngOnDestroy() {
         this.element.removeEventListener("load", this.loadListener);
     }

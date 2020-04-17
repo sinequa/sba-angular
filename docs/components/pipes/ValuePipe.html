@@ -97,15 +97,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateValue(key: <a href="../classes/Item.html">ValueItem | FieldValue</a>, params: <a href="../interfaces/Column.html">CCColumn</a>)</code>
+<code>updateValue(key: <a href="../interfaces/ValueItem.html">ValueItem | FieldValue</a>, params: <a href="../interfaces/Column.html">CCColumn</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">utils/pipes/value-pipe.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">utils/pipes/value-pipe.ts:17</a></div>
                 </td>
             </tr>
 
@@ -127,7 +127,7 @@
                                 <tr>
                                     <td>key</td>
                                     <td>
-                                                <code><a href="../classes/Item.html" target="_self" >ValueItem | FieldValue</a></code>
+                                                <code><a href="../interfaces/ValueItem.html" target="_self" >ValueItem | FieldValue</a></code>
                                     </td>
 
                                     <td>
@@ -176,11 +176,12 @@ import {FormatService, ValueItem} from &quot;@sinequa/core/app-utils&quot;;
 import {CCColumn} from &quot;@sinequa/core/web-services&quot;;
 import {Utils, FieldValue} from &quot;@sinequa/core/base&quot;;
 
+// tslint:disable-next-line: use-pipe-transform-interface
 @Pipe({name: &quot;sqValue&quot;, pure: false})
 export class ValuePipe extends AbstractIntlPipe {
-    constructor(        
-        protected formatService: FormatService, 
-        intlService: IntlService, 
+    constructor(
+        protected formatService: FormatService,
+        intlService: IntlService,
         changeDetectorRef: ChangeDetectorRef) {
         super(intlService, changeDetectorRef);
     }

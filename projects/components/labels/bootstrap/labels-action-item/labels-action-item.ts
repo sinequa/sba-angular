@@ -7,7 +7,7 @@ import {Action} from "@sinequa/components/action";
  * Component containing a form and autocomplete to search
  * through the list of labels and select one to filter the
  * search results.
- * 
+ *
  * The component can be used a custom component in the Action
  * menus.
  */

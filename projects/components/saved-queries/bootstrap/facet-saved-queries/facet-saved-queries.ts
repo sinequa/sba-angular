@@ -29,9 +29,9 @@ export class BsFacetSavedQueries extends AbstractFacet  {
     nextPage: Action;
 
     constructor(
-        public savedQueriesService: SavedQueriesService) { 
+        public savedQueriesService: SavedQueriesService) {
         super();
-        
+
         this.manageSavedQueries = new Action({
             icon: "fas fa-cog",
             title: "msg#savedQueries.manageSavedQueries",
@@ -39,7 +39,7 @@ export class BsFacetSavedQueries extends AbstractFacet  {
                 this.savedQueriesService.manageSavedQueriesModal();
             }
         });
-            
+
         this.previousPage = new Action({
             icon: "fas fa-chevron-left",
             title: "msg#facet.previous",
@@ -48,10 +48,10 @@ export class BsFacetSavedQueries extends AbstractFacet  {
             },
             updater: (action: Action) => {
                 action.disabled = this.page <= 0;
-                action.hidden = this.maxPage == 0;
+                action.hidden = this.maxPage === 0;
             }
         });
-  
+
         this.nextPage = new Action({
             icon: "fas fa-chevron-right",
             title: "msg#facet.next",
@@ -60,7 +60,7 @@ export class BsFacetSavedQueries extends AbstractFacet  {
             },
             updater: (action: Action) => {
                 action.disabled = this.page >= this.maxPage;
-                action.hidden = this.maxPage == 0;
+                action.hidden = this.maxPage === 0;
             }
         });
     }
@@ -76,7 +76,7 @@ export class BsFacetSavedQueries extends AbstractFacet  {
     get endIndex(): number {
         return (this.page+1) * this.maxQueries;
     }
-        
+
     get actions(): Action[] {
         this.previousPage.update();
         this.nextPage.update();

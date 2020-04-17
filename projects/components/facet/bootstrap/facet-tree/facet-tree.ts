@@ -8,7 +8,7 @@ import {AbstractFacet} from "../../abstract-facet";
 @Component({
     selector: "sq-facet-tree",
     templateUrl: "./facet-tree.html",
-    styles: [`    
+    styles: [`
 .item-opener {
     text-decoration: none !important;
 }
@@ -28,13 +28,13 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
     @Input() allowExclude: boolean = true; // Allow to exclude selected items
     @Input() allowOr: boolean = true; // Allow to search various items in OR mode
     @Input() expandedLevel: number = 2;
-    
+
     // Aggregation from the Results object
     data: TreeAggregation | undefined;
 
     // Sets to keep track of selected/excluded/filtered items
     private readonly filtered = new Set<AggregationItem>();
-    // TODO keep track of excluded terms and display them with specific color private 
+    // TODO keep track of excluded terms and display them with specific color private
     // readonly filtered = new Set<AggregationItem>();
 
     // Actions (displayed in facet menu)
@@ -49,41 +49,41 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
         private changeDetectorRef: ChangeDetectorRef){
             super();
 
-        // Keep documents with ANY of the selected items
-        this.filterItemsOr = new Action({
-            icon: "fas fa-filter",
-            title: "msg#facet.filterItems",
-            action: () => {
-                if (this.data) {
-                    this.facetService.addFilterSearch(this.getName(), this.data, this.getSelectedItems());
+            // Keep documents with ANY of the selected items
+            this.filterItemsOr = new Action({
+                icon: "fas fa-filter",
+                title: "msg#facet.filterItems",
+                action: () => {
+                    if (this.data) {
+                        this.facetService.addFilterSearch(this.getName(), this.data, this.getSelectedItems());
+                    }
                 }
-            }
-        });
+            });
 
-        // Exclude document with selected items
-        this.excludeItems = new Action({
-            icon: "fas fa-times",
-            title: "msg#facet.excludeItems",
-            action: () => {
-                if (this.data) {
-                    this.facetService.addFilterSearch(this.getName(), this.data, this.getSelectedItems(), {not: true});
+            // Exclude document with selected items
+            this.excludeItems = new Action({
+                icon: "fas fa-times",
+                title: "msg#facet.excludeItems",
+                action: () => {
+                    if (this.data) {
+                        this.facetService.addFilterSearch(this.getName(), this.data, this.getSelectedItems(), {not: true});
+                    }
                 }
-            }
-        });
+            });
 
-        // Clear the current filters
-        this.clearFilters = new Action({
-            icon: "far fa-minus-square",
-            title: "msg#facet.clearSelects",
-            action: () => {
-                this.facetService.clearFiltersSearch(this.getName(), true);
-            }
-        });
-        
+            // Clear the current filters
+            this.clearFilters = new Action({
+                icon: "far fa-minus-square",
+                title: "msg#facet.clearSelects",
+                action: () => {
+                    this.facetService.clearFiltersSearch(this.getName(), true);
+                }
+            });
+
     }
 
     /**
-     * Name of the facet, used to create and retrieve selections 
+     * Name of the facet, used to create and retrieve selections
      * through the facet service.
      */
     getName() : string {
@@ -93,13 +93,13 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
     /**
      * OnChanges listener awaits new results from the search service
      * This completely resets the display
-     * @param changes 
+     * @param changes
      */
     ngOnChanges(changes: SimpleChanges) {
         if (!!changes["results"]) {     // New data from the search service
             this.filtered.clear();
             this.data = this.facetService.getTreeAggregation(this.getName(), this.aggregation, this.results, this.initNodes);
-            
+
             this.refreshFiltered();
         }
     }
@@ -122,9 +122,9 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
      */
     get actions(): Action[] {
 
-        let actions: Action[] = [];
+        const actions: Action[] = [];
 
-        let selected = this.getSelectedItems();
+        const selected = this.getSelectedItems();
 
         if(selected.length > 0) {
             if(this.allowOr){
@@ -135,7 +135,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
             }
         }
 
-        if(this.hasFiltered()) {            
+        if(this.hasFiltered()) {
             actions.push(this.clearFilters);
         }
 
@@ -160,12 +160,12 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
 
     /**
      * Returns true if the given AggregationItem is filtered
-     * @param item 
+     * @param item
      */
     isFiltered(item: AggregationItem) : boolean {
         return this.filtered.has(item);
     }
-    
+
     /**
      * Returns true if there is an active selection (or exclusion) from this facet
      */
@@ -175,8 +175,8 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
 
     /**
      * Called when clicking on a facet item text
-     * @param item 
-     * @param event 
+     * @param item
+     * @param event
      */
     filterItem(item: AggregationItem, event) : boolean {
         if (this.data) {
@@ -197,7 +197,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
 
     /**
      * Returns true if the given AggregationItem is selected
-     * @param item 
+     * @param item
      */
     isSelected(item: AggregationItem) : boolean {
         return !!item.$selected;
@@ -218,7 +218,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
         if(items){
             items.forEach(item => {
                 if(this.isSelected(item))
-                    selected.push(item);                
+                    selected.push(item);
                 if(item.items){
                     this._getSelectedItems(item.items, selected);
                 }
@@ -226,10 +226,10 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
         }
         return selected;
     }
-    
+
     /**
      * Called when selecting/unselecting an item in the facet
-     * @param item 
+     * @param item
      */
     selectItem(item: AggregationItem) : boolean {
         if(!this.isFiltered(item)){
@@ -237,11 +237,11 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
         }
         return false;
     }
-    
+
 
     /**
      * Expand/Collapse a Tree node (the data may need to downloaded from the server)
-     * @param item 
+     * @param item
      */
     open(item: TreeAggregationNode, event: Event){
         if (item.hasChildren) {
@@ -261,7 +261,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
         event.stopPropagation();
         return false; // Prevent default action
     }
-    
+
     /* AbstractFacet abstract methods */
     isHidden(): boolean {
         return !this.data;

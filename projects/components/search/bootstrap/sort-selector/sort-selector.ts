@@ -28,12 +28,12 @@ export class BsSortSelector implements OnChanges {
 
     private setCurrentSort(name: string) {
         if (this.sortAction) {
-            let sortingChoices = this.getSortingChoices();
-            let current = sortingChoices && sortingChoices.find((value) => {
+            const sortingChoices = this.getSortingChoices();
+            const current = sortingChoices && sortingChoices.find((value) => {
                 return Utils.eqNC(value.name, name);
             });
             if (current) {
-                const queryOrderBy = this.searchService.query.orderBy
+                const queryOrderBy = this.searchService.query.orderBy;
                 this.sortAction.text = !!queryOrderBy ? "msg#sortSelector.sortOther" : current.display || current.name;
                 this.sortAction.icon = !!queryOrderBy ? 'fas fa-sort'
                     : this.isAscendingSort(current.orderByClause) ? 'fas fa-sort-amount-up'
@@ -54,7 +54,7 @@ export class BsSortSelector implements OnChanges {
     }
 
     private buildSortAction() {
-        let sortingChoices = this.getSortingChoices();
+        const sortingChoices = this.getSortingChoices();
         if (!sortingChoices || sortingChoices.length === 0) {
             this.sortAction = undefined;
             return;
@@ -64,7 +64,7 @@ export class BsSortSelector implements OnChanges {
             children: [
             ]
         });
-        for (let sortingChoice of sortingChoices) {
+        for (const sortingChoice of sortingChoices) {
             if (!this.searchService.hasRelevance && Utils.includes(sortingChoice.orderByClause, "globalrelevance")) {
                 continue;
             }
@@ -75,7 +75,7 @@ export class BsSortSelector implements OnChanges {
                 data: sortingChoice,
                 action: (item: Action, event: Event) => {
                     this.selectSort(item.data);
-                } 
+                }
             }));
         }
         if (!!this.searchService.results) {
@@ -102,21 +102,21 @@ export class BsSortSelector implements OnChanges {
     }
 
     private isTabSearch(): boolean {
-        let query = this.appService.ccquery;
+        const query = this.appService.ccquery;
         if (!query)
             return false;
-        let tabSearch = query.tabSearch;
+        const tabSearch = query.tabSearch;
         return !(!tabSearch || !tabSearch.column || !tabSearch.isActive ||
             !tabSearch.tabs || tabSearch.tabs.length === 0);
     }
 
     private getSortingChoices(): CCSortingChoice[] | null | undefined {
         if (this.isTabSearch()) {
-            let tabName = this.searchService.results && this.searchService.results.tab;
+            const tabName = this.searchService.results && this.searchService.results.tab;
             if (tabName && this.appService.ccquery) {
-                for (let t of this.appService.ccquery.tabSearch.tabs) {
+                for (const t of this.appService.ccquery.tabSearch.tabs) {
                     if (t.name === tabName) {
-                        let s = t.sortingChoices;
+                        const s = t.sortingChoices;
                         if (s && s.length > 0)
                             return s;
                         else
@@ -125,7 +125,7 @@ export class BsSortSelector implements OnChanges {
                 }
             }
         }
-        let q = this.appService.ccquery; 
+        const q = this.appService.ccquery;
         return q && q.sortingChoices;
     }
 }

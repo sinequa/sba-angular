@@ -541,8 +541,8 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
 
     @HostListener(&quot;click&quot;, [&quot;$event&quot;])
     clickHandler(event: Event) {
-        event.preventDefault()
-        event.stopPropagation()
+        event.preventDefault();
+        event.stopPropagation();
         this.toggle(this.dropdownToggle);
     }
 
@@ -637,7 +637,7 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
              * Popper - https://popper.js.org
              */
             if (typeof Popper &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
-                throw new TypeError(&#x27;Bootstrap\&#x27;s dropdowns require Popper.js (https://popper.js.org/)&#x27;)
+                throw new TypeError(&#x27;Bootstrap\&#x27;s dropdowns require Popper.js (https://popper.js.org/)&#x27;);
             }
 
             let referenceElement &#x3D; this.dropdownToggle;

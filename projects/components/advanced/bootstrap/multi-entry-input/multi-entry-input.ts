@@ -15,16 +15,16 @@ export enum ValueType {
  *
  */
 export interface MultiEntryInputOptions {
-    valueType: ValueType, // The element type
-    nbVisibleLines?: number, // Number of values shown in the view list.
-    distinct?: boolean, // Whether the list contains distinct value.
+    valueType: ValueType; // The element type
+    nbVisibleLines?: number; // Number of values shown in the view list.
+    distinct?: boolean; // Whether the list contains distinct value.
 }
 
 export const SQ_MULTI_ENTRY_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
     multi: true,
     useExisting: forwardRef(() => BsMultiEntryInput)
-}
+};
 
 /**
  * Component representing a text input that accepts multiple entries.
@@ -103,7 +103,7 @@ export class BsMultiEntryInput implements ControlValueAccessor, OnInit, AfterVie
 
         const index = this.values.length;
         this.values.splice(index, 0, newValue);
-        this.names.splice(index, 0, this.makeItemName(newValue))
+        this.names.splice(index, 0, this.makeItemName(newValue));
 
         this.triggerOnChange();
     }
@@ -153,7 +153,7 @@ export class BsMultiEntryInput implements ControlValueAccessor, OnInit, AfterVie
      */
     public get maxHeight(): string {
         //If size is undefined use 5 as default
-        const nbVisibleRows = this.options.nbVisibleLines ? Math.max(this.options.nbVisibleLines, 1) : 5; 
+        const nbVisibleRows = this.options.nbVisibleLines ? Math.max(this.options.nbVisibleLines, 1) : 5;
         return (2.5 + (nbVisibleRows - 1) * 1.7) + 'em';
     }
 

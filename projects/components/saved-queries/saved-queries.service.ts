@@ -49,7 +49,7 @@ export interface SavedQueryChangeEvent {
 
 
 // Model expected by the ManageSavedQueries Modal.
-export interface ManageSavedQueriesModel { 
+export interface ManageSavedQueriesModel {
     savedQueries: SavedQuery[];
     auditEvents?: AuditEvent[];
 }
@@ -67,15 +67,15 @@ export interface ExportQueryModel {
  * The modal types are unknown to this service.
  * The module using this service must provide these components
  * in their forRoot() method
- * 
+ *
  * Example below:
- *  
+ *
  *     public static forRoot(): ModuleWithProviders {
         return {
-            ngModule: SavedQueriesModule, 
+            ngModule: SavedQueriesModule,
             providers: [
-                { 
-                    provide: SAVEDQUERY_COMPONENTS, 
+                {
+                    provide: SAVEDQUERY_COMPONENTS,
                     useValue: {
                         editSavedQueryModal: EditSavedQuery,
                         manageSavedQueriesModal: ManageSavedQueries,
@@ -87,7 +87,7 @@ export interface ExportQueryModel {
             ]
         };
     }
- * 
+ *
  */
 export interface SavedQueryComponents {
     editSavedQueryModal: Type<any>;
@@ -102,12 +102,12 @@ export const SAVEDQUERY_COMPONENTS = new InjectionToken<SavedQueryComponents>('S
 })
 export class SavedQueriesService implements OnDestroy {
 
-    private readonly _events = new Subject<SavedQueryChangeEvent>();   
+    private readonly _events = new Subject<SavedQueryChangeEvent>();
     private readonly _changes = new Subject<SavedQueryChangeEvent>();
 
     // An application may want to alter the action (icon, etc.)
     public selectedRecordsAction: Action;
-    
+
     constructor(
         public userSettingsService: UserSettingsWebService,
         public searchService: SearchService,
@@ -117,7 +117,7 @@ export class SavedQueriesService implements OnDestroy {
         public downloadService: DownloadWebService,
         public selectionService: SelectionService,
         @Inject(SAVEDQUERY_COMPONENTS) public savedQueryComponents: SavedQueryComponents
-    ){        
+    ){
         // Listen to the user settings
         this.userSettingsService.events.subscribe(event => {
             // E.g. new login occurs
@@ -126,7 +126,7 @@ export class SavedQueriesService implements OnDestroy {
         });
         // Listen to own events, to trigger change events
         this._events.subscribe(event => {
-            if(SAVED_QUERIES_CHANGE_EVENTS.indexOf(event.type) !== -1){                
+            if(SAVED_QUERIES_CHANGE_EVENTS.indexOf(event.type) !== -1){
                 this.changes.next(event);
             }
         });
@@ -134,12 +134,14 @@ export class SavedQueriesService implements OnDestroy {
         this.selectedRecordsAction = new Action({
             icon: 'fas fa-download',
             title: 'msg#exportQuery.btnTitle',
-            action: (item: Action, event: Event) => {
-                this.exportModal(ExportSourceType.Selection);
-            }
+            action: (_item: Action, _event: Event) => {
+                this.exportModal(this.selectionService.haveSelectedRecords
+                    ? ExportSourceType.Selection
+                    : ExportSourceType.Result);
+            },
         });
     }
-    
+
 
     // GETTERS
 
@@ -157,7 +159,7 @@ export class SavedQueriesService implements OnDestroy {
     }
 
     /**
-     * Triggers any event among SavedQueryChangeEvent 
+     * Triggers any event among SavedQueryChangeEvent
      * (use for fine-grained control of saved queries workflow)
      */
     public get events() : Subject<SavedQueryChangeEvent> {
@@ -165,7 +167,7 @@ export class SavedQueriesService implements OnDestroy {
     }
 
     /**
-     * Triggers when events affect the list of saved queries 
+     * Triggers when events affect the list of saved queries
      * (use to refresh saved queries menus)
      * Cf. CHANGE_EVENTS list
      */
@@ -182,16 +184,16 @@ export class SavedQueriesService implements OnDestroy {
 
     /**
      * @returns a saved query with the given name or null if it does not exist
-     * @param name 
+     * @param name
      */
     public savedquery(name: string): SavedQuery | undefined {
-        let i = this.savedqueryIndex(name);
+        const i = this.savedqueryIndex(name);
         return i>= 0? this.savedqueries[i] : undefined;
     }
 
     private savedqueryIndex(name: string): number {
         for (let i = 0, ic = this.savedqueries.length; i < ic; i++) {
-            let savedquery = this.savedqueries[i];
+            const savedquery = this.savedqueries[i];
             if (savedquery && savedquery.name === name) {
                 return i;
             }
@@ -237,8 +239,8 @@ export class SavedQueriesService implements OnDestroy {
      */
     public updateSavedQuery(savedquery: SavedQuery, index : number) : boolean {
 
-        let prevIndex = this.savedqueryIndex(savedquery.name);
-        if(prevIndex != -1 && index != prevIndex)
+        const prevIndex = this.savedqueryIndex(savedquery.name);
+        if(prevIndex !== -1 && index !== prevIndex)
             return false; // A saved query with the same name exists at a different index
 
         if(index >= 0 && index < this.savedqueries.length){
@@ -255,18 +257,18 @@ export class SavedQueriesService implements OnDestroy {
             ]);
             return true;
 
-        } 
+        }
         return false;   // This saved query does not exist
     }
 
     /**
-     * Updates the full list of saved queries. 
-     * Emits an SavedQuery event.     
+     * Updates the full list of saved queries.
+     * Emits an SavedQuery event.
      * Update the data on the server.
      * @param savedqueries the new list of saved queries
      * @param auditEvents the list of audit events to log
      */
-    public updateSavedQueries(savedqueries : SavedQuery[], auditEvents?: AuditEvents) : boolean {        
+    public updateSavedQueries(savedqueries : SavedQuery[], auditEvents?: AuditEvents) : boolean {
         Utils.arraySet(this.savedqueries, savedqueries);
         this.events.next({type : SavedQueryEventType.Update});
         this.patchSavedQueries(auditEvents);
@@ -275,14 +277,14 @@ export class SavedQueriesService implements OnDestroy {
 
     /**
      * Deletes the given SavedQuery (based on its name)
-     * Emits an SavedQuery event.    
+     * Emits an SavedQuery event.
      * Update the data on the server.
-     * @param savedquery 
+     * @param savedquery
      * @returns true if saved query was deleted
      */
     public deleteSavedQuery(savedquery: SavedQuery) : boolean {
 
-        let index = this.savedqueryIndex(savedquery.name);
+        const index = this.savedqueryIndex(savedquery.name);
 
         if(index === -1)
             return false; // Nothing to delete
@@ -323,8 +325,8 @@ export class SavedQueriesService implements OnDestroy {
                 }
             );
     }
-    
-    
+
+
     public rssHref(item: SavedQuery) {
         return Utils.addSearchParams(this.appService.appWebService.makeUrl("query.rss"),
             {
@@ -412,7 +414,7 @@ export class SavedQueriesService implements OnDestroy {
      * the result is true if the query was saved.
      */
     createSavedQueryModal(query: Query = this.searchService.query) : Promise<boolean> {
-        let savedQuery: SavedQuery = {
+        const savedQuery: SavedQuery = {
             name: "",
             query: Query.copy(query)
         };
@@ -420,7 +422,7 @@ export class SavedQueriesService implements OnDestroy {
             .then((result) => {
                 if (result === ModalResult.OK) {
 
-                    let index = this.savedqueryIndex(savedQuery.name);
+                    const index = this.savedqueryIndex(savedQuery.name);
                     if (index !== -1) {
 
                         return this.modalService.yesNo("msg#savedQueries.savedQueryAlreadyExists")
@@ -447,13 +449,12 @@ export class SavedQueriesService implements OnDestroy {
      */
     public manageSavedQueriesModal() : Promise<boolean> {
 
-        const model: ManageSavedQueriesModel =
-            { savedQueries: Utils.copy(this.savedqueries) };
+        const model: ManageSavedQueriesModel = { savedQueries: Utils.copy(this.savedqueries) };
 
         return this.modalService.open(this.savedQueryComponents.manageSavedQueriesModal, {model})
             .then((result) => {
                 if (result === ModalResult.OK) {
-                    return this.updateSavedQueries(model.savedQueries, model.auditEvents)
+                    return this.updateSavedQueries(model.savedQueries, model.auditEvents);
                 }
                 return false;
             });

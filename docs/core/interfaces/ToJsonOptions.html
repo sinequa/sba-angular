@@ -273,7 +273,7 @@ export class Utils {
 
     private static baseExtend(dst, objs, deep?: boolean, sort?: boolean | ((a: string, b: string) &#x3D;&gt; number)) {
         for (let i &#x3D; 0, ii &#x3D; objs.length; i &lt; ii; ++i) {
-            let obj &#x3D; objs[i];
+            const obj &#x3D; objs[i];
             if (!Utils.isObject(obj) &amp;&amp; !Utils.isFunction(obj)) {
                 continue;
             }
@@ -287,25 +287,25 @@ export class Utils {
                 }
             }
             for (let j &#x3D; 0, jj &#x3D; keys.length; j &lt; jj; j++) {
-                let key &#x3D; keys[j];
-                let src &#x3D; obj[key];
+                const key &#x3D; keys[j];
+                const src &#x3D; obj[key];
                 if (deep &amp;&amp; Utils.isObject(src)) {
                     if (Utils.isDate(src)) {
                         dst[key] &#x3D; new Date(src.valueOf());
-                    } 
+                    }
                     else if (Utils.isRegExp(src)) {
                         dst[key] &#x3D; new RegExp(src);
-                    } 
+                    }
                     else if (src.nodeName) {
                         dst[key] &#x3D; src.cloneNode(true);
-                    } 
+                    }
                     else {
                         if (!Utils.isObject(dst[key])) {
                             dst[key] &#x3D; Utils.isArray(src) ? [] : {};
                         }
                         Utils.baseExtend(dst[key], [src], true);
                     }
-                } 
+                }
                 else {
                     dst[key] &#x3D; src;
                 }
@@ -366,12 +366,12 @@ export class Utils {
                 for (key in obj) {
                     // Need to check if hasOwnProperty exists,
                     // as on IE8 the result of querySelectorAll is an object without a hasOwnProperty function
-                    if (key !&#x3D; &#x27;prototype&#x27; &amp;&amp; key !&#x3D; &#x27;length&#x27; &amp;&amp; key !&#x3D; &#x27;name&#x27; &amp;&amp; (!obj.hasOwnProperty || obj.hasOwnProperty(key))) {
+                    if (key !&#x3D;&#x3D; &#x27;prototype&#x27; &amp;&amp; key !&#x3D;&#x3D; &#x27;length&#x27; &amp;&amp; key !&#x3D;&#x3D; &#x27;name&#x27; &amp;&amp; (!obj.hasOwnProperty || obj.hasOwnProperty(key))) {
                     iterator.call(context, obj[key], key, obj);
                     }
                 }
             } else if (Utils.isArray(obj) || Utils.isArrayLike(obj)) {
-                let isPrimitive &#x3D; typeof obj !&#x3D;&#x3D; &#x27;object&#x27;;
+                const isPrimitive &#x3D; typeof obj !&#x3D;&#x3D; &#x27;object&#x27;;
                 for (key &#x3D; 0, length &#x3D; obj.length; key &lt; length; key++) {
                     if (isPrimitive || key in obj) {
                         iterator.call(context, obj[key], key, obj);
@@ -406,9 +406,9 @@ export class Utils {
     /**
      * Makes a deep copy of the passed object or array and returns it.
      * Copies of source objects of the following types: &#x60;TypedArray&#x60;, &#x60;Date&#x60;, &#x60;RegExp&#x60; &#x60;Node&#x60; are
-     * made using the appropriate constructor. Arrays are created using &#x60;[]&#x60;. Other objects are created 
+     * made using the appropriate constructor. Arrays are created using &#x60;[]&#x60;. Other objects are created
      * using &#x60;Object.create&#x60; passing the source object&#x27;s protptype, if any.
-     * 
+     *
      * @param source The source item to copy (&#x60;Object&#x60;, &#x60;Array&#x60;, &#x60;TypedArray&#x60;, &#x60;Date&#x60;, &#x60;RegExp&#x60;, &#x60;Node&#x60;)
      * @param destination An optional item to use as the destination. If passed, the item is cleared
      * before the source is copied to it. The destination cannot be a &#x60;TypedArray&#x60; and cannot be the same
@@ -421,10 +421,10 @@ export class Utils {
 
         if (destination) {
             if (Utils.isTypedArray(destination)) {
-                throw &quot;Can&#x27;t copy! TypedArray destination cannot be mutated.&quot;;
+                throw new Error(&quot;Can&#x27;t copy! TypedArray destination cannot be mutated.&quot;);
             }
             if (source &#x3D;&#x3D;&#x3D; destination) {
-                throw &quot;Can&#x27;t copy! Source and destination are identical.&quot;;
+                throw new Error(&quot;Can&#x27;t copy! Source and destination are identical.&quot;);
             }
 
             // Empty the destination object
@@ -482,13 +482,13 @@ export class Utils {
             }
 
             // Already copied values
-            let index &#x3D; stackSource.indexOf(source);
+            const index &#x3D; stackSource.indexOf(source);
             if (index !&#x3D;&#x3D; -1) {
                 return stackDest[index];
             }
 
             if (Utils.isWindow(source)) {
-                throw &quot;Can&#x27;t copy! Making copies of Window instances is not supported.&quot;;
+                throw new Error(&quot;Can&#x27;t copy! Making copies of Window instances is not supported.&quot;);
             }
 
             let needsRecurse &#x3D; false;
@@ -521,10 +521,10 @@ export class Utils {
 
     // Not currently used
     private static copyWithoutNullOrEmpty(dst: MapOf&lt;any&gt;, src: MapOf&lt;any&gt;): MapOf&lt;any&gt; {
-        let keys &#x3D; Object.keys(src);
+        const keys &#x3D; Object.keys(src);
         for (let j &#x3D; 0, jj &#x3D; keys.length; j &lt; jj; j++) {
-            let key &#x3D; keys[j];
-            let value &#x3D; src[key];
+            const key &#x3D; keys[j];
+            const value &#x3D; src[key];
             if (value &#x3D;&#x3D;&#x3D; null || Utils.isEmpty(null)) {
                 continue;
             }
@@ -552,18 +552,18 @@ export class Utils {
     /**
      * Makes a shallow copy of the passed object. Empty string values are removed from the copied object.
      * A string value containing &#x60;&quot;&quot;&#x60; is copied as an empty string.
-     * 
+     *
      * @param defaults The object to copy
      * @return The copied object
      */
     static copyDefaults(defaults: {}): {} {
-        let _defaults &#x3D; Utils.copy(defaults);
+        const _defaults &#x3D; Utils.copy(defaults);
         if (_defaults) {
             Object.keys(_defaults).forEach(key &#x3D;&gt; {
                 // Unset parameters will come through as empty strings (regardless of type)
                 // Filter these out (to not hide defaults on the server) and accept &quot;&quot; as a way of explicitly
                 // setting a parameter to be an empty string
-                let value &#x3D; _defaults[key];
+                const value &#x3D; _defaults[key];
                 if (value &#x3D;&#x3D;&#x3D; &quot;&quot;) {
                     delete _defaults[key];
                 }
@@ -620,7 +620,7 @@ export class Utils {
      * @return The converted &#x60;Date&#x60; in UTC or &#x60;undefined&#x60;
      */
     static toDate(str: string): Date | undefined {
-        let ms &#x3D; Date.parse(str);
+        const ms &#x3D; Date.parse(str);
         if (!ms &amp;&amp; ms !&#x3D;&#x3D; 0) {
             return undefined;
         }
@@ -657,7 +657,7 @@ export class Utils {
         if (!date)  {
             return &quot;&quot;;
         }
-        let m &#x3D; moment(date);
+        const m &#x3D; moment(date);
         if (Utils.getTime(date) &#x3D;&#x3D;&#x3D; 0) {
             return m.format(&quot;YYYY-MM-DD&quot;);
         }
@@ -673,7 +673,7 @@ export class Utils {
      * @param date The Sinequa system date string to convert
      */
     static fromSysDateStr(value: string): Date | undefined {
-        let m &#x3D; moment(value, &quot;YYYY-MM-DD HH:mm:ss&quot;);
+        const m &#x3D; moment(value, &quot;YYYY-MM-DD HH:mm:ss&quot;);
         if (m.isValid()) {
             return m.toDate();
         }
@@ -681,14 +681,16 @@ export class Utils {
     }
 
     private static rxSysDateTime &#x3D; /^\d{4}-(?:0[1-9]|1[012])-(?:0[1-9]|[12][0-9]|3[01])(?: (?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d)?$/;
-    private static rxISO8601 &#x3D; /^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$/;
+    // private static rxISO8601 &#x3D; /^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?$/;
+    // ISO8601 combined date and time
+    private static rxISO8601DateTime &#x3D; /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*))(?:Z|(\+|-)([\d|:]*))?$/;
 
-    private static isSysDateLike(str: string): boolean {
+    private static isSysDateTime(str: string): boolean {
         return Utils.rxSysDateTime.test(str);
     }
 
-    private static isISO8601Like(str: string): boolean {
-        return Utils.rxISO8601.test(str);
+    private static isISO8601DateTime(str: string): boolean {
+        return Utils.rxISO8601DateTime.test(str);
     }
 
     /**
@@ -702,7 +704,7 @@ export class Utils {
         return JSON.stringify(value,
             function(key: string, value: any): any  {
                 if (key &amp;&amp; Utils.isDate(this[key])) {
-                    let str &#x3D; Utils.toSysDateStr(this[key]);
+                    const str &#x3D; Utils.toSysDateStr(this[key]);
                     return str;
                 }
                 return value;
@@ -718,28 +720,28 @@ export class Utils {
      * @param options Options for the conversion. The default is &#x60;{reviveDates: true}&#x60;
      */
     static fromJson(str: string, options: FromJsonOptions &#x3D; {reviveDates: true}): any {
-        if (!str || typeof str !&#x3D;&#x3D; &quot;string&quot;) { 
+        if (!str || typeof str !&#x3D;&#x3D; &quot;string&quot;) {
             return {};
         }
         try {
-            return JSON.parse(str,
+            return JSON.parse(str, options.reviveDates ?
                 (key, value) &#x3D;&gt; {
                     if (options.reviveDates &amp;&amp; typeof value &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
-                        if (Utils.isSysDateLike(value)) {
-                            let m &#x3D; moment(value, &quot;YYYY-MM-DD HH:mm:ss&quot;);
+                        if (Utils.isSysDateTime(value)) {
+                            const m &#x3D; moment(value, &quot;YYYY-MM-DD HH:mm:ss&quot;);
                             if (m.isValid()) {
                                 return m.toDate();
                             }
                         }
-                        else if (Utils.isISO8601Like(value)) {
-                            let m &#x3D; moment(value, moment.ISO_8601);
+                        else if (Utils.isISO8601DateTime(value)) {
+                            const m &#x3D; moment(value, moment.ISO_8601);
                             if (m.isValid()) {
                                 return m.toDate();
                             }
                         }
                     }
                     return value;
-                });
+                } : undefined);
         }
         catch (exception) {
             console.log(&quot;Utils.fromJson exception:&quot;, exception);
@@ -1042,12 +1044,12 @@ export class Utils {
 
         // Support: iOS 8.2 (not reproducible in simulator)
         // &quot;length&quot; in obj used to prevent JIT error (gh-11508)
-        let length &#x3D; &quot;length&quot; in Object(obj) &amp;&amp; obj.length;
+        const length &#x3D; &quot;length&quot; in Object(obj) &amp;&amp; obj.length;
 
         // NodeList objects (with &#x60;item&#x60; method) and
         // other objects with suitable length characteristics are array-like
         return Utils.isNumber(length) &amp;&amp;
-            (length &gt;&#x3D; 0 &amp;&amp; (length - 1) in obj || typeof obj.item &#x3D;&#x3D; &#x27;function&#x27;);
+            (length &gt;&#x3D; 0 &amp;&amp; (length - 1) in obj || typeof obj.item &#x3D;&#x3D;&#x3D; &#x27;function&#x27;);
     }
 
     /**
@@ -1079,14 +1081,14 @@ export class Utils {
     }
 
     /**
-     * 
-     * @param value 
-     * @param _default 
+     *
+     * @param value
+     * @param _default
      */
     static isTrue(
         value,
         _default?: boolean): boolean {
-        if (typeof (value) &#x3D;&#x3D; &#x27;string&#x27;) {
+        if (typeof (value) &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
             value &#x3D; value.toLowerCase();
         }
         switch (value) {
@@ -1109,7 +1111,7 @@ export class Utils {
      * Compares two strings using the current locale. The return value is negative
      * if &#x60;a&#x60; comes before &#x60;b&#x60; and positive if &#x60;a&#x60; comes after &#x60;b&#x60;. If the values
      * are equal then &#x60;0&#x60; is returned
-     * 
+     *
      * @param a The first string
      * @param b The second string
      * @param ignoreCase If set, do a case-insensitive comparison
@@ -1336,7 +1338,7 @@ export class Utils {
     /**
      * Replaces patterns in a string with a replacement string. The pattern can either a string
      * or a &#x60;RegExp&#x60;.
-     * 
+     *
      * @param s The string in which to search for a pattern
      * @param pattern The pattern
      * @param replacement The replacement string to replace any occurrences of the pattern in the string
@@ -1542,7 +1544,7 @@ export class Utils {
         if (!Utils.isObject(obj) || Utils.isEmpty(name)) {
             return undefined;
         }
-        let keys &#x3D; Object.keys(obj).filter(key &#x3D;&gt; Utils.eqNC(key, name));
+        const keys &#x3D; Object.keys(obj).filter(key &#x3D;&gt; Utils.eqNC(key, name));
         if (keys.length &#x3D;&#x3D;&#x3D; 0) {
             return undefined;
         }
@@ -1619,17 +1621,17 @@ export class Utils {
      * @param keys An array of keys or a callback function
      */
     static pick(obj: {}, keys: string[] | ((value: any, key: string, obj: object) &#x3D;&gt; boolean)): {} {
-        let ret &#x3D; {};
+        const ret &#x3D; {};
         if (!!obj) {
             if (Utils.isFunction(keys)) {
                 Object.keys(obj).forEach(key &#x3D;&gt; {
                     if (keys(obj[key], key, obj)) {
                         ret[key] &#x3D; obj[key];
-                    } 
+                    }
                 });
             }
             else {
-                for (let key of keys) {
+                for (const key of keys) {
                     if (obj.hasOwnProperty(key)) {
                         ret[key] &#x3D; obj[key];
                     }
@@ -1650,12 +1652,12 @@ export class Utils {
     static debounce(func: (...params) &#x3D;&gt; any, wait &#x3D; 0, immediate &#x3D; false, every?: (...params) &#x3D;&gt; any): (...params) &#x3D;&gt; any {
         let timeout, args, context, timestamp, result;
 
-        let later &#x3D; function() {
-            let last &#x3D; Date.now() - timestamp;
+        const later &#x3D; function() {
+            const last &#x3D; Date.now() - timestamp;
 
             if (last &lt; wait &amp;&amp; last &gt;&#x3D; 0) {
                 timeout &#x3D; setTimeout(later, wait - last);
-            } 
+            }
             else {
                 timeout &#x3D; null;
                 if (!immediate) {
@@ -1698,17 +1700,17 @@ export class Utils {
         let timeout, context, args, result;
         let previous &#x3D; 0;
 
-        let later &#x3D; function() {
+        const later &#x3D; function() {
             previous &#x3D; options.leading &#x3D;&#x3D;&#x3D; false ? 0 : Date.now();
             timeout &#x3D; null;
             result &#x3D; func.apply(context, args);
             if (!timeout) context &#x3D; args &#x3D; null;
         };
 
-        let throttled &#x3D; function(this: any) {
-            let now &#x3D; Date.now();
+        const throttled &#x3D; function(this: any) {
+            const now &#x3D; Date.now();
             if (!previous &amp;&amp; options.leading &#x3D;&#x3D;&#x3D; false) previous &#x3D; now;
-            let remaining &#x3D; wait - (now - previous);
+            const remaining &#x3D; wait - (now - previous);
             context &#x3D; this;
             args &#x3D; arguments;
             if (remaining &lt;&#x3D; 0 || remaining &gt; wait) {
@@ -1719,7 +1721,7 @@ export class Utils {
                 previous &#x3D; now;
                 result &#x3D; func.apply(context, args);
                 if (!timeout) context &#x3D; args &#x3D; null;
-            } 
+            }
             else if (!timeout &amp;&amp; options.trailing !&#x3D;&#x3D; false) {
                 timeout &#x3D; setTimeout(later, remaining);
             }
@@ -1734,7 +1736,7 @@ export class Utils {
 
         return throttled;
     }
-    
+
     private static frameTasks: Map&lt;(...params) &#x3D;&gt; any, FrameTask&gt; &#x3D; new Map&lt;(...params) &#x3D;&gt; any, FrameTask&gt;();
 
     /**
@@ -1750,7 +1752,7 @@ export class Utils {
                     Utils.frameTasks.clear();
                 });
             }
-            let task &#x3D; Utils.frameTasks.get(callback);
+            const task &#x3D; Utils.frameTasks.get(callback);
             if (task) {
                 // Update params
                 task.params &#x3D; params;
@@ -1786,7 +1788,7 @@ export class Utils {
         const urlObj &#x3D; Utils.makeURL(url);
         for (const param in params) {
             if (params.hasOwnProperty(param)) {
-                urlObj.searchParams.set(param, params[param]); 
+                urlObj.searchParams.set(param, params[param]);
             }
         }
         const index &#x3D; url.indexOf(&quot;?&quot;);
@@ -1824,7 +1826,7 @@ export class Utils {
 
     /**
      * Add paths to a url adding path separators as necessary
-     * 
+     *
      * @param url The url
      * @param paths One or more paths to add to the url
      */
@@ -1849,9 +1851,9 @@ export class Utils {
     static makeHttpParams(params: MapOf&lt;string | boolean | number | Date | object | undefined&gt;): HttpParams {
         let httpParams &#x3D; new HttpParams({encoder: new SqHttpParameterCodec()});
         if (params) {
-            for (let param in params) {
+            for (const param in params) {
                 if (params.hasOwnProperty(param)) {
-                    let _value &#x3D; params[param];
+                    const _value &#x3D; params[param];
                     let value &#x3D; &quot;&quot;;
                     if (Utils.isString(_value)) {
                         value &#x3D; _value;
@@ -2014,6 +2016,13 @@ export class Utils {
         return /^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/.test(str);
     }
 
+    /**
+     * Round the passed number away from zero: 4.5 &#x3D;&gt; 5, -4.5 &#x3D;&gt; -5
+     */
+    static roundAway(num: number): number {
+        return num &gt;&#x3D; 0 ? Math.round(num) : Math.sign(num) * Math.round(Math.abs(num));
+    }
+
     private static matchSuffix(str: string, factor: number, ...suffixes: string[]): {str: string, factor: number} | undefined {
         for (const suffix of suffixes) {
             if (Utils.endsWith(str, suffix)) {
@@ -2109,7 +2118,7 @@ export class Utils {
         if (str) {
             let current &#x3D; 0;
             const tokens &#x3D; str.match(/[0-9\.,]+|[a-zA-Z]+/g) || [];
-            for (let token of tokens) {
+            for (const token of tokens) {
                 if (/[a-zA-Z]/.test(token)) {
                     total +&#x3D; Utils.calculateDuration(current, token);
                     current &#x3D; 0;

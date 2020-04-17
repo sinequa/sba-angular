@@ -33,7 +33,7 @@ export class BsNetworkActivity implements OnInit, OnDestroy {
                 setTimeout(() => this.changeDetectorRef.markForCheck(), 0); // Value can switch synchronously => this can cause "Expression has changed" error
             });
     }
-    
+
     unbind() {
         if (this.subscription) {
             this.subscription.unsubscribe();

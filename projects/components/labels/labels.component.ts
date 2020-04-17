@@ -33,22 +33,22 @@ export class Labels implements OnChanges {
         private appService: AppService,
         private labelsService: LabelsService) {
         this.adding = false;
-        this.newLabelRef = {value: ""};     
+        this.newLabelRef = {value: ""};
     }
-    
+
     ngOnChanges() {
         this.labelsField = this.appService.resolveColumnAlias(this.field);
         this.showLabels = !!this.labelsField;
         this.hostClasses = [this.class, this.public ? "sq-labels-public" : "sq-labels-private"].join(" ");
-        this.makeLabels();  
+        this.makeLabels();
     }
-        
+
     private makeLabels() {
         if (!this.showLabels) {
             this.labels = [];
             return;
         }
-        let labels = this.record[this.labelsField];
+        const labels = this.record[this.labelsField];
         if (Utils.isArray(labels)) {
             this.labels = this.labelsService.sort(labels.slice(), this.public);
         }
@@ -74,7 +74,8 @@ export class Labels implements OnChanges {
 
     onSubmit(){
         if (this.newLabelRef.value) {
-            let labels = this.labelsService.split(this.newLabelRef.value).filter((value) => { return this.labels.indexOf(value) === -1; });
+            const labels = this.labelsService.split(this.newLabelRef.value)
+                .filter((value) => this.labels.indexOf(value) === -1);
             Utils.subscribe(this.labelsService.addLabels(labels, [this.record.id], this.public),
                 (value) => {
                     this.adding = false;

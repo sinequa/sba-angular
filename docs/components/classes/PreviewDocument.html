@@ -572,7 +572,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Select a specific entity by applying specific highlight classes 
+                    <div class="io-description"><p>Select a specific entity by applying specific highlight classes
 to the DOM elements and scrolling the view to center around them.</p>
 </div>
 
@@ -950,9 +950,9 @@ export class PreviewDocument {
     private readonly _window: Window;
 
     constructor(iframe: ElementRef){
-        let frame &#x3D; iframe.nativeElement;
+        const frame &#x3D; iframe.nativeElement;
         if (frame &amp;&amp; frame.contentWindow &amp;&amp; frame.contentWindow.frames) {
-            let sheet &#x3D; frame.contentWindow.frames[&quot;frSheet&quot;]; // aspose xls preview
+            const sheet &#x3D; frame.contentWindow.frames[&quot;frSheet&quot;]; // aspose xls preview
             if (sheet) {
                 return sheet;
             }
@@ -962,7 +962,7 @@ export class PreviewDocument {
 
 
     // PUBLIC METHODS
-    
+
     /**
      * Return the Window of the iframe containing the element
      */
@@ -979,12 +979,12 @@ export class PreviewDocument {
 
     /**
      * Insert a given DOM Element in the body of the document preview
-     * @param component 
+     * @param component
      */
     public insertComponent(component){
         this.document.body.appendChild(component);
     }
-    
+
     /**
      * Returns the text of a given entity
      * @param categoryId Category of the entity
@@ -994,7 +994,7 @@ export class PreviewDocument {
         if (index &lt; 0) {
             return &quot;&quot;;
         }
-        let nodes: NodeList &#x3D; this.document.querySelectorAll(&quot;#&quot;+categoryId + &quot;_&quot; + index);
+        const nodes: NodeList &#x3D; this.document.querySelectorAll(&quot;#&quot;+categoryId + &quot;_&quot; + index);
         if (nodes &#x3D;&#x3D; null || nodes.length &#x3D;&#x3D;&#x3D;0) {
             return &quot;&quot;;
         }
@@ -1007,18 +1007,18 @@ export class PreviewDocument {
      * Update the location of the entities&#x27; SVG background (for some converters)
      */
     public setSvgBackgroundPositionAndSize(): void {
-        var svgList: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;svg&quot;);
+        const svgList: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;svg&quot;);
         if (svgList !&#x3D; null) {
-            for (var i &#x3D; 0, ic &#x3D; svgList.length; i &lt; ic; i++) {
-                var svg &#x3D; svgList.item(i);
-                var tspanList: HTMLCollectionOf&lt;SVGTSpanElement&gt; &#x3D; svg.getElementsByTagName(&quot;tspan&quot;);
+            for (let i &#x3D; 0, ic &#x3D; svgList.length; i &lt; ic; i++) {
+                const svg &#x3D; svgList.item(i);
+                const tspanList: HTMLCollectionOf&lt;SVGTSpanElement&gt; &#x3D; svg.getElementsByTagName(&quot;tspan&quot;);
                 if (tspanList !&#x3D; null) {
-                    for (var j &#x3D; 0, jc &#x3D; tspanList.length; j &lt; jc; j++) {
-                        var tspan &#x3D; tspanList.item(j);
+                    for (let j &#x3D; 0, jc &#x3D; tspanList.length; j &lt; jc; j++) {
+                        const tspan &#x3D; tspanList.item(j);
                         if (tspan) {
-                            var bgId &#x3D; tspan.getAttribute(&quot;data-entity-background&quot;);
+                            const bgId &#x3D; tspan.getAttribute(&quot;data-entity-background&quot;);
                             if (bgId) {
-                                var rect &#x3D; this.getFirst(this.getDocElements(bgId));
+                                const rect &#x3D; this.getFirst(this.getDocElements(bgId));
                                 if (rect) {
                                     this.resizeSvgBackground(rect, tspan);
                                 }
@@ -1031,28 +1031,28 @@ export class PreviewDocument {
     }
 
     /**
-     * Select a specific entity by applying specific highlight classes 
+     * Select a specific entity by applying specific highlight classes
      * to the DOM elements and scrolling the view to center around them.
      * @param categoryId Category of the entity
      * @param index Index of the entity in that category
      */
     public selectHighlight(categoryId: string, index: number) : void {
-        
+
         // Move selection
-        let targetElements &#x3D; this.getDocElements(categoryId + &quot;_&quot; + index);
-        if (!targetElements || targetElements.length &#x3D;&#x3D; 0) {
+        const targetElements &#x3D; this.getDocElements(categoryId + &quot;_&quot; + index);
+        if (!targetElements || targetElements.length &#x3D;&#x3D;&#x3D; 0) {
             return;
         }
 
         this.clearHighlightSelection();
 
-        for (var i &#x3D; 0; i&lt; targetElements.length; i++) {
-            this.setHighlightSelection(targetElements[i], i &#x3D;&#x3D; 0, i &#x3D;&#x3D; targetElements.length - 1);
+        for (let i &#x3D; 0; i&lt; targetElements.length; i++) {
+            this.setHighlightSelection(targetElements[i], i &#x3D;&#x3D;&#x3D; 0, i &#x3D;&#x3D;&#x3D; targetElements.length - 1);
         }
 
         // Scroll
-        let scrollContainer: Element &#x3D; this.getScrollingContainer();
-        let [x, y]: [number,  number] &#x3D; PreviewDocument.computeTargetScroll(targetElements, scrollContainer);
+        const scrollContainer: Element &#x3D; this.getScrollingContainer();
+        const [x, y]: [number,  number] &#x3D; PreviewDocument.computeTargetScroll(targetElements, scrollContainer);
         this._window.scrollBy(x, y);
     }
 
@@ -1064,7 +1064,7 @@ export class PreviewDocument {
         Array.from(this.document.getElementsByClassName(PreviewDocument.SELECTED_HIGHLIGHT_CLASS))
             .forEach(element &#x3D;&gt; element.classList.remove(PreviewDocument.SELECTED_HIGHLIGHT_CLASS));
         // Clear SVG elements borders
-        let elements: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;line.sq-svg&quot;);
+        const elements: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;line.sq-svg&quot;);
         for (let i &#x3D; 0; i &lt; elements.length; i++) {
             const parentNode &#x3D; elements[i].parentNode;
             if (parentNode) {
@@ -1082,15 +1082,15 @@ export class PreviewDocument {
         this.updateHighlightFilterState(filters);
         this.clearHighlightSelection();
     }
-    
+
     /**
      * Loop through every highlighted element in the document and turn highlights on or off based on the filters object
      * @param filters object where each key provides a filter for each category of entity/highlight
      */
     public updateHighlightFilterState(filters: { [key: string]: HighlightCategoryFilterState }):void {
-        let elements: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;[data-entity-display], .extractslocations, .matchlocations&quot;);
+        const elements: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;[data-entity-display], .extractslocations, .matchlocations&quot;);
         for (let i &#x3D; 0; i &lt; elements.length; i++) {
-            let element: Element &#x3D; elements[i];
+            const element: Element &#x3D; elements[i];
             if (PreviewDocument.elementIsFilteredOut(element, filters)) {
                 element.classList.add(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
             }
@@ -1107,12 +1107,12 @@ export class PreviewDocument {
      * @param value e.g. &quot;BILL GATES&quot;
      */
     public toggleHighlight(category: string, on: boolean, value?: string) {
-        let elements: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;.&quot;+category);
+        const elements: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;.&quot;+category);
         elements.forEach(element &#x3D;&gt; {
-            if(!value 
+            if(!value
                 || (element.hasAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE) &amp;&amp; value &#x3D;&#x3D;&#x3D; element.getAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE))
                 || (element.hasAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE) &amp;&amp; value &#x3D;&#x3D;&#x3D; element.getAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE))) {
-                
+
                 if(on){
                     element.classList.remove(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
                 }
@@ -1122,7 +1122,7 @@ export class PreviewDocument {
             }
         });
     }
-    
+
 
 
     // PRIVATE METHODS
@@ -1155,18 +1155,18 @@ export class PreviewDocument {
     }
 
     private setHighlightSelectionSVG(elt: Element, isFirst: boolean, isLast: boolean): void {
-        var bgId &#x3D; elt.getAttribute(&quot;data-entity-background&quot;);
+        const bgId &#x3D; elt.getAttribute(&quot;data-entity-background&quot;);
         if (!bgId) return;
-        var rect: SVGRectElement &#x3D; &lt;SVGRectElement&gt;this.getFirst(this.getDocElements(bgId));
-        var group &#x3D; rect.parentNode;
-        var rectPosition &#x3D; rect.getBBox();
+        const rect: SVGRectElement &#x3D; &lt;SVGRectElement&gt;this.getFirst(this.getDocElements(bgId));
+        const group &#x3D; rect.parentNode;
+        const rectPosition &#x3D; rect.getBBox();
 
         if (group) {
-            var top &#x3D; rectPosition.y;
-            var bottom &#x3D; rectPosition.y + rectPosition.height;
-            var left &#x3D; rectPosition.x;
-            var right &#x3D; rectPosition.x + rectPosition.width;
-            var valueTransform &#x3D; rect.getAttribute(&quot;transform&quot;);
+            const top &#x3D; rectPosition.y;
+            const bottom &#x3D; rectPosition.y + rectPosition.height;
+            const left &#x3D; rectPosition.x;
+            const right &#x3D; rectPosition.x + rectPosition.width;
+            const valueTransform &#x3D; rect.getAttribute(&quot;transform&quot;);
             this.addSvgLine(group, left, top   , right, top   , valueTransform);
             this.addSvgLine(group, left, bottom, right, bottom, valueTransform);
             if (isFirst) this.addSvgLine(group, left , top, left , bottom, valueTransform);
@@ -1175,7 +1175,7 @@ export class PreviewDocument {
     }
 
     private addSvgLine(group: Node, x1: number, y1: number, x2: number, y2: number, transform: string | null): void {
-        var line: Element &#x3D; this.document.createElementNS(&quot;http://www.w3.org/2000/svg&quot;,&quot;line&quot;);
+        const line: Element &#x3D; this.document.createElementNS(&quot;http://www.w3.org/2000/svg&quot;,&quot;line&quot;);
         line.setAttribute(&quot;class&quot;, PreviewDocument.SVG_LINE_CLASS);
         line.setAttribute(&quot;x1&quot;, String(x1));
         line.setAttribute(&quot;y1&quot;, String(y1));
@@ -1187,50 +1187,49 @@ export class PreviewDocument {
 
 
     private resizeSvgBackground(rect: Element, tspan: SVGTSpanElement): void {
-        var elt: Element &#x3D; tspan;
-        while (elt.tagName !&#x3D; &quot;text&quot;)
-        {
+        let elt: Element &#x3D; tspan;
+        while (elt.tagName !&#x3D;&#x3D; &quot;text&quot;) {
             elt &#x3D; elt.parentNode as Element;
             if (elt &#x3D;&#x3D; null) break;
         }
-        var text: SVGTextElement &#x3D; elt as SVGTextElement;
-        var textBoxPixel: ClientRect &#x3D; text.getBoundingClientRect();
-        var textBoxSVG: SVGRect &#x3D; text.getBBox();
-        if (textBoxPixel.height &#x3D;&#x3D; 0 || textBoxPixel.width &#x3D;&#x3D; 0) return;
-        var scaleX &#x3D; textBoxSVG.width / textBoxPixel.width;
-        var scaleY &#x3D; textBoxSVG.height / textBoxPixel.height;
-        var deltaX &#x3D; 2 * scaleX;
-        var deltaY &#x3D; 2 * scaleY;
+        const text: SVGTextElement &#x3D; elt as SVGTextElement;
+        const textBoxPixel: ClientRect &#x3D; text.getBoundingClientRect();
+        const textBoxSVG: SVGRect &#x3D; text.getBBox();
+        if (textBoxPixel.height &#x3D;&#x3D;&#x3D; 0 || textBoxPixel.width &#x3D;&#x3D;&#x3D; 0) return;
+        const scaleX &#x3D; textBoxSVG.width / textBoxPixel.width;
+        const scaleY &#x3D; textBoxSVG.height / textBoxPixel.height;
+        const deltaX &#x3D; 2 * scaleX;
+        const deltaY &#x3D; 2 * scaleY;
 
-        var firstCharRect &#x3D; tspan.getExtentOfChar(0);
-        var tspanWidth &#x3D; tspan.getComputedTextLength();
+        const firstCharRect &#x3D; tspan.getExtentOfChar(0);
+        const tspanWidth &#x3D; tspan.getComputedTextLength();
 
         rect.setAttribute(&quot;x&quot;, String(firstCharRect.x - deltaX));
         rect.setAttribute(&quot;y&quot;, String(firstCharRect.y - deltaY));
         rect.setAttribute(&quot;width&quot;, String(tspanWidth + 2 * deltaX));
         rect.setAttribute(&quot;height&quot;, String(textBoxSVG.height + 2 * deltaY));
-        var valueTransform &#x3D; text.getAttribute(&quot;transform&quot;);
+        const valueTransform &#x3D; text.getAttribute(&quot;transform&quot;);
         if (valueTransform) rect.setAttribute(&quot;transform&quot;, valueTransform);
     }
-    
+
     private getDocElements(id: string): Array&lt;Element&gt; {
-        var list &#x3D; Array&lt;Element&gt;();
+        const list &#x3D; Array&lt;Element&gt;();
         // Get HTML elements directly by id
-        var eltList: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;#&quot; + id);
+        const eltList: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;#&quot; + id);
         for (let i &#x3D; 0; i &lt; eltList.length; i++) {
             list.push(eltList[i]);
         }
         // Get SVG tspan iterating on them (jquery querySelectorAll didn&#x27;t return SVG inner elements)
-        var svgList: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;svg&quot;);
+        const svgList: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;svg&quot;);
         if (svgList !&#x3D; null) {
-            for (var i &#x3D; 0, ic &#x3D; svgList.length; i &lt; ic; i++) {
-                var svg &#x3D; svgList.item(i);
-                var tspanList: HTMLCollectionOf&lt;SVGTSpanElement&gt; &#x3D; svg.getElementsByTagName(&quot;tspan&quot;);
+            for (let i &#x3D; 0, ic &#x3D; svgList.length; i &lt; ic; i++) {
+                const svg &#x3D; svgList.item(i);
+                const tspanList: HTMLCollectionOf&lt;SVGTSpanElement&gt; &#x3D; svg.getElementsByTagName(&quot;tspan&quot;);
                 if (tspanList !&#x3D; null) {
-                    for (var j &#x3D; 0, jc &#x3D; tspanList.length; j &lt; jc; j++) {
-                        var tspan &#x3D; tspanList.item(j);
+                    for (let j &#x3D; 0, jc &#x3D; tspanList.length; j &lt; jc; j++) {
+                        const tspan &#x3D; tspanList.item(j);
                         if (tspan) {
-                            if (tspan.id &#x3D;&#x3D; id) list.push(tspan);
+                            if (tspan.id &#x3D;&#x3D;&#x3D; id) list.push(tspan);
                         }
                     }
                 }
@@ -1251,31 +1250,31 @@ export class PreviewDocument {
 
 
     // PRIVATE STATIC (from highlight helper)
-    
+
 
     private static elementIsFilteredOut(element: Element, filters: {[key: string]: HighlightCategoryFilterState}): boolean {
-        let elementClass: string &#x3D; this.getElementCategory(element, Object.keys(filters));
+        const elementClass: string &#x3D; this.getElementCategory(element, Object.keys(filters));
         if (elementClass &#x3D;&#x3D; null) {
             return false;
         }
-        let filterState &#x3D; filters[elementClass];
+        const filterState &#x3D; filters[elementClass];
         if (filterState &#x3D;&#x3D; null) {
             return false;
         }
-        if (filterState.choice &#x3D;&#x3D; HighlightCategoryFilterChoice.None) {
+        if (filterState.choice &#x3D;&#x3D;&#x3D; HighlightCategoryFilterChoice.None) {
             return true;
         }
-        if (filterState.choice &#x3D;&#x3D; HighlightCategoryFilterChoice.All) {
+        if (filterState.choice &#x3D;&#x3D;&#x3D; HighlightCategoryFilterChoice.All) {
             return false;
         }
         if (element.hasAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE)) {
-            return filterState.filterValue !&#x3D; element.getAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE);
+            return filterState.filterValue !&#x3D;&#x3D; element.getAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE);
         }
-        return filterState.filterValue !&#x3D; element.getAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE);
+        return filterState.filterValue !&#x3D;&#x3D; element.getAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE);
     }
 
     private static getElementCategory(element: Element, categoryIds: string[]): string {
-        for (let categoryId of categoryIds) {
+        for (const categoryId of categoryIds) {
             if (element.classList.contains(categoryId)) {
                 return categoryId;
             }
@@ -1285,28 +1284,28 @@ export class PreviewDocument {
 
     private static computeTargetScroll(elementsToCenter: Array&lt;Element&gt;, container: Element): [number, number] {
         // Check for scrollability on the container
-        let computedStyle &#x3D; getComputedStyle(container);
+        const computedStyle &#x3D; getComputedStyle(container);
         if (computedStyle.overflow &#x3D;&#x3D;&#x3D; &quot;hidden&quot;) {
             return [0, 0];
         }
-        let elementRectangles &#x3D; elementsToCenter.map(element &#x3D;&gt; element.getBoundingClientRect());
-        let targetRectangle &#x3D; this.computeBoundingRectangle(elementRectangles);
+        const elementRectangles &#x3D; elementsToCenter.map(element &#x3D;&gt; element.getBoundingClientRect());
+        const targetRectangle &#x3D; this.computeBoundingRectangle(elementRectangles);
         if (!targetRectangle) {
             return [0, 0];
         }
-        let availableWidth: number &#x3D; container.clientWidth;
-        let availableHeight: number &#x3D; container.clientHeight;
-        let x &#x3D; computedStyle.overflowX &#x3D;&#x3D;&#x3D; &quot;hidden&quot; ? 0 : targetRectangle.left - ((availableWidth - targetRectangle.width)/2);
-        let y &#x3D; computedStyle.overflowY &#x3D;&#x3D;&#x3D; &quot;hidden&quot; ? 0 : targetRectangle.top - ((availableHeight - targetRectangle.height)/2);
+        const availableWidth: number &#x3D; container.clientWidth;
+        const availableHeight: number &#x3D; container.clientHeight;
+        const x &#x3D; computedStyle.overflowX &#x3D;&#x3D;&#x3D; &quot;hidden&quot; ? 0 : targetRectangle.left - ((availableWidth - targetRectangle.width)/2);
+        const y &#x3D; computedStyle.overflowY &#x3D;&#x3D;&#x3D; &quot;hidden&quot; ? 0 : targetRectangle.top - ((availableHeight - targetRectangle.height)/2);
         return [x, y];
     }
 
     private static computeBoundingRectangle(rectangles: (DOMRect | ClientRect)[]): DOMRect | ClientRect | undefined {
-        if (!rectangles || rectangles.length &#x3D;&#x3D; 0) {
+        if (!rectangles || rectangles.length &#x3D;&#x3D;&#x3D; 0) {
             return undefined;
         }
-        var result: DOMRect | ClientRect | undefined;
-        for (var i &#x3D; 0; i &lt; rectangles.length; i++) {
+        let result: DOMRect | ClientRect | undefined;
+        for (let i &#x3D; 0; i &lt; rectangles.length; i++) {
             result &#x3D; this.computeRectangleUnion(result, rectangles[i]);
         }
         return result;
@@ -1319,10 +1318,10 @@ export class PreviewDocument {
         if (rectangle2 &#x3D;&#x3D; null) {
             return rectangle1;
         }
-        let left &#x3D; Math.min(rectangle1.left, rectangle2.left);
-        let right &#x3D; Math.max(rectangle1.right, rectangle2.right);
-        let top &#x3D; Math.min(rectangle1.top, rectangle2.top);
-        let bottom &#x3D; Math.max(rectangle1.bottom, rectangle2.bottom);
+        const left &#x3D; Math.min(rectangle1.left, rectangle2.left);
+        const right &#x3D; Math.max(rectangle1.right, rectangle2.right);
+        const top &#x3D; Math.min(rectangle1.top, rectangle2.top);
+        const bottom &#x3D; Math.max(rectangle1.bottom, rectangle2.bottom);
         return new DOMRect(left, top, right - left, bottom - top);
     }
 }

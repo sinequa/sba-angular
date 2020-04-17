@@ -63,7 +63,7 @@
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>A generic service for invoking JsonMethod plugins </p>
+                <p>A generic service for invoking JsonMethod plugins</p>
 
             </p>
 
@@ -572,7 +572,7 @@ import {START_CONFIG, StartConfig} from &quot;./start-config.web.service&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
 
 /**
- * A generic service for invoking JsonMethod plugins 
+ * A generic service for invoking JsonMethod plugins
  */
 @Injectable({
   providedIn: &quot;root&quot;
@@ -587,7 +587,7 @@ export class JsonMethodPluginService extends HttpService{
 
   /**
    * Call a JsonMethod plugin
-   * 
+   *
    * @param method The name of the JsonMethod plugin
    * @param query Parameters to pass to the plugin
    * @returns An observable of the plugin&#x27;s return value
@@ -596,7 +596,7 @@ export class JsonMethodPluginService extends HttpService{
     if (!Utils.isObject(query)) {
       return throwError({error: &quot;invalid query object&quot;});
     }
-    const observable &#x3D; this.httpClient.post(this.makeUrl(method), query);                                                  
+    const observable &#x3D; this.httpClient.post(this.makeUrl(method), query);
 
     Utils.subscribe(observable,
       (response) &#x3D;&gt; {

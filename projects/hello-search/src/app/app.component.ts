@@ -22,7 +22,7 @@ export class AppComponent implements AfterViewInit {
         public appService: AppService,
         public queryWebService: QueryWebService,
         public notificationsService: NotificationsService) {
-            
+
 
         this.searchControl = new FormControl("");
         this.form = this.formBuilder.group({
@@ -35,8 +35,8 @@ export class AppComponent implements AfterViewInit {
     }
 
     search() {
-        let ccquery = this.appService.ccquery;
-        let query = new Query(ccquery ? ccquery.name : "_unknown");
+        const ccquery = this.appService.ccquery;
+        const query = new Query(ccquery ? ccquery.name : "_unknown");
         query.text = this.searchControl.value || "";
         this.results$ = this.queryWebService.getResults(query);
     }

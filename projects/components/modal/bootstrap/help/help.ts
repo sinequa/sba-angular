@@ -17,7 +17,7 @@ export class BsHelp  implements OnInit {
     }
 
     ngOnInit() {
-        let url = this.startConfig.helpUrl || "assets/help/index.html";        
+        const url = this.startConfig.helpUrl || "assets/help/index.html";
         this.url = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }
 }

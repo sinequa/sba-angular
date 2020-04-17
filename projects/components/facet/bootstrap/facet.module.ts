@@ -38,7 +38,7 @@ import {BsFacetMultiComponent} from "./facet-multi/facet-multi.component";
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        
+
         IntlModule,
 
         UtilsModule,
@@ -54,35 +54,35 @@ import {BsFacetMultiComponent} from "./facet-multi/facet-multi.component";
         PieChartModule,
         TreeMapModule,
         NumberCardModule,
-        GaugeModule,     
+        GaugeModule,
         Ng5SliderModule
     ],
     declarations: [
         BsChart, BsFacetChart, BsRefine,
-        BsFacetRange, BsMySearch, BsFacetBar, 
+        BsFacetRange, BsMySearch, BsFacetBar,
         BsFacetCard, BsFacetList, BsFacetTree,
         BsFacetFilters, BsFacetFiltersBackground,
         BsFacetMultiComponent
     ],
     exports: [
         BsChart, BsFacetChart, BsRefine,
-        BsFacetRange, BsMySearch, BsFacetBar, 
+        BsFacetRange, BsMySearch, BsFacetBar,
         BsFacetCard, BsFacetList, BsFacetTree,
         BsFacetFilters,
         BsFacetMultiComponent
     ],
 })
-export class BsFacetModule {    
+export class BsFacetModule {
     public static forRoot(allFacets: any[] = [], defaultFacets: FacetState[] = []): ModuleWithProviders {
         return {
-            ngModule: BsFacetModule, 
+            ngModule: BsFacetModule,
             providers: [
-                { 
-                    provide: ALL_FACETS, 
+                {
+                    provide: ALL_FACETS,
                     useValue: allFacets
                 },
-                { 
-                    provide: DEFAULT_FACETS, 
+                {
+                    provide: DEFAULT_FACETS,
                     useValue: defaultFacets
                 },
             ]

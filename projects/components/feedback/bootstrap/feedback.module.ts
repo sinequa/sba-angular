@@ -27,8 +27,8 @@ import {BsFeedbackMenu} from "./feedback-menu/feedback-menu";
         BsFeedbackMenu
     ],
     providers: [
-        { 
-            provide: FEEDBACK_COMPONENTS, 
+        {
+            provide: FEEDBACK_COMPONENTS,
             useValue: {
                 feedbackForm: BsFeedbackForm
             }

@@ -312,7 +312,7 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
     //stores indices of selected items
     private selectedItems: number[];
     private onChangeCallback: (_: any) &#x3D;&gt; void &#x3D; () &#x3D;&gt; {};
-    
+
     ngOnInit() {
         this.clearSelected();
         // disable an empty list
@@ -345,9 +345,9 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
             event.preventDefault();
             event.stopImmediatePropagation();
             Utils.delay().then(() &#x3D;&gt; {
-                this.buttonElement.nativeElement.focus();         
+                this.buttonElement.nativeElement.focus();
             });
-            return;                
+            return;
         }
         this.setOpen(false);
     }
@@ -415,7 +415,7 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
     }
 
     toggleItemSelected(itemIndex: number): void {
-        let idx: number &#x3D; this.selectedItems.indexOf(itemIndex);
+        const idx: number &#x3D; this.selectedItems.indexOf(itemIndex);
 
         // Remove item if it was already selected
         if (idx &gt; -1) {
@@ -451,13 +451,13 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
         const selectCount &#x3D; this.countSelected();
         const threshold &#x3D; this.options.visibleThreshold || 4;
 
-        if (selectCount &#x3D;&#x3D; 0) {
+        if (selectCount &#x3D;&#x3D;&#x3D; 0) {
             return &quot;msg#advanced.select.noItems&quot;;
         }
         if (!this.options.multiple) {
             return this.options.items.getName(this.selectedItems[0]);
         }
-        if (selectCount &#x3D;&#x3D; this.options.items.length) {
+        if (selectCount &#x3D;&#x3D;&#x3D; this.options.items.length) {
             return &quot;msg#advanced.select.allItems&quot;;
         }
         if (selectCount &gt; threshold) {

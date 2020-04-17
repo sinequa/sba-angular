@@ -7,7 +7,7 @@ import {Utils, MapOf} from "@sinequa/core/base";
 import {Results, RFMData} from "./query.web.service";
 
 /**
- * A service for calling the search.rfm web service 
+ * A service for calling the search.rfm web service
  */
 @Injectable({
     providedIn: "root"

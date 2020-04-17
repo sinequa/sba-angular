@@ -210,13 +210,13 @@ export interface DropdownMenuOptions {
 export class BsDropdownMenu implements OnInit {
     @Input(&quot;sq-dropdown-menu&quot;) options: DropdownMenuOptions;
     @HostBinding(&quot;class.dropdown-menu-right&quot;) rightAligned;
-    
+
     constructor(
         private elementRef: ElementRef) {
     }
-    
+
     ngOnInit() {
-        let element: HTMLElement &#x3D; this.elementRef.nativeElement;
+        const element: HTMLElement &#x3D; this.elementRef.nativeElement;
         if (this.options.item.scrollable) {
             element.classList.add(&quot;sq-scrollable-menu&quot;);
         }
@@ -225,7 +225,7 @@ export class BsDropdownMenu implements OnInit {
         }
         this.rightAligned &#x3D; this.options.rightAligned;
     }
-    
+
     private getLi(element: HTMLElement): HTMLElement | null {
         let element1: HTMLElement | null &#x3D; element;
         while (element1 &amp;&amp; element1.nodeName !&#x3D;&#x3D; &quot;LI&quot;) {
@@ -233,20 +233,20 @@ export class BsDropdownMenu implements OnInit {
         }
         return element1;
     }
-    
+
     click(item: Action, event: UIEvent) {
         if (!this.options.item.disabled) {
             // Handle sub-menu opening
             let isOpen &#x3D; false;
-            let li &#x3D; this.getLi(&lt;HTMLElement&gt;event.target);
+            const li &#x3D; this.getLi(&lt;HTMLElement&gt;event.target);
             if (!!li &amp;&amp; li.classList.contains(&quot;dropdown-submenu&quot;)) {
                 event.preventDefault();
                 event.stopPropagation();
                 isOpen &#x3D; li.classList.contains(this.options.showMenuClass);
-                let ul &#x3D; li.parentElement;
+                const ul &#x3D; li.parentElement;
                 if (ul) {
                     for (let i &#x3D; 0, ic &#x3D; ul.children.length; i &lt; ic; i++) {
-                        let _li &#x3D; ul.children[i];
+                        const _li &#x3D; ul.children[i];
                         _li.classList.remove(this.options.showMenuClass);
                     }
                 }
@@ -259,7 +259,7 @@ export class BsDropdownMenu implements OnInit {
                 item.toggle(item, !isOpen);
             }
         }
-    } 
+    }
 }</code></pre>
     </div>
 </div>

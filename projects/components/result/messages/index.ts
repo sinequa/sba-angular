@@ -11,4 +11,4 @@ const enResult = Utils.merge({}, _enResult, enSearch, enMetadata, enCollapse);
 const frResult = Utils.merge({}, _frResult, frSearch, frMetadata, frCollapse);
 const deResult = Utils.merge({}, _deResult, deSearch, deMetadata, deCollapse);
 
-export {enResult, frResult, deResult}
+export { enResult, frResult, deResult };

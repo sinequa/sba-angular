@@ -500,10 +500,12 @@ export class AppService implements OnDestroy {
             console.warn(&#x27;Unexpected empty app configuration.&#x27;);
             return;
         }
-        if (app.apiVersion !&#x3D;&#x3D; MINIMUM_COMPATIBLE_SERVER_API_VERSION) {
-            console.warn(&#x60;This SBA &#x27;${app.name}&#x27; is not compatible with the REST API of Sinequa Server.\n&#x60; +
+        if (!app.apiVersion) {
+            console.error(&#x60;The App config &#x27;${app.name}&#x27; is not of &#x27;Angular Workspace application&#x27; type.&#x60;);
+        } else if (app.apiVersion !&#x3D;&#x3D; MINIMUM_COMPATIBLE_SERVER_API_VERSION) {
+            console.warn(&#x60;This SBA is not compatible with the REST API of Sinequa Server.\n&#x60; +
                 &#x60;The SBA expects the server API version to be at least &#x27;${MINIMUM_COMPATIBLE_SERVER_API_VERSION}&#x27;,&#x60; +
-                &#x60; whereas the server API version is &#x27;${!app.apiVersion ? &#x27;&lt;empty version&gt;&#x27; : app.apiVersion}&#x27;&#x60;);
+                &#x60; whereas the server API version is &#x27;${app.apiVersion}&#x27;.&#x60;);
         }
     }
 
@@ -622,7 +624,7 @@ export class AppService implements OnDestroy {
                     columnMap[columnName] &#x3D; column;
                     if (columnInfo.aliases) {
                         column.aliases &#x3D; Utils.split(columnInfo.aliases, [&quot;,&quot;, &quot;;&quot;]);
-                        for (let alias of column.aliases) {
+                        for (const alias of column.aliases) {
                             columnMap[Utils.toLowerCase(alias)] &#x3D; column;
                         }
                     }

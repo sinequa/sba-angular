@@ -306,11 +306,11 @@ import {Utils} from &quot;@sinequa/core/base&quot;;
 export class Autofocus implements OnChanges {
     @Input(&quot;sqAutofocus&quot;) value: number;
     element: HTMLElement;
-    
+
     constructor(elementRef: ElementRef) {
-        this.element &#x3D; &lt;HTMLElement&gt;elementRef.nativeElement;        
+        this.element &#x3D; &lt;HTMLElement&gt;elementRef.nativeElement;
     }
-    
+
     private setFocus() {
         Utils.delay()
             .then(() &#x3D;&gt; {
@@ -319,10 +319,10 @@ export class Autofocus implements OnChanges {
                 }
             });
     }
-    
+
     ngOnChanges() {
         this.setFocus();
-    }    
+    }
 }</code></pre>
     </div>
 

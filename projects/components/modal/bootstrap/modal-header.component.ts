@@ -13,7 +13,7 @@ export class BsModalHeader {
         protected modalRef: ModalRef,
         protected injector: Injector) {
     }
-    
+
     // Avoid circular reference (via Confirm)
     get modalService(): ModalService {
         return this.injector.get(ModalService);

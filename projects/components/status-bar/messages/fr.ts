@@ -4,4 +4,4 @@ export default {
         "fullscreenTitleExit": "Quitter le mode plein écran",
         "networkActivity": "Activité reseau"
     }
-}
+};

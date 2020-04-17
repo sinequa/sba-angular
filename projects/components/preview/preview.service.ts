@@ -5,7 +5,7 @@ import {Observable, Subject} from "rxjs";
 import {AppService, Query} from "@sinequa/core/app-utils";
 import {AuthenticationService} from "@sinequa/core/login";
 import {PreviewWebService, PreviewData, AuditEventType, Record, AuditEvent} from "@sinequa/core/web-services";
-import {Utils} from "@sinequa/core/base"
+import {Utils} from "@sinequa/core/base";
 import {ModalService} from "@sinequa/core/modal";
 import {SearchService} from "@sinequa/components/search";
 import {RecentDocumentsService} from '@sinequa/components/saved-queries';
@@ -31,7 +31,7 @@ export const PREVIEW_MODAL = new InjectionToken<Type<any>>("PREVIEW_MODAL");
 })
 export class PreviewService {
 
-    private readonly _events = new Subject<PreviewEvent>();   
+    private readonly _events = new Subject<PreviewEvent>();
 
     constructor(
         @Inject(PREVIEW_MODAL) public previewModal: Type<any>,
@@ -43,7 +43,7 @@ export class PreviewService {
         private modalService: ModalService,
         private recentDocumentsService: RecentDocumentsService,
         private sanitizer: DomSanitizer) {
-            
+
         // Subscribe to own events and add documents to the recent documents service
         this.events.subscribe(event => {
             if(event.record && (event.type === PreviewEventType.Modal || event.type === PreviewEventType.Route || event.type === PreviewEventType.Window)){
@@ -53,7 +53,7 @@ export class PreviewService {
     }
 
     /**
-     * Triggers any event among PreviewEvent 
+     * Triggers any event among PreviewEvent
      */
     public get events() : Subject<PreviewEvent> {
         return this._events;
@@ -75,7 +75,7 @@ export class PreviewService {
         }
         return query;
     }
- 
+
     public getPreviewData(id: string, query: Query, audit = true): Observable<PreviewData> {
         let auditEvent: AuditEvent | undefined;
         const record = this.searchService.getRecordFromId(id);
@@ -95,7 +95,7 @@ export class PreviewService {
             };
         }
         query = this.makeQuery(query);
-        let observable = this.previewWebService.get(id, query, auditEvent);
+        const observable = this.previewWebService.get(id, query, auditEvent);
         Utils.subscribe(observable,
             (previewData) => {
                 previewData.resultId = resultId || "";
@@ -124,7 +124,7 @@ export class PreviewService {
     }
 
     openNewWindow(record: Record, query: Query): Window | null {
-        let params = {
+        const params = {
             id: record.id,
             query: this.getQueryStr(query),
             app: this.appService.appName

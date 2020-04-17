@@ -24,7 +24,7 @@ export class SuggestService {
         if (text.includes(" ")) {
             return;
         }
-        for (let field of this.appService.fields) {
+        for (const field of this.appService.fields) {
             if (Utils.startsWith(field, text)) {
                 suggests.unshift({
                     category: this.fieldCategory,
@@ -49,10 +49,10 @@ export class SuggestService {
                 }
                 else {
                     if (!suggests || suggests.length === 0) {
-                        let _fields = Utils.isArray(fields) ? fields : [fields];
+                        const _fields = Utils.isArray(fields) ? fields : [fields];
                         fields = [];
-                        for (let field of _fields) {
-                            let column = this.appService.getColumn(field);
+                        for (const field of _fields) {
+                            const column = this.appService.getColumn(field);
                             if (!!column && (column.eType === EngineType.csv || AppService.isScalar(column))) {
                                 fields.push(field);
                             }
@@ -70,7 +70,7 @@ export class SuggestService {
             }));
     }
 
-    
+
     /**
      * Search for the input text in a list of objects and return autocomplete items asynchronously
      * @param query The text to search for
@@ -80,14 +80,14 @@ export class SuggestService {
      */
     public async searchData<T>(
         category: string,
-        query: string, 
-        data: T[], 
-        primaryText: (obj:T) => string, 
+        query: string,
+        data: T[],
+        primaryText: (obj:T) => string,
         secondaryText?: (obj:T) => string[],
         label?: string) : Promise<AutocompleteItem[]> {
 
         return data
-            .map(obj => SuggestService.findMatch(primaryText(obj), query, 
+            .map(obj => SuggestService.findMatch(primaryText(obj), query,
                 !!secondaryText ? secondaryText(obj) : [], obj)) // Look for matches in all saved queries
             .filter(item => !!item) // Keep only the matches
             /*tslint:disable-next-line*/
@@ -96,8 +96,8 @@ export class SuggestService {
                 /*tslint:disable-next-line*/
                 item = item!;
                 return {    // Make an autocomplete item
-                    display: item.display, 
-                    displayHtml: item.displayHtml, 
+                    display: item.display,
+                    displayHtml: item.displayHtml,
                     category,
                     label: label || category,
                     data: item.data
@@ -121,10 +121,10 @@ export class SuggestService {
         }
 
         // pass text and query in lower case and no accent to make search case insensitive
-        let textLower = Utils.removeAccents(text.toLowerCase());
+        const textLower = Utils.removeAccents(text.toLowerCase());
         query = Utils.removeAccents(query.toLowerCase());
         let i = 0;
-        let matches: number[] = [];
+        const matches: number[] = [];
         let score = 0;
 
         // Compute score of the match
@@ -142,7 +142,7 @@ export class SuggestService {
             }
             i = textLower.indexOf(query, i+query.length);
         }
-        
+
         // Format HTML display
         let html = text;
         for(let j=matches.length-1; j>=0; j--) { // decreasing order so the indices remain valid
@@ -161,7 +161,7 @@ export class SuggestService {
                     /*tslint:disable-next-line*/
                     match = match!;
                     score += match.score / 2;  // Secondary matches added to the score, but count half
-                    html += " <small>" + match.displayHtml + "</small>" // Concatenate secondary match html to the main html
+                    html += " <small>" + match.displayHtml + "</small>"; // Concatenate secondary match html to the main html
                 });
         }
 
@@ -171,7 +171,7 @@ export class SuggestService {
                 displayHtml: html,
                 score: score,
                 data: data
-            }
+            };
         }
         return undefined;
     }

@@ -21,7 +21,7 @@ export class BsPreviewPanel implements OnChanges {
     downloadUrl?: SafeResourceUrl;
     previewDocument: PreviewDocument;
 
-    constructor(    
+    constructor(
         private previewService: PreviewService,
         private changeDetectorRef: ChangeDetectorRef) {
     }

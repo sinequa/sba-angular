@@ -20,7 +20,7 @@ import {BsResultsScatterView} from "./results-scatter-view/results-scatter-view"
     imports: [
         CommonModule,
         FormsModule, ReactiveFormsModule,
-        
+
         LoadComponentModule,
         IntlModule,
         ValidationModule,
@@ -30,26 +30,26 @@ import {BsResultsScatterView} from "./results-scatter-view/results-scatter-view"
         BsSelectionModule,
     ],
     declarations: [
-        BsResultsScatterView, 
-        BsResultsTimelineView, 
+        BsResultsScatterView,
+        BsResultsTimelineView,
         BsTimelineTooltip,
     ],
     exports: [
-        BsResultsScatterView, 
+        BsResultsScatterView,
         BsResultsTimelineView,
     ],
 })
 export class ResultsViewModule {
     public static forRoot(resultsViews: ResultsView[], defaultView: ResultsView): ModuleWithProviders {
         return {
-            ngModule: ResultsViewModule, 
+            ngModule: ResultsViewModule,
             providers: [
-                { 
-                    provide: RESULTS_VIEWS, 
+                {
+                    provide: RESULTS_VIEWS,
                     useValue: resultsViews
                 },
-                { 
-                    provide: DEFAULT_VIEW, 
+                {
+                    provide: DEFAULT_VIEW,
                     useValue: defaultView
                 }
             ]

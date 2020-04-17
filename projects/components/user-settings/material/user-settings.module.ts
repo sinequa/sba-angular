@@ -8,5 +8,5 @@ import {NgModule} from "@angular/core";
     exports: [
     ],
 })
-export class MdUserSettingsModule {    
+export class MdUserSettingsModule {
 }

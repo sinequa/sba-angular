@@ -36,18 +36,18 @@ import {BsFacetRecentDocuments} from "./facet-recent-documents/facet-recent-docu
         BsActionModule
     ],
     declarations: [
-        BsEditSavedQuery, BsManageSavedQueries, 
+        BsEditSavedQuery, BsManageSavedQueries,
         BsExportQuery, BsQueryExporter, BsSavedQueriesMenuComponent,
         BsFacetSavedQueries, BsFacetRecentQueries, BsFacetRecentDocuments
     ],
     exports: [
-        BsEditSavedQuery, BsManageSavedQueries, 
+        BsEditSavedQuery, BsManageSavedQueries,
         BsExportQuery, BsQueryExporter, BsSavedQueriesMenuComponent,
         BsFacetSavedQueries, BsFacetRecentQueries, BsFacetRecentDocuments
     ],
     providers: [
-        { 
-            provide: SAVEDQUERY_COMPONENTS, 
+        {
+            provide: SAVEDQUERY_COMPONENTS,
             useValue: {
                 editSavedQueryModal: BsEditSavedQuery,
                 manageSavedQueriesModal: BsManageSavedQueries,

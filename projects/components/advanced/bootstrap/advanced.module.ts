@@ -32,12 +32,12 @@ import {BsAdvancedFormValidation} from "./advanced-form-validation.directive";
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        
+
         IntlModule,
-        
+
         // ngx-bootstrap
         BsDatepickerModule.forRoot(),
-        
+
         UtilsModule,
         BsAutocompleteModule
     ],
@@ -71,7 +71,7 @@ import {BsAdvancedFormValidation} from "./advanced-form-validation.directive";
         BsSelectComponent,
         BsMultiEntryInput,
         BsNumericRangeInput,
-        
+
         BsAdvancedFormAutocomplete,
         BsAdvancedFormValidation,
     ]

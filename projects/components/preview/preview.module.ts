@@ -27,7 +27,7 @@ export class PreviewModule {
             ngModule: PreviewModule,
             providers: [
                 {provide: PREVIEW_MODAL, useValue: previewModal},
-            ]                
+            ]
         };
     }
 }

@@ -1,4 +1,6 @@
-import {Component, ViewEncapsulation, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ElementRef, ViewChild} from "@angular/core";
+import {
+    Component, ViewEncapsulation, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ElementRef, ViewChild, OnDestroy
+} from "@angular/core";
 import {Utils} from "@sinequa/core/base";
 import {Query, AppService} from "@sinequa/core/app-utils";
 import {Results} from "@sinequa/core/web-services";
@@ -41,7 +43,7 @@ export interface TimelineView extends ResultsView {
     templateUrl: "./results-timeline-view.html",
     styleUrls: ["./results-timeline-view.css"]
 })
-export class BsResultsTimelineView implements OnChanges {
+export class BsResultsTimelineView implements OnChanges, OnDestroy {
     @Input() query: Query;
     @Input() results: Results;
     @Input() view: TimelineView;
@@ -53,7 +55,7 @@ export class BsResultsTimelineView implements OnChanges {
     datemin = new Date("2010-01-01");
     datemax = new Date("2020-01-01");
     dates: DateItem[] | undefined;
-    events: EventItem[];    
+    events: EventItem[];
     datefield: string;
     eventfield: string;
 
@@ -112,18 +114,18 @@ export class BsResultsTimelineView implements OnChanges {
             this.N_EVENTS = parseInt(this.view.n_events, 10);
         }
 
-        let ccaggregation = this.appService.getCCAggregation(this.view.aggregation);
+        const ccaggregation = this.appService.getCCAggregation(this.view.aggregation);
         //console.log(ccaggregation);
         if (!ccaggregation) {
             this.dates = undefined;
             return;
         }
-        let query = Query.copy(this.searchService.query);
+        const query = Query.copy(this.searchService.query);
         query.action = "aggregate";
         query.aggregations = [this.view.aggregation];   // Override distribs with only the timeline
         this.datefield = ccaggregation.column;
 
-        let ccaggregationevent = this.appService.getCCAggregation(this.view.aggregationEvent);
+        const ccaggregationevent = this.appService.getCCAggregation(this.view.aggregationEvent);
         if(ccaggregationevent){
             query.aggregations.push(this.view.aggregationEvent);
             this.eventfield = ccaggregationevent.column;
@@ -133,40 +135,40 @@ export class BsResultsTimelineView implements OnChanges {
             (results: Results) => {
                 this.dates = results.aggregations[0].items
                     .filter((item) => item.value && item.value > this.datemin && item.value <  this.datemax )
-                    .map((item) => { 
+                    .map((item) => {
                         return {
                             "date" : item.value as Date,
                             "count" : item.count,
                             "value" : this.formatDayRequest(item.value as Date),
                             "display" : this.formatDay(item.value as Date)
-                        }
+                        };
                     });
 
                 if(results.aggregations.length > 1 && !!results.aggregations[1].items){
                     //console.log(results.aggregations[1].items);
                     results.aggregations[1].items
                         .forEach((item) => {
-                            var cooc = item.display as string;
-                            var coocs = cooc.substr(1,cooc.length-2).split(")#(");
+                            const cooc = item.display as string;
+                            const coocs = cooc.substr(1,cooc.length-2).split(")#(");
                             item["event"] = coocs[0];
                             item["date"] = new Date(coocs[1]);
                         });
                     this.events = results.aggregations[1].items
                         .filter((item) => item["date"] && item["date"] > this.datemin && item["date"] < this.datemax)
-                        .map((item) => { 
+                        .map((item) => {
                             return {
                                 "date" : item["date"],
                                 "count" : item.count,
                                 "event" : item["event"],
                                 "display" : item["event"] + " (" + this.formatDay(item["date"])+")",
                                 "value" : item["value"] as string
-                            }
+                            };
                         });
                     this.flag_idx = {};
-                    this.selectedFlags =[]
+                    this.selectedFlags =[];
                     this.events.forEach((item) => {
                         if(!(item["event"] in this.flag_idx)){
-                            this.flag_idx[item["event"]] = []
+                            this.flag_idx[item["event"]] = [];
                             this.selectedFlags.push(item["event"]);
                         }
                         this.flag_idx[item["event"]].push(item);
@@ -194,7 +196,7 @@ export class BsResultsTimelineView implements OnChanges {
     }
 
     drawTimeline(){
-        
+
         // Initial flags: top-5 dates + top-10 events
         if (!this.dates) {
             return;
@@ -202,14 +204,14 @@ export class BsResultsTimelineView implements OnChanges {
         this.data_flags = this.dates.slice(0,this.N_DATES);
         if(this.events)
             this.data_flags = this.data_flags.concat(this.events.slice(0,this.N_EVENTS));
-            
+
         // Aggregates dates by months and weeks
-        var data_hist = this.histo_data(this.dates, "months");
-        var data_hist_weeks = this.histo_data(this.dates, "weeks");
+        const data_hist = this.histo_data(this.dates, "months");
+        const data_hist_weeks = this.histo_data(this.dates, "weeks");
 
         // console.log(data_hist);
 
-        var margin = {top: 10, right: 20, bottom: 20, left: 20},
+        const margin = {top: 10, right: 20, bottom: 20, left: 20},
             width = 960 - margin.left - margin.right,
             height = 550 - margin.top - margin.bottom;
 
@@ -224,12 +226,12 @@ export class BsResultsTimelineView implements OnChanges {
             .domain([data_hist[0].x0!, data_hist[data_hist.length-1].x1!])
             .range([0, width]);
 
-        var domain = this.x.domain();
+        const domain = this.x.domain();
         this.nmonths = d3.timeMonths(domain[0],domain[1]).length;
 
         // the y-scale parameters
         this.y = d3.scaleLinear()
-            .domain([0, d3.max(data_hist, function(d){ return d["y"]})])
+            .domain([0, d3.max(data_hist, function(d){ return d["y"];})])
             .range([height, 0]);
 
         this.xAxis = d3.axisBottom(this.x);
@@ -239,22 +241,22 @@ export class BsResultsTimelineView implements OnChanges {
             .x(function(this: any, d) { return this.x(d[0]); })
             .y(function(this: any, d) { return this.y(d[1]); });*/
 
-        var brush = d3.brushX()
+        const brush = d3.brushX()
             .extent([[this.x.range()[0], 0], [this.x.range()[1], height]])
             .on('end', () => this.brushed(brush));
 
-        var zoom_ = d3.zoom<SVGGElement, unknown>()
+        const zoom_ = d3.zoom<SVGGElement, unknown>()
             .on("zoom", () => this.redraw());
 
         // Define the div for the tooltip
-        //var div = d3.select("body").append("div")	
-        //    .attr("class", "tooltip")				
+        //var div = d3.select("body").append("div")
+        //    .attr("class", "tooltip")
         //    .style("opacity", 0);
 
-        let svg = d3.select(this.svg.nativeElement)
+        const svg = d3.select(this.svg.nativeElement)
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom);
-    
+
         this.g = svg.append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -276,7 +278,7 @@ export class BsResultsTimelineView implements OnChanges {
             .attr('y', 0)
             .attr('height', height);
 
-        var bars = this.g.selectAll(".bar")
+        const bars = this.g.selectAll(".bar")
             .data(data_hist.concat(data_hist_weeks))
             .enter().append("rect");
 
@@ -284,12 +286,12 @@ export class BsResultsTimelineView implements OnChanges {
         this.add_tooltips(bars);
 
         this.draw_flags();
-            
+
         // draw the axes
         this.g.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + height + ")")
-            .call(this.xAxis)
+            .call(this.xAxis);
 
         /*svg.append("g")
             .attr("class", "y axis")
@@ -299,26 +301,26 @@ export class BsResultsTimelineView implements OnChanges {
 
     histo_data(data : DateItem[], scale : string){
 
-        var date_extent = d3.extent(data, function(d){return d.date});
+        const date_extent = d3.extent(data, function(d){return d.date;});
 
-        var numHistBins : Date[];
-        
+        let numHistBins : Date[];
+
         if(scale === "months")
-            numHistBins = d3.timeMonths(d3.timeMonth.offset(date_extent[0]!,-1), d3.timeMonth.offset(date_extent[1]!,1))
+            numHistBins = d3.timeMonths(d3.timeMonth.offset(date_extent[0]!,-1), d3.timeMonth.offset(date_extent[1]!,1));
         else
-            numHistBins = d3.timeWeeks(d3.timeWeek.offset(date_extent[0]!,-1), d3.timeMonth.offset(date_extent[1]!,1))
-            
+            numHistBins = d3.timeWeeks(d3.timeWeek.offset(date_extent[0]!,-1), d3.timeMonth.offset(date_extent[1]!,1));
+
         // the histogram function
-        var histo = d3.histogram<DateItem,Date>()
-            .value(function(d){ return d.date })
+        const histo = d3.histogram<DateItem,Date>()
+            .value(function(d){ return d.date; })
             .thresholds(numHistBins);
-            
-        var data_hist = histo(data);
+
+        const data_hist = histo(data);
 
         //console.log(data_hist);
 
         data_hist.forEach(function(d){
-            d["y"] = d.reduce(function(acc,val){return acc + val.count}, 0);
+            d["y"] = d.reduce(function(acc,val){return acc + val.count;}, 0);
             d["scale"] = scale;
         });
 
@@ -328,64 +330,64 @@ export class BsResultsTimelineView implements OnChanges {
     draw_bars(bars, height, nmonths){
 
         bars
-            .attr("class", "bar")                 
+            .attr("class", "bar")
             .attr("x", (d) => this.x(d.x0) + 1)
             .attr("width", (d) => this.x(d.x1) - this.x(d.x0))
             .attr("y", (d) => this.y(d.y))
-            .attr("height", (d) => height - this.y(d.y))            
+            .attr("height", (d) => height - this.y(d.y))
             .attr("clip-path", "url(#clip)")
             .style("cursor", "pointer")
             .style("fill", (d) => this.colorscale(d.x0.getMonth()))
             .style("opacity", (d) => (d.scale === "months" && nmonths > 32) || (d.scale === "weeks" && nmonths <= 32) ? 1 : 0)
             ;
- 
+
     }
 
     add_tooltips(bars){
 
-        let tooltip = d3.select(this.tooltip.componentRef.location.nativeElement);
-        let instance = this;
+        const tooltip = d3.select(this.tooltip.componentRef.location.nativeElement);
+        const instance = this;
 
         bars
             .on("mouseover", function(this: any, d) {
                 if(instance.redrawing) return;
                 if(! ((d.scale === "months" && instance.nmonths > 32) || (d.scale === "weeks" && instance.nmonths <= 32))) return;
                 d3.select(this)
-                    //.transition("t1")		
+                    //.transition("t1")
                     //.duration(200)
-                    .style("fill", "#d00")
-                tooltip //.transition("t2")		
+                    .style("fill", "#d00");
+                tooltip //.transition("t2")
                     //.duration(200)
-                    .style("opacity", .9);		
-                tooltip	
-                    .style("left", (d3.event.pageX) + "px")		
+                    .style("opacity", .9);
+                tooltip
+                    .style("left", (d3.event.pageX) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
                 instance.setTooltip(instance.formatMonth(d.x0), d);
                 })
-            .on("mouseout", function(this: any, d) {	
-                if(instance.redrawing) return;	
+            .on("mouseout", function(this: any, d) {
+                if(instance.redrawing) return;
                 if(! ((d.scale === "months" && instance.nmonths > 32) || (d.scale === "weeks" && instance.nmonths <= 32))) return;
-                tooltip	//.transition("t3")		
+                tooltip	//.transition("t3")
                     //.duration(200)
                     .style("opacity", 0);
                 d3.select(this)
-                    //.transition("t4")		
+                    //.transition("t4")
                     //.duration(200)
-                    .style("fill", (d : any) => instance.colorscale(d.x0.getMonth()))
+                    .style("fill", (d : any) => instance.colorscale(d.x0.getMonth()));
             })
             .on("click", (d) => {
                 if(! ((d.scale === "months" && this.nmonths > 32) || (d.scale === "weeks" && this.nmonths <= 32))) return;
-                var month_start = this.formatDayRequest(d.x0);
-                var month_end = this.formatDayRequest(d.x1);
+                const month_start = this.formatDayRequest(d.x0);
+                const month_end = this.formatDayRequest(d.x1);
                 this.filter(month_start, month_end);
             });
     }
-    
+
     setTooltip(month, dates) {
         this.loadComponentService.bindComponent({component: BsTimelineTooltip, inputs: {month: month, dates: dates}}, this.tooltip);
     }
 
-    draw_flags() {        
+    draw_flags() {
         console.log(this.data_flags);
         if (!this.g) {
             return;
@@ -393,7 +395,7 @@ export class BsResultsTimelineView implements OnChanges {
 
         this.g.selectAll(".flag").remove();
 
-        var flags = this.g.selectAll(".flag")
+        const flags = this.g.selectAll(".flag")
             .data(this.data_flags)
             .enter()
             .append("g").attr("class", "flag");
@@ -408,7 +410,7 @@ export class BsResultsTimelineView implements OnChanges {
         flags.append("rect");   // placeholder for background rect, position and size will be defined later
         flags.append("text") // content of text will be defined later
             .attr("x", (d : any) => this.x(d.date)+10)
-            .attr("y", (d : any,i) => { 
+            .attr("y", (d : any,i) => {
                 d.index = i;
                 return this.y_flag(i, this.data_flags.length); })
             .attr("fill", "#000")
@@ -416,16 +418,16 @@ export class BsResultsTimelineView implements OnChanges {
             .attr("text-anchor", "left")
             .style("cursor", "pointer")
             .text((d : any) =>  d.display)
-            .on("click", (d : any) => { 
-                if(d.event) 
-                    this.filter_cooc(d.value, d.value) 
-                else 
+            .on("click", (d : any) => {
+                if(d.event)
+                    this.filter_cooc(d.value, d.value);
+                else
                     this.filter_date(d.value, d.display);
             })
             .each(function(d : any) {
                 d.bb = this.getBBox(); // get bounding box of text field and store it in texts array
             });
-                
+
         flags.selectAll("rect")
             .attr("x", (d : any) => this.x(d.date))
             .attr("y", (d : any) => this.y_flag(d.index, this.data_flags.length) - d.bb.height)
@@ -433,17 +435,17 @@ export class BsResultsTimelineView implements OnChanges {
             .attr("height", (d : any) => d.bb.height+3)
             .attr("rx", 3)
             .attr("ry", 3);
-            
+
     }
-    
+
     y_flag(i, n_flags){
         return this.y(0)*(0.2+0.8*i/n_flags); // First at 30%, Last at ~80%
     }
 
     brushed(brush){
-        console.log("brushed!", brush)
+        console.log("brushed!", brush);
         if(d3.event.selection !== null){
-            var ext = d3.event.selection.map(this.x.invert);
+            const ext = d3.event.selection.map(this.x.invert);
             this.filter(this.formatDayRequest(ext[0]), this.formatDayRequest(ext[1]));
         }
     }
@@ -457,13 +459,13 @@ export class BsResultsTimelineView implements OnChanges {
 
         this.redrawing = true;
 
-        var xt = d3.event.transform.rescaleX(this.x);
-        var scaledAxis = this.xAxis.scale(xt);
+        const xt = d3.event.transform.rescaleX(this.x);
+        const scaledAxis = this.xAxis.scale(xt);
 
-        var domain = xt.domain();
+        const domain = xt.domain();
         this.nmonths = d3.timeMonths(domain[0],domain[1]).length;
 
-        var t = d3.transition("redrawing").duration(500);
+        const t = d3.transition("redrawing").duration(500);
 
         this.g.select(".x.axis") // change the x axis
             .transition(t as any)
@@ -472,7 +474,7 @@ export class BsResultsTimelineView implements OnChanges {
         this.g.selectAll(".bar")
             .transition(t as any)
             .attr("x", (d : any) => xt(d.x0) + 1 )
-            .attr("width", (d : any) => xt(d.x1) - xt(d.x0) )            
+            .attr("width", (d : any) => xt(d.x1) - xt(d.x0) )
             .style("opacity", (d : any) => (d.scale === "months" && this.nmonths > 32) || (d.scale === "weeks" && this.nmonths <= 32) ? 1 : 0);
 
         //add_tooltips(bars);
@@ -494,12 +496,12 @@ export class BsResultsTimelineView implements OnChanges {
 
     }
 
-    updateFlags() {
+    updateFlags(): number {
         if (!this.dates) {
-            return;
+            return 0;
         }
-        
-        var new_flags: any[] = [];
+
+        let new_flags: any[] = [];
 
         this.selectedFlags.forEach((flag) => new_flags = new_flags.concat(this.flag_idx[flag]));
 
@@ -526,7 +528,7 @@ export class BsResultsTimelineView implements OnChanges {
     }
 
     // called from template
-    flagSelected(){        
+    flagSelected(){
         this.event_page = 0;
         this.n_flags = this.updateFlags();
     }
@@ -564,7 +566,7 @@ export class BsResultsTimelineView implements OnChanges {
             });
     }
 
-    ngOnChanges(changes: SimpleChanges) {   
+    ngOnChanges(changes: SimpleChanges) {
         if (!this.tooltip) {
             this.tooltip = this.loadComponentService.loadComponent({component: BsTimelineTooltip});
             d3.select(this.tooltip.componentRef.location.nativeElement)
@@ -574,8 +576,8 @@ export class BsResultsTimelineView implements OnChanges {
             if (changes["results"].firstChange) {
 
             }
-            this.getData();            
-        }    
+            this.getData();
+        }
     }
 
     ngOnDestroy() {

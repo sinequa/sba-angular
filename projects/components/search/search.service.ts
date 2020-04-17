@@ -3,7 +3,7 @@ import {Router, NavigationStart, NavigationEnd, Params} from "@angular/router";
 import {Subject, BehaviorSubject, Observable, Subscription, of, throwError} from "rxjs";
 import {map, catchError} from "rxjs/operators";
 import {QueryWebService, AuditWebService, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
-    QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab, SpellingCorrectionMode,
+    QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
     AdvancedValue, AdvancedValueWithOperator, AdvancedOperator,
     AuditEvents, AuditEventType, AuditEvent} from "@sinequa/core/web-services";
 import {AppService, FormatService, ValueItem, Query, ExprParser} from "@sinequa/core/app-utils";
@@ -191,16 +191,16 @@ export class SearchService implements OnDestroy {
 
     private treatQueryIntents (results: Results | undefined) {
         if (results && results.queryAnalysis && results.queryIntents) {
-            let queryIntents = results.queryIntents;
-            for (let intent of queryIntents) {
+            const queryIntents = results.queryIntents;
+            for (const intent of queryIntents) {
                 if (intent.actions) {
-                    for (let action of intent.actions) {
-                        let event: SearchService.ProcessQueryIntentActionEvent = {type: "process-query-intent-action", action: action, intent: intent, analysis: results.queryAnalysis};
+                    for (const action of intent.actions) {
+                        const event: SearchService.ProcessQueryIntentActionEvent = {type: "process-query-intent-action", action: action, intent: intent, analysis: results.queryAnalysis};
                         this._events.next(event);
                         if (!event.actionProcessed) {
                             if (!!action.data) {
                                 switch (action.type) {
-                                    case "tab": 
+                                    case "tab":
                                         if (results.queryAnalysis.initial && this.query &&
                                             this.query.tab && !Utils.eqNC(this.query.tab, action.data)) {
                                             this.selectTab(action.data, {skipLocationChange: true});
@@ -252,8 +252,8 @@ export class SearchService implements OnDestroy {
     }
 
     makeQuery(): Query {
-        let ccquery = this.appService.ccquery;
-        let query = new Query(ccquery ? ccquery.name : "_unknown");
+        const ccquery = this.appService.ccquery;
+        const query = new Query(ccquery ? ccquery.name : "_unknown");
         this._events.next({type: "make-query", query: query});
         return query;
     }
@@ -338,7 +338,7 @@ export class SearchService implements OnDestroy {
             if (query.basket) {
                 return false;
             }
-            // Test no advanced 
+            // Test no advanced
             if (query.advanced && Object.keys(query.advanced).length > 0) {
                 return false;
             }
@@ -394,6 +394,11 @@ export class SearchService implements OnDestroy {
                 tab: !!tab ? tab.name : undefined,
                 queryIntents: options.queryIntents,
                 queryAnalysis: options.queryAnalysis
+            })
+        ).pipe(
+            map((results) => {
+                this.searchActive = false;
+                return results;
             })
         );
     }
@@ -498,7 +503,7 @@ export class SearchService implements OnDestroy {
             // The url query should be the same as the current query on SearchService unless
             // it's the initial navigation or if the url is changed manually.
             // In any case, we always set the query from the url. We only send a new-query
-            // event if the current query is empty so that we don't systematically create a 
+            // event if the current query is empty so that we don't systematically create a
             // new query "session" (ml-audit)
             this.setQuery(query, !this._query);
         }
@@ -560,10 +565,6 @@ export class SearchService implements OnDestroy {
                     advanced: navigationOptions.advanced
                 });
                 return results;
-            },
-            undefined,
-            () => {
-                this.searchActive = false;
             });
         if (navigationOptions.selectTab) {
             const afterSelectTabEvent: SearchService.AfterSelectTabEvent = {
@@ -618,7 +619,7 @@ export class SearchService implements OnDestroy {
 
     searchRefine(text: string): Promise<boolean> {
         this.query.addSelect(this.makeSelectExpr("refine", {value: text}), "refine");
-        return this.search(undefined, 
+        return this.search(undefined,
             this.makeAuditEvent({
                 type: AuditEventType.Search_Refine,
                 detail: {
@@ -641,7 +642,7 @@ export class SearchService implements OnDestroy {
     }
 
     didYouMean(text: string, kind: DidYouMeanKind): Promise<boolean> {
-        let lastSelect = this.query.lastSelect();
+        const lastSelect = this.query.lastSelect();
         if (!lastSelect) {
             this.query.text = text;
         }
@@ -652,7 +653,7 @@ export class SearchService implements OnDestroy {
             this.query.popSelect();
             this.query.pushSelect(lastSelect);
         }
-        this.query.spellingCorrectionMode = SpellingCorrectionMode.dymOnly;
+        this.query.spellingCorrectionMode = "dymonly";
         return this.navigate(undefined, this.makeAuditEvent({
             type: kind === DidYouMeanKind.Original ? AuditEventType.Search_DidYouMean_Original : AuditEventType.Search_DidYouMean_Correction,
             detail: {
@@ -794,7 +795,7 @@ export class SearchService implements OnDestroy {
 
     get lastRefineText(): string {
         if (this.breadcrumbs) {
-            let refineExpr = this.breadcrumbs.findSelect("refine");
+            const refineExpr = this.breadcrumbs.findSelect("refine");
             if (refineExpr) {
                 return ExprParser.unescape(refineExpr.toString(false));
             }
@@ -809,13 +810,13 @@ export class SearchService implements OnDestroy {
         if (this.breadcrumbs.textExpr) {
             return true;
         }
-        let refineExpr = this.breadcrumbs.findSelect("refine");
+        const refineExpr = this.breadcrumbs.findSelect("refine");
         return refineExpr != null;
     }
 
     selectTab(arg: string | Tab, options: SearchService.NavigationOptions = {}): Promise<boolean> {
         options.selectTab = true;
-        let tabName = typeof arg === 'string' ? arg : arg.name;
+        const tabName = typeof arg === 'string' ? arg : arg.name;
         this.query.tab = tabName;
         this._events.next({type: "before-select-tab", query: this.query});
         return this.search(options,
@@ -834,7 +835,7 @@ export class SearchService implements OnDestroy {
 
     getTab(tabName: string): Tab | undefined {
         if (this.results && this.results.tabs) {
-            for (let tab of this.results.tabs) {
+            for (const tab of this.results.tabs) {
                 if (Utils.equals(tab.name, tabName)) {
                     return tab;
                 }
@@ -852,12 +853,23 @@ export class SearchService implements OnDestroy {
 
     notifyOpenOriginalDocument(record: Record, resultId?: string): void {
         const results = this.results && this.results.records && this.results.records.includes(record) ? this.results : undefined;
-        this._events.next({type: "open-original-document", record});
-        this.auditService.notifyDocument(AuditEventType.Click_ResultLink, record, results || resultId || "", undefined, {
-            queryhash: results ? results.rfmQueryHash : undefined,
-            querytext: this.query.text,
-            querylang: this.query.questionLanguage || (this.appService.ccquery && this.appService.ccquery.questionLanguage)
-        });
+        this._events.next({ type: "open-original-document", record });
+        const querylang = this.query.questionLanguage ||
+            (this.appService.ccquery && this.appService.ccquery.questionLanguage);
+        this.auditService.notifyDocument(
+            AuditEventType.Click_ResultLink,
+            record,
+            results || resultId || "",
+            {
+                querytext: this.query.text,
+                querylang,
+            },
+            {
+                queryhash: results ? results.rfmQueryHash : undefined,
+                querytext: this.query.text,
+                querylang: querylang
+            }
+        );
     }
 
     checkBeforeSearch(cancelReasons?: string[]): boolean {
@@ -925,7 +937,7 @@ export module SearchService {
 
     export interface MakeQueryEvent extends Event {
         type: "make-query";
-        query: Query;        
+        query: Query;
     }
 
     export interface NewResultsEvent extends Event {
@@ -977,11 +989,11 @@ export module SearchService {
         cancelReasons?: string[];
     }
 
-    export type Events =         
-        NewQueryEvent | 
+    export type Events =
+        NewQueryEvent |
         UpdateQueryEvent |
         MakeQueryEvent |
-        NewResultsEvent | 
+        NewResultsEvent |
         MakeQueryIntentDataEvent |
         ProcessQueryIntentActionEvent |
         MakeAuditEventEvent |

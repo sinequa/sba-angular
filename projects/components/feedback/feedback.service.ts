@@ -12,15 +12,15 @@ export const AuditFeedbackType = "UserFeedback";
  * The modal types are unknown to this service.
  * The module using this service must provide these components
  * in their forRoot() method
- * 
+ *
  * Example below:
- *  
+ *
     public static forRoot(): ModuleWithProviders {
         return {
-            ngModule: FeedbackModule, 
+            ngModule: FeedbackModule,
             providers: [
-                { 
-                    provide: FEEDBACK_COMPONENTS, 
+                {
+                    provide: FEEDBACK_COMPONENTS,
                     useValue: {
                         feedbackForm: FeedbackForm
                     }
@@ -29,7 +29,7 @@ export const AuditFeedbackType = "UserFeedback";
             ]
         };
     }
-    
+
  */
 export interface FeedbackComponents {
     feedbackForm: Type<any>;
@@ -52,7 +52,7 @@ export class FeedbackService {
     }
 
     public sendUserFeedback(message: string, thankUser: boolean){
-        let event : AuditEvent = {
+        const event : AuditEvent = {
             type: AuditFeedbackType,
             detail: {
                 app: this.appService.appName,
@@ -60,14 +60,14 @@ export class FeedbackService {
                 detail: message,
             }
         };
-        Utils.subscribe(this.auditService.notify([event]), 
+        Utils.subscribe(this.auditService.notify([event]),
             (result) => {
                 if(thankUser)
                     this.notificationsService.success("msg#feedback.thankyou");
         });
     }
-    
-    public buildFeedbackAction() : Action[] {        
+
+    public buildFeedbackAction() : Action[] {
         return [new Action({
             text: "msg#feedback.text",
             title: "msg#feedback.title",
@@ -94,7 +94,7 @@ export class FeedbackService {
     }
 
     public openFeedbackModal(title: string){
-        let message = {"message" : "", "title" : title};
+        const message = {"message" : "", "title" : title};
         this.modalService.open(this.feedbackComponents.feedbackForm, {model: message})
             .then((result) => {
                 if (result === ModalResult.OK && message.message.trim() !== "") {

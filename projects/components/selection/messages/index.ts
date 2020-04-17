@@ -9,4 +9,4 @@ const enSelection = Utils.merge({}, _enSelection, enSearch);
 const frSelection = Utils.merge({}, _frSelection, frSearch);
 const deSelection = Utils.merge({}, _deSelection, deSearch);
 
-export {enSelection, frSelection, deSelection}
+export { enSelection, frSelection, deSelection };

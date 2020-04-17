@@ -58,14 +58,14 @@ export const MAX_DOCUMENTS = new InjectionToken("MAX_DOCUMENTS");
 })
 export class RecentDocumentsService implements OnDestroy {
 
-    private readonly _events = new Subject<RecentDocumentChangeEvent>();   
+    private readonly _events = new Subject<RecentDocumentChangeEvent>();
     private readonly _changes = new Subject<RecentDocumentChangeEvent>();
-    
+
     constructor(
         public userSettingsService: UserSettingsWebService,
         public searchService: SearchService,
         @Optional() @Inject(MAX_DOCUMENTS) private maxDocuments: number,
-    ){        
+    ){
         if(!this.maxDocuments){
             this.maxDocuments = 20;
         }
@@ -76,25 +76,25 @@ export class RecentDocumentsService implements OnDestroy {
             // ==> Menus need to be rebuilt
             this.events.next({type: RecentDocumentEventType.Loaded});
         });
-        
+
         // Listen to own events, to trigger change events
         this._events.subscribe(event => {
-            if(RECENT_DOCUMENTS_CHANGE_EVENTS.indexOf(event.type) !== -1){                
+            if(RECENT_DOCUMENTS_CHANGE_EVENTS.indexOf(event.type) !== -1){
                 this.changes.next(event);
             }
         });
 
         /**
-         * Subscribe to the search service to capture "open-original-document" event 
+         * Subscribe to the search service to capture "open-original-document" event
          * and add documents to this service
          */
         this.searchService.events.subscribe(event => {
             if(event.type === "open-original-document" && event.record){
                 this.addDocument(event.record, true);
             }
-        })
+        });
     }
-    
+
 
     // GETTERS
 
@@ -112,7 +112,7 @@ export class RecentDocumentsService implements OnDestroy {
     }
 
     /**
-     * Triggers any event among RecentDocumentChangeEvent 
+     * Triggers any event among RecentDocumentChangeEvent
      * (use for fine-grained control of recent documents workflow)
      */
     public get events() : Subject<RecentDocumentChangeEvent> {
@@ -120,7 +120,7 @@ export class RecentDocumentsService implements OnDestroy {
     }
 
     /**
-     * Triggers when events affect the list of recent documents 
+     * Triggers when events affect the list of recent documents
      * (use to refresh recent documents menus)
      * Cf. CHANGE_EVENTS list
      */
@@ -137,16 +137,16 @@ export class RecentDocumentsService implements OnDestroy {
 
     /**
      * @returns a recent document with the given name or null if it does not exist
-     * @param name 
+     * @param name
      */
     public recentdocument(text: string): RecentDocument | undefined {
-        let i = this.recentdocumentIndex(text);
+        const i = this.recentdocumentIndex(text);
         return i>= 0? this.recentdocuments[i] : undefined;
     }
 
     private recentdocumentIndex(id: string): number {
         for (let i = 0, ic = this.recentdocuments.length; i < ic; i++) {
-            let recentdocument = this.recentdocuments[i];
+            const recentdocument = this.recentdocuments[i];
             if (recentdocument && recentdocument.id === id) {
                 return i;
             }
@@ -178,7 +178,7 @@ export class RecentDocumentsService implements OnDestroy {
                 treepath: record.treepath,
                 docformat: record.docformat,
                 authors: record.authors,
-    
+
                 date: new Date(),
                 original: original
             });
@@ -199,7 +199,7 @@ export class RecentDocumentsService implements OnDestroy {
             return false;
         }
 
-        let i = this.recentdocumentIndex(recentdocument.id); // If the document already exists
+        const i = this.recentdocumentIndex(recentdocument.id); // If the document already exists
         if(i >= 0){
             this.recentdocuments[i].date = recentdocument.date; // Update the date of the existing document
             this.events.next({type : RecentDocumentEventType.Update, recentdocument: this.recentdocuments[i]});
@@ -227,14 +227,14 @@ export class RecentDocumentsService implements OnDestroy {
 
     /**
      * Deletes the given RecentDocument (based on its name)
-     * Emits an RecentDocument event.    
+     * Emits an RecentDocument event.
      * Update the data on the server.
-     * @param recentdocument 
+     * @param recentdocument
      * @returns true if recent document was deleted
      */
     public deleteRecentDocument(recentdocument: RecentDocument) : boolean {
 
-        let index = this.recentdocumentIndex(recentdocument.id);
+        const index = this.recentdocumentIndex(recentdocument.id);
 
         if(index === -1)
             return false; // Nothing to delete

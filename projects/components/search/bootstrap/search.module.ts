@@ -31,7 +31,7 @@ import {BsLoadingBar} from "./loading-bar/loading-bar";
         BsActionModule
     ],
     declarations: [
-        BsDidYouMean, 
+        BsDidYouMean,
         BsBreadcrumbs, BsPager, BsPageSizeSelector, BsSortSelector,
         BsTabs, BsTimeline, BsLoadingBar
     ],

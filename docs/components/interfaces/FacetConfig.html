@@ -107,6 +107,10 @@
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
+                                        <a href="#displayEmptyDistributionIntervals">displayEmptyDistributionIntervals</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#icon">icon</a>
                                 </li>
                                 <li>
@@ -374,6 +378,40 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
+                                        <a name="displayEmptyDistributionIntervals"></a>
+                                        <span class="name"><b>displayEmptyDistributionIntervals</b><a href="#displayEmptyDistributionIntervals"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>displayEmptyDistributionIntervals:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
                                         <a name="icon"></a>
                                         <span class="name"><b>icon</b><a href="#icon"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
@@ -565,7 +603,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnChanges, Input, Output, ViewChild, EventEmitter, ChangeDetectorRef } from &#x27;@angular/core&#x27;;
-import { Results } from &#x27;@sinequa/core/web-services&#x27;
+import { Results } from &#x27;@sinequa/core/web-services&#x27;;
 import { AbstractFacet } from &#x27;../../abstract-facet&#x27;;
 import { Action } from &#x27;@sinequa/components/action&#x27;;
 import { FacetService } from &#x27;../../facet.service&#x27;;
@@ -581,6 +619,7 @@ export interface FacetConfig {
   allowExclude?: boolean;
   allowOr?: boolean;
   allowAnd?: boolean;
+  displayEmptyDistributionIntervals?: boolean;
 
   // Parameters set by the component
   $count?: string;
@@ -613,7 +652,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   constructor(
     public facetService: FacetService,
     private changeDetectorRef: ChangeDetectorRef
-  ) { 
+  ) {
 
     super();
 
@@ -635,7 +674,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    * the actions of the facet.
    */
   get actions(): Action[] {
-    let actions: Action[] &#x3D; [];
+    const actions: Action[] &#x3D; [];
     if(this.openedFacet){
       actions.push(this.backAction);
     }
@@ -657,44 +696,44 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 
   /**
    * Open this sub facet
-   * @param facet 
+   * @param facet
    */
   openFacet(facet: FacetConfig){
     this.openedFacet &#x3D; facet;
     this.events.next(facet);
-    this.changeDetectorRef.detectChanges();    
+    this.changeDetectorRef.detectChanges();
   }
 
   /**
    * Return the number of items to display for a given facet
-   * @param facet 
+   * @param facet
    */
   private getFacetCount(facet: FacetConfig): string {
     if(facet.type&#x3D;&#x3D;&#x3D;&#x27;tree&#x27;){
-      let agg &#x3D; this.facetService.getTreeAggregation(facet.name, facet.aggregation, this.results);
+      const agg &#x3D; this.facetService.getTreeAggregation(facet.name, facet.aggregation, this.results);
       if(!agg || !agg.items) return &quot;&quot;;
       return agg.items.length + &quot;&quot;;
     }
-    let agg &#x3D; this.facetService.getAggregation(facet.aggregation, this.results);
-    let count &#x3D; this.facetService.getAggregationCount(facet.aggregation);
-    if(!agg || !agg.items) return &quot;&quot;;
-    if(agg.items.length &gt;&#x3D; count){
-      return count+&quot;+&quot;;
-    }else{
-      return agg.items.length+&quot;&quot;;
-    }
+    const agg &#x3D; this.facetService.getAggregation(facet.aggregation, this.results);
+    const count &#x3D; this.facetService.getAggregationCount(facet.aggregation);
+    if (!agg || !agg.items)
+      return &quot;&quot;;
+    const aggItemCounter &#x3D; (!agg.isDistribution || facet.displayEmptyDistributionIntervals)
+      ? agg.items.length
+      : agg.items.filter(item &#x3D;&gt; item.count &gt; 0).length;
+    return aggItemCounter &gt;&#x3D; count ? &#x60;${count}+&#x60; : &#x60;${aggItemCounter}&#x60;;
   }
 
   /**
    * Return whether a given facet has data to show
-   * @param facet 
+   * @param facet
    */
   private hasData(facet: FacetConfig): boolean {
     if(facet.type&#x3D;&#x3D;&#x3D;&#x27;tree&#x27;){
-      let agg &#x3D; this.facetService.getTreeAggregation(facet.name, facet.aggregation, this.results);
+      const agg &#x3D; this.facetService.getTreeAggregation(facet.name, facet.aggregation, this.results);
       return !!agg &amp;&amp; !!agg.items &amp;&amp; agg.items.length &gt; 0;
     }
-    let agg &#x3D; this.facetService.getAggregation(facet.aggregation, this.results);
+    const agg &#x3D; this.facetService.getAggregation(facet.aggregation, this.results);
     return !!agg &amp;&amp; !!agg.items &amp;&amp; agg.items.length &gt; 0;
   }
 

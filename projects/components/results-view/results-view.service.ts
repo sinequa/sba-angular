@@ -24,7 +24,7 @@ export class ResultsViewService {
     protected readonly _resultsViews : ResultsView[];
 
     public resultsViewSelected = new Subject<any>();
-    
+
 
     /**
      * Constructor
@@ -51,12 +51,12 @@ export class ResultsViewService {
     }
 
     // EVENT HANDLERS
-    
+
     public selectResultsView(view: ResultsView){
         if (view) {
             this._resultsView = view;
             this.resultsViewSelected.next(view);
-            // Set resultsview in URL : 
+            // Set resultsview in URL :
             this.searchService.queryStringParams.resultsView = view.name;
         }
         else {
@@ -91,10 +91,10 @@ export class ResultsViewService {
         return queryParams;
     }
 
-    
+
     updateQueryParams(query: Query, oldParams: CCResults.QueryParams, newParams: CCResults.QueryParams): void {
-        
-        if (!!query && !!oldParams && Object.keys(oldParams).length > 0) {            
+
+        if (!!query && !!oldParams && Object.keys(oldParams).length > 0) {
             for (let key of Object.keys(oldParams)) {
                 const paramsValue = oldParams[key];
                 const queryValue = query[key];
@@ -109,7 +109,7 @@ export class ResultsViewService {
         }
 
         Utils.extend(query, newParams);
-        
+
     }
     */
 }

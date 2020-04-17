@@ -43,14 +43,14 @@ export const MAX_QUERIES = new InjectionToken("MAX_QUERIES");
 })
 export class RecentQueriesService implements OnDestroy {
 
-    private readonly _events = new Subject<RecentQueryChangeEvent>();   
+    private readonly _events = new Subject<RecentQueryChangeEvent>();
     private readonly _changes = new Subject<RecentQueryChangeEvent>();
-    
+
     constructor(
         public userSettingsService: UserSettingsWebService,
         public searchService: SearchService,
         @Optional() @Inject(MAX_QUERIES) private maxQueries: number,
-    ){        
+    ){
         if(!this.maxQueries){
             this.maxQueries = 20;
         }
@@ -63,7 +63,7 @@ export class RecentQueriesService implements OnDestroy {
         });
         // Listen to own events, to trigger change events
         this._events.subscribe(event => {
-            if(RECENT_QUERIES_CHANGE_EVENTS.indexOf(event.type) !== -1){                
+            if(RECENT_QUERIES_CHANGE_EVENTS.indexOf(event.type) !== -1){
                 this.changes.next(event);
             }
         });
@@ -92,7 +92,7 @@ export class RecentQueriesService implements OnDestroy {
     }
 
     /**
-     * Triggers any event among RecentQueryChangeEvent 
+     * Triggers any event among RecentQueryChangeEvent
      * (use for fine-grained control of recent queries workflow)
      */
     public get events() : Subject<RecentQueryChangeEvent> {
@@ -100,7 +100,7 @@ export class RecentQueriesService implements OnDestroy {
     }
 
     /**
-     * Triggers when events affect the list of recent queries 
+     * Triggers when events affect the list of recent queries
      * (use to refresh recent queries menus)
      * Cf. CHANGE_EVENTS list
      */
@@ -116,18 +116,18 @@ export class RecentQueriesService implements OnDestroy {
     }
 
     /**
-     * @returns a recent query with the given name or null if it does not exist
-     * @param name 
+     * @returns a recent query with the given name or undefined if it does not exist
+     * @param name
      */
     public recentquery(text: string): RecentQuery | undefined {
-        let i = this.recentqueryIndex(text);
+        const i = this.recentqueryIndex(text);
         return i>= 0? this.recentqueries[i] : undefined;
     }
 
     private recentqueryIndex(text: string): number {
         for (let i = 0, ic = this.recentqueries.length; i < ic; i++) {
-            let recentquery = this.recentqueries[i];
-            if (recentquery && recentquery.query.text === text) {
+            const recentquery = this.recentqueries[i];
+            if (recentquery && recentquery.query.text && recentquery.query.text.toLowerCase() === text.toLowerCase()) {
                 return i;
             }
         }
@@ -154,7 +154,7 @@ export class RecentQueriesService implements OnDestroy {
             return false;
         }
 
-        let i = this.recentqueryIndex(recentquery.query.text); // If the query already exists
+        const i = this.recentqueryIndex(recentquery.query.text); // If the query already exists
         if(i >= 0){
             // Ignore identical queries issued within a certain time window (1s)
             // to avoid flooding the server. NB the request flooding mitigation in
@@ -192,14 +192,14 @@ export class RecentQueriesService implements OnDestroy {
 
     /**
      * Deletes the given RecentQuery (based on its name)
-     * Emits an RecentQuery event.    
+     * Emits an RecentQuery event.
      * Update the data on the server.
-     * @param recentquery 
+     * @param recentquery
      * @returns true if recent query was deleted
      */
     public deleteRecentQuery(recentquery: RecentQuery) : boolean {
 
-        let index = this.recentqueryIndex(recentquery.query.text || "");
+        const index = this.recentqueryIndex(recentquery.query.text || "");
 
         if(index === -1)
             return false; // Nothing to delete

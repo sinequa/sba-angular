@@ -13,6 +13,12 @@
     "target": "es2015",
     "allowSyntheticDefaultImports": true,
     "preserveSymlinks": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals" : true,
+    "strictFunctionTypes" : true,
+    "strictNullChecks": true,
     "typeRoots": [
       "node_modules/@types",
       "projects/core/@types"

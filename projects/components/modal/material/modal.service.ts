@@ -54,7 +54,7 @@ export class MdModalService extends ModalService {
         };
         const originalClose = dialogRef.close;
         dialogRef.close = function(result = ModalResult.Cancel) {
-            let checkCloseEvent: CheckCloseEvent = {result};
+            const checkCloseEvent: CheckCloseEvent = {result};
             checkClose.next(checkCloseEvent);
             (checkCloseEvent.cancelled || of(false)).subscribe(
                 (cancelled) => {
@@ -68,7 +68,7 @@ export class MdModalService extends ModalService {
     }
 
     openRef(component: Type<any>, config: ModalConfig = {}): IModalRef {
-        let matConfig: MatDialogConfig = {
+        const matConfig: MatDialogConfig = {
             data: config.model
         };
         if (!Utils.isUndefined(config.panelClass)) {

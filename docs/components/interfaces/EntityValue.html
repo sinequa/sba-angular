@@ -348,7 +348,7 @@ export class ResultEntitySummary implements OnChanges {
     }
 
     ngOnChanges(){
-        
+
         this.entity_stats &#x3D; [];
 
         this.highlightedEntities.forEach(highlight &#x3D;&gt; {
@@ -361,22 +361,22 @@ export class ResultEntitySummary implements OnChanges {
                 });
             }
         });
-        
+
     }
 
     entityStats(raw_values : any[]) : EntityValue[]{
         return raw_values.map( value &#x3D;&gt; {
             if(!!value[&#x27;locations&#x27;] &amp;&amp; !!value[&quot;originalLocations&quot;]){
-                let locations &#x3D; value[&quot;locations&quot;].split(&#x27;,&#x27;).map(l &#x3D;&gt; +l);
-                let originalLocations &#x3D; value[&quot;originalLocations&quot;].split(&#x27;,&#x27;).map(l &#x3D;&gt; +l);
+                const locations &#x3D; value[&quot;locations&quot;].split(&#x27;,&#x27;).map(l &#x3D;&gt; +l);
+                const originalLocations &#x3D; value[&quot;originalLocations&quot;].split(&#x27;,&#x27;).map(l &#x3D;&gt; +l);
                 return {
                     display : value[&quot;display&quot;],
                     value : value[&quot;value&quot;],
-                    locations : locations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D; 0),
-                    lengths : locations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D; 1),
-                    originalLocations : originalLocations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D; 0),
-                    originalLengths: originalLocations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D; 1),
-                }
+                    locations : locations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D;&#x3D; 0),
+                    lengths : locations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D;&#x3D; 1),
+                    originalLocations : originalLocations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D;&#x3D; 0),
+                    originalLengths: originalLocations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D;&#x3D; 1),
+                };
             }
             return value;
         });
@@ -387,7 +387,8 @@ export class ResultEntitySummary implements OnChanges {
         this.searchService.search();
     }
 
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
 

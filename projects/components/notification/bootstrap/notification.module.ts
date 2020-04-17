@@ -11,7 +11,7 @@ import {BsActionModule} from "@sinequa/components/action";
 
 @NgModule({
     imports: [
-        CommonModule,        
+        CommonModule,
         IntlModule,
         BsActionModule,
         BrowserModule,

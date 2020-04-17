@@ -26,7 +26,7 @@ export class Collapse implements AfterViewInit {
     @Input() collapsed: boolean;
     afterViewInit: boolean; // This allows to only trigger the animation after the view initialization
     @ContentChild(TemplateRef, {static: false}) template: TemplateRef<any>;
-    
+
     constructor() {
         this.collapsed = true;
     }

@@ -13,8 +13,8 @@ export class BsTabs implements OnChanges {
     /**
      * List of custom tabs (complementing the search query tabs)
      * Actions can be performed on click via the events Output.
-     * 
-     * When the results are updated (new search text, facet 
+     *
+     * When the results are updated (new search text, facet
      * selection...), the custom tab selection is discarded.
      * If the custom action updates the results, the tab selection
      * will revert to previous state unless the query is updated.
@@ -54,7 +54,7 @@ export class BsTabs implements OnChanges {
             this.update();
         }
     }
-    
+
     selectTab(tab: Tab, search = true) {
         if (tab !== this.currentTab) {
             if(search){

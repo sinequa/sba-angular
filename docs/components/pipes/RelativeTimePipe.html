@@ -97,15 +97,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateValue(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, params)</code>
+<code>updateValue(key: number | Date | undefined, params)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">utils/pipes/relative-time-pipe.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">utils/pipes/relative-time-pipe.ts:13</a></div>
                 </td>
             </tr>
 
@@ -127,7 +127,7 @@
                                 <tr>
                                     <td>key</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            <code>number | Date | undefined</code>
                                     </td>
 
                                     <td>
@@ -172,17 +172,18 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Pipe, ChangeDetectorRef} from &quot;@angular/core&quot;;
 import {AbstractIntlPipe, IntlService} from &quot;@sinequa/core/intl&quot;;
 
+// tslint:disable-next-line: use-pipe-transform-interface
 @Pipe({name: &quot;sqRelativeTime&quot;, pure: false})
 export class RelativeTimePipe extends AbstractIntlPipe {
-    constructor(        
-        intlService: IntlService, 
+    constructor(
+        intlService: IntlService,
         changeDetectorRef: ChangeDetectorRef) {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(key: number, params: {unit: Intl.RelativeTimeUnit} &amp; Intl.RelativeTimeFormatOptions &amp; { format?: string; }): void {
+    updateValue(key: number | Date | undefined, params: {unit: Intl.RelativeTimeUnit} &amp; Intl.RelativeTimeFormatOptions &amp; { format?: string; }): void {
         super.updateValue(key, params);
-        this.value &#x3D; this.intlService.formatRelativeTime(key, params.unit, params);
+        this.value &#x3D; this.intlService.formatRelativeTime(key, params ? params.unit : undefined, params);
     }
 }</code></pre>
     </div>

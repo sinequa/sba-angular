@@ -5,4 +5,4 @@ export default {
         "hideNotifications": "Benachrichtigungen verstecken",
         "clearNotifications": "Benachrichtigungen löschen",
     }
-}
+};

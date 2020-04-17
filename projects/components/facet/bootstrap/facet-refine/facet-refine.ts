@@ -21,7 +21,7 @@ export class BsRefine extends AbstractFacet implements OnChanges {
      * Whether or not to enable autocompletion
      */
     @Input() autocompleteEnabled: boolean;
-    
+
     /**
      * Suggest query with which to perform autocompletion
      */
@@ -30,7 +30,7 @@ export class BsRefine extends AbstractFacet implements OnChanges {
     /**
      * Allows search with fielded search rather than full text search
      */
-    @Input() fieldSearch: boolean; 
+    @Input() fieldSearch: boolean;
 
     /**
      * In case of enabled fielded search, this allows to blacklist specific fields
@@ -69,14 +69,14 @@ export class BsRefine extends AbstractFacet implements OnChanges {
 
     doRefine = () => {
         if (this.searchControl) {
-            let text = Utils.trim(this.searchControl.value);
+            const text = Utils.trim(this.searchControl.value);
             if (text) {
                 this.searchService.searchRefine(text);
             }
         }
     }
 
-    setError(parseResult: ParseResult = {}){        
+    setError(parseResult: ParseResult = {}){
         if(parseResult.error !== this.inputErrorMessage){
             this.inputErrorMessage = parseResult.error || "";
             this.changeDetectorRef.markForCheck();

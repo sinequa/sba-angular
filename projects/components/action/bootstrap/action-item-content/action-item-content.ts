@@ -4,7 +4,7 @@ import {Action} from "../../action";
 @Component({
     selector: "sq-action-item-content",
     templateUrl: "./action-item-content.html",
-    styles: [`    
+    styles: [`
 .sq-action-item-content-container > div:not(:last-child) {
     margin-right: 0.25rem;
 }

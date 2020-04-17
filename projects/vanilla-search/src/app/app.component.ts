@@ -21,7 +21,7 @@ export class AppComponent extends ComponentWithLogin {
         loginService: LoginService,
         cdRef: ChangeDetectorRef,
 
-        // Services are instantiated by the app component, 
+        // Services are instantiated by the app component,
         // to guarantee they are instantiated in a consistent order,
         // regardless of the entry route.
         // The order below impacts the order of the actions in the selection menu.
@@ -56,7 +56,7 @@ export class AppComponent extends ComponentWithLogin {
             if(this.appService.app && this.appService.app.data && this.appService.app.data.features){
                 features = <string[]> this.appService.app.data.features;
             }
-            
+
             features.forEach(feature => {
                 switch(feature) {
                     case 'saved-queries': {
@@ -65,14 +65,14 @@ export class AppComponent extends ComponentWithLogin {
                     }
                     case 'baskets': {
                         this.basketsService.selectedRecordsAction.icon = "fas fa-inbox"; // Overriding the baskets icon (hard coded in the service)
-                        this.selectionService.selectionActions.push(this.basketsService.selectedRecordsAction);            
+                        this.selectionService.selectionActions.push(this.basketsService.selectedRecordsAction);
                         break;
                     }
                     case 'labels': {
-                        let action = this.labelsService.buildSelectionAction();
+                        const action = this.labelsService.buildSelectionAction();
                         if(action){
                             this.selectionService.selectionActions.push(action);
-                        }         
+                        }
                         break;
                     }
                 }

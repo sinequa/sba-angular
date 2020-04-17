@@ -18,8 +18,8 @@ export class BsPreviewSearchFormComponent implements OnChanges {
   constructor(
     protected router: Router,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder) { 
-    
+    private formBuilder: FormBuilder) {
+
     this.searchControl = new FormControl('');
     this.form = this.formBuilder.group({
       search: this.searchControl

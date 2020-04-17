@@ -72,7 +72,7 @@ export class Action implements IAction {
             this.updater(this);
         }
         if (this.children) {
-            for (let child of this.children) {
+            for (const child of this.children) {
                 child.update();
             }
         }

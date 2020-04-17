@@ -3,12 +3,12 @@ import {Utils, MapOf} from "@sinequa/core/base";
 import {StartConfig} from "./start-config.web.service";
 
 /**
- * A base helper class for web services. It holds the {@link StartConfig} for the app 
+ * A base helper class for web services. It holds the {@link StartConfig} for the app
  */
 export abstract class HttpService {
     /**
      * Constructor
-     * 
+     *
      * @param startConfig The start configuration
      */
     constructor(
@@ -36,7 +36,7 @@ export abstract class HttpService {
 
     /**
      * Makes an Angular {@link HttpParams} object from a basic Javascript object
-     * 
+     *
      * @param params A map of parameter values
      */
     makeParams(params: MapOf<string | boolean | number | Date | object | undefined>): HttpParams {

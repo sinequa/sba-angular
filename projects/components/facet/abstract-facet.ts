@@ -10,7 +10,7 @@ export abstract class AbstractFacet {
     /**
      * List of custom actions of this facet
      */
-    public get actions(): Action[] { return []; };
+    public get actions(): Action[] { return []; }
 
     /**
      * Event emitter triggered when the list of action changes
@@ -26,7 +26,7 @@ export abstract class AbstractFacet {
      * Template for header of this facet, if any
      */
     @ViewChild("headerTpl", {static: true, read: TemplateRef}) public headerTpl?: TemplateRef<any>;
-    
+
     /**
      * Template for footer of this facet, if any
      */

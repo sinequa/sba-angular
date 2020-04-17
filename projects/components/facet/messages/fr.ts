@@ -1,5 +1,5 @@
 export default {
-    "facet": {        
+    "facet": {
         "showFacetTextView": "Afficher le texte",
         "showFacetChartView": "Afficher le graphique",
         "itemExclude": "Exclure",
@@ -23,7 +23,7 @@ export default {
         "authors": {
             "title": "Auteurs"
         },
-         "concepts": {
+        "concepts": {
             "title": "Concepts"
         },
         "company": {
@@ -99,9 +99,9 @@ export default {
             "weekYear": "s{week, number, sqWeek} {weekYear, number, sqYear}",
             "apply": "Appliquer",
             "clear": "Effacer",
-            "unavailable": "Aucun document disponible dans la plage courante"
+            "unavailable": "Aucune plage disponible"
         },
-        
+
         "filters":{
             "add":"Ajouter la facette",
             "remove":"Retirer la facette",
@@ -116,7 +116,8 @@ export default {
 
         "selectedValue": "Cette valeur est sélectionnée dans la recherche actuelle",
         "previous": "Précédent",
-        "next": "Suivant"
+        "next": "Suivant",
+        "filterItemCountTooltip": "{count} valeurs possibles pour ce filtre",
     },
 
     "facetCard": {
@@ -127,4 +128,4 @@ export default {
         "openSettings": "Ouvrir les paramètres",
         "saveSettings": "Enregistrer les paramètres"
     }
-}
+};

@@ -1,4 +1,4 @@
-import {PipeTransform, OnDestroy, ChangeDetectorRef} from "@angular/core";
+import {Pipe, PipeTransform, OnDestroy, ChangeDetectorRef} from "@angular/core";
 import {Subscription} from "rxjs";
 import {IntlService} from "./intl.service";
 import {Utils} from "@sinequa/core/base";
@@ -9,6 +9,7 @@ import {Utils} from "@sinequa/core/base";
  * be declared as `pure: false` - the current value is cached to avoid
  * unnecessary processing
  */
+@Pipe({name: "sqAbstractIntlPipe", pure: false})
 export abstract class AbstractIntlPipe implements PipeTransform, OnDestroy {
     protected value: any = "";
     protected lastValue: any;
@@ -20,13 +21,13 @@ export abstract class AbstractIntlPipe implements PipeTransform, OnDestroy {
         protected changeDetectorRef: ChangeDetectorRef) {
     }
 
-    protected updateValue(value: any, params: any): void {
+    protected updateValue(value: any, params?: any): void {
         this.lastValue = value;
         this.lastParams = params;
         this.changeDetectorRef.markForCheck();
     }
 
-    transform(value: any, params: any = {}): any {
+    transform(value: any, params?: any): any {
         // if we ask another time for the same key, return the last value
         if (Utils.equals(value, this.lastValue) && Utils.equals(params, this.lastParams)) {
             return this.value;
@@ -50,6 +51,8 @@ export abstract class AbstractIntlPipe implements PipeTransform, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.localeChange.unsubscribe();
+        if (this.localeChange) {
+            this.localeChange.unsubscribe();
+        }
     }
 }

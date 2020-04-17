@@ -25,7 +25,7 @@ export interface LinkResult {
 }
 
 /**
- * Describes a set of sponsored links 
+ * Describes a set of sponsored links
  */
 export interface LinksResults {
     sql: string[];

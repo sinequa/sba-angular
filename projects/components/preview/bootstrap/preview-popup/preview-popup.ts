@@ -95,7 +95,7 @@ export class BsPreviewPopup implements OnInit, OnDestroy {
         if (!this.searchService.results || !this.searchService.results.records) {
             return false;
         }
-        let searchPosition = this.getSearchPositionInPage();
+        const searchPosition = this.getSearchPositionInPage();
         return searchPosition >= 0 && searchPosition < (this.searchService.results.records.length - 1);
     }
 
@@ -103,7 +103,7 @@ export class BsPreviewPopup implements OnInit, OnDestroy {
         const id = this.currentId;
         if (id && this.searchService.results && this.searchService.results.records) {
             for (let i = 0, ic = this.searchService.results.records.length; i < ic; i++) {
-                let record = this.searchService.results.records[i];
+                const record = this.searchService.results.records[i];
                 if (record.id === id) {
                     return i;
                 }
@@ -116,11 +116,11 @@ export class BsPreviewPopup implements OnInit, OnDestroy {
         if (!this.searchService.results || !this.searchService.results.records) {
             return;
         }
-        let index = this.getSearchPositionInPage();
+        const index = this.getSearchPositionInPage();
         if (index <= 0) {
             return;
         }
-        let item = this.searchService.results.records[index - 1];
+        const item = this.searchService.results.records[index - 1];
         this.updatePreviewData(item.id);
     }
 
@@ -128,11 +128,11 @@ export class BsPreviewPopup implements OnInit, OnDestroy {
         if (!this.searchService.results || !this.searchService.results.records) {
             return;
         }
-        let index = this.getSearchPositionInPage();
+        const index = this.getSearchPositionInPage();
         if (index === -1 || index >= (this.searchService.results.records.length - 1)) {
             return;
         }
-        let item = this.searchService.results.records[index + 1];
+        const item = this.searchService.results.records[index + 1];
         this.updatePreviewData(item.id);
     }
 }

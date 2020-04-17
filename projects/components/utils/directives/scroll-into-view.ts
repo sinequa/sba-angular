@@ -1,7 +1,7 @@
 import {Directive, Input, OnChanges, ElementRef} from "@angular/core";
 
 export interface ScrollIntoViewOptions {
-    active: boolean;    
+    active: boolean;
     first: boolean;
 }
 
@@ -12,7 +12,7 @@ export class ScrollIntoView implements OnChanges {
     @Input("sqScrollIntoView") options: ScrollIntoViewOptions;
 
     constructor(
-        private elementRef: ElementRef) {            
+        private elementRef: ElementRef) {
     }
 
     ngOnChanges() {

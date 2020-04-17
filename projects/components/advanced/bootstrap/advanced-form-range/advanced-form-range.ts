@@ -38,7 +38,7 @@ export class BsAdvancedFormRange implements OnInit, OnDestroy {
     }
 
     get isDate(): boolean {
-        return !!this.column && AppService.isDate(this.column);        
+        return !!this.column && AppService.isDate(this.column);
     }
 
     ngOnInit() {
@@ -70,7 +70,7 @@ export class BsAdvancedFormRange implements OnInit, OnDestroy {
 
     ensureValue(value: string): string | number | Date {
         if (this.isDate) {
-            let value1 = Utils.toDate(value);
+            const value1 = Utils.toDate(value);
             if (value1 !== undefined) {
                 return value1;
             }
@@ -81,7 +81,7 @@ export class BsAdvancedFormRange implements OnInit, OnDestroy {
             }
         }
         return value;
-    } 
+    }
 
     updateFrom(from: string) {
         this.value[0] = this.ensureValue(from);

@@ -10,7 +10,7 @@ export const DATE_PICKER_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => BsDatePicker),
     multi: true
-}
+};
 
 export interface DatePickerOptions {
     name?: string;
@@ -78,9 +78,9 @@ export class BsDatePicker implements OnInit, AfterViewInit, OnDestroy, ControlVa
 
     bsConfig(): BsDatepickerConfig {
         return <any>{
-            minDate: this.options.minDate, 
-            maxDate: this.options.maxDate, 
-            containerClass:'theme-default', 
+            minDate: this.options.minDate,
+            maxDate: this.options.maxDate,
+            containerClass:'theme-default',
             showWeekNumbers: false,
             dateInputFormat: this.options.system ? this.SystemFormat : "L"
         };

@@ -209,7 +209,7 @@ export class RecentQueriesWebService extends HttpService {
     }
 
     load(): Observable&lt;RecentQueries&gt; {
-        let observable &#x3D; this.httpClient.get&lt;RecentQueries&gt;(this.makeUrl(&quot;recentqueries&quot;), {
+        const observable &#x3D; this.httpClient.get&lt;RecentQueries&gt;(this.makeUrl(&quot;recentqueries&quot;), {
             params: this.makeParams({
                 app: this.appName,
                 action: &quot;load&quot;
@@ -219,7 +219,7 @@ export class RecentQueriesWebService extends HttpService {
             (response) &#x3D;&gt; {
                 this.recentQueries &#x3D; response;
                 if (!this.recentQueries)
-                	this.recentQueries &#x3D; new RecentQueries();
+                    this.recentQueries &#x3D; new RecentQueries();
                 if (this.recentQueries) {
                     if (!this.recentQueries.app)
                         this.recentQueries.app &#x3D; new RecentQueriesList(this.appName);

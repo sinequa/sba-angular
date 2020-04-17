@@ -340,12 +340,12 @@ export interface ActionItemOptions {
 export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges {
     @Input(&quot;sq-action-item&quot;) options: ActionItemOptions;
     @Input() collapseBreakpoint: string &#x3D; &quot;md&quot;;
-    inListItem: boolean;    
+    inListItem: boolean;
     dropdownButton: Element;
     dropdownListItem: Element;
     autoAdjustBreakpoint: string;
     focussed: boolean;
-    
+
     constructor(
         private uiService: UIService,
         private elementRef: ElementRef) {
@@ -364,11 +364,11 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
     }
 
     get isDropdownButton(): boolean {
-        return this.isVisible &amp;&amp; !this.inListItem &amp;&amp; this.options.item.hasChildren;        
+        return this.isVisible &amp;&amp; !this.inListItem &amp;&amp; this.options.item.hasChildren;
     }
 
     get isButton(): boolean {
-        return this.isVisible &amp;&amp; !this.inListItem &amp;&amp; !this.options.item.hasChildren &amp;&amp; this.hasAction;        
+        return this.isVisible &amp;&amp; !this.inListItem &amp;&amp; !this.options.item.hasChildren &amp;&amp; this.hasAction;
     }
 
     get isDropdownListItem(): boolean {
@@ -379,14 +379,14 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
         return this.isVisible &amp;&amp; this.inListItem &amp;&amp; !this.options.item.hasChildren &amp;&amp; this.hasAction;
     }
 
-    get haveSpace(): boolean {        
+    get haveSpace(): boolean {
         if (this.uiService.screenSizeIsGreaterOrEqual(this.autoAdjustBreakpoint)) {
             return true;
         }
         if (this.inListItem &amp;&amp; this.uiService.screenSizeIsLess(this.collapseBreakpoint)) {
             return true;
         }
-        return false;        
+        return false;
     }
 
     get haveIcon(): boolean {
@@ -397,12 +397,12 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
         if (!this.haveItem) {
             return &quot;&quot;;
         }
-        let text &#x3D; this.options.item.text || &quot;&quot;;
+        const text &#x3D; this.options.item.text || &quot;&quot;;
         if (this.options.autoAdjust &amp;&amp; this.haveIcon) {
             return this.haveSpace ? text : &quot;&quot;;
         }
         else {
-            return text;            
+            return text;
         }
     }
 
@@ -410,13 +410,13 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
         if (!this.haveItem) {
             return &quot;&quot;;
         }
-        let text &#x3D; this.options.item.text || &quot;&quot;;
-        let title &#x3D; this.options.item.title || &quot;&quot;;
+        const text &#x3D; this.options.item.text || &quot;&quot;;
+        const title &#x3D; this.options.item.title || &quot;&quot;;
         if (this.options.autoAdjust &amp;&amp; this.haveIcon) {
-            return this.haveSpace ? (title !&#x3D;&#x3D; text ? title : &quot;&quot;) : title || text;                
+            return this.haveSpace ? (title !&#x3D;&#x3D; text ? title : &quot;&quot;) : title || text;
         }
         else {
-            return title;            
+            return title;
         }
     }
 
@@ -426,53 +426,53 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
         }
         return this.options.item.messageParams;
     }
-        
+
     get sizeClass(): string {
         return this.options.size ? &#x60;btn-${this.options.size}&#x60; : &quot;&quot;;
     }
-    
+
     get styleClass(): string {
         return this.options.style ? &#x60;btn-${this.options.style}&#x60; : &quot;btn-light&quot;;
     }
-    
+
     ngAfterViewInit() {
         this.dropdownButton &#x3D; this.elementRef.nativeElement.querySelector(&quot;div.dropdown&quot;);
         this.dropdownListItem &#x3D; this.elementRef.nativeElement.querySelector(&quot;li.dropdown-toggle&quot;);
     }
-    
+
     ngOnInit() {
         if (this.options.item.init) {
             this.options.item.init(this.options.item);
         }
-        this.autoAdjustBreakpoint &#x3D; this.options.autoAdjustBreakpoint;         
+        this.autoAdjustBreakpoint &#x3D; this.options.autoAdjustBreakpoint;
     }
-    
+
     ngOnDestroy() {
         if (this.options.item.destroy) {
             this.options.item.destroy(this.options.item);
         }
-        this.unbind();         
+        this.unbind();
     }
-    
+
     ngOnChanges(changes: SimpleChanges) {
         this.unbind();
         this.bind();
     }
-    
+
     bind() {
         this.inListItem &#x3D; (this.elementRef.nativeElement.nodeName &#x3D;&#x3D;&#x3D; &quot;LI&quot;);
     }
-    
+
     unbind() {
     }
-        
+
     click(event: UIEvent) {
         if (!this.options.item.disabled) {
             if (this.options.item.action) {
                 this.options.item.action(this.options.item, event);
             }
             if (this.options.item.toggle &amp;&amp; (this.isDropdownButton || this.isDropdownListItem)) {
-                let openElement &#x3D; this.dropdownButton || (this.dropdownListItem ? this.dropdownListItem.parentElement : null);
+                const openElement &#x3D; this.dropdownButton || (this.dropdownListItem ? this.dropdownListItem.parentElement : null);
                 if (openElement) {
                     this.options.item.toggle(this.options.item, !openElement.classList.contains(&quot;open&quot;));
                 }

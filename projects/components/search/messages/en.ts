@@ -44,4 +44,4 @@ export default {
         "filename": "File name",
         "title": "Title"
     }
-}
+};

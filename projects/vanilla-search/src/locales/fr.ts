@@ -2,7 +2,7 @@ import {LocaleData} from "@sinequa/core/intl";
 import "moment/locale/fr";
 import d3Format from "d3-format/locale/fr-FR.json";
 import d3Time from "d3-time-format/locale/fr-FR.json";
-import {frCore} from "@sinequa/core"; 
+import {frCore} from "@sinequa/core";
 import appMessages from "./messages/fr.json";
 import "intl/locale-data/jsonp/fr-FR"; // Safari
 import "@formatjs/intl-relativetimeformat/dist/locale-data/fr";
@@ -27,7 +27,7 @@ import {frUserSettings} from "@sinequa/components/user-settings";
 
 d3Format.thousands = " "; // consistency with intl-number-format
 
-const messages = Utils.merge({}, frCore, frAdvanced, frAlerts, frBaskets, frFacet, frFeedback, frHeatmap, frLabels, frMetadata, 
+const messages = Utils.merge({}, frCore, frAdvanced, frAlerts, frBaskets, frFacet, frFeedback, frHeatmap, frLabels, frMetadata,
     frNotification, frPreview, frResult, frResultsView, frSavedQueries, frSelection, frSearch, frStatusBar, frUserSettings, appMessages);
 
 export default <LocaleData>{
@@ -40,7 +40,7 @@ export default <LocaleData>{
     d3: {
         locale: "fr-FR",
         format: d3Format,
-        time: d3Time 
+        time: d3Time
     },
     messages: messages
 };

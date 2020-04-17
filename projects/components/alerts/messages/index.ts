@@ -9,4 +9,4 @@ const enAlerts = Utils.merge({}, _enAlerts, enSearch, enModal);
 const frAlerts = Utils.merge({}, _frAlerts, frSearch, frModal);
 const deAlerts = Utils.merge({}, _deAlerts, deSearch, deModal);
 
-export {enAlerts, frAlerts, deAlerts}
+export { enAlerts, frAlerts, deAlerts };

@@ -375,7 +375,7 @@ export class MlAuditService extends HttpService {
             this.session &#x3D; {
                 type: &quot;session&quot;,
                 subType: &quot;start&quot;,
-                id: Utils.guid(false),            
+                id: Utils.guid(false),
                 timestamp: this.newTimestamp(),
                 userId: this.principalService.principal.userId,
                 isAdmin: this.principalService.principal.isAdministrator,
@@ -419,7 +419,7 @@ export class MlAuditService extends HttpService {
             this.notifyEvent({
                 type: &quot;query&quot;,
                 subType: &quot;end&quot;,
-                id: this.query.id,                
+                id: this.query.id,
                 sessionId: this.session ? this.session.id : undefined,
                 dwellTime: this.calcDwellTime(this.query)
             });
@@ -461,7 +461,7 @@ export class MlAuditService extends HttpService {
     }
 
     private flushContext() {
-        let events: MlAuditService.Event[] &#x3D; [];
+        const events: MlAuditService.Event[] &#x3D; [];
         if (this.session &amp;&amp; !this.session.sent) {
             events.push(this.session);
         }
@@ -544,7 +544,7 @@ export class MlAuditService extends HttpService {
         if (!this.startConfig.mlAuditEnabled) {
             return of(undefined);
         }
-        let observable &#x3D; this.httpClient.post&lt;void&gt;(this.makeUrl(MlAuditService.Endpoint), {
+        const observable &#x3D; this.httpClient.post&lt;void&gt;(this.makeUrl(MlAuditService.Endpoint), {
             events: events
         });
         Utils.subscribe(observable,
@@ -571,18 +571,18 @@ export class MlAuditService extends HttpService {
 
     private ensureAuditRecord(auditEvents: AuditEvents): AuditRecord {
         if (Utils.isObject(auditEvents)) {
-            let auditRecord &#x3D; &lt;AuditRecord&gt;auditEvents;
+            const auditRecord &#x3D; &lt;AuditRecord&gt;auditEvents;
             if (auditRecord.auditEvents || auditRecord.mlAuditEvents) {
                 if (auditRecord.mlAuditEvents) {
                     return {
                         auditEvents: auditRecord.auditEvents,
                         mlAuditEvents: auditRecord.mlAuditEvents.map(actionInit &#x3D;&gt; this.newAction(actionInit))
-                    }
+                    };
                 }
             }
         }
         return &lt;AuditRecord&gt;auditEvents; // leave unchanged
-    } 
+    }
 
     requestInitializer &#x3D; (request: HttpRequest&lt;any&gt;): boolean &#x3D;&gt; {
         request.body.$auditRecord &#x3D; this.ensureAuditRecord(request.body.$auditRecord);
@@ -593,7 +593,7 @@ export class MlAuditService extends HttpService {
 export module MlAuditService {
     export type EventType &#x3D; &quot;session&quot; | &quot;query&quot; | &quot;results&quot; | &quot;action&quot;;
     export type EventSubType &#x3D; &quot;start&quot; | &quot;end&quot;;
-    export type ActionType &#x3D; &quot;click&quot; | &quot;preview&quot; | &quot;over&quot; | 
+    export type ActionType &#x3D; &quot;click&quot; | &quot;preview&quot; | &quot;over&quot; |
         &quot;addToBasket&quot; | &quot;removeFromBasket&quot; |
         &quot;addToLabel&quot; | &quot;removeFromLabel&quot; |
         &quot;addRating&quot; | &quot;removeRating&quot;;
@@ -616,7 +616,7 @@ export module MlAuditService {
     export interface Query extends Event {
         sessionId?: string;
         indexes?: string;
-        typingHistory?: any;        
+        typingHistory?: any;
         proposedExpansions?: any;
         selectedExpansions?: any;
     }

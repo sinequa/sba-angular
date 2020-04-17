@@ -23,7 +23,7 @@ export interface Labels {
     providedIn: "root"
 })
 export class LabelsWebService extends HttpService {
-    
+
     constructor(
         @Inject(START_CONFIG) startConfig: StartConfig,
         private httpClient: SqHttpClient,
@@ -33,14 +33,14 @@ export class LabelsWebService extends HttpService {
 
     /**
      * Calls the list action of the labels web service
-     * 
-     * @param prefix The string that the returned labels should begin with  
+     *
+     * @param prefix The string that the returned labels should begin with
      * @param _public Determines whether public or private labels should be returned
      */
     list(
         prefix: string,
         _public: boolean): Observable<Labels> {
-        let observable = this.httpClient.get<Labels>(this.makeUrl("labels"), {
+        const observable = this.httpClient.get<Labels>(this.makeUrl("labels"), {
             params: this.makeParams({
                 app: this.appName,
                 action: "list",
@@ -49,7 +49,7 @@ export class LabelsWebService extends HttpService {
                 locale: this.intlService.currentLocale.name,
                 localize: false
             })
-        });         
+        });
         Utils.subscribe(observable,
             (response) => {
                 return response;
@@ -57,13 +57,13 @@ export class LabelsWebService extends HttpService {
             (error) => {
                 console.log("labelsService.list failure - error: ", error);
             });
-        return observable;            
+        return observable;
     }
 
     /**
      * A wrapper around the list method. The matching labels are returned as an array of strings
-     * 
-     * @param prefix The string that the returned labels should begin with  
+     *
+     * @param prefix The string that the returned labels should begin with
      * @param _public Determines whether public or private labels should be returned
      */
     array(
@@ -77,7 +77,7 @@ export class LabelsWebService extends HttpService {
 
     /**
      * Add labels to a set of documents
-     * 
+     *
      * @param labels The labels to add
      * @param ids The ids of the documents to which the labels should be added
      * @param _public Determines whether the labels are public or private
@@ -85,7 +85,7 @@ export class LabelsWebService extends HttpService {
     add(labels: string[],
         ids: string[],
         _public: boolean): Observable<void> {
-        let observable = this.httpClient.post<void>(this.makeUrl("labels"), {
+        const observable = this.httpClient.post<void>(this.makeUrl("labels"), {
             app: this.appName,
             action: "add",
             labels: labels,
@@ -109,7 +109,7 @@ export class LabelsWebService extends HttpService {
                     }
                 ]
             }
-        });         
+        });
         Utils.subscribe(observable,
             (response) => {
                 return response;
@@ -117,12 +117,12 @@ export class LabelsWebService extends HttpService {
             (error) => {
                 console.log("labelsService.add failure - error: ", error);
             });
-        return observable;            
+        return observable;
     }
 
     /**
      * Removes labels from a set of documents
-     * 
+     *
      * @param labels The labels to remove
      * @param ids The ids of the documents from which the labels should be removed
      * @param _public Determines whether the labels are public or private
@@ -130,7 +130,7 @@ export class LabelsWebService extends HttpService {
     remove(labels: string[],
         ids: string[],
         _public: boolean): Observable<void> {
-        let observable = this.httpClient.post<void>(this.makeUrl("labels"), {
+        const observable = this.httpClient.post<void>(this.makeUrl("labels"), {
             app: this.appName,
             action: "remove",
             labels: labels,
@@ -162,12 +162,12 @@ export class LabelsWebService extends HttpService {
             (error) => {
                 console.log("labelsService.remove failure - error: ", error);
             });
-        return observable;            
+        return observable;
     }
 
     /**
      * Renames a set of labels
-     * 
+     *
      * @param labels The labels to rename
      * @param newLabel The new name for the labels
      * @param _public Determines whether the labels are public or private
@@ -175,7 +175,7 @@ export class LabelsWebService extends HttpService {
     rename(labels: string[],
         newLabel: string,
         _public: boolean): Observable<void> {
-        let observable = this.httpClient.post<void>(this.makeUrl("labels"), {
+        const observable = this.httpClient.post<void>(this.makeUrl("labels"), {
             app: this.appName,
             action: "rename",
             labels: labels,
@@ -197,18 +197,18 @@ export class LabelsWebService extends HttpService {
             (error) => {
                 console.log("labelsService.rename failure - error: ", error);
             });
-        return observable;            
-    } 
+        return observable;
+    }
 
     /**
      * Deletes a set of labels
-     * 
-     * @param labels The labels to be deleted 
+     *
+     * @param labels The labels to be deleted
      * @param _public Determines whether the labels are public or private
      */
     delete(labels: string[],
         _public: boolean): Observable<void> {
-        let observable = this.httpClient.post<void>(this.makeUrl("labels"), {
+        const observable = this.httpClient.post<void>(this.makeUrl("labels"), {
             app: this.appName,
             action: "delete",
             labels: labels,
@@ -228,12 +228,12 @@ export class LabelsWebService extends HttpService {
             (error) => {
                 console.log("labelsService.delete failure - error: ", error);
             });
-        return observable;            
-    } 
+        return observable;
+    }
 
     /**
      * Adds labels to the documents identified by the passed query
-     * 
+     *
      * @param labels The labels to add
      * @param query The query to produce the documents to which the labels should be added
      * @param _public Determines whether the labels are public or private
@@ -241,7 +241,7 @@ export class LabelsWebService extends HttpService {
     bulkAdd(labels: string[],
         query: IQuery,
         _public: boolean): Observable<void> {
-        let observable = this.httpClient.post<void>(this.makeUrl("labels"), {
+        const observable = this.httpClient.post<void>(this.makeUrl("labels"), {
             app: this.appName,
             action: "bulkAdd",
             labels: labels,
@@ -263,12 +263,12 @@ export class LabelsWebService extends HttpService {
             (error) => {
                 console.log("labelsService.bulkAdd failure - error: ", error);
             });
-        return observable;            
-    } 
+        return observable;
+    }
 
     /**
      * Removes labels from the documents identified by the passed query
-     * 
+     *
      * @param labels The labels to remove
      * @param query The query to produce the documents from which the labels should be removed
      * @param _public Determines whether the labels are public or private
@@ -276,7 +276,7 @@ export class LabelsWebService extends HttpService {
     bulkRemove(labels: string[],
         query: IQuery,
         _public: boolean): Observable<void> {
-        let observable = this.httpClient.post<void>(this.makeUrl("labels"), {
+        const observable = this.httpClient.post<void>(this.makeUrl("labels"), {
             app: this.appName,
             action: "bulkRemove",
             labels: labels,
@@ -298,6 +298,6 @@ export class LabelsWebService extends HttpService {
             (error) => {
                 console.log("labelsService.bulkRemove failure - error: ", error);
             });
-        return observable;            
-    } 
+        return observable;
+    }
 }

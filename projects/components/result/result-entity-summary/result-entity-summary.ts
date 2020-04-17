@@ -36,7 +36,7 @@ export class ResultEntitySummary implements OnChanges {
     }
 
     ngOnChanges(){
-        
+
         this.entity_stats = [];
 
         this.highlightedEntities.forEach(highlight => {
@@ -49,22 +49,22 @@ export class ResultEntitySummary implements OnChanges {
                 });
             }
         });
-        
+
     }
 
     entityStats(raw_values : any[]) : EntityValue[]{
         return raw_values.map( value => {
             if(!!value['locations'] && !!value["originalLocations"]){
-                let locations = value["locations"].split(',').map(l => +l);
-                let originalLocations = value["originalLocations"].split(',').map(l => +l);
+                const locations = value["locations"].split(',').map(l => +l);
+                const originalLocations = value["originalLocations"].split(',').map(l => +l);
                 return {
                     display : value["display"],
                     value : value["value"],
-                    locations : locations.filter((v,i) => i % 2 == 0),
-                    lengths : locations.filter((v,i) => i % 2 == 1),
-                    originalLocations : originalLocations.filter((v,i) => i % 2 == 0),
-                    originalLengths: originalLocations.filter((v,i) => i % 2 == 1),
-                }
+                    locations : locations.filter((v,i) => i % 2 === 0),
+                    lengths : locations.filter((v,i) => i % 2 === 1),
+                    originalLocations : originalLocations.filter((v,i) => i % 2 === 0),
+                    originalLengths: originalLocations.filter((v,i) => i % 2 === 1),
+                };
             }
             return value;
         });

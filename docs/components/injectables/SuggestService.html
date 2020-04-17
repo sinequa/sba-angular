@@ -582,7 +582,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/Item.html" target="_self" >Promise&lt;AutocompleteItem[]&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/AutocompleteItem.html" target="_self" >Promise&lt;AutocompleteItem[]&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -657,7 +657,7 @@ export class SuggestService {
         if (text.includes(&quot; &quot;)) {
             return;
         }
-        for (let field of this.appService.fields) {
+        for (const field of this.appService.fields) {
             if (Utils.startsWith(field, text)) {
                 suggests.unshift({
                     category: this.fieldCategory,
@@ -682,10 +682,10 @@ export class SuggestService {
                 }
                 else {
                     if (!suggests || suggests.length &#x3D;&#x3D;&#x3D; 0) {
-                        let _fields &#x3D; Utils.isArray(fields) ? fields : [fields];
+                        const _fields &#x3D; Utils.isArray(fields) ? fields : [fields];
                         fields &#x3D; [];
-                        for (let field of _fields) {
-                            let column &#x3D; this.appService.getColumn(field);
+                        for (const field of _fields) {
+                            const column &#x3D; this.appService.getColumn(field);
                             if (!!column &amp;&amp; (column.eType &#x3D;&#x3D;&#x3D; EngineType.csv || AppService.isScalar(column))) {
                                 fields.push(field);
                             }
@@ -703,7 +703,7 @@ export class SuggestService {
             }));
     }
 
-    
+
     /**
      * Search for the input text in a list of objects and return autocomplete items asynchronously
      * @param query The text to search for
@@ -713,14 +713,14 @@ export class SuggestService {
      */
     public async searchData&lt;T&gt;(
         category: string,
-        query: string, 
-        data: T[], 
-        primaryText: (obj:T) &#x3D;&gt; string, 
+        query: string,
+        data: T[],
+        primaryText: (obj:T) &#x3D;&gt; string,
         secondaryText?: (obj:T) &#x3D;&gt; string[],
         label?: string) : Promise&lt;AutocompleteItem[]&gt; {
 
         return data
-            .map(obj &#x3D;&gt; SuggestService.findMatch(primaryText(obj), query, 
+            .map(obj &#x3D;&gt; SuggestService.findMatch(primaryText(obj), query,
                 !!secondaryText ? secondaryText(obj) : [], obj)) // Look for matches in all saved queries
             .filter(item &#x3D;&gt; !!item) // Keep only the matches
             /*tslint:disable-next-line*/
@@ -729,8 +729,8 @@ export class SuggestService {
                 /*tslint:disable-next-line*/
                 item &#x3D; item!;
                 return {    // Make an autocomplete item
-                    display: item.display, 
-                    displayHtml: item.displayHtml, 
+                    display: item.display,
+                    displayHtml: item.displayHtml,
                     category,
                     label: label || category,
                     data: item.data
@@ -754,10 +754,10 @@ export class SuggestService {
         }
 
         // pass text and query in lower case and no accent to make search case insensitive
-        let textLower &#x3D; Utils.removeAccents(text.toLowerCase());
+        const textLower &#x3D; Utils.removeAccents(text.toLowerCase());
         query &#x3D; Utils.removeAccents(query.toLowerCase());
         let i &#x3D; 0;
-        let matches: number[] &#x3D; [];
+        const matches: number[] &#x3D; [];
         let score &#x3D; 0;
 
         // Compute score of the match
@@ -775,7 +775,7 @@ export class SuggestService {
             }
             i &#x3D; textLower.indexOf(query, i+query.length);
         }
-        
+
         // Format HTML display
         let html &#x3D; text;
         for(let j&#x3D;matches.length-1; j&gt;&#x3D;0; j--) { // decreasing order so the indices remain valid
@@ -794,7 +794,7 @@ export class SuggestService {
                     /*tslint:disable-next-line*/
                     match &#x3D; match!;
                     score +&#x3D; match.score / 2;  // Secondary matches added to the score, but count half
-                    html +&#x3D; &quot; &lt;small&gt;&quot; + match.displayHtml + &quot;&lt;/small&gt;&quot; // Concatenate secondary match html to the main html
+                    html +&#x3D; &quot; &lt;small&gt;&quot; + match.displayHtml + &quot;&lt;/small&gt;&quot;; // Concatenate secondary match html to the main html
                 });
         }
 
@@ -804,7 +804,7 @@ export class SuggestService {
                 displayHtml: html,
                 score: score,
                 data: data
-            }
+            };
         }
         return undefined;
     }

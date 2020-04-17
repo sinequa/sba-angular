@@ -3,7 +3,7 @@ import {Observable, of} from "rxjs";
 import {LabelsWebService, AuditEventType, Record} from "@sinequa/core/web-services";
 import {AppService} from "@sinequa/core/app-utils";
 import {Utils, IRef} from "@sinequa/core/base";
-import {SearchService} from "@sinequa/components/search"
+import {SearchService} from "@sinequa/components/search";
 import {ModalService, ModalResult} from "@sinequa/core/modal";
 import {Action} from "@sinequa/components/action";
 import {PrincipalWebService} from "@sinequa/core/web-services";
@@ -42,13 +42,13 @@ export class LabelsService {
         private labelsWebService: LabelsWebService,
         private appService: AppService,
         private searchService: SearchService,
-        private modalService: ModalService,        
+        private modalService: ModalService,
         private principalWebService: PrincipalWebService,
         private intlService: IntlService,
         private selectionService: SelectionService,
         @Inject(LABELS_COMPONENTS) public labelsComponents: LabelsComponents,
         ){
-            
+
         this.principalWebService.events.subscribe(
             (event) => {
                 switch (event.type) {
@@ -147,7 +147,7 @@ export class LabelsService {
         }
 
         let children: Action[];
-        let combined = !!this.publicLabelsField && !!this.privateLabelsField;        
+        const combined = !!this.publicLabelsField && !!this.privateLabelsField;
 
         if (combined) {
             children = [
@@ -174,7 +174,7 @@ export class LabelsService {
             return undefined;
         }
 
-        let menu = new Action({
+        const menu = new Action({
             text: labelsText,
             title: labelsTitle,
             icon: icon,
@@ -187,24 +187,24 @@ export class LabelsService {
 
         return menu;
     }
-    
+
     toggle = (item: Action, open: boolean) => {
         if (open) {
-            let formItem = item.children[0];
+            const formItem = item.children[0];
             (<IFormData>formItem.data).autofocus++;
         }
-    };
-    
+    }
+
     public buildSelectionAction(): Action | undefined {
-        let action = this.buildLabelsMenu(
+        const action = this.buildLabelsMenu(
             (items: Action[], _public: boolean) => {
-                let formItem = items[0];
+                const formItem = items[0];
                 items.push(
                     new Action({
                         text: _public? "msg#labels.addPublicLabelTitle" : "msg#labels.addPrivateLabelTitle",
                         action: (item, $event) => {
                             if ((<IFormData>formItem.data).labelRef.value) {
-                                let labels = this.split((<IFormData>formItem.data).labelRef.value);
+                                const labels = this.split((<IFormData>formItem.data).labelRef.value);
                                 this.addLabels(labels, this.selectionService.selectedRecords, _public);
                             }
                         }
@@ -214,7 +214,7 @@ export class LabelsService {
                         text: _public? "msg#labels.removePublicLabelTitle" : "msg#labels.removePrivateLabelTitle",
                         action: (item, $event) => {
                             if ((<IFormData>formItem.data).labelRef.value) {
-                                let labels = this.split((<IFormData>formItem.data).labelRef.value);
+                                const labels = this.split((<IFormData>formItem.data).labelRef.value);
                                 this.removeLabels(labels, this.selectionService.selectedRecords, _public);
                             }
                         }
@@ -222,8 +222,8 @@ export class LabelsService {
             });
         if(action){
             action.updater = (action) => {
-                action.hidden = this.selectionService.selectedRecords.length == 0;
-            }
+                action.hidden = this.selectionService.selectedRecords.length === 0;
+            };
             action.hidden = true;
         }
         return action;
@@ -231,7 +231,7 @@ export class LabelsService {
 
     // menu support
     private _makeFormItem(_public: boolean): Action {
-        let action = new Action({
+        const action = new Action({
                 component: this.labelsComponents.labelActionItem,
                 data: <IFormData>{
                 labelRef: {value: ""},
@@ -241,30 +241,30 @@ export class LabelsService {
         });
         action.componentInputs = {
             model: action
-        }
+        };
         return action;
     }
 
 
     // Build a standard labels menu with label entry form at the top and additional items added by a passed callback
     private _buildLabelsMenu(_public: boolean, addItems: (items: Action[], _public: boolean) => void): Action[] {
-        let items: Action[] = [
+        const items: Action[] = [
             this._makeFormItem(_public),
             new Action({
-                separator: true 
+                separator: true
             })
         ];
-        addItems(items, _public);      
+        addItems(items, _public);
         return items;
     }
 
-    
+
     // Labels
     /**
      * The following methods update the modify the labels for some documents via
      * the LabelsWebService, and they update the records in searchService.results
      * (for immediate display)
-     **/ 
+     **/
 
     private updateLabels(action: UpdateLabelsAction, labels: string[], ids: string[], newLabel: string, _public: boolean) {
 
@@ -275,7 +275,7 @@ export class LabelsService {
             this.appService.cclabels.publicLabelsField : this.appService.cclabels.privateLabelsField);
         if (field && this.searchService.results && this.searchService.results.records) {
             for (let j = 0, jc = this.searchService.results.records.length; j < jc; j++) {
-                let record = this.searchService.results.records[j];
+                const record = this.searchService.results.records[j];
                 if (!ids || ids.indexOf(record.id) !== -1) {
                     let currentLabels: string[] = record[field];
                     if (action === UpdateLabelsAction.add) {
@@ -285,7 +285,7 @@ export class LabelsService {
                     }
                     if (currentLabels) {
                         for (let k = 0, kc = labels.length; k < kc; k++) {
-                            let label = labels[k];
+                            const label = labels[k];
                             let index;
                             switch (action) {
                                 case UpdateLabelsAction.add:
@@ -332,7 +332,7 @@ export class LabelsService {
         if (!labels || labels.length === 0 || !ids || ids.length === 0) {
             return of();
         }
-        let observable = this.labelsWebService.add(labels, ids, _public);
+        const observable = this.labelsWebService.add(labels, ids, _public);
         Utils.subscribe(observable,
             () => {
                 this.updateLabels(UpdateLabelsAction.add, labels, ids, "", _public);
@@ -344,7 +344,7 @@ export class LabelsService {
         if (!labels || labels.length === 0 || !ids || ids.length === 0) {
             return of();
         }
-        let observable = this.labelsWebService.remove(labels, ids, _public);
+        const observable = this.labelsWebService.remove(labels, ids, _public);
         Utils.subscribe(observable,
             () => {
                 this.updateLabels(UpdateLabelsAction.remove, labels, ids, "", _public);
@@ -358,9 +358,9 @@ export class LabelsService {
         if (!field) {
             return Promise.resolve(false);
         }
-        let items: {value: string, display: string}[] = [];
+        const items: {value: string, display: string}[] = [];
         for (let label of labels) {
-            let display = label;
+            const display = label;
             if (!_public) {
                 label = <string>this.addPrivatePrefix(label);
             }
@@ -381,7 +381,7 @@ export class LabelsService {
         if (!labels || labels.length === 0) {
             return of();
         }
-        let observable = this.labelsWebService.rename(labels, newLabel, _public);
+        const observable = this.labelsWebService.rename(labels, newLabel, _public);
         Utils.subscribe(observable,
             () => {
                 this.updateLabels(UpdateLabelsAction.rename, labels, [], newLabel, _public);
@@ -393,7 +393,7 @@ export class LabelsService {
         if (!labels || labels.length === 0) {
             return of();
         }
-        let observable = this.labelsWebService.delete(labels, _public);
+        const observable = this.labelsWebService.delete(labels, _public);
         Utils.subscribe(observable,
             () => {
                 this.updateLabels(UpdateLabelsAction.delete, labels, [], "", _public);
@@ -405,10 +405,10 @@ export class LabelsService {
      * Get the ids of the record currently in searchService.results
      */
     getCurrentRecordIds(): string[]{
-        let ids: string[] = [];
+        const ids: string[] = [];
         if (this.searchService.results && this.searchService.results.records) {
             for (let i = 0, ic = this.searchService.results ? this.searchService.results.records.length : 0; i < ic; i++) {
-                let record = this.searchService.results.records[i];
+                const record = this.searchService.results.records[i];
                 ids.push(record.id);
             }
         }
@@ -431,7 +431,7 @@ export class LabelsService {
         if (!labels || labels.length === 0) {
             return of();
         }
-        let observable = this.labelsWebService.bulkAdd(labels, this.searchService.query, _public);
+        const observable = this.labelsWebService.bulkAdd(labels, this.searchService.query, _public);
         Utils.subscribe(observable,
             () => {
                 this.updateLabels(UpdateLabelsAction.bulkAdd, labels, this.getCurrentRecordIds(), "", _public);
@@ -443,7 +443,7 @@ export class LabelsService {
         if (!labels || labels.length === 0) {
             return of();
         }
-        let observable = this.labelsWebService.bulkRemove(labels, this.searchService.query, _public);
+        const observable = this.labelsWebService.bulkRemove(labels, this.searchService.query, _public);
         Utils.subscribe(observable,
             () => {
                 this.updateLabels(UpdateLabelsAction.bulkRemove, labels, this.getCurrentRecordIds(), "", _public);
@@ -451,7 +451,7 @@ export class LabelsService {
         return observable;
     }
 
- 
+
     get privateLabelsPrefix(): string {
         if (!this.principalWebService.principal) {
             return "";
@@ -497,7 +497,7 @@ export class LabelsService {
         }
         else {
             return this.privateLabelsPrefix + label;
-        }   
+        }
     }
 
     addPrivatePrefix(labels: string|string[]): string|string[] {
@@ -507,7 +507,7 @@ export class LabelsService {
         else {
             for (let i = 0, ic = labels.length; i < ic; i++) {
                 labels[i] = this._addPrivatePrefix(labels[i]);
-            }            
+            }
             return labels;
         }
     }
@@ -534,5 +534,5 @@ export class LabelsService {
             }
             return labels;
         }
-    } 
+    }
 }

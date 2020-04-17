@@ -11,4 +11,4 @@ export default {
     "selection": {
         "selectedDocuments": "{count, plural, =0 {} one {# ausgewähltes Dokument} other {# ausgewählte Dokumente}}"
     }
-}
+};

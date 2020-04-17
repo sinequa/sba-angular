@@ -32,7 +32,7 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
     //stores indices of selected items
     private selectedItems: number[];
     private onChangeCallback: (_: any) => void = () => {};
-    
+
     ngOnInit() {
         this.clearSelected();
         // disable an empty list
@@ -65,9 +65,9 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
             event.preventDefault();
             event.stopImmediatePropagation();
             Utils.delay().then(() => {
-                this.buttonElement.nativeElement.focus();         
+                this.buttonElement.nativeElement.focus();
             });
-            return;                
+            return;
         }
         this.setOpen(false);
     }
@@ -135,7 +135,7 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
     }
 
     toggleItemSelected(itemIndex: number): void {
-        let idx: number = this.selectedItems.indexOf(itemIndex);
+        const idx: number = this.selectedItems.indexOf(itemIndex);
 
         // Remove item if it was already selected
         if (idx > -1) {
@@ -171,13 +171,13 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
         const selectCount = this.countSelected();
         const threshold = this.options.visibleThreshold || 4;
 
-        if (selectCount == 0) {
+        if (selectCount === 0) {
             return "msg#advanced.select.noItems";
         }
         if (!this.options.multiple) {
             return this.options.items.getName(this.selectedItems[0]);
         }
-        if (selectCount == this.options.items.length) {
+        if (selectCount === this.options.items.length) {
             return "msg#advanced.select.allItems";
         }
         if (selectCount > threshold) {

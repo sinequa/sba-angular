@@ -73,7 +73,7 @@ export class BsPageSizeSelector implements OnChanges {
                 this.updatePageSize(item.data);
             }
         }));
-        
+
         for (const size of this.availableSizes) {
             children.push(new Action({
                 text: size.toString(),
@@ -105,8 +105,7 @@ export class BsPageSizeSelector implements OnChanges {
             this.pageSizingAction.text = 'msg#pageSizeSelector.defaultPageSizeChoice';
             this.pageSizingAction.messageParams = { values: { size: this.defaultPageSize } };
         }
-        else 
-        {
+        else {
             const selectedAction = this.pageSizingAction.children.find(action => action.data === size);
             this.pageSizingAction.text = 'msg#pageSizeSelector.pageSizeChoice';
             this.pageSizingAction.messageParams = { values: { size: !!selectedAction ? selectedAction.data : undefined } };

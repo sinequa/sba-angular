@@ -31,9 +31,9 @@ export class PreviewDocument {
     private readonly _window: Window;
 
     constructor(iframe: ElementRef){
-        let frame = iframe.nativeElement;
+        const frame = iframe.nativeElement;
         if (frame && frame.contentWindow && frame.contentWindow.frames) {
-            let sheet = frame.contentWindow.frames["frSheet"]; // aspose xls preview
+            const sheet = frame.contentWindow.frames["frSheet"]; // aspose xls preview
             if (sheet) {
                 return sheet;
             }
@@ -43,7 +43,7 @@ export class PreviewDocument {
 
 
     // PUBLIC METHODS
-    
+
     /**
      * Return the Window of the iframe containing the element
      */
@@ -60,12 +60,12 @@ export class PreviewDocument {
 
     /**
      * Insert a given DOM Element in the body of the document preview
-     * @param component 
+     * @param component
      */
     public insertComponent(component){
         this.document.body.appendChild(component);
     }
-    
+
     /**
      * Returns the text of a given entity
      * @param categoryId Category of the entity
@@ -75,7 +75,7 @@ export class PreviewDocument {
         if (index < 0) {
             return "";
         }
-        let nodes: NodeList = this.document.querySelectorAll("#"+categoryId + "_" + index);
+        const nodes: NodeList = this.document.querySelectorAll("#"+categoryId + "_" + index);
         if (nodes == null || nodes.length ===0) {
             return "";
         }
@@ -88,18 +88,18 @@ export class PreviewDocument {
      * Update the location of the entities' SVG background (for some converters)
      */
     public setSvgBackgroundPositionAndSize(): void {
-        var svgList: NodeListOf<Element> = this.document.querySelectorAll("svg");
+        const svgList: NodeListOf<Element> = this.document.querySelectorAll("svg");
         if (svgList != null) {
-            for (var i = 0, ic = svgList.length; i < ic; i++) {
-                var svg = svgList.item(i);
-                var tspanList: HTMLCollectionOf<SVGTSpanElement> = svg.getElementsByTagName("tspan");
+            for (let i = 0, ic = svgList.length; i < ic; i++) {
+                const svg = svgList.item(i);
+                const tspanList: HTMLCollectionOf<SVGTSpanElement> = svg.getElementsByTagName("tspan");
                 if (tspanList != null) {
-                    for (var j = 0, jc = tspanList.length; j < jc; j++) {
-                        var tspan = tspanList.item(j);
+                    for (let j = 0, jc = tspanList.length; j < jc; j++) {
+                        const tspan = tspanList.item(j);
                         if (tspan) {
-                            var bgId = tspan.getAttribute("data-entity-background");
+                            const bgId = tspan.getAttribute("data-entity-background");
                             if (bgId) {
-                                var rect = this.getFirst(this.getDocElements(bgId));
+                                const rect = this.getFirst(this.getDocElements(bgId));
                                 if (rect) {
                                     this.resizeSvgBackground(rect, tspan);
                                 }
@@ -112,28 +112,28 @@ export class PreviewDocument {
     }
 
     /**
-     * Select a specific entity by applying specific highlight classes 
+     * Select a specific entity by applying specific highlight classes
      * to the DOM elements and scrolling the view to center around them.
      * @param categoryId Category of the entity
      * @param index Index of the entity in that category
      */
     public selectHighlight(categoryId: string, index: number) : void {
-        
+
         // Move selection
-        let targetElements = this.getDocElements(categoryId + "_" + index);
-        if (!targetElements || targetElements.length == 0) {
+        const targetElements = this.getDocElements(categoryId + "_" + index);
+        if (!targetElements || targetElements.length === 0) {
             return;
         }
 
         this.clearHighlightSelection();
 
-        for (var i = 0; i< targetElements.length; i++) {
-            this.setHighlightSelection(targetElements[i], i == 0, i == targetElements.length - 1);
+        for (let i = 0; i< targetElements.length; i++) {
+            this.setHighlightSelection(targetElements[i], i === 0, i === targetElements.length - 1);
         }
 
         // Scroll
-        let scrollContainer: Element = this.getScrollingContainer();
-        let [x, y]: [number,  number] = PreviewDocument.computeTargetScroll(targetElements, scrollContainer);
+        const scrollContainer: Element = this.getScrollingContainer();
+        const [x, y]: [number,  number] = PreviewDocument.computeTargetScroll(targetElements, scrollContainer);
         this._window.scrollBy(x, y);
     }
 
@@ -145,7 +145,7 @@ export class PreviewDocument {
         Array.from(this.document.getElementsByClassName(PreviewDocument.SELECTED_HIGHLIGHT_CLASS))
             .forEach(element => element.classList.remove(PreviewDocument.SELECTED_HIGHLIGHT_CLASS));
         // Clear SVG elements borders
-        let elements: NodeListOf<Element> = this.document.querySelectorAll("line.sq-svg");
+        const elements: NodeListOf<Element> = this.document.querySelectorAll("line.sq-svg");
         for (let i = 0; i < elements.length; i++) {
             const parentNode = elements[i].parentNode;
             if (parentNode) {
@@ -163,15 +163,15 @@ export class PreviewDocument {
         this.updateHighlightFilterState(filters);
         this.clearHighlightSelection();
     }
-    
+
     /**
      * Loop through every highlighted element in the document and turn highlights on or off based on the filters object
      * @param filters object where each key provides a filter for each category of entity/highlight
      */
     public updateHighlightFilterState(filters: { [key: string]: HighlightCategoryFilterState }):void {
-        let elements: NodeListOf<Element> = this.document.querySelectorAll("[data-entity-display], .extractslocations, .matchlocations");
+        const elements: NodeListOf<Element> = this.document.querySelectorAll("[data-entity-display], .extractslocations, .matchlocations");
         for (let i = 0; i < elements.length; i++) {
-            let element: Element = elements[i];
+            const element: Element = elements[i];
             if (PreviewDocument.elementIsFilteredOut(element, filters)) {
                 element.classList.add(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
             }
@@ -188,12 +188,12 @@ export class PreviewDocument {
      * @param value e.g. "BILL GATES"
      */
     public toggleHighlight(category: string, on: boolean, value?: string) {
-        let elements: NodeListOf<Element> = this.document.querySelectorAll("."+category);
+        const elements: NodeListOf<Element> = this.document.querySelectorAll("."+category);
         elements.forEach(element => {
-            if(!value 
+            if(!value
                 || (element.hasAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE) && value === element.getAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE))
                 || (element.hasAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE) && value === element.getAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE))) {
-                
+
                 if(on){
                     element.classList.remove(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
                 }
@@ -203,7 +203,7 @@ export class PreviewDocument {
             }
         });
     }
-    
+
 
 
     // PRIVATE METHODS
@@ -236,18 +236,18 @@ export class PreviewDocument {
     }
 
     private setHighlightSelectionSVG(elt: Element, isFirst: boolean, isLast: boolean): void {
-        var bgId = elt.getAttribute("data-entity-background");
+        const bgId = elt.getAttribute("data-entity-background");
         if (!bgId) return;
-        var rect: SVGRectElement = <SVGRectElement>this.getFirst(this.getDocElements(bgId));
-        var group = rect.parentNode;
-        var rectPosition = rect.getBBox();
+        const rect: SVGRectElement = <SVGRectElement>this.getFirst(this.getDocElements(bgId));
+        const group = rect.parentNode;
+        const rectPosition = rect.getBBox();
 
         if (group) {
-            var top = rectPosition.y;
-            var bottom = rectPosition.y + rectPosition.height;
-            var left = rectPosition.x;
-            var right = rectPosition.x + rectPosition.width;
-            var valueTransform = rect.getAttribute("transform");
+            const top = rectPosition.y;
+            const bottom = rectPosition.y + rectPosition.height;
+            const left = rectPosition.x;
+            const right = rectPosition.x + rectPosition.width;
+            const valueTransform = rect.getAttribute("transform");
             this.addSvgLine(group, left, top   , right, top   , valueTransform);
             this.addSvgLine(group, left, bottom, right, bottom, valueTransform);
             if (isFirst) this.addSvgLine(group, left , top, left , bottom, valueTransform);
@@ -256,7 +256,7 @@ export class PreviewDocument {
     }
 
     private addSvgLine(group: Node, x1: number, y1: number, x2: number, y2: number, transform: string | null): void {
-        var line: Element = this.document.createElementNS("http://www.w3.org/2000/svg","line");
+        const line: Element = this.document.createElementNS("http://www.w3.org/2000/svg","line");
         line.setAttribute("class", PreviewDocument.SVG_LINE_CLASS);
         line.setAttribute("x1", String(x1));
         line.setAttribute("y1", String(y1));
@@ -268,50 +268,49 @@ export class PreviewDocument {
 
 
     private resizeSvgBackground(rect: Element, tspan: SVGTSpanElement): void {
-        var elt: Element = tspan;
-        while (elt.tagName != "text")
-        {
+        let elt: Element = tspan;
+        while (elt.tagName !== "text") {
             elt = elt.parentNode as Element;
             if (elt == null) break;
         }
-        var text: SVGTextElement = elt as SVGTextElement;
-        var textBoxPixel: ClientRect = text.getBoundingClientRect();
-        var textBoxSVG: SVGRect = text.getBBox();
-        if (textBoxPixel.height == 0 || textBoxPixel.width == 0) return;
-        var scaleX = textBoxSVG.width / textBoxPixel.width;
-        var scaleY = textBoxSVG.height / textBoxPixel.height;
-        var deltaX = 2 * scaleX;
-        var deltaY = 2 * scaleY;
+        const text: SVGTextElement = elt as SVGTextElement;
+        const textBoxPixel: ClientRect = text.getBoundingClientRect();
+        const textBoxSVG: SVGRect = text.getBBox();
+        if (textBoxPixel.height === 0 || textBoxPixel.width === 0) return;
+        const scaleX = textBoxSVG.width / textBoxPixel.width;
+        const scaleY = textBoxSVG.height / textBoxPixel.height;
+        const deltaX = 2 * scaleX;
+        const deltaY = 2 * scaleY;
 
-        var firstCharRect = tspan.getExtentOfChar(0);
-        var tspanWidth = tspan.getComputedTextLength();
+        const firstCharRect = tspan.getExtentOfChar(0);
+        const tspanWidth = tspan.getComputedTextLength();
 
         rect.setAttribute("x", String(firstCharRect.x - deltaX));
         rect.setAttribute("y", String(firstCharRect.y - deltaY));
         rect.setAttribute("width", String(tspanWidth + 2 * deltaX));
         rect.setAttribute("height", String(textBoxSVG.height + 2 * deltaY));
-        var valueTransform = text.getAttribute("transform");
+        const valueTransform = text.getAttribute("transform");
         if (valueTransform) rect.setAttribute("transform", valueTransform);
     }
-    
+
     private getDocElements(id: string): Array<Element> {
-        var list = Array<Element>();
+        const list = Array<Element>();
         // Get HTML elements directly by id
-        var eltList: NodeListOf<Element> = this.document.querySelectorAll("#" + id);
+        const eltList: NodeListOf<Element> = this.document.querySelectorAll("#" + id);
         for (let i = 0; i < eltList.length; i++) {
             list.push(eltList[i]);
         }
         // Get SVG tspan iterating on them (jquery querySelectorAll didn't return SVG inner elements)
-        var svgList: NodeListOf<Element> = this.document.querySelectorAll("svg");
+        const svgList: NodeListOf<Element> = this.document.querySelectorAll("svg");
         if (svgList != null) {
-            for (var i = 0, ic = svgList.length; i < ic; i++) {
-                var svg = svgList.item(i);
-                var tspanList: HTMLCollectionOf<SVGTSpanElement> = svg.getElementsByTagName("tspan");
+            for (let i = 0, ic = svgList.length; i < ic; i++) {
+                const svg = svgList.item(i);
+                const tspanList: HTMLCollectionOf<SVGTSpanElement> = svg.getElementsByTagName("tspan");
                 if (tspanList != null) {
-                    for (var j = 0, jc = tspanList.length; j < jc; j++) {
-                        var tspan = tspanList.item(j);
+                    for (let j = 0, jc = tspanList.length; j < jc; j++) {
+                        const tspan = tspanList.item(j);
                         if (tspan) {
-                            if (tspan.id == id) list.push(tspan);
+                            if (tspan.id === id) list.push(tspan);
                         }
                     }
                 }
@@ -332,31 +331,31 @@ export class PreviewDocument {
 
 
     // PRIVATE STATIC (from highlight helper)
-    
+
 
     private static elementIsFilteredOut(element: Element, filters: {[key: string]: HighlightCategoryFilterState}): boolean {
-        let elementClass: string = this.getElementCategory(element, Object.keys(filters));
+        const elementClass: string = this.getElementCategory(element, Object.keys(filters));
         if (elementClass == null) {
             return false;
         }
-        let filterState = filters[elementClass];
+        const filterState = filters[elementClass];
         if (filterState == null) {
             return false;
         }
-        if (filterState.choice == HighlightCategoryFilterChoice.None) {
+        if (filterState.choice === HighlightCategoryFilterChoice.None) {
             return true;
         }
-        if (filterState.choice == HighlightCategoryFilterChoice.All) {
+        if (filterState.choice === HighlightCategoryFilterChoice.All) {
             return false;
         }
         if (element.hasAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE)) {
-            return filterState.filterValue != element.getAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE);
+            return filterState.filterValue !== element.getAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE);
         }
-        return filterState.filterValue != element.getAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE);
+        return filterState.filterValue !== element.getAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE);
     }
 
     private static getElementCategory(element: Element, categoryIds: string[]): string {
-        for (let categoryId of categoryIds) {
+        for (const categoryId of categoryIds) {
             if (element.classList.contains(categoryId)) {
                 return categoryId;
             }
@@ -366,28 +365,28 @@ export class PreviewDocument {
 
     private static computeTargetScroll(elementsToCenter: Array<Element>, container: Element): [number, number] {
         // Check for scrollability on the container
-        let computedStyle = getComputedStyle(container);
+        const computedStyle = getComputedStyle(container);
         if (computedStyle.overflow === "hidden") {
             return [0, 0];
         }
-        let elementRectangles = elementsToCenter.map(element => element.getBoundingClientRect());
-        let targetRectangle = this.computeBoundingRectangle(elementRectangles);
+        const elementRectangles = elementsToCenter.map(element => element.getBoundingClientRect());
+        const targetRectangle = this.computeBoundingRectangle(elementRectangles);
         if (!targetRectangle) {
             return [0, 0];
         }
-        let availableWidth: number = container.clientWidth;
-        let availableHeight: number = container.clientHeight;
-        let x = computedStyle.overflowX === "hidden" ? 0 : targetRectangle.left - ((availableWidth - targetRectangle.width)/2);
-        let y = computedStyle.overflowY === "hidden" ? 0 : targetRectangle.top - ((availableHeight - targetRectangle.height)/2);
+        const availableWidth: number = container.clientWidth;
+        const availableHeight: number = container.clientHeight;
+        const x = computedStyle.overflowX === "hidden" ? 0 : targetRectangle.left - ((availableWidth - targetRectangle.width)/2);
+        const y = computedStyle.overflowY === "hidden" ? 0 : targetRectangle.top - ((availableHeight - targetRectangle.height)/2);
         return [x, y];
     }
 
     private static computeBoundingRectangle(rectangles: (DOMRect | ClientRect)[]): DOMRect | ClientRect | undefined {
-        if (!rectangles || rectangles.length == 0) {
+        if (!rectangles || rectangles.length === 0) {
             return undefined;
         }
-        var result: DOMRect | ClientRect | undefined;
-        for (var i = 0; i < rectangles.length; i++) {
+        let result: DOMRect | ClientRect | undefined;
+        for (let i = 0; i < rectangles.length; i++) {
             result = this.computeRectangleUnion(result, rectangles[i]);
         }
         return result;
@@ -400,10 +399,10 @@ export class PreviewDocument {
         if (rectangle2 == null) {
             return rectangle1;
         }
-        let left = Math.min(rectangle1.left, rectangle2.left);
-        let right = Math.max(rectangle1.right, rectangle2.right);
-        let top = Math.min(rectangle1.top, rectangle2.top);
-        let bottom = Math.max(rectangle1.bottom, rectangle2.bottom);
+        const left = Math.min(rectangle1.left, rectangle2.left);
+        const right = Math.max(rectangle1.right, rectangle2.right);
+        const top = Math.min(rectangle1.top, rectangle2.top);
+        const bottom = Math.max(rectangle1.bottom, rectangle2.bottom);
         return new DOMRect(left, top, right - left, bottom - top);
     }
 }

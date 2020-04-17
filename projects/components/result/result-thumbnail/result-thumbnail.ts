@@ -48,7 +48,7 @@ export class ResultThumbnail implements OnChanges {
     }
 
     public click() : boolean {
-        let isLink = this.hasLinkBehaviour && !!this.documentUrl; // true if this is a regular link (performs the default action)
+        const isLink = this.hasLinkBehaviour && !!this.documentUrl; // true if this is a regular link (performs the default action)
         if(isLink)
             this.searchService.notifyOpenOriginalDocument(this.record);
         this.thumbnailClicked.emit(isLink); // Can be use to trigger actions

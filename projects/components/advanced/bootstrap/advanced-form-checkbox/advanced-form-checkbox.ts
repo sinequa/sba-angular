@@ -19,6 +19,6 @@ export class BsAdvancedFormCheckbox implements OnInit {
 
     ngOnInit() {
         this.name = this.config.field || this.config.name;
-        this.label = this.config.label || this.appService.getSingularLabel(this.config.field);      
+        this.label = this.config.label || this.appService.getSingularLabel(this.config.field);
     }
 }

@@ -31,7 +31,7 @@ export interface PreviewInput {
 }
 
 export interface EntitiesState {
-  count: number; 
+  count: number;
   sortFreq: boolean;
   hidden: Map<string,boolean>;
   nav: Map<string,number>;
@@ -144,7 +144,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   /**
-   * Loads the preview data in the case where id and query are provided as inputs 
+   * Loads the preview data in the case where id and query are provided as inputs
    * (eg. the component is inserted in a parent rather than as a route)
    */
   ngOnChanges() {
@@ -156,11 +156,11 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
    * (in the case where the id and query are not provided via the Input bindings)
    */
   ngOnInit() {
-    
+
     if(!this.id || !this.query) { // do nothing if the parameters are already here
       this.getPreviewDataFromUrl();
     }
-    
+
     if(this.previewConfig){
       if(this.previewConfig.initialCollapsedPanel !== undefined){
         this.collapsedPanel = this.previewConfig.initialCollapsedPanel;
@@ -191,7 +191,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * Extracts id and query from the URL and request the preview data from the preview service
    */
-  private getPreviewDataFromUrl() {    
+  private getPreviewDataFromUrl() {
     const map = this.route.snapshot.queryParamMap;
     this.id = map.get("id") || undefined;
     this.query = this.searchService.makeQuery();
@@ -216,7 +216,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
 
   /**
    * Called when the HTML of the preview finishes loading in the iframe
-   * @param previewDocument 
+   * @param previewDocument
    */
   onPreviewReady(previewDocument: PreviewDocument){
     this.previewDocument = previewDocument;
@@ -247,7 +247,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
       this.searchService.notifyOpenOriginalDocument(this.previewData.record);
     }
   }
-  
+
   /**
    * Whether the UI is in dark or light mode
    */
@@ -265,7 +265,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   entitiesChecked(event: {entity: string, checked: boolean}) {
-    let startUnchecked = this.entitiesStartUnchecked;
+    const startUnchecked = this.entitiesStartUnchecked;
     startUnchecked[event.entity] = !event.checked;
     this.prefs.set("preview-entities-checked", startUnchecked);
   }

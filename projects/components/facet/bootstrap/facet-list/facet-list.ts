@@ -25,7 +25,8 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
     @Input() allowExclude: boolean = true; // Allow to exclude selected items
     @Input() allowOr: boolean = true; // Allow to search various items in OR mode
     @Input() allowAnd: boolean = true; // Allow to search various items in AND mode
-    
+    @Input() displayEmptyDistributionIntervals: boolean = false; // If the aggregration is a distribution, then this property controls whether empty distribution intervals will be displayed
+
     // Aggregation from the Results object
     data: Aggregation | undefined;
 
@@ -43,7 +44,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
 
     // Sets to keep track of selected/excluded/filtered items
     private readonly filtered = new Set<AggregationItem>();
-    // TODO keep track of excluded terms and display them with specific color private 
+    // TODO keep track of excluded terms and display them with specific color private
     // readonly filtered = new Set<AggregationItem>();
 
     // Actions (displayed in facet menu)
@@ -114,7 +115,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
                 }
             }
         });
-        
+
         // The suggest (autocomplete) query is debounded to avoid flooding the server
         this.debounceSuggest = Utils.debounce(() => {
             this._suggest();
@@ -122,7 +123,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
     }
 
     /**
-     * Name of the facet, used to create and retrieve selections 
+     * Name of the facet, used to create and retrieve selections
      * through the facet service.
      */
     getName() : string {
@@ -132,7 +133,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
     /**
      * OnChanges listener awaits new results from the search service
      * This completely resets the display
-     * @param changes 
+     * @param changes
      */
     ngOnChanges(changes: SimpleChanges) {
         if (!!changes["results"]) {     // New data from the search service
@@ -148,15 +149,15 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
             this.refreshFiltered();
         }
     }
-    
+
     /**
      * Returns all the actions that are relevant in the current context
      */
     get actions(): Action[] {
 
-        let actions: Action[] = [];
+        const actions: Action[] = [];
 
-        let selected = this.getSelectedItems();
+        const selected = this.getSelectedItems();
 
         if(!this.hasSuggestions() && selected.length > 0) {
             if(this.allowOr){
@@ -170,11 +171,11 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
             }
         }
 
-        if(!this.hasSuggestions() && this.hasFiltered()) {            
+        if(!this.hasSuggestions() && this.hasFiltered()) {
             actions.push(this.clearFilters);
         }
 
-        if(this.searchable){         
+        if(this.searchable){
             actions.push(this.searchItems);
         }
 
@@ -199,7 +200,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
 
     /**
      * Returns true if the given AggregationItem is filtered
-     * @param item 
+     * @param item
      */
     isFiltered(item: AggregationItem) : boolean {
         return this.filtered.has(item);
@@ -214,8 +215,8 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
 
     /**
      * Called when clicking on a facet item text
-     * @param item 
-     * @param event 
+     * @param item
+     * @param event
      */
     filterItem(item: AggregationItem, event) : boolean {
         if (this.data) {
@@ -230,13 +231,13 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
         event.stopPropagation();
         return false;   // Stop the propagation of the event (link inside link)
     }
-    
+
 
     // Selected items
 
     /**
      * Returns true if the given AggregationItem is selected
-     * @param item 
+     * @param item
      */
     isSelected(item: AggregationItem) : boolean {
         return !!item.$selected;
@@ -253,7 +254,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
 
     /**
      * Called when selecting/unselecting an item in the facet
-     * @param item 
+     * @param item
      */
     selectItem(item: AggregationItem) : boolean {
         if(!this.isFiltered(item)){
@@ -264,7 +265,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
 
 
     // Loading more items
-    
+
     /**
      * Returns true if this facet can get more data from the server
      * (The only way to guess is to check if the facet is "full", it capacity being the (skip+)count)
@@ -311,10 +312,10 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
     /**
      * Called when clicking on a facet suggest text
      * @param suggest autocomplete suggestion returned by the suggestfield API
-     * @param event 
+     * @param event
      */
     filterSuggest(suggest: Suggestion, event) : boolean {
-        let item : AggregationItem = {
+        const item : AggregationItem = {
             value: suggest.normalized || suggest.display,
             display: suggest.display,
             count: 0
@@ -333,13 +334,13 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
         if(event.keyCode === Keys.enter){
             // Get new distribution with prefix
             // this.skip = 0;
-            
+
             // TODO: when API allows for prefixes
 
             // empty the form
             this.searchQuery = "";
         }
-            
+
     }
 
     /**
@@ -347,7 +348,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      * Uses the suggestfield API to retrieve suggestions from the server
      * The suggestions "override" the data from the distribution (until search results are cleared)
      */
-    suggest(){        
+    suggest(){
 
         // If nothing to suggest, switch to normal distribution
         if(this.searchQuery.trim() === ""){
@@ -395,4 +396,20 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
         return !this.data;
     }
 
+    /**
+     * The items in the aggregation.
+     *
+     * @readonly
+     * @type {AggregationItem[]}
+     * @memberof BsFacetList
+     */
+    public get items(): AggregationItem[] {
+        if (!this.data) {
+            return [];
+        }
+        if (!this.data.isDistribution || this.displayEmptyDistributionIntervals) {
+            return this.data.items;
+        }
+        return this.data.items.filter(item => item.count > 0);
+    }
 }

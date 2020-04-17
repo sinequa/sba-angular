@@ -8,7 +8,7 @@ import {ValidationModule} from "@sinequa/core/validation";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {OverlayModule} from "@angular/cdk/overlay";
 import {MatIconModule} from "@angular/material/icon";
-import {MatButtonModule} from "@angular/material/button"; 
+import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -20,10 +20,10 @@ import {MdModalFooter} from "./modal-footer.component";
 import {MdLogin} from "./login.component";
 import {MdConfirm} from "./confirm.component";
 import {MdModalService} from "./modal.service";
- 
+
 @NgModule({
     imports: [
-        CommonModule,        
+        CommonModule,
         FormsModule,
         ReactiveFormsModule,
         CoreModalModule,
@@ -33,7 +33,7 @@ import {MdModalService} from "./modal.service";
         FlexLayoutModule,
         OverlayModule,
         MatIconModule,
-        MatButtonModule, 
+        MatButtonModule,
         MatDialogModule,
         MatFormFieldModule,
         MatInputModule,

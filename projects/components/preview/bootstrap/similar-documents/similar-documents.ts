@@ -32,12 +32,12 @@ export class BsSimilarDocuments implements OnChanges {
                 this.documentList = results;
                 this.changeDetectorRef.markForCheck();
             }
-        )
+        );
     }
 
     public documentIconClass(document: Record): string {
-        var documentFormat = document.fileext;
-        if (documentFormat == null || documentFormat == "") {
+        const documentFormat = document.fileext;
+        if (!documentFormat) {
             return "far fa-file";
         }
         return "far fa-file sq-icon-file-" + document.fileext;

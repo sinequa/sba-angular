@@ -224,14 +224,14 @@ export const MAX_DOCUMENTS &#x3D; new InjectionToken(&quot;MAX_DOCUMENTS&quot;);
 })
 export class RecentDocumentsService implements OnDestroy {
 
-    private readonly _events &#x3D; new Subject&lt;RecentDocumentChangeEvent&gt;();   
+    private readonly _events &#x3D; new Subject&lt;RecentDocumentChangeEvent&gt;();
     private readonly _changes &#x3D; new Subject&lt;RecentDocumentChangeEvent&gt;();
-    
+
     constructor(
         public userSettingsService: UserSettingsWebService,
         public searchService: SearchService,
         @Optional() @Inject(MAX_DOCUMENTS) private maxDocuments: number,
-    ){        
+    ){
         if(!this.maxDocuments){
             this.maxDocuments &#x3D; 20;
         }
@@ -242,25 +242,25 @@ export class RecentDocumentsService implements OnDestroy {
             // &#x3D;&#x3D;&gt; Menus need to be rebuilt
             this.events.next({type: RecentDocumentEventType.Loaded});
         });
-        
+
         // Listen to own events, to trigger change events
         this._events.subscribe(event &#x3D;&gt; {
-            if(RECENT_DOCUMENTS_CHANGE_EVENTS.indexOf(event.type) !&#x3D;&#x3D; -1){                
+            if(RECENT_DOCUMENTS_CHANGE_EVENTS.indexOf(event.type) !&#x3D;&#x3D; -1){
                 this.changes.next(event);
             }
         });
 
         /**
-         * Subscribe to the search service to capture &quot;open-original-document&quot; event 
+         * Subscribe to the search service to capture &quot;open-original-document&quot; event
          * and add documents to this service
          */
         this.searchService.events.subscribe(event &#x3D;&gt; {
             if(event.type &#x3D;&#x3D;&#x3D; &quot;open-original-document&quot; &amp;&amp; event.record){
                 this.addDocument(event.record, true);
             }
-        })
+        });
     }
-    
+
 
     // GETTERS
 
@@ -278,7 +278,7 @@ export class RecentDocumentsService implements OnDestroy {
     }
 
     /**
-     * Triggers any event among RecentDocumentChangeEvent 
+     * Triggers any event among RecentDocumentChangeEvent
      * (use for fine-grained control of recent documents workflow)
      */
     public get events() : Subject&lt;RecentDocumentChangeEvent&gt; {
@@ -286,7 +286,7 @@ export class RecentDocumentsService implements OnDestroy {
     }
 
     /**
-     * Triggers when events affect the list of recent documents 
+     * Triggers when events affect the list of recent documents
      * (use to refresh recent documents menus)
      * Cf. CHANGE_EVENTS list
      */
@@ -303,16 +303,16 @@ export class RecentDocumentsService implements OnDestroy {
 
     /**
      * @returns a recent document with the given name or null if it does not exist
-     * @param name 
+     * @param name
      */
     public recentdocument(text: string): RecentDocument | undefined {
-        let i &#x3D; this.recentdocumentIndex(text);
+        const i &#x3D; this.recentdocumentIndex(text);
         return i&gt;&#x3D; 0? this.recentdocuments[i] : undefined;
     }
 
     private recentdocumentIndex(id: string): number {
         for (let i &#x3D; 0, ic &#x3D; this.recentdocuments.length; i &lt; ic; i++) {
-            let recentdocument &#x3D; this.recentdocuments[i];
+            const recentdocument &#x3D; this.recentdocuments[i];
             if (recentdocument &amp;&amp; recentdocument.id &#x3D;&#x3D;&#x3D; id) {
                 return i;
             }
@@ -344,7 +344,7 @@ export class RecentDocumentsService implements OnDestroy {
                 treepath: record.treepath,
                 docformat: record.docformat,
                 authors: record.authors,
-    
+
                 date: new Date(),
                 original: original
             });
@@ -365,7 +365,7 @@ export class RecentDocumentsService implements OnDestroy {
             return false;
         }
 
-        let i &#x3D; this.recentdocumentIndex(recentdocument.id); // If the document already exists
+        const i &#x3D; this.recentdocumentIndex(recentdocument.id); // If the document already exists
         if(i &gt;&#x3D; 0){
             this.recentdocuments[i].date &#x3D; recentdocument.date; // Update the date of the existing document
             this.events.next({type : RecentDocumentEventType.Update, recentdocument: this.recentdocuments[i]});
@@ -393,14 +393,14 @@ export class RecentDocumentsService implements OnDestroy {
 
     /**
      * Deletes the given RecentDocument (based on its name)
-     * Emits an RecentDocument event.    
+     * Emits an RecentDocument event.
      * Update the data on the server.
-     * @param recentdocument 
+     * @param recentdocument
      * @returns true if recent document was deleted
      */
     public deleteRecentDocument(recentdocument: RecentDocument) : boolean {
 
-        let index &#x3D; this.recentdocumentIndex(recentdocument.id);
+        const index &#x3D; this.recentdocumentIndex(recentdocument.id);
 
         if(index &#x3D;&#x3D;&#x3D; -1)
             return false; // Nothing to delete

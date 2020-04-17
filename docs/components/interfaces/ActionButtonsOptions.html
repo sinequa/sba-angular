@@ -322,11 +322,11 @@ export interface ActionButtonsOptions {
 })
 export class BsActionButtons {
     @Input(&quot;sq-action-buttons&quot;) options: ActionButtonsOptions;
-            
+
     get sizeClass(): string {
         return this.options.size ? &#x60;btn-${this.options.size}&#x60; : &quot;&quot;;
     }
-    
+
     get styleClass(): string {
         return this.options.style ? &#x60;btn-${this.options.style}&#x60; : &quot;btn-light&quot;;
     }

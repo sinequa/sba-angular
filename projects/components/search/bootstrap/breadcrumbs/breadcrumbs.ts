@@ -27,7 +27,7 @@ export class BsBreadcrumbs {
                     return "text";
                 }
                 else {
-                    let fields = item.expr.getFields();
+                    const fields = item.expr.getFields();
                     return fields.join("-");
                 }
             }
@@ -48,4 +48,4 @@ export class BsBreadcrumbs {
     removeItem(item: BreadcrumbsItem) {
         this.searchService.removeBreadcrumbsItem(item);
     }
-} 
+}

@@ -40,7 +40,7 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
     public modalService: ModalService,
     public appService: AppService,
     public userSettingsService: UserSettingsWebService,
-    
+
     public changeDetectorRef: ChangeDetectorRef) {
 
 
@@ -78,7 +78,7 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
           userOverride = {
             userName: "",
             domain: ""
-          }
+          };
         }
         this.modalService.open(BsOverrideUser, {model: userOverride})
           .then((result) => {
@@ -119,15 +119,15 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
           selected: locale === this.intlService.currentLocale, // Whether French is the current locale
           iconAfter: "sq-image sq-flag-" + locale.name,
           action: (item: Action, $event: UIEvent) => {    // On click, switch to this language
-            this.intlService.use((item.data as Locale).name).subscribe( 
-              (value) => this.languageAction.children.forEach(a => a.update()));                
+            this.intlService.use((item.data as Locale).name).subscribe(
+              (value) => this.languageAction.children.forEach(a => a.update()));
           },
           updater: (action) => {  // Update the status of buttons
-            action.selected = action.data === this.intlService.currentLocale; 
+            action.selected = action.data === this.intlService.currentLocale;
           }
-        })            
+        })
       )
-    });        
+    });
 
   }
 
@@ -181,5 +181,5 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
     });
   }
 
-  
+
 }

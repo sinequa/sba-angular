@@ -9,11 +9,11 @@ import {NotificationsService, Notification, NotificationState} from "@sinequa/co
 export class BsNotifications implements OnInit, OnDestroy {
     private subscription: Subscription;
     notifications: Notification[];
-    
+
     constructor(
         private notificationsService: NotificationsService,
         private changeDetectorRef: ChangeDetectorRef) {
-        this.notifications = [];            
+        this.notifications = [];
     }
 
     ngOnInit() {
@@ -33,10 +33,10 @@ export class BsNotifications implements OnInit, OnDestroy {
 
     loadNotifications() {
         this.notifications.splice(0);
-        for (let notification of this.notificationsService.notifications) {
+        for (const notification of this.notificationsService.notifications) {
             if (notification.state !== NotificationState.Hidden) {
                 this.notifications.unshift(notification);
-            }            
+            }
         }
     }
 }

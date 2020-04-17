@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {Utils} from "@sinequa/core/base";
-import {Results, DidYouMeanItem, DidYouMeanKind, SpellingCorrectionMode} from "@sinequa/core/web-services";
+import {Results, DidYouMeanItem, DidYouMeanKind} from "@sinequa/core/web-services";
 import {SearchService} from "../../search.service";
 
 @Component({
@@ -20,22 +20,22 @@ export class BsDidYouMean implements OnChanges {
     private handleResults() {
         this.item = undefined;
         if (this.results && this.results.didYouMean) {
-            let lastSelect = this.searchService.query.lastSelect();
+            const lastSelect = this.searchService.query.lastSelect();
             if (!lastSelect) {
                 if (this.context === "search") {
-                    let item = this.results.didYouMean.text; 
+                    const item = this.results.didYouMean.text;
                     if (item && item.corrected) {
-                        this.item = item;                        
+                        this.item = item;
                     }
                 }
             }
             else {
                 if (this.context === "refine") {
                     if (Utils.startsWith(lastSelect.expression,  "refine:") && !!this.results.didYouMean.refine) {
-                        let dymItem = this.results.didYouMean.refine[this.results.didYouMean.refine.length - 1];
+                        const dymItem = this.results.didYouMean.refine[this.results.didYouMean.refine.length - 1];
                         if (dymItem.corrected) {
                             this.item = dymItem;
-                        }                        
+                        }
                     }
                 }
             }

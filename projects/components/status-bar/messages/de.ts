@@ -4,4 +4,4 @@ export default {
         "fullscreenTitleExit": "Volbildmodus verlassen",
         "networkActivity": "Netzwerk-Aktivität"
     }
-}
+};

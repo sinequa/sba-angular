@@ -26,6 +26,7 @@ export default {
         "showAll": "Zeige alle Werte",
         "sortAlphabetically": "Alphabetische Sortierung",
         "sortFrequency": "Sortierung nach Häufigkeit",
+        "loading": "Laden..."
     },
     "facet": {
         "preview": {
@@ -33,4 +34,4 @@ export default {
             "expandTitle": "Maximieren"
         }
     }
-}
+};

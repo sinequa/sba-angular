@@ -47,13 +47,13 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
     private selectionChange: Subscription;
 
     constructor(
-        private facetService: FacetService, 
-        private intlService: IntlService,       
+        private facetService: FacetService,
+        private intlService: IntlService,
         private selectionService: SelectionService,
         private appService: AppService
     ){
         super();
-            
+
         // Clear the current filters
         this.clearFilters = new Action({
             icon: "far fa-minus-square",
@@ -62,7 +62,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
                 this.facetService.clearFiltersSearch(this.getName(), true);
             }
         });
-        
+
         this.selectField = new Action({
             title: "Select field",
             updater: (action) => {
@@ -74,7 +74,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
                         .map(a => {
                             return new Action({
                                 name: a,
-                                text: a,                            
+                                text: a,
                                 action : (item, event) => {
                                     this.aggregation = a;
                                     this.ngOnChanges(<SimpleChanges> <any> {results: true});
@@ -88,7 +88,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
     }
 
     /**
-     * Name of the facet, used to create and retrieve selections 
+     * Name of the facet, used to create and retrieve selections
      * through the facet service.
      */
     getName() : string {
@@ -99,8 +99,8 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
      * Returns all the actions that are relevant in the current context
      */
     get actions(): Action[] {
-        let actions: Action[] = [];
-        if(this.hasFiltered()) {            
+        const actions: Action[] = [];
+        if(this.hasFiltered()) {
             actions.push(this.clearFilters);
         }
         if(!!this.selectField.name) {
@@ -122,7 +122,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
     private makeData() {
         this.dataPoints = [];
         if(this.data && this.data.items){
-            for (let item of this.data.items) {
+            for (const item of this.data.items) {
                 this.dataPoints.push({
                     name: this.facetService.formatValue(item),
                     value: item.count,
@@ -138,12 +138,12 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
     private updateSelectedValues(){
         this.selectedValues.clear();
         this.selectionService.selectedRecords.forEach(id => {
-            let record = this.results.records.find(record => record.id === id);
+            const record = this.results.records.find(record => record.id === id);
             if(!!record && !!this.data){
-                let val = record[this.appService.getColumnAlias(this.appService.getColumn(this.data.column))];
+                const val = record[this.appService.getColumnAlias(this.appService.getColumn(this.data.column))];
                 if(val){
                     if(Utils.isString(val)){    // Sourcestr
-                        this.selectedValues.add(val.toLowerCase())
+                        this.selectedValues.add(val.toLowerCase());
                     }
                     if(Utils.isArray(val)){
                         val.forEach(v => {
@@ -170,11 +170,11 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
 
         if (this.colors && this.colors.length > 0) {
             this.options.getItemColor = (value: string): string => {
-                let index = this.dataPoints.findIndex(dataPoint => dataPoint.name === value);
+                const index = this.dataPoints.findIndex(dataPoint => dataPoint.name === value);
                 if (index === -1) {
                     return "black";
                 }
-                let item = this.getItem(this.dataPoints[index]);
+                const item = this.getItem(this.dataPoints[index]);
                 if (item) {
                     if (this.isFiltered(item)) {
                         return this.filteredColor;
@@ -191,7 +191,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
     tickFormatter = (value: any): string => {
         if (Utils.isNumber(value)) {
             // No fractional counts
-            if (value % 1 !== 0) {                
+            if (value % 1 !== 0) {
                 return "";
             }
             return this.intlService.formatNumber(value);
@@ -213,7 +213,7 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
         });
     }
 
-    
+
     ngOnChanges(changes: SimpleChanges) {
         this.selectField.update();
 
@@ -229,14 +229,14 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
         }
     }
 
-    ngOnDestroy() { 
+    ngOnDestroy() {
         this.localeChange.unsubscribe();
         this.selectionChange.unsubscribe();
     }
 
     click(dataPoint: ChartDataPoint) {
         if (this.data) {
-            let item = this.getItem(dataPoint);
+            const item = this.getItem(dataPoint);
             if (!!item) {
                 if(!this.isFiltered(item))
                     this.facetService.addFilterSearch(this.getName(), this.data, item);
@@ -248,24 +248,24 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
 
     /**
      * Returns true if the given AggregationItem is filtered
-     * @param item 
+     * @param item
      */
     isFiltered(item: AggregationItem) : boolean {
         return !!this.data && this.facetService.itemFiltered(this.getName(), this.data, item);
     }
 
     getItem(dataPoint: ChartDataPoint): AggregationItem | undefined {
-        let _dataPoint = this.dataPoints.find(_dataPoint => _dataPoint.name === dataPoint.name && _dataPoint.value === dataPoint.value);
+        const _dataPoint = this.dataPoints.find(_dataPoint => _dataPoint.name === dataPoint.name && _dataPoint.value === dataPoint.value);
         if (!!_dataPoint && !!_dataPoint.$item) {
             return _dataPoint.$item;
         }
         return undefined;
     }
-    
+
     /* AbstractFacet abstract methods */
     isHidden(): boolean {
         // Always display if multivalued
         return !this.aggregations && (!this.data || !this.dataPoints);
     }
 
-}   
+}

@@ -1,16 +1,16 @@
 import { FacetConfig } from '@sinequa/components/facet';
 
 /**
- * This list is used by Hello Search to activate key features in the UI.
+ * This list is used by Vanilla Search to activate key features in the UI.
  * The order below determines the order of menus, buttons, facets, etc.
  */
 export const FEATURES: string[] = [
-    "recent-documents", 
-    "recent-queries", 
-    "saved-queries", 
-    "baskets", 
-    "labels", 
-    "alerts", 
+    "recent-documents",
+    "recent-queries",
+    "saved-queries",
+    "baskets",
+    "labels",
+    "alerts",
     "suggests"
 ];
 
@@ -25,7 +25,8 @@ export const FACETS: FacetConfig[] = [
         searchable: true,
         allowExclude: true,
         allowOr: true,
-        allowAnd: false
+        allowAnd: false,
+        displayEmptyDistributionIntervals: false,
     },
     {
         name: "company",
@@ -37,7 +38,8 @@ export const FACETS: FacetConfig[] = [
         searchable: true,
         allowExclude: true,
         allowOr: true,
-        allowAnd: false
+        allowAnd: false,
+        displayEmptyDistributionIntervals: false,
     },
     {
         name: "person",
@@ -49,7 +51,8 @@ export const FACETS: FacetConfig[] = [
         searchable: true,
         allowExclude: true,
         allowOr: true,
-        allowAnd: false
+        allowAnd: false,
+        displayEmptyDistributionIntervals: false,
     },
     {
         name: "docformat",
@@ -61,7 +64,8 @@ export const FACETS: FacetConfig[] = [
         searchable: true,
         allowExclude: true,
         allowOr: true,
-        allowAnd: false
+        allowAnd: false,
+        displayEmptyDistributionIntervals: false,
     },
     {
         name: "modified",
@@ -73,7 +77,8 @@ export const FACETS: FacetConfig[] = [
         searchable: true,
         allowExclude: true,
         allowOr: true,
-        allowAnd: false
+        allowAnd: false,
+        displayEmptyDistributionIntervals: false,
     },
     {
         name: "size",
@@ -85,7 +90,8 @@ export const FACETS: FacetConfig[] = [
         searchable: true,
         allowExclude: true,
         allowOr: true,
-        allowAnd: false
+        allowAnd: false,
+        displayEmptyDistributionIntervals: false,
     },
     {
         name: "documentlanguages",
@@ -97,7 +103,8 @@ export const FACETS: FacetConfig[] = [
         searchable: true,
         allowExclude: true,
         allowOr: true,
-        allowAnd: false
+        allowAnd: false,
+        displayEmptyDistributionIntervals: false,
     },
     {
         name: "concepts",
@@ -109,10 +116,11 @@ export const FACETS: FacetConfig[] = [
         searchable: true,
         allowExclude: true,
         allowOr: true,
-        allowAnd: false
+        allowAnd: false,
+        displayEmptyDistributionIntervals: false,
     },
 ];
 
 export const METADATA: string[] = [
     "authors", "docformat", "modified", "size", "treepath", "filename"
-]
+];
