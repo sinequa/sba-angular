@@ -17,7 +17,7 @@
         </button>
 
         <!-- Search form -->
-        <app-search-form class="flex-grow-1 mx-3" *ngIf="showForm"></app-search-form>
+        <app-search-form class="flex-grow-1 flex-basis-0 mx-3" *ngIf="showForm"></app-search-form>
 
         <!-- User menu which visibility can be toggled with a button on small screens -->
         <button *ngIf="ui.screenSizeIsLess('sm') && !showFilters" class="btn btn-lg btn-{{isDark()? 'dark' : 'light'}}" title="{{ 'msg#search.showMenu' | sqMessage }}" 
@@ -65,7 +65,7 @@
 
             <!-- Toolbar -->
             <div class="d-flex flex-row align-items-center">
-                <sq-breadcrumbs [results]="results" [allowDeletion]="false" class="flex-grow-1"></sq-breadcrumbs>
+                <sq-breadcrumbs [results]="results" [allowDeletion]="false" class="flex-grow-1 flex-basis-0"></sq-breadcrumbs>
                 <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
                 <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-sort-selector>
             </div>

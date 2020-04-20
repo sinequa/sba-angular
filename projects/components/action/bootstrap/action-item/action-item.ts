@@ -24,7 +24,7 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
     dropdownButton: Element;
     dropdownListItem: Element;
     autoAdjustBreakpoint: string;
-    focussed: boolean;
+    showDropdown: boolean;
 
     constructor(
         private uiService: UIService,
@@ -160,7 +160,15 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
         }
     }
 
+    touchstart() {
+        this.showDropdown = true;
+    }
+
+    mousedown() {
+        this.showDropdown = true;
+    }
+
     focusin() {
-        this.focussed = true;
+        this.showDropdown = true;
     }
 }

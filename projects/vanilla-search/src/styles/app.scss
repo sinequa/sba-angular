@@ -175,4 +175,13 @@ sq-feedback-menu {
     }
 }
 
+// Flex basis classes
+.flex-basis-0 {
+    flex-basis: 0;
+}
+
+.flex-basis-auto {
+    flex-basis: auto;
+}
+
 @import 'dark-mode';

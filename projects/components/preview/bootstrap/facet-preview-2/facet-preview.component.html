@@ -8,7 +8,7 @@
 </div>
 
 <ng-template #headerTpl>
-    <div class="flex-grow-1 d-flex flex-column overflow-hidden">
+    <div class="flex-grow-1 flex-basis-0 d-flex flex-column overflow-hidden">
         <sq-result-title [record]="record"></sq-result-title>
         <sq-metadata *ngIf="metadata && metadata.length > 0"
             [record]="record" 

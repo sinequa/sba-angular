@@ -136,6 +136,9 @@ export class FormatService {
                 return this.intlService.formatNumber(value);
             }
         }
+        if (column && AppServiceHelpers.isDate(column) && Utils.isString(value)) {
+            value = Utils.fromSysDateStr(value) || value;
+        }
         if (Utils.isDate(value)) {
             if (column && !AppServiceHelpers.isDate(column)) { // ES-7785
                 value = Utils.toSysDateStr(value);
@@ -169,15 +172,20 @@ export class FormatService {
                 if (joinValue.length > 0) {
                     joinValue.push(";");
                 }
+                let _v: string;
                 if (!v) {
-                    joinValue.push("<null>");
+                    _v = "<null>";
+                }
+                else if (Utils.isDate(v)) {
+                    _v = Utils.toSysDateStr(v);
                 }
                 else if (Utils.isString(v)) {
-                    joinValue.push(v);
+                    _v = v;
                 }
                 else {
-                    joinValue.push(v.display || v.value || "<null>");
+                    _v = v.display || v.value || "<null>";
                 }
+                joinValue.push(_v);
             });
             value = joinValue.join("");
         }
