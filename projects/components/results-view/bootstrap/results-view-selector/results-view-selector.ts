@@ -4,7 +4,7 @@ import {Query} from "@sinequa/core/app-utils";
 import {Results} from "@sinequa/core/web-services";
 import {ResultsViewService, ResultsView} from "../../results-view.service";
 import {Action} from "@sinequa/components/action";
-import { Subscription } from 'rxjs';
+import {Subscription} from 'rxjs';
 
 
 @Component({
@@ -17,6 +17,7 @@ export class BsResultsViewSelector implements OnChanges, OnDestroy {
     // UI inputs
     @Input() rightAligned: boolean;
     @Input() useDropdownMenu: boolean = true;
+    @Input() size: string;
 
     private viewAction: Action | Action[] | undefined;
     items: Action[];
