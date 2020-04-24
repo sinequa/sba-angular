@@ -10,11 +10,6 @@ import {Component, Input} from '@angular/core';
 </div>
 `,
     styles: [`
-.sq-tooltip {
-    pointer-events: none;
-    opacity: 0.8;
-}
-
 .sq-tooltip::after {
     content: " ";
     position: absolute;
@@ -24,13 +19,13 @@ import {Component, Input} from '@angular/core';
 }
 
 .sq-tooltip.right::after {
-    left: -16px;
-    border-color: transparent #f8f9fa transparent transparent;
+    left: -17px;
+    border-color: transparent rgb(0,0,0,0.125) transparent transparent;
 }
 
 .sq-tooltip.left::after {
-    right: -16px;
-    border-color: transparent transparent transparent #f8f9fa;
+    right: -17px;
+    border-color: transparent transparent transparent rgb(0,0,0,0.125);
 }
     `]
 })

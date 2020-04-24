@@ -59,7 +59,7 @@ The heatmap facet and results view take care of querying the server if the heatm
 The heatmap facet ([`sq-facet-heatmap`]({{site.baseurl}}components/components/BsFacetHeatmapComponent.html)) looks as the image above. It can be displayed with:
 
 ```html
-<sq-facet-card [icon]="fas fa-th" [title]="'Awesome Heatmap'">
+<sq-facet-card [icon]="'fas fa-th'" [title]="'Awesome Heatmap'">
     <sq-facet-heatmap #facet [results]="results" [fieldX]="'geo'" [fieldY]="'company'" [fieldsX]="['geo', 'company', 'person']" [fieldsY]="['geo', 'company', 'person']"></sq-facet-heatmap>
 </sq-facet-card>
 ```

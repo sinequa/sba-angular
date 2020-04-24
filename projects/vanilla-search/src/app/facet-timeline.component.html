@@ -1,0 +1,33 @@
+<sq-timeline2
+    [data]="data$ | async"
+    [events]="events"
+    [selection]="selection"
+    [minDate]="getMinDate()"
+    [maxDate]="getMaxDate()"
+    [zoomable]="zoomable"
+    [minZoomDays]="minZoomDays"
+    [maxZoomDays]="maxZoomDays"
+    [width]="width"
+    [height]="height"
+    [margin]="margin"
+    [curveType]="curveType"
+    [transition]="transition"
+    [showTooltip]="showTooltip"
+
+    (selectionChange)="onSelectionChange($event)"
+    (rangeChange)="onRangeChange($event)">
+
+    <ng-template #tooltipTpl let-event let-close="close">
+        <a href="#" class="list-group-item list-group-item-action" style="max-width: 300px;" (click)="onEventClicked(event, close)">
+            <span class="small text-muted">{{ event.date | sqDate }}</span>
+            <div class="text-truncate">{{event.record.title}}</div>
+        </a>
+    </ng-template>
+
+</sq-timeline2>
+
+<ng-template #headerTpl>
+	<form (ngSubmit)="searchTermTrend()">
+		<input type="text" class="form-control mx-2 searchbar" [(ngModel)]="searchedTerm" name="searchedText" placeholder="Search term trends...">
+	</form>
+</ng-template>
