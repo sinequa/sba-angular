@@ -3,6 +3,9 @@
     flex: 1 1 0px;
     .editable-text {
         min-width: 4rem;
+        overflow-wrap: break-word;
+        word-wrap: break-word; // Edge doesn't know overflow-wrap
+        word-break: break-word; // WebKit needs this
     }
     form {
         display: inline-block;
