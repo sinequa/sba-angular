@@ -82,7 +82,7 @@
                 [ngClass]="{'selected': selectionService.selectedRecords.includes(record.id) || record === openedDoc}">
                 <div class="flex-grow-1 overflow-hidden">
                     <div class="d-flex align-items-center">
-                        <sq-result-selector [record]="record" class="ml-1"></sq-result-selector>
+                        <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')" [record]="record" class="ml-1"></sq-result-selector>
                         <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
                     </div>
                     <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
