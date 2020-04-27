@@ -3,7 +3,7 @@ export default {
         "labels": "Libellés",
         "publicLabels": "Libellés publics",
         "privateLabels": "Libellés privés",
-        "selectLabel": "Ajouter le libellé",
+        "selectLabel": "Sélectionner le libellé",
         "renameLabel": "Renommer le libellé",
         "deleteLabel": "Enlever le libellé",
         "bulkAddLabel": "Ajouter le libellé aux résultats courants",

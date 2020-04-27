@@ -3,7 +3,7 @@ export default {
         "labels": "Labels",
         "publicLabels": "Public Labels",
         "privateLabels": "Private Labels",
-        "selectLabel": "Add label",
+        "selectLabel": "Select label",
         "renameLabel": "Rename label",
         "deleteLabel": "Remove label",
         "bulkAddLabel": "Add label to the current results",

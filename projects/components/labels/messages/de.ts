@@ -3,7 +3,7 @@ export default {
         "labels": "Etiketten",
         "publicLabels": "Öffentliche Etiketten",
         "privateLabels": "Private Etiketten",
-        "selectLabel": "Etikett hinzufügen",
+        "selectLabel": "Etikett auswählen",
         "renameLabel": "Etikett umbenennen",
         "deleteLabel": "Etikett entfernen",
         "bulkAddLabel": "Label zu aktuellen Ergebnissen hinzufügen",
