@@ -24,7 +24,12 @@
         </defs>
 
         <!-- Timeline series -->
-        <g #areas class="areas" [attr.clip-path]="'url(#clip'+instance+')'" [attr.mask]="'url(#mask'+instance+')'"></g>
+        <g class="areas" [attr.clip-path]="'url(#clip'+instance+')'" [attr.mask]="'url(#mask'+instance+')'">
+            <g *ngFor="let timeline of data" class="series">
+                <path class="area" [attr.d]="area(timeline.dates)" [ngStyle]="timeline.areaStyles"></path>
+                <path class="line" [attr.d]="line(timeline.dates)" [ngStyle]="timeline.lineStyles"></path>
+            </g>
+        </g>
 
         <!-- Tooltip line -->
         <ng-container *ngIf="showTooltip && tooltipX && !zooming && !brushing && !currentSelection">
@@ -45,7 +50,12 @@
         <g #brush class="brush" [attr.clip-path]="'url(#clip'+instance+')'" [attr.display]="(!data || !data.length)? 'none' : null"></g>
 
         <!-- Timeline events -->
-        <g #events class="events" [attr.clip-path]="'url(#clip'+instance+')'" [attr.mask]="'url(#mask'+instance+')'"></g>
+        <g class="events" [attr.clip-path]="'url(#clip'+instance+')'" [attr.mask]="'url(#mask'+instance+')'">
+            <path *ngFor="let events of groupedEvents" class="event" 
+                [attr.d]="drawEvents(events, eventSize(events))" 
+                [ngStyle]="events[0].styles" 
+                (click)="onEventClick(events)"></path>
+        </g>
 
     </g>
 

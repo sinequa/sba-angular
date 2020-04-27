@@ -60,6 +60,8 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
     @ContentChild("tooltipTpl", {static: false}) tooltipTpl: TemplateRef<any>;
 
+    groupedEvents: TimelineEvent[][] = [];
+
     // Scales
     x: d3.ScaleTime<number, number>; // Read/Write
     xt: d3.ScaleTime<number, number>; // Transformed X axis due to Zoom
@@ -71,8 +73,6 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     // Shapes
     area: d3.Area<TimelineDate>; // Read only
     line: d3.Line<TimelineDate>; // Read only
-    zeroArea: d3.Area<TimelineDate>; // Read only / x updated
-    zeroLine: d3.Line<TimelineDate>; // Read only / x updated
 
     // Behaviors
     brushBehavior: d3.BrushBehavior<any>; // Read only
@@ -83,15 +83,11 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     // Elements
     @ViewChild("xAxis") gx: ElementRef;
     @ViewChild("yAxis") gy: ElementRef;
-    @ViewChild("areas") gareas: ElementRef;
-    @ViewChild("events") gevents: ElementRef;
     @ViewChild("brush") gbrush: ElementRef;
     
     // Selections
     xAxis$: d3.Selection<SVGGElement, Date, null, undefined>;
     yAxis$: d3.Selection<SVGGElement, number, null, undefined>;
-    areas$: d3.Selection<SVGGElement, TimelineSeries, null, undefined>;
-    events$: d3.Selection<SVGGElement, TimelineEvent[], null, undefined>;
     brush$: d3.Selection<SVGGElement, undefined, null, undefined>;
     grips$: d3.Selection<SVGGElement, {type: string}, SVGGElement, undefined>;
         
@@ -105,8 +101,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
     // Misc
     viewInit: boolean;
-    _intlSubscription: Subscription;
-    previousStateHadData: boolean;
+    intlSubscription: Subscription;
     static counter = 0;
     instance: number;
     
@@ -118,7 +113,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         protected intlService: IntlService,
     ){
         // When the locale changes, we rebuild the X scale and axis
-        this._intlSubscription = this.intlService.events.subscribe(e => this.updateXAxis());
+        this.intlSubscription = this.intlService.events.subscribe(e => this.updateXAxis());
         
         this.instance = BsTimelineComponent.counter++;        
     }
@@ -170,8 +165,6 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         // Get native elements
         this.xAxis$ = d3.select(this.gx.nativeElement);
         this.yAxis$ = d3.select(this.gy.nativeElement);
-        this.areas$ = d3.select(this.gareas.nativeElement);
-        this.events$ = d3.select(this.gevents.nativeElement);
         this.brush$ = d3.select(this.gbrush.nativeElement);
 
         // Scales
@@ -197,17 +190,6 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             .curve(d3[this.curveType])
             .x(d => this.xt(d.date))
             .y(d => this.y(d.value));
-            
-        this.zeroArea = d3.area<TimelineDate>()
-            .curve(d3[this.curveType])
-            .x(d => this.xt(d.date))
-            .y0(this.y(0))
-            .y1(this.y(0));
-
-        this.zeroLine = d3.line<TimelineDate>()
-            .curve(d3[this.curveType])
-            .x(d => this.xt(d.date))
-            .y(this.y(0));
             
         // Behaviors
         this.brushBehavior = d3.brushX()
@@ -251,13 +233,6 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
         this.turnoffTooltip();
 
-        // We don't want to animate curves and axes from the default scale
-        if(this.previousStateHadData){
-            const xCurrent = this.xt.copy();
-            this.zeroArea.x(d => xCurrent(d.date));
-            this.zeroLine.x(d => xCurrent(d.date));
-        }
-
         if(this.data && this.data.length) {
 
             // Update scales
@@ -273,15 +248,11 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             // Update brush
             this.updateBrush();
 
-            this.previousStateHadData = true;
-        }
-        // If no data, we don't update the scale & axes (and the brush and zoom are hidden)
-        else {
-            this.previousStateHadData = false;
         }
 
-        this.updateShapes();
+        // Areas and lines are drawn in the template
         
+        // Update the event grouping (events are drawn in the template)
         this.updateEvents();
     }
 
@@ -323,94 +294,18 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Update the x and y axes
      */
     protected updateAxes(){
-        this.xAxis$.call(d3.axisBottom<Date>(this.x));
-        this.xAxis$.selectAll(".domain").remove(); // Remove the axis line
-
-        this.yAxis$.interrupt();
+        this.drawXAxis();
+        
         this.yAxis$.call(this.yAxis);
         this.yAxis$.selectAll(".domain").remove(); // Remove the axis line
     }
 
     /**
-     * Update the areas and lines
+     * The events are drawn in the template directly. This method simply
+     * updates the grouping of events (when they are close to each other)
      */
-    protected updateShapes() {
-        
-        // Selection of series g groups
-        this.areas$.selectAll<SVGGElement, TimelineSeries>('.series')
-            .data(this.data || [], d => d.name)
-            .join<SVGGElement>(
-                
-                enter => {
-                    const gseries = enter.append("g")
-                        .attr("class", "series");
-                    
-                    const area = gseries
-                        .append<SVGPathElement>("path")
-                        .attr("class", "area")
-                        .attr("d", d => this.area(d.dates));
-
-                    this.applyStyles<TimelineSeries>(area, d => d.areaStyles);
-
-                    const line = gseries
-                        .append<SVGPathElement>("path")
-                        .attr("class", "line")
-                        .attr("d", d => this.line(d.dates));
-                        
-                    this.applyStyles<TimelineSeries>(line, d => d.lineStyles);
-
-                    return gseries;
-                },
-
-                update => {
-                    const area = update.select<SVGPathElement>(".area")
-                        .attr("d", d => this.area(d.dates));
-
-                    this.applyStyles<TimelineSeries>(area, d => d.areaStyles);
-
-                    const line = update.select<SVGPathElement>(".line")
-                        .attr("d", d => this.line(d.dates));
-                    
-                    this.applyStyles<TimelineSeries>(line, d => d.lineStyles);
-
-                    return update;
-                },
-
-                exit => {
-                    exit.remove();
-                }
-            );
-    }
-
-    
     protected updateEvents() {
-
-        const events = this.groupEvents(5);
-
-        this.events$.selectAll<SVGPathElement, TimelineEvent[]>('.event')
-            .data<TimelineEvent[]>(events, d => d[0].id)
-            .join<SVGPathElement, TimelineEvent[]>(               
-                enter => {
-                    const _enter = enter.append("path")
-                        .attr("class", "event")
-                        .attr("d", d => this.drawTriangle(d));
-
-                    this.applyStyles<TimelineEvent[]>(_enter, d => d[0].styles);
-
-                    _enter.on("click", (d,i,nodes) => this.onEventClick(d,i,nodes));
-
-                    return _enter;
-                },
-                update => {
-                    
-                    update.attr("d", d => this.drawTriangle(d));
-                        
-                    this.applyStyles<TimelineEvent[]>(update, d => d[0].styles);
-            
-                    return update;
-                },
-                exit => exit.remove()
-            );
+        this.groupedEvents = this.groupEvents(5);
     }
 
     /**
@@ -482,8 +377,15 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             .domain(this.xt.domain())
             .range(this.xt.range());
 
+        this.drawXAxis();
+    }
+
+    /**
+     * Draws the X axis
+     */
+    protected drawXAxis() {        
         this.xAxis$.call(d3.axisBottom(this.xt));
-        this.xAxis$.selectAll(".domain").remove(); // Remove the axis line   
+        this.xAxis$.selectAll(".domain").remove(); // Remove the axis line
     }
 
     /**
@@ -515,7 +417,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     onBrushEnd(){
         this.brushing = false;
         this.onBrush();
-        const newSelection = this.brushSelection ? this.brushSelection.sort((a,b)=>a-b).map(this.xt.invert) : undefined;
+        const newSelection = this.brushSelection?.sort((a,b)=>a-b).map(this.xt.invert);
         if(this.checkSelectionChange(this.currentSelection, newSelection)) {
             this.currentSelection = newSelection;
             this.selectionChange.next(this.currentSelection);
@@ -536,19 +438,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         this.xt = transform.rescaleX(this.x);
 
         // Redraw the axis
-        this.xAxis$.call(d3.axisBottom(this.xt));
-        this.xAxis$.selectAll(".domain").remove(); // Remove the axis line
-
-        // Redraw the data
-        this.areas$.selectAll<SVGPathElement, TimelineSeries>('.series .area')
-            .attr("d", d => this.area(d.dates));
-
-        this.areas$.selectAll<SVGPathElement, TimelineSeries>('.series .line')
-            .attr("d", d => this.line(d.dates));
-
-        // Redraw the events
-        this.events$.selectAll<SVGPathElement, TimelineEvent[]>(".event")
-            .attr("d", d => this.drawTriangle(d));
+        this.drawXAxis();
             
         // Update the brush position
         if(this.currentSelection){
@@ -561,26 +451,36 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     onZoomEnd(){
         this.zooming = false;
 
+        // At the end of a zoom, we need to reorganize the grouping of events
         this.updateEvents();
 
         // Fire an event
         this.rangeChange.next(this.xt.domain());
     }
 
+    /**
+     * Redraw the simple tooltip (vertical line)
+     */
     onMousemove() {
         if(!this.tooltipItem && this.showTooltip) {
             this.tooltipX = d3.mouse(this.gbrush.nativeElement)[0];
         }
     }
 
+    /**
+     * Remove the simple tooltip (vertical line)
+     */
     onMouseout() {
         if(!this.tooltipItem) {
             this.tooltipX = undefined
         }
     }
 
-    onEventClick(event: TimelineEvent[], i: number, nodes: SVGPathElement[] | ArrayLike<SVGPathElement>) {
-        const marker = d3.select<SVGPathElement, TimelineEvent[]>(nodes[i]);
+    /**
+     * Responds to a click on an event (triangle) by essentially turning tooltip on/off
+     * @param event 
+     */
+    onEventClick(event: TimelineEvent[]) {
 
         if(this.tooltipItem === event) {
             this.turnoffTooltip();
@@ -594,8 +494,6 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
             this.tooltipItem = event;
             this.tooltipX = this.xt(event[0].date);
-
-            marker.attr("d", d => this.drawTriangle(d, d[0].sizeOpened || (d[0].size || 6)*2));
 
             // Since we use viewBox to auto-adjust the SVG to the container size, we have to
             // convert from the SVG coordinate system to the HTML coordinate system
@@ -619,23 +517,28 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         }
     }
 
+    /**
+     * Turns off the tooltip
+     */
     turnoffTooltip = () => {
-        if(this.tooltipItem) {    
-            this.events$.selectAll<SVGPathElement, TimelineEvent[]>('.event')
-                .filter(d => d === this.tooltipItem)
-                .attr("d", d => this.drawTriangle(d));
-
+        if(this.tooltipItem) {
             this.tooltipItem = undefined;
             this.tooltipX = undefined;
         }
     }
 
     ngOnDestroy(){
-        this._intlSubscription.unsubscribe();
+        this.intlSubscription.unsubscribe();
     }
 
     // Utilities
 
+    /**
+     * Transforms the input list of events into a list of list, by grouping events within a bin
+     * when their dates are close together. This closeness is measured in "pixel per event".
+     * Note: this currently uses a histogram-like algorithm, which could probably be improved (clustering?)
+     * @param pixPerEvent 
+     */
     protected groupEvents(pixPerEvent: number): TimelineEvent[][] {
         const events: TimelineEvent[][] = [];
 
@@ -720,17 +623,10 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
                  Math.floor((selection1[1].getTime() - selection2[1].getTime())/1000) !== 0);
     }
     
-    protected applyStyles<Datum>(selection: d3.Selection<SVGPathElement, Datum, SVGGElement, Datum>, stylesAccessor: (d:Datum) => ({[key:string]: any} | undefined)){
-        selection.each(function(d: Datum){
-            const styles = stylesAccessor(d);
-            if(styles){
-                Object.entries(styles).forEach(e => {
-                    d3.select(this).style(e[0], e[1]);
-                });
-            }
-        });
-    }
-
+    /**
+     * Returns a string containing the path coordinates of a "grip" to draw on each side of
+     * the brush object
+     */
     protected drawGrips = (d) => {
         const gripHeight = Math.min(10, Math.max((this.innerHeight) / 8, 4));
         const gripWidth = gripHeight;
@@ -749,9 +645,26 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         return path;
     }
 
-    protected drawTriangle = (d: TimelineEvent[], size?: number) => {
-        const x = this.xt(d[0].date);
-        size = size || d[0].size || 6;
+    /**
+     * Returns the size of the triangle drawn for one event (or a group of events)
+     * @param events 
+     */
+    eventSize(events: TimelineEvent[]): number {
+        if(events!==this.tooltipItem) {
+            return events[0].size || 6;
+        }
+        else {
+            return events[0].sizeOpened || (events[0].size || 6)*2;
+        }
+    }
+
+    /**
+     * Return a string containing the path coordinates of a triangle for a given event (or group of events)
+     * @param events 
+     * @param size 
+     */
+    drawEvents(events: TimelineEvent[], size: number): string {
+        const x = this.xt(events[0].date);
         return 'M ' + x + ' ' + (this.innerHeight - 3*size/2) +
             ' l ' + -size + ' ' + (3*size/2) +
             ' l ' + (2*size) + ' ' + 0 + ' z ';
