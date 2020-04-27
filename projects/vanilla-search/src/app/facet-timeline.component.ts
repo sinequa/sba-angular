@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { Observable, of, Subject, combineLatest, ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Results, AggregationItem, Aggregation, CCAggregation } from '@sinequa/core/web-services';
+import { Results, AggregationItem, Aggregation, CCAggregation, Record } from '@sinequa/core/web-services';
 import { AppService, Expr } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { Action } from '@sinequa/components/action';
@@ -18,6 +18,7 @@ export interface TimelineAggregation {
     primary: boolean;
     areaStyles?: {[key: string]: any};
     lineStyles?: {[key: string]: any};
+    legend?: string;
 }
 
 export interface TimelineCombinedAggregations {
@@ -27,7 +28,24 @@ export interface TimelineCombinedAggregations {
     current?: TimelineAggregation; // (this field is overriden by the component when switching aggregation)
 }
 
+export interface TimelineRecords {
+    showRecords: boolean;
+    size?: number | ((record: Record, selected: boolean) => number);
+    styles?: {[key: string]: any} | ((record: Record, selected: boolean) => {[key: string]: any});
+    display?: (record: Record) => string;
+}
+
+export interface TimelineEventAggregation {
+    aggregation: string;
+    getDate: ((item: AggregationItem) => Date);
+    getDisplay: ((item: AggregationItem) => string);
+    size?: number | ((item: AggregationItem) => number);
+    styles?: {[key: string]: any} | ((item: AggregationItem) => {[key: string]: any});
+}
+
 export type TimelineData = TimelineSeries | TimelineAggregation | TimelineCombinedAggregations;
+
+export type TimelineEventData = TimelineEvent[] | TimelineRecords | TimelineEventAggregation;
 
 @Component({
     selector: 'sq-facet-timeline',
@@ -38,7 +56,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     @Input() name = 'Timeline';
     @Input() results: Results;
     @Input() timelines: TimelineData[] = [];
-    @Input() showRecords = true;
+    @Input() events: TimelineEventData[] = [{showRecords: true}];
 
     // Initial scale (prior to any zoom)
     @Input() minDate?: Date;
@@ -49,20 +67,22 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     @Input() maxZoomDays = 365 * 100; // Max 100 years scale
 
     @Input() width = 600;
-    @Input() height = 300;
+    @Input() height = 200;
     @Input() margin = {top: 15, bottom: 30, left: 40, right: 15};
 
     @Input() curveType = "curveMonotoneX";
-    @Input() transition = 1000;
 
     @Input() showTooltip = true;
 
     @Output() eventClicked = new EventEmitter<TimelineEvent>();
 
-    // List of observables (one per timeseries)
+    // List of observables (one per timeseries / event type)
     timelines$: ReplaySubject<TimelineSeries>[];
+    events$: ReplaySubject<TimelineEvent[]>[];
+
     // Combination (combineLastest) of the timeline observables
     data$: Observable<TimelineSeries[]>;
+    mergedEvents$: Observable<TimelineEvent[]>;
 
     // Current timeline selection
     selection?: [Date, Date];
@@ -73,9 +93,8 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     // Misc
     formatDayRequest = d3.timeFormat("%Y-%m-%d");
 
+    // TODO: remove
     searchedTerm: string;
-
-    events: TimelineEvent[];
 
     constructor(
         public facetService: FacetService,
@@ -86,9 +105,11 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     ){
         super();
 
+        // Update the events when the selection of records changes
         this.selectionService.events.subscribe(event => {
-            if(this.showRecords) {
-                this.setRecords();
+            const i = this.events.findIndex(e => (e as TimelineRecords).showRecords);
+            if(i !== -1) {
+                this.events$[i].next(this.getRecords(this.events[i] as TimelineRecords));
             }
         });
     }
@@ -103,33 +124,36 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
     ngOnChanges(changes: SimpleChanges) {
 
-        if(changes["results"]){
-            const select = this.searchService.query.findSelect(this.name);
-            if(select && !this.selection) {
-                let parsedexpr = this.appService.parseExpr(select.expression) as Expr;
-                if(!Utils.isString(parsedexpr)){
-                    while(!parsedexpr.isLeaf){ // The select might over multiple fields (modified between [...] AND created between [...])
-                        parsedexpr = parsedexpr.operands[0];
-                    }
-                    if(parsedexpr.values){
-                        this.selection = [new Date(parsedexpr.values[0]), new Date(parsedexpr.values[1])];
-                    }
+        const select = this.searchService.query.findSelect(this.name);
+
+        // Update the selection if it is not already set (which is the case on a page refresh)
+        if(select && !this.selection) {
+            let parsedexpr = this.appService.parseExpr(select.expression) as Expr;
+            if(!Utils.isString(parsedexpr)){
+                while(!parsedexpr.isLeaf){ // The select might over multiple fields (modified between [...] AND created between [...])
+                    parsedexpr = parsedexpr.operands[0];
+                }
+                if(parsedexpr.values){
+                    this.selection = [new Date(parsedexpr.values[0]), new Date(parsedexpr.values[1])];
                 }
             }
-            else if(!select) {
-                this.selection = undefined; // If no select, it was possibly removed by the user, we need to update our selection
-                this.currentRange = undefined; // current range is set by zoom events, we want to reset it only if there are no select (ie. no user interaction)
-            }
-
-            if(this.showRecords) {
-                this.setRecords();
-            }
+        }
+        else if(!select) {
+            this.selection = undefined; // If no select, it was possibly removed by the user, we need to update our selection
+            this.currentRange = undefined; // current range is set by zoom events, we want to reset it only if there are no select (ie. no user interaction)
         }
 
         if(!this.timelines$ || changes["timeseries"]) {
             // Create one observable per timeline
             this.timelines$ = this.timelines.map(_ => new ReplaySubject<TimelineSeries>(1));
             this.data$ = combineLatest(this.timelines$);
+        }
+
+        if(!this.events$ || changes["events"]) {
+            this.events$ = this.events.map(_ => new ReplaySubject<TimelineEvent[]>(1));
+            this.mergedEvents$ = combineLatest(this.events$).pipe(
+                map(events => ([] as TimelineEvent[]).concat(...events))
+            );
         }
 
         this.timelines.forEach((config, i) => {
@@ -155,25 +179,76 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
             }
 
         });
+
+        this.events.forEach((config, i) => {
+            const subject = this.events$[i];
+
+            if((config as TimelineRecords).showRecords) {
+                subject.next(this.getRecords(config as TimelineRecords));
+            }
+            else if((config as TimelineEventAggregation).aggregation){
+                this.getEventAggregation(config as TimelineEventAggregation, subject)
+            }
+            else if(Array.isArray(config)){
+                subject.next(config as TimelineEvent[]);
+            }
+        });
         
     }
 
-    setRecords() {
-        this.events = this.results?.records
-            .filter(r => !!r.modified)
-            .map(r => {
-                const selected =  this.selectionService.selectedRecords.indexOf(r.id) !== -1;
-                return {
-                    id: r.id,
-                    date: r.modified,
-                    styles: {
-                        'fill': selected? 'red' : 'green',
-                        'stroke': selected? 'red' : undefined,
-                        'stroke-width': selected? '2px' : undefined
-                    },
-                    record: r
-                }
+    getEventAggregation(config: TimelineEventAggregation, subject: ReplaySubject<TimelineEvent[]>) {
+        
+        const ccaggregation = this.appService.getCCAggregation(config.aggregation);
+        const aggregation = this.facetService.getAggregation(config.aggregation, this.results);
+        
+        if(aggregation && ccaggregation) {
+            subject.next(
+                BsFacetTimelineComponent.createAggregationEvents(config, aggregation, ccaggregation)
+            );
+        }
+
+        else if(ccaggregation) {
+            this.fetchEvents(config, ccaggregation).subscribe({
+                next: v => subject.next(v),
+                error: err => subject.error(err),
+                //complete: () => timeseries.complete() // We don't want the subject to complete as there will be more elements
             });
+        }
+
+        else {
+            throw new Error(`Aggregation ${config.aggregation} does not exist in the Query web service"`);
+        }
+    }
+
+
+    getRecords(config: TimelineRecords): TimelineEvent[] {
+        if(this.results) {
+            return this.results.records
+                .filter(r => !!r.modified)
+                .map<TimelineEvent>(r => {
+                    const selected =  this.selectionService.selectedRecords.indexOf(r.id) !== -1;
+                    return {
+                        id: r.id,
+                        date: r.modified,
+                        size: !config.size? 6 : typeof config.size === 'function'? config.size(r, selected) : config.size,
+                        styles: !config.styles? this.defaultRecordStyle(selected) :
+                                typeof config.styles === 'function'? config.styles(r, selected) : 
+                                config.styles,
+                        display: config.display? config.display(r) : r.title,
+                        // Custom property for click action
+                        record: r
+                    }
+                });
+        }
+        return [];
+    }
+
+    defaultRecordStyle(selected: boolean): {[key: string]: any} {
+        return {
+            'fill': selected? 'red' : 'green',
+            'stroke': selected? 'red' : undefined,
+            'stroke-width': selected? '2px' : undefined
+        };
     }
 
     getTimeseries(config: TimelineAggregation, subject: Subject<TimelineSeries>, range?: [Date, Date]) {
@@ -207,18 +282,39 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
      * @param ccaggregation 
      */
     fetchTimeseries(config: TimelineAggregation, ccaggregation: CCAggregation, range?: [Date, Date]): Observable<TimelineSeries> {
+        return this.fetchAggregation(config.aggregation, ccaggregation, range).pipe(
+            map(agg => BsFacetTimelineComponent.createTimeseries(config, agg, ccaggregation))
+        );
+    }
+
+    /**
+     * Get the given aggregation from the server and transform it into a list of events
+     * @param config 
+     * @param ccaggregation 
+     */
+    fetchEvents(config: TimelineEventAggregation, ccaggregation: CCAggregation) {
+        return this.fetchAggregation(config.aggregation, ccaggregation).pipe(
+            map(agg => BsFacetTimelineComponent.createAggregationEvents(config, agg, ccaggregation))
+        );
+    }
+
+    /**
+     * Get an aggregation from the server
+     * @param aggregation 
+     * @param ccaggregation 
+     * @param range 
+     */
+    fetchAggregation(aggregation: string, ccaggregation: CCAggregation, range?: [Date, Date]): Observable<Aggregation> {
         const query = Utils.copy(this.searchService.query);
         query.action = "aggregate";
-        query.aggregations = [config.aggregation];
+        query.aggregations = [aggregation];
 
         if(range){
             query.addSelect(`${ccaggregation.column}:[${this.formatDayRequest(range[0])}..${this.formatDayRequest(range[1])}]`);
         }
 
         return this.searchService.getResults(query, undefined, {searchInactive: true}).pipe(
-            map(results => {
-                return BsFacetTimelineComponent.createTimeseries(config, results.aggregations[0], ccaggregation);
-            })
+            map(results => results.aggregations[0])
         );
     }
 
@@ -369,6 +465,31 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
             lineStyles: config.lineStyles,
             areaStyles: config.areaStyles
         }
+    }
+
+    /**
+     * Create a list of events from its config, data (aggregation) and configuration (ccaggregation)
+     * @param config 
+     * @param aggregation 
+     * @param ccaggregation 
+     */
+    static createAggregationEvents(config: TimelineEventAggregation, aggregation: Aggregation, ccaggregation: CCAggregation): TimelineEvent[] {
+        return !aggregation.items? [] : aggregation.items.map(item => {
+            return {
+                id: config.getDate(item).toUTCString()+"|"+config.getDisplay(item),
+                date: config.getDate(item),
+                size: !config.size? 6 : typeof config.size === 'function'? config.size(item) : config.size,
+                styles: !config.styles? undefined :
+                        typeof config.styles === 'function'? config.styles(item) : 
+                        config.styles,                
+                display: config.getDisplay(item),
+
+                // Custom params for click action
+                item: item,
+                aggregation: aggregation,
+                ccaggregation: ccaggregation
+            }
+        });
     }
 
     /**

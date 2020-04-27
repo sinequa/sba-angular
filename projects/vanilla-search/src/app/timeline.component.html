@@ -56,7 +56,13 @@
             [orientation]="tooltipOrientation" [left]="tooltipLeft" [right]="tooltipRight" [top]="tooltipTop">
     <div class="list-group list-group-flush">
         <ng-container *ngFor="let event of tooltipItem">
-            <ng-container *ngTemplateOutlet="tooltipTpl; context:{$implicit: event, close: turnoffTooltip}"></ng-container>
+            <ng-container *ngIf="tooltipTpl">
+                <ng-container *ngTemplateOutlet="tooltipTpl; context:{$implicit: event, close: turnoffTooltip}"></ng-container>
+            </ng-container>
+            <div *ngIf="!tooltipTpl" class="list-group-item" style="max-width: 300px;">
+                <span class="small text-muted">{{ event.date | sqDate }}</span>
+                <div class="text-truncate">{{ event.display }}</div>
+            </div>
         </ng-container>
     </div>
 </sq-tooltip>

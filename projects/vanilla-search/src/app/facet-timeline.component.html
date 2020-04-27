@@ -1,6 +1,6 @@
 <sq-timeline2
     [data]="data$ | async"
-    [events]="events"
+    [events]="mergedEvents$ | async"
     [selection]="selection"
     [minDate]="getMinDate()"
     [maxDate]="getMaxDate()"
@@ -11,16 +11,16 @@
     [height]="height"
     [margin]="margin"
     [curveType]="curveType"
-    [transition]="transition"
     [showTooltip]="showTooltip"
 
     (selectionChange)="onSelectionChange($event)"
     (rangeChange)="onRangeChange($event)">
 
     <ng-template #tooltipTpl let-event let-close="close">
-        <a href="#" class="list-group-item list-group-item-action" style="max-width: 300px;" (click)="onEventClicked(event, close)">
+        <a href="#"
+            class="list-group-item list-group-item-action" style="max-width: 300px;" (click)="onEventClicked(event, close)">
             <span class="small text-muted">{{ event.date | sqDate }}</span>
-            <div class="text-truncate">{{event.record.title}}</div>
+            <div class="text-truncate">{{ event.display || event.record.title }}</div>
         </a>
     </ng-template>
 

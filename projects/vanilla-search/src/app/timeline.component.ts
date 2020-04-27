@@ -21,7 +21,9 @@ export interface TimelineSeries {
 export interface TimelineEvent {
     date: Date;
     id: string;
+    display: string;
     size?: number;
+    sizeOpened?: number;
     styles?: {[key:string]: any};
 }
 
@@ -46,11 +48,10 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     @Input() maxZoomDays = 365 * 100; // Max 100 years scale
 
     @Input() width = 600;
-    @Input() height = 300;
+    @Input() height = 200;
     @Input() margin = {top: 15, bottom: 30, left: 40, right: 15};
 
     @Input() curveType = "curveMonotoneX";
-    @Input() transition = 1000;
 
     @Input() showTooltip = true;
 
@@ -133,8 +134,6 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     // Note: ngOnChanges is always called once before ngAfterViewInit
     ngOnChanges(changes: SimpleChanges) {
 
-        const transition = this.getTransition();
-
         // If the parent changes the selection, we want to update it
         // If not, we keep the current selection as is
         // (Important to keep this statement outside of the if bellow since 
@@ -144,7 +143,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         // Only changes in data result in redrawing the chart
         // (other input, except selection, are expected to be static)
         if(this.viewInit && changes["data"] && this.checkDataChanges(changes["data"])){
-            this.updateChart(transition);
+            this.updateChart();
         }
 
         // If the parent changes the selection or events (even though the data hasn't changed), 
@@ -154,11 +153,11 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         else if(this.viewInit) {
 
             if(changes["selection"] && selectionChanged){
-                this.updateBrush(transition);
+                this.updateBrush();
             }
 
             if(changes["events"]) {
-                this.updateEvents(transition);
+                this.updateEvents();
             }
         }
         
@@ -242,14 +241,13 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
         this.viewInit = true;
 
-        this.updateChart(this.getTransition());
+        this.updateChart();
     }
 
     /**
      * Redraw the graph
-     * @param transition 
      */
-    updateChart(transition: d3.Transition<any, any, any, any>) {
+    updateChart() {
 
         this.turnoffTooltip();
 
@@ -267,13 +265,13 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             this.updateScales(this.data);
 
             // Update Axes
-            this.updateAxes(transition);
+            this.updateAxes();
             
             // Update Zoom
             this.updateZoom();
 
             // Update brush
-            this.updateBrush(transition);
+            this.updateBrush();
 
             this.previousStateHadData = true;
         }
@@ -282,9 +280,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             this.previousStateHadData = false;
         }
 
-        this.updateShapes(transition);
+        this.updateShapes();
         
-        this.updateEvents(transition);
+        this.updateEvents();
     }
 
 
@@ -322,24 +320,21 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     }
 
     /**
-     * Update the x and y axes with the given transition
-     * @param transition 
+     * Update the x and y axes
      */
-    protected updateAxes(transition: d3.Transition<any, any, any, any>){
-        this.xAxis$.interrupt();
-        this.xAxis$.transition(transition).call(d3.axisBottom<Date>(this.x));
+    protected updateAxes(){
+        this.xAxis$.call(d3.axisBottom<Date>(this.x));
         this.xAxis$.selectAll(".domain").remove(); // Remove the axis line
 
         this.yAxis$.interrupt();
-        this.yAxis$.transition(transition).call(this.yAxis);
+        this.yAxis$.call(this.yAxis);
         this.yAxis$.selectAll(".domain").remove(); // Remove the axis line
     }
 
     /**
-     * Update the areas and lines with the given transition
-     * @param transition 
+     * Update the areas and lines
      */
-    protected updateShapes(transition: d3.Transition<any, any, any, any>) {
+    protected updateShapes() {
         
         // Selection of series g groups
         this.areas$.selectAll<SVGGElement, TimelineSeries>('.series')
@@ -353,9 +348,6 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
                     const area = gseries
                         .append<SVGPathElement>("path")
                         .attr("class", "area")
-                        .attr("d", d => this.zeroArea(d.dates));
-                    
-                    area.transition(transition)
                         .attr("d", d => this.area(d.dates));
 
                     this.applyStyles<TimelineSeries>(area, d => d.areaStyles);
@@ -363,9 +355,6 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
                     const line = gseries
                         .append<SVGPathElement>("path")
                         .attr("class", "line")
-                        .attr("d", d => this.zeroLine(d.dates));
-
-                    line.transition(transition)
                         .attr("d", d => this.line(d.dates));
                         
                     this.applyStyles<TimelineSeries>(line, d => d.lineStyles);
@@ -374,48 +363,27 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
                 },
 
                 update => {
-                    // Note: the use of .interrupt() allows to cancel transitions in progress on this selection 
-                    // (in case of user actions faster than the transition)
-                    const area = update.select<SVGPathElement>(".area");
-                    area.interrupt();
-                    area.attr("d", d => this.zeroArea(d.dates))
-                        .transition(transition)
+                    const area = update.select<SVGPathElement>(".area")
                         .attr("d", d => this.area(d.dates));
 
-                    this.applyStyles<TimelineSeries>(area, d => d.areaStyles, transition);
+                    this.applyStyles<TimelineSeries>(area, d => d.areaStyles);
 
-                    const line = update.select<SVGPathElement>(".line");
-
-                    line.interrupt();
-                    line.attr("d", d => this.zeroLine(d.dates))
-                        .transition(transition)
+                    const line = update.select<SVGPathElement>(".line")
                         .attr("d", d => this.line(d.dates));
                     
-                    this.applyStyles<TimelineSeries>(line, d => d.lineStyles, transition);
+                    this.applyStyles<TimelineSeries>(line, d => d.lineStyles);
 
                     return update;
                 },
 
                 exit => {
-                    
-                    exit.select(".area")
-                        .transition(transition)
-                        .attr('d', d => this.zeroArea(d.dates))
-                        .remove();
-                        
-                    exit.select(".line")
-                        .transition(transition)
-                        .attr('d', d => this.zeroLine(d.dates))
-                        .remove();
-
-                    exit.transition(transition)
-                        .remove();
+                    exit.remove();
                 }
             );
     }
 
     
-    protected updateEvents(transition?: d3.Transition<any, any, any, any>) {
+    protected updateEvents() {
 
         const events = this.groupEvents(5);
 
@@ -424,16 +392,8 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             .join<SVGPathElement, TimelineEvent[]>(               
                 enter => {
                     const _enter = enter.append("path")
-                        .attr("class", "event");
-
-                    if(transition) {
-                        _enter.attr("d", d => this.drawTriangle(d))
-                            .transition(transition)
-                            .attr("d", d => this.drawTriangle(d));
-                    }
-                    else {
-                        _enter.attr("d", d => this.drawTriangle(d));
-                    }
+                        .attr("class", "event")
+                        .attr("d", d => this.drawTriangle(d));
 
                     this.applyStyles<TimelineEvent[]>(_enter, d => d[0].styles);
 
@@ -443,15 +403,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
                 },
                 update => {
                     
-                    update.interrupt();
-
-                    if(transition) {
-                        update.transition(transition)
-                            .attr("d", d => this.drawTriangle(d));
-                    }
-                    else {
-                        update.attr("d", d => this.drawTriangle(d));
-                    }
+                    update.attr("d", d => this.drawTriangle(d));
                         
                     this.applyStyles<TimelineEvent[]>(update, d => d[0].styles);
             
@@ -495,15 +447,13 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     }
 
     /**
-     * Updates the brush with a transition (or hides it if no currentSelection),
+     * Updates the brush (or hides it if no currentSelection),
      * following a change of x scale.
-     * @param transition
      */
-    protected updateBrush(transition: d3.Transition<any, any, any, any>) {
+    protected updateBrush() {
         if(this.currentSelection) {
             const selection: [number, number] = [this.xt(this.currentSelection[0]), this.xt(this.currentSelection[1])];
-            this.brush$.interrupt();
-            this.brush$.transition(transition).call(this.brushBehavior.move, selection);
+            this.brush$.call(this.brushBehavior.move, selection);
         }
         else {
             this.brush$.call(this.brushBehavior.move, null);
@@ -586,21 +536,17 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         this.xt = transform.rescaleX(this.x);
 
         // Redraw the axis
-        this.xAxis$.interrupt();
         this.xAxis$.call(d3.axisBottom(this.xt));
         this.xAxis$.selectAll(".domain").remove(); // Remove the axis line
 
         // Redraw the data
-        this.areas$.selectAll('.series .area').interrupt();
         this.areas$.selectAll<SVGPathElement, TimelineSeries>('.series .area')
             .attr("d", d => this.area(d.dates));
 
-        this.areas$.selectAll('.series .line').interrupt();
         this.areas$.selectAll<SVGPathElement, TimelineSeries>('.series .line')
             .attr("d", d => this.line(d.dates));
 
         // Redraw the events
-        this.xAxis$.interrupt();
         this.events$.selectAll<SVGPathElement, TimelineEvent[]>(".event")
             .attr("d", d => this.drawTriangle(d));
             
@@ -649,7 +595,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             this.tooltipItem = event;
             this.tooltipX = this.xt(event[0].date);
 
-            marker.attr("d", d => this.drawTriangle(d, (d[0].size || 5)*2));
+            marker.attr("d", d => this.drawTriangle(d, d[0].sizeOpened || (d[0].size || 6)*2));
 
             // Since we use viewBox to auto-adjust the SVG to the container size, we have to
             // convert from the SVG coordinate system to the HTML coordinate system
@@ -774,21 +720,12 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
                  Math.floor((selection1[1].getTime() - selection2[1].getTime())/1000) !== 0);
     }
     
-    protected getTransition(): d3.Transition<any, any, any, any> {
-        return d3.transition().duration(this.transition);
-    }
-
-    protected applyStyles<Datum>(selection: d3.Selection<SVGPathElement, Datum, SVGGElement, Datum>, stylesAccessor: (d:Datum) => ({[key:string]: any} | undefined), transition?: d3.Transition<any, any, any, any>){
+    protected applyStyles<Datum>(selection: d3.Selection<SVGPathElement, Datum, SVGGElement, Datum>, stylesAccessor: (d:Datum) => ({[key:string]: any} | undefined)){
         selection.each(function(d: Datum){
             const styles = stylesAccessor(d);
             if(styles){
                 Object.entries(styles).forEach(e => {
-                    if(transition) {
-                        d3.select(this).transition(transition).style(e[0], e[1]);
-                    }
-                    else {
-                        d3.select(this).style(e[0], e[1]);
-                    }
+                    d3.select(this).style(e[0], e[1]);
                 });
             }
         });
@@ -814,7 +751,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
     protected drawTriangle = (d: TimelineEvent[], size?: number) => {
         const x = this.xt(d[0].date);
-        size = size || d[0].size || 5;
+        size = size || d[0].size || 6;
         return 'M ' + x + ' ' + (this.innerHeight - 3*size/2) +
             ' l ' + -size + ' ' + (3*size/2) +
             ' l ' + (2*size) + ' ' + 0 + ' z ';
