@@ -1,7 +1,7 @@
-import {Component, OnInit, OnDestroy} from "@angular/core";
+import {Component, OnInit, OnDestroy, Inject} from "@angular/core";
 import {FormBuilder, FormGroup, FormControl, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
-import {ModalButton, ModalResult} from "@sinequa/core/modal";
+import {ModalButton, ModalResult, MODAL_MODEL} from "@sinequa/core/modal";
 import {IRef, Utils} from "@sinequa/core/base";
 
 @Component({
@@ -9,13 +9,13 @@ import {IRef, Utils} from "@sinequa/core/base";
     templateUrl: "./rename-label.html"
 })
 export class BsRenameLabel implements OnInit, OnDestroy {
-    model: IRef<string>;
     labelControl: FormControl;
     form: FormGroup;
     formChanges: Subscription;
     buttons: ModalButton[];
 
     constructor(
+        @Inject(MODAL_MODEL) public model: IRef<string>,
         private formBuilder: FormBuilder) {
     }
 
