@@ -5,5 +5,4 @@ export * from "./pager/pager";
 export * from "./search.module";
 export * from "./sort-selector/sort-selector";
 export * from "./tabs/tabs";
-export * from "./timeline/timeline";
 export * from "./loading-bar/loading-bar";

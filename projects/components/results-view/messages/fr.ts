@@ -19,15 +19,6 @@ export default {
             "selectDocuments": "Sélectionner les documents",
             "unselectDocuments": "Désélectionner les documents "
         },
-        "resultsHeatmapView": {
-            "display": "Carte de chaleur",
-            "toolbar": {
-                "xAxisLabel": "Axe X :",
-                "yAxisLabel": "Axe Y :",
-                "zAxisLabel": "Axe Z :",
-                "zValueLabel": "Valeur Z :"
-            }
-        },
         "resultsTiledView": {
             "display": "Mosaïque",
             "defaultTitle": "(Sans titre)",
@@ -44,15 +35,6 @@ export default {
         "results_all_tab": "Tous",
         "results_text_tab": "Texte",
 
-        "resultsTimelineView" : {
-            "display" : "Timeline",
-            "events" : "Evénements",
-            "previous" : "Précédent",
-            "next" : "Suivant",
-            "tooltip" : {
-                "date" : "{date} ({count})"
-            }
-        },
         "resultsScatterView" : {
             "display" : "Nuage de Valeurs"
         }
