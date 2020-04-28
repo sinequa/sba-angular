@@ -9,7 +9,7 @@ import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
 import { Action } from '@sinequa/components/action';
 import { TimelineSeries, TimelineDate, TimelineEvent } from './timeline.component';
-
+import moment from 'moment';
 import * as d3 from 'd3';
 
 export interface TimelineAggregation {
@@ -519,7 +519,8 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
         let _items = items.map(item => {
             if(!(item.value instanceof Date)){
-                item.value = new Date(item.value.toString());
+                const val = item.value.toString();
+                item.value = moment(val.length <= 4? val + "-01" : val).toDate();
             }
             return item;
         });
