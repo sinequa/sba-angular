@@ -740,10 +740,6 @@ export class SearchService implements OnDestroy {
         return this.query.addSelect(expr);
     }
 
-    public findSelectFromExpr(expr: string): number {
-        return this.query.findSelectFromExpr(expr);
-    }
-
     private makeFieldExpr(
         field: string, valueItem: ValueItem, options: SearchService.AddFieldSelectOptions,
         excludeField?: boolean): string {
