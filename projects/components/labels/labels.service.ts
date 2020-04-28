@@ -361,11 +361,11 @@ export class LabelsService {
         const items: ValueItem[] = [];
         const selectedLabels: string[] = this.getSelectedLabels(field);
         for (let label of labels) {
+            const display = label;
+            if (!_public) {
+                label = <string>this.addPrivatePrefix(label);
+            }
             if (selectedLabels.indexOf(label) === -1) {
-                const display = label;
-                if (!_public) {
-                    label = <string>this.addPrivatePrefix(label);
-                }
                 items.push({
                     value: label,
                     display: display
@@ -388,10 +388,8 @@ export class LabelsService {
     /**
      * Retrieves the labels that are not in the current filters of breadcrumbs
      *
-     * @private
-     * @param {string} field The column index containing the labels.
-     * @returns {string[]} The selected labels
-     * @memberof LabelsService
+     * @param field The column index containing the labels.
+     * @returns The selected labels
      */
     private getSelectedLabels(field: string): string[] {
         const labels: string[] = [];
