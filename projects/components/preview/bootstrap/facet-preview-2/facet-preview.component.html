@@ -8,15 +8,18 @@
 </div>
 
 <ng-template #headerTpl>
-    <div class="flex-grow-1 flex-basis-0 d-flex flex-column overflow-hidden">
+    <div class="flex-grow-1 flex-basis-0 overflow-hidden">
         <sq-result-title [record]="record"></sq-result-title>
-        <sq-metadata *ngIf="metadata && metadata.length > 0"
-            [record]="record" 
-            [items]="metadata"
-            [showTitles]="true" 
-            [showIcons]="true" 
-            [clickable]="false"
-            [spacing]="'compact'">
-        </sq-metadata>
     </div>
+</ng-template>
+
+<ng-template #subHeaderTpl>
+    <sq-metadata *ngIf="metadata && metadata.length > 0"
+        [record]="record" 
+        [items]="metadata"
+        [showTitles]="true" 
+        [showIcons]="true" 
+        [clickable]="false"
+        [spacing]="'compact'">
+    </sq-metadata>
 </ng-template>
