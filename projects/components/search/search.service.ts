@@ -756,12 +756,12 @@ export class SearchService implements OnDestroy {
         const _options = Utils.extend({not: false, and: false}, options);
         let item: ValueItem | undefined;
         if (Utils.isArray(items)) {
-             if (items.length === 0) {
-                 return 0;
-             }
-             if (items.length === 1) {
-                 item = items[0];
-             }
+            if (items.length === 0) {
+                return 0;
+            }
+            if (items.length === 1) {
+                item = items[0];
+            }
         }
         else {
             item = items as ValueItem;

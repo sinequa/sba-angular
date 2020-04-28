@@ -202,7 +202,7 @@ export class Breadcrumbs {
                 display: this.query && this.query.basket ? this.query.basket : "msg#breadcrumbs.emptySearch",
                 hidden: this.appService.ccquery && !this.appService.ccquery.allowEmptySearch &&
                     this.searchService.isEmptySearchIgnoreSelects(this.query)
-             });
+            });
         }
         // Selects
         if (this.query && this.query.select) {
