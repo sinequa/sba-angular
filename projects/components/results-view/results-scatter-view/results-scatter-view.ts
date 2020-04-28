@@ -1,11 +1,9 @@
 import {
-    Component, ViewEncapsulation, Input, OnChanges, SimpleChanges, ElementRef, ViewChild, ChangeDetectorRef, OnDestroy,
+    Component, ViewEncapsulation, Input, OnChanges, SimpleChanges, ElementRef, ViewChild, ChangeDetectorRef,
 } from "@angular/core";
 import {Utils} from "@sinequa/core/base";
 import {Query, AppService} from "@sinequa/core/app-utils";
 import {Results} from "@sinequa/core/web-services";
-import {LoadedComponent, LoadComponentService} from "@sinequa/core/load-component";
-import {BsTimelineTooltip} from "../results-timeline-tooltip/results-timeline-tooltip";
 import {SearchService} from "@sinequa/components/search";
 import {ResultsView} from "../results-view.service";
 
@@ -32,7 +30,7 @@ export interface ValueItem {
     templateUrl: "./results-scatter-view.html",
     styleUrls: ["./results-scatter-view.css"]
 })
-export class BsResultsScatterView implements OnChanges, OnDestroy {
+export class BsResultsScatterView implements OnChanges {
     @Input() query: Query;
     @Input() results: Results;
     @Input() view: ScatterView;
@@ -56,13 +54,11 @@ export class BsResultsScatterView implements OnChanges, OnDestroy {
     // Elements
     @ViewChild("svg", {static: false}) svg: ElementRef;
     g: d3.Selection<any, any, any, any> | undefined;
-    tooltip: LoadedComponent;
 
 
     constructor(
         private appService: AppService,
         private searchService: SearchService,
-        private loadComponentService: LoadComponentService,
         private changeDetectorRef: ChangeDetectorRef) {
     }
 
@@ -344,11 +340,6 @@ export class BsResultsScatterView implements OnChanges, OnDestroy {
 
 
     ngOnChanges(changes: SimpleChanges) {
-        if (!this.tooltip) {
-            this.tooltip = this.loadComponentService.loadComponent({component: BsTimelineTooltip});
-            d3.select(this.tooltip.componentRef.location.nativeElement)
-                .style("opacity", 0);
-        }
         if (!!changes["results"]) {
             if (changes["results"].firstChange) {
 
@@ -357,7 +348,4 @@ export class BsResultsScatterView implements OnChanges, OnDestroy {
         }
     }
 
-    ngOnDestroy() {
-        this.loadComponentService.unloadComponent(this.tooltip);
-    }
 }

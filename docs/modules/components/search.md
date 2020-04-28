@@ -130,7 +130,6 @@ NgModule({
 
 The search methods will all still work but they will execute the queries immediately rather than passing via the router.
 
-
 ## Components
 
 ### Tabs
@@ -205,18 +204,6 @@ This components requires at least a [`Results`]({{site.baseurl}}core/interfaces/
 
 ```html
 <sq-pager [results]="results"></sq-pager>
-```
-
-### Timeline
-
-The `sq-timeline` component displays a chart representing the distribution of the results in time. Users can filter the search by clicking, dragging and dropping on dates on the chart (thus adding date filters in the query).
-
-![Timeline]({{site.baseurl}}assets/modules/search/timeline.png)
-
-This components requires at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input to work properly.
-
-```html
-<sq-timeline [results]="results"></sq-timeline>
 ```
 
 ### Loading bar

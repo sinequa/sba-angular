@@ -15,7 +15,6 @@ import {BsPager} from "./pager/pager";
 import {BsPageSizeSelector} from "./page-size-selector/page-size-selector";
 import {BsSortSelector} from "./sort-selector/sort-selector";
 import {BsTabs} from "./tabs/tabs";
-import {BsTimeline} from "./timeline/timeline";
 import {BsLoadingBar} from "./loading-bar/loading-bar";
 
 @NgModule({
@@ -33,12 +32,12 @@ import {BsLoadingBar} from "./loading-bar/loading-bar";
     declarations: [
         BsDidYouMean,
         BsBreadcrumbs, BsPager, BsPageSizeSelector, BsSortSelector,
-        BsTabs, BsTimeline, BsLoadingBar
+        BsTabs, BsLoadingBar
     ],
     exports: [
         BsDidYouMean,
         BsBreadcrumbs, BsPager, BsPageSizeSelector, BsSortSelector,
-        BsTabs, BsTimeline, BsLoadingBar
+        BsTabs, BsLoadingBar
     ],
 })
 export class BsSearchModule {
