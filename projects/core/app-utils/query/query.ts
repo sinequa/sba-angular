@@ -170,6 +170,25 @@ export class Query implements IQuery {
     }
 
     /**
+     * Find the first `Select` whose expression matches the input.
+     *
+     * @param {string} expr The expression to match.
+     * @return {number} the index of the matching `Select`, -1 otherwise.
+     */
+    public findSelectFromExpr(expr: string): number {
+        if (!this.select) {
+            return -1;
+        }
+        for (let i = 0; i < this.select.length; i++) {
+            const select = this.select[i];
+            if (Utils.eqNC(expr, select.expression)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * Find the first `Select` matching the passed facet name
      *
      * @param facet A facet name

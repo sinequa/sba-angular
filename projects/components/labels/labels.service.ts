@@ -1,7 +1,7 @@
 import {Injectable, Inject, InjectionToken, Type} from "@angular/core";
 import {Observable, of} from "rxjs";
 import {LabelsWebService, AuditEventType, Record} from "@sinequa/core/web-services";
-import {AppService} from "@sinequa/core/app-utils";
+import {AppService, ValueItem, ExprParser} from "@sinequa/core/app-utils";
 import {Utils, IRef} from "@sinequa/core/base";
 import {SearchService} from "@sinequa/components/search";
 import {ModalService, ModalResult} from "@sinequa/core/modal";
@@ -358,23 +358,77 @@ export class LabelsService {
         if (!field) {
             return Promise.resolve(false);
         }
-        const items: {value: string, display: string}[] = [];
+        const items: ValueItem[] = [];
         for (let label of labels) {
             const display = label;
             if (!_public) {
                 label = <string>this.addPrivatePrefix(label);
             }
-            items.push({value: label, display: display});
-        }
-        this.searchService.addFieldSelect(field, items);
-        return this.searchService.search(undefined,
-            {
-                type: AuditEventType.Label_Open,
-                detail: {
-                    label: !!labels ? labels.toString() : null,
-                    public: _public
-                }
+            items.push({
+                value: label,
+                display: display
             });
+        }
+        if (this.areLabelsNotSelectedInQueryFilter(field, items)) {
+            this.searchService.addFieldSelect(field, items);
+            return this.searchService.search(undefined,
+                {
+                    type: AuditEventType.Label_Open,
+                    detail: {
+                        label: !!labels ? labels.toString() : null,
+                        public: _public
+                    }
+                });
+        }
+        return Promise.resolve(true);
+    }
+
+    /**
+     * Checks whether the given labels are not used to filter the current query.
+     *
+     * @private
+     * @param {string} field The label field
+     * @param {ValueItem[]} labels The labels to check
+     * @returns {boolean} true if the labels are not in the query filter.
+     * @memberof LabelsService
+     */
+    private areLabelsNotSelectedInQueryFilter(field: string, labels: ValueItem[]): boolean {
+        // NOTE: this method is inspired from SearchService.addFieldSelect() for the construction of field expr
+        let expr: string | undefined;
+        if (labels.length < 2) {
+            const item = labels.length === 0 ? undefined : labels[0];
+            expr = item ? this.makeFieldExpr(field, item) : undefined;
+        } else {
+            expr = '';
+            for (const label of labels) {
+                if (expr) {
+                    expr = `${expr} OR `;
+                }
+                const expr1 = this.makeFieldExpr(field, label);
+                expr = `${expr} (${expr1})`;
+            }
+            expr = `${field}:(${expr})`;
+        }
+
+        if (!expr) {
+            return true;
+        }
+
+        return this.searchService.findSelectFromExpr(expr) === -1;
+    }
+
+    private makeFieldExpr(field: string, valueItem: ValueItem): string {
+        const sb: string[] = [];
+        sb.push(field);
+        if (valueItem.display) {
+            let display = valueItem.display;
+            if (Utils.isDate(display)) { // ES-7785
+                display = Utils.toSysDateStr(display);
+            }
+            sb.push(ExprParser.escape(display));
+        }
+        sb.push(":(", ExprParser.escape(Utils.toSqlValue(valueItem.value)), ")");
+        return sb.join("");
     }
 
     renameLabels(labels: string[], newLabel: string, _public: boolean): Observable<void> {

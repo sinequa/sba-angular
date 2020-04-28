@@ -740,6 +740,10 @@ export class SearchService implements OnDestroy {
         return this.query.addSelect(expr);
     }
 
+    public findSelectFromExpr(expr: string): number {
+        return this.query.findSelectFromExpr(expr);
+    }
+
     private makeFieldExpr(
         field: string, valueItem: ValueItem, options: SearchService.AddFieldSelectOptions,
         excludeField?: boolean): string {
@@ -756,12 +760,12 @@ export class SearchService implements OnDestroy {
         const _options = Utils.extend({not: false, and: false}, options);
         let item: ValueItem | undefined;
         if (Utils.isArray(items)) {
-             if (items.length === 0) {
-                 return 0;
-             }
-             if (items.length === 1) {
-                 item = items[0];
-             }
+            if (items.length === 0) {
+                return 0;
+            }
+            if (items.length === 1) {
+                item = items[0];
+            }
         }
         else {
             item = items as ValueItem;
