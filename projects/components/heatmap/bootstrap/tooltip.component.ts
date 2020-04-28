@@ -10,6 +10,10 @@ import {Component, Input} from '@angular/core';
 </div>
 `,
     styles: [`
+.sq-tooltip {
+    z-index: 10;
+}
+
 .sq-tooltip::after {
     content: " ";
     position: absolute;
