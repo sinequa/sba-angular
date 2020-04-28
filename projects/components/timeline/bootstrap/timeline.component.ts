@@ -1,4 +1,4 @@
-import { Component, Input, Output, ElementRef, ViewChild, OnChanges, AfterViewInit, EventEmitter, SimpleChanges, OnDestroy, SimpleChange, ContentChild, TemplateRef } from '@angular/core';
+import { Component, Input, Output, ElementRef, ViewChild, OnChanges, AfterViewInit, EventEmitter, SimpleChanges, OnDestroy, SimpleChange, ContentChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { IntlService } from '@sinequa/core/intl';
 
@@ -28,7 +28,7 @@ export interface TimelineEvent {
 }
 
 @Component({
-    selector: 'sq-timeline2',
+    selector: 'sq-timeline',
     templateUrl: './timeline.component.html',
     styleUrls: ['./timeline.component.scss']
 })
@@ -60,15 +60,13 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
     @ContentChild("tooltipTpl", {static: false}) tooltipTpl: TemplateRef<any>;
 
+    // Data
     groupedEvents: TimelineEvent[][] = [];
 
     // Scales
     x: d3.ScaleTime<number, number>; // Read/Write
     xt: d3.ScaleTime<number, number>; // Transformed X axis due to Zoom
     y: d3.ScaleLinear<number, number>; // Read-only / domain updated
-
-    // Axes
-    yAxis: d3.Axis<number>; // Read only
 
     // Shapes
     area: d3.Area<TimelineDate>; // Read only
@@ -109,13 +107,42 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     brushing: boolean;
 
     constructor(
-        private el: ElementRef,
+        protected el: ElementRef,
         protected intlService: IntlService,
+        protected cdRef: ChangeDetectorRef
     ){
         // When the locale changes, we rebuild the X scale and axis
         this.intlSubscription = this.intlService.events.subscribe(e => this.updateXAxis());
         
-        this.instance = BsTimelineComponent.counter++;        
+        this.instance = BsTimelineComponent.counter++;
+        
+        // Scales
+        this.x = d3.scaleUtc()
+            .range([0, this.innerWidth]);
+        this.xt = this.x;
+
+        this.y = d3.scaleLinear()
+            .range([this.innerHeight, 0]);
+            
+        // Shapes
+        this.area = d3.area<TimelineDate>()
+            .curve(d3[this.curveType])
+            .x(d => this.xt(d.date))
+            .y0(this.y(0))
+            .y1(d => this.y(d.value));
+            
+        this.line = d3.line<TimelineDate>()
+            .curve(d3[this.curveType])
+            .x(d => this.xt(d.date))
+            .y(d => this.y(d.value));
+            
+        // Behaviors
+        this.brushBehavior = d3.brushX()
+            .extent([[0, 0], [this.innerWidth, this.innerHeight]])
+            .on("start", () => this.brushing = true)
+            .on('brush', () => this.onBrush())
+            .on('end', () => this.onBrushEnd());
+           
     }
 
     get innerWidth(): number {
@@ -141,19 +168,16 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             this.updateChart();
         }
 
-        // If the parent changes the selection or events (even though the data hasn't changed), 
-        // we want to update them.
-        // If not, we keep the current selection and events as is.
-        // We can update the brush/events only if the view is initialized (viewInit).
-        else if(this.viewInit) {
+        // If the parent changes the selection (even though the data hasn't changed), 
+        // we want to update the brush.
+        // If not, we keep the current selection as is.
+        // We can update the brush only if the view is initialized (viewInit).
+        else if(this.viewInit && changes["selection"] && selectionChanged) {
+            this.updateBrush();
+        }
 
-            if(changes["selection"] && selectionChanged){
-                this.updateBrush();
-            }
-
-            if(changes["events"]) {
-                this.updateEvents();
-            }
+        if(changes["events"]) {
+            this.updateEvents();
         }
         
     }
@@ -167,37 +191,6 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         this.yAxis$ = d3.select(this.gy.nativeElement);
         this.brush$ = d3.select(this.gbrush.nativeElement);
 
-        // Scales
-        this.x = d3.scaleUtc()
-            .range([0, this.innerWidth]);
-        this.xt = this.x;
-
-        this.y = d3.scaleLinear()
-            .range([this.innerHeight, 0]);
-            
-        // Axes
-        this.yAxis = d3.axisLeft<number>(this.y)
-            .tickFormat(d3.format(".2s"));
-
-        // Shapes
-        this.area = d3.area<TimelineDate>()
-            .curve(d3[this.curveType])
-            .x(d => this.xt(d.date))
-            .y0(this.y(0))
-            .y1(d => this.y(d.value));
-            
-        this.line = d3.line<TimelineDate>()
-            .curve(d3[this.curveType])
-            .x(d => this.xt(d.date))
-            .y(d => this.y(d.value));
-            
-        // Behaviors
-        this.brushBehavior = d3.brushX()
-            .extent([[0, 0], [this.innerWidth, this.innerHeight]])
-            .on("start", () => this.brushing = true)
-            .on('brush', () => this.onBrush())
-            .on('end', () => this.onBrushEnd());
-        
         this.brush$
             .call(this.brushBehavior)
             .on("mousemove", () => this.onMousemove())
@@ -224,10 +217,17 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         this.viewInit = true;
 
         this.updateChart();
+
+        // This is necessary to prevent "Expression has changed after check" errors
+        // caused by calling updateChart inside ngAfterViewInit().
+        // Unfortunately this is necessary because we need the DOM to be rendered in order fill the DOM
+        // (for example gAxis needs to exist so we can draw the axis)
+        this.cdRef.detectChanges();
     }
 
     /**
-     * Redraw the graph
+     * Redraw the graph (needs to be called after ngAfterViewInit so that the DOM elements
+     * are accessible)
      */
     updateChart() {
 
@@ -249,11 +249,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             this.updateBrush();
 
         }
-
-        // Areas and lines are drawn in the template
         
-        // Update the event grouping (events are drawn in the template)
-        this.updateEvents();
     }
 
 
@@ -264,9 +260,10 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     protected updateScales(data: TimelineSeries[]) {
         
         // Set x and y scales with the primary series (or first one)
-        const primarySeries = data.find(s => s.primary) || data[0];
+        const primarySeries = data.filter(s => s.primary) || [data[0]];
+        const allPrimaryDates = ([] as TimelineDate[]).concat(...primarySeries.map(s => s.dates));
 
-        const xExtent = d3.extent<TimelineDate, Date>(primarySeries.dates, d => d.date);
+        const xExtent = d3.extent<TimelineDate, Date>(allPrimaryDates, d => d.date);
         const yMax = d3.max<TimelineSeries, number>(data, 
             s => d3.max<TimelineDate, number>(s.dates, d => d.value));
 
@@ -295,9 +292,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      */
     protected updateAxes(){
         this.drawXAxis();
-        
-        this.yAxis$.call(this.yAxis);
-        this.yAxis$.selectAll(".domain").remove(); // Remove the axis line
+        this.drawYAxis();
     }
 
     /**
@@ -312,6 +307,10 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Update/reset the zoom behavior when new data comes in (and new scales, axes...)
      */
     protected updateZoom() {
+        
+        if(!this.zoomable) {
+            return;
+        }
 
         // Reset the previous zoom !
         if(this.zoomBehavior){
@@ -389,6 +388,16 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     }
 
     /**
+     * Draws the Y axis
+     */
+    protected drawYAxis() {
+        const yAxis = d3.axisLeft<number>(this.y)
+                        .tickFormat(d3.format(".2s"));
+        this.yAxis$.call(yAxis);
+        this.yAxis$.selectAll(".domain").remove(); // Remove the axis line
+    }
+
+    /**
      * Updates the display of the brush's grips when the brush has moved
      * @param selection 
      */
@@ -425,9 +434,6 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     }    
 
     onZoom(){
-        if(!this.zoomable) {
-            return;
-        }
 
         this.turnoffTooltip();
 
