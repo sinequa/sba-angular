@@ -35,6 +35,11 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
     @Input() actions: Action[] = [];
 
     /**
+     * Size of the custom actions
+     */
+    @Input() actionsSize = "sm";
+
+    /**
      * Whether the facet can be collapsed (default: true)
      */
     @Input() collapsible: boolean = true;

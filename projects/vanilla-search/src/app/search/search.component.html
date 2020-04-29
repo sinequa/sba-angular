@@ -111,7 +111,9 @@
             </div>
             
             <!-- Scaled-down preview -->
-            <sq-facet-card *ngIf="openedDoc" [collapsible]="false" class="d-block mb-3 facet-preview" [buttonsStyle]="isDark()? 'dark' : 'light'">
+            <sq-facet-card *ngIf="openedDoc" [collapsible]="false" class="d-block mb-3 facet-preview"
+                [buttonsStyle]="isDark()? 'dark' : 'light'"
+                [actionsSize]="''">
                 <sq-facet-preview-2 #facet 
                     [record]="openedDoc" 
                     [query]="searchService.query" 

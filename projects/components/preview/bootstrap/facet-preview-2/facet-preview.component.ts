@@ -3,7 +3,7 @@ import { SafeResourceUrl } from "@angular/platform-browser";
 import { Query } from '@sinequa/core/app-utils';
 import { Record, PreviewData } from "@sinequa/core/web-services";
 import { PreviewService } from "../../preview.service";
-import { PreviewDocument } from "../../preview-document";
+import { PreviewDocument, HighlightFilters } from "../../preview-document";
 import { AbstractFacet } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
 
@@ -22,6 +22,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Input() metadata: string[] = [];
   @Input() expandModal: boolean = true;
   @Input() customActions: Action[];
+  @Input() filters: HighlightFilters;
   @Output() recordClosed = new EventEmitter<void>();
   @HostBinding('style.height.px') _height: number = this.height;
 
@@ -87,4 +88,10 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     }
   }
 
+  onPreviewReady(document: PreviewDocument) {
+    this.document = document;
+    if (this.document && this.filters) {
+        this.document.filterHighlights(this.filters);
+    }
+  }
 }
