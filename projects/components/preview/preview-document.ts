@@ -1,5 +1,5 @@
 import { ElementRef } from "@angular/core";
-
+import { Utils } from "@sinequa/core/base";
 
 export enum HighlightCategoryFilterChoice {
     All, None, Value
@@ -9,6 +9,8 @@ export interface HighlightCategoryFilterState {
     choice: HighlightCategoryFilterChoice;
     filterValue: string;
 }
+
+export type HighlightFilters = { [key: string]: HighlightCategoryFilterState } | string[];
 
 /**
  * This class offers an API to manipulate the HTML of a preview document.
@@ -158,26 +160,39 @@ export class PreviewDocument {
      * Turns highlights on or off based on the provided filter object. Additionally clears the selected entity
      * @param filters object where each key provides a filter for each category of entity/highlight
      */
-    public filterHighlights(filters: { [key: string]: HighlightCategoryFilterState }){
+    public filterHighlights(filters: HighlightFilters){
 
         this.updateHighlightFilterState(filters);
         this.clearHighlightSelection();
     }
 
     /**
-     * Loop through every highlighted element in the document and turn highlights on or off based on the filters object
+     * Loop through every highlighted element in the document and turn highlights on or off based on the filters object.
+     * If the filters object is an array then only the specified categories are highlighted.
      * @param filters object where each key provides a filter for each category of entity/highlight
      */
-    public updateHighlightFilterState(filters: { [key: string]: HighlightCategoryFilterState }):void {
+    public updateHighlightFilterState(filters: HighlightFilters): void {
         const elements: NodeListOf<Element> = this.document.querySelectorAll("[data-entity-display], .extractslocations, .matchlocations");
-        for (let i = 0; i < elements.length; i++) {
-            const element: Element = elements[i];
-            if (PreviewDocument.elementIsFilteredOut(element, filters)) {
-                element.classList.add(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
-            }
-            else {
-                element.classList.remove(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
-            }
+        if (Utils.isArray(filters)) {
+            elements.forEach(element => {
+                const highlight = filters.some(category => element.classList.contains(category));
+                if (highlight) {
+                    element.classList.remove(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
+                }
+                else {
+                    element.classList.add(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
+                }
+            });
+        }
+        else {
+            elements.forEach(element => {
+                if (PreviewDocument.elementIsFilteredOut(element, filters)) {
+                    element.classList.add(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
+                }
+                else {
+                    element.classList.remove(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
+                }
+            });
         }
     }
 
@@ -203,8 +218,6 @@ export class PreviewDocument {
             }
         });
     }
-
-
 
     // PRIVATE METHODS
 
