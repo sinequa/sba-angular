@@ -641,17 +641,15 @@ export class SearchService implements OnDestroy {
         }));
     }
 
-    didYouMean(text: string, kind: DidYouMeanKind): Promise<boolean> {
-        const lastSelect = this.query.lastSelect();
-        if (!lastSelect) {
+    didYouMean(text: string, context: "search" | "refine", kind: DidYouMeanKind): Promise<boolean> {
+        if (context === "search") {
             this.query.text = text;
         }
         else {
-            lastSelect.expression = "refine:" + ExprParser.escape(text);
-            //lastSelect.display = text;
-            // pop and push for select observers (refine)
-            this.query.popSelect();
-            this.query.pushSelect(lastSelect);
+            const refineSelect = this.query.findSelect("refine");
+            if (refineSelect) {
+                refineSelect.expression = "refine:" + ExprParser.escape(text);
+            }
         }
         this.query.spellingCorrectionMode = "dymonly";
         return this.navigate(undefined, this.makeAuditEvent({
