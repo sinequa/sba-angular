@@ -250,7 +250,11 @@ export class BsDropdownMenu implements OnInit {
                         _li.classList.remove(this.options.showMenuClass);
                     }
                 }
-                li.classList.toggle(this.options.showMenuClass, !isOpen);
+                // NB toggle&#x27;s second param does not work on IE
+                // li.classList.toggle(this.options.showMenuClass, !isOpen);
+                if (!isOpen) {
+                    li.classList.add(this.options.showMenuClass);
+                }
             }
             if (item.action) {
                 item.action(item, event);

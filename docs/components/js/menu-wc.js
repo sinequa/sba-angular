@@ -645,13 +645,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/BsSearchModule.html" data-type="entity-link">BsSearchModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-BsSearchModule-a009ac26ba219740339832ab16dd9474"' : 'data-target="#xs-components-links-module-BsSearchModule-a009ac26ba219740339832ab16dd9474"' }>
+                                            'data-target="#components-links-module-BsSearchModule-3f2f8bd38f2cefd942a1a2f833d2114e"' : 'data-target="#xs-components-links-module-BsSearchModule-3f2f8bd38f2cefd942a1a2f833d2114e"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsSearchModule-a009ac26ba219740339832ab16dd9474"' :
-                                            'id="xs-components-links-module-BsSearchModule-a009ac26ba219740339832ab16dd9474"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsSearchModule-3f2f8bd38f2cefd942a1a2f833d2114e"' :
+                                            'id="xs-components-links-module-BsSearchModule-3f2f8bd38f2cefd942a1a2f833d2114e"' }>
                                             <li class="link">
                                                 <a href="components/BsBreadcrumbs.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsBreadcrumbs</a>
@@ -679,10 +679,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                             <li class="link">
                                                 <a href="components/BsTabs.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsTabs</a>
-                                            </li>
-                                            <li class="link">
-                                                <a href="components/BsTimeline.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsTimeline</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -727,6 +723,28 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                             <li class="link">
                                                 <a href="components/BsNetworkActivity.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsNetworkActivity</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                            </li>
+                            <li class="link">
+                                <a href="modules/BsTimelineModule.html" data-type="entity-link">BsTimelineModule</a>
+                                    <li class="chapter inner">
+                                        <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
+                                            'data-target="#components-links-module-BsTimelineModule-0da17972438b586dd0ea00cb7feacf68"' : 'data-target="#xs-components-links-module-BsTimelineModule-0da17972438b586dd0ea00cb7feacf68"' }>
+                                            <span class="icon ion-md-cog"></span>
+                                            <span>Components</span>
+                                            <span class="icon ion-ios-arrow-down"></span>
+                                        </div>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsTimelineModule-0da17972438b586dd0ea00cb7feacf68"' :
+                                            'id="xs-components-links-module-BsTimelineModule-0da17972438b586dd0ea00cb7feacf68"' }>
+                                            <li class="link">
+                                                <a href="components/BsFacetTimelineComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsFacetTimelineComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/BsTimelineComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsTimelineComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -1059,24 +1077,16 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/ResultsViewModule.html" data-type="entity-link">ResultsViewModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-ResultsViewModule-f5e5f6c7ae72b443179a384c11bbfcc4"' : 'data-target="#xs-components-links-module-ResultsViewModule-f5e5f6c7ae72b443179a384c11bbfcc4"' }>
+                                            'data-target="#components-links-module-ResultsViewModule-84ff20c41047b5649ffd7c164137b0ee"' : 'data-target="#xs-components-links-module-ResultsViewModule-84ff20c41047b5649ffd7c164137b0ee"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ResultsViewModule-f5e5f6c7ae72b443179a384c11bbfcc4"' :
-                                            'id="xs-components-links-module-ResultsViewModule-f5e5f6c7ae72b443179a384c11bbfcc4"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ResultsViewModule-84ff20c41047b5649ffd7c164137b0ee"' :
+                                            'id="xs-components-links-module-ResultsViewModule-84ff20c41047b5649ffd7c164137b0ee"' }>
                                             <li class="link">
                                                 <a href="components/BsResultsScatterView.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsResultsScatterView</a>
-                                            </li>
-                                            <li class="link">
-                                                <a href="components/BsResultsTimelineView.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsResultsTimelineView</a>
-                                            </li>
-                                            <li class="link">
-                                                <a href="components/BsTimelineTooltip.html"
-                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsTimelineTooltip</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -1366,9 +1376,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/Control.html" data-type="entity-link">Control</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/DateItem.html" data-type="entity-link">DateItem</a>
-                            </li>
-                            <li class="link">
                                 <a href="interfaces/DatePickerOptions.html" data-type="entity-link">DatePickerOptions</a>
                             </li>
                             <li class="link">
@@ -1409,9 +1416,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/Event-1.html" data-type="entity-link">Event</a>
-                            </li>
-                            <li class="link">
-                                <a href="interfaces/EventItem.html" data-type="entity-link">EventItem</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/ExportQueryModel.html" data-type="entity-link">ExportQueryModel</a>
@@ -1603,7 +1607,25 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/StepDef.html" data-type="entity-link">StepDef</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/TimelineView.html" data-type="entity-link">TimelineView</a>
+                                <a href="interfaces/TimelineAggregation.html" data-type="entity-link">TimelineAggregation</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/TimelineCombinedAggregations.html" data-type="entity-link">TimelineCombinedAggregations</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/TimelineDate.html" data-type="entity-link">TimelineDate</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/TimelineEvent.html" data-type="entity-link">TimelineEvent</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/TimelineEventAggregation.html" data-type="entity-link">TimelineEventAggregation</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/TimelineRecords.html" data-type="entity-link">TimelineRecords</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/TimelineSeries.html" data-type="entity-link">TimelineSeries</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/TreeValueItem.html" data-type="entity-link">TreeValueItem</a>

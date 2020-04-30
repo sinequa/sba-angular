@@ -230,10 +230,10 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input, OnChanges} from &quot;@angular/core&quot;;
 import {Record, CCColumn} from &quot;@sinequa/core/web-services&quot;;
-import {AppService} from &quot;@sinequa/core/app-utils&quot;;
+import {AppService, ValueItem} from &quot;@sinequa/core/app-utils&quot;;
 import {SearchService} from &quot;@sinequa/components/search&quot;;
 
-export interface EntityValue {
+export interface EntityValue extends ValueItem {
     display: string;
     value: string;
     locations?: Number[];

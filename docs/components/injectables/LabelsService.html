@@ -441,8 +441,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="503"
-                            class="link-to-prism">labels/labels.service.ts:503</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="534"
+                            class="link-to-prism">labels/labels.service.ts:534</a></div>
                 </td>
             </tr>
 
@@ -700,8 +700,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="430"
-                            class="link-to-prism">labels/labels.service.ts:430</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="461"
+                            class="link-to-prism">labels/labels.service.ts:461</a></div>
                 </td>
             </tr>
 
@@ -782,8 +782,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="442"
-                            class="link-to-prism">labels/labels.service.ts:442</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="473"
+                            class="link-to-prism">labels/labels.service.ts:473</a></div>
                 </td>
             </tr>
 
@@ -864,8 +864,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="392"
-                            class="link-to-prism">labels/labels.service.ts:392</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="423"
+                            class="link-to-prism">labels/labels.service.ts:423</a></div>
                 </td>
             </tr>
 
@@ -946,8 +946,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="407"
-                            class="link-to-prism">labels/labels.service.ts:407</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="438"
+                            class="link-to-prism">labels/labels.service.ts:438</a></div>
                 </td>
             </tr>
 
@@ -987,8 +987,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="418"
-                            class="link-to-prism">labels/labels.service.ts:418</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="449"
+                            class="link-to-prism">labels/labels.service.ts:449</a></div>
                 </td>
             </tr>
 
@@ -1151,8 +1151,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="527"
-                            class="link-to-prism">labels/labels.service.ts:527</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="558"
+                            class="link-to-prism">labels/labels.service.ts:558</a></div>
                 </td>
             </tr>
 
@@ -1221,8 +1221,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="380"
-                            class="link-to-prism">labels/labels.service.ts:380</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="411"
+                            class="link-to-prism">labels/labels.service.ts:411</a></div>
                 </td>
             </tr>
 
@@ -1397,8 +1397,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="470"
-                            class="link-to-prism">labels/labels.service.ts:470</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="501"
+                            class="link-to-prism">labels/labels.service.ts:501</a></div>
                 </td>
             </tr>
 
@@ -1479,8 +1479,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="485"
-                            class="link-to-prism">labels/labels.service.ts:485</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="516"
+                            class="link-to-prism">labels/labels.service.ts:516</a></div>
                 </td>
             </tr>
 
@@ -1792,7 +1792,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="455" class="link-to-prism">labels/labels.service.ts:455</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="486" class="link-to-prism">labels/labels.service.ts:486</a></div>
                                 </td>
                             </tr>
 
@@ -1806,7 +1806,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, InjectionToken, Type} from &quot;@angular/core&quot;;
 import {Observable, of} from &quot;rxjs&quot;;
 import {LabelsWebService, AuditEventType, Record} from &quot;@sinequa/core/web-services&quot;;
-import {AppService} from &quot;@sinequa/core/app-utils&quot;;
+import {AppService, ValueItem} from &quot;@sinequa/core/app-utils&quot;;
 import {Utils, IRef} from &quot;@sinequa/core/base&quot;;
 import {SearchService} from &quot;@sinequa/components/search&quot;;
 import {ModalService, ModalResult} from &quot;@sinequa/core/modal&quot;;
@@ -2163,14 +2163,21 @@ export class LabelsService {
         if (!field) {
             return Promise.resolve(false);
         }
-        const items: {value: string, display: string}[] &#x3D; [];
+        const items: ValueItem[] &#x3D; [];
+        const selectedLabels: string[] &#x3D; this.getSelectedLabels(field);
         for (let label of labels) {
             const display &#x3D; label;
             if (!_public) {
                 label &#x3D; &lt;string&gt;this.addPrivatePrefix(label);
             }
-            items.push({value: label, display: display});
+            if (selectedLabels.indexOf(label) &#x3D;&#x3D;&#x3D; -1) {
+                items.push({
+                    value: label,
+                    display: display
+                });
+            }
         }
+
         this.searchService.addFieldSelect(field, items);
         return this.searchService.search(undefined,
             {
@@ -2180,6 +2187,30 @@ export class LabelsService {
                     public: _public
                 }
             });
+    }
+
+
+    /**
+     * Retrieves the labels that are not in the current filters of breadcrumbs
+     *
+     * @param field The column index containing the labels.
+     * @returns The selected labels
+     */
+    private getSelectedLabels(field: string): string[] {
+        const labels: string[] &#x3D; [];
+        if (field &amp;&amp; this.searchService.breadcrumbs?.activeSelects) {
+            for (const select of this.searchService.breadcrumbs.activeSelects) {
+                if (select.expr) {
+                    const values &#x3D; select.expr.getValues(field);
+                    values.forEach(value &#x3D;&gt; {
+                        if(labels.indexOf(value) &#x3D;&#x3D;&#x3D; -1) {
+                            labels.push(value);
+                        }
+                    });
+                }
+            }
+        }
+        return labels;
     }
 
     renameLabels(labels: string[], newLabel: string, _public: boolean): Observable&lt;void&gt; {

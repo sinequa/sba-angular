@@ -159,7 +159,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ElementRef } from &quot;@angular/core&quot;;
-
+import { Utils } from &quot;@sinequa/core/base&quot;;
 
 export enum HighlightCategoryFilterChoice {
     All, None, Value
@@ -169,6 +169,8 @@ export interface HighlightCategoryFilterState {
     choice: HighlightCategoryFilterChoice;
     filterValue: string;
 }
+
+export type HighlightFilters &#x3D; { [key: string]: HighlightCategoryFilterState } | string[];
 
 /**
  * This class offers an API to manipulate the HTML of a preview document.
@@ -318,26 +320,39 @@ export class PreviewDocument {
      * Turns highlights on or off based on the provided filter object. Additionally clears the selected entity
      * @param filters object where each key provides a filter for each category of entity/highlight
      */
-    public filterHighlights(filters: { [key: string]: HighlightCategoryFilterState }){
+    public filterHighlights(filters: HighlightFilters){
 
         this.updateHighlightFilterState(filters);
         this.clearHighlightSelection();
     }
 
     /**
-     * Loop through every highlighted element in the document and turn highlights on or off based on the filters object
+     * Loop through every highlighted element in the document and turn highlights on or off based on the filters object.
+     * If the filters object is an array then only the specified categories are highlighted.
      * @param filters object where each key provides a filter for each category of entity/highlight
      */
-    public updateHighlightFilterState(filters: { [key: string]: HighlightCategoryFilterState }):void {
+    public updateHighlightFilterState(filters: HighlightFilters): void {
         const elements: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;[data-entity-display], .extractslocations, .matchlocations&quot;);
-        for (let i &#x3D; 0; i &lt; elements.length; i++) {
-            const element: Element &#x3D; elements[i];
-            if (PreviewDocument.elementIsFilteredOut(element, filters)) {
-                element.classList.add(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
-            }
-            else {
-                element.classList.remove(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
-            }
+        if (Utils.isArray(filters)) {
+            elements.forEach(element &#x3D;&gt; {
+                const highlight &#x3D; filters.some(category &#x3D;&gt; element.classList.contains(category));
+                if (highlight) {
+                    element.classList.remove(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
+                }
+                else {
+                    element.classList.add(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
+                }
+            });
+        }
+        else {
+            elements.forEach(element &#x3D;&gt; {
+                if (PreviewDocument.elementIsFilteredOut(element, filters)) {
+                    element.classList.add(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
+                }
+                else {
+                    element.classList.remove(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
+                }
+            });
         }
     }
 
@@ -363,8 +378,6 @@ export class PreviewDocument {
             }
         });
     }
-
-
 
     // PRIVATE METHODS
 

@@ -319,13 +319,11 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-    Component, ViewEncapsulation, Input, OnChanges, SimpleChanges, ElementRef, ViewChild, ChangeDetectorRef, OnDestroy,
+    Component, ViewEncapsulation, Input, OnChanges, SimpleChanges, ElementRef, ViewChild, ChangeDetectorRef,
 } from &quot;@angular/core&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
 import {Query, AppService} from &quot;@sinequa/core/app-utils&quot;;
 import {Results} from &quot;@sinequa/core/web-services&quot;;
-import {LoadedComponent, LoadComponentService} from &quot;@sinequa/core/load-component&quot;;
-import {BsTimelineTooltip} from &quot;../results-timeline-tooltip/results-timeline-tooltip&quot;;
 import {SearchService} from &quot;@sinequa/components/search&quot;;
 import {ResultsView} from &quot;../results-view.service&quot;;
 
@@ -352,7 +350,7 @@ export interface ValueItem {
     templateUrl: &quot;./results-scatter-view.html&quot;,
     styleUrls: [&quot;./results-scatter-view.css&quot;]
 })
-export class BsResultsScatterView implements OnChanges, OnDestroy {
+export class BsResultsScatterView implements OnChanges {
     @Input() query: Query;
     @Input() results: Results;
     @Input() view: ScatterView;
@@ -376,13 +374,11 @@ export class BsResultsScatterView implements OnChanges, OnDestroy {
     // Elements
     @ViewChild(&quot;svg&quot;, {static: false}) svg: ElementRef;
     g: d3.Selection&lt;any, any, any, any&gt; | undefined;
-    tooltip: LoadedComponent;
 
 
     constructor(
         private appService: AppService,
         private searchService: SearchService,
-        private loadComponentService: LoadComponentService,
         private changeDetectorRef: ChangeDetectorRef) {
     }
 
@@ -664,11 +660,6 @@ export class BsResultsScatterView implements OnChanges, OnDestroy {
 
 
     ngOnChanges(changes: SimpleChanges) {
-        if (!this.tooltip) {
-            this.tooltip &#x3D; this.loadComponentService.loadComponent({component: BsTimelineTooltip});
-            d3.select(this.tooltip.componentRef.location.nativeElement)
-                .style(&quot;opacity&quot;, 0);
-        }
         if (!!changes[&quot;results&quot;]) {
             if (changes[&quot;results&quot;].firstChange) {
 
@@ -677,9 +668,6 @@ export class BsResultsScatterView implements OnChanges, OnDestroy {
         }
     }
 
-    ngOnDestroy() {
-        this.loadComponentService.unloadComponent(this.tooltip);
-    }
 }</code></pre>
     </div>
 </div>

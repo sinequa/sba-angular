@@ -912,8 +912,8 @@ to which both expressions are added as operands.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1549"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:1549</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1552"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:1552</a></div>
                 </td>
             </tr>
 
@@ -1008,8 +1008,8 @@ in the data</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1322"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:1322</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1325"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:1325</a></div>
                 </td>
             </tr>
 
@@ -1081,8 +1081,8 @@ in which case, immediately return <code>false</code>. Otherwise return <code>tru
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1250"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:1250</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1253"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:1253</a></div>
                 </td>
             </tr>
 
@@ -1252,8 +1252,8 @@ before matching within them</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1291"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:1291</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1294"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:1294</a></div>
                 </td>
             </tr>
 
@@ -1329,8 +1329,8 @@ before matching within them</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1339"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:1339</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1342"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:1342</a></div>
                 </td>
             </tr>
 
@@ -1445,8 +1445,8 @@ whitespace is excluded</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1359"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:1359</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1362"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:1362</a></div>
                 </td>
             </tr>
 
@@ -1687,8 +1687,8 @@ field matches the passed <code>positive</code> parameter</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1239"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:1239</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1242"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:1242</a></div>
                 </td>
             </tr>
 
@@ -1759,8 +1759,8 @@ field matches the passed <code>positive</code> parameter</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1304"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:1304</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1307"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:1307</a></div>
                 </td>
             </tr>
 
@@ -1832,8 +1832,8 @@ in which case immediately return <code>true</code>. Otherwise return <code>false
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1168"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:1168</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1171"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:1171</a></div>
                 </td>
             </tr>
 
@@ -3381,10 +3381,11 @@ export class Expr {
         const column &#x3D; this.exprContext.appService.getColumn(this.field);
         const valueId &#x3D; &#x60;value${ctxt.valueIndex++}&#x60;;
         let _value: FieldValue &#x3D; value;
+        let _display: string | undefined;
         if (display) {
-            _value &#x3D; this.encodeHTML(ExprParser.unescape(display), options);
+            _display &#x3D; this.encodeHTML(ExprParser.unescape(display), options);
         }
-        else if (column &amp;&amp; AppServiceHelpers.isNumber(column) &amp;&amp; Utils.testFloat(value)) {
+        if (column &amp;&amp; AppServiceHelpers.isNumber(column) &amp;&amp; Utils.testFloat(value)) {
             _value &#x3D; +value;
         }
         else if (column &amp;&amp; AppServiceHelpers.isDate(column)) {
@@ -3397,7 +3398,9 @@ export class Expr {
             _value &#x3D; this.encodeHTML(_value, options);
         }
         ctxt.message.push(&#x60;{${valueId}}&#x60;);
-        ctxt.values[valueId] &#x3D; column ? this.exprContext.formatService.formatFieldValue(_value, column) : _value;
+        ctxt.values[valueId] &#x3D; column
+            ? this.exprContext.formatService.formatFieldValue({value: _value, display: _display}, column)
+            : _display || _value;
         if (options.asHTML) {
             ctxt.message.push(&#x60;&lt;/span&gt;&#x60;);
         }
