@@ -124,10 +124,7 @@ export class BsResultsViewSelector implements OnChanges, OnDestroy {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (!!changes["results"]) {
-            // new results, possible because of selecting a new tab, rebuild the view list.
-            this.buildViewAction();
-        }
+        this.buildViewAction();
     }
 
     selectView(view: ResultsView) {
