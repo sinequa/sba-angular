@@ -20,13 +20,13 @@ export class JsonMethodPluginService extends HttpService{
   }
 
   /**
-   * Call a JsonMethod plugin
+   * Call a JsonMethod plugin using an HTTP POST
    *
    * @param method The name of the JsonMethod plugin
    * @param query Parameters to pass to the plugin
    * @returns An observable of the plugin's return value
    */
-  call(method: string, query: any) : Observable<any> {
+  post(method: string, query: any) : Observable<any> {
     if (!Utils.isObject(query)) {
       return throwError({error: "invalid query object"});
     }
@@ -41,6 +41,43 @@ export class JsonMethodPluginService extends HttpService{
       },
       () => {
         console.log("JsonMethodPluginService.call complete");
+      });
+
+    return observable;
+  }
+
+  /**
+   * Call a JsonMethod plugin using an HTTP POST
+   *
+   * @param method The name of the JsonMethod plugin
+   * @param query Parameters to pass to the plugin
+   * @returns An observable of the plugin's return value
+   */
+  call(method: string, query: any): Observable<any> {
+    return this.post(method, query);
+  }
+
+  /**
+   * Call a JsonMethod plugin using an HTTP GET
+   *
+   * @param method The name of the JsonMethod plugin
+   * @param query Parameters to pass to the plugin
+   * @returns An observable of the plugin's return value
+   */
+  get(method: string, query: any): Observable<any> {
+    const observable = this.httpClient.get(this.makeUrl(method), {
+      params: this.makeParams(query)
+    });
+
+    Utils.subscribe(observable,
+      (response) => {
+        console.log("JsonMethodPluginService.get success - data: ", response);
+      },
+      (error) => {
+        console.log("JsonMethodPluginService.get failure - error: ", error);
+      },
+      () => {
+        console.log("JsonMethodPluginService.get complete");
       });
 
     return observable;
