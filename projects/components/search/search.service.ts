@@ -484,7 +484,7 @@ export class SearchService implements OnDestroy {
         return false;
     }
 
-    protected ensureQueryFromUrl() {
+    protected ensureQueryFromUrl(): Query | undefined {
         let query: Query | undefined;
         const url = Utils.makeURL(this.router.url);
         if (this.isSearchRoute(url.pathname)) {
@@ -498,6 +498,7 @@ export class SearchService implements OnDestroy {
         }
         if (!query) {
             this.clear(false);
+            return undefined;
         }
         else {
             // The url query should be the same as the current query on SearchService unless
@@ -506,6 +507,7 @@ export class SearchService implements OnDestroy {
             // event if the current query is empty so that we don't systematically create a
             // new query "session" (ml-audit)
             this.setQuery(query, !this._query);
+            return query;
         }
     }
 
@@ -513,8 +515,7 @@ export class SearchService implements OnDestroy {
         if (!this.loginService.complete) {
             return Promise.resolve(false);
         }
-        this.ensureQueryFromUrl();
-        if (this._query) {
+        if (!!this.ensureQueryFromUrl()) {
             return this.navigate();
         }
         else {
@@ -537,12 +538,13 @@ export class SearchService implements OnDestroy {
         if (!this.appService.ccquery) {
             return Promise.resolve(false);
         }
+        let query = this._query;
         if (this.routingActive) {
-            this.ensureQueryFromUrl();
+            query = this.ensureQueryFromUrl();
         }
-        this._events.next({type: "update-query", query: this._query});
-        this._queryStream.next(this._query);
-        if (!this._query) {
+        this._events.next({type: "update-query", query});
+        this._queryStream.next(query);
+        if (!query) {
             return Promise.resolve(true);
         }
         if (this.routingActive) {
