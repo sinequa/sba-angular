@@ -24,23 +24,24 @@ export class JsonMethodPluginService extends HttpService{
    *
    * @param method The name of the JsonMethod plugin
    * @param query Parameters to pass to the plugin
+   * @param options HTTP options for the request
    * @returns An observable of the plugin's return value
    */
-  post(method: string, query: any) : Observable<any> {
+  post(method: string, query: any, options?: {[key: string]: any}) : Observable<any> {
     if (!Utils.isObject(query)) {
       return throwError({error: "invalid query object"});
     }
-    const observable = this.httpClient.post(this.makeUrl(method), query);
+    const observable = this.httpClient.post(this.makeUrl(method), query, options);
 
     Utils.subscribe(observable,
       (response) => {
-        console.log("JsonMethodPluginService.call success - data: ", response);
+        console.log("JsonMethodPluginService.post success - data: ", response);
       },
       (error) => {
-        console.log("JsonMethodPluginService.call failure - error: ", error);
+        console.log("JsonMethodPluginService.post failure - error: ", error);
       },
       () => {
-        console.log("JsonMethodPluginService.call complete");
+        console.log("JsonMethodPluginService.post complete");
       });
 
     return observable;
@@ -51,10 +52,11 @@ export class JsonMethodPluginService extends HttpService{
    *
    * @param method The name of the JsonMethod plugin
    * @param query Parameters to pass to the plugin
+   * @param options HTTP options for the request
    * @returns An observable of the plugin's return value
    */
-  call(method: string, query: any): Observable<any> {
-    return this.post(method, query);
+  call(method: string, query: any, options?: {[key: string]: any}): Observable<any> {
+    return this.post(method, query, options);
   }
 
   /**
@@ -62,11 +64,13 @@ export class JsonMethodPluginService extends HttpService{
    *
    * @param method The name of the JsonMethod plugin
    * @param query Parameters to pass to the plugin
+   * @param options HTTP options for the request
    * @returns An observable of the plugin's return value
    */
-  get(method: string, query: any): Observable<any> {
+  get(method: string, query: any, options?: {[key: string]: any}): Observable<any> {
     const observable = this.httpClient.get(this.makeUrl(method), {
-      params: this.makeParams(query)
+      params: this.makeParams(query),
+      ...options
     });
 
     Utils.subscribe(observable,
