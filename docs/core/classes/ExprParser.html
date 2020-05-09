@@ -165,8 +165,8 @@ For example: <code>football (age:&gt;=7 AND (name:smith OR name:jones))</code></
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1791"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:1791</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1794"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:1794</a></div>
                 </td>
             </tr>
 
@@ -242,8 +242,8 @@ are prefixed by a backslash. Finally, the string is enclosed in backquotes.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2288"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:2288</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2291"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:2291</a></div>
                 </td>
             </tr>
 
@@ -341,8 +341,8 @@ are prefixed by a backslash. Finally, the string is enclosed in backquotes.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1821"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:1821</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1824"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:1824</a></div>
                 </td>
             </tr>
 
@@ -1371,10 +1371,11 @@ export class Expr {
         const column &#x3D; this.exprContext.appService.getColumn(this.field);
         const valueId &#x3D; &#x60;value${ctxt.valueIndex++}&#x60;;
         let _value: FieldValue &#x3D; value;
+        let _display: string | undefined;
         if (display) {
-            _value &#x3D; this.encodeHTML(ExprParser.unescape(display), options);
+            _display &#x3D; this.encodeHTML(ExprParser.unescape(display), options);
         }
-        else if (column &amp;&amp; AppServiceHelpers.isNumber(column) &amp;&amp; Utils.testFloat(value)) {
+        if (column &amp;&amp; AppServiceHelpers.isNumber(column) &amp;&amp; Utils.testFloat(value)) {
             _value &#x3D; +value;
         }
         else if (column &amp;&amp; AppServiceHelpers.isDate(column)) {
@@ -1387,7 +1388,9 @@ export class Expr {
             _value &#x3D; this.encodeHTML(_value, options);
         }
         ctxt.message.push(&#x60;{${valueId}}&#x60;);
-        ctxt.values[valueId] &#x3D; column ? this.exprContext.formatService.formatFieldValue(_value, column) : _value;
+        ctxt.values[valueId] &#x3D; column
+            ? this.exprContext.formatService.formatFieldValue({value: _value, display: _display}, column)
+            : _display || _value;
         if (options.asHTML) {
             ctxt.message.push(&#x60;&lt;/span&gt;&#x60;);
         }

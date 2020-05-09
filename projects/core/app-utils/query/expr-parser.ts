@@ -968,10 +968,11 @@ export class Expr {
         const column = this.exprContext.appService.getColumn(this.field);
         const valueId = `value${ctxt.valueIndex++}`;
         let _value: FieldValue = value;
+        let _display: string | undefined;
         if (display) {
-            _value = this.encodeHTML(ExprParser.unescape(display), options);
+            _display = this.encodeHTML(ExprParser.unescape(display), options);
         }
-        else if (column && AppServiceHelpers.isNumber(column) && Utils.testFloat(value)) {
+        if (column && AppServiceHelpers.isNumber(column) && Utils.testFloat(value)) {
             _value = +value;
         }
         else if (column && AppServiceHelpers.isDate(column)) {
@@ -984,7 +985,9 @@ export class Expr {
             _value = this.encodeHTML(_value, options);
         }
         ctxt.message.push(`{${valueId}}`);
-        ctxt.values[valueId] = column ? this.exprContext.formatService.formatFieldValue(_value, column) : _value;
+        ctxt.values[valueId] = column
+            ? this.exprContext.formatService.formatFieldValue({value: _value, display: _display}, column)
+            : _display || _value;
         if (options.asHTML) {
             ctxt.message.push(`</span>`);
         }

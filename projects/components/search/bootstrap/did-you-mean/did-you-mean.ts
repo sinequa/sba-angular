@@ -20,22 +20,18 @@ export class BsDidYouMean implements OnChanges {
     private handleResults() {
         this.item = undefined;
         if (this.results && this.results.didYouMean) {
-            const lastSelect = this.searchService.query.lastSelect();
-            if (!lastSelect) {
-                if (this.context === "search") {
-                    const item = this.results.didYouMean.text;
-                    if (item && item.corrected) {
-                        this.item = item;
-                    }
+            if (this.context === "search") {
+                const item = this.results.didYouMean.text;
+                if (item && item.corrected) {
+                    this.item = item;
                 }
             }
             else {
-                if (this.context === "refine") {
-                    if (Utils.startsWith(lastSelect.expression,  "refine:") && !!this.results.didYouMean.refine) {
-                        const dymItem = this.results.didYouMean.refine[this.results.didYouMean.refine.length - 1];
-                        if (dymItem.corrected) {
-                            this.item = dymItem;
-                        }
+                const refineSelect = this.searchService.query.findSelect("refine");
+                if (refineSelect && Utils.startsWith(refineSelect.expression, "refine:") && !!this.results.didYouMean.refine) {
+                    const dymItem = this.results.didYouMean.refine[this.results.didYouMean.refine.length - 1];
+                    if (dymItem.corrected) {
+                        this.item = dymItem;
                     }
                 }
             }
@@ -50,14 +46,14 @@ export class BsDidYouMean implements OnChanges {
 
     selectOriginal() {
         if (this.item) {
-            this.searchService.didYouMean(this.item.original, DidYouMeanKind.Original);
+            this.searchService.didYouMean(this.item.original, this.context, DidYouMeanKind.Original);
         }
         return false;
     }
 
     selectCorrected() {
         if (this.item) {
-            this.searchService.didYouMean(this.item.corrected, DidYouMeanKind.Corrected);
+            this.searchService.didYouMean(this.item.corrected, this.context, DidYouMeanKind.Corrected);
         }
         return false;
     }

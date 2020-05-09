@@ -1,4 +1,4 @@
-import {Injectable, InjectionToken, Optional, Inject} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {IntlService} from "@sinequa/core/intl";
 import {Utils, FieldValue} from "@sinequa/core/base";
 import {AppServiceHelpers} from "./app-service-helpers";
@@ -14,63 +14,32 @@ export interface ValueItem {
 }
 
 /**
- * Describes options for the {@link FormatService} that can be set by providing the `FORMAT_OPTIONS`
- * injection token
- */
-export interface FormatOptions {
-    /**
-     * A callback to provide custom behavior for the [FormatService.formatValue]{@link FormatService#formatValue} method.
-     * The formatter is defined in the column's formatter property. Return a non-undefined value to prevent the default behavior
-     */
-    formatValue?: (value: FieldValue, display: string, column?: CCColumn) => string | undefined;
-    /**
-     * A callback to provide custom behavior for the [FormatService.transformValue]{@link FormatService#transformValue} method.
-     * Multiple transforms can be defined on a column - the callback is called per defined transform. Return a non-undefined value to
-     * prevent the default behavior
-     */
-    transformValue?: (transform: string, value: string, column?: CCColumn) => string | undefined;
-    /**
-     * A callback to provide custom behavior for the [FormatService.formatFieldValue]{@link FormatService#formatFieldValue} method.
-     * By default, this method calls the `formatValue` and `transformValue` methods. Return a non-undefined value to prevent the default
-     * behavior
-     */
-    formatFieldValue?: (valueItem: ValueItem | FieldValue, column?: CCColumn) => string | undefined;
-    /**
-     * A callback to provide custom behavior for the [FormatService.parseValue]{@link FormatService#parseValue} method. This method is
-     * used to interpret values entered in fielded search expressions. Return a non-undefined value to prevent the default behavior
-     */
-    parseValue?: (value: string, parser: string) => string | undefined;
-}
-
-/**
- * The injection token that can be provided to set {@link FormatOptions} for the {@link FormatService}
- */
-export const FORMAT_OPTIONS = new InjectionToken<FormatOptions>("FORMAT_OPTIONS");
-
-/**
  * This service provides methods for locale-sensitive formatting and parsing of values that can be found in
- * Sinequa search results. The built-in functionality can be extended by providing the {@link FORMAT_OPTIONS} injection token
+ * Sinequa search results.
  */
 @Injectable({
     providedIn: "root"
 })
 export class FormatService {
     constructor(
-        @Optional() @Inject(FORMAT_OPTIONS) public options: FormatOptions,
         public intlService: IntlService) {
-        if (!this.options) {
-            this.options = {};
-        }
     }
 
-    private isValueItem(valueItem: ValueItem | FieldValue): valueItem is ValueItem {
+    /**
+     * Returns `true` if the passed parameter is a `ValueItem` object
+     */
+    protected isValueItem(valueItem: ValueItem | FieldValue): valueItem is ValueItem {
         if (Utils.isObject(valueItem) && !Utils.isDate(valueItem) && !Utils.isArray(valueItem)) {
             return true;
         }
         return false;
     }
 
-    private getValueAndDisplay(valueItem: ValueItem | FieldValue): [FieldValue, string] {
+    /**
+     * Extracts the value and display components from a parameter that can be either a `ValueItem`
+     * object or a simple `FieldValue`, in which case the display will be `undefined`.
+     */
+    protected getValueAndDisplay(valueItem: ValueItem | FieldValue): [FieldValue, string] {
         let value: FieldValue;
         let display: string;
         if (this.isValueItem(valueItem)) {
@@ -136,18 +105,12 @@ export class FormatService {
      * Format a value for display according to the passed `column`. Formatters
      * can be defined in the column's configuration to provide domain-specific
      * formatting. The standard formatters are `language` and `memorysize`.
-     * Custom transformers can be specified by providing the {@link FORMAT_OPTIONS}
-     * injection token
      *
      * @param valueItem The value to format
      * @param column The column associated with the value
      */
     formatValue(valueItem: ValueItem | FieldValue, column?: CCColumn): string {
         let [value, display] = this.getValueAndDisplay(valueItem);
-        const ret = this.options.formatValue ? this.options.formatValue(value, display, column) : undefined;
-        if (ret !== undefined) {
-            return ret;
-        }
         if (column && column.formatter) {
             switch (Utils.toLowerCase(column.formatter)) {
                 case "language": return this.formatLanguage(value);
@@ -172,6 +135,9 @@ export class FormatService {
             else {
                 return this.intlService.formatNumber(value);
             }
+        }
+        if (column && AppServiceHelpers.isDate(column) && Utils.isString(value)) {
+            value = Utils.fromSysDateStr(value) || value;
         }
         if (Utils.isDate(value)) {
             if (column && !AppServiceHelpers.isDate(column)) { // ES-7785
@@ -206,15 +172,20 @@ export class FormatService {
                 if (joinValue.length > 0) {
                     joinValue.push(";");
                 }
+                let _v: string;
                 if (!v) {
-                    joinValue.push("<null>");
+                    _v = "<null>";
+                }
+                else if (Utils.isDate(v)) {
+                    _v = Utils.toSysDateStr(v);
                 }
                 else if (Utils.isString(v)) {
-                    joinValue.push(v);
+                    _v = v;
                 }
                 else {
-                    joinValue.push(v.display || v.value || "<null>");
+                    _v = v.display || v.value || "<null>";
                 }
+                joinValue.push(_v);
             });
             value = joinValue.join("");
         }
@@ -227,8 +198,7 @@ export class FormatService {
     /**
      * Transform a display value. Multiple transformers can be defined on a column and their calls are chained.
      * The standard formatters are `uppercase`, `upperfirst`, `lowercase`, `lowerfirst`, `startcase`, `kebabcase`,
-     * `snakecase` and `camelcase`. Custom transformers can be specified by providing the {@link FORMAT_OPTIONS}
-     * injection token
+     * `snakecase` and `camelcase`.
      *
      * @param value The value to transform
      * @param column The column associated with the value
@@ -240,10 +210,6 @@ export class FormatService {
         }
         // transforms are composable
         for (const transform of transforms) {
-            const ret = this.options.transformValue ? this.options.transformValue(transform, value, column) : undefined;
-            if (ret !== undefined) {
-                value = ret;
-            }
             switch (Utils.toLowerCase(transform)) {
                 case "uppercase": value = Utils.toUpperCase(value); break;
                 case "upperfirst": value = Utils.toUpperFirst(value); break;
@@ -261,16 +227,11 @@ export class FormatService {
     /**
      * Format a value item for display. This is the standard entry point for formatting a value.
      * By default, this method calls [formatValue]{@link #formatValue} and [transformValue]{@link #transformValue}.
-     * Custom behavior can be specified by providing the {@link FORMAT_OPTIONS} injection token
      *
      * @param valueItem The value item to format
      * @param column The column associated with the value item
      */
     formatFieldValue(valueItem: ValueItem | FieldValue, column?: CCColumn): string {
-        const ret = this.options.formatFieldValue ? this.options.formatFieldValue(valueItem, column) : undefined;
-        if (ret !== undefined) {
-            return ret;
-        }
         let formattedValue = this.formatValue(valueItem, column);
         formattedValue = this.transformValue(formattedValue, column);
         return formattedValue;
@@ -278,9 +239,8 @@ export class FormatService {
 
     /**
      * Parse an input value according to the passed `parser`. The standard parser is `memorysize`. Parsers
-     * are configured in the {@link CCColumn} configuration. Custom parsers can be specified by providing
-     * the {@link FORMAT_OPTIONS} injection token. The parsed value is returned as a string for processing
-     * by the {@link ValidationModule}
+     * are configured in the {@link CCColumn} configuration. The parsed value is returned as a string for
+     * processing by the {@link ValidationModule}
      *
      * @param value The value to parse
      * @param parser The parser to use
@@ -288,10 +248,6 @@ export class FormatService {
     parseValue(value: any, parser: string): string {
         if (Utils.isString(value)) {
             if (parser) {
-                const ret = this.options.parseValue ? this.options.parseValue(value, parser) : undefined;
-                if (ret !== undefined) {
-                    return ret;
-                }
                 switch (Utils.toLowerCase(parser)) {
                     case "memorysize": {
                         return this.parseMemorySize(value) + "";

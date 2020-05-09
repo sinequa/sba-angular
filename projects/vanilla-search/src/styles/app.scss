@@ -68,6 +68,10 @@ a {
     color: #3434d6;
 }
 
+.home {
+    min-height: 100vh;
+}
+
 // large screens (> sm)
 @include media-breakpoint-up(sm) {
 
@@ -77,10 +81,6 @@ a {
     
     .card {
         box-shadow: 0 5px 7px rgba(0,0,0,.08);
-    }
-
-    .home {
-        height: 100vh;
     }
 }
 
@@ -157,8 +157,6 @@ sq-sponsored-results {
 // Facets
 sq-facet-card.facet-preview {
     .card-header {
-        align-items: start !important;
-
         sq-metadata {
             color: $secondary-color;
             font-size: 0.9em;
@@ -173,6 +171,15 @@ sq-feedback-menu {
     .dropdown-toggle::after{
         display: none;
     }
+}
+
+// Flex basis classes
+.flex-basis-0 {
+    flex-basis: 0;
+}
+
+.flex-basis-auto {
+    flex-basis: auto;
 }
 
 @import 'dark-mode';

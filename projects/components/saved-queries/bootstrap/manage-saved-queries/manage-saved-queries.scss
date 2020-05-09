@@ -4,6 +4,13 @@
     width: 100%; // for IE
 }
 
+.sq-saved-query-text {
+    width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word; // Edge doesn't know overflow-wrap
+    word-break: break-word; // WebKit needs this
+}
+
 .sq-move {
     cursor: move;
 }

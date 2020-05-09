@@ -65,6 +65,12 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../interfaces/ValueItem.html" target="_self" >ValueItem</a></code>
+            </p>
 
         <section>
             <h3 id="index">Index</h3>
@@ -312,10 +318,10 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input, OnChanges} from &quot;@angular/core&quot;;
 import {Record, CCColumn} from &quot;@sinequa/core/web-services&quot;;
-import {AppService} from &quot;@sinequa/core/app-utils&quot;;
+import {AppService, ValueItem} from &quot;@sinequa/core/app-utils&quot;;
 import {SearchService} from &quot;@sinequa/components/search&quot;;
 
-export interface EntityValue {
+export interface EntityValue extends ValueItem {
     display: string;
     value: string;
     locations?: Number[];

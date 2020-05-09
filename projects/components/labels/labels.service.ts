@@ -1,7 +1,7 @@
 import {Injectable, Inject, InjectionToken, Type} from "@angular/core";
 import {Observable, of} from "rxjs";
 import {LabelsWebService, AuditEventType, Record} from "@sinequa/core/web-services";
-import {AppService} from "@sinequa/core/app-utils";
+import {AppService, ValueItem} from "@sinequa/core/app-utils";
 import {Utils, IRef} from "@sinequa/core/base";
 import {SearchService} from "@sinequa/components/search";
 import {ModalService, ModalResult} from "@sinequa/core/modal";
@@ -358,14 +358,21 @@ export class LabelsService {
         if (!field) {
             return Promise.resolve(false);
         }
-        const items: {value: string, display: string}[] = [];
+        const items: ValueItem[] = [];
+        const selectedLabels: string[] = this.getSelectedLabels(field);
         for (let label of labels) {
             const display = label;
             if (!_public) {
                 label = <string>this.addPrivatePrefix(label);
             }
-            items.push({value: label, display: display});
+            if (selectedLabels.indexOf(label) === -1) {
+                items.push({
+                    value: label,
+                    display: display
+                });
+            }
         }
+
         this.searchService.addFieldSelect(field, items);
         return this.searchService.search(undefined,
             {
@@ -375,6 +382,30 @@ export class LabelsService {
                     public: _public
                 }
             });
+    }
+
+
+    /**
+     * Retrieves the labels that are not in the current filters of breadcrumbs
+     *
+     * @param field The column index containing the labels.
+     * @returns The selected labels
+     */
+    private getSelectedLabels(field: string): string[] {
+        const labels: string[] = [];
+        if (field && this.searchService.breadcrumbs?.activeSelects) {
+            for (const select of this.searchService.breadcrumbs.activeSelects) {
+                if (select.expr) {
+                    const values = select.expr.getValues(field);
+                    values.forEach(value => {
+                        if(labels.indexOf(value) === -1) {
+                            labels.push(value);
+                        }
+                    });
+                }
+            }
+        }
+        return labels;
     }
 
     renameLabels(labels: string[], newLabel: string, _public: boolean): Observable<void> {

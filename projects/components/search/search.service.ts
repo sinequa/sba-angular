@@ -641,17 +641,15 @@ export class SearchService implements OnDestroy {
         }));
     }
 
-    didYouMean(text: string, kind: DidYouMeanKind): Promise<boolean> {
-        const lastSelect = this.query.lastSelect();
-        if (!lastSelect) {
+    didYouMean(text: string, context: "search" | "refine", kind: DidYouMeanKind): Promise<boolean> {
+        if (context === "search") {
             this.query.text = text;
         }
         else {
-            lastSelect.expression = "refine:" + ExprParser.escape(text);
-            //lastSelect.display = text;
-            // pop and push for select observers (refine)
-            this.query.popSelect();
-            this.query.pushSelect(lastSelect);
+            const refineSelect = this.query.findSelect("refine");
+            if (refineSelect) {
+                refineSelect.expression = "refine:" + ExprParser.escape(text);
+            }
         }
         this.query.spellingCorrectionMode = "dymonly";
         return this.navigate(undefined, this.makeAuditEvent({
@@ -756,12 +754,12 @@ export class SearchService implements OnDestroy {
         const _options = Utils.extend({not: false, and: false}, options);
         let item: ValueItem | undefined;
         if (Utils.isArray(items)) {
-             if (items.length === 0) {
-                 return 0;
-             }
-             if (items.length === 1) {
-                 item = items[0];
-             }
+            if (items.length === 0) {
+                return 0;
+            }
+            if (items.length === 1) {
+                item = items[0];
+            }
         }
         else {
             item = items as ValueItem;

@@ -17,7 +17,7 @@
         </button>
 
         <!-- Search form -->
-        <app-search-form class="flex-grow-1 mx-3" *ngIf="showForm"></app-search-form>
+        <app-search-form class="flex-grow-1 flex-basis-0 mx-3" *ngIf="showForm"></app-search-form>
 
         <!-- User menu which visibility can be toggled with a button on small screens -->
         <button *ngIf="ui.screenSizeIsLess('sm') && !showFilters" class="btn btn-lg btn-{{isDark()? 'dark' : 'light'}}" title="{{ 'msg#search.showMenu' | sqMessage }}" 
@@ -65,7 +65,7 @@
 
             <!-- Toolbar -->
             <div class="d-flex flex-row align-items-center">
-                <sq-breadcrumbs [results]="results" [allowDeletion]="false" class="flex-grow-1"></sq-breadcrumbs>
+                <sq-breadcrumbs [results]="results" [allowDeletion]="false" class="flex-grow-1 flex-basis-0"></sq-breadcrumbs>
                 <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
                 <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-sort-selector>
             </div>
@@ -82,7 +82,7 @@
                 [ngClass]="{'selected': selectionService.selectedRecords.includes(record.id) || record === openedDoc}">
                 <div class="flex-grow-1 overflow-hidden">
                     <div class="d-flex align-items-center">
-                        <sq-result-selector [record]="record" class="ml-1"></sq-result-selector>
+                        <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')" [record]="record" class="ml-1"></sq-result-selector>
                         <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
                     </div>
                     <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
@@ -111,7 +111,9 @@
             </div>
             
             <!-- Scaled-down preview -->
-            <sq-facet-card *ngIf="openedDoc" [collapsible]="false" class="d-block mb-3 facet-preview" [buttonsStyle]="isDark()? 'dark' : 'light'">
+            <sq-facet-card *ngIf="openedDoc" [collapsible]="false" class="d-block mb-3 facet-preview"
+                [buttonsStyle]="isDark()? 'dark' : 'light'"
+                [actionsSize]="''">
                 <sq-facet-preview-2 #facet 
                     [record]="openedDoc" 
                     [query]="searchService.query" 

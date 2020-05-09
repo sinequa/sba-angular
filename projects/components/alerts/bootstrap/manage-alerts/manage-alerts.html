@@ -7,12 +7,12 @@
             <div class="list-group" cdkDropList [cdkDropListData]="model.alerts" [cdkDropListDisabled]="!reordering" (cdkDropListDropped)="dropped($event)">
                 <a *ngFor="let alert of model.alerts; let $index = index" href="#" (click)="editAlert(alert)" cdkDrag 
                     [ngClass]="['list-group-item list-group-item-action d-flex w-auto-unimportant', reordering ? 'cursor-move': '']">
-                    <div [ngClass]="{'sq-active': !reordering}">{{alert.name}}</div>
+                    <div [ngClass]="{'sq-active': !reordering, 'sq-alert-text': true}">{{alert.name}}</div>
                     <div class="ml-auto">
-                        <a *ngIf="!reordering" href="#" (click)="remove(alert, $index)" title="{{'msg#manageAlerts.remove' | sqMessage}}">
+                        <a *ngIf="!reordering" class="ml-2" href="#" (click)="remove(alert, $index)" title="{{'msg#manageAlerts.remove' | sqMessage}}">
                             <span class="fas fa-times sq-remove"></span>
                         </a>
-                        <span *ngIf="reordering" class="fas fa-bars sq-move"></span>
+                        <span *ngIf="reordering" class="ml-2 fas fa-bars sq-move"></span>
                     </div>
                 </a>
             </div>

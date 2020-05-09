@@ -172,7 +172,7 @@ to override standard field value formatting</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, InjectionToken, Optional, Inject} from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable} from &quot;@angular/core&quot;;
 import {IntlService} from &quot;@sinequa/core/intl&quot;;
 import {Utils, FieldValue} from &quot;@sinequa/core/base&quot;;
 import {AppServiceHelpers} from &quot;./app-service-helpers&quot;;
@@ -188,63 +188,32 @@ export interface ValueItem {
 }
 
 /**
- * Describes options for the {@link FormatService} that can be set by providing the &#x60;FORMAT_OPTIONS&#x60;
- * injection token
- */
-export interface FormatOptions {
-    /**
-     * A callback to provide custom behavior for the [FormatService.formatValue]{@link FormatService#formatValue} method.
-     * The formatter is defined in the column&#x27;s formatter property. Return a non-undefined value to prevent the default behavior
-     */
-    formatValue?: (value: FieldValue, display: string, column?: CCColumn) &#x3D;&gt; string | undefined;
-    /**
-     * A callback to provide custom behavior for the [FormatService.transformValue]{@link FormatService#transformValue} method.
-     * Multiple transforms can be defined on a column - the callback is called per defined transform. Return a non-undefined value to
-     * prevent the default behavior
-     */
-    transformValue?: (transform: string, value: string, column?: CCColumn) &#x3D;&gt; string | undefined;
-    /**
-     * A callback to provide custom behavior for the [FormatService.formatFieldValue]{@link FormatService#formatFieldValue} method.
-     * By default, this method calls the &#x60;formatValue&#x60; and &#x60;transformValue&#x60; methods. Return a non-undefined value to prevent the default
-     * behavior
-     */
-    formatFieldValue?: (valueItem: ValueItem | FieldValue, column?: CCColumn) &#x3D;&gt; string | undefined;
-    /**
-     * A callback to provide custom behavior for the [FormatService.parseValue]{@link FormatService#parseValue} method. This method is
-     * used to interpret values entered in fielded search expressions. Return a non-undefined value to prevent the default behavior
-     */
-    parseValue?: (value: string, parser: string) &#x3D;&gt; string | undefined;
-}
-
-/**
- * The injection token that can be provided to set {@link FormatOptions} for the {@link FormatService}
- */
-export const FORMAT_OPTIONS &#x3D; new InjectionToken&lt;FormatOptions&gt;(&quot;FORMAT_OPTIONS&quot;);
-
-/**
  * This service provides methods for locale-sensitive formatting and parsing of values that can be found in
- * Sinequa search results. The built-in functionality can be extended by providing the {@link FORMAT_OPTIONS} injection token
+ * Sinequa search results.
  */
 @Injectable({
     providedIn: &quot;root&quot;
 })
 export class FormatService {
     constructor(
-        @Optional() @Inject(FORMAT_OPTIONS) public options: FormatOptions,
         public intlService: IntlService) {
-        if (!this.options) {
-            this.options &#x3D; {};
-        }
     }
 
-    private isValueItem(valueItem: ValueItem | FieldValue): valueItem is ValueItem {
+    /**
+     * Returns &#x60;true&#x60; if the passed parameter is a &#x60;ValueItem&#x60; object
+     */
+    protected isValueItem(valueItem: ValueItem | FieldValue): valueItem is ValueItem {
         if (Utils.isObject(valueItem) &amp;&amp; !Utils.isDate(valueItem) &amp;&amp; !Utils.isArray(valueItem)) {
             return true;
         }
         return false;
     }
 
-    private getValueAndDisplay(valueItem: ValueItem | FieldValue): [FieldValue, string] {
+    /**
+     * Extracts the value and display components from a parameter that can be either a &#x60;ValueItem&#x60;
+     * object or a simple &#x60;FieldValue&#x60;, in which case the display will be &#x60;undefined&#x60;.
+     */
+    protected getValueAndDisplay(valueItem: ValueItem | FieldValue): [FieldValue, string] {
         let value: FieldValue;
         let display: string;
         if (this.isValueItem(valueItem)) {
@@ -310,18 +279,12 @@ export class FormatService {
      * Format a value for display according to the passed &#x60;column&#x60;. Formatters
      * can be defined in the column&#x27;s configuration to provide domain-specific
      * formatting. The standard formatters are &#x60;language&#x60; and &#x60;memorysize&#x60;.
-     * Custom transformers can be specified by providing the {@link FORMAT_OPTIONS}
-     * injection token
      *
      * @param valueItem The value to format
      * @param column The column associated with the value
      */
     formatValue(valueItem: ValueItem | FieldValue, column?: CCColumn): string {
         let [value, display] &#x3D; this.getValueAndDisplay(valueItem);
-        const ret &#x3D; this.options.formatValue ? this.options.formatValue(value, display, column) : undefined;
-        if (ret !&#x3D;&#x3D; undefined) {
-            return ret;
-        }
         if (column &amp;&amp; column.formatter) {
             switch (Utils.toLowerCase(column.formatter)) {
                 case &quot;language&quot;: return this.formatLanguage(value);
@@ -346,6 +309,9 @@ export class FormatService {
             else {
                 return this.intlService.formatNumber(value);
             }
+        }
+        if (column &amp;&amp; AppServiceHelpers.isDate(column) &amp;&amp; Utils.isString(value)) {
+            value &#x3D; Utils.fromSysDateStr(value) || value;
         }
         if (Utils.isDate(value)) {
             if (column &amp;&amp; !AppServiceHelpers.isDate(column)) { // ES-7785
@@ -380,15 +346,20 @@ export class FormatService {
                 if (joinValue.length &gt; 0) {
                     joinValue.push(&quot;;&quot;);
                 }
+                let _v: string;
                 if (!v) {
-                    joinValue.push(&quot;&lt;null&gt;&quot;);
+                    _v &#x3D; &quot;&lt;null&gt;&quot;;
+                }
+                else if (Utils.isDate(v)) {
+                    _v &#x3D; Utils.toSysDateStr(v);
                 }
                 else if (Utils.isString(v)) {
-                    joinValue.push(v);
+                    _v &#x3D; v;
                 }
                 else {
-                    joinValue.push(v.display || v.value || &quot;&lt;null&gt;&quot;);
+                    _v &#x3D; v.display || v.value || &quot;&lt;null&gt;&quot;;
                 }
+                joinValue.push(_v);
             });
             value &#x3D; joinValue.join(&quot;&quot;);
         }
@@ -401,8 +372,7 @@ export class FormatService {
     /**
      * Transform a display value. Multiple transformers can be defined on a column and their calls are chained.
      * The standard formatters are &#x60;uppercase&#x60;, &#x60;upperfirst&#x60;, &#x60;lowercase&#x60;, &#x60;lowerfirst&#x60;, &#x60;startcase&#x60;, &#x60;kebabcase&#x60;,
-     * &#x60;snakecase&#x60; and &#x60;camelcase&#x60;. Custom transformers can be specified by providing the {@link FORMAT_OPTIONS}
-     * injection token
+     * &#x60;snakecase&#x60; and &#x60;camelcase&#x60;.
      *
      * @param value The value to transform
      * @param column The column associated with the value
@@ -414,10 +384,6 @@ export class FormatService {
         }
         // transforms are composable
         for (const transform of transforms) {
-            const ret &#x3D; this.options.transformValue ? this.options.transformValue(transform, value, column) : undefined;
-            if (ret !&#x3D;&#x3D; undefined) {
-                value &#x3D; ret;
-            }
             switch (Utils.toLowerCase(transform)) {
                 case &quot;uppercase&quot;: value &#x3D; Utils.toUpperCase(value); break;
                 case &quot;upperfirst&quot;: value &#x3D; Utils.toUpperFirst(value); break;
@@ -435,16 +401,11 @@ export class FormatService {
     /**
      * Format a value item for display. This is the standard entry point for formatting a value.
      * By default, this method calls [formatValue]{@link #formatValue} and [transformValue]{@link #transformValue}.
-     * Custom behavior can be specified by providing the {@link FORMAT_OPTIONS} injection token
      *
      * @param valueItem The value item to format
      * @param column The column associated with the value item
      */
     formatFieldValue(valueItem: ValueItem | FieldValue, column?: CCColumn): string {
-        const ret &#x3D; this.options.formatFieldValue ? this.options.formatFieldValue(valueItem, column) : undefined;
-        if (ret !&#x3D;&#x3D; undefined) {
-            return ret;
-        }
         let formattedValue &#x3D; this.formatValue(valueItem, column);
         formattedValue &#x3D; this.transformValue(formattedValue, column);
         return formattedValue;
@@ -452,9 +413,8 @@ export class FormatService {
 
     /**
      * Parse an input value according to the passed &#x60;parser&#x60;. The standard parser is &#x60;memorysize&#x60;. Parsers
-     * are configured in the {@link CCColumn} configuration. Custom parsers can be specified by providing
-     * the {@link FORMAT_OPTIONS} injection token. The parsed value is returned as a string for processing
-     * by the {@link ValidationModule}
+     * are configured in the {@link CCColumn} configuration. The parsed value is returned as a string for
+     * processing by the {@link ValidationModule}
      *
      * @param value The value to parse
      * @param parser The parser to use
@@ -462,10 +422,6 @@ export class FormatService {
     parseValue(value: any, parser: string): string {
         if (Utils.isString(value)) {
             if (parser) {
-                const ret &#x3D; this.options.parseValue ? this.options.parseValue(value, parser) : undefined;
-                if (ret !&#x3D;&#x3D; undefined) {
-                    return ret;
-                }
                 switch (Utils.toLowerCase(parser)) {
                     case &quot;memorysize&quot;: {
                         return this.parseMemorySize(value) + &quot;&quot;;

@@ -1154,10 +1154,11 @@ export class Expr {
         const column &#x3D; this.exprContext.appService.getColumn(this.field);
         const valueId &#x3D; &#x60;value${ctxt.valueIndex++}&#x60;;
         let _value: FieldValue &#x3D; value;
+        let _display: string | undefined;
         if (display) {
-            _value &#x3D; this.encodeHTML(ExprParser.unescape(display), options);
+            _display &#x3D; this.encodeHTML(ExprParser.unescape(display), options);
         }
-        else if (column &amp;&amp; AppServiceHelpers.isNumber(column) &amp;&amp; Utils.testFloat(value)) {
+        if (column &amp;&amp; AppServiceHelpers.isNumber(column) &amp;&amp; Utils.testFloat(value)) {
             _value &#x3D; +value;
         }
         else if (column &amp;&amp; AppServiceHelpers.isDate(column)) {
@@ -1170,7 +1171,9 @@ export class Expr {
             _value &#x3D; this.encodeHTML(_value, options);
         }
         ctxt.message.push(&#x60;{${valueId}}&#x60;);
-        ctxt.values[valueId] &#x3D; column ? this.exprContext.formatService.formatFieldValue(_value, column) : _value;
+        ctxt.values[valueId] &#x3D; column
+            ? this.exprContext.formatService.formatFieldValue({value: _value, display: _display}, column)
+            : _display || _value;
         if (options.asHTML) {
             ctxt.message.push(&#x60;&lt;/span&gt;&#x60;);
         }

@@ -845,17 +845,15 @@ export class SearchService implements OnDestroy {
         }));
     }
 
-    didYouMean(text: string, kind: DidYouMeanKind): Promise&lt;boolean&gt; {
-        const lastSelect &#x3D; this.query.lastSelect();
-        if (!lastSelect) {
+    didYouMean(text: string, context: &quot;search&quot; | &quot;refine&quot;, kind: DidYouMeanKind): Promise&lt;boolean&gt; {
+        if (context &#x3D;&#x3D;&#x3D; &quot;search&quot;) {
             this.query.text &#x3D; text;
         }
         else {
-            lastSelect.expression &#x3D; &quot;refine:&quot; + ExprParser.escape(text);
-            //lastSelect.display &#x3D; text;
-            // pop and push for select observers (refine)
-            this.query.popSelect();
-            this.query.pushSelect(lastSelect);
+            const refineSelect &#x3D; this.query.findSelect(&quot;refine&quot;);
+            if (refineSelect) {
+                refineSelect.expression &#x3D; &quot;refine:&quot; + ExprParser.escape(text);
+            }
         }
         this.query.spellingCorrectionMode &#x3D; &quot;dymonly&quot;;
         return this.navigate(undefined, this.makeAuditEvent({
@@ -960,12 +958,12 @@ export class SearchService implements OnDestroy {
         const _options &#x3D; Utils.extend({not: false, and: false}, options);
         let item: ValueItem | undefined;
         if (Utils.isArray(items)) {
-             if (items.length &#x3D;&#x3D;&#x3D; 0) {
-                 return 0;
-             }
-             if (items.length &#x3D;&#x3D;&#x3D; 1) {
-                 item &#x3D; items[0];
-             }
+            if (items.length &#x3D;&#x3D;&#x3D; 0) {
+                return 0;
+            }
+            if (items.length &#x3D;&#x3D;&#x3D; 1) {
+                item &#x3D; items[0];
+            }
         }
         else {
             item &#x3D; items as ValueItem;

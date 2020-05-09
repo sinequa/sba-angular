@@ -28,6 +28,11 @@ export abstract class AbstractFacet {
     @ViewChild("headerTpl", {static: true, read: TemplateRef}) public headerTpl?: TemplateRef<any>;
 
     /**
+     * Template for a sub-header of this facet, if any. This appears below the header
+     */
+    @ViewChild("subHeaderTpl", {static: true, read: TemplateRef}) public subHeaderTpl?: TemplateRef<any>;
+
+    /**
      * Template for footer of this facet, if any
      */
     @ViewChild("footerTpl", {static: true, read: TemplateRef}) public footerTpl?: TemplateRef<any>;

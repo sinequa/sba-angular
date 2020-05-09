@@ -1,4 +1,4 @@
-import {Component, Input, Output, OnChanges, SimpleChanges, EventEmitter} from "@angular/core";
+import {Component, Input, Output, HostBinding, OnChanges, SimpleChanges, EventEmitter} from "@angular/core";
 import {Utils} from "@sinequa/core/base";
 import {AppService, FormatService, ValueItem} from "@sinequa/core/app-utils";
 import {Record, EntityItem, DocumentAccessLists, CCColumn} from "@sinequa/core/web-services";
@@ -21,6 +21,7 @@ export class MetadataItem implements OnChanges {
     @Input() clickable: boolean = true;
     @Input() spacing: Spacing = "default";
     @Output("select") _select = new EventEmitter<{item: string, valueItem: ValueItem}>();
+    @HostBinding('hidden') get hidden(): boolean { return this.isEmpty; }
     valueItems: (ValueItem | TreeValueItem)[];
     column: CCColumn | undefined;
     isTree: boolean;

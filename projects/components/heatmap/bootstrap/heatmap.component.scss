@@ -32,3 +32,10 @@
         opacity: 0.9;
     }
 }
+
+sq-tooltip ::ng-deep {
+    .sq-tooltip {
+        pointer-events: none;
+        opacity: 0.8;
+    }
+}

@@ -1,0 +1,27 @@
+<sq-timeline
+    [data]="mergedTimeseries$ | async"
+    [events]="mergedEvents$ | async"
+    [selection]="selection"
+    [minDate]="getMinDate()"
+    [maxDate]="getMaxDate()"
+    [zoomable]="zoomable"
+    [minZoomDays]="minZoomDays"
+    [maxZoomDays]="maxZoomDays"
+    [width]="width"
+    [height]="height"
+    [margin]="margin"
+    [curveType]="curveType"
+    [showTooltip]="showTooltip"
+
+    (selectionChange)="onSelectionChange($event)"
+    (rangeChange)="onRangeChange($event)">
+
+    <ng-template #tooltipTpl let-event let-close="close">
+        <a href="#" (click)="onEventClicked(event, close)"
+            class="tooltip-item list-group-item list-group-item-action">
+            <span class="small text-muted">{{ event.date | sqDate }}</span>
+            <div class="text-truncate">{{ event.display || event.record.title }}</div>
+        </a>
+    </ng-template>
+
+</sq-timeline>

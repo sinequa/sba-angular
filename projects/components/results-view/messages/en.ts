@@ -19,15 +19,6 @@ export default {
             "selectDocuments": "Select documents",
             "unselectDocuments": "Unselect documents"
         },
-        "resultsHeatmapView": {
-            "display": "Heatmap",
-            "toolbar": {
-                "xAxisLabel": "X axis:",
-                "yAxisLabel": "Y axis:",
-                "zAxisLabel": "Z axis:",
-                "zValueLabel": "Z value:"
-            }
-        },
         "resultsTiledView": {
             "display": "Tiled",
             "defaultTitle": "(No title)",
@@ -44,15 +35,6 @@ export default {
         "results_all_tab": "All",
         "results_text_tab": "Text",
 
-        "resultsTimelineView" : {
-            "display" : "Timeline",
-            "events" : "Events",
-            "previous" : "Previous",
-            "next" : "Next",
-            "tooltip" : {
-                "date" : "{date} ({count})"
-            }
-        },
         "resultsScatterView" : {
             "display" : "Value Cloud"
         },

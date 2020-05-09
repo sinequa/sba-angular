@@ -753,9 +753,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/ExtractsPerPartname.html" data-type="entity-link">ExtractsPerPartname</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/FormatOptions.html" data-type="entity-link">FormatOptions</a>
-                            </li>
-                            <li class="link">
                                 <a href="interfaces/FromJsonOptions.html" data-type="entity-link">FromJsonOptions</a>
                             </li>
                             <li class="link">

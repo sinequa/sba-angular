@@ -1,0 +1,77 @@
+// This is required to position the tooltip absolutely
+:host {
+    display: block;
+    position: relative;
+}
+
+// Note: ::ng-deep is deprecated, but currently no better alternative
+.areas {
+
+    .area {
+        fill: lightblue;
+        opacity: 0.5;
+    }
+
+    .line {
+        stroke: rgb(132, 187, 206);
+        stroke-width: 2;
+        fill: none;
+    }
+}
+
+.axis ::ng-deep {
+
+    line {
+        stroke: darkgrey;
+    }
+
+    text {
+        fill: darkgrey;
+    }
+}
+
+.tooltip-line {
+    stroke: darkgrey;
+    stroke-dasharray: 4;
+}
+
+.tooltip-text {
+    font-size: 10px;
+    fill: darkgrey;
+}
+
+.brush ::ng-deep {
+
+    .selection {
+        stroke: none;
+        fill: lightblue;
+        fill-opacity: .15;
+        shape-rendering: crispEdges;
+    }
+
+    .grip {
+        stroke: lightblue;
+        fill: lightblue;
+        cursor: ew-resize;
+
+        .grip-text {
+            font-size: 10px;
+            fill: darkgrey;
+            stroke: none;
+        }
+    }
+}
+
+.events {
+    
+    .event {
+        fill: #7c7c7c;
+        opacity: 0.6;
+        cursor: pointer;
+    }
+
+    .event:hover {
+        opacity: 1;
+        transition: opacity 0.2s ease-in 0s;
+    }
+}

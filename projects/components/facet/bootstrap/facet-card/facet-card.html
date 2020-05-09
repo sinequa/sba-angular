@@ -1,15 +1,20 @@
-<div class="card">
-    <div class="card-header d-flex flex-row align-items-center pl-3 pr-2 py-1">
-        <div *ngIf="!!icon" class="card-icon">
-            <span class="{{icon}} mr-2" title="{{(tooltip || title) | sqMessage}}" aria-hidden="true"></span>
+<div class="card">    
+    <div class="card-header d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
+        <div class="d-flex flex-row align-items-center">
+            <div *ngIf="!!icon" class="card-icon">
+                <span class="{{icon}} mr-2" title="{{(tooltip || title) | sqMessage}}" aria-hidden="true"></span>
+            </div>
+            <div class="card-title text-truncate mb-0 py-1 mr-auto" *ngIf="title">
+                <span title="{{(tooltip || title) | sqMessage}}">{{title | sqMessage}}</span>
+            </div>
+            <ng-container *ngIf="facetComponent && facetComponent.headerTpl">
+                <ng-container [ngTemplateOutlet]="facetComponent.headerTpl"></ng-container>
+            </ng-container>
+            <div class="btn-group" [sq-action-buttons]="{items: allActions, style: buttonsStyle, size: actionsSize, rightAligned: true}"></div>
         </div>
-        <div class="card-title text-truncate mb-0 py-1 mr-auto" *ngIf="title">
-            <span title="{{(tooltip || title) | sqMessage}}">{{title | sqMessage}}</span>
-        </div>
-        <ng-container *ngIf="facetComponent && facetComponent.headerTpl">
-            <ng-container [ngTemplateOutlet]="facetComponent.headerTpl"></ng-container>
+        <ng-container *ngIf="facetComponent && facetComponent.subHeaderTpl">
+            <ng-container [ngTemplateOutlet]="facetComponent.subHeaderTpl"></ng-container>
         </ng-container>
-        <div class="btn-group" [sq-action-buttons]="{items: allActions, style: buttonsStyle, size: 'sm', rightAligned: true}"></div>
     </div>
     <sq-collapse [collapsed]="_collapsed" *ngIf="!_settingsOpened">
         <ng-template>
