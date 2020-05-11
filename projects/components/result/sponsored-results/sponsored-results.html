@@ -5,10 +5,10 @@
                 <a href="{{link.url}}" (click)="click(link)" target="_blank">
                     <img src="{{link.thumbnail}}">
                 </a>
-            </div>            
+            </div>
             <div class="sq-sponsored-link-view-info">
-                <a href="{{link.url}}" (click)="click(link)" target="_blank" [innerHTML]="link.title"></a>
-                <div *ngIf="link.summary" class="sq-sponsored-link-view-summary">{{link.summary}}</div>
+                <a href="{{link.url}}" (click)="click(link)" target="_blank" title="{{link.title | sqMessage}}">{{link.title | sqMessage}}</a>
+                <div *ngIf="link.summary" class="sq-sponsored-link-view-summary">{{link.summary | sqMessage}}</div>
             </div>
         </div>
     </li>
