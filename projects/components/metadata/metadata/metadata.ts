@@ -15,6 +15,7 @@ export class Metadata {
     @Input() showIcons: boolean = false;
     @Input() clickable: boolean = true;
     @Input() spacing: Spacing = "default";
+    @HostBinding("class.sq-metadata") true;
     @HostBinding("class.sq-tabular") @Input() tabular: boolean = true;
     @Output("select") _select = new EventEmitter<{item: string, valueItem: ValueItem}>();
 
