@@ -22,7 +22,7 @@ import {MetadataAccessListsItemSingleAccessList} from "./metadata-access-lists-i
         MetadataAccessListsItem, MetadataAccessListsItemSingleAccessList
     ],
     exports: [
-        Metadata
+        Metadata, MetadataItem
     ],
 })
 export class MetadataModule {

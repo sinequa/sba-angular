@@ -86,3 +86,25 @@ Example: the effect of different spacing values
 {: .text-center }
 
 The component also emits an event when an element of the metadata is selected / clicked on.
+
+This module also exports the [`MetadataItem` component]({{site.baseurl}}components/components/MetadataItem.html) which is used by
+the `Metadata` component and displays a single metadata item. Using the `MetadaItem` component directly provides more layout flexibility,
+allowing other content to interspersed in the layout and different input properties to be specified for individual items. The component's
+selector is `sq-metadata-item` and it expects a number of inputs which are similar to those of the `Metadata` component:
+
+* `record`: The document whose metadata is being displayed,
+* `item`: The metadata entry of the document to be displayed,
+* `showTitle`: Whether to display the title of the metadata item, these titles are defined in the configuration of
+the query webservice, in `Advanced` tab > `Column Aliases` grid,
+* `showIcon`: Whether to display the icon of the metadata entry, these icons are defined in the `icons.scss` files,
+with the name of the icon entry being the same as the name of the index column.
+* `clickable`: Whether the metadata entry is clickable, in which case,
+clicking a metadata entry produces a filter in the current query.
+* `spacing`: The spacing format when displaying the metadata. The valid values are:
+  * `'default'`: the default spacing,
+  * `'compact'`: add the class `sq-compact` to all metadata entries, the expected effect is that the spacing is narrower than `'default'`,
+  * `'comfortable'`: add the class `sq-comfortable` to all metadata entries, the expected effect is that the spacing is broader than `'default'`,
+
+To use this component independently of the `Metadata` component particular classes should be used on the container element of the `sq-metadata-item`
+elements. The `sq-metadata` class should always be present on the container. Additionally, if a `tabular` layout is required then the `sq-tabular`
+class should be added.
