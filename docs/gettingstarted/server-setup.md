@@ -39,7 +39,7 @@ The list of Apps can be found in the administration interface under *Search-Base
 *List of applications in the Sinequa server administration*
 {: .text-center }
 
-In this form, a new App may be created by clicking on the *New empty SBA* button, or using a *New app (Wizard)* button, which lets you duplicate an existing App.
+In this form, a new App may be created by clicking on the *New Angular App* button.
 
 The **name of the App** is important, as it will be used by the Angular application to request data via the Web Services.
 The configuration of an App specifies the **list of Web Services** available for this App.
