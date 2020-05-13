@@ -6,7 +6,7 @@ import {Record} from "@sinequa/core/web-services";
     selector: "sq-result-extracts",
     templateUrl: "./result-extracts.html",
     styles: [`
-p {
+p, ul {
     margin: 0;
     color: #676767;
     font-size: 0.9em;
@@ -20,22 +20,30 @@ export class ResultExtracts implements OnChanges {
     @Input() showTextAlways: boolean;
     @Input() showLongExtracts: boolean;
     @Input() hideDate: boolean;
+    @Input() maxLongExtracts: number;
+    @Input() dateFormat: Intl.DateTimeFormatOptions = {year: 'numeric', month: 'short', day: 'numeric'};
     collapsed: boolean = true;
-    text: string;
+    text: string | undefined;
+    longExtracts: string[] | undefined;
     extractsClass: string;
 
     setup() {
+        this.text = undefined;
+        this.longExtracts = undefined;
         if (this.showTextAlways) {
             this.text = Utils.encodeHTML(this.record.text);
             this.extractsClass = "sq-text-extracts";
         }
         else {
-
-            if(this.showLongExtracts && this.record["extracts"]) {
-                let extracts = "";
-                for(let i=0; i<this.record["extracts"].length; i+=3)
-                    extracts += "<li>"+this.record["extracts"][i].replace(/\{b\}/g,"<strong>").replace(/\{nb\}/g,"</strong>")+"</li>";
-                this.text = "<ul>"+extracts+"</ul>";
+            if (this.showLongExtracts && this.record["extracts"]) {
+                this.longExtracts = [];
+                let recordExtracts = this.record["extracts"];
+                if (this.maxLongExtracts) {
+                    recordExtracts = recordExtracts.slice(0, this.maxLongExtracts * 3);
+                }
+                for (let i = 0; i < recordExtracts.length; i += 3) {
+                    this.longExtracts.push(recordExtracts[i].replace(/\{b\}/g, "<strong>").replace(/\{nb\}/g, "</strong>"));
+                }
                 this.extractsClass = "sq-long-extracts";
             }
             else if (this.record.relevantExtracts) {
@@ -51,18 +59,10 @@ export class ResultExtracts implements OnChanges {
         if (!this.limitLinesDisplayed || !this.collapsed) {
             this.extractsClass += " sq-show-all";
         }
-
-        if(this.record.modified && !this.hideDate){
-            const modified = new Date(this.record.modified);
-            const date = modified.toLocaleDateString(navigator.language, { year: 'numeric', month: 'short', day: 'numeric' });
-            this.text = date + this.text.trim() ? " - " + this.text : "";
-        }
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes["record"]) {
-            this.setup();
-        }
+        this.setup();
     }
 
     collapseClick(event: Event) {

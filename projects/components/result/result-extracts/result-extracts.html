@@ -1,5 +1,14 @@
-<ng-container *ngIf="text">
-    <p class="{{extractsClass}} sq-text" [innerHTML]="text"></p>
+<ng-container *ngIf="text || longExtracts">
+    <p *ngIf="!longExtracts" class="{{extractsClass}} sq-text">
+        <span *ngIf="record.modified && !hideDate" class="extracts-date">{{record.modified | sqDate:dateFormat}}{{!!text ? ' - ' : ''}}</span>
+        <span class="extracts-text" [innerHTML]="text"></span>
+    </p>
+    <ng-container *ngIf="longExtracts">
+        <p *ngIf="record.modified && !hideDate" class="{{extractsClass}} extracts-date sq-text">{{record.modified | sqDate:dateFormat}}</p>
+        <ul *ngIf="longExtracts" class="{{extractsClass}} sq-text">
+            <li *ngFor="let extract of longExtracts" [innerHTML]="extract"></li>
+        </ul>
+    </ng-container>
     <a *ngIf="showLinesExpander" class="sq-text" href="#" (click)="collapseClick($event)">
         <sq-collapse-button [collapsed]="collapsed"></sq-collapse-button>
     </a>
