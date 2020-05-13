@@ -21,6 +21,7 @@ export class ResultExtracts implements OnChanges {
     @Input() showLongExtracts: boolean;
     @Input() hideDate: boolean;
     @Input() maxLongExtracts: number;
+    @Input() dateFormat: Intl.DateTimeFormatOptions = {year: 'numeric', month: 'short', day: 'numeric'};
     collapsed: boolean = true;
     text: string | undefined;
     longExtracts: string[] | undefined;
@@ -57,12 +58,6 @@ export class ResultExtracts implements OnChanges {
 
         if (!this.limitLinesDisplayed || !this.collapsed) {
             this.extractsClass += " sq-show-all";
-        }
-
-        if (this.record.modified && !this.hideDate) {
-            const modified = new Date(this.record.modified);
-            const date = modified.toLocaleDateString(navigator.language, { year: 'numeric', month: 'short', day: 'numeric' });
-            this.text = date + (Utils.trim(this.text || "") ? " - " + this.text : "");
         }
     }
 
