@@ -95,10 +95,10 @@ export class AppLocalesConfig implements LocalesConfig {
 // Screen size breakpoints (consistent with Bootstrap custom breakpoints in app.scss)
 export const breakpoints = {
     xl: "(min-width: 1650px)",
-    lg: "(min-width: 1400px) and (max-width: 1650px)",
-    md: "(min-width: 992px) and (max-width: 1400px)",
-    sm: "(min-width: 576px) and (max-width: 992px)",
-    xs: "(max-width: 576px)",
+    lg: "(min-width: 1400px) and (max-width: 1649.98px)",
+    md: "(min-width: 992px) and (max-width: 1399.98px)",
+    sm: "(min-width: 576px) and (max-width: 991.98px)",
+    xs: "(max-width: 575.98px)",
 };
 
 
