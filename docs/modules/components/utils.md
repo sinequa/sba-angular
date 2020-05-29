@@ -26,13 +26,13 @@ This module provides the following Angular declarations that are useful for the 
 ```typescript
 import { UtilsModule, SCREEN_SIZE_RULES } from '@sinequa/components/utils';
 
-/* If you want to change the screen size rules provided by @sienqua/components */
+/* If you want to change the screen size rules provided by @sinequa/components */
 export const myScreenSizeRules = {
   xl: "(min-width: 1650px)",
-  lg: "(min-width: 1400px) and (max-width: 1649px)",
-  md: "(min-width: 992px) and (max-width: 1399px)",
-  sm: "(min-width: 576px) and (max-width: 991px)",
-  xs: "(max-width: 575px)",
+  lg: "(min-width: 1400px) and (max-width: 1649.98px)",
+  md: "(min-width: 992px) and (max-width: 1399.98px)",
+  sm: "(min-width: 576px) and (max-width: 991.98px)",
+  xs: "(max-width: 575.98px)",
 };
 
 @NgModule({

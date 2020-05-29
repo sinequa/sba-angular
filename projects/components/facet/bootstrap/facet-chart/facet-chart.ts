@@ -137,25 +137,26 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
      */
     private updateSelectedValues(){
         this.selectedValues.clear();
-        this.selectionService.selectedRecords.forEach(id => {
-            const record = this.results.records.find(record => record.id === id);
-            if(!!record && !!this.data){
-                const val = record[this.appService.getColumnAlias(this.appService.getColumn(this.data.column))];
-                if(val){
-                    if(Utils.isString(val)){    // Sourcestr
-                        this.selectedValues.add(val.toLowerCase());
-                    }
-                    if(Utils.isArray(val)){
-                        val.forEach(v => {
-                            if(Utils.isString(v))
-                                this.selectedValues.add(v.toLowerCase()); // Sourcecsv
-                            else
-                                this.selectedValues.add(v.value.toLowerCase()); // Entity
-                        });
+        this.results.records
+            .filter(record => record.$selected)
+            .forEach(record => {
+                if(this.data){
+                    const val = record[this.appService.getColumnAlias(this.appService.getColumn(this.data.column))];
+                    if(val){
+                        if(Utils.isString(val)){    // Sourcestr
+                            this.selectedValues.add(val.toLowerCase());
+                        }
+                        if(Utils.isArray(val)){
+                            val.forEach(v => {
+                                if(Utils.isString(v))
+                                    this.selectedValues.add(v.toLowerCase()); // Sourcecsv
+                                else
+                                    this.selectedValues.add(v.value.toLowerCase()); // Entity
+                            });
+                        }
                     }
                 }
-            }
-        });
+            });
     }
 
     /**

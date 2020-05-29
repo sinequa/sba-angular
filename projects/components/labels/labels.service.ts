@@ -205,7 +205,7 @@ export class LabelsService {
                         action: (item, $event) => {
                             if ((<IFormData>formItem.data).labelRef.value) {
                                 const labels = this.split((<IFormData>formItem.data).labelRef.value);
-                                this.addLabels(labels, this.selectionService.selectedRecords, _public);
+                                this.addLabels(labels, this.selectionService.getSelectedIds(), _public);
                             }
                         }
                     }));
@@ -215,14 +215,14 @@ export class LabelsService {
                         action: (item, $event) => {
                             if ((<IFormData>formItem.data).labelRef.value) {
                                 const labels = this.split((<IFormData>formItem.data).labelRef.value);
-                                this.removeLabels(labels, this.selectionService.selectedRecords, _public);
+                                this.removeLabels(labels, this.selectionService.getSelectedIds(), _public);
                             }
                         }
                     }));
             });
         if(action){
             action.updater = (action) => {
-                action.hidden = this.selectionService.selectedRecords.length === 0;
+                action.hidden = !this.selectionService.haveSelectedRecords;
             };
             action.hidden = true;
         }
