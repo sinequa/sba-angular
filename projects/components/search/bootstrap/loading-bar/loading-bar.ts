@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {SearchService} from "../../search.service";
 
 // From https://stackoverflow.com/questions/34773266/how-to-write-css-keyframes-to-indeterminate-material-design-progress-bar
@@ -6,7 +6,7 @@ import {SearchService} from "../../search.service";
 @Component({
     selector: 'sq-loading-bar',
     template: `
-<div class="slider" *ngIf="searchService.searchActive">
+<div class="slider" *ngIf="isActive()">
 	<div class="line"></div>
   <div class="subline inc"></div>
   <div class="subline dec"></div>
@@ -53,7 +53,17 @@ animation: decrease 1s 0.25s infinite;
     `]
 })
 export class BsLoadingBar {
-    constructor(
-        public searchService: SearchService
-    ) { }
+  /**
+   * active can provided as a boolean to activate the loading bar.
+   * If it is not provided, the SearchService searchActive property is used.
+   */
+  @Input() active?: boolean;
+
+  constructor(
+    public searchService: SearchService
+  ) { }
+
+  isActive() {
+    return this.active === undefined ? this.searchService.searchActive : this.active;
+  }
 }
