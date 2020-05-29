@@ -279,13 +279,12 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
             return this.results.records
                 .filter(r => !!r[config.field])
                 .map<TimelineEvent>(r => {
-                    const selected =  this.selectionService.selectedRecords.indexOf(r.id) !== -1;
                     return {
                         id: r.id,
                         date: r[config.field],
-                        size: !config.size? 6 : typeof config.size === 'function'? config.size(r, selected) : config.size,
-                        styles: !config.styles? BsFacetTimelineComponent.defaultRecordStyle(selected) :
-                                typeof config.styles === 'function'? config.styles(r, selected) : 
+                        size: !config.size? 6 : typeof config.size === 'function'? config.size(r, r.$selected) : config.size,
+                        styles: !config.styles? BsFacetTimelineComponent.defaultRecordStyle(r.$selected) :
+                                typeof config.styles === 'function'? config.styles(r, r.$selected) : 
                                 config.styles,
                         display: config.display? config.display(r) : r.title,
                         // Custom property for click action
@@ -319,7 +318,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         }
 
         else {
-            throw new Error(`Aggregation ${aggregationName} does not exist in the Query web service"`);
+            throw new Error(`Aggregation ${aggregationName} does not exist in the Query web service`);
         }
     }
 
@@ -517,13 +516,15 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         
         const series: TimelineDate[] = [];
 
-        let _items = items.map(item => {
-            if(!(item.value instanceof Date)){
-                const val = item.value.toString();
-                item.value = moment(val.length <= 4? val + "-01" : val).toDate();
-            }
-            return item;
-        });
+        let _items = items
+            .filter(item => !!item.value)
+            .map(item => {
+                if(!(item.value instanceof Date)){
+                    const val = item.value.toString();
+                    item.value = moment(val.length <= 4? val + "-01" : val).toDate();
+                }
+                return item;
+            });
 
         if(range) {
             _items = _items.filter(item => 

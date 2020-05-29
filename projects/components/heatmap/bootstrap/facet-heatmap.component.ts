@@ -181,7 +181,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
      * Returns the list of actions to display for this facet component
      */
     get actions(): Action[] {
-        const actions: Action[] = [];        
+        const actions: Action[] = [];
         if(this.facetService.hasFiltered(this._name)){
             actions.push(this.clearFilters);
         }
@@ -193,6 +193,9 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
      * Queries the server for the heatmap data via the Search Service
      */
     getHeatmapData() {
+        if(!this.appService.getCCAggregation(this.aggregation)) {
+            throw new Error(`Aggregation ${this.aggregation} does not exist in the Query web service configuration`);
+        }
         const query = Utils.copy(this.searchService.query);
         query.action = "aggregate";
         query.aggregations = [this.aggregation];
@@ -325,7 +328,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
         if(this.results){
 
             this.results.records
-                .filter(r => this.selectionService.selectedRecords.indexOf(r.id) >= 0)
+                .filter(r => r.$selected)
                 .forEach(r => {
 
                     if(this.fieldCooc) {                

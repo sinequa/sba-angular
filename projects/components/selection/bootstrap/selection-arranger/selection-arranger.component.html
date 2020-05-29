@@ -1,0 +1,7 @@
+<div cdkDropList  (cdkDropListDropped)="dropRecord($event)">
+    <div class="card" *ngFor="let record of getRecords(); let i=index" cdkDrag>
+        <div class="record-placeholder" *cdkDragPlaceholder></div>
+        <ng-container *ngTemplateOutlet="recordTpl; context:{$implicit: record, index: i}"></ng-container>
+        <i class="position-absolute fas fa-times record-close" (click)="removeRecord(record)"></i>
+    </div>
+</div>

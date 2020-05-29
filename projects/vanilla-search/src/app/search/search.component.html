@@ -79,7 +79,7 @@
             <!-- List of documents (for loop) -->
             <div *ngFor="let record of results.records" class="record d-flex" 
                 (click)="onDocumentClicked(record, $event)"
-                [ngClass]="{'selected': selectionService.selectedRecords.includes(record.id) || record === openedDoc}">
+                [ngClass]="{'selected': record.$selected || record === openedDoc}">
                 <div class="flex-grow-1 overflow-hidden">
                     <div class="d-flex align-items-center">
                         <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')" [record]="record" class="ml-1"></sq-result-selector>
@@ -102,14 +102,14 @@
         <div class="col-md-5 col-lg-4 col-xl-5">
 
             <!-- Result selection toolbar -->
-            <div class="card mb-3" [ngClass]="{'d-inline-block': selectionService.selectedRecords.length === 0}"
+            <div class="card mb-3" [ngClass]="{'d-inline-block': selectionService.haveSelectedRecords}"
                 *ngIf="ui.screenSizeIsGreater('sm')">
                 <div class="card-header d-flex flex-row align-items-center border-0">
-                    <span class="mr-auto">{{ 'msg#selection.selectedDocuments' | sqMessage:{values: {count: selectionService.selectedRecords.length} } }}</span>
+                    <span class="mr-auto">{{ 'msg#selection.selectedDocuments' | sqMessage:{values: {count: selectionService.getSelectedCount()} } }}</span>
                     <sq-results-selector [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-results-selector>
                 </div>
             </div>
-            
+
             <!-- Scaled-down preview -->
             <sq-facet-card *ngIf="openedDoc" [collapsible]="false" class="d-block mb-3 facet-preview"
                 [buttonsStyle]="isDark()? 'dark' : 'light'"

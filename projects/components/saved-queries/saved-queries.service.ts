@@ -369,7 +369,7 @@ export class SavedQueriesService implements OnDestroy {
                     model.webService,
                     this.searchService.query,
                     this.searchService.results,
-                    this.selectionService.selectedRecords,
+                    this.selectionService.getSelectedIds(),
                     model.format,
                     model.maxCount);
             case ExportSourceType.SavedQuery:
