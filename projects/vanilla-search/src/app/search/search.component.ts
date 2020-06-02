@@ -174,16 +174,6 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   // VERY SPECIFIC TO THIS APP:
   // Make sure the click is not meant to trigger an action (from sq-result-source or sq-result-title)
-  private isContainedIn(element: HTMLElement | null, ...tagNames: string[]): boolean {
-    while (element) {
-      if (element && tagNames.includes(element.tagName)) {
-        return true;
-      }
-      element = element.parentElement;
-    }
-    return false;
-  }
-
   private isClickAction(event: Event): boolean {
     if (event.type !== 'click') {
       return true;
@@ -195,7 +185,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     return event.type !== 'click' ||
         target.tagName === "A" ||
         target.tagName === "INPUT" ||
-        this.isContainedIn(target, "SQ-RESULT-SELECTOR", "SQ-RESULT-TITLE");
+        target.matches("sq-result-select *, .sq-result-title, sq-result-source *");
   }
 
 
