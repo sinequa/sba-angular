@@ -19,7 +19,6 @@ import {SponsoredResults} from './sponsored-results/sponsored-results';
 import {ResultsCounter} from "./results-counter/results-counter";
 import {ResultIcon} from "./result-icon/result-icon";
 import {ResultEntitySummary} from "./result-entity-summary/result-entity-summary";
-import {ResultTimeline} from "./result-timeline/result-timeline";
 
 @NgModule({
     imports: [
@@ -30,8 +29,7 @@ import {ResultTimeline} from "./result-timeline/result-timeline";
 
         UtilsModule,
         CollapseModule,
-        MetadataModule,
-
+        MetadataModule
     ],
     declarations: [
         ResultTitle, ResultExtracts,
@@ -39,7 +37,7 @@ import {ResultTimeline} from "./result-timeline/result-timeline";
         ResultThumbnail, UserRating,
         SponsoredResults, ResultsCounter,
         ResultIcon, ResultSource,
-        ResultEntitySummary, ResultTimeline
+        ResultEntitySummary
     ],
     exports: [
         ResultTitle, ResultExtracts,
@@ -47,7 +45,7 @@ import {ResultTimeline} from "./result-timeline/result-timeline";
         ResultThumbnail, UserRating,
         SponsoredResults, ResultsCounter,
         ResultIcon, ResultSource,
-        ResultEntitySummary, ResultTimeline
+        ResultEntitySummary
     ]
 })
 export class ResultModule {
