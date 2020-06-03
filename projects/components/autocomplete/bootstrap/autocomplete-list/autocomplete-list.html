@@ -11,6 +11,6 @@
         </a>
     </div>
     <div class="card-footer" *ngIf="footerTpl">
-        <ng-container *ngTemplateOutlet="footerTpl"></ng-container>
+        <ng-container *ngTemplateOutlet="footerTpl; context:{$implicit: _items}"></ng-container>
     </div>
 </div>

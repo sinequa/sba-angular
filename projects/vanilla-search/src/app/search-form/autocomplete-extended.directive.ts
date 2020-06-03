@@ -9,7 +9,7 @@ import { SearchService } from '@sinequa/components/search';
 import { BasketsService } from '@sinequa/components/baskets';
 import { Observable, forkJoin, from, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { Basket } from 'projects/components/baskets';
+import { Basket } from '@sinequa/components/baskets';
 
 
 /**
@@ -81,7 +81,8 @@ export class AutocompleteExtended extends Autocomplete {
                 // directive only sees a single source.
                 forkJoin(...dataSources).pipe(
                     map((suggests) => {
-                        return [].concat(...suggests);
+                        return [].concat(...suggests)
+                            .sort((a,b) => (b['score'] || 0) - (a['score'] || 0)); // autocomplete items returned by searchData still have their "score" attribute, which is consistent across categories
                     }),
                     catchError((err, caught) => {
                         console.error(err);

@@ -100,7 +100,8 @@ export class SuggestService {
                     displayHtml: item.displayHtml,
                     category,
                     label: label || category,
-                    data: item.data
+                    data: item.data,
+                    score: item.score
                 };
             } );
     }
