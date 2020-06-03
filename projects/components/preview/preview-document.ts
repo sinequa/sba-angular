@@ -12,6 +12,17 @@ export interface HighlightCategoryFilterState {
 
 export type HighlightFilters = { [key: string]: HighlightCategoryFilterState } | string[];
 
+// forEach on a NodeList is polyfilled for IE but not at all necessarily when the list comes from a document
+// in another frame. This function is used to perform the forEach taking this into account.
+function forEach<T extends Node>(nodeList: NodeListOf<T>, callbackfn: (value: T, key: number, parent: NodeListOf<T> | T[]) => void): void {
+    if (!nodeList.forEach) {
+        Array.from(nodeList).forEach(callbackfn);
+    }
+    else {
+        nodeList.forEach(callbackfn);
+    }
+}
+
 /**
  * This class offers an API to manipulate the HTML of a preview document.
  * - Insert elements dynamically in the DOM of the preview (eg. tooltips)
@@ -77,12 +88,12 @@ export class PreviewDocument {
         if (index < 0) {
             return "";
         }
-        const nodes: NodeList = this.document.querySelectorAll("#"+categoryId + "_" + index);
-        if (nodes == null || nodes.length ===0) {
+        const nodes = this.document.querySelectorAll("#"+categoryId + "_" + index);
+        if (!nodes || nodes.length === 0) {
             return "";
         }
         let text = "";
-        nodes.forEach(n => text += (n['innerHTML'] || n.textContent));
+        forEach(nodes, n => text += (n['innerHTML'] || n.textContent));
         return text;
     }
 
@@ -172,9 +183,9 @@ export class PreviewDocument {
      * @param filters object where each key provides a filter for each category of entity/highlight
      */
     public updateHighlightFilterState(filters: HighlightFilters): void {
-        const elements: NodeListOf<Element> = this.document.querySelectorAll("[data-entity-display], .extractslocations, .matchlocations");
+        const elements = this.document.querySelectorAll("[data-entity-display], .extractslocations, .matchlocations");
         if (Utils.isArray(filters)) {
-            elements.forEach(element => {
+            forEach<Element>(elements, element => {
                 const highlight = filters.some(category => element.classList.contains(category));
                 if (highlight) {
                     element.classList.remove(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
@@ -185,7 +196,7 @@ export class PreviewDocument {
             });
         }
         else {
-            elements.forEach(element => {
+            forEach(elements, element => {
                 if (PreviewDocument.elementIsFilteredOut(element, filters)) {
                     element.classList.add(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
                 }
@@ -203,8 +214,8 @@ export class PreviewDocument {
      * @param value e.g. "BILL GATES"
      */
     public toggleHighlight(category: string, on: boolean, value?: string) {
-        const elements: NodeListOf<Element> = this.document.querySelectorAll("."+category);
-        elements.forEach(element => {
+        const elements = this.document.querySelectorAll("."+category);
+        forEach(elements, element => {
             if(!value
                 || (element.hasAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE) && value === element.getAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE))
                 || (element.hasAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE) && value === element.getAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE))) {
