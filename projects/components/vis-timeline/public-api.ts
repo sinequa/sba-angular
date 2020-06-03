@@ -1,2 +1,2 @@
-export * from "./result-module";
+export * from "./vis-timeline-module";
 export * from "./result-timeline/result-timeline";
