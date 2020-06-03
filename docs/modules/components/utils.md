@@ -342,6 +342,46 @@ Example:
 
 {% endraw %}
 
+#### FocusKeyList and FocusKeyListItem directives
+
+The [`sqFocusKeyList` directive]({{site.baseurl}}components/directives/FocusKeyListDirective.html) and 
+[`sqFocusKeyListItem` directive]({{site.baseurl}}components/directives/FocusKeyListItemDirective.html) are used together
+to provide keyboard navigation functionality to items in lists, such as a results list. The `sqFocusKeyList` directive is added
+to the container element and the `sqFocusKeyListItem` directive is added to each child element. The `sqFocusKeyList` directive has
+the following inputs:
+
+* `activeItem`: the index of the currently active item
+* `withWrap`: a boolean value indicating whether navigation should wrap on the first and last items. The default is `true`.
+
+Additionally, `sqFocusKeyList` raises the `itemSelect` event with the index of the newly selected item.
+
+Example:
+{% raw %}
+
+```html
+<div class="container" sqFocusKeyList [activeItem]="currentIndex" (itemSelect)="currentIndex = $event">
+  <div *ngFor="let item of items" class="item" sqFocusKeyListItem>{{item.name}}</div>
+</div>
+```
+
+{% endraw %}
+
+#### ResizeEvent directive.
+
+The [`sqResize` directive]({{site.baseurl}}components/directives/ResizeEventDirective.html) uses the native
+[ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver) browser API to generate an
+event any time the associated element changes size. The new `contentRect` of the element is passed with the event.
+A polyfill is used to emulate this functionality for Internet Explorer.
+
+Example:
+{% raw %}
+
+```html
+<div (sqResize)="onResize($event)"></div>
+```
+
+{% endraw %}
+
 ### Services
 
 #### UIService

@@ -168,6 +168,7 @@ export class SearchService implements OnDestroy {
         if (results === this.results) {
             return;
         }
+        this._events.next({type: "before-new-results", results});
         this.results = results;
         this.treatQueryIntents(results);
         this.updateBreadcrumbs(results, options);
@@ -248,7 +249,7 @@ export class SearchService implements OnDestroy {
         if (!this.results || !this.results.rowCount) {
             return 0;
         }
-        return Math.ceil(this.results.rowCount / this.pageSize);
+        return Math.ceil(this.results.rowCount / this.results.pageSize);
     }
 
     makeQuery(): Query {
@@ -473,6 +474,11 @@ export class SearchService implements OnDestroy {
         return window.history.state || {};
     }
 
+    public isSearchRouteActive(): boolean {
+        const url = Utils.makeURL(this.router.url);
+        return this.isSearchRoute(url.pathname);
+    }
+
     protected isSearchRoute(pathname): boolean {
         if (this.options.routes) {
             for (const route of this.options.routes) {
@@ -484,7 +490,7 @@ export class SearchService implements OnDestroy {
         return false;
     }
 
-    protected ensureQueryFromUrl(): Query | undefined {
+    public getQueryFromUrl(): Query | undefined {
         let query: Query | undefined;
         const url = Utils.makeURL(this.router.url);
         if (this.isSearchRoute(url.pathname)) {
@@ -496,6 +502,11 @@ export class SearchService implements OnDestroy {
                 catch {}
             }
         }
+        return query;
+    }
+
+    protected ensureQueryFromUrl(): Query | undefined {
+        const query = this.getQueryFromUrl();
         if (!query) {
             this.clear(false);
             return undefined;
@@ -920,7 +931,7 @@ export module SearchService {
     }
 
     export interface Event {
-        type: "new-query" | "update-query" | "make-query" | "new-results" | "make-query-intent-data" |
+        type: "new-query" | "update-query" | "make-query" | "before-new-results" | "new-results" | "make-query-intent-data" |
             "process-query-intent-action" | "make-audit-event" |
             "before-select-tab" | "after-select-tab" | "clear" | "open-original-document" | "before-search";
     }
@@ -938,6 +949,11 @@ export module SearchService {
     export interface MakeQueryEvent extends Event {
         type: "make-query";
         query: Query;
+    }
+
+    export interface BeforeNewResultsEvent extends Event {
+        type: "before-new-results";
+        results: Results | undefined;
     }
 
     export interface NewResultsEvent extends Event {
@@ -993,6 +1009,7 @@ export module SearchService {
         NewQueryEvent |
         UpdateQueryEvent |
         MakeQueryEvent |
+        BeforeNewResultsEvent |
         NewResultsEvent |
         MakeQueryIntentDataEvent |
         ProcessQueryIntentActionEvent |

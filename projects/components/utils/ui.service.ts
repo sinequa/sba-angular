@@ -1,6 +1,7 @@
 import {Injectable, Inject, InjectionToken, OnDestroy, ComponentFactory, ComponentRef, Type} from "@angular/core";
 import {Subject, Observable} from "rxjs";
 import {Utils, MapOf} from "@sinequa/core/base";
+import elementResizeDetectorMaker from "element-resize-detector";
 
 export interface CaretPosition {
     start: number;
@@ -17,9 +18,7 @@ export class UIService implements OnDestroy {
     _priorityResizeEvent = new Subject<UIEvent>();
     screenSizes: string[];
     screenSize: string; // one of the screen size rules values
-    //TODO - review - use EventEmitters for this?
-    addElementResizeListener: (element, fn) => void;
-    removeElementResizeListener: (element, fn) => void;
+    elementResizeDetector: any;
     factories = new Map<Type<any>, ComponentFactory<any>>();
 
     constructor(
@@ -28,7 +27,7 @@ export class UIService implements OnDestroy {
         this.screenSizes = ["xs", "sm", "md", "lg", "xl", "xxl"]; // in ascending size order
         this.setScreenSize();
         window.addEventListener("resize", this.resizeEventListener);
-        initElementResizeListener(this);
+        this.elementResizeDetector = elementResizeDetectorMaker({ strategy: "scroll" });
     }
 
     protected resizeEventListener = Utils.frame((event: UIEvent) => {
@@ -390,6 +389,13 @@ export class UIService implements OnDestroy {
         return document.body.getBoundingClientRect();
     }
 
+    addElementResizeListener(element: HTMLElement, listener: (this: HTMLElement) => void) {
+        this.elementResizeDetector.listenTo(element, listener);
+    }
+
+    removeElementResizeListener(element: HTMLElement, listener: (this: HTMLElement) => void) {
+        this.elementResizeDetector.removeListener(element, listener);
+    }
 }
 
 export module UIService {
@@ -399,152 +405,4 @@ export module UIService {
         collapseToStart,
         collapse
     }
-}
-
-/**
-* Detect Element Resize
-*
-* https://github.com/sdecima/javascript-detect-element-resize
-* Sebastian Decima
-*
-* version: 0.5.3
-**/
-
-function initElementResizeListener (service) {
-    const attachEvent = (<any>document).attachEvent;
-    let stylesCreated = false;
-
-    //NB SCRIPT1047: In strict mode, function declarations cannot be nested inside a statement or block. They may only appear at the top level or directly inside a function body.
-    //if (!attachEvent) {
-    const requestFrame = (function(){
-        const raf = window.requestAnimationFrame || (<any>window).mozRequestAnimationFrame || (<any>window).webkitRequestAnimationFrame ||
-                            function(fn){ return window.setTimeout(fn, 20); };
-        return function(fn){ return raf(fn); };
-    })();
-
-    const cancelFrame = (function(){
-        const cancel = window.cancelAnimationFrame || (<any>window).mozCancelAnimationFrame || (<any>window).webkitCancelAnimationFrame ||
-                                window.clearTimeout;
-        return function(id){ return cancel(id); };
-    })();
-
-    function resetTriggers(element){
-        const triggers = element.__resizeTriggers__,
-            expand = triggers.firstElementChild,
-            contract = triggers.lastElementChild,
-            expandChild = expand.firstElementChild;
-        contract.scrollLeft = contract.scrollWidth;
-        contract.scrollTop = contract.scrollHeight;
-        expandChild.style.width = expand.offsetWidth + 1 + 'px';
-        expandChild.style.height = expand.offsetHeight + 1 + 'px';
-        expand.scrollLeft = expand.scrollWidth;
-        expand.scrollTop = expand.scrollHeight;
-    }
-
-    function checkTriggers(element){
-        return element.offsetWidth !== element.__resizeLast__.width ||
-                        element.offsetHeight !== element.__resizeLast__.height;
-    }
-
-    function scrollListener(this: HTMLElement, e){
-        const element = this;
-        resetTriggers(this);
-        if ((this as any).__resizeRAF__) cancelFrame((this as any).__resizeRAF__);
-        (this as any).__resizeRAF__ = requestFrame(function(){
-            if (checkTriggers(element)) {
-                (element as any).__resizeLast__.width = element.offsetWidth;
-                (element as any).__resizeLast__.height = element.offsetHeight;
-                (element as any).__resizeListeners__.forEach(function(fn){
-                    fn.call(element, e);
-                });
-            }
-        });
-    }
-
-        /* Detect CSS Animations support to detect element display/re-attach */
-    let animation = false,
-        keyframeprefix = '',
-        animationstartevent = 'animationstart';
-    const domPrefixes = 'Webkit Moz O ms'.split(' ');
-    const startEvents = 'webkitAnimationStart animationstart oAnimationStart MSAnimationStart'.split(' ');
-    let pfx  = '';
-    {
-        const elm = document.createElement('fakeelement');
-        if( elm.style.animationName !== undefined ) { animation = true; }
-
-        if( animation === false ) {
-            for( let i = 0; i < domPrefixes.length; i++ ) {
-                if( elm.style[ domPrefixes[i] + 'AnimationName' ] !== undefined ) {
-                    pfx = domPrefixes[ i ];
-                    keyframeprefix = '-' + pfx.toLowerCase() + '-';
-                    animationstartevent = startEvents[ i ];
-                    animation = true;
-                    break;
-                }
-            }
-        }
-    }
-
-    const animationName = 'resizeanim';
-    const animationKeyframes = '@' + keyframeprefix + 'keyframes ' + animationName + ' { from { opacity: 0; } to { opacity: 0; } } ';
-    const animationStyle = keyframeprefix + 'animation: 1ms ' + animationName + '; ';
-    //}
-
-    function createStyles() {
-        if (!stylesCreated) {
-            //opacity:0 works around a chrome bug https://code.google.com/p/chromium/issues/detail?id=286360
-            const css = (animationKeyframes ? animationKeyframes : '') +
-                    '.resize-triggers { ' + (animationStyle ? animationStyle : '') + 'visibility: hidden; opacity: 0; } ' +
-                    '.resize-triggers, .resize-triggers > div, .contract-trigger:before { content: \" \"; display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; } .resize-triggers > div { background: #eee; overflow: auto; } .contract-trigger:before { width: 200%; height: 200%; }',
-                head = document.head || document.getElementsByTagName('head')[0],
-                style = document.createElement('style');
-
-            style.type = 'text/css';
-            if ((<any>style).styleSheet) {
-                (<any>style).styleSheet.cssText = css;
-            } else {
-                style.appendChild(document.createTextNode(css));
-            }
-
-            head.appendChild(style);
-            stylesCreated = true;
-        }
-    }
-
-    service.addElementResizeListener = function(element, fn){
-        if (attachEvent) element.attachEvent('onresize', fn);
-        else {
-            if (!element.__resizeTriggers__) {
-                if (getComputedStyle(element).position === 'static') element.style.position = 'relative';
-                createStyles();
-                element.__resizeLast__ = {};
-                element.__resizeListeners__ = [];
-                (element.__resizeTriggers__ = document.createElement('div')).className = 'resize-triggers';
-                element.__resizeTriggers__.innerHTML = '<div class="expand-trigger"><div></div></div>' +
-                                                                                        '<div class="contract-trigger"></div>';
-                element.appendChild(element.__resizeTriggers__);
-                resetTriggers(element);
-                element.addEventListener('scroll', scrollListener, true);
-
-                /* Listen for a css animation to detect element display/re-attach */
-                // tslint:disable-next-line: no-unused-expression
-                animationstartevent && element.__resizeTriggers__.addEventListener(animationstartevent, function(e) {
-                    if(e.animationName === animationName)
-                        resetTriggers(element);
-                });
-            }
-            element.__resizeListeners__.push(fn);
-        }
-    };
-
-    service.removeElementResizeListener = function(element, fn){
-        if (attachEvent) element.detachEvent('onresize', fn);
-        else {
-            element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(fn), 1);
-            if (!element.__resizeListeners__.length) {
-                    element.removeEventListener('scroll', scrollListener);
-                    element.__resizeTriggers__ = !element.removeChild(element.__resizeTriggers__);
-            }
-        }
-    };
 }
