@@ -132,20 +132,6 @@ This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/R
 </sq-facet-card>
 ```
 
-### Chart Facet
-
-The [`sq-facet-chart`]({{site.baseurl}}components/components/BsFacetChart.html) component displays a list of metadata as a chart. The user can click on items in the chart to filter the results.
-
-![Chart facet]({{site.baseurl}}assets/modules/facet/facet-chart.png){: .d-block .mx-auto}
-
-This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input and the name of the aggregation to work properly.
-
-```html
-<sq-facet-card [title]="'Companies'" [icon]="'fas fa-building'">
-    <sq-facet-chart #facet [results]="results" [aggregation]="'Company'"></sq-facet-chart>
-</sq-facet-card>
-```
-
 ### Multiple-type Facet
 
 The "multiple-type" facet [`sq-facet-multi`]({{site.baseurl}}components/components/BsFacetMulti.html) displays multiple types of metadata in the same facet. The user selects the type of metadata, which then changes the view of the facet into one of the classical views above.

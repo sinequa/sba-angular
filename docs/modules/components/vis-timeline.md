@@ -12,9 +12,11 @@ nav_order: 17
 
 Please checkout the [reference documentation]({{site.baseurl}}components/modules/VisTimelineModule.html) auto-generated from source code.
 
+Also checkout the official documentation of the [Vis Timeline](https://visjs.github.io/vis-timeline/docs/timeline/) library, as well as the Git repository of the [ngx-vis](https://github.com/visjs/ngx-vis) library.
+
 ## Features
 
-This module includes a sample Timeline visualization for dates and events, based on the [Vis library](https://visjs.org/). The timeline can display punctual dates (generic events) or events (dates associated to an event name).
+This module includes a sample Timeline visualization for dates and events, based on the [Vis library](https://visjs.org/) and its Angular adapter [ngx-vis](https://github.com/visjs/ngx-vis). The timeline can display punctual *dates* (generic events) or *events* (dates associated to an event name).
 
 The module only includes one component, which can be used as is, or more probably taken as a starting point for further development using the Vis library API.
 
@@ -33,7 +35,18 @@ import { VisTimelineModule } from '@sinequa/components/vis-timeline';
     VisTimelineModule
 ```
 
-Import the following stylesheet in your app's global stylesheet:
+Note that if you need to use the Vis Timeline library directly (without using our wrapper module), you can simply import the `VisModule` as follow:
+
+```ts
+import {VisModule} from "ngx-vis";
+
+@NgModule({
+  imports: [
+    ...
+    VisModule
+```
+
+In any case you will also need to import the following stylesheet in your app's global stylesheet:
 
 ```scss
 // Vis.js styles
