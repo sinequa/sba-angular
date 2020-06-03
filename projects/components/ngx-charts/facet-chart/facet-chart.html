@@ -1,0 +1,3 @@
+<div *ngIf="!isHidden()" class="card-body">
+    <sq-ngx-chart [options]="options" [data]="dataPoints" (item-click)="click($event)" #chart></sq-ngx-chart>
+</div>
