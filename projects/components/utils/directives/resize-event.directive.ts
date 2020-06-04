@@ -19,7 +19,7 @@ export class ResizeEventDirective implements AfterViewInit, OnDestroy {
 
     protected raiseEvent = () => {
         const contentRect = this.elementRef.nativeElement.getBoundingClientRect();
-        this.resizeEvent.next(contentRect);
+        this.resizeEvent.emit(contentRect);
     }
 
     ngAfterViewInit() {
@@ -27,7 +27,7 @@ export class ResizeEventDirective implements AfterViewInit, OnDestroy {
             this.resizeObserver = new (window as any).ResizeObserver((entries) => {
                 this.zone.run(() => {
                     const contentRect = (entries?.length === 1 && entries[0].contentRect);
-                    this.resizeEvent.next(contentRect);
+                    this.resizeEvent.emit(contentRect);
                 });
             });
             this.resizeObserver.observe(this.elementRef.nativeElement);

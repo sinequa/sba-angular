@@ -36,6 +36,6 @@ export class FocusKeyListDirective implements OnChanges, AfterContentInit {
     @HostListener("keydown", ["$event"])
     onKeydown(event) {
         this.keyManager.onKeydown(event);
-        this.itemSelect.next(this.keyManager.activeItemIndex !== null ? this.keyManager.activeItemIndex : undefined);
+        this.itemSelect.emit(this.keyManager.activeItemIndex !== null ? this.keyManager.activeItemIndex : undefined);
     }
 }
