@@ -1,5 +1,6 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
+import {A11yModule} from "@angular/cdk/a11y";
 
 import {IntlModule} from "@sinequa/core/intl";
 
@@ -19,6 +20,9 @@ import {ClickOutside} from "./directives/click-outside";
 import {Load} from "./directives/load";
 import {MediaIf} from "./directives/media-if";
 import {ScrollIntoView} from "./directives/scroll-into-view";
+import {FocusKeyListDirective} from "./directives/focus-key-list.directive";
+import {FocusKeyListItemDirective} from "./directives/focus-key-list-item.directive";
+import {ResizeEventDirective} from "./directives/resize-event.directive";
 
 // UI Service
 import {SCREEN_SIZE_RULES} from "./ui.service";
@@ -35,15 +39,16 @@ export const defaultScreenSizeRules = {
 @NgModule({
     imports: [
         CommonModule,
+        A11yModule,
         IntlModule
     ],
     declarations: [
         DatePipe, ExprPipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
-        Autofocus, ClickOutside, Load, MediaIf, ScrollIntoView,
+        Autofocus, ClickOutside, Load, MediaIf, ScrollIntoView, FocusKeyListDirective, FocusKeyListItemDirective, ResizeEventDirective,
     ],
     exports: [
         DatePipe, ExprPipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
-        Autofocus, ClickOutside, Load, MediaIf, ScrollIntoView,
+        Autofocus, ClickOutside, Load, MediaIf, ScrollIntoView, FocusKeyListDirective, FocusKeyListItemDirective, ResizeEventDirective,
     ],
     providers: [
         {

@@ -1,6 +1,5 @@
 import {Injectable, Inject, InjectionToken} from "@angular/core";
-import {Subject} from "rxjs";
-import {SearchService} from "@sinequa/components/search";
+import {Subject, Observable} from "rxjs";
 
 export interface ResultsView {
     type: string;
@@ -11,6 +10,30 @@ export interface ResultsView {
     excludedTabs?: string[];
 }
 
+export interface ResultsViewEvent {
+    type: "before-select" | "after-select" | "select-cancelled";
+}
+
+export interface ResultsViewBeforeSelectEvent extends ResultsViewEvent {
+    type: "before-select";
+    view: ResultsView;
+    promises: Promise<boolean>[];
+}
+
+export interface ResultsViewAfterSelectEvent extends ResultsViewEvent {
+    type: "after-select";
+    view: ResultsView;
+}
+
+export interface ResultsViewSelectCancelledEvent extends ResultsViewEvent {
+    type: "select-cancelled";
+    view: ResultsView;
+}
+
+export type ResultsViewEvents =
+    ResultsViewBeforeSelectEvent |
+    ResultsViewAfterSelectEvent |
+    ResultsViewSelectCancelledEvent;
 
 export const RESULTS_VIEWS = new InjectionToken<ResultsView[]>("RESULTS_VIEWS");
 export const DEFAULT_VIEW = new InjectionToken<ResultsView>("DEFAULT_VIEW");
@@ -23,8 +46,8 @@ export class ResultsViewService {
     protected _resultsView : ResultsView;
     protected readonly _resultsViews : ResultsView[];
 
-    public resultsViewSelected = new Subject<any>();
-
+    protected _resultsViewSelected = new Subject<ResultsView>();
+    protected _events = new Subject<ResultsViewEvents>();
 
     /**
      * Constructor
@@ -33,14 +56,21 @@ export class ResultsViewService {
 
     constructor(
         @Inject(DEFAULT_VIEW) public defaultView: ResultsView,
-        @Inject(RESULTS_VIEWS) resultsViews: ResultsView[],
-        private searchService: SearchService
-    ){
+        @Inject(RESULTS_VIEWS) resultsViews: ResultsView[]
+    ) {
         this._resultsViews = resultsViews;
         this._resultsView = this.defaultView;
     }
 
     // GETTERS
+
+    public get resultsViewSelected(): Observable<ResultsView> {
+        return this._resultsViewSelected;
+    }
+
+    public get events(): Observable<ResultsViewEvents> {
+        return this._events;
+    }
 
     public get resultsView(): ResultsView {
         return this._resultsView;
@@ -52,12 +82,41 @@ export class ResultsViewService {
 
     // EVENT HANDLERS
 
-    public selectResultsView(view: ResultsView){
+    private setResultsView(view: ResultsView) {
+        this._resultsView = view;
+        this._events.next({type: "after-select", view});
+        this._resultsViewSelected.next(view);
+    }
+
+    public selectResultsView(view: ResultsView) {
         if (view) {
-            this._resultsView = view;
-            this.resultsViewSelected.next(view);
-            // Set resultsview in URL :
-            this.searchService.queryStringParams.resultsView = view.name;
+            // Raise before event...
+            const beforeEvent: ResultsViewBeforeSelectEvent = {
+                type: "before-select",
+                view,
+                promises: []
+            }
+            this._events.next(beforeEvent);
+            if (beforeEvent.promises.length === 0) {
+                this.setResultsView(view);
+            }
+            else {
+                Promise.all(beforeEvent.promises)
+                    .then((results) => {
+                        const ok = results.every(result => result);
+                        if (ok) {
+                            this.setResultsView(view);
+                        }
+                        else {
+                            console.log("selectResultsView cancelled");
+                            this._events.next({type: "select-cancelled", view});
+                        }
+                    })
+                    .catch((reason) => {
+                        console.log("selectResultsView error:", reason);
+                        this._events.next({type: "select-cancelled", view});
+                    });
+            }
         }
         else {
             console.error("Undefined Results View");
@@ -69,6 +128,10 @@ export class ResultsViewService {
         if (view) {
             this.selectResultsView(view);
         }
+    }
+
+    public getView(viewName): ResultsView | undefined {
+        return this.views.find(v => v.name === viewName);
     }
 
     // Former Search service methods
