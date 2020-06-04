@@ -19,11 +19,11 @@ export interface ChartDataPoint {
 }
 
 @Component({
-    selector: "sq-chart",
+    selector: "sq-ngx-chart",
     templateUrl: "./chart.html",
     styleUrls: ["./chart.scss"]
 })
-export class BsChart implements OnInit, OnDestroy, OnChanges, DoCheck {
+export class NgxChart implements OnInit, OnDestroy, OnChanges, DoCheck {
     @Input() options: ChartOptions;
     @Input() data: ChartDataPoint[];
     @Output("item-click") itemClickEvent: EventEmitter<ChartDataPoint>;

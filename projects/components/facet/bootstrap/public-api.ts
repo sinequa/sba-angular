@@ -1,7 +1,5 @@
-export * from "./chart/chart";
 export * from "./facet-bar/facet-bar";
 export * from "./facet-card/facet-card";
-export * from "./facet-chart/facet-chart";
 export * from "./facet-filters/facet-filters";
 export * from "./facet-filters-background/facet-filters-background";
 export * from "./facet-list/facet-list";

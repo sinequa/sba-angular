@@ -129,12 +129,3 @@ The [`sq-result-entity-summary`]({{site.baseurl}}components/components/ResultEnt
 ```html
 <sq-result-entity-summary [record]="record" [highlightedEntities]="['person', 'geo', 'company']"></sq-result-entity-summary>
 ```
-
-### Document timeline
-
-The [`sq-result-timeline`]({{site.baseurl}}components/components/ResultTimeline.html) component displays a timeline of the different dates and events found in the document. It is not a generic component since it assumes you have extracted specific types of entities during the indexing.
-
-```html
-<sq-result-timeline [record]="record" [dates]="record['date']" [events]="record['event']"></sq-result-timeline>
-```
-
