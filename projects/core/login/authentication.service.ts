@@ -421,6 +421,51 @@ export class AuthenticationService extends HttpService {
         return true;
     }
 
+    private initiateAutoAuthentication(): boolean {
+        if (!this.startConfig.usePopupForLogin && this.autoLoginActive) {
+            let observable: Observable<{redirectUrl: string}>;
+            if (this.startConfig.autoOAuthProvider) {
+                observable = this.httpClient.post<{redirectUrl: string}>(this.makeUrl("security.oauth"),
+                    {
+                        action: "getcode",
+                        provider: this.startConfig.autoOAuthProvider,
+                        tokenInCookie: true,
+                        originalUrl: window.location.href
+                    },
+                    {
+                        params: this.makeParams({
+                            noUserOverride: true,
+                            noAutoAuthentication: true
+                        })
+                    });
+            }
+            else {
+                observable = this.httpClient.post<{redirectUrl: string}>(this.makeUrl("security.saml"),
+                    {
+                        action: "getresponse",
+                        provider: this.startConfig.autoSAMLProvider,
+                        tokenInCookie: true,
+                        originalUrl: window.location.href,
+                    },
+                    {
+                        params: this.makeParams({
+                            noUserOverride: true,
+                            noAutoAuthentication: true
+                        })
+                    });
+            }
+            observable.subscribe(
+                (response) => {
+                    window.location.replace(response.redirectUrl);
+                }
+            );
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     /**
      * Initiate the auto-authentication process if an automatic OAuth or SAML provider is configured.
      * The {@LoginService} calls this method at startup. First, an attempt is made to retrieve a CSRF token.
@@ -429,56 +474,30 @@ export class AuthenticationService extends HttpService {
      * the browser to continue the normal OAuth/SAML autentication flow. A successful authentiction will culminate
      * in the SBA being loaded a second time, this method being called again and the attempt to retrieve a CSRF
      * token succeeding because a valid JWT cookie will now be present.
+     *
+     * A CSRF token is always requested to allow automatic login if a valid web token cookie has previously been
+     * written via, for example, a login to the admin console.
      */
     autoAuthenticate(): Observable<void> {
-        if (!this.startConfig.usePopupForLogin && this.autoLoginActive) {
-            return this.tokenService.getCsrfToken().pipe(
-                map((csrfToken) => {
-                    this.setCsrfToken(csrfToken, this.startConfig.autoOAuthProvider || this.startConfig.autoSAMLProvider);
-                }),
-                catchError((error) => {
-                    // Begin auto authentication
-                    let observable: Observable<{redirectUrl: string}>;
-                    if (this.startConfig.autoOAuthProvider) {
-                        observable = this.httpClient.post<{redirectUrl: string}>(this.makeUrl("security.oauth"),
-                            {
-                                action: "getcode",
-                                provider: this.startConfig.autoOAuthProvider,
-                                tokenInCookie: true,
-                                originalUrl: window.location.href
-                            },
-                            {
-                                params: this.makeParams({
-                                    noUserOverride: true,
-                                    noAutoAuthentication: true
-                                })
-                            });
-                    }
-                    else {
-                        observable = this.httpClient.post<{redirectUrl: string}>(this.makeUrl("security.saml"),
-                            {
-                                action: "getresponse",
-                                provider: this.startConfig.autoSAMLProvider,
-                                tokenInCookie: true,
-                                originalUrl: window.location.href,
-                            },
-                            {
-                                params: this.makeParams({
-                                    noUserOverride: true,
-                                    noAutoAuthentication: true
-                                })
-                            });
-                    }
-                    observable.subscribe(
-                        (response) => {
-                            window.location.replace(response.redirectUrl);
-                        }
-                    );
+        return this.tokenService.getCsrfToken().pipe(
+            map((csrfToken) => {
+                // Token can be empty as getCsrfToken suppresses application errors (no cookie or cookie invalid)
+                // (We do this to avoid having errors in the console for normal situations.)
+                if (csrfToken) {
+                    this.setCsrfToken(csrfToken);
+                }
+                else {
+                    this.initiateAutoAuthentication();
+                }
+            }),
+            catchError((error) => {
+                // We should rarely have an error now as getCsrfToken
+                // suppresses the application-level ones
+                if (this.initiateAutoAuthentication()) {
                     return throwError(error);
-                }));
-        }
-        else {
-            return of(undefined);
-        }
+                }
+                // Swallow the error and continue with non-auto login process
+                return of(undefined);
+            }));
     }
 }
