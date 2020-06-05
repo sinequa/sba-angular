@@ -29,6 +29,7 @@ export class TokenService extends HttpService {
         const observable = this.httpClient.get<{csrfToken: string}>(this.makeUrl("challenge"), {
             params: this.makeParams({
                 action: "getCsrfToken",
+                suppressErrors: !notify,
                 noUserOverride: true,
                 noAutoAuthentication: true,
                 noNotify: !notify
