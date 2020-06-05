@@ -178,14 +178,14 @@ export class SearchComponent implements OnInit, OnDestroy {
     if (event.type !== 'click') {
       return true;
     }
-    if (!event.target) {
+    const target = event.target as HTMLElement;
+    if (!target) {
       return false;
     }
     return event.type !== 'click' ||
-        event.target['tagName'] === 'A' ||
-        event.target['tagName'] === 'INPUT' ||
-        event.target['tagName'] === 'SPAN' && event.target['classList'] && (event.target['classList'].contains('link') || event.target['classList'].contains('custom-control-label')) ||
-        event.target['tagName'] === 'DIV' && event.target['classList'] && event.target['classList'].contains('sq-result-title');
+        target.tagName === "A" ||
+        target.tagName === "INPUT" ||
+        target.matches("sq-result-select *, .sq-result-title, sq-result-source *");
   }
 
 
