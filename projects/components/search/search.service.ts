@@ -6,7 +6,7 @@ import {QueryWebService, AuditWebService, QueryIntentData, Results, Record, Tab,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
     AdvancedValue, AdvancedValueWithOperator, AdvancedOperator,
     AuditEvents, AuditEventType, AuditEvent} from "@sinequa/core/web-services";
-import {AppService, FormatService, ValueItem, Query, ExprParser} from "@sinequa/core/app-utils";
+import {AppService, FormatService, ValueItem, Query, ExprParser, Expr} from "@sinequa/core/app-utils";
 import {NotificationsService} from "@sinequa/core/notification";
 import {LoginService} from "@sinequa/core/login";
 import {IntlService} from "@sinequa/core/intl";
@@ -542,6 +542,57 @@ export class SearchService implements OnDestroy {
         this.options.deactivateRouting = !value;
     }
 
+    protected makeAuditEventFromCurrentQuery(): AuditEvent | undefined {
+        const lastSelect = this.query.lastSelect();
+        if (lastSelect) {
+            const lastExpr = this.appService.parseExpr(lastSelect.expression);
+            if (lastExpr instanceof Expr) {
+                if (lastExpr.field === "refine") {
+                    return this.makeAuditEvent({
+                        type: AuditEventType.Search_Refine,
+                        detail: {
+                            text: lastExpr.value,
+                            itembox: lastSelect.facet,
+                            "from-result-id": !!this.results ? this.results.id : null
+                        }
+                    });
+                }
+                else {
+                    return this.makeAuditEvent({
+                        type: AuditEventType.Search_Select_Item,
+                        detail: {
+                            item: lastSelect as any,
+                            itembox: lastSelect.facet,
+                            itemcolumn: lastExpr.field,
+                            isitemexclude: lastExpr.not,
+                            "from-result-id": !!this.results ? this.results.id : null
+                        }
+                    });
+                }
+            }
+        }
+        else {
+            if (this.query.basket) {
+                return this.makeAuditEvent({
+                    type: AuditEventType.Basket_Open,
+                    detail: {
+                        basket: this.query.basket
+                    }
+                });
+            }
+            else {
+                return this.makeAuditEvent({
+                    type: AuditEventType.Search_Text,
+                    detail: {
+                        text: this.query.text,
+                        scope: this.query.scope
+                    }
+                });
+            }
+        }
+        return undefined;
+    }
+
     protected handleNavigation(navigationOptions?: SearchService.NavigationOptions, audit?: AuditEvents): Promise<boolean> {
         if (!this.loginService.complete) {
             return Promise.resolve(false);
@@ -565,6 +616,13 @@ export class SearchService implements OnDestroy {
             navigationOptions = state.navigationOptions;
         }
         navigationOptions = navigationOptions || {};
+        if (!audit) {
+            audit = this.makeAuditEventFromCurrentQuery();
+            if (audit && audit.type === AuditEventType.Search_Text) {
+                delete navigationOptions.queryIntents;
+                delete navigationOptions.queryAnalysis;
+            }
+        }
         let observable = this.getResults(this.query, audit,
             {
                 queryIntents: navigationOptions.queryIntents,
