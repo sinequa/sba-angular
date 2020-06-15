@@ -1475,9 +1475,10 @@ export class Expr {
         return undefined;
     }
 
+    // NB comparisons with NaN always return false
     private compare(value: string | string[] | undefined, dataValue: any, equality?: boolean): number {
-        if (!dataValue || (Utils.isArray(dataValue) && dataValue.length === 0)) {
-            return -1;
+        if (Utils.isArray(dataValue) && dataValue.length === 0) {
+            return NaN;
         }
         const column = Expr.getColumn(this.exprContext, this.field || "");
         if (Utils.isArray(dataValue) || Utils.isArray(value)) {
@@ -1487,7 +1488,7 @@ export class Expr {
             }
             if (Utils.isArray(value)) {
                 if (value.length === 0) {
-                    return -1;
+                    return NaN;
                 }
             }
             else {
@@ -1501,31 +1502,37 @@ export class Expr {
                     }
                 }
             }
-            return -1;
+            return NaN;
         }
         if (!Utils.isArray(value)) {
-            value = value + "";
-            if (Utils.isString(value)) {
-                value = ExprParser.unescape(value);
-            }
+            value = ExprParser.unescape(value || "");
             if (column && column.parser) {
                 value = this.exprContext.formatService.parseValue(value, column.parser);
             }
-            if (Utils.isNumber(dataValue)) {
+            if (AppService.isNumber(column)) {
+                if (!Utils.isNumber(dataValue)) {
+                    dataValue = 0;
+                }
                 const _value = Utils.toNumber(value);
                 return dataValue - _value;
             }
-            if (Utils.isDate(dataValue)) {
-                const _value = this.exprContext.intlService.parseDate(value);
-                if (_value) {
-                    return dataValue.getTime() - _value.getTime();
+            if (AppService.isDate(column)) {
+                if (Utils.isString(dataValue)){
+                    dataValue = Utils.toDate(dataValue);
                 }
-                return -1;
+                if (Utils.isDate(dataValue)) {
+                    const _value = this.exprContext.intlService.parseDate(value);
+                    if (_value) {
+                        return dataValue.getTime() - _value.getTime();
+                    }
+                }
+                return NaN;
             }
-            if (Utils.isBoolean(dataValue)) {
+            if (AppService.isBoolean(column)) {
                 const _value = Utils.isTrue(value) ? 1 : 0;
                 return (dataValue ? 1 : 0) - _value;
             }
+            dataValue = dataValue || "";
             if (Utils.isString(dataValue)) {
                 dataValue = ExprParser.unescape(dataValue);
                 if (equality) {
@@ -1537,7 +1544,7 @@ export class Expr {
                 return Utils.compare(dataValue, value);
             }
         }
-        return -1;
+        return NaN;
     }
 
     /**
@@ -1558,11 +1565,11 @@ export class Expr {
             else {
                 if (Utils.eqNC(this.field || "", "exists")) {
                     const dataValue = this.getDataValue(data, this.value, defaultScope);
-                    ret = !!dataValue;
+                    ret = !Utils.isUndefined(dataValue);
                 }
                 else if (Utils.eqNC(this.field || "", "missing")) {
                     const dataValue = this.getDataValue(data, this.value, defaultScope);
-                    ret = !dataValue;
+                    ret = Utils.isUndefined(dataValue);
                 }
                 else {
                     const dataValue = this.getDataValue(data, this.field, defaultScope);
