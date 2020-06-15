@@ -69,7 +69,7 @@ export class AppModule {
 }
 ```
 
-Now, you can build your application as usual with `ng build`. The output in the `dist/` folder looks similar to a regular application build. The difference is you can now take the generated javascript files (main, polyfills and runtime), and put them into a different application. In order to instanciate your Angular component(s), simply use the name you defined in the `ngDoBoostrap()` method (note that this NOT the Angular selector of the component):
+Now, you can build your application as usual with `ng build`. The output in the `dist/` folder looks similar to a regular application build. The difference is you can now take the generated javascript files (main, polyfills and runtime), and put them into a different application. In order to instantiate your Angular component(s), simply use the name you defined in the `ngDoBoostrap()` method (note that this NOT the Angular selector of the component):
 
 ```html
 <body>
