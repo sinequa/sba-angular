@@ -277,11 +277,11 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     getRecordsAsEvents(config: TimelineRecords): TimelineEvent[] {
         if(this.results) {
             return this.results.records
-                .filter(r => !!r[config.field])
+                .filter(r => !!Utils.toDate(r[config.field]))
                 .map<TimelineEvent>(r => {
                     return {
                         id: r.id,
-                        date: r[config.field],
+                        date: Utils.toDate(r[config.field])!,
                         size: !config.size? 6 : typeof config.size === 'function'? config.size(r, r.$selected) : config.size,
                         styles: !config.styles? BsFacetTimelineComponent.defaultRecordStyle(r.$selected) :
                                 typeof config.styles === 'function'? config.styles(r, r.$selected) : 
