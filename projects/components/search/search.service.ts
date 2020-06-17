@@ -203,7 +203,7 @@ export class SearchService implements OnDestroy {
                                 switch (action.type) {
                                     case "tab":
                                         if (results.queryAnalysis.initial && this.query &&
-                                            this.query.tab && !Utils.eqNC(this.query.tab, action.data)) {
+                                            !Utils.eqNC(this.query.tab || "", action.data)) {
                                             this.selectTab(action.data, {skipLocationChange: true});
                                         }
                                         break;

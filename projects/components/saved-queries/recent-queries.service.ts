@@ -58,6 +58,15 @@ export class RecentQueriesService implements OnDestroy {
         // Listen to the user settings
         this.userSettingsService.events.subscribe(event => {
             // E.g. new login occurs
+            // ==> Revive dates
+            this.recentqueries.forEach(rq => {
+                if (Utils.isString(rq.date)) {
+                    const date = Utils.toDate(rq.date);
+                    if (date) {
+                        rq.date = date;
+                    }
+                }
+            });
             // ==> Menus need to be rebuilt
             this.events.next({type: RecentQueryEventType.Loaded});
         });
