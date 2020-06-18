@@ -366,7 +366,7 @@ Example:
 
 {% endraw %}
 
-#### ResizeEvent directive.
+#### ResizeEvent directive
 
 The [`sqResize` directive]({{site.baseurl}}components/directives/ResizeEventDirective.html) uses the native
 [ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver) browser API to generate an
@@ -381,6 +381,22 @@ Example:
 ```
 
 {% endraw %}
+
+#### Sticky Component
+
+The [`sqSticky`]({{site.baseurl}}components/components/StickyComponent.html) component is a container that "sticks" to the top and the bottom of the screen when scrolling. For example, a sidebar containing facets will be always visible on the screen, even when scrolling down a long list of results. Additionally, if the sidebar is itself very long, it will scroll with the content until reaching the bottom of the side bar (and then "stick" to the *bottom* of the screen). Note that this behaviour is not possible when using a simple `position: sticky` or Bootstrap's `sticky-top`.
+
+The component accepts as input an object containing the offsets with respect to the top and bottom of the screen the default is `{top: 0, bottom: 0}`.
+
+Example:
+
+```html
+<div [sqSticky]="{top: 80, bottom: 30}">
+
+  <!-- Some content... -->
+
+</div>
+```
 
 ### Services
 
