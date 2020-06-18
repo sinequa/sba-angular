@@ -2,6 +2,7 @@ import {Injectable, Optional, OnDestroy, Inject, InjectionToken} from "@angular/
 import {Subject} from "rxjs";
 import {UserSettingsWebService, AuditEvents, Record} from "@sinequa/core/web-services";
 import {SearchService} from "@sinequa/components/search";
+import {Utils} from "@sinequa/core/base";
 
 
 export interface RecentDocument {
@@ -73,6 +74,15 @@ export class RecentDocumentsService implements OnDestroy {
         // Listen to the user settings
         this.userSettingsService.events.subscribe(event => {
             // E.g. new login occurs
+            // ==> Revive dates
+            this.recentdocuments.forEach(rd => {
+                if (Utils.isString(rd.date)) {
+                    const date = Utils.toDate(rd.date);
+                    if (date) {
+                        rd.date = date;
+                    }
+                }
+            });
             // ==> Menus need to be rebuilt
             this.events.next({type: RecentDocumentEventType.Loaded});
         });

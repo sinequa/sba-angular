@@ -570,9 +570,9 @@ export class Utils {
      * `Date` objects if the `reviveDates` option is specified.
      *
      * @param str The string to convert
-     * @param options Options for the conversion. The default is `{reviveDates: true}`
+     * @param options Options for the conversion. The default is `{reviveDates: false}`
      */
-    static fromJson(str: string, options: FromJsonOptions = {reviveDates: true}): any {
+    static fromJson(str: string, options: FromJsonOptions = {reviveDates: false}): any {
         if (!str || typeof str !== "string") {
             return {};
         }
