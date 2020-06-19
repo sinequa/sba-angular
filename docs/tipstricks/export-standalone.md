@@ -11,6 +11,8 @@ The SBA framework is designed to create *applications*. But in some cases it can
 
 Fortunately, Angular provides us with the [Angular Elements](https://angular.io/guide/elements) library, which allows to do just that. Angular Elements is based on the browser's [Custom Elements](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) standard, which is meant to declare new HTML elements (other than `div`, `p`, `a`, `body`, etc.), controlled via JavaScript.
 
+To install Angular Elements, run `npm install @angular/elements --save` at the root of your workspace.
+
 ## Creating an Angular Elements projects
 
 An Angular Elements project is very similar to a regular Angular application project, with a few small differences.
