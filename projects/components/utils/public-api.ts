@@ -6,6 +6,7 @@ export * from "./directives/scroll-into-view";
 export * from "./directives/focus-key-list.directive";
 export * from "./directives/focus-key-list-item.directive";
 export * from "./directives/resize-event.directive";
+export * from "./directives/sticky";
 export * from "./pipes/date-pipe";
 export * from "./pipes/expr-pipe";
 export * from "./pipes/memory-size-pipe";
