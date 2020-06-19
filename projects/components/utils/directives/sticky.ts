@@ -35,7 +35,7 @@ export class StickyComponent implements OnInit, OnDestroy{
 
         // Scrolling down
         if(scrollDelta > 0) {
-            this.marginTop = 0;
+            this.marginTop = Math.min(this.scrollY, this.marginTop);
             this.bottom = undefined;
             this.top = Math.min(-offsets.bottom + window.innerHeight - componentHeight, offsets.top);
         }
