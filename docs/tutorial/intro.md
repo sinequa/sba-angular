@@ -9,7 +9,7 @@ nav_order: 1
 
 The goal of this tutorial is to build a functional Search application, starting (almost) from scratch.
 
-A Sinequa server is available for you to develop and test your application, so you don't have to worry about the back-end configuration. This tutorial is manageable by any Angular developer without specific knowledge about Sinequa (other than general concepts that are explained on this website). Developers need an account to connect to this server, so [contact us]({{site.baseurl}}contact) if you do not have one yet. You will use `ng serve` to build and serve your application on your own computer (`locahost`), while the data comes the remote Sinequa server.
+A Sinequa server is available for you to develop and test your application, so you don't have to worry about the back-end configuration. This tutorial is manageable by any Angular developer without specific knowledge about Sinequa (other than general concepts that are explained on this website). Developers need an account to connect to this server, so [contact us]({{site.baseurl}}contact) if you do not have one yet. You will use `ng serve` to build and serve your application on your own computer (`locahost`), while the data comes from the remote Sinequa server.
 
 At the end of the tutorial, your application will look something like this:
 
