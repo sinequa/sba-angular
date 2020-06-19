@@ -17,7 +17,65 @@ By default, if nothing is configured, you log in to Sinequa via a form asking fo
 
 ## Windows Single-Sign-On
 
+First, note that Windows SSO has **no impact on the code of your Angular application**. All the work is handled by the Web Server (IIS) and the Sinequa WebApp. The only subtleties are how to enable `ng serve` with a proxy ("Normal mode") or without a proxy ("CORS mode", which is also required if you deploy your application outside of the Sinequa server).
+
+### Normal mode
+
 The configuration of Windows SSO is documented in the [official documentation](https://doc.sinequa.com/en.sinequa-es.v11/content/en.sinequa-es.how-to.implement-sso.html).
+
+The applications deployed on the Sinequa server should work automatically.
+
+However, you might get 401 errors when using `ng serve` with your regular proxy. You must replace your proxy file (by default `src/proxy.conf.json`) by a JavaScript file with the following content (eg. `src/proxy.conf.js`):
+
+```js
+const Agent = require("agentkeepalive");
+
+module.exports = {
+    '/api': {
+        target: "http://<your sinequa server>",
+        secure: false,
+        agent: new Agent({
+            maxSockets: 100,
+            keepAlive: true,
+            maxFreeSockets: 10,
+            keepAliveMsecs: 100000,
+            timeout: 6000000,
+            keepAliveTimeout: 90000
+        }),
+        onProxyRes: proxyRes => {
+            const key = "www-authenticate";
+            proxyRes.headers[key] = proxyRes.headers[key] &&
+                proxyRes.headers[key].split(",");
+        }
+    },
+
+    '/xdownload': {
+        target: "http://<your sinequa server>",
+        secure: false,
+        agent: new Agent({
+            maxSockets: 100,
+            keepAlive: true,
+            maxFreeSockets: 10,
+            keepAliveMsecs: 100000,
+            timeout: 6000000,
+            keepAliveTimeout: 90000
+        }),
+        onProxyRes: proxyRes => {
+            const key = "www-authenticate";
+            proxyRes.headers[key] = proxyRes.headers[key] &&
+                proxyRes.headers[key].split(",");
+        }
+    }
+};
+```
+
+And of course, update your `ng serve` command to reflect this new file:
+
+```bash
+npm run ng serve myapp -- --proxyConfig=./projects/myapp/src/proxy.conf.js
+```
+
+### CORS mode
 
 If you need to enable Windows SSO with CORS ([Cross-Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)), which is needed is you use `ng serve` without a proxy to develop your application, additional steps are needed:
 
@@ -70,8 +128,6 @@ If you need to enable Windows SSO with CORS ([Cross-Origin Resource Sharing](htt
     - Send the actual `GET` or `POST` query to the REST API using authentication in the HTTP headers
 
     **⚠️ Important note**: Upgrading your Sinequa environment will override the `web.config` file. So it’s highly recommended to backup this file in the folder and replace the web.config file with the backup after an upgrade.
-
-Note that Windows SSO has **no impact on the code of your Angular application**. All the work is handled by the Web Server (IIS) and the Sinequa WebApp.
 
 ## SAML 2.0
 
