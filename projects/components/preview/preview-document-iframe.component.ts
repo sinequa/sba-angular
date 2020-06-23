@@ -1,4 +1,4 @@
-import { Component, ContentChild, ElementRef, EventEmitter, Input, Output, ViewChild } from "@angular/core";
+import { Component, ContentChild, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from "@angular/core";
 import { PreviewDocument } from "./preview-document";
 
 
@@ -52,21 +52,19 @@ iframe {
 }
     `]
 })
-export class PreviewDocumentIframe  {
-    private _sandboxValues : string;
+export class PreviewDocumentIframe implements OnChanges  {
+    private _sandboxValues : string = "allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts";
+    @Input() sandboxValues : string 
     @Input() downloadUrl: string;
     @Input() scalingFactor: number = 1.0;
     @Output() onPreviewReady = new EventEmitter<PreviewDocument>();
     @ViewChild('documentFrame', {static: false}) documentFrame: ElementRef;  // Reference to the preview HTML in the iframe
     @ContentChild('tooltip', { read: ElementRef, static: false }) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
-    // Setting sandboxValue default value to prevent redirection initialized by an iframe script
-    @Input()
-    set sandboxValues(value: string) {
-      this._sandboxValues = (value) || "allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts";
+    ngOnChanges(){
+      if(this.sandboxValues == undefined)
+        this.sandboxValues = this._sandboxValues;
     }
-
-    get sandboxValues(): string { return this._sandboxValues; }
 
     public onPreviewDocLoad(event: Event) {
         const previewDocument = new PreviewDocument(this.documentFrame);
