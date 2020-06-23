@@ -1,9 +1,9 @@
-import {Component, Input, Output, EventEmitter, OnChanges, SimpleChanges} from "@angular/core";
-import {SafeResourceUrl} from "@angular/platform-browser";
-import {Query} from '@sinequa/core/app-utils';
-import {Record, PreviewData} from "@sinequa/core/web-services";
-import {PreviewService} from "../../preview.service";
-import {PreviewDocument} from "../../preview-document";
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
+import { SafeResourceUrl } from "@angular/platform-browser";
+import { Query } from '@sinequa/core/app-utils';
+import { PreviewData, Record } from "@sinequa/core/web-services";
+import { PreviewDocument } from "../../preview-document";
+import { PreviewService } from "../../preview.service";
 
 @Component({
     selector: "sq-facet-preview",
@@ -11,6 +11,7 @@ import {PreviewDocument} from "../../preview-document";
 })
 export class BsFacetPreview implements OnChanges {
     @Input() record: Record;
+    @Input() sandboxValues: string;
     @Input() query: Query;
     @Input() height: string;
     @Input() iframeClass: string;

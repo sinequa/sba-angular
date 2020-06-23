@@ -1,5 +1,7 @@
 <div class="d-flex flex-column {{iframeClass}}" [ngStyle]="{'height.px': scaledHeight, 'width.%':invFactor}">
-    <sq-preview-document-iframe [downloadUrl]="downloadUrl" 
+    <sq-preview-document-iframe 
+                                [sandboxValues]="sandboxValues"
+                                [downloadUrl]="downloadUrl" 
                                 [scalingFactor]="scalingFactor" 
                                 (onPreviewReady)="onPreviewReady($event)"
                                 *ngIf="!!downloadUrl">

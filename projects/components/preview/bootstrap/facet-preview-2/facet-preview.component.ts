@@ -1,11 +1,11 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, HostBinding } from "@angular/core";
+import { Component, EventEmitter, HostBinding, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
 import { SafeResourceUrl } from "@angular/platform-browser";
-import { Query } from '@sinequa/core/app-utils';
-import { Record, PreviewData } from "@sinequa/core/web-services";
-import { PreviewService } from "../../preview.service";
-import { PreviewDocument, HighlightFilters } from "../../preview-document";
-import { AbstractFacet } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
+import { AbstractFacet } from '@sinequa/components/facet';
+import { Query } from '@sinequa/core/app-utils';
+import { PreviewData, Record } from "@sinequa/core/web-services";
+import { HighlightFilters, PreviewDocument } from "../../preview-document";
+import { PreviewService } from "../../preview.service";
 
 @Component({
   selector: 'sq-facet-preview-2',
@@ -17,6 +17,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Input() record: Record;
   @Input() query: Query;
   @Input() iframeClass: string;
+  @Input() sandboxValues : string;
   @Input() height: number = 500;
   @Input() scalingFactor: number = 0.6;
   @Input() metadata: string[] = [];
