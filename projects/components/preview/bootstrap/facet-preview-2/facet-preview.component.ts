@@ -1,11 +1,11 @@
-import { Component, EventEmitter, HostBinding, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, HostBinding } from "@angular/core";
 import { SafeResourceUrl } from "@angular/platform-browser";
-import { Action } from '@sinequa/components/action';
-import { AbstractFacet } from '@sinequa/components/facet';
 import { Query } from '@sinequa/core/app-utils';
-import { PreviewData, Record } from "@sinequa/core/web-services";
-import { HighlightFilters, PreviewDocument } from "../../preview-document";
+import { Record, PreviewData } from "@sinequa/core/web-services";
 import { PreviewService } from "../../preview.service";
+import { PreviewDocument, HighlightFilters } from "../../preview-document";
+import { AbstractFacet } from '@sinequa/components/facet';
+import { Action } from '@sinequa/components/action';
 
 @Component({
   selector: 'sq-facet-preview-2',

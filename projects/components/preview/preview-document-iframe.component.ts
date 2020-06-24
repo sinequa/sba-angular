@@ -1,4 +1,4 @@
-import { Component, ContentChild, ElementRef, EventEmitter, Input, Output, ViewChild } from "@angular/core";
+import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild } from "@angular/core";
 import { PreviewDocument } from "./preview-document";
 
 

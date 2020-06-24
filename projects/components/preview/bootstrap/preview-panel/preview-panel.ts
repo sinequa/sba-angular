@@ -1,11 +1,9 @@
-
-import { ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from "@angular/core";
 import { SafeResourceUrl } from '@angular/platform-browser';
-import { Query } from "@sinequa/core/app-utils";
 import { PreviewData } from "@sinequa/core/web-services";
-import { PreviewDocument } from "../../preview-document";
+import { Query } from "@sinequa/core/app-utils";
 import { PreviewService } from "../../preview.service";
-
+import { PreviewDocument } from "../../preview-document";
 
 
 @Component({
