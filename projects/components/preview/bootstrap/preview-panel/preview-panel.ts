@@ -1,9 +1,11 @@
+
 import { ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { Query } from "@sinequa/core/app-utils";
 import { PreviewData } from "@sinequa/core/web-services";
 import { PreviewDocument } from "../../preview-document";
 import { PreviewService } from "../../preview.service";
+
 
 
 @Component({
@@ -14,7 +16,7 @@ import { PreviewService } from "../../preview.service";
 export class BsPreviewPanel implements OnChanges {
     @Input() query: Query;
     @Input() previewData: PreviewData;
-    @Input() sandboxValues: string;
+    @Input() sandbox: string;
     @Input() displaySimilarDocuments: boolean;
     @Input() metadata: string[];
     @Input() leftPaneAdditionalClasses: string;

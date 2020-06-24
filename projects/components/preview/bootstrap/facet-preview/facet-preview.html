@@ -1,5 +1,5 @@
 <div *ngIf="!similarDocuments" class="d-flex flex-column {{iframeClass}}" [ngStyle]="{height: height}">
-    <sq-preview-document-iframe  [sandboxValues]="sandboxValues" [downloadUrl]="downloadUrl" (onPreviewReady)="document = $event">
+    <sq-preview-document-iframe  [sandbox]="sandbox" [downloadUrl]="downloadUrl" (onPreviewReady)="document = $event">
         <sq-preview-tooltip #tooltip [previewDocument]="document" [previewData]="data"></sq-preview-tooltip>
     </sq-preview-document-iframe>
 </div>

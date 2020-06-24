@@ -11,7 +11,7 @@ import { PreviewService } from "../../preview.service";
 })
 export class BsFacetPreview implements OnChanges {
     @Input() record: Record;
-    @Input() sandboxValues: string;
+    @Input() sandbox;
     @Input() query: Query;
     @Input() height: string;
     @Input() iframeClass: string;

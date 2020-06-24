@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "startproxy": "ng serve vanilla-search -- --ssl=true --proxyConfig=./projects/vanilla-search/src/proxy.conf.json",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -11,6 +12,7 @@
     "buildcore": "ng build core",
     "buildhellosearch": "ng build hello-search --prod",
     "buildcomponents": "ng build components",
+    "buildcomponentswatch": "ng build components --watch=true",
     "buildvanilla": "ng build vanilla-search --prod",
     "buildall": "npm run buildcore && npm run buildhellosearch && npm run buildcomponents && npm run buildvanilla",
     "makedoc-core": "cd projects/core && node ../../scripts/makedoc.js -d ../../docs/core -p tsconfig.lib.json -n \"Core\"",
