@@ -82,6 +82,7 @@ The component expects the following inputs:
 
 - `downloadUrl`: The URL of the HTML preview. This URL is the sanitized version of the one provided by [`PreviewData`]({{site.baseurl}}core/interfaces/PreviewData.html) (use `downloadUrl = previewService.makeDownloadUrl(data.documentCachedContentUrl)`).
 - `scalingFactor` (Optional): A factor for scaling the preview (generally downscaling), so you can see the whole preview in a small container.
+- `sandbox` (Optional): A string containing the sandbox value for the `sandbox` attribute. The `sandbox` attribute is used to restrict `iframe` content actions. By default, the value is set to : `allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts`
 
 When the HTML preview finishes loading in the `<iframe>`, the component emits an `onPreviewReady` event. The event is an instance of [`PreviewDocument`]({{site.baseurl}}components/classes/PreviewDocument.html).
 
