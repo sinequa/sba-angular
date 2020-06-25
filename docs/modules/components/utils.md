@@ -344,7 +344,7 @@ Example:
 
 #### FocusKeyList and FocusKeyListItem directives
 
-The [`sqFocusKeyList` directive]({{site.baseurl}}components/directives/FocusKeyListDirective.html) and 
+The [`sqFocusKeyList` directive]({{site.baseurl}}components/directives/FocusKeyListDirective.html) and
 [`sqFocusKeyListItem` directive]({{site.baseurl}}components/directives/FocusKeyListItemDirective.html) are used together
 to provide keyboard navigation functionality to items in lists, such as a results list. The `sqFocusKeyList` directive is added
 to the container element and the `sqFocusKeyListItem` directive is added to each child element. The `sqFocusKeyList` directive has
@@ -386,7 +386,7 @@ Example:
 
 The [`sqSticky`]({{site.baseurl}}components/components/StickyComponent.html) component is a container that "sticks" to the top and the bottom of the screen when scrolling. For example, a sidebar containing facets will be always visible on the screen, even when scrolling down a long list of results. Additionally, if the sidebar is itself very long, it will scroll with the content until reaching the bottom of the side bar (and then "stick" to the *bottom* of the screen). Note that this behaviour is not possible when using a simple `position: sticky` or Bootstrap's `sticky-top`.
 
-The component accepts as input an object containing the offsets with respect to the top and bottom of the screen the default is `{top: 0, bottom: 0}`.
+The component accepts as input an object containing the offsets with respect to the top and bottom of the screen. The default value is `{top: 0, bottom: 0}`.
 
 Example:
 
@@ -397,6 +397,8 @@ Example:
 
 </div>
 ```
+
+Note that in Internet Explorer `position: sticky` is not supported, so the component automatically deactivates its sticky behavior.
 
 ### Services
 

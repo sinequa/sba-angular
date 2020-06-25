@@ -62,6 +62,9 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     // Initial scale (prior to any zoom)
     @Input() minDate?: Date;
     @Input() maxDate?: Date;
+    // Date range to filter aggregations (ignored when combined aggregations are recomputed based on zoomed range)
+    @Input() minAggregationDate?: Date;
+    @Input() maxAggregationDate?: Date;
     
     @Input() zoomable = true;
     @Input() minZoomDays = 1; // Max 1 day scale
@@ -214,7 +217,10 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
                     agg = config.current;
                 }
                 
-                this.getTimeseries(agg).subscribe({
+                let range: [Date, Date] | undefined = !!this.minAggregationDate && !!this.maxAggregationDate ?
+                    [this.minAggregationDate, this.maxAggregationDate] : undefined;
+
+                this.getTimeseries(agg, range).subscribe({
                     next: d => subject.next(d),
                     error: err => subject.error(err)
                 });
@@ -517,19 +523,17 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         const series: TimelineDate[] = [];
 
         let _items = items
-            .filter(item => !!item.value)
             .map(item => {
-                if(!(item.value instanceof Date)){
+                if(!!item.value && !(item.value instanceof Date)){
                     const val = item.value.toString();
                     item.value = moment(val.length <= 4? val + "-01" : val).toDate();
+                    if(isNaN(item.value.getTime())){
+                        item.value = <Date><unknown> undefined; // So it gets filtered out
+                    }
                 }
                 return item;
-            });
-
-        if(range) {
-            _items = _items.filter(item => 
-                (item.value as Date) >= range[0] && (item.value as Date) <= range[1])
-        }
+            })
+            .filter(item => !!item.value && (!range || ((item.value as Date) >= range[0] && (item.value as Date) <= range[1])));
 
         _items.forEach((item,i) => {
             let date = item.value as Date;
