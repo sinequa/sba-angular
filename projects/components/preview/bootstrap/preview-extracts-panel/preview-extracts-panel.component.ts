@@ -1,10 +1,11 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { PreviewData } from '@sinequa/core/web-services';
 import { PreviewDocument } from '../../preview-document';
+import {Action} from "@sinequa/components/action";
 
 export class Extract {
-  text: string;
+  text: SafeHtml; // Sanitized HTML text
   startIndex : number; // this is the start index of the extracts within the Document Text  
   relevanceIndex : number; // 0 the most relevant to N the less relevant
   textIndex : number; // index of the extract in the text. e.g 0 is the first extract displayed in the document
@@ -19,6 +20,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   @Input() previewData: PreviewData;
   @Input() previewDocument: PreviewDocument;
 
+  sortAction : Action | undefined;
   extracts: Extract[] = [];
   currentExtract = -1;
 
@@ -37,23 +39,26 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
 
         // Init the extracts Array and storing the relevancy index = i because extractsLocations is already ordered by relevance
         extractsLocations.forEach((el,i) => {
-          this.extracts[i] = {
+          this.extracts.push({
             text: "",
             startIndex: el.start,
             relevanceIndex: i,
             textIndex: 0
-          }
+          })
         });
 
-        // Sorting by start index (text index)
-        this.extracts.sort((a,b)=> a.startIndex - b.startIndex);
-        // Retrieving the text using getHighlightText
-        this.extracts.forEach((el,i) => {this.extracts[i].text = this.previewDocument.getHighlightText("extractslocations", i)});
-        // Storing the TextIndex to be able to select extracts
-        this.extracts.forEach((el,i) => {this.extracts[i].textIndex = i});
+        
+        this.extracts
+        .sort((a,b)=> a.startIndex - b.startIndex) // Sorting by start index (text index)
+        .forEach((el,i) => {
+            el.text = this.sanitize(this.previewDocument.getHighlightText("extractslocations", i)) // Retrieving the text using getHighlightText
+            el.textIndex = i // Storing the TextIndex to be able to select extracts
+        }) 
+
         // Sorting by Relevance to display extract ordered by Relevance
         this.extracts.sort((a,b) => a.relevanceIndex-b.relevanceIndex);
 
+        this.buildSortAction();
       }
 
       
@@ -62,6 +67,36 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
       this.extracts = [];
     }
     this.currentExtract = -1;
+  }
+
+  /**
+   * Build Sort Action for Extracts
+   * @param i 
+   */
+  buildSortAction(){
+    this.sortAction = new Action({
+      title: "msg#sortSelector.sortByTitle",
+      text:  "msg#preview.relevanceSortHighlightButtonText",
+      children: [
+      ]
+    });
+
+    this.sortAction.children.push(new Action({
+      icon: 'fas fa-sort-amount-down',
+      text: "msg#preview.relevanceSortHighlightButtonText",
+      action: (item: Action, event: Event) => {
+          this.extracts.sort((a,b) => a.relevanceIndex-b.relevanceIndex);
+      }
+    }));
+
+    this.sortAction.children.push(new Action({
+      icon: 'fas fa-sort-amount-down',
+      text: "msg#preview.textOrderSortHighlightButtonText",
+      action: (item: Action, event: Event) => {
+          this.extracts.sort((a,b) => a.textIndex-b.textIndex);
+      }
+    }));
+
   }
 
   /**
