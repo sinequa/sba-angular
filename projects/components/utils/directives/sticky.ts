@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, ElementRef, Input, ViewChild } from '@angular/core';
+import { UIService } from '../ui.service';
 
 @Component({
     selector: '[sqSticky]',
@@ -25,6 +26,9 @@ export class StickyComponent implements OnInit, OnDestroy{
     marginTop = 0;
     
     private listener;
+    
+    constructor(protected ui: UIService){
+    }
    
     onScroll() {
         const scrollDelta = window.pageYOffset - this.scrollY;
@@ -49,14 +53,21 @@ export class StickyComponent implements OnInit, OnDestroy{
 
 
     ngOnInit() {
-        this.listener = () => this.onScroll();
-        window.addEventListener('scroll', this.listener);
-        this.scrollY = window.pageYOffset;
-        this.top = (this.offsets?.top || 0);
+        // position: sticky is not supported in Internet Explorer. A workaround could be to rely on position: relative and position: fixed, with additional logic.
+        if(CSS.supports("position", "sticky") || CSS.supports("position", "-webkit-sticky")) {
+            this.listener = () => this.onScroll();
+            window.addEventListener('scroll', this.listener);
+            this.ui.addElementResizeListener(this.container.nativeElement, this.listener);
+            this.scrollY = window.pageYOffset;
+            this.top = (this.offsets?.top || 0);
+        }
     }
 
     ngOnDestroy() {
-        window.removeEventListener('scroll', this.listener);
+        if(this.listener) {
+            window.removeEventListener('scroll', this.listener);
+            this.ui.removeElementResizeListener(this.container.nativeElement, this.listener);
+        }
     }
 
 }
