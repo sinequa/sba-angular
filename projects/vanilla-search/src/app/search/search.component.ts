@@ -1,17 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Subscription } from 'rxjs';
+import { Action } from '@sinequa/components/action';
+import { FacetConfig } from '@sinequa/components/facet';
+import { PreviewService } from '@sinequa/components/preview';
+import { SearchService } from '@sinequa/components/search';
+import { SelectionService } from '@sinequa/components/selection';
+import { UIService } from '@sinequa/components/utils';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
 import { Record } from '@sinequa/core/web-services';
-import { SelectionService } from '@sinequa/components/selection';
-import { SearchService } from '@sinequa/components/search';
-import { FacetConfig } from '@sinequa/components/facet';
-import { Action } from '@sinequa/components/action';
-import { UIService } from '@sinequa/components/utils';
-import { PreviewService } from '@sinequa/components/preview';
-import { FACETS, METADATA, FEATURES } from '../../config';
+import { Subscription } from 'rxjs';
+import { FACETS, FEATURES, METADATA } from '../../config';
 
 @Component({
   selector: 'app-search',
@@ -185,7 +185,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     return event.type !== 'click' ||
         target.tagName === "A" ||
         target.tagName === "INPUT" ||
-        target.matches("sq-result-select *, .sq-result-title, sq-result-source *");
+        target.matches("sq-result-selector *, .sq-result-title, sq-result-source *");
   }
 
 
