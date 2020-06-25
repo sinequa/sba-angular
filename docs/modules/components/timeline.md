@@ -396,6 +396,7 @@ The [`TimelineEventAggregation`]({{site.baseurl}}components/interfaces/TimelineE
 We have seen the two most important inputs of [`sq-facet-timeline`]({{site.baseurl}}components/components/BsFacetTimelineComponent.html): `timeseries` and `events`. Other parameters are available. In fact, the following parameters (described before) are "forwarded" to the [`sq-timeline`]({{site.baseurl}}components/components/BsTimelineComponent.html) (using the same default values):
 
 - `minDate` and `maxDate` allow to "hard-code" the X-axis extent (prior to any zooming).
+- `minAggregationDate` and `maxAggregationDate` allow to filter out dates from aggregations that fall outside of a time period.
 - `zoomable`, `minZoomDays` and `maxZoomDays` allow to specify the zoom behavior.
 - `width`, `height` and `margin` allow to size the chart (which resizes itself to fill the width of the container).
 - `curveType` allows to select the type of curve approximation from the D3 library.
