@@ -13,6 +13,8 @@ export default {
         "firstHighlightButtonAltText": "Premier élément",
         "previousHighlightButtonAltText": "Elément précédent",
         "nextHighlightButtonAltText": "Elément suivant",
+        "relevanceSortHighlightButtonText": "Pertinence",
+        "textOrderSortHighlightButtonText": "Ordre du texte",
         "lastHighlightButtonAltText": "Dernier élément",
         "highlightFilters": {
             "title": "Filtres",
