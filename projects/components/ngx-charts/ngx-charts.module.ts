@@ -10,6 +10,7 @@ import {
 
 import { IntlModule } from '@sinequa/core/intl';
 import { UtilsModule } from "@sinequa/components/utils";
+import { BsSelectionModule } from "@sinequa/components/selection";
 
 import { NgxChart } from "./chart/chart";
 import { FacetNgxChart } from "./facet-chart/facet-chart";
@@ -20,6 +21,7 @@ import { FacetNgxChart } from "./facet-chart/facet-chart";
         CommonModule,
         IntlModule,
         UtilsModule,
+        BsSelectionModule,
         
         // ngx-charts modules
         AreaChartModule,
