@@ -20,7 +20,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   @Input() previewData: PreviewData;
   @Input() previewDocument: PreviewDocument;
 
-  sortAction : Action | undefined;
+  sortAction : Action;
   extracts: Extract[] = [];
   currentExtract = -1;
 
@@ -86,6 +86,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
       text: "msg#preview.relevanceSortHighlightButtonText",
       action: (item: Action, event: Event) => {
           this.extracts.sort((a,b) => a.relevanceIndex-b.relevanceIndex);
+          this.sortAction.text = item.text;
       }
     }));
 
@@ -94,6 +95,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
       text: "msg#preview.textOrderSortHighlightButtonText",
       action: (item: Action, event: Event) => {
           this.extracts.sort((a,b) => a.textIndex-b.textIndex);
+          this.sortAction.text = item.text;
       }
     }));
 
