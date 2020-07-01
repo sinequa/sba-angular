@@ -36,7 +36,7 @@ The [Home route](https://github.com/sinequa/sba-angular/tree/master/projects/van
 
 ![Home route]({{site.baseurl}}assets/modules/vanilla-home.png)
 
-You can also switch to a dark theme, by click the button under the search bar.
+You can also switch to a dark theme, by clicking the button under the search bar.
 
 ![Home route]({{site.baseurl}}assets/modules/vanilla-dark.png)
 
@@ -211,7 +211,7 @@ The components of Vanilla Search described above use three configuration objects
     }
     ```
 
-    Of course, these facets require a corresponding **Aggregation** to exist on the Sinequa server, and consequently within the [`Results`]({{site.baseurl}}core/interfaces/Results.html) object.
+    Of course, these facets require a corresponding [**Aggregation**](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-sba-ws-queries.html) to exist on the Sinequa server, and consequently within the [`Results`]({{site.baseurl}}core/interfaces/Results.html) object.
 
 - `METADATA`: a list of metadata fields displayed in the "mini-preview", within a [`sq-metadata`]({{site.baseurl}}components/components/Metadata.html) component (More information in the [Custom Metadata]({{site.baseurl}}tipstricks/metadata.html) section).
 
