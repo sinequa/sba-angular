@@ -48,7 +48,8 @@ export class PreviewDocument {
         if (frame && frame.contentWindow && frame.contentWindow.frames) {
             const sheet = frame.contentWindow.frames["frSheet"]; // aspose xls preview
             if (sheet) {
-                return sheet;
+                this._window = sheet;
+                return;
             }
         }
         this._window = frame.contentWindow;
