@@ -301,7 +301,7 @@ const aggregations = [
 this.combinedAggregation = {
     aggregations: aggregations,
     default: aggregations[0],
-    maxNMonths: [-1, 5*12, 1*12, 2]; // Infinite, 5 years, 1 year, 2 months
+    maxNMonths: [-1, 5*12, 1*12, 2] // Infinite, 5 years, 1 year, 2 months
 }
 
 // TimelineAggregation
