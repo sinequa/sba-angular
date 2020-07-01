@@ -7,7 +7,7 @@ import {CCColumn, EngineType, EngineTypeModifier} from "@sinequa/core/web-servic
  * Do not export from the app-utils module.
  */
 export class AppServiceHelpers {
-    static isString(column: CCColumn): boolean {
+    static isString(column: CCColumn | undefined): boolean {
         if (!column) {
             return false;
         }
@@ -20,7 +20,7 @@ export class AppServiceHelpers {
         return false;
     }
 
-    static isCsv(column: CCColumn): boolean {
+    static isCsv(column: CCColumn | undefined): boolean {
         if (!column) {
             return false;
         }
@@ -30,7 +30,7 @@ export class AppServiceHelpers {
         return false;
     }
 
-    static isTree(column: CCColumn): boolean {
+    static isTree(column: CCColumn | undefined): boolean {
         if (!column) {
             return false;
         }
@@ -40,7 +40,7 @@ export class AppServiceHelpers {
         return false;
     }
 
-    static isEntity(column: CCColumn): boolean {
+    static isEntity(column: CCColumn | undefined): boolean {
         if (!column) {
             return false;
         }
@@ -50,7 +50,7 @@ export class AppServiceHelpers {
         return false;
     }
 
-    static isBoolean(column: CCColumn): boolean {
+    static isBoolean(column: CCColumn | undefined): boolean {
         if (!column) {
             return false;
         }
@@ -60,7 +60,7 @@ export class AppServiceHelpers {
         return false;
     }
 
-    static isDate(column: CCColumn): boolean {
+    static isDate(column: CCColumn | undefined): boolean {
         if (!column) {
             return false;
         }
@@ -70,7 +70,7 @@ export class AppServiceHelpers {
         return false;
     }
 
-    static isDouble(column: CCColumn): boolean {
+    static isDouble(column: CCColumn | undefined): boolean {
         if (!column) {
             return false;
         }
@@ -80,7 +80,7 @@ export class AppServiceHelpers {
         return false;
     }
 
-    static isInteger(column: CCColumn): boolean {
+    static isInteger(column: CCColumn | undefined): boolean {
         if (!column) {
             return false;
         }
@@ -90,16 +90,16 @@ export class AppServiceHelpers {
         return false;
     }
 
-    static isNumber(column: CCColumn): boolean {
+    static isNumber(column: CCColumn | undefined): boolean {
         return AppServiceHelpers.isInteger(column) || AppServiceHelpers.isDouble(column);
     }
 
-    static isScalar(column: CCColumn): boolean {
+    static isScalar(column: CCColumn | undefined): boolean {
         return AppServiceHelpers.isNumber(column) || AppServiceHelpers.isDate(column) || AppServiceHelpers.isBoolean(column);
     }
 
-    static isSortable(column: CCColumn): boolean {
+    static isSortable(column: CCColumn | undefined): boolean {
         return AppServiceHelpers.isString(column) || AppServiceHelpers.isScalar(column) ||
-            (AppServiceHelpers.isCsv(column) && ((column.eTypeModifier & EngineTypeModifier.l) === EngineTypeModifier.l));
+            (AppServiceHelpers.isCsv(column) && !!column && ((column.eTypeModifier & EngineTypeModifier.l) === EngineTypeModifier.l));
     }
 }
