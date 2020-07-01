@@ -7,5 +7,6 @@ export * from "./json";
 export * from "./keyboard";
 export * from "./map-of";
 export * from "./ref";
+export * from "./pattern-matcher";
 export * from "./utils";
 export * from "./base.module";
