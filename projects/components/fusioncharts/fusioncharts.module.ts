@@ -9,6 +9,7 @@ import * as charts from "fusioncharts/fusioncharts.charts";
 import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 
 import { IntlModule } from '@sinequa/core/intl';
+import { BsSelectionModule } from '@sinequa/components/selection';
 import { UtilsModule } from "@sinequa/components/utils";
 
 import { FusionChart } from "./chart/chart";
@@ -22,6 +23,7 @@ FCModule.fcRoot(FusionCharts, charts, FusionTheme);
         CommonModule,
         IntlModule,
         UtilsModule,
+        BsSelectionModule,
         FCModule
     ],
     declarations: [

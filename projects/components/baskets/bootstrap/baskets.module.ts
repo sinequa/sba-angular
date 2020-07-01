@@ -7,7 +7,7 @@ import {IntlModule} from "@sinequa/core/intl";
 import {ValidationModule} from "@sinequa/core/validation";
 
 import {UtilsModule} from "@sinequa/components/utils";
-
+import {BsSelectionModule} from "@sinequa/components/selection";
 import {BsModalModule} from "@sinequa/components/modal";
 import {BsActionModule} from "@sinequa/components/action";
 
@@ -30,6 +30,7 @@ import {BsFacetBasketsComponent} from './facet-baskets/facet-baskets.component';
         ValidationModule,
 
         UtilsModule,
+        BsSelectionModule,
         BsActionModule
     ],
     declarations: [
