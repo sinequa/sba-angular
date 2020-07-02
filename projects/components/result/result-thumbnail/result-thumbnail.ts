@@ -24,9 +24,11 @@ export class ResultThumbnail implements OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         if (!!changes["record"]) {
             this.documentUrl = this.record.url1;
-            this.thumbnailUrl = this.record.thumbnailUrl;
-            if (!this.thumbnailUrl && !!this.thumbnailColumn) {
+            if (!!this.thumbnailColumn) {
                 this.thumbnailUrl = this.record[this.thumbnailColumn];
+            }
+            if (!this.thumbnailUrl && !!this.record.thumbnailUrl) {
+                this.thumbnailUrl = this.record.thumbnailUrl;
             }
             if (!this.thumbnailUrl && !!this.defaultThumbnail) {
                 this.thumbnailUrl = this.defaultThumbnail;

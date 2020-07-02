@@ -7,6 +7,7 @@ import {IntlModule} from "@sinequa/core/intl";
 import {ValidationModule} from "@sinequa/core/validation";
 
 import {UtilsModule} from "@sinequa/components/utils";
+import {BsSelectionModule} from "@sinequa/components/selection";
 import {BsModalModule} from "@sinequa/components/modal";
 import {BsActionModule} from "@sinequa/components/action";
 
@@ -31,6 +32,7 @@ import {BsFacetRecentDocuments} from "./facet-recent-documents/facet-recent-docu
         IntlModule,
         ValidationModule,
 
+        BsSelectionModule,
         BsModalModule,
         UtilsModule,
         BsActionModule

@@ -6,6 +6,7 @@ import {IntlModule} from "@sinequa/core/intl";
 import {ValidationModule} from "@sinequa/core/validation";
 
 import {UtilsModule} from "@sinequa/components/utils";
+import {BsSelectionModule} from "@sinequa/components/selection";
 import {BsModalModule} from "@sinequa/components/modal";
 import {BsActionModule} from "@sinequa/components/action";
 import {BsAutocompleteModule} from "@sinequa/components/autocomplete";
@@ -31,6 +32,7 @@ export const defaultLabelComponents: LabelsComponents = {
         ValidationModule,
 
         UtilsModule,
+        BsSelectionModule,
         BsModalModule,
         BsAutocompleteModule,
         LabelsModule,

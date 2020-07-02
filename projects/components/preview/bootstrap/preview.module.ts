@@ -11,7 +11,7 @@ import {MetadataModule} from "@sinequa/components/metadata";
 import {BsModalModule} from "@sinequa/components/modal";
 import {BsFacetModule} from "@sinequa/components/facet";
 import {ResultModule} from "@sinequa/components/result";
-
+import { BsActionModule } from "@sinequa/components/action";
 import {PreviewModule} from "../preview.module";
 import {BsPreviewHighlights} from "./preview-highlights/preview-highlights";
 import {BsPreviewLinks} from "./preview-links/preview-links";
@@ -43,7 +43,7 @@ import {PREVIEW_MODAL} from '../preview.service';
         BsModalModule,
         BsFacetModule,
         ResultModule,
-
+        BsActionModule,
         PreviewModule
     ],
     declarations: [

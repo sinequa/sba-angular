@@ -10,6 +10,7 @@ nav_order: 1
 SBA run the in the browser, on the client side. When you develop your app, you will frequently have runtime errors, which typically result in the app freezing or not responding as expected. It is very useful to know how to use your browser's "Inspector" to find out what is going wrong.
 
 Modern browsers all have an inspector tool that you can open with F12, or right-clicking on your app and selecting "Inspect". Inspectors are typically divided in tabs, each providing various features, such as:
+
 - **Console**: Displays errors and log messages from your app. Also lets you execute JavaScript commands (if you stopped the app with a breakpoint, the commands are executed in the current breakpoint's scope).
 - **Elements**: Displays the HTML of the webpage, and let's you inspect specific elements of the DOM (Document Object Model). You can also see and edit the styles applied to any element (which is useful for styling your app without rebuilding your app between each iteration).
 - **Sources**: Displays the source code of the app, which includes normally Javascript and CSS, but in the case of an Angular app compiled in debug mode (the default with `ng serve`), you also have access to the Typescript and SCSS sources.
@@ -59,5 +60,5 @@ Modern browsers all have an inspector tool that you can open with F12, or right-
     In the example above, the Angular component are easy to spot: they are the ones with non-standard HTML names (like `<div>`, `<span>`, etc.), and generally have a prefix (`<sq-...>` for Sinequa components, `<app-...>` for the components of your app).
 
     When an element is selected, you can access it with `$0` in the **console**. If the selected element is an Angular component, you can get the instance of this component by typing `ng.getComponent($0)`, which gives you access to all its fields and properties.
-    
+
     ![Component state]({{site.baseurl}}assets/tipstricks/component-state.png){: .d-block .mx-auto }

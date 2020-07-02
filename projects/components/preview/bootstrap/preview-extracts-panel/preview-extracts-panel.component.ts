@@ -1,7 +1,15 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { PreviewDocument } from '../../preview-document';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { PreviewData } from '@sinequa/core/web-services';
+import { PreviewDocument } from '../../preview-document';
+import {Action} from "@sinequa/components/action";
+
+export class Extract {
+  text: SafeHtml; // Sanitized HTML text
+  startIndex : number; // this is the start index of the extracts within the Document Text  
+  relevanceIndex : number; // 0 the most relevant to N the less relevant
+  textIndex : number; // index of the extract in the text. e.g 0 is the first extract displayed in the document
+}
 
 @Component({
   selector: 'sq-preview-extracts-panel',
@@ -12,7 +20,8 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   @Input() previewData: PreviewData;
   @Input() previewDocument: PreviewDocument;
 
-  extracts: string[] = [];
+  sortAction : Action;
+  extracts: Extract[] = [];
   currentExtract = -1;
 
   constructor(
@@ -23,15 +32,73 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    */
   ngOnChanges() {
     if(this.previewData && this.previewDocument){
-      const extracts = this.previewData.highlightsPerCategory["extractslocations"].values;
+      const extracts = this.previewData.highlightsPerCategory["extractslocations"].values; //Extract locations Array ordered by "relevance"
       if(!!extracts && extracts.length > 0){
-        this.extracts = extracts[0].locations.map((_, i) => this.previewDocument.getHighlightText("extractslocations", i));
+
+        var extractsLocations = extracts[0].locations;
+
+        // Init the extracts Array and storing the relevancy index = i because extractsLocations is already ordered by relevance
+        extractsLocations.forEach((el,i) => {
+          this.extracts.push({
+            text: "",
+            startIndex: el.start,
+            relevanceIndex: i,
+            textIndex: 0
+          })
+        });
+
+        
+        this.extracts
+        .sort((a,b)=> a.startIndex - b.startIndex) // Sorting by start index (text index)
+        .forEach((el,i) => {
+            el.text = this.sanitize(this.previewDocument.getHighlightText("extractslocations", i)) // Retrieving the text using getHighlightText
+            el.textIndex = i // Storing the TextIndex to be able to select extracts
+        }) 
+
+        // Sorting by Relevance to display extract ordered by Relevance
+        this.extracts.sort((a,b) => a.relevanceIndex-b.relevanceIndex);
+
+        this.buildSortAction();
       }
+
+      
     }
     else {
       this.extracts = [];
     }
     this.currentExtract = -1;
+  }
+
+  /**
+   * Build Sort Action for Extracts
+   * @param i 
+   */
+  buildSortAction(){
+    this.sortAction = new Action({
+      title: "msg#sortSelector.sortByTitle",
+      text:  "msg#preview.relevanceSortHighlightButtonText",
+      children: [
+      ]
+    });
+
+    this.sortAction.children.push(new Action({
+      icon: 'fas fa-sort-amount-down',
+      text: "msg#preview.relevanceSortHighlightButtonText",
+      action: (item: Action, event: Event) => {
+          this.extracts.sort((a,b) => a.relevanceIndex-b.relevanceIndex);
+          this.sortAction.text = item.text;
+      }
+    }));
+
+    this.sortAction.children.push(new Action({
+      icon: 'fas fa-sort-amount-down',
+      text: "msg#preview.textOrderSortHighlightButtonText",
+      action: (item: Action, event: Event) => {
+          this.extracts.sort((a,b) => a.textIndex-b.textIndex);
+          this.sortAction.text = item.text;
+      }
+    }));
+
   }
 
   /**
@@ -56,7 +123,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    */
   previousExtract(){
     this.currentExtract--;
-    this.scrollExtract(this.currentExtract);
+    this.scrollExtract(this.extracts[this.currentExtract].textIndex);
   }
 
   /**
@@ -64,6 +131,6 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    */
   nextExtract(){
     this.currentExtract++;
-    this.scrollExtract(this.currentExtract);
+    this.scrollExtract(this.extracts[this.currentExtract].textIndex);
   }
 }

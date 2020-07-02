@@ -17,6 +17,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Input() record: Record;
   @Input() query: Query;
   @Input() iframeClass: string;
+  @Input() sandbox : string;
   @Input() height: number = 500;
   @Input() scalingFactor: number = 0.6;
   @Input() metadata: string[] = [];

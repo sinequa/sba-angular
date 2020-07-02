@@ -23,6 +23,7 @@
         </div>
         <div class="col-lg-9 sq-col d-flex flex-column">
             <sq-preview-document-iframe 
+                [sandbox] = "sandbox" 
                 [downloadUrl]="downloadUrl" 
                 (onPreviewReady)="onPreviewReady($event)">
                 <sq-preview-tooltip #tooltip

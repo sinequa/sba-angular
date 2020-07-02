@@ -4,6 +4,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 import {IntlModule} from "@sinequa/core/intl";
 
+import {BsSelectionModule} from "@sinequa/components/selection";
 import {BsActionModule} from "@sinequa/components/action";
 
 import {BsTooltipComponent} from "./tooltip.component";
@@ -17,6 +18,7 @@ import {BsResultsHeatmapView} from "./results-heatmap-view";
         CommonModule,
         IntlModule,
 
+        BsSelectionModule,
         BsActionModule
     ],
     declarations: [

@@ -301,9 +301,6 @@ export class Query implements IQuery {
     fromJson(jquery: string): Query {
         this.clear();
         const query = Utils.fromJson(jquery);
-        // ensure the text field is a string
-        const query1 = Utils.fromJson(jquery, {reviveDates: false});
-        query.text = query1.text;
         // convert select and open
         const select = query.select;
         if (Utils.isArray(select)) {

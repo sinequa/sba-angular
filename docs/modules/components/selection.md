@@ -141,6 +141,8 @@ The [`sq-selection-arranger`]({{site.baseurl}}components/components/BsSelectionA
 
 The component directly modifies the selection via the [`SelectionService`](#selection-service), using the methods described above.
 
+{% raw %}
+
 ```html
 <sq-selection-arranger>
     <!-- Template passed by transclusion -->
@@ -150,11 +152,15 @@ The component directly modifies the selection via the [`SelectionService`](#sele
 </sq-selection-arranger>
 ```
 
+{% endraw %}
+
 ![Selection arranger]({{site.baseurl}}assets/modules/selection/selection-arranger.png){: .d-block .mx-auto }
 
 This component makes use of the [`DragDropModule`](https://material.angular.io/cdk/drag-drop/overview) from `@angular/cdk`.
 
 It is also posible to display and rearrange a list of record which is **not** tied to the [`SelectionService`](#selection-service). To do so, simply bind the `records` input, and listen to selection changes via the `(changes)` event emitter:
+
+{% raw %}
 
 ```html
 <sq-selection-arranger [records]="results.record" (changes)="onChanges($event)">
@@ -164,3 +170,5 @@ It is also posible to display and rearrange a list of record which is **not** ti
     </ng-template>
 </sq-selection-arranger>
 ```
+
+{% endraw %}

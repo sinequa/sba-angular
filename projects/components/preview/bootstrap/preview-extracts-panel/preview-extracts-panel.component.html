@@ -1,16 +1,17 @@
 <ng-container *ngIf="!!previewData && !!previewDocument">
-    <div class="clearfix">
+    <div class="d-flex justify-content-between">
         <button class="btn btn-light" (click)="previousExtract()" [disabled]="currentExtract < 1">
             <i class="fas fa-arrow-left"></i> {{ 'msg#preview.previousHighlightButtonAltText' | sqMessage}}
         </button>
+        <div class="btn-group" [sq-action-buttons]="{items: [sortAction], autoAdjust: true}" ></div>
         <button class="btn btn-light float-right" (click)="nextExtract()" [disabled]="currentExtract >= extracts.length-1">
             {{ 'msg#preview.nextHighlightButtonAltText' | sqMessage}} <i class="fas fa-arrow-right"></i>
         </button>
     </div>
     
     <div class="list-group">
-        <a href="#" class="card my-1 list-group-item-action" *ngFor="let extract of extracts; let i=index" (click)="scrollExtract(i)" [ngClass]="{'bg-light': currentExtract === i}">
-            <p class="card-body m-0" [innerHTML]="sanitize(extract)"></p>
+        <a href="#" class="card my-1 list-group-item-action" *ngFor="let extract of extracts; let i=index" (click)="scrollExtract(extract.textIndex)" [ngClass]="{'bg-light': currentExtract === i}">
+            <p class="card-body m-0" [innerHTML]="extract.text"></p>
         </a>
     </div>    
 </ng-container>

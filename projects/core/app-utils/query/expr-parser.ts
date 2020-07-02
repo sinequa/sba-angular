@@ -1,7 +1,7 @@
 import {Utils, MapOf, IRef, FieldValue} from "@sinequa/core/base";
 import {AppService} from "../app.service";
 import {AppServiceHelpers} from "../app-service-helpers";
-import {CCColumn, EngineType, EngineTypeModifier} from "@sinequa/core/web-services";
+import {CCColumn, EngineType} from "@sinequa/core/web-services";
 import {IntlService} from "@sinequa/core/intl";
 import {FormatService} from "../format.service";
 
@@ -358,22 +358,6 @@ export class Expr {
         return this._evaluationRegExps;
     }
 
-    private static implicitColumns: MapOf<CCColumn> = {
-        "id": {
-            name: "id",
-            type: "string",
-            eType: EngineType.string,
-            eTypeModifier: EngineTypeModifier.none
-        },
-        "documentlanguages": {
-            name: "documentlanguages",
-            type: "csv",
-            typeModifier: "acl",
-            eType: EngineType.csv,
-            eTypeModifier: EngineTypeModifier.a | EngineTypeModifier.i | EngineTypeModifier.c | EngineTypeModifier.l
-        }
-    };
-
     constructor(init: ExprValueInitializer | ExprOperandsInitializer) {
         if (!(<ExprOperandsInitializer>init).op1) {
             const valueInit: ExprValueInitializer = <ExprValueInitializer>init;
@@ -423,7 +407,7 @@ export class Expr {
         if (!Utils.isEmpty(this.field) && Utils.isEmpty(operand.field) && !operand.isStructured) {
             if (Utils.isEmpty(contextField)) {
                 // Prefer setting the fields explicitly on the target operands rather the Field to "text" on the source operand
-                // operand.field = "text";
+                // operand.field = ExprParser.fieldPartnamePrefix + "text";
                 for (const expr of this.operands) {
                     if (Utils.isEmpty(expr._field)) {
                         expr._field = this.field;
@@ -542,28 +526,19 @@ export class Expr {
         return "";
     }
 
-    private get resolvedField(): string {
-        return Expr.resolveField(this.exprContext, this.field);
-    }
-
-    private static getColumn(exprContext: ExprContext, field: string): CCColumn {
-        let column = exprContext.appService.getColumn(field);
-        if (column) {
-            return column;
-        }
-        column = Expr.implicitColumns[Utils.toLowerCase(field)];
-        return column;
+    private static getColumn(exprContext: ExprContext, field: string | undefined): CCColumn | undefined {
+        return exprContext.appService.getColumn(field);
     }
 
     /**
      * Return the {@link CCColumn} corresponding to this expression
      */
-    get column(): CCColumn {
-        return Expr.getColumn(this.exprContext, this.resolvedField);
+    get column(): CCColumn | undefined {
+        return Expr.getColumn(this.exprContext, this.field);
     }
 
-    private static getIsStructuredField(exprContext: ExprContext, field: string): boolean {
-        if (Utils.isEmpty(field)) {
+    private static getIsStructuredField(exprContext: ExprContext, field: string | undefined): boolean {
+        if (!field) {
             return false;
         }
         if (exprContext.disallowFulltext) {
@@ -587,7 +562,7 @@ export class Expr {
         if (!this.isLeaf) {
             return false;
         }
-        return Expr.getIsStructuredField(this.exprContext, this.resolvedField);
+        return Expr.getIsStructuredField(this.exprContext, this.field);
     }
 
     /**
@@ -835,13 +810,18 @@ export class Expr {
         });
     }
 
-    private shouldDisplayField(inner: boolean): boolean {
-        if (this.isStructured) {
-            return !!this.field && (!inner || (this.parent && !Utils.eqNC(this.field, this.parent.field || "")));
+    private normalizeField(field: string | undefined): string | undefined {
+        if (field && field[0] === ExprParser.fieldPartnamePrefix) {
+            return field.substr(1);
         }
-        else {
-            return inner;
+        return field;
+    }
+
+    private shouldDisplayField(): boolean {
+        if (!this.field && !this.parent) { // top level full text
+            return true;
         }
+        return !!this.field && (!this.parent || !Utils.eqNC(this.field, this.parent.field || ""));
     }
 
     private getOperatorString(): string {
@@ -852,7 +832,7 @@ export class Expr {
     }
 
     private escapeValue(value: string | null | undefined): string {
-        if (!!value && (AppServiceHelpers.isString(this.column) || AppServiceHelpers.isCsv(this.column))) {
+        if (!!value && !!this.column && (AppServiceHelpers.isString(this.column) || AppServiceHelpers.isCsv(this.column))) {
             return ExprParser.escape(value);
         }
         return "";
@@ -877,10 +857,10 @@ export class Expr {
         return this.escapeValue(this.value);
     }
 
-    private addFieldToString(sb: string[], inner: boolean): boolean {
+    private addFieldToString(sb: string[]): boolean {
         let added = false;
-        if (this.shouldDisplayField(inner)) {
-            sb.push(this.field || "text");
+        if (this.shouldDisplayField()) {
+            sb.push(this.normalizeField(this.field) || "text");
             added = true;
         }
         if (this.display) {
@@ -900,7 +880,7 @@ export class Expr {
                 sb.push("NOT ");
             }
             if (withFields) {
-                this.addFieldToString(sb, inner);
+                this.addFieldToString(sb);
             }
             sb.push(this.getOperatorString());
             sb.push(this.getValueString());
@@ -913,7 +893,7 @@ export class Expr {
                 sb.push("NOT ");
             }
             let bracketed = inner;
-            if (this.addFieldToString(sb, inner)) {
+            if (this.addFieldToString(sb)) {
                 bracketed = true;
             }
             if (bracketed) {
@@ -1030,7 +1010,7 @@ export class Expr {
             this.addText(options, ctxt, displayObj.label);
         }
         else if (this.field) {
-            const label = this.exprContext.appService.getLabel(this.field);
+            const label = this.exprContext.appService.getLabel(this.normalizeField(this.field) || "");
             this.addText(options, ctxt, label);
         }
         else {
@@ -1092,7 +1072,7 @@ export class Expr {
         const displayObj = this.displayObj;
         const display = (displayObj ? displayObj.display : undefined) || this.display;
         const showNot = this.not && (inner || !options.hideOuterNot);
-        const showField = (options.withFields || inner) && this.shouldDisplayField(inner);
+        const showField = (options.withFields || inner) && this.shouldDisplayField();
         if (options.useDisplay && !!display) {
             if (showNot) {
                 this.addOperator("NOT", options, ctxt);
@@ -1475,9 +1455,10 @@ export class Expr {
         return undefined;
     }
 
+    // NB comparisons with NaN always return false
     private compare(value: string | string[] | undefined, dataValue: any, equality?: boolean): number {
-        if (!dataValue || (Utils.isArray(dataValue) && dataValue.length === 0)) {
-            return -1;
+        if (Utils.isArray(dataValue) && dataValue.length === 0) {
+            return NaN;
         }
         const column = Expr.getColumn(this.exprContext, this.field || "");
         if (Utils.isArray(dataValue) || Utils.isArray(value)) {
@@ -1487,7 +1468,7 @@ export class Expr {
             }
             if (Utils.isArray(value)) {
                 if (value.length === 0) {
-                    return -1;
+                    return NaN;
                 }
             }
             else {
@@ -1501,31 +1482,37 @@ export class Expr {
                     }
                 }
             }
-            return -1;
+            return NaN;
         }
         if (!Utils.isArray(value)) {
-            value = value + "";
-            if (Utils.isString(value)) {
-                value = ExprParser.unescape(value);
-            }
+            value = ExprParser.unescape(value || "");
             if (column && column.parser) {
                 value = this.exprContext.formatService.parseValue(value, column.parser);
             }
-            if (Utils.isNumber(dataValue)) {
+            if (AppService.isNumber(column)) {
+                if (!Utils.isNumber(dataValue)) {
+                    dataValue = 0;
+                }
                 const _value = Utils.toNumber(value);
                 return dataValue - _value;
             }
-            if (Utils.isDate(dataValue)) {
-                const _value = this.exprContext.intlService.parseDate(value);
-                if (_value) {
-                    return dataValue.getTime() - _value.getTime();
+            if (AppService.isDate(column)) {
+                if (Utils.isString(dataValue)){
+                    dataValue = Utils.toDate(dataValue);
                 }
-                return -1;
+                if (Utils.isDate(dataValue)) {
+                    const _value = this.exprContext.intlService.parseDate(value);
+                    if (_value) {
+                        return dataValue.getTime() - _value.getTime();
+                    }
+                }
+                return NaN;
             }
-            if (Utils.isBoolean(dataValue)) {
+            if (AppService.isBoolean(column)) {
                 const _value = Utils.isTrue(value) ? 1 : 0;
                 return (dataValue ? 1 : 0) - _value;
             }
+            dataValue = dataValue || "";
             if (Utils.isString(dataValue)) {
                 dataValue = ExprParser.unescape(dataValue);
                 if (equality) {
@@ -1537,7 +1524,7 @@ export class Expr {
                 return Utils.compare(dataValue, value);
             }
         }
-        return -1;
+        return NaN;
     }
 
     /**
@@ -1558,11 +1545,11 @@ export class Expr {
             else {
                 if (Utils.eqNC(this.field || "", "exists")) {
                     const dataValue = this.getDataValue(data, this.value, defaultScope);
-                    ret = !!dataValue;
+                    ret = !Utils.isUndefined(dataValue);
                 }
                 else if (Utils.eqNC(this.field || "", "missing")) {
                     const dataValue = this.getDataValue(data, this.value, defaultScope);
-                    ret = !dataValue;
+                    ret = Utils.isUndefined(dataValue);
                 }
                 else {
                     const dataValue = this.getDataValue(data, this.field, defaultScope);
@@ -1737,7 +1724,7 @@ export class ExprParserOperator {
  */
 export class ExprParser {
 
-    private static fieldPartnamePrefix = "@";
+    public static fieldPartnamePrefix = "@";
     private static parsetbl: Act[][] = [
     /* stk  ------------- input ------------*/
     /*		                                 INFIX                  */
@@ -2077,6 +2064,41 @@ export class ExprParser {
         return this.options.allowScopedFields ? Utils.isValidScopedSimpleName(name) : Utils.isValidSimpleName(name);
     }
 
+    private isAllowedField(field: string, forcePartname: boolean, isPartname: IRef<boolean>): boolean {
+        isPartname.value = false;
+        if (Utils.eqNCN(field, "exists", "missing")) {
+            return true;
+        }
+        if (Utils.eqNCN(field, "text", "concepts", "refine", "matchingpartnames")) {
+            // NB @concepts, @refine and @matchingpartnames must be handled specially by the caller
+            isPartname.value = true;
+            return true;
+        }
+        const ccquery = this.exprContext.appService.ccquery;
+        if (ccquery) {
+            forcePartname = forcePartname && !this.exprContext.disallowFulltext;
+            let column = forcePartname ? undefined : this.exprContext.appService.getColumn(field);
+            if (!!column) {
+                if (column.eType === EngineType.varchar) { // only type not indexed
+                    column = undefined;
+                }
+                else if ((ccquery.$columnFieldsPattern && ccquery.$columnFieldsPattern.hasPatterns()) &&
+                    !ccquery.$columnFieldsPattern.isIncluded(field) &&
+                    !ccquery.$columnFieldsPattern.isIncluded(column.name)) {
+                    column = undefined;
+                }
+            }
+            if (!this.exprContext.disallowFulltext && !column) {
+                isPartname.value = true;
+                if ((ccquery.$partnameFieldsPattern && ccquery.$partnameFieldsPattern.hasPatterns()) &&
+                    !ccquery.$partnameFieldsPattern.isIncluded(field)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     private readToken(): string | undefined {
         if (this.saveOp !== ExprParserOperator.invalid) {
             this.prevOp = this.op;
@@ -2244,10 +2266,26 @@ export class ExprParser {
                             this._getTokValue(value);
                             return undefined;
                         }
-                        if (!Utils.isEmpty(field) && this.current + 1 < this.length && this.text[this.current + 1] === ":") {
-                            // :: => force partname over column
-                            field = ExprParser.fieldPartnamePrefix + field;
-                            this.current++;
+                        if (!Utils.isEmpty(field)) {
+                            let forcePartname = false;
+                            if (this.current + 1 < this.length && this.text[this.current + 1] === ":") {
+                                // :: => force partname over column
+                                forcePartname = true;
+                                this.current++;
+                            }
+                            const isPartname: IRef<boolean> = { value: false };
+                            if (!this.isAllowedField(field, forcePartname, isPartname)) {
+                                candidateFieldPos = -1;
+                                sbCurrentValue.push(":");
+                                if (forcePartname) {
+                                    sbCurrentValue.push(":");
+                                }
+                                this.current++;
+                                continue;
+                            }
+                            if (isPartname.value) {
+                                field = ExprParser.fieldPartnamePrefix + field;
+                            }
                         }
                         if (!Utils.isEmpty(field)) {
                             this.field = field;

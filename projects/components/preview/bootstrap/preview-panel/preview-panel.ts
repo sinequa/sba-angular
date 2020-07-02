@@ -14,6 +14,7 @@ import { PreviewDocument } from "../../preview-document";
 export class BsPreviewPanel implements OnChanges {
     @Input() query: Query;
     @Input() previewData: PreviewData;
+    @Input() sandbox: string;
     @Input() displaySimilarDocuments: boolean;
     @Input() metadata: string[];
     @Input() leftPaneAdditionalClasses: string;

@@ -1,4 +1,4 @@
-import {MapOf, JsonObject} from "@sinequa/core/base";
+import {MapOf, JsonObject, PatternMatcher} from "@sinequa/core/base";
 
 /**
  * Describes the fields available in all configuration objects. By convention, configuration object
@@ -396,6 +396,34 @@ export interface CCQuery extends CCWebService {
      * Determines whether filter-less queries are permitted
      */
     allowEmptySearch: boolean;
+    /**
+     * Defines the patterns to control which column fields are allowed
+     * in fielded search expressions.
+     */
+    columnFieldsIncluded: string[];
+    /**
+     * Defines the patterns to control which column fields are disallowed
+     * in fielded search expressions.
+     */
+    columnFieldsExcluded: string[];
+    /**
+     * The `PatternMatcher` instance created on the client using the `columnFieldsIncluded` and `columnFieldsExcluded` values.
+     */
+    $columnFieldsPattern: PatternMatcher;
+    /**
+     * Defines the patterns to control which part name fields are allowed
+     * in fielded search expressions.
+     */
+    partnameFieldsIncluded: string[];
+    /**
+     * Defines the patterns to control which part name fields are disallowed
+     * in fielded search expressions.
+     */
+    partnameFieldsExcluded: string[];
+    /**
+     * The `PatternMatcher` instance created on the client using the `partnameFieldsIncluded` and `partnameFieldsExcluded` values.
+     */
+    $partnameFieldsPattern: PatternMatcher;
 }
 
 /**
