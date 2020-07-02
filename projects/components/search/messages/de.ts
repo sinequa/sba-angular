@@ -43,5 +43,9 @@ export default {
         "date": "Datum",
         "filename": "Dateiname",
         "title": "Titel"
+    },
+
+    "queryIntent": {
+        "externalServiceTimeoutError": "Diese Ergebnisseite ist aufgrund eines internen Zeitlimits unvollständig. Bitte versuchen Sie es später noch einmal."
     }
 };

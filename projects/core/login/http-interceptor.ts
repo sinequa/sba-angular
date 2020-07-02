@@ -184,23 +184,13 @@ export class HttpInterceptor implements NgHttpInterceptor {
                     userOverrideActive = false;
                 }
                 config.headers = config.headers.set("sinequa-force-camel-case", "true");
-                let body = request1.body;
                 if (this.isJsonable(request1.body)) {
                     this.processRequestInitializers(request1);
-                    body = Utils.toJson(request1.body);
-                    config.headers = config.headers.set("Content-Type", "application/json");
-                }
-                let reviveJson = false;
-                let responseType = request1.responseType;
-                if (responseType === "json") {
-                    responseType = "text";
-                    reviveJson = true;
                 }
                 const updatedRequest = request1.clone({
                     headers: config.headers,
                     params: config.params,
-                    body,
-                    responseType,
+                    body: request1.body,
                     withCredentials: true
                 });
                 this.notificationsService.enter("network");
@@ -208,11 +198,6 @@ export class HttpInterceptor implements NgHttpInterceptor {
                     .pipe(map((event, index) => {
                         if (event instanceof HttpResponse) {
                             this.notificationsService.leave("network");
-                            if (reviveJson && Utils.isString(event.body)) {
-                                event = event.clone({
-                                    body: Utils.fromJson(event.body)
-                                });
-                            }
                             this.authenticationService.updateAuthentication(event);
                         }
                         return event;

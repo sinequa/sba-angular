@@ -43,5 +43,9 @@ export default {
         "date": "Date",
         "filename": "File name",
         "title": "Title"
+    },
+
+    "queryIntent": {
+        "externalServiceTimeoutError": "This result page is incomplete due to an internal timeout. Please retry later."
     }
 };
