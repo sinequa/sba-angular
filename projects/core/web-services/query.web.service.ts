@@ -223,6 +223,7 @@ export interface QueryIntentDatasets {
 export interface QueryAnalysis {
     text: string;
     initial: boolean;
+    queryLanguage: string | undefined;
     elements: QueryAnalysisElement[];
 }
 
