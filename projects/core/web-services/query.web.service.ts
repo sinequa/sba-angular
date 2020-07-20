@@ -91,6 +91,10 @@ export interface Results {
      * A hash of the associated results for use with RFM (relevance feedback model) functionality
      */
     rfmQueryHash: string;
+    /**
+     * The name of the {@link IQuery} that produced these results
+     */
+    queryName: string;
 }
 
 /**
