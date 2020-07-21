@@ -5,7 +5,7 @@ export * from "./jwt.service";
 export * from "./login.module";
 export * from "./login.service";
 export * from "./login.component";
-export * from "./http-interceptor";
+export * from "./login.interceptor";
 export * from "./authentication-oauth.service";
 export * from "./authentication-popup.service";
 export * from "./messages/index";

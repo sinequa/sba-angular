@@ -2,13 +2,16 @@ import { NgModule/*, APP_INITIALIZER*/ } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { RouterModule, Routes } from '@angular/router';
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 // @sinequa/core library
 import { WebServicesModule, StartConfigWebService, StartConfig } from "@sinequa/core/web-services";
-import { LoginModule } from "@sinequa/core/login";
+import { LoginModule, LoginInterceptor } from "@sinequa/core/login";
 import { IntlModule } from "@sinequa/core/intl";
 import { ModalModule } from "@sinequa/core/modal";
+import { NotificationsInterceptor } from "@sinequa/core/notification";
+import { AuditInterceptor } from "@sinequa/core/app-utils";
 
 // @sinequa/components library
 import { BsSearchModule, SearchOptions } from "@sinequa/components/search";
@@ -143,6 +146,9 @@ export const breakpoints = {
     providers: [
         // {provide: APP_INITIALIZER, useFactory: StartConfigInitializer, deps: [StartConfigWebService], multi: true},
         {provide: LocationStrategy, useClass: HashLocationStrategy},
+        {provide: HTTP_INTERCEPTORS, useClass: LoginInterceptor, multi: true},
+        {provide: HTTP_INTERCEPTORS, useClass: AuditInterceptor, multi: true},
+        {provide: HTTP_INTERCEPTORS, useClass: NotificationsInterceptor, multi: true},
         {provide: SCREEN_SIZE_RULES, useValue: breakpoints}
     ],
     bootstrap: [
