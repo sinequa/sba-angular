@@ -930,8 +930,9 @@ export class SearchService implements OnDestroy {
     notifyOpenOriginalDocument(record: Record, resultId?: string): void {
         const results = this.results && this.results.records && this.results.records.includes(record) ? this.results : undefined;
         this._events.next({ type: "open-original-document", record });
-        const querylang = this.query.questionLanguage ||
-            (this.appService.ccquery && this.appService.ccquery.questionLanguage);
+        const querylang = this.results?.queryAnalysis?.queryLanguage
+            || this.query?.questionLanguage
+            || this.appService?.ccquery?.questionLanguage;
         this.auditService.notifyDocument(
             AuditEventType.Click_ResultLink,
             record,

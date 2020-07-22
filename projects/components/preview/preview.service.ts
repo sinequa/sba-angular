@@ -81,6 +81,9 @@ export class PreviewService {
         const record = this.searchService.getRecordFromId(id);
         const resultId = !!record ? this.searchService.results && this.searchService.results.id : undefined;
         if (audit) {
+            const queryLanguage = this.searchService.results?.queryAnalysis?.queryLanguage
+                || this.searchService?.query?.questionLanguage
+                || this.appService?.ccquery?.questionLanguage;
             const collection = !!record ? record.collection[0] : Utils.split(id, "|")[0];
             const rank = !!record ? record.rank : 0;
             auditEvent = {
@@ -91,6 +94,7 @@ export class PreviewService {
                     collection: collection,
                     source: Utils.treeFirstNode(collection),
                     "resultid": resultId,
+                    "querylang": queryLanguage
                 }
             };
         }
