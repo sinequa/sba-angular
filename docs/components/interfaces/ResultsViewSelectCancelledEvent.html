@@ -1,0 +1,397 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>ResultsViewSelectCancelledEvent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>results-view/results-view.service.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../interfaces/ResultsViewEvent.html" target="_self" >ResultsViewEvent</a></code>
+            </p>
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#type">type</a>
+                                </li>
+                                <li>
+                                        <a href="#view">view</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="type"></a>
+                                        <span class="name"><b>type</b><a href="#type"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>type:     <code></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="view"></a>
+                                        <span class="name"><b>view</b><a href="#view"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>view:         <code><a href="../interfaces/ResultsView.html" target="_self" >ResultsView</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../interfaces/ResultsView.html" target="_self" >ResultsView</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, InjectionToken} from &quot;@angular/core&quot;;
+import {Subject, Observable} from &quot;rxjs&quot;;
+
+export interface ResultsView {
+    type: string;
+    name: string;
+    display?: string;
+    icon?: string;
+    includedTabs?: string[];
+    excludedTabs?: string[];
+}
+
+export interface ResultsViewEvent {
+    type: &quot;before-select&quot; | &quot;after-select&quot; | &quot;select-cancelled&quot;;
+}
+
+export interface ResultsViewBeforeSelectEvent extends ResultsViewEvent {
+    type: &quot;before-select&quot;;
+    view: ResultsView;
+    promises: Promise&lt;boolean&gt;[];
+}
+
+export interface ResultsViewAfterSelectEvent extends ResultsViewEvent {
+    type: &quot;after-select&quot;;
+    view: ResultsView;
+}
+
+export interface ResultsViewSelectCancelledEvent extends ResultsViewEvent {
+    type: &quot;select-cancelled&quot;;
+    view: ResultsView;
+}
+
+export type ResultsViewEvents &#x3D;
+    ResultsViewBeforeSelectEvent |
+    ResultsViewAfterSelectEvent |
+    ResultsViewSelectCancelledEvent;
+
+export const RESULTS_VIEWS &#x3D; new InjectionToken&lt;ResultsView[]&gt;(&quot;RESULTS_VIEWS&quot;);
+export const DEFAULT_VIEW &#x3D; new InjectionToken&lt;ResultsView&gt;(&quot;DEFAULT_VIEW&quot;);
+
+@Injectable({
+    providedIn: &#x27;root&#x27;,
+})
+export class ResultsViewService {
+
+    protected _resultsView : ResultsView;
+    protected readonly _resultsViews : ResultsView[];
+
+    protected _resultsViewSelected &#x3D; new Subject&lt;ResultsView&gt;();
+    protected _events &#x3D; new Subject&lt;ResultsViewEvents&gt;();
+
+    /**
+     * Constructor
+     * @param userSettingsService
+     */
+
+    constructor(
+        @Inject(DEFAULT_VIEW) public defaultView: ResultsView,
+        @Inject(RESULTS_VIEWS) resultsViews: ResultsView[]
+    ) {
+        this._resultsViews &#x3D; resultsViews;
+        this._resultsView &#x3D; this.defaultView;
+    }
+
+    // GETTERS
+
+    public get resultsViewSelected(): Observable&lt;ResultsView&gt; {
+        return this._resultsViewSelected;
+    }
+
+    public get events(): Observable&lt;ResultsViewEvents&gt; {
+        return this._events;
+    }
+
+    public get resultsView(): ResultsView {
+        return this._resultsView;
+    }
+
+    public get views(): ResultsView[] {
+        return this._resultsViews;
+    }
+
+    // EVENT HANDLERS
+
+    private setResultsView(view: ResultsView) {
+        this._resultsView &#x3D; view;
+        this._events.next({type: &quot;after-select&quot;, view});
+        this._resultsViewSelected.next(view);
+    }
+
+    public selectResultsView(view: ResultsView) {
+        if (view) {
+            // Raise before event...
+            const beforeEvent: ResultsViewBeforeSelectEvent &#x3D; {
+                type: &quot;before-select&quot;,
+                view,
+                promises: []
+            }
+            this._events.next(beforeEvent);
+            if (beforeEvent.promises.length &#x3D;&#x3D;&#x3D; 0) {
+                this.setResultsView(view);
+            }
+            else {
+                Promise.all(beforeEvent.promises)
+                    .then((results) &#x3D;&gt; {
+                        const ok &#x3D; results.every(result &#x3D;&gt; result);
+                        if (ok) {
+                            this.setResultsView(view);
+                        }
+                        else {
+                            console.log(&quot;selectResultsView cancelled&quot;);
+                            this._events.next({type: &quot;select-cancelled&quot;, view});
+                        }
+                    })
+                    .catch((reason) &#x3D;&gt; {
+                        console.log(&quot;selectResultsView error:&quot;, reason);
+                        this._events.next({type: &quot;select-cancelled&quot;, view});
+                    });
+            }
+        }
+        else {
+            console.error(&quot;Undefined Results View&quot;);
+        }
+    }
+
+    public selectResultsViewName(viewName: string){
+        const view &#x3D; this.views.find(v &#x3D;&gt; v.name &#x3D;&#x3D;&#x3D; viewName);
+        if (view) {
+            this.selectResultsView(view);
+        }
+    }
+
+    public getView(viewName): ResultsView | undefined {
+        return this.views.find(v &#x3D;&gt; v.name &#x3D;&#x3D;&#x3D; viewName);
+    }
+
+    // Former Search service methods
+
+    /**
+     * Gets the query params from the current view, combining those in the view configuration and the view settings.
+     *
+     * @returns {CCResults.QueryParams} The query params from the current view.
+     */
+    /*
+    public getViewQueryParams(): CCResults.QueryParams {
+        const queryParams &#x3D; {};
+        const viewName &#x3D; this.resultsView ? this.resultsView.name : &#x27;&#x27;;
+        const userSettingsQueryParams &#x3D; this.userSettingsService.getCurrentQueryParams(viewName);
+        const configQueryParams &#x3D; (this.resultsView &amp;&amp; this.resultsView.queryParams)
+            ? Utils.copyWithoutNullOrEmpty({}, this.resultsView.queryParams)
+            : {};
+        Utils.merge(queryParams, configQueryParams, userSettingsQueryParams);
+
+        return queryParams;
+    }
+
+
+    updateQueryParams(query: Query, oldParams: CCResults.QueryParams, newParams: CCResults.QueryParams): void {
+
+        if (!!query &amp;&amp; !!oldParams &amp;&amp; Object.keys(oldParams).length &gt; 0) {
+            for (let key of Object.keys(oldParams)) {
+                const paramsValue &#x3D; oldParams[key];
+                const queryValue &#x3D; query[key];
+                if (paramsValue &#x3D;&#x3D;&#x3D; queryValue) {
+                    delete query[key];
+                }
+            }
+        }
+
+        if (!query || !newParams || Object.keys(newParams).length &#x3D;&#x3D;&#x3D; 0) {
+            return;
+        }
+
+        Utils.extend(query, newParams);
+
+    }
+    */
+}</code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'ResultsViewSelectCancelledEvent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

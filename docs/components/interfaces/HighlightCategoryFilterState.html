@@ -172,6 +172,17 @@ export interface HighlightCategoryFilterState {
 
 export type HighlightFilters &#x3D; { [key: string]: HighlightCategoryFilterState } | string[];
 
+// forEach on a NodeList is polyfilled for IE but not at all necessarily when the list comes from a document
+// in another frame. This function is used to perform the forEach taking this into account.
+function forEach&lt;T extends Node&gt;(nodeList: NodeListOf&lt;T&gt;, callbackfn: (value: T, key: number, parent: NodeListOf&lt;T&gt; | T[]) &#x3D;&gt; void): void {
+    if (!nodeList.forEach) {
+        Array.from(nodeList).forEach(callbackfn);
+    }
+    else {
+        nodeList.forEach(callbackfn);
+    }
+}
+
 /**
  * This class offers an API to manipulate the HTML of a preview document.
  * - Insert elements dynamically in the DOM of the preview (eg. tooltips)
@@ -197,7 +208,8 @@ export class PreviewDocument {
         if (frame &amp;&amp; frame.contentWindow &amp;&amp; frame.contentWindow.frames) {
             const sheet &#x3D; frame.contentWindow.frames[&quot;frSheet&quot;]; // aspose xls preview
             if (sheet) {
-                return sheet;
+                this._window &#x3D; sheet;
+                return;
             }
         }
         this._window &#x3D; frame.contentWindow;
@@ -237,12 +249,12 @@ export class PreviewDocument {
         if (index &lt; 0) {
             return &quot;&quot;;
         }
-        const nodes: NodeList &#x3D; this.document.querySelectorAll(&quot;#&quot;+categoryId + &quot;_&quot; + index);
-        if (nodes &#x3D;&#x3D; null || nodes.length &#x3D;&#x3D;&#x3D;0) {
+        const nodes &#x3D; this.document.querySelectorAll(&quot;#&quot;+categoryId + &quot;_&quot; + index);
+        if (!nodes || nodes.length &#x3D;&#x3D;&#x3D; 0) {
             return &quot;&quot;;
         }
         let text &#x3D; &quot;&quot;;
-        nodes.forEach(n &#x3D;&gt; text +&#x3D; (n[&#x27;innerHTML&#x27;] || n.textContent));
+        forEach(nodes, n &#x3D;&gt; text +&#x3D; (n[&#x27;innerHTML&#x27;] || n.textContent));
         return text;
     }
 
@@ -332,9 +344,9 @@ export class PreviewDocument {
      * @param filters object where each key provides a filter for each category of entity/highlight
      */
     public updateHighlightFilterState(filters: HighlightFilters): void {
-        const elements: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;[data-entity-display], .extractslocations, .matchlocations&quot;);
+        const elements &#x3D; this.document.querySelectorAll(&quot;[data-entity-display], .extractslocations, .matchlocations&quot;);
         if (Utils.isArray(filters)) {
-            elements.forEach(element &#x3D;&gt; {
+            forEach&lt;Element&gt;(elements, element &#x3D;&gt; {
                 const highlight &#x3D; filters.some(category &#x3D;&gt; element.classList.contains(category));
                 if (highlight) {
                     element.classList.remove(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
@@ -345,7 +357,7 @@ export class PreviewDocument {
             });
         }
         else {
-            elements.forEach(element &#x3D;&gt; {
+            forEach(elements, element &#x3D;&gt; {
                 if (PreviewDocument.elementIsFilteredOut(element, filters)) {
                     element.classList.add(PreviewDocument.FILTERED_OUT_HIGHLIGHT_CLASS);
                 }
@@ -363,8 +375,8 @@ export class PreviewDocument {
      * @param value e.g. &quot;BILL GATES&quot;
      */
     public toggleHighlight(category: string, on: boolean, value?: string) {
-        const elements: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;.&quot;+category);
-        elements.forEach(element &#x3D;&gt; {
+        const elements &#x3D; this.document.querySelectorAll(&quot;.&quot;+category);
+        forEach(elements, element &#x3D;&gt; {
             if(!value
                 || (element.hasAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE) &amp;&amp; value &#x3D;&#x3D;&#x3D; element.getAttribute(PreviewDocument.BASIC_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE))
                 || (element.hasAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE) &amp;&amp; value &#x3D;&#x3D;&#x3D; element.getAttribute(PreviewDocument.ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE))) {

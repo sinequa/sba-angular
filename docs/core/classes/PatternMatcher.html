@@ -1,0 +1,1410 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Core</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Core</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>PatternMatcher</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>base/pattern-matcher.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>This class is used to process &quot;included&quot; and &quot;excluded&quot; patterns typically specified in the Sinequa configuration.</p>
+
+            </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#excludedLogDisplay">excludedLogDisplay</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#excludedPattern">excludedPattern</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#includedLogDisplay">includedLogDisplay</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#includedPattern">includedPattern</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#hasPatterns">hasPatterns</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isExcluded">isExcluded</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isExplicitlyExcluded">isExplicitlyExcluded</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isExplicitlyIncluded">isExplicitlyIncluded</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isIncluded">isIncluded</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#included">included</a>
+                                </li>
+                                <li>
+                                    <a href="#excluded">excluded</a>
+                                </li>
+                                <li>
+                                    <a href="#includedList">includedList</a>
+                                </li>
+                                <li>
+                                    <a href="#excludedList">excludedList</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(includedLogDisplay?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, excludedLogDisplay?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="349" class="link-to-prism">base/pattern-matcher.ts:349</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>includedLogDisplay</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>excludedLogDisplay</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="excludedLogDisplay"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                                <span class="modifier">Optional</span>
+                            excludedLogDisplay</b>
+                            <a href="#excludedLogDisplay"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="349" class="link-to-prism">base/pattern-matcher.ts:349</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="excludedPattern"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            excludedPattern</b>
+                            <a href="#excludedPattern"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/Patterns.html" target="_self" >Patterns</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="322" class="link-to-prism">base/pattern-matcher.ts:322</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="includedLogDisplay"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                                <span class="modifier">Optional</span>
+                            includedLogDisplay</b>
+                            <a href="#includedLogDisplay"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="348" class="link-to-prism">base/pattern-matcher.ts:348</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="includedPattern"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            includedPattern</b>
+                            <a href="#includedPattern"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/Patterns.html" target="_self" >Patterns</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="321" class="link-to-prism">base/pattern-matcher.ts:321</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasPatterns"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            hasPatterns
+                        </b>
+                        <a href="#hasPatterns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hasPatterns()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="358"
+                            class="link-to-prism">base/pattern-matcher.ts:358</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isExcluded"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            isExcluded
+                        </b>
+                        <a href="#isExcluded"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isExcluded(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="362"
+                            class="link-to-prism">base/pattern-matcher.ts:362</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isExplicitlyExcluded"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            isExplicitlyExcluded
+                        </b>
+                        <a href="#isExplicitlyExcluded"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isExplicitlyExcluded(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="394"
+                            class="link-to-prism">base/pattern-matcher.ts:394</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isExplicitlyIncluded"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            isExplicitlyIncluded
+                        </b>
+                        <a href="#isExplicitlyIncluded"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isExplicitlyIncluded(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="390"
+                            class="link-to-prism">base/pattern-matcher.ts:390</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isIncluded"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            isIncluded
+                        </b>
+                        <a href="#isIncluded"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isIncluded(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="366"
+                            class="link-to-prism">base/pattern-matcher.ts:366</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="included"></a>
+                        <span class="name"><b>included</b><a href="#included"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>included()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="324" class="link-to-prism">base/pattern-matcher.ts:324</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>included(value)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="328" class="link-to-prism">base/pattern-matcher.ts:328</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>value</td>
+                                                    
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="excluded"></a>
+                        <span class="name"><b>excluded</b><a href="#excluded"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>excluded()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="332" class="link-to-prism">base/pattern-matcher.ts:332</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>excluded(value)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="336" class="link-to-prism">base/pattern-matcher.ts:336</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>value</td>
+                                                    
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="includedList"></a>
+                        <span class="name"><b>includedList</b><a href="#includedList"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>includedList(value: [])</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="340" class="link-to-prism">base/pattern-matcher.ts:340</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>value</td>
+                                                    
+                                                            <td>
+                                                                        <code>[]</code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="excludedList"></a>
+                        <span class="name"><b>excludedList</b><a href="#excludedList"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>excludedList(value: [])</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="344" class="link-to-prism">base/pattern-matcher.ts:344</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>value</td>
+                                                    
+                                                            <td>
+                                                                        <code>[]</code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+</section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Utils} from &quot;./utils&quot;;
+
+/**
+ * Defines the different pattern types
+ * &#x60;Empty&#x60;: no pattern
+ * &#x60;RegExp&#x60;: a regular expression pattern
+ * &#x60;Value&#x60;: a literal value
+ */
+export enum PatternType {
+    Empty &#x3D; 0,
+    RegExp &#x3D; 1,
+    // WildCard &#x3D; 2,
+    Value &#x3D; 3
+}
+
+/**
+ * A class that represents a single pattern. The pattern type is deduced automatically from the input pattern text.
+ *
+ * &#x60;&lt;empty string&gt;&#x60; &#x3D;&gt; &#x60;Empty&#x60;
+ * &#x60;&lt;pattern with wildcards ?*&gt;&#x60; &#x3D;&gt; &#x60;RegExp&#x60; (wildcards are converted to regular expressions)
+ * &#x60;&lt;pattern starting with ~&gt;&#x60; &#x3D;&gt; &#x60;RegExp&#x60; (the text following the ~ character is treated as a regular expression)
+ * &#x60;&lt;any other value&gt;&#x60; &#x3D;&gt; &#x60;Value&#x60; (a literal value that is matched as-is)
+ */
+export class Pattern {
+    private _type: PatternType;
+    public get type(): PatternType {
+        return this._type;
+    }
+    private reg?: RegExp;
+    private preparedPattern1?: string;
+    // private preparedPattern2: string;
+    private _text?: string;
+    public get text(): string | undefined {
+        return this._text;
+    }
+
+    public static getPatternType(pattern: string): PatternType {
+        if (!pattern) {
+            return PatternType.Empty;
+        }
+        if (pattern[0] &#x3D;&#x3D;&#x3D; &quot;~&quot; || pattern.includes(&quot;*&quot;) || pattern.includes(&quot;?&quot;)) {
+            return PatternType.RegExp;
+        }
+        return PatternType.Value;
+    }
+
+    public static isPattern(pattern: string): boolean {
+        if (!pattern) {
+            return false;
+        }
+        if (pattern[0] &#x3D;&#x3D;&#x3D; &quot;~&quot; || pattern.includes(&quot;*&quot;) || pattern.includes(&quot;?&quot;)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static doMatch(pattern: string, text: string): boolean {
+        const _pattern &#x3D; new Pattern();
+        _pattern.load(pattern);
+        return _pattern.isMatch(text);
+    }
+
+    public static wildcardToRegex(pattern: string): string {
+        if (!pattern) {
+            return pattern;
+        }
+        return &quot;^&quot; + Utils.regExEscape(pattern).replace(&quot;\\*&quot;, &quot;.*&quot;).replace(&quot;\\?&quot;, &quot;.&quot;) + &quot;$&quot;;
+    }
+
+    public constructor(pattern?: string) {
+        if (!pattern) {
+            this.clear();
+        }
+        else {
+            this.load(pattern);
+        }
+    }
+
+    private static cleanPattern(s: string): string {
+        if (!s) {
+            return s;
+        }
+        const sb: string[] &#x3D; [];
+        let lastIsStar &#x3D; false;
+        for (const ch of s) {
+            if (ch &#x3D;&#x3D;&#x3D; &quot;*&quot;) {
+                if (!lastIsStar) {
+                    lastIsStar &#x3D; true;
+                    sb.push(ch);
+                }
+            }
+            else {
+                lastIsStar &#x3D; false;
+                sb.push(ch);
+            }
+        }
+        return sb.join(&quot;&quot;);
+    }
+
+    public clear():void {
+        this.reg&#x3D; undefined;
+        this._text &#x3D; undefined;
+        this.preparedPattern1 &#x3D; undefined;
+        // this.preparedPattern2 &#x3D; undefined;
+        this._type &#x3D; PatternType.Empty;
+    }
+
+    public isEmpty(): boolean {
+        return this._type &#x3D;&#x3D;&#x3D; PatternType.Empty;
+    }
+
+    public load(pattern: string): boolean {
+        this.clear();
+        try {
+            let s &#x3D; pattern;
+            this._text &#x3D; pattern;
+            this._type &#x3D; Pattern.getPatternType(s);
+            if (this._type &#x3D;&#x3D;&#x3D; PatternType.Empty) {
+                return true;
+            }
+            if (this._type &#x3D;&#x3D;&#x3D; PatternType.Value) {
+                this.preparedPattern1&#x3D; s ;
+                return true;
+            }
+            if (this._type &#x3D;&#x3D;&#x3D; PatternType.RegExp) {
+                if (s[0] &#x3D;&#x3D;&#x3D; &quot;~&quot;) {
+                    s &#x3D; s.substring(1);
+                }
+                else {
+                    s &#x3D; Pattern.wildcardToRegex(Pattern.cleanPattern(s));
+                }
+                this.preparedPattern1 &#x3D; s;
+                this.reg &#x3D; new RegExp(s, &quot;i&quot;);
+                return true;
+            }
+            return false;
+        }
+        catch (e) {
+            console.log(&#x60;Pattern.Load &#x27;${pattern}&#x27; error:&#x60;, e);
+            this.clear();
+            return false;
+        }
+    }
+
+    public getTypeValueText(): string | undefined {
+        if (this.type &#x3D;&#x3D;&#x3D; PatternType.Value) {
+            return this.preparedPattern1;
+        }
+        return undefined;
+    }
+
+    public getTypeRegexPattern(): string | undefined {
+        if (this.type &#x3D;&#x3D;&#x3D; PatternType.RegExp) {
+            return this.preparedPattern1;
+        }
+        return undefined;
+    }
+
+    public isTypeValue(): boolean {
+        return this.type &#x3D;&#x3D;&#x3D; PatternType.Value;
+    }
+
+    public isMatch(text: string): boolean {
+        text &#x3D; text || &quot;&quot;;
+        switch (this._type) {
+            default:
+            case PatternType.Empty:
+                return true;
+            case PatternType.Value:
+                return Utils.eqNC(text, this.preparedPattern1 || &quot;&quot;);
+            case PatternType.RegExp:
+                return this.reg?.test(text) || false;
+        }
+    }
+}
+
+export class Patterns {
+    private _text?: string;
+    private _preparedPatterns?: Pattern[];
+    private _values?: { [key: string]: true; };
+    private _isEmpty: boolean;
+
+    constructor(text?: string) {
+        this.text &#x3D; text;
+    }
+
+    public clear(): void {
+        this._preparedPatterns &#x3D; undefined;
+        this._values &#x3D; undefined;
+        this._isEmpty &#x3D; true;
+    }
+
+    public get text(): string | undefined {
+        return this._text;
+    }
+
+    public set text(value: string | undefined) {
+        if (value &#x3D;&#x3D;&#x3D; this._text) {
+            return;
+        }
+        this._text &#x3D; value;
+        const l &#x3D; Utils.split(this._text || &quot;&quot;, &quot;;&quot;);
+        this.innerSetList(l);
+
+    }
+
+    public getTypeCount(type: PatternType): number {
+        if (!this._preparedPatterns) {
+            return 0;
+        }
+        if (type &#x3D;&#x3D;&#x3D; PatternType.Value) {
+            return !!this._values ? Object.keys(this._values).length : 0;
+        }
+        let count &#x3D; 0;
+        for (const pattern of this._preparedPatterns) {
+            if (pattern.type &#x3D;&#x3D;&#x3D; type) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private innerSetList(l: string[] | undefined): void {
+        this._preparedPatterns &#x3D; undefined;
+        this._values &#x3D; undefined;
+        this._isEmpty &#x3D; true;
+
+        if (!!l) {
+            for (const s of l) {
+                if (!s) {
+                    continue;
+                }
+                const pattern &#x3D; new Pattern();
+                if (pattern.load(s)) {
+                    if (!this._preparedPatterns) {
+                        this._preparedPatterns &#x3D; [];
+                    }
+                    this._preparedPatterns.push(pattern);
+                }
+            }
+        }
+        if (this._preparedPatterns) {
+            const c &#x3D; this._preparedPatterns.length;
+            if (c &gt; 0) {
+                this._isEmpty &#x3D; false;
+            }
+            for (let i &#x3D; c - 1; i &gt;&#x3D; 0; i--) {
+                const pattern &#x3D; this._preparedPatterns[i];
+                //do values
+                if (pattern.isTypeValue()) {
+                    if (!this._values) {
+                        this._values &#x3D; {};
+                    }
+                    const val &#x3D; pattern.getTypeValueText() || &quot;&quot;;
+                    this._values[val] &#x3D; true;
+                    this._preparedPatterns.splice(i, 1);
+                }
+            }
+        }
+    }
+
+    public get list(): string[] {
+        return Utils.split(this.text || &quot;&quot;, &quot;;&quot;);
+    }
+
+    public set list(value: string[]) {
+        this.text &#x3D; !!value ? value.join(&quot;;&quot;) : undefined;
+        this.innerSetList(value);
+    }
+
+    public setText(list: string[]): void {
+        this.list &#x3D; list;
+    }
+
+    public isEmpty(): boolean {
+        return this._isEmpty;
+    }
+
+    public hasPatterns(): boolean {
+        return !this.isEmpty();
+    }
+
+    public isMatch(name: string, logdisplay?: string) {
+        if (this.isEmpty()) {
+            return true;
+        }
+
+        if (!!this._values) {
+            if (this._values[name]) {
+                if (!!logdisplay) {
+                    console.log(logdisplay, &#x60; : the pattern &#x27;${name}&#x27; matches the value &#x27;${name}&#x27;&#x60;);
+                }
+                return true;
+            }
+        }
+
+        if (!!this._preparedPatterns) {
+            for (const pattern of this._preparedPatterns) {
+                if (!pattern) {
+                    continue;
+                }
+                if (pattern.isTypeValue()) {
+                    continue;
+                }
+                if (pattern.isMatch(name)) {
+                    if (!!logdisplay) {
+                        console.log(logdisplay, &#x60; : the pattern &#x27;${pattern.text}&#x27; matches the value &#x27;${name}&#x27;&#x60;);
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+
+/**
+ * This class is used to process &quot;included&quot; and &quot;excluded&quot; patterns typically specified in the Sinequa configuration.
+ */
+export class PatternMatcher {
+    public includedPattern: Patterns;
+    public excludedPattern: Patterns;
+
+    public get included(): string | undefined {
+        return this.includedPattern.text;
+    }
+
+    public set included(value: string | undefined) {
+        this.includedPattern.text &#x3D; value;
+    }
+
+    public get excluded(): string | undefined {
+        return this.excludedPattern.text;
+    }
+
+    public set excluded(value: string | undefined) {
+        this.excludedPattern.text &#x3D; value;
+    }
+
+    public set includedList(value: string[]) {
+        this.includedPattern.list &#x3D; value;
+    }
+
+    public set excludedList(value: string[]) {
+        this.excludedPattern.list &#x3D; value;
+    }
+
+    public includedLogDisplay?: string;
+    public excludedLogDisplay?: string;
+
+    constructor(includedLogDisplay?: string, excludedLogDisplay?: string) {
+        this.includedPattern &#x3D; new Patterns();
+        this.excludedPattern &#x3D; new Patterns();
+        this.includedLogDisplay &#x3D; includedLogDisplay;
+        this.excludedLogDisplay &#x3D; excludedLogDisplay;
+    }
+
+    public hasPatterns(): boolean {
+        return this.includedPattern.hasPatterns() || this.excludedPattern.hasPatterns();
+    }
+
+    public isExcluded(name: string): boolean {
+        return !this.isIncluded(name);
+    }
+
+    public isIncluded(name: string): boolean {
+        if (!name) {
+            return true;
+        }
+        if (this.includedPattern.hasPatterns()) {
+            if (this.excludedPattern.hasPatterns()) {
+                if (this.excludedPattern.isMatch(name, this.excludedLogDisplay)) {
+                    return false;
+                }
+            }
+            if (!this.includedPattern.isMatch(name, this.includedLogDisplay)) {
+                return false;
+            }
+            return true;
+        }
+        else if (this.excludedPattern.hasPatterns()) {
+            if (this.excludedPattern.isMatch(name, this.excludedLogDisplay)) {
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
+
+    public isExplicitlyIncluded(name: string): boolean {
+        return this.includedPattern.hasPatterns() &amp;&amp; this.includedPattern.isMatch(name, this.includedLogDisplay);
+    }
+
+    public isExplicitlyExcluded(name: string): boolean {
+        return this.excludedPattern.hasPatterns() &amp;&amp; this.excludedPattern.isMatch(name, this.excludedLogDisplay);
+    }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'PatternMatcher.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

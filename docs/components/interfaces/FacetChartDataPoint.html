@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>facet/bootstrap/facet-chart/facet-chart.ts</code>
+            <code>ngx-charts/facet-chart/facet-chart.ts</code>
         </p>
 
 
@@ -140,26 +140,25 @@ import {AppService} from &quot;@sinequa/core/app-utils&quot;;
 import {SelectionService} from &#x27;@sinequa/components/selection&#x27;;
 import {Subscription} from &quot;rxjs&quot;;
 import {ChartOptions, ChartDataPoint} from &quot;../chart/chart&quot;;
-import {FacetService} from &quot;../../facet.service&quot;;
+import {FacetService, AbstractFacet} from &quot;@sinequa/components/facet&quot;;
 import {Action} from &quot;@sinequa/components/action&quot;;
-import {AbstractFacet} from &quot;../../abstract-facet&quot;;
 
 export interface FacetChartDataPoint extends ChartDataPoint {
     $item: AggregationItem;
 }
 
 @Component({
-    selector: &quot;sq-facet-chart&quot;,
+    selector: &quot;sq-facet-ngx-chart&quot;,
     templateUrl: &quot;./facet-chart.html&quot;
 })
-export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, OnDestroy {
+export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, OnDestroy {
     @Input() results: Results;
     @Input() aggregation: string;
     @Input() aggregations: string[];
     @Input() chartType: string;
     @Input() colorScheme: string;
     @Input() colors: string[] &#x3D; [&quot;#7aa3e5&quot;];    // Single color (default is bar chart)
-    @Input() filteredColor: string &#x3D; &quot;#a8385d&quot;;
+    @Input() filteredColor: string &#x3D; &quot;#C3E6CB&quot;;
     @Input() selectedColor: string &#x3D; &quot;#7acce5&quot;;
 
     // Aggregation from the Results object
@@ -271,25 +270,26 @@ export class BsFacetChart extends AbstractFacet implements OnInit, OnChanges, On
      */
     private updateSelectedValues(){
         this.selectedValues.clear();
-        this.selectionService.selectedRecords.forEach(id &#x3D;&gt; {
-            const record &#x3D; this.results.records.find(record &#x3D;&gt; record.id &#x3D;&#x3D;&#x3D; id);
-            if(!!record &amp;&amp; !!this.data){
-                const val &#x3D; record[this.appService.getColumnAlias(this.appService.getColumn(this.data.column))];
-                if(val){
-                    if(Utils.isString(val)){    // Sourcestr
-                        this.selectedValues.add(val.toLowerCase());
-                    }
-                    if(Utils.isArray(val)){
-                        val.forEach(v &#x3D;&gt; {
-                            if(Utils.isString(v))
-                                this.selectedValues.add(v.toLowerCase()); // Sourcecsv
-                            else
-                                this.selectedValues.add(v.value.toLowerCase()); // Entity
-                        });
+        this.results.records
+            .filter(record &#x3D;&gt; record.$selected)
+            .forEach(record &#x3D;&gt; {
+                if(this.data){
+                    const val &#x3D; record[this.appService.getColumnAlias(this.appService.getColumn(this.data.column))];
+                    if(val){
+                        if(Utils.isString(val)){    // Sourcestr
+                            this.selectedValues.add(val.toLowerCase());
+                        }
+                        if(Utils.isArray(val)){
+                            val.forEach(v &#x3D;&gt; {
+                                if(Utils.isString(v))
+                                    this.selectedValues.add(v.toLowerCase()); // Sourcecsv
+                                else
+                                    this.selectedValues.add(v.value.toLowerCase()); // Entity
+                            });
+                        }
                     }
                 }
-            }
-        });
+            });
     }
 
     /**

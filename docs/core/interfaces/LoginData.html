@@ -457,8 +457,8 @@ export class LoginService implements OnDestroy {
 
     private getAutomaticProvider(): string | undefined {
         if (this.startConfig.providers) {
-            return Object.keys(this.startConfig.providers).find((value, index, obj) &#x3D;&gt; {
-                const provider &#x3D; obj[value];
+            return Object.keys(this.startConfig.providers).find((value) &#x3D;&gt; {
+                const provider &#x3D; this.startConfig.providers &amp;&amp; this.startConfig.providers[value];
                 return !!provider &amp;&amp; (provider as any).automatic;
             });
         }

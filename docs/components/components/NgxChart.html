@@ -1,0 +1,1224 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>NgxChart</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>ngx-charts/chart/chart.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+                    <code><a href="https://angular.io/api/core/DoCheck" target="_blank" >DoCheck</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>sq-ngx-chart</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./chart.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./chart.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#attached">attached</a>
+                            </li>
+                            <li>
+                                <a href="#chart">chart</a>
+                            </li>
+                            <li>
+                                <a href="#localeChange">localeChange</a>
+                            </li>
+                            <li>
+                                <a href="#select">select</a>
+                            </li>
+                            <li>
+                                <a href="#tooltipTemplate">tooltipTemplate</a>
+                            </li>
+                            <li>
+                                <a href="#wrapper">wrapper</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#chartComponent">chartComponent</a>
+                            </li>
+                            <li>
+                                <a href="#ngDoCheck">ngDoCheck</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges">ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#updateChart">updateChart</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#data">data</a>
+                            </li>
+                            <li>
+                                <a href="#options">options</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#item-click">item-click</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#chartType">chartType</a>
+                                </li>
+                                <li>
+                                    <a href="#colorScheme">colorScheme</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(intlService: IntlService, uiService: <a href="../injectables/UIService.html">UIService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">ngx-charts/chart/chart.ts:34</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>intlService</td>
+                                                  
+                                                        <td>
+                                                                    <code>IntlService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>uiService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UIService.html" target="_self" >UIService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="data"></a>
+                        <b>data</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/ChartDataPoint.html" target="_self" >ChartDataPoint[]</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">ngx-charts/chart/chart.ts:28</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="options"></a>
+                        <b>options</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/ChartOptions.html" target="_self" >ChartOptions</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">ngx-charts/chart/chart.ts:27</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="item-click"></a>
+                        <b>item-click</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>EventEmitter&lt;ChartDataPoint&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">ngx-charts/chart/chart.ts:29</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chartComponent"></a>
+                    <span class="name">
+                        <b>
+                            chartComponent
+                        </b>
+                        <a href="#chartComponent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>chartComponent(type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">ngx-charts/chart/chart.ts:65</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>type</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Type&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngDoCheck"></a>
+                    <span class="name">
+                        <b>
+                            ngDoCheck
+                        </b>
+                        <a href="#ngDoCheck"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngDoCheck()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">ngx-charts/chart/chart.ts:82</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <b>
+                            ngOnChanges
+                        </b>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">ngx-charts/chart/chart.ts:78</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <b>
+                            ngOnDestroy
+                        </b>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">ngx-charts/chart/chart.ts:56</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">ngx-charts/chart/chart.ts:48</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateChart"></a>
+                    <span class="name">
+                        <b>
+                            updateChart
+                        </b>
+                        <a href="#updateChart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateChart()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">ngx-charts/chart/chart.ts:42</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="attached"></a>
+                        <span class="name">
+                            <b>
+                            attached</b>
+                            <a href="#attached"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">ngx-charts/chart/chart.ts:34</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="chart"></a>
+                        <span class="name">
+                            <b>
+                            chart</b>
+                            <a href="#chart"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>BaseChartComponent</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;chart&#x27;, {static: false})<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">ngx-charts/chart/chart.ts:32</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="localeChange"></a>
+                        <span class="name">
+                            <b>
+                            localeChange</b>
+                            <a href="#localeChange"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Subscription</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">ngx-charts/chart/chart.ts:33</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="select"></a>
+                        <span class="name">
+                            <b>
+                            select</b>
+                            <a href="#select"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">ngx-charts/chart/chart.ts:91</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="tooltipTemplate"></a>
+                        <span class="name">
+                            <b>
+                            tooltipTemplate</b>
+                            <a href="#tooltipTemplate"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;tooltipTemplate&#x27;, {static: false})<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">ngx-charts/chart/chart.ts:31</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="wrapper"></a>
+                        <span class="name">
+                            <b>
+                            wrapper</b>
+                            <a href="#wrapper"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;wrapper&#x27;, {static: true})<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">ngx-charts/chart/chart.ts:30</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="chartType"></a>
+                        <span class="name"><b>chartType</b><a href="#chartType"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>chartType()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">ngx-charts/chart/chart.ts:61</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="colorScheme"></a>
+                        <span class="name"><b>colorScheme</b><a href="#colorScheme"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>colorScheme()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">ngx-charts/chart/chart.ts:74</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input, Output, EventEmitter, OnInit, OnDestroy, OnChanges, DoCheck, SimpleChanges, ViewChild, ElementRef, Type} from &quot;@angular/core&quot;;
+import {Subscription} from &quot;rxjs&quot;;
+import {Utils} from &quot;@sinequa/core/base&quot;;
+import {IntlService} from &quot;@sinequa/core/intl&quot;;
+import {BaseChartComponent, BarVerticalComponent, BarHorizontalComponent} from &quot;@swimlane/ngx-charts&quot;;
+import {UIService} from &quot;@sinequa/components/utils&quot;;
+
+
+export interface ChartOptions {
+    type: string;
+    colorScheme?: string;
+    getItemColor?: (value: string) &#x3D;&gt; string;
+    tickFormatter?: (value: any) &#x3D;&gt; string;
+}
+
+export interface ChartDataPoint {
+    name: string;
+    value: number;
+}
+
+@Component({
+    selector: &quot;sq-ngx-chart&quot;,
+    templateUrl: &quot;./chart.html&quot;,
+    styleUrls: [&quot;./chart.scss&quot;]
+})
+export class NgxChart implements OnInit, OnDestroy, OnChanges, DoCheck {
+    @Input() options: ChartOptions;
+    @Input() data: ChartDataPoint[];
+    @Output(&quot;item-click&quot;) itemClickEvent: EventEmitter&lt;ChartDataPoint&gt;;
+    @ViewChild(&quot;wrapper&quot;, {static: true}) wrapper: ElementRef;
+    @ViewChild(&quot;tooltipTemplate&quot;, {static: false}) tooltipTemplate;
+    @ViewChild(&quot;chart&quot;, {static: false}) chart: BaseChartComponent;
+    localeChange: Subscription;
+    attached: boolean;
+
+    constructor(
+        protected intlService: IntlService,
+        private uiService: UIService) {
+        this.itemClickEvent &#x3D; new EventEmitter&lt;ChartDataPoint&gt;();
+    }
+
+    updateChart() {
+        if (!!this.chart) this.chart.update();
+    }
+
+    private onResize &#x3D; () &#x3D;&gt; this.updateChart();
+
+    ngOnInit() {
+        this.uiService.addElementResizeListener(this.wrapper.nativeElement, this.onResize);
+        this.localeChange &#x3D; Utils.subscribe(this.intlService.events,
+            (value) &#x3D;&gt; {
+                this.updateChart();
+            });
+    }
+
+    ngOnDestroy() {
+        this.uiService.removeElementResizeListener(this.wrapper.nativeElement, this.onResize);
+        this.localeChange.unsubscribe();
+    }
+
+    get chartType(): string {
+        return Utils.toLowerCase(this.options.type);
+    }
+
+    chartComponent(type:string) : Type&lt;any&gt; {
+        switch(type){
+            case &quot;horizontalbar&quot;: return BarHorizontalComponent;
+            case &quot;verticaltalbar&quot;: return BarVerticalComponent;
+            default: return BarVerticalComponent;
+        }
+    }
+
+    // so we don&#x27;t end up with no color scheme if the color scheme is not set
+    get colorScheme(): string {
+        return this.options.colorScheme || &quot;cool&quot;;
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+    }
+
+    // This is a clunky way of avoiding (briefly) seeing ngx-charts rendering with the default 600x400 dimensions
+    ngDoCheck() {
+        if (!this.attached &amp;&amp; !!this.wrapper) {
+            if (document.body.contains(this.wrapper.nativeElement)) {
+                this.updateChart();
+                this.attached &#x3D; true;
+            }
+        }
+    }
+
+    select &#x3D; (dataPoint: ChartDataPoint): void &#x3D;&gt; {
+        this.itemClickEvent.emit(dataPoint);
+    }
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;sq-chart-wrapper&quot; [ngClass]&#x3D;&quot;{&#x27;sq-attached&#x27; : attached}&quot; #wrapper&gt;
+    &lt;ng-container [ngSwitch]&#x3D;&quot;chartType&quot;&gt;
+        &lt;ngx-charts-bar-vertical *ngSwitchDefault #chart
+            (select)&#x3D;&quot;select($event)&quot;
+            [results]&#x3D;&quot;data&quot;
+            [xAxis]&#x3D;&quot;true&quot;
+            [yAxis]&#x3D;&quot;true&quot;
+            [customColors]&#x3D;&quot;options.getItemColor&quot;
+            [xAxisTickFormatting]&#x3D;&quot;options.tickFormatter&quot;
+            [yAxisTickFormatting]&#x3D;&quot;options.tickFormatter&quot;
+            [scheme]&#x3D;&quot;colorScheme&quot;
+            [animations]&#x3D;&quot;false&quot;&gt;
+            &lt;ng-template #tooltipTemplate let-model&#x3D;&quot;model&quot;&gt;
+                &lt;ng-container [ngTemplateOutlet]&#x3D;&quot;tooltipTemplate1&quot; [ngTemplateOutletContext]&#x3D;&quot;{model: model}&quot;&gt;&lt;/ng-container&gt;
+            &lt;/ng-template&gt;
+        &lt;/ngx-charts-bar-vertical&gt;
+        &lt;ngx-charts-bar-horizontal *ngSwitchCase&#x3D;&quot;&#x27;horizontalbar&#x27;&quot; #chart
+            (select)&#x3D;&quot;select($event)&quot;
+            [results]&#x3D;&quot;data&quot; 
+            [xAxis]&#x3D;&quot;true&quot;
+            [yAxis]&#x3D;&quot;true&quot;
+            [customColors]&#x3D;&quot;options.getItemColor&quot;
+            [xAxisTickFormatting]&#x3D;&quot;options.tickFormatter&quot;
+            [yAxisTickFormatting]&#x3D;&quot;options.tickFormatter&quot;
+            [scheme]&#x3D;&quot;colorScheme&quot;
+            [animations]&#x3D;&quot;false&quot;&gt;
+            &lt;ng-template #tooltipTemplate let-model&#x3D;&quot;model&quot;&gt;
+                &lt;ng-container [ngTemplateOutlet]&#x3D;&quot;tooltipTemplate1&quot; [ngTemplateOutletContext]&#x3D;&quot;{model: model}&quot;&gt;&lt;/ng-container&gt;
+            &lt;/ng-template&gt;
+        &lt;/ngx-charts-bar-horizontal&gt;
+        &lt;ngx-charts-pie-chart *ngSwitchCase&#x3D;&quot;&#x27;pie&#x27;&quot; #chart
+            (select)&#x3D;&quot;select($event)&quot;
+            [results]&#x3D;&quot;data&quot;
+            [customColors]&#x3D;&quot;options.getItemColor&quot;
+            [scheme]&#x3D;&quot;colorScheme&quot;
+            [animations]&#x3D;&quot;false&quot;&gt;
+            &lt;ng-template #tooltipTemplate let-model&#x3D;&quot;model&quot;&gt;
+                &lt;ng-container [ngTemplateOutlet]&#x3D;&quot;tooltipTemplate1&quot; [ngTemplateOutletContext]&#x3D;&quot;{model: model}&quot;&gt;&lt;/ng-container&gt;
+            &lt;/ng-template&gt;
+        &lt;/ngx-charts-pie-chart&gt;
+        &lt;ngx-charts-advanced-pie-chart *ngSwitchCase&#x3D;&quot;&#x27;advancedpie&#x27;&quot; #chart
+            (select)&#x3D;&quot;select($event)&quot;
+            [results]&#x3D;&quot;data&quot;
+            [customColors]&#x3D;&quot;options.getItemColor&quot;
+            [scheme]&#x3D;&quot;colorScheme&quot;
+            [animations]&#x3D;&quot;false&quot;&gt;
+            &lt;ng-template #tooltipTemplate let-model&#x3D;&quot;model&quot;&gt;
+                &lt;ng-container [ngTemplateOutlet]&#x3D;&quot;tooltipTemplate1&quot; [ngTemplateOutletContext]&#x3D;&quot;{model: model}&quot;&gt;&lt;/ng-container&gt;
+            &lt;/ng-template&gt;
+        &lt;/ngx-charts-advanced-pie-chart&gt;
+        &lt;ngx-charts-pie-grid *ngSwitchCase&#x3D;&quot;&#x27;piegrid&#x27;&quot; #chart
+            (select)&#x3D;&quot;select($event)&quot;
+            [results]&#x3D;&quot;data&quot;
+            [customColors]&#x3D;&quot;options.getItemColor&quot;
+            [scheme]&#x3D;&quot;colorScheme&quot;
+            [animations]&#x3D;&quot;false&quot;&gt;
+            &lt;ng-template #tooltipTemplate let-model&#x3D;&quot;model&quot;&gt;
+                &lt;ng-container [ngTemplateOutlet]&#x3D;&quot;tooltipTemplate1&quot; [ngTemplateOutletContext]&#x3D;&quot;{model: model}&quot;&gt;&lt;/ng-container&gt;
+            &lt;/ng-template&gt;
+        &lt;/ngx-charts-pie-grid&gt;
+        &lt;ngx-charts-tree-map *ngSwitchCase&#x3D;&quot;&#x27;treemap&#x27;&quot; #chart
+            (select)&#x3D;&quot;select($event)&quot;
+            [results]&#x3D;&quot;data&quot;
+            [customColors]&#x3D;&quot;options.getItemColor&quot;
+            [scheme]&#x3D;&quot;colorScheme&quot;
+            [animations]&#x3D;&quot;false&quot;&gt;
+            &lt;ng-template #tooltipTemplate let-model&#x3D;&quot;model&quot;&gt;
+                &lt;ng-container [ngTemplateOutlet]&#x3D;&quot;tooltipTemplate1&quot; [ngTemplateOutletContext]&#x3D;&quot;{model: model}&quot;&gt;&lt;/ng-container&gt;
+            &lt;/ng-template&gt;
+        &lt;/ngx-charts-tree-map&gt;
+        &lt;ngx-charts-number-card *ngSwitchCase&#x3D;&quot;&#x27;numbercard&#x27;&quot; #chart
+            (select)&#x3D;&quot;select($event)&quot;
+            [results]&#x3D;&quot;data&quot;
+            [customColors]&#x3D;&quot;options.getItemColor&quot;
+            [scheme]&#x3D;&quot;colorScheme&quot;
+            [animations]&#x3D;&quot;false&quot;&gt;
+            &lt;ng-template #tooltipTemplate let-model&#x3D;&quot;model&quot;&gt;
+                &lt;ng-container [ngTemplateOutlet]&#x3D;&quot;tooltipTemplate1&quot; [ngTemplateOutletContext]&#x3D;&quot;{model: model}&quot;&gt;&lt;/ng-container&gt;
+            &lt;/ng-template&gt;
+        &lt;/ngx-charts-number-card&gt;
+        &lt;ngx-charts-gauge *ngSwitchCase&#x3D;&quot;&#x27;gauge&#x27;&quot; #chart
+            (select)&#x3D;&quot;select($event)&quot;
+            [results]&#x3D;&quot;data&quot;
+            [customColors]&#x3D;&quot;options.getItemColor&quot;
+            [scheme]&#x3D;&quot;colorScheme&quot;
+            [animations]&#x3D;&quot;false&quot;&gt;
+            &lt;ng-template #tooltipTemplate let-model&#x3D;&quot;model&quot;&gt;
+                &lt;ng-container [ngTemplateOutlet]&#x3D;&quot;tooltipTemplate1&quot; [ngTemplateOutletContext]&#x3D;&quot;{model: model}&quot;&gt;&lt;/ng-container&gt;
+            &lt;/ng-template&gt;
+        &lt;/ngx-charts-gauge&gt;
+    &lt;/ng-container&gt;
+    &lt;ng-template #tooltipTemplate1 let-model&#x3D;&quot;model&quot;&gt;
+        &lt;span class&#x3D;&quot;tooltip-label&quot;&gt;{{model.name}}&lt;/span&gt;
+        &lt;span class&#x3D;&quot;tooltip-val&quot;&gt;{{model.value | sqValue}}&lt;/span&gt;
+    &lt;/ng-template&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./chart.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.sq-chart-wrapper {
+    visibility: hidden;
+    width: 100%;
+    height: 16rem;
+    overflow: hidden;
+    &amp;.sq-attached {
+        visibility: visible;
+    }
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="sq-chart-wrapper" [ngClass]="{\'sq-attached\' : attached}" #wrapper>    <ng-container [ngSwitch]="chartType">        <ngx-charts-bar-vertical *ngSwitchDefault #chart            (select)="select($event)"            [results]="data"            [xAxis]="true"            [yAxis]="true"            [customColors]="options.getItemColor"            [xAxisTickFormatting]="options.tickFormatter"            [yAxisTickFormatting]="options.tickFormatter"            [scheme]="colorScheme"            [animations]="false">            <ng-template #tooltipTemplate let-model="model">                <ng-container [ngTemplateOutlet]="tooltipTemplate1" [ngTemplateOutletContext]="{model: model}"></ng-container>            </ng-template>        </ngx-charts-bar-vertical>        <ngx-charts-bar-horizontal *ngSwitchCase="\'horizontalbar\'" #chart            (select)="select($event)"            [results]="data"             [xAxis]="true"            [yAxis]="true"            [customColors]="options.getItemColor"            [xAxisTickFormatting]="options.tickFormatter"            [yAxisTickFormatting]="options.tickFormatter"            [scheme]="colorScheme"            [animations]="false">            <ng-template #tooltipTemplate let-model="model">                <ng-container [ngTemplateOutlet]="tooltipTemplate1" [ngTemplateOutletContext]="{model: model}"></ng-container>            </ng-template>        </ngx-charts-bar-horizontal>        <ngx-charts-pie-chart *ngSwitchCase="\'pie\'" #chart            (select)="select($event)"            [results]="data"            [customColors]="options.getItemColor"            [scheme]="colorScheme"            [animations]="false">            <ng-template #tooltipTemplate let-model="model">                <ng-container [ngTemplateOutlet]="tooltipTemplate1" [ngTemplateOutletContext]="{model: model}"></ng-container>            </ng-template>        </ngx-charts-pie-chart>        <ngx-charts-advanced-pie-chart *ngSwitchCase="\'advancedpie\'" #chart            (select)="select($event)"            [results]="data"            [customColors]="options.getItemColor"            [scheme]="colorScheme"            [animations]="false">            <ng-template #tooltipTemplate let-model="model">                <ng-container [ngTemplateOutlet]="tooltipTemplate1" [ngTemplateOutletContext]="{model: model}"></ng-container>            </ng-template>        </ngx-charts-advanced-pie-chart>        <ngx-charts-pie-grid *ngSwitchCase="\'piegrid\'" #chart            (select)="select($event)"            [results]="data"            [customColors]="options.getItemColor"            [scheme]="colorScheme"            [animations]="false">            <ng-template #tooltipTemplate let-model="model">                <ng-container [ngTemplateOutlet]="tooltipTemplate1" [ngTemplateOutletContext]="{model: model}"></ng-container>            </ng-template>        </ngx-charts-pie-grid>        <ngx-charts-tree-map *ngSwitchCase="\'treemap\'" #chart            (select)="select($event)"            [results]="data"            [customColors]="options.getItemColor"            [scheme]="colorScheme"            [animations]="false">            <ng-template #tooltipTemplate let-model="model">                <ng-container [ngTemplateOutlet]="tooltipTemplate1" [ngTemplateOutletContext]="{model: model}"></ng-container>            </ng-template>        </ngx-charts-tree-map>        <ngx-charts-number-card *ngSwitchCase="\'numbercard\'" #chart            (select)="select($event)"            [results]="data"            [customColors]="options.getItemColor"            [scheme]="colorScheme"            [animations]="false">            <ng-template #tooltipTemplate let-model="model">                <ng-container [ngTemplateOutlet]="tooltipTemplate1" [ngTemplateOutletContext]="{model: model}"></ng-container>            </ng-template>        </ngx-charts-number-card>        <ngx-charts-gauge *ngSwitchCase="\'gauge\'" #chart            (select)="select($event)"            [results]="data"            [customColors]="options.getItemColor"            [scheme]="colorScheme"            [animations]="false">            <ng-template #tooltipTemplate let-model="model">                <ng-container [ngTemplateOutlet]="tooltipTemplate1" [ngTemplateOutletContext]="{model: model}"></ng-container>            </ng-template>        </ngx-charts-gauge>    </ng-container>    <ng-template #tooltipTemplate1 let-model="model">        <span class="tooltip-label">{{model.name}}</span>        <span class="tooltip-val">{{model.value | sqValue}}</span>    </ng-template></div></div>'
+    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTimelineComponent', 'selector': 'sq-facet-timeline'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSelectionArranger', 'selector': 'sq-selection-arranger'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimelineComponent', 'selector': 'sq-timeline'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'FacetNgxChart', 'selector': 'sq-facet-ngx-chart'},{'name': 'FusionChart', 'selector': 'sq-fusion-chart'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'NgxChart', 'selector': 'sq-ngx-chart'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'StickyComponent', 'selector': '[sqSticky]'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
+    var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sq-advanced-form-autocomplete]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sq-advanced-form-validation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'FocusKeyListDirective', 'selector': '[sqFocusKeyList]'},{'name': 'FocusKeyListItemDirective', 'selector': '[sqFocusKeyListItem]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'Load', 'selector': '[sqLoad]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ResizeEventDirective', 'selector': '[sqResize]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'}];
+    var ACTUAL_COMPONENT = {'name': 'NgxChart'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'NgxChart.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

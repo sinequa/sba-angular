@@ -107,7 +107,13 @@
                                 <a href="#call">call</a>
                             </li>
                             <li>
+                                <a href="#get">get</a>
+                            </li>
+                            <li>
                                 <a href="#makeUrl">makeUrl</a>
+                            </li>
+                            <li>
+                                <a href="#post">post</a>
                             </li>
                             <li>
                                 <a href="#makeParams">makeParams</a>
@@ -208,22 +214,22 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>call(method: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+<code>call(method: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, options?: literal type)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">web-services/json-method-plugin.web.service.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">web-services/json-method-plugin.web.service.ts:58</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Call a JsonMethod plugin</p>
+                    <div class="io-description"><p>Call a JsonMethod plugin using an HTTP POST</p>
 </div>
 
                     <div class="io-description">
@@ -270,6 +276,132 @@
 
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>HTTP options for the request</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>An observable of the plugin&#39;s return value</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="get"></a>
+                    <span class="name">
+                        <b>
+                            get
+                        </b>
+                        <a href="#get"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>get(method: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">web-services/json-method-plugin.web.service.ts:70</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Call a JsonMethod plugin using an HTTP GET</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>method</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The name of the JsonMethod plugin</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>query</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameters to pass to the plugin</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>HTTP options for the request</p>
+
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -309,8 +441,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">web-services/json-method-plugin.web.service.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">web-services/json-method-plugin.web.service.ts:90</a></div>
                 </td>
             </tr>
 
@@ -352,6 +484,116 @@
                     </div>
                     <div class="io-description">
                         
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="post"></a>
+                    <span class="name">
+                        <b>
+                            post
+                        </b>
+                        <a href="#post"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>post(method: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, options?: literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">web-services/json-method-plugin.web.service.ts:30</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Call a JsonMethod plugin using an HTTP POST</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>method</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The name of the JsonMethod plugin</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>query</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Parameters to pass to the plugin</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>HTTP options for the request</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>An observable of the plugin&#39;s return value</p>
+
                     </div>
                 </td>
             </tr>
@@ -586,27 +828,68 @@ export class JsonMethodPluginService extends HttpService{
   }
 
   /**
-   * Call a JsonMethod plugin
+   * Call a JsonMethod plugin using an HTTP POST
    *
    * @param method The name of the JsonMethod plugin
    * @param query Parameters to pass to the plugin
+   * @param options HTTP options for the request
    * @returns An observable of the plugin&#x27;s return value
    */
-  call(method: string, query: any) : Observable&lt;any&gt; {
+  post(method: string, query: any, options?: {[key: string]: any}) : Observable&lt;any&gt; {
     if (!Utils.isObject(query)) {
       return throwError({error: &quot;invalid query object&quot;});
     }
-    const observable &#x3D; this.httpClient.post(this.makeUrl(method), query);
+    const observable &#x3D; this.httpClient.post(this.makeUrl(method), query, options);
 
     Utils.subscribe(observable,
       (response) &#x3D;&gt; {
-        console.log(&quot;JsonMethodPluginService.call success - data: &quot;, response);
+        console.log(&quot;JsonMethodPluginService.post success - data: &quot;, response);
       },
       (error) &#x3D;&gt; {
-        console.log(&quot;JsonMethodPluginService.call failure - error: &quot;, error);
+        console.log(&quot;JsonMethodPluginService.post failure - error: &quot;, error);
       },
       () &#x3D;&gt; {
-        console.log(&quot;JsonMethodPluginService.call complete&quot;);
+        console.log(&quot;JsonMethodPluginService.post complete&quot;);
+      });
+
+    return observable;
+  }
+
+  /**
+   * Call a JsonMethod plugin using an HTTP POST
+   *
+   * @param method The name of the JsonMethod plugin
+   * @param query Parameters to pass to the plugin
+   * @param options HTTP options for the request
+   * @returns An observable of the plugin&#x27;s return value
+   */
+  call(method: string, query: any, options?: {[key: string]: any}): Observable&lt;any&gt; {
+    return this.post(method, query, options);
+  }
+
+  /**
+   * Call a JsonMethod plugin using an HTTP GET
+   *
+   * @param method The name of the JsonMethod plugin
+   * @param query Parameters to pass to the plugin
+   * @param options HTTP options for the request
+   * @returns An observable of the plugin&#x27;s return value
+   */
+  get(method: string, query: any, options?: {[key: string]: any}): Observable&lt;any&gt; {
+    const observable &#x3D; this.httpClient.get(this.makeUrl(method), {
+      params: this.makeParams(query),
+      ...options
+    });
+
+    Utils.subscribe(observable,
+      (response) &#x3D;&gt; {
+        console.log(&quot;JsonMethodPluginService.get success - data: &quot;, response);
+      },
+      (error) &#x3D;&gt; {
+        console.log(&quot;JsonMethodPluginService.get failure - error: &quot;, error);
+      },
+      () &#x3D;&gt; {
+        console.log(&quot;JsonMethodPluginService.get complete&quot;);
       });
 
     return observable;

@@ -41,14 +41,14 @@ The heatmap can display two types of aggregations, configured on the server side
 
 - **Cross-distributions** (or **cross-correlations**): By default the "Heatmap" aggregation configured in the default query web service is a cross-distribution. The engine dynamically computes the number of documents mentioning 2 values of metadata together. For example, we can compute the cross-distribution of the **people** and **company** columns which yields the following list:
   - `Bill Gates/Microsoft;15` (Bill Gates and Microsoft are mentioned together in 15 records)
-  - `Elon Musk/Tesla:13` (Elon Musk and Tesla are mentioned together in 13 records)
+  - `Elon Musk/Tesla;13` (Elon Musk and Tesla are mentioned together in 13 records)
   - etc.
 
     ⚠️ Note that these computations may scale poorly with the number of records/documents in the case of multi-valued columns and long documents (if a document contains 100 entities of each type, that means already 10000 unique combinations for a single document).
 
 - **Cooccurrences**: The Sinequa indexer can extract in a column the co-occurrences of two entities within a close neighborhood. In this case the aggregation is similar to any other 1-dimension distribution or correlation (used in list facets), except the data contains 2 values instead of one:
   - `(Bill Gates)#(Microsoft);15` (Bill Gates and Microsoft are closely mentioned together 15 times)
-  - `(Elon Musk)#(Tesla):13` (...)
+  - `(Elon Musk)#(Tesla);13` (...)
 
 Note that in both cases, the computation can be computationally expensive (especially cross-distribution) and return a lot of data. Therefore, it is recommended to uncheck the *Include in standard search* option of the aggregation (unless the heatmap is really meant to be displayed all the time) and set a reasonable *count* option (which can result in some sparsity in the heatmap).
 

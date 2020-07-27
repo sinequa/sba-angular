@@ -139,7 +139,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {MapOf, JsonObject} from &quot;@sinequa/core/base&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {MapOf, JsonObject, PatternMatcher} from &quot;@sinequa/core/base&quot;;
 
 /**
  * Describes the fields available in all configuration objects. By convention, configuration object
@@ -537,6 +537,34 @@ export interface CCQuery extends CCWebService {
      * Determines whether filter-less queries are permitted
      */
     allowEmptySearch: boolean;
+    /**
+     * Defines the patterns to control which column fields are allowed
+     * in fielded search expressions.
+     */
+    columnFieldsIncluded: string[];
+    /**
+     * Defines the patterns to control which column fields are disallowed
+     * in fielded search expressions.
+     */
+    columnFieldsExcluded: string[];
+    /**
+     * The &#x60;PatternMatcher&#x60; instance created on the client using the &#x60;columnFieldsIncluded&#x60; and &#x60;columnFieldsExcluded&#x60; values.
+     */
+    $columnFieldsPattern: PatternMatcher;
+    /**
+     * Defines the patterns to control which part name fields are allowed
+     * in fielded search expressions.
+     */
+    partnameFieldsIncluded: string[];
+    /**
+     * Defines the patterns to control which part name fields are disallowed
+     * in fielded search expressions.
+     */
+    partnameFieldsExcluded: string[];
+    /**
+     * The &#x60;PatternMatcher&#x60; instance created on the client using the &#x60;partnameFieldsIncluded&#x60; and &#x60;partnameFieldsExcluded&#x60; values.
+     */
+    $partnameFieldsPattern: PatternMatcher;
 }
 
 /**

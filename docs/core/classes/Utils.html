@@ -3260,11 +3260,11 @@ Strings that are either in Sinequa system date or ISO8601 format are converted t
                                     </td>
 
                                     <td>
-                                        <code>{reviveDates: true}</code>
+                                        <code>{reviveDates: false}</code>
                                     </td>
 
                                     <td>
-                                        <p>Options for the conversion. The default is <code>{reviveDates: true}</code></p>
+                                        <p>Options for the conversion. The default is <code>{reviveDates: false}</code></p>
 
                                     </td>
                                 </tr>
@@ -10202,9 +10202,9 @@ export class Utils {
      * &#x60;Date&#x60; objects if the &#x60;reviveDates&#x60; option is specified.
      *
      * @param str The string to convert
-     * @param options Options for the conversion. The default is &#x60;{reviveDates: true}&#x60;
+     * @param options Options for the conversion. The default is &#x60;{reviveDates: false}&#x60;
      */
-    static fromJson(str: string, options: FromJsonOptions &#x3D; {reviveDates: true}): any {
+    static fromJson(str: string, options: FromJsonOptions &#x3D; {reviveDates: false}): any {
         if (!str || typeof str !&#x3D;&#x3D; &quot;string&quot;) {
             return {};
         }

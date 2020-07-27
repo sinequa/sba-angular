@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>facet/bootstrap/chart/chart.ts</code>
+            <code>ngx-charts/chart/chart.ts</code>
         </p>
 
 
@@ -261,11 +261,11 @@ export interface ChartDataPoint {
 }
 
 @Component({
-    selector: &quot;sq-chart&quot;,
+    selector: &quot;sq-ngx-chart&quot;,
     templateUrl: &quot;./chart.html&quot;,
     styleUrls: [&quot;./chart.scss&quot;]
 })
-export class BsChart implements OnInit, OnDestroy, OnChanges, DoCheck {
+export class NgxChart implements OnInit, OnDestroy, OnChanges, DoCheck {
     @Input() options: ChartOptions;
     @Input() data: ChartDataPoint[];
     @Output(&quot;item-click&quot;) itemClickEvent: EventEmitter&lt;ChartDataPoint&gt;;

@@ -442,6 +442,15 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="classes/NameValueArrayViewHelper.html" data-type="entity-link">NameValueArrayViewHelper</a>
                             </li>
                             <li class="link">
+                                <a href="classes/Pattern.html" data-type="entity-link">Pattern</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/PatternMatcher.html" data-type="entity-link">PatternMatcher</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/Patterns.html" data-type="entity-link">Patterns</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/Query.html" data-type="entity-link">Query</a>
                             </li>
                             <li class="link">
