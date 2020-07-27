@@ -92,10 +92,22 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
+                                        <a href="#$columnFieldsPattern">$columnFieldsPattern</a>
+                                </li>
+                                <li>
+                                        <a href="#$partnameFieldsPattern">$partnameFieldsPattern</a>
+                                </li>
+                                <li>
                                         <a href="#aggregations">aggregations</a>
                                 </li>
                                 <li>
                                         <a href="#allowEmptySearch">allowEmptySearch</a>
+                                </li>
+                                <li>
+                                        <a href="#columnFieldsExcluded">columnFieldsExcluded</a>
+                                </li>
+                                <li>
+                                        <a href="#columnFieldsIncluded">columnFieldsIncluded</a>
                                 </li>
                                 <li>
                                         <a href="#columnsInfo">columnsInfo</a>
@@ -105,6 +117,12 @@
                                 </li>
                                 <li>
                                         <a href="#pageSize">pageSize</a>
+                                </li>
+                                <li>
+                                        <a href="#partnameFieldsExcluded">partnameFieldsExcluded</a>
+                                </li>
+                                <li>
+                                        <a href="#partnameFieldsIncluded">partnameFieldsIncluded</a>
                                 </li>
                                 <li>
                                         <a href="#questionLanguage">questionLanguage</a>
@@ -147,6 +165,76 @@
 
             <section>
                 <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="$columnFieldsPattern"></a>
+                                        <span class="name"><b>$columnFieldsPattern</b><a href="#$columnFieldsPattern"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>$columnFieldsPattern:         <code><a href="../classes/PatternMatcher.html" target="_self" >PatternMatcher</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../classes/PatternMatcher.html" target="_self" >PatternMatcher</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The <code>PatternMatcher</code> instance created on the client using the <code>columnFieldsIncluded</code> and <code>columnFieldsExcluded</code> values.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="$partnameFieldsPattern"></a>
+                                        <span class="name"><b>$partnameFieldsPattern</b><a href="#$partnameFieldsPattern"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>$partnameFieldsPattern:         <code><a href="../classes/PatternMatcher.html" target="_self" >PatternMatcher</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../classes/PatternMatcher.html" target="_self" >PatternMatcher</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The <code>PatternMatcher</code> instance created on the client using the <code>partnameFieldsIncluded</code> and <code>partnameFieldsExcluded</code> values.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <table class="table table-sm table-bordered">
                         <tbody>
                                 <tr>
@@ -212,6 +300,78 @@
                             <tr>
                                 <td class="col-md-4">
                                     <div class="io-description"><p>Determines whether filter-less queries are permitted</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="columnFieldsExcluded"></a>
+                                        <span class="name"><b>columnFieldsExcluded</b><a href="#columnFieldsExcluded"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>columnFieldsExcluded:     <code>string[]</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string[]</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Defines the patterns to control which column fields are disallowed
+in fielded search expressions.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="columnFieldsIncluded"></a>
+                                        <span class="name"><b>columnFieldsIncluded</b><a href="#columnFieldsIncluded"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>columnFieldsIncluded:     <code>string[]</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string[]</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Defines the patterns to control which column fields are allowed
+in fielded search expressions.</p>
 </div>
                                 </td>
                             </tr>
@@ -317,6 +477,78 @@
                             <tr>
                                 <td class="col-md-4">
                                     <div class="io-description"><p>Defines the number of records or documents to request when executing the query</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="partnameFieldsExcluded"></a>
+                                        <span class="name"><b>partnameFieldsExcluded</b><a href="#partnameFieldsExcluded"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>partnameFieldsExcluded:     <code>string[]</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string[]</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Defines the patterns to control which part name fields are disallowed
+in fielded search expressions.</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="partnameFieldsIncluded"></a>
+                                        <span class="name"><b>partnameFieldsIncluded</b><a href="#partnameFieldsIncluded"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>partnameFieldsIncluded:     <code>string[]</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string[]</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Defines the patterns to control which part name fields are allowed
+in fielded search expressions.</p>
 </div>
                                 </td>
                             </tr>
@@ -677,7 +909,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {MapOf, JsonObject} from &quot;@sinequa/core/base&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {MapOf, JsonObject, PatternMatcher} from &quot;@sinequa/core/base&quot;;
 
 /**
  * Describes the fields available in all configuration objects. By convention, configuration object
@@ -1075,6 +1307,34 @@ export interface CCQuery extends CCWebService {
      * Determines whether filter-less queries are permitted
      */
     allowEmptySearch: boolean;
+    /**
+     * Defines the patterns to control which column fields are allowed
+     * in fielded search expressions.
+     */
+    columnFieldsIncluded: string[];
+    /**
+     * Defines the patterns to control which column fields are disallowed
+     * in fielded search expressions.
+     */
+    columnFieldsExcluded: string[];
+    /**
+     * The &#x60;PatternMatcher&#x60; instance created on the client using the &#x60;columnFieldsIncluded&#x60; and &#x60;columnFieldsExcluded&#x60; values.
+     */
+    $columnFieldsPattern: PatternMatcher;
+    /**
+     * Defines the patterns to control which part name fields are allowed
+     * in fielded search expressions.
+     */
+    partnameFieldsIncluded: string[];
+    /**
+     * Defines the patterns to control which part name fields are disallowed
+     * in fielded search expressions.
+     */
+    partnameFieldsExcluded: string[];
+    /**
+     * The &#x60;PatternMatcher&#x60; instance created on the client using the &#x60;partnameFieldsIncluded&#x60; and &#x60;partnameFieldsExcluded&#x60; values.
+     */
+    $partnameFieldsPattern: PatternMatcher;
 }
 
 /**

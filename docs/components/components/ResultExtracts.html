@@ -98,7 +98,7 @@
             <tr>
                 <td class="col-md-3">styles</td>
                 <td class="col-md-9"><code>
-p {
+p, ul {
     margin: 0;
     color: #676767;
     font-size: 0.9em;
@@ -142,6 +142,9 @@ p {
                                 <a href="#extractsClass">extractsClass</a>
                             </li>
                             <li>
+                                <a href="#longExtracts">longExtracts</a>
+                            </li>
+                            <li>
                                 <a href="#text">text</a>
                             </li>
                         </ul>
@@ -178,10 +181,16 @@ p {
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#dateFormat">dateFormat</a>
+                            </li>
+                            <li>
                                 <a href="#hideDate">hideDate</a>
                             </li>
                             <li>
                                 <a href="#limitLinesDisplayed">limitLinesDisplayed</a>
+                            </li>
+                            <li>
+                                <a href="#maxLongExtracts">maxLongExtracts</a>
                             </li>
                             <li>
                                 <a href="#record">record</a>
@@ -209,6 +218,32 @@ p {
 
     <section>
     <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dateFormat"></a>
+                        <b>dateFormat</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Intl.DateTimeFormatOptions</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{year: &#x27;numeric&#x27;, month: &#x27;short&#x27;, day: &#x27;numeric&#x27;}</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">result/result-extracts/result-extracts.ts:24</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -247,6 +282,27 @@ p {
                         <tr>
                             <td class="col-md-2" colspan="2">
                                     <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">result/result-extracts/result-extracts.ts:18</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="maxLongExtracts"></a>
+                        <b>maxLongExtracts</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">result/result-extracts/result-extracts.ts:23</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -436,8 +492,8 @@ p {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">result/result-extracts/result-extracts.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">result/result-extracts/result-extracts.ts:64</a></div>
                 </td>
             </tr>
 
@@ -506,8 +562,8 @@ p {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">result/result-extracts/result-extracts.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">result/result-extracts/result-extracts.ts:30</a></div>
                 </td>
             </tr>
 
@@ -554,7 +610,7 @@ p {
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">result/result-extracts/result-extracts.ts:23</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">result/result-extracts/result-extracts.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -581,7 +637,34 @@ p {
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">result/result-extracts/result-extracts.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">result/result-extracts/result-extracts.ts:28</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="longExtracts"></a>
+                        <span class="name">
+                            <b>
+                            longExtracts</b>
+                            <a href="#longExtracts"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>string[] | undefined</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">result/result-extracts/result-extracts.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -602,13 +685,13 @@ p {
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                            <i>Type : </i>    <code>string | undefined</code>
 
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">result/result-extracts/result-extracts.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">result/result-extracts/result-extracts.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -629,7 +712,7 @@ import {Record} from &quot;@sinequa/core/web-services&quot;;
     selector: &quot;sq-result-extracts&quot;,
     templateUrl: &quot;./result-extracts.html&quot;,
     styles: [&#x60;
-p {
+p, ul {
     margin: 0;
     color: #676767;
     font-size: 0.9em;
@@ -643,22 +726,30 @@ export class ResultExtracts implements OnChanges {
     @Input() showTextAlways: boolean;
     @Input() showLongExtracts: boolean;
     @Input() hideDate: boolean;
+    @Input() maxLongExtracts: number;
+    @Input() dateFormat: Intl.DateTimeFormatOptions &#x3D; {year: &#x27;numeric&#x27;, month: &#x27;short&#x27;, day: &#x27;numeric&#x27;};
     collapsed: boolean &#x3D; true;
-    text: string;
+    text: string | undefined;
+    longExtracts: string[] | undefined;
     extractsClass: string;
 
     setup() {
+        this.text &#x3D; undefined;
+        this.longExtracts &#x3D; undefined;
         if (this.showTextAlways) {
             this.text &#x3D; Utils.encodeHTML(this.record.text);
             this.extractsClass &#x3D; &quot;sq-text-extracts&quot;;
         }
         else {
-
-            if(this.showLongExtracts &amp;&amp; this.record[&quot;extracts&quot;]) {
-                let extracts &#x3D; &quot;&quot;;
-                for(let i&#x3D;0; i&lt;this.record[&quot;extracts&quot;].length; i+&#x3D;3)
-                    extracts +&#x3D; &quot;&lt;li&gt;&quot;+this.record[&quot;extracts&quot;][i].replace(/\{b\}/g,&quot;&lt;strong&gt;&quot;).replace(/\{nb\}/g,&quot;&lt;/strong&gt;&quot;)+&quot;&lt;/li&gt;&quot;;
-                this.text &#x3D; &quot;&lt;ul&gt;&quot;+extracts+&quot;&lt;/ul&gt;&quot;;
+            if (this.showLongExtracts &amp;&amp; this.record[&quot;extracts&quot;]) {
+                this.longExtracts &#x3D; [];
+                let recordExtracts &#x3D; this.record[&quot;extracts&quot;];
+                if (this.maxLongExtracts) {
+                    recordExtracts &#x3D; recordExtracts.slice(0, this.maxLongExtracts * 3);
+                }
+                for (let i &#x3D; 0; i &lt; recordExtracts.length; i +&#x3D; 3) {
+                    this.longExtracts.push(recordExtracts[i].replace(/\{b\}/g, &quot;&lt;strong&gt;&quot;).replace(/\{nb\}/g, &quot;&lt;/strong&gt;&quot;));
+                }
                 this.extractsClass &#x3D; &quot;sq-long-extracts&quot;;
             }
             else if (this.record.relevantExtracts) {
@@ -674,18 +765,10 @@ export class ResultExtracts implements OnChanges {
         if (!this.limitLinesDisplayed || !this.collapsed) {
             this.extractsClass +&#x3D; &quot; sq-show-all&quot;;
         }
-
-        if(this.record.modified &amp;&amp; !this.hideDate){
-            const modified &#x3D; new Date(this.record.modified);
-            const date &#x3D; modified.toLocaleDateString(navigator.language, { year: &#x27;numeric&#x27;, month: &#x27;short&#x27;, day: &#x27;numeric&#x27; });
-            this.text &#x3D; date + this.text.trim() ? &quot; - &quot; + this.text : &quot;&quot;;
-        }
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes[&quot;record&quot;]) {
-            this.setup();
-        }
+        this.setup();
     }
 
     collapseClick(event: Event) {
@@ -697,17 +780,27 @@ export class ResultExtracts implements OnChanges {
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;ng-container *ngIf&#x3D;&quot;text&quot;&gt;
-    &lt;p class&#x3D;&quot;{{extractsClass}} sq-text&quot; [innerHTML]&#x3D;&quot;text&quot;&gt;&lt;/p&gt;
+        <pre class="line-numbers"><code class="language-html">&lt;ng-container *ngIf&#x3D;&quot;text || longExtracts&quot;&gt;
+    &lt;p *ngIf&#x3D;&quot;!longExtracts&quot; class&#x3D;&quot;{{extractsClass}} sq-text&quot;&gt;
+        &lt;span *ngIf&#x3D;&quot;record.modified &amp;&amp; !hideDate&quot; class&#x3D;&quot;extracts-date&quot;&gt;{{record.modified | sqDate:dateFormat}}{{!!text ? &#x27; - &#x27; : &#x27;&#x27;}}&lt;/span&gt;
+        &lt;span class&#x3D;&quot;extracts-text&quot; [innerHTML]&#x3D;&quot;text&quot;&gt;&lt;/span&gt;
+    &lt;/p&gt;
+    &lt;ng-container *ngIf&#x3D;&quot;longExtracts&quot;&gt;
+        &lt;p *ngIf&#x3D;&quot;record.modified &amp;&amp; !hideDate&quot; class&#x3D;&quot;{{extractsClass}} extracts-date sq-text&quot;&gt;{{record.modified | sqDate:dateFormat}}&lt;/p&gt;
+        &lt;ul *ngIf&#x3D;&quot;longExtracts&quot; class&#x3D;&quot;{{extractsClass}} sq-text&quot;&gt;
+            &lt;li *ngFor&#x3D;&quot;let extract of longExtracts&quot; [innerHTML]&#x3D;&quot;extract&quot;&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/ng-container&gt;
     &lt;a *ngIf&#x3D;&quot;showLinesExpander&quot; class&#x3D;&quot;sq-text&quot; href&#x3D;&quot;#&quot; (click)&#x3D;&quot;collapseClick($event)&quot;&gt;
         &lt;sq-collapse-button [collapsed]&#x3D;&quot;collapsed&quot;&gt;&lt;/sq-collapse-button&gt;
     &lt;/a&gt;
-&lt;/ng-container&gt;</code></pre>
+&lt;/ng-container&gt;
+</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-styleData">
             <pre class="line-numbers"><code class="language-scss">
-p {
+p, ul {
     margin: 0;
     color: #676767;
     font-size: 0.9em;
@@ -741,9 +834,9 @@ p {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><ng-container *ngIf="text">    <p class="{{extractsClass}} sq-text" [innerHTML]="text"></p>    <a *ngIf="showLinesExpander" class="sq-text" href="#" (click)="collapseClick($event)">        <sq-collapse-button [collapsed]="collapsed"></sq-collapse-button>    </a></ng-container></div>'
-    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsChart', 'selector': 'sq-chart'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetChart', 'selector': 'sq-facet-chart'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTimelineComponent', 'selector': 'sq-facet-timeline'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimelineComponent', 'selector': 'sq-timeline'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
-    var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sq-advanced-form-autocomplete]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sq-advanced-form-validation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'Load', 'selector': '[sqLoad]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'}];
+        var COMPONENT_TEMPLATE = '<div><ng-container *ngIf="text || longExtracts">    <p *ngIf="!longExtracts" class="{{extractsClass}} sq-text">        <span *ngIf="record.modified && !hideDate" class="extracts-date">{{record.modified | sqDate:dateFormat}}{{!!text ? \' - \' : \'\'}}</span>        <span class="extracts-text" [innerHTML]="text"></span>    </p>    <ng-container *ngIf="longExtracts">        <p *ngIf="record.modified && !hideDate" class="{{extractsClass}} extracts-date sq-text">{{record.modified | sqDate:dateFormat}}</p>        <ul *ngIf="longExtracts" class="{{extractsClass}} sq-text">            <li *ngFor="let extract of longExtracts" [innerHTML]="extract"></li>        </ul>    </ng-container>    <a *ngIf="showLinesExpander" class="sq-text" href="#" (click)="collapseClick($event)">        <sq-collapse-button [collapsed]="collapsed"></sq-collapse-button>    </a></ng-container></div>'
+    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTimelineComponent', 'selector': 'sq-facet-timeline'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSelectionArranger', 'selector': 'sq-selection-arranger'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimelineComponent', 'selector': 'sq-timeline'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'FacetNgxChart', 'selector': 'sq-facet-ngx-chart'},{'name': 'FusionChart', 'selector': 'sq-fusion-chart'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'NgxChart', 'selector': 'sq-ngx-chart'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'StickyComponent', 'selector': '[sqSticky]'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
+    var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sq-advanced-form-autocomplete]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sq-advanced-form-validation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'FocusKeyListDirective', 'selector': '[sqFocusKeyList]'},{'name': 'FocusKeyListItemDirective', 'selector': '[sqFocusKeyListItem]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'Load', 'selector': '[sqLoad]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ResizeEventDirective', 'selector': '[sqResize]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'}];
     var ACTUAL_COMPONENT = {'name': 'ResultExtracts'};
 </script>
 <script src="../js/tree.js"></script>

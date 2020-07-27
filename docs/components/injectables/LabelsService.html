@@ -2010,7 +2010,7 @@ export class LabelsService {
                         action: (item, $event) &#x3D;&gt; {
                             if ((&lt;IFormData&gt;formItem.data).labelRef.value) {
                                 const labels &#x3D; this.split((&lt;IFormData&gt;formItem.data).labelRef.value);
-                                this.addLabels(labels, this.selectionService.selectedRecords, _public);
+                                this.addLabels(labels, this.selectionService.getSelectedIds(), _public);
                             }
                         }
                     }));
@@ -2020,14 +2020,14 @@ export class LabelsService {
                         action: (item, $event) &#x3D;&gt; {
                             if ((&lt;IFormData&gt;formItem.data).labelRef.value) {
                                 const labels &#x3D; this.split((&lt;IFormData&gt;formItem.data).labelRef.value);
-                                this.removeLabels(labels, this.selectionService.selectedRecords, _public);
+                                this.removeLabels(labels, this.selectionService.getSelectedIds(), _public);
                             }
                         }
                     }));
             });
         if(action){
             action.updater &#x3D; (action) &#x3D;&gt; {
-                action.hidden &#x3D; this.selectionService.selectedRecords.length &#x3D;&#x3D;&#x3D; 0;
+                action.hidden &#x3D; !this.selectionService.haveSelectedRecords;
             };
             action.hidden &#x3D; true;
         }

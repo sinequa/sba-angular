@@ -166,7 +166,7 @@ import {QueryWebService, AuditWebService, QueryIntentData, Results, Record, Tab,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
     AdvancedValue, AdvancedValueWithOperator, AdvancedOperator,
     AuditEvents, AuditEventType, AuditEvent} from &quot;@sinequa/core/web-services&quot;;
-import {AppService, FormatService, ValueItem, Query, ExprParser} from &quot;@sinequa/core/app-utils&quot;;
+import {AppService, FormatService, ValueItem, Query, ExprParser, Expr} from &quot;@sinequa/core/app-utils&quot;;
 import {NotificationsService} from &quot;@sinequa/core/notification&quot;;
 import {LoginService} from &quot;@sinequa/core/login&quot;;
 import {IntlService} from &quot;@sinequa/core/intl&quot;;
@@ -328,6 +328,7 @@ export class SearchService implements OnDestroy {
         if (results &#x3D;&#x3D;&#x3D; this.results) {
             return;
         }
+        this._events.next({type: &quot;before-new-results&quot;, results});
         this.results &#x3D; results;
         this.treatQueryIntents(results);
         this.updateBreadcrumbs(results, options);
@@ -362,7 +363,7 @@ export class SearchService implements OnDestroy {
                                 switch (action.type) {
                                     case &quot;tab&quot;:
                                         if (results.queryAnalysis.initial &amp;&amp; this.query &amp;&amp;
-                                            this.query.tab &amp;&amp; !Utils.eqNC(this.query.tab, action.data)) {
+                                            !Utils.eqNC(this.query.tab || &quot;&quot;, action.data)) {
                                             this.selectTab(action.data, {skipLocationChange: true});
                                         }
                                         break;
@@ -408,7 +409,7 @@ export class SearchService implements OnDestroy {
         if (!this.results || !this.results.rowCount) {
             return 0;
         }
-        return Math.ceil(this.results.rowCount / this.pageSize);
+        return Math.ceil(this.results.rowCount / this.results.pageSize);
     }
 
     makeQuery(): Query {
@@ -633,6 +634,11 @@ export class SearchService implements OnDestroy {
         return window.history.state || {};
     }
 
+    public isSearchRouteActive(): boolean {
+        const url &#x3D; Utils.makeURL(this.router.url);
+        return this.isSearchRoute(url.pathname);
+    }
+
     protected isSearchRoute(pathname): boolean {
         if (this.options.routes) {
             for (const route of this.options.routes) {
@@ -644,7 +650,7 @@ export class SearchService implements OnDestroy {
         return false;
     }
 
-    protected ensureQueryFromUrl() {
+    public getQueryFromUrl(): Query | undefined {
         let query: Query | undefined;
         const url &#x3D; Utils.makeURL(this.router.url);
         if (this.isSearchRoute(url.pathname)) {
@@ -656,8 +662,14 @@ export class SearchService implements OnDestroy {
                 catch {}
             }
         }
+        return query;
+    }
+
+    protected ensureQueryFromUrl(): Query | undefined {
+        const query &#x3D; this.getQueryFromUrl();
         if (!query) {
             this.clear(false);
+            return undefined;
         }
         else {
             // The url query should be the same as the current query on SearchService unless
@@ -666,6 +678,7 @@ export class SearchService implements OnDestroy {
             // event if the current query is empty so that we don&#x27;t systematically create a
             // new query &quot;session&quot; (ml-audit)
             this.setQuery(query, !this._query);
+            return query;
         }
     }
 
@@ -673,8 +686,7 @@ export class SearchService implements OnDestroy {
         if (!this.loginService.complete) {
             return Promise.resolve(false);
         }
-        this.ensureQueryFromUrl();
-        if (this._query) {
+        if (!!this.ensureQueryFromUrl()) {
             return this.navigate();
         }
         else {
@@ -690,6 +702,57 @@ export class SearchService implements OnDestroy {
         this.options.deactivateRouting &#x3D; !value;
     }
 
+    protected makeAuditEventFromCurrentQuery(): AuditEvent | undefined {
+        const lastSelect &#x3D; this.query.lastSelect();
+        if (lastSelect) {
+            const lastExpr &#x3D; this.appService.parseExpr(lastSelect.expression);
+            if (lastExpr instanceof Expr) {
+                if (lastExpr.field &#x3D;&#x3D;&#x3D; &quot;refine&quot;) {
+                    return this.makeAuditEvent({
+                        type: AuditEventType.Search_Refine,
+                        detail: {
+                            text: lastExpr.value,
+                            itembox: lastSelect.facet,
+                            &quot;from-result-id&quot;: !!this.results ? this.results.id : null
+                        }
+                    });
+                }
+                else {
+                    return this.makeAuditEvent({
+                        type: AuditEventType.Search_Select_Item,
+                        detail: {
+                            item: lastSelect as any,
+                            itembox: lastSelect.facet,
+                            itemcolumn: lastExpr.field,
+                            isitemexclude: lastExpr.not,
+                            &quot;from-result-id&quot;: !!this.results ? this.results.id : null
+                        }
+                    });
+                }
+            }
+        }
+        else {
+            if (this.query.basket) {
+                return this.makeAuditEvent({
+                    type: AuditEventType.Basket_Open,
+                    detail: {
+                        basket: this.query.basket
+                    }
+                });
+            }
+            else {
+                return this.makeAuditEvent({
+                    type: AuditEventType.Search_Text,
+                    detail: {
+                        text: this.query.text,
+                        scope: this.query.scope
+                    }
+                });
+            }
+        }
+        return undefined;
+    }
+
     protected handleNavigation(navigationOptions?: SearchService.NavigationOptions, audit?: AuditEvents): Promise&lt;boolean&gt; {
         if (!this.loginService.complete) {
             return Promise.resolve(false);
@@ -697,12 +760,13 @@ export class SearchService implements OnDestroy {
         if (!this.appService.ccquery) {
             return Promise.resolve(false);
         }
+        let query &#x3D; this._query;
         if (this.routingActive) {
-            this.ensureQueryFromUrl();
+            query &#x3D; this.ensureQueryFromUrl();
         }
-        this._events.next({type: &quot;update-query&quot;, query: this._query});
-        this._queryStream.next(this._query);
-        if (!this._query) {
+        this._events.next({type: &quot;update-query&quot;, query});
+        this._queryStream.next(query);
+        if (!query) {
             return Promise.resolve(true);
         }
         if (this.routingActive) {
@@ -712,6 +776,13 @@ export class SearchService implements OnDestroy {
             navigationOptions &#x3D; state.navigationOptions;
         }
         navigationOptions &#x3D; navigationOptions || {};
+        if (!audit) {
+            audit &#x3D; this.makeAuditEventFromCurrentQuery();
+            if (audit &amp;&amp; audit.type &#x3D;&#x3D;&#x3D; AuditEventType.Search_Text) {
+                delete navigationOptions.queryIntents;
+                delete navigationOptions.queryAnalysis;
+            }
+        }
         let observable &#x3D; this.getResults(this.query, audit,
             {
                 queryIntents: navigationOptions.queryIntents,
@@ -1078,7 +1149,7 @@ export module SearchService {
     }
 
     export interface Event {
-        type: &quot;new-query&quot; | &quot;update-query&quot; | &quot;make-query&quot; | &quot;new-results&quot; | &quot;make-query-intent-data&quot; |
+        type: &quot;new-query&quot; | &quot;update-query&quot; | &quot;make-query&quot; | &quot;before-new-results&quot; | &quot;new-results&quot; | &quot;make-query-intent-data&quot; |
             &quot;process-query-intent-action&quot; | &quot;make-audit-event&quot; |
             &quot;before-select-tab&quot; | &quot;after-select-tab&quot; | &quot;clear&quot; | &quot;open-original-document&quot; | &quot;before-search&quot;;
     }
@@ -1096,6 +1167,11 @@ export module SearchService {
     export interface MakeQueryEvent extends Event {
         type: &quot;make-query&quot;;
         query: Query;
+    }
+
+    export interface BeforeNewResultsEvent extends Event {
+        type: &quot;before-new-results&quot;;
+        results: Results | undefined;
     }
 
     export interface NewResultsEvent extends Event {
@@ -1151,6 +1227,7 @@ export module SearchService {
         NewQueryEvent |
         UpdateQueryEvent |
         MakeQueryEvent |
+        BeforeNewResultsEvent |
         NewResultsEvent |
         MakeQueryIntentDataEvent |
         ProcessQueryIntentActionEvent |

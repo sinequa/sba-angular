@@ -196,7 +196,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, OnDestroy} from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, OnDestroy, InjectionToken, Inject} from &quot;@angular/core&quot;;
 import {Subject} from &quot;rxjs&quot;;
 import {Record} from &quot;@sinequa/core/web-services&quot;;
 import {Action} from &quot;@sinequa/components/action&quot;;
@@ -204,7 +204,8 @@ import {SearchService} from &quot;@sinequa/components/search&quot;;
 
 export enum SelectionEventType {
     SELECT,
-    UNSELECT
+    UNSELECT,
+    MOVE
 }
 
 export interface SelectionEvent {
@@ -213,13 +214,37 @@ export interface SelectionEvent {
     source?: string;
 }
 
+export interface SelectionItem {
+    id: string;
+}
+
+/**
+ * The storage mode allows to customize how the service stores records, 
+ * which enables different features:
+ * - id: only store the id of a selected record (default)
+ * - record: store the entire record
+ * - a function that customize what is stored (at least the record id is required)
+ */
+export interface SelectionOptions {
+    resetOnNewResults: boolean;
+    resetOnNewQuery: boolean;
+    storage: &quot;id&quot; | &quot;record&quot; | ((record: Record) &#x3D;&gt; SelectionItem);
+}
+
+export const defaultSelectionOptions: SelectionOptions &#x3D; {
+    resetOnNewResults: false,
+    resetOnNewQuery: true,
+    storage: &quot;id&quot;
+}
+
+export const SELECTION_OPTIONS &#x3D; new InjectionToken&lt;SelectionOptions&gt;(&quot;SELECTION_OPTIONS&quot;);
 
 @Injectable({
     providedIn: &#x27;root&#x27;,
 })
 export class SelectionService implements OnDestroy {
 
-    public readonly selectedRecords: string[] &#x3D; []; // ids of the currently selected records (records not necessarily in results)
+    protected readonly selectedRecords: SelectionItem[] &#x3D; []; // currently selected items
     public readonly selectionActions: Action[] &#x3D; []; // Actions that other services can register onto this service
 
     private _events &#x3D; new Subject&lt;SelectionEvent&gt;();
@@ -227,18 +252,21 @@ export class SelectionService implements OnDestroy {
     public readonly selectedRecordsAction: Action;
 
     constructor(
-        public searchService : SearchService
+        public searchService : SearchService,
+        @Inject(SELECTION_OPTIONS) public selectionOptions: SelectionOptions 
     ){
 
         this.searchService.events.subscribe(event &#x3D;&gt; {
 
-            if(event.type &#x3D;&#x3D;&#x3D; &quot;new-results&quot; &amp;&amp; this.searchService.haveRecords){
+            if(!this.selectionOptions.resetOnNewResults &amp;&amp; event.type &#x3D;&#x3D;&#x3D; &quot;new-results&quot; &amp;&amp; this.searchService.haveRecords){
 
                 const newSelectedRecords: Record[] &#x3D; [];
                 if (this.searchService.results &amp;&amp; this.searchService.results.records) {
                     for (const record of this.searchService.results.records) {
-                        if (this.selectedRecords.includes(record.id) &amp;&amp; !record.$selected) {
+                        const index &#x3D; this.selectedRecords.findIndex(item &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; record.id);
+                        if (index !&#x3D;&#x3D; -1 &amp;&amp; !record.$selected) {
                             record.$selected &#x3D; true;    // Select previously selected records
+                            this.selectedRecords.splice(index, 1, record);
                             newSelectedRecords.push(record);
                         }
                     }
@@ -246,10 +274,14 @@ export class SelectionService implements OnDestroy {
                 if(newSelectedRecords.length &gt; 0)   // Menus might need to be refreshed
                     this._events.next({type: SelectionEventType.SELECT, records: newSelectedRecords});
 
-            } else if(event.type &#x3D;&#x3D;&#x3D; &quot;new-query&quot;) {
+            }
 
-                this.clearSelectedRecords();    // Unless it&#x27;s a new query
-
+            if(this.selectionOptions.resetOnNewResults &amp;&amp; event.type &#x3D;&#x3D;&#x3D; &quot;new-results&quot;) {
+                this.clearSelectedRecords();
+            }
+            
+            if(this.selectionOptions.resetOnNewQuery &amp;&amp; event.type &#x3D;&#x3D;&#x3D; &quot;new-query&quot;) {
+                this.clearSelectedRecords();
             }
 
         });
@@ -274,11 +306,41 @@ export class SelectionService implements OnDestroy {
         this._events.complete();
     }
 
+    private getItem(record: Record): SelectionItem {
+        if(this.selectionOptions.storage &#x3D;&#x3D;&#x3D; &quot;id&quot;) {
+            return {id: record.id};
+        }
+        else if(this.selectionOptions.storage &#x3D;&#x3D;&#x3D; &quot;record&quot;) {
+            return record;
+        }
+        else {
+            return this.selectionOptions.storage(record);
+        }
+    }
+
+    /**
+     * Returns a copy of the list of selected records
+     */
+    public getSelectedItems(): SelectionItem[] {
+        return this.selectedRecords.slice(0);
+    }
+
+    /**
+     * Return the list of selected record ids
+     */
+    public getSelectedIds(): string[] {
+        return this.selectedRecords.map(r &#x3D;&gt; r.id);
+    }
+
     /**
      * @returns true if at least one record is selected
      */
     public get haveSelectedRecords(): boolean {
         return this.selectedRecords.length &gt; 0;
+    }
+
+    public getSelectedCount(): number {
+        return this.selectedRecords.length;
     }
 
     /**
@@ -305,7 +367,7 @@ export class SelectionService implements OnDestroy {
         if (this.searchService.results &amp;&amp; this.searchService.results.records) {
             for (const record of this.searchService.results.records) {
                 if (!record.$selected) {
-                    this.selectedRecords.push(record.id);
+                    this.selectedRecords.push(this.getItem(record));
                     newSelectedRecords.push(record);
                     record.$selected &#x3D; true;
                 }
@@ -323,7 +385,7 @@ export class SelectionService implements OnDestroy {
         if (this.searchService.results &amp;&amp; this.searchService.results.records) {
             for (const record of this.searchService.results.records) {
                 if (record.$selected) {
-                    const index &#x3D; this.selectedRecords.indexOf(record.id);
+                    const index &#x3D; this.selectedRecords.findIndex(item &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; record.id);
                     if (index !&#x3D;&#x3D; -1) {
                         this.selectedRecords.splice(index, 1);
                         newUnselectedRecords.push(record);
@@ -343,7 +405,7 @@ export class SelectionService implements OnDestroy {
      */
     public toggleSelectedRecords(record?: Record, source?: string) {
         if (!!record) {
-            const index &#x3D; this.selectedRecords.indexOf(record.id);
+            const index &#x3D; this.selectedRecords.findIndex(item &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; record.id);
             let event : SelectionEvent;
             if (index &gt; -1) {
                 this.selectedRecords.splice(index, 1);
@@ -351,9 +413,14 @@ export class SelectionService implements OnDestroy {
                 event &#x3D; {type: SelectionEventType.UNSELECT, records: [record]};
             }
             else {
-                this.selectedRecords.push(record.id);
+                this.selectedRecords.push(this.getItem(record));
                 record.$selected &#x3D; true;
                 event &#x3D; {type: SelectionEventType.SELECT, records: [record]};
+            }
+            // record might not be the one in the search service results (if passing a SelectionItem)
+            const ssRecord &#x3D; this.searchService.getRecordFromId(record.id);
+            if(ssRecord) {
+                ssRecord.$selected &#x3D; record.$selected;
             }
             if(source){
                 event.source &#x3D; source;
@@ -371,6 +438,21 @@ export class SelectionService implements OnDestroy {
     }
 
     /**
+     * Moves a selected record to a different index;
+     * @param record 
+     * @param newIndex 
+     */
+    public moveSelectedRecord(record: Record, newIndex: number) {
+        const i &#x3D; this.selectedRecords.findIndex(r &#x3D;&gt; r.id &#x3D;&#x3D;&#x3D; record.id);
+        if(i &#x3D;&#x3D;&#x3D; -1) {
+            throw new Error(&#x60;Record ${record.id} is not in the selected records&#x60;);
+        }
+        this.selectedRecords.splice(i, 1);
+        this.selectedRecords.splice(newIndex, 0, this.getItem(record));
+        this.events.next({type: SelectionEventType.MOVE, records: [record]});
+    }
+
+    /**
      * Unselect all selected records
      * Emits a SelectionEvent
      */
@@ -378,8 +460,8 @@ export class SelectionService implements OnDestroy {
         this.selectedRecords.splice(0);
         const newUnselectedRecords: Record[] &#x3D; [];
         if (this.searchService.results &amp;&amp; this.searchService.results.records) {
-            if (this.searchService.haveRecords) {
-                for (const record of this.searchService.results.records) {
+            for (const record of this.searchService.results.records) {
+                if(record.$selected){
                     record.$selected &#x3D; false;
                     newUnselectedRecords.push(record);
                 }
@@ -395,7 +477,7 @@ export class SelectionService implements OnDestroy {
             text: &quot;msg#resultsSelector.selectDocuments&quot;,
             messageParams: {values: {count: this.selectedRecords.length}},
             action: (item, $event) &#x3D;&gt; {
-                this.toggleSelectedRecords();
+                this.toggleSelectedRecords(undefined, &quot;multiple-selector&quot;);
             },
             updater: (item) &#x3D;&gt; {
                 item.icon &#x3D; this.haveSelectedRecords ? &quot;far fa-check-square&quot; : &quot;far fa-square&quot;;

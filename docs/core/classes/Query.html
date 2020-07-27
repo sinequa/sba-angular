@@ -1997,8 +1997,8 @@ of the passed query.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="432"
-                            class="link-to-prism">app-utils/query/query.ts:432</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="429"
+                            class="link-to-prism">app-utils/query/query.ts:429</a></div>
                 </td>
             </tr>
 
@@ -2081,8 +2081,8 @@ of the passed query.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="499"
-                            class="link-to-prism">app-utils/query/query.ts:499</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="496"
+                            class="link-to-prism">app-utils/query/query.ts:496</a></div>
                 </td>
             </tr>
 
@@ -2190,8 +2190,8 @@ of the passed query.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="477"
-                            class="link-to-prism">app-utils/query/query.ts:477</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="474"
+                            class="link-to-prism">app-utils/query/query.ts:474</a></div>
                 </td>
             </tr>
 
@@ -2231,8 +2231,8 @@ of the passed query.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="364"
-                            class="link-to-prism">app-utils/query/query.ts:364</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="361"
+                            class="link-to-prism">app-utils/query/query.ts:361</a></div>
                 </td>
             </tr>
 
@@ -2272,8 +2272,8 @@ of the passed query.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="377"
-                            class="link-to-prism">app-utils/query/query.ts:377</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="374"
+                            class="link-to-prism">app-utils/query/query.ts:374</a></div>
                 </td>
             </tr>
 
@@ -2344,8 +2344,8 @@ of the passed query.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="390"
-                            class="link-to-prism">app-utils/query/query.ts:390</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="387"
+                            class="link-to-prism">app-utils/query/query.ts:387</a></div>
                 </td>
             </tr>
 
@@ -2564,8 +2564,8 @@ objects</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="666"
-                            class="link-to-prism">app-utils/query/query.ts:666</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="663"
+                            class="link-to-prism">app-utils/query/query.ts:663</a></div>
                 </td>
             </tr>
 
@@ -2849,8 +2849,8 @@ is specified then it is matched when testing the value to be removed</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="550"
-                            class="link-to-prism">app-utils/query/query.ts:550</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="547"
+                            class="link-to-prism">app-utils/query/query.ts:547</a></div>
                 </td>
             </tr>
 
@@ -3067,8 +3067,8 @@ whether to replace or append a new advanced value</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="343"
-                            class="link-to-prism">app-utils/query/query.ts:343</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="340"
+                            class="link-to-prism">app-utils/query/query.ts:340</a></div>
                 </td>
             </tr>
 
@@ -3511,9 +3511,6 @@ export class Query implements IQuery {
     fromJson(jquery: string): Query {
         this.clear();
         const query &#x3D; Utils.fromJson(jquery);
-        // ensure the text field is a string
-        const query1 &#x3D; Utils.fromJson(jquery, {reviveDates: false});
-        query.text &#x3D; query1.text;
         // convert select and open
         const select &#x3D; query.select;
         if (Utils.isArray(select)) {

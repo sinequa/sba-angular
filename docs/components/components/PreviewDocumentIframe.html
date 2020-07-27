@@ -135,7 +135,8 @@ iframe {
 
             <tr>
                 <td class="col-md-3">template</td>
-                <td class="col-md-9"><pre class="line-numbers"><code class="language-html">&lt;iframe #documentFrame                    [src]&#x3D;&quot;downloadUrl&quot;
+                <td class="col-md-9"><pre class="line-numbers"><code class="language-html">&lt;iframe #documentFrame                    [sandbox]&#x3D;&quot;sandbox || defaultSandbox&quot;
+                    [src]&#x3D;&quot;downloadUrl&quot;
                     (sqLoad)&#x3D;&quot;onPreviewDocLoad($event.event)&quot;
                     [ngStyle]&#x3D;&quot;{&#x27;-ms-zoom&#x27;: scalingFactor, &#x27;-moz-transform&#x27;: &#x27;scale(&#x27;+scalingFactor+&#x27;)&#x27;, &#x27;-o-transform&#x27;: &#x27;scale(&#x27;+scalingFactor+&#x27;)&#x27;, &#x27;-webkit-transform&#x27;: &#x27;scale(&#x27;+scalingFactor+&#x27;)&#x27;}&quot;&gt;
                 &lt;/iframe&gt;</code></pre></td>
@@ -165,6 +166,9 @@ iframe {
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
+                            <li>
+                                <a href="#defaultSandbox">defaultSandbox</a>
+                            </li>
                             <li>
                                 <a href="#documentFrame">documentFrame</a>
                             </li>
@@ -204,6 +208,9 @@ iframe {
                         <ul class="index-list">
                             <li>
                                 <a href="#downloadUrl">downloadUrl</a>
+                            </li>
+                            <li>
+                                <a href="#sandbox">sandbox</a>
                             </li>
                             <li>
                                 <a href="#scalingFactor">scalingFactor</a>
@@ -252,7 +259,28 @@ iframe {
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">preview/preview-document-iframe.component.ts:56</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">preview/preview-document-iframe.component.ts:58</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sandbox"></a>
+                        <b>sandbox</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">preview/preview-document-iframe.component.ts:57</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -278,7 +306,7 @@ iframe {
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">preview/preview-document-iframe.component.ts:57</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">preview/preview-document-iframe.component.ts:59</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -302,7 +330,7 @@ iframe {
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">preview/preview-document-iframe.component.ts:58</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">preview/preview-document-iframe.component.ts:60</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -337,8 +365,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="79"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:79</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:80</a></div>
                 </td>
             </tr>
 
@@ -409,8 +437,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:64</a></div>
                 </td>
             </tr>
 
@@ -467,6 +495,38 @@ iframe {
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="defaultSandbox"></a>
+                        <span class="name">
+                            <b>
+                            defaultSandbox</b>
+                            <a href="#defaultSandbox"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&quot;allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts&quot;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">preview/preview-document-iframe.component.ts:56</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="documentFrame"></a>
                         <span class="name">
                             <b>
@@ -492,7 +552,7 @@ iframe {
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">preview/preview-document-iframe.component.ts:59</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">preview/preview-document-iframe.component.ts:61</a></div>
                             </td>
                         </tr>
 
@@ -528,7 +588,7 @@ iframe {
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">preview/preview-document-iframe.component.ts:60</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">preview/preview-document-iframe.component.ts:62</a></div>
                             </td>
                         </tr>
 
@@ -567,6 +627,7 @@ import { PreviewDocument } from &quot;./preview-document&quot;;
 @Component({
     selector: &quot;sq-preview-document-iframe&quot;,
     template: &#x60;&lt;iframe #documentFrame
+                    [sandbox]&#x3D;&quot;sandbox || defaultSandbox&quot;
                     [src]&#x3D;&quot;downloadUrl&quot;
                     (sqLoad)&#x3D;&quot;onPreviewDocLoad($event.event)&quot;
                     [ngStyle]&#x3D;&quot;{&#x27;-ms-zoom&#x27;: scalingFactor, &#x27;-moz-transform&#x27;: &#x27;scale(&#x27;+scalingFactor+&#x27;)&#x27;, &#x27;-o-transform&#x27;: &#x27;scale(&#x27;+scalingFactor+&#x27;)&#x27;, &#x27;-webkit-transform&#x27;: &#x27;scale(&#x27;+scalingFactor+&#x27;)&#x27;}&quot;&gt;
@@ -594,14 +655,14 @@ iframe {
 }
     &#x60;]
 })
-export class PreviewDocumentIframe  {
-
+export class PreviewDocumentIframe {
+    defaultSandbox : string &#x3D; &quot;allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts&quot;;
+    @Input() sandbox : string 
     @Input() downloadUrl: string;
     @Input() scalingFactor: number &#x3D; 1.0;
     @Output() onPreviewReady &#x3D; new EventEmitter&lt;PreviewDocument&gt;();
     @ViewChild(&#x27;documentFrame&#x27;, {static: false}) documentFrame: ElementRef;  // Reference to the preview HTML in the iframe
     @ContentChild(&#x27;tooltip&#x27;, { read: ElementRef, static: false }) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
-
 
     public onPreviewDocLoad(event: Event) {
         const previewDocument &#x3D; new PreviewDocument(this.documentFrame);
@@ -677,9 +738,9 @@ iframe {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><iframe #documentFrame                    [src]="downloadUrl"                    (sqLoad)="onPreviewDocLoad($event.event)"                    [ngStyle]="{\'-ms-zoom\': scalingFactor, \'-moz-transform\': \'scale(\'+scalingFactor+\')\', \'-o-transform\': \'scale(\'+scalingFactor+\')\', \'-webkit-transform\': \'scale(\'+scalingFactor+\')\'}">                </iframe></div>'
-    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsChart', 'selector': 'sq-chart'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetChart', 'selector': 'sq-facet-chart'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTimelineComponent', 'selector': 'sq-facet-timeline'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimelineComponent', 'selector': 'sq-timeline'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
-    var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sq-advanced-form-autocomplete]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sq-advanced-form-validation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'Load', 'selector': '[sqLoad]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'}];
+        var COMPONENT_TEMPLATE = '<div><iframe #documentFrame                    [sandbox]="sandbox || defaultSandbox"                    [src]="downloadUrl"                    (sqLoad)="onPreviewDocLoad($event.event)"                    [ngStyle]="{\'-ms-zoom\': scalingFactor, \'-moz-transform\': \'scale(\'+scalingFactor+\')\', \'-o-transform\': \'scale(\'+scalingFactor+\')\', \'-webkit-transform\': \'scale(\'+scalingFactor+\')\'}">                </iframe></div>'
+    var COMPONENTS = [{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTimelineComponent', 'selector': 'sq-facet-timeline'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSelectionArranger', 'selector': 'sq-selection-arranger'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimelineComponent', 'selector': 'sq-timeline'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'FacetNgxChart', 'selector': 'sq-facet-ngx-chart'},{'name': 'FusionChart', 'selector': 'sq-fusion-chart'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'NgxChart', 'selector': 'sq-ngx-chart'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'StickyComponent', 'selector': '[sqSticky]'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
+    var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sq-advanced-form-autocomplete]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sq-advanced-form-validation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'FocusKeyListDirective', 'selector': '[sqFocusKeyList]'},{'name': 'FocusKeyListItemDirective', 'selector': '[sqFocusKeyListItem]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'Load', 'selector': '[sqLoad]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ResizeEventDirective', 'selector': '[sqResize]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'}];
     var ACTUAL_COMPONENT = {'name': 'PreviewDocumentIframe'};
 </script>
 <script src="../js/tree.js"></script>

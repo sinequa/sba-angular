@@ -168,6 +168,7 @@
 import {Subject} from &quot;rxjs&quot;;
 import {UserSettingsWebService, AuditEvents, Record} from &quot;@sinequa/core/web-services&quot;;
 import {SearchService} from &quot;@sinequa/components/search&quot;;
+import {Utils} from &quot;@sinequa/core/base&quot;;
 
 
 export interface RecentDocument {
@@ -239,6 +240,15 @@ export class RecentDocumentsService implements OnDestroy {
         // Listen to the user settings
         this.userSettingsService.events.subscribe(event &#x3D;&gt; {
             // E.g. new login occurs
+            // &#x3D;&#x3D;&gt; Revive dates
+            this.recentdocuments.forEach(rd &#x3D;&gt; {
+                if (Utils.isString(rd.date)) {
+                    const date &#x3D; Utils.toDate(rd.date);
+                    if (date) {
+                        rd.date &#x3D; date;
+                    }
+                }
+            });
             // &#x3D;&#x3D;&gt; Menus need to be rebuilt
             this.events.next({type: RecentDocumentEventType.Loaded});
         });

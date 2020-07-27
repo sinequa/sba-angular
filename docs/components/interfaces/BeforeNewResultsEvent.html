@@ -1,0 +1,1302 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>BeforeNewResultsEvent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>search/search.service.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../interfaces/Event.html" target="_self" >Event</a></code>
+            </p>
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#results">results</a>
+                                </li>
+                                <li>
+                                        <a href="#type">type</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="results"></a>
+                                        <span class="name"><b>results</b><a href="#results"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>results:         <code><a href="../interfaces/Results.html" target="_self" >Results | undefined</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../interfaces/Results.html" target="_self" >Results | undefined</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="type"></a>
+                                        <span class="name"><b>type</b><a href="#type"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>type:     <code></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, InjectionToken, Inject, Optional, OnDestroy} from &quot;@angular/core&quot;;
+import {Router, NavigationStart, NavigationEnd, Params} from &quot;@angular/router&quot;;
+import {Subject, BehaviorSubject, Observable, Subscription, of, throwError} from &quot;rxjs&quot;;
+import {map, catchError} from &quot;rxjs/operators&quot;;
+import {QueryWebService, AuditWebService, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
+    QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
+    AdvancedValue, AdvancedValueWithOperator, AdvancedOperator,
+    AuditEvents, AuditEventType, AuditEvent} from &quot;@sinequa/core/web-services&quot;;
+import {AppService, FormatService, ValueItem, Query, ExprParser, Expr} from &quot;@sinequa/core/app-utils&quot;;
+import {NotificationsService} from &quot;@sinequa/core/notification&quot;;
+import {LoginService} from &quot;@sinequa/core/login&quot;;
+import {IntlService} from &quot;@sinequa/core/intl&quot;;
+import {Utils} from &quot;@sinequa/core/base&quot;;
+import {Breadcrumbs, BreadcrumbsItem} from &#x27;./breadcrumbs&#x27;;
+
+export interface SearchOptions {
+    routes?: string[];
+    homeRoute?: string;
+    deactivateRouting?: boolean;
+}
+
+export const SEARCH_OPTIONS &#x3D; new InjectionToken&lt;SearchOptions&gt;(&quot;SEARCH_OPTIONS&quot;);
+
+@Injectable({
+    providedIn: &quot;root&quot;
+})
+export class SearchService implements OnDestroy {
+    protected _query: Query | undefined;
+    queryStringParams: Params &#x3D; {};
+    results: Results | undefined;
+    breadcrumbs: Breadcrumbs | undefined;
+    searchActive: boolean;
+
+    protected loginSubscription: Subscription;
+    protected routerSubscription: Subscription;
+    protected appSubscription: Subscription;
+    protected _events &#x3D; new Subject&lt;SearchService.Events&gt;();
+    protected _queryStream &#x3D; new BehaviorSubject&lt;Query | undefined&gt;(undefined);
+    protected _resultsStream &#x3D; new BehaviorSubject&lt;Results | undefined&gt;(undefined);
+
+    constructor(
+        @Optional() @Inject(SEARCH_OPTIONS) protected options: SearchOptions,
+        protected router: Router,
+        protected appService: AppService,
+        protected queryService: QueryWebService,
+        protected loginService: LoginService,
+        protected intlService: IntlService,
+        protected formatService: FormatService,
+        protected auditService: AuditWebService,
+        protected notificationsService: NotificationsService) {
+
+        if (!this.options) {
+            this.options &#x3D; {
+                routes: [&quot;search&quot;]
+            };
+        }
+
+        this.results &#x3D; undefined;
+        this.breadcrumbs &#x3D; undefined;
+
+        this.loginSubscription &#x3D; this.loginService.events.subscribe(
+            (value) &#x3D;&gt; {
+                if (value.type &#x3D;&#x3D;&#x3D; &quot;session-changed&quot;) {
+                    this.handleLogin();
+                }
+            });
+        this.routerSubscription &#x3D; this.router.events.subscribe(
+            (event) &#x3D;&gt; {
+                if (event instanceof NavigationStart) {
+                    // Restore state on back/forward until this issue is fixed: https://github.com/angular/angular/issues/28108
+                    const currentNavigation &#x3D; this.router.getCurrentNavigation();
+                    if (currentNavigation &amp;&amp; event.navigationTrigger &#x3D;&#x3D;&#x3D; &quot;popstate&quot; &amp;&amp;
+                        !currentNavigation.extras.state &amp;&amp; event.restoredState) {
+                        currentNavigation.extras.state &#x3D; event.restoredState;
+                    }
+                }
+                else if (event instanceof NavigationEnd) {
+                    this.handleNavigation();
+                }
+            });
+        this.appSubscription &#x3D; this.appService.events.subscribe(
+            (event) &#x3D;&gt; {
+                if (event.type &#x3D;&#x3D;&#x3D; &quot;query-changed&quot;) {
+                    if (this._query &amp;&amp; (!this.appService.ccquery || (this._query.name !&#x3D;&#x3D; this.appService.ccquery.name))) {
+                        this.clearQuery();
+                    }
+                }
+            });
+    }
+
+    ngOnDestroy() {
+        this.loginSubscription.unsubscribe();
+        this.routerSubscription.unsubscribe();
+        this.appSubscription.unsubscribe();
+        this._events.complete();
+        this._queryStream.complete();
+        this._resultsStream.complete();
+    }
+
+    get events(): Observable&lt;SearchService.Events&gt; {
+        return this._events;
+    }
+
+    get queryStream(): Observable&lt;Query | undefined&gt; {
+        return this._queryStream;
+    }
+
+    get resultsStream(): Observable&lt;Results | undefined&gt; {
+        return this._resultsStream;
+    }
+
+    getTabConfig(name: string): CCTab | undefined {
+        if (this.appService.ccquery &amp;&amp; this.appService.ccquery.tabSearch &amp;&amp; this.appService.ccquery.tabSearch.tabs) {
+            return this.appService.ccquery.tabSearch.tabs.find(t &#x3D;&gt; Utils.eqNC(t.name, name));
+        }
+        return undefined;
+    }
+
+    get query(): Query {
+        if (!this._query) {
+            this._query &#x3D; this.makeQuery();
+            this._events.next({type: &quot;new-query&quot;, query: this._query});
+        }
+        return this._query;
+    }
+
+    public setQuery(query: Query | undefined, newQuery &#x3D; true) {
+        if (query &#x3D;&#x3D;&#x3D; this._query) {
+            return;
+        }
+        this._query &#x3D; query;
+        if (this._query) {
+            let ccquery &#x3D; this.appService.getCCQuery(this._query.name);
+            if (!ccquery) {
+                console.warn(&#x60;Query &#x27;${this._query.name}&#x27; not found&#x60;);
+                ccquery &#x3D; this.appService.defaultCCQuery;
+            }
+            if (ccquery) {
+                this._query.name &#x3D; ccquery.name;
+                if (this.appService.ccquery !&#x3D;&#x3D; ccquery) {
+                    this.appService.ccquery &#x3D; ccquery;
+                }
+            }
+        }
+        if (newQuery) {
+            this._events.next({type: &quot;new-query&quot;, query: this._query});
+        }
+    }
+
+    public clearQuery() {
+        this.setQuery(undefined);
+    }
+
+    private updateBreadcrumbs(results: Results | undefined, options: SearchService.SetResultsOptions) {
+        if (!results) {
+            this.breadcrumbs &#x3D; undefined;
+            return;
+        }
+        if (!this.breadcrumbs || (!options.resuseBreadcrumbs &amp;&amp; !options.advanced)) {
+            this.breadcrumbs &#x3D; Breadcrumbs.create(this.appService, this, this.query);
+        }
+        else if (options.advanced) {
+            this.breadcrumbs.update(this.query);
+        }
+    }
+
+    private _setResults(results: Results | undefined, options: SearchService.SetResultsOptions &#x3D; {}) {
+        if (results &#x3D;&#x3D;&#x3D; this.results) {
+            return;
+        }
+        this._events.next({type: &quot;before-new-results&quot;, results});
+        this.results &#x3D; results;
+        this.treatQueryIntents(results);
+        this.updateBreadcrumbs(results, options);
+        if (this.results) {
+            if (this.results.tab) {
+                this.query.tab &#x3D; this.results.tab;
+            }
+            if (this.results.attributes &amp;&amp; this.results.attributes.queryid) {
+                this.query.queryId &#x3D; this.results.attributes.queryid;
+            }
+        }
+        this._events.next({type: &quot;new-results&quot;, results: this.results});
+        this._resultsStream.next(this.results);
+    }
+
+    public setResults(results: Results) {
+        return this._setResults(results);
+    }
+
+    // TODO: queryintents in their own service ?
+
+    private treatQueryIntents (results: Results | undefined) {
+        if (results &amp;&amp; results.queryAnalysis &amp;&amp; results.queryIntents) {
+            const queryIntents &#x3D; results.queryIntents;
+            for (const intent of queryIntents) {
+                if (intent.actions) {
+                    for (const action of intent.actions) {
+                        const event: SearchService.ProcessQueryIntentActionEvent &#x3D; {type: &quot;process-query-intent-action&quot;, action: action, intent: intent, analysis: results.queryAnalysis};
+                        this._events.next(event);
+                        if (!event.actionProcessed) {
+                            if (!!action.data) {
+                                switch (action.type) {
+                                    case &quot;tab&quot;:
+                                        if (results.queryAnalysis.initial &amp;&amp; this.query &amp;&amp;
+                                            !Utils.eqNC(this.query.tab || &quot;&quot;, action.data)) {
+                                            this.selectTab(action.data, {skipLocationChange: true});
+                                        }
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    get haveRecords(): boolean {
+        return !!this.results &amp;&amp; !!this.results.records &amp;&amp; this.results.records.length &gt; 0;
+    }
+
+    get rowCount(): number {
+        return (!!this.results &amp;&amp; this.results.rowCount) ? this.results.rowCount : 0;
+    }
+
+    get totalRowCount(): number {
+        return (!!this.results &amp;&amp; this.results.totalRowCount) ? this.results.totalRowCount : 0;
+    }
+
+    get pageSize(): number {
+        if (this.query &amp;&amp; this.query.pageSize) {
+            return this.query.pageSize;
+        }
+        if (this.appService.ccquery &amp;&amp; this.appService.ccquery.pageSize) {
+            return this.appService.ccquery.pageSize;
+        }
+        return SearchService.DefaultPageSize;
+    }
+
+    get page(): number {
+        if (!this.results) {
+            return 1;
+        }
+        return this.results.page;
+    }
+
+    get pageCount(): number {
+        if (!this.results || !this.results.rowCount) {
+            return 0;
+        }
+        return Math.ceil(this.results.rowCount / this.results.pageSize);
+    }
+
+    makeQuery(): Query {
+        const ccquery &#x3D; this.appService.ccquery;
+        const query &#x3D; new Query(ccquery ? ccquery.name : &quot;_unknown&quot;);
+        this._events.next({type: &quot;make-query&quot;, query: query});
+        return query;
+    }
+
+    protected makeAuditEvent(event: AuditEvent): AuditEvent {
+        this._events.next({type: &quot;make-audit-event&quot;, event: event});
+        return event;
+    }
+
+    selectBreadcrumbsItem(item: BreadcrumbsItem) {
+        if (this.breadcrumbs) {
+            const query &#x3D; this.breadcrumbs.selectItem(item);
+            if (query) {
+                this.setQuery(query, false);
+                this.search({reuseBreadcrumbs: true}); // audit?
+            }
+        }
+    }
+
+    removeBreadcrumbsItem(item: BreadcrumbsItem) {
+        if (this.breadcrumbs) {
+            const next &#x3D; this.breadcrumbs.removeItem(item);
+            if (this.isEmptySearch(this.breadcrumbs.query)) {
+                this.clear();
+                return;
+            }
+            if (next) {
+                this.selectBreadcrumbsItem(next);
+            }
+        }
+    }
+
+    removeSelect(index: number) {
+        if (this.breadcrumbs) {
+            const item &#x3D; this.breadcrumbs.items[index + 1];
+            this.removeBreadcrumbsItem(item);
+        }
+    }
+
+    removeText() {
+        if (this.breadcrumbs) {
+            const item &#x3D; this.breadcrumbs.items[0];
+            this.removeBreadcrumbsItem(item);
+        }
+    }
+
+    clear(navigate &#x3D; true, path?: string) {
+        this.clearQuery();
+        path &#x3D; path || this.options.homeRoute;
+        this._setResults(undefined);
+        this._events.next({type: &quot;clear&quot;, path});
+        if (navigate) {
+            this.navigate({path: path || this.options.homeRoute}, this.makeAuditEvent({
+                type: AuditEventType.Search_FirstPage
+            }));
+        }
+    }
+
+    home(path &#x3D; this.options.homeRoute) {
+        this.clear(true, path);
+    }
+
+    protected makeQueryIntentData(queryIntentData: QueryIntentData): QueryIntentData {
+        this._events.next({type: &quot;make-query-intent-data&quot;, intentData: queryIntentData});
+        return queryIntentData;
+    }
+
+    isEmptySearchIgnoreSelects(query: Query | undefined): boolean {
+        if (!query) {
+            return true;
+        }
+        if (!query.action || query.action &#x3D;&#x3D;&#x3D; &quot;search&quot;) {
+            // Test isFirstPage
+            if (query.isFirstPage) {
+                return false;
+            }
+            // Test empty text
+            if (query.text &amp;&amp; Utils.trim(query.text)) {
+                return false;
+            }
+            // Test basket
+            if (query.basket) {
+                return false;
+            }
+            // Test no advanced
+            if (query.advanced &amp;&amp; Object.keys(query.advanced).length &gt; 0) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    isEmptySearch(query: Query | undefined): boolean {
+        if (!query) {
+            return true;
+        }
+        if (!query.action || query.action &#x3D;&#x3D;&#x3D; &quot;search&quot;) {
+            if (!this.isEmptySearchIgnoreSelects(query)) {
+                return false;
+            }
+            // Test no facet selection
+            if (query.select &amp;&amp; query.select.length &gt; 0) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    checkEmptySearch(queries: Query | Query[]): boolean {
+        if (this.appService.ccquery &amp;&amp; !this.appService.ccquery.allowEmptySearch) {
+            if (!Utils.isArray(queries)) {
+                queries &#x3D; [queries];
+            }
+            for (const query of queries) {
+                if (this.isEmptySearch(query)) {
+                    this.notificationsService.info(&quot;msg#search.emptySearchNotification&quot;);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    getResults(
+        query: Query, auditEvents?: AuditEvents,
+        options: SearchService.GetResultsOptions &#x3D; {}): Observable&lt;Results&gt; {
+        if (!this.checkEmptySearch(query)) {
+            return throwError(&quot;empty search&quot;);
+        }
+        if (!options.searchInactive) {
+            this.searchActive &#x3D; true;
+        }
+        const tab &#x3D; this.getCurrentTab();
+        return this.queryService.getResults(query, auditEvents,
+            this.makeQueryIntentData({
+                tab: !!tab ? tab.name : undefined,
+                queryIntents: options.queryIntents,
+                queryAnalysis: options.queryAnalysis
+            })
+        ).pipe(
+            map((results) &#x3D;&gt; {
+                this.searchActive &#x3D; false;
+                return results;
+            })
+        );
+    }
+
+    getMultipleResults(queries: Query[], auditEvents?: AuditEvents): Observable&lt;IMulti&lt;Results&gt;&gt; {
+        if (!this.checkEmptySearch(queries)) {
+            return of({results: []});
+        }
+        return this.queryService.getMultipleResults(queries, auditEvents);
+    }
+
+    navigate(options?: SearchService.NavigationOptions, audit?: AuditEvents): Promise&lt;boolean&gt; {
+        if (!options) {
+            options &#x3D; {};
+        }
+        if (!options.analyzeQueryText &amp;&amp; this.results) {
+            options.queryIntents &#x3D; this.results.queryIntents;
+            options.queryAnalysis &#x3D; this.results.queryAnalysis;
+        }
+        if (!this.routingActive) {
+            this.handleNavigation(options, audit);
+            return Promise.resolve(true);
+        }
+        else {
+            // Save currentPath and currentSearch
+            let url &#x3D; Utils.makeURL(this.router.url);
+            const currentPath &#x3D; url.pathname;
+            url.searchParams.delete(&quot;$refresh&quot;);
+            const currentSearch &#x3D; decodeURIComponent(url.search);
+            // Set up queryParams and add current query
+            const queryParams &#x3D; Utils.copy(this.queryStringParams);
+            if (this._query) {
+                queryParams.query &#x3D; this._query.toJsonForQueryString();
+            }
+            // Set up history state
+            const state: SearchService.HistoryState &#x3D; {
+                audit,
+                navigationOptions: options
+            };
+            const extras &#x3D; {
+                queryParams,
+                state,
+                skipLocationChange: options.skipLocationChange
+            };
+            // Calculate new search
+            let path &#x3D; options.path;
+            if (!path) {
+                path &#x3D; currentPath;
+            }
+            url &#x3D; Utils.makeURL(path);
+            path &#x3D; url.pathname; // normalized
+            for (const key of Object.keys(queryParams)) {
+                url.searchParams.set(key, queryParams[key]);
+            }
+            const search &#x3D; decodeURIComponent(url.search);
+            // If path and search are both the same as current then force navigation (without adding to history)
+            if (Utils.eq(currentPath, path) &amp;&amp; Utils.eq(currentSearch, search)) {
+                // We want to force the navigation so that the query will be processed
+                extras.queryParams.$refresh &#x3D; Utils.now.getTime();
+                // But don&#x27;t update the browser url
+                extras.skipLocationChange &#x3D; true;
+            }
+            return this.router.navigate([path], extras);
+        }
+    }
+
+    protected getHistoryState(): SearchService.HistoryState {
+        const navigation &#x3D; this.router.getCurrentNavigation();
+        if (navigation) {
+            return navigation.extras.state || {};
+        }
+        return window.history.state || {};
+    }
+
+    public isSearchRouteActive(): boolean {
+        const url &#x3D; Utils.makeURL(this.router.url);
+        return this.isSearchRoute(url.pathname);
+    }
+
+    protected isSearchRoute(pathname): boolean {
+        if (this.options.routes) {
+            for (const route of this.options.routes) {
+                if (Utils.endsWith(pathname, Utils.addUrl(&quot;/&quot;, route))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public getQueryFromUrl(): Query | undefined {
+        let query: Query | undefined;
+        const url &#x3D; Utils.makeURL(this.router.url);
+        if (this.isSearchRoute(url.pathname)) {
+            const jquery &#x3D; url.searchParams.get(&quot;query&quot;);
+            if (jquery) {
+                try {
+                    query &#x3D; this.makeQuery().fromJson(jquery);
+                }
+                catch {}
+            }
+        }
+        return query;
+    }
+
+    protected ensureQueryFromUrl(): Query | undefined {
+        const query &#x3D; this.getQueryFromUrl();
+        if (!query) {
+            this.clear(false);
+            return undefined;
+        }
+        else {
+            // The url query should be the same as the current query on SearchService unless
+            // it&#x27;s the initial navigation or if the url is changed manually.
+            // In any case, we always set the query from the url. We only send a new-query
+            // event if the current query is empty so that we don&#x27;t systematically create a
+            // new query &quot;session&quot; (ml-audit)
+            this.setQuery(query, !this._query);
+            return query;
+        }
+    }
+
+    protected handleLogin(): Promise&lt;boolean&gt; {
+        if (!this.loginService.complete) {
+            return Promise.resolve(false);
+        }
+        if (!!this.ensureQueryFromUrl()) {
+            return this.navigate();
+        }
+        else {
+            return Promise.resolve(true);
+        }
+    }
+
+    get routingActive(): boolean {
+        return !this.options.deactivateRouting;
+    }
+
+    set routingActive(value: boolean) {
+        this.options.deactivateRouting &#x3D; !value;
+    }
+
+    protected makeAuditEventFromCurrentQuery(): AuditEvent | undefined {
+        const lastSelect &#x3D; this.query.lastSelect();
+        if (lastSelect) {
+            const lastExpr &#x3D; this.appService.parseExpr(lastSelect.expression);
+            if (lastExpr instanceof Expr) {
+                if (lastExpr.field &#x3D;&#x3D;&#x3D; &quot;refine&quot;) {
+                    return this.makeAuditEvent({
+                        type: AuditEventType.Search_Refine,
+                        detail: {
+                            text: lastExpr.value,
+                            itembox: lastSelect.facet,
+                            &quot;from-result-id&quot;: !!this.results ? this.results.id : null
+                        }
+                    });
+                }
+                else {
+                    return this.makeAuditEvent({
+                        type: AuditEventType.Search_Select_Item,
+                        detail: {
+                            item: lastSelect as any,
+                            itembox: lastSelect.facet,
+                            itemcolumn: lastExpr.field,
+                            isitemexclude: lastExpr.not,
+                            &quot;from-result-id&quot;: !!this.results ? this.results.id : null
+                        }
+                    });
+                }
+            }
+        }
+        else {
+            if (this.query.basket) {
+                return this.makeAuditEvent({
+                    type: AuditEventType.Basket_Open,
+                    detail: {
+                        basket: this.query.basket
+                    }
+                });
+            }
+            else {
+                return this.makeAuditEvent({
+                    type: AuditEventType.Search_Text,
+                    detail: {
+                        text: this.query.text,
+                        scope: this.query.scope
+                    }
+                });
+            }
+        }
+        return undefined;
+    }
+
+    protected handleNavigation(navigationOptions?: SearchService.NavigationOptions, audit?: AuditEvents): Promise&lt;boolean&gt; {
+        if (!this.loginService.complete) {
+            return Promise.resolve(false);
+        }
+        if (!this.appService.ccquery) {
+            return Promise.resolve(false);
+        }
+        let query &#x3D; this._query;
+        if (this.routingActive) {
+            query &#x3D; this.ensureQueryFromUrl();
+        }
+        this._events.next({type: &quot;update-query&quot;, query});
+        this._queryStream.next(query);
+        if (!query) {
+            return Promise.resolve(true);
+        }
+        if (this.routingActive) {
+            const state &#x3D; this.getHistoryState();
+            // console.log(&quot;history.state:&quot;, state);
+            audit &#x3D; state.audit;
+            navigationOptions &#x3D; state.navigationOptions;
+        }
+        navigationOptions &#x3D; navigationOptions || {};
+        if (!audit) {
+            audit &#x3D; this.makeAuditEventFromCurrentQuery();
+            if (audit &amp;&amp; audit.type &#x3D;&#x3D;&#x3D; AuditEventType.Search_Text) {
+                delete navigationOptions.queryIntents;
+                delete navigationOptions.queryAnalysis;
+            }
+        }
+        let observable &#x3D; this.getResults(this.query, audit,
+            {
+                queryIntents: navigationOptions.queryIntents,
+                queryAnalysis: navigationOptions.queryAnalysis
+            });
+        Utils.subscribe(observable,
+            (results) &#x3D;&gt; {
+                navigationOptions &#x3D; navigationOptions || {};
+                this._setResults(results, {
+                    resuseBreadcrumbs: navigationOptions.reuseBreadcrumbs,
+                    advanced: navigationOptions.advanced
+                });
+                return results;
+            });
+        if (navigationOptions.selectTab) {
+            const afterSelectTabEvent: SearchService.AfterSelectTabEvent &#x3D; {
+                type: &quot;after-select-tab&quot;,
+                observable
+            };
+            this._events.next(afterSelectTabEvent);
+            observable &#x3D; afterSelectTabEvent.observable;
+        }
+        return observable.pipe(
+            map(() &#x3D;&gt; true),
+            catchError(() &#x3D;&gt; of(false))).toPromise();
+    }
+
+    search(navigationOptions?: SearchService.NavigationOptions, audit?: AuditEvents): Promise&lt;boolean&gt; {
+        delete this.query.page;
+        delete this.query.spellingCorrectionMode;
+        return this.navigate(navigationOptions, audit);
+    }
+
+    searchText(path?: string): Promise&lt;boolean&gt; {
+        // Check for empty search preemptively to avoid clearing the current results in the most
+        // common case of the user entering empty search text in the search box
+        // The lower level check in getResults will handle less obvious cases (url editing etc)
+        if (this.appService.ccquery &amp;&amp; !this.appService.ccquery.allowEmptySearch &amp;&amp; !Utils.trim(this.query.text || &quot;&quot;)) {
+            this.notificationsService.info(&quot;msg#search.emptySearchNotification&quot;);
+            return Promise.resolve(false);
+        }
+        return this.search(
+            {
+                path,
+                analyzeQueryText: true
+            },
+            this.makeAuditEvent({
+                type: AuditEventType.Search_Text,
+                detail: {
+                    text: this.query.text,
+                    scope: this.query.scope
+                }
+            }));
+    }
+
+    searchAdvanced(query: Query): Promise&lt;boolean&gt; {
+        return this.applyAdvanced(query, this.makeAuditEvent({
+            type: AuditEventType.Search_Text,
+            detail: {
+                text: this.query.text,
+                advanced: true
+            }
+        }));
+    }
+
+    searchRefine(text: string): Promise&lt;boolean&gt; {
+        this.query.addSelect(this.makeSelectExpr(&quot;refine&quot;, {value: text}), &quot;refine&quot;);
+        return this.search(undefined,
+            this.makeAuditEvent({
+                type: AuditEventType.Search_Refine,
+                detail: {
+                    text: text,
+                    itembox: &quot;refine&quot;,
+                    &quot;from-result-id&quot;: !!this.results ? this.results.id : null
+                }
+            }));
+    }
+
+    gotoPage(page: number): Promise&lt;boolean&gt; {
+        this.query.page &#x3D; page;
+        return this.navigate(undefined, this.makeAuditEvent({
+            type: AuditEventType.Search_GotoPage,
+            detail: {
+                page: page,
+                &quot;from-result-id&quot;: !!this.results ? this.results.id : null
+            }
+        }));
+    }
+
+    didYouMean(text: string, context: &quot;search&quot; | &quot;refine&quot;, kind: DidYouMeanKind): Promise&lt;boolean&gt; {
+        if (context &#x3D;&#x3D;&#x3D; &quot;search&quot;) {
+            this.query.text &#x3D; text;
+        }
+        else {
+            const refineSelect &#x3D; this.query.findSelect(&quot;refine&quot;);
+            if (refineSelect) {
+                refineSelect.expression &#x3D; &quot;refine:&quot; + ExprParser.escape(text);
+            }
+        }
+        this.query.spellingCorrectionMode &#x3D; &quot;dymonly&quot;;
+        return this.navigate(undefined, this.makeAuditEvent({
+            type: kind &#x3D;&#x3D;&#x3D; DidYouMeanKind.Original ? AuditEventType.Search_DidYouMean_Original : AuditEventType.Search_DidYouMean_Correction,
+            detail: {
+                text: text
+            }
+        }));
+    }
+
+    getCurrentRecordIds(): string[]{
+        if (this.results &amp;&amp; this.results.records) {
+            return this.results.records.map(record &#x3D;&gt; record.id);
+        }
+        return [];
+    }
+
+    getRecordFromId(id: string): Record | undefined {
+        if (this.results &amp;&amp; this.results.records) {
+            return this.results.records.find(record &#x3D;&gt; Utils.eq(record.id, id));
+        }
+        return undefined;
+    }
+
+    mergeAdvanced(target: Query, source: Query) {
+        const deltas &#x3D; Utils.deltas({advanced: {}}, source.copyAdvanced()); // Utils.copy(this.advancedDefaults) &#x3D;&gt; {}
+        target.toStandard();
+        delete target.page;
+        Utils.merge(target, deltas);
+        return target;
+    }
+
+    applyAdvanced(query: Query, auditEvents?: AuditEvents): Promise&lt;boolean&gt; {
+        this.mergeAdvanced(this.query, query);
+        if (!this.checkEmptySearch(this.query)) {
+            this.clear();
+            return Promise.resolve(false);
+        }
+        return this.navigate({advanced: true}, auditEvents);
+    }
+
+    removeAdvanced(field: string, value: AdvancedValue | AdvancedValueWithOperator) {
+        const query &#x3D; this.query.copy();
+        let operator: AdvancedOperator | undefined;
+        if (query.isAdvancedValueWithOperator(value)) {
+            operator &#x3D; value.operator;
+        }
+        query.removeAdvancedValue(field, operator);
+        this.applyAdvanced(query, this.makeAuditEvent({
+            type: AuditEventType.Search_RemoveAdvanced,
+            detail: {
+                name: field,
+                &quot;from-result-id&quot;: !!this.results ? this.results.id : null
+            }
+        }));
+    }
+
+    private makeSelectExpr(field: string, valueItem: ValueItem, excludeField?: boolean): string {
+        let haveField &#x3D; false;
+        const sb: string[] &#x3D; [];
+        if (!excludeField) {
+            sb.push(field);
+            haveField &#x3D; true;
+        }
+        if (valueItem.display) {
+            let display &#x3D; valueItem.display;
+            if (Utils.isDate(display)) { // ES-7785
+                display &#x3D; Utils.toSysDateStr(display);
+            }
+            sb.push(ExprParser.escape(display));
+            haveField &#x3D; true;
+        }
+        if (haveField) {
+            sb.push(&quot;:(&quot;, ExprParser.escape(Utils.toSqlValue(valueItem.value)), &quot;)&quot;);
+        }
+        else {
+            sb.push(ExprParser.escape(Utils.toSqlValue(valueItem.value)));
+        }
+        return sb.join(&quot;&quot;);
+    }
+
+    private _addFieldSelect(expr: string, options: SearchService.AddFieldSelectOptions): number {
+        if (options.not) {
+            expr &#x3D; &quot;NOT (&quot; + expr + &quot;)&quot;;
+        }
+        return this.query.addSelect(expr);
+    }
+
+    private makeFieldExpr(
+        field: string, valueItem: ValueItem, options: SearchService.AddFieldSelectOptions,
+        excludeField?: boolean): string {
+        if (options &amp;&amp; options.valuesAreExpressions) {
+            return valueItem.value as string;
+        }
+        return this.makeSelectExpr(field, valueItem, excludeField);
+    }
+
+    addFieldSelect(field: string, items: ValueItem | ValueItem[], options?: SearchService.AddFieldSelectOptions): number {
+        if (!items) {
+            return 0;
+        }
+        const _options &#x3D; Utils.extend({not: false, and: false}, options);
+        let item: ValueItem | undefined;
+        if (Utils.isArray(items)) {
+            if (items.length &#x3D;&#x3D;&#x3D; 0) {
+                return 0;
+            }
+            if (items.length &#x3D;&#x3D;&#x3D; 1) {
+                item &#x3D; items[0];
+            }
+        }
+        else {
+            item &#x3D; items as ValueItem;
+        }
+        if (item) {
+            return this._addFieldSelect(this.makeFieldExpr(field, item, _options), _options);
+        }
+        if (Utils.isArray(items)) {
+            if (_options.and) {
+                let count &#x3D; 0;
+                for (const _item of items) {
+                    count +&#x3D; this._addFieldSelect(this.makeFieldExpr(field, _item, _options), _options);
+                }
+                return count;
+            }
+            // or
+            let expr &#x3D; &quot;&quot;;
+            for (const _item of items) {
+                if (expr) {
+                    expr &#x3D; expr + &quot; OR &quot;;
+                }
+                const expr1 &#x3D; this.makeFieldExpr(field, _item, _options, true);
+                expr +&#x3D; &quot;(&quot; + expr1 + &quot;)&quot;;
+            }
+            expr &#x3D; field + &quot;:(&quot; + expr + &quot;)&quot;;
+            return this._addFieldSelect(expr, _options);
+        }
+        return 0;
+    }
+
+
+    get lastRefineText(): string {
+        if (this.breadcrumbs) {
+            const refineExpr &#x3D; this.breadcrumbs.findSelect(&quot;refine&quot;);
+            if (refineExpr) {
+                return ExprParser.unescape(refineExpr.toString(false));
+            }
+        }
+        return &quot;&quot;;
+    }
+
+    get hasRelevance(): boolean {
+        if (!this.breadcrumbs) {
+            return false;
+        }
+        if (this.breadcrumbs.textExpr) {
+            return true;
+        }
+        const refineExpr &#x3D; this.breadcrumbs.findSelect(&quot;refine&quot;);
+        return refineExpr !&#x3D; null;
+    }
+
+    selectTab(arg: string | Tab, options: SearchService.NavigationOptions &#x3D; {}): Promise&lt;boolean&gt; {
+        options.selectTab &#x3D; true;
+        const tabName &#x3D; typeof arg &#x3D;&#x3D;&#x3D; &#x27;string&#x27; ? arg : arg.name;
+        this.query.tab &#x3D; tabName;
+        this._events.next({type: &quot;before-select-tab&quot;, query: this.query});
+        return this.search(options,
+            this.makeAuditEvent({
+                type: AuditEventType.Search_GotoTab,
+                detail: {
+                    tab: tabName,
+                    &quot;from-result-id&quot;: !!this.results ? this.results.id : null
+                }
+            }));
+    }
+
+    selectScope(scope: string) {
+        this.query.scope &#x3D; scope;
+    }
+
+    getTab(tabName: string): Tab | undefined {
+        if (this.results &amp;&amp; this.results.tabs) {
+            for (const tab of this.results.tabs) {
+                if (Utils.equals(tab.name, tabName)) {
+                    return tab;
+                }
+            }
+        }
+        return undefined;
+    }
+
+    getCurrentTab(): Tab | undefined {
+        if (this.results &amp;&amp; this.results.tab) {
+            return this.getTab(this.results.tab);
+        }
+        return undefined;
+    }
+
+    notifyOpenOriginalDocument(record: Record, resultId?: string): void {
+        const results &#x3D; this.results &amp;&amp; this.results.records &amp;&amp; this.results.records.includes(record) ? this.results : undefined;
+        this._events.next({ type: &quot;open-original-document&quot;, record });
+        const querylang &#x3D; this.query.questionLanguage ||
+            (this.appService.ccquery &amp;&amp; this.appService.ccquery.questionLanguage);
+        this.auditService.notifyDocument(
+            AuditEventType.Click_ResultLink,
+            record,
+            results || resultId || &quot;&quot;,
+            {
+                querytext: this.query.text,
+                querylang,
+            },
+            {
+                queryhash: results ? results.rfmQueryHash : undefined,
+                querytext: this.query.text,
+                querylang: querylang
+            }
+        );
+    }
+
+    checkBeforeSearch(cancelReasons?: string[]): boolean {
+        const beforeSearch: SearchService.BeforeSearchEvent &#x3D; {type: &quot;before-search&quot;};
+        this._events.next(beforeSearch);
+        if (cancelReasons &amp;&amp; beforeSearch.cancelReasons) {
+            cancelReasons.splice(0, 0, ...beforeSearch.cancelReasons);
+        }
+        return !beforeSearch.cancel;
+    }
+}
+
+export module SearchService {
+    export interface GetResultsOptions {
+        queryIntents?: QueryIntent[];
+        queryAnalysis?: QueryAnalysis;
+        searchInactive?: boolean;   // default &quot;false&quot;
+    }
+
+    export interface SetResultsOptions {
+        resuseBreadcrumbs?: boolean;
+        advanced?: boolean;
+    }
+
+    export interface AddSelectOptions {
+        not?: boolean;      // default &quot;false&quot;
+        and?: boolean;      // default &quot;false&quot;
+    }
+
+    export interface NavigationOptions {
+        path?: string; // absolute path, current path used if not specified
+        reuseBreadcrumbs?: boolean;
+        selectTab?: boolean;
+        advanced?: boolean;
+        analyzeQueryText?: boolean;
+        queryIntents?: QueryIntent[];
+        queryAnalysis?: QueryAnalysis;
+        skipLocationChange?: boolean;
+    }
+
+    export interface HistoryState {
+        audit?: AuditEvents;
+        navigationOptions?: NavigationOptions;
+    }
+
+    export interface AddFieldSelectOptions extends AddSelectOptions {
+        valuesAreExpressions?: boolean;
+    }
+
+    export interface Event {
+        type: &quot;new-query&quot; | &quot;update-query&quot; | &quot;make-query&quot; | &quot;before-new-results&quot; | &quot;new-results&quot; | &quot;make-query-intent-data&quot; |
+            &quot;process-query-intent-action&quot; | &quot;make-audit-event&quot; |
+            &quot;before-select-tab&quot; | &quot;after-select-tab&quot; | &quot;clear&quot; | &quot;open-original-document&quot; | &quot;before-search&quot;;
+    }
+
+    export interface NewQueryEvent extends Event {
+        type: &quot;new-query&quot;;
+        query: Query | undefined;
+    }
+
+    export interface UpdateQueryEvent extends Event {
+        type: &quot;update-query&quot;;
+        query: Query | undefined;
+    }
+
+    export interface MakeQueryEvent extends Event {
+        type: &quot;make-query&quot;;
+        query: Query;
+    }
+
+    export interface BeforeNewResultsEvent extends Event {
+        type: &quot;before-new-results&quot;;
+        results: Results | undefined;
+    }
+
+    export interface NewResultsEvent extends Event {
+        type: &quot;new-results&quot;;
+        results: Results | undefined;
+    }
+
+    export interface MakeQueryIntentDataEvent extends Event {
+        type: &quot;make-query-intent-data&quot;;
+        intentData: QueryIntentData;
+    }
+
+    export interface ProcessQueryIntentActionEvent extends Event {
+        type: &quot;process-query-intent-action&quot;;
+        action: QueryIntentAction;
+        intent: QueryIntent;
+        analysis: QueryAnalysis;
+        actionProcessed?: boolean;
+    }
+
+    export interface MakeAuditEventEvent extends Event {
+        type: &quot;make-audit-event&quot;;
+        event: AuditEvent;
+    }
+
+    export interface BeforeSelectTabEvent extends Event {
+        type: &quot;before-select-tab&quot;;
+        query: Query;
+    }
+
+    export interface AfterSelectTabEvent extends Event {
+        type: &quot;after-select-tab&quot;;
+        observable: Observable&lt;Results&gt;;
+    }
+
+    export interface ClearEvent extends Event {
+        type: &quot;clear&quot;;
+        path?: string;
+    }
+
+    export interface OpenOriginalDocument extends Event {
+        type: &quot;open-original-document&quot;;
+        record: Record;
+    }
+
+    export interface BeforeSearchEvent extends Event {
+        type: &quot;before-search&quot;;
+        cancel?: boolean;
+        cancelReasons?: string[];
+    }
+
+    export type Events &#x3D;
+        NewQueryEvent |
+        UpdateQueryEvent |
+        MakeQueryEvent |
+        BeforeNewResultsEvent |
+        NewResultsEvent |
+        MakeQueryIntentDataEvent |
+        ProcessQueryIntentActionEvent |
+        MakeAuditEventEvent |
+        BeforeSelectTabEvent |
+        AfterSelectTabEvent |
+        ClearEvent |
+        OpenOriginalDocument |
+        BeforeSearchEvent;
+
+    export const DefaultPageSize &#x3D; 20;
+}
+</code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'BeforeNewResultsEvent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -201,8 +201,8 @@ can be called before the authentication process has completed</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">login/token.service.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">login/token.service.ts:48</a></div>
                 </td>
             </tr>
 
@@ -504,6 +504,7 @@ export class TokenService extends HttpService {
         const observable &#x3D; this.httpClient.get&lt;{csrfToken: string}&gt;(this.makeUrl(&quot;challenge&quot;), {
             params: this.makeParams({
                 action: &quot;getCsrfToken&quot;,
+                suppressErrors: !notify,
                 noUserOverride: true,
                 noAutoAuthentication: true,
                 noNotify: !notify

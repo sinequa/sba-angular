@@ -336,6 +336,9 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     // Initial scale (prior to any zoom)
     @Input() minDate?: Date;
     @Input() maxDate?: Date;
+    // Date range to filter aggregations (ignored when combined aggregations are recomputed based on zoomed range)
+    @Input() minAggregationDate?: Date;
+    @Input() maxAggregationDate?: Date;
     
     @Input() zoomable &#x3D; true;
     @Input() minZoomDays &#x3D; 1; // Max 1 day scale
@@ -488,7 +491,10 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
                     agg &#x3D; config.current;
                 }
                 
-                this.getTimeseries(agg).subscribe({
+                let range: [Date, Date] | undefined &#x3D; !!this.minAggregationDate &amp;&amp; !!this.maxAggregationDate ?
+                    [this.minAggregationDate, this.maxAggregationDate] : undefined;
+
+                this.getTimeseries(agg, range).subscribe({
                     next: d &#x3D;&gt; subject.next(d),
                     error: err &#x3D;&gt; subject.error(err)
                 });
@@ -551,15 +557,14 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     getRecordsAsEvents(config: TimelineRecords): TimelineEvent[] {
         if(this.results) {
             return this.results.records
-                .filter(r &#x3D;&gt; !!r[config.field])
+                .filter(r &#x3D;&gt; !!Utils.toDate(r[config.field]))
                 .map&lt;TimelineEvent&gt;(r &#x3D;&gt; {
-                    const selected &#x3D;  this.selectionService.selectedRecords.indexOf(r.id) !&#x3D;&#x3D; -1;
                     return {
                         id: r.id,
-                        date: r[config.field],
-                        size: !config.size? 6 : typeof config.size &#x3D;&#x3D;&#x3D; &#x27;function&#x27;? config.size(r, selected) : config.size,
-                        styles: !config.styles? BsFacetTimelineComponent.defaultRecordStyle(selected) :
-                                typeof config.styles &#x3D;&#x3D;&#x3D; &#x27;function&#x27;? config.styles(r, selected) : 
+                        date: Utils.toDate(r[config.field])!,
+                        size: !config.size? 6 : typeof config.size &#x3D;&#x3D;&#x3D; &#x27;function&#x27;? config.size(r, r.$selected) : config.size,
+                        styles: !config.styles? BsFacetTimelineComponent.defaultRecordStyle(r.$selected) :
+                                typeof config.styles &#x3D;&#x3D;&#x3D; &#x27;function&#x27;? config.styles(r, r.$selected) : 
                                 config.styles,
                         display: config.display? config.display(r) : r.title,
                         // Custom property for click action
@@ -593,7 +598,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         }
 
         else {
-            throw new Error(&#x60;Aggregation ${aggregationName} does not exist in the Query web service&quot;&#x60;);
+            throw new Error(&#x60;Aggregation ${aggregationName} does not exist in the Query web service&#x60;);
         }
     }
 
@@ -791,18 +796,18 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         
         const series: TimelineDate[] &#x3D; [];
 
-        let _items &#x3D; items.map(item &#x3D;&gt; {
-            if(!(item.value instanceof Date)){
-                const val &#x3D; item.value.toString();
-                item.value &#x3D; moment(val.length &lt;&#x3D; 4? val + &quot;-01&quot; : val).toDate();
-            }
-            return item;
-        });
-
-        if(range) {
-            _items &#x3D; _items.filter(item &#x3D;&gt; 
-                (item.value as Date) &gt;&#x3D; range[0] &amp;&amp; (item.value as Date) &lt;&#x3D; range[1])
-        }
+        let _items &#x3D; items
+            .map(item &#x3D;&gt; {
+                if(!!item.value &amp;&amp; !(item.value instanceof Date)){
+                    const val &#x3D; item.value.toString();
+                    item.value &#x3D; moment(val.length &lt;&#x3D; 4? val + &quot;-01&quot; : val).toDate();
+                    if(isNaN(item.value.getTime())){
+                        item.value &#x3D; &lt;Date&gt;&lt;unknown&gt; undefined; // So it gets filtered out
+                    }
+                }
+                return item;
+            })
+            .filter(item &#x3D;&gt; !!item.value &amp;&amp; (!range || ((item.value as Date) &gt;&#x3D; range[0] &amp;&amp; (item.value as Date) &lt;&#x3D; range[1])));
 
         _items.forEach((item,i) &#x3D;&gt; {
             let date &#x3D; item.value as Date;

@@ -161,6 +161,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, InjectionToken, OnDestroy, ComponentFactory, ComponentRef, Type} from &quot;@angular/core&quot;;
 import {Subject, Observable} from &quot;rxjs&quot;;
 import {Utils, MapOf} from &quot;@sinequa/core/base&quot;;
+import elementResizeDetectorMaker from &quot;element-resize-detector&quot;;
 
 export interface CaretPosition {
     start: number;
@@ -177,9 +178,7 @@ export class UIService implements OnDestroy {
     _priorityResizeEvent &#x3D; new Subject&lt;UIEvent&gt;();
     screenSizes: string[];
     screenSize: string; // one of the screen size rules values
-    //TODO - review - use EventEmitters for this?
-    addElementResizeListener: (element, fn) &#x3D;&gt; void;
-    removeElementResizeListener: (element, fn) &#x3D;&gt; void;
+    elementResizeDetector: any;
     factories &#x3D; new Map&lt;Type&lt;any&gt;, ComponentFactory&lt;any&gt;&gt;();
 
     constructor(
@@ -188,7 +187,7 @@ export class UIService implements OnDestroy {
         this.screenSizes &#x3D; [&quot;xs&quot;, &quot;sm&quot;, &quot;md&quot;, &quot;lg&quot;, &quot;xl&quot;, &quot;xxl&quot;]; // in ascending size order
         this.setScreenSize();
         window.addEventListener(&quot;resize&quot;, this.resizeEventListener);
-        initElementResizeListener(this);
+        this.elementResizeDetector &#x3D; elementResizeDetectorMaker({ strategy: &quot;scroll&quot; });
     }
 
     protected resizeEventListener &#x3D; Utils.frame((event: UIEvent) &#x3D;&gt; {
@@ -550,6 +549,13 @@ export class UIService implements OnDestroy {
         return document.body.getBoundingClientRect();
     }
 
+    addElementResizeListener(element: HTMLElement, listener: (this: HTMLElement) &#x3D;&gt; void) {
+        this.elementResizeDetector.listenTo(element, listener);
+    }
+
+    removeElementResizeListener(element: HTMLElement, listener: (this: HTMLElement) &#x3D;&gt; void) {
+        this.elementResizeDetector.removeListener(element, listener);
+    }
 }
 
 export module UIService {
@@ -559,154 +565,6 @@ export module UIService {
         collapseToStart,
         collapse
     }
-}
-
-/**
-* Detect Element Resize
-*
-* https://github.com/sdecima/javascript-detect-element-resize
-* Sebastian Decima
-*
-* version: 0.5.3
-**/
-
-function initElementResizeListener (service) {
-    const attachEvent &#x3D; (&lt;any&gt;document).attachEvent;
-    let stylesCreated &#x3D; false;
-
-    //NB SCRIPT1047: In strict mode, function declarations cannot be nested inside a statement or block. They may only appear at the top level or directly inside a function body.
-    //if (!attachEvent) {
-    const requestFrame &#x3D; (function(){
-        const raf &#x3D; window.requestAnimationFrame || (&lt;any&gt;window).mozRequestAnimationFrame || (&lt;any&gt;window).webkitRequestAnimationFrame ||
-                            function(fn){ return window.setTimeout(fn, 20); };
-        return function(fn){ return raf(fn); };
-    })();
-
-    const cancelFrame &#x3D; (function(){
-        const cancel &#x3D; window.cancelAnimationFrame || (&lt;any&gt;window).mozCancelAnimationFrame || (&lt;any&gt;window).webkitCancelAnimationFrame ||
-                                window.clearTimeout;
-        return function(id){ return cancel(id); };
-    })();
-
-    function resetTriggers(element){
-        const triggers &#x3D; element.__resizeTriggers__,
-            expand &#x3D; triggers.firstElementChild,
-            contract &#x3D; triggers.lastElementChild,
-            expandChild &#x3D; expand.firstElementChild;
-        contract.scrollLeft &#x3D; contract.scrollWidth;
-        contract.scrollTop &#x3D; contract.scrollHeight;
-        expandChild.style.width &#x3D; expand.offsetWidth + 1 + &#x27;px&#x27;;
-        expandChild.style.height &#x3D; expand.offsetHeight + 1 + &#x27;px&#x27;;
-        expand.scrollLeft &#x3D; expand.scrollWidth;
-        expand.scrollTop &#x3D; expand.scrollHeight;
-    }
-
-    function checkTriggers(element){
-        return element.offsetWidth !&#x3D;&#x3D; element.__resizeLast__.width ||
-                        element.offsetHeight !&#x3D;&#x3D; element.__resizeLast__.height;
-    }
-
-    function scrollListener(this: HTMLElement, e){
-        const element &#x3D; this;
-        resetTriggers(this);
-        if ((this as any).__resizeRAF__) cancelFrame((this as any).__resizeRAF__);
-        (this as any).__resizeRAF__ &#x3D; requestFrame(function(){
-            if (checkTriggers(element)) {
-                (element as any).__resizeLast__.width &#x3D; element.offsetWidth;
-                (element as any).__resizeLast__.height &#x3D; element.offsetHeight;
-                (element as any).__resizeListeners__.forEach(function(fn){
-                    fn.call(element, e);
-                });
-            }
-        });
-    }
-
-        /* Detect CSS Animations support to detect element display/re-attach */
-    let animation &#x3D; false,
-        keyframeprefix &#x3D; &#x27;&#x27;,
-        animationstartevent &#x3D; &#x27;animationstart&#x27;;
-    const domPrefixes &#x3D; &#x27;Webkit Moz O ms&#x27;.split(&#x27; &#x27;);
-    const startEvents &#x3D; &#x27;webkitAnimationStart animationstart oAnimationStart MSAnimationStart&#x27;.split(&#x27; &#x27;);
-    let pfx  &#x3D; &#x27;&#x27;;
-    {
-        const elm &#x3D; document.createElement(&#x27;fakeelement&#x27;);
-        if( elm.style.animationName !&#x3D;&#x3D; undefined ) { animation &#x3D; true; }
-
-        if( animation &#x3D;&#x3D;&#x3D; false ) {
-            for( let i &#x3D; 0; i &lt; domPrefixes.length; i++ ) {
-                if( elm.style[ domPrefixes[i] + &#x27;AnimationName&#x27; ] !&#x3D;&#x3D; undefined ) {
-                    pfx &#x3D; domPrefixes[ i ];
-                    keyframeprefix &#x3D; &#x27;-&#x27; + pfx.toLowerCase() + &#x27;-&#x27;;
-                    animationstartevent &#x3D; startEvents[ i ];
-                    animation &#x3D; true;
-                    break;
-                }
-            }
-        }
-    }
-
-    const animationName &#x3D; &#x27;resizeanim&#x27;;
-    const animationKeyframes &#x3D; &#x27;@&#x27; + keyframeprefix + &#x27;keyframes &#x27; + animationName + &#x27; { from { opacity: 0; } to { opacity: 0; } } &#x27;;
-    const animationStyle &#x3D; keyframeprefix + &#x27;animation: 1ms &#x27; + animationName + &#x27;; &#x27;;
-    //}
-
-    function createStyles() {
-        if (!stylesCreated) {
-            //opacity:0 works around a chrome bug https://code.google.com/p/chromium/issues/detail?id&#x3D;286360
-            const css &#x3D; (animationKeyframes ? animationKeyframes : &#x27;&#x27;) +
-                    &#x27;.resize-triggers { &#x27; + (animationStyle ? animationStyle : &#x27;&#x27;) + &#x27;visibility: hidden; opacity: 0; } &#x27; +
-                    &#x27;.resize-triggers, .resize-triggers &gt; div, .contract-trigger:before { content: \&quot; \&quot;; display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; } .resize-triggers &gt; div { background: #eee; overflow: auto; } .contract-trigger:before { width: 200%; height: 200%; }&#x27;,
-                head &#x3D; document.head || document.getElementsByTagName(&#x27;head&#x27;)[0],
-                style &#x3D; document.createElement(&#x27;style&#x27;);
-
-            style.type &#x3D; &#x27;text/css&#x27;;
-            if ((&lt;any&gt;style).styleSheet) {
-                (&lt;any&gt;style).styleSheet.cssText &#x3D; css;
-            } else {
-                style.appendChild(document.createTextNode(css));
-            }
-
-            head.appendChild(style);
-            stylesCreated &#x3D; true;
-        }
-    }
-
-    service.addElementResizeListener &#x3D; function(element, fn){
-        if (attachEvent) element.attachEvent(&#x27;onresize&#x27;, fn);
-        else {
-            if (!element.__resizeTriggers__) {
-                if (getComputedStyle(element).position &#x3D;&#x3D;&#x3D; &#x27;static&#x27;) element.style.position &#x3D; &#x27;relative&#x27;;
-                createStyles();
-                element.__resizeLast__ &#x3D; {};
-                element.__resizeListeners__ &#x3D; [];
-                (element.__resizeTriggers__ &#x3D; document.createElement(&#x27;div&#x27;)).className &#x3D; &#x27;resize-triggers&#x27;;
-                element.__resizeTriggers__.innerHTML &#x3D; &#x27;&lt;div class&#x3D;&quot;expand-trigger&quot;&gt;&lt;div&gt;&lt;/div&gt;&lt;/div&gt;&#x27; +
-                                                                                        &#x27;&lt;div class&#x3D;&quot;contract-trigger&quot;&gt;&lt;/div&gt;&#x27;;
-                element.appendChild(element.__resizeTriggers__);
-                resetTriggers(element);
-                element.addEventListener(&#x27;scroll&#x27;, scrollListener, true);
-
-                /* Listen for a css animation to detect element display/re-attach */
-                // tslint:disable-next-line: no-unused-expression
-                animationstartevent &amp;&amp; element.__resizeTriggers__.addEventListener(animationstartevent, function(e) {
-                    if(e.animationName &#x3D;&#x3D;&#x3D; animationName)
-                        resetTriggers(element);
-                });
-            }
-            element.__resizeListeners__.push(fn);
-        }
-    };
-
-    service.removeElementResizeListener &#x3D; function(element, fn){
-        if (attachEvent) element.detachEvent(&#x27;onresize&#x27;, fn);
-        else {
-            element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(fn), 1);
-            if (!element.__resizeListeners__.length) {
-                    element.removeEventListener(&#x27;scroll&#x27;, scrollListener);
-                    element.__resizeTriggers__ &#x3D; !element.removeChild(element.__resizeTriggers__);
-            }
-        }
-    };
 }
 </code></pre>
     </div>

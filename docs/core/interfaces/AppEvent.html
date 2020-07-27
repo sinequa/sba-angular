@@ -130,7 +130,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, OnDestroy} from &quot;@angular/core&quot;;
 import {Observable, Subject} from &quot;rxjs&quot;;
 import {map} from &quot;rxjs/operators&quot;;
-import {Utils, MapOf} from &quot;@sinequa/core/base&quot;;
+import {Utils, MapOf, PatternMatcher} from &quot;@sinequa/core/base&quot;;
 import {IntlService} from &quot;@sinequa/core/intl&quot;;
 import {FormatService} from &quot;./format.service&quot;;
 import {AppWebService, AuditEvents, START_CONFIG, StartConfig,
@@ -277,77 +277,77 @@ export class AppService implements OnDestroy {
     /**
      * Return &#x60;true&#x60; if a &#x60;column&#x60; is a string
      */
-    static isString(column: CCColumn): boolean {
+    static isString(column: CCColumn | undefined): boolean {
         return AppServiceHelpers.isString(column);
     }
 
     /**
      * Return &#x60;true&#x60; if a &#x60;column&#x60; is a csv
      */
-    static isCsv(column: CCColumn): boolean {
+    static isCsv(column: CCColumn | undefined): boolean {
         return AppServiceHelpers.isCsv(column);
     }
 
     /**
      * Return &#x60;true&#x60; if a &#x60;column&#x60; is a tree
      */
-    static isTree(column: CCColumn): boolean {
+    static isTree(column: CCColumn | undefined): boolean {
         return AppServiceHelpers.isTree(column);
     }
 
     /**
      * Return &#x60;true&#x60; if a &#x60;column&#x60; is an entity
      */
-    static isEntity(column: CCColumn): boolean {
+    static isEntity(column: CCColumn | undefined): boolean {
         return AppServiceHelpers.isEntity(column);
     }
 
     /**
      * Return &#x60;true&#x60; if a &#x60;column&#x60; is a boolean
      */
-    static isBoolean(column: CCColumn): boolean {
+    static isBoolean(column: CCColumn | undefined): boolean {
         return AppServiceHelpers.isBoolean(column);
     }
 
     /**
      * Return &#x60;true&#x60; if a &#x60;column&#x60; is a date
      */
-    static isDate(column: CCColumn): boolean {
+    static isDate(column: CCColumn | undefined): boolean {
         return AppServiceHelpers.isDate(column);
     }
 
     /**
      * Return &#x60;true&#x60; if a &#x60;column&#x60; is a double
      */
-    static isDouble(column: CCColumn): boolean {
+    static isDouble(column: CCColumn | undefined): boolean {
         return AppServiceHelpers.isDouble(column);
     }
 
     /**
      * Return &#x60;true&#x60; if a &#x60;column&#x60; is an integer
      */
-    static isInteger(column: CCColumn): boolean {
+    static isInteger(column: CCColumn | undefined): boolean {
         return AppServiceHelpers.isInteger(column);
     }
 
     /**
      * Return &#x60;true&#x60; if a &#x60;column&#x60; is a number (integer or double)
      */
-    static isNumber(column: CCColumn): boolean {
+    static isNumber(column: CCColumn | undefined): boolean {
         return AppServiceHelpers.isNumber(column);
     }
 
     /**
      * Return &#x60;true&#x60; if a &#x60;column&#x60; is a scalar
      */
-    static isScalar(column: CCColumn): boolean {
+    static isScalar(column: CCColumn | undefined): boolean {
         return AppServiceHelpers.isScalar(column);
     }
 
     /**
      * Return &#x60;true&#x60; if a &#x60;column&#x60; is sortable
      */
-    static isSortable(column: CCColumn): boolean {
+    static isSortable(column: CCColumn | undefined): boolean {
         return AppServiceHelpers.isSortable(column);
     }
 
@@ -583,10 +583,18 @@ export class AppService implements OnDestroy {
         if (this.app.queries) {
             for (const queryName of Object.keys(this.app.queries)) {
                 const ccquery &#x3D; this.app.queries[queryName];
-                if (ccquery &amp;&amp; ccquery.columnsInfo) {
-                    columnMap &#x3D; {};
-                    this.columnsByQuery[Utils.toLowerCase(ccquery.name)] &#x3D; columnMap;
-                    this._makeColumnMapForQuery(columnMap, ccquery);
+                if (ccquery) {
+                    ccquery.$columnFieldsPattern &#x3D; new PatternMatcher(&quot;included column fields&quot;, &quot;excluded column fields&quot;);
+                    ccquery.$columnFieldsPattern.includedPattern.setText(ccquery.columnFieldsIncluded);
+                    ccquery.$columnFieldsPattern.excludedPattern.setText(ccquery.columnFieldsExcluded);
+                    ccquery.$partnameFieldsPattern &#x3D; new PatternMatcher(&quot;included part name fields&quot;, &quot;excluded part name fields&quot;);
+                    ccquery.$partnameFieldsPattern.includedPattern.setText(ccquery.partnameFieldsIncluded);
+                    ccquery.$partnameFieldsPattern.excludedPattern.setText(ccquery.partnameFieldsExcluded);
+                    if (ccquery.columnsInfo) {
+                        columnMap &#x3D; {};
+                        this.columnsByQuery[Utils.toLowerCase(ccquery.name)] &#x3D; columnMap;
+                        this._makeColumnMapForQuery(columnMap, ccquery);
+                    }
                 }
             }
         }

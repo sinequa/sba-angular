@@ -75,7 +75,7 @@
 </g>
 <g id="clust8" class="cluster">
 <title>cluster_MetadataModule_exports</title>
-<polygon fill="none" stroke="#000000" points="361,-208 361,-260 449,-260 449,-208 361,-208"/>
+<polygon fill="none" stroke="#000000" points="297,-208 297,-260 500,-260 500,-208 297,-208"/>
 </g>
 <!-- Metadata -->
 <g id="node1" class="node">
@@ -134,14 +134,26 @@
 <!-- Metadata  -->
 <g id="node8" class="node">
 <title>Metadata </title>
-<polygon fill="#fb8072" stroke="#000000" points="440.5854,-252 369.4146,-252 369.4146,-216 440.5854,-216 440.5854,-252"/>
-<text text-anchor="middle" x="405" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">Metadata </text>
+<polygon fill="#fb8072" stroke="#000000" points="491.5854,-252 420.4146,-252 420.4146,-216 491.5854,-216 491.5854,-252"/>
+<text text-anchor="middle" x="456" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">Metadata </text>
 </g>
 <!-- MetadataModule&#45;&gt;Metadata  -->
 <g id="edge7" class="edge">
 <title>MetadataModule&#45;&gt;Metadata </title>
-<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M405,-187.1061C405,-187.1061 405,-205.991 405,-205.991"/>
-<polygon fill="#000000" stroke="#000000" points="401.5001,-205.9909 405,-215.991 408.5001,-205.991 401.5001,-205.9909"/>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M440.5125,-187.1061C440.5125,-187.1061 440.5125,-205.991 440.5125,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="437.0125,-205.9909 440.5125,-215.991 444.0125,-205.991 437.0125,-205.9909"/>
+</g>
+<!-- MetadataItem  -->
+<g id="node9" class="node">
+<title>MetadataItem </title>
+<polygon fill="#fb8072" stroke="#000000" points="402.7409,-252 305.2591,-252 305.2591,-216 402.7409,-216 402.7409,-252"/>
+<text text-anchor="middle" x="354" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">MetadataItem </text>
+</g>
+<!-- MetadataModule&#45;&gt;MetadataItem  -->
+<g id="edge8" class="edge">
+<title>MetadataModule&#45;&gt;MetadataItem </title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M375.9017,-187.1061C375.9017,-187.1061 375.9017,-205.991 375.9017,-205.991"/>
+<polygon fill="#000000" stroke="#000000" points="372.4017,-205.9909 375.9017,-215.991 379.4017,-205.991 372.4017,-205.9909"/>
 </g>
 <!-- CollapseModule -->
 <g id="node6" class="node">
@@ -242,6 +254,9 @@
                         <li class="list-group-item">
                             <a href="../components/Metadata.html">Metadata</a>
                         </li>
+                        <li class="list-group-item">
+                            <a href="../components/MetadataItem.html">MetadataItem</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -276,7 +291,7 @@ import {MetadataAccessListsItemSingleAccessList} from &quot;./metadata-access-li
         MetadataAccessListsItem, MetadataAccessListsItemSingleAccessList
     ],
     exports: [
-        Metadata
+        Metadata, MetadataItem
     ],
 })
 export class MetadataModule {

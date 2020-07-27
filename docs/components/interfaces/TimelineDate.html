@@ -418,7 +418,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * @param data 
      */
     protected updateScales(data: TimelineSeries[]) {
-        
+
         // Set x and y scales with the primary series (or first one)
         const primarySeries &#x3D; data.filter(s &#x3D;&gt; s.primary) || [data[0]];
         const allPrimaryDates &#x3D; ([] as TimelineDate[]).concat(...primarySeries.map(s &#x3D;&gt; s.dates));
@@ -428,7 +428,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             s &#x3D;&gt; d3.max&lt;TimelineDate, number&gt;(s.dates, d &#x3D;&gt; d.value));
 
         if(!xExtent[0] || !xExtent[1] || !yMax) {
-            console.error(&#x27;Invalid timeseries&#x27;, primarySeries);
+            if (allPrimaryDates.length !&#x3D;&#x3D; 0) {
+                console.error(&#x27;Invalid timeseries&#x27;, primarySeries);
+            }
             this.x.domain(this.xt.domain());
             this.xt &#x3D; this.x;
             return;

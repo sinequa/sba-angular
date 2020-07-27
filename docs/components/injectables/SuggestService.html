@@ -215,8 +215,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="117"
-                            class="link-to-prism">autocomplete/suggest.service.ts:117</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">autocomplete/suggest.service.ts:118</a></div>
                 </td>
             </tr>
 
@@ -733,7 +733,8 @@ export class SuggestService {
                     displayHtml: item.displayHtml,
                     category,
                     label: label || category,
-                    data: item.data
+                    data: item.data,
+                    score: item.score
                 };
             } );
     }

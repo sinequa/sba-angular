@@ -722,18 +722,18 @@ export class BasketsService implements OnDestroy {
                 new Action({
                     text: &quot;msg#baskets.addToBasket&quot;,
                     action: (item, $event) &#x3D;&gt; {
-                        this.addToBasketModal(this.selectionService.selectedRecords);
+                        this.addToBasketModal(this.selectionService.getSelectedIds());
                     }
                 }),
                 new Action({
                     text: &quot;msg#baskets.removeFromBasket&quot;,
                     action: (item, $event) &#x3D;&gt; {
-                        this.removeFromBasketModal(this.selectionService.selectedRecords);
+                        this.removeFromBasketModal(this.selectionService.getSelectedIds());
                     }
                 })
             ],
             updater: (action) &#x3D;&gt; {
-                action.hidden &#x3D; this.selectionService.selectedRecords.length &#x3D;&#x3D;&#x3D; 0;
+                action.hidden &#x3D; !this.selectionService.haveSelectedRecords;
             }
         });
     }

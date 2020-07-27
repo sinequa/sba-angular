@@ -78,10 +78,6 @@
                                     <span class="modifier">Public</span>
                                 <a href="#defaultView">defaultView</a>
                             </li>
-                            <li>
-                                    <span class="modifier">Public</span>
-                                <a href="#resultsViewSelected">resultsViewSelected</a>
-                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -94,6 +90,10 @@
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getView">getView</a>
+                            </li>
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#selectResultsView">selectResultsView</a>
@@ -119,6 +119,12 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
+                                    <a href="#resultsViewSelected">resultsViewSelected</a>
+                                </li>
+                                <li>
+                                    <a href="#events">events</a>
+                                </li>
+                                <li>
                                     <a href="#resultsView">resultsView</a>
                                 </li>
                                 <li>
@@ -137,12 +143,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(defaultView: <a href="../interfaces/ResultsView.html">ResultsView</a>, resultsViews: ResultsView[], searchService: <a href="../injectables/SearchService.html">SearchService</a>)</code>
+<code>constructor(defaultView: <a href="../interfaces/ResultsView.html">ResultsView</a>, resultsViews: ResultsView[])</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">results-view/results-view.service.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">results-view/results-view.service.ts:50</a></div>
                             </td>
                         </tr>
 
@@ -185,18 +191,6 @@
                                                     </td>
                                                     
                                                 </tr>
-                                                <tr>
-                                                        <td>searchService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/SearchService.html" target="_self" >SearchService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -211,6 +205,74 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getView"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getView
+                        </b>
+                        <a href="#getView"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getView(viewName)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="133"
+                            class="link-to-prism">results-view/results-view.service.ts:133</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>viewName</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>ResultsView | undefined</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -235,8 +297,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">results-view/results-view.service.ts:55</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="91"
+                            class="link-to-prism">results-view/results-view.service.ts:91</a></div>
                 </td>
             </tr>
 
@@ -307,8 +369,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">results-view/results-view.service.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">results-view/results-view.service.ts:126</a></div>
                 </td>
             </tr>
 
@@ -391,34 +453,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">results-view/results-view.service.ts:35</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="resultsViewSelected"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Public</span>
-                            resultsViewSelected</b>
-                            <a href="#resultsViewSelected"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>new Subject&lt;any&gt;()</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">results-view/results-view.service.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">results-view/results-view.service.ts:58</a></div>
                             </td>
                         </tr>
 
@@ -435,6 +470,50 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="resultsViewSelected"></a>
+                        <span class="name"><b>resultsViewSelected</b><a href="#resultsViewSelected"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>resultsViewSelected()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">results-view/results-view.service.ts:67</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="events"></a>
+                        <span class="name"><b>events</b><a href="#events"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>events()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">results-view/results-view.service.ts:71</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="resultsView"></a>
                         <span class="name"><b>resultsView</b><a href="#resultsView"><span class="icon ion-ios-link"></span></a></span>
                     </td>
@@ -447,7 +526,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">results-view/results-view.service.ts:45</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">results-view/results-view.service.ts:75</a></div>
                                 </td>
                             </tr>
 
@@ -469,7 +548,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">results-view/results-view.service.ts:49</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">results-view/results-view.service.ts:79</a></div>
                                 </td>
                             </tr>
 
@@ -481,8 +560,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, InjectionToken} from &quot;@angular/core&quot;;
-import {Subject} from &quot;rxjs&quot;;
-import {SearchService} from &quot;@sinequa/components/search&quot;;
+import {Subject, Observable} from &quot;rxjs&quot;;
 
 export interface ResultsView {
     type: string;
@@ -493,6 +571,30 @@ export interface ResultsView {
     excludedTabs?: string[];
 }
 
+export interface ResultsViewEvent {
+    type: &quot;before-select&quot; | &quot;after-select&quot; | &quot;select-cancelled&quot;;
+}
+
+export interface ResultsViewBeforeSelectEvent extends ResultsViewEvent {
+    type: &quot;before-select&quot;;
+    view: ResultsView;
+    promises: Promise&lt;boolean&gt;[];
+}
+
+export interface ResultsViewAfterSelectEvent extends ResultsViewEvent {
+    type: &quot;after-select&quot;;
+    view: ResultsView;
+}
+
+export interface ResultsViewSelectCancelledEvent extends ResultsViewEvent {
+    type: &quot;select-cancelled&quot;;
+    view: ResultsView;
+}
+
+export type ResultsViewEvents &#x3D;
+    ResultsViewBeforeSelectEvent |
+    ResultsViewAfterSelectEvent |
+    ResultsViewSelectCancelledEvent;
 
 export const RESULTS_VIEWS &#x3D; new InjectionToken&lt;ResultsView[]&gt;(&quot;RESULTS_VIEWS&quot;);
 export const DEFAULT_VIEW &#x3D; new InjectionToken&lt;ResultsView&gt;(&quot;DEFAULT_VIEW&quot;);
@@ -505,8 +607,8 @@ export class ResultsViewService {
     protected _resultsView : ResultsView;
     protected readonly _resultsViews : ResultsView[];
 
-    public resultsViewSelected &#x3D; new Subject&lt;any&gt;();
-
+    protected _resultsViewSelected &#x3D; new Subject&lt;ResultsView&gt;();
+    protected _events &#x3D; new Subject&lt;ResultsViewEvents&gt;();
 
     /**
      * Constructor
@@ -515,14 +617,21 @@ export class ResultsViewService {
 
     constructor(
         @Inject(DEFAULT_VIEW) public defaultView: ResultsView,
-        @Inject(RESULTS_VIEWS) resultsViews: ResultsView[],
-        private searchService: SearchService
-    ){
+        @Inject(RESULTS_VIEWS) resultsViews: ResultsView[]
+    ) {
         this._resultsViews &#x3D; resultsViews;
         this._resultsView &#x3D; this.defaultView;
     }
 
     // GETTERS
+
+    public get resultsViewSelected(): Observable&lt;ResultsView&gt; {
+        return this._resultsViewSelected;
+    }
+
+    public get events(): Observable&lt;ResultsViewEvents&gt; {
+        return this._events;
+    }
 
     public get resultsView(): ResultsView {
         return this._resultsView;
@@ -534,12 +643,41 @@ export class ResultsViewService {
 
     // EVENT HANDLERS
 
-    public selectResultsView(view: ResultsView){
+    private setResultsView(view: ResultsView) {
+        this._resultsView &#x3D; view;
+        this._events.next({type: &quot;after-select&quot;, view});
+        this._resultsViewSelected.next(view);
+    }
+
+    public selectResultsView(view: ResultsView) {
         if (view) {
-            this._resultsView &#x3D; view;
-            this.resultsViewSelected.next(view);
-            // Set resultsview in URL :
-            this.searchService.queryStringParams.resultsView &#x3D; view.name;
+            // Raise before event...
+            const beforeEvent: ResultsViewBeforeSelectEvent &#x3D; {
+                type: &quot;before-select&quot;,
+                view,
+                promises: []
+            }
+            this._events.next(beforeEvent);
+            if (beforeEvent.promises.length &#x3D;&#x3D;&#x3D; 0) {
+                this.setResultsView(view);
+            }
+            else {
+                Promise.all(beforeEvent.promises)
+                    .then((results) &#x3D;&gt; {
+                        const ok &#x3D; results.every(result &#x3D;&gt; result);
+                        if (ok) {
+                            this.setResultsView(view);
+                        }
+                        else {
+                            console.log(&quot;selectResultsView cancelled&quot;);
+                            this._events.next({type: &quot;select-cancelled&quot;, view});
+                        }
+                    })
+                    .catch((reason) &#x3D;&gt; {
+                        console.log(&quot;selectResultsView error:&quot;, reason);
+                        this._events.next({type: &quot;select-cancelled&quot;, view});
+                    });
+            }
         }
         else {
             console.error(&quot;Undefined Results View&quot;);
@@ -551,6 +689,10 @@ export class ResultsViewService {
         if (view) {
             this.selectResultsView(view);
         }
+    }
+
+    public getView(viewName): ResultsView | undefined {
+        return this.views.find(v &#x3D;&gt; v.name &#x3D;&#x3D;&#x3D; viewName);
     }
 
     // Former Search service methods
