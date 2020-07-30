@@ -10,7 +10,7 @@ import {SearchOptions, SEARCH_OPTIONS} from "../search.service";
     ]
 })
 export class MdSearchModule {
-    static forRoot(searchOptions: SearchOptions) : ModuleWithProviders {
+    static forRoot(searchOptions: SearchOptions) : ModuleWithProviders<MdSearchModule> {
         return {
             ngModule: MdSearchModule,
             providers: [

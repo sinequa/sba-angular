@@ -44,7 +44,7 @@ export function IntlInitializer(intlService: IntlService): () => Promise<string>
     ]
 })
 export class IntlModule {
-    static forRoot(localeConfig: Type<LocalesConfig>): ModuleWithProviders {
+    static forRoot(localeConfig: Type<LocalesConfig>): ModuleWithProviders<IntlModule> {
         return {
             ngModule: IntlModule,
             providers: [

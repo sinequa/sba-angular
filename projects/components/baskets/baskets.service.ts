@@ -72,7 +72,7 @@ export interface ManageBasketsModel {
  *
  * Example below:
  *
- *  public static forRoot(): ModuleWithProviders {
+ *  public static forRoot(): ModuleWithProviders<BasketsModule> {
         return {
             ngModule: BasketsModule,
             providers: [

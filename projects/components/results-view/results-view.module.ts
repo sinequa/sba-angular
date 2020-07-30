@@ -33,7 +33,7 @@ import {BsResultsScatterView} from "./results-scatter-view/results-scatter-view"
     ],
 })
 export class ResultsViewModule {
-    public static forRoot(resultsViews: ResultsView[], defaultView: ResultsView): ModuleWithProviders {
+    public static forRoot(resultsViews: ResultsView[], defaultView: ResultsView): ModuleWithProviders<ResultsViewModule> {
         return {
             ngModule: ResultsViewModule,
             providers: [

@@ -91,7 +91,7 @@ export class AuthConfig implements IPartialConfigOptions {
     ]
 })
 export class LoginModule {
-    static forRoot(loginModal: Type<any> = Login): ModuleWithProviders {
+    static forRoot(loginModal: Type<any> = Login): ModuleWithProviders<LoginModule> {
         return {
             ngModule: LoginModule,
             providers: [

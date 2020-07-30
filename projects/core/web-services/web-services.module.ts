@@ -46,7 +46,7 @@ export class WebServicesModule {
      *
      * @returns The configured module
      */
-    static forRoot(startConfig: StartConfig) : ModuleWithProviders {
+    static forRoot(startConfig: StartConfig) : ModuleWithProviders<WebServicesModule> {
         return {
             ngModule: WebServicesModule,
             providers: [

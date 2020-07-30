@@ -70,7 +70,7 @@ export interface ExportQueryModel {
  *
  * Example below:
  *
- *     public static forRoot(): ModuleWithProviders {
+ *     public static forRoot(): ModuleWithProviders<SavedQueriesModule> {
         return {
             ngModule: SavedQueriesModule,
             providers: [

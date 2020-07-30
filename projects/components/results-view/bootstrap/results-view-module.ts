@@ -44,7 +44,7 @@ import {BsResultsGridView} from "./results-grid-view/results-grid-view";
     ],
 })
 export class BsResultsViewModule {
-    public static forRoot(resultsViews: ResultsView[], defaultView: ResultsView): ModuleWithProviders {
+    public static forRoot(resultsViews: ResultsView[], defaultView: ResultsView): ModuleWithProviders<BsResultsViewModule> {
         return {
             ngModule: BsResultsViewModule,
             providers: [

@@ -45,7 +45,7 @@ import {MODAL_MODULE_PROVIDERS} from "./module.providers";
     ]
 })
 export class ModalModule {
-    static forRoot(confirmModal: Type<any> = Confirm): ModuleWithProviders {
+    static forRoot(confirmModal: Type<any> = Confirm): ModuleWithProviders<ModalModule> {
         return {
             ngModule: ModalModule,
             providers: [

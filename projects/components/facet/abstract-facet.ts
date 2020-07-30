@@ -1,10 +1,13 @@
-import {Output, TemplateRef, EventEmitter, ViewChild} from "@angular/core";
+import {Component, Output, TemplateRef, EventEmitter, ViewChild} from "@angular/core";
 import {Action} from "@sinequa/components/action";
 
 /**
  * This interface should be implemented by facet components, which expose
  * a list of actions and event listeners
  */
+@Component({
+    template: ""
+})
 export abstract class AbstractFacet {
 
     /**

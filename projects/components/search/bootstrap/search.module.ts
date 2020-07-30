@@ -41,7 +41,7 @@ import {BsLoadingBar} from "./loading-bar/loading-bar";
     ],
 })
 export class BsSearchModule {
-    static forRoot(searchOptions: SearchOptions) : ModuleWithProviders {
+    static forRoot(searchOptions: SearchOptions) : ModuleWithProviders<BsSearchModule> {
         return {
             ngModule: BsSearchModule,
             providers: [

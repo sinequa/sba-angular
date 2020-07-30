@@ -1,4 +1,4 @@
-import {OnInit, OnDestroy, AfterViewInit, ChangeDetectorRef} from "@angular/core";
+import {Component, OnInit, OnDestroy, AfterViewInit, ChangeDetectorRef} from "@angular/core";
 import {Subscription} from "rxjs";
 import {LoginService} from "./login.service";
 
@@ -7,6 +7,9 @@ import {LoginService} from "./login.service";
  * the application. It initiates the login process and sets `loginComplete` accordingly
  * whenever the login state changes
  */
+@Component({
+    template: ''
+})
 export class ComponentWithLogin implements OnInit, OnDestroy, AfterViewInit {
     protected loginSubscription: Subscription;
     /**

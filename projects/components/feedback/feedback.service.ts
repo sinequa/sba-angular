@@ -15,7 +15,7 @@ export const AuditFeedbackType = "UserFeedback";
  *
  * Example below:
  *
-    public static forRoot(): ModuleWithProviders {
+    public static forRoot(): ModuleWithProviders<FeedbackModule> {
         return {
             ngModule: FeedbackModule,
             providers: [
