@@ -152,19 +152,15 @@ export class SelectionService implements OnDestroy {
         if (!this.searchService.results || !this.searchService.results.records) {
             return false;
         }
-        let allSelected = true;
         for (const record of this.searchService.results.records) {
             if (!record.$selected) {
-                allSelected = false;
+                return false;
             }
         }
-        return allSelected;
+        return true;
     }
 
     private selectCurrentRecords() {
-        if (!this.searchService.results || !this.searchService.results.records) {
-            return;
-        }
         const newSelectedRecords: Record[] = [];
         if (this.searchService.results && this.searchService.results.records) {
             for (const record of this.searchService.results.records) {
@@ -179,26 +175,6 @@ export class SelectionService implements OnDestroy {
             this._events.next({type: SelectionEventType.SELECT, records: newSelectedRecords});
     }
 
-    private deselectCurrentRecords() {
-        if (!this.searchService.results || !this.searchService.results.records) {
-            return;
-        }
-        const newUnselectedRecords: Record[] = [];
-        if (this.searchService.results && this.searchService.results.records) {
-            for (const record of this.searchService.results.records) {
-                if (record.$selected) {
-                    const index = this.selectedRecords.findIndex(item => item.id === record.id);
-                    if (index !== -1) {
-                        this.selectedRecords.splice(index, 1);
-                        newUnselectedRecords.push(record);
-                        record.$selected = false;
-                    }
-                }
-            }
-        }
-        if(newUnselectedRecords.length > 0)
-            this._events.next({type: SelectionEventType.UNSELECT, records: newUnselectedRecords});
-    }
 
     /**
      * Toggles the selection of one record or all those in the results.
@@ -231,7 +207,7 @@ export class SelectionService implements OnDestroy {
         }
         else {
             if (this.allRecordsSelected) {
-                this.deselectCurrentRecords();
+                this.clearSelectedRecords();
             }
             else {
                 this.selectCurrentRecords();
