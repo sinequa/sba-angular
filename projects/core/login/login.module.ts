@@ -1,6 +1,5 @@
 import {NgModule, Injectable, Inject, ModuleWithProviders, Type} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {HTTP_INTERCEPTORS} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 import {Ng2UiAuthModule, /*IPartialConfigOptions,*/ CONFIG_OPTIONS, IProviders, StorageType, OauthService, PopupService} from "ng2-ui-auth";
@@ -8,7 +7,6 @@ import {A11yModule} from "@angular/cdk/a11y";
 import {OverlayModule} from "@angular/cdk/overlay";
 import {AuthenticationOauthService} from "./authentication-oauth.service";
 import {AuthenticationPopupService} from "./authentication-popup.service";
-import {HttpInterceptor} from "./http-interceptor";
 
 // Sinequa modules
 import {BaseModule} from "@sinequa/core/base";
@@ -54,6 +52,8 @@ export class AuthConfig implements IPartialConfigOptions {
  * A higher level {@link LoginService} groups the successful retrieval of the current `application configuration` ({@link AppService}),
  * `principal` ({@link PrincipalWebService}), and `user settings` ({@link UserSettingsWebService}) all of which require the user
  * to be authenticated. This can be used as a "gatekeeper" to protect access to the main, often routed, component(s).
+ *
+ * The {@link LoginInterceptor} in this module must be registered using `HTTP_INTERCEPTORS` in your app module.
  */
 @NgModule({
     imports: [
@@ -86,9 +86,6 @@ export class AuthConfig implements IPartialConfigOptions {
         {provide: CONFIG_OPTIONS, useClass: AuthConfig},
         {provide: OauthService, useExisting: AuthenticationOauthService},
         {provide: PopupService, useExisting: AuthenticationPopupService},
-
-        // HTTP
-        {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptor, multi: true},
 
         ...LOGIN_MODULE_PROVIDERS
     ]
