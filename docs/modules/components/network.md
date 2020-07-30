@@ -154,7 +154,7 @@ The aggregation provider can be used to generate different types of relations be
 
 - **Statistical relations**: In this case, we use **cross-aggregations** to count the number of records which contain two values of metadata. For example, we can count how many documents both have `docformat=pdf` and `author=John Doe`. The most frequent pairs of metadata are translated into edges between these metadata.
 - **Proximity relations**: In this case, we use aggregations to count the number of **cooccurence entities** stored within a specific column. A cooccurrence entity stores the occurrence of two other entities within a short range of text, like in the sentence *"**Larry Page** works at **Google**"*, which could be normalized as `(LARRY PAGE)#(GOOGLE)`. The cooccurrences are then translated as edges between each entity.
-- **Semantic relations**: In this case, we use aggregations to count the number of **semantic entities** stored within a specific column. A semantic entity stores the typed relation between two entities, like in the sentence *"**Larry Page** is an engineer who **works at** the company **Google**"* (unlike in the previous example, "work at" can be normalized as a type of relation between the two entities, so that this sentence could be stored as `(GOOGLE)->(EMPLOYS)->(LARRY PAGE)`). Then this relation between the two entities can be visualized as a directed typed edge.
+- **Semantic relations**: In this case, we use aggregations to count the number of **semantic entities** stored within a specific column. A semantic entity stores the typed relation between two entities, like in the sentence *"**Larry Page** is an engineer who **works at** the company **Google**"* (unlike in the previous example, "work at" can be normalized as a type of relation between the two entities, so that this sentence could be stored as `(GOOGLE)#(EMPLOYS)#(LARRY PAGE)`). Then this relation between the two entities can be visualized as a directed typed edge.
 
 Assuming the entities are properly extracted from documents, normalized and stored in columns of the index, the following example describe how to use the [`AggregationProvider`]({{site.baseurl}}components/classes/AggregationProvider.html) to produce different types of network visualizations.
 
@@ -205,3 +205,25 @@ const provider = providerFactory.createAggregationProvider(edge);
 ```
 
 ![Cooccurrence provider]({{site.baseurl}}assets/modules/network/cooccurrences.png){: .d-block .mx-auto }
+
+#### **Semantic relations**
+
+First we need to configure the aggregation calculation on the server, in the **Query web service** (see [Server-side setup]({{site.baseurl}}gettingstarted/server-setup.html#apps)).
+
+The aggregation must be computed for a column where cooccurrences are stored in the format `(VALUE 1)#(TYPE)#(VALUE 2)`.
+
+The code below is almost identical to the one above for statistical relations. The difference is that we are calling the `createTypedCoocAggregationEdgeType()` method instead of `createAggregationEdgeType()`.
+
+```ts
+// Create two standard node types for persons and companies
+const person = providerFactory.createPersonNodeType();
+const company = providerFactory.createCompanyNodeType();
+
+// Create a typed cooccurrence aggregation edge type between these two node types
+const edge = providerFactory.createTypedCoocAggregationEdgeType([person, company], "Person_Job_Company_Cooc")
+
+// Create the provider, given the edge type
+const provider = providerFactory.createAggregationProvider(edge);
+```
+
+![Semantic relations]({{site.baseurl}}assets/modules/network/semantic-relations.png){: .d-block .mx-auto }

@@ -24,7 +24,7 @@ export class DynamicNodeProvider extends RecordsProvider {
         protected edgeTypes: StructuralEdgeType[],
         protected permanent: boolean,
         protected searchService: SearchService,
-        protected sourceProviders?: NetworkProvider[],
+        protected sourceProviders?: NetworkProvider[]
     ){
         super(nodeType, edgeTypes, []);
         

@@ -20,16 +20,6 @@ export interface EdgeType {
     edgeOptions: {[key: string]: any} | ((nodes: Node[], edge: Edge, type: EdgeType) => {[key: string]: any} );
 }
 
-export const EDGESEPARATOR = "~~~EDGE~~~";
-
-export function getEdgeId(node1: Node, node2: Node): string {
-    return node1.id + EDGESEPARATOR + node2.id;
-}
-
-export function getNodeId(type: NodeType, value: string): string {
-    return `${type.name}:${value}`;
-}
-
 
 // DATA
 
@@ -254,6 +244,15 @@ export class NetworkDataset {
                 const existingEdge = this.getEdge(edge.id) as Edge;
                 existingEdge.count += edge.count;
                 existingEdge.visible = existingEdge.visible || edge.visible;
+                // Merge edge labels (taking duplicates into account)
+                if(!!existingEdge["label"] && !!edge["label"]){
+                    edge["labels"].forEach(label => {
+                        if(existingEdge["labels"].indexOf(label) === -1) {
+                            existingEdge["label"] += ", "+label;
+                            existingEdge["labels"].push(label);
+                        }
+                    });
+                }
                 let options: {[key: string]: any};
                 if(typeof existingEdge.type.edgeOptions === "function") {
                     const nodes = [existingEdge.from, existingEdge.to].map(id => this.nodeIdx[id]);

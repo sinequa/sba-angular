@@ -34,7 +34,7 @@ export function asyncRecordsProviderDemo(providerFactory: ProviderFactory, searc
   
   const doc = providerFactory.createNodeType("doc", 
     providerFactory.createDynamicImageNodeOptions(
-      (node: Node) => (node as RecordNode).record['sourcevarchar4']
+      (node: Node) => (node as RecordNode).record['sourcevarchar4'] || ""
     )
   );
 
@@ -74,6 +74,44 @@ export function coocAggregationDemo(providerFactory: ProviderFactory): NetworkPr
   return [provider];
 }
 
+
+export function typedCoocAggregationDemo(providerFactory: ProviderFactory): NetworkProvider[] {
+
+  const person = providerFactory.createPersonNodeType();
+  const company = providerFactory.createCompanyNodeType();
+
+  const edge = providerFactory.createTypedCoocAggregationEdgeType([person, company], "Person_Job_Company_Cooc")
+
+  const provider = providerFactory.createAggregationProvider(edge);
+
+  return [provider];
+}
+
+export function coocRecordDemo(providerFactory: ProviderFactory): NetworkProvider[] {
+
+  const doc = providerFactory.createRecordNodeType();
+  const job = providerFactory.createCompanyNodeType();
+  const person = providerFactory.createPersonNodeType();
+
+  const struct = providerFactory.createCoocStructuralEdgeTypes(doc, [job, person], "person_cooc", "oninsert", "all");
+
+  const provider = providerFactory.createSelectedRecordsProvider(doc, [struct], true);
+  
+  return [provider];
+}
+
+export function typedCoocRecordDemo(providerFactory: ProviderFactory): NetworkProvider[] {
+
+  const doc = providerFactory.createRecordNodeType();
+  const person = providerFactory.createPersonNodeType();
+  const company = providerFactory.createCompanyNodeType();
+
+  const struct = providerFactory.createTypedCoocStructuralEdgeTypes(doc, [person, company], "person_job_company", "oninsert", "all");
+
+  const provider = providerFactory.createSelectedRecordsProvider(doc, [struct], true);
+  
+  return [provider];
+}
 
 export function oOTBConfig(providerFactory: ProviderFactory): NetworkProvider[] {
 
@@ -161,7 +199,7 @@ export function wikiDynConfig(providerFactory: ProviderFactory, searchService: S
         return query
       },
       providerFactory.createDynamicImageNodeOptions(
-        (node: Node) => (node as RecordNode).record['sourcevarchar4']
+        (node: Node) => (node as RecordNode).record['sourcevarchar4'] || ""
       )),
     company: providerFactory.createCompanyNodeType()
   }
@@ -208,7 +246,7 @@ export function wikiMultiDynConfig(providerFactory: ProviderFactory, searchServi
       },
       // the node options used when the node has been mutated (sourcevarchar4 contains the wikipedia image URL)
       providerFactory.createDynamicImageNodeOptions(
-        (node: Node) => (node as RecordNode).record['sourcevarchar4']
+        (node: Node) => (node as RecordNode).record['sourcevarchar4'] || ""
       ),
       // the node is mutated dynamically immediately after the metadata node is inserted
       "oninsert"),

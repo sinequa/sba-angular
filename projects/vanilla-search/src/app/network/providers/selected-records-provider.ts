@@ -12,9 +12,10 @@ export class SelectedRecordsProvider extends RecordsProvider {
     constructor(
         protected nodeType: NodeType,
         protected edgeTypes: StructuralEdgeType[],
-        protected selectionService: SelectionService
+        protected selectionService: SelectionService,
+        protected hideRecordNode = false
     ){
-        super(nodeType, edgeTypes, selectionService.getSelectedItems() as Record[]);
+        super(nodeType, edgeTypes, selectionService.getSelectedItems() as Record[], hideRecordNode);
 
         this.selectionSubscription = selectionService.events.subscribe(event => {
             if(event.type === SelectionEventType.SELECT || SelectionEventType.UNSELECT) {

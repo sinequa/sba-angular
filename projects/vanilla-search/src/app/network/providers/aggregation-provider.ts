@@ -1,11 +1,11 @@
 import { Aggregation, AggregationItem } from '@sinequa/core/web-services';
-import { Node, Edge, EdgeType, NetworkProvider, NetworkDataset, getEdgeId, getNodeId, NodeType } from '../network-models';
-import { Subject } from 'rxjs';
+import { Node, Edge, EdgeType, NetworkDataset } from '../network-models';
 import { Action } from '@sinequa/components/action';
 import { FacetService } from '@sinequa/components/facet';
 import { AppService, Query, Expr } from '@sinequa/core/app-utils';
 import { SearchService } from '@sinequa/components/search';
 import { Utils } from '@sinequa/core/base';
+import { BaseProvider } from './base-provider';
 
 export interface AggregationEdge extends Edge {
     aggregationItem: AggregationItem;
@@ -32,13 +32,9 @@ export function isAggregationEdgeType(et: EdgeType): et is AggregationEdgeType {
 }
 
 
-export class AggregationProvider implements NetworkProvider {
-
-    protected readonly provider = new Subject<NetworkDataset>();
+export class AggregationProvider extends BaseProvider {
 
     protected readonly dataset = new NetworkDataset();
-
-    public active = true;
 
     constructor(
         protected edgeType: AggregationEdgeType,
@@ -46,6 +42,7 @@ export class AggregationProvider implements NetworkProvider {
         protected appService: AppService,
         protected searchService: SearchService,
         protected query?: Query) {
+        super();
     }
 
     /**
@@ -74,6 +71,7 @@ export class AggregationProvider implements NetworkProvider {
         if(this.edgeType.parse) {
             rawData = this.edgeType.parse(item, this.edgeType);
         }
+        // Default parsing, assuming cross-distribution format ("Apple/Steve Jobs")
         else {
             if(!item.display){
                 throw new Error(`Aggregation Item '${item.value}' has no display value`);
@@ -90,68 +88,20 @@ export class AggregationProvider implements NetworkProvider {
         const data = new NetworkDataset();
         let lastNode: Node;
         for(let i=0; i<rawData.values.length; i++){
-            const node = this.createAggregationNode(this.edgeType.nodeTypes[i], rawData.values[i], rawData.displays[i], item.count, true);
+            const node = this.createNode(this.edgeType.nodeTypes[i], rawData.values[i], rawData.displays[i], true, {}, item.count);
             data.addNodes(node);
             if(i > 0){
-                data.addEdges(this.createAggregationEdge(this.edgeType, [lastNode!, node], aggregation, item, true));
+                const relation = rawData.relations? rawData.relations[i-1] : undefined;
+                const directed = rawData.directed? rawData.directed[i-1] : false;
+                data.addEdges(this.createEdge(this.edgeType, lastNode!, node, true, {aggregation, aggregationItem: item}, item.count, directed, relation));
             }
             lastNode = node;
         }
         this.dataset.merge(data);
     }
 
-    /**
-     * Create a single aggregation node
-     */
-    protected createAggregationNode(type: NodeType, value: string, display: string, count: number, visible: boolean): Node {
-        const node: Node = {
-            id: getNodeId(type, value),
-            label: display,
-            type: type,
-            count: count,
-            visible: visible,
-            provider: this
-        }
-        let options;
-        if(typeof type.nodeOptions === "function") {
-            options = type.nodeOptions(node, type);
-        }
-        else {
-            options = type.nodeOptions;
-        }
-        return Utils.extend(node, options);
-    }
 
-    /**
-     * Create a single aggregation edge
-     */
-    protected createAggregationEdge(type: AggregationEdgeType, nodes: Node[], aggregation: Aggregation, item: AggregationItem, visible: boolean): AggregationEdge {
-        const edge : AggregationEdge = {
-            id: getEdgeId(nodes[0], nodes[1]),
-            from: nodes[0].id,
-            to: nodes[1].id,
-            type: type,
-            provider: this,
-            visible: visible,
-            count: item.count,
-            aggregation: aggregation,
-            aggregationItem: item
-        };
-        let options: {[key: string]: any};
-        if(typeof type.edgeOptions === "function") {
-            options = type.edgeOptions(nodes, edge, type);
-        }
-        else {
-            options = type.edgeOptions;
-        }
-        return Utils.extend(edge, options);
-    }
-
-
-    
-    getProvider(): Subject<NetworkDataset> {
-        return this.provider;
-    }
+    // NetworkProvider interface
 
     /** 
      * Retrieves the aggregation data synchronously or asynchronously, and updates the dataset with it.
@@ -182,28 +132,12 @@ export class AggregationProvider implements NetworkProvider {
         }
     }
 
-    onDatasetsMerged(dataset: NetworkDataset) {
-
-    }
-
-    onNodesInserted(nodes: Node[]) {
-
-    }
-
-    onNodeClicked(node?: Node) {
-
-    }
-
     getProviderActions(): Action[] {
         return [];
     }
 
     getNodeActions(node: Node): Action[] {
         return [];
-    }
-
-    onDestroy() {
-
     }
 
 }

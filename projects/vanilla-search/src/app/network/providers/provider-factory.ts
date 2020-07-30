@@ -6,7 +6,7 @@ import { SearchService } from '@sinequa/components/search';
 import { FacetService } from '@sinequa/components/facet';
 import { SelectionService } from '@sinequa/components/selection';
 import { NodeType, EdgeType, Node, Edge, NetworkProvider } from '../network-models';
-import { StructuralEdgeType, StructuralTriggerType, StructuralDisplayType, RecordsProvider, RecordNode } from './records-provider';
+import { StructuralEdgeType, StructuralTriggerType, StructuralDisplayType, RecordsProvider, RecordNode, CustomData } from './records-provider';
 import { AggregationEdgeType, AggregationProvider, AggregationData } from './aggregation-provider';
 import { SelectedRecordsProvider } from './selected-records-provider';
 import { AsyncRecordsProvider } from './async-records-provider';
@@ -242,6 +242,44 @@ export class ProviderFactory {
         });
     }
 
+    createCustomStructuralEdgeTypes(recordType: NodeType, nodeTypes: NodeType[], field: string, trigger: StructuralTriggerType = "oninsert", display: StructuralDisplayType = "existingnodes", edgeOptions?: any, parse?: (value: any, record: Record, type: StructuralEdgeType) => CustomData): StructuralEdgeType {
+        return {
+            nodeTypes: [recordType, ...nodeTypes],
+            field,
+            trigger,
+            display,
+            parse,
+            edgeOptions: edgeOptions || this.createEdgeOptions()
+        };
+    }
+
+    createCoocStructuralEdgeTypes(recordType: NodeType, nodeTypes: NodeType[], field: string, trigger: StructuralTriggerType = "oninsert", display: StructuralDisplayType = "existingnodes", edgeOptions?: any): StructuralEdgeType {
+        return this.createCustomStructuralEdgeTypes(recordType, nodeTypes, field, trigger, display, edgeOptions,
+            (value: any, record: Record, type: StructuralEdgeType) => {
+                const values = value.value.substr(1, value.value.length-2).split(")#(");
+                const displays = value.display.substr(1, value.display.length-2).split(")#(");
+                return { values, displays };
+            }
+        );
+    }
+
+    createTypedCoocStructuralEdgeTypes(recordType: NodeType, nodeTypes: NodeType[], field: string, trigger: StructuralTriggerType = "oninsert", display: StructuralDisplayType = "existingnodes", edgeOptions?: any): StructuralEdgeType {
+        return this.createCustomStructuralEdgeTypes(recordType, nodeTypes, field, trigger, display, edgeOptions,
+            (value: any, record: Record, type: StructuralEdgeType) => {
+                const valuesSplit = value.value.substr(1, value.value.length-2).split(")#(");
+                const displaysSplit = value.display.substr(1, value.display.length-2).split(")#(");
+                if(valuesSplit.length === 3 && displaysSplit.length === 3){
+                    const values = [valuesSplit[0], valuesSplit[2]];
+                    const displays = [displaysSplit[0], displaysSplit[2]];
+                    return { values, displays, relations: [displaysSplit[1]], directed: [true] };
+                }
+                else {
+                    throw new Error(`Unexpected format for a typed cooccurrence ${value.value}, ${value.display}`);
+                }
+            }
+        );
+    }
+
     /**
      * Create an AggregationEdgeType given a pair of NodeType and an aggregation name.
      * The aggregation (configured on the Sinequa server) must return pairs of items,
@@ -275,7 +313,7 @@ export class ProviderFactory {
             edgeOptions = (nodes: Node[], edge: Edge, type: EdgeType) => {
                 const count = edge.count;
                 const size = this.logScale(count, 1, 0.3);
-                const dashes = [Math.min(5*size,20), Math.min(3*size,30)];
+                const dashes = [15, 8];
                 return this.createEdgeOptions(dashes, size, false);
             };
         }
@@ -292,6 +330,45 @@ export class ProviderFactory {
 
         return this.createAggregationEdgeType(nodeTypes, aggregation, edgeOptions, parse);
     }
+
+
+    /**
+     * 
+     * @param nodeTypes 
+     * @param aggregation 
+     * @param edgeOptions 
+     * @param parse 
+     */
+    createTypedCoocAggregationEdgeType(nodeTypes: NodeType[], aggregation: string, edgeOptions?: any, parse?: (item: AggregationItem, type: AggregationEdgeType) => AggregationData): AggregationEdgeType {
+        
+        if(!edgeOptions) {
+            edgeOptions = (nodes: Node[], edge: Edge, type: EdgeType) => {
+                const count = edge.count;
+                const size = this.logScale(count, 1, 0.3);
+                return this.createEdgeOptions(false, size, false);
+            };
+        }
+
+        if(!parse) {
+            parse = (item: AggregationItem, type: AggregationEdgeType) => {
+                const value = item.value.toString()
+                const display = item.display || value;
+                const valuesSplit = value.substr(1, value.length-2).split(")#(");
+                const displaysSplit = display.substr(1, display.length-2).split(")#(");
+                if(valuesSplit.length === 3 && displaysSplit.length === 3){
+                    const values = [valuesSplit[0], valuesSplit[2]];
+                    const displays = [displaysSplit[0], displaysSplit[2]];
+                    return { values, displays, relations: [displaysSplit[1]], directed: [true] };
+                }
+                else {
+                    throw new Error(`Unexpected format for a typed cooccurrence ${value}, ${display}`);
+                }
+            }
+        }
+
+        return this.createAggregationEdgeType(nodeTypes, aggregation, edgeOptions, parse);
+    }
+
 
     /**
      * Create a DynamicEdgeType, to attach RecordNodes to an existing node, via a Query
@@ -322,7 +399,7 @@ export class ProviderFactory {
     createEdgeOptions(dashes?: boolean | number[], width = 2, smooth?: boolean): {[key: string]: any} {
         return {
             smooth: !!smooth,
-            dashes: !!dashes && Utils.isBoolean(dashes)? [Math.min(5*width,20), Math.min(5*width,30)]: dashes,
+            dashes: !!dashes && Utils.isBoolean(dashes)? [12, 15]: dashes,
             width: width,
             color: {
                 color: "#cccccc", 
@@ -356,9 +433,10 @@ export class ProviderFactory {
      * @param nodeType NodeType of the records
      * @param edgeTypes List of StructuralEdgeType for each field of the records
      * @param records Static list of records
+     * @param hideRecordNode (default: false) Hide the underlying record node
      */
-    createRecordsProvider(nodeType: NodeType, edgeTypes: StructuralEdgeType[], records: Record[]): RecordsProvider {
-        return new RecordsProvider(nodeType, edgeTypes, records);
+    createRecordsProvider(nodeType: NodeType, edgeTypes: StructuralEdgeType[], records: Record[], hideRecordNode = false): RecordsProvider {
+        return new RecordsProvider(nodeType, edgeTypes, records, hideRecordNode);
     }
 
     /**
@@ -367,9 +445,10 @@ export class ProviderFactory {
      * @param nodeType  NodeType of the records
      * @param edgeTypes List of StructuralEdgeType for each field of the records
      * @param query A Query object to retrieve the records asynchronously
+     * @param hideRecordNode (default: false) Hide the underlying record node
      */
-    createAsyncRecordsProvider(nodeType: NodeType, edgeTypes: StructuralEdgeType[], query: Query): AsyncRecordsProvider {
-        return new AsyncRecordsProvider(nodeType, edgeTypes, query, this.searchService);
+    createAsyncRecordsProvider(nodeType: NodeType, edgeTypes: StructuralEdgeType[], query: Query, hideRecordNode = false): AsyncRecordsProvider {
+        return new AsyncRecordsProvider(nodeType, edgeTypes, query, this.searchService, hideRecordNode);
     }
 
     /**
@@ -377,17 +456,10 @@ export class ProviderFactory {
      * Note that the SelectionService must be configured to keep a list of records rather than just their IDs.
      * @param nodeType NodeType of the records
      * @param structEdges List of StructuralEdgeType for each field of the records
+     * @param hideRecordNode (default: false) Hide the underlying record node
      */
-    createSelectedRecordsProvider(nodeType: NodeType, structEdges: StructuralEdgeType[]): SelectedRecordsProvider {
-        return new SelectedRecordsProvider(nodeType, structEdges, this.selectionService);
-    }
-
-    /**
-     * Create an AggregationProvider given an AggregationEdgeType
-     * @param edgeType An AggregationEdgeType
-     */
-    createAggregationProvider(edgeType: AggregationEdgeType): AggregationProvider {
-        return new AggregationProvider(edgeType, this.facetService, this.appService, this.searchService);
+    createSelectedRecordsProvider(nodeType: NodeType, structEdges: StructuralEdgeType[], hideRecordNode = false): SelectedRecordsProvider {
+        return new SelectedRecordsProvider(nodeType, structEdges, this.selectionService, hideRecordNode);
     }
 
     /**
@@ -412,10 +484,19 @@ export class ProviderFactory {
         return new DynamicEdgeProvider(edgeType, secondaryEdgeTypes, permanent, this.searchService, sourceProviders)
     }
 
+    /**
+     * Create an AggregationProvider given an AggregationEdgeType
+     * @param edgeType An AggregationEdgeType
+     */
+    createAggregationProvider(edgeType: AggregationEdgeType): AggregationProvider {
+        return new AggregationProvider(edgeType, this.facetService, this.appService, this.searchService);
+    }
+
 
     // Misc
 
     logScale(value: number, min: number, scale = 1.0, pow = 1.0): number {
         return Math.round(min + Math.pow(Math.log2(value) * scale, pow));
     }
+
 }

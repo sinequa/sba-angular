@@ -11,8 +11,9 @@ export class AsyncRecordsProvider extends RecordsProvider {
         protected edgeTypes: StructuralEdgeType[],
         protected query: Query,
         protected searchService: SearchService,
+        protected hideRecordNode = false
     ){
-        super(nodeType, edgeTypes, []);        
+        super(nodeType, edgeTypes, [], hideRecordNode);
     }
 
 

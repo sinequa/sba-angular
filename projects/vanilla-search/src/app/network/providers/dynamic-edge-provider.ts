@@ -1,9 +1,8 @@
 import { Query } from '@sinequa/core/app-utils';
 import { Results, Record } from '@sinequa/core/web-services';
 import { SearchService } from '@sinequa/components/search';
-import { EdgeType, Node, Edge, getEdgeId, NetworkProvider } from '../network-models';
+import { EdgeType, Node, Edge, NetworkProvider } from '../network-models';
 import { RecordsProvider, StructuralEdgeType, RecordNode } from './records-provider';
-import { Utils } from '@sinequa/core/base';
 import { combineLatest } from 'rxjs';
 
 
@@ -37,7 +36,7 @@ export class DynamicEdgeProvider extends RecordsProvider {
         protected secondaryEdgeTypes: StructuralEdgeType[],
         protected permanent: boolean,
         protected searchService: SearchService,
-        protected sourceProviders?: NetworkProvider[],
+        protected sourceProviders?: NetworkProvider[]
     ){
         super(edgeType.nodeTypes[1], secondaryEdgeTypes, []);
 
@@ -105,29 +104,9 @@ export class DynamicEdgeProvider extends RecordsProvider {
     }
 
     protected createDynamicEdges(node: Node, recordNodes: RecordNode[]): DynamicEdge[] {
-        return recordNodes.map(rNode => this.createDynamicEdge(node, rNode));
+        return recordNodes.map(rNode => this.createEdge(this.edgeType, node, rNode, node.visible, {record: rNode.record}) as DynamicEdge);
     }
 
-    protected createDynamicEdge(node: Node, recordNode: RecordNode): DynamicEdge {
-        const edge: DynamicEdge = {
-            id: getEdgeId(node, recordNode),
-            from: node.id,
-            to: recordNode.id,
-            type: this.edgeType,
-            record: recordNode.record,
-            visible: node.visible,
-            count: 1,
-            provider: this
-        }
-        let options: {[key: string]: any};
-        if(typeof this.edgeType.edgeOptions === "function") {
-            options = this.edgeType.edgeOptions([recordNode, node], edge, this.edgeType);
-        }
-        else {
-            options = this.edgeType.edgeOptions;
-        }
-        return Utils.extend(edge, options);
-    }
 
 
     // Network provider interface

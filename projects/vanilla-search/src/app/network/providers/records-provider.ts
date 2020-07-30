@@ -1,17 +1,14 @@
-import { Subject } from 'rxjs';
 import { Utils } from '@sinequa/core/base';
 import { Record } from '@sinequa/core/web-services';
 import { Action } from '@sinequa/components/action';
-import { Edge, Node, NetworkDataset, NetworkProvider, NodeType, EdgeType, getEdgeId, getNodeId } from '../network-models';
+import { Node, NetworkDataset, NodeType, EdgeType } from '../network-models';
+import { BaseProvider } from './base-provider';
 
 
 export interface RecordNode extends Node {
     record: Record;
 }
 
-export interface StructuralEdge extends Edge {
-    record: Record;
-}
 
 export type StructuralTriggerType = "oninsert" | "onclick" | "manual";
 export type StructuralDisplayType = "all" | "paginate" | "existingnodes" | ((node: Node, recordNode: RecordNode, index: number) => boolean);
@@ -25,6 +22,15 @@ export interface StructuralEdgeType extends EdgeType {
     trigger: StructuralTriggerType;
     /** showall: display all values from the field / paginate: display all value with pagination / existingnodes: only link to existing nodes / manual: only show if manual action (activated programmatically) */
     display: StructuralDisplayType;
+    /** A function to parse metadata from a record node in a custom way */
+    parse?: (value: any, record: Record, type: StructuralEdgeType) => CustomData;
+}
+
+export interface CustomData {
+    values: string[]; // eg. LARRY PAGE, GOOGLE
+    displays: string[]; // eg. Larry Page, Google
+    relations?: string[]; // eg. Works At
+    directed?: boolean[]; // eg. true
 }
 
 export function isStructuralEdgeType(et: EdgeType): et is StructuralEdgeType {
@@ -32,19 +38,18 @@ export function isStructuralEdgeType(et: EdgeType): et is StructuralEdgeType {
 }
 
 
-export class RecordsProvider implements NetworkProvider {
-
-    protected readonly provider = new Subject<NetworkDataset>();
+export class RecordsProvider extends BaseProvider {
 
     protected readonly dataset = new NetworkDataset();
-
-    public active = true;
 
     constructor(
         protected nodeType: NodeType,
         protected edgeTypes: StructuralEdgeType[],
-        protected records: Record[]
-    ){}
+        protected records: Record[],
+        protected hideRecordNode = false
+    ){
+        super();
+    }
 
     protected updateDataset(records?: Record[]) {
         this.dataset.clear();
@@ -58,7 +63,7 @@ export class RecordsProvider implements NetworkProvider {
 
     protected addRecordNodes(records: Record[]): RecordNode[] {
         return records.map(record => {
-            const node = this.createRecordNode(record);
+            const node = this.createNode(this.nodeType, record.id, record.title, !this.hideRecordNode, {record}) as RecordNode;
             this.dataset.addNodes(node);
             this.edgeTypes.forEach(type => {
                 this.addStructuralEdges(node, type);
@@ -67,66 +72,88 @@ export class RecordsProvider implements NetworkProvider {
         });
     }
 
-    protected createRecordNode(record: Record): RecordNode {
-        let node: RecordNode = {
-            id: getNodeId(this.nodeType, record.id),
-            label: record.title,
-            type: this.nodeType,
-            provider: this,
-            visible: true,
-            count: 1,
-            record: record
-        }
-        let options;
-        if(typeof this.nodeType.nodeOptions === "function") {
-            options = this.nodeType.nodeOptions(node, this.nodeType);
-        }
-        else {
-            options = this.nodeType.nodeOptions;
-        }
-        return Utils.extend(node, options);
-    }
     
-
-
     // Structural edges
 
     protected addStructuralEdges(node: RecordNode, type: StructuralEdgeType) {
+
         if(type.nodeTypes[0] !== this.nodeType){
             throw new Error(`Inconsistent node type: '${type.nodeTypes[0].name}' instead of '${this.nodeType.name}'`);
         }
+        
         const recorddata = node.record[type.field];
 
-        const data = new NetworkDataset();
-        data.addNodes(node);
-
-        // sourcestr
-        if(Utils.isString(recorddata)) {
-            this.addStructuralEdge(data, node, type, recorddata, recorddata, 0);
-        }
-        else if(Utils.isArray(recorddata)) {
-            recorddata.forEach((value,i) => {
-                // sourcecsv
-                if(Utils.isString(value)) {
-                    this.addStructuralEdge(data, node, type, value, value, i);
-                }
-                // entity
-                else if(value["value"]) {
-                    this.addStructuralEdge(data, node, type, value["value"], value["display"] || value["value"], i);
-                }
-            });
+        if(recorddata === undefined){
+            return;
         }
 
-        this.dataset.merge(data);
+        // Custom parse for mono or multi valued data
+        if(type.parse) {
+            if(Utils.isArray(recorddata)) {
+                recorddata.forEach((value,i) => { 
+                    this.addCustomEdge(node, type, type.parse!(value, node.record, type));
+                });
+            }
+            else {
+                this.addCustomEdge(node, type, type.parse!(recorddata, node.record, type));
+            }
+        }
+        // Default handling for standard Sinequa Metadata
+        else {
+            const data = new NetworkDataset();
+            data.addNodes(node);
+    
+            // sourcestr
+            if(Utils.isString(recorddata)) {
+                this.addStructuralEdge(data, node, type, recorddata, recorddata, 0);
+            }
+            else if(Utils.isArray(recorddata)) {
+                recorddata.forEach((value,i) => {
+                    // sourcecsv
+                    if(Utils.isString(value)) {
+                        this.addStructuralEdge(data, node, type, value, value, i);
+                    }
+                    // entity
+                    else if(value["value"]) {
+                        this.addStructuralEdge(data, node, type, value["value"], value["display"] || value["value"], i);
+                    }
+                });
+            }
+    
+            this.dataset.merge(data);
+        }
     }
 
     protected addStructuralEdge(dataset: NetworkDataset, recordNode: RecordNode, type: StructuralEdgeType, value: string, display: string, index: number) {
-        const node = this.createMetadataNode(type.nodeTypes[1], value, display, true);
+        const node = this.createNode(type.nodeTypes[1], value, display, true);
         node.visible = type.trigger === "oninsert" && this.isEdgeVisible(type, node, recordNode, index);
         if(recordNode.id !== node.id){ // Special case of hybrid nodes, where the recordNode might contain itself...!
             dataset.addNodes(node);
-            dataset.addEdges(this.createStructuralEdge(type, recordNode, node));
+            dataset.addEdges(this.createEdge(type, recordNode, node, node.visible, {record: recordNode.record}));
         }
+    }
+
+    protected addCustomEdge(recordNode: RecordNode, type: StructuralEdgeType, data: CustomData) {
+        if(type.nodeTypes.length !== data.values.length + 1) {
+            throw new Error(`Wrong number of values for this custom edge ${type.nodeTypes.length}, ${data.values.length}`);
+        }
+        const dataset = new NetworkDataset();
+        dataset.addNodes(recordNode);
+        let lastNode: Node;
+        for(let i=0; i<data.values.length; i++){
+            const node = this.createNode(type.nodeTypes[i+1], data.values[i], data.displays[i], true);
+            dataset.addNodes(node);
+            // Add a structural edge from the record node to the new node
+            dataset.addEdges(this.createEdge(type, recordNode, node, node.visible, {record: recordNode.record}));
+            // If there is more than one node in the custom data, potentially add relations between them (note that the relation edge share the same type as the structural edge)
+            if(i > 0){
+                const relation = data.relations? data.relations[i-1] : undefined;
+                const directed = data.directed? data.directed[i-1] : false;
+                dataset.addEdges(this.createEdge(type, lastNode!, node, true, {}, 1, directed, relation));
+            }
+            lastNode = node;
+        }
+        this.dataset.merge(dataset);
     }
 
     protected isEdgeVisible(type: StructuralEdgeType, node: Node, recordNode: RecordNode, index: number): boolean {
@@ -144,51 +171,9 @@ export class RecordsProvider implements NetworkProvider {
         }
     }
     
-    protected createStructuralEdge(type: StructuralEdgeType, recordNode: RecordNode, node: Node): StructuralEdge {
-        const edge: StructuralEdge = {
-            id: getEdgeId(recordNode, node),
-            from: recordNode.id,
-            to: node.id,
-            type: type,
-            record: recordNode.record,
-            visible: node.visible,
-            count: 1,
-            provider: this
-        }
-        let options: {[key: string]: any};
-        if(typeof type.edgeOptions === "function") {
-            options = type.edgeOptions([recordNode, node], edge, type);
-        }
-        else {
-            options = type.edgeOptions;
-        }
-        return Utils.extend(edge, options);
-    }
 
-    protected createMetadataNode(type: NodeType, value: string, display: string, visible: boolean): Node {
-        const node: Node = {
-            id: getNodeId(type, value),
-            label: display,
-            type: type,
-            count: 1,
-            visible: visible,
-            provider: this
-        }
-        let options;
-        if(typeof type.nodeOptions === "function") {
-            options = type.nodeOptions(node, type);
-        }
-        else {
-            options = type.nodeOptions;
-        }
-        return Utils.extend(node, options);
-    }
 
     // NetworkProvider interface
-
-    getProvider(): Subject<NetworkDataset> {
-        return this.provider;
-    }
 
     getData() {
         // Plain records mode (may be none)
@@ -215,10 +200,6 @@ export class RecordsProvider implements NetworkProvider {
                         }
                     });
             });
-    }
-
-    onNodesInserted(nodes: Node[]) {
-
     }
 
     onNodeClicked(node?: Node) {
@@ -252,10 +233,6 @@ export class RecordsProvider implements NetworkProvider {
     getNodeActions(node: Node): Action[] {
         // TODO: Actions to expand a node, etc.
         return [];
-    }
-
-    onDestroy() {
-        
     }
 
 }

@@ -12,7 +12,7 @@ export const defaultOptions: Options = {
     physics: {
         barnesHut: {
             damping: 0.5,
-            springLength: 150
+            springLength: 100
         }
     },
     height: '500px'
