@@ -1,10 +1,10 @@
 import {Injectable, Inject, InjectionToken, Optional} from "@angular/core";
-import {HttpInterceptor as NgHttpInterceptor, HttpRequest, HttpResponse, HttpHandler,
+import {HttpInterceptor, HttpRequest, HttpResponse, HttpHandler,
     HttpEvent, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {Observable, of, from, throwError} from "rxjs";
 import {map, switchMap, catchError} from "rxjs/operators";
 import {Utils, SqError, SqErrorCode} from "@sinequa/core/base";
-import {START_CONFIG, StartConfig, AuditRecord, AuditEvent, AuditEvents} from "@sinequa/core/web-services";
+import {START_CONFIG, StartConfig} from "@sinequa/core/web-services";
 import {NotificationsService} from "@sinequa/core/notification";
 import {LoginService, LoginServiceProxy} from "./login.service";
 import {AuthenticationService} from "./authentication.service";
@@ -21,7 +21,7 @@ export const HTTP_REQUEST_INITIALIZERS = new InjectionToken<HttpRequestInitializ
 @Injectable({
     providedIn: "root"
 })
-export class HttpInterceptor implements NgHttpInterceptor {
+export class LoginInterceptor implements HttpInterceptor {
     constructor(
         @Inject(START_CONFIG) private startConfig: StartConfig,
         @Optional() @Inject(HTTP_REQUEST_INITIALIZERS) private requestInitializers: HttpRequestInitializer[],
@@ -37,27 +37,6 @@ export class HttpInterceptor implements NgHttpInterceptor {
         return this.loginService.authenticationService;
     }
 
-    // Handle legacy calls where auditEvents is either an AuditEvent or AuditEvent[]
-    private ensureAuditRecord(auditEvents: AuditEvents): AuditRecord | undefined{
-        if (!auditEvents) {
-            return undefined;
-        }
-        let auditEvents1: AuditEvent[] | undefined;
-        if (Utils.isArray(auditEvents)) {
-            auditEvents1 = auditEvents;
-        }
-        else if (Utils.isObject(auditEvents)) {
-            const auditRecord = auditEvents as AuditRecord;
-            if (auditRecord.auditEvents || auditRecord.mlAuditEvents) {
-                return auditRecord;
-            }
-            auditEvents1 = [auditEvents as AuditEvent];
-        }
-        return {
-            auditEvents: auditEvents1
-        };
-    }
-
     private processRequestInitializers(request: HttpRequest<any>) {
         if (this.requestInitializers) {
             for (const requestInitializer of this.requestInitializers) {
@@ -65,12 +44,6 @@ export class HttpInterceptor implements NgHttpInterceptor {
                     break;
                 }
             }
-        }
-        request.body.$auditRecord = this.ensureAuditRecord(request.body.$auditRecord);
-        if (request.body.$auditRecord) {
-            // if (!this.pluginService.onNotifyAuditRecord(request.body.$auditRecord)) {
-            //    delete request.body.$auditRecord;
-            // }
         }
     }
 
