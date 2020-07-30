@@ -12,6 +12,7 @@ export class ResultSource implements OnInit {
     @Input() record: Record;
     @Input() displayTreepath: boolean;
     @Input() displayTreepathMinLevel = 0;
+    @Input() displayTreepathMaxLevel: number;
     @Input() displayUrl: boolean = true;
 
     source: ValueItem[] = [];
@@ -26,7 +27,7 @@ export class ResultSource implements OnInit {
             const treepath = this.record.treepath[0];
             if(!!treepath && treepath.length >= 2){
                 this.source = treepath.substr(1, treepath.length-2).split('/')
-                    .slice(this.displayTreepathMinLevel)
+                    .slice(this.displayTreepathMinLevel, this.displayTreepathMaxLevel)
                     .map((path,i,array) => {
                         return {
                             display: path,
