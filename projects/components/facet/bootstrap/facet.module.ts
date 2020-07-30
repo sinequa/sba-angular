@@ -56,7 +56,7 @@ import {BsFacetMultiComponent} from "./facet-multi/facet-multi.component";
     ],
 })
 export class BsFacetModule {
-    public static forRoot(allFacets: any[] = [], defaultFacets: FacetState[] = []): ModuleWithProviders {
+    public static forRoot(allFacets: any[] = [], defaultFacets: FacetState[] = []): ModuleWithProviders<BsFacetModule> {
         return {
             ngModule: BsFacetModule,
             providers: [

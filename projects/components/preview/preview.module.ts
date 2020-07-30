@@ -22,7 +22,7 @@ import {PREVIEW_MODAL} from "./preview.service";
     ],
 })
 export class PreviewModule {
-    static forRoot(previewModal: Type<any>) : ModuleWithProviders {
+    static forRoot(previewModal: Type<any>) : ModuleWithProviders<PreviewModule> {
         return {
             ngModule: PreviewModule,
             providers: [

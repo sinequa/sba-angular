@@ -111,7 +111,21 @@
             "styles": [
               "projects/hello-search/src/styles/app.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "hammerjs",
+              "intl",
+              "jssha",
+              "lodash",
+              "moment",
+              "element-resize-detector",
+              "batch-processor",
+              "rxjs",
+              "@formatjs/intl-relativetimeformat/polyfill",
+              "intl-pluralrules",
+              "jstz",
+              "atomicjs"
+            ]
           },
           "configurations": {
             "production": {
@@ -247,7 +261,21 @@
                 "lazy": true
               }            
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "hammerjs",
+              "intl",
+              "jssha",
+              "lodash",
+              "moment",
+              "element-resize-detector",
+              "batch-processor",
+              "rxjs",
+              "@formatjs/intl-relativetimeformat/polyfill",
+              "intl-pluralrules",
+              "jstz",
+              "atomicjs"
+            ]
           },
           "configurations": {
             "production": {

@@ -325,7 +325,7 @@ export class UIService implements OnDestroy {
         document.body.appendChild(div);
 
         const style = div.style;
-        const computed = window.getComputedStyle? getComputedStyle(element) : (<any>element).currentStyle;  // currentStyle for IE < 9
+        const computed = !!window.getComputedStyle ? getComputedStyle(element) : (<any>element).currentStyle;  // currentStyle for IE < 9
 
         // default textarea styles
         style.whiteSpace = 'pre-wrap';
