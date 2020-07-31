@@ -4,6 +4,7 @@ import { Record } from '@sinequa/core/web-services';
 import { SearchService } from '@sinequa/components/search';
 import { RecordNode } from './providers/records-provider';
 import { Node } from './network-models';
+import { DynamicEdgeType } from './providers/dynamic-edge-provider';
 
 
 export function recordsProviderDemo(providerFactory: ProviderFactory, records: Record[]): NetworkProvider[] {
@@ -108,7 +109,7 @@ export function typedCoocRecordDemo(providerFactory: ProviderFactory): NetworkPr
 
   const struct = providerFactory.createTypedCoocStructuralEdgeTypes(doc, [person, company], "person_job_company", "oninsert", "all");
 
-  const provider = providerFactory.createSelectedRecordsProvider(doc, [struct], true);
+  const provider = providerFactory.createSelectedRecordsProvider(doc, [struct]);
   
   return [provider];
 }
@@ -182,46 +183,78 @@ export function wikiAsyncConfig(providerFactory: ProviderFactory, searchService:
 
 }
 
+export function wikiDynEdgeConfig(providerFactory: ProviderFactory, searchService: SearchService): NetworkProvider[] {
+  // Create a standard document node type
+  const doc = providerFactory.createRecordNodeType();
+  const company = providerFactory.createCompanyNodeType();
+
+  // Create a standard provider for records
+  const recordProvider = providerFactory.createSelectedRecordsProvider(doc, []);
+
+  // Create a node type of people, displaying the image of that person instead of a generic icon
+  const people = providerFactory.createNodeType("person",
+    providerFactory.createDynamicImageNodeOptions(
+      (node: Node) => (node as RecordNode).record['sourcevarchar4'] || ""
+    )
+  );
+
+  // Create a dynamic edge type, that creates a query to fetch people related to that document
+  const dynamicEdgeType = providerFactory.createDynamicEdgeType([doc, people], "oninsert",
+    (node: Node, type: DynamicEdgeType) => {
+      const query = searchService.makeQuery();
+      query.text = node.label;
+      query.addSelect("treepath:=/Web/Wiki/");
+      query.addSelect("sourcestr4:=human");
+      query.pageSize = 5;
+      return query;
+    });
+
+  // Create a structural edge type for link companies to people
+  const struct = providerFactory.createStructuralEdgeTypes(people, {company});
+
+  // Create a dynamic edge provider to create the dynamic edges whose type we just defined
+  const peopleProvider = providerFactory.createDynamicEdgeProvider(dynamicEdgeType, struct, true, [recordProvider]);
+
+  // Return the two providers
+  return [recordProvider, peopleProvider];
+}
+
 
 export function wikiDynConfig(providerFactory: ProviderFactory, searchService: SearchService): NetworkProvider[] {
   
-  // Create the node types for standard entities
-  const fieldTypes = {
-    geo: providerFactory.createGeoNodeType(),
-    person: providerFactory.makeNodeTypeDynamic(
-      providerFactory.createPersonNodeType(),
-      (node: Node) => {
-        let query = searchService.makeQuery();
-        query.text = node.label;
-        query.addSelect("treepath:=/Web/Wiki/");
-        query.addSelect("sourcestr4:=human");
-        query.pageSize = 1;
-        return query
-      },
-      providerFactory.createDynamicImageNodeOptions(
-        (node: Node) => (node as RecordNode).record['sourcevarchar4'] || ""
-      )),
-    company: providerFactory.createCompanyNodeType()
-  }
+  // Create the node types for the company and person entities
+  const company = providerFactory.createCompanyNodeType();
+  const person = providerFactory.makeNodeTypeDynamic(
+    // By default, the node is a standard person node
+    providerFactory.createPersonNodeType(),
+    // This function returns the query necessary to transform the node
+    (node: Node) => {
+      let query = searchService.makeQuery();
+      query.text = node.label;
+      query.addSelect("treepath:=/Web/Wiki/");
+      query.addSelect("sourcestr4:=human");
+      query.pageSize = 1;
+      return query
+    },
+    // The node options to use after the node has been transformed (displaying an image instead of an icon)
+    providerFactory.createDynamicImageNodeOptions(
+      (node: Node) => (node as RecordNode).record['sourcevarchar4'] || ""
+    )
+  );
 
-  // Create structural edges from the document nodes to the standard entities
-  const structEdges = providerFactory.createStructuralEdgeTypes(fieldTypes.person, fieldTypes, "oninsert", "paginate");
-  
-  // Create aggregation edges to link standard entities together (The 3 aggregations are not standard and must be configured on the server)
-  const aggEdges = [
-      providerFactory.createAggregationEdgeType([fieldTypes.geo, fieldTypes.person], "Geo_Person"),
-      providerFactory.createAggregationEdgeType([fieldTypes.company, fieldTypes.person], "Company_Person"),
-      providerFactory.createAggregationEdgeType([fieldTypes.geo, fieldTypes.company], "Geo_Company")
-  ];
-  
-  // Return list of providers
-  return [
-    providerFactory.createAggregationProvider(aggEdges[0]),
-    providerFactory.createAggregationProvider(aggEdges[1]),
-    providerFactory.createAggregationProvider(aggEdges[2]),
-    providerFactory.createDynamicNodeProvider(fieldTypes.person, structEdges, false)
-  ];
+  // Create structural edges from the document nodes to the person and company entities
+  const structEdges = providerFactory.createStructuralEdgeTypes(person, {company, person}, "oninsert", "paginate");
 
+  // Create aggregation edges to link companies and people
+  const aggEdge = providerFactory.createAggregationEdgeType([company, person], "Company_Person");
+
+  // Create the aggregation provider
+  const aggProvider = providerFactory.createAggregationProvider(aggEdge);
+
+  // Create the dynamic node provider
+  const personProvider = providerFactory.createDynamicNodeProvider(person, structEdges, false);
+
+  return [aggProvider, personProvider];
 }
 
 
