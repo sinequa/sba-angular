@@ -96,6 +96,15 @@ export class LoginService implements OnDestroy {
         return this._events;
     }
 
+    /**
+     * Get the currently logged in {@link Principal}, if any. Note that a principal can exist
+     * without the login being complete. For example, in the situation where access is denied to
+     * the selected app.
+     */
+    get principal(): Principal | undefined {
+        return this.principalService.principal;
+    }
+
     private setComplete() {
         const complete = this.complete;
         this.complete = !!this.appService.app && !!this.principalService.principal && !!this.userSettingsService.userSettings;

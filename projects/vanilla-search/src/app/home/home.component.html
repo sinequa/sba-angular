@@ -11,7 +11,7 @@
 
     <span class="mt-2">
         <!-- Login/Logout link -->    
-        <a href="#" (click)="toggleLogin()">{{ (loginService.complete? 'msg#userMenu.logout' : 'msg#userMenu.login') | sqMessage}}</a>
+        <a href="#" (click)="toggleLogin()">{{ (!!loginService.principal ? 'msg#userMenu.logout' : 'msg#userMenu.login') | sqMessage}}</a>
     
         <span> &bull; </span>
     
