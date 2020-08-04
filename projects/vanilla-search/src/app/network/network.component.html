@@ -1,0 +1,37 @@
+<div *ngIf="context"
+    [visNetwork]="name" 
+    [visNetworkData]="context" 
+    [visNetworkOptions]="optionsPrefs"
+    (initialized)="networkInitialized()">
+</div>
+
+<ng-template #settingsTpl>
+    <div class="card-body">
+        <form [formGroup]="form">
+            <div class="form-group">
+
+                <h3>Physics</h3>
+
+                <label for="springLength">Spring Length ({{springLengthPref}})</label>
+                <input type="range" class="form-control-range" id="springLength" min="30" max="200" formControlName="springLength">
+
+                <label for="springConstant">Spring Constant ({{springConstantPref}})</label>
+                <input type="range" class="form-control-range" id="springConstant" min="1" max="20" formControlName="springConstant">
+
+                <label for="damping">Damping ({{dampingPref}})</label>
+                <input type="range" class="form-control-range" id="damping" min="10" max="100" formControlName="damping">
+                
+                <label for="repulsion">Repulsion ({{repulsionPref}})</label>
+                <input type="range" class="form-control-range" id="repulsion" min="1000" max="10000" formControlName="repulsion">
+                
+                <label for="gravity">Gravity ({{gravityPref}})</label>
+                <input type="range" class="form-control-range" id="gravity" min="1" max="20" formControlName="gravity">
+                
+
+                <hr>
+
+                <button class="btn btn-light" (click)="setDefaults()">{{'msg#heatmap.defaults' | sqMessage}}</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
