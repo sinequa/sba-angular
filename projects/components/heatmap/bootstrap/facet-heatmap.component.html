@@ -25,10 +25,10 @@
         <form [formGroup]="form">
             <div class="form-group">
                 <label for="maxX">{{'msg#heatmap.maxX' | sqMessage}} ({{maxXPref}})</label>
-                <input type="range" class="form-control" id="maxX" min="10" max="40" formControlName="maxX">
+                <input type="range" class="form-control-range" id="maxX" min="10" max="40" formControlName="maxX">
 
                 <label for="maxY">{{'msg#heatmap.maxY' | sqMessage}} ({{maxYPref}})</label>
-                <input type="range" class="form-control" id="maxY" min="10" max="100" formControlName="maxY">
+                <input type="range" class="form-control-range" id="maxY" min="10" max="100" formControlName="maxY">
                 
                 <div class="custom-control custom-checkbox my-1">
                     <input class="custom-control-input" type="checkbox" id="scaleAxes" formControlName="scaleAxes">
