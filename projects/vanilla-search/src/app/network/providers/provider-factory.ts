@@ -33,12 +33,10 @@ export class ProviderFactory {
      * Create a new NodeType, given a name and node options (static or dynamic)
      * @param name identifier of this node type
      * @param nodeOptions Vis.js display properties of this node (may be a static object or a function returning an object given the node)
+     * @param field an optional field name for this node type, which can be used to filter the content
      */
-    createNodeType(name: string, nodeOptions: {[key: string]: any;} | ((node: Node, type: NodeType) => {[key: string]: any;})): NodeType {
-        return {
-            name: name,
-            nodeOptions
-        }
+    createNodeType(name: string, nodeOptions: {[key: string]: any;} | ((node: Node, type: NodeType) => {[key: string]: any;}), field?: string): NodeType {
+        return { name, nodeOptions, field }
     }
 
     /**
@@ -46,10 +44,11 @@ export class ProviderFactory {
      * @param name identifier of this node type
      * @param icon Unicode code of the FontAwesome icon (eg. \uf007)
      * @param color Color of the icon (eg. #FF0000)
-     * @param size Size of the icon and text (if constant - use createDynamicFontAwesomeNodeType for a dynamic size)
+     * @param size Size of the icon and text (if constant - use createDynamicFontAwesomeNodeType for a dynamic size)     * @param field an optional field name for this node type, which can be used to field the content
+     * @param field an optional field name for this node type, which can be used to filter the content
      */
-    createFontAwesomeNodeType(name: string, icon: string, color: string, size: number): NodeType {
-        return this.createNodeType(name, this.createFontAwesomeNodeOptions(icon, color, size));
+    createFontAwesomeNodeType(name: string, icon: string, color: string, size: number, field?: string): NodeType {
+        return this.createNodeType(name, this.createFontAwesomeNodeOptions(icon, color, size), field);
     }
 
     /**
@@ -58,9 +57,10 @@ export class ProviderFactory {
      * @param name identifier of this node type
      * @param icon Unicode code of the FontAwesome icon (eg. \uf007)
      * @param color Color of the icon (eg. #FF0000)
+     * @param field an optional field name for this node type, which can be used to filter the content
      */
-    createDynamicFontAwesomeNodeType(name: string, icon: string, color: string): NodeType {
-        return this.createNodeType(name, this.createDynamicFontAwesomeNodeOptions(icon, color));
+    createDynamicFontAwesomeNodeType(name: string, icon: string, color: string, field?: string): NodeType {
+        return this.createNodeType(name, this.createDynamicFontAwesomeNodeOptions(icon, color), field);
     }
 
     /**
@@ -69,9 +69,10 @@ export class ProviderFactory {
      * @param getQuery a function returning a Query, given a Node. The first record in the results will be used to mutate the node
      * @param nodeOptions Vis.js display properties of this node (may be a static object or a function returning an object given the node)
      * @param trigger (default: onclick) Determines when the node should be mutated (oninsert: when the node is created, onclick: when the node is cliked, manual: via a click on a button or link)
+     * @param field an optional field name for this node type, which can be used to filter the content
      */
-    createDynamicNodeType(name: string, getQuery: (node: Node) => Query, nodeOptions: {[key: string]: any;} | ((node: Node, type: NodeType) => {[key: string]: any;}), trigger: "oninsert" | "onclick" | "manual" = "onclick"): DynamicNodeType {
-        const nodeType = this.createNodeType(name, nodeOptions) as DynamicNodeType;
+    createDynamicNodeType(name: string, getQuery: (node: Node) => Query, nodeOptions: {[key: string]: any;} | ((node: Node, type: NodeType) => {[key: string]: any;}), trigger: StructuralTriggerType = "onclick", field?: string): DynamicNodeType {
+        const nodeType = this.createNodeType(name, nodeOptions, field) as DynamicNodeType;
         nodeType.getQuery = getQuery;
         nodeType.trigger = trigger;
         return nodeType;
@@ -194,7 +195,7 @@ export class ProviderFactory {
      * @param name (default: 'geo') Name of the node type
      */
     createGeoNodeType(icon = "\uf57d", color = "#5cb85c", name = 'geo'): NodeType {
-        return this.createDynamicFontAwesomeNodeType(name, icon, color);
+        return this.createDynamicFontAwesomeNodeType(name, icon, color, name);
     }
     
     /**
@@ -204,7 +205,7 @@ export class ProviderFactory {
      * @param name (default: 'company') Name of the node type
      */
     createCompanyNodeType(icon = "\uf1ad", color = "#f0ad4e", name = 'company'): NodeType {
-        return this.createDynamicFontAwesomeNodeType(name, icon, color);
+        return this.createDynamicFontAwesomeNodeType(name, icon, color, name);
     }
     
     /**
@@ -214,7 +215,7 @@ export class ProviderFactory {
      * @param name (default: 'person') Name of the node type
      */
     createPersonNodeType(icon = "\uf007", color = "#0275d8", name = 'person'): NodeType {
-        return this.createDynamicFontAwesomeNodeType(name, icon, color);
+        return this.createDynamicFontAwesomeNodeType(name, icon, color, name);
     }
 
     
@@ -230,13 +231,16 @@ export class ProviderFactory {
      * @param display (default: existingnodes) Determines which edges should be visible (all: all the edges are visible; paginate: only a limited number are visible, but more can be shown, using an action; existingnodes: edges will only be created for nodes that already exist in the network; a function take the node as input can also be used to determine visibility dynamically)
      * @param edgeOptions (default: standard edge options as returned by createEdgeOptions()) Edge options for displaying the edge with Vis.js
      */
-    createStructuralEdgeTypes(recordType: NodeType, fieldTypes: {[field:string]: NodeType}, trigger: StructuralTriggerType = "oninsert", display: StructuralDisplayType = "existingnodes", edgeOptions?: any): StructuralEdgeType[] {
-        return Object.keys(fieldTypes).map(field => {
+    createStructuralEdgeTypes(recordType: NodeType, fieldTypes: NodeType[], trigger: StructuralTriggerType = "oninsert", display: StructuralDisplayType = "existingnodes", edgeOptions?: any): StructuralEdgeType[] {
+        return fieldTypes.map(type => {
+            if(!type.field){
+                throw new Error("Structural Edges require node types with a field");
+            }
             return {
-                nodeTypes: [recordType, fieldTypes[field]],
-                field: field,
-                trigger: trigger,
-                display: display,
+                nodeTypes: [recordType, type],
+                field: type.field,
+                trigger,
+                display,
                 edgeOptions: edgeOptions || this.createEdgeOptions()
             };
         });
@@ -258,7 +262,7 @@ export class ProviderFactory {
             (value: any, record: Record, type: StructuralEdgeType) => {
                 const values = value.value.substr(1, value.value.length-2).split(")#(");
                 const displays = value.display.substr(1, value.display.length-2).split(")#(");
-                return { values, displays };
+                return { values, displays, fieldValue: value.value };
             }
         );
     }
@@ -271,7 +275,7 @@ export class ProviderFactory {
                 if(valuesSplit.length === 3 && displaysSplit.length === 3){
                     const values = [valuesSplit[0], valuesSplit[2]];
                     const displays = [displaysSplit[0], displaysSplit[2]];
-                    return { values, displays, relations: [displaysSplit[1]], directed: [true] };
+                    return { values, displays, relations: [displaysSplit[1]], directed: [true], fieldValue: value.value };
                 }
                 else {
                     throw new Error(`Unexpected format for a typed cooccurrence ${value.value}, ${value.display}`);
@@ -288,13 +292,15 @@ export class ProviderFactory {
      * @param aggregation The name of an cross-aggregation configured on the server, returning a list of "pairs"
      * @param edgeOptions (default: standard edge options as returned by createAggregationEdgeOptions()) Edge options for displaying the edge with Vis.js
      * @param parse Custom function for parsing each aggregation item into a AggregationData (containing normally two nodes and one edge)
+     * @param field An optional field name to filter the content with aggregation item
      */
-    createAggregationEdgeType(nodeTypes: NodeType[], aggregation: string, edgeOptions?: any, parse?: (item: AggregationItem, type: AggregationEdgeType) => AggregationData): AggregationEdgeType {
+    createAggregationEdgeType(nodeTypes: NodeType[], aggregation: string, edgeOptions?: any, field?: string, parse?: (item: AggregationItem, type: AggregationEdgeType) => AggregationData): AggregationEdgeType {
         return {
-            nodeTypes: nodeTypes,
-            aggregation: aggregation,
+            nodeTypes,
+            aggregation,
             edgeOptions: edgeOptions || this.createAggregationEdgeOptions(true),
-            parse: parse
+            field,
+            parse
         };
     }
 
@@ -305,9 +311,10 @@ export class ProviderFactory {
      * @param nodeTypes A pair of NodeType for each "side" of the aggregation
      * @param aggregation The name of an aggregation configured on the server, returning a list of cooccurrence "pairs" 
      * @param edgeOptions (default: custom edge options similar to createAggregationEdgeOptions()) Edge options for displaying the edge with Vis.js
+     * @param field An optional field name to filter the content with aggregation item
      * @param parse Custom function for parsing each aggregation item into a AggregationData (containing normally two nodes and one edge)
      */
-    createCoocAggregationEdgeType(nodeTypes: NodeType[], aggregation: string, edgeOptions?: any, parse?: (item: AggregationItem, type: AggregationEdgeType) => AggregationData): AggregationEdgeType {
+    createCoocAggregationEdgeType(nodeTypes: NodeType[], aggregation: string, edgeOptions?: any, field?: string, parse?: (item: AggregationItem, type: AggregationEdgeType) => AggregationData): AggregationEdgeType {
         
         if(!edgeOptions) {
             edgeOptions = (nodes: Node[], edge: Edge, type: EdgeType) => {
@@ -324,22 +331,25 @@ export class ProviderFactory {
                 const display = item.display || value;
                 const values = value.substr(1, value.length-2).split(")#(");
                 const displays = display.substr(1, display.length-2).split(")#(");
-                return { values, displays };
+                return { values, displays, fieldValue: value };
             }
         }
 
-        return this.createAggregationEdgeType(nodeTypes, aggregation, edgeOptions, parse);
+        return this.createAggregationEdgeType(nodeTypes, aggregation, edgeOptions, field, parse);
     }
 
 
     /**
-     * 
-     * @param nodeTypes 
-     * @param aggregation 
-     * @param edgeOptions 
-     * @param parse 
+     * Create an AggregationEdgeType given a pair of NodeType and an aggregation name.
+     * The aggregation (configured on the Sinequa server) must return triples,
+     * using a simple distribution of pre-existing triples, obtained for example via co-occurrence entities.
+     * @param nodeTypes A pair of NodeType for each "side" of the aggregation
+     * @param aggregation The name of an aggregation configured on the server, returning a list of cooccurrence "triples" 
+     * @param edgeOptions  (default: custom edge options similar to createAggregationEdgeOptions()) Edge options for displaying the edge with Vis.js
+     * @param field An optional field name to filter the content with aggregation item
+     * @param parse Custom function for parsing each aggregation item into a AggregationData (containing normally two nodes and one edge, plus the relation between them)
      */
-    createTypedCoocAggregationEdgeType(nodeTypes: NodeType[], aggregation: string, edgeOptions?: any, parse?: (item: AggregationItem, type: AggregationEdgeType) => AggregationData): AggregationEdgeType {
+    createTypedCoocAggregationEdgeType(nodeTypes: NodeType[], aggregation: string, edgeOptions?: any, field?: string, parse?: (item: AggregationItem, type: AggregationEdgeType) => AggregationData): AggregationEdgeType {
         
         if(!edgeOptions) {
             edgeOptions = (nodes: Node[], edge: Edge, type: EdgeType) => {
@@ -358,7 +368,7 @@ export class ProviderFactory {
                 if(valuesSplit.length === 3 && displaysSplit.length === 3){
                     const values = [valuesSplit[0], valuesSplit[2]];
                     const displays = [displaysSplit[0], displaysSplit[2]];
-                    return { values, displays, relations: [displaysSplit[1]], directed: [true] };
+                    return { values, displays, relations: [displaysSplit[1]], directed: [true], fieldValue: value };
                 }
                 else {
                     throw new Error(`Unexpected format for a typed cooccurrence ${value}, ${display}`);
@@ -366,7 +376,7 @@ export class ProviderFactory {
             }
         }
 
-        return this.createAggregationEdgeType(nodeTypes, aggregation, edgeOptions, parse);
+        return this.createAggregationEdgeType(nodeTypes, aggregation, edgeOptions, field, parse);
     }
 
 
@@ -434,9 +444,10 @@ export class ProviderFactory {
      * @param edgeTypes List of StructuralEdgeType for each field of the records
      * @param records Static list of records
      * @param hideRecordNode (default: false) Hide the underlying record node
+     * @param name Name of this provider
      */
-    createRecordsProvider(nodeType: NodeType, edgeTypes: StructuralEdgeType[], records: Record[], hideRecordNode = false): RecordsProvider {
-        return new RecordsProvider(nodeType, edgeTypes, records, hideRecordNode);
+    createRecordsProvider(nodeType: NodeType, edgeTypes: StructuralEdgeType[], records: Record[], hideRecordNode = false, name = "Documents"): RecordsProvider {
+        return new RecordsProvider(nodeType, edgeTypes, records, hideRecordNode, name);
     }
 
     /**
@@ -446,9 +457,10 @@ export class ProviderFactory {
      * @param edgeTypes List of StructuralEdgeType for each field of the records
      * @param query A Query object to retrieve the records asynchronously
      * @param hideRecordNode (default: false) Hide the underlying record node
+     * @param name Name of this provider
      */
-    createAsyncRecordsProvider(nodeType: NodeType, edgeTypes: StructuralEdgeType[], query: Query, hideRecordNode = false): AsyncRecordsProvider {
-        return new AsyncRecordsProvider(nodeType, edgeTypes, query, this.searchService, hideRecordNode);
+    createAsyncRecordsProvider(nodeType: NodeType, edgeTypes: StructuralEdgeType[], query: Query, hideRecordNode = false, name = "Documents"): AsyncRecordsProvider {
+        return new AsyncRecordsProvider(nodeType, edgeTypes, query, this.searchService, hideRecordNode, name);
     }
 
     /**
@@ -457,9 +469,10 @@ export class ProviderFactory {
      * @param nodeType NodeType of the records
      * @param structEdges List of StructuralEdgeType for each field of the records
      * @param hideRecordNode (default: false) Hide the underlying record node
+     * @param name Name of this provider
      */
-    createSelectedRecordsProvider(nodeType: NodeType, structEdges: StructuralEdgeType[], hideRecordNode = false): SelectedRecordsProvider {
-        return new SelectedRecordsProvider(nodeType, structEdges, this.selectionService, hideRecordNode);
+    createSelectedRecordsProvider(nodeType: NodeType, structEdges: StructuralEdgeType[], hideRecordNode = false, name = "Selected documents"): SelectedRecordsProvider {
+        return new SelectedRecordsProvider(nodeType, structEdges, this.selectionService, hideRecordNode, name);
     }
 
     /**
@@ -468,9 +481,10 @@ export class ProviderFactory {
      * @param edgeTypes The structural edge types of the mutated node
      * @param permanent Whether this provider should reset its dataset when mutating a new node (if true, a mutated node and its neighbors will never be removed, even if the source node disappears from the source dataset)
      * @param sourceProvider Another provider to monitor for source nodes to mutate (required if nodeType.trigger is oninsert)
+     * @param name Name of this provider
      */
-    createDynamicNodeProvider(nodeType: DynamicNodeType, edgeTypes: StructuralEdgeType[], permanent: boolean, sourceProviders?: NetworkProvider[]): DynamicNodeProvider {
-        return new DynamicNodeProvider(nodeType, edgeTypes, permanent, this.searchService, sourceProviders);
+    createDynamicNodeProvider(nodeType: DynamicNodeType, edgeTypes: StructuralEdgeType[], permanent = true, name = "Dynamic nodes", sourceProviders: NetworkProvider[]): DynamicNodeProvider {
+        return new DynamicNodeProvider(nodeType, edgeTypes, permanent, this.searchService, name, sourceProviders);
     }
 
     /**
@@ -479,17 +493,20 @@ export class ProviderFactory {
      * @param secondaryEdgeTypes The structural edge types of the attached node
      * @param permanent Whether this provider should reset its dataset when retrieving new node (if true, a attached node and its neighbors will never be removed, even if the source node disappears from the source dataset)
      * @param sourceProvider Another provider to monitor for source nodes to mutate (required if nodeType.trigger is oninsert)
+     * @param name Name of this provider
      */
-    createDynamicEdgeProvider(edgeType: DynamicEdgeType, secondaryEdgeTypes: StructuralEdgeType[], permanent: boolean, sourceProviders?: NetworkProvider[]): DynamicEdgeProvider {
-        return new DynamicEdgeProvider(edgeType, secondaryEdgeTypes, permanent, this.searchService, sourceProviders)
+    createDynamicEdgeProvider(edgeType: DynamicEdgeType, secondaryEdgeTypes: StructuralEdgeType[], permanent: boolean, name = "Dynamic edges", sourceProviders: NetworkProvider[]): DynamicEdgeProvider {
+        return new DynamicEdgeProvider(edgeType, secondaryEdgeTypes, permanent, this.searchService, name, sourceProviders)
     }
 
     /**
      * Create an AggregationProvider given an AggregationEdgeType
      * @param edgeType An AggregationEdgeType
+     * @param name Name of this provider
+     * @param query Custom query context for fetching the aggregations (bypassing the use of searchService.query)
      */
-    createAggregationProvider(edgeType: AggregationEdgeType): AggregationProvider {
-        return new AggregationProvider(edgeType, this.facetService, this.appService, this.searchService);
+    createAggregationProvider(edgeType: AggregationEdgeType, name?: string, query?: Query): AggregationProvider {
+        return new AggregationProvider(edgeType, this.facetService, this.appService, this.searchService, name || edgeType.aggregation, query);
     }
 
 

@@ -1,5 +1,5 @@
 import { Query } from '@sinequa/core/app-utils';
-import { NodeType } from '../network-models';
+import { NodeType, NetworkContext } from '../network-models';
 import { SearchService } from '@sinequa/components/search';
 import { RecordsProvider, StructuralEdgeType } from './records-provider';
 
@@ -11,9 +11,10 @@ export class AsyncRecordsProvider extends RecordsProvider {
         protected edgeTypes: StructuralEdgeType[],
         protected query: Query,
         protected searchService: SearchService,
-        protected hideRecordNode = false
+        protected hideRecordNode = false,
+        public name = "Documents"
     ){
-        super(nodeType, edgeTypes, [], hideRecordNode);
+        super(nodeType, edgeTypes, [], hideRecordNode, name);
     }
 
 
@@ -27,7 +28,8 @@ export class AsyncRecordsProvider extends RecordsProvider {
     /**
      * Updates the dataset after an asynchronous call to retrieve the records.
      */
-    getData() {
+    getData(context: NetworkContext) {
+        this.context = context;
         // Query mode
         this.searchService.getResults(this.query, undefined, {searchInactive: true})
             .subscribe(results => {

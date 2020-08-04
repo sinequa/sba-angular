@@ -2,6 +2,9 @@ import { Subject } from 'rxjs';
 import { Action } from '@sinequa/components/action';
 import { Utils } from '@sinequa/core/base';
 import { DataSet } from "vis-data/peer/esm/vis-data";
+import { SearchService } from '@sinequa/components/search';
+import { VisNetworkService } from 'ngx-vis';
+import { AppService } from '@sinequa/core/app-utils';
 
 // TYPES (configuration)
 
@@ -9,8 +12,8 @@ export interface NodeType {
     name: string;
     /** Vis Node options (merged in the Node objects). See https://visjs.github.io/vis-network/docs/network/nodes.html */
     nodeOptions: {[key: string]: any} | ((node: Node, type: NodeType) => {[key: string]: any} );
-    label?: string;
-    labelPlural?: string;
+    /** If a field is provided, it can be used to filter the node value (and access the label, formatter, etc.) */
+    field?: string;
 }
 
 export interface EdgeType {
@@ -18,6 +21,8 @@ export interface EdgeType {
     nodeTypes: NodeType[];
     /** Vis Edge options (merged in the Edge objects). See https://visjs.github.io/vis-network/docs/network/edges.html */
     edgeOptions: {[key: string]: any} | ((nodes: Node[], edge: Edge, type: EdgeType) => {[key: string]: any} );
+    /** If a field is provided, it can be used to filter the node value (and access the label, formatter, etc.) */
+    field?: string;
 }
 
 
@@ -36,7 +41,9 @@ export interface Node {
     /** count is a mutable property used to scale the node size in function of the size of adjacent edges*/
     count: number;
     /** the precedence of a node determines which node object is kept when merging two dataset (the highest precedence node is kept) */
-    precendence?: number;
+    precedence?: number;
+    // Context
+    context: NetworkContext;
 }
 
 // Edge (based on Vis Edge interface)
@@ -49,9 +56,13 @@ export interface Edge {
     // Custom properties
     type: EdgeType;
     provider: NetworkProvider;
-    visible: boolean;
+    visible: boolean;    
     /** count is a property representing the strength of an edge, which scales the count of adjacent nodes*/
     count: number;
+    /** A field value may be provided to filter search based on the edge field type */
+    fieldValue?: string;
+    // Context
+    context: NetworkContext;
 }
 
 
@@ -59,11 +70,20 @@ export interface NetworkProvider {
     /** Whether or not the provider is active (if inactive, it will not provide empty datasets of nodes and edges) */
     active: boolean;
 
+    /** Readable name of this provider */
+    name: string;
+
+    /** Dataset of this provider */
+    dataset: NetworkDataset;
+
+    /** Context (wrapper for general data about the network and services) */
+    context: NetworkContext;
+
     /** Returns the Subject of this provider */
     getProvider(): Subject<NetworkDataset>;
 
     /** Asynchronously provide data via it's provider Subject */
-    getData(); // skip/count handled internally
+    getData(context: NetworkContext); // skip/count handled internally
 
     /** Called after the datasets provided by all providers have been merged into a single dataset */
     onDatasetsMerged(dataset: NetworkDataset);
@@ -71,17 +91,35 @@ export interface NetworkProvider {
     /** Called after the dataset is filtered and passed to Vis for rendering */
     onNodesInserted(nodes: Node[]);
 
-    /** Called when ANY node is cliked in the rendered view of the network */
-    onNodeClicked(node?: Node);
+    /** Called when ANY node is clicked in the rendered view of the network */
+    onNodeClicked(node: Node | undefined);
+
+    /** Called when ANY edge is clicked in the rendered view of the network */
+    onEdgeClicked(edge: Edge | undefined);
 
     /** Retrieve the list of action for this provider. */
     getProviderActions(): Action[];
 
     /** Retrieve the list of action for a given node, and this provider. */
     getNodeActions(node: Node): Action[];
+    
+    /** Retrieve the list of action for a given edge, and this provider. */
+    getEdgeActions(edge: Edge): Action[];
 
     /** Called when the providers are discarded. Can be use to cancel subscriptions */
     onDestroy();
+}
+
+export interface NetworkContext {
+    /** Name of this network, for use in selections */
+    name: string;
+    /** Vis.js data structures */
+    nodes: DataSet<Node>;
+    edges: DataSet<Edge>;
+    /** Useful services */
+    searchService: SearchService;
+    networkService: VisNetworkService;
+    appService: AppService;
 }
 
 
@@ -207,13 +245,14 @@ export class NetworkDataset {
     public merge(dataset: NetworkDataset): NetworkDataset {
 
         dataset.getNodes().forEach(node => {
+            node = Object.assign({}, node); // Avoid modifying the original datasets
             if(!this.hasNode(node.id)) {
                 this.addNode(node);
             }
             else {
-                // Merge the new node with the existing one (which takes precedence)
+                // Merge the new node with the existing one (which takes precedence by default)
                 let existingNode = this.getNode(node.id) as Node;
-                if((node.precendence || 0) > (existingNode.precendence || 0)) {
+                if((node.precedence || 0) > (existingNode.precedence || 0)) {
                     // Set the new node in the node index
                     this.nodeIdx.set(node.id, node);
                     // swap existingNode and node for the merging of count, visible and node options
@@ -235,6 +274,7 @@ export class NetworkDataset {
         });
 
         dataset.getEdges().forEach(edge => {
+            edge = Object.assign({}, edge); // Avoid modifying the original datasets
             if(!this.hasEdge(edge.id)) {
                 this.addEdge(edge);
             }

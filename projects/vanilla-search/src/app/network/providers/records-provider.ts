@@ -1,7 +1,7 @@
 import { Utils } from '@sinequa/core/base';
 import { Record } from '@sinequa/core/web-services';
 import { Action } from '@sinequa/components/action';
-import { Node, NetworkDataset, NodeType, EdgeType } from '../network-models';
+import { Node, NetworkDataset, NodeType, EdgeType, NetworkContext } from '../network-models';
 import { BaseProvider } from './base-provider';
 
 
@@ -31,6 +31,7 @@ export interface CustomData {
     displays: string[]; // eg. Larry Page, Google
     relations?: string[]; // eg. Works At
     directed?: boolean[]; // eg. true
+    fieldValue?: string; // A value on which to filter the data
 }
 
 export function isStructuralEdgeType(et: EdgeType): et is StructuralEdgeType {
@@ -40,15 +41,14 @@ export function isStructuralEdgeType(et: EdgeType): et is StructuralEdgeType {
 
 export class RecordsProvider extends BaseProvider {
 
-    protected readonly dataset = new NetworkDataset();
-
     constructor(
         protected nodeType: NodeType,
         protected edgeTypes: StructuralEdgeType[],
         protected records: Record[],
-        protected hideRecordNode = false
+        protected hideRecordNode = false,
+        public name = "Documents"
     ){
-        super();
+        super(name);
     }
 
     protected updateDataset(records?: Record[]) {
@@ -63,12 +63,15 @@ export class RecordsProvider extends BaseProvider {
 
     protected addRecordNodes(records: Record[]): RecordNode[] {
         return records.map(record => {
-            const node = this.createNode(this.nodeType, record.id, record.title, !this.hideRecordNode, {record}) as RecordNode;
-            this.dataset.addNodes(node);
+            let node = this.dataset.getNode(this.getNodeId(this.nodeType, record.id));
+            if(!node) {
+                node = this.createNode(this.nodeType, record.id, record.title, !this.hideRecordNode, {record});
+                this.dataset.addNodes(node);
+            }
             this.edgeTypes.forEach(type => {
-                this.addStructuralEdges(node, type);
+                this.addStructuralEdges(node as RecordNode, type);
             });
-            return node;
+            return node as RecordNode;
         });
     }
 
@@ -129,7 +132,7 @@ export class RecordsProvider extends BaseProvider {
         node.visible = type.trigger === "oninsert" && this.isEdgeVisible(type, node, recordNode, index);
         if(recordNode.id !== node.id){ // Special case of hybrid nodes, where the recordNode might contain itself...!
             dataset.addNodes(node);
-            dataset.addEdges(this.createEdge(type, recordNode, node, node.visible, {record: recordNode.record}));
+            dataset.addEdges(this.createEdge(type, recordNode, node, value, node.visible, {record: recordNode.record}));
         }
     }
 
@@ -144,12 +147,12 @@ export class RecordsProvider extends BaseProvider {
             const node = this.createNode(type.nodeTypes[i+1], data.values[i], data.displays[i], true);
             dataset.addNodes(node);
             // Add a structural edge from the record node to the new node
-            dataset.addEdges(this.createEdge(type, recordNode, node, node.visible, {record: recordNode.record}));
+            dataset.addEdges(this.createEdge(type, recordNode, node, data.fieldValue, node.visible, {record: recordNode.record}));
             // If there is more than one node in the custom data, potentially add relations between them (note that the relation edge share the same type as the structural edge)
             if(i > 0){
                 const relation = data.relations? data.relations[i-1] : undefined;
                 const directed = data.directed? data.directed[i-1] : false;
-                dataset.addEdges(this.createEdge(type, lastNode!, node, true, {}, 1, directed, relation));
+                dataset.addEdges(this.createEdge(type, lastNode!, node, data.fieldValue, true, {}, 1, directed, relation));
             }
             lastNode = node;
         }
@@ -175,7 +178,8 @@ export class RecordsProvider extends BaseProvider {
 
     // NetworkProvider interface
 
-    getData() {
+    getData(context: NetworkContext) {
+        this.context = context;
         // Plain records mode (may be none)
         this.updateDataset(this.records);
         this.provider.next(this.dataset);
@@ -227,12 +231,73 @@ export class RecordsProvider extends BaseProvider {
 
     getProviderActions(): Action[] {
         // TODO: Actions to expand a node, etc.
-        return [];
+        return super.getProviderActions();
     }
 
     getNodeActions(node: Node): Action[] {
-        // TODO: Actions to expand a node, etc.
-        return [];
+        const actions = super.getNodeActions(node);
+        
+        // Actions for exanding / collapsing a record node
+        if(this.active && node.type === this.nodeType && this.edgeTypes.length > 0) {
+            let hasExpandedEdge = false;
+            let hasCollapsedEdge = false;
+            this.dataset.getAdjacentEdges(node.id).forEach(e => {
+                hasCollapsedEdge = hasCollapsedEdge || !e.visible;
+                hasExpandedEdge = hasExpandedEdge || e.visible;
+            });
+
+            if(hasCollapsedEdge) {
+                actions.push(new Action({
+                    icon: "fas fa-expand-arrows-alt",
+                    title: "Expand metadata",
+                    action: () => {
+                        let update = false;
+                        this.dataset.getAdjacentEdges(node.id)
+                            .forEach(edge => {
+                                const neighbor = this.dataset.getNode(node.id === edge.to ? edge.from : edge.to);
+                                if(!neighbor) {
+                                    throw new Error(`Missing node from edge ${edge.id}`);
+                                }
+                                if(!neighbor.visible || !edge.visible) {
+                                    edge.visible = true;
+                                    neighbor.visible = true;
+                                    update = true;
+                                }
+                                // TODO "propagate" visibility (ie. if 2 nodes are visible but an edge in between is invisible, make it visible)
+                            });
+                        if(update) {
+                            this.provider.next(this.dataset);
+                        }
+                    }
+                }));
+            }
+            
+            if(hasExpandedEdge) {
+                actions.push(new Action({
+                    icon: "fas fa-compress-arrows-alt",
+                    title: "Collapse metadata",
+                    action: () => {
+                        let update = false;
+                        this.dataset.getAdjacentEdges(node.id)
+                            .forEach(edge => {
+                                const neighbor = this.dataset.getNode(node.id === edge.to ? edge.from : edge.to);
+                                if(!neighbor) {
+                                    throw new Error(`Missing node from edge ${edge.id}`);
+                                }
+                                if((neighbor.visible || edge.visible) && !(neighbor as RecordNode).record) { // Prevent collapsing links between 2 record nodes (alternatively, we could count the number of neighbors of the neighbors, and close only the isoltated ones)
+                                    edge.visible = false;
+                                    neighbor.visible = false;
+                                    update = true;
+                                }
+                            });
+                        if(update) {
+                            this.provider.next(this.dataset);
+                        }
+                    }
+                }));
+            }
+        }
+        return actions;
     }
 
 }

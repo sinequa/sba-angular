@@ -149,7 +149,7 @@ const doc = providerFactory.createRecordNodeType();
 const person = providerFactory.createPersonNodeType();
 
 // Create an edge type for the "person" property of the "document" node
-const struct = providerFactory.createStructuralEdgeTypes(doc, {person: person}, "oninsert", "all");
+const struct = providerFactory.createStructuralEdgeTypes(doc, [person], "oninsert", "all");
 
 // Create a provider that provides document nodes with their structural neighbors, given a list of record objects
 const provider = providerFactory.createRecordsProvider(doc, struct, records);
@@ -198,7 +198,7 @@ const doc = providerFactory.createRecordNodeType();
 const person = providerFactory.createPersonNodeType();
 
 // Create an edge type for the "person" property of the "document" node
-const struct = providerFactory.createStructuralEdgeTypes(doc, {person: person}, "oninsert", "all");
+const struct = providerFactory.createStructuralEdgeTypes(doc, [person], "oninsert", "all");
 
 // Create a provider that provides document nodes with their structural neighbors, from the list of selected records
 const provider = providerFactory.createSelectedRecordsProvider(doc, struct);
@@ -363,7 +363,7 @@ Note that the dynamic edge provider creates record nodes which can themselves ha
 
 ```ts
 const company = providerFactory.createCompanyNodeType();
-const struct = providerFactory.createStructuralEdgeTypes(people, {company});
+const struct = providerFactory.createStructuralEdgeTypes(people, [company]);
 const peopleProvider = providerFactory.createDynamicEdgeProvider(dynamicEdgeType, struct, true, [recordProvider]);
 ```
 
@@ -397,7 +397,7 @@ const person = providerFactory.makeNodeTypeDynamic(
 );
 
 // Create structural edges from the document nodes to the person and company entities
-const structEdges = providerFactory.createStructuralEdgeTypes(person, {company, person}, "oninsert", "paginate");
+const structEdges = providerFactory.createStructuralEdgeTypes(person, [company, person], "oninsert", "paginate");
 
 // Create aggregation edges to link companies and people
 const aggEdge = providerFactory.createAggregationEdgeType([company, person], "Company_Person");

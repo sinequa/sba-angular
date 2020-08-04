@@ -1,5 +1,5 @@
 import { Aggregation, AggregationItem } from '@sinequa/core/web-services';
-import { Node, Edge, EdgeType, NetworkDataset } from '../network-models';
+import { Node, Edge, EdgeType, NetworkDataset, NetworkContext } from '../network-models';
 import { Action } from '@sinequa/components/action';
 import { FacetService } from '@sinequa/components/facet';
 import { AppService, Query, Expr } from '@sinequa/core/app-utils';
@@ -17,6 +17,7 @@ export interface AggregationData {
     displays: string[]; // eg. Larry Page, Google
     relations?: string[]; // eg. Works At
     directed?: boolean[]; // eg. true
+    fieldValue?: string; // A value on which to filter the data
 }
 
 export interface AggregationEdgeType extends EdgeType {
@@ -34,15 +35,15 @@ export function isAggregationEdgeType(et: EdgeType): et is AggregationEdgeType {
 
 export class AggregationProvider extends BaseProvider {
 
-    protected readonly dataset = new NetworkDataset();
-
     constructor(
         protected edgeType: AggregationEdgeType,
         protected facetService: FacetService,
         protected appService: AppService,
         protected searchService: SearchService,
-        protected query?: Query) {
-        super();
+        public name: string,
+        protected query?: Query
+    ) {
+        super(name || edgeType.aggregation);
     }
 
     /**
@@ -93,7 +94,7 @@ export class AggregationProvider extends BaseProvider {
             if(i > 0){
                 const relation = rawData.relations? rawData.relations[i-1] : undefined;
                 const directed = rawData.directed? rawData.directed[i-1] : false;
-                data.addEdges(this.createEdge(this.edgeType, lastNode!, node, true, {aggregation, aggregationItem: item}, item.count, directed, relation));
+                data.addEdges(this.createEdge(this.edgeType, lastNode!, node, rawData.fieldValue, true, {aggregation, aggregationItem: item}, item.count, directed, relation));
             }
             lastNode = node;
         }
@@ -106,7 +107,9 @@ export class AggregationProvider extends BaseProvider {
     /** 
      * Retrieves the aggregation data synchronously or asynchronously, and updates the dataset with it.
      */
-    getData() {
+    getData(context: NetworkContext) {
+        this.context = context;
+
         if(!this.active) {
             this.provider.next();
             return;
@@ -133,11 +136,11 @@ export class AggregationProvider extends BaseProvider {
     }
 
     getProviderActions(): Action[] {
-        return [];
+        return super.getProviderActions();
     }
 
     getNodeActions(node: Node): Action[] {
-        return [];
+        return super.getNodeActions(node);
     }
 
 }

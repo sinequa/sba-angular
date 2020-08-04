@@ -12,7 +12,7 @@ export function recordsProviderDemo(providerFactory: ProviderFactory, records: R
   const doc = providerFactory.createRecordNodeType();
   const person = providerFactory.createPersonNodeType();
 
-  const struct = providerFactory.createStructuralEdgeTypes(doc, {person: person}, "oninsert", "all");
+  const struct = providerFactory.createStructuralEdgeTypes(doc, [person], "oninsert", "all");
 
   const provider = providerFactory.createRecordsProvider(doc, struct, records);
   return [provider];
@@ -24,7 +24,7 @@ export function selectedRecordsProviderDemo(providerFactory: ProviderFactory): N
   const doc = providerFactory.createRecordNodeType();
   const person = providerFactory.createPersonNodeType();
 
-  const struct = providerFactory.createStructuralEdgeTypes(doc, {person: person}, "oninsert", "all");
+  const struct = providerFactory.createStructuralEdgeTypes(doc, [person], "oninsert", "all");
 
   const provider = providerFactory.createSelectedRecordsProvider(doc, struct);
   return [provider];
@@ -117,30 +117,27 @@ export function typedCoocRecordDemo(providerFactory: ProviderFactory): NetworkPr
 export function oOTBConfig(providerFactory: ProviderFactory): NetworkProvider[] {
 
   // Create the node types for standard entities
-  const fieldTypes = {
-    geo: providerFactory.createGeoNodeType(),
-    person: providerFactory.createPersonNodeType(),
-    company: providerFactory.createCompanyNodeType()
-  }
+  const geo = providerFactory.createGeoNodeType();
+  const person = providerFactory.createPersonNodeType();
+  const company = providerFactory.createCompanyNodeType();
+
   // Create the node type for generic documents
   const docNode = providerFactory.createRecordNodeType();
 
   // Create structural edges from the document nodes to the standard entities
-  const structEdges = providerFactory.createStructuralEdgeTypes(docNode, fieldTypes);
+  const structEdges = providerFactory.createStructuralEdgeTypes(docNode, [geo, person, company]);
   
   // Create aggregation edges to link standard entities together (The 3 aggregations are not standard and must be configured on the server)
-  const aggEdges = [
-      providerFactory.createAggregationEdgeType([fieldTypes.geo, fieldTypes.person], "Geo_Person"),
-      providerFactory.createAggregationEdgeType([fieldTypes.company, fieldTypes.person], "Company_Person"),
-      providerFactory.createAggregationEdgeType([fieldTypes.geo, fieldTypes.company], "Geo_Company")
-  ];
+  const geo_person = providerFactory.createAggregationEdgeType([geo, person], "Geo_Person");
+  const company_person = providerFactory.createAggregationEdgeType([company, person], "Company_Person");
+  const geo_company = providerFactory.createAggregationEdgeType([geo, company], "Geo_Company");
   
   // Return list of providers
   return [
     providerFactory.createSelectedRecordsProvider(docNode, structEdges),
-    providerFactory.createAggregationProvider(aggEdges[0]),
-    providerFactory.createAggregationProvider(aggEdges[1]),
-    providerFactory.createAggregationProvider(aggEdges[2])
+    providerFactory.createAggregationProvider(geo_person),
+    providerFactory.createAggregationProvider(company_person),
+    providerFactory.createAggregationProvider(geo_company)
   ];
 
 }
@@ -149,24 +146,21 @@ export function oOTBConfig(providerFactory: ProviderFactory): NetworkProvider[] 
 export function wikiAsyncConfig(providerFactory: ProviderFactory, searchService: SearchService): NetworkProvider[] {
   
   // Create the node types for standard entities
-  const fieldTypes = {
-    geo: providerFactory.createGeoNodeType(),
-    person: providerFactory.createPersonNodeType(),
-    company: providerFactory.createCompanyNodeType()
-  }
+  const geo = providerFactory.createGeoNodeType();
+  const person = providerFactory.createPersonNodeType();
+  const company = providerFactory.createCompanyNodeType();
+
   // Create the node type for generic documents
   const docNode = providerFactory.createRecordNodeType();
 
   // Create structural edges from the document nodes to the standard entities
-  const structEdges = providerFactory.createStructuralEdgeTypes(docNode, fieldTypes, "oninsert", "existingnodes");
+  const structEdges = providerFactory.createStructuralEdgeTypes(docNode, [geo, person, company], "oninsert", "existingnodes");
   
   // Create aggregation edges to link standard entities together (The 3 aggregations are not standard and must be configured on the server)
-  const aggEdges = [
-      providerFactory.createAggregationEdgeType([fieldTypes.geo, fieldTypes.person], "Geo_Person"),
-      providerFactory.createAggregationEdgeType([fieldTypes.company, fieldTypes.person], "Company_Person"),
-      providerFactory.createAggregationEdgeType([fieldTypes.geo, fieldTypes.company], "Geo_Company")
-  ];
-  
+  const geo_person = providerFactory.createAggregationEdgeType([geo, person], "Geo_Person");
+  const company_person = providerFactory.createAggregationEdgeType([company, person], "Company_Person");
+  const geo_company = providerFactory.createAggregationEdgeType([geo, company], "Geo_Company");
+ 
   // Create a query to retrieve the list of records
   const query = searchService.makeQuery();
   query.text = "Barack Obama";
@@ -176,9 +170,9 @@ export function wikiAsyncConfig(providerFactory: ProviderFactory, searchService:
   // Return list of providers
   return [
     providerFactory.createAsyncRecordsProvider(docNode, structEdges, query),
-    providerFactory.createAggregationProvider(aggEdges[0]),
-    providerFactory.createAggregationProvider(aggEdges[1]),
-    providerFactory.createAggregationProvider(aggEdges[2])
+    providerFactory.createAggregationProvider(geo_person),
+    providerFactory.createAggregationProvider(company_person),
+    providerFactory.createAggregationProvider(geo_company)
   ];
 
 }
@@ -210,10 +204,10 @@ export function wikiDynEdgeConfig(providerFactory: ProviderFactory, searchServic
     });
 
   // Create a structural edge type for link companies to people
-  const struct = providerFactory.createStructuralEdgeTypes(people, {company});
+  const struct = providerFactory.createStructuralEdgeTypes(people, [company]);
 
   // Create a dynamic edge provider to create the dynamic edges whose type we just defined
-  const peopleProvider = providerFactory.createDynamicEdgeProvider(dynamicEdgeType, struct, true, [recordProvider]);
+  const peopleProvider = providerFactory.createDynamicEdgeProvider(dynamicEdgeType, struct, true, "People", [recordProvider]);
 
   // Return the two providers
   return [recordProvider, peopleProvider];
@@ -243,7 +237,7 @@ export function wikiDynConfig(providerFactory: ProviderFactory, searchService: S
   );
 
   // Create structural edges from the document nodes to the person and company entities
-  const structEdges = providerFactory.createStructuralEdgeTypes(person, {company, person}, "oninsert", "paginate");
+  const structEdges = providerFactory.createStructuralEdgeTypes(person, [company, person], "oninsert", "paginate");
 
   // Create aggregation edges to link companies and people
   const aggEdge = providerFactory.createAggregationEdgeType([company, person], "Company_Person");
@@ -252,7 +246,7 @@ export function wikiDynConfig(providerFactory: ProviderFactory, searchService: S
   const aggProvider = providerFactory.createAggregationProvider(aggEdge);
 
   // Create the dynamic node provider
-  const personProvider = providerFactory.createDynamicNodeProvider(person, structEdges, false);
+  const personProvider = providerFactory.createDynamicNodeProvider(person, structEdges, true, "People", [aggProvider]);
 
   return [aggProvider, personProvider];
 }
@@ -302,7 +296,7 @@ export function wikiMultiDynConfig(providerFactory: ProviderFactory, searchServi
     // Aggregation providers
     geo_person, cpy_person, geo_cpy,
     // Dynamic node provider that transform people nodes (in particular it changes their appearance)
-    providerFactory.createDynamicNodeProvider(fieldTypes.person, [], false, [geo_person, cpy_person]) // The dynamic nodes are mutate "on insert", meaning we fire multiple search queries to retrieve when new nodes from geo_person and/or cpy_person are created
+    providerFactory.createDynamicNodeProvider(fieldTypes.person, [], true, "People", [geo_person, cpy_person]) // The dynamic nodes are mutate "on insert", meaning we fire multiple search queries to retrieve when new nodes from geo_person and/or cpy_person are created
   ];
 
 }
