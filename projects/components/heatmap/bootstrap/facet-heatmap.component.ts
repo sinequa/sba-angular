@@ -154,7 +154,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
                 this.prefs.set(this._name+'-max-y', maxYControl.value, true);
                 this.prefs.set(this._name+'-rescale', rescaleControl.value, true);
                 this.prefs.set(this._name+'-color-scheme', colorControl.value, true);
-                this.prefs.sync();
+                this.debounceSync();
             });
         }
         else {
@@ -162,17 +162,22 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
         }
     }
 
+    // Debounce syncing to avoid many calls to the user settings web service
+    debounceSync = Utils.debounce(() => {
+        this.prefs.sync();
+    }, 1000);
+
     /**
      * This method resets all the user preferences and rebuilds the settings form,
      * so that the values displayed are up-to-date
      */
     setDefaults() {
-        this.prefs.set(this._name+'-field-x', this.fieldX, true);
-        this.prefs.set(this._name+'-field-y', this.fieldY, true);
-        this.prefs.set(this._name+'-max-x', this.maxX, true);
-        this.prefs.set(this._name+'-max-y', this.maxY, true);
-        this.prefs.set(this._name+'-rescale', false, true);
-        this.prefs.set(this._name+'-color-scheme', this.colorScheme, true);
+        this.prefs.delete(this._name+'-field-x', true);
+        this.prefs.delete(this._name+'-field-y', true);
+        this.prefs.delete(this._name+'-max-x', true);
+        this.prefs.delete(this._name+'-max-y', true);
+        this.prefs.delete(this._name+'-rescale', true);
+        this.prefs.delete(this._name+'-color-scheme', true);
         this.prefs.sync();
         this.onOpenSettings(true);
     }

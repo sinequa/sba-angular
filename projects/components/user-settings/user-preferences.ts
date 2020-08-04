@@ -28,17 +28,42 @@ export class UserPreferences {
         return this.userSettingsService.userSettings["prefs"];
     }
 
+    /**
+     * Returns the value of a property
+     * @param property the name of this property
+     */
     public get(property: string) {
-        return this.prefs[property];
+        return this.prefs[property.toLowerCase()];
     }
 
-    public set(property: string, value: any, noSync?: boolean) {
-        this.prefs[property] = value;
-        if(!noSync){
+    /**
+     * Sets the value of a property
+     * @param property the name of this property
+     * @param value the value
+     * @param skipSync whether we should skyp syncing (to update multiple properties for example)
+     */
+    public set(property: string, value: any, skipSync?: boolean) {
+        this.prefs[property.toLowerCase()] = value;
+        if(!skipSync){
             this.sync();
         }
     }
 
+    /**
+     * Deletes a given property from the preferences
+     * @param property the name of this property
+     * @param skipSync whether we should skyp syncing (to update multiple properties for example)
+     */
+    public delete(property: string, skipSync?: boolean) {
+        this.prefs[property.toLowerCase()] = null;
+        if(!skipSync){
+            this.sync();
+        }
+    }
+
+    /**
+     * Synchronizes the user preferences with the server
+     */
     public sync(){
         this.userSettingsService.patch({prefs: this.prefs});
     }
