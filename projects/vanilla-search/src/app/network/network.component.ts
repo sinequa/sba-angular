@@ -20,7 +20,6 @@ export const defaultOptions: Options = {
     }
 };
 
-
 export interface VisEvent {
     nodes: string[];
     edges: string[];
@@ -134,7 +133,11 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
 
     }
 
-    updateData() {
+    /**
+     * Resets the node and edge, create a new listener for the providers and
+     * call getData() on these providers to refresh the data
+     */
+    protected updateData() {
         
         this.context.nodes.clear();
         this.context.edges.clear();
@@ -152,7 +155,12 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         this.providers.forEach(p => p.getData(this.context));
     }
 
-    mergeDatasets(datasets: NetworkDataset[]) {
+    /**
+     * Take in the datasets produced by each provider and merges them into
+     * a single one
+     * @param datasets 
+     */
+    protected mergeDatasets(datasets: NetworkDataset[]) {
         const dataset = datasets.reduce((prev, cur) => prev.merge(cur), new NetworkDataset());
         
         // Notify providers that nodes were inserted (which could trigger an update of the data)
@@ -171,13 +179,19 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         return this._actions;
     }
 
-    updateActions() {
+    /**
+     * Updates the actions displayed in the facet frame (_action variable).
+     * Actions may come from this component or from its providers
+     */
+    protected updateActions() {
         this._actions = [];
 
+        // Clear the active filters
         if(this.searchService.breadcrumbs && !!this.searchService.breadcrumbs.findSelect(this.name)) {
             this._actions.push(this.clearFilters);
         }
 
+        // Selected node actions
         if(this._selectedNode) {
             this.providers.forEach(p => {
                 const actions = p.getNodeActions(this._selectedNode!);
@@ -187,6 +201,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
             });
         }
 
+        // Selected edge actions
         if(this._selectedEdge) {
             this.providers.forEach(p => {
                 const actions = p.getEdgeActions(this._selectedEdge!);
@@ -196,6 +211,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
             });
         }
 
+        // Actions specific to each provider
         const providersActionList = new Action({
             icon: "fas fa-tasks",
             title: "Network providers",
@@ -211,6 +227,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         });
         this._actions.push(providersActionList);
 
+        // Action to refresh the network
         this._actions.push(this.refreshAction);
 
     }
@@ -218,6 +235,10 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
 
     // Event handling
 
+    /**
+     * Called from the template by ngx-vis, when the network is initialized,
+     * and the NetworkService can be used.
+     */
     networkInitialized() {
         this._networkInitialized = true;
 
@@ -229,7 +250,13 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         this.networkService.setOptions(this.name, this.optionsPrefs);
     }
 
-    onNetworkClick(eventData: any[]) {
+    /**
+     * Method called when a node or edge in the network is clicked.
+     * The method generates appropriate nodeClicked and edgeClicked events,
+     * and updates the state of _selectedEdge and _selectedNode.
+     * @param eventData 
+     */
+    protected onNetworkClick(eventData: any[]) {
         if (eventData[0] === this.name) {
             const event = eventData[1] as VisEvent;
 
@@ -277,6 +304,10 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
 
     // Settings
     
+    /**
+     * Sets the options values either to the user preferences (stored in user settings)
+     * or the default values.
+     */
     updateOptions() {
         this.optionsPrefs = Utils.copy(this.options);
         if(!this.optionsPrefs.physics){
@@ -296,6 +327,11 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         }
     }
 
+    /**
+     * Method from the AbstractFacet interface called when the settings
+     * panel is opened or closed
+     * @param opened whether settings are opened or closed
+     */
     onOpenSettings(opened: boolean){
         if(opened) {
             const springLengthControl = new FormControl(this.springLengthPref);

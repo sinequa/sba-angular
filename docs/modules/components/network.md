@@ -88,7 +88,7 @@ The [`sq-network`]({{site.baseurl}}components/components/NetworkComponent.html) 
 
 The component primarily requires a list of **providers** as input ([`NetworkProvider`]({{site.baseurl}}components/interfaces/NetworkProvider.html) objects), which generate the data displayed in the network. The `results` input is essentially used to refresh the providers when new results come in.
 
-## Network Providers
+## Architecture
 
 The goal of the network component is to display data in the form of **nodes** ([`Node`]({{site.baseurl}}components/interfaces/Node.html) objects) and **edges** ([`Edge`]({{site.baseurl}}components/interfaces/Edge.html) objects).
 
@@ -100,21 +100,83 @@ Nodes and edges are bundled in a container called a **dataset** ([`NetworkDatase
 
 The purpose of this architecture is to break down the vast space of network configurations into small composable bricks. For example, it is very easy to combine data coming from aggregations with data coming from records.
 
+## Interface
+
 The [`NetworkProvider`]({{site.baseurl}}components/interfaces/NetworkProvider.html) interface contains the following fields and methods:
 
-- `active: boolean`: Whether or not the provider is active (if inactive, it will not provide empty datasets of nodes and edges)
+- `active: boolean`: Whether or not the provider is active (if inactive, it will provide empty datasets of nodes and edges)
+- `name: string`: A name for this provider (for displays in menus)
+- `dataset: NetworkDataset`: A dataset object which is filled by this provider
+- `context: NetworkContext`: A convenience wrapper containing some globally accessible parameters
 - `getProvider(): Subject<NetworkDataset>`: Returns the Subject of this provider. The subject is an event emitter which can provide a new dataset at any time.
-- `getData()`: Typically called on initialization, or when new results come in, to trigger a new Dataset to be emitted by the provider (synchronously or not).
+- `getData(context: NetworkContext)`: Typically called on initialization, or when new results come in, to trigger a new Dataset to be emitted by the provider (synchronously or not).
 - `onDatasetsMerged(dataset: NetworkDataset)`: A method called after the datasets provided by all providers have been merged into a single dataset
 - `onNodesInserted(nodes: Node[])`: A method called after the dataset is filtered (to keep only visible nodes) and passed to Vis for rendering
-- `onNodeClicked(node?: Node)`: A method called when ANY node is cliked in the rendered view of the network
+- `onNodeClicked(node: Node | undefined)`: A method called when ANY node is cliked in the rendered view of the network
+- `onEdgeClicked(edge: Edge | undefined)`: A method called when ANY edge is cliked in the rendered view of the network
 - `getProviderActions(): Action[]`: A method called to retrieve the list of action for this provider
-- `getNodeActions(node: Node): Action[]`: A method called to retrieve the list of action for a given node, and this provider.
+- `getNodeActions(node: Node): Action[]`: A method called to retrieve the list of actions for a given node, and this provider.
+- `getEdgeActions(edge: Edge): Action[]`: A method called to retrieve the list of actions for a given edge, and this provider.
 - `onDestroy()`: A method called when the providers are discarded. Can be use to cancel subscriptions.
 
-This interface is implemented by a number of pre-packaged providers documented below. Developers are of course free to develop their own providers to customize how the network component works. Note that a [`BaseProvider`]({{site.baseurl}}components/classes/BaseProvider.html) with convenience methods to create nodes and edges, and a default implementation of the [`NetworkProvider`]({{site.baseurl}}components/interfaces/NetworkProvider.html) interface.
+This interface is implemented by a number of pre-packaged providers documented below. Developers are of course welcome to develop their own providers to customize how the network component works. Note that a [`BaseProvider`]({{site.baseurl}}components/classes/BaseProvider.html) is available, with convenience methods to create nodes and edges, and a default implementation of the [`NetworkProvider`]({{site.baseurl}}components/interfaces/NetworkProvider.html) interface.
+
+## Node and Edge types
 
 Providers require as inputs some *types* for the nodes and edges. These types are respectively [`NodeType`]({{site.baseurl}}components/interfaces/NodeType.html) and [`EdgeType`]({{site.baseurl}}components/interfaces/EdgeType.html) objects. These types determine the visual appearances (color, size, etc.) of the nodes and edges, thanks to a wide range of options available in the [Vis.js](https://visjs.github.io/vis-network/docs/network/) library.
+
+The [`NodeType`]({{site.baseurl}}components/interfaces/NodeType.html) interface contains the following fields and options:
+
+- `name: string`: An identifier for this node type
+- `nodeOptions`: Node options define the appearance of a node. The full list of available node options is available in the [Vis.js documentation](https://visjs.github.io/vis-network/docs/network/nodes.html). `nodeOptions` can be a static object (all the nodes with this type will look the same) or a function returning an object (which allows to customize the appearance for each node).
+- `field?: string`: An option field name for this node type. If provider, the node will have the ability to filter the search (for example clicking on the node "Paris", will let the user filter the search with a selection of the form `geo:=Paris`).
+
+**Examples:**
+
+A node type with static options:
+
+```ts
+const type = {
+  name: "geo",
+  nodeOptions: {
+    shape: "icon",
+    icon: {
+      face: "'FontAwesome'",
+      code: "\uf007",
+      size: 50,
+      color: "#aa00ff",
+    },
+  }
+}
+```
+
+A node type with dynamic options (the `size` is determined in function of the node's label):
+
+```ts
+const type = {
+  name: "geo",
+  nodeOptions: (node: Node, type: NodeType) => {
+    const size = node.label === "Paris"? 100 : 50;
+    return {
+      shape: "icon",
+      icon: {
+        face: "'FontAwesome'",
+        code: "\uf007",
+        size: size,
+        color: "#aa00ff",
+      },
+    }
+  }
+}
+```
+
+The [`EdgeType`]({{site.baseurl}}components/interfaces/EdgeType.html) interface contains the following fields and options:
+
+- `nodeTypes: NodeType[]`: The node types for each side of the edge. Normally two node types must be provided (except in some special cases).
+- `edgeOptions`: Edge options define the appearance of an edge. The full list of available edge options is available in the [Vis.js documentation](https://visjs.github.io/vis-network/docs/network/edges.html). `edgeOptions` can be a static object (all the edges with this type will look the same) or a function returning an object (which allows to customize the appearance for each edge).
+- `field?: string`: An option field name for this edge type. If provider, the edge will have the ability to filter the search (the provider generating this edge must include the `fieldValue` for the edge). Alternatively, an edge can let the user filter both its adjacent nodes (if both of them have a field).
+
+## Provider Factory
 
 Rather than creating providers and node types manually, the [`ProviderFactory`]({{site.baseurl}}components/injectables/ProviderFactory.html) can be injected into an app in order to easily generate the objects and configuration needed in a specific project:
 
@@ -132,13 +194,21 @@ export class MyComponent {
   )
 ```
 
+The factory includes convenience methods for creating all built-in types of nodes, edges and providers.
+
+## Samples
+
 On top of the factory, we provide samples of provider configurations (generated via the factory) in `network-sample-config.ts`.
 
 ![Factory]({{site.baseurl}}assets/modules/network/factory.png){: .d-block .mx-auto }
 
+The following providers are all illustrated by multiple samples. Samples are convenient to quickly start displaying data, but they must be modified for any customized project. We recommand copying the code of the sample(s) closest to your needs into your project, and modifying it from there.
+
+## List of providers
+
 ### Records Provider
 
-The class [`RecordsProvider`]({{site.baseurl}}components/classes/RecordsProvider.html) provides nodes that are generated from a list of [`Record`]({{site.baseurl}}components/interfaces/Record.html) objects ("record" is a generic term for the content of a Sinequa index, returned in the form of `Record` objects by the query web service).
+The class [`RecordsProvider`]({{site.baseurl}}components/classes/RecordsProvider.html) provides nodes that are generated from a list of [`Record`]({{site.baseurl}}components/interfaces/Record.html) objects ("record" is a generic term for the content of a Sinequa index, returned in the form of `Record` objects by the [query web service]({{site.baseurl}}core/injectables/QueryWebService.html)).
 
 Additionally, the provider can generate nodes and edges for the **properties** contained in that record. For example, if a record has "person" entities as a property, each of these "person" entity can be displayed as a property linked to the record:
 
@@ -189,6 +259,8 @@ const provider = providerFactory.createRecordsProvider(doc, [struct], records, t
 
 The [`SelectedRecordsProvider`]({{site.baseurl}}components/classes/SelectedRecordsProvider.html) is a direct extension of [`RecordsProvider`]({{site.baseurl}}components/classes/RecordsProvider.html). The difference is that the provider listens to the [`SelectionService`]({{site.baseurl}}components/injectables/SelectionService.html) (See [Selection module](selection.html)) and provides record nodes from the list of selected records.
 
+⚠️ The `SelectionService` must be set-up to store *records* instead of just *record ids* (See [Selection module](selection.html#selection-service)).
+
 This provider lets you easily see the common properties of two or more selected records.
 
 ```ts
@@ -231,7 +303,7 @@ const provider = providerFactory.createAsyncRecordsProvider(doc, [], query);
 
 ![Async Record provider]({{site.baseurl}}assets/modules/network/async-records-provider.png){: .d-block .mx-auto }
 
-Notice here that we did not use the factory's built-in method for generating a node type for record (`createRecordNodeType()`). Instead we used the `createNodeType()` method, and used the factory to generate **dynamic node options**. The options are "dynamic", because each node will look different from the others (indeed, we want each node to show the picture of a person). The `createDynamicImageNodeOptions()` requires a function taking the node as an input, and returning the URL of the image (in this case stored in the record's `sourcevarchar4` column).
+Notice here that we did not use the factory's built-in method for generating a node type for records/documents (`createRecordNodeType()`). Instead we used the generic `createNodeType()` method, and used the factory to generate **dynamic node options**. The options are "dynamic", because each node will look different from the others (indeed, we want each node to show the picture of a person). The `createDynamicImageNodeOptions()` requires a function taking the node as an input, and returning the URL of the image (in this case stored in the record's `sourcevarchar4` column). See [**Node and Edge types**](#node-and-edge-types).
 
 ### Aggregation Provider
 
@@ -245,7 +317,7 @@ The aggregation provider can be used to generate different types of relations be
 
 Assuming the entities are properly extracted from documents, normalized and stored in columns of the index, the following example describe how to use the [`AggregationProvider`]({{site.baseurl}}components/classes/AggregationProvider.html) to produce different types of network visualizations.
 
-Note that in all cases, **aggregations are computed in the context of the current query of the [`SearchService`]({{site.baseurl}}components/injectables/SearchService.html)**, unless a different Query is passed to the provider as an option input. This means if you search for "Google", the top relations built by this provider should normally include companies like Google, and people like Larry Page.
+Note that in all cases, **aggregations are computed in the context of the current query of the [`SearchService`]({{site.baseurl}}components/injectables/SearchService.html)**, unless a different `Query` is passed to the provider as an optional input. This means if you search for "Google", the top relations built by this provider should normally include companies like Google, and people like Larry Page.
 
 #### **Statistical relations**
 
@@ -264,7 +336,7 @@ const company = providerFactory.createCompanyNodeType();
 const edge = providerFactory.createAggregationEdgeType([company, person], "Company_Person")
 
 // Create the provider, given the edge type
-const provider = providerFactory.createAggregationProvider(edge);
+const provider = providerFactory.createAggregationProvider([edge]);
 ```
 
 ![Cross distribution provider]({{site.baseurl}}assets/modules/network/cross-dist-provider.png){: .d-block .mx-auto }
@@ -288,7 +360,7 @@ const company = providerFactory.createCompanyNodeType();
 const edge = providerFactory.createCoocAggregationEdgeType([company, person], "Company_Person_Cooc")
 
 // Create the provider, given the edge type
-const provider = providerFactory.createAggregationProvider(edge);
+const provider = providerFactory.createAggregationProvider([edge]);
 ```
 
 ![Cooccurrence provider]({{site.baseurl}}assets/modules/network/cooccurrences.png){: .d-block .mx-auto }
@@ -310,10 +382,43 @@ const company = providerFactory.createCompanyNodeType();
 const edge = providerFactory.createTypedCoocAggregationEdgeType([person, company], "Person_Job_Company_Cooc")
 
 // Create the provider, given the edge type
-const provider = providerFactory.createAggregationProvider(edge);
+const provider = providerFactory.createAggregationProvider([edge]);
 ```
 
 ![Semantic relations]({{site.baseurl}}assets/modules/network/semantic-relations.png){: .d-block .mx-auto }
+
+#### Expanding nodes
+
+In the example aboves, the aggregation edges are created with `trigger="source"`, which means the data is fetched right away and inserted in the network.
+
+But, it is also possible to use aggregations to attach new nodes to existing nodes ("expanding" them). In this case, instead of using cross-distributions or cooccurrence, a regular 1-dimension aggregation must be provided.
+
+The provider will query the server for this distribution, and adding a WHERE clause to "fix" the source node. For example, if we want to expand the node `Paris` of type `geo`, with say, companies, the distribution queried to the server will be computed with:
+
+```sql
+SELECT DISTRIBUTION('company') as companies FROM ... WHERE ... AND geo = 'Paris' ...
+```
+
+Note that the `SKIP` and `COUNT` parameter of the distribution are automatically adjusted by the provider, so that expanding the node multiple times will yield mode data (until exhaustion).
+
+This computation is equivalent to a cross distribution of `geo` and `company` (where one half is fixed). Therefore combining "source" cross-distribution edges with "onclick" or "manual" will be consistent.
+
+```ts
+// Create two standard node types for persons and companies
+const person = providerFactory.createPersonNodeType();
+const company = providerFactory.createCompanyNodeType();
+
+// Create an edge type between these two node types
+const edge = providerFactory.createAggregationEdgeType([company, person], "Company_Person")
+
+// Create an edge type to expand "company" with the "person" distribution. "manual" means a button is displayed when clicking on a company node to create the expansion.
+const expandCompany = providerFactory.createAggregationEdgeType([company, person], "person", undefined, "manual");
+
+// Create the provider, given the edge type
+const provider = providerFactory.createAggregationProvider([edge, expandCompany]);
+```
+
+![Expand feature]({{site.baseurl}}assets/modules/network/expand.png){: .d-block .mx-auto }
 
 ### Dynamic providers
 
@@ -354,7 +459,7 @@ const dynamicEdgeType = providerFactory.createDynamicEdgeType([doc, people], "on
   });
 
 // Create a dynamic edge provider to create the dynamic edges whose type we just defined
-const peopleProvider = providerFactory.createDynamicEdgeProvider(dynamicEdgeType, [], true, [recordProvider]);
+const peopleProvider = providerFactory.createDynamicEdgeProvider(dynamicEdgeType, [], true, "People", [recordProvider]);
 ```
 
 ![dynamic edge provider]({{site.baseurl}}assets/modules/network/dynamic-edges.png){: .d-block .mx-auto }
@@ -400,13 +505,13 @@ const person = providerFactory.makeNodeTypeDynamic(
 const structEdges = providerFactory.createStructuralEdgeTypes(person, [company, person], "oninsert", "paginate");
 
 // Create aggregation edges to link companies and people
-const aggEdge = providerFactory.createAggregationEdgeType([company, person], "Company_Person");
+const company_person = providerFactory.createAggregationEdgeType([company, person], "Company_Person");
 
 // Create the aggregation provider
-const aggProvider = providerFactory.createAggregationProvider(aggEdge);
+const aggProvider = providerFactory.createAggregationProvider([company_person]);
 
 // Create the dynamic node provider
-const personProvider = providerFactory.createDynamicNodeProvider(person, structEdges, false);
+const personProvider = providerFactory.createDynamicNodeProvider(person, structEdges, false, "People", [aggProvider]);
 ```
 
 ![dynamic nodes provider]({{site.baseurl}}assets/modules/network/dynamic-nodes.png){: .d-block .mx-auto }
