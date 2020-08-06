@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AppService, Query } from '@sinequa/core/app-utils';
+import { Query } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { AggregationItem, Record } from '@sinequa/core/web-services';
-import { SearchService } from '@sinequa/components/search';
-import { FacetService } from '@sinequa/components/facet';
 import { SelectionService } from '@sinequa/components/selection';
 import { NodeType, EdgeType, Node, Edge, NetworkProvider } from '../network-models';
 import { StructuralEdgeType, StructuralTriggerType, StructuralDisplayType, RecordsProvider, RecordNode, CustomData } from './records-provider';
@@ -20,9 +18,6 @@ import { DynamicEdgeProvider, DynamicEdgeType } from './dynamic-edge-provider';
 export class ProviderFactory {
 
     constructor(
-        protected appService: AppService,
-        protected searchService: SearchService,
-        protected facetService: FacetService,
         protected selectionService: SelectionService
     ){}
 
@@ -510,10 +505,10 @@ export class ProviderFactory {
      * @param edgeTypes List of StructuralEdgeType for each field of the records
      * @param records Static list of records
      * @param hideRecordNode (default: false) Hide the underlying record node
-     * @param name Name of this provider
+     * @param name (default: "Documents") Name for this provider
      */
     createRecordsProvider(nodeType: NodeType, edgeTypes: StructuralEdgeType[], records: Record[], hideRecordNode = false, name = "Documents"): RecordsProvider {
-        return new RecordsProvider(nodeType, edgeTypes, records, hideRecordNode, name);
+        return new RecordsProvider(name, nodeType, edgeTypes, records, hideRecordNode);
     }
 
     /**
@@ -523,10 +518,10 @@ export class ProviderFactory {
      * @param edgeTypes List of StructuralEdgeType for each field of the records
      * @param query A Query object to retrieve the records asynchronously
      * @param hideRecordNode (default: false) Hide the underlying record node
-     * @param name Name of this provider
+     * @param name (default: "Documents") Name for this provider
      */
     createAsyncRecordsProvider(nodeType: NodeType, edgeTypes: StructuralEdgeType[], query: Query, hideRecordNode = false, name = "Documents"): AsyncRecordsProvider {
-        return new AsyncRecordsProvider(nodeType, edgeTypes, query, this.searchService, hideRecordNode, name);
+        return new AsyncRecordsProvider(name, nodeType, edgeTypes, query, hideRecordNode);
     }
 
     /**
@@ -535,10 +530,10 @@ export class ProviderFactory {
      * @param nodeType NodeType of the records
      * @param structEdges List of StructuralEdgeType for each field of the records
      * @param hideRecordNode (default: false) Hide the underlying record node
-     * @param name Name of this provider
+     * @param name (default: "Selected documents") Name for this provider
      */
     createSelectedRecordsProvider(nodeType: NodeType, structEdges: StructuralEdgeType[], hideRecordNode = false, name = "Selected documents"): SelectedRecordsProvider {
-        return new SelectedRecordsProvider(nodeType, structEdges, this.selectionService, hideRecordNode, name);
+        return new SelectedRecordsProvider(name, nodeType, structEdges, this.selectionService, hideRecordNode);
     }
 
     /**
@@ -547,10 +542,10 @@ export class ProviderFactory {
      * @param edgeTypes The structural edge types of the mutated node
      * @param permanent Whether this provider should reset its dataset when mutating a new node (if true, a mutated node and its neighbors will never be removed, even if the source node disappears from the source dataset)
      * @param sourceProvider Another provider to monitor for source nodes to mutate (required if nodeType.trigger is oninsert)
-     * @param name Name of this provider
+     * @param name (default: "Dynamic nodes") Name for this provider
      */
     createDynamicNodeProvider(nodeType: DynamicNodeType, edgeTypes: StructuralEdgeType[], permanent = true, name = "Dynamic nodes", sourceProviders: NetworkProvider[]): DynamicNodeProvider {
-        return new DynamicNodeProvider(nodeType, edgeTypes, permanent, this.searchService, name, sourceProviders);
+        return new DynamicNodeProvider(name, nodeType, edgeTypes, permanent, sourceProviders);
     }
 
     /**
@@ -559,20 +554,20 @@ export class ProviderFactory {
      * @param secondaryEdgeTypes The structural edge types of the attached node
      * @param permanent Whether this provider should reset its dataset when retrieving new node (if true, a attached node and its neighbors will never be removed, even if the source node disappears from the source dataset)
      * @param sourceProvider Another provider to monitor for source nodes to mutate (required if nodeType.trigger is oninsert)
-     * @param name Name of this provider
+     * @param name (default: "Dynamic edges") Name for this provider
      */
     createDynamicEdgeProvider(edgeType: DynamicEdgeType, secondaryEdgeTypes: StructuralEdgeType[], permanent: boolean, name = "Dynamic edges", sourceProviders: NetworkProvider[]): DynamicEdgeProvider {
-        return new DynamicEdgeProvider(edgeType, secondaryEdgeTypes, permanent, this.searchService, name, sourceProviders)
+        return new DynamicEdgeProvider(name, edgeType, secondaryEdgeTypes, permanent, sourceProviders)
     }
 
     /**
      * Create an AggregationProvider given an AggregationEdgeType
      * @param edgeType An AggregationEdgeType
-     * @param name Name of this provider
+     * @param name (default: "Aggregations") Name for this provider
      * @param query Custom query context for fetching the aggregations (bypassing the use of searchService.query)
      */
     createAggregationProvider(edgeTypes: AggregationEdgeType[], name: string = "Aggregations", query?: Query): AggregationProvider {
-        return new AggregationProvider(edgeTypes, this.appService, this.searchService, name, query);
+        return new AggregationProvider(name, edgeTypes, query);
     }
 
 

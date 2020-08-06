@@ -1,16 +1,24 @@
 import { Aggregation, AggregationItem } from '@sinequa/core/web-services';
 import { Node, Edge, EdgeType, NetworkDataset, NetworkContext } from '../network-models';
 import { Action } from '@sinequa/components/action';
-import { AppService, Query, Expr } from '@sinequa/core/app-utils';
-import { SearchService } from '@sinequa/components/search';
+import { Query, Expr } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { BaseProvider } from './base-provider';
 
+/**
+ * Extension of the Edge interface, to store the aggregation and
+ * aggregation items from which the edge is constructed
+ */
 export interface AggregationEdge extends Edge {
     aggregationItem: AggregationItem;
     aggregation: Aggregation;
 }
 
+/**
+ * Convenience structure for managing custom metadata types (like
+ * cooccurrence entities). AggregationData is returned by the custom
+ * parse() function of an AggregationEdgeType.
+ */
 export interface AggregationData {
     values: string[]; // eg. LARRY PAGE, GOOGLE
     displays: string[]; // eg. Larry Page, Google
@@ -21,7 +29,12 @@ export interface AggregationData {
 
 /** Mode "source" means node are fetched and added systematically on getData() / other modes allow expanding an existing node*/
 export type AggregationTriggerType = "source" | "onclick" | "manual";
+// TODO: Add support for "oninsert" (which might required additional complexity)
 
+/**
+ * Extension of the EdgeType interface, specifying which aggregation is used
+ * to generate the Edges, and additional options.
+ */
 export interface AggregationEdgeType extends EdgeType {
     /** Name of the aggregation in the Web Service configuration */
     aggregation: string;
@@ -34,20 +47,26 @@ export interface AggregationEdgeType extends EdgeType {
     // TODO: add visibility modes ? (eg. existingNodes)
 }
 
+/**
+ * Tests whether an EdgeType is an AggregationEdgeType
+ * @param et an edge type
+ */
 export function isAggregationEdgeType(et: EdgeType): et is AggregationEdgeType {
     return !!(et as AggregationEdgeType).aggregation;
 }
 
-
+/**
+ * The Aggregation Provider generates nodes and edges from aggregations
+ * fetched from the server.
+ */
 export class AggregationProvider extends BaseProvider {
 
+    /** Stores how many aggregation items have been fetched from the server for a given aggregation */
     readonly skips: {[aggregation: string]: number} = {};
 
     constructor(
-        protected edgeTypes: AggregationEdgeType[],
-        protected appService: AppService,
-        protected searchService: SearchService,
         public name: string,
+        protected edgeTypes: AggregationEdgeType[],
         protected query?: Query
     ) {
         super(name);
@@ -57,10 +76,11 @@ export class AggregationProvider extends BaseProvider {
     /**
      * Fetches the list of aggregations and updates the dataset
      * @param types list of aggregation edge types
+     * @param sourceNode if provided, will compute the aggregation with a select to compute the aggregation for documents referencing that node
      */
     protected fetchAggregations(types: AggregationEdgeType[], sourceNode?: Node) {
         
-        const query = Utils.copy(this.query || this.searchService.query);
+        const query = Utils.copy(this.query || this.context.searchService.query);
         query.action = "aggregate";
         query.aggregations = {};
         types.forEach(type => query.aggregations[type.aggregation] = {
@@ -73,12 +93,12 @@ export class AggregationProvider extends BaseProvider {
         }
 
         Object.keys(query.aggregations).forEach(aggregation => {
-            if(!this.appService.getCCAggregation(aggregation)) {
+            if(!this.context.appService.getCCAggregation(aggregation)) {
                 throw new Error(`Aggregation '${aggregation}' does not exist in the Query web service configuration`);
             }
         });
 
-        this.searchService.getResults(query, undefined, {searchInactive: true}).subscribe(
+        this.context.searchService.getResults(query, undefined, {searchInactive: true}).subscribe(
             results => {
                 this.updateDataset(results.aggregations, types, sourceNode);
             }
@@ -88,8 +108,9 @@ export class AggregationProvider extends BaseProvider {
 
     /**
      * Fills the dataset with nodes and edges corresponding to
-     * the given aggregation data and emits this new dataset.
-     * @param aggregation 
+     * the given aggregations data, and emits this new dataset.
+     * @param aggregations the list of aggregations to process
+     * @param types the corresponding edge types for each aggregation
      */
     protected updateDataset(aggregations: Aggregation[], types: AggregationEdgeType[], sourceNode?: Node) {
 
@@ -108,7 +129,13 @@ export class AggregationProvider extends BaseProvider {
 
     /**
      * Create nodes and edges for the given aggregation item and adds them
-     * to the dataset.
+     * to the dataset. By default (if the edge does not have a parse() function
+     * and there is no sourceNode), the aggregation is assumed to be a cross-
+     * distribution, with items formatted as "Bill Gates/Microsoft".
+     * @param item the aggregation item to process
+     * @param aggregation the aggregation from which the item comes from
+     * @param type the type of the edge corresponding to that aggregation
+     * @param sourceNode if provided, will assume the distribution is 1-dimensional and attach each new node to that source node
      */
     addAggregationNodes(item: AggregationItem, aggregation: Aggregation, type: AggregationEdgeType, sourceNode?: Node) {
 
@@ -125,7 +152,7 @@ export class AggregationProvider extends BaseProvider {
             // Source distributions are at least two-dimensional
             if(!sourceNode) {
                 const displays = item.display.split("/");
-                const expr = this.appService.parseExpr(item.value.toString()) as Expr;
+                const expr = this.context.appService.parseExpr(item.value.toString()) as Expr;
                 const values = expr.operands.map(e => e.value!);
                 if(values.length < 2 || displays.length < 2 || type.nodeTypes.length < 2 || !values[0] || !values[1]) {
                     throw new Error(`Incorrect aggregation item (${item.value}, ${item.display}) or edge type (${type.nodeTypes.length})`);
@@ -183,6 +210,12 @@ export class AggregationProvider extends BaseProvider {
 
     }
 
+    /**
+     * Called when a node in the network is clicked.
+     * If one edge has an "onclick" trigger we potentially expand that
+     * clicked node.
+     * @param node the clicked node
+     */
     onNodeClicked(node?: Node) {
         if(this.active && node) {
             const types = this.edgeTypes.filter(type => type.trigger === "onclick" && type.nodeTypes[0] === node.type);
@@ -200,14 +233,19 @@ export class AggregationProvider extends BaseProvider {
         }
     }
 
+    /**
+     * Called to generate the list of actions specific to this provider.
+     * We display actions allowing to add additional data for "source" edges
+     * (either all the source edges at once, or each individually).
+     */
     getProviderActions(): Action[] {
         const actions = super.getProviderActions();
         const types = this.edgeTypes.filter(type => type.trigger === "source");
         if(types.length > 0) {
             actions.push(new Action({
                 icon: "fas fa-plus-circle fa-fw",
-                title: "Fetch more data for all aggregations",
-                text: "Fetch more data",
+                title: "msg#network.actions.fetchMoreAll",
+                text: "msg#network.actions.fetchMoreAllText",
                 action: () => {
                     this.fetchAggregations(types);
                 },
@@ -219,7 +257,7 @@ export class AggregationProvider extends BaseProvider {
             types.forEach(type => {
                 actions.push(new Action({
                     icon: "fas fa-plus-circle fa-fw",
-                    title: "Fetch more data for aggregation "+type.aggregation,
+                    title: this.context.intlService.formatMessage("msg#network.actions.fetchMoreAgg", {agg: type.aggregation}),
                     text: type.aggregation,
                     action: () => {
                         this.fetchAggregations([type]);
@@ -231,6 +269,12 @@ export class AggregationProvider extends BaseProvider {
         return actions;
     }
 
+    /**
+     * Called to generate the list of actions displayed for a specific node
+     * when it is clicked on.
+     * We display "expand" actions for the edges with a "manual" trigger.
+     * @param node The clicked node
+     */
     getNodeActions(node: Node): Action[] {
         const actions = super.getNodeActions(node);
         if(this.active) {
@@ -241,7 +285,7 @@ export class AggregationProvider extends BaseProvider {
             else if(types.length > 1) {
                 actions.push(new Action({
                     icon: "fas fa-plus-circle",
-                    title: "Expand node...",
+                    title: this.context.intlService.formatMessage("msg#network.actions.expandNode", {label: node.label}),
                     children: types.map(type => this.createExpandAction(type, node, true))
                 }));
             }
@@ -249,11 +293,19 @@ export class AggregationProvider extends BaseProvider {
         return actions;
     }
     
+    /**
+     * Convenience method to generate an expand action for a given node
+     * and given edge type.
+     * @param type The edge type for expanding the node
+     * @param node The node we wish to expand
+     * @param withtext Whether or not the action should have text (or just an icon)
+     */
     protected createExpandAction(type: AggregationEdgeType, node: Node, withtext?: boolean): Action {
+        const title = this.context.intlService.formatMessage("msg#network.actions.expandNodeWith", {agg: type.aggregation});
         return new Action({
             icon: "fas fa-plus-circle fa-fw",
-            title: "Expand node with "+type.aggregation,
-            text: withtext? "Expand node with "+type.aggregation : undefined,
+            title: title,
+            text: withtext? title : undefined,
             action: () => {
                 if(this.skips[type.aggregation+node.id] === undefined) {
                     // We need to skip the already connected nodes

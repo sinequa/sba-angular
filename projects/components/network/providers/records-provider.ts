@@ -4,15 +4,19 @@ import { Action } from '@sinequa/components/action';
 import { Node, NetworkDataset, NodeType, EdgeType, NetworkContext } from '../network-models';
 import { BaseProvider } from './base-provider';
 
-
+/**
+ * Extension of the Node interface, to include the Record object
+ * from which the node is generated
+ */
 export interface RecordNode extends Node {
     record: Record;
 }
 
 
-export type StructuralTriggerType = "oninsert" | "onclick" | "manual";
-export type StructuralDisplayType = "all" | "paginate" | "existingnodes" | ((node: Node, recordNode: RecordNode, index: number) => boolean);
-
+/**
+ * An extension of the EdgeType interface to include properties specific to
+ * structural edges (edge between a record and its metadata).
+ */
 export interface StructuralEdgeType extends EdgeType {
     /** Name of the field in the record */
     field: string;
@@ -26,6 +30,14 @@ export interface StructuralEdgeType extends EdgeType {
     parse?: (value: any, record: Record, type: StructuralEdgeType) => CustomData;
 }
 
+export type StructuralTriggerType = "oninsert" | "onclick" | "manual";
+export type StructuralDisplayType = "all" | "paginate" | "existingnodes" | ((node: Node, recordNode: RecordNode, index: number) => boolean);
+
+/**
+ * Data structure returned by the optional parse() function of a structural edge
+ * type. Contains the parsed values of a property that can be turned into one or
+ * multiple nodes and edges.
+ */
 export interface CustomData {
     values: string[]; // eg. LARRY PAGE, GOOGLE
     displays: string[]; // eg. Larry Page, Google
@@ -34,23 +46,38 @@ export interface CustomData {
     fieldValue?: string; // A value on which to filter the data
 }
 
+/**
+ * Tests whether the given edge type is a structural edge type
+ * @param et an edge type
+ */
 export function isStructuralEdgeType(et: EdgeType): et is StructuralEdgeType {
     return !!(et as StructuralEdgeType).field;
 }
 
 
+/**
+ * A network provider generating nodes from records.
+ * Additionally, the provider can generate the "structural edges" of that
+ * node. Structural edges are edges between a record and the fields of
+ * that record (eg. the wikipedia page of Microsoft is a record that probably
+ * contains the fields "Microsoft" and "Bill Gates").
+ */
 export class RecordsProvider extends BaseProvider {
 
     constructor(
+        public name = "Documents",
         protected nodeType: NodeType,
         protected edgeTypes: StructuralEdgeType[],
         protected records: Record[],
-        protected hideRecordNode = false,
-        public name = "Documents"
+        protected hideRecordNode = false
     ){
         super(name);
     }
 
+    /**
+     * Clears the dataset and generates new record nodes
+     * @param records the list of records of this provider
+     */
     protected updateDataset(records?: Record[]) {
         this.dataset.clear();
         if(!this.active || !records || records.length === 0) {
@@ -61,16 +88,22 @@ export class RecordsProvider extends BaseProvider {
     
     // Record nodes
 
+    /**
+     * Generates the nodes for a list of records, including their structural
+     * edges, and adds them to the dataset.
+     * Returns the list of record nodes.
+     * @param records 
+     */
     protected addRecordNodes(records: Record[]): RecordNode[] {
         return records.map(record => {
             let node = this.dataset.getNode(this.getNodeId(this.nodeType, record.id));
             if(!node) {
                 node = this.createNode(this.nodeType, record.id, record.title, !this.hideRecordNode, {record});
                 this.dataset.addNodes(node);
+                this.edgeTypes.forEach(type => {
+                    this.addStructuralEdges(node as RecordNode, type);
+                });
             }
-            this.edgeTypes.forEach(type => {
-                this.addStructuralEdges(node as RecordNode, type);
-            });
             return node as RecordNode;
         });
     }
@@ -78,6 +111,15 @@ export class RecordsProvider extends BaseProvider {
     
     // Structural edges
 
+    /**
+     * Generates the metadata nodes and structural edges from the given node,
+     * and merge them into the dataset.
+     * This function will automatically parse the metadata contained in the record,
+     * but it is possible to manage custom types of metadata by providing a
+     * custom parse() function via the structural edge type.
+     * @param node The record node
+     * @param type The edge type for which we want to create edges
+     */
     protected addStructuralEdges(node: RecordNode, type: StructuralEdgeType) {
 
         if(type.nodeTypes[0] !== this.nodeType){
@@ -127,8 +169,20 @@ export class RecordsProvider extends BaseProvider {
         }
     }
 
+    /**
+     * Add a structural edge to a record node and adds that edge
+     * (and corresponding metadata node) to the given dataset.
+     * @param dataset The target dataset
+     * @param recordNode The record node
+     * @param type The edge type of the structural edge
+     * @param value The "value" property of the metadata node
+     * @param display The "display" property of the metadata node
+     * @param index The index of the metadata within the record, which may influence its visibility when using display=paginate
+     */
     protected addStructuralEdge(dataset: NetworkDataset, recordNode: RecordNode, type: StructuralEdgeType, value: string, display: string, index: number) {
+        // Create the metadata node
         const node = this.createNode(type.nodeTypes[1], value, display, true);
+        // Sets its visibility
         node.visible = type.trigger === "oninsert" && this.isEdgeVisible(type, node, recordNode, index);
         if(recordNode.id !== node.id){ // Special case of hybrid nodes, where the recordNode might contain itself...!
             dataset.addNodes(node);
@@ -136,12 +190,21 @@ export class RecordsProvider extends BaseProvider {
         }
     }
 
+    /**
+     * Add a custom structural edge to a record node and merges that edge
+     * (and corresponding metadata node) into the global dataset.
+     * @param recordNode The record node
+     * @param type The edge type of the structural edge
+     * @param data A CustomData object containing the properties of the metadata nodes we want to created
+     */
     protected addCustomEdge(recordNode: RecordNode, type: StructuralEdgeType, data: CustomData) {
         if(type.nodeTypes.length !== data.values.length + 1) {
             throw new Error(`Wrong number of values for this custom edge ${type.nodeTypes.length}, ${data.values.length}`);
         }
+        // Create a dataset only for this data, to avoid duplicate conflicts
         const dataset = new NetworkDataset();
         dataset.addNodes(recordNode);
+        // For each value contained in "data", create a node, and edges in between them (in addition to the edges between the record and each metadata node)
         let lastNode: Node;
         for(let i=0; i<data.values.length; i++){
             const node = this.createNode(type.nodeTypes[i+1], data.values[i], data.displays[i], true);
@@ -159,6 +222,13 @@ export class RecordsProvider extends BaseProvider {
         this.dataset.merge(dataset);
     }
 
+    /**
+     * Returns the visibility of a structural edge, depending on the type.display property
+     * @param type The structural edge type
+     * @param node The metadata node of this edge
+     * @param recordNode The record node of this edge
+     * @param index The index of the metadata in the list of metadata of the record
+     */
     protected isEdgeVisible(type: StructuralEdgeType, node: Node, recordNode: RecordNode, index: number): boolean {
         if(type.display === "all") {
             return true;
@@ -185,6 +255,12 @@ export class RecordsProvider extends BaseProvider {
         this.provider.next(this.dataset);
     }
 
+    /**
+     * This function adjusts the visibility of nodes for the visibility
+     * type "existingnode", so that nodes with only one neighbor (post-merge)
+     * are collapsed.
+     * @param dataset The dataset resulting of the merge of all the datasets
+     */
     onDatasetsMerged(dataset: NetworkDataset) {
         // Once the datasets are merged, we can update the visibility of nodes that should be shown only if they have more than one neighbor
         dataset.getNodes()
@@ -206,6 +282,12 @@ export class RecordsProvider extends BaseProvider {
             });
     }
 
+    /**
+     * Adjust visibility of nodes and edges, for structural edges with
+     * type.trigger = onclick. These nodes will only be shown once their
+     * record node is clicked on.
+     * @param node A node that was clicked
+     */
     onNodeClicked(node?: Node) {
         if(this.active && node && node.type === this.nodeType) { // Note: we cannot test the provider property, since this node might have been merged with one from a different provider. However the node type should be a unique instance
             let update = false;
@@ -230,10 +312,17 @@ export class RecordsProvider extends BaseProvider {
     }
 
     getProviderActions(): Action[] {
-        // TODO: Actions to expand a node, etc.
         return super.getProviderActions();
     }
 
+    /**
+     * Creates actions for expanding and/or collapsing a record node that was clicked.
+     * expanding and collapsing will act on the visibility of the structural edges
+     * attached to this node.
+     * Both actions might be displayed at the same time, if the node is in an intermediate
+     * state.
+     * @param node 
+     */
     getNodeActions(node: Node): Action[] {
         const actions = super.getNodeActions(node);
         
@@ -249,7 +338,7 @@ export class RecordsProvider extends BaseProvider {
             if(hasCollapsedEdge) {
                 actions.push(new Action({
                     icon: "fas fa-expand-arrows-alt",
-                    title: "Expand metadata",
+                    title: "msg#network.actions.expandMeta",
                     action: () => {
                         let update = false;
                         this.dataset.getAdjacentEdges(node.id)
@@ -275,7 +364,7 @@ export class RecordsProvider extends BaseProvider {
             if(hasExpandedEdge) {
                 actions.push(new Action({
                     icon: "fas fa-compress-arrows-alt",
-                    title: "Collapse metadata",
+                    title: "msg#network.actions.collapseMeta",
                     action: () => {
                         let update = false;
                         this.dataset.getAdjacentEdges(node.id)

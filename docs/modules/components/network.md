@@ -1,12 +1,12 @@
 ---
 layout: default
-title: Network Module
+title: Network Module - BETA
 parent: Components
 grand_parent: Modules
 nav_order: 20
 ---
 
-# Network Module
+# Network Module - BETA
 
 ## Reference documentation
 
@@ -40,6 +40,15 @@ For some functionalities of the module, you will also need to import the followi
 ```scss
 // Vis.js styles
 @import "~vis-network/dist/vis-network.min.css";
+```
+
+This module is internationalized: If not already the case, you need to import its messages for the language(s) of your application. For example, in your app's `src/locales/en.ts`:
+
+```ts
+...
+import {enNetwork} from "@sinequa/components/network";
+
+const messages = Utils.merge({}, ..., enNetwork, appMessages);
 ```
 
 ## Quick start

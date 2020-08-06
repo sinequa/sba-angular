@@ -5,6 +5,7 @@ import { DataSet } from "vis-data/peer/esm/vis-data";
 import { SearchService } from '@sinequa/components/search';
 import { VisNetworkService } from 'ngx-vis';
 import { AppService } from '@sinequa/core/app-utils';
+import { IntlService } from '@sinequa/core/intl';
 
 // TYPES (configuration)
 
@@ -120,6 +121,7 @@ export interface NetworkContext {
     searchService: SearchService;
     networkService: VisNetworkService;
     appService: AppService;
+    intlService: IntlService;
 }
 
 

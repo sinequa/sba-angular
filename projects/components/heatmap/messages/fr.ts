@@ -12,7 +12,7 @@ export default {
         "diverging": "Divergent",
         "spectral": "Spectre",
         "cool": "Froid",
-        "defaults": "Valeurs par défauts",
+        "defaults": "Valeurs par défaut",
         "showing": "{shown, number} sur {total, number} éléments affichés",
         "tooltip": "{count, plural, one {# élément} other {# éléments}}"
     }

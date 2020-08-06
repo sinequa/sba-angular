@@ -14,8 +14,12 @@ import { Options, VisNetworkService } from 'ngx-vis';
 import { DataSet } from "vis-data/peer/esm/vis-data";
 
 import { Node, Edge, NetworkDataset, NetworkProvider, NetworkContext } from './network-models';
+import { IntlService } from '@sinequa/core/intl';
 
-
+/**
+ * Default options of the Vis.js network.
+ * See: https://visjs.github.io/vis-network/docs/network/
+ */
 export const defaultOptions: Options = {
     height: '500px',
     interaction: {
@@ -23,6 +27,9 @@ export const defaultOptions: Options = {
     }
 };
 
+/**
+ * Structure of the events emitted by the Vis.js network
+ */
 export interface VisEvent {
     nodes: string[];
     edges: string[];
@@ -73,6 +80,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         public networkService: VisNetworkService,
         public searchService: SearchService,
         public appService: AppService,
+        public intlService: IntlService,
         public formBuilder: FormBuilder,
         public prefs: UserPreferences
     ) {
@@ -91,7 +99,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         // Refresh the network
         this.refreshAction = new Action({
             icon: "fas fa-sync-alt",
-            title: "Refresh network",
+            title: "msg#network.actions.refresh",
             action: () => {
                 this.updateData();
                 this.updateActions();
@@ -114,7 +122,8 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
             edges: new DataSet<Edge>(),
             searchService: searchService,
             appService: appService,
-            networkService: networkService
+            networkService: networkService,
+            intlService: intlService
         };
     }
 
@@ -137,7 +146,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
     }
 
     /**
-     * Resets the node and edge, create a new listener for the providers and
+     * Resets the nodes and edges, create a new listener for the providers and
      * call getData() on these providers to refresh the data
      */
     protected updateData() {
@@ -217,13 +226,13 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         // Actions specific to each provider
         const providersActionList = new Action({
             icon: "fas fa-tasks",
-            title: "Network providers",
+            title: "msg#network.actions.providers",
             children: []
         });
         this.providers.forEach(p => {
             const providerActions = new Action({
-                text: p.name,
-                title: p.name
+                text: this.intlService.formatMessage(p.name),
+                title: this.intlService.formatMessage(p.name)
             });
             providerActions.children = p.getProviderActions();
             providersActionList.children.push(providerActions);
@@ -384,6 +393,9 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         this.prefs.sync();
         this.onOpenSettings(true);
     }
+
+    // Accessor method for each of the settings.
+    // Return either the saved user preference or the default value.
 
     get springLengthPref(): number {
         return this.prefs.get(this.name+'-spring-length') || 100;

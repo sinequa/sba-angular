@@ -1,23 +1,30 @@
 import { Query } from '@sinequa/core/app-utils';
 import { NodeType, NetworkContext } from '../network-models';
-import { SearchService } from '@sinequa/components/search';
 import { RecordsProvider, StructuralEdgeType } from './records-provider';
 
 
+/**
+ * An extension of RecordsProviders where the records are not provided
+ * directly, but instead fetched from the server via a given Query object.
+ */
 export class AsyncRecordsProvider extends RecordsProvider {
 
     constructor(
+        public name: string,
         protected nodeType: NodeType,
         protected edgeTypes: StructuralEdgeType[],
         protected query: Query,
-        protected searchService: SearchService,
-        protected hideRecordNode = false,
-        public name = "Documents"
+        protected hideRecordNode = false
     ){
-        super(nodeType, edgeTypes, [], hideRecordNode, name);
+        super(name, nodeType, edgeTypes, [], hideRecordNode);
     }
 
 
+    /**
+     * Sets a new query to asynchronous records providers.
+     * It will be used on the next call to getData()
+     * @param query The query object we want to use to fetch records
+     */
     public setQuery(query: Query) {
         this.query = query;
     }
@@ -31,7 +38,7 @@ export class AsyncRecordsProvider extends RecordsProvider {
     getData(context: NetworkContext) {
         this.context = context;
         // Query mode
-        this.searchService.getResults(this.query, undefined, {searchInactive: true})
+        this.context.searchService.getResults(this.query, undefined, {searchInactive: true})
             .subscribe(results => {
                 this.updateDataset(results.records);
                 this.provider.next(this.dataset);
