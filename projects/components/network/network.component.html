@@ -1,0 +1,36 @@
+<div *ngIf="context"
+    [visNetwork]="name" 
+    [visNetworkData]="context" 
+    [visNetworkOptions]="optionsPrefs"
+    (initialized)="networkInitialized()">
+</div>
+
+<ng-template #settingsTpl>
+    <div class="card-body">
+        <form [formGroup]="form">
+            <div class="form-group">
+
+                <h3>{{'msg#network.settings.physics' | sqMessage}}</h3>
+
+                <label for="springLength">{{'msg#network.settings.springLength' | sqMessage}} ({{springLengthPref}})</label>
+                <input type="range" class="form-control-range" id="springLength" min="30" max="200" formControlName="springLength">
+
+                <label for="springConstant">{{'msg#network.settings.springConstant' | sqMessage}} ({{springConstantPref}})</label>
+                <input type="range" class="form-control-range" id="springConstant" min="1" max="20" formControlName="springConstant">
+
+                <label for="damping">{{'msg#network.settings.damping' | sqMessage}} ({{dampingPref}})</label>
+                <input type="range" class="form-control-range" id="damping" min="10" max="100" formControlName="damping">
+                
+                <label for="repulsion">{{'msg#network.settings.repulsion' | sqMessage}} ({{repulsionPref}})</label>
+                <input type="range" class="form-control-range" id="repulsion" min="1000" max="10000" formControlName="repulsion">
+                
+                <label for="gravity">{{'msg#network.settings.gravity' | sqMessage}} ({{gravityPref}})</label>
+                <input type="range" class="form-control-range" id="gravity" min="1" max="20" formControlName="gravity">
+                
+                <hr>
+
+                <button class="btn btn-light" (click)="setDefaults()">{{'msg#network.settings.defaults' | sqMessage}}</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
