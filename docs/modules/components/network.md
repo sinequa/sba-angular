@@ -35,6 +35,13 @@ import { NetworkModule } from '@sinequa/components/network';
     NetworkModule
 ```
 
+For some functionalities of the module, you will also need to import the following stylesheet in your app’s global stylesheet:
+
+```scss
+// Vis.js styles
+@import "~vis-network/dist/vis-network.min.css";
+```
+
 ## Quick start
 
 If you are in a hurry, and just want to try out the network with a configuration that works regardless of the specifics of your project, try the following:

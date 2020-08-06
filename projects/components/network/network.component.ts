@@ -1,16 +1,19 @@
 import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Subscription, combineLatest } from 'rxjs';
+
 import { Results } from '@sinequa/core/web-services';
 import { AppService } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { UserPreferences } from '@sinequa/components/user-settings';
 import { AbstractFacet } from '@sinequa/components/facet';
-import { Options, VisNetworkService } from 'ngx-vis';
-import { DataSet } from "vis-data/peer/esm/vis-data";
-import { Node, Edge, NetworkDataset, NetworkProvider, NetworkContext } from './network-models';
 import { Action } from '@sinequa/components/action';
 import { SearchService } from '@sinequa/components/search';
+
+import { Options, VisNetworkService } from 'ngx-vis';
+import { DataSet } from "vis-data/peer/esm/vis-data";
+
+import { Node, Edge, NetworkDataset, NetworkProvider, NetworkContext } from './network-models';
 
 
 export const defaultOptions: Options = {
