@@ -415,7 +415,7 @@ The provider will query the server for this distribution, and adding a WHERE cla
 SELECT DISTRIBUTION('company') as companies FROM ... WHERE ... AND geo = 'Paris' ...
 ```
 
-Note that the `SKIP` and `COUNT` parameter of the distribution are automatically adjusted by the provider, so that expanding the node multiple times will yield mode data (until exhaustion).
+Note that the `SKIP` and `COUNT` parameter of the distribution are automatically adjusted by the provider, so that expanding the node multiple times will yield more data (until exhaustion).
 
 This computation is equivalent to a cross distribution of `geo` and `company` (where one half is fixed). Therefore combining "source" cross-distribution edges with "onclick" or "manual" will be consistent.
 

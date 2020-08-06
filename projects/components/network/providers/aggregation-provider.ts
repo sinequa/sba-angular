@@ -39,7 +39,7 @@ export interface AggregationEdgeType extends EdgeType {
     /** Name of the aggregation in the Web Service configuration */
     aggregation: string;
     /** If parse is provided, it is used to get the new nodes and edges. If not, the value is automatically converted into nodes, using nodeTypes[1] */
-    parse?: (item: AggregationItem, type: AggregationEdgeType) => AggregationData; // A cooccurrence aggregation might return 3 nodes and 2 edges
+    parse?: (item: AggregationItem, type: AggregationEdgeType) => AggregationData | undefined; // A cooccurrence aggregation might return 3 nodes and 2 edges
     /** A parameter to define when the aggregation is fetched and nodes are added */
     trigger: AggregationTriggerType;
     /** Default number of items to fetch */
@@ -139,7 +139,7 @@ export class AggregationProvider extends BaseProvider {
      */
     addAggregationNodes(item: AggregationItem, aggregation: Aggregation, type: AggregationEdgeType, sourceNode?: Node) {
 
-        let rawData: AggregationData;
+        let rawData: AggregationData | undefined;
 
         if(type.parse) {
             rawData = type.parse(item, type);
@@ -159,28 +159,30 @@ export class AggregationProvider extends BaseProvider {
                 }
                 rawData = {values, displays};
             }
-            else {
+            // We need to exclude trivial aggregation items pointing to themselves
+            else if(sourceNode.id !== this.getNodeId(type.nodeTypes[1], item.value.toString())) {
                 rawData = {
                     values: [this.getNodeValue(sourceNode), item.value.toString()],
                     displays: [sourceNode.label, item.display]
                 };
-            }
-            
+            }                        
         }
 
-        const data = new NetworkDataset();
-        let lastNode: Node;
-        for(let i=0; i<rawData.values.length; i++){
-            const node = this.createNode(type.nodeTypes[i], rawData.values[i], rawData.displays[i], true, {}, item.count);
-            data.addNodes(node);
-            if(i > 0){
-                const relation = rawData.relations? rawData.relations[i-1] : undefined;
-                const directed = rawData.directed? rawData.directed[i-1] : false;
-                data.addEdges(this.createEdge(type, lastNode!, node, rawData.fieldValue, true, {aggregation, aggregationItem: item}, item.count, directed, relation));
+        if(rawData) {
+            const data = new NetworkDataset();
+            let lastNode: Node;
+            for(let i=0; i<rawData.values.length; i++){
+                const node = this.createNode(type.nodeTypes[i], rawData.values[i], rawData.displays[i], true, {}, item.count);
+                data.addNodes(node);
+                if(i > 0){
+                    const relation = rawData.relations? rawData.relations[i-1] : undefined;
+                    const directed = rawData.directed? rawData.directed[i-1] : false;
+                    data.addEdges(this.createEdge(type, lastNode!, node, rawData.fieldValue, true, {aggregation, aggregationItem: item}, item.count, directed, relation));
+                }
+                lastNode = node;
             }
-            lastNode = node;
+            this.dataset.merge(data);
         }
-        this.dataset.merge(data);
     }
 
 
