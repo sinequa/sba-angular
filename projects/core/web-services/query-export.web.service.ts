@@ -61,13 +61,16 @@ export class QueryExportWebService extends HttpService {
      * @param query The query to export.
      * @param format The export format.
      * @param maxCount (Optional) The maximum number of exported rows.
+     * @param exportedColumns (Optional) The columns to export, empty means all columns.
      */
     public exportResult(
         webService: string,
         query: IQuery,
         results: Results | undefined,
         format: ExportOutputFormat,
-        maxCount?: number): Observable<HttpResponse<Blob>> {
+        maxCount?: number,
+        exportedColumns?: string[]
+    ): Observable<HttpResponse<Blob>> {
 
         const methodName = 'exportResult';
         const preliminaryCheckResult = this.preliminaryCheck(methodName, webService, format);
@@ -88,6 +91,7 @@ export class QueryExportWebService extends HttpService {
             type: ExportSourceType[ExportSourceType.Result],
             format: ExportOutputFormat[format],
             maxCount: maxCount ? maxCount.toString() : undefined,
+            exportedColumns: exportedColumns,
             auditEvents: {
                 type: AuditEventType.Search_ExportCSV,
                 detail: {
@@ -107,6 +111,7 @@ export class QueryExportWebService extends HttpService {
      * @param selection
      * @param format The export format.
      * @param maxCount (Optional) The maximum number of exported rows.
+     * @param exportedColumns (Optional) The columns to export, empty means all columns.
      */
     public exportSelection(
         webService: string,
@@ -114,7 +119,9 @@ export class QueryExportWebService extends HttpService {
         results: Results | undefined,
         selection: string[],
         format: ExportOutputFormat,
-        maxCount?: number): Observable<HttpResponse<Blob>> {
+        maxCount?: number,
+        exportedColumns?: string[]
+    ): Observable<HttpResponse<Blob>> {
 
         const methodName = 'exportSelection';
         const preliminaryCheckResult = this.preliminaryCheck(methodName, webService, format);
@@ -142,6 +149,7 @@ export class QueryExportWebService extends HttpService {
             type: ExportSourceType[ExportSourceType.Selection],
             format: ExportOutputFormat[format],
             maxCount: maxCount ? maxCount.toString() : undefined,
+            exportedColumns: exportedColumns,
             auditEvents: {
                 type: AuditEventType.Search_Selection_ExportCSV,
                 detail: {
@@ -160,12 +168,15 @@ export class QueryExportWebService extends HttpService {
      * @param queryName The query name.
      * @param format The export format.
      * @param maxCount (Optional) The maximum number of exported rows.
+     * @param exportedColumns (Optional) The columns to export, empty means all columns.
      */
     public exportSavedQuery(
         webService: string,
         queryName: string,
         format: ExportOutputFormat,
-        maxCount?: number): Observable<HttpResponse<Blob>> {
+        maxCount?: number,
+        exportedColumns?: string[]
+    ): Observable<HttpResponse<Blob>> {
 
         const methodName = 'exportSavedQuery';
         const preliminaryCheckResult = this.preliminaryCheck(methodName, webService, format);
@@ -186,6 +197,7 @@ export class QueryExportWebService extends HttpService {
             format: ExportOutputFormat[format],
             name: queryName,
             maxCount: maxCount ? maxCount.toString() : undefined,
+            exportedColumns: exportedColumns,
             auditEvents: {
                 type: AuditEventType.Search_SavedQuery_ExportCSV,
                 detail: {
