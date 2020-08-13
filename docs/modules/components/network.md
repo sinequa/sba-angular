@@ -145,7 +145,7 @@ The [`NodeType`]({{site.baseurl}}components/interfaces/NodeType.html) interface 
 
 - `name: string`: An identifier for this node type
 - `nodeOptions`: Node options define the appearance of a node. The full list of available node options is available in the [Vis.js documentation](https://visjs.github.io/vis-network/docs/network/nodes.html). `nodeOptions` can be a static object (all the nodes with this type will look the same) or a function returning an object (which allows to customize the appearance for each node).
-- `field?: string`: An option field name for this node type. If provider, the node will have the ability to filter the search (for example clicking on the node "Paris", will let the user filter the search with a selection of the form `geo:=Paris`).
+- `field?: string`: An optional field name for this node type. If provided, the node will have the ability to filter the search (for example clicking on the node "Paris", will let the user filter the search with a selection of the form `geo:=Paris`).
 
 **Examples:**
 
@@ -190,7 +190,7 @@ The [`EdgeType`]({{site.baseurl}}components/interfaces/EdgeType.html) interface 
 
 - `nodeTypes: NodeType[]`: The node types for each side of the edge. Normally two node types must be provided (except in some special cases).
 - `edgeOptions`: Edge options define the appearance of an edge. The full list of available edge options is available in the [Vis.js documentation](https://visjs.github.io/vis-network/docs/network/edges.html). `edgeOptions` can be a static object (all the edges with this type will look the same) or a function returning an object (which allows to customize the appearance for each edge).
-- `field?: string`: An option field name for this edge type. If provider, the edge will have the ability to filter the search (the provider generating this edge must include the `fieldValue` for the edge). Alternatively, an edge can let the user filter both its adjacent nodes (if both of them have a field).
+- `field?: string`: An optional field name for this edge type. If provided, the edge will have the ability to filter the search (the provider generating this edge must include the `fieldValue` for the edge). Alternatively, an edge can let the user filter both its adjacent nodes (if both of them have a field).
 
 ## Provider Factory
 

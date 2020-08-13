@@ -1,9 +1,21 @@
-<div *ngIf="context"
-    [visNetwork]="name" 
-    [visNetworkData]="context" 
-    [visNetworkOptions]="optionsPrefs"
-    (initialized)="networkInitialized()">
+<div class="position-relative">
+
+    <div *ngIf="context"
+        [visNetwork]="name" 
+        [visNetworkData]="context" 
+        [visNetworkOptions]="optionsPrefs"
+        (initialized)="networkInitialized()">
+    </div>
+
+    <ng-container *ngIf="nodeTpl && _selectedNode">
+        <ng-container *ngTemplateOutlet="nodeTpl; context:{$implicit: _selectedNode}"></ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="edgeTpl && _selectedEdge">
+        <ng-container *ngTemplateOutlet="edgeTpl; context:{$implicit: _selectedEdge}"></ng-container>
+    </ng-container>
 </div>
+
 
 <ng-template #settingsTpl>
     <div class="card-body">

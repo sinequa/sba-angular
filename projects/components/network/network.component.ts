@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, ContentChild, TemplateRef } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Subscription, combineLatest } from 'rxjs';
 
@@ -71,6 +71,10 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
     _actions: Action[] = [];
     refreshAction: Action;
     clearFilters: Action;
+
+    // Info cards
+    @ContentChild("nodeTpl", {static: false}) nodeTpl: TemplateRef<any>;
+    @ContentChild("edgeTpl", {static: false}) edgeTpl: TemplateRef<any>;
     
     readonly context: NetworkContext;
 
@@ -123,7 +127,8 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
             searchService: searchService,
             appService: appService,
             networkService: networkService,
-            intlService: intlService
+            intlService: intlService,
+            select: (node?: Node, edge?: Edge) => this.select(node, edge),
         };
     }
 
@@ -132,6 +137,10 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         if(changes['results'] || changes['providers']) {
             // Update the context
             this.context.name = this.name;
+
+            // Update selections
+            this.selectEdge();
+            this.selectNode();
 
             // Update options from the preferences
             this.updateOptions();
@@ -275,35 +284,43 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
             if(event.event.type === "tap") {
 
                 if(event.edges.length === 1 && event.nodes.length === 0) {
-                    this._selectedEdge = this.context.edges.get(event.edges[0]) as Edge;
-                    this.edgeClicked.next(this._selectedEdge);
-                    this._selectedNode = undefined;
-                    this.nodeClicked.next();
+                    this.selectEdge(this.context.edges.get(event.edges[0]) as Edge);
+                    this.selectNode();
                 }
                 else {
-                    this._selectedEdge = undefined;
-                    this.edgeClicked.next();
+                    this.selectEdge();
                     if(event.nodes.length === 1) {
-                        this._selectedNode = this.context.nodes.get(event.nodes[0]) as Node;
-                        this.nodeClicked.next(this._selectedNode);
+                        this.selectNode(this.context.nodes.get(event.nodes[0]) as Node);
                     }
                     else {
-                        this._selectedNode = undefined;
-                        this.nodeClicked.next();
+                        this.selectNode();
                     }
                 }
 
             }
             else {
-                this.nodeClicked.next();
-                this.edgeClicked.next();
-                this._selectedEdge = undefined;
-                this._selectedNode = undefined;
+                this.selectNode();
+                this.selectEdge();
             }
-            
-            
+                        
             this.updateActions();
         }
+    }
+
+    select(node?: Node, edge?: Edge) {
+        this.selectNode(node);
+        this.selectEdge(edge);
+        this.updateActions();
+    }
+
+    selectNode(node?: Node) {
+        this._selectedNode = node;
+        this.nodeClicked.next(node);
+    }
+
+    selectEdge(edge?: Edge) {
+        this._selectedEdge = edge;
+        this.edgeClicked.next();
     }
 
     ngOnDestroy() {
