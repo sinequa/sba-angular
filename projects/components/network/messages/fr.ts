@@ -27,6 +27,15 @@ export default {
             enrichNode: "Enrichir le noeud {label}",
             expandMeta: "Afficher les métadonnées",
             collapseMeta: "Cacher les métadonnées",
+        },
+        infocards: {
+            count: "Compteur",
+            aggregation: "Aggrégation",
+            record: "Entrée",
+            expand: "Etrendre",
+            collapse: "Réduire",
+            close: "Fermer",
+            focus: "Centrer la vue"
         }
     }
 };

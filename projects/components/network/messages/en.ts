@@ -27,6 +27,15 @@ export default {
             enrichNode: "Enrich node {label}",
             expandMeta: "Expand metadata",
             collapseMeta: "Collapse metadata",
+        },
+        infocards: {
+            count: "Count",
+            aggregation: "Aggregation",
+            record: "Record",
+            expand: "Expand",
+            collapse: "Collapse",
+            close: "Close",
+            focus: "Focus node"
         }
     }
 };
