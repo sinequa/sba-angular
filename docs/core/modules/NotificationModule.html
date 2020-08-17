@@ -63,29 +63,41 @@
 <text text-anchor="start" x="429.7258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_NotificationModule</title>
-<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="142,-70 142,-195 354,-195 354,-70 142,-70"/>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="29,-70 29,-195 467,-195 467,-70 29,-70"/>
 </g>
 <g id="clust6" class="cluster">
 <title>cluster_NotificationModule_providers</title>
-<polygon fill="none" stroke="#000000" points="150,-78 150,-130 346,-130 346,-78 150,-78"/>
+<polygon fill="none" stroke="#000000" points="37,-78 37,-130 459,-130 459,-78 37,-78"/>
 </g>
-<!-- NotificationsService -->
+<!-- NotificationsInterceptor -->
 <g id="node1" class="node">
-<title>NotificationsService</title>
-<ellipse fill="#fdb462" stroke="#000000" cx="248" cy="-104" rx="90.3217" ry="18"/>
-<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">NotificationsService</text>
+<title>NotificationsInterceptor</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="347" cy="-104" rx="103.6257" ry="18"/>
+<text text-anchor="middle" x="347" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">NotificationsInterceptor</text>
 </g>
 <!-- NotificationModule -->
-<g id="node2" class="node">
+<g id="node3" class="node">
 <title>NotificationModule</title>
-<polygon fill="#8dd3c7" stroke="#000000" points="311.6994,-187 308.6994,-191 287.6994,-191 284.6994,-187 184.3006,-187 184.3006,-151 311.6994,-151 311.6994,-187"/>
-<text text-anchor="middle" x="248" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">NotificationModule</text>
+<polygon fill="#8dd3c7" stroke="#000000" points="304.6994,-187 301.6994,-191 280.6994,-191 277.6994,-187 177.3006,-187 177.3006,-151 304.6994,-151 304.6994,-187"/>
+<text text-anchor="middle" x="241" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">NotificationModule</text>
+</g>
+<!-- NotificationsInterceptor&#45;&gt;NotificationModule -->
+<g id="edge1" class="edge">
+<title>NotificationsInterceptor&#45;&gt;NotificationModule</title>
+<path fill="none" stroke="#000000" d="M273.8934,-116.8419C273.8934,-116.8419 273.8934,-140.5231 273.8934,-140.5231"/>
+<polygon fill="#000000" stroke="#000000" points="270.3935,-140.523 273.8934,-150.5231 277.3935,-140.5231 270.3935,-140.523"/>
+</g>
+<!-- NotificationsService -->
+<g id="node2" class="node">
+<title>NotificationsService</title>
+<ellipse fill="#fdb462" stroke="#000000" cx="135" cy="-104" rx="90.3217" ry="18"/>
+<text text-anchor="middle" x="135" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">NotificationsService</text>
 </g>
 <!-- NotificationsService&#45;&gt;NotificationModule -->
-<g id="edge1" class="edge">
+<g id="edge2" class="edge">
 <title>NotificationsService&#45;&gt;NotificationModule</title>
-<path fill="none" stroke="#000000" d="M248,-122.1061C248,-122.1061 248,-140.991 248,-140.991"/>
-<polygon fill="#000000" stroke="#000000" points="244.5001,-140.9909 248,-150.991 251.5001,-140.991 244.5001,-140.9909"/>
+<path fill="none" stroke="#000000" d="M201.4056,-116.226C201.4056,-116.226 201.4056,-140.683 201.4056,-140.683"/>
+<polygon fill="#000000" stroke="#000000" points="197.9057,-140.683 201.4056,-150.683 204.9057,-140.683 197.9057,-140.683"/>
 </g>
 </g>
 </svg>
@@ -127,6 +139,7 @@
         <p class="comment">
             <p>This module provides a service for managing notifications. It is used by the
 Sinequa runtime and can also be used for application-specific purposes.</p>
+<p>The <a href="../interceptors/NotificationsInterceptor.html">NotificationsInterceptor</a> in this module should be registered using <code>HTTP_INTERCEPTORS</code> in your app module.</p>
 
         </p>
 
@@ -137,6 +150,9 @@ Sinequa runtime and can also be used for application-specific purposes.</p>
                     <h3>Providers<a href="https://angular.io/api/core/NgModule#providers" target="_blank"
                             title="Official documentation about module providers"><span class="icon ion-ios-information-circle-outline"></a></h3>
                     <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="../interceptors/NotificationsInterceptor.html">NotificationsInterceptor</a>
+                        </li>
                         <li class="list-group-item">
                             <a href="../injectables/NotificationsService.html">NotificationsService</a>
                         </li>
@@ -157,6 +173,8 @@ import {NOTIFICATION_MODULE_PROVIDERS} from &quot;./module.providers&quot;;
 /**
  * This module provides a service for managing notifications. It is used by the
  * Sinequa runtime and can also be used for application-specific purposes.
+ *
+ * The {@link NotificationsInterceptor} in this module should be registered using &#x60;HTTP_INTERCEPTORS&#x60; in your app module.
  */
 @NgModule({
     imports: [

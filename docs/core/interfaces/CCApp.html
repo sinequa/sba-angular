@@ -101,6 +101,9 @@
                                         <a href="#data">data</a>
                                 </li>
                                 <li>
+                                        <a href="#defaultQueryName">defaultQueryName</a>
+                                </li>
+                                <li>
                                         <a href="#indexes">indexes</a>
                                 </li>
                                 <li>
@@ -251,6 +254,41 @@ This field is used to compare with <a href="../miscellaneous/variables.html#MINI
                             <tr>
                                 <td class="col-md-4">
                                     <div class="io-description"><p>Custom JSON configuration (see App Customization tab in Sinequa admin)</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="defaultQueryName"></a>
+                                        <span class="name"><b>defaultQueryName</b><a href="#defaultQueryName"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>defaultQueryName:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The name of the default query</p>
 </div>
                                 </td>
                             </tr>
@@ -1451,6 +1489,10 @@ export interface CCApp extends CCConfig {
      * The workspace associated with this app
      */
     workspaceApp: string;
+    /**
+     * The name of the default query
+     */
+    defaultQueryName: string;
 }
 
 /**

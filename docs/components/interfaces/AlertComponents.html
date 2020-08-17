@@ -72,7 +72,7 @@
 The module using this service must provide these components
 in their forRoot() method</p>
 <p>Example below:</p>
-<p>  public static forRoot(): ModuleWithProviders {
+<p>  public static forRoot(): ModuleWithProviders<AlertsModule> {
       return {
           ngModule: AlertsModule,
           providers: [
@@ -273,7 +273,7 @@ export interface ManageAlertsModel {
  *
  * Example below:
  *
- *  public static forRoot(): ModuleWithProviders {
+ *  public static forRoot(): ModuleWithProviders&lt;AlertsModule&gt; {
         return {
             ngModule: AlertsModule,
             providers: [

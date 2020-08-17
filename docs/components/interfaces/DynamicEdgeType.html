@@ -1,0 +1,505 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>DynamicEdgeType</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>network/providers/dynamic-edge-provider.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Extension of the EdgeType interface, to include properties specific
+to dynamic edges, in particular a function that returns a Query object
+for a given source node.</p>
+
+            </p>
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../interfaces/EdgeType.html" target="_self" >EdgeType</a></code>
+            </p>
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#count">count</a>
+                                </li>
+                                <li>
+                                        <a href="#getQuery">getQuery</a>
+                                </li>
+                                <li>
+                                        <a href="#trigger">trigger</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="count"></a>
+                                        <span class="name"><b>count</b><a href="#count"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>count:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>count limits the number of records returned by the query service and allows for pagination </p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="getQuery"></a>
+                                        <span class="name"><b>getQuery</b><a href="#getQuery"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>getQuery:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Returns a query object to execute to obtain dynamic edges from a node </p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="trigger"></a>
+                                        <span class="name"><b>trigger</b><a href="#trigger"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>trigger:     <code>&quot;oninsert&quot; | &quot;onclick&quot; | &quot;manual&quot;</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>&quot;oninsert&quot; | &quot;onclick&quot; | &quot;manual&quot;</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Defines when the dynamic edge should be executed. Warning: oninsert may generate multiple simultaneous queries </p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Query } from &#x27;@sinequa/core/app-utils&#x27;;
+import { Results, Record } from &#x27;@sinequa/core/web-services&#x27;;
+import { EdgeType, Node, Edge, NetworkProvider, NetworkDataset } from &#x27;../network-models&#x27;;
+import { RecordsProvider, StructuralEdgeType, RecordNode } from &#x27;./records-provider&#x27;;
+import { combineLatest } from &#x27;rxjs&#x27;;
+import { Action } from &#x27;@sinequa/components/action&#x27;;
+
+/**
+ * Extension of the Edge interface, to include the record property
+ * from which this edge is generated
+ */
+export interface DynamicEdge extends Edge {
+    record: Record;
+}
+
+/**
+ * Extension of the EdgeType interface, to include properties specific
+ * to dynamic edges, in particular a function that returns a Query object
+ * for a given source node.
+ */
+export interface DynamicEdgeType extends EdgeType {
+    /** Returns a query object to execute to obtain dynamic edges from a node */
+    getQuery: (node: Node, type: DynamicEdgeType) &#x3D;&gt; Query | undefined;
+    /** count limits the number of records returned by the query service and allows for pagination */
+    count?: number;
+    /** Defines when the dynamic edge should be executed. Warning: oninsert may generate multiple simultaneous queries */
+    trigger: &quot;oninsert&quot; | &quot;onclick&quot; | &quot;manual&quot;;
+}
+
+/**
+ * Tests whether a given edge type is a DynamicEdgeType
+ * @param et an edge type
+ */
+export function isDynamicEdgeType(et: EdgeType): et is DynamicEdgeType {
+    return !!(et as DynamicEdgeType).getQuery;
+}
+
+
+/**
+ * A extension of the RecordsProvider, where records are not directly
+ * provided, but are instead fetched from the server via a Query specific
+ * to a source node.
+ * Concretely, the dynamic edge provider will attach one (or more) record nodes
+ * (and their structural edges) to one (or more) source nodes, whose type is
+ * specified in the DynamicEdgeType.
+ * Dynamic edges can be attached right when the source nodes are inserted (oninsert),
+ * or when a user clicks on a source node (onclick) or when a user clicks on an
+ * action button displayed when a source node is clicked.
+ * Note that the &quot;source node&quot; have to come from different providers, so it is
+ * necessary to listen to these providers and update the data generated by this
+ * provider accordingly.
+ */
+export class DynamicEdgeProvider extends RecordsProvider {
+
+    /** List of the source nodes that have been already processed via clicks or actions */
+    protected processedNodes: string[] &#x3D; [];
+    /** to avoid fetching the same data multiple times, we store the record objects fetched from the server in this cache */
+    protected nodeCache &#x3D; new Map&lt;string, Results&gt;();
+
+    constructor(
+        public name: string,
+        protected edgeType: DynamicEdgeType,
+        protected secondaryEdgeTypes: StructuralEdgeType[],
+        protected permanent: boolean,
+        protected sourceProviders: NetworkProvider[]
+    ){
+        super(name, edgeType.nodeTypes[1], secondaryEdgeTypes, [], false);
+
+        combineLatest(sourceProviders.map(p &#x3D;&gt; p.getProvider())).subscribe(dataset &#x3D;&gt; {
+            if(this.active) {
+                // Merge the nodes from all datasets into a map
+                const map &#x3D; new Map&lt;string, Node&gt;();
+                dataset.forEach(dataset &#x3D;&gt; {
+                    dataset.getNodes().forEach(node &#x3D;&gt; {
+                        if(node.visible &amp;&amp; node.type &#x3D;&#x3D;&#x3D; this.edgeType.nodeTypes[0]) {
+                            map.set(node.id, node);
+                        }
+                    });
+                });
+                // Update the dataset of dynamic edges
+                this.updateDynamicDataset(Array.from(map.values()));
+            }
+        });
+    }
+    
+    /**
+     * Rebuilds the dataset of this provider, given a list of source nodes to process.
+     * @param sourceNodes A list of source node to process
+     */
+    protected updateDynamicDataset(sourceNodes: Node[]) {
+
+        // We rebuild the dataset from scratch, in case some source nodes were removed
+        this.dataset &#x3D; new NetworkDataset();
+
+        // If oninsert, we want to process all the source nodes. If not, we want to process the nodes in the processedNodes list
+        if(this.edgeType.trigger !&#x3D;&#x3D; &quot;oninsert&quot;) {
+            this.processedNodes &#x3D; this.processedNodes.filter(id &#x3D;&gt; !!sourceNodes.find(node &#x3D;&gt; node.id &#x3D;&#x3D;&#x3D; id)); // We want to &quot;forget&quot; the nodes that are not in the source anymore
+            sourceNodes &#x3D; sourceNodes.filter(node &#x3D;&gt; this.processedNodes.indexOf(node.id) !&#x3D;&#x3D; -1); // We want to process only the nodes currently in the processed list
+        }
+
+        // For each source, we get its query
+        const queries &#x3D; sourceNodes.map(node &#x3D;&gt; this.nodeCache.has(node.id)? undefined : this.edgeType.getQuery(node, this.edgeType));
+        const _queries &#x3D; queries.filter(q &#x3D;&gt; !!q) as Query[];
+        // If there are queries, we process them asynchronously
+        if(_queries.length &gt; 0) {
+            this.context.searchService.getMultipleResults(_queries, undefined).subscribe(res &#x3D;&gt; {
+                this.addDynamicEdges(sourceNodes, res.results, queries);
+            });
+        }
+        // If not, we process them synchronously
+        else {
+            this.addDynamicEdges(sourceNodes, [], queries);
+        }
+    
+    }
+
+    /**
+     * Add dynamic edges to a list of source nodes, given a results set
+     * for each of these nodes (either directly provided or stored in the cache).
+     * @param sourceNodes The source nodes
+     * @param res The list of results sets
+     * @param queries The list of queries from which we obtained the results
+     */
+    protected addDynamicEdges(sourceNodes: Node[], res: Results[], queries: (Query|undefined)[]){
+        let j &#x3D; 0;
+        // For each source node
+        for(let i &#x3D; 0; i&lt;sourceNodes.length; i++){
+            const sourceNode &#x3D; sourceNodes[i];
+            const query &#x3D; queries[i];
+            // If it has a query or a cached result
+            if(query || this.nodeCache.has(sourceNode.id)) {
+                const results &#x3D; this.nodeCache.has(sourceNode.id)? this.nodeCache[sourceNode.id] : res[j++]; // Get the results
+                this.nodeCache[sourceNode.id] &#x3D; results; // update cache
+                this.dataset.addNodes(sourceNode); // This will create a duplicate node which will be merged
+                const recordNodes &#x3D; this.addRecordNodes(results.records); // Creates all the record nodes and their secondary edges
+                const recordEdges &#x3D; this.createDynamicEdges(sourceNode, recordNodes);
+                this.dataset.addEdges(recordEdges);
+            }
+        }
+        this.provider.next(this.dataset);
+    }
+
+    /**
+     * Creates and returns edge objects for a given source node and the record nodes
+     * that must be attached to it.
+     * @param node The source node
+     * @param recordNodes The new record nodes that must be attached to the source node
+     */
+    protected createDynamicEdges(node: Node, recordNodes: RecordNode[]): DynamicEdge[] {
+        return recordNodes.map(rNode &#x3D;&gt; this.createEdge(this.edgeType, node, rNode, undefined, node.visible, {record: rNode.record}) as DynamicEdge);
+    }
+
+    /**
+     * Attach dynamic edges to a given node, either synchronously, if the results set
+     * is available in the cache, or asynchronously, by fetching the data from the server.
+     * @param node The node to process
+     */
+    protected processNode(node: Node) {
+        const query &#x3D; this.edgeType.getQuery(node, this.edgeType); // Get the search query for this node
+        if(query){
+            if(this.nodeCache.has(node.id)) {
+                if(!this.permanent) {
+                    this.dataset.clear(); // Remove data from previously clicked node
+                    this.processedNodes.splice(0); // Remove the processed nodes
+                }
+                this.processedNodes.push(node.id);
+                this.addDynamicEdges([node], [], [query]); // Insert dynamic nodes and edges for this clicked node
+            }
+            else {
+                this.context.searchService.getResults(query, undefined, {searchInactive: true})
+                    .subscribe(results &#x3D;&gt; {
+                        if(!this.permanent) {
+                            this.dataset.clear(); // Remove data from previously clicked node
+                            this.processedNodes.splice(0); // Remove the processed nodes
+                        }
+                        this.processedNodes.push(node.id);
+                        this.addDynamicEdges([node], [results], [query]); // Insert dynamic nodes and edges for this clicked node
+                    });
+            }
+        }
+    }
+
+
+    // Network provider interface
+
+    /**
+     * Process a clicked source node, if the trigger of the edge type is &quot;onclick&quot;
+     * @param node The clicked node
+     */
+    onNodeClicked(node?: Node) {
+        if(this.active &amp;&amp; this.edgeType.trigger &#x3D;&#x3D;&#x3D; &quot;onclick&quot; &amp;&amp; node &amp;&amp; node.type &#x3D;&#x3D;&#x3D; this.edgeType.nodeTypes[0] &amp;&amp; !this.dataset.hasNode(node.id)) {
+            this.processNode(node);
+        }
+    }
+    
+    /**
+     * Returns an Action allowing to process a node, if the trigger of the edge type
+     * is &quot;manual&quot;.
+     * @param node The clicked node
+     */
+    getNodeActions(node: Node): Action[] {
+        const actions &#x3D; super.getNodeActions(node);
+        if(this.active &amp;&amp; this.edgeType.trigger &#x3D;&#x3D;&#x3D; &quot;manual&quot; &amp;&amp; node &amp;&amp; node.type &#x3D;&#x3D;&#x3D; this.edgeType.nodeTypes[0] &amp;&amp; !this.dataset.hasNode(node.id)) {            
+            actions.push(new Action({
+                icon: &quot;fas fa-expand-arrows-alt&quot;,
+                title: this.context.intlService.formatMessage(&quot;msg#network.actions.expandNode&quot;, {label: node.label}),
+                action: () &#x3D;&gt; {
+                    this.processNode(node);
+                }
+            }));            
+        }
+        return actions;
+    }
+}
+</code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'DynamicEdgeType.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

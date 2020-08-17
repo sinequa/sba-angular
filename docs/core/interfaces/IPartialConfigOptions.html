@@ -75,7 +75,6 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {NgModule, Injectable, Inject, ModuleWithProviders, Type} from &quot;@angular/core&quot;;
 import {CommonModule} from &quot;@angular/common&quot;;
-import {HTTP_INTERCEPTORS} from &quot;@angular/common/http&quot;;
 import {FormsModule, ReactiveFormsModule} from &quot;@angular/forms&quot;;
 
 import {Ng2UiAuthModule, /*IPartialConfigOptions,*/ CONFIG_OPTIONS, IProviders, StorageType, OauthService, PopupService} from &quot;ng2-ui-auth&quot;;
@@ -83,7 +82,6 @@ import {A11yModule} from &quot;@angular/cdk/a11y&quot;;
 import {OverlayModule} from &quot;@angular/cdk/overlay&quot;;
 import {AuthenticationOauthService} from &quot;./authentication-oauth.service&quot;;
 import {AuthenticationPopupService} from &quot;./authentication-popup.service&quot;;
-import {HttpInterceptor} from &quot;./http-interceptor&quot;;
 
 // Sinequa modules
 import {BaseModule} from &quot;@sinequa/core/base&quot;;
@@ -129,6 +127,8 @@ export class AuthConfig implements IPartialConfigOptions {
  * A higher level {@link LoginService} groups the successful retrieval of the current &#x60;application configuration&#x60; ({@link AppService}),
  * &#x60;principal&#x60; ({@link PrincipalWebService}), and &#x60;user settings&#x60; ({@link UserSettingsWebService}) all of which require the user
  * to be authenticated. This can be used as a &quot;gatekeeper&quot; to protect access to the main, often routed, component(s).
+ *
+ * The {@link LoginInterceptor} in this module must be registered using &#x60;HTTP_INTERCEPTORS&#x60; in your app module.
  */
 @NgModule({
     imports: [
@@ -162,14 +162,11 @@ export class AuthConfig implements IPartialConfigOptions {
         {provide: OauthService, useExisting: AuthenticationOauthService},
         {provide: PopupService, useExisting: AuthenticationPopupService},
 
-        // HTTP
-        {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptor, multi: true},
-
         ...LOGIN_MODULE_PROVIDERS
     ]
 })
 export class LoginModule {
-    static forRoot(loginModal: Type&lt;any&gt; &#x3D; Login): ModuleWithProviders {
+    static forRoot(loginModal: Type&lt;any&gt; &#x3D; Login): ModuleWithProviders&lt;LoginModule&gt; {
         return {
             ngModule: LoginModule,
             providers: [

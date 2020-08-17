@@ -350,19 +350,15 @@ export class SelectionService implements OnDestroy {
         if (!this.searchService.results || !this.searchService.results.records) {
             return false;
         }
-        let allSelected &#x3D; true;
         for (const record of this.searchService.results.records) {
             if (!record.$selected) {
-                allSelected &#x3D; false;
+                return false;
             }
         }
-        return allSelected;
+        return true;
     }
 
     private selectCurrentRecords() {
-        if (!this.searchService.results || !this.searchService.results.records) {
-            return;
-        }
         const newSelectedRecords: Record[] &#x3D; [];
         if (this.searchService.results &amp;&amp; this.searchService.results.records) {
             for (const record of this.searchService.results.records) {
@@ -377,26 +373,6 @@ export class SelectionService implements OnDestroy {
             this._events.next({type: SelectionEventType.SELECT, records: newSelectedRecords});
     }
 
-    private deselectCurrentRecords() {
-        if (!this.searchService.results || !this.searchService.results.records) {
-            return;
-        }
-        const newUnselectedRecords: Record[] &#x3D; [];
-        if (this.searchService.results &amp;&amp; this.searchService.results.records) {
-            for (const record of this.searchService.results.records) {
-                if (record.$selected) {
-                    const index &#x3D; this.selectedRecords.findIndex(item &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; record.id);
-                    if (index !&#x3D;&#x3D; -1) {
-                        this.selectedRecords.splice(index, 1);
-                        newUnselectedRecords.push(record);
-                        record.$selected &#x3D; false;
-                    }
-                }
-            }
-        }
-        if(newUnselectedRecords.length &gt; 0)
-            this._events.next({type: SelectionEventType.UNSELECT, records: newUnselectedRecords});
-    }
 
     /**
      * Toggles the selection of one record or all those in the results.
@@ -429,7 +405,7 @@ export class SelectionService implements OnDestroy {
         }
         else {
             if (this.allRecordsSelected) {
-                this.deselectCurrentRecords();
+                this.clearSelectedRecords();
             }
             else {
                 this.selectCurrentRecords();

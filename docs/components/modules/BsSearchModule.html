@@ -449,7 +449,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://angular.io/api/core/ModuleWithProviders" target="_blank" >ModuleWithProviders</a></code>
+                        <b>Returns : </b>    <code>ModuleWithProviders&lt;BsSearchModule&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -507,7 +507,7 @@ import {BsLoadingBar} from &quot;./loading-bar/loading-bar&quot;;
     ],
 })
 export class BsSearchModule {
-    static forRoot(searchOptions: SearchOptions) : ModuleWithProviders {
+    static forRoot(searchOptions: SearchOptions) : ModuleWithProviders&lt;BsSearchModule&gt; {
         return {
             ngModule: BsSearchModule,
             providers: [

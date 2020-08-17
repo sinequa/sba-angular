@@ -140,7 +140,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="674" class="link-to-prism">web-services/query.web.service.ts:674</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="679" class="link-to-prism">web-services/query.web.service.ts:679</a></div>
                             </td>
                         </tr>
 
@@ -219,8 +219,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="717"
-                            class="link-to-prism">web-services/query.web.service.ts:717</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="722"
+                            class="link-to-prism">web-services/query.web.service.ts:722</a></div>
                 </td>
             </tr>
 
@@ -314,8 +314,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="690"
-                            class="link-to-prism">web-services/query.web.service.ts:690</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="695"
+                            class="link-to-prism">web-services/query.web.service.ts:695</a></div>
                 </td>
             </tr>
 
@@ -595,7 +595,7 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="677" class="link-to-prism">web-services/query.web.service.ts:677</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="682" class="link-to-prism">web-services/query.web.service.ts:682</a></div>
                             </td>
                         </tr>
 
@@ -701,6 +701,10 @@ export interface Results {
      * A hash of the associated results for use with RFM (relevance feedback model) functionality
      */
     rfmQueryHash: string;
+    /**
+     * The name of the {@link IQuery} that produced these results
+     */
+    queryName: string;
 }
 
 /**
@@ -833,6 +837,7 @@ export interface QueryIntentDatasets {
 export interface QueryAnalysis {
     text: string;
     initial: boolean;
+    queryLanguage: string | undefined;
     elements: QueryAnalysisElement[];
 }
 

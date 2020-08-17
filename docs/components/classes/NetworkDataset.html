@@ -1,0 +1,1813 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li>NetworkDataset</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>network/network-models.ts</code>
+        </p>
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addEdges">addEdges</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addNodes">addNodes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cleanRemoveNode">cleanRemoveNode</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#clear">clear</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getAdjacentEdges">getAdjacentEdges</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getConnectedNodes">getConnectedNodes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getEdge">getEdge</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getEdgeIds">getEdgeIds</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getEdges">getEdges</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getNode">getNode</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getNodeIds">getNodeIds</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getNodes">getNodes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getVisibleEdges">getVisibleEdges</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getVisibleNodes">getVisibleNodes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#hasEdge">hasEdge</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#hasNode">hasNode</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#merge">merge</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#removeEdges">removeEdges</a>
+                            </li>
+                            <li>
+                                <a href="#updateDatasets">updateDatasets</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addEdges"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addEdges
+                        </b>
+                        <a href="#addEdges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addEdges(edges: <a href="../interfaces/Edge.html">Edge | Edge[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="201"
+                            class="link-to-prism">network/network-models.ts:201</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Add one or multiple edges. </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>edges</td>
+                                    <td>
+                                                <code><a href="../interfaces/Edge.html" target="_self" >Edge | Edge[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addNodes"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            addNodes
+                        </b>
+                        <a href="#addNodes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addNodes(nodes: <a href="../interfaces/Node.html">Node | Node[]</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="196"
+                            class="link-to-prism">network/network-models.ts:196</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Add one or multiple nodes </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>nodes</td>
+                                    <td>
+                                                <code><a href="../interfaces/Node.html" target="_self" >Node | Node[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cleanRemoveNode"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            cleanRemoveNode
+                        </b>
+                        <a href="#cleanRemoveNode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>cleanRemoveNode(nodeId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, keepDanglingNodes?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="216"
+                            class="link-to-prism">network/network-models.ts:216</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Remove a node and its adjacent edges. keepDanglingNodes = false (default) removes the remaining nodes with no neighbor </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>nodeId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>keepDanglingNodes</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clear"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            clear
+                        </b>
+                        <a href="#clear"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>clear()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="190"
+                            class="link-to-prism">network/network-models.ts:190</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Clears this dataset </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAdjacentEdges"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getAdjacentEdges
+                        </b>
+                        <a href="#getAdjacentEdges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getAdjacentEdges(nodeId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="228"
+                            class="link-to-prism">network/network-models.ts:228</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the edges adjacent to a node (O(n) method) </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>nodeId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Edge.html" target="_self" >Edge[]</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getConnectedNodes"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getConnectedNodes
+                        </b>
+                        <a href="#getConnectedNodes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getConnectedNodes(nodeId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="233"
+                            class="link-to-prism">network/network-models.ts:233</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the nodes connected to a node via a single node (0(n) method) </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>nodeId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Node.html" target="_self" >Node[]</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEdge"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getEdge
+                        </b>
+                        <a href="#getEdge"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getEdge(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">network/network-models.ts:155</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the edge with given id </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Edge.html" target="_self" >Edge | undefined</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEdgeIds"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getEdgeIds
+                        </b>
+                        <a href="#getEdgeIds"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getEdgeIds()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="185"
+                            class="link-to-prism">network/network-models.ts:185</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the list of edge ids </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>string[]</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getEdges"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getEdges
+                        </b>
+                        <a href="#getEdges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getEdges()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="165"
+                            class="link-to-prism">network/network-models.ts:165</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the list of edges </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Edge.html" target="_self" >Edge[]</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getNode"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getNode
+                        </b>
+                        <a href="#getNode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getNode(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="150"
+                            class="link-to-prism">network/network-models.ts:150</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the node with given id </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Node.html" target="_self" >Node | undefined</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getNodeIds"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getNodeIds
+                        </b>
+                        <a href="#getNodeIds"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getNodeIds()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="180"
+                            class="link-to-prism">network/network-models.ts:180</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the list of node ids </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>string[]</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getNodes"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getNodes
+                        </b>
+                        <a href="#getNodes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getNodes()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="160"
+                            class="link-to-prism">network/network-models.ts:160</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the list of nodes </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Node.html" target="_self" >Node[]</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getVisibleEdges"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getVisibleEdges
+                        </b>
+                        <a href="#getVisibleEdges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getVisibleEdges()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="175"
+                            class="link-to-prism">network/network-models.ts:175</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the list of visible edges </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Edge.html" target="_self" >Edge[]</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getVisibleNodes"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getVisibleNodes
+                        </b>
+                        <a href="#getVisibleNodes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getVisibleNodes()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="170"
+                            class="link-to-prism">network/network-models.ts:170</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the list of visible nodes </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Node.html" target="_self" >Node[]</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasEdge"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            hasEdge
+                        </b>
+                        <a href="#hasEdge"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hasEdge(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="145"
+                            class="link-to-prism">network/network-models.ts:145</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns whether this edge exists </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasNode"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            hasNode
+                        </b>
+                        <a href="#hasNode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hasNode(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="140"
+                            class="link-to-prism">network/network-models.ts:140</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns whether this node exists </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="merge"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            merge
+                        </b>
+                        <a href="#merge"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>merge(dataset: <a href="../classes/NetworkDataset.html">NetworkDataset</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="249"
+                            class="link-to-prism">network/network-models.ts:249</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Merge this dataset with another one. </p>
+<p>When duplicates nodes or edges are found:</p>
+<ul>
+<li>The existing item is kept and updated</li>
+<li>Their &#39;count&#39; properties are added</li>
+<li>Their &#39;visible&#39; properties are ORed</li>
+<li>Their nodeOptions and edgeOptions are updated</li>
+</ul>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>dataset</td>
+                                    <td>
+                                                <code><a href="../classes/NetworkDataset.html" target="_self" >NetworkDataset</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/NetworkDataset.html" target="_self" >NetworkDataset</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeEdges"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            removeEdges
+                        </b>
+                        <a href="#removeEdges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeEdges(ids: string | string[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="211"
+                            class="link-to-prism">network/network-models.ts:211</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Remove one or multiple edges. </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ids</td>
+                                    <td>
+                                            <code>string | string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateDatasets"></a>
+                    <span class="name">
+                        <b>
+                            updateDatasets
+                        </b>
+                        <a href="#updateDatasets"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateDatasets(nodes: <a href="../interfaces/Node.html">DataSet<Node></a>, edges: <a href="../interfaces/Edge.html">DataSet<Edge></a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="316"
+                            class="link-to-prism">network/network-models.ts:316</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Transfer nodes and edges to the Vis nodes and edges DataSets </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>nodes</td>
+                                    <td>
+                                                <code><a href="../interfaces/Node.html" target="_self" >DataSet&lt;Node&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>edges</td>
+                                    <td>
+                                                <code><a href="../interfaces/Edge.html" target="_self" >DataSet&lt;Edge&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Subject } from &#x27;rxjs&#x27;;
+import { Action } from &#x27;@sinequa/components/action&#x27;;
+import { Utils } from &#x27;@sinequa/core/base&#x27;;
+import { DataSet } from &quot;vis-data/peer/esm/vis-data&quot;;
+import { SearchService } from &#x27;@sinequa/components/search&#x27;;
+import { VisNetworkService } from &#x27;ngx-vis&#x27;;
+import { AppService } from &#x27;@sinequa/core/app-utils&#x27;;
+import { IntlService } from &#x27;@sinequa/core/intl&#x27;;
+
+// TYPES (configuration)
+
+export interface NodeType {
+    name: string;
+    /** Vis Node options (merged in the Node objects). See https://visjs.github.io/vis-network/docs/network/nodes.html */
+    nodeOptions: {[key: string]: any} | ((node: Node, type: NodeType) &#x3D;&gt; {[key: string]: any} );
+    /** If a field is provided, it can be used to filter the node value (and access the label, formatter, etc.) */
+    field?: string;
+}
+
+export interface EdgeType {
+    /** Node types attached to this edge type. Should typically be 2 items, but cooccurrence aggregation might return more */
+    nodeTypes: NodeType[];
+    /** Vis Edge options (merged in the Edge objects). See https://visjs.github.io/vis-network/docs/network/edges.html */
+    edgeOptions: {[key: string]: any} | ((nodes: Node[], edge: Edge, type: EdgeType) &#x3D;&gt; {[key: string]: any} );
+    /** If a field is provided, it can be used to filter the node value (and access the label, formatter, etc.) */
+    field?: string;
+}
+
+
+// DATA
+
+// Nodes (based on Vis Node interface)
+
+export interface Node {
+    id: string;
+    label: string;
+
+    // Custom properties
+    type: NodeType;
+    provider: NetworkProvider;
+    visible: boolean;
+    /** count is a mutable property used to scale the node size in function of the size of adjacent edges*/
+    count: number;
+    /** the precedence of a node determines which node object is kept when merging two dataset (the highest precedence node is kept) */
+    precedence?: number;
+    // Context
+    context: NetworkContext;
+}
+
+// Edge (based on Vis Edge interface)
+
+export interface Edge {
+    id: string;
+    from: string;
+    to: string;
+
+    // Custom properties
+    type: EdgeType;
+    provider: NetworkProvider;
+    visible: boolean;    
+    /** count is a property representing the strength of an edge, which scales the count of adjacent nodes*/
+    count: number;
+    /** A field value may be provided to filter search based on the edge field type */
+    fieldValue?: string;
+    // Context
+    context: NetworkContext;
+}
+
+
+export interface NetworkProvider {
+    /** Whether or not the provider is active (if inactive, it will not provide empty datasets of nodes and edges) */
+    active: boolean;
+
+    /** Readable name of this provider */
+    name: string;
+
+    /** Dataset of this provider */
+    dataset: NetworkDataset;
+
+    /** Context (wrapper for general data about the network and services) */
+    context: NetworkContext;
+
+    /** Returns the Subject of this provider */
+    getProvider(): Subject&lt;NetworkDataset&gt;;
+
+    /** Asynchronously provide data via it&#x27;s provider Subject */
+    getData(context: NetworkContext); // skip/count handled internally
+
+    /** Called after the datasets provided by all providers have been merged into a single dataset */
+    onDatasetsMerged(dataset: NetworkDataset);
+
+    /** Called after the dataset is filtered and passed to Vis for rendering */
+    onNodesInserted(nodes: Node[]);
+
+    /** Called when ANY node is clicked in the rendered view of the network */
+    onNodeClicked(node: Node | undefined);
+
+    /** Called when ANY edge is clicked in the rendered view of the network */
+    onEdgeClicked(edge: Edge | undefined);
+
+    /** Retrieve the list of action for this provider. */
+    getProviderActions(): Action[];
+
+    /** Retrieve the list of action for a given node, and this provider. */
+    getNodeActions(node: Node): Action[];
+    
+    /** Retrieve the list of action for a given edge, and this provider. */
+    getEdgeActions(edge: Edge): Action[];
+
+    /** Called when the providers are discarded. Can be use to cancel subscriptions */
+    onDestroy();
+}
+
+export interface NetworkContext {
+    /** Name of this network, for use in selections */
+    name: string;
+    /** Vis.js data structures */
+    nodes: DataSet&lt;Node&gt;;
+    edges: DataSet&lt;Edge&gt;;
+    /** Useful services */
+    searchService: SearchService;
+    networkService: VisNetworkService;
+    appService: AppService;
+    intlService: IntlService;
+    /** Interactions */
+    select(node?: Node, edge?: Edge): void;
+}
+
+
+export class NetworkDataset {
+
+    // Node index
+    private readonly nodeIdx: Map&lt;string, Node&gt; &#x3D; new Map&lt;string, Node&gt;();
+
+    // Edge index
+    private readonly edgeIdx: Map&lt;string, Edge&gt; &#x3D; new Map&lt;string, Edge&gt;();
+
+
+    /** Returns whether this node exists */
+    public hasNode(id: string): boolean {
+        return this.nodeIdx.has(id);
+    }
+    
+    /** Returns whether this edge exists */
+    public hasEdge(id: string): boolean {
+        return this.edgeIdx.has(id);
+    }
+
+    /** Returns the node with given id */
+    public getNode(id: string): Node | undefined {
+        return this.nodeIdx.get(id);
+    }
+
+    /** Returns the edge with given id */
+    public getEdge(id: string): Edge | undefined {
+        return this.edgeIdx.get(id);
+    }
+
+    /** Get the list of nodes */
+    public getNodes(): Node[] {
+        return Array.from(this.nodeIdx.values());
+    }
+
+    /** Get the list of edges */
+    public getEdges(): Edge[] {
+        return Array.from(this.edgeIdx.values());
+    }    
+
+    /** Get the list of visible nodes */
+    public getVisibleNodes(): Node[] {
+        return this.getNodes().filter(n &#x3D;&gt; n.visible);
+    }
+
+    /** Get the list of visible edges */
+    public getVisibleEdges(): Edge[] {
+        return this.getEdges().filter(e &#x3D;&gt; e.visible);
+    }
+
+    /** Get the list of node ids */
+    public getNodeIds(): string[] {
+        return Array.from(this.nodeIdx.keys());
+    }
+
+    /** Get the list of edge ids */
+    public getEdgeIds(): string[] {
+        return Array.from(this.edgeIdx.keys());
+    }
+    
+    /** Clears this dataset */
+    public clear() {
+        this.nodeIdx.clear();
+        this.edgeIdx.clear();
+    }
+
+    /** Add one or multiple nodes */
+    public addNodes(nodes: Node | Node[]) {
+        Array.isArray(nodes)? nodes.forEach(node &#x3D;&gt; this.addNode(node)) : this.addNode(nodes);
+    }
+
+    /** Add one or multiple edges. */
+    public addEdges(edges: Edge | Edge[]) {
+        Array.isArray(edges)? edges.forEach(edge &#x3D;&gt; this.addEdge(edge)) : this.addEdge(edges);
+    }
+
+    /** Remove one or multiple nodes. /!\ Connected edges MUST be removed as well (use cleanRemoveNode() to do so) */
+    private removeNodes(ids: string | string[]) {
+        Array.isArray(ids)? ids.forEach(id &#x3D;&gt; this.removeNode(id)) : this.removeNode(ids);
+    }
+
+    /** Remove one or multiple edges. */
+    public removeEdges(ids: string | string[]) {
+        Array.isArray(ids)? ids.forEach(id &#x3D;&gt; this.removeEdge(id)) : this.removeEdge(ids);
+    }
+
+    /** Remove a node and its adjacent edges. keepDanglingNodes &#x3D; false (default) removes the remaining nodes with no neighbor */
+    public cleanRemoveNode(nodeId: string, keepDanglingNodes?: boolean) {
+        this.getAdjacentEdges(nodeId).forEach(edge &#x3D;&gt; {
+            const neighbor &#x3D; this.getNode(edge.from &#x3D;&#x3D;&#x3D; nodeId ? edge.to : edge.from) as Node;
+            this.removeEdges(edge.id);
+            neighbor.count -&#x3D; edge.count;
+            if(!keepDanglingNodes &amp;&amp; this.getAdjacentEdges(neighbor.id).length &#x3D;&#x3D;&#x3D; 0) {
+                this.removeNodes(neighbor.id);
+            }
+        });
+    }
+
+    /** Get the edges adjacent to a node (O(n) method) */
+    public getAdjacentEdges(nodeId: string): Edge[] {
+        return this.getEdges().filter(e &#x3D;&gt; e.from &#x3D;&#x3D;&#x3D; nodeId || e.to &#x3D;&#x3D;&#x3D; nodeId);
+    }
+
+    /** Get the nodes connected to a node via a single node (0(n) method) */
+    public getConnectedNodes(nodeId: string): Node[] {
+        return this.getAdjacentEdges(nodeId)
+                    .map(e &#x3D;&gt; this.getNode(e.from &#x3D;&#x3D;&#x3D; nodeId ? e.to : e.from) as Node);
+    }
+
+    /**
+     * Merge this dataset with another one. 
+     * 
+     * When duplicates nodes or edges are found:
+     * - The existing item is kept and updated
+     * - Their &#x27;count&#x27; properties are added
+     * - Their &#x27;visible&#x27; properties are ORed
+     * - Their nodeOptions and edgeOptions are updated
+     * 
+     * @param dataset 
+     */
+    public merge(dataset: NetworkDataset): NetworkDataset {
+
+        dataset.getNodes().forEach(node &#x3D;&gt; {
+            node &#x3D; Object.assign({}, node); // Avoid modifying the original datasets
+            if(!this.hasNode(node.id)) {
+                this.addNode(node);
+            }
+            else {
+                // Merge the new node with the existing one (which takes precedence by default)
+                let existingNode &#x3D; this.getNode(node.id) as Node;
+                if((node.precedence || 0) &gt; (existingNode.precedence || 0)) {
+                    // Set the new node in the node index
+                    this.nodeIdx.set(node.id, node);
+                    // swap existingNode and node for the merging of count, visible and node options
+                    const temp &#x3D; node;
+                    node &#x3D; existingNode;
+                    existingNode &#x3D; temp;
+                }
+                existingNode.count +&#x3D; node.count;
+                existingNode.visible &#x3D; existingNode.visible || node.visible;
+                let options: {[key: string]: any};
+                if(typeof existingNode.type.nodeOptions &#x3D;&#x3D;&#x3D; &quot;function&quot;) {
+                    options &#x3D; existingNode.type.nodeOptions(existingNode, existingNode.type);
+                }
+                else {
+                    options &#x3D; existingNode.type.nodeOptions;
+                }
+                Utils.extend(existingNode, options);
+            }
+        });
+
+        dataset.getEdges().forEach(edge &#x3D;&gt; {
+            edge &#x3D; Object.assign({}, edge); // Avoid modifying the original datasets
+            if(!this.hasEdge(edge.id)) {
+                this.addEdge(edge);
+            }
+            else {
+                // Merge the new edge with the existing one (which takes precedence)
+                // eg. statistical and semantic edges
+                const existingEdge &#x3D; this.getEdge(edge.id) as Edge;
+                existingEdge.count +&#x3D; edge.count;
+                existingEdge.visible &#x3D; existingEdge.visible || edge.visible;
+                // Merge edge labels (taking duplicates into account)
+                if(!!existingEdge[&quot;label&quot;] &amp;&amp; !!edge[&quot;label&quot;]){
+                    edge[&quot;labels&quot;].forEach(label &#x3D;&gt; {
+                        if(existingEdge[&quot;labels&quot;].indexOf(label) &#x3D;&#x3D;&#x3D; -1) {
+                            existingEdge[&quot;label&quot;] +&#x3D; &quot;, &quot;+label;
+                            existingEdge[&quot;labels&quot;].push(label);
+                        }
+                    });
+                }
+                let options: {[key: string]: any};
+                if(typeof existingEdge.type.edgeOptions &#x3D;&#x3D;&#x3D; &quot;function&quot;) {
+                    const nodes &#x3D; [existingEdge.from, existingEdge.to].map(id &#x3D;&gt; this.nodeIdx[id]);
+                    options &#x3D; existingEdge.type.edgeOptions(nodes, existingEdge, existingEdge.type);
+                }
+                else {
+                    options &#x3D; existingEdge.type.edgeOptions;
+                }
+                Utils.extend(existingEdge, options);
+            }
+        });
+
+        return this;
+    }
+
+    /** Transfer nodes and edges to the Vis nodes and edges DataSets */
+    updateDatasets(nodes: DataSet&lt;Node&gt;, edges: DataSet&lt;Edge&gt;) {
+        nodes.remove(nodes.get().filter(n &#x3D;&gt; !this.getNode(n.id)?.visible));
+        edges.remove(edges.get().filter(e &#x3D;&gt; !this.getEdge(e.id)?.visible));
+        nodes.update(this.getVisibleNodes());
+        edges.update(this.getVisibleEdges());
+    }
+
+    
+    private addNode(node: Node) {
+        if(this.hasNode(node.id)) {
+            throw new Error(&#x60;Node &#x27;${node.id}&#x27; already in dataset&#x60;);
+        }
+        this.nodeIdx.set(node.id, node);
+    }
+    
+    private addEdge(edge: Edge) {
+        if(this.hasEdge(edge.id)) {
+            throw new Error(&#x60;Edge &#x27;${edge.id}&#x27; already in dataset&#x60;);
+        }
+        if(!this.hasNode(edge.from) || !this.hasNode(edge.to)) {
+            throw new Error(&#x60;Edge &#x27;${edge.id}&#x27; cannot be added as one of the nodes is missing from the dataset&#x60;)
+        }
+        this.edgeIdx.set(edge.id, edge);
+    }
+
+    private removeNode(id: string) {
+        this.nodeIdx.delete(id);
+    }
+
+    private removeEdge(id: string) {
+        this.edgeIdx.delete(id);
+    }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'NetworkDataset.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

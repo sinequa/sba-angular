@@ -293,7 +293,7 @@ locale information. By default, locales contain support for <code>Moment.js</cod
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://angular.io/api/core/ModuleWithProviders" target="_blank" >ModuleWithProviders</a></code>
+                        <b>Returns : </b>    <code>ModuleWithProviders&lt;IntlModule&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -354,7 +354,7 @@ export function IntlInitializer(intlService: IntlService): () &#x3D;&gt; Promise
     ]
 })
 export class IntlModule {
-    static forRoot(localeConfig: Type&lt;LocalesConfig&gt;): ModuleWithProviders {
+    static forRoot(localeConfig: Type&lt;LocalesConfig&gt;): ModuleWithProviders&lt;IntlModule&gt; {
         return {
             ngModule: IntlModule,
             providers: [

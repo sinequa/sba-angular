@@ -1,0 +1,2970 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>NetworkComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>network/network.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+                <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+    </p>
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>sq-network</code></td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./network.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#_actions">_actions</a>
+                            </li>
+                            <li>
+                                <a href="#_networkInitialized">_networkInitialized</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Optional</span>
+                                <a href="#_selectedEdge">_selectedEdge</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Optional</span>
+                                <a href="#_selectedNode">_selectedNode</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#appService">appService</a>
+                            </li>
+                            <li>
+                                <a href="#clearFilters">clearFilters</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#context">context</a>
+                            </li>
+                            <li>
+                                <a href="#debounceSync">debounceSync</a>
+                            </li>
+                            <li>
+                                <a href="#edgeTpl">edgeTpl</a>
+                            </li>
+                            <li>
+                                <a href="#form">form</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#formBuilder">formBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#intlService">intlService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#networkService">networkService</a>
+                            </li>
+                            <li>
+                                <a href="#nodeTpl">nodeTpl</a>
+                            </li>
+                            <li>
+                                <a href="#optionsPrefs">optionsPrefs</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#prefs">prefs</a>
+                            </li>
+                            <li>
+                                <a href="#providersSubscription">providersSubscription</a>
+                            </li>
+                            <li>
+                                <a href="#refreshAction">refreshAction</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#searchService">searchService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#footerTpl">footerTpl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#headerTpl">headerTpl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#settingsTpl">settingsTpl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#subHeaderTpl">subHeaderTpl</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#networkInitialized">networkInitialized</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges">ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#onOpenSettings">onOpenSettings</a>
+                            </li>
+                            <li>
+                                <a href="#select">select</a>
+                            </li>
+                            <li>
+                                <a href="#selectEdge">selectEdge</a>
+                            </li>
+                            <li>
+                                <a href="#selectNode">selectNode</a>
+                            </li>
+                            <li>
+                                <a href="#setDefaults">setDefaults</a>
+                            </li>
+                            <li>
+                                <a href="#updateOptions">updateOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isHidden">isHidden</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onCollapse">onCollapse</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onExpand">onExpand</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onOpenSettings">onOpenSettings</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#name">name</a>
+                            </li>
+                            <li>
+                                <a href="#options">options</a>
+                            </li>
+                            <li>
+                                <a href="#providers">providers</a>
+                            </li>
+                            <li>
+                                <a href="#results">results</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#edgeClicked">edgeClicked</a>
+                            </li>
+                            <li>
+                                <a href="#nodeClicked">nodeClicked</a>
+                            </li>
+                            <li>
+                                <a href="#actionsChanged">actionsChanged</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#actions">actions</a>
+                                </li>
+                                <li>
+                                    <a href="#springLengthPref">springLengthPref</a>
+                                </li>
+                                <li>
+                                    <a href="#springConstantPref">springConstantPref</a>
+                                </li>
+                                <li>
+                                    <a href="#dampingPref">dampingPref</a>
+                                </li>
+                                <li>
+                                    <a href="#repulsionPref">repulsionPref</a>
+                                </li>
+                                <li>
+                                    <a href="#gravityPref">gravityPref</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(networkService: VisNetworkService, searchService: <a href="../injectables/SearchService.html">SearchService</a>, appService: AppService, intlService: IntlService, formBuilder: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, prefs: <a href="../injectables/UserPreferences.html">UserPreferences</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">network/network.component.ts:81</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>networkService</td>
+                                                  
+                                                        <td>
+                                                                    <code>VisNetworkService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>searchService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SearchService.html" target="_self" >SearchService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>appService</td>
+                                                  
+                                                        <td>
+                                                                    <code>AppService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>intlService</td>
+                                                  
+                                                        <td>
+                                                                    <code>IntlService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>formBuilder</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>prefs</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UserPreferences.html" target="_self" >UserPreferences</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="name"></a>
+                        <b>name</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;Network&quot;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">network/network.component.ts:48</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Name of the network - should be unique within the app </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="options"></a>
+                        <b>options</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Options</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>defaultOptions</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">network/network.component.ts:56</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>General Vis options passed to the network (<a href="https://visjs.github.io/vis-network/docs/network/">https://visjs.github.io/vis-network/docs/network/</a>) </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="providers"></a>
+                        <b>providers</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/NetworkProvider.html" target="_self" >NetworkProvider[]</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">network/network.component.ts:53</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="results"></a>
+                        <b>results</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Results.html" target="_self" >Results</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">network/network.component.ts:51</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Input results - used to produce a OnChange event when  </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="edgeClicked"></a>
+                        <b>edgeClicked</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">network/network.component.ts:60</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="nodeClicked"></a>
+                        <b>nodeClicked</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">network/network.component.ts:59</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="actionsChanged"></a>
+                        <b>actionsChanged</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFacet.html#source" target="_self" >AbstractFacet:21</a></code>
+</div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Event emitter triggered when the list of action changes</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="networkInitialized"></a>
+                    <span class="name">
+                        <b>
+                            networkInitialized
+                        </b>
+                        <a href="#networkInitialized"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>networkInitialized()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="263"
+                            class="link-to-prism">network/network.component.ts:263</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Called from the template by ngx-vis, when the network is initialized,
+and the NetworkService can be used.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <b>
+                            ngOnChanges
+                        </b>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="135"
+                            class="link-to-prism">network/network.component.ts:135</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <b>
+                            ngOnDestroy
+                        </b>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="326"
+                            class="link-to-prism">network/network.component.ts:326</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onOpenSettings"></a>
+                    <span class="name">
+                        <b>
+                            onOpenSettings
+                        </b>
+                        <a href="#onOpenSettings"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onOpenSettings(opened: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="364"
+                            class="link-to-prism">network/network.component.ts:364</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Method from the AbstractFacet interface called when the settings
+panel is opened or closed</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>opened</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>whether settings are opened or closed</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="select"></a>
+                    <span class="name">
+                        <b>
+                            select
+                        </b>
+                        <a href="#select"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>select(node?: <a href="../interfaces/Node.html">Node</a>, edge?: <a href="../interfaces/Edge.html">Edge</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="310"
+                            class="link-to-prism">network/network.component.ts:310</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>node</td>
+                                    <td>
+                                                <code><a href="../interfaces/Node.html" target="_self" >Node</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>edge</td>
+                                    <td>
+                                                <code><a href="../interfaces/Edge.html" target="_self" >Edge</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectEdge"></a>
+                    <span class="name">
+                        <b>
+                            selectEdge
+                        </b>
+                        <a href="#selectEdge"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>selectEdge(edge?: <a href="../interfaces/Edge.html">Edge</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="321"
+                            class="link-to-prism">network/network.component.ts:321</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>edge</td>
+                                    <td>
+                                                <code><a href="../interfaces/Edge.html" target="_self" >Edge</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectNode"></a>
+                    <span class="name">
+                        <b>
+                            selectNode
+                        </b>
+                        <a href="#selectNode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>selectNode(node?: <a href="../interfaces/Node.html">Node</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="316"
+                            class="link-to-prism">network/network.component.ts:316</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>node</td>
+                                    <td>
+                                                <code><a href="../interfaces/Node.html" target="_self" >Node</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setDefaults"></a>
+                    <span class="name">
+                        <b>
+                            setDefaults
+                        </b>
+                        <a href="#setDefaults"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setDefaults()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="404"
+                            class="link-to-prism">network/network.component.ts:404</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>This method resets all the user preferences and rebuilds the settings form,
+so that the values displayed are up-to-date</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateOptions"></a>
+                    <span class="name">
+                        <b>
+                            updateOptions
+                        </b>
+                        <a href="#updateOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateOptions()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="340"
+                            class="link-to-prism">network/network.component.ts:340</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sets the options values either to the user preferences (stored in user settings)
+or the default values.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isHidden"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            isHidden
+                        </b>
+                        <a href="#isHidden"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isHidden()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/AbstractFacet.html#source" target="_self" >AbstractFacet:61</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Method enabling the facet component to be hidden (if, for example there is no data to display)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onCollapse"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            onCollapse
+                        </b>
+                        <a href="#onCollapse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onCollapse(collapsed: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/AbstractFacet.html#source" target="_self" >AbstractFacet:46</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Method called when a facet is collapsed</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>collapsed</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onExpand"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            onExpand
+                        </b>
+                        <a href="#onExpand"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onExpand(expanded: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/AbstractFacet.html#source" target="_self" >AbstractFacet:51</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Method called when a facet is resized via an action (not accounting for window resizing)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>expanded</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onOpenSettings"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            onOpenSettings
+                        </b>
+                        <a href="#onOpenSettings"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onOpenSettings(settingsOpened: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/AbstractFacet.html#source" target="_self" >AbstractFacet:56</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Method called when the settings of this facet are opened</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>settingsOpened</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_actions"></a>
+                        <span class="name">
+                            <b>
+                            _actions</b>
+                            <a href="#_actions"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../classes/Action.html" target="_self" >Action[]</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">network/network.component.ts:71</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_networkInitialized"></a>
+                        <span class="name">
+                            <b>
+                            _networkInitialized</b>
+                            <a href="#_networkInitialized"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">network/network.component.ts:66</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_selectedEdge"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Optional</span>
+                            _selectedEdge</b>
+                            <a href="#_selectedEdge"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Edge.html" target="_self" >Edge</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">network/network.component.ts:68</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_selectedNode"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Optional</span>
+                            _selectedNode</b>
+                            <a href="#_selectedNode"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Node.html" target="_self" >Node</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">network/network.component.ts:67</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="appService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            appService</b>
+                            <a href="#appService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>AppService</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">network/network.component.ts:86</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="clearFilters"></a>
+                        <span class="name">
+                            <b>
+                            clearFilters</b>
+                            <a href="#clearFilters"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Action.html" target="_self" >Action</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">network/network.component.ts:73</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="context"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Readonly</span>
+                            context</b>
+                            <a href="#context"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/NetworkContext.html" target="_self" >NetworkContext</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">network/network.component.ts:79</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="debounceSync"></a>
+                        <span class="name">
+                            <b>
+                            debounceSync</b>
+                            <a href="#debounceSync"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>Utils.debounce(() &#x3D;&gt; {
+        this.prefs.sync();
+    }, 1000)</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="396" class="link-to-prism">network/network.component.ts:396</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="edgeTpl"></a>
+                        <span class="name">
+                            <b>
+                            edgeTpl</b>
+                            <a href="#edgeTpl"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ContentChild(&#x27;edgeTpl&#x27;, {static: false})<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">network/network.component.ts:77</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="form"></a>
+                        <span class="name">
+                            <b>
+                            form</b>
+                            <a href="#form"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">network/network.component.ts:63</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="formBuilder"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            formBuilder</b>
+                            <a href="#formBuilder"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">network/network.component.ts:88</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="intlService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            intlService</b>
+                            <a href="#intlService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>IntlService</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">network/network.component.ts:87</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="networkService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            networkService</b>
+                            <a href="#networkService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>VisNetworkService</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">network/network.component.ts:84</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="nodeTpl"></a>
+                        <span class="name">
+                            <b>
+                            nodeTpl</b>
+                            <a href="#nodeTpl"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ContentChild(&#x27;nodeTpl&#x27;, {static: false})<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">network/network.component.ts:76</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="optionsPrefs"></a>
+                        <span class="name">
+                            <b>
+                            optionsPrefs</b>
+                            <a href="#optionsPrefs"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Options</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">network/network.component.ts:57</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="prefs"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            prefs</b>
+                            <a href="#prefs"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../injectables/UserPreferences.html" target="_self" >UserPreferences</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">network/network.component.ts:89</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="providersSubscription"></a>
+                        <span class="name">
+                            <b>
+                            providersSubscription</b>
+                            <a href="#providersSubscription"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Subscription</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">network/network.component.ts:81</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="refreshAction"></a>
+                        <span class="name">
+                            <b>
+                            refreshAction</b>
+                            <a href="#refreshAction"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Action.html" target="_self" >Action</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">network/network.component.ts:72</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="searchService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            searchService</b>
+                            <a href="#searchService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../injectables/SearchService.html" target="_self" >SearchService</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">network/network.component.ts:85</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="footerTpl"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                                <span class="modifier">Optional</span>
+                            footerTpl</b>
+                            <a href="#footerTpl"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;footerTpl&#x27;, {static: true, read: TemplateRef})<br />
+                            </code>
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFacet.html#source" target="_self" >AbstractFacet:41</a></code>
+</div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Template for footer of this facet, if any</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="headerTpl"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                                <span class="modifier">Optional</span>
+                            headerTpl</b>
+                            <a href="#headerTpl"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;headerTpl&#x27;, {static: true, read: TemplateRef})<br />
+                            </code>
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFacet.html#source" target="_self" >AbstractFacet:31</a></code>
+</div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Template for header of this facet, if any</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="settingsTpl"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                                <span class="modifier">Optional</span>
+                            settingsTpl</b>
+                            <a href="#settingsTpl"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;settingsTpl&#x27;, {static: true, read: TemplateRef})<br />
+                            </code>
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFacet.html#source" target="_self" >AbstractFacet:26</a></code>
+</div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Template for the settings editor of this facet, if any</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="subHeaderTpl"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                                <span class="modifier">Optional</span>
+                            subHeaderTpl</b>
+                            <a href="#subHeaderTpl"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;subHeaderTpl&#x27;, {static: true, read: TemplateRef})<br />
+                            </code>
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFacet.html#source" target="_self" >AbstractFacet:36</a></code>
+</div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Template for a sub-header of this facet, if any. This appears below the header</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="actions"></a>
+                        <span class="name"><b>actions</b><a href="#actions"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>actions()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="199" class="link-to-prism">network/network.component.ts:199</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="springLengthPref"></a>
+                        <span class="name"><b>springLengthPref</b><a href="#springLengthPref"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>springLengthPref()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="417" class="link-to-prism">network/network.component.ts:417</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="springConstantPref"></a>
+                        <span class="name"><b>springConstantPref</b><a href="#springConstantPref"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>springConstantPref()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="421" class="link-to-prism">network/network.component.ts:421</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dampingPref"></a>
+                        <span class="name"><b>dampingPref</b><a href="#dampingPref"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>dampingPref()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="425" class="link-to-prism">network/network.component.ts:425</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="repulsionPref"></a>
+                        <span class="name"><b>repulsionPref</b><a href="#repulsionPref"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>repulsionPref()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="429" class="link-to-prism">network/network.component.ts:429</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="gravityPref"></a>
+                        <span class="name"><b>gravityPref</b><a href="#gravityPref"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>gravityPref()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="433" class="link-to-prism">network/network.component.ts:433</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, ContentChild, TemplateRef } from &#x27;@angular/core&#x27;;
+import { FormGroup, FormControl, FormBuilder } from &#x27;@angular/forms&#x27;;
+import { Subscription, combineLatest } from &#x27;rxjs&#x27;;
+
+import { Results } from &#x27;@sinequa/core/web-services&#x27;;
+import { AppService } from &#x27;@sinequa/core/app-utils&#x27;;
+import { Utils } from &#x27;@sinequa/core/base&#x27;;
+import { UserPreferences } from &#x27;@sinequa/components/user-settings&#x27;;
+import { AbstractFacet } from &#x27;@sinequa/components/facet&#x27;;
+import { Action } from &#x27;@sinequa/components/action&#x27;;
+import { SearchService } from &#x27;@sinequa/components/search&#x27;;
+
+import { Options, VisNetworkService } from &#x27;ngx-vis&#x27;;
+import { DataSet } from &quot;vis-data/peer/esm/vis-data&quot;;
+
+import { Node, Edge, NetworkDataset, NetworkProvider, NetworkContext } from &#x27;./network-models&#x27;;
+import { IntlService } from &#x27;@sinequa/core/intl&#x27;;
+
+/**
+ * Default options of the Vis.js network.
+ * See: https://visjs.github.io/vis-network/docs/network/
+ */
+export const defaultOptions: Options &#x3D; {
+    height: &#x27;500px&#x27;,
+    interaction: {
+        navigationButtons: true // For the buttons to be displayed, it is necessary to import the stylesheet &quot;~vis-network/dist/vis-network.min.css&quot;
+    }
+};
+
+/**
+ * Structure of the events emitted by the Vis.js network
+ */
+export interface VisEvent {
+    nodes: string[];
+    edges: string[];
+    event: any;
+    items: any[];
+    pointer: any;
+}
+
+@Component({
+    selector: &#x27;sq-network&#x27;,
+    templateUrl: &#x27;./network.component.html&#x27;
+})
+export class NetworkComponent extends AbstractFacet implements OnChanges, OnDestroy {
+
+    /** Name of the network - should be unique within the app */
+    @Input() name &#x3D; &quot;Network&quot;;
+
+    /** Input results - used to produce a OnChange event when  */
+    @Input() results: Results;
+    
+    @Input() providers: NetworkProvider[];
+
+    /** General Vis options passed to the network (https://visjs.github.io/vis-network/docs/network/) */
+    @Input() options: Options &#x3D; defaultOptions;
+    optionsPrefs: Options;
+    
+    @Output() nodeClicked &#x3D; new EventEmitter&lt;Node&gt;();
+    @Output() edgeClicked &#x3D; new EventEmitter&lt;Edge&gt;();
+  
+    // Settings form
+    form: FormGroup;
+
+    // State
+    _networkInitialized: boolean;
+    _selectedNode?: Node;
+    _selectedEdge?: Edge;
+
+    // Actions
+    _actions: Action[] &#x3D; [];
+    refreshAction: Action;
+    clearFilters: Action;
+
+    // Info cards
+    @ContentChild(&quot;nodeTpl&quot;, {static: false}) nodeTpl: TemplateRef&lt;any&gt;;
+    @ContentChild(&quot;edgeTpl&quot;, {static: false}) edgeTpl: TemplateRef&lt;any&gt;;
+    
+    readonly context: NetworkContext;
+
+    providersSubscription: Subscription;
+
+    constructor(
+        public networkService: VisNetworkService,
+        public searchService: SearchService,
+        public appService: AppService,
+        public intlService: IntlService,
+        public formBuilder: FormBuilder,
+        public prefs: UserPreferences
+    ) {
+        super();
+
+        // Notify providers when a node is clicked (this may trigger new data, or a node mutation)
+        this.nodeClicked.subscribe((node?: Node) &#x3D;&gt; {
+            this.providers.forEach(p &#x3D;&gt; p.onNodeClicked(node));
+        });
+        
+        // Notify providers when a node is clicked (this may trigger new data, or a node mutation)
+        this.edgeClicked.subscribe((edge?: Edge) &#x3D;&gt; {
+            this.providers.forEach(p &#x3D;&gt; p.onEdgeClicked(edge));
+        });
+
+        // Refresh the network
+        this.refreshAction &#x3D; new Action({
+            icon: &quot;fas fa-sync-alt&quot;,
+            title: &quot;msg#network.actions.refresh&quot;,
+            action: () &#x3D;&gt; {
+                this.updateData();
+                this.updateActions();
+            }
+        });
+        
+        // Clear the current filters
+        this.clearFilters &#x3D; new Action({
+            icon: &quot;far fa-minus-square&quot;,
+            title: &quot;msg#facet.clearSelects&quot;,
+            action: () &#x3D;&gt; {
+                this.searchService.query.removeSelect(this.name);
+                this.searchService.search();
+            }
+        });
+
+        this.context &#x3D; {
+            name: this.name,
+            nodes: new DataSet&lt;Node&gt;(),
+            edges: new DataSet&lt;Edge&gt;(),
+            searchService: searchService,
+            appService: appService,
+            networkService: networkService,
+            intlService: intlService,
+            select: (node?: Node, edge?: Edge) &#x3D;&gt; this.select(node, edge),
+        };
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+
+        if(changes[&#x27;results&#x27;] || changes[&#x27;providers&#x27;]) {
+            // Update the context
+            this.context.name &#x3D; this.name;
+
+            // Update selections
+            this.selectEdge();
+            this.selectNode();
+
+            // Update options from the preferences
+            this.updateOptions();
+
+            // Update data from the providers (async)
+            this.updateData();
+
+            // Update the actions of the facet
+            this.updateActions();
+        }
+
+    }
+
+    /**
+     * Resets the nodes and edges, create a new listener for the providers and
+     * call getData() on these providers to refresh the data
+     */
+    protected updateData() {
+        
+        this.context.nodes.clear();
+        this.context.edges.clear();
+
+        if(this.providersSubscription){
+            this.providersSubscription.unsubscribe();
+        }
+
+        this.providersSubscription &#x3D; combineLatest(
+            this.providers.map(p &#x3D;&gt; p.getProvider())
+        ).subscribe(datasets &#x3D;&gt; 
+            this.mergeDatasets(datasets.filter(d &#x3D;&gt; !!d) as NetworkDataset[])
+        );
+
+        this.providers.forEach(p &#x3D;&gt; p.getData(this.context));
+    }
+
+    /**
+     * Take in the datasets produced by each provider and merges them into
+     * a single one
+     * @param datasets 
+     */
+    protected mergeDatasets(datasets: NetworkDataset[]) {
+        const dataset &#x3D; datasets.reduce((prev, cur) &#x3D;&gt; prev.merge(cur), new NetworkDataset());
+        
+        // Notify providers that nodes were inserted (which could trigger an update of the data)
+        this.providers.forEach(p &#x3D;&gt; p.onDatasetsMerged(dataset));
+
+        // TODO: Post process the dataset somehow to adjust visibility (or other properties)
+        dataset.updateDatasets(this.context.nodes, this.context.edges);
+
+        // Notify providers that nodes were inserted (which could trigger an update of the data)
+        this.providers.forEach(p &#x3D;&gt; p.onNodesInserted(this.context.nodes.get()));
+
+        this.updateActions();
+    }
+
+    get actions(): Action[] {
+        return this._actions;
+    }
+
+    /**
+     * Updates the actions displayed in the facet frame (_action variable).
+     * Actions may come from this component or from its providers
+     */
+    protected updateActions() {
+        this._actions &#x3D; [];
+
+        // Clear the active filters
+        if(this.searchService.breadcrumbs &amp;&amp; !!this.searchService.breadcrumbs.findSelect(this.name)) {
+            this._actions.push(this.clearFilters);
+        }
+
+        // Selected node actions
+        if(this._selectedNode) {
+            this.providers.forEach(p &#x3D;&gt; {
+                const actions &#x3D; p.getNodeActions(this._selectedNode!);
+                if(actions.length){
+                    this._actions &#x3D; this._actions.concat(actions);
+                }
+            });
+        }
+
+        // Selected edge actions
+        if(this._selectedEdge) {
+            this.providers.forEach(p &#x3D;&gt; {
+                const actions &#x3D; p.getEdgeActions(this._selectedEdge!);
+                if(actions.length){
+                    this._actions &#x3D; this._actions.concat(actions);
+                }
+            });
+        }
+
+        // Actions specific to each provider
+        const providersActionList &#x3D; new Action({
+            icon: &quot;fas fa-tasks&quot;,
+            title: &quot;msg#network.actions.providers&quot;,
+            children: []
+        });
+        this.providers.forEach(p &#x3D;&gt; {
+            const providerActions &#x3D; new Action({
+                text: this.intlService.formatMessage(p.name),
+                title: this.intlService.formatMessage(p.name)
+            });
+            providerActions.children &#x3D; p.getProviderActions();
+            providersActionList.children.push(providerActions);
+        });
+        this._actions.push(providersActionList);
+
+        // Action to refresh the network
+        this._actions.push(this.refreshAction);
+
+    }
+
+
+    // Event handling
+
+    /**
+     * Called from the template by ngx-vis, when the network is initialized,
+     * and the NetworkService can be used.
+     */
+    networkInitialized() {
+        this._networkInitialized &#x3D; true;
+
+        // now we can use the service to register on events
+        this.networkService.on(this.name, &#x27;click&#x27;);
+        
+        this.networkService.click.subscribe((eventData: any[]) &#x3D;&gt; this.onNetworkClick(eventData));
+
+        this.networkService.setOptions(this.name, this.optionsPrefs);
+    }
+
+    /**
+     * Method called when a node or edge in the network is clicked.
+     * The method generates appropriate nodeClicked and edgeClicked events,
+     * and updates the state of _selectedEdge and _selectedNode.
+     * @param eventData 
+     */
+    protected onNetworkClick(eventData: any[]) {
+        if (eventData[0] &#x3D;&#x3D;&#x3D; this.name) {
+            const event &#x3D; eventData[1] as VisEvent;
+
+            if(event.event.type &#x3D;&#x3D;&#x3D; &quot;tap&quot;) {
+
+                if(event.edges.length &#x3D;&#x3D;&#x3D; 1 &amp;&amp; event.nodes.length &#x3D;&#x3D;&#x3D; 0) {
+                    this.selectEdge(this.context.edges.get(event.edges[0]) as Edge);
+                    this.selectNode();
+                }
+                else {
+                    this.selectEdge();
+                    if(event.nodes.length &#x3D;&#x3D;&#x3D; 1) {
+                        this.selectNode(this.context.nodes.get(event.nodes[0]) as Node);
+                    }
+                    else {
+                        this.selectNode();
+                    }
+                }
+
+            }
+            else {
+                this.selectNode();
+                this.selectEdge();
+            }
+                        
+            this.updateActions();
+        }
+    }
+
+    select(node?: Node, edge?: Edge) {
+        this.selectNode(node);
+        this.selectEdge(edge);
+        this.updateActions();
+    }
+
+    selectNode(node?: Node) {
+        this._selectedNode &#x3D; node;
+        this.nodeClicked.next(node);
+    }
+
+    selectEdge(edge?: Edge) {
+        this._selectedEdge &#x3D; edge;
+        this.edgeClicked.next();
+    }
+
+    ngOnDestroy() {
+        this.networkService.off(this.name, &#x27;click&#x27;);
+        if(this.providersSubscription){
+            this.providersSubscription.unsubscribe();
+        }
+    }
+
+
+    // Settings
+    
+    /**
+     * Sets the options values either to the user preferences (stored in user settings)
+     * or the default values.
+     */
+    updateOptions() {
+        this.optionsPrefs &#x3D; Utils.copy(this.options);
+        if(!this.optionsPrefs.physics){
+            this.optionsPrefs.physics &#x3D; {};
+        }
+        if(!this.optionsPrefs.physics.barnesHut){
+            this.optionsPrefs.physics.barnesHut &#x3D; {};
+        }
+        this.optionsPrefs.physics.barnesHut.springLength &#x3D; this.springLengthPref;
+        this.optionsPrefs.physics.barnesHut.springConstant &#x3D; this.springConstantPref / 100;
+        this.optionsPrefs.physics.barnesHut.damping &#x3D; this.dampingPref / 100;
+        this.optionsPrefs.physics.barnesHut.gravitationalConstant &#x3D; -this.repulsionPref;
+        this.optionsPrefs.physics.barnesHut.centralGravity &#x3D; this.gravityPref / 10;
+
+        if(this._networkInitialized) {
+            this.networkService.setOptions(this.name, this.optionsPrefs);
+        }
+    }
+
+    /**
+     * Method from the AbstractFacet interface called when the settings
+     * panel is opened or closed
+     * @param opened whether settings are opened or closed
+     */
+    onOpenSettings(opened: boolean){
+        if(opened) {
+            const springLengthControl &#x3D; new FormControl(this.springLengthPref);
+            const springConstantControl &#x3D; new FormControl(this.springConstantPref);
+            const dampingControl &#x3D; new FormControl(this.dampingPref);
+            const repulsionControl &#x3D; new FormControl(this.repulsionPref);
+            const gravityControl &#x3D; new FormControl(this.gravityPref);
+
+            this.form &#x3D; this.formBuilder.group({
+                springLength: springLengthControl,
+                springConstant: springConstantControl,
+                damping: dampingControl,
+                repulsion: repulsionControl,
+                gravity: gravityControl
+            });
+
+            this.form.valueChanges.subscribe(_ &#x3D;&gt; {
+                this.prefs.set(this.name+&#x27;-spring-length&#x27;, springLengthControl.value, true);
+                this.prefs.set(this.name+&#x27;-spring-constant&#x27;, springConstantControl.value, true);
+                this.prefs.set(this.name+&#x27;-damping&#x27;, dampingControl.value, true);
+                this.prefs.set(this.name+&#x27;-repulsion&#x27;, repulsionControl.value, true);
+                this.prefs.set(this.name+&#x27;-gravity&#x27;, gravityControl.value, true);
+                this.debounceSync();
+            });
+        }
+        else {
+            this.updateOptions();
+            this.updateData();
+        }
+    }
+
+    // Debounce syncing to avoid many calls to the user settings web service
+    debounceSync &#x3D; Utils.debounce(() &#x3D;&gt; {
+        this.prefs.sync();
+    }, 1000);
+
+    /**
+     * This method resets all the user preferences and rebuilds the settings form,
+     * so that the values displayed are up-to-date
+     */
+    setDefaults() {
+        this.prefs.delete(this.name+&#x27;-spring-length&#x27;, true);
+        this.prefs.delete(this.name+&#x27;-spring-constant&#x27;,true);
+        this.prefs.delete(this.name+&#x27;-damping&#x27;, true);
+        this.prefs.delete(this.name+&#x27;-repulsion&#x27;, true);
+        this.prefs.delete(this.name+&#x27;-gravity&#x27;, true);
+        this.prefs.sync();
+        this.onOpenSettings(true);
+    }
+
+    // Accessor method for each of the settings.
+    // Return either the saved user preference or the default value.
+
+    get springLengthPref(): number {
+        return this.prefs.get(this.name+&#x27;-spring-length&#x27;) || 100;
+    }
+    
+    get springConstantPref(): number {
+        return this.prefs.get(this.name+&#x27;-spring-constant&#x27;) || 4;
+    }
+    
+    get dampingPref(): number {
+        return this.prefs.get(this.name+&#x27;-damping&#x27;) || 50;
+    }
+
+    get repulsionPref(): number {
+        return this.prefs.get(this.name+&#x27;-repulsion&#x27;) || 2000;
+    }
+
+    get gravityPref(): number {
+        return this.prefs.get(this.name+&#x27;-gravity&#x27;) || 3;
+    }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;position-relative&quot;&gt;
+
+    &lt;div *ngIf&#x3D;&quot;context&quot;
+        [visNetwork]&#x3D;&quot;name&quot; 
+        [visNetworkData]&#x3D;&quot;context&quot; 
+        [visNetworkOptions]&#x3D;&quot;optionsPrefs&quot;
+        (initialized)&#x3D;&quot;networkInitialized()&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;ng-container *ngIf&#x3D;&quot;nodeTpl &amp;&amp; _selectedNode&quot;&gt;
+        &lt;ng-container *ngTemplateOutlet&#x3D;&quot;nodeTpl; context:{$implicit: _selectedNode}&quot;&gt;&lt;/ng-container&gt;
+    &lt;/ng-container&gt;
+
+    &lt;ng-container *ngIf&#x3D;&quot;edgeTpl &amp;&amp; _selectedEdge&quot;&gt;
+        &lt;ng-container *ngTemplateOutlet&#x3D;&quot;edgeTpl; context:{$implicit: _selectedEdge}&quot;&gt;&lt;/ng-container&gt;
+    &lt;/ng-container&gt;
+&lt;/div&gt;
+
+
+&lt;ng-template #settingsTpl&gt;
+    &lt;div class&#x3D;&quot;card-body&quot;&gt;
+        &lt;form [formGroup]&#x3D;&quot;form&quot;&gt;
+            &lt;div class&#x3D;&quot;form-group&quot;&gt;
+
+                &lt;h3&gt;{{&#x27;msg#network.settings.physics&#x27; | sqMessage}}&lt;/h3&gt;
+
+                &lt;label for&#x3D;&quot;springLength&quot;&gt;{{&#x27;msg#network.settings.springLength&#x27; | sqMessage}} ({{springLengthPref}})&lt;/label&gt;
+                &lt;input type&#x3D;&quot;range&quot; class&#x3D;&quot;form-control-range&quot; id&#x3D;&quot;springLength&quot; min&#x3D;&quot;30&quot; max&#x3D;&quot;200&quot; formControlName&#x3D;&quot;springLength&quot;&gt;
+
+                &lt;label for&#x3D;&quot;springConstant&quot;&gt;{{&#x27;msg#network.settings.springConstant&#x27; | sqMessage}} ({{springConstantPref}})&lt;/label&gt;
+                &lt;input type&#x3D;&quot;range&quot; class&#x3D;&quot;form-control-range&quot; id&#x3D;&quot;springConstant&quot; min&#x3D;&quot;1&quot; max&#x3D;&quot;20&quot; formControlName&#x3D;&quot;springConstant&quot;&gt;
+
+                &lt;label for&#x3D;&quot;damping&quot;&gt;{{&#x27;msg#network.settings.damping&#x27; | sqMessage}} ({{dampingPref}})&lt;/label&gt;
+                &lt;input type&#x3D;&quot;range&quot; class&#x3D;&quot;form-control-range&quot; id&#x3D;&quot;damping&quot; min&#x3D;&quot;10&quot; max&#x3D;&quot;100&quot; formControlName&#x3D;&quot;damping&quot;&gt;
+                
+                &lt;label for&#x3D;&quot;repulsion&quot;&gt;{{&#x27;msg#network.settings.repulsion&#x27; | sqMessage}} ({{repulsionPref}})&lt;/label&gt;
+                &lt;input type&#x3D;&quot;range&quot; class&#x3D;&quot;form-control-range&quot; id&#x3D;&quot;repulsion&quot; min&#x3D;&quot;1000&quot; max&#x3D;&quot;10000&quot; formControlName&#x3D;&quot;repulsion&quot;&gt;
+                
+                &lt;label for&#x3D;&quot;gravity&quot;&gt;{{&#x27;msg#network.settings.gravity&#x27; | sqMessage}} ({{gravityPref}})&lt;/label&gt;
+                &lt;input type&#x3D;&quot;range&quot; class&#x3D;&quot;form-control-range&quot; id&#x3D;&quot;gravity&quot; min&#x3D;&quot;1&quot; max&#x3D;&quot;20&quot; formControlName&#x3D;&quot;gravity&quot;&gt;
+                
+                &lt;hr&gt;
+
+                &lt;button class&#x3D;&quot;btn btn-light&quot; (click)&#x3D;&quot;setDefaults()&quot;&gt;{{&#x27;msg#network.settings.defaults&#x27; | sqMessage}}&lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/form&gt;
+    &lt;/div&gt;
+&lt;/ng-template&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="position-relative">    <div *ngIf="context"        [visNetwork]="name"         [visNetworkData]="context"         [visNetworkOptions]="optionsPrefs"        (initialized)="networkInitialized()">    </div>    <ng-container *ngIf="nodeTpl && _selectedNode">        <ng-container *ngTemplateOutlet="nodeTpl; context:{$implicit: _selectedNode}"></ng-container>    </ng-container>    <ng-container *ngIf="edgeTpl && _selectedEdge">        <ng-container *ngTemplateOutlet="edgeTpl; context:{$implicit: _selectedEdge}"></ng-container>    </ng-container></div><ng-template #settingsTpl>    <div class="card-body">        <form [formGroup]="form">            <div class="form-group">                <h3>{{\'msg#network.settings.physics\' | sqMessage}}</h3>                <label for="springLength">{{\'msg#network.settings.springLength\' | sqMessage}} ({{springLengthPref}})</label>                <input type="range" class="form-control-range" id="springLength" min="30" max="200" formControlName="springLength">                <label for="springConstant">{{\'msg#network.settings.springConstant\' | sqMessage}} ({{springConstantPref}})</label>                <input type="range" class="form-control-range" id="springConstant" min="1" max="20" formControlName="springConstant">                <label for="damping">{{\'msg#network.settings.damping\' | sqMessage}} ({{dampingPref}})</label>                <input type="range" class="form-control-range" id="damping" min="10" max="100" formControlName="damping">                                <label for="repulsion">{{\'msg#network.settings.repulsion\' | sqMessage}} ({{repulsionPref}})</label>                <input type="range" class="form-control-range" id="repulsion" min="1000" max="10000" formControlName="repulsion">                                <label for="gravity">{{\'msg#network.settings.gravity\' | sqMessage}} ({{gravityPref}})</label>                <input type="range" class="form-control-range" id="gravity" min="1" max="20" formControlName="gravity">                                <hr>                <button class="btn btn-light" (click)="setDefaults()">{{\'msg#network.settings.defaults\' | sqMessage}}</button>            </div>        </form>    </div></ng-template></div>'
+    var COMPONENTS = [{'name': 'AbstractFacet', 'selector': ''},{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEdgeInfoCard', 'selector': 'sq-edge-info-card'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTimelineComponent', 'selector': 'sq-facet-timeline'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNodeInfoCard', 'selector': 'sq-node-info-card'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSelectionArranger', 'selector': 'sq-selection-arranger'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimelineComponent', 'selector': 'sq-timeline'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'FacetNgxChart', 'selector': 'sq-facet-ngx-chart'},{'name': 'FusionChart', 'selector': 'sq-fusion-chart'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'NetworkComponent', 'selector': 'sq-network'},{'name': 'NgxChart', 'selector': 'sq-ngx-chart'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'StickyComponent', 'selector': '[sqSticky]'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
+    var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sq-advanced-form-autocomplete]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sq-advanced-form-validation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'FocusKeyListDirective', 'selector': '[sqFocusKeyList]'},{'name': 'FocusKeyListItemDirective', 'selector': '[sqFocusKeyListItem]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'Load', 'selector': '[sqLoad]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ResizeEventDirective', 'selector': '[sqResize]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'}];
+    var ACTUAL_COMPONENT = {'name': 'NetworkComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'NetworkComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

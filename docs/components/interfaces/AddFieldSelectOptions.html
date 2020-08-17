@@ -142,7 +142,7 @@
 import {Router, NavigationStart, NavigationEnd, Params} from &quot;@angular/router&quot;;
 import {Subject, BehaviorSubject, Observable, Subscription, of, throwError} from &quot;rxjs&quot;;
 import {map, catchError} from &quot;rxjs/operators&quot;;
-import {QueryWebService, AuditWebService, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
+import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
     AdvancedValue, AdvancedValueWithOperator, AdvancedOperator,
     AuditEvents, AuditEventType, AuditEvent} from &quot;@sinequa/core/web-services&quot;;
@@ -157,6 +157,7 @@ export interface SearchOptions {
     routes?: string[];
     homeRoute?: string;
     deactivateRouting?: boolean;
+    preventQueryNameChanges?: boolean;
 }
 
 export const SEARCH_OPTIONS &#x3D; new InjectionToken&lt;SearchOptions&gt;(&quot;SEARCH_OPTIONS&quot;);
@@ -270,10 +271,16 @@ export class SearchService implements OnDestroy {
         }
         this._query &#x3D; query;
         if (this._query) {
-            let ccquery &#x3D; this.appService.getCCQuery(this._query.name);
-            if (!ccquery) {
-                console.warn(&#x60;Query &#x27;${this._query.name}&#x27; not found&#x60;);
-                ccquery &#x3D; this.appService.defaultCCQuery;
+            let ccquery: CCQuery | undefined;
+            if (this.options.preventQueryNameChanges) {
+                ccquery &#x3D; this.appService.ccquery || this.appService.defaultCCQuery;
+            }
+            else {
+                ccquery &#x3D; this.appService.getCCQuery(this._query.name);
+                if (!ccquery) {
+                    console.warn(&#x60;Query &#x27;${this._query.name}&#x27; not found&#x60;);
+                    ccquery &#x3D; this.appService.defaultCCQuery;
+                }
             }
             if (ccquery) {
                 this._query.name &#x3D; ccquery.name;
@@ -1063,8 +1070,9 @@ export class SearchService implements OnDestroy {
     notifyOpenOriginalDocument(record: Record, resultId?: string): void {
         const results &#x3D; this.results &amp;&amp; this.results.records &amp;&amp; this.results.records.includes(record) ? this.results : undefined;
         this._events.next({ type: &quot;open-original-document&quot;, record });
-        const querylang &#x3D; this.query.questionLanguage ||
-            (this.appService.ccquery &amp;&amp; this.appService.ccquery.questionLanguage);
+        const querylang &#x3D; this.results?.queryAnalysis?.queryLanguage
+            || this.query?.questionLanguage
+            || this.appService?.ccquery?.questionLanguage;
         this.auditService.notifyDocument(
             AuditEventType.Click_ResultLink,
             record,

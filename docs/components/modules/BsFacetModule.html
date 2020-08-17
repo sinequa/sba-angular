@@ -588,7 +588,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://angular.io/api/core/ModuleWithProviders" target="_blank" >ModuleWithProviders</a></code>
+                        <b>Returns : </b>    <code>ModuleWithProviders&lt;BsFacetModule&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -661,7 +661,7 @@ import {BsFacetMultiComponent} from &quot;./facet-multi/facet-multi.component&qu
     ],
 })
 export class BsFacetModule {
-    public static forRoot(allFacets: any[] &#x3D; [], defaultFacets: FacetState[] &#x3D; []): ModuleWithProviders {
+    public static forRoot(allFacets: any[] &#x3D; [], defaultFacets: FacetState[] &#x3D; []): ModuleWithProviders&lt;BsFacetModule&gt; {
         return {
             ngModule: BsFacetModule,
             providers: [
