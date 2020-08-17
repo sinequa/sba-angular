@@ -274,8 +274,15 @@ export class LoginService implements OnDestroy {
             return Promise.resolve(); // initiate retry
         }
         if (!this.startConfig.usePopupForLogin && this.authenticationService.autoLoginActive) {
-            this.authenticationService.autoAuthenticate().subscribe();
-            return Promise.reject("performing auto login");
+            return this.authenticationService.autoAuthenticate().toPromise()
+                .then(result => {
+                    if (result/*auto-authentication initiated*/) {
+                        return Promise.reject("performing auto login");
+                    }
+                    else {
+                        return undefined;
+                    }
+                });
         }
         let firstCaller = false;
         const automaticProvider = this.getAutomaticProvider();

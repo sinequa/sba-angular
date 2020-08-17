@@ -61,6 +61,7 @@ export interface ExportQueryModel {
     webService: string;
     maxCount?: number;
     queryName?: string;
+    exportedColumns?: string[];
 }
 
 /**
@@ -363,7 +364,9 @@ export class SavedQueriesService implements OnDestroy {
                     this.searchService.query,
                     this.searchService.results,
                     model.format,
-                    model.maxCount);
+                    model.maxCount,
+                    model.exportedColumns,
+                );
             case ExportSourceType.Selection:
                 return this.queryExportService.exportSelection(
                     model.webService,
@@ -371,13 +374,17 @@ export class SavedQueriesService implements OnDestroy {
                     this.searchService.results,
                     this.selectionService.getSelectedIds(),
                     model.format,
-                    model.maxCount);
+                    model.maxCount,
+                    model.exportedColumns,
+                );
             case ExportSourceType.SavedQuery:
                 return this.queryExportService.exportSavedQuery(
                     model.webService,
                     model.queryName || "",
                     model.format,
-                    model.maxCount);
+                    model.maxCount,
+                    model.exportedColumns,
+                );
             default:
                 console.log(
                     'QueryExporter.export unexpected export type: ',

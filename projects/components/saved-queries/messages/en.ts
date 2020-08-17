@@ -33,7 +33,9 @@ export default {
         "exportSelection": "Export selection as {type}",
         "btnDownload": "Download",
         "btnClose": "Close",
-        "successNotification": "Download complete"
+        "successNotification": "Download complete",
+        "exportedColumns": "Columns to export",
+        "exportedColumnsLabelTooltip": "Select the columns that you want to export, an empty selection means exporting all columns",
     },
 
     "manageSavedQueries": {

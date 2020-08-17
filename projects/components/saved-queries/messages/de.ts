@@ -33,7 +33,9 @@ export default {
         "exportSelection": "Exportiere die Auswahl als {type}",
         "btnDownload": "Herunterladen",
         "btnClose": "Schließen",
-        "successNotification": "Herunterladen beendet"
+        "successNotification": "Herunterladen beendet",
+        "exportedColumns": "Zu exportierende Spalten", // DONOTPUSH
+        "exportedColumnsLabelTooltip": "Wählen Sie die Spalten aus, die Sie exportieren möchten. Eine leere Auswahl bedeutet, dass alle Spalten exportiert werden", // DONOTPUSH
     },
 
     "manageSavedQueries": {

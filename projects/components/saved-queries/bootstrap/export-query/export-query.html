@@ -9,6 +9,23 @@
             </select>
         </div>
         <div class="form-group sq-form-group">
+            <label
+                for="exportedColumns"
+                title="{{ 'msg#exportQuery.exportedColumnsLabelTooltip' | sqMessage }}"
+            >
+                {{ 'msg#exportQuery.exportedColumns' | sqMessage }}&nbsp;&#9432;
+            </label>
+            <select
+                id="exportedColumns"
+                formControlName="exportedColumns"
+                [sqValidation]="form"
+                class="form-control custom-select"
+                sqAutofocus multiple
+            >
+                <option [value]="column" *ngFor="let column of exportableColumns">{{ column }}</option>
+            </select>
+        </div>
+        <div class="form-group sq-form-group">
             <label for="maxCount">{{ 'msg#exportQuery.dialogMaxCount' | sqMessage }}</label>
             <input [sqValidation]="form" type="number" class="form-control" id="maxCount" formControlName="maxCount" autocomplete="off" spellcheck="off">
         </div>
@@ -23,16 +40,16 @@
                 </div>
                 <div class="form-check form-check-inline">
                     <label class="form-check-label">
-                        <input class="form-check-input" type="radio" [checked]="sourceChosen(sourceTypes.Selection)" (change)="sourceChanged($event, sourceTypes.Selection)" 
+                        <input class="form-check-input" type="radio" [checked]="sourceChosen(sourceTypes.Selection)" (change)="sourceChanged($event, sourceTypes.Selection)"
                         [disabled]="!hasSelectedRecords()" >
                         {{ 'msg#exportQuery.dialogSelection' | sqMessage }}
                     </label>
                 </div>
             </div>
         </div>
-        <!--div *ngIf="isDownloading" class="modal-footer">
-            <span class="loader"></span> 
+        <div *ngIf="isDownloading" class="modal-footer">
+            <span class="loader"></span>
             <button type="button" class="btn" (click)="close()">{{ 'msg#exportQuery.btnClose' | sqMessage }}</button>
-        </div-->
+        </div>
     </sq-modal>
 </form>

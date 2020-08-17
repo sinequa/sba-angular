@@ -477,17 +477,21 @@ export class AuthenticationService extends HttpService {
      *
      * A CSRF token is always requested to allow automatic login if a valid web token cookie has previously been
      * written via, for example, a login to the admin console.
+     *
+     * @returns An Observable of a boolean value which if `true` indicates that auto-authentication has been initiated.
      */
-    autoAuthenticate(): Observable<void> {
+    autoAuthenticate(): Observable<boolean> {
         return this.tokenService.getCsrfToken().pipe(
             map((csrfToken) => {
                 // Token can be empty as getCsrfToken suppresses application errors (no cookie or cookie invalid)
                 // (We do this to avoid having errors in the console for normal situations.)
                 if (csrfToken) {
                     this.setCsrfToken(csrfToken);
+                    return false;
                 }
                 else {
                     this.initiateAutoAuthentication();
+                    return true;
                 }
             }),
             catchError((error) => {
@@ -497,7 +501,7 @@ export class AuthenticationService extends HttpService {
                     return throwError(error);
                 }
                 // Swallow the error and continue with non-auto login process
-                return of(undefined);
+                return of(false);
             }));
     }
 }
