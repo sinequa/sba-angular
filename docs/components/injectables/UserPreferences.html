@@ -89,6 +89,10 @@ this.userPreferences.sync()</p>
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#delete">delete</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#get">get</a>
                             </li>
                             <li>
@@ -169,6 +173,101 @@ this.userPreferences.sync()</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="delete"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            delete
+                        </b>
+                        <a href="#delete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>delete(property: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, skipSync?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">user-settings/user-preferences.ts:57</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Deletes a given property from the preferences</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>property</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>the name of this property</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>skipSync</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>whether we should skyp syncing (to update multiple properties for example)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="get"></a>
                     <span class="name">
                         <b>
@@ -189,14 +288,16 @@ this.userPreferences.sync()</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">user-settings/user-preferences.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">user-settings/user-preferences.ts:35</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns the value of a property</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -206,6 +307,7 @@ this.userPreferences.sync()</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -220,6 +322,10 @@ this.userPreferences.sync()</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>the name of this property</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -254,21 +360,23 @@ this.userPreferences.sync()</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>set(property: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, noSync?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>set(property: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, skipSync?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">user-settings/user-preferences.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">user-settings/user-preferences.ts:45</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Sets the value of a property</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -278,6 +386,7 @@ this.userPreferences.sync()</p>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -292,6 +401,10 @@ this.userPreferences.sync()</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>the name of this property</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>value</td>
@@ -304,9 +417,13 @@ this.userPreferences.sync()</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>the value</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>noSync</td>
+                                    <td>skipSync</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
                                     </td>
@@ -316,6 +433,10 @@ this.userPreferences.sync()</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>whether we should skyp syncing (to update multiple properties for example)</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -357,14 +478,16 @@ this.userPreferences.sync()</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">user-settings/user-preferences.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">user-settings/user-preferences.ts:67</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Synchronizes the user preferences with the server</p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -410,17 +533,42 @@ export class UserPreferences {
         return this.userSettingsService.userSettings[&quot;prefs&quot;];
     }
 
+    /**
+     * Returns the value of a property
+     * @param property the name of this property
+     */
     public get(property: string) {
-        return this.prefs[property];
+        return this.prefs[property.toLowerCase()];
     }
 
-    public set(property: string, value: any, noSync?: boolean) {
-        this.prefs[property] &#x3D; value;
-        if(!noSync){
+    /**
+     * Sets the value of a property
+     * @param property the name of this property
+     * @param value the value
+     * @param skipSync whether we should skyp syncing (to update multiple properties for example)
+     */
+    public set(property: string, value: any, skipSync?: boolean) {
+        this.prefs[property.toLowerCase()] &#x3D; value;
+        if(!skipSync){
             this.sync();
         }
     }
 
+    /**
+     * Deletes a given property from the preferences
+     * @param property the name of this property
+     * @param skipSync whether we should skyp syncing (to update multiple properties for example)
+     */
+    public delete(property: string, skipSync?: boolean) {
+        this.prefs[property.toLowerCase()] &#x3D; null;
+        if(!skipSync){
+            this.sync();
+        }
+    }
+
+    /**
+     * Synchronizes the user preferences with the server
+     */
     public sync(){
         this.userSettingsService.patch({prefs: this.prefs});
     }

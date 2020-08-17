@@ -92,6 +92,9 @@
                                         <a href="#initial">initial</a>
                                 </li>
                                 <li>
+                                        <a href="#queryLanguage">queryLanguage</a>
+                                </li>
+                                <li>
                                         <a href="#text">text</a>
                                 </li>
                             </ul>
@@ -153,6 +156,35 @@
                                     <tr>
                                         <td class="col-md-4">
                                             <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="queryLanguage"></a>
+                                        <span class="name"><b>queryLanguage</b><a href="#queryLanguage"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>queryLanguage:     <code>string | undefined</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string | undefined</code>
 
                                         </td>
                                     </tr>
@@ -290,6 +322,10 @@ export interface Results {
      * A hash of the associated results for use with RFM (relevance feedback model) functionality
      */
     rfmQueryHash: string;
+    /**
+     * The name of the {@link IQuery} that produced these results
+     */
+    queryName: string;
 }
 
 /**
@@ -422,6 +458,7 @@ export interface QueryIntentDatasets {
 export interface QueryAnalysis {
     text: string;
     initial: boolean;
+    queryLanguage: string | undefined;
     elements: QueryAnalysisElement[];
 }
 

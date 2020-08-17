@@ -396,33 +396,6 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
             });
         return observable;
     }
-    
-    /*
-    localStorage version
-    
-    public load(): Observable&lt;UserSettings&gt; {
-        const us &#x3D; localStorage.getItem(&quot;sinequa-user-settings&quot;) || &quot;{}&quot;;
-        const data &#x3D; JSON.parse(us);
-        this.userSettings &#x3D; data;
-        if (this.userSettings) {
-            if (this.reviver) {
-                this.reviver(this.userSettings);
-            }
-        }
-        return of(data);
-    }
-
-    public save(auditEvents?: AuditEvents): Observable&lt;void&gt; {
-        localStorage.setItem(&quot;sinequa-user-settings&quot;, JSON.stringify(this.userSettings));
-        return of();
-    }
-
-    public patch(userSettings: UserSettings, auditEvents?: AuditEvents): Observable&lt;void&gt; {
-        Utils.extend(this.userSettings, userSettings);
-        return this.save(auditEvents);
-    }
-
-    */
 
     /**
      * Reads a user setting.

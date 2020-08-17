@@ -528,7 +528,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://angular.io/api/core/ModuleWithProviders" target="_blank" >ModuleWithProviders</a></code>
+                        <b>Returns : </b>    <code>ModuleWithProviders&lt;WebServicesModule&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -592,7 +592,7 @@ export class WebServicesModule {
      *
      * @returns The configured module
      */
-    static forRoot(startConfig: StartConfig) : ModuleWithProviders {
+    static forRoot(startConfig: StartConfig) : ModuleWithProviders&lt;WebServicesModule&gt; {
         return {
             ngModule: WebServicesModule,
             providers: [

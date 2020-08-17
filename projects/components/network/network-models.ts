@@ -122,6 +122,8 @@ export interface NetworkContext {
     networkService: VisNetworkService;
     appService: AppService;
     intlService: IntlService;
+    /** Interactions */
+    select(node?: Node, edge?: Edge): void;
 }
 
 

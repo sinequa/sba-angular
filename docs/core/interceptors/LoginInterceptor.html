@@ -1,0 +1,557 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Core</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Core</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interceptor">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interceptors</li>
+  <li>LoginInterceptor</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>login/login.interceptor.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>An <code>HttpInterceptor</code> to handle <code>HTTP 401 unauthorized</code> error responses by calling
+<a href="../injectables/LoginService.html#getCredentials">LoginService.getCredentials</a>. It also handles
+the <code>sinequa-jwt-refresh</code> header set when auto refreshing of JWT is configured in
+the Sinequa administration console.</p>
+
+            </p>
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#intercept">intercept</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(startConfig: <a href="../interfaces/StartConfig.html">StartConfig</a>, requestInitializers: <a href="../undefineds/HttpRequestInitializer.html">HttpRequestInitializer[]</a>, loginServiceProxy: <a href="../injectables/LoginServiceProxy.html">LoginServiceProxy</a>, notificationsService: <a href="../injectables/NotificationsService.html">NotificationsService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">login/login.interceptor.ts:24</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>startConfig</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../interfaces/StartConfig.html" target="_self" >StartConfig</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>requestInitializers</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../miscellaneous/typealiases.html#HttpRequestInitializer" target="_self" >HttpRequestInitializer[]</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>loginServiceProxy</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/LoginServiceProxy.html" target="_self" >LoginServiceProxy</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>notificationsService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/NotificationsService.html" target="_self" >NotificationsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="intercept"></a>
+                    <span class="name">
+                        <b>
+                            intercept
+                        </b>
+                        <a href="#intercept"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>intercept(request: HttpRequest<any>, next: <a href="https://angular.io/api/common/http/HttpHandler" target="_blank">HttpHandler</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="131"
+                            class="link-to-prism">login/login.interceptor.ts:131</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Handles <code>HTTP 401 unauthorized errors responses by calling
+     * <a href="../injectables/LoginService.html#getCredentials">LoginService.getCredentials</a>. It also handles auto
+     * refreshing of JWT by processing the</code>sinequa-jwt-refresh<code>header. The JWT cookie itself
+     * is updated by a</code>Set-Cookie<code>header in the response. There are a number of flags that
+     * can be set in the request parameters which will be removed before the request is actually
+     * sent:
+     * *</code>noAutoAuthentication<code>- set to bypass the</code>HTTP 401<code>handling
+     * *</code>noUserOverride<code>- set to not add the current user override to the request
+     * *</code>noNotify` - set to not notify errors using the <a href="NotificationService">NotificationService</a>
+     *
+     * @param request The intercepted request
+     * @param next The next interceptor in the chain
+     *</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>request</td>
+                                    <td>
+                                            <code>HttpRequest&lt;any&gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>next</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/common/http/HttpHandler" target="_blank" >HttpHandler</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;HttpEvent&lt;any&gt;&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, InjectionToken, Optional} from &quot;@angular/core&quot;;
+import {HttpInterceptor, HttpRequest, HttpResponse, HttpHandler,
+    HttpEvent, HttpErrorResponse, HttpParams} from &quot;@angular/common/http&quot;;
+import {Observable, of, from, throwError} from &quot;rxjs&quot;;
+import {map, switchMap, catchError} from &quot;rxjs/operators&quot;;
+import {Utils, SqError, SqErrorCode} from &quot;@sinequa/core/base&quot;;
+import {START_CONFIG, StartConfig} from &quot;@sinequa/core/web-services&quot;;
+import {NotificationsService} from &quot;@sinequa/core/notification&quot;;
+import {LoginService, LoginServiceProxy} from &quot;./login.service&quot;;
+import {AuthenticationService} from &quot;./authentication.service&quot;;
+
+export type HttpRequestInitializer &#x3D; (request: HttpRequest&lt;any&gt;) &#x3D;&gt; boolean;
+export const HTTP_REQUEST_INITIALIZERS &#x3D; new InjectionToken&lt;HttpRequestInitializer[]&gt;(&quot;HTTP_REQUEST_INITIALIZERS&quot;);
+
+/**
+ * An &#x60;HttpInterceptor&#x60; to handle &#x60;HTTP 401 unauthorized&#x60; error responses by calling
+ * [LoginService.getCredentials]{@link LoginService#getCredentials}. It also handles
+ * the &#x60;sinequa-jwt-refresh&#x60; header set when auto refreshing of JWT is configured in
+ * the Sinequa administration console.
+ */
+@Injectable({
+    providedIn: &quot;root&quot;
+})
+export class LoginInterceptor implements HttpInterceptor {
+    constructor(
+        @Inject(START_CONFIG) private startConfig: StartConfig,
+        @Optional() @Inject(HTTP_REQUEST_INITIALIZERS) private requestInitializers: HttpRequestInitializer[],
+        private loginServiceProxy: LoginServiceProxy,
+        private notificationsService: NotificationsService) {
+    }
+
+    private get loginService(): LoginService {
+        return this.loginServiceProxy.loginService;
+    }
+
+    private get authenticationService(): AuthenticationService {
+        return this.loginService.authenticationService;
+    }
+
+    private processRequestInitializers(request: HttpRequest&lt;any&gt;) {
+        if (this.requestInitializers) {
+            for (const requestInitializer of this.requestInitializers) {
+                if (!requestInitializer(request)) {
+                    break;
+                }
+            }
+        }
+    }
+
+    private isJsonable(obj): boolean {
+        return (Utils.isObject(obj) || Utils.isArray(obj)) &amp;&amp; !Utils.isArrayBuffer(obj) &amp;&amp; !Utils.isBlob(obj) &amp;&amp;
+            !Utils.isString(obj) &amp;&amp; !(obj instanceof HttpParams);
+    }
+
+    private shouldIntercept(url: string): boolean {
+        /*tslint:disable-next-line*/
+        return Utils.startsWith(url, this.startConfig.apiPath!);
+    }
+
+    private notifyError(error: any) {
+        let message;
+        const title &#x3D; &quot;msg#error.serverError&quot;;
+        if (error instanceof HttpErrorResponse) {
+            const response &#x3D; error;
+            try {
+                let data &#x3D; response.error;
+                if (Utils.isString(data)) {
+                    try {
+                        data &#x3D; JSON.parse(data);
+                    }
+                    catch (exception) {
+                    }
+                }
+                if (data &amp;&amp; data.errorMessage) {
+                    message &#x3D; data.errorMessage;
+                    if (data.errorCodeText) {
+                        message &#x3D; &#x60;${message} (${data.errorCodeText})&#x60;;
+                    }
+                    else if (data.errorCode) {
+                        message &#x3D; &#x60;${message} (${data.errorCode})&#x60;;
+                    }
+                }
+            }
+            catch (exception) {
+            }
+            if (!message) {
+                if (response.status &#x3D;&#x3D;&#x3D; 200) {
+                    message &#x3D; &quot;msg#error.responseLoadFailure&quot;;
+                }
+                else if (response.statusText) {
+                    message &#x3D; &#x60;${response.statusText} (${response.status})&#x60;;
+                }
+                else {
+                    message &#x3D; &#x60;HTTP error: ${response.status}&#x60;;
+                }
+            }
+        }
+        else if (SqError.is(error)) {
+            message &#x3D; error.message;
+        }
+        else {
+            message &#x3D; (error + &quot;&quot;) || &quot;msg#error.unknownError&quot;;
+        }
+        this.notificationsService.error(message, undefined, title);
+    }
+
+    private getCredentials(response: HttpErrorResponse, acceptCurrent: boolean): Promise&lt;void&gt; {
+        return this.loginService.getCredentials(response, acceptCurrent)
+            .catch((error) &#x3D;&gt; {
+                if (SqError.is(error, SqErrorCode.processedCredentialsError)) {
+                    return this.getCredentials(response, acceptCurrent);
+                }
+                throw error;
+            });
+    }
+
+    /**
+     * Handles &#x60;HTTP 401 unauthorized errors responses by calling
+     * [LoginService.getCredentials]{@link LoginService#getCredentials}. It also handles auto
+     * refreshing of JWT by processing the &#x60;sinequa-jwt-refresh&#x60; header. The JWT cookie itself
+     * is updated by a &#x60;Set-Cookie&#x60; header in the response. There are a number of flags that
+     * can be set in the request parameters which will be removed before the request is actually
+     * sent:
+     * * &#x60;noAutoAuthentication&#x60; - set to bypass the &#x60;HTTP 401&#x60; handling
+     * * &#x60;noUserOverride&#x60; - set to not add the current user override to the request
+     * * &#x60;noNotify&#x60; - set to not notify errors using the {@link NotificationService}
+     *
+     * @param request The intercepted request
+     * @param next The next interceptor in the chain
+     */
+    intercept(request: HttpRequest&lt;any&gt;, next: HttpHandler): Observable&lt;HttpEvent&lt;any&gt;&gt; {
+        if (!this.shouldIntercept(request.url) || request.params.has(&quot;noIntercept&quot;)) {
+            return next.handle(request);
+        }
+        const observableRequest &#x3D; of(request);
+        let noAutoAuthentication &#x3D; false;
+        let noUserOverride &#x3D; false;
+        let noNotify &#x3D; false;
+        let hadCredentials &#x3D; false;
+        let userOverrideActive &#x3D; false;
+        return observableRequest
+            .pipe(switchMap(request1 &#x3D;&gt; {
+                const config &#x3D; {headers: request1.headers, params: request1.params};
+                noAutoAuthentication &#x3D; Utils.isTrue(config.params.get(&quot;noAutoAuthentication&quot;));
+                config.params &#x3D; config.params.delete(&quot;noAutoAuthentication&quot;);
+                noUserOverride &#x3D; Utils.isTrue(config.params.get(&quot;noUserOverride&quot;));
+                config.params &#x3D; config.params.delete(&quot;noUserOverride&quot;);
+                noNotify &#x3D; Utils.isTrue(config.params.get(&quot;noNotify&quot;));
+                config.params &#x3D; config.params.delete(&quot;noNotify&quot;);
+                hadCredentials &#x3D; this.authenticationService.haveCredentials;
+                this.authenticationService.addAuthentication(config);
+                if (this.authenticationService.userOverrideActive &amp;&amp; !noUserOverride) {
+                    userOverrideActive &#x3D; true;
+                    this.authenticationService.addUserOverride(config);
+                }
+                else {
+                    userOverrideActive &#x3D; false;
+                }
+                config.headers &#x3D; config.headers.set(&quot;sinequa-force-camel-case&quot;, &quot;true&quot;);
+                if (this.isJsonable(request1.body)) {
+                    this.processRequestInitializers(request1);
+                }
+                const updatedRequest &#x3D; request1.clone({
+                    headers: config.headers,
+                    params: config.params,
+                    body: request1.body,
+                    withCredentials: true
+                });
+                this.notificationsService.enter(&quot;network&quot;);
+                return next.handle(updatedRequest)
+                    .pipe(map((event, index) &#x3D;&gt; {
+                        if (event instanceof HttpResponse) {
+                            this.notificationsService.leave(&quot;network&quot;);
+                            this.authenticationService.updateAuthentication(event);
+                        }
+                        return event;
+                    }));
+            }),
+            catchError((error, caught) &#x3D;&gt; {
+                this.notificationsService.leave(&quot;network&quot;);
+                if (error.status &#x3D;&#x3D;&#x3D; 401 &amp;&amp; !noAutoAuthentication) {
+                    if (userOverrideActive) {
+                        if (this.authenticationService.userOverrideActive) {
+                            this.authenticationService.deactivateUserOverride();
+                            this.authenticationService.userOverrideFailed &#x3D; true;
+                            this.notificationsService.error(&quot;msg#error.userOverrideFailure&quot;);
+                        }
+                        return caught;
+                    }
+                    return from(this.getCredentials(error, !hadCredentials))
+                        .pipe(switchMap(value &#x3D;&gt; caught));
+                }
+                if (!noNotify) {
+                    this.notifyError(error);
+                }
+                return throwError(error);
+            }));
+   }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interceptor';
+            var COMPODOC_CURRENT_PAGE_URL = 'LoginInterceptor.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -542,7 +542,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     protected getSuggests() {
         let value &#x3D; this.getInputValue();
         if(value) { // If there is text, make a call to the suggest API
-            const parseResult &#x3D; this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
+            const parseResult &#x3D; this.parseQuery(value); // If using fieldSearch, the result can be used to detect an active field
             let fields: string[] | undefined &#x3D; undefined;
             if(parseResult.result &amp;&amp; this.fieldSearch){
                 const position &#x3D; this.getInputPosition(); // Position of the caret, if needed
@@ -617,8 +617,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     /**
      * Parse the query for syntax error (also allows to detect field search if needed)
      */
-    protected parseQuery() : ParseResult {
-        const value &#x3D; this.getInputValue();
+    protected parseQuery(value: string) : ParseResult {
         const result &#x3D; this.appService.parseExpr(value, {allowEmptyValues: true});
         const event &#x3D; result instanceof Expr? { result: result } : { error: result };
         this.parse.next(event);

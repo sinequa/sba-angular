@@ -446,7 +446,7 @@ export class Confirm {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div style="border: solid;padding: 16px;background-color: white;" cdkTrapFocus [cdkTrapFocusAutoCapture]="true">    <h3 style="margin-top: 0;">{{title | sqMessage}}</h3>    <div>{{model.message | sqMessage:model.messageParams}}</div>    <hr>    <ng-container *ngFor="let button of model.buttons">        <button *ngIf="button.visible" type="{{button.primary ? \'submit\' : \'button\'}}"            (click)="buttonClick(button)">{{button.getText() | sqMessage}}</button>    </ng-container></div></div>'
-    var COMPONENTS = [{'name': 'Confirm', 'selector': 'sq-core-confirm'},{'name': 'Login', 'selector': 'sq-core-login'},{'name': 'ValidationMessageComponent', 'selector': 'sq-validation-message'}];
+    var COMPONENTS = [{'name': 'ComponentWithLogin', 'selector': ''},{'name': 'Confirm', 'selector': 'sq-core-confirm'},{'name': 'Login', 'selector': 'sq-core-login'},{'name': 'ValidationMessageComponent', 'selector': 'sq-validation-message'}];
     var DIRECTIVES = [{'name': 'LoadComponentDirective', 'selector': '[sqLoadComponent]'},{'name': 'ValidationDirective', 'selector': '[sqValidation]'}];
     var ACTUAL_COMPONENT = {'name': 'Confirm'};
 </script>

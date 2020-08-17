@@ -87,7 +87,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="213" class="link-to-prism">web-services/query.web.service.ts:213</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="217" class="link-to-prism">web-services/query.web.service.ts:217</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -191,6 +191,10 @@ export interface Results {
      * A hash of the associated results for use with RFM (relevance feedback model) functionality
      */
     rfmQueryHash: string;
+    /**
+     * The name of the {@link IQuery} that produced these results
+     */
+    queryName: string;
 }
 
 /**
@@ -323,6 +327,7 @@ export interface QueryIntentDatasets {
 export interface QueryAnalysis {
     text: string;
     initial: boolean;
+    queryLanguage: string | undefined;
     elements: QueryAnalysisElement[];
 }
 

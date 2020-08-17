@@ -1299,7 +1299,7 @@ Takes care of initializing the aggregation items to insert their $column propert
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getTreeAggregation(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, aggregationName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, results, levelCallback?: (nodes?: TreeAggregationNode[],level?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>,node?: TreeAggregationNode,opened?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>,filtered?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>) => void)</code>
+<code>getTreeAggregation(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, aggregationName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, results, levelCallback?: (nodes?: <a href="../interfaces/Node.html">TreeAggregationNode[]</a>,level?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>,node?: <a href="../interfaces/Node.html">TreeAggregationNode</a>,opened?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>,filtered?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>) => void)</code>
                 </td>
             </tr>
 
@@ -1779,7 +1779,7 @@ filtering the search</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>open(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, aggregation: TreeAggregation, item: TreeAggregationNode, levelCallback?: (nodes?: TreeAggregationNode[],level?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>,node?: TreeAggregationNode,opened?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>,filtered?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>) => void)</code>
+<code>open(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, aggregation: TreeAggregation, item: <a href="../interfaces/Node.html">TreeAggregationNode</a>, levelCallback?: (nodes?: <a href="../interfaces/Node.html">TreeAggregationNode[]</a>,level?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>,node?: <a href="../interfaces/Node.html">TreeAggregationNode</a>,opened?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>,filtered?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>) => void)</code>
                 </td>
             </tr>
 
@@ -1841,7 +1841,7 @@ Takes care of initializing the Node aggregation items to insert their properties
                                 <tr>
                                     <td>item</td>
                                     <td>
-                                            <code>TreeAggregationNode</code>
+                                                <code><a href="../interfaces/Node.html" target="_self" >TreeAggregationNode</a></code>
                                     </td>
 
                                     <td>

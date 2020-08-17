@@ -410,8 +410,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">preview/preview.service.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">preview/preview.service.ts:112</a></div>
                 </td>
             </tr>
 
@@ -480,8 +480,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="112"
-                            class="link-to-prism">preview/preview.service.ts:112</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="116"
+                            class="link-to-prism">preview/preview.service.ts:116</a></div>
                 </td>
             </tr>
 
@@ -574,8 +574,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">preview/preview.service.ts:126</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">preview/preview.service.ts:130</a></div>
                 </td>
             </tr>
 
@@ -656,8 +656,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="145"
-                            class="link-to-prism">preview/preview.service.ts:145</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="149"
+                            class="link-to-prism">preview/preview.service.ts:149</a></div>
                 </td>
             </tr>
 
@@ -906,6 +906,9 @@ export class PreviewService {
         const record &#x3D; this.searchService.getRecordFromId(id);
         const resultId &#x3D; !!record ? this.searchService.results &amp;&amp; this.searchService.results.id : undefined;
         if (audit) {
+            const queryLanguage &#x3D; this.searchService.results?.queryAnalysis?.queryLanguage
+                || this.searchService?.query?.questionLanguage
+                || this.appService?.ccquery?.questionLanguage;
             const collection &#x3D; !!record ? record.collection[0] : Utils.split(id, &quot;|&quot;)[0];
             const rank &#x3D; !!record ? record.rank : 0;
             auditEvent &#x3D; {
@@ -916,6 +919,7 @@ export class PreviewService {
                     collection: collection,
                     source: Utils.treeFirstNode(collection),
                     &quot;resultid&quot;: resultId,
+                    &quot;querylang&quot;: queryLanguage
                 }
             };
         }

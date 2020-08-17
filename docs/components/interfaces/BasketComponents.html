@@ -72,7 +72,7 @@
 The module using this service must provide these components
 in their forRoot() method</p>
 <p>Example below:</p>
-<p>  public static forRoot(): ModuleWithProviders {
+<p>  public static forRoot(): ModuleWithProviders<BasketsModule> {
       return {
           ngModule: BasketsModule,
           providers: [
@@ -290,7 +290,7 @@ export interface ManageBasketsModel {
  *
  * Example below:
  *
- *  public static forRoot(): ModuleWithProviders {
+ *  public static forRoot(): ModuleWithProviders&lt;BasketsModule&gt; {
         return {
             ngModule: BasketsModule,
             providers: [

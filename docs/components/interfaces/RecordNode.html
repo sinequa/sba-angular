@@ -1,0 +1,594 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>RecordNode</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>network/providers/records-provider.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Extension of the Node interface, to include the Record object
+from which the node is generated</p>
+
+            </p>
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../interfaces/Node.html" target="_self" >Node</a></code>
+            </p>
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#record">record</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="record"></a>
+                                        <span class="name"><b>record</b><a href="#record"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>record:     <code>Record</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>Record</code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Utils } from &#x27;@sinequa/core/base&#x27;;
+import { Record } from &#x27;@sinequa/core/web-services&#x27;;
+import { Action } from &#x27;@sinequa/components/action&#x27;;
+import { Node, NetworkDataset, NodeType, EdgeType, NetworkContext } from &#x27;../network-models&#x27;;
+import { BaseProvider } from &#x27;./base-provider&#x27;;
+
+/**
+ * Extension of the Node interface, to include the Record object
+ * from which the node is generated
+ */
+export interface RecordNode extends Node {
+    record: Record;
+}
+
+
+/**
+ * An extension of the EdgeType interface to include properties specific to
+ * structural edges (edge between a record and its metadata).
+ */
+export interface StructuralEdgeType extends EdgeType {
+    /** Name of the field in the record */
+    field: string;
+    /** count limits the number of values displayed and allows for pagination. Use 0 for unlimited values */
+    count?: number;
+    /** Defines when the edge should be displayed */
+    trigger: StructuralTriggerType;
+    /** showall: display all values from the field / paginate: display all value with pagination / existingnodes: only link to existing nodes / manual: only show if manual action (activated programmatically) */
+    display: StructuralDisplayType;
+    /** A function to parse metadata from a record node in a custom way */
+    parse?: (value: any, record: Record, type: StructuralEdgeType) &#x3D;&gt; CustomData;
+}
+
+export type StructuralTriggerType &#x3D; &quot;oninsert&quot; | &quot;onclick&quot; | &quot;manual&quot;;
+export type StructuralDisplayType &#x3D; &quot;all&quot; | &quot;paginate&quot; | &quot;existingnodes&quot; | ((node: Node, recordNode: RecordNode, index: number) &#x3D;&gt; boolean);
+
+/**
+ * Data structure returned by the optional parse() function of a structural edge
+ * type. Contains the parsed values of a property that can be turned into one or
+ * multiple nodes and edges.
+ */
+export interface CustomData {
+    values: string[]; // eg. LARRY PAGE, GOOGLE
+    displays: string[]; // eg. Larry Page, Google
+    relations?: string[]; // eg. Works At
+    directed?: boolean[]; // eg. true
+    fieldValue?: string; // A value on which to filter the data
+}
+
+/**
+ * Tests whether the given edge type is a structural edge type
+ * @param et an edge type
+ */
+export function isStructuralEdgeType(et: EdgeType): et is StructuralEdgeType {
+    return !!(et as StructuralEdgeType).field;
+}
+
+
+/**
+ * A network provider generating nodes from records.
+ * Additionally, the provider can generate the &quot;structural edges&quot; of that
+ * node. Structural edges are edges between a record and the fields of
+ * that record (eg. the wikipedia page of Microsoft is a record that probably
+ * contains the fields &quot;Microsoft&quot; and &quot;Bill Gates&quot;).
+ */
+export class RecordsProvider extends BaseProvider {
+
+    constructor(
+        public name &#x3D; &quot;Documents&quot;,
+        protected nodeType: NodeType,
+        protected edgeTypes: StructuralEdgeType[],
+        protected records: Record[],
+        protected hideRecordNode &#x3D; false
+    ){
+        super(name);
+    }
+
+    /**
+     * Clears the dataset and generates new record nodes
+     * @param records the list of records of this provider
+     */
+    protected updateDataset(records?: Record[]) {
+        this.dataset.clear();
+        if(!this.active || !records || records.length &#x3D;&#x3D;&#x3D; 0) {
+            return; 
+        }
+        this.addRecordNodes(records);
+    }
+    
+    // Record nodes
+
+    /**
+     * Generates the nodes for a list of records, including their structural
+     * edges, and adds them to the dataset.
+     * Returns the list of record nodes.
+     * @param records 
+     */
+    protected addRecordNodes(records: Record[]): RecordNode[] {
+        return records.map(record &#x3D;&gt; {
+            let node &#x3D; this.dataset.getNode(this.getNodeId(this.nodeType, record.id));
+            if(!node) {
+                node &#x3D; this.createNode(this.nodeType, record.id, record.title, !this.hideRecordNode, {record});
+                this.dataset.addNodes(node);
+                this.edgeTypes.forEach(type &#x3D;&gt; {
+                    this.addStructuralEdges(node as RecordNode, type);
+                });
+            }
+            return node as RecordNode;
+        });
+    }
+
+    
+    // Structural edges
+
+    /**
+     * Generates the metadata nodes and structural edges from the given node,
+     * and merge them into the dataset.
+     * This function will automatically parse the metadata contained in the record,
+     * but it is possible to manage custom types of metadata by providing a
+     * custom parse() function via the structural edge type.
+     * @param node The record node
+     * @param type The edge type for which we want to create edges
+     */
+    protected addStructuralEdges(node: RecordNode, type: StructuralEdgeType) {
+
+        if(type.nodeTypes[0] !&#x3D;&#x3D; this.nodeType){
+            throw new Error(&#x60;Inconsistent node type: &#x27;${type.nodeTypes[0].name}&#x27; instead of &#x27;${this.nodeType.name}&#x27;&#x60;);
+        }
+        
+        const recorddata &#x3D; node.record[type.field];
+
+        if(recorddata &#x3D;&#x3D;&#x3D; undefined){
+            return;
+        }
+
+        // Custom parse for mono or multi valued data
+        if(type.parse) {
+            if(Utils.isArray(recorddata)) {
+                recorddata.forEach((value,i) &#x3D;&gt; { 
+                    this.addCustomEdge(node, type, type.parse!(value, node.record, type));
+                });
+            }
+            else {
+                this.addCustomEdge(node, type, type.parse!(recorddata, node.record, type));
+            }
+        }
+        // Default handling for standard Sinequa Metadata
+        else {
+            const data &#x3D; new NetworkDataset();
+            data.addNodes(node);
+    
+            // sourcestr
+            if(Utils.isString(recorddata)) {
+                this.addStructuralEdge(data, node, type, recorddata, recorddata, 0);
+            }
+            else if(Utils.isArray(recorddata)) {
+                recorddata.forEach((value,i) &#x3D;&gt; {
+                    // sourcecsv
+                    if(Utils.isString(value)) {
+                        this.addStructuralEdge(data, node, type, value, value, i);
+                    }
+                    // entity
+                    else if(value[&quot;value&quot;]) {
+                        this.addStructuralEdge(data, node, type, value[&quot;value&quot;], value[&quot;display&quot;] || value[&quot;value&quot;], i);
+                    }
+                });
+            }
+    
+            this.dataset.merge(data);
+        }
+    }
+
+    /**
+     * Add a structural edge to a record node and adds that edge
+     * (and corresponding metadata node) to the given dataset.
+     * @param dataset The target dataset
+     * @param recordNode The record node
+     * @param type The edge type of the structural edge
+     * @param value The &quot;value&quot; property of the metadata node
+     * @param display The &quot;display&quot; property of the metadata node
+     * @param index The index of the metadata within the record, which may influence its visibility when using display&#x3D;paginate
+     */
+    protected addStructuralEdge(dataset: NetworkDataset, recordNode: RecordNode, type: StructuralEdgeType, value: string, display: string, index: number) {
+        // Create the metadata node
+        const node &#x3D; this.createNode(type.nodeTypes[1], value, display, true);
+        // Sets its visibility
+        node.visible &#x3D; type.trigger &#x3D;&#x3D;&#x3D; &quot;oninsert&quot; &amp;&amp; this.isEdgeVisible(type, node, recordNode, index);
+        if(recordNode.id !&#x3D;&#x3D; node.id){ // Special case of hybrid nodes, where the recordNode might contain itself...!
+            dataset.addNodes(node);
+            dataset.addEdges(this.createEdge(type, recordNode, node, value, node.visible, {record: recordNode.record}));
+        }
+    }
+
+    /**
+     * Add a custom structural edge to a record node and merges that edge
+     * (and corresponding metadata node) into the global dataset.
+     * @param recordNode The record node
+     * @param type The edge type of the structural edge
+     * @param data A CustomData object containing the properties of the metadata nodes we want to created
+     */
+    protected addCustomEdge(recordNode: RecordNode, type: StructuralEdgeType, data: CustomData) {
+        if(type.nodeTypes.length !&#x3D;&#x3D; data.values.length + 1) {
+            throw new Error(&#x60;Wrong number of values for this custom edge ${type.nodeTypes.length}, ${data.values.length}&#x60;);
+        }
+        // Create a dataset only for this data, to avoid duplicate conflicts
+        const dataset &#x3D; new NetworkDataset();
+        dataset.addNodes(recordNode);
+        // For each value contained in &quot;data&quot;, create a node, and edges in between them (in addition to the edges between the record and each metadata node)
+        let lastNode: Node;
+        for(let i&#x3D;0; i&lt;data.values.length; i++){
+            const node &#x3D; this.createNode(type.nodeTypes[i+1], data.values[i], data.displays[i], true);
+            dataset.addNodes(node);
+            // Add a structural edge from the record node to the new node
+            dataset.addEdges(this.createEdge(type, recordNode, node, data.fieldValue, node.visible, {record: recordNode.record}));
+            // If there is more than one node in the custom data, potentially add relations between them (note that the relation edge share the same type as the structural edge)
+            if(i &gt; 0){
+                const relation &#x3D; data.relations? data.relations[i-1] : undefined;
+                const directed &#x3D; data.directed? data.directed[i-1] : false;
+                dataset.addEdges(this.createEdge(type, lastNode!, node, data.fieldValue, true, {}, 1, directed, relation));
+            }
+            lastNode &#x3D; node;
+        }
+        this.dataset.merge(dataset);
+    }
+
+    /**
+     * Returns the visibility of a structural edge, depending on the type.display property
+     * @param type The structural edge type
+     * @param node The metadata node of this edge
+     * @param recordNode The record node of this edge
+     * @param index The index of the metadata in the list of metadata of the record
+     */
+    protected isEdgeVisible(type: StructuralEdgeType, node: Node, recordNode: RecordNode, index: number): boolean {
+        if(type.display &#x3D;&#x3D;&#x3D; &quot;all&quot;) {
+            return true;
+        }
+        else if(type.display &#x3D;&#x3D;&#x3D; &quot;existingnodes&quot;) {
+            return false;
+        }
+        else if(type.display &#x3D;&#x3D;&#x3D; &quot;paginate&quot;) {
+            return index &lt; (type.count || 10);
+        }
+        else {
+            return type.display(node, recordNode, index);
+        }
+    }
+    
+
+
+    // NetworkProvider interface
+
+    getData(context: NetworkContext) {
+        this.context &#x3D; context;
+        // Plain records mode (may be none)
+        this.updateDataset(this.records);
+        this.provider.next(this.dataset);
+    }
+
+    /**
+     * This function adjusts the visibility of nodes for the visibility
+     * type &quot;existingnode&quot;, so that nodes with only one neighbor (post-merge)
+     * are collapsed.
+     * @param dataset The dataset resulting of the merge of all the datasets
+     */
+    onDatasetsMerged(dataset: NetworkDataset) {
+        // Once the datasets are merged, we can update the visibility of nodes that should be shown only if they have more than one neighbor
+        dataset.getNodes()
+            .filter(node &#x3D;&gt; node.type &#x3D;&#x3D;&#x3D; this.nodeType)
+            .forEach(node &#x3D;&gt; {
+                dataset.getAdjacentEdges(node.id)
+                    .filter(edge &#x3D;&gt; (edge.type as StructuralEdgeType).display &#x3D;&#x3D;&#x3D; &#x27;existingnodes&#x27;)
+                    .forEach(edge &#x3D;&gt; {
+                        const neighbor &#x3D; dataset.getNode(node.id &#x3D;&#x3D;&#x3D; edge.to ? edge.from : edge.to);
+                        if(!neighbor) {
+                            throw new Error(&#x60;Missing node from edge ${edge.id}&#x60;);
+                        }
+                        const neighborsneighbors &#x3D; dataset.getAdjacentEdges(neighbor.id);
+                        if(neighborsneighbors.length &gt; 1) {
+                            neighbor.visible &#x3D; true;
+                            edge.visible &#x3D; true;
+                        }
+                    });
+            });
+    }
+
+    /**
+     * Adjust visibility of nodes and edges, for structural edges with
+     * type.trigger &#x3D; onclick. These nodes will only be shown once their
+     * record node is clicked on.
+     * @param node A node that was clicked
+     */
+    onNodeClicked(node?: Node) {
+        if(this.active &amp;&amp; node &amp;&amp; node.type &#x3D;&#x3D;&#x3D; this.nodeType) { // Note: we cannot test the provider property, since this node might have been merged with one from a different provider. However the node type should be a unique instance
+            let update &#x3D; false;
+            this.dataset.getAdjacentEdges(node.id)
+                .filter(edge &#x3D;&gt; edge.type[&#x27;trigger&#x27;] &#x3D;&#x3D;&#x3D; &#x27;onclick&#x27;)
+                .forEach(edge &#x3D;&gt; {
+                    const neighbor &#x3D; this.dataset.getNode(node.id &#x3D;&#x3D;&#x3D; edge.to ? edge.from : edge.to);
+                    if(!neighbor) {
+                        throw new Error(&#x60;Missing node from edge ${edge.id}&#x60;);
+                    }
+                    if(!neighbor.visible || !edge.visible) {
+                        edge.visible &#x3D; true;
+                        neighbor.visible &#x3D; true;
+                        update &#x3D; true;
+                    }
+                    // TODO &quot;propagate&quot; visibility (ie. if 2 nodes are visible but an edge in between is invisible, make it visible)
+                });
+            if(update) {
+                this.provider.next(this.dataset);
+            }
+        }
+    }
+
+    getProviderActions(): Action[] {
+        return super.getProviderActions();
+    }
+
+    /**
+     * Creates actions for expanding and/or collapsing a record node that was clicked.
+     * expanding and collapsing will act on the visibility of the structural edges
+     * attached to this node.
+     * Both actions might be displayed at the same time, if the node is in an intermediate
+     * state.
+     * @param node 
+     */
+    getNodeActions(node: Node): Action[] {
+        const actions &#x3D; super.getNodeActions(node);
+        
+        // Actions for exanding / collapsing a record node
+        if(this.active &amp;&amp; node.type &#x3D;&#x3D;&#x3D; this.nodeType &amp;&amp; this.edgeTypes.length &gt; 0) {
+            let hasExpandedEdge &#x3D; false;
+            let hasCollapsedEdge &#x3D; false;
+            this.dataset.getAdjacentEdges(node.id).forEach(e &#x3D;&gt; {
+                hasCollapsedEdge &#x3D; hasCollapsedEdge || !e.visible;
+                hasExpandedEdge &#x3D; hasExpandedEdge || e.visible;
+            });
+
+            if(hasCollapsedEdge) {
+                actions.push(new Action({
+                    icon: &quot;fas fa-expand-arrows-alt&quot;,
+                    title: &quot;msg#network.actions.expandMeta&quot;,
+                    action: () &#x3D;&gt; {
+                        let update &#x3D; false;
+                        this.dataset.getAdjacentEdges(node.id)
+                            .forEach(edge &#x3D;&gt; {
+                                const neighbor &#x3D; this.dataset.getNode(node.id &#x3D;&#x3D;&#x3D; edge.to ? edge.from : edge.to);
+                                if(!neighbor) {
+                                    throw new Error(&#x60;Missing node from edge ${edge.id}&#x60;);
+                                }
+                                if(!neighbor.visible || !edge.visible) {
+                                    edge.visible &#x3D; true;
+                                    neighbor.visible &#x3D; true;
+                                    update &#x3D; true;
+                                }
+                                // TODO &quot;propagate&quot; visibility (ie. if 2 nodes are visible but an edge in between is invisible, make it visible)
+                            });
+                        if(update) {
+                            this.provider.next(this.dataset);
+                        }
+                    }
+                }));
+            }
+            
+            if(hasExpandedEdge) {
+                actions.push(new Action({
+                    icon: &quot;fas fa-compress-arrows-alt&quot;,
+                    title: &quot;msg#network.actions.collapseMeta&quot;,
+                    action: () &#x3D;&gt; {
+                        let update &#x3D; false;
+                        this.dataset.getAdjacentEdges(node.id)
+                            .forEach(edge &#x3D;&gt; {
+                                const neighbor &#x3D; this.dataset.getNode(node.id &#x3D;&#x3D;&#x3D; edge.to ? edge.from : edge.to);
+                                if(!neighbor) {
+                                    throw new Error(&#x60;Missing node from edge ${edge.id}&#x60;);
+                                }
+                                if((neighbor.visible || edge.visible) &amp;&amp; !(neighbor as RecordNode).record) { // Prevent collapsing links between 2 record nodes (alternatively, we could count the number of neighbors of the neighbors, and close only the isoltated ones)
+                                    edge.visible &#x3D; false;
+                                    neighbor.visible &#x3D; false;
+                                    update &#x3D; true;
+                                }
+                            });
+                        if(update) {
+                            this.provider.next(this.dataset);
+                        }
+                    }
+                }));
+            }
+        }
+        return actions;
+    }
+
+}
+    </code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'RecordNode.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

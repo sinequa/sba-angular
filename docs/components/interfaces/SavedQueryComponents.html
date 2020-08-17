@@ -72,7 +72,7 @@
 The module using this service must provide these components
 in their forRoot() method</p>
 <p>Example below:</p>
-<div><pre class="line-numbers"><code class="language-none"> public static forRoot(): ModuleWithProviders {
+<div><pre class="line-numbers"><code class="language-none"> public static forRoot(): ModuleWithProviders&lt;SavedQueriesModule&gt; {
   return {
       ngModule: SavedQueriesModule,
       providers: [
@@ -288,7 +288,7 @@ export interface ExportQueryModel {
  *
  * Example below:
  *
- *     public static forRoot(): ModuleWithProviders {
+ *     public static forRoot(): ModuleWithProviders&lt;SavedQueriesModule&gt; {
         return {
             ngModule: SavedQueriesModule,
             providers: [

@@ -282,7 +282,7 @@ provided by the <a href="https://material.angular.io/cdk/categories">Angular CDK
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://angular.io/api/core/ModuleWithProviders" target="_blank" >ModuleWithProviders</a></code>
+                        <b>Returns : </b>    <code>ModuleWithProviders&lt;ModalModule&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -344,7 +344,7 @@ import {MODAL_MODULE_PROVIDERS} from &quot;./module.providers&quot;;
     ]
 })
 export class ModalModule {
-    static forRoot(confirmModal: Type&lt;any&gt; &#x3D; Confirm): ModuleWithProviders {
+    static forRoot(confirmModal: Type&lt;any&gt; &#x3D; Confirm): ModuleWithProviders&lt;ModalModule&gt; {
         return {
             ngModule: ModalModule,
             providers: [

@@ -386,7 +386,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://angular.io/api/core/ModuleWithProviders" target="_blank" >ModuleWithProviders</a></code>
+                        <b>Returns : </b>    <code>ModuleWithProviders&lt;BsResultsViewModule&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -447,7 +447,7 @@ import {BsResultsGridView} from &quot;./results-grid-view/results-grid-view&quot
     ],
 })
 export class BsResultsViewModule {
-    public static forRoot(resultsViews: ResultsView[], defaultView: ResultsView): ModuleWithProviders {
+    public static forRoot(resultsViews: ResultsView[], defaultView: ResultsView): ModuleWithProviders&lt;BsResultsViewModule&gt; {
         return {
             ngModule: BsResultsViewModule,
             providers: [

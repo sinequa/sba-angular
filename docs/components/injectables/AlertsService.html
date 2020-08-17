@@ -1450,7 +1450,7 @@ export interface ManageAlertsModel {
  *
  * Example below:
  *
- *  public static forRoot(): ModuleWithProviders {
+ *  public static forRoot(): ModuleWithProviders&lt;AlertsModule&gt; {
         return {
             ngModule: AlertsModule,
             providers: [

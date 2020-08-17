@@ -1,0 +1,30 @@
+<div class="card position-absolute mx-auto" *ngIf="!closed">
+    <div class="card-body">
+        <div class="d-flex align-items-center mb-1">
+            <ng-container *ngTemplateOutlet="nodeTpl; context:{$implicit: fromNode}"></ng-container>
+            <span class="mr-2">-</span>
+            <ng-container *ngTemplateOutlet="nodeTpl; context:{$implicit: toNode}"></ng-container>
+
+            <button class="btn btn-sm ml-auto" title="{{ (expanded? 'msg#network.infocards.collapse' : 'msg#network.infocards.expand') | sqMessage }}" (click)="expanded = !expanded">
+                <i class="fas fa-chevron-{{ expanded? 'up' : 'down' }}"></i>
+            </button>
+            <button class="btn btn-sm" title="{{ 'msg#network.infocards.close' | sqMessage }}" (click)="closed = true">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <sq-collapse [collapsed]="!expanded">
+            <ng-template>
+                <div><strong>{{ 'msg#network.infocards.count' | sqMessage }}: </strong> {{edge.count}}</div>
+                <div *ngIf="edge['aggregation']"><strong>{{ 'msg#network.infocards.aggregation' | sqMessage }}: </strong> {{edge['aggregation'].name}}</div>
+                <div *ngIf="edge['record']"><strong>{{ 'msg#network.infocards.record' | sqMessage }}: </strong> {{edge['record']['title']}}</div>
+            </ng-template>
+        </sq-collapse>
+    </div>
+</div>
+
+<ng-template #nodeTpl let-node>
+    <span *ngIf="node['image']"><img src="{{node['image']}}" class="circular-image mr-2"></span>
+    <span *ngIf="!node['image'] && node['icon']" [ngStyle]="{color: node['icon']['color']}" class="fa mr-2">{{node['icon']['code']}}</span>
+    <span class="mr-2">{{node.label}}</span>
+    <span *ngIf="node.count > 0" class="mr-2 text-muted" title="{{ 'msg#network.infocards.count' | sqMessage }}">({{node.count}})</span>
+</ng-template>

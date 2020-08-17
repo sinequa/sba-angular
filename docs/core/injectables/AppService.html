@@ -4470,8 +4470,8 @@ export class AppService implements OnDestroy {
             console.warn(&quot;No app configured&quot;);
             return;
         }
-        // Default query is the first in the list
-        const defaultQueryName &#x3D; Utils.split(this.app.queryNames, &quot;,&quot;)[0];
+        // If not set explicitly, the default query is the first in the list
+        const defaultQueryName &#x3D; this.app.defaultQueryName || Utils.split(this.app.queryNames, &quot;,&quot;)[0];
         this._defaultCCQuery &#x3D; Utils.getField&lt;CCQuery&gt;(this.app.queries, defaultQueryName);
         if (!this._defaultCCQuery) {
             console.warn(&#x60;Query not configured for app: ${this.appName}&#x60;);

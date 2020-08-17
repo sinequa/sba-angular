@@ -101,7 +101,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="370" class="link-to-prism">login/login.service.ts:370</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="379" class="link-to-prism">login/login.service.ts:379</a></div>
                             </td>
                         </tr>
 
@@ -161,7 +161,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="375" class="link-to-prism">login/login.service.ts:375</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="384" class="link-to-prism">login/login.service.ts:384</a></div>
                                 </td>
                             </tr>
 
@@ -268,6 +268,15 @@ export class LoginService implements OnDestroy {
      */
     get events(): Observable&lt;SessionEvent&gt; {
         return this._events;
+    }
+
+    /**
+     * Get the currently logged in {@link Principal}, if any. Note that a principal can exist
+     * without the login being complete. For example, in the situation where access is denied to
+     * the selected app.
+     */
+    get principal(): Principal | undefined {
+        return this.principalService.principal;
     }
 
     private setComplete() {

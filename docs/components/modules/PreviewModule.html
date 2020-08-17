@@ -284,7 +284,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://angular.io/api/core/ModuleWithProviders" target="_blank" >ModuleWithProviders</a></code>
+                        <b>Returns : </b>    <code>ModuleWithProviders&lt;PreviewModule&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -323,7 +323,7 @@ import {PREVIEW_MODAL} from &quot;./preview.service&quot;;
     ],
 })
 export class PreviewModule {
-    static forRoot(previewModal: Type&lt;any&gt;) : ModuleWithProviders {
+    static forRoot(previewModal: Type&lt;any&gt;) : ModuleWithProviders&lt;PreviewModule&gt; {
         return {
             ngModule: PreviewModule,
             providers: [

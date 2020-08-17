@@ -719,7 +719,7 @@ export const AuditFeedbackType &#x3D; &quot;UserFeedback&quot;;
  *
  * Example below:
  *
-    public static forRoot(): ModuleWithProviders {
+    public static forRoot(): ModuleWithProviders&lt;FeedbackModule&gt; {
         return {
             ngModule: FeedbackModule,
             providers: [

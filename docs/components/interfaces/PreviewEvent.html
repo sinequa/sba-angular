@@ -279,6 +279,9 @@ export class PreviewService {
         const record &#x3D; this.searchService.getRecordFromId(id);
         const resultId &#x3D; !!record ? this.searchService.results &amp;&amp; this.searchService.results.id : undefined;
         if (audit) {
+            const queryLanguage &#x3D; this.searchService.results?.queryAnalysis?.queryLanguage
+                || this.searchService?.query?.questionLanguage
+                || this.appService?.ccquery?.questionLanguage;
             const collection &#x3D; !!record ? record.collection[0] : Utils.split(id, &quot;|&quot;)[0];
             const rank &#x3D; !!record ? record.rank : 0;
             auditEvent &#x3D; {
@@ -289,6 +292,7 @@ export class PreviewService {
                     collection: collection,
                     source: Utils.treeFirstNode(collection),
                     &quot;resultid&quot;: resultId,
+                    &quot;querylang&quot;: queryLanguage
                 }
             };
         }

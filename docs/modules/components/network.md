@@ -145,7 +145,7 @@ The [`NodeType`]({{site.baseurl}}components/interfaces/NodeType.html) interface 
 
 - `name: string`: An identifier for this node type
 - `nodeOptions`: Node options define the appearance of a node. The full list of available node options is available in the [Vis.js documentation](https://visjs.github.io/vis-network/docs/network/nodes.html). `nodeOptions` can be a static object (all the nodes with this type will look the same) or a function returning an object (which allows to customize the appearance for each node).
-- `field?: string`: An option field name for this node type. If provider, the node will have the ability to filter the search (for example clicking on the node "Paris", will let the user filter the search with a selection of the form `geo:=Paris`).
+- `field?: string`: An optional field name for this node type. If provided, the node will have the ability to filter the search (for example clicking on the node "Paris", will let the user filter the search with a selection of the form `geo:=Paris`).
 
 **Examples:**
 
@@ -190,7 +190,7 @@ The [`EdgeType`]({{site.baseurl}}components/interfaces/EdgeType.html) interface 
 
 - `nodeTypes: NodeType[]`: The node types for each side of the edge. Normally two node types must be provided (except in some special cases).
 - `edgeOptions`: Edge options define the appearance of an edge. The full list of available edge options is available in the [Vis.js documentation](https://visjs.github.io/vis-network/docs/network/edges.html). `edgeOptions` can be a static object (all the edges with this type will look the same) or a function returning an object (which allows to customize the appearance for each edge).
-- `field?: string`: An option field name for this edge type. If provider, the edge will have the ability to filter the search (the provider generating this edge must include the `fieldValue` for the edge). Alternatively, an edge can let the user filter both its adjacent nodes (if both of them have a field).
+- `field?: string`: An optional field name for this edge type. If provided, the edge will have the ability to filter the search (the provider generating this edge must include the `fieldValue` for the edge). Alternatively, an edge can let the user filter both its adjacent nodes (if both of them have a field).
 
 ## Provider Factory
 
@@ -273,7 +273,7 @@ const provider = providerFactory.createRecordsProvider(doc, [struct], records, t
 
 ### Selected Records Providers
 
-The [`SelectedRecordsProvider`]({{site.baseurl}}components/classes/SelectedRecordsProvider.html) is a direct extension of [`RecordsProvider`]({{site.baseurl}}components/classes/RecordsProvider.html). The difference is that the provider listens to the [`SelectionService`]({{site.baseurl}}components/injectables/SelectionService.html) (See [Selection module](selection.html)) and provides record nodes from the list of selected records.
+The [`SelectedRecordsProvider`]({{site.baseurl}}components/classes/SelectedRecordsProvider.html) class is a direct extension of [`RecordsProvider`]({{site.baseurl}}components/classes/RecordsProvider.html). The difference is that the provider listens to the [`SelectionService`]({{site.baseurl}}components/injectables/SelectionService.html) (See [Selection module](selection.html)) and provides record nodes from the list of selected records.
 
 ⚠️ The `SelectionService` must be set-up to store *records* instead of just *record ids* (See [Selection module](selection.html#selection-service)).
 
@@ -296,7 +296,7 @@ const provider = providerFactory.createSelectedRecordsProvider(doc, struct);
 
 ### Async Records Providers
 
-The [`AsyncRecordsProvider`]({{site.baseurl}}components/classes/AsyncRecordsProvider.html) is a direct extension of [`RecordsProvider`]({{site.baseurl}}components/classes/RecordsProvider.html). The difference is that the provider requires a [`Query`]({{site.baseurl}}core/classes/Query.html) object, which is used to fetch a list of records, and these records are then transformed into nodes (as described above).
+The [`AsyncRecordsProvider`]({{site.baseurl}}components/classes/AsyncRecordsProvider.html) class is a direct extension of [`RecordsProvider`]({{site.baseurl}}components/classes/RecordsProvider.html). The difference is that the provider requires a [`Query`]({{site.baseurl}}core/classes/Query.html) object, which is used to fetch a list of records, and these records are then transformed into nodes (as described above).
 
 ```ts
 // Create a custom "document" node type that displays an image (which URL is stored in the `sourcevarchar4` column)
@@ -323,7 +323,7 @@ Notice here that we did not use the factory's built-in method for generating a n
 
 ### Aggregation Provider
 
-The [`AggregationProvider`]({{site.baseurl}}components/classes/AggregationProvider.html) provides nodes and edges generated from an *aggregation*. Aggregations are computed by the Sinequa engine based on the content of one column (or more) of an index. Aggregation are typically used to compute the content of facets (See [Facet Module](facet.html)).
+The [`AggregationProvider`]({{site.baseurl}}components/classes/AggregationProvider.html) class provides nodes and edges generated from an *aggregation*. Aggregations are computed by the Sinequa engine based on the content of one column (or more) of an index. Aggregation are typically used to compute the content of facets (See [Facet Module](facet.html)).
 
 The aggregation provider can be used to generate different types of relations between metadata:
 
@@ -447,7 +447,7 @@ Dynamic providers are extensions of [`RecordsProvider`]({{site.baseurl}}componen
 
 #### **Dynamic edge provider**
 
-A dynamic edge provider attaches record nodes to an existing node. For example, we can create a first record provider that generates nodes for documents, and when these nodes are inserted, we query the engine for people nodes related to these documents.
+A dynamic edge provider ([`DynamicEdgeProvider`]({{site.baseurl}}components/classes/DynamicEdgeProvider.html)) attaches record nodes to an existing node. For example, we can create a first record provider that generates nodes for documents, and when these nodes are inserted, we query the engine for people nodes related to these documents.
 
 ```ts
 // Create a standard document node type
@@ -492,7 +492,7 @@ const peopleProvider = providerFactory.createDynamicEdgeProvider(dynamicEdgeType
 
 #### **Dynamic node provider**
 
-A dynamic node provider transforms ("mutates") an existing node into a record node. For example, a metadata node for the person "Bill Gates" can be enriched with the wikipedia article about Bill Gates.
+A dynamic node provider ([`DynamicNodeProvider`]({{site.baseurl}}components/classes/DynamicNodeProvider.html)) transforms ("mutates") an existing node into a record node. For example, a metadata node for the person "Bill Gates" can be enriched with the wikipedia article about Bill Gates.
 
 In the following example, we start by creating an aggregation provider, displaying people and company relations. But the second provider enriches people nodes (when clicked on) with their wikipedia page (which allows to transform the appearance of the node and display their wikipedia pictures instead of an icon).
 
@@ -531,3 +531,112 @@ const personProvider = providerFactory.createDynamicNodeProvider(person, structE
 ```
 
 ![dynamic nodes provider]({{site.baseurl}}assets/modules/network/dynamic-nodes.png){: .d-block .mx-auto }
+
+## Interactions
+
+When clicking on a node or edge, it is possible to display **info cards**, which display information, and **actions**, which display buttons or menus associated with the given node or edge.
+
+### Info cards
+
+Info cards templates can be provided to the `sq-network` component by transclusion:
+
+{% raw %}
+
+```html
+<sq-network #facet [results]="results" [providers]="providers">
+
+    <ng-template #nodeTpl let-node>
+        <h1>This node is named: {{ node.label }}</h1>
+    </ng-template>
+
+</sq-network>
+```
+
+{% endraw %}
+
+And similarly for the edge info card:
+
+{% raw %}
+
+```html
+<sq-network #facet [results]="results" [providers]="providers">
+
+    <ng-template #edgeTpl let-edge>
+        <h1>This edge goes from {{ edge.from }} to {{ edge.to }}</h1>
+    </ng-template>
+
+</sq-network>
+```
+
+{% endraw %}
+
+Two components are provided as samples for node and edge info cards, but these should be typically modified and adapted to the specifics of the project.
+
+Node and edge info cards:
+
+```html
+<sq-network #facet [results]="results" [providers]="providers">
+
+    <ng-template #nodeTpl let-node>
+        <sq-node-info-card [node]="node"></sq-node-info-card>
+    </ng-template>
+
+    <ng-template #edgeTpl let-edge>
+        <sq-edge-info-card [edge]="edge"></sq-edge-info-card>
+    </ng-template>
+
+</sq-network>
+```
+
+![Node info card]({{site.baseurl}}assets/modules/network/node-info-card.png){: .d-block .mx-auto }
+
+![Edge info card]({{site.baseurl}}assets/modules/network/edge-info-card.png){: .d-block .mx-auto }
+
+### Actions
+
+Actions associated to a node, edge or provider are displayed as buttons or menus in the facet card header:
+
+![Actions]({{site.baseurl}}assets/modules/network/actions.png){: .d-block .mx-auto }
+
+These "actions" (see [Action module](action.html)) come from the providers ([`NetworkProvider`]({{site.baseurl}}components/interfaces/NetworkProvider.html)) and can be customized by overriding an existing provider or implementing your own provider from scratch (in fact a provider can be created for the sole purpose of displaying actions for some categories of nodes or edges).
+
+The providers have three methods that can be implemented to provide actions:
+
+- `getProviderActions(): Action[]`: Return a list of [`Action`]({{site.baseurl}}components/classes/Action.html) objects associated to the **provider**. These actions are displayed regardless of the node or edge currently focused. The actions are nested in a menu displaying the actions for all providers:
+
+![Actions for providers]({{site.baseurl}}assets/modules/network/actions-providers.png){: .d-block .mx-auto }
+*List of actions for the provider "Aggregations"*
+{: .text-center }
+
+- `getNodeActions(node: Node): Action[]`: Returns a list of [`Action`]({{site.baseurl}}components/classes/Action.html) objects specific to a given **node**. These actions are displayed when the node is clicked or focused. ⚠️ This method is called when *ANY* node is clicked, not just nodes from this provider.
+
+![Actions for providers]({{site.baseurl}}assets/modules/network/actions-node.png){: .d-block .mx-auto }
+*List of actions for the node "Google"*
+{: .text-center }
+
+- `getEdgeActions(edge: Edge): Action[]`: Returns a list of [`Action`]({{site.baseurl}}components/classes/Action.html) objects specific to a given **edge**. These actions are displayed when the edge is clicked or focused. ⚠️ This method is called when *ANY* edge is clicked, not just edges from this provider.
+
+Note that the [`BaseProvider`]({{site.baseurl}}components/class/BaseProvider.html) implementation already provides basic actions common to all providers, and all the providers documented above also provide actions when possible and relevant.
+
+Below is a sample implementation (from the [`DynamicNodeProvider`]({{site.baseurl}}components/classes/DynamicNodeProvider.html) class) to display an action specific to a given node. Notice that we call the parent method (`super.getNodeActions(node)`) to also display the built-in actions from the parent. Also note that we *preprend* the list (with `unshift()`) to display this custom action *before* the built-in actions.
+
+```ts
+/**
+ * Creates an action to process a clicked node, for dynamic node types
+ * with a "manual" trigger.
+ * @param node The clicked node
+ */
+getNodeActions(node: RecordNode): Action[] {
+    const actions = super.getNodeActions(node);
+    if(this.active && this.nodeType.trigger === "manual" && node && node.type === this.nodeType && this.processedNodes.indexOf(node.id) === -1) {
+        actions.unshift(new Action({
+            icon: "fas fa-star-of-life",
+            title: this.context.intlService.formatMessage("msg#network.actions.expandNode", {label: node.label}),
+            action: () => {
+                this.processNode(node);
+            }
+        }));
+    }
+    return actions;
+}
+```

@@ -134,6 +134,9 @@
                                 <li>
                                     <a href="#events">events</a>
                                 </li>
+                                <li>
+                                    <a href="#principal">principal</a>
+                                </li>
                             </ul>
                         </td>
                     </tr>
@@ -313,15 +316,15 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="263"
-                            class="link-to-prism">login/login.service.ts:263</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="272"
+                            class="link-to-prism">login/login.service.ts:272</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Called by the <a href="../injectables/HttpInterceptor.html">HttpInterceptor</a> on reception of an <code>HTTP 401</code> response.
+                    <div class="io-description"><p>Called by the <a href="HttpInterceptor">HttpInterceptor</a> on reception of an <code>HTTP 401</code> response.
 This will either initiate an auto login process (OAuth/SAML) if configured on
 the Sinequa server or display the login modal dialog to request user credentials</p>
 </div>
@@ -412,8 +415,8 @@ redirected to the OAuth/SAML redirect url</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="162"
-                            class="link-to-prism">login/login.service.ts:162</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="171"
+                            class="link-to-prism">login/login.service.ts:171</a></div>
                 </td>
             </tr>
 
@@ -459,8 +462,8 @@ token.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="119"
-                            class="link-to-prism">login/login.service.ts:119</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">login/login.service.ts:128</a></div>
                 </td>
             </tr>
 
@@ -542,8 +545,8 @@ The <code>session-end</code> event is emitted</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="136"
-                            class="link-to-prism">login/login.service.ts:136</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="145"
+                            class="link-to-prism">login/login.service.ts:145</a></div>
                 </td>
             </tr>
 
@@ -705,6 +708,41 @@ is permitted to do this. They can revert to the normal login by calling this met
 
             </tbody>
         </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="principal"></a>
+                        <span class="name"><b>principal</b><a href="#principal"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>principal()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">login/login.service.ts:104</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Get the currently logged in <a href="../interfaces/Principal.html">Principal</a>, if any. Note that a principal can exist
+without the login being complete. For example, in the situation where access is denied to
+the selected app.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="../interfaces/Principal.html" target="_self" >Principal | undefined</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
 </section>
     </div>
 
@@ -806,6 +844,15 @@ export class LoginService implements OnDestroy {
      */
     get events(): Observable&lt;SessionEvent&gt; {
         return this._events;
+    }
+
+    /**
+     * Get the currently logged in {@link Principal}, if any. Note that a principal can exist
+     * without the login being complete. For example, in the situation where access is denied to
+     * the selected app.
+     */
+    get principal(): Principal | undefined {
+        return this.principalService.principal;
     }
 
     private setComplete() {
