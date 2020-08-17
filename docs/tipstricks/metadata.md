@@ -8,6 +8,7 @@ nav_order: 2
 # Custom Metadata
 
 You will often be in the following situation:
+
 - You index some content with custom metadata in a dedicated column (eg. a **category** metadata stored in `sourcestr1`).
 - You want to display this value for each result.
 - You want to display the distribution of categories in a *list facet*.
@@ -44,7 +45,7 @@ Your application probably displays results in a for-loop. In [Hello-Search]({{si
         <h3 [innerHtml]="record.displayTitle || record.title"></h3>
     </a>
     <div class="source">{{record.url1}}</div>
-    <p *ngIf="record.relevantExtracts" [innerHTML]="record.relevantExtracts"></p>       
+    <p *ngIf="record.relevantExtracts" [innerHTML]="record.relevantExtracts"></p>
 </div>{% endraw %}
 ```
 
@@ -58,10 +59,10 @@ For something more sophisticated, which includes a *label* and an icon, you can 
 
 ```html
 <sq-metadata
-    [record]="record" 
+    [record]="record"
     [items]="['metadata']"
-    [showTitles]="true" 
-    [showIcons]="true" 
+    [showTitles]="true"
+    [showIcons]="true"
     [clickable]="false"
     [spacing]="'compact'">
 </sq-metadata>
@@ -74,6 +75,71 @@ $sq-icons-map: (
     ...
     "category": ("tag", "s"),  // Results in 'sq-icon-category' = 'fas fa-tag', a font awesome icon
 ```
+
+Alternatively, you could assign the Font Awesome icon manually (see [documentation](https://fontawesome.com/how-to-use/on-the-web/using-with/sass)):
+
+```scss
+@import "./fontawesome/scss/fontawesome.scss";
+@import "./fontawesome/scss/solid.scss";
+@import "./fontawesome/scss/brands.scss";
+
+.sq-icon-category {
+  @extend %fa-icon;
+  @extend .fas; // Use @extend .fas; to create an icon in the Solid style
+
+  &:before {
+    content: fa-content($fa-var-tag);
+  }
+}
+```
+
+Or, you could create a completely custom icon (eg. based on an image), also via CSS (again, target the classname `sq-icon-category`). Have a look at [this Stack Overflow question](https://stackoverflow.com/questions/29576527/adding-icon-image-to-css-class-for-html-elements) for example.
+
+## Custom formatter
+
+If this metadata is stored in the index in a format that needs to be processed to be displayed, it is possible to specify a **custom formatter**.
+
+First of all, choose a name for the formatter, like `"prettifyCategory"`. Set this name in the "formatter" column in the **Advanced tab** of your **Query** configuration.
+
+![Custom formatter]({{site.baseurl}}assets/tipstricks/metadata-formatter.png){: .d-block .mx-auto }
+
+This custom formatter needs to be implemented in your Angular application. This is done by overriding the [FormatService]({{site.baseurl}}core/injectables/FormatService.html). An example is provided in the documentation of the [App Utils modules]({{site.baseurl}}modules/core/app-utils.html#format-service).
+
+1. Create your extension of the [FormatService]({{site.baseurl}}core/injectables/FormatService.html) in your app.
+
+    ```ts
+    @Injectable({
+        providedIn: 'root'
+    })
+    export class MyFormatService extends FormatService {
+
+    }
+    ```
+
+2. Implement your custom formatter by overriding the `formatValue()` method. The `valueItem` input contains the raw value stored in the index, and the `column` contains the properties of the index column corresponding to each metadata.
+
+    ```ts
+    // Add support for a custom formatter
+    formatValue: (valueItem: ValueItem | FieldValue, column?: CCColumn): string {
+        if (column && column.formatter === 'prettifyCategory') {
+            ...
+            return "The formatter category"
+        }
+        return super.formatValue(valueItem, column);
+    }
+    ```
+
+3. In your `app.module.ts`, provide your custom [FormatService]({{site.baseurl}}core/injectables/FormatService.html):
+
+    ```ts
+    @NgModule({
+        ...,
+        providers: [
+            ...,
+            { provider: FormatService, useClass: MyFormatService }
+        ]
+    })
+    ```
 
 ## Displaying a list facet
 
@@ -97,7 +163,7 @@ In the context of a facet, use the `FacetService` (from `@sinequa/components/fac
 
 ```ts
 let aggregation = this.facetService.getAggregation('Categories', results); // Get the aggregation data
-let item = aggregation.items.find(item => item === 'some category'); // Find the item you want to "click" on 
+let item = aggregation.items.find(item => item === 'some category'); // Find the item you want to "click" on
 this.facetService.addFilterSearch('facet name', aggregation, item); // Apply the filter (to the Query) and refresh the search
 ```
 
@@ -107,4 +173,3 @@ In a more general context (not tied to a facet), you can use the `SearchService`
 this.searchService.addFieldSelect("category", {value: "some category"}); // Apply the filter (to the Query)
 this.searchService.search(); // Request results to the server (with the new query)
 ```
-
