@@ -883,11 +883,11 @@ export class SearchService implements OnDestroy {
         if (!this.breadcrumbs) {
             return false;
         }
-        if (this.breadcrumbs.textExpr) {
+        if (this.breadcrumbs.textExpr?.hasRelevance) {
             return true;
         }
         const refineExpr = this.breadcrumbs.findSelect("refine");
-        return refineExpr != null;
+        return refineExpr?.hasRelevance || false;
     }
 
     selectTab(arg: string | Tab, options: SearchService.NavigationOptions = {}): Promise<boolean> {

@@ -1317,6 +1317,16 @@ export class Expr {
     }
 
     /**
+     * Return `true` if the exoression has at least one fulltext operand.
+     * The test on `isPositive` filters expressions that only contain
+     * negative fulltext terms which will be ignored on the server. Fulltext
+     * expressions must have at least one positive term.
+     */
+    get hasRelevance(): boolean {
+        return this.some(expr => expr.isLeaf && !expr.isStructured && expr.isPositive);
+    }
+
+    /**
      * Return an array of all fields used in this expression
      */
     getFields(): string[] {
