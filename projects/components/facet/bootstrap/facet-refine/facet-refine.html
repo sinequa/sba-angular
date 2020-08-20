@@ -5,16 +5,18 @@
             <div class="input-group">
                 <label class="sr-only">{{'msg#facet.refine.input.label' | sqMessage}}</label>
                 
-                <input type="text" placeholder="{{'msg#facet.refine.input.placeholder' | sqMessage}}" formControlName="search" 
-                    class="form-control {{inputErrorMessage ? 'is-invalid' : ''}}" spellcheck="false" autocomplete="off"
+                <input type="text"
+                    formControlName="search" 
+                    class="form-control {{inputErrorMessage ? 'is-invalid' : ''}}"
+                    spellcheck="false"
+                    autocomplete="off"
                     [title]="inputErrorMessage"
 
                     sqAutocomplete
+                    [placeholder]="'msg#facet.refine.input.placeholder' | sqMessage"
                     [dropdown]="dropdown" 
                     [suggestQuery]="suggestQuery"
                     [off]="!autocompleteEnabled"
-                    [fieldSearch]="fieldSearch"
-                    [excludedFields]="excludedFields"
                     [suggestDelay]="suggestDelay"                    
 
                     (submit)="doRefine()"
