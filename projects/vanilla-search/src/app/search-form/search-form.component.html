@@ -5,14 +5,32 @@
         
         <div class="input-group">
             <!-- Input with autocomplete -->
-            <input type="text" placeholder="{{ 'msg#searchForm.searchFor' | sqMessage }}" formControlName="search" class="form-control"
-                spellcheck="false" autocomplete="off"
-                [sqAutofocus]="autofocus"
-                [sqAutocompleteExtended]="autocompleteSources"
-                [dropdown]="dropdown"
-                [off]="!loginService.complete || !appService.suggestQueries"
-                [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''"
-                (submit)="search()">
+            <div class="form-control d-flex" [title]="parseResult?.error || ''" [ngClass]="{'is-invalid': !!parseResult?.error}">
+
+                <sq-field-search-items #fieldSearchItemsContainer></sq-field-search-items>
+
+                <!-- Search input -->
+                <input type="text"
+                    class="search-input flex-grow-1"
+                    formControlName="search"
+                    spellcheck="false"
+                    autocomplete="off"
+
+                    [placeholder]="'msg#searchForm.searchFor' | sqMessage"
+                    [sqAutofocus]="autofocus"
+                    [sqAutocompleteExtended]="autocompleteSources"
+                    [dropdown]="dropdown"
+                    [off]="!loginService.complete || !appService.suggestQueries"
+                    [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''"
+
+                    [fieldSearchMode]="fieldSearchMode"
+                    [fieldSearchExpression]="fieldSearchExpression"
+                    [fieldSearchItemsContainer]="fieldSearchItemsContainer"
+                    [excludedFields]="['concepts','textlexicon','recent-query','saved-query','basket','recent-document']"
+
+                    (submit)="search()"
+                    (parse)="onParse($event)">
+            </div>
 
             <!-- Search button -->
             <div class="input-group-append">
