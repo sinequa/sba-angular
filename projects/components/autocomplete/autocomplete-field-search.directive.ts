@@ -111,9 +111,6 @@ export class AutocompleteFieldSearch extends Autocomplete {
         }
     }
 
-
-    // Getters and Setters
-
     /**
      * Insert the given autocomplete item into the current search input
      * at the right location
@@ -214,8 +211,8 @@ export class AutocompleteFieldSearch extends Autocomplete {
     }
 
     /**
-     * Transforms a list of AutocompleteItems into an Expr
-     * @param items 
+     * Transforms a list of AutocompleteItems into an expression
+     * @param items list of AutocompleteItems
      */
     protected itemsToExpr(items: AutocompleteItem[]): string | undefined {
         if(items.length > 0) {
@@ -233,7 +230,7 @@ export class AutocompleteFieldSearch extends Autocomplete {
 
     /**
      * Transforms an expression into a list of AutocompleteItems
-     * @param expr 
+     * @param expr an expression
      */
     protected exprToItem(expr: Expr): AutocompleteItem {
         return {
@@ -244,8 +241,10 @@ export class AutocompleteFieldSearch extends Autocomplete {
     }
 
     /**
-     * Actually makes the API call to the suggestService to retrieve suggestions
-     * and process them.
+     * Takes the text from the <input> element and parse it to
+     * determine what type of suggestion to request from the server.
+     * The suggestions are then fetched by getSuggestsObs() and processed
+     * by processSuggests().
      */
     protected getSuggests() {
         let value = this.getInputValue();
@@ -322,7 +321,8 @@ export class AutocompleteFieldSearch extends Autocomplete {
     }
 
     /**
-     * Parse the query for syntax error (also allows to detect field search if needed)
+     * Parse the query for syntax errors (also allows to detect field search if needed).
+     * Fires a parse event.
      */
     protected parseQuery() : ParseResult {
         const value = this.getInputValue();
@@ -336,6 +336,8 @@ export class AutocompleteFieldSearch extends Autocomplete {
     /**
      * Listen to user's keyboard actions in the <input>, in order to navigate
      * and select the autocomplete suggestions.
+     * Overrides the parent keydown method, adds the management of the backspace key
+     * to remove field search items.
      * @param event the keyboard
      */
     keydown(event: KeyboardEvent) {
@@ -356,6 +358,10 @@ export class AutocompleteFieldSearch extends Autocomplete {
         return keydown;
     }
 
+    /**
+     * Updates the <input>'s placeholder to avoid displaying something
+     * when there are fieldSearchItems displayed to the left.
+     */
     updatePlaceholder() {
         this._placeholder = this.fieldSearchItems.length > 0 ? '' : this.placeholder;
     }
