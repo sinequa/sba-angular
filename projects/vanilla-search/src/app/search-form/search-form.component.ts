@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { FEATURES } from '../../config';
 import { ParseResult } from '@sinequa/components/autocomplete';
 import { AutocompleteExtended } from './autocomplete-extended.directive';
+import { UserPreferences } from '@sinequa/components/user-settings';
 
 @Component({
   selector: 'app-search-form',
@@ -26,7 +27,6 @@ export class SearchFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   autofocus = 0;
 
-  fieldSearchMode: "off" | "text" | "selects" = "selects";
   fieldSearchExpression?: string;
 
   parseResult?: ParseResult;
@@ -37,7 +37,8 @@ export class SearchFormComponent implements OnInit, OnDestroy {
     public searchService: SearchService,
     public loginService: LoginService,
     private formBuilder: FormBuilder,
-    public appService: AppService) {
+    public appService: AppService,
+    public prefs: UserPreferences) {
   }
 
   /**
@@ -70,7 +71,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
     if(this.loginService.complete){
       this.searchService.clearQuery();
       this.searchService.query.text = this.searchControl.value || "";
-      if(this.fieldSearchMode === "selects") {
+      if(this.getMode() === "selects") {
         const expr = this.autocompleteDirective.getFieldSearchExpression();
         if(expr) {
           this.searchService.query.addSelect(expr, "search-form");
@@ -109,4 +110,21 @@ export class SearchFormComponent implements OnInit, OnDestroy {
     return FEATURES;
   }
 
+  /**
+   * Sets the field search mode
+   * event.preventDefault() to avoid the label stealing the focus
+   * and closing the autocomplete...
+   */
+  setMode(mode: "off" | "selects" | "text", event?: Event) {
+    event?.preventDefault();
+    this.prefs.set('field-search-mode', mode);
+  }
+
+  /**
+   * Returns the field search mode, stored in user
+   * preferences
+   */
+  getMode(): "off" | "selects" | "text" {
+    return this.prefs.get('field-search-mode') || "selects";
+  }
 }

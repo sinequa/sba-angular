@@ -73,8 +73,9 @@ export class AutocompleteFieldSearch extends Autocomplete {
                 this.submit.next();
             });
         }
+
         // Transform the field search expresion (Expr string) into a list of autocomplete items displayed in the field search container
-        if(changes["fieldSearchExpression"] && this.fieldSearchExpression) {
+        if(changes["fieldSearchExpression"] && this.fieldSearchExpression && this.fieldSearchMode === "selects") {
             const expr = this.appService.parseExpr(this.fieldSearchExpression);
             if(expr instanceof Expr && this.fieldSearchItems.length !== expr.getFields().length) {
                 this.fieldSearchItems.splice(0);
@@ -86,10 +87,16 @@ export class AutocompleteFieldSearch extends Autocomplete {
                 else {
                     this.fieldSearchItems.push(this.exprToItem(expr));
                 }
-                this.updatePlaceholder();
-                this.fieldSearchItemsContainer?.update(this.fieldSearchItems);
             }
         }
+
+        // If fieldSearchMode changes from selects to something else, we must remove the field search items
+        if(changes["fieldSearchMode"] && this.fieldSearchMode !== "selects" && this.fieldSearchItems.length > 0) {
+            this.fieldSearchItems.splice(0);
+        }
+
+        this.updatePlaceholder();
+        this.fieldSearchItemsContainer?.update(this.fieldSearchItems);
     }
 
 
