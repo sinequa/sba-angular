@@ -14,6 +14,7 @@ a.filtered, a.filtered:hover {
     color: inherit;
     cursor: inherit;
 }
+i.checked:hover { color: red; cursor: pointer; }
     `]
 })
 export class BsFacetList extends AbstractFacet implements OnChanges {
@@ -147,6 +148,8 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
             this.searchQuery = "";
             this.suggestions.splice(0);
             this.refreshFiltered();
+
+            console.log("changes", this.data, this.filtered);
         }
     }
 
@@ -220,10 +223,13 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      */
     filterItem(item: AggregationItem, event) : boolean {
         if (this.data) {
+            console.log("1");
             if (!this.isFiltered(item)) {
+                console.log("2");
                 this.facetService.addFilterSearch(this.getName(), this.data, item);
             }
             else {
+                console.log("3");
                 this.facetService.removeFilterSearch(this.getName(), this.data, item);
             }
         }

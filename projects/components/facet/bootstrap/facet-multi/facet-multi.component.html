@@ -3,7 +3,7 @@
         class="open-facet d-flex flex-row list-group-item border-0 list-group-item-action px-3 py-1 align-items-center"
         [ngClass]="{'list-group-item-success':facet.$hasFiltered, 'disabled':!facet.$hasData }">
         <span class="flex-grow-1">{{ facet.title | sqMessage }}</span>
-        <i class="far fa-check-square" title="{{ 'msg#facet.filters.selectedFilters' | sqMessage }}" *ngIf="facet.$hasFiltered"></i>
+        <i class="far fa-check-square facet-checked" title="{{ 'msg#facet.filters.selectedFilters' | sqMessage }}" (click)="clearFacetFilters(facet, $event)" *ngIf="facet.$hasFiltered"></i>
         <span
             class="mx-2 text-muted small"
             title="{{ 'msg#facet.filterItemCountTooltip' | sqMessage:{ values: { count: facet.$count } } }}"
