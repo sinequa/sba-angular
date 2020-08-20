@@ -100,6 +100,12 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
     this.changeDetectorRef.detectChanges();
   }
 
+  clearFacetFilters(facet: FacetConfig, e:Event) {
+    e.stopPropagation();
+    e.preventDefault()
+    this.facetService.clearFiltersSearch(facet.name, true).then((value) => console.log(`${facet.name} filters cleared`))
+  }
+
   /**
    * Return the number of items to display for a given facet
    * @param facet
