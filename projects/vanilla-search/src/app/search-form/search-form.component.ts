@@ -20,6 +20,13 @@ import { UserPreferences } from '@sinequa/components/user-settings';
 .search-input:focus {
   outline: none;
 }
+.form-control:focus-within {
+  color: #495057;
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
   `]
 })
 export class SearchFormComponent implements OnInit, OnDestroy {
