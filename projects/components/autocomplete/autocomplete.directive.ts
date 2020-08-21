@@ -1,7 +1,7 @@
-import {Directive, Input, Output, ElementRef, HostListener, OnInit, EventEmitter, OnDestroy, OnChanges, SimpleChanges} from "@angular/core";
+import {Directive, Input, Output, ElementRef, HostListener, OnInit, EventEmitter, OnDestroy, OnChanges, SimpleChanges, HostBinding} from "@angular/core";
 import {Observable, Subscription} from "rxjs";
 import {Utils, Keys} from "@sinequa/core/base";
-import {AppService, Expr} from "@sinequa/core/app-utils";
+import {AppService} from "@sinequa/core/app-utils";
 import {SuggestService} from "./suggest.service";
 import {UIService} from "@sinequa/components/utils";
 
@@ -59,12 +59,6 @@ export interface AutocompleteComponent {
     selectPrevious(): AutocompleteItem | undefined;
 }
 
-
-export interface ParseResult {
-    result?: Expr;
-    error?: string;
-}
-
 /**
  * States in which the autocomplete component can be
  */
@@ -81,20 +75,33 @@ export enum AutocompleteState {
     selector: "[sqAutocomplete]"
 })
 export class Autocomplete implements OnInit, OnChanges, OnDestroy {
+
+    /** Reference to the AutocompleteComponent that displays the autocomplete items */
     @Input() dropdown: AutocompleteComponent;
+    
+    /** Whether the autocomplete should be active or not */
     @Input() off: boolean;
-    @Input() fieldSearch: boolean;
-    @Input() excludedFields: string[] = ["concept"];
+
+    /** Debounce delay between autocomplete queries */
     @Input() suggestDelay: number = 200;
+
+    /** Name of the Suggest Query to be used */
     @Input() suggestQuery: string;
+
+    /** Custom placeholder */
+    @Input() placeholder: string = '';
+    
+    @HostBinding('attr.placeholder') _placeholder;
+
+    // Event emitters
+
     @Output() stateChange = new EventEmitter<AutocompleteState>();
     @Output() submit = new EventEmitter<void>();
-    @Output() parse = new EventEmitter<ParseResult>();
 
     private _state: AutocompleteState = AutocompleteState.INIT;
 
     // The input HTML element to which this directive is attached
-    private readonly inputElement: HTMLInputElement;
+    protected readonly inputElement: HTMLInputElement;
 
 
     // Initialization
@@ -118,6 +125,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
             this.select(item, true);  // An item was selected from the autocomplete => take the value
         });
 
+        this._placeholder = this.placeholder;
         this.inputElement.focus();
         this.start();
     }
@@ -127,7 +135,8 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * @param changes
      */
     ngOnChanges(changes: SimpleChanges){
-        if(changes["off"]){
+        // Turn on the autocomplete
+        if(changes["off"] && !this.off){
             this.start();
         }
     }
@@ -185,9 +194,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      */
     protected setInputValue(value: string) {
         // Using setCaret() allows to properly update the underlying form
-        if(value){
-            this.uiService.setCaret(this.inputElement, 0, value.length, value);
-        }
+        this.uiService.setCaret(this.inputElement, 0, -1, value); // 0, -1 erases the current value and writes the new one
     }
 
     /**
@@ -199,20 +206,9 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * @returns true if this autocomplete item should be searched
      */
     protected setAutocompleteItem(item: AutocompleteItem): boolean {
-        if(item) {
-            if(this.fieldSearch && item.category && !this.excludedFields.includes(item.category)){
-                if(item.category === "$field$"){    // In the case of of a field name, we display the field for autocomplete, but we don't want to search for it
-                    this.setInputValue(item.display + ":");
-                }
-                else{
-                    this.setInputValue(item.category + ":`" + (item.normalized || item.display) + "`");
-                    return true;
-                }
-            }
-            else {
-                this.setInputValue(item.display);
-                return true;
-            }
+        if(item) {            
+            this.setInputValue(item.display);
+            return true;
         }
         return false;
     }
@@ -296,27 +292,22 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      */
     protected getSuggests() {
         let value = this.getInputValue();
-        if(value) { // If there is text, make a call to the suggest API
-            const parseResult = this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
-            let fields: string[] | undefined = undefined;
-            if(parseResult.result && this.fieldSearch){
-                const position = this.getInputPosition(); // Position of the caret, if needed
-                const res = parseResult.result.findValue(position);
-                // Field Search suggest
-                if(!!res && !!res.field){
-                    fields = Utils.startsWith(res.field, "@") ? ["text"] : [res.field];
-                    value = res.value;
-                }
-            }
-
+        if(value) { // If there is text, make a call to the suggest API            
             this.processSuggests(
-                this.suggestService.get(this.suggestQuery, value, fields), fields
+                this.getSuggestsObs(value)
             );
-
         }
         else {  // If empty input, restart autocomplete
             this.start();
         }
+    }
+
+    /**
+     * Returns an observable of Suggestions, given some input text
+     * @param value input text for which to return suggestions
+     */
+    protected getSuggestsObs(value: string, fields?: string[]): Observable<AutocompleteItem[]> {
+        return this.suggestService.get(this.suggestQuery, value, fields);
     }
 
     /**
@@ -326,22 +317,16 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * - Switch between OPEN and ACTIVE states
      * - Use changeDetectorRef to update display
      * @param obs an observable of AutocompleteItem suggestions
-     * @param fields if in field search mode and a field is found in the query for autocomplete
      */
-    protected processSuggests(obs: Observable<AutocompleteItem[]>, fields: string[] | undefined){
+    protected processSuggests(obs: Observable<AutocompleteItem[]>){
         obs.subscribe(
             suggests => {
                 if(this.getState() === AutocompleteState.ACTIVE || this.getState() === AutocompleteState.OPENED){
                     this.dropdown.update(true, suggests
-                        .filter(item => this.fieldSearch || item.category !== "$field$")  // Filter out fields if not in fieldSearch mode
+                        .filter(item => item.category !== "$field$")  // Filter out fields
                         .map(item => {
                             if(!item.label){
-                                if(this.fieldSearch && item.category === "$field$") {
-                                    item.label = "Field";
-                                }
-                                else {
-                                    item.label = this.appService.getLabel(item.category);
-                                }
+                                item.label = this.appService.getLabel(item.category);
                             }
                             return item;
                         }));
@@ -370,16 +355,8 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
 
 
     /**
-     * Parse the query for syntax error (also allows to detect field search if needed)
+     * Returns the caret position within the input
      */
-    protected parseQuery() : ParseResult {
-        const value = this.getInputValue();
-        const result = this.appService.parseExpr(value, {allowEmptyValues: true});
-        const event = result instanceof Expr? { result: result } : { error: result };
-        this.parse.next(event);
-        return event;
-    }
-
     protected getInputPosition(): number {
         // Come back before trailing spaces so the preceding value is still seen as the input value
         // (needed for ExprParser to stop autocomplete being cancelled on entering trailing spaces)

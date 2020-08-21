@@ -126,7 +126,6 @@ import { Directive, ElementRef } from '@angular/core';
 import { Autocomplete, SuggestService, AutocompleteItem } from '@sinequa/components/autocomplete';
 import { AppService } from '@sinequa/core/app-utils';
 import { UIService } from '@sinequa/components/utils';
-import { Utils } from '@sinequa/core/base';
 import { RecentQueriesService, RecentQuery } from '@sinequa/components/saved-queries';
 import { Observable, forkJoin, from } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -146,49 +145,31 @@ export class AutocompleteCustom extends Autocomplete {
     }
 
     /**
-     * This method overrides the Autocomplete.getSuggests() method from the sqAutocomplete directive.
+     * This method overrides the Autocomplete.getSuggestsObs() method from the sqAutocomplete directive.
      * Rather than only getting suggests from the server via the SuggestService, this directive also
      * searches for matches in the recent queries
      */
-    protected getSuggests(){
-        let value = this.getInputValue();
-        if(value) { // If there is text, make a call to the suggest API
-            let parseResult = this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
-            let fields: string[] | undefined;
-            if(parseResult.result && this.fieldSearch){
-                let position = this.getInputPosition(); // Position of the caret, if needed
-                let res = parseResult.result.findValue(position);
-                // Field Search suggest
-                if(!!res && !!res.field){
-                    fields = Utils.startsWith(res.field, "@") ? ["text"] : [res.field];
-                    value = res.value;
-                }
-            }
+    protected getSuggestsObs(value: string, fields?: string[]): Observable<AutocompleteItem[]>{
 
-            // Methods returning (observable of) suggestions from different sources
+        // Methods returning (observable of) suggestions from different sources
 
-            let dataSources: Observable<AutocompleteItem[]>[] = [
-                from(this.searchRecentQueries(value)),
-                this.suggestService.get(this.suggestQuery, value, fields)
-            ]
+        let dataSources: Observable<AutocompleteItem[]>[] = [
+            from(this.searchRecentQueries(value)),
+            this.suggestService.get(this.suggestQuery, value, fields)
+        ]
 
-            this.processSuggests(
-                // The forkJoin method allows to merge the suggestions into a single array, so the parent
-                // directive only sees a single source.
-                forkJoin(...dataSources).pipe(
-                    map((suggests) => {
-                        return [].concat(...suggests);
-                    }),
-                    catchError((err, caught) => {
-                        console.error(err);
-                        return [];
-                    })
-                ), fields);
+            // The forkJoin method allows to merge the suggestions into a single array, so the parent
+            // directive only sees a single source.
+        return forkJoin(...dataSources).pipe(
+            map((suggests) => {
+                return [].concat(...suggests);
+            }),
+            catchError((err, caught) => {
+                console.error(err);
+                return [];
+            })
+        );
 
-        }
-        else {  // If empty input, restart autocomplete
-            this.start();
-        }
     }
 
     /**

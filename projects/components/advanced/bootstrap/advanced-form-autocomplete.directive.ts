@@ -32,7 +32,7 @@ export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
         if(value) { // If there is text, make a call to the suggest API
 
             this.processSuggests(
-                this.suggestFieldWebService.get(value, this.afaOptions.control.field), [this.afaOptions.control.field]
+                this.suggestFieldWebService.get(value, this.afaOptions.control.field)
             );
 
         }
