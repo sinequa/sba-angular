@@ -70,7 +70,9 @@ import { BsAutocompleteModule } from '@sinequa/components/autocomplete';
     BsAutocompleteModule
 ```
 
-## Autocomplete Directive
+## Standard Autocomplete
+
+### Autocomplete Directive
 
 The [`sqAutocomplete`]({{site.baseurl}}components/directives/Autocomplete.html) directive (applied to the `<input>` element) listens to user interactions (keyboard inputs, mouse inputs, blur and focus events), sends autocomplete queries to the backend (via the [`SuggestService`]({{site.baseurl}}components/injectables/SuggestService.html)) and controls the dropdown component (what to display, when to display it and what to do when an item is selected).
 
@@ -119,7 +121,7 @@ The transition between the different states is depicted below:
 
 ![Autocomplete states]({{site.baseurl}}assets/modules/autocomplete/autocomplete-states.png){: .d-block .mx-auto }
 
-## Suggest Service
+### Suggest Service
 
 The `SuggestService` provides the following methods:
 
@@ -140,7 +142,7 @@ The `SuggestService` provides the following methods:
     5. `secondaryText` (optional): A function that takes in an object and outputs a list of secondary text fields to search in.
     6. `label` (optional): The label of the [`AutocompleteItem`]({{site.baseurl}}components/interfaces/AutocompleteItem.html) category to be created as a result of this search.
 
-## Autocomplete List Component
+### Autocomplete List Component
 
 The `sq-autocomplete-list` component is a fairly simple component that displays the list of suggestions from the directive. This component expects a `ng-template` named `#itemTpl` to be passed by transclusion, to actually display the items:
 
@@ -177,7 +179,15 @@ You can also write you own component entirely, as long as:
   - `selectNext()`: Select and return the next `AutocompleteItem` in the list.
   - `selectPrevious()`: Select and return the previous `AutocompleteItem` in the list.
 
-## Field Search autocomplete directive
+## Fielded Search
+
+The goal of Fielded Search is to not only search for some text in documents, but also directly filter the results with some logical conditions. These filters are applied on "fields", which correspond to columns of the index. For example, one can search documents containing the text *"artificial intelligence"* AND by the author *"John Doe"* OR with the label *"Important"*.
+
+In your SBA, the list of fields available for Fielded Search is determined by the list of *Column Aliases* configured in your Query Web Service (Advanced tab).
+
+![Fields]({{site.baseurl}}assets/modules/autocomplete/fields.png){: .d-block .mx-auto }
+
+### Fielded Search Autocomplete directive
 
 The [`sqAutocompleteFieldSearch`]({{site.baseurl}}components/directives/AutocompleteFieldSearch.html) directive is a direct extension of the [`sqAutocomplete`]({{site.baseurl}}components/directives/Autocomplete.html) directive. It has a few additional inputs and outputs, and it provides additional functionalities.
 
@@ -203,7 +213,7 @@ The directive has three modes:
 
 ![Fielded Search Text]({{site.baseurl}}assets/modules/autocomplete/fielded-search-text.png){: .d-block .mx-auto }
 
-## Field Search items component
+### Fielded Search Items component
 
 The [`sq-field-search-items`]({{site.baseurl}}components/components/BsFieldSearchItemsComponent.html) component displays the autocomplete items selected by the users, when the `sqAutocompleteFieldSearch`'s mode is `selects`.
 
@@ -236,3 +246,47 @@ Example usage:
     ...
 </sq-autocomplete-list>
 ```
+
+## Server-side configuration
+
+The autocomplete functionality is built on top of two web services of the Sinequa REST API:
+
+- Suggest Query Web Service (`api/v1/suggestquery`)
+- Suggest Field Web Service (`api/v1/suggestfield`)
+
+### Suggest Query Web Service
+
+The Suggest Query web service uses a **Suggestion Query** configured on the Sinequa server to generate suggestions. These queries can be created and managed in the Sinequa administration, under *Search-Based Applications > App Dependencies > Suggestion Queries*.
+
+![Suggest query]({{site.baseurl}}assets/modules/autocomplete/suggest-query.png){: .d-block .mx-auto }
+*Standard configuration of a Suggestion Query*
+{: .text-center }
+
+A suggestion query is associated to a **Suggestion Lexicon**. The lexicon contains all the terms which can be used as suggestions. These terms are generated from the index content, and each one belongs in a **"kind"** (by default the kind just corresponds to the name of the column from which the term is extracted).
+
+![Suggest lexicon]({{site.baseurl}}assets/modules/autocomplete/lexicon.png){: .d-block .mx-auto }
+*Configuration of a suggestion lexicon*
+{: .text-center }
+
+The "kind" (or "category") is important, as it is used in fielded search to request suggestions for a specific field. For example, when autocompleting the field `company`, we do not want *any* kind of suggestion: We want only suggestions belonging to the "company" kind / category.
+
+⚠️ Be careful, as there are typically some differences the between the column names defined in the suggest lexicon and the field names used in your SBA, because of **aliases**. If you define an alias for the field "company" (and you want this field to be autocompleted), it might be a good idea to use the same alias for the "kind" of this column in the lexicon.
+
+### Suggest Field Web Service
+
+When we request the Suggest Query web service for a specific "kind", but no results are returned, the Suggest Field Web Service is used as a fallback.
+
+The Suggest Field web service does not use a lexicon to create suggestions. Instead, it directly queries the engine for data, using a **distribution**, and using the `prefixes` option to filter the searched text. If you search suggestions for the field `person`, the requests look as follow:
+
+```sql
+SELECT DISTRIBUTION('person,count=100,basicforms=true,order2=labelasc,labels=true,prefixes="Barack Oba",caseinsensitive=true') AS dist FROM index WHERE <security clause> AND entity17 CONTAINS 'Barack Oba*' COUNT 1
+```
+
+There are various benefits to this approach:
+
+- The data is always up-to-date. No need to refresh a lexicon.
+- This service is built-in and has no configuration attached.
+- We can search in the context of a **query** (adding to the `WHERE` clause), which means the data is more relevant and secured.
+- Also note that unlike the Suggest Query web service, this service resolves SBA aliases. (So if you defined an alias for the field `person`, the service knows it should actually request the engine for the `person` column).
+
+However, this approach means more requests are sent to the engine, which can hinder performance. Also, the completion is limited to a simple prefix approach, unlike the Suggest queries and lexicons which have many options to manage more complex completion strategies.
