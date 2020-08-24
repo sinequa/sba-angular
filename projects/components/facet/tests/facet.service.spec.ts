@@ -4,9 +4,9 @@ import {UserSettingsWebService, Aggregation, AggregationItem} from '@sinequa/cor
 import {AppService, FormatService} from '@sinequa/core/app-utils';
 import {IntlService} from '@sinequa/core/intl';
 
-import {FacetService, FacetEventType, DEFAULT_FACETS} from "./facet.service";
-import {SuggestService} from '../autocomplete';
-import {SearchService} from '../search';
+import {FacetService, FacetEventType, DEFAULT_FACETS} from "../facet.service";
+import {SuggestService} from '../../autocomplete';
+import {SearchService} from '../../search';
 
 import {AGGREGATION, FACETS} from './mock';
 
