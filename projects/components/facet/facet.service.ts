@@ -278,9 +278,12 @@ export class FacetService {
      * @param facetName
      * @param all
      */
-    public clearFiltersSearch(facetName: string, all?: boolean): Promise<boolean> {
-        this.clearFilters(facetName, all);
-        this._events.next({type: FacetEventType.ClearFilters, facet: this.facet(facetName)});
+    public clearFiltersSearch(facetName: string | string[], all?: boolean): Promise<boolean> {
+        [].concat(facetName as []).forEach(name => {
+            this.clearFilters(name, all);
+            this._events.next({type: FacetEventType.ClearFilters, facet: this.facet(name)});
+        });
+
         return this.searchService.search(undefined, {
                 type: FacetEventType.ClearFilters,
                 detail: {
