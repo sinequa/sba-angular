@@ -4,8 +4,6 @@ import {Subscription} from "rxjs";
 import {Action} from "@sinequa/components/action";
 
 import {AbstractFacet} from '../../abstract-facet';
-import {BsFacetMultiComponent} from '../facet-multi/facet-multi.component';
-import {FacetService} from '../../facet.service';
 
 @Component({
     selector: "sq-facet-card",
@@ -104,13 +102,11 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
     private readonly collapseAction;
     private readonly expandAction;
     private readonly settingsAction;
-    private readonly clearAllFiltersAction;
 
     private actionChangedSubscription: Subscription;
 
     constructor(
         private changeDetectorRef: ChangeDetectorRef,
-        private facetService: FacetService
     ){
 
         this.collapseAction = new Action({
@@ -157,21 +153,6 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
                 action.title = this._settingsOpened ? "msg#facetCard.saveSettings" : "msg#facetCard.openSettings";
             }
         });
-
-        this.clearAllFiltersAction = new Action({
-            icon: "far fa-minus-square",
-            title: "msg#facetCard.clearFilters",
-            action: () => {
-                if(this.facetComponent instanceof BsFacetMultiComponent && !this.facetComponent.openedFacet){
-                    const facetsWithFiltered = (this.facetComponent as BsFacetMultiComponent).facets.filter((facet) => facet.$hasFiltered);
-                    facetsWithFiltered.forEach((facet) => {
-                        this.facetService.clearFiltersSearch(facet.name, true)
-                            .then(() => console.log(`clear filters from ${facet.name}`));
-                    });
-                }
-            }
-        });
-
     }
 
     ngOnInit(){
@@ -209,10 +190,6 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
         if(this.facetComponent) actions = actions.concat(this.facetComponent.actions);
         if(this.hasSettings) actions.push(this.settingsAction);
         if(this.expandable) actions.push(this.expandAction);
-        if(this.facetComponent && this.facetComponent instanceof BsFacetMultiComponent && !this.facetComponent.openedFacet){
-            const hasFiltered = (this.facetComponent as BsFacetMultiComponent).facets.some((facet) => facet.$hasFiltered);
-            if(hasFiltered) actions.push(this.clearAllFiltersAction);
-        }
         if(this.collapsible) actions.push(this.collapseAction);
         return actions;
     }

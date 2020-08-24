@@ -31,7 +31,7 @@
                 role="button" title="{{item | sqValue:item.$column}}"
                 class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
 
-            <i class="ml-2 far fa-check-square checked" (click)="filterItem(item, $event)" *ngIf="isFiltered(item)"></i>
+            <i class="ml-2 far fa-check-square facet-checked" (click)="filterItem(item, $event)" *ngIf="isFiltered(item)"></i>
 
             <span *ngIf="showCount && item.count" class="ml-2 text-muted small">{{item.count | sqNumber}}</span>
 

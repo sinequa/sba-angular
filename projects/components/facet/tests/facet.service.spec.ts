@@ -52,6 +52,8 @@ describe("FacetService", () => {
 
 	it("can load instance", () => {
 		expect(service).toBeTruthy();
+		expect(service.events).toBeDefined();
+		expect(service.changes).toBeDefined();
 	});
 
 	it("should returns facets", () => {
@@ -75,6 +77,26 @@ describe("FacetService", () => {
 			service.clearFilters('facetName');
 			expect(searchService.query.removeSelect).toHaveBeenCalled();
 		});
+
+		it("should clear filters and re-launch search", () => {
+			const spy = spyOn(searchService, 'search');
+			// stub patchFacets() to avoid side effect on toHaveBeenCalledTimes() function
+			spyOn<any>(service, 'patchFacets');
+			spyOn<any>(service['_events'], 'next');
+
+			// keep previous version working
+			service.clearFiltersSearch('geo', true);
+			expect(searchService.search).toHaveBeenCalledTimes(1);
+
+			spy.calls.reset();
+
+			// an array should trigger searchService.search() once
+			// but event() should be triggered as usual
+			service.clearFiltersSearch(["geo", "persons"], true);
+			expect(searchService.search).toHaveBeenCalledTimes(1);
+
+			expect(service['_events'].next).toHaveBeenCalledTimes(3);
+		})
 
 		describe("addFilterSearch", () => {
 
