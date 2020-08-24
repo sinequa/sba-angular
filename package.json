@@ -99,6 +99,7 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~3.3.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "karma-mocha-reporter": "^2.2.5",
     "ng-packagr": "^10.0.0",
     "postcss-flexbugs-fixes": "^4.2.0",
     "postcss-focus-within": "^3.0.0",
