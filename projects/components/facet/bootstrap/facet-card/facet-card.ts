@@ -102,7 +102,6 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
     private readonly collapseAction;
     private readonly expandAction;
     private readonly settingsAction;
-    private readonly clearAllFiltersAction;
 
     private actionChangedSubscription: Subscription;
 
