@@ -1,9 +1,7 @@
 import {Component, Input, Output, OnInit, OnDestroy, EventEmitter, ContentChild, HostBinding, AfterContentInit, ChangeDetectorRef} from "@angular/core";
 import {Subscription} from "rxjs";
-
 import {Action} from "@sinequa/components/action";
-
-import {AbstractFacet} from '../../abstract-facet';
+import {AbstractFacet} from "../../abstract-facet";
 
 @Component({
     selector: "sq-facet-card",
@@ -106,7 +104,7 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
     private actionChangedSubscription: Subscription;
 
     constructor(
-        private changeDetectorRef: ChangeDetectorRef,
+        private changeDetectorRef: ChangeDetectorRef
     ){
 
         this.collapseAction = new Action({
@@ -153,6 +151,7 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
                 action.title = this._settingsOpened ? "msg#facetCard.saveSettings" : "msg#facetCard.openSettings";
             }
         });
+
     }
 
     ngOnInit(){

@@ -1,7 +1,3 @@
-@import "../../../../../node_modules/bootstrap/scss/functions";
-@import "../../../../../node_modules/bootstrap/scss/variables";
-@import "../../../../../node_modules/bootstrap/scss/mixins";
-
 a.filtered, a.filtered:hover {
   text-decoration: none;
   color: inherit;
@@ -9,6 +5,6 @@ a.filtered, a.filtered:hover {
 }
 
 i.facet-checked:hover {
-  color: $warning;
+  color: #ffc107;
   cursor: pointer; 
 }

@@ -115,7 +115,6 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 
   clearFacetFilters(facet: FacetConfig, e:Event) {
     e.stopPropagation();
-    e.preventDefault()
     this.facetService.clearFiltersSearch(facet.name, true);
     return false;
   }
