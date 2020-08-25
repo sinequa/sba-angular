@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:vanilla": "ng serve vanilla-search -- --ssl=true --proxyConfig=./projects/vanilla-search/src/proxy.conf.json",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
