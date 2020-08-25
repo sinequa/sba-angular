@@ -28,17 +28,6 @@ export class BsRefine extends AbstractFacet implements OnChanges {
     @Input() suggestQuery: string;
 
     /**
-     * Allows search with fielded search rather than full text search
-     */
-    @Input() fieldSearch: boolean;
-
-    /**
-     * In case of enabled fielded search, this allows to blacklist specific fields
-     * for field search, to force full text search.
-     */
-    @Input() excludedFields: string[] = ['concepts'];
-
-    /**
      * Minimum delay (in ms) between suggest queries
      */
     @Input() suggestDelay: number = 200;

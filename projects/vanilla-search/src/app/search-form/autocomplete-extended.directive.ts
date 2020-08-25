@@ -1,8 +1,7 @@
 import { Directive, ElementRef, Input } from '@angular/core';
-import { Autocomplete, SuggestService, AutocompleteItem, AutocompleteState } from '@sinequa/components/autocomplete';
+import { AutocompleteFieldSearch, SuggestService, AutocompleteItem, AutocompleteState } from '@sinequa/components/autocomplete';
 import { AppService } from '@sinequa/core/app-utils';
 import { UIService } from '@sinequa/components/utils';
-import { Utils } from '@sinequa/core/base';
 import { RecentQueriesService, RecentDocumentsService, SavedQueriesService, RecentDocument, RecentQuery, SavedQuery } from '@sinequa/components/saved-queries';
 import { PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
@@ -19,7 +18,7 @@ import { Basket } from '@sinequa/components/baskets';
 @Directive({
     selector: "[sqAutocompleteExtended]"
 })
-export class AutocompleteExtended extends Autocomplete {
+export class AutocompleteExtended extends AutocompleteFieldSearch {
 
     /**
      * List of features within which to search in
@@ -43,29 +42,22 @@ export class AutocompleteExtended extends Autocomplete {
     }
 
     /**
-     * This method overrides the Autocomplete.getSuggests() method from the sqAutocomplete directive.
+     * This method overrides the Autocomplete.getSuggestsObs() method from the sqAutocomplete directive.
      * Rather than only getting suggests from the server via the SuggestService, this directive also
      * searches for matches in the User Settings objects (recent documents, recent queries, saved
      * queries, baskets)
      */
-    protected getSuggests(){
-        let value = this.getInputValue();
-        if(value) { // If there is text, make a call to the suggest API
-            const parseResult = this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
-            let fields: string[] | undefined;
-            if(parseResult.result && this.fieldSearch){
-                const position = this.getInputPosition(); // Position of the caret, if needed
-                const res = parseResult.result.findValue(position);
-                // Field Search suggest
-                if(!!res && !!res.field){
-                    fields = Utils.startsWith(res.field, "@") ? ["text"] : [res.field];
-                    value = res.value;
-                }
-            }
-
-            // Methods returning (observable of) suggestions from different sources
-
-            const dataSources: Observable<AutocompleteItem[]>[] = this.sqAutocompleteExtended.map(source => {
+    protected getSuggestsObs(value: string, fields?: string[]): Observable<AutocompleteItem[]> {
+    
+        // Methods returning (observable of) suggestions from different sources
+        let dataSources: Observable<AutocompleteItem[]>[];
+        // Fielded search mode
+        if((fields && fields.length > 0) || this.fieldSearchItems.length > 0 || value !== this.getInputValue()){
+            dataSources = [super.getSuggestsObs(value, fields)];
+        }
+        // Normal mode
+        else {
+            dataSources = this.sqAutocompleteExtended.map(source => {
                 switch(source) {
                     case 'suggests': return  this.suggestService.get(this.suggestQuery, value, fields);
                     case 'baskets': return from(this.searchBaskets(value));
@@ -75,25 +67,21 @@ export class AutocompleteExtended extends Autocomplete {
                 }
                 return of([]);
             });
-
-            this.processSuggests(
-                // The forkJoin method allows to merge the suggestions into a single array, so the parent
-                // directive only sees a single source.
-                forkJoin(...dataSources).pipe(
-                    map((suggests) => {
-                        return [].concat(...suggests)
-                            .sort((a,b) => (b['score'] || 0) - (a['score'] || 0)); // autocomplete items returned by searchData still have their "score" attribute, which is consistent across categories
-                    }),
-                    catchError((err, caught) => {
-                        console.error(err);
-                        return [];
-                    })
-                ), fields);
-
         }
-        else {  // If empty input, restart autocomplete
-            this.start();
-        }
+        
+        // The forkJoin method allows to merge the suggestions into a single array, so the parent
+        // directive only sees a single source.
+        return forkJoin(...dataSources).pipe(
+            map((suggests) => {
+                return [].concat(...suggests)
+                    .sort((a,b) => (b['score'] || 0) - (a['score'] || 0)); // autocomplete items returned by searchData still have their "score" attribute, which is consistent across categories
+            }),
+            catchError((err, caught) => {
+                console.error(err);
+                return [];
+            })
+        );
+
     }
 
     /**
