@@ -3,6 +3,8 @@ export default {
         "labels": "Etiketten",
         "publicLabels": "Öffentliche Etiketten",
         "privateLabels": "Private Etiketten",
+        "public": "Öffentliche",
+        "private": "Private",
         "selectLabel": "Etikett auswählen",
         "renameLabel": "Etikett umbenennen",
         "deleteLabel": "Etikett entfernen",
@@ -24,8 +26,8 @@ export default {
     },
 
     "renameLabel": {
-        "title": "Etikett unbenennen",
-        "label": "Etikett"
+        "title": "Etikett(en) unbenennen",
+        "newLabel": "Neuen Etikett"
     },
 
 };

@@ -1,10 +1,30 @@
 .sq-autocomplete-list {
     width: 100%; /* take full width space */
     box-shadow: 0 2px 5px 1px lightgrey;  /* shadow */
+    max-height: 500px; /* limit height and scroll */
+    overflow: auto;
     z-index: 10;
 }
 
-.list-group {
-    max-height: 500px; /* limit height and scroll */
-    overflow: auto;
-}
+.sq-label-group {
+    display: inline-block;
+
+  }
+  .sq-label {
+    display: inline-block;
+  }
+  .chip {
+    display: inline-block;
+    height: 20px;
+    padding: 0 6px;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 18px;
+    cursor: pointer;
+    border-radius: 16px;
+    -webkit-transition: all .3s linear;
+    transition: all .3s linear;
+  }

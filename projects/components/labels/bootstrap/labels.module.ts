@@ -17,6 +17,7 @@ import {BsLabelsMenuComponent} from "./labels-menu/labels-menu.component";
 
 import {LabelsModule} from "../labels.module";
 import {LABELS_COMPONENTS, LabelsComponents} from "../labels.service";
+import { BsLabelsItemsComponent } from './labels.items.component';
 
 export const defaultLabelComponents: LabelsComponents = {
     labelActionItem: BsLabelsActionItem,
@@ -39,10 +40,10 @@ export const defaultLabelComponents: LabelsComponents = {
         BsActionModule
     ],
     declarations: [
-        BsLabelsActionItem, BsRenameLabel, BsLabelsMenuComponent
+        BsLabelsActionItem, BsRenameLabel, BsLabelsMenuComponent, BsLabelsItemsComponent
     ],
     exports: [
-        BsLabelsActionItem, BsRenameLabel, BsLabelsMenuComponent
+        BsLabelsActionItem, BsRenameLabel, BsLabelsMenuComponent, BsLabelsItemsComponent
     ],
     providers: [
         {provide: LABELS_COMPONENTS, useValue: defaultLabelComponents},

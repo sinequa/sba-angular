@@ -1,14 +1,36 @@
-<form name="labelsForm" class="sq-dropdown-form">
-    <div class="input-autocomplete">
-        <input type="text" class="form-control" name="labelName" 
-            [(ngModel)]="model.data.labelRef.value" autocomplete="off" spellcheck="off" 
-            [sqAutofocus]="model.data.autofocus" 
-            sqAutocompleteLabels [public]="model.data.public" [dropdown]="dropdown" (keydown)="keydown($event)" (keypress)="keypress($event)">
+<form name="labelsForm">
+    <section>
+        <div *ngFor="let item of radioButtons" class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" id="{{item.id}}" name="nature" value="{{item.value}}"
+                [checked]="item.checked" [disabled]="item.disabled" (click)="updateLabelsNature(item.value)">
+            <label class="custom-control-label" for="{{item.id}}">{{ item.name | sqMessage }}</label>
+        </div>
+    </section>
+    <section class="sq-dropdown-form">
+        <!-- Input with autocomplete -->
+        <div class="form-control d-flex">
+            <sq-labels-items #labelsItemsContainer></sq-labels-items>
+            <!-- input -->
+            <input type="text"
+                class="search-input flex-grow-1"
+                name="labelName"
+                spellcheck="false"
+                autocomplete="off"
+                sqAutocompleteLabels
+                [public]="public"
+                [placeholder]="'msg#searchForm.searchFor' | sqMessage"
+                [dropdown]="dropdown"
+                [LabelsItemsContainer]="labelsItemsContainer"
+                (keydown)="keydown($event)"
+                (keypress)="keypress($event)">
+        </div>
         <sq-autocomplete-list #dropdown>
             <ng-template #itemTpl let-item>
                 <div class="py-1">{{item.display}}
                 </div>
             </ng-template>
         </sq-autocomplete-list>
-    </div>
+    </section>
 </form>
+
+

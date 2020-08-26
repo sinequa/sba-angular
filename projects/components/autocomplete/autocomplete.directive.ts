@@ -78,7 +78,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
 
     /** Reference to the AutocompleteComponent that displays the autocomplete items */
     @Input() dropdown: AutocompleteComponent;
-    
+
     /** Whether the autocomplete should be active or not */
     @Input() off: boolean;
 
@@ -90,7 +90,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
 
     /** Custom placeholder */
     @Input() placeholder: string = '';
-    
+
     @HostBinding('attr.placeholder') _placeholder;
 
     // Event emitters
@@ -206,7 +206,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * @returns true if this autocomplete item should be searched
      */
     protected setAutocompleteItem(item: AutocompleteItem): boolean {
-        if(item) {            
+        if(item) {
             this.setInputValue(item.display);
             return true;
         }
@@ -292,7 +292,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      */
     protected getSuggests() {
         let value = this.getInputValue();
-        if(value) { // If there is text, make a call to the suggest API            
+        if(value) { // If there is text, make a call to the suggest API
             this.processSuggests(
                 this.getSuggestsObs(value)
             );

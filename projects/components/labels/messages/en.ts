@@ -3,6 +3,8 @@ export default {
         "labels": "Labels",
         "publicLabels": "Public Labels",
         "privateLabels": "Private Labels",
+        "public": "Public",
+        "private": "Private",
         "selectLabel": "Select label",
         "renameLabel": "Rename label",
         "deleteLabel": "Remove label",
@@ -24,8 +26,8 @@ export default {
     },
 
     "renameLabel": {
-        "title": "Rename Label",
-        "label": "Label"
+        "title": "Rename Label(s)",
+        "newLabel": "New Label"
     },
 
 };
