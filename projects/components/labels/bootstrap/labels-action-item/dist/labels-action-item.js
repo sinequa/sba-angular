@@ -100,7 +100,7 @@ var BsLabelsActionItem = /** @class */ (function () {
         core_1.Component({
             selector: "sq-labels-action-item",
             templateUrl: "./labels-action-item.html",
-            styles: ["\n.sq-dropdown-form {\n    min-width: 13rem;\n}\n\n.input-autocomplete{\n    display: flex;\n    flex-direction: column;\n}\n    "]
+            styles: ["\n.sq-dropdown-form {\n    min-width: 13rem;\n}\n\n.input-autocomplete{\n    border: none;\n    width: 100%;\n}\n.input-autocomplete:focus {\n    outline: none;\n}\n    "]
         })
     ], BsLabelsActionItem);
     return BsLabelsActionItem;

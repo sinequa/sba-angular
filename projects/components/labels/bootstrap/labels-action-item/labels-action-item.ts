@@ -1,39 +1,53 @@
-import {Component, ElementRef} from "@angular/core";
+import {Component, ElementRef, EventEmitter, Output} from "@angular/core";
 import {Keys} from "@sinequa/core/base";
 import { LabelsService } from '../../labels.service';
+import { AutocompleteItem } from '@sinequa/components/autocomplete';
 
 
 /**
- * Component containing a form and autocomplete to search
- * through the list of labels and select one to filter the
- * search results.
+ * Component containing a form, radio buttons and autocomplete to search
+ * through the list labels according to a specific type (public/private) and select one(s) of them
  *
- * The component can be used a custom component in the Action
- * menus.
+ * The component can be used as custom component in the Action
+ * menu's modals.
  */
 
 @Component({
     selector: "sq-labels-action-item",
     templateUrl: "./labels-action-item.html",
     styles: [`
-.sq-dropdown-form {
-    min-width: 13rem;
-}
-
-.input-autocomplete{
-    display: flex;
-    flex-direction: column;
-}
+        .sq-dropdown-form {
+            min-width: 13rem;
+        }
+        .input-autocomplete{
+            border: none;
+            width: 100%;
+        }
+        .input-autocomplete:focus {
+            outline: none;
+        }
+        .clickable {
+            cursor: pointer;
+        }
+        .clickable:hover {
+            opacity: 85%;
+        }
+        .disabled {
+            cursor: not-allowed;
+        }
     `]
 })
 export class BsLabelsActionItem {
+
+    @Output() labelsUpdate = new EventEmitter<{values: string[], public: boolean}>();
+
     radioButtons: any[] = [];
     public: boolean;
-    autocompleteInputValue: string;
 
     constructor(private elementRef: ElementRef, public labelsService: LabelsService) {
 
         if (!!this.labelsService.publicLabelsField && !!this.labelsService.privateLabelsField) {
+            this.public = true;
             this.radioButtons = [
                 {
                     id: "publicLabel",
@@ -51,6 +65,7 @@ export class BsLabelsActionItem {
                 }
             ];
         } else if (!!this.labelsService.publicLabelsField) {
+            this.public = true;
             this.radioButtons = [
                 {
                     id: "publicLabel",
@@ -61,6 +76,7 @@ export class BsLabelsActionItem {
                 }
             ];
         } else {
+            this.public = false;
             this.radioButtons = [
                 {
                     id: "privateLabel",
@@ -108,5 +124,12 @@ export class BsLabelsActionItem {
 
     updateLabelsNature(nature: boolean) {
         this.public = nature;
+    }
+
+    onLabelsItemsChanged(labelsItems: AutocompleteItem[]) {
+        this.labelsUpdate.next({
+            values: labelsItems.map((item => item.display)),
+            public: this.public
+        })
     }
 }

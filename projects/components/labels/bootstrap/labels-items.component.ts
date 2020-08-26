@@ -3,6 +3,7 @@ import {
     EventEmitter,
     Output,
     ChangeDetectorRef,
+    Input,
 } from "@angular/core";
 import { AutocompleteItem } from '@sinequa/components/autocomplete';
 import { LabelsItemsContainer } from '../labels-autocomplete.directive';
@@ -12,9 +13,10 @@ import { LabelsItemsContainer } from '../labels-autocomplete.directive';
     template: `
         <span
             *ngFor="let item of items"
-            class="badge badge-pill badge-info clickable align-self-center mr-1">
+            class="badge badge-pill badge-info align-self-center mr-1"
+            [ngClass]="{'label-public': public, 'label-private': !public}">
             {{ item.display }}
-            <span class="fas fa-times clickable" (click)="removeItem(item)"></span>
+            <span class="fas fa-times-circle clickable" (click)="removeItem(item)"></span>
         </span>
     `,
     styles: [
@@ -28,10 +30,18 @@ import { LabelsItemsContainer } from '../labels-autocomplete.directive';
             .clickable:hover {
                 opacity: 85%;
             }
+            .label-public {
+                background-color: #4fc3f7;
+            }
+            .label-private {
+                background-color: #7283a7;
+            }
         `,
     ],
 })
 export class BsLabelsItemsComponent implements LabelsItemsContainer {
+
+    @Input() public: boolean;
     @Output() itemRemoved = new EventEmitter<AutocompleteItem>();
     items: AutocompleteItem[] = [];
 

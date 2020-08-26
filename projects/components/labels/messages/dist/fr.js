@@ -1,4 +1,6 @@
-export default {
+"use strict";
+exports.__esModule = true;
+exports["default"] = {
     "labels": {
         "labels": "Libellés",
         "publicLabels": "Libellés publics",
@@ -6,8 +8,8 @@ export default {
         "public": "Public",
         "private": "Privé",
         "selectLabel": "Sélectionner le(s) libellé(s)",
-        "renameLabel": "Renommer le(s) libellé(s) globalement",
-        "deleteLabel": "Enlever le(s) libellé(s) globalement",
+        "renameLabel": "Renommer le(s) libellé(s)",
+        "deleteLabel": "Enlever le(s) libellé(s)",
         "bulkAddLabel": "Ajouter le(s) libellé(s) aux résultats courants",
         "bulkRemoveLabel": "Enlever le(s) libellé des résultats courants",
         "deleteLabelAreYouSure": "Etes-vous sûr de vouloir effacer le libellé: {name} ?",
@@ -24,10 +26,8 @@ export default {
         "selectPrivateLabelTitle": "Sélectionner le libellé privé",
         "removePrivateLabelTitle": "Supprimer le libellé privé"
     },
-
     "renameLabel": {
-        "title": "Renommer le(s) libellé(s) globalement",
+        "title": "Renommer le(s) libellé(s)",
         "newLabel": "Nouveau Libellé"
     }
-
 };

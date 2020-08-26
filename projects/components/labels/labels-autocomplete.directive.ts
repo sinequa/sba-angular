@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Input, EventEmitter, SimpleChanges} from "@angular/core";
+import {Directive, ElementRef, Input, EventEmitter, SimpleChanges, Output} from "@angular/core";
 import {Autocomplete, SuggestService, AutocompleteState, AutocompleteItem} from '@sinequa/components/autocomplete';
 import {AppService} from '@sinequa/core/app-utils';
 import {UIService} from '@sinequa/components/utils';
@@ -24,10 +24,14 @@ export interface LabelsItemsContainer {
 })
 export class LabelsAutocomplete extends Autocomplete {
 
+    /** Event synchronizing the list of selected labels in the parent component */
+    @Output() itemsUpdate = new EventEmitter<AutocompleteItem[]>();
+
     /** Container displaying the labelsItems */
     @Input() labelsItemsContainer?: LabelsItemsContainer;
 
-    @Input() public: boolean; // Whether the labels are public or not
+    /** Whether the labels are public or not */
+    @Input() public: boolean;
 
     /** Stores the selected labels items selected via Tab */
     public readonly labelsItems: AutocompleteItem[] = [];
@@ -63,12 +67,14 @@ export class LabelsAutocomplete extends Autocomplete {
 
         // If labels category changes, we must remove the labels items
         if(changes["public"] && this.labelsItems.length > 0) {
+            this.setState(AutocompleteState.START);
             this.labelsItems.splice(0);
             this.setInputValue("");
         }
 
         this.updatePlaceholder();
         this.labelsItemsContainer?.update(this.labelsItems);
+        this.itemsUpdate.next(this.labelsItems);
     }
 
     private _labelsSubscription: Subscription;
@@ -113,43 +119,45 @@ export class LabelsAutocomplete extends Autocomplete {
 
             // Get suggestions from web service
             if(val) {
-                this.labelsWebService.list(val.value, this.public).subscribe(
-
-                    (labels: Labels) => {
-                        if(this.getState() === AutocompleteState.ACTIVE || this.getState() === AutocompleteState.OPENED){
-                            this.dropdown.update(true, labels.labels.map(label => {
-                                return {
-                                    display: label,
-                                    category: ""
-                                };
-                            }));
-                        }
-                    },
-                    err => {
-                        this.dropdown.update(false);
-                    },
-                    () => {
-                        if(this.dropdown.hasItems && this.getState() === AutocompleteState.ACTIVE){
-                            this.open();    // Switch from ACTIVE to OPENED (if not already)
-                        }
-                        else if(!this.dropdown.hasItems && this.getState() === AutocompleteState.OPENED){   // No data
-                            this.active();  // Switch from OPENED to ACTIVE (if not already)
-                        }
-                    }
-                );
+                this._getLabelsSuggestions(val.value);
             }
-
         }
         else {  // If empty input, restart autocomplete
             this.start();
         }
     }
 
+    private _getLabelsSuggestions(val: string) {
+        this.labelsWebService.list(val, this.public).subscribe(
+            (labels: Labels) => {
+                if(this.getState() === AutocompleteState.ACTIVE || this.getState() === AutocompleteState.OPENED){
+                    this.dropdown.update(true, labels.labels.map(label => {
+                        return {
+                            display: label,
+                            category: ""
+                        };
+                    }));
+                }
+            },
+            err => {
+                this.dropdown.update(false);
+            },
+            () => {
+                if(this.dropdown.hasItems && this.getState() === AutocompleteState.ACTIVE){
+                    this.open();    // Switch from ACTIVE to OPENED (if not already)
+                }
+                else if(!this.dropdown.hasItems && this.getState() === AutocompleteState.OPENED){   // No data
+                    this.active();  // Switch from OPENED to ACTIVE (if not already)
+                }
+            }
+        );
+    }
+
     /**
      * The setAutocompleteItem() method from the original directive is overriden to
      * Sets the content of the <input> based on the given
      * Autocomplete Item.
-     * @returns fqlse since lqbels items don't need to be searched
+     * @returns false since labels items don't need to be searched
      */
     protected setAutocompleteItem(item: AutocompleteItem): boolean {
         if(item) {
@@ -158,6 +166,7 @@ export class LabelsAutocomplete extends Autocomplete {
             this.labelsItems.push(item);
             this.updatePlaceholder();
             this.labelsItemsContainer?.update(this.labelsItems);
+            this.itemsUpdate.next(this.labelsItems);
         }
         return false;
     }
@@ -180,6 +189,7 @@ export class LabelsAutocomplete extends Autocomplete {
                     this.labelsItems.pop();
                     this.updatePlaceholder();
                     this.labelsItemsContainer?.update(this.labelsItems);
+                    this.itemsUpdate.next(this.labelsItems);
                 }
             }
         }

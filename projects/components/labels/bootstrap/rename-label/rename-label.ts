@@ -2,7 +2,7 @@ import {Component, OnInit, OnDestroy, Inject} from "@angular/core";
 import {FormBuilder, FormGroup, FormControl, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {ModalButton, ModalResult, MODAL_MODEL} from "@sinequa/core/modal";
-import {IRef, Utils} from "@sinequa/core/base";
+import {Utils} from "@sinequa/core/base";
 
 @Component({
     selector: "sq-rename-label",
@@ -15,18 +15,18 @@ export class BsRenameLabel implements OnInit, OnDestroy {
     buttons: ModalButton[];
 
     constructor(
-        @Inject(MODAL_MODEL) public model: IRef<string>,
+        @Inject(MODAL_MODEL) public model: any,
         private formBuilder: FormBuilder) {
     }
 
     ngOnInit() {
-        this.labelControl = new FormControl(this.model.value, Validators.required);
+        this.labelControl = new FormControl(this.model.newValue, Validators.required);
         this.form = this.formBuilder.group({
             label: this.labelControl
         });
         this.formChanges = Utils.subscribe(this.form.valueChanges,
-            (value) => {
-                this.model.value = this.labelControl.value;
+            () => {
+                this.model.newValue = this.labelControl.value;
             }
         );
 
@@ -44,5 +44,10 @@ export class BsRenameLabel implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.formChanges.unsubscribe();
+    }
+
+    onLabelsChanged(obj: {values: string[], public: boolean}) {
+        this.model.oldValues = obj.values;
+        this.model.public = obj.public;
     }
 }

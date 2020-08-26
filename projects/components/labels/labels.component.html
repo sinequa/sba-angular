@@ -19,7 +19,7 @@
       <div class="chip sq-label" [ngClass]="{'sq-labels-public': public, 'sq-labels-private': !public}"
           title="{{(public ? 'msg#labels.selectPublicLabelTitle' : 'msg#labels.selectPrivateLabelTitle') | sqMessage}}">
           <span (click)="select(label)">{{label | sqLabel:public}}</span>&nbsp;
-          <i class="sq-label-remove fas fa-times-circle" (click)="remove($index)"
+          <i class="sq-label-remove fas fa-times-circle clickable" (click)="remove($index)"
             title="{{(public ? 'msg#labels.removePublicLabelTitle' : 'msg#labels.removePrivateLabelTitle') | sqMessage}}"></i>
       </div>
     </span>

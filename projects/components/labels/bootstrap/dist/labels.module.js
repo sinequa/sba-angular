@@ -22,7 +22,7 @@ var rename_label_1 = require("./rename-label/rename-label");
 var labels_menu_component_1 = require("./labels-menu/labels-menu.component");
 var labels_module_1 = require("../labels.module");
 var labels_service_1 = require("../labels.service");
-var labels_items_component_1 = require("./labels.items.component");
+var labels_items_component_1 = require("./labels-items.component");
 exports.defaultLabelComponents = {
     labelActionItem: labels_action_item_1.BsLabelsActionItem,
     renameModal: rename_label_1.BsRenameLabel

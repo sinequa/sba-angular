@@ -1,32 +1,32 @@
 <form name="labelsForm">
+    <b><label for="label">{{'msg#labels.labels' | sqMessage}}</label></b>
     <section>
         <div *ngFor="let item of radioButtons" class="custom-control custom-radio custom-control-inline">
             <input type="radio" class="custom-control-input" id="{{item.id}}" name="nature" value="{{item.value}}"
-                [checked]="item.checked" [disabled]="item.disabled" (click)="updateLabelsNature(item.value)">
+                [checked]="item.checked" [disabled]="item.disabled" (click)="updateLabelsNature(item.value)" [ngClass]="{'disabled': item.disabled, 'clickable': !item.disabled}">
             <label class="custom-control-label" for="{{item.id}}">{{ item.name | sqMessage }}</label>
         </div>
     </section>
     <section class="sq-dropdown-form">
-        <!-- Input with autocomplete -->
         <div class="form-control d-flex">
-            <sq-labels-items #labelsItemsContainer></sq-labels-items>
-            <!-- input -->
+            <sq-labels-items [public]="public" #labelsItemsContainer></sq-labels-items>
             <input type="text"
-                class="search-input flex-grow-1"
+                class="input-autocomplete flex-grow-1"
                 name="labelName"
                 spellcheck="false"
                 autocomplete="off"
                 sqAutocompleteLabels
                 [public]="public"
-                [placeholder]="'msg#searchForm.searchFor' | sqMessage"
+                [placeholder]="'msg#labels.selectLabel' | sqMessage"
                 [dropdown]="dropdown"
-                [LabelsItemsContainer]="labelsItemsContainer"
+                [labelsItemsContainer]="labelsItemsContainer"
                 (keydown)="keydown($event)"
-                (keypress)="keypress($event)">
+                (keypress)="keypress($event)"
+                (itemsUpdate)="onLabelsItemsChanged($event)">
         </div>
         <sq-autocomplete-list #dropdown>
             <ng-template #itemTpl let-item>
-                <div class="py-1">{{item.display}}
+                <div class="autocomplete-item p-2">{{item.display}}
                 </div>
             </ng-template>
         </sq-autocomplete-list>

@@ -17,11 +17,13 @@ import {BsLabelsMenuComponent} from "./labels-menu/labels-menu.component";
 
 import {LabelsModule} from "../labels.module";
 import {LABELS_COMPONENTS, LabelsComponents} from "../labels.service";
-import { BsLabelsItemsComponent } from './labels.items.component';
+import { BsLabelsItemsComponent } from './labels-items.component';
+import { BsDeleteLabel } from './delete-label/delete-label';
 
 export const defaultLabelComponents: LabelsComponents = {
     labelActionItem: BsLabelsActionItem,
-    renameModal: BsRenameLabel
+    renameModal: BsRenameLabel,
+    deleteModal: BsDeleteLabel
 };
 
 @NgModule({
@@ -40,10 +42,10 @@ export const defaultLabelComponents: LabelsComponents = {
         BsActionModule
     ],
     declarations: [
-        BsLabelsActionItem, BsRenameLabel, BsLabelsMenuComponent, BsLabelsItemsComponent
+        BsLabelsActionItem, BsRenameLabel, BsLabelsMenuComponent, BsLabelsItemsComponent, BsDeleteLabel
     ],
     exports: [
-        BsLabelsActionItem, BsRenameLabel, BsLabelsMenuComponent, BsLabelsItemsComponent
+        BsLabelsActionItem, BsRenameLabel, BsLabelsMenuComponent, BsLabelsItemsComponent, BsDeleteLabel
     ],
     providers: [
         {provide: LABELS_COMPONENTS, useValue: defaultLabelComponents},

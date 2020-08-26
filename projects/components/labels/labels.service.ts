@@ -23,6 +23,7 @@ export interface IFormData {
 export interface LabelsComponents {
     renameModal: Type<any>;
     labelActionItem: Type<any>;
+    deleteModal: Type<any>;
 }
 
 export const enum UpdateLabelsAction {
@@ -75,8 +76,7 @@ export class LabelsService {
             : undefined;
     }
 
-    // From navbar
-
+    /** From navbar */
     renameLabelModal(): void {
         const data = { oldValues: [], newValue: "", public: true };
         this.modalService
@@ -93,14 +93,12 @@ export class LabelsService {
     }
 
     deleteLabelModal(): void {
-        const data = { value: [], public: true };
+        const data = { values: [], public: true, instance: 'msg#labels.deleteLabel' };
         this.modalService
-            .yesNo("msg#labels.deleteLabelAreYouSure", {
-                values: { name: data.value },
-            })
+            .open(this.labelsComponents.deleteModal, { model: data })
             .then((result) => {
-                if (result === ModalResult.Yes) {
-                    this.deleteLabels(data.value, data.public);
+                if (result === ModalResult.OK) {
+                    this.deleteLabels(data.values, data.public);
                 }
             });
     }
@@ -119,84 +117,16 @@ export class LabelsService {
     }
 
     bulkRemoveLabelModal(): void {
-        const data = { value: [], public: true };
+        const data = { values: [], public: true, instance: 'msg#labels.bulkRemoveLabel' };
         this.modalService
-            .yesNo("msg#labels.bulkRemoveLabelAreYouSure", {
-                values: { name: data.value },
-            })
+            .open(this.labelsComponents.deleteModal, { model: data })
             .then((result) => {
-                if (result === ModalResult.Yes) {
-                    this.bulkRemoveLabels(data.value, data.public);
+                if (result === ModalResult.OK) {
+                    this.bulkRemoveLabels(data.values, data.public);
                 }
             });
     }
-
-    // renameLabel = (item: Action, $event: UIEvent) => {
-    //     const formData = item.data as IFormData;
-    //     const labels = this.split(formData.labelRef.value);
-    //     if (labels.length) {
-    //         const data: IRef<string> = { value: labels[0] };
-    //         this.modalService
-    //             .open(this.labelsComponents.renameModal, { model: data })
-    //             .then((result) => {
-    //                 if (result === ModalResult.OK) {
-    //                     this.renameLabels(labels, data.value, formData.public);
-    //                 }
-    //             });
-    //     }
-    // };
-
-    // deleteLabel = (item: Action, $event: UIEvent) => {
-    //     const formData = item.data as IFormData;
-    //     const _labels = formData.labelRef.value;
-    //     const labels = this.split(_labels);
-    //     if (labels.length) {
-    //         this.modalService
-    //             .yesNo("msg#labels.deleteLabelAreYouSure", {
-    //                 values: { name: _labels },
-    //             })
-    //             .then((result) => {
-    //                 if (result === ModalResult.Yes) {
-    //                     this.deleteLabels(labels, formData.public);
-    //                 }
-    //             });
-    //     }
-    // };
-
-    // bulkAddLabel = (item: Action, $event: UIEvent) => {
-    //     const formData = item.data as IFormData;
-    //     const _labels = formData.labelRef.value;
-    //     const labels = this.split(_labels);
-    //     if (labels.length) {
-    //         this.modalService
-    //             .yesNo("msg#labels.bulkAddLabelAreYouSure", {
-    //                 values: { name: _labels },
-    //             })
-    //             .then((result) => {
-    //                 if (result === ModalResult.Yes) {
-    //                     this.bulkAddLabels(labels, formData.public);
-    //                 }
-    //             });
-    //     }
-    // };
-
-    // bulkRemoveLabel = (item: Action, $event: UIEvent) => {
-    //     const formData = item.data as IFormData;
-    //     const _labels = formData.labelRef.value;
-    //     const labels = this.split(_labels);
-    //     if (labels.length) {
-    //         this.modalService
-    //             .yesNo("msg#labels.bulkRemoveLabelAreYouSure", {
-    //                 values: { name: _labels },
-    //             })
-    //             .then((result) => {
-    //                 if (result === ModalResult.Yes) {
-    //                     this.bulkRemoveLabels(labels, formData.public);
-    //                 }
-    //             });
-    //     }
-    // };
-    // END From navbar
+    /** END From navbar */
 
     // From result selector
 

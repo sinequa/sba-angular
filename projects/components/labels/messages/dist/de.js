@@ -1,4 +1,6 @@
-export default {
+"use strict";
+exports.__esModule = true;
+exports["default"] = {
     "labels": {
         "labels": "Etiketten",
         "publicLabels": "Öffentliche Etiketten",
@@ -6,8 +8,8 @@ export default {
         "public": "Öffentliche",
         "private": "Private",
         "selectLabel": "Etikett(en) auswählen",
-        "renameLabel": "Etikett(en) global umbenennen",
-        "deleteLabel": "Etikett(en) global entfernen",
+        "renameLabel": "Etikett(en) umbenennen",
+        "deleteLabel": "Etikett(en) entfernen",
         "bulkAddLabel": "Label zu aktuellen Ergebnissen hinzufügen",
         "bulkRemoveLabel": "Label von aktuellen Ergebnissen entfernen",
         "deleteLabelAreYouSure": "Möchten Sie dieses Etikett wirklich löschen: {name}?",
@@ -24,14 +26,8 @@ export default {
         "selectPrivateLabelTitle": "Privates Etikett auswählen",
         "removePrivateLabelTitle": "Privates Etikett entfernen"
     },
-
     "renameLabel": {
         "title": "Etikett(en) unbenennen",
         "newLabel": "Neuen Etikett"
-    },
-
-    "deleteLabel": {
-        "title": "Globalen Etikett(en) entfernen"
     }
-
 };

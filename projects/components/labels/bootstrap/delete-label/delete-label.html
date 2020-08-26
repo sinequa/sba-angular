@@ -1,0 +1,7 @@
+<form name="deleteLabel" novalidate>
+    <sq-modal [title]="model.instance" [buttons]="buttons">
+        <div class="form-group sq-form-group">
+            <sq-labels-action-item (labelsUpdate)="onLabelsChanged($event)"></sq-labels-action-item>
+        </div>
+    </sq-modal>
+</form>

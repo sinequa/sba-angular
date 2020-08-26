@@ -66,6 +66,12 @@ import { AppService } from '@sinequa/core/app-utils';
         -webkit-transition: all .3s linear;
         transition: all .3s linear;
       }
+      .clickable {
+        cursor: pointer;
+      }
+        .clickable:hover {
+            opacity: 85%;
+      }
     `]
 })
 export class Labels implements OnChanges {
