@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:vanilla": "ng serve vanilla-search -- --ssl=true --proxyConfig=./projects/vanilla-search/src/proxy.conf.json",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -99,6 +100,7 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~3.3.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "karma-mocha-reporter": "^2.2.5",
     "ng-packagr": "^10.0.0",
     "postcss-flexbugs-fixes": "^4.2.0",
     "postcss-focus-within": "^3.0.0",

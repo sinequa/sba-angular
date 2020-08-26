@@ -259,44 +259,9 @@ export class FacetService {
         if (options.replaceCurrent) {
             this.searchService.query.removeSelect(facetName);
         }
-        let _exprs: string[] | undefined;
-        let _expr: string = "";
-        let addGlobalField = !aggregation.valuesAreExpressions;
-        if (Utils.isArray(items)) {
-            if (items.length === 0) {
-                return;
-            }
-            addGlobalField = !aggregation.valuesAreExpressions && items.length > 1;
-            const excludeField = addGlobalField;
-            _exprs = items.map(value => FacetService.makeFacetExpr(aggregation, value, excludeField));
-            if (_exprs.length === 1) {
-                _expr = _exprs[0];
-            }
-        }
-        else {
-            _expr = FacetService.makeFacetExpr(aggregation, items as AggregationItem);
-        }
-        // SINGLE VALUE CASE
-        if (_expr) {
-            this._addFacetFilter(_expr, facetName, options.not);
-            return;
-        }
-        // AND / OR
-        const operator = options.and ? " AND " : " OR ";
-        let expr = "";
-        if (_exprs) {
-            for (const _expr of _exprs) {
-                if (expr) {
-                    expr = expr + operator;
-                }
-                expr += "(" + _expr + ")";
-            }
-            expr = "(" + expr + ")";
-        }
-        if (addGlobalField) {
-            expr = aggregation.column + ":" + expr;
-        }
-        this._addFacetFilter(expr, facetName, options.not);
+
+        const expr = this.makeExpr(facetName, aggregation, items, options);
+        if (expr) this._addFacetFilter(expr, facetName, options.not);
     }
 
     /**
@@ -313,9 +278,12 @@ export class FacetService {
      * @param facetName
      * @param all
      */
-    public clearFiltersSearch(facetName: string, all?: boolean): Promise<boolean> {
-        this.clearFilters(facetName, all);
-        this._events.next({type: FacetEventType.ClearFilters, facet: this.facet(facetName)});
+    public clearFiltersSearch(facetName: string | string[], all?: boolean): Promise<boolean> {
+        [].concat(facetName as []).forEach(name => {
+            this.clearFilters(name, all);
+            this._events.next({type: FacetEventType.ClearFilters, facet: this.facet(name)});
+        });
+
         return this.searchService.search(undefined, {
                 type: FacetEventType.ClearFilters,
                 detail: {
@@ -325,11 +293,27 @@ export class FacetService {
             });
     }
 
+    /**
+     * Remove a filter and update the appropriate Select if it was previously included in a selection
+     * @param facetName
+     * @param aggregation
+     * @param item
+     */
     public removeFilter(facetName: string, aggregation: Aggregation, item: AggregationItem){
         if (this.searchService.breadcrumbs) {
             const expr = this.findItemFilter(facetName, aggregation, item);
-            const i = this.searchService.breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && select.expr === expr);
-            this.searchService.query.removeSelect(i);
+            const i = this.searchService.breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === expr || select.expr === expr?.parent));
+
+            if (expr && expr.parent && expr.parent.operands.length > 1) {
+                // create a new Expr from parent and replaces Select by this new one
+                // so, breadcrumbs stay ordered
+                const items: AggregationItem[] = expr.parent.operands.filter(expr => expr.value !== item.value).map( i => ({count:0, value: i.value, display: i.display} as AggregationItem))
+                const _expr = this.makeExpr(facetName, aggregation, items);
+                if (_expr) this.searchService.query.replaceSelect(i, {expression: _expr, facet: facetName});
+            } else {
+                // filter is a single value... remove it
+                this.searchService.query.removeSelect(i);
+            }
         }
     }
 
@@ -837,5 +821,50 @@ export class FacetService {
         }
         return Utils.compare(String(a), String(b));
     }*/
+
+    private makeExpr(
+        facetName: string,
+        aggregation: Aggregation,
+        items: AggregationItem | AggregationItem[],
+        options: AddFilterOptions = {}) :string | undefined {
+
+        let _exprs: string[] | undefined;
+        let _expr: string = "";
+        let addGlobalField = !aggregation.valuesAreExpressions;
+        if (Utils.isArray(items)) {
+            if (items.length === 0) {
+                return;
+            }
+            addGlobalField = !aggregation.valuesAreExpressions && items.length > 1;
+            const excludeField = addGlobalField;
+            _exprs = items.map(value => FacetService.makeFacetExpr(aggregation, value, excludeField));
+            if (_exprs.length === 1) {
+                _expr = _exprs[0];
+            }
+        }
+        else {
+            _expr = FacetService.makeFacetExpr(aggregation, items as AggregationItem);
+        }
+        // SINGLE VALUE CASE
+        if (_expr) {
+            return _expr;
+        }
+        // AND / OR
+        const operator = options.and ? " AND " : " OR ";
+        let expr = "";
+        if (_exprs) {
+            for (const _expr of _exprs) {
+                if (expr) {
+                    expr = expr + operator;
+                }
+                expr += "(" + _expr + ")";
+            }
+            expr = "(" + expr + ")";
+        }
+        if (addGlobalField) {
+            expr = aggregation.column + ":" + expr;
+        }
+        return expr
+    }
 
 }

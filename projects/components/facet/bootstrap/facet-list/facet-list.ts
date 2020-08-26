@@ -8,13 +8,7 @@ import {AbstractFacet} from "../../abstract-facet";
 @Component({
     selector: "sq-facet-list",
     templateUrl: "./facet-list.html",
-    styles: [`
-a.filtered, a.filtered:hover {
-    text-decoration: none;
-    color: inherit;
-    cursor: inherit;
-}
-    `]
+    styleUrls: ["./facet-list.scss"]
 })
 export class BsFacetList extends AbstractFacet implements OnChanges {
     @Input() name: string; // If ommited, the aggregation name is used

@@ -44,6 +44,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    * Action to switch back from an opened facet to the facet multi view
    */
   backAction: Action;
+  clearAllFiltersAction: Action;
 
   constructor(
     public facetService: FacetService,
@@ -63,6 +64,15 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
       }
     });
 
+    this.clearAllFiltersAction = new Action({
+      icon: "far fa-minus-square",
+      title: "msg#facet.filters.clear",
+      action: () => {
+        const facetsWithFiltered = this.facets.filter((facet) => facet.$hasFiltered).map(facet => facet.name);
+        this.facetService.clearFiltersSearch(facetsWithFiltered, true);
+      }
+    });
+
   }
 
   /**
@@ -73,6 +83,9 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
     const actions: Action[] = [];
     if(this.openedFacet){
       actions.push(this.backAction);
+    } else {
+      const hasFiltered = this.facets.some(facet => facet.$hasFiltered);
+      if (hasFiltered) actions.push(this.clearAllFiltersAction);
     }
     if(this.facetComponent){
       actions.push(...this.facetActions);
@@ -98,6 +111,12 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
     this.openedFacet = facet;
     this.events.next(facet);
     this.changeDetectorRef.detectChanges();
+  }
+
+  clearFacetFilters(facet: FacetConfig, e:Event) {
+    e.stopPropagation();
+    this.facetService.clearFiltersSearch(facet.name, true);
+    return false;
   }
 
   /**
