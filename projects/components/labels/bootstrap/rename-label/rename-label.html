@@ -1,6 +1,7 @@
 <form name="renameLabel" novalidate [formGroup]="form">
     <sq-modal [title]="'msg#renameLabel.title'" [buttons]="buttons">
         <div class="form-group sq-form-group">
+            <b><label for="label">{{'msg#renameLabel.oldLabels' | sqMessage}}</label></b>
             <sq-labels-action-item (labelsUpdate)="onLabelsChanged($event)"></sq-labels-action-item>
             <b><label for="label">{{'msg#renameLabel.newLabel' | sqMessage}}</label></b>
             <input [sqValidation]="form" type="text" class="form-control" id="label" formControlName="label" autocomplete="off" spellcheck="off" placeholder="{{'msg#renameLabel.newLabel' | sqMessage}}">

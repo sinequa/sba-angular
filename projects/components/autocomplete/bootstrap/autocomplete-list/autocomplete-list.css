@@ -5,26 +5,3 @@
     overflow: auto;
     z-index: 10;
 }
-
-.sq-label-group {
-    display: inline-block;
-
-  }
-  .sq-label {
-    display: inline-block;
-  }
-  .chip {
-    display: inline-block;
-    height: 20px;
-    padding: 0 6px;
-    margin-right: 0.5rem;
-    margin-bottom: 0.5rem;
-    margin-top: 0.5rem;
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 18px;
-    cursor: pointer;
-    border-radius: 16px;
-    -webkit-transition: all .3s linear;
-    transition: all .3s linear;
-  }

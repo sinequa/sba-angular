@@ -27,11 +27,8 @@ export default {
 
     "renameLabel": {
         "title": "Etikett(en) unbenennen",
-        "newLabel": "Neuen Etikett"
-    },
-
-    "deleteLabel": {
-        "title": "Globalen Etikett(en) entfernen"
+        "newLabel": "Neuen Etikett",
+        "oldLabels": "Altes Etikett(en)"
     }
 
 };

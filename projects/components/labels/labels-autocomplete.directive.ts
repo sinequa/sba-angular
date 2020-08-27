@@ -5,6 +5,7 @@ import {UIService} from '@sinequa/components/utils';
 import {LabelsWebService, Labels} from '@sinequa/core/web-services';
 import { Subscription } from 'rxjs';
 import { Keys } from '@sinequa/core/base';
+import { LabelsService } from './labels.service';
 
 /**
  * Interface required to be implement by the component displaying
@@ -41,7 +42,8 @@ export class LabelsAutocomplete extends Autocomplete {
         suggestService: SuggestService,
         appService: AppService,
         uiService: UIService,
-        private labelsWebService: LabelsWebService){
+        private labelsWebService: LabelsWebService,
+        private labelsService: LabelsService){
 
         super(elementRef, suggestService, appService, uiService);
     }
@@ -122,7 +124,7 @@ export class LabelsAutocomplete extends Autocomplete {
                 this._getLabelsSuggestions(val.value);
             }
         }
-        else {  // If empty input, restart autocomplete
+        else {
             this.start();
         }
     }
@@ -151,6 +153,22 @@ export class LabelsAutocomplete extends Autocomplete {
                 }
             }
         );
+    }
+
+    /**
+     * The start() method from the original directive is overriden
+     * If empty input :
+     * - display top relevent labels if the auto-suggest wildcard is configured
+     * - restart the autocomplete if no auto-suggest wildcard is found
+     */
+    protected start() {
+        if (!!this.labelsService.labelsAutoSuggestWildcard) {
+            this.setState(AutocompleteState.OPENED);
+            this._getLabelsSuggestions(this.labelsService.labelsAutoSuggestWildcard);
+        } else {
+            this.setState(AutocompleteState.START);
+            this.dropdown.update(false);
+        }
     }
 
     /**

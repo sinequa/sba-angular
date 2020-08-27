@@ -76,6 +76,12 @@ export class LabelsService {
             : undefined;
     }
 
+    public get labelsAutoSuggestWildcard(): string | undefined {
+        return this.appService.cclabels
+            ? this.appService.cclabels.labelsAutoSuggestWildcard
+            : undefined;
+    }
+
     /** From navbar */
     renameLabelModal(): void {
         const data = { oldValues: [], newValue: "", public: true };

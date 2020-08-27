@@ -27,11 +27,8 @@ export default {
 
     "renameLabel": {
         "title": "Rename Label(s) globally",
-        "newLabel": "New Label"
-    },
-
-    "deleteLabel": {
-        "title": "Remove label(s) globally"
+        "newLabel": "New Label",
+        "oldLabels": "Old label(s)"
     }
 
 };

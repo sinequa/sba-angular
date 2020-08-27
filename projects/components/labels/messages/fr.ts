@@ -27,7 +27,8 @@ export default {
 
     "renameLabel": {
         "title": "Renommer le(s) libellé(s) globalement",
-        "newLabel": "Nouveau Libellé"
+        "newLabel": "Nouveau Libellé",
+        "oldLabels": "Ancien(s) libellé(s)"
     }
 
 };

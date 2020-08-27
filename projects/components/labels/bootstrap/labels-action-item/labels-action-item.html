@@ -1,5 +1,4 @@
 <form name="labelsForm">
-    <b><label for="label">{{'msg#labels.labels' | sqMessage}}</label></b>
     <section>
         <div *ngFor="let item of radioButtons" class="custom-control custom-radio custom-control-inline">
             <input type="radio" class="custom-control-input" id="{{item.id}}" name="nature" value="{{item.value}}"
