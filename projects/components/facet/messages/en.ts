@@ -12,6 +12,8 @@ export default {
         "removeAll": "Remove all",
         "searchPlaceholder": "Search...",
         "itemSelect": "Select this value",
+        "itemUnselect": "Unselect this value",
+        "filterItem": "Keep documents with {terme}",
         "filterItems" : "Keep documents with ANY of the selected items",
         "filterItemsAnd": "Keep documents with ALL the selected items",
         "excludeItems" : "Exclude document with selected items",
