@@ -10,7 +10,7 @@
             <ng-container *ngIf="facetComponent && facetComponent.headerTpl">
                 <ng-container [ngTemplateOutlet]="facetComponent.headerTpl"></ng-container>
             </ng-container>
-            <div class="btn-group" [sq-action-buttons]="{items: allActions, style: buttonsStyle, size: actionsSize, rightAligned: true}"></div>
+            <div [ngClass]="actionsClass" [sq-action-buttons]="{items: allActions, style: buttonsStyle, size: actionsSize, rightAligned: true}"></div>
         </div>
         <ng-container *ngIf="facetComponent && facetComponent.subHeaderTpl">
             <ng-container [ngTemplateOutlet]="facetComponent.subHeaderTpl"></ng-container>
