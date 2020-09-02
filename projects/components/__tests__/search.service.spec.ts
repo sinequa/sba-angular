@@ -42,13 +42,11 @@ describe("SearchService", () => {
       parseExpr: expression => ({field: {}, value: {}, not: {}})
     };
 
-    const formatServiceStub = () => ({});
     const notificationsServiceStub = () => ({info: string => ({})});
     const loginServiceStub = () => ({
       events: {subscribe: f => f},
       complete: true
     });
-    const intlServiceStub = () => ({});
 
     TestBed.configureTestingModule({
       providers: [
@@ -57,10 +55,10 @@ describe("SearchService", () => {
         {provide: QueryWebService, useFactory: queryWebServiceStub},
         {provide: AuditWebService, useFactory: auditWebServiceStub},
         {provide: AppService, useValue: appServiceStub},
-        {provide: FormatService, useFactory: formatServiceStub},
+        {provide: FormatService, useValue: {}},
         {provide: NotificationsService, useFactory: notificationsServiceStub},
         {provide: LoginService, useFactory: loginServiceStub},
-        {provide: IntlService, useFactory: intlServiceStub}
+        {provide: IntlService, useValue: {}}
       ]
     });
 
@@ -82,7 +80,7 @@ describe("SearchService", () => {
   describe("setQuery", () => {
     it("should sent event 'new-query'", () => {
       spyOn<any>(service['_events'], "next");
-      const query: Query = {name: "abc"} as Query;
+      const query: Query = new Query("abc");
 
       service.setQuery(query);
       expect(service['_events'].next).toHaveBeenCalledWith({type: "new-query", query});
@@ -91,7 +89,7 @@ describe("SearchService", () => {
 
     it("should sent event 'new-query' with prevents name changes and returns ccquery", () => {
       spyOn<any>(service['_events'], "next");
-      const query: Query = {name: "abc"} as Query;
+      const query: Query = new Query("abc");
 
       // When preventQueryNameChanges is true
       service["options"].preventQueryNameChanges = true;
@@ -104,7 +102,7 @@ describe("SearchService", () => {
 
     it("should sent event 'new-query' with prevents name changes and returns default ccquery", () => {
       spyOn<any>(service['_events'], "next");
-      const query: Query = {name: "abc"} as Query;
+      const query: Query = new Query("abc");
       const appService = TestBed.inject(AppService);
       appService.ccquery = undefined;
 
@@ -119,7 +117,7 @@ describe("SearchService", () => {
 
     it("should sent event 'new-query' and returns defaultCCQuery when query is not found", () => {
       spyOn<any>(service['_events'], "next");
-      const query: Query = {name: "abc"} as Query;
+      const query: Query = new Query("abc");
       const appService = TestBed.inject(AppService);
       spyOn(appService, "getCCQuery").and.returnValue(undefined);
 
@@ -202,11 +200,11 @@ describe("SearchService", () => {
 
   describe("searchAdvanced", () => {
     it("makes expected calls", () => {
-      const queryStub: Query = <any>{copyAdvanced: () => ({})};
+      const query: Query = new Query("abc");
       spyOn(service, "applyAdvanced").and.callThrough();
       spyOn<any>(service, "makeAuditEvent").and.callThrough();
 
-      service.searchAdvanced(queryStub);
+      service.searchAdvanced(query);
 
       expect(service.applyAdvanced).toHaveBeenCalled();
       expect(service["makeAuditEvent"]).toHaveBeenCalled();
@@ -215,25 +213,26 @@ describe("SearchService", () => {
 
   describe("mergeAdvanced", () => {
     it("makes expected calls", () => {
-      const queryStub: Query = <any>{copyAdvanced: () => ({}), toStandard: () => ({})};
-      spyOn(queryStub, "copyAdvanced").and.callThrough();
+      const target: Query = new Query("abc");
+      const source: Query = new Query("def");
+      spyOn(source, "copyAdvanced").and.callThrough();
 
-      service.mergeAdvanced(queryStub, queryStub);
+      service.mergeAdvanced(target, source);
 
-      expect(queryStub.copyAdvanced).toHaveBeenCalled();
+      expect(source.copyAdvanced).toHaveBeenCalled();
     });
   });
 
   describe("applyAdvanced", () => {
     it("makes expected calls when allowEmptySearch = false", () => {
       const auditEventsStub: AuditEvents = <any>{};
-      const queryStub: Query = <any>{copyAdvanced: () => ({})};
+      const query: Query = new Query("abc");
       spyOn(service, "mergeAdvanced").and.callThrough();
       spyOn(service, "checkEmptySearch").and.callThrough();
       spyOn(service, "clear");
       spyOn(service, "navigate").and.callThrough();
 
-      service.applyAdvanced(queryStub, auditEventsStub);
+      service.applyAdvanced(query, auditEventsStub);
 
       expect(service.query).toEqual(jasmine.any(Query));
       expect(service.mergeAdvanced).toHaveBeenCalled();
@@ -244,7 +243,7 @@ describe("SearchService", () => {
 
     it("makes expected calls when allowEmptySearch = true", () => {
       const auditEventsStub: AuditEvents = <any>{};
-      const queryStub: Query = <any>{copyAdvanced: () => ({})};
+      const query: Query = new Query("abc");
       const app = TestBed.inject(AppService);
       app.ccquery = {allowEmptySearch: true} as CCQuery;
 
@@ -253,7 +252,7 @@ describe("SearchService", () => {
       spyOn(service, "clear");
       spyOn(service, "navigate").and.callThrough();
 
-      service.applyAdvanced(queryStub, auditEventsStub);
+      service.applyAdvanced(query, auditEventsStub);
 
       expect(service.query).toEqual(jasmine.any(Query));
       expect(service.mergeAdvanced).toHaveBeenCalled();
