@@ -3,21 +3,23 @@ import {FormBuilder, FormGroup, FormControl, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {ModalButton, ModalResult, MODAL_MODEL} from "@sinequa/core/modal";
 import {Utils} from "@sinequa/core/base";
+import { UpdateLabelsAction } from '../../labels.service';
 
 @Component({
     selector: "sq-rename-label",
     templateUrl: "./rename-label.html"
 })
 export class BsRenameLabel implements OnInit, OnDestroy {
+
     labelControl: FormControl;
     form: FormGroup;
     formChanges: Subscription;
     buttons: ModalButton[];
+    readonly labelsAction = UpdateLabelsAction.rename;
 
     constructor(
         @Inject(MODAL_MODEL) public model: any,
-        private formBuilder: FormBuilder) {
-    }
+        private formBuilder: FormBuilder) {}
 
     ngOnInit() {
         this.labelControl = new FormControl(this.model.newValue, Validators.required);

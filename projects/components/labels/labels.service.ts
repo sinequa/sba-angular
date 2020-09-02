@@ -1,17 +1,19 @@
-import { Injectable, Inject, InjectionToken, Type } from "@angular/core";
-import { Observable, of } from "rxjs";
+import { Injectable, Inject, InjectionToken, Type, OnDestroy } from "@angular/core";
+import { Observable, of, Subscription } from "rxjs";
 import {
+    PrincipalWebService,
     LabelsWebService,
     AuditEventType,
     Record,
+    LabelsRights
 } from "@sinequa/core/web-services";
 import { AppService, ValueItem } from "@sinequa/core/app-utils";
 import { Utils, IRef } from "@sinequa/core/base";
 import { SearchService } from "@sinequa/components/search";
 import { ModalService, ModalResult } from "@sinequa/core/modal";
 import { Action } from "@sinequa/components/action";
-import { PrincipalWebService } from "@sinequa/core/web-services";
 import { IntlService } from "@sinequa/core/intl";
+import { NotificationsService } from '@sinequa/core/notification';
 // import {SelectionService} from '@sinequa/components/selection';
 
 export interface IFormData {
@@ -24,6 +26,7 @@ export interface LabelsComponents {
     renameModal: Type<any>;
     labelActionItem: Type<any>;
     deleteModal: Type<any>;
+    addModal: Type<any>;
 }
 
 export const enum UpdateLabelsAction {
@@ -42,8 +45,14 @@ export const LABELS_COMPONENTS = new InjectionToken<LabelsComponents>(
 @Injectable({
     providedIn: "root",
 })
-export class LabelsService {
+export class LabelsService implements OnDestroy {
     private _privateLabelsPrefix: string | undefined;
+    private static readonly okLabelsRights: LabelsRights = {
+        canCreatePublicLabels: true,
+        canModifyPublicLabels: true
+    };
+    private labelsRightsSubscription: Subscription | undefined;
+    private labelsRights: LabelsRights | undefined;
 
     constructor(
         private labelsWebService: LabelsWebService,
@@ -52,6 +61,7 @@ export class LabelsService {
         private modalService: ModalService,
         private principalWebService: PrincipalWebService,
         private intlService: IntlService,
+        private notificationService: NotificationsService,
         // private selectionService: SelectionService,
         @Inject(LABELS_COMPONENTS) public labelsComponents: LabelsComponents
     ) {
@@ -59,6 +69,8 @@ export class LabelsService {
             switch (event.type) {
                 case "changed":
                     this._privateLabelsPrefix = undefined;
+                    this.labelsRights = undefined;
+                    this.labelsRightsSubscription = undefined;
                     break;
             }
         });
@@ -82,6 +94,42 @@ export class LabelsService {
             : undefined;
     }
 
+    public get allowPublicLabelsCreation(): boolean {
+        return this.appService.cclabels
+            ? this.appService.cclabels.allowPublicLabelsCreation
+            : false;
+    }
+
+    public get allowPublicLabelsModification(): boolean {
+        return this.appService.cclabels
+            ? this.appService.cclabels.allowPublicLabelsModification
+            : false;
+    }
+
+    public get userLabelsRights(): LabelsRights {
+        let rights: LabelsRights | undefined;
+        if (!this.labelsRights) {
+            if (!this.labelsRightsSubscription) {
+                const observable = this.labelsWebService.getUserRights();
+                this.labelsRightsSubscription = Utils.subscribe(
+                    observable,
+                    response => rights = response
+                );
+            }
+            else {
+                rights = LabelsService.okLabelsRights;
+            }
+            this.labelsRights = !!rights ? rights : LabelsService.okLabelsRights;
+        }
+        return this.labelsRights;
+    }
+
+    ngOnDestroy() {
+        if (this.labelsRightsSubscription) {
+            this.labelsRightsSubscription.unsubscribe();
+        }
+    }
+
     /** From navbar */
     renameLabelModal(): void {
         const data = { oldValues: [], newValue: "", public: true };
@@ -94,12 +142,13 @@ export class LabelsService {
                         data.newValue,
                         data.public
                     );
+                    // this.searchService.search();
                 }
             });
     }
 
     deleteLabelModal(): void {
-        const data = { values: [], public: true, instance: 'msg#labels.deleteLabel' };
+        const data = { values: [], public: true, instance: UpdateLabelsAction.delete };
         this.modalService
             .open(this.labelsComponents.deleteModal, { model: data })
             .then((result) => {
@@ -110,20 +159,18 @@ export class LabelsService {
     }
 
     bulkAddLabelModal(): void {
-        const data = { value: [], public: true };
+        const data = { values: [], public: true, instance: UpdateLabelsAction.bulkAdd };
         this.modalService
-            .yesNo("msg#labels.bulkAddLabelAreYouSure", {
-                values: { name: data.value },
-            })
+            .open(this.labelsComponents.addModal, { model: data })
             .then((result) => {
-                if (result === ModalResult.Yes) {
-                    this.bulkAddLabels(data.value, data.public);
+                if (result === ModalResult.OK) {
+                    this.bulkAddLabels(data.values, data.public);
                 }
             });
     }
 
     bulkRemoveLabelModal(): void {
-        const data = { values: [], public: true, instance: 'msg#labels.bulkRemoveLabel' };
+        const data = { values: [], public: true, instance: UpdateLabelsAction.bulkRemove };
         this.modalService
             .open(this.labelsComponents.deleteModal, { model: data })
             .then((result) => {
@@ -263,6 +310,8 @@ export class LabelsService {
      * The following methods update the modify the labels for some documents via
      * the LabelsWebService, and they update the records in searchService.results
      * (for immediate display)
+     * !!! Useful with events if we are targeting few components update
+     * TODO handle facets cases
      **/
 
     private updateLabels(
@@ -458,13 +507,21 @@ export class LabelsService {
             _public
         );
         Utils.subscribe(observable, () => {
-            this.updateLabels(
-                UpdateLabelsAction.rename,
-                labels,
-                [],
-                newLabel,
-                _public
-            );
+            // this.updateLabels(
+            //     UpdateLabelsAction.rename,
+            //     labels,
+            //     [],
+            //     newLabel,
+            //     _public
+            // );
+        },
+        (err) => {
+            this.notificationService.error("msg#renameLabel.errorFeedback")
+        },
+        () => {
+            this.notificationService.success("msg#renameLabel.successFeedback")
+            this.searchService.search(); /** Update the display immediately in the components and facets*/
+
         });
         return observable;
     }
@@ -475,13 +532,21 @@ export class LabelsService {
         }
         const observable = this.labelsWebService.delete(labels, _public);
         Utils.subscribe(observable, () => {
-            this.updateLabels(
-                UpdateLabelsAction.delete,
-                labels,
-                [],
-                "",
-                _public
-            );
+            // this.updateLabels(
+            //     UpdateLabelsAction.delete,
+            //     labels,
+            //     [],
+            //     "",
+            //     _public
+            // );
+        },
+        (err) => {
+            this.notificationService.error("msg#deleteLabel.errorFeedback")
+        },
+        () => {
+            this.notificationService.success("msg#deleteLabel.successFeedback")
+            this.searchService.search(); /** Update the display immediately in the components and facets*/
+
         });
         return observable;
     }
@@ -533,13 +598,21 @@ export class LabelsService {
             _public
         );
         Utils.subscribe(observable, () => {
-            this.updateLabels(
-                UpdateLabelsAction.bulkAdd,
-                labels,
-                this.getCurrentRecordIds(),
-                "",
-                _public
-            );
+            // this.updateLabels(
+            //     UpdateLabelsAction.bulkAdd,
+            //     labels,
+            //     this.getCurrentRecordIds(),
+            //     "",
+            //     _public
+            // );
+        },
+        (err) => {
+            this.notificationService.error("msg#bulkAddLabel.errorFeedback")
+        },
+        () => {
+            this.notificationService.success("msg#bulkAddLabel.successFeedback")
+            this.searchService.search(); /** Update the display immediately in the components and facets*/
+
         });
         return observable;
     }
@@ -554,13 +627,21 @@ export class LabelsService {
             _public
         );
         Utils.subscribe(observable, () => {
-            this.updateLabels(
-                UpdateLabelsAction.bulkRemove,
-                labels,
-                this.getCurrentRecordIds(),
-                "",
-                _public
-            );
+            // this.updateLabels(
+            //     UpdateLabelsAction.bulkRemove,
+            //     labels,
+            //     this.getCurrentRecordIds(),
+            //     "",
+            //     _public
+            // );
+        },
+        (err) => {
+            this.notificationService.error("msg#bulkRemoveLabel.errorFeedback")
+        },
+        () => {
+            this.notificationService.success("msg#bulkRemoveLabel.successFeedback")
+            this.searchService.search(); /** Update the display immediately in the components and facets*/
+
         });
         return observable;
     }

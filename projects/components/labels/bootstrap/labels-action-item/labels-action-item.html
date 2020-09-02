@@ -19,9 +19,13 @@
                 [placeholder]="'msg#labels.selectLabel' | sqMessage"
                 [dropdown]="dropdown"
                 [labelsItemsContainer]="labelsItemsContainer"
+                [allowNewLabels]="allowNewLabels"
                 (keydown)="keydown($event)"
                 (keypress)="keypress($event)"
-                (itemsUpdate)="onLabelsItemsChanged($event)">
+                (itemsUpdate)="onLabelsItemsChanged($event)"
+                [disabled]="disableActions"
+                [off]="disableActions"
+                [class.disabled]="disableActions">
         </div>
         <sq-autocomplete-list #dropdown>
             <ng-template #itemTpl let-item>

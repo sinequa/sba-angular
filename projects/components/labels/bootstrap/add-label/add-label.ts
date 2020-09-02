@@ -3,10 +3,10 @@ import {ModalButton, ModalResult, MODAL_MODEL} from "@sinequa/core/modal";
 import { UpdateLabelsAction } from '../../labels.service';
 
 @Component({
-    selector: "sq-delete-label",
-    templateUrl: "./delete-label.html"
+    selector: "sq-add-label",
+    templateUrl: "./add-label.html"
 })
-export class BsDeleteLabel implements OnInit {
+export class BsAddLabel implements OnInit {
 
     buttons: ModalButton[];
     title: string;
@@ -16,17 +16,12 @@ export class BsDeleteLabel implements OnInit {
 
     ngOnInit() {
         switch (this.model.instance) {
-            case UpdateLabelsAction.delete:
-                this.title = 'msg#labels.deleteLabel';
-                this.alert = 'msg#deleteLabel.alertText';
-                break;
-            case UpdateLabelsAction.bulkRemove:
-                this.title = 'msg#labels.bulkRemoveLabel';
-                this.alert = 'msg#bulkRemoveLabel.alertText';
+            case UpdateLabelsAction.bulkAdd:
+                this.title = 'msg#labels.bulkAddLabel';
+                this.alert = 'msg#bulkAddLabel.alertText';
                 break;
             default:
                 this.title = ''
-                this.alert = ''
                 break;
         }
 

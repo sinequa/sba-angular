@@ -21,7 +21,7 @@ export interface SelectionItem {
 }
 
 /**
- * The storage mode allows to customize how the service stores records, 
+ * The storage mode allows to customize how the service stores records,
  * which enables different features:
  * - id: only store the id of a selected record (default)
  * - record: store the entire record
@@ -55,7 +55,7 @@ export class SelectionService implements OnDestroy {
 
     constructor(
         public searchService : SearchService,
-        @Inject(SELECTION_OPTIONS) public selectionOptions: SelectionOptions 
+        @Inject(SELECTION_OPTIONS) public selectionOptions: SelectionOptions
     ){
 
         this.searchService.events.subscribe(event => {
@@ -81,7 +81,7 @@ export class SelectionService implements OnDestroy {
             if(this.selectionOptions.resetOnNewResults && event.type === "new-results") {
                 this.clearSelectedRecords();
             }
-            
+
             if(this.selectionOptions.resetOnNewQuery && event.type === "new-query") {
                 this.clearSelectedRecords();
             }
@@ -217,8 +217,8 @@ export class SelectionService implements OnDestroy {
 
     /**
      * Moves a selected record to a different index;
-     * @param record 
-     * @param newIndex 
+     * @param record
+     * @param newIndex
      */
     public moveSelectedRecord(record: Record, newIndex: number) {
         const i = this.selectedRecords.findIndex(r => r.id === record.id);

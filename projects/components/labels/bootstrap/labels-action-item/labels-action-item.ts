@@ -1,6 +1,6 @@
-import {Component, ElementRef, EventEmitter, Output} from "@angular/core";
+import {Component, ElementRef, EventEmitter, Output, Input, OnInit} from "@angular/core";
 import {Keys} from "@sinequa/core/base";
-import { LabelsService } from '../../labels.service';
+import { LabelsService, UpdateLabelsAction } from '../../labels.service';
 import { AutocompleteItem } from '@sinequa/components/autocomplete';
 
 
@@ -37,45 +37,106 @@ import { AutocompleteItem } from '@sinequa/components/autocomplete';
         }
     `]
 })
-export class BsLabelsActionItem {
+export class BsLabelsActionItem implements OnInit {
 
+    /** Event synchronizing the list of selected labels and label's type in the parent component */
     @Output() labelsUpdate = new EventEmitter<{values: string[], public: boolean}>();
 
-    radioButtons: any[] = [];
-    public: boolean;
+    /** Precise the type of label's management that allow to set the allowPublic*/
+    @Input() action;
 
-    constructor(private elementRef: ElementRef, public labelsService: LabelsService) {
+    radioButtons: any[] = [];
+    public: boolean; /** Whether labels are public/private */
+    disableActions: boolean = false;
+    allowNewLabels: boolean; /** Define if the user can select public labels out of the suggestions or not */
+    private allowPublic: boolean; /** Define if the user has the right to manage public labels or not */
+
+    constructor(private elementRef: ElementRef, public labelsService: LabelsService) {}
+
+    ngOnInit() {
+        switch (this.action) {
+            case UpdateLabelsAction.rename:
+            case UpdateLabelsAction.remove:
+            case UpdateLabelsAction.delete:
+            case UpdateLabelsAction.bulkRemove:
+                this.allowPublic = this.labelsService.allowPublicLabelsCreation && this.labelsService.userLabelsRights && this.labelsService.userLabelsRights.canCreatePublicLabels;
+                this.allowNewLabels = false;
+                break;
+            case UpdateLabelsAction.add:
+            case UpdateLabelsAction.bulkAdd:
+                this.allowPublic = this.labelsService.allowPublicLabelsModification && this.labelsService.userLabelsRights && this.labelsService.userLabelsRights.canModifyPublicLabels;
+                this.allowNewLabels = true;
+                break;
+            default:
+                this.allowPublic = false;
+                this.allowNewLabels = false;
+                break;
+        }
 
         if (!!this.labelsService.publicLabelsField && !!this.labelsService.privateLabelsField) {
-            this.public = true;
-            this.radioButtons = [
-                {
-                    id: "publicLabel",
-                    name: "msg#labels.public",
-                    value: true,
-                    disabled: false,
-                    checked: true
-                },
-                {
-                    id: "privateLabel",
-                    name: "msg#labels.private",
-                    value: false,
-                    disabled: false,
-                    checked: false
-                }
-            ];
+            if (this.allowPublic) {
+                this.public = true;
+                this.radioButtons = [
+                    {
+                        id: "publicLabel",
+                        name: "msg#labels.public",
+                        value: true,
+                        disabled: false,
+                        checked: true
+                    },
+                    {
+                        id: "privateLabel",
+                        name: "msg#labels.private",
+                        value: false,
+                        disabled: false,
+                        checked: false
+                    }
+                ];
+            } else {
+                this.public = false;
+                this.radioButtons = [
+                    {
+                        id: "publicLabel",
+                        name: "msg#labels.public",
+                        value: true,
+                        disabled: true,
+                        checked: false
+                    },
+                    {
+                        id: "privateLabel",
+                        name: "msg#labels.private",
+                        value: false,
+                        disabled: true,
+                        checked: true
+                    }
+                ];
+            }
         } else if (!!this.labelsService.publicLabelsField) {
-            this.public = true;
-            this.radioButtons = [
-                {
-                    id: "publicLabel",
-                    name: "msg#labels.public",
-                    value: true,
-                    disabled: true,
-                    checked: true
-                }
-            ];
-        } else {
+            if (this.allowPublic) {
+                this.public = true;
+                this.radioButtons = [
+                    {
+                        id: "publicLabel",
+                        name: "msg#labels.public",
+                        value: true,
+                        disabled: true,
+                        checked: true
+                    }
+                ];
+            } else {
+                this.public = false;
+                this.disableActions = true;
+                this.radioButtons = [
+                    {
+                        id: "publicLabel",
+                        name: "msg#labels.public",
+                        value: true,
+                        disabled: true,
+                        checked: false
+                    }
+                ];
+            }
+        } else if (!!this.labelsService.privateLabelsField){
             this.public = false;
             this.radioButtons = [
                 {

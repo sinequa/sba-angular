@@ -17,6 +17,14 @@ export interface Labels {
 }
 
 /**
+ * Describes the object returned by the getUserRights action of the labels web service
+ */
+export interface LabelsRights {
+    canCreatePublicLabels: boolean;
+    canModifyPublicLabels: boolean;
+}
+
+/**
  * A service for calling the labels web service
  */
 @Injectable({
@@ -73,6 +81,28 @@ export class LabelsWebService extends HttpService {
             .pipe(map((value) => {
                 return value.labels;
             }));
+    }
+
+    /**
+     * Calls the getUserRights action of the labels web service
+     */
+
+    getUserRights(): Observable<LabelsRights> {
+        const observable = this.httpClient.get<LabelsRights>(
+            this.makeUrl('labels'),
+            {
+                params: this.makeParams({
+                    app: this.appName,
+                    action: 'getUserRights'
+                })
+            }
+        );
+        Utils.subscribe(
+            observable,
+            response => response,
+            error => console.log("labelsService.getUserRights failure - error: ", error)
+        );
+        return observable;
     }
 
     /**

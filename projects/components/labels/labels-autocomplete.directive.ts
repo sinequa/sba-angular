@@ -34,6 +34,9 @@ export class LabelsAutocomplete extends Autocomplete {
     /** Whether the labels are public or not */
     @Input() public: boolean;
 
+    /** Allow adding new labels in labelsItems or not */
+    @Input() allowNewLabels: boolean = false;
+
     /** Stores the selected labels items selected via Tab */
     public readonly labelsItems: AutocompleteItem[] = [];
 
@@ -67,7 +70,7 @@ export class LabelsAutocomplete extends Autocomplete {
             });
         }
 
-        // If labels category changes, we must remove the labels items
+        // If labels category changes, we must remove the existing labels items
         if(changes["public"] && this.labelsItems.length > 0) {
             this.setState(AutocompleteState.START);
             this.labelsItems.splice(0);
@@ -133,6 +136,7 @@ export class LabelsAutocomplete extends Autocomplete {
         this.labelsWebService.list(val, this.public).subscribe(
             (labels: Labels) => {
                 if(this.getState() === AutocompleteState.ACTIVE || this.getState() === AutocompleteState.OPENED){
+                    labels.labels = labels.labels.filter(label => !this.labelsItems.find(item => (item.display === label) )) /** Eliminate suggestions that are already selected */
                     this.dropdown.update(true, labels.labels.map(label => {
                         return {
                             display: label,
@@ -179,12 +183,12 @@ export class LabelsAutocomplete extends Autocomplete {
      */
     protected setAutocompleteItem(item: AutocompleteItem): boolean {
         if(item) {
-            // Store the autocomplete item that will be used to create a selection
-            this.setInputValue("");
+            // Store the autocomplete items that will be used to create a selection
             this.labelsItems.push(item);
             this.updatePlaceholder();
             this.labelsItemsContainer?.update(this.labelsItems);
             this.itemsUpdate.next(this.labelsItems);
+            this.setInputValue("");
         }
         return false;
     }
@@ -193,7 +197,7 @@ export class LabelsAutocomplete extends Autocomplete {
      * Listen to user's keyboard actions in the <input>, in order to navigate
      * and select the autocomplete suggestions.
      * Overrides the parent keydown method, adds the management of the backspace key
-     * to remove labels items.
+     * to remove labels items, enhance the enter key to support adding new labels.
      * @param event the keyboard
      */
     keydown(event: KeyboardEvent) {
@@ -210,6 +214,15 @@ export class LabelsAutocomplete extends Autocomplete {
                     this.itemsUpdate.next(this.labelsItems);
                 }
             }
+            /** Allow the selection on of new labels that not exists in the list */
+            if(event.keyCode === Keys.enter && this.allowNewLabels) {
+                if (!this.public || (this.public && this.labelsService.allowPublicLabelsModification && this.labelsService.userLabelsRights && this.labelsService.userLabelsRights.canModifyPublicLabels)) {
+                    this.setAutocompleteItem({
+                        display: this.getInputValue(),
+                        category: ""
+                    })
+                }
+            }
         }
         return keydown;
     }
@@ -221,5 +234,4 @@ export class LabelsAutocomplete extends Autocomplete {
     updatePlaceholder() {
         this._placeholder = this.labelsItems.length > 0 ? '' : this.placeholder;
     }
-
 }

@@ -28,7 +28,29 @@ export default {
     "renameLabel": {
         "title": "Etikett(en) unbenennen",
         "newLabel": "Neuen Etikett",
-        "oldLabels": "Altes Etikett(en)"
+        "oldLabels": "Altes Etikett(en)",
+        "alertText": "Diese Aktion benennt das (die) ausgewählte(n) Etikett(en) im Index um und ist unwiderruflich",
+        "successFeedback": "Label(s) renamed in the index",
+        "errorFeedback": "An error occurred. Request failed"
+    },
+
+    "deleteLabel": {
+        "alertText": "Diese Aktion löscht das (die) ausgewählte(n) Etikett(en) im Index und ist unwiderruflich",
+        "successFeedback": "Label(s) renamed in the index",
+        "errorFeedback": "An error occurred. Request failed"
+    },
+
+    "bulkRemoveLabel": {
+        "alertText": "Diese Aktion löscht das (die) ausgewählte(n) Etikett(en) der ganzen gefundenen Ergebnisse (nicht nur die der ersten Seite)",
+        "successFeedback": "Label(s) renamed in the index",
+        "errorFeedback": "An error occurred. Request failed"
+    },
+
+    "bulkAddLabel": {
+        "alertText": "This action assigns the selected label(s) to all results reported by the engine (not only to the first page)",
+        "infoText": "Press 'Enter' to add a new label that does not exist in the suggestions",
+        "successFeedback": "Label(s) renamed in the index",
+        "errorFeedback": "An error occurred. Request failed"
     }
 
 };

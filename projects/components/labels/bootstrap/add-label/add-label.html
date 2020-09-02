@@ -1,8 +1,11 @@
-<form name="deleteLabel" novalidate>
+<form name="addLabel" novalidate>
     <sq-modal [title]="title" [buttons]="buttons">
         <div class="form-group sq-form-group">
-            <div class="alert" [ngClass]="{'alert-danger': model.instance === 3, 'alert-warning': model.instance === 5}" role="alert">
+            <div class="alert alert-warning" role="alert">
                 {{alert | sqMessage}}
+            </div>
+            <div class="alert alert-info" role="alert">
+                {{'msg#bulkAddLabel.infoText' | sqMessage}}
             </div>
             <b><label for="label">{{'msg#labels.labels' | sqMessage}}</label></b>
             <sq-labels-action-item (labelsUpdate)="onLabelsChanged($event)" [action]="model.instance"></sq-labels-action-item>
