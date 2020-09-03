@@ -24,11 +24,11 @@
         <a  *ngFor="let item of items"
             class="d-flex flex-row align-items-center list-group-item text-truncate border-0 px-3 py-1"
             [ngClass]="{'list-group-item-primary':isSelected(item),'list-group-item-success':isFiltered(item),'list-group-item-action':!isFiltered(item),'filtered':isFiltered(item) }"
-            title="{{ (isFiltered(item)? 'msg#facet.selectedValue' : 'msg#facet.itemSelect') | sqMessage}}"
+            title="{{ (isFiltered(item)? 'msg#facet.selectedValue' : isSelected(item) ? 'msg#facet.itemUnselect' : 'msg#facet.itemSelect') | sqMessage}}"
             (click)="selectItem(item)" href="#">
 
             <a  href="#" (click)="filterItem(item, $event)"
-                role="button" title="{{item | sqValue:item.$column}}"
+                title="{{ (isFiltered(item)) ? '' : 'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)} }}"
                 class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
 
             <i class="ml-2 far fa-check-square facet-checked" (click)="filterItem(item, $event)" *ngIf="isFiltered(item)"></i>

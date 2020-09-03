@@ -835,7 +835,7 @@ export class Expr {
         if (!!value && !!this.column && (AppServiceHelpers.isString(this.column) || AppServiceHelpers.isCsv(this.column))) {
             return ExprParser.escape(value);
         }
-        return "";
+        return value || "";
     }
 
     private getValueString(): string {
