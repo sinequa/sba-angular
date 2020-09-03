@@ -3,24 +3,30 @@ import {Results, Select, AggregationItem, TreeAggregationNode} from "@sinequa/co
 import {AppService, Expr} from "@sinequa/core/app-utils";
 import {Utils} from "@sinequa/core/base";
 import {FacetService} from "../../facet.service";
-import {BsFacetFiltersBackground} from "../facet-filters-background/facet-filters-background";
 import { Action } from "@sinequa/components/action";
 import {SearchService} from "@sinequa/components/search";
+import { FacetConfig } from '../facet-multi/facet-multi.component';
 
 @Component({
-    selector: "qp-facet-filters",
+    selector: "sq-facet-filters",
     templateUrl: "./facet-filters.html",
     styleUrls: ["./facet-filters.css"]
 })
 export class BsFacetFilters implements OnChanges {
     @Input() results: Results;
-    @Input() facets: any[]; // TODO: make proper facet interface!
+    @Input() facets: FacetConfig[];
     @Input() enableAddFacet = true;
     @Input() itemCount: number = 5;
+    
+    @Input() autoAdjust: boolean = true;
+    @Input() autoAdjustBreakpoint: string = 'xl';
+    @Input() rightAligned: boolean = false;
+    @Input() size: string;
+
     filters : Action[];
     hidden: boolean;
 
-    facetStatus : any = {
+    facetStatus = {
         add : {
             title : "msg#facet.filters.add",
             icon  : "fas fa-plus"
@@ -49,10 +55,10 @@ export class BsFacetFilters implements OnChanges {
     }
 
     //Returns the top 5 element for a given aggregation as an Action object
-    getChildren(CCFacetItem: any, previousActions: Action[]): Action[] {
+    getChildren(CCFacetItem: FacetConfig, previousActions: Action[]): Action[] {
 
         let childrenActions: Action[] = [];
-        const aggregationName = CCFacetItem.aggregations;
+        const aggregationName = CCFacetItem.aggregation;
         const facetName = CCFacetItem.name || aggregationName;
         const aggregation = this.results.aggregations.find(x => x.name === aggregationName);
 
@@ -84,7 +90,6 @@ export class BsFacetFilters implements OnChanges {
 
         // Keep top values
         const topValues = (items.slice(0,this.itemCount).length === 0) ?  items : items.slice(0,this.itemCount);
-        const maxcount = topValues.reduce((a,b) => a.count > b.count? a : b).count;
 
         // Create select actions
         childrenActions = topValues.map(item => {
@@ -94,8 +99,6 @@ export class BsFacetFilters implements OnChanges {
                 name: item.value as string,
                 text: display,
                 title: "Select "+display+count,
-                component: BsFacetFiltersBackground,
-                componentInputs: {maxcount: maxcount, count: item.count},
                 action: () => {
                     const _aggregation = this.results.aggregations.find(x => x.name === aggregationName);
                     if (_aggregation) {
@@ -112,7 +115,7 @@ export class BsFacetFilters implements OnChanges {
     buildFilters(){
 
         // For each facet
-        this.facets.forEach((facet : any) => {
+        this.facets.forEach((facet : FacetConfig) => {
 
             const childrenActions : Action[] = [];
 

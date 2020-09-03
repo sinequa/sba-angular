@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, OnDestroy } from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter } from "@angular/core";
 import { IntlService } from "@sinequa/core/intl";
 import { Results, Aggregation, AggregationItem } from '@sinequa/core/web-services';
 import { UIService } from "@sinequa/components/utils";
@@ -24,11 +24,12 @@ export const defaultChart = {
 export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy {
     @Input() results: Results;
     @Input() aggregation: string;
-    @Input() aggregations: string[];
+    @Input() aggregations?: string[];
     
     @Input() width: string = '100%';
     @Input() height: string = '350';
     @Input() type: string = 'Column2D';
+    @Input() types?: {type: string, display: string}[];
     @Input() chart: any = defaultChart;
 
     /** Leave the default color undefined to use the color scheme of FusionCharts */
@@ -37,6 +38,10 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy {
     @Input() filteredColor: string = "#C3E6CB";
     /** Items that belong in a selected document appear in a different color. Set to undefined use FusionCharts's color scheme */
     @Input() selectedColor: string = "#8186d4";
+
+    @Output() initialized = new EventEmitter<any>();
+    @Output() aggregationChange = new EventEmitter<string>();
+    @Output() typeChange = new EventEmitter<string>();
     
     chartObj: any;
 
@@ -49,6 +54,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy {
     // All actions are built in the constructor
     private readonly clearFilters: Action;
     private readonly selectField: Action;
+    private readonly selectType: Action;
 
     // Subscriptions
     private localeChange: Subscription;
@@ -76,17 +82,39 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy {
             title: "Select field",
             updater: (action) => {
                 if(this.aggregations){
-                    action.name = this.aggregation,
                     action.text = this.aggregation,
                     action.children = this.aggregations
                         .filter(v => v!==this.aggregation)
-                        .map(a => {
+                        .map(agg => {
                             return new Action({
-                                name: a,
-                                text: a,
+                                text: agg,
                                 action : (item, event) => {
-                                    this.aggregation = a;
+                                    this.aggregation = agg;
+                                    this.aggregationChange.next(agg);
+                                    this.selectField.update();
                                     this.updateData();
+                                }
+                            });
+                        });
+                }
+            }
+        });
+
+        this.selectType = new Action({
+            title: "Select field",
+            updater: (action) => {
+                if(this.types){
+                    action.text = this.types.find(t => t.type === this.type)?.display!,
+                    action.children = this.types
+                        .filter(t => t.type !== this.type)
+                        .map(t => {
+                            return new Action({
+                                text: t.display,
+                                action : (item, event) => {
+                                    this.type = t.type;
+                                    this.chartObj.chartType(this.type);
+                                    this.typeChange.next(t.type);
+                                    this.selectType.update();
                                 }
                             });
                         });
@@ -124,8 +152,11 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy {
         if(this.hasFiltered()) {
             actions.push(this.clearFilters);
         }
-        if(!!this.selectField.name) {
+        if(this.aggregations && this.aggregations.length > 0) {
             actions.push(this.selectField);
+        }
+        if(this.types) {
+            actions.push(this.selectType);
         }
         return actions;
     }
@@ -140,6 +171,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy {
 
     ngOnChanges(changes: SimpleChanges) {
         this.selectField.update();
+        this.selectType.update();
 
         if(changes['results']) {
             this.updateData();
@@ -176,8 +208,9 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy {
      * Event triggered on initialization of the fusion chart
      * @param $event 
      */
-    initialized($event) {
+    onInitialized($event) {
         this.chartObj = $event.chart; // saving chart instance
+        this.initialized.next(this.chartObj);
     }
 
     /**
