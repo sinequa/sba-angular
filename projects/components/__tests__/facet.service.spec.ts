@@ -207,14 +207,14 @@ describe("FacetService", () => {
 			it("should add a single value filter", () => {
 				// Given
 				const items = aggregation["geo"].items[0];
-				spyOn<any>(service, "_addFacetFilter");
+				spyOn(searchService.query, "addSelect");
 
 				// When
 				service.addFilter('Geo', aggregation["geo"], items);
 
 				// Then
 				const expectedExpr = 'geo`Iraq`:(`IRAQ`)';
-				expect(service['_addFacetFilter']).toHaveBeenCalledWith(expectedExpr, 'Geo', undefined);
+				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, 'Geo');
 			})
 
 			it("should do nothing when items is undefined or []", () => {
@@ -223,44 +223,46 @@ describe("FacetService", () => {
 					{items: undefined as unknown as AggregationItem},
 					{items: [] as AggregationItem[]}
 				];
-				spyOn<any>(service, "_addFacetFilter");
+				spyOn(searchService.query, "addSelect");
 
 				// When Then
 				testCases.forEach((test) => {
 					service.addFilter('Geo', aggregation["geo"], test.items);
-					expect(service['_addFacetFilter']).not.toHaveBeenCalled();
+					expect(searchService.query.addSelect).not.toHaveBeenCalled();
 				})
 			});
 
 			it("should add a single value filter when items is an array of 1 element", () => {
 				// Given
 				const items = aggregation["geo"].items.slice(0, 1);
-				spyOn<any>(service, "_addFacetFilter");
+				spyOn(searchService.query, "addSelect");
 
 				// When
 				service.addFilter('Geo', aggregation["geo"], items);
 
 				// Then
 				const expectedExpr = 'geo`Iraq`:(`IRAQ`)';
-				expect(service['_addFacetFilter']).toHaveBeenCalledWith(expectedExpr, 'Geo', undefined);
+				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, 'Geo');
 			});
 
 			it("should add a filter when items is an array", () => {
 				// Given
 				const items = aggregation["geo"].items.slice(0, 2);
-				spyOn<any>(service, "_addFacetFilter");
+				spyOn(searchService.query, "addSelect");
 
 				// When
 				service.addFilter('Geo', aggregation["geo"], items);
 
 				// Then
 				const expectedExpr = 'geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`)))';
-				expect(service['_addFacetFilter']).toHaveBeenCalledWith(expectedExpr, 'Geo', undefined);
+				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, 'Geo');
 			});
 
-			it("should append an item to the previous selection when coming from same Facet", () => {
+			it("should append a single facet item to the previous select (same facet)", () => {
+				// breadcrumps: IRAQ OR GUANTANAMO
+				// expected breadcrumps: IRAQ OR GUANTANAMO OR IOWA
 				// Given
-				spyOn<any>(service, "_addFacetFilter");
+				spyOn(searchService.query, "addSelect");
 				spyOn(searchService.query, "replaceSelect");
 
 				searchService.breadcrumbs = {
@@ -282,12 +284,75 @@ describe("FacetService", () => {
 				// Then
 				const expectedExpr = 'geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`)) OR (`Iowa`:(`IOWA`)))';
 				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(0, {expression: expectedExpr, facet: "Geo"})
-				expect(service['_addFacetFilter']).not.toHaveBeenCalled();
+				expect(searchService.query.addSelect).not.toHaveBeenCalled();
 			});
 
-			it("should append an item to the previous single value when coming from same Facet", () => {
+			it("should append a single facet item to the previous select with AND operator (same facet)", () => {
+				// breadcrumps: IRAQ AND GUANTANAMO
+				// expected breadcrumps: IRAQ AND GUANTANAMO AND IOWA
 				// Given
-				spyOn<any>(service, "_addFacetFilter");
+				spyOn(searchService.query, "addSelect");
+				spyOn(searchService.query, "replaceSelect");
+
+				searchService.breadcrumbs = {
+					activeIndex: 0,
+					activeSelects: [{}],
+					removeItem: (item) => (item),
+					findSelect: (facetName) => ({
+						and: true,
+						operands: [
+							{value: 'IRAQ', display: 'Iraq'},
+							{value: 'GUANTANAMO', display: 'Guantanamo'}
+						]
+					})
+				} as Breadcrumbs;
+				spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
+
+				// When
+				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items[2]); // IOWA
+
+				// Then
+				const expectedExpr = 'geo:((`Iraq`:(`IRAQ`)) AND (`Guantanamo`:(`GUANTANAMO`)) AND (`Iowa`:(`IOWA`)))';
+				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(0, {expression: expectedExpr, facet: "Geo"})
+				expect(searchService.query.addSelect).not.toHaveBeenCalled();
+			});
+
+			it("should create a new select with OR operators with an existing AND select", () => {
+				// breadcrumps: IRAQ AND GUANTANAMO
+				// expected breadcrumps: (IRAQ AND GUANTANAMO)/(IOWA OR NEW HAMPSHIRE)
+				// Given
+				spyOn(searchService.query, "addSelect");
+				spyOn(searchService.query, "replaceSelect");
+
+				searchService.breadcrumbs = {
+					activeIndex: 0,
+					activeSelects: [{}],
+					removeItem: (item) => (item),
+					findSelect: (facetName) => ({
+						and: true,
+						operands: [
+							{value: 'IRAQ', display: 'Iraq'},
+							{value: 'GUANTANAMO', display: 'Guantanamo'}
+						]
+					})
+				} as Breadcrumbs;
+				spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
+
+				// When
+				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items.slice(2, 4), {and: false}); // [IOWA, NEW HAMSPHIRE]
+
+				// Then
+				const expectedExpr = 'geo:((`Iowa`:(`IOWA`)) OR (`New Hampshire`:(`NEW HAMPSHIRE`)))';
+				expect(searchService.query.replaceSelect).not.toHaveBeenCalled();
+				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, "Geo");
+			});
+
+
+			it("should append a single facet item to the previous single value (same facet)", () => {
+				// breadcrumps: IRAQ
+				// expected breadcrumps: IRAQ OR IOWA
+				// Given
+				spyOn(searchService.query, "addSelect");
 				spyOn(searchService.query, "replaceSelect");
 
 				searchService.breadcrumbs = {
@@ -304,12 +369,15 @@ describe("FacetService", () => {
 				// Then
 				const expectedExpr = 'geo:((`Iraq`:(`IRAQ`)) OR (`Iowa`:(`IOWA`)))';
 				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(0, {expression: expectedExpr, facet: "Geo"})
-				expect(service['_addFacetFilter']).not.toHaveBeenCalled();
+				expect(searchService.query.addSelect).not.toHaveBeenCalled();
 			});
 
-			it("should add a new filter if operator is not equal (with AND operator)", () => {
+
+			it("should add 2 new AND facet items without append them to previous OR select", () => {
+				// breadcrumps: IRAQ OR GUANTANAMO
+				// expected breadcrumps : (IRAQ OR GUANTANAMO)/(IOWA AND NEW HAMPSHIRE)
 				// Given
-				spyOn<any>(service, "_addFacetFilter");
+				spyOn(searchService.query, "addSelect");
 				spyOn(searchService.query, "replaceSelect");
 
 				searchService.breadcrumbs = {
@@ -334,12 +402,14 @@ describe("FacetService", () => {
 				// Then
 				const expectedExpr = 'geo:((`Iowa`:(`IOWA`)) AND (`New Hampshire`:(`NEW HAMPSHIRE`)))';
 				expect(searchService.query.replaceSelect).not.toHaveBeenCalled();
-				expect(service['_addFacetFilter']).toHaveBeenCalledWith(expectedExpr, "Geo", undefined);
+				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, "Geo");
 			});
 
-			it("should add a new filter if operator is not equal (with OR operator)", () => {
+			it("should add 2 new OR facet items without append them to previous AND filters", () => {
+				// breadcrumps: IRAQ AND GUANTANAMO
+				// expected breadcrumps: (IRAQ AND GUANTANAMO)/(IOWA OR NEW HAMPSHIRE)
 				// Given
-				spyOn<any>(service, "_addFacetFilter");
+				spyOn(searchService.query, "addSelect");
 				spyOn(searchService.query, "replaceSelect");
 
 				searchService.breadcrumbs = {
@@ -364,14 +434,14 @@ describe("FacetService", () => {
 				// Then
 				const expectedExpr = 'geo:((`Iowa`:(`IOWA`)) OR (`New Hampshire`:(`NEW HAMPSHIRE`)))';
 				expect(searchService.query.replaceSelect).not.toHaveBeenCalled();
-				expect(service['_addFacetFilter']).toHaveBeenCalledWith(expectedExpr, "Geo", undefined);
+				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, "Geo");
 			});
 
-			it("should remove replace current select when options is replaceCurrent", () => {
+			it("should replace current select when options is replaceCurrent", () => {
 				// Given
 				const items = aggregation["geo"].items[0];
 				const facetName = "Geo";
-				spyOn<any>(service, "_addFacetFilter");
+				spyOn(searchService.query, "addSelect");
 				spyOn(searchService.query, "removeSelect");
 
 				// When
@@ -380,33 +450,33 @@ describe("FacetService", () => {
 				// Then
 				const expectedExpr = 'geo`Iraq`:(`IRAQ`)';
 				expect(searchService.query.removeSelect).toHaveBeenCalledWith(facetName);
-				expect(service['_addFacetFilter']).toHaveBeenCalledWith(expectedExpr, facetName, undefined);
+				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, facetName);
 			});
 
 			it("should add a filter with NOT options", () => {
 				// Given
 				const items = aggregation["geo"].items.slice(0, 2);
-				spyOn<any>(service, "_addFacetFilter");
+				spyOn(searchService.query, "addSelect");
 
 				// When
 				service.addFilter('Geo', aggregation["geo"], items, {not: true});
 
 				// Then
-				const expectedExpr = 'geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`)))';
-				expect(service['_addFacetFilter']).toHaveBeenCalledWith(expectedExpr, 'Geo', true);
+				const expectedExpr = 'NOT (geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`))))';
+				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, 'Geo');
 			});
 
 			it("should add a filter with AND options", () => {
 				// Given
 				const items = aggregation["geo"].items.slice(0, 2);
-				spyOn<any>(service, "_addFacetFilter");
+				spyOn(searchService.query, "addSelect");
 
 				// When
 				service.addFilter('Geo', aggregation["geo"], items, {and: true});
 
 				// Then
 				const expectedExpr = 'geo:((`Iraq`:(`IRAQ`)) AND (`Guantanamo`:(`GUANTANAMO`)))';
-				expect(service['_addFacetFilter']).toHaveBeenCalledWith(expectedExpr, 'Geo', undefined);
+				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, 'Geo');
 			});
 
 		});
