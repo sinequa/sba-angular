@@ -70,7 +70,7 @@ export class LabelsAutocomplete extends Autocomplete {
             });
         }
 
-        // If labels category changes, we must remove the existing labels items
+        // If labels category changes, we must remove the selected labels items
         if(changes["public"] && this.labelsItems.length > 0) {
             this.setState(AutocompleteState.START);
             this.labelsItems.splice(0);

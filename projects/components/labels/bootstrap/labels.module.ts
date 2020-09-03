@@ -10,19 +10,19 @@ import {BsSelectionModule} from "@sinequa/components/selection";
 import {BsModalModule} from "@sinequa/components/modal";
 import {BsActionModule} from "@sinequa/components/action";
 import {BsAutocompleteModule} from "@sinequa/components/autocomplete";
+import {LabelsModule} from "../labels.module";
 
-import {BsLabelsActionItem} from "./labels-action-item/labels-action-item";
 import {BsRenameLabel} from "./rename-label/rename-label";
 import {BsLabelsMenuComponent} from "./labels-menu/labels-menu.component";
 
-import {LabelsModule} from "../labels.module";
 import {LABELS_COMPONENTS, LabelsComponents} from "../labels.service";
 import { BsLabelsItemsComponent } from './labels-items.component';
 import { BsDeleteLabel } from './delete-label/delete-label';
 import { BsAddLabel } from './add-label/add-label';
+import { BsLabelsAutocompleteComponent } from './labels-autocomplete/labels-autocomplete.component';
 
 export const defaultLabelComponents: LabelsComponents = {
-    labelActionItem: BsLabelsActionItem,
+    labelsAutocompleteComponent: BsLabelsAutocompleteComponent,
     renameModal: BsRenameLabel,
     deleteModal: BsDeleteLabel,
     addModal: BsAddLabel
@@ -44,7 +44,7 @@ export const defaultLabelComponents: LabelsComponents = {
         BsActionModule
     ],
     declarations: [
-        BsLabelsActionItem,
+        BsLabelsAutocompleteComponent,
         BsRenameLabel,
         BsLabelsMenuComponent,
         BsLabelsItemsComponent,
@@ -52,7 +52,7 @@ export const defaultLabelComponents: LabelsComponents = {
         BsAddLabel
     ],
     exports: [
-        BsLabelsActionItem,
+        BsLabelsAutocompleteComponent,
         BsRenameLabel,
         BsLabelsMenuComponent,
         BsLabelsItemsComponent,

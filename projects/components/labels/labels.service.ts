@@ -24,9 +24,17 @@ export interface IFormData {
 
 export interface LabelsComponents {
     renameModal: Type<any>;
-    labelActionItem: Type<any>;
+    labelsAutocompleteComponent: Type<any>;
     deleteModal: Type<any>;
     addModal: Type<any>;
+}
+
+export interface ModalProperties {
+    public: boolean,
+    allowNewLabels: boolean,
+    disableAutocomplete: boolean,
+    action: number,
+    radioButtons: any[]
 }
 
 export const enum UpdateLabelsAction {
@@ -132,7 +140,7 @@ export class LabelsService implements OnDestroy {
 
     /** From navbar */
     renameLabelModal(): void {
-        const data = { oldValues: [], newValue: "", public: true };
+        const data = { oldValues: [], newValue: "", properties: this._modalProperties(UpdateLabelsAction.rename) };
         this.modalService
             .open(this.labelsComponents.renameModal, { model: data })
             .then((result) => {
@@ -140,44 +148,119 @@ export class LabelsService implements OnDestroy {
                     this.renameLabels(
                         data.oldValues,
                         data.newValue,
-                        data.public
+                        data.properties.public
                     );
-                    // this.searchService.search();
                 }
             });
     }
 
     deleteLabelModal(): void {
-        const data = { values: [], public: true, instance: UpdateLabelsAction.delete };
+        const data = { values: [], properties: this._modalProperties(UpdateLabelsAction.delete) };
         this.modalService
             .open(this.labelsComponents.deleteModal, { model: data })
             .then((result) => {
                 if (result === ModalResult.OK) {
-                    this.deleteLabels(data.values, data.public);
+                    this.deleteLabels(data.values, data.properties.public);
                 }
             });
     }
 
     bulkAddLabelModal(): void {
-        const data = { values: [], public: true, instance: UpdateLabelsAction.bulkAdd };
+        const data = { values: [], properties: this._modalProperties(UpdateLabelsAction.bulkAdd) };
         this.modalService
             .open(this.labelsComponents.addModal, { model: data })
             .then((result) => {
                 if (result === ModalResult.OK) {
-                    this.bulkAddLabels(data.values, data.public);
+                    this.bulkAddLabels(data.values, data.properties.public);
                 }
             });
     }
 
     bulkRemoveLabelModal(): void {
-        const data = { values: [], public: true, instance: UpdateLabelsAction.bulkRemove };
+        const data = { values: [], properties: this._modalProperties(UpdateLabelsAction.bulkRemove) };
         this.modalService
             .open(this.labelsComponents.deleteModal, { model: data })
             .then((result) => {
                 if (result === ModalResult.OK) {
-                    this.bulkRemoveLabels(data.values, data.public);
+                    this.bulkRemoveLabels(data.values, data.properties.public);
                 }
             });
+    }
+
+    private _modalProperties(action: number): ModalProperties {
+        let allowManagePublicLabels: boolean = true;
+        let allowNewLabels: boolean = false;
+        let isPublic: boolean = true;
+        let disableAutocomplete: boolean = false;
+        let radioButtons: any[] = [];
+        let publicRadioButton = {
+            id: "publicLabel",
+            name: "msg#labels.public",
+            value: true,
+            disabled: false,
+            checked: true
+        }
+        let privateRadioButton = {
+            id: "privateLabel",
+            name: "msg#labels.private",
+            value: false,
+            disabled: false,
+            checked: false
+        }
+
+        switch (action) {
+            case UpdateLabelsAction.rename:
+            case UpdateLabelsAction.remove:
+            case UpdateLabelsAction.delete:
+            case UpdateLabelsAction.bulkRemove:
+                allowManagePublicLabels = this.allowPublicLabelsCreation && this.userLabelsRights && this.userLabelsRights.canCreatePublicLabels;
+                allowNewLabels = false;
+                break;
+            case UpdateLabelsAction.add:
+            case UpdateLabelsAction.bulkAdd:
+                allowManagePublicLabels = this.allowPublicLabelsModification && this.userLabelsRights && this.userLabelsRights.canModifyPublicLabels;
+                allowNewLabels = true;
+                break;
+            default:
+                allowManagePublicLabels = false;
+                allowNewLabels = false;
+                break;
+        }
+
+        if (!!this.publicLabelsField && !!this.privateLabelsField) {
+            if (allowManagePublicLabels) {
+                isPublic = true;
+                radioButtons = [publicRadioButton, privateRadioButton];
+            } else {
+                isPublic = false;
+                publicRadioButton = {...publicRadioButton, disabled: true, checked: false};
+                privateRadioButton = {...privateRadioButton, disabled: true, checked: true};
+                radioButtons = [publicRadioButton, privateRadioButton];
+            }
+        } else if (!!this.publicLabelsField) {
+            if (allowManagePublicLabels) {
+                isPublic = true;
+                publicRadioButton = {...publicRadioButton, disabled: true, checked: true}
+                radioButtons = [publicRadioButton];
+            } else {
+                isPublic = false;
+                disableAutocomplete = true;
+                publicRadioButton = {...publicRadioButton, disabled: true, checked: false}
+                radioButtons = [publicRadioButton];
+            }
+        } else if (!!this.privateLabelsField){
+            isPublic = false;
+            privateRadioButton = {...privateRadioButton, disabled: true, checked: true};
+            radioButtons = [privateRadioButton];
+        }
+
+        return {
+            public: isPublic,
+            allowNewLabels: allowNewLabels,
+            disableAutocomplete: disableAutocomplete,
+            action: action,
+            radioButtons: radioButtons
+        }
     }
     /** END From navbar */
 
@@ -506,16 +589,8 @@ export class LabelsService implements OnDestroy {
             newLabel,
             _public
         );
-        Utils.subscribe(observable, () => {
-            // this.updateLabels(
-            //     UpdateLabelsAction.rename,
-            //     labels,
-            //     [],
-            //     newLabel,
-            //     _public
-            // );
-        },
-        (err) => {
+        Utils.subscribe(observable, () => {},
+        () => {
             this.notificationService.error("msg#renameLabel.errorFeedback")
         },
         () => {
@@ -531,16 +606,8 @@ export class LabelsService implements OnDestroy {
             return of();
         }
         const observable = this.labelsWebService.delete(labels, _public);
-        Utils.subscribe(observable, () => {
-            // this.updateLabels(
-            //     UpdateLabelsAction.delete,
-            //     labels,
-            //     [],
-            //     "",
-            //     _public
-            // );
-        },
-        (err) => {
+        Utils.subscribe(observable, () => {},
+        () => {
             this.notificationService.error("msg#deleteLabel.errorFeedback")
         },
         () => {
@@ -597,16 +664,8 @@ export class LabelsService implements OnDestroy {
             this.searchService.query,
             _public
         );
-        Utils.subscribe(observable, () => {
-            // this.updateLabels(
-            //     UpdateLabelsAction.bulkAdd,
-            //     labels,
-            //     this.getCurrentRecordIds(),
-            //     "",
-            //     _public
-            // );
-        },
-        (err) => {
+        Utils.subscribe(observable, () => {},
+        () => {
             this.notificationService.error("msg#bulkAddLabel.errorFeedback")
         },
         () => {
@@ -626,16 +685,8 @@ export class LabelsService implements OnDestroy {
             this.searchService.query,
             _public
         );
-        Utils.subscribe(observable, () => {
-            // this.updateLabels(
-            //     UpdateLabelsAction.bulkRemove,
-            //     labels,
-            //     this.getCurrentRecordIds(),
-            //     "",
-            //     _public
-            // );
-        },
-        (err) => {
+        Utils.subscribe(observable, () => {},
+        () => {
             this.notificationService.error("msg#bulkRemoveLabel.errorFeedback")
         },
         () => {

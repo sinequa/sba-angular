@@ -36,8 +36,8 @@ import { LabelsItemsContainer } from '../labels-autocomplete.directive';
             .label-private {
                 background-color: #7283a7;
             }
-        `,
-    ],
+        `
+    ]
 })
 export class BsLabelsItemsComponent implements LabelsItemsContainer {
 

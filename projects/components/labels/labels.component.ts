@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, HostBinding } from "@angular/core";
-import { Utils, IRef } from "@sinequa/core/base";
+import { Utils } from "@sinequa/core/base";
 import { Record } from "@sinequa/core/web-services";
 import { LabelsService } from "./labels.service";
 import { AppService } from "@sinequa/core/app-utils";
@@ -79,14 +79,13 @@ import { AppService } from "@sinequa/core/app-utils";
 export class Labels implements OnChanges {
     @Input() record: Record;
     @Input() public: boolean;
-    @Input()
-    enableDelete: boolean = false; /** Display the delete button in the label tag */
+    @Input() enableDelete: boolean = false; /** Display the delete button in the label tag */
 
     protected labelsField: string;
     showLabels: boolean;
     labels: string[];
-    newLabelRef: IRef<string>;
-    adding: boolean;
+    // newLabelRef: IRef<string>;
+    // adding: boolean;
 
     @HostBinding("class") hostClasses;
 
@@ -94,8 +93,8 @@ export class Labels implements OnChanges {
         private appService: AppService,
         private labelsService: LabelsService
     ) {
-        this.adding = false;
-        this.newLabelRef = { value: "" };
+        // this.adding = false;
+        // this.newLabelRef = { value: "" };
     }
 
     ngOnChanges() {

@@ -6,10 +6,6 @@ export default {
         "public": "Öffentliche",
         "private": "Private",
         "selectLabel": "Etikett(en) auswählen",
-        "renameLabel": "Etikett(en) global umbenennen",
-        "deleteLabel": "Etikett(en) global entfernen",
-        "bulkAddLabel": "Label zu aktuellen Ergebnissen hinzufügen",
-        "bulkRemoveLabel": "Label von aktuellen Ergebnissen entfernen",
         "deleteLabelAreYouSure": "Möchten Sie dieses Etikett wirklich löschen: {name}?",
         "bulkAddLabelAreYouSure": "Möchten Sie wirklich das Etikett {name} zu allen Ergebnissen der aktuellen Suche hinzufügen?",
         "bulkRemoveLabelAreYouSure": "Möchten Sie wirklich das Etikett {name} von allen Ergebnissen der aktuellen Suche entfernen?",
@@ -30,27 +26,30 @@ export default {
         "newLabel": "Neuen Etikett",
         "oldLabels": "Altes Etikett(en)",
         "alertText": "Diese Aktion benennt das (die) ausgewählte(n) Etikett(en) im Index um und ist unwiderruflich",
-        "successFeedback": "Label(s) renamed in the index",
-        "errorFeedback": "An error occurred. Request failed"
+        "successFeedback": "Etikett(en), das (die) im Index umbenannt wurde(n)",
+        "errorFeedback": "Ein Fehler ist aufgetreten. Die Suchanfrage war erfolglos"
     },
 
     "deleteLabel": {
-        "alertText": "Diese Aktion löscht das (die) ausgewählte(n) Etikett(en) im Index und ist unwiderruflich",
-        "successFeedback": "Label(s) renamed in the index",
-        "errorFeedback": "An error occurred. Request failed"
+        "title": "Etikett(en) global entfernen",
+        "alertText": "Diese Aktion löscht das (die) ausgewählte(n) Etikett(en) aus dem Index und ist unwiderruflich",
+        "successFeedback": "Etikett(en), das (die) aus dem Index gelöscht wurde(n)",
+        "errorFeedback": "Ein Fehler ist aufgetreten. Die Suchanfrage war erfolglos"
     },
 
     "bulkRemoveLabel": {
-        "alertText": "Diese Aktion löscht das (die) ausgewählte(n) Etikett(en) der ganzen gefundenen Ergebnisse (nicht nur die der ersten Seite)",
-        "successFeedback": "Label(s) renamed in the index",
-        "errorFeedback": "An error occurred. Request failed"
+        "title": "Label zu aktuellen Ergebnissen hinzufügen",
+        "alertText": "Diese Aktion löscht das (die) ausgewählte(n) Etikett(en) aus allen gefundenen Ergebnisse (nicht nur die der ersten Seite)",
+        "successFeedback": "Etikett(en), das (die) aus allen gefundenen Ergebnissen gelöscht wurde(n)",
+        "errorFeedback": "Ein Fehler ist aufgetreten. Die Suchanfrage war erfolglos"
     },
 
     "bulkAddLabel": {
-        "alertText": "This action assigns the selected label(s) to all results reported by the engine (not only to the first page)",
-        "infoText": "Press 'Enter' to add a new label that does not exist in the suggestions",
-        "successFeedback": "Label(s) renamed in the index",
-        "errorFeedback": "An error occurred. Request failed"
+        "title": "Label von aktuellen Ergebnissen entfernen",
+        "alertText": "Diese Aktion fügt das (die) ausgewählte(n) Etikett(en) zu allen gefundenen Ergebnissen (nicht nur denen der ersten Seite) hinzu",
+        "infoText": "Wenn Sie berechtigt sind, Etiketten zu erstellen, klicken Sie auf 'Enter', um ein neues Etikett, das nicht in den Vorschlägen existiert, hinzuzufügen",
+        "successFeedback": "Etikett(en), das (die) allen gefundenen Ergebnissen hinzugefügt wurde(n)",
+        "errorFeedback": "Ein Fehler ist aufgetreten. Die Suchanfrage war erfolglos"
     }
 
 };

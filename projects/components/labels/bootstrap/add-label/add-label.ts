@@ -1,30 +1,34 @@
 import {Component, OnInit, Inject} from "@angular/core";
 import {ModalButton, ModalResult, MODAL_MODEL} from "@sinequa/core/modal";
-import { UpdateLabelsAction } from '../../labels.service';
+import { ModalProperties } from '../../labels.service';
 
 @Component({
     selector: "sq-add-label",
-    templateUrl: "./add-label.html"
+    templateUrl: "./add-label.html",
+    styles: [
+        `
+            .clickable {
+                cursor: pointer;
+            }
+            .clickable:hover {
+                opacity: 85%;
+            }
+        `,
+    ],
 })
 export class BsAddLabel implements OnInit {
 
     buttons: ModalButton[];
-    title: string;
-    alert: string;
 
-    constructor(@Inject(MODAL_MODEL) public model: any) {}
+    constructor(
+        @Inject(MODAL_MODEL)
+        public model: {
+            values: string[];
+            properties: ModalProperties;
+        }
+    ) {}
 
     ngOnInit() {
-        switch (this.model.instance) {
-            case UpdateLabelsAction.bulkAdd:
-                this.title = 'msg#labels.bulkAddLabel';
-                this.alert = 'msg#bulkAddLabel.alertText';
-                break;
-            default:
-                this.title = ''
-                break;
-        }
-
         this.buttons = [
             new ModalButton({
                 result: ModalResult.OK,
@@ -36,8 +40,11 @@ export class BsAddLabel implements OnInit {
         ];
     }
 
-    onLabelsChanged(obj: {values: string[], public: boolean}) {
-        this.model.values = obj.values;
-        this.model.public = obj.public;
+    updateLabelsNature(nature: boolean) {
+        this.model.properties.public = nature;
+    }
+
+    onLabelsChanged(values: string[]) {
+        this.model.values = values;
     }
 }

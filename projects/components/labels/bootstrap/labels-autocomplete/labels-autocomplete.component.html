@@ -1,11 +1,4 @@
 <form name="labelsForm">
-    <section>
-        <div *ngFor="let item of radioButtons" class="custom-control custom-radio custom-control-inline">
-            <input type="radio" class="custom-control-input" id="{{item.id}}" name="nature" value="{{item.value}}"
-                [checked]="item.checked" [disabled]="item.disabled" (click)="updateLabelsNature(item.value)" [ngClass]="{'disabled': item.disabled, 'clickable': !item.disabled}">
-            <label class="custom-control-label" for="{{item.id}}">{{ item.name | sqMessage }}</label>
-        </div>
-    </section>
     <section class="sq-dropdown-form">
         <div class="form-control d-flex">
             <sq-labels-items [public]="public" #labelsItemsContainer></sq-labels-items>
@@ -23,9 +16,9 @@
                 (keydown)="keydown($event)"
                 (keypress)="keypress($event)"
                 (itemsUpdate)="onLabelsItemsChanged($event)"
-                [disabled]="disableActions"
-                [off]="disableActions"
-                [class.disabled]="disableActions">
+                [disabled]="disableAutocomplete"
+                [off]="disableAutocomplete"
+                [class.disabled]="disableAutocomplete">
         </div>
         <sq-autocomplete-list #dropdown>
             <ng-template #itemTpl let-item>

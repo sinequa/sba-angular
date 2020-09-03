@@ -39,32 +39,32 @@ export class BsLabelsMenuComponent implements OnInit, OnChanges, OnDestroy {
         public labelsService: LabelsService
     ) {
         this.renameAction = new Action({
-            text: "msg#labels.renameLabel",
-            title: "msg#labels.renameLabel",
+            text: "msg#renameLabel.title",
+            title: "msg#renameLabel.title",
             action: () => {
                 this.labelsService.renameLabelModal();
             },
         });
 
         this.deleteAction = new Action({
-            text: "msg#labels.deleteLabel",
-            title: "msg#labels.deleteLabel",
+            text: "msg#deleteLabel.title",
+            title: "msg#deleteLabel.title",
             action: () => {
                 this.labelsService.deleteLabelModal();
             },
         });
 
         this.bulkAddAction = new Action({
-            text: "msg#labels.bulkAddLabel",
-            title: "msg#labels.bulkAddLabel",
+            text: "msg#bulkAddLabel.title",
+            title: "msg#bulkAddLabel.title",
             action: () => {
                 this.labelsService.bulkAddLabelModal();
             },
         });
 
         this.bulkDeleteAction = new Action({
-            text: "msg#labels.bulkRemoveLabel",
-            title: "msg#labels.bulkRemoveLabel",
+            text: "msg#bulkRemoveLabel.title",
+            title: "msg#bulkRemoveLabel.title",
             action: () => {
                 this.labelsService.bulkRemoveLabelModal();
             },
