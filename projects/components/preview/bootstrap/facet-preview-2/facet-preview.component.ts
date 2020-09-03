@@ -83,6 +83,8 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       this.downloadUrl = undefined;
       this.data = undefined;
       this.document = undefined;
+    }
+    if(changes["height"] || changes["scalingFactor"]) {
       this.invFactor = 100.0 / this.scalingFactor;
       this.scaledHeight = this.height / this.scalingFactor;
       this._height = this.height;

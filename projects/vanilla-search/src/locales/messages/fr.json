@@ -17,7 +17,12 @@
         "advancedSearch": "Recherche avancée",
         "scopeTitle": "Champ d'application : {name}",
         "recentQuery": "Recherche récente",
-        "recentDocument": "Document récent"
+        "recentDocument": "Document récent",
+        "fieldedSearch": "Recherche sur champs",
+        "off": "Désactivée",
+        "simple": "Simple",
+        "simpleTitle": "Mode graphique affichant les filtres sélectionnés sous forme de badges",
+        "advancedTitle": "Mode textuel permettant d'utiliser des expressions de recherche telles que \"geo: Paris OR company: Sinequa\""
     },
 
     "baskets": {

@@ -17,7 +17,12 @@
         "advancedSearch": "Advanced search",
         "scopeTitle": "Scope: {name}",
         "recentQuery": "Recent query",
-        "recentDocument": "Recent document"
+        "recentDocument": "Recent document",
+        "fieldedSearch": "Fielded Search",
+        "off": "Off",
+        "simple": "Simple",
+        "simpleTitle": "Graphical mode allowing to display selected filters as badges",
+        "advancedTitle": "Text mode allowing to write search expressions such as \"geo: Paris OR company: Sinequa\""
     },
     
     "baskets": {
