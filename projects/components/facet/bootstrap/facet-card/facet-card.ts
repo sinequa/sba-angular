@@ -35,6 +35,17 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
     @Input() actions: Action[] = [];
 
     /**
+     * Whether the [actions]="..." passed by binding should be displayed before or after
+     * the actions from the inner facet component
+     */
+    @Input() actionsFirst = true;
+
+    /**
+     * Class applied to the list of actions (default: btn-group for Bootstrap buttons)
+     */
+    @Input() actionsClass = "btn-group";
+
+    /**
      * Size of the custom actions
      */
     @Input() actionsSize = "sm";
@@ -185,11 +196,17 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
 
     public get allActions() : Action[] {
         if(this.hideActionsCollapsed && this._collapsed) return [this.collapseAction]; // Hide other actions if collapsed
-        let actions = [...this.actions];
+        let actions = [] as Action[];
+        if(this.actionsFirst) {
+            actions.push(...this.actions);
+        }
         if(this.facetComponent) actions = actions.concat(this.facetComponent.actions);
         if(this.hasSettings) actions.push(this.settingsAction);
         if(this.expandable) actions.push(this.expandAction);
         if(this.collapsible) actions.push(this.collapseAction);
+        if(!this.actionsFirst) {
+            actions.push(...this.actions);
+        }
         return actions;
     }
 
