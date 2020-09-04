@@ -6,7 +6,7 @@ import { ValidationService } from "@sinequa/core/validation";
 import { NotificationsService } from "@sinequa/core/notification";
 import { Utils } from "@sinequa/core/base";
 import { ModalRef, ModalButton, ModalResult, MODAL_MODEL } from "@sinequa/core/modal";
-import { ExportSourceType, ExportOutputFormat, CCWebService} from "@sinequa/core/web-services";
+import { ExportSourceType, ExportOutputFormat, CCWebService, CCApp} from "@sinequa/core/web-services";
 import {SavedQueriesService, ExportQueryModel} from "../../saved-queries.service";
 import {SelectionService} from "@sinequa/components/selection";
 import { AppService } from '@sinequa/core/app-utils';
@@ -57,8 +57,7 @@ export class BsExportQuery implements OnInit, OnDestroy {
 
         this.exportableColumns = [];
         if (this.appService.app) {
-            const queryExport = this.appService.app.queryExport;
-            const queryExportConfig = <CCQueryExport>this.appService.app.webServices[queryExport];
+            const queryExportConfig = this.getDefaultQueryExportConfig(this.appService.app);
             const columns = (queryExportConfig.columns && queryExportConfig.columns['column$']) || [];
             for (const column of columns) {
                 this.exportableColumns.push(column.title);
@@ -132,6 +131,13 @@ export class BsExportQuery implements OnInit, OnDestroy {
         }
     }
 
+    private getDefaultQueryExportConfig(app: CCApp): CCQueryExport {
+        let queryExport = app.queryExport;
+        if (queryExport.indexOf(',') !== -1) {
+            queryExport = queryExport.substring(0, queryExport.indexOf(','));
+        }
+        return <CCQueryExport>app.webServices[queryExport];
+    }
 
     /**
      * Check if the client has selected some records.
