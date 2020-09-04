@@ -22,12 +22,21 @@ module.exports = function (config) {
       fixWebpackSourcePaths: true
     },
     reporters: ['mocha', 'kjhtml'],
+    mochaReporter: {
+      ignoreSkipped: true
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['ChromeHeadless'],
+    browsers: ['ChromeDebugging'],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
+    customLaunchers: {
+      ChromeDebugging: {
+        base: 'ChromeHeadless',
+        flags: [ '--remote-debugging-port=9333', '--no-sandbox' ]
+      }
+    },
   });
 };

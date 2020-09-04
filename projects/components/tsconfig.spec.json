@@ -1,7 +1,10 @@
 {
   "extends": "../../tsconfig.json",
+  "angularCompilerOptions": {
+    "enableIvy": false
+  },
   "compilerOptions": {
-    "outDir": "../../out-tsc/spec",
+    "outDir": "./out-tsc/spec",
     "types": [
       "jasmine",
       "node"
@@ -11,7 +14,7 @@
       "@sinequa/core/*": ["projects/core/*"],
       "@sinequa/components": ["projects/components/public-api"],
       "@sinequa/components/*": ["projects/components/*"]
-  }
+    }
   },
   "files": [
     "test.ts"
