@@ -3,7 +3,7 @@ import {UserSettingsWebService, UserSettings, Suggestion,
     Results, Aggregation, AggregationItem, TreeAggregation, TreeAggregationNode,
     AuditEvents} from "@sinequa/core/web-services";
 import {IntlService} from "@sinequa/core/intl";
-import {Query, AppService, FormatService, ValueItem, Expr, ExprOperator, ExprParser} from "@sinequa/core/app-utils";
+import {Query, AppService, FormatService, ValueItem, Expr, ExprParser} from "@sinequa/core/app-utils";
 import {Utils} from "@sinequa/core/base";
 import {Subject, Observable} from "rxjs";
 import {map} from "rxjs/operators";
@@ -506,6 +506,7 @@ export class FacetService {
 
     private findItemFilter(facetName: string, aggregation: Aggregation, item: AggregationItem) : Expr | undefined {
         let expr: Expr | undefined;
+        let exprText: string;
         if (!aggregation.valuesAreExpressions) {
             let value: string;
             if (aggregation.isTree) {
@@ -514,22 +515,14 @@ export class FacetService {
             else {
                 value = Utils.toSqlValue(item.value);
             }
-            expr = new Expr({
-                exprContext: {
-                    appService: this.appService,
-                    formatService: this.formatService,
-                    intlService: this.intlService
-                },
-                value: value,
-                operator: ExprOperator.eq,
-                field: aggregation.column
-            });
+            exprText = aggregation.column + ":" + ExprParser.escape(value);
         }
         else {
-            const ret = this.appService.parseExpr(<string>item.value);
-            if (ret instanceof Expr) {
-                expr = <Expr>ret;
-            }
+            exprText = item.value as string;
+        }
+        const ret = this.appService.parseExpr(exprText);
+        if (ret instanceof Expr) {
+            expr = <Expr>ret;
         }
         if (expr) {
             const expr2 = this.searchService.breadcrumbs && this.searchService.breadcrumbs.findSelect(facetName, expr);
