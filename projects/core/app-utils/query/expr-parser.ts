@@ -1168,8 +1168,8 @@ export class Expr {
             if (expr1.not !== expr2.not) {
                 return false;
             }
-            const field1 = context.appService.resolveColumnAlias(expr1.normalizeField(expr1.field));
-            const field2 = context.appService.resolveColumnAlias(expr2.normalizeField(expr2.field));
+            const field1 = context.appService.resolveColumnAlias(expr1.field);
+            const field2 = context.appService.resolveColumnAlias(expr2.field);
             if (field1 !== field2) {
                 return false;
             }
