@@ -20,12 +20,14 @@ import { BsLabelsItemsComponent } from './labels-items.component';
 import { BsDeleteLabel } from './delete-label/delete-label';
 import { BsAddLabel } from './add-label/add-label';
 import { BsLabelsAutocompleteComponent } from './labels-autocomplete/labels-autocomplete.component';
+import { BsEditLabel } from './edit-label/edit-label';
 
 export const defaultLabelComponents: LabelsComponents = {
     labelsAutocompleteComponent: BsLabelsAutocompleteComponent,
     renameModal: BsRenameLabel,
     deleteModal: BsDeleteLabel,
-    addModal: BsAddLabel
+    addModal: BsAddLabel,
+    editModal: BsEditLabel
 };
 
 @NgModule({
@@ -49,7 +51,8 @@ export const defaultLabelComponents: LabelsComponents = {
         BsLabelsMenuComponent,
         BsLabelsItemsComponent,
         BsDeleteLabel,
-        BsAddLabel
+        BsAddLabel,
+        BsEditLabel
     ],
     exports: [
         BsLabelsAutocompleteComponent,
@@ -57,7 +60,8 @@ export const defaultLabelComponents: LabelsComponents = {
         BsLabelsMenuComponent,
         BsLabelsItemsComponent,
         BsDeleteLabel,
-        BsAddLabel
+        BsAddLabel,
+        BsEditLabel
     ],
     providers: [
         {provide: LABELS_COMPONENTS, useValue: defaultLabelComponents},

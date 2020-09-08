@@ -141,7 +141,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     }
 
 
-    private _dropdownSubscription: Subscription;
+    protected _dropdownSubscription: Subscription;
     /**
      * Unsubscribe when destroying the component
      */

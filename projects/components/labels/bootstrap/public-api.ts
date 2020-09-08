@@ -5,3 +5,4 @@ export * from "./labels-menu/labels-menu.component";
 export * from "./labels-items.component";
 export * from "./delete-label/delete-label";
 export * from "./add-label/add-label";
+export * from "./edit-label/edit-label";

@@ -94,9 +94,9 @@
                     <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
                     <sq-result-extracts [record]="record"></sq-result-extracts>
                     <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
-                    <div class="d-flex">
-                      <sq-labels [record]="record" [public]="true"></sq-labels>
-                      <sq-labels [record]="record" [public]="false"></sq-labels>
+                    <div class="d-inline">
+                      <sq-labels [record]="record" [public]="true" class="d-inline"></sq-labels>
+                      <sq-labels [record]="record" [public]="false" class="d-inline"></sq-labels>
                     </div>
                 </div>
                 <sq-result-thumbnail [record]="record" [thumbnailColumn]="'sourcevarchar4'" [linkBehavior]="'action'"

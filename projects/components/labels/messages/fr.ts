@@ -47,9 +47,18 @@ export default {
     "bulkAddLabel": {
         "title": "Ajouter le(s) libellé(s) aux résultats courants",
         "alertText": "Cette action ajoute le(s) libellé(s) sélectionné(s) à tous les résultats remontés par le moteur (pas seulement à la première page)",
-        "infoText": "Si vous êtes autorisé à créer des libellés, appuyez sur 'Entrée' pour ajouter un nouveau libellé qui n'existe pas dans les suggestions",
+        "infoText": "Appuyez sur 'Entrée' pour ajouter un nouveau libellé qui n'existe pas dans les suggestions",
         "successFeedback": "Libellé(s) ajouté(s) à tous les résultats remontés par le moteur",
         "errorFeedback": "Une erreur s'est produite. Requête non aboutie"
-    }
+    },
 
+    "editLabel": {
+        "title": "Editer le(s) libellé(s) de(s) résultat(s) sélectionné(s)",
+        "alertText": "Cette action édite le(s) libellé(s) de(s) résultat(s) sélectionné(s)",
+        "infoText": "Appuyez sur 'Entrée' pour ajouter un nouveau libellé qui n'existe pas dans les suggestions",
+        "labelsToBeRemoved": "Libellé(s) à enlever",
+        "labelsToBeAdded": "Libellé(s) à ajouter",
+        "successFeedback": "Libellé(s) de(s) résultat(s) sélectionné(s) édité(s)",
+        "errorFeedback": "Une erreur s'est produite. Requête non aboutie"
+    }
 };

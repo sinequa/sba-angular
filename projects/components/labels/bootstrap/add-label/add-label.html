@@ -4,7 +4,7 @@
             <div class="alert alert-warning" role="alert">
                 {{'msg#bulkAddLabel.alertText' | sqMessage}}
             </div>
-            <div class="alert alert-info" role="alert">
+            <div *ngIf="model.properties.allowManagePublicLabels || !model.properties.public " class="alert alert-info" role="alert">
                 {{'msg#bulkAddLabel.infoText' | sqMessage}}
             </div>
             <section>
@@ -19,7 +19,8 @@
                 (labelsUpdate)="onLabelsChanged($event)"
                 [public]="model.properties.public"
                 [disableAutocomplete]="model.properties.disableAutocomplete"
-                [allowNewLabels]="model.properties.allowNewLabels">
+                [allowNewLabels]="model.properties.allowNewLabels"
+                [allowManagePublicLabels]="model.properties.allowManagePublicLabels">
             </sq-labels-autocomplete>
         </div>
     </sq-modal>

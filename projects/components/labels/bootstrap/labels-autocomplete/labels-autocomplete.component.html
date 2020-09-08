@@ -1,6 +1,6 @@
-<form name="labelsForm">
+<form name="labelsForm" class="d-inline">
     <section class="sq-dropdown-form">
-        <div class="form-control d-flex">
+        <div class="form-control">
             <sq-labels-items [public]="public" #labelsItemsContainer></sq-labels-items>
             <input type="text"
                 class="input-autocomplete flex-grow-1"
@@ -13,12 +13,14 @@
                 [dropdown]="dropdown"
                 [labelsItemsContainer]="labelsItemsContainer"
                 [allowNewLabels]="allowNewLabels"
+                [allowManagePublicLabels]="allowManagePublicLabels"
                 (keydown)="keydown($event)"
                 (keypress)="keypress($event)"
                 (itemsUpdate)="onLabelsItemsChanged($event)"
                 [disabled]="disableAutocomplete"
                 [off]="disableAutocomplete"
-                [class.disabled]="disableAutocomplete">
+                [class.disabled]="disableAutocomplete"
+                [initLabels]="initLabels">
         </div>
         <sq-autocomplete-list #dropdown>
             <ng-template #itemTpl let-item>

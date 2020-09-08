@@ -47,9 +47,18 @@ export default {
     "bulkAddLabel": {
         "title": "Label von aktuellen Ergebnissen entfernen",
         "alertText": "Diese Aktion fügt das (die) ausgewählte(n) Etikett(en) zu allen gefundenen Ergebnissen (nicht nur denen der ersten Seite) hinzu",
-        "infoText": "Wenn Sie berechtigt sind, Etiketten zu erstellen, klicken Sie auf 'Enter', um ein neues Etikett, das nicht in den Vorschlägen existiert, hinzuzufügen",
+        "infoText": "klicken Sie auf 'Enter', um ein neues Etikett, das nicht in den Vorschlägen existiert, hinzuzufügen",
         "successFeedback": "Etikett(en), das (die) allen gefundenen Ergebnissen hinzugefügt wurde(n)",
         "errorFeedback": "Ein Fehler ist aufgetreten. Die Suchanfrage war erfolglos"
-    }
+    },
 
+    "editLabel": {
+        "title": "Bearbeiten des (der) Etikett(en) aus dem (den) ausgewählten Ergebnis(sen)",
+        "alertText": "Diese Aktion bearbeitet das (die) Etikett(en) des (der) ausgewählten Ergebnisse(s)",
+        "infoText": "klicken Sie auf 'Enter', um ein neues Etikett, das nicht in den Vorschlägen existiert, hinzuzufügen",
+        "labelsToBeRemoved": "Zu löschende(s) Etikett(en)",
+        "labelsToBeAdded": "Hinzuzufügende(s) Etikett(en)",
+        "successFeedback": "Etikett(en), das (die) zu dem (den) ausgewählten Ergebnis(sen) bearbeit(en)",
+        "errorFeedback": "Ein Fehler ist aufgetreten. Die Suchanfrage war erfolglos"
+    }
 };

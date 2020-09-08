@@ -68,13 +68,13 @@ export class AppComponent extends ComponentWithLogin {
                         this.selectionService.selectionActions.push(this.basketsService.selectedRecordsAction);
                         break;
                     }
-                    // case 'labels': {
-                    //     const action = this.labelsService.buildSelectionAction();
-                    //     if(action){
-                    //         this.selectionService.selectionActions.push(action);
-                    //     }
-                    //     break;
-                    // }
+                    case 'labels': {
+                        const action = this.labelsService.buildSelectionAction();
+                        if(action){
+                            this.selectionService.selectionActions.push(action);
+                        }
+                        break;
+                    }
                 }
             });
 

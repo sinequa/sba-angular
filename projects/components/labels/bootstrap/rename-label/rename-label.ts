@@ -25,6 +25,7 @@ import { ModalProperties } from "../../labels.service";
     ]
 })
 export class BsRenameLabel implements OnInit, OnDestroy {
+
     labelControl: FormControl;
     form: FormGroup;
     formChanges: Subscription;

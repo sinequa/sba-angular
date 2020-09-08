@@ -20,8 +20,8 @@ export interface Labels {
  * Describes the object returned by the getUserRights action of the labels web service
  */
 export interface LabelsRights {
-    canCreatePublicLabels: boolean;
-    canModifyPublicLabels: boolean;
+    canManagePublicLabels: boolean;
+    canEditPublicLabels: boolean;
 }
 
 /**

@@ -14,7 +14,7 @@ import { ModalService, ModalResult } from "@sinequa/core/modal";
 import { Action } from "@sinequa/components/action";
 import { IntlService } from "@sinequa/core/intl";
 import { NotificationsService } from '@sinequa/core/notification';
-// import {SelectionService} from '@sinequa/components/selection';
+import {SelectionService} from '@sinequa/components/selection';
 
 export interface IFormData {
     labelRef: IRef<string>;
@@ -27,10 +27,13 @@ export interface LabelsComponents {
     labelsAutocompleteComponent: Type<any>;
     deleteModal: Type<any>;
     addModal: Type<any>;
+    editModal: Type<any>;
 }
 
 export interface ModalProperties {
     public: boolean,
+    allowEditPublicLabels: boolean,
+    allowManagePublicLabels: boolean,
     allowNewLabels: boolean,
     disableAutocomplete: boolean,
     action: number,
@@ -44,6 +47,7 @@ export const enum UpdateLabelsAction {
     delete,
     bulkAdd,
     bulkRemove,
+    edit
 }
 
 export const LABELS_COMPONENTS = new InjectionToken<LabelsComponents>(
@@ -55,9 +59,9 @@ export const LABELS_COMPONENTS = new InjectionToken<LabelsComponents>(
 })
 export class LabelsService implements OnDestroy {
     private _privateLabelsPrefix: string | undefined;
-    private static readonly okLabelsRights: LabelsRights = {
-        canCreatePublicLabels: true,
-        canModifyPublicLabels: true
+    private static readonly defaultLabelsRights: LabelsRights = {
+        canManagePublicLabels: true,
+        canEditPublicLabels: true
     };
     private labelsRightsSubscription: Subscription | undefined;
     private labelsRights: LabelsRights | undefined;
@@ -70,7 +74,7 @@ export class LabelsService implements OnDestroy {
         private principalWebService: PrincipalWebService,
         private intlService: IntlService,
         private notificationService: NotificationsService,
-        // private selectionService: SelectionService,
+        private selectionService: SelectionService,
         @Inject(LABELS_COMPONENTS) public labelsComponents: LabelsComponents
     ) {
         this.principalWebService.events.subscribe((event) => {
@@ -102,13 +106,13 @@ export class LabelsService implements OnDestroy {
             : undefined;
     }
 
-    public get allowPublicLabelsCreation(): boolean {
+    public get allowPublicLabelsManagement(): boolean {
         return this.appService.cclabels
             ? this.appService.cclabels.allowPublicLabelsCreation
             : false;
     }
 
-    public get allowPublicLabelsModification(): boolean {
+    public get allowPublicLabelsEdition(): boolean {
         return this.appService.cclabels
             ? this.appService.cclabels.allowPublicLabelsModification
             : false;
@@ -125,9 +129,9 @@ export class LabelsService implements OnDestroy {
                 );
             }
             else {
-                rights = LabelsService.okLabelsRights;
+                rights = LabelsService.defaultLabelsRights;
             }
-            this.labelsRights = !!rights ? rights : LabelsService.okLabelsRights;
+            this.labelsRights = !!rights ? rights : LabelsService.defaultLabelsRights;
         }
         return this.labelsRights;
     }
@@ -188,8 +192,53 @@ export class LabelsService implements OnDestroy {
     }
 
     private _modalProperties(action: number): ModalProperties {
-        let allowManagePublicLabels: boolean = true;
+        const allowManagePublicLabels: boolean = this.allowPublicLabelsManagement && this.userLabelsRights && this.userLabelsRights.canManagePublicLabels;
+        const allowEditPublicLabels: boolean = this.allowPublicLabelsEdition && this.userLabelsRights && this.userLabelsRights.canEditPublicLabels;
         let allowNewLabels: boolean = false;
+        let radioButtonsConf: any;
+
+        switch (action) {
+            case UpdateLabelsAction.rename:
+            case UpdateLabelsAction.remove:
+            case UpdateLabelsAction.delete:
+            case UpdateLabelsAction.bulkRemove:
+                allowNewLabels = false;
+                break;
+            case UpdateLabelsAction.add:
+            case UpdateLabelsAction.bulkAdd:
+            case UpdateLabelsAction.edit:
+                allowNewLabels = true;
+                break;
+            default:
+            break;
+        }
+
+        switch (action) {
+            case UpdateLabelsAction.rename:
+            case UpdateLabelsAction.delete:
+                radioButtonsConf = this._getModalRadioButtonsConf(allowManagePublicLabels);
+                break;
+            case UpdateLabelsAction.add:
+            case UpdateLabelsAction.bulkAdd:
+            case UpdateLabelsAction.remove:
+            case UpdateLabelsAction.bulkRemove:
+            case UpdateLabelsAction.edit:
+                radioButtonsConf = this._getModalRadioButtonsConf(allowManagePublicLabels || allowEditPublicLabels);
+                break;
+            default:
+                break;
+        }
+
+        return {
+            allowEditPublicLabels: allowEditPublicLabels,
+            allowManagePublicLabels: allowManagePublicLabels,
+            allowNewLabels: allowNewLabels,
+            action: action,
+            ...radioButtonsConf
+        }
+    }
+
+    private _getModalRadioButtonsConf(publicRight: boolean): any {
         let isPublic: boolean = true;
         let disableAutocomplete: boolean = false;
         let radioButtons: any[] = [];
@@ -207,28 +256,8 @@ export class LabelsService implements OnDestroy {
             disabled: false,
             checked: false
         }
-
-        switch (action) {
-            case UpdateLabelsAction.rename:
-            case UpdateLabelsAction.remove:
-            case UpdateLabelsAction.delete:
-            case UpdateLabelsAction.bulkRemove:
-                allowManagePublicLabels = this.allowPublicLabelsCreation && this.userLabelsRights && this.userLabelsRights.canCreatePublicLabels;
-                allowNewLabels = false;
-                break;
-            case UpdateLabelsAction.add:
-            case UpdateLabelsAction.bulkAdd:
-                allowManagePublicLabels = this.allowPublicLabelsModification && this.userLabelsRights && this.userLabelsRights.canModifyPublicLabels;
-                allowNewLabels = true;
-                break;
-            default:
-                allowManagePublicLabels = false;
-                allowNewLabels = false;
-                break;
-        }
-
         if (!!this.publicLabelsField && !!this.privateLabelsField) {
-            if (allowManagePublicLabels) {
+            if (publicRight) {
                 isPublic = true;
                 radioButtons = [publicRadioButton, privateRadioButton];
             } else {
@@ -238,7 +267,7 @@ export class LabelsService implements OnDestroy {
                 radioButtons = [publicRadioButton, privateRadioButton];
             }
         } else if (!!this.publicLabelsField) {
-            if (allowManagePublicLabels) {
+            if (publicRight) {
                 isPublic = true;
                 publicRadioButton = {...publicRadioButton, disabled: true, checked: true}
                 radioButtons = [publicRadioButton];
@@ -248,7 +277,7 @@ export class LabelsService implements OnDestroy {
                 publicRadioButton = {...publicRadioButton, disabled: true, checked: false}
                 radioButtons = [publicRadioButton];
             }
-        } else if (!!this.privateLabelsField){
+        } else if (!!this.privateLabelsField) {
             isPublic = false;
             privateRadioButton = {...privateRadioButton, disabled: true, checked: true};
             radioButtons = [privateRadioButton];
@@ -256,137 +285,57 @@ export class LabelsService implements OnDestroy {
 
         return {
             public: isPublic,
-            allowNewLabels: allowNewLabels,
             disableAutocomplete: disableAutocomplete,
-            action: action,
             radioButtons: radioButtons
         }
     }
     /** END From navbar */
 
-    // From result selector
+    /** From result selector */
+    editLabelModal(): void {
+        const data = { valuesToBeAdded: [], valuesToBeRemoved: [], properties: this._modalProperties(UpdateLabelsAction.edit) };
+        this.modalService
+            .open(this.labelsComponents.editModal, { model: data })
+            .then((result) => {
+                if (result === ModalResult.OK) {
+                    this.addLabels(data.valuesToBeAdded, this.selectionService.getSelectedIds(), data.properties.public).subscribe(
+                        () => {},
+                        () => this.notificationService.error("msg#editLabel.errorFeedback"),
+                        () => {
+                            this.removeLabels(data.valuesToBeRemoved, this.selectionService.getSelectedIds(), data.properties.public).subscribe(
+                                () => {},
+                                () => this.notificationService.error("msg#editLabel.errorFeedback"),
+                                () => {
+                                    this.notificationService.success("msg#editLabel.successFeedback")
+                                    this.searchService.search(); /** Update the display immediately in the components and facets*/
+                                }
+                            )
+                        }
+                    )
+                }
+            });
+    }
 
-    // public buildLabelsMenu(
-    //     addLabels: (items: Action[]) => void,
-    //     icon = "fas fa-tags",
-    //     labelsText?,
-    //     labelsTitle = "msg#labels.labels",
-    //     publicLabelsText = "msg#labels.publicLabels",
-    //     privateLabelsText = "msg#labels.privateLabels"
-    // ): Action | undefined {
-    //     if (!this.publicLabelsField && !this.privateLabelsField) {
-    //         return undefined;
-    //     }
-
-    //     // let children: Action[];
-    //     const combined = !!this.publicLabelsField && !!this.privateLabelsField;
-
-    //     // if (combined) {
-    //     //     children = [
-    //     //         new Action({
-    //     //             text: publicLabelsText,
-    //     //             children: this._buildLabelsMenu(true, addLabels),
-    //     //             toggle: this.toggle
-    //     //         }),
-    //     //         new Action({
-    //     //             text: privateLabelsText,
-    //     //             children: this._buildLabelsMenu(false, addLabels),
-    //     //             toggle: this.toggle
-    //     //         })
-    //     //     ];
-    //     // }
-    //     // else if (!!this.publicLabelsField) {
-    //     //     children = this._buildLabelsMenu(true, addLabels);
-    //     // }
-    //     // else if (!!this.privateLabelsField) {
-    //     //     children = this._buildLabelsMenu(false, addLabels);
-    //     // }
-    //     // else {
-    //     //     console.log("no labels configured");
-    //     //     return undefined;
-    //     // }
-
-    //     const menu = new Action({
-    //         text: labelsText,
-    //         title: labelsTitle,
-    //         icon: icon,
-    //         children: this._buildLabelsMenu(addLabels),
-    //     });
-
-    //     if (!combined) {
-    //         menu.toggle = this.toggle;
-    //     }
-
-    //     return menu;
-    // }
-
-    toggle = (item: Action, open: boolean) => {
-        if (open) {
-            const formItem = item.children[0];
-            (<IFormData>formItem.data).autofocus++;
+    public buildSelectionAction(): Action | undefined {
+        if (!this.publicLabelsField && !this.privateLabelsField) {
+            return undefined;
         }
-    };
-
-    // public buildSelectionAction(): Action | undefined {
-    //     const action = this.buildLabelsMenu(
-    //         (items: Action[]) => {
-    //             const formItem = items[0];
-    //             items.push(
-    //                 new Action({
-    //                     text: _public? "msg#labels.addPublicLabelTitle" : "msg#labels.addPrivateLabelTitle",
-    //                     action: (item, $event) => {
-    //                         if ((<IFormData>formItem.data).labelRef.value) {
-    //                             const labels = this.split((<IFormData>formItem.data).labelRef.value);
-    //                             this.addLabels(labels, this.selectionService.getSelectedIds(), _public);
-    //                         }
-    //                     }
-    //                 }));
-    //             items.push(
-    //                 new Action({
-    //                     text: _public? "msg#labels.removePublicLabelTitle" : "msg#labels.removePrivateLabelTitle",
-    //                     action: (item, $event) => {
-    //                         if ((<IFormData>formItem.data).labelRef.value) {
-    //                             const labels = this.split((<IFormData>formItem.data).labelRef.value);
-    //                             this.removeLabels(labels, this.selectionService.getSelectedIds(), _public);
-    //                         }
-    //                     }
-    //                 }));
-    //         });
-    //     if(action){
-    //         action.updater = (action) => {
-    //             action.hidden = !this.selectionService.haveSelectedRecords;
-    //         };
-    //         action.hidden = true;
-    //     }
-    //     return action;
-    // }
-
-    // menu support
-    // private _makeFormItem(): Action {
-    //     const action = new Action({
-    //         component: this.labelsComponents.labelActionItem,
-    //         data: <IFormData>{
-    //             labelRef: { value: "" },
-    //             autofocus: 0,
-    //         },
-    //     });
-    //     action.componentInputs = {
-    //         model: action,
-    //     };
-    //     return action;
-    // }
-
-    // Build a standard labels menu with label entry form at the top and additional items added by a passed callback
-    // private _buildLabelsMenu(addItems: (items: Action[]) => void): Action[] {
-    //     const items: Action[] = [
-    //         this._makeFormItem(),
-    //         new Action({
-    //             separator: true,
-    //         }),
-    //     ];
-    //     addItems(items);
-    //     return items;
-    // }
+        const action = new Action({
+            icon: "fas fa-tags",
+            title: "msg#labels.labels",
+            action: () => {
+                this.editLabelModal();
+            },
+        });
+        if(action){
+            action.updater = (action) => {
+                action.hidden = !this.selectionService.haveSelectedRecords;
+            };
+            action.hidden = true;
+        }
+        return action;
+    }
+    /** END result selector */
 
     // Labels
     /**
@@ -397,91 +346,91 @@ export class LabelsService implements OnDestroy {
      * TODO handle facets cases
      **/
 
-    private updateLabels(
-        action: UpdateLabelsAction,
-        labels: string[],
-        ids: string[],
-        newLabel: string,
-        _public: boolean
-    ) {
-        if (!_public) {
-            labels = <string[]>this.addPrivatePrefix(labels);
-        }
-        const field =
-            this.appService.cclabels &&
-            this.appService.resolveColumnAlias(
-                _public
-                    ? this.appService.cclabels.publicLabelsField
-                    : this.appService.cclabels.privateLabelsField
-            );
-        if (
-            field &&
-            this.searchService.results &&
-            this.searchService.results.records
-        ) {
-            for (
-                let j = 0, jc = this.searchService.results.records.length;
-                j < jc;
-                j++
-            ) {
-                const record = this.searchService.results.records[j];
-                if (!ids || ids.indexOf(record.id) !== -1) {
-                    let currentLabels: string[] = record[field];
-                    if (action === UpdateLabelsAction.add) {
-                        if (!currentLabels) {
-                            currentLabels = [];
-                        }
-                    }
-                    if (currentLabels) {
-                        for (let k = 0, kc = labels.length; k < kc; k++) {
-                            const label = labels[k];
-                            let index;
-                            switch (action) {
-                                case UpdateLabelsAction.add:
-                                case UpdateLabelsAction.bulkAdd:
-                                    if (currentLabels.indexOf(label) === -1) {
-                                        currentLabels.push(label);
-                                    }
-                                    break;
-                                case UpdateLabelsAction.remove:
-                                case UpdateLabelsAction.bulkRemove:
-                                    index = currentLabels.indexOf(label);
-                                    if (index !== -1) {
-                                        currentLabels.splice(index, 1);
-                                    }
-                                    break;
-                                case UpdateLabelsAction.rename:
-                                    index = currentLabels.indexOf(label);
-                                    if (index !== -1) {
-                                        if (
-                                            currentLabels.indexOf(newLabel) ===
-                                            -1
-                                        ) {
-                                            currentLabels.splice(
-                                                index,
-                                                1,
-                                                newLabel
-                                            );
-                                        } else {
-                                            currentLabels.splice(index, 1);
-                                        }
-                                    }
-                                    break;
-                                case UpdateLabelsAction.delete:
-                                    index = currentLabels.indexOf(label);
-                                    if (index !== -1) {
-                                        currentLabels.splice(index, 1);
-                                    }
-                                    break;
-                            }
-                        }
-                        record[field] = currentLabels;
-                    }
-                }
-            }
-        }
-        //TODO - facets
-    }
+    // private updateLabels(
+    //     action: UpdateLabelsAction,
+    //     labels: string[],
+    //     ids: string[],
+    //     newLabel: string,
+    //     _public: boolean
+    // ) {
+    //     if (!_public) {
+    //         labels = <string[]>this.addPrivatePrefix(labels);
+    //     }
+    //     const field =
+    //         this.appService.cclabels &&
+    //         this.appService.resolveColumnAlias(
+    //             _public
+    //                 ? this.appService.cclabels.publicLabelsField
+    //                 : this.appService.cclabels.privateLabelsField
+    //         );
+    //     if (
+    //         field &&
+    //         this.searchService.results &&
+    //         this.searchService.results.records
+    //     ) {
+    //         for (
+    //             let j = 0, jc = this.searchService.results.records.length;
+    //             j < jc;
+    //             j++
+    //         ) {
+    //             const record = this.searchService.results.records[j];
+    //             if (!ids || ids.indexOf(record.id) !== -1) {
+    //                 let currentLabels: string[] = record[field];
+    //                 if (action === UpdateLabelsAction.add) {
+    //                     if (!currentLabels) {
+    //                         currentLabels = [];
+    //                     }
+    //                 }
+    //                 if (currentLabels) {
+    //                     for (let k = 0, kc = labels.length; k < kc; k++) {
+    //                         const label = labels[k];
+    //                         let index;
+    //                         switch (action) {
+    //                             case UpdateLabelsAction.add:
+    //                             case UpdateLabelsAction.bulkAdd:
+    //                                 if (currentLabels.indexOf(label) === -1) {
+    //                                     currentLabels.push(label);
+    //                                 }
+    //                                 break;
+    //                             case UpdateLabelsAction.remove:
+    //                             case UpdateLabelsAction.bulkRemove:
+    //                                 index = currentLabels.indexOf(label);
+    //                                 if (index !== -1) {
+    //                                     currentLabels.splice(index, 1);
+    //                                 }
+    //                                 break;
+    //                             case UpdateLabelsAction.rename:
+    //                                 index = currentLabels.indexOf(label);
+    //                                 if (index !== -1) {
+    //                                     if (
+    //                                         currentLabels.indexOf(newLabel) ===
+    //                                         -1
+    //                                     ) {
+    //                                         currentLabels.splice(
+    //                                             index,
+    //                                             1,
+    //                                             newLabel
+    //                                         );
+    //                                     } else {
+    //                                         currentLabels.splice(index, 1);
+    //                                     }
+    //                                 }
+    //                                 break;
+    //                             case UpdateLabelsAction.delete:
+    //                                 index = currentLabels.indexOf(label);
+    //                                 if (index !== -1) {
+    //                                     currentLabels.splice(index, 1);
+    //                                 }
+    //                                 break;
+    //                         }
+    //                     }
+    //                     record[field] = currentLabels;
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     //TODO - facets
+    // }
 
     addLabels(
         labels: string[],
@@ -492,9 +441,6 @@ export class LabelsService implements OnDestroy {
             return of();
         }
         const observable = this.labelsWebService.add(labels, ids, _public);
-        Utils.subscribe(observable, () => {
-            this.updateLabels(UpdateLabelsAction.add, labels, ids, "", _public);
-        });
         return observable;
     }
 
@@ -507,15 +453,6 @@ export class LabelsService implements OnDestroy {
             return of();
         }
         const observable = this.labelsWebService.remove(labels, ids, _public);
-        Utils.subscribe(observable, () => {
-            this.updateLabels(
-                UpdateLabelsAction.remove,
-                labels,
-                ids,
-                "",
-                _public
-            );
-        });
         return observable;
     }
 
@@ -619,7 +556,7 @@ export class LabelsService implements OnDestroy {
     }
 
     /**
-     * Get the ids of the record currently in searchService.results
+     * Get the ids of the records currently in searchService.results
      */
     getCurrentRecordIds(): string[] {
         const ids: string[] = [];

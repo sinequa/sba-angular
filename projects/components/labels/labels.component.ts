@@ -22,7 +22,7 @@ import { AppService } from "@sinequa/core/app-utils";
                 }
             }
             .sq-label {
-                display: inline-block;
+                display: inline;
                 margin-bottom: $spacer / 8;
             }
             .sq-labels-public {
@@ -57,8 +57,7 @@ import { AppService } from "@sinequa/core/app-utils";
                 height: 20px;
                 padding: 0 6px;
                 margin-right: 0.5rem;
-                margin-bottom: 0.5rem;
-                margin-top: 0.5rem;
+                margin-top: 5px;
                 font-size: 13px;
                 font-weight: 500;
                 line-height: 18px;
@@ -84,18 +83,13 @@ export class Labels implements OnChanges {
     protected labelsField: string;
     showLabels: boolean;
     labels: string[];
-    // newLabelRef: IRef<string>;
-    // adding: boolean;
 
     @HostBinding("class") hostClasses;
 
     constructor(
         private appService: AppService,
         private labelsService: LabelsService
-    ) {
-        // this.adding = false;
-        // this.newLabelRef = { value: "" };
-    }
+    ) {}
 
     ngOnChanges() {
         const field = this.public
@@ -143,32 +137,9 @@ export class Labels implements OnChanges {
     canRemove(): boolean {
         return this.public
             ? this.enableDelete &&
-                  this.labelsService.allowPublicLabelsCreation &&
-                  this.labelsService.userLabelsRights &&
-                  this.labelsService.userLabelsRights.canCreatePublicLabels
+                this.labelsService.allowPublicLabelsManagement &&
+                this.labelsService.userLabelsRights &&
+                this.labelsService.userLabelsRights.canManagePublicLabels
             : this.enableDelete && true;
     }
-
-    // toggleAdd() {
-    //     this.adding = !this.adding;
-    //     if (this.adding) {
-    //         // Reset initial value (desired?)
-    //         this.newLabelRef.value = "";
-    //     }
-    // }
-
-    // onSubmit(){
-    //     if (this.newLabelRef.value) {
-    //         const labels = this.labelsService.split(this.newLabelRef.value)
-    //             .filter((value) => this.labels.indexOf(value) === -1);
-    //         Utils.subscribe(this.labelsService.addLabels(labels, [this.record.id], this.public),
-    //             (value) => {
-    //                 this.adding = false;
-    //             });
-    //     }
-    // }
-
-    // clickOutside = () => {
-    //     this.adding = false;
-    // }
 }

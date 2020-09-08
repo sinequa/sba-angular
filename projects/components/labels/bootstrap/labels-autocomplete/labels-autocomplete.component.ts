@@ -16,16 +16,22 @@ import { AutocompleteItem } from '@sinequa/components/autocomplete';
     styles: [`
         .sq-dropdown-form {
             min-width: 13rem;
+            display: inline;
         }
         .input-autocomplete{
             border: none;
-            width: 100%;
+            display: inline-block;
         }
         .input-autocomplete:focus {
             outline: none;
         }
         .disabled {
             cursor: not-allowed;
+        }
+
+        .form-control {
+            display: inline-block !important;
+            height: unset !important;
         }
     `]
 })
@@ -36,13 +42,18 @@ export class BsLabelsAutocompleteComponent implements OnChanges {
 
     @Input() public: boolean; /** Whether labels are public/private */
     @Input() disableAutocomplete: boolean = false /** Whether the autocomplete input is disabled or not */;
-    @Input() allowNewLabels: boolean; /** Define if the user can select public labels out of the suggestions or not */
+    @Input() allowNewLabels: boolean; /** Whether enable adding new labels or not */
+    @Input() allowManagePublicLabels: boolean; /** Define the right of adding new labels */
+    @Input() initLabels: string[]; /** Initial labels to be displayed in the labelsAutocomplete input*/
 
     constructor(private elementRef: ElementRef) {}
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.public) {
             this.public = changes.public.currentValue;
+        }
+        if (changes.initLabels) {
+            this.initLabels = changes.initLabels.currentValue;
         }
     }
 

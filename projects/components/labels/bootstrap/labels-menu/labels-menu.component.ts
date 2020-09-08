@@ -107,7 +107,9 @@ export class BsLabelsMenuComponent implements OnInit, OnChanges, OnDestroy {
             return;
         }
 
-        const labelsActions = [this.renameAction, this.deleteAction];
+        const labelsActions: Action[] = [this.renameAction, this.deleteAction];
+
+        /** Allow Bulk actions only if there are some results */
         if (!!this.results && !!this.results.records) {
             labelsActions.push(this.bulkAddAction);
             labelsActions.push(this.bulkDeleteAction);

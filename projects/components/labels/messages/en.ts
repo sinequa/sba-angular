@@ -47,8 +47,18 @@ export default {
     "bulkAddLabel": {
         "title": "Remove label(s) from the current results",
         "alertText": "This action assigns the selected label(s) to all results reported by the engine (not only to the first page)",
-        "infoText": "If you are allowed to create labels, press 'Enter' to add a new label that does not exist in the suggestions",
+        "infoText": "Press 'Enter' to add a new label that does not exist in the suggestions",
         "successFeedback": "Label(s) assigned to all results reported by the engine",
+        "errorFeedback": "An error occurred. Request failed"
+    },
+
+    "editLabel": {
+        "title": "Edit the label(s) of the selected result(s)",
+        "alertText": "This action edits the label(s) of the selected result(s)",
+        "infoText": "Press 'Enter' to add a new label that does not exist in the suggestions",
+        "labelsToBeRemoved": "Label(s) to be removed",
+        "labelsToBeAdded": "Label(s) to be added",
+        "successFeedback": "Label(s) of the selected result(s) edited",
         "errorFeedback": "An error occurred. Request failed"
     }
 

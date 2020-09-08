@@ -13,7 +13,7 @@ import { LabelsItemsContainer } from '../labels-autocomplete.directive';
     template: `
         <span
             *ngFor="let item of items"
-            class="badge badge-pill badge-info align-self-center mr-1"
+            class="badge badge-pill badge-info align-self-center mr-1 d-inline"
             [ngClass]="{'label-public': public, 'label-private': !public}">
             {{ item.display }}
             <span class="fas fa-times-circle clickable" (click)="removeItem(item)"></span>
@@ -22,7 +22,7 @@ import { LabelsItemsContainer } from '../labels-autocomplete.directive';
     styles: [
         `
             :host {
-                display: flex;
+                display: inline;
             }
             .clickable {
                 cursor: pointer;
