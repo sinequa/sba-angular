@@ -31,7 +31,7 @@
         
     </g>
     
-    <text fill="darkgrey" style="font-size: 10px; text-anchor: end;" [attr.transform]="'translate('+(width-margin.right)+', '+(height-5)+')'">
+    <text class="bottom-legend" [attr.transform]="'translate('+(width-margin.right)+', '+(height-5)+')'">
         {{'msg#heatmap.showing' | sqMessage:{values: {shown: dataFiltered.length, total: data.length} } }}
     </text>
 
