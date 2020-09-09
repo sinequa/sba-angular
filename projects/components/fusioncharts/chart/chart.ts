@@ -1,8 +1,8 @@
-import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter } from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, Optional } from "@angular/core";
 import { IntlService } from "@sinequa/core/intl";
 import { Results, Aggregation, AggregationItem } from '@sinequa/core/web-services';
 import { UIService } from "@sinequa/components/utils";
-import { FacetService, AbstractFacet } from "@sinequa/components/facet";
+import { FacetService, AbstractFacet, BsFacetCard } from "@sinequa/components/facet";
 import { Action } from '@sinequa/components/action';
 import { Utils } from '@sinequa/core/base';
 import { Subscription } from 'rxjs';
@@ -43,6 +43,10 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy {
     @Output() aggregationChange = new EventEmitter<string>();
     @Output() typeChange = new EventEmitter<string>();
     
+    // A flag to wait for the parent component to actually display this child, since creating
+    // the fusionchart component without displaying causes strange bugs...
+    ready = false;
+
     chartObj: any;
 
     data?: Aggregation;
@@ -65,7 +69,8 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy {
         public uiService: UIService,
         public facetService: FacetService,
         public selectionService: SelectionService,
-        public appService: AppService
+        public appService: AppService,
+        @Optional() public cardComponent: BsFacetCard
     ) {
         super();
         
@@ -179,6 +184,12 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy {
         if(changes['chart'] || !this.dataSource.chart) {
             this.dataSource.chart = this.chart;
         }
+    }
+
+    ngDoCheck(){
+        // We check that the parent component (if any) as been expanded at least once so that the fusioncharts
+        // gets created when it is visible (otherwise, there can be visual bugs...)
+        this.ready = this.ready || !this.cardComponent?._collapsed;        
     }
 
     updateData() {
