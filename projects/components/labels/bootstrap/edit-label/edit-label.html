@@ -15,7 +15,7 @@
                 </div>
             </section>
 
-            <section *ngIf="selectedRecordsIds.length === 1">
+            <section *ngIf="record">
                 <b><label for="label">{{'msg#labels.labels' | sqMessage}}</label></b>
                 <sq-labels-autocomplete
                     (labelsUpdate)="onLabelsChanged($event)"
@@ -27,7 +27,7 @@
                 </sq-labels-autocomplete>
             </section>
 
-            <section *ngIf="selectedRecordsIds.length > 1">
+            <section *ngIf="!record">
                 <b><label for="label">{{'msg#editLabel.labelsToBeAdded' | sqMessage}}</label></b>
                 <sq-labels-autocomplete
                     (labelsUpdate)="onLabelsToBeAddedChanged($event)"

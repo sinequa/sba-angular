@@ -1,6 +1,6 @@
-<div *ngIf="showLabels" class="sq-labels d-inline">
-    <span *ngFor="let label of labels; let $index = index" class="sq-label-group">
-        <div class="chip sq-label" [ngClass]="{'sq-labels-public': public, 'sq-labels-private': !public}"
+<div *ngIf="showLabels" class="d-inline">
+    <span *ngFor="let label of labels; let $index = index" class="d-inline">
+        <div class="chip" [ngClass]="{'sq-labels-public': public, 'sq-labels-private': !public}"
             title="{{(public ? 'msg#labels.selectPublicLabelTitle' : 'msg#labels.selectPrivateLabelTitle') | sqMessage}}">
             <span (click)="select(label)">{{label | sqLabel:public}}</span>&nbsp;
             <i class="sq-label-remove fas fa-times-circle clickable" (click)="remove($index)" *ngIf="canRemove()"

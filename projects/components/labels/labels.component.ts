@@ -11,20 +11,6 @@ import { AppService } from "@sinequa/core/app-utils";
     templateUrl: "./labels.component.html",
     styles: [
         `
-            .input-autocomplete {
-                display: flex;
-                flex-direction: column;
-            }
-            .sq-label-group {
-                display: inline-block;
-                &:not(:last-child) {
-                    margin-right: $spacer / 4;
-                }
-            }
-            .sq-label {
-                display: inline;
-                margin-bottom: $spacer / 8;
-            }
             .sq-labels-public {
                 background-color: #4fc3f7;
                 position: relative;

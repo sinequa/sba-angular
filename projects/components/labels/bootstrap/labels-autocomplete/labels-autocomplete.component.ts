@@ -3,7 +3,7 @@ import {Keys} from "@sinequa/core/base";
 import { AutocompleteItem } from '@sinequa/components/autocomplete';
 
 /**
- * Component containing a form, radio buttons and autocomplete to search
+ * Component containing a form and autocomplete to search
  * through the list labels according to a specific type (public/private) and select one(s) of them
  *
  * The component can be used as custom component in the Action
@@ -28,11 +28,13 @@ import { AutocompleteItem } from '@sinequa/components/autocomplete';
         .disabled {
             cursor: not-allowed;
         }
-
         .form-control {
             display: inline-block !important;
             height: unset !important;
         }
+        ::ng-deep .sq-autocomplete-list {
+                width: 94% !important;
+            }
     `]
 })
 export class BsLabelsAutocompleteComponent implements OnChanges {

@@ -4,7 +4,6 @@ import {
     PrincipalWebService,
     LabelsWebService,
     AuditEventType,
-    Record,
     LabelsRights
 } from "@sinequa/core/web-services";
 import { AppService, ValueItem } from "@sinequa/core/app-utils";
@@ -553,43 +552,6 @@ export class LabelsService implements OnDestroy {
 
         });
         return observable;
-    }
-
-    /**
-     * Get the ids of the records currently in searchService.results
-     */
-    getCurrentRecordIds(): string[] {
-        const ids: string[] = [];
-        if (this.searchService.results && this.searchService.results.records) {
-            for (
-                let i = 0,
-                    ic = this.searchService.results
-                        ? this.searchService.results.records.length
-                        : 0;
-                i < ic;
-                i++
-            ) {
-                const record = this.searchService.results.records[i];
-                ids.push(record.id);
-            }
-        }
-        return ids;
-    }
-
-    getRecordFromId(id: string): Record | undefined {
-        let record: Record | undefined;
-        if (this.searchService.results && this.searchService.results.records) {
-            let rec: Record;
-            for (
-                let i = 0, ic = this.searchService.results.records.length;
-                !record && i < ic;
-                i++
-            ) {
-                rec = this.searchService.results.records[i];
-                if (Utils.eq(rec.id, id)) record = rec;
-            }
-        }
-        return record;
     }
 
     bulkAddLabels(labels: string[], _public: boolean): Observable<void> {

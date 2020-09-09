@@ -3,6 +3,8 @@ import { ModalButton, ModalResult, MODAL_MODEL } from "@sinequa/core/modal";
 import { ModalProperties, LabelsService } from "../../labels.service";
 import { SelectionService } from "@sinequa/components/selection";
 import { AppService } from "@sinequa/core/app-utils";
+import { Record } from '@sinequa/core/web-services';
+import { SearchService } from '@sinequa/components/search';
 
 @Component({
     selector: "sq-edit-label",
@@ -19,11 +21,11 @@ import { AppService } from "@sinequa/core/app-utils";
     ],
 })
 export class BsEditLabel implements OnInit {
-    selectedRecordsIds: string[] = [];
+    selectedRecordsIds: string[];
     buttons: ModalButton[];
     /** Initial labels list assigned to a record */
     initialLabels: string[] = [];
-    private record;
+    record: Record | undefined;
 
     constructor(
         @Inject(MODAL_MODEL)
@@ -34,13 +36,14 @@ export class BsEditLabel implements OnInit {
         },
         private appService: AppService,
         private selectionService: SelectionService,
-        private labelsService: LabelsService
+        private labelsService: LabelsService,
+        private searchService: SearchService
     ) {}
 
     ngOnInit() {
-        this.selectedRecordsIds = this.selectionService.getSelectedIds();
+        this.selectedRecordsIds = !!this.selectionService.getSelectedIds() ? this.selectionService.getSelectedIds() : [];
         if (this.selectedRecordsIds.length === 1) {
-            this.record = this.labelsService.getRecordFromId(this.selectedRecordsIds[0]);
+            this.record = this.searchService.getRecordFromId(this.selectedRecordsIds[0]);
             this.initialLabels = this._getInitialRecordLabels();
         }
         this.buttons = [
@@ -89,15 +92,18 @@ export class BsEditLabel implements OnInit {
      * Return the list of labels already assigned to the selected record
      */
     private _getInitialRecordLabels(): string[] {
-        const field = this.model.properties.public
-            ? this.labelsService.publicLabelsField
-            : this.labelsService.privateLabelsField;
-        const labelsField = this.appService.resolveColumnAlias(field);
-        if (!this.model.properties.public) {
-            return this.labelsService.removePrivatePrefix(this.record[labelsField]) as string[];
+        if (!!this.record) {
+            const field = this.model.properties.public
+                ? this.labelsService.publicLabelsField
+                : this.labelsService.privateLabelsField;
+            const labelsField = this.appService.resolveColumnAlias(field);
+            if (!this.model.properties.public) {
+                return this.labelsService.removePrivatePrefix(this.record[labelsField]) as string[];
+            }
+            return this.record[labelsField];
+        } else {
+            return []
         }
-        return this.record[labelsField];
-
     }
 }
 
