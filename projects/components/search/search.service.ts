@@ -607,6 +607,9 @@ export class SearchService implements OnDestroy {
         if (!this.appService.ccquery) {
             return Promise.resolve(false);
         }
+        if(this.routingActive && !this.isSearchRouteActive()){
+            return Promise.resolve(false);
+        };
         let query = this._query;
         if (this.routingActive) {
             query = this.ensureQueryFromUrl();
@@ -623,6 +626,9 @@ export class SearchService implements OnDestroy {
             navigationOptions = state.navigationOptions;
         }
         navigationOptions = navigationOptions || {};
+        if(navigationOptions.skipSearch) {
+            return Promise.resolve(true);
+        }
         if (!audit) {
             audit = this.makeAuditEventFromCurrentQuery();
             if (audit && audit.type === AuditEventType.Search_Text) {
@@ -985,6 +991,7 @@ export module SearchService {
         queryIntents?: QueryIntent[];
         queryAnalysis?: QueryAnalysis;
         skipLocationChange?: boolean;
+        skipSearch?: boolean;
     }
 
     export interface HistoryState {

@@ -1,5 +1,3 @@
-<ng-container *ngIf="!hidden">
-    <div class="facet-filters-bar navbar-light">
-        <sq-action-menu [items]="filters" [autoAdjust]="true" [autoAdjustBreakpoint]="'xxl'" [right]="true"></sq-action-menu>
-    </div>
-</ng-container>
+<div class="facet-filters-bar" *ngIf="!hidden">
+    <sq-action-menu [items]="filters" [autoAdjust]="autoAdjust" [autoAdjustBreakpoint]="autoAdjustBreakpoint" [right]="rightAligned" [size]="size"></sq-action-menu>
+</div>
