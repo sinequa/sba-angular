@@ -12,6 +12,9 @@ export default {
 
         "confirm": {
             "title": "Bestätigen"
+        },
+        "prompt": {
+            "title": "Geben Sie einen Wert ein"
         }
     }
 };

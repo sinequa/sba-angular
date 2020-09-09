@@ -2,7 +2,7 @@ import {Injectable, Inject, Type, Injector} from "@angular/core";
 import {Overlay} from '@angular/cdk/overlay';
 import {MatDialog, MatDialogRef, MatDialogConfig} from "@angular/material/dialog";
 import {Subject, Observable, of} from "rxjs";
-import {MODAL_CONFIRM, ModalService, ModalConfig, ModalResult, IModalRef, CheckCloseEvent} from "@sinequa/core/modal";
+import {MODAL_CONFIRM, ModalService, ModalConfig, ModalResult, IModalRef, CheckCloseEvent, MODAL_PROMPT} from "@sinequa/core/modal";
 import {Utils} from "@sinequa/core/base";
 import {IntlService} from "@sinequa/core/intl";
 
@@ -43,8 +43,9 @@ export class MdModalService extends ModalService {
         injector: Injector,
         overlay: Overlay,
         protected intlService: IntlService,
-        @Inject(MODAL_CONFIRM) confirmModal: Type<any>) {
-        super(injector, overlay, confirmModal);
+        @Inject(MODAL_CONFIRM) confirmModal: Type<any>,
+        @Inject(MODAL_PROMPT) promptModal: Type<any>) {
+        super(injector, overlay, confirmModal, promptModal);
     }
 
     private monkeyPatchDialogRef(dialogRef: SqMatDialogRef<any>) {
