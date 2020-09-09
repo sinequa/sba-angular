@@ -15,6 +15,7 @@ import {BsModalHeader} from "./modal-header.component";
 import {BsModalFooter} from "./modal-footer.component";
 import {BsLogin} from "./login.component";
 import {BsConfirm} from "./confirm.component";
+import {BsPrompt} from "./prompt.component";
 import {BsHelp} from "./help/help";
 import {BsOverrideUser} from "./override-user/override-user";
 import {BsEditable} from "./editable/editable";
@@ -31,18 +32,18 @@ import {A11yModule} from "@angular/cdk/a11y";
 
         IntlModule,
         ValidationModule,
-        CoreModalModule.forRoot(BsConfirm),
+        CoreModalModule.forRoot(BsConfirm, BsPrompt),
         LoginModule.forRoot(BsLogin),
 
         UtilsModule,
     ],
     declarations: [
         BsModal, BsModalHeader, BsModalFooter, BsLogin, BsConfirm,
-        BsHelp, BsOverrideUser, BsEditable
+        BsHelp, BsOverrideUser, BsEditable, BsPrompt
     ],
     exports: [
         BsModal, BsModalHeader, BsModalFooter, BsLogin, BsConfirm,
-        BsHelp, BsOverrideUser, BsEditable
+        BsHelp, BsOverrideUser, BsEditable, BsPrompt
     ],
 })
 export class BsModalModule {

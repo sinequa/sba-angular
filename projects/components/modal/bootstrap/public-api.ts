@@ -1,5 +1,6 @@
 export * from "./modal.module";
 export * from "./confirm.component";
+export * from "./prompt.component";
 export * from "./editable/editable";
 export * from "./help/help";
 export * from "./login.component";
