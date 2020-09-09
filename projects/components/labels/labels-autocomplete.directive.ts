@@ -165,7 +165,10 @@ export class LabelsAutocomplete extends Autocomplete {
         this.labelsWebService.list(val, this.public).subscribe(
             (labels: Labels) => {
                 if(this.getState() === AutocompleteState.ACTIVE || this.getState() === AutocompleteState.OPENED){
-                    labels.labels = labels.labels.filter(label => !this.labelsItems.find(item => (item.display === label) )) /** Eliminate suggestions that are already selected */
+
+                    /** Eliminate suggestions that are already selected */
+                    labels.labels = labels.labels.filter(label => !this.labelsItems.find(item => (item.display === label)))
+
                     this.dropdown.update(true, labels.labels.map(label => {
                         return {
                             display: label,

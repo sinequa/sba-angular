@@ -88,7 +88,7 @@ export class BsEditLabel implements OnInit {
     /**
      * Return the list of labels already assigned to the selected record
      */
-    _getInitialRecordLabels(): string[] {
+    private _getInitialRecordLabels(): string[] {
         const field = this.model.properties.public
             ? this.labelsService.publicLabelsField
             : this.labelsService.privateLabelsField;

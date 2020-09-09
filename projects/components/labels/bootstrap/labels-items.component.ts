@@ -43,6 +43,7 @@ export class BsLabelsItemsComponent implements LabelsItemsContainer {
 
     @Input() public: boolean;
     @Output() itemRemoved = new EventEmitter<AutocompleteItem>();
+
     items: AutocompleteItem[] = [];
 
     constructor(protected changeDetectorRef: ChangeDetectorRef) {}
