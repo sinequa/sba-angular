@@ -1,8 +1,11 @@
-<form name="renameLabel" novalidate [formGroup]="form">
-    <sq-modal [title]="'msg#renameLabel.title'" [buttons]="buttons">
+<form name="addLabel" novalidate>
+    <sq-modal [title]="'msg#bulkAddLabel.title'" [buttons]="buttons">
         <div class="form-group sq-form-group">
-            <div class="alert alert-danger" role="alert">
-                {{'msg#renameLabel.alertText' | sqMessage}}
+            <div class="alert alert-warning" role="alert">
+                {{'msg#bulkAddLabel.alertText' | sqMessage}}
+            </div>
+            <div *ngIf="model.properties.allowManagePublicLabels || !model.properties.public " class="alert alert-info" role="alert">
+                {{'msg#bulkAddLabel.infoText' | sqMessage}}
             </div>
             <section>
                 <div *ngFor="let item of model.properties.radioButtons" class="custom-control custom-radio custom-control-inline">
@@ -11,7 +14,7 @@
                     <label class="custom-control-label" for="{{item.id}}">{{ item.name | sqMessage }}</label>
                 </div>
             </section>
-            <b><label for="label">{{'msg#renameLabel.oldLabels' | sqMessage}}</label></b>
+            <b><label for="label">{{'msg#labels.labels' | sqMessage}}</label></b>
             <sq-labels-autocomplete
                 (labelsUpdate)="onLabelsChanged($event)"
                 [public]="model.properties.public"
@@ -19,16 +22,6 @@
                 [allowNewLabels]="model.properties.allowNewLabels"
                 [allowManagePublicLabels]="model.properties.allowManagePublicLabels">
             </sq-labels-autocomplete>
-            <b><label for="label">{{'msg#renameLabel.newLabel' | sqMessage}}</label></b>
-            <input
-                [sqValidation]="form"
-                type="text"
-                class="form-control"
-                id="label"
-                formControlName="label"
-                autocomplete="off"
-                spellcheck="off"
-                placeholder="{{'msg#renameLabel.newLabel' | sqMessage}}">
         </div>
     </sq-modal>
 </form>

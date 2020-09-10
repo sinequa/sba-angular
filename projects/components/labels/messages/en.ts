@@ -3,11 +3,9 @@ export default {
         "labels": "Labels",
         "publicLabels": "Public Labels",
         "privateLabels": "Private Labels",
-        "selectLabel": "Select label",
-        "renameLabel": "Rename label",
-        "deleteLabel": "Remove label",
-        "bulkAddLabel": "Add label to the current results",
-        "bulkRemoveLabel": "Remove label from the current results",
+        "public": "Public",
+        "private": "Private",
+        "selectLabel": "Select label(s)",
         "deleteLabelAreYouSure": "Are you sure you want to remove the label: {name}?",
         "bulkAddLabelAreYouSure": "Are you sure you want to bulk add the label: {name} to the results of the current query?",
         "bulkRemoveLabelAreYouSure": "Are you sure you want to bulk remove the label: {name} to the results of the current query?",
@@ -24,8 +22,44 @@ export default {
     },
 
     "renameLabel": {
-        "title": "Rename Label",
-        "label": "Label"
+        "title": "Rename Label(s) globally",
+        "newLabel": "New Label",
+        "oldLabels": "Old label(s)",
+        "alertText": "This action renames the label(s) in the index and is irreversible",
+        "successFeedback": "Label(s) renamed in the index",
+        "errorFeedback": "An error occurred. Request failed"
     },
+
+    "deleteLabel": {
+        "title": "Delete label(s) globally",
+        "alertText": "This action deletes the selected label(s) from the index and is irreversible",
+        "successFeedback": "Label(s) deleted from the index",
+        "errorFeedback": "An error occurred. Request failed"
+    },
+
+    "bulkRemoveLabel": {
+        "title": "Add label(s) to the current results",
+        "alertText": "This action removes the selected label(s) from all results reported by the engine (not only from the first page)",
+        "successFeedback": "Label(s) removed from all results reported by the engine",
+        "errorFeedback": "An error occurred. Request failed"
+    },
+
+    "bulkAddLabel": {
+        "title": "Remove label(s) from the current results",
+        "alertText": "This action assigns the selected label(s) to all results reported by the engine (not only to the first page)",
+        "infoText": "Press 'Enter' to add a new label that does not exist in the suggestions",
+        "successFeedback": "Label(s) assigned to all results reported by the engine",
+        "errorFeedback": "An error occurred. Request failed"
+    },
+
+    "editLabel": {
+        "title": "Edit the label(s) of the selected result(s)",
+        "alertText": "This action edits the label(s) of the selected result(s)",
+        "infoText": "Press 'Enter' to add a new label that does not exist in the suggestions",
+        "labelsToBeRemoved": "Label(s) to be removed",
+        "labelsToBeAdded": "Label(s) to be added",
+        "successFeedback": "Label(s) of the selected result(s) edited",
+        "errorFeedback": "An error occurred. Request failed"
+    }
 
 };

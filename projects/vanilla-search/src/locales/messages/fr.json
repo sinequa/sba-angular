@@ -56,6 +56,9 @@
         },
         "preview": {
             "title": "Prévisualisation"
+        },
+        "labels": {
+            "title": "Libellés"
         }
     },
 
