@@ -41,11 +41,6 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
     @Input() actionsFirst = true;
 
     /**
-     * Class applied to the list of actions (default: btn-group for Bootstrap buttons)
-     */
-    @Input() actionsClass = "btn-group";
-
-    /**
      * Size of the custom actions
      */
     @Input() actionsSize = "sm";
