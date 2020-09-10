@@ -1,0 +1,82 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 100%;
+}
+
+.main-content {
+    overflow-y: hidden;
+}
+
+.results-list {
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+#logo {
+    height: 30px;
+}
+
+h1 {
+    color: #e64b30;
+    font-weight: bold;
+}
+
+// Styling of the result items
+.record {
+
+    &:hover {
+        background-color: rgb(0,0,0,0.03);
+    }
+
+    &.selected {
+        background-color: rgb(0,0,0,0.05);
+    }
+
+    padding: 0.5em 15px;
+    margin: 0 -15px;
+    cursor: pointer;
+    
+    sq-result-source {
+        display: grid;
+    }
+
+    sq-result-thumbnail {
+        margin-left: 1em;
+    }
+}
+
+.full-width {
+    flex-basis: 100%;
+}
+
+// Selection / Action bar on top of results (position: fixed)
+.card.action-bar {
+    bottom: 10px;
+    z-index: 4;
+}
+
+nav {
+    z-index: 2;
+}
+
+// Dashboard (Gridster)
+
+gridster {
+    background: transparent !important;
+    z-index: 1;
+}
+
+gridster-item {
+    border-radius: 0.25em;
+    overflow: initial;
+}
+
+gridster-item.gridster-item-moving {
+    z-index: 100 !important;
+}
+
+gridster-item.gridster-item-resizing {
+    overflow: hidden;
+}

@@ -1,0 +1,128 @@
+<!-- Navbar with app icon, search form, and menus -->
+<nav class="navbar navbar-expand flex-column pb-0" [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
+    <div class="container-fluid pb-2 px-0">
+
+        <!-- Application logo -->
+        <a [routerLink]="['/search']" title="Home">
+            <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="180px" *ngIf="!isDark() && ui.screenSizeIsGreater('md')">
+            <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="30px" *ngIf="!isDark() && ui.screenSizeIsLessOrEqual('md')">
+            <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="150px" *ngIf="isDark() && ui.screenSizeIsGreater('md')">
+            <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="30px" *ngIf="isDark() && ui.screenSizeIsLessOrEqual('md')">
+        </a>
+
+        <!-- Search form -->
+        <app-search-form class="flex-grow-1 flex-basis-0 mx-3"></app-search-form>
+
+        <!-- User menu which visibility can be toggled with a button on small screens -->
+        <ul class="navbar-nav navbar-right" [ngClass]="{'full-width': ui.screenSizeIsLess('sm')}">
+            <ng-container *ngFor="let feature of features" [ngSwitch]="feature">
+                <sq-baskets-menu *ngSwitchCase="'baskets'" [icon]="'fas fa-inbox'"></sq-baskets-menu>
+                <sq-saved-queries-menu *ngSwitchCase="'saved-queries'"></sq-saved-queries-menu>
+                <sq-alerts-menu *ngSwitchCase="'alerts'"></sq-alerts-menu>
+                <sq-labels-menu *ngSwitchCase="'labels'" [results]="searchService.resultsStream | async"></sq-labels-menu>
+            </ng-container>
+            <sq-user-menu></sq-user-menu>
+        </ul>
+        
+        <sq-feedback-menu [style]="'primary'" [rightAligned]="true">
+        </sq-feedback-menu>
+
+    </div>
+
+    <div class="container-fluid justify-content-start px-0" *ngIf="searchService.resultsStream | async as results">
+        <span class="text-muted mr-2"><i class="fas fa-filter"></i> Filters: </span>
+        <sq-facet-filters [results]="results" [facets]="facets" class="mr-auto"></sq-facet-filters>
+
+        <div class="btn-group mr-2" [sq-action-buttons]="{items: [darkAction], style: isDark()? 'dark text-muted' : 'light text-muted'}"></div>
+        <div class="btn-group dashboard-actions" [sq-action-buttons]="{items: dashboardActions, style: 'primary', rightAligned: true}"></div>
+    </div>
+</nav>
+
+<!-- Loading bar (Manages its own state and visibility via the search service) -->
+<sq-loading-bar></sq-loading-bar>
+
+<!-- Main interface -->
+<ng-container *ngIf="loginService.complete">
+    <div class="flex-grow-1 container-fluid main-content" *ngIf="searchService.resultsStream | async as results">
+        <div class="row h-100">
+
+            <!-- Results -->
+            <div class="col-lg-4 py-3 results-list">
+                
+                <!-- Result selection toolbar -->
+                <div class="card text-white bg-primary position-fixed action-bar">
+                    <div class="card-header">
+                        <sq-results-selector [style]="isDark()? 'dark' : 'primary'"></sq-results-selector>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <sq-tabs [results]="results"></sq-tabs>
+
+                <!-- Toolbar -->
+                <div class="d-flex flex-row align-items-center">
+                    <sq-breadcrumbs [results]="results" [allowDeletion]="false" class="flex-grow-1 flex-basis-0"></sq-breadcrumbs>
+                    <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
+                    <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-sort-selector>
+                </div>
+
+                <!-- Did you mean -->
+                <sq-did-you-mean [results]="results"></sq-did-you-mean>
+
+                <!-- Sponsored links -->
+                <sq-sponsored-results [query]="searchService.query"></sq-sponsored-results>
+
+                <!-- List of documents (for loop) -->
+                <div *ngFor="let record of results.records; index as i" class="record d-flex" 
+                    (click)="onDocumentClicked(record, $event)"
+                    [ngClass]="{'selected': record.$selected || isOpened(record)}"
+                    [sqScrollIntoView]="{active: record.id === lastSelectedId, first: i === 0}">
+                    <div class="flex-grow-1 overflow-hidden">
+                        <div class="d-flex align-items-center">
+                            <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')" [record]="record" class="ml-1"></sq-result-selector>
+                            <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
+                        </div>
+                        <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
+                        <sq-result-extracts [record]="record"></sq-result-extracts>
+                        <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
+                    </div>
+                    <sq-result-thumbnail [record]="record" [thumbnailColumn]="'sourcevarchar4'" [linkBehavior]="'action'"
+                        *ngIf="ui.screenSizeIsGreater('xs')" class="align-self-center">
+                    </sq-result-thumbnail>
+                </div>
+                
+                <!-- Pager -->
+                <sq-pager [results]="results" class="d-flex flex-column align-items-center mt-3"></sq-pager>
+            </div>
+
+            <!-- Dashboard -->
+            <div class="col-lg-8 h-100 px-0">
+
+                <gridster [options]="dashboardService.options">
+                    <gridster-item [item]="item" *ngFor="let item of dashboardService.dashboard.items; index as i">
+                        <sq-dashboard-item 
+                            [config]="item"
+                            [results]="results"
+                            [width]="item.width"
+                            [height]="item.height"
+                            [buttonsStyle]="isDark()? 'dark' : 'light'"
+                            (close)="dashboardService.removeItem(item)"
+                            (recordClicked)="onDocumentClickedFromView($event)"
+                            
+                            [sqScrollIntoView]="{active: item.recordId && item.recordId === lastClickedId, first: i === 0}">
+                        </sq-dashboard-item>
+                    </gridster-item>
+                </gridster>
+
+            </div>
+            
+        </div>
+        
+    </div>
+</ng-container>
+
+<div class="align-self-center my-auto text-center"
+    *ngIf="!(searchService.resultsStream | async)">
+    <h1>Pepper App</h1>
+    <img src="assets/pepper-lg.png" height="300px">
+</div>

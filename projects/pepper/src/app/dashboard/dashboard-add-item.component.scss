@@ -1,0 +1,15 @@
+sq-modal ::ng-deep {
+    .modal-dialog {
+        max-width: none;
+        display: table;
+        min-width: 500px;
+    }
+    button {
+        margin: 0.5em;
+    }
+    sq-action-item-content > span {
+        font-size: 5em;
+        display: block;
+        color: #7f939b;
+    }
+}

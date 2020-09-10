@@ -1,0 +1,78 @@
+
+<!-- Wrapper div to ensure the autocomplete dropdown is aligned with the search input and button -->
+<div class="d-flex flex-column flex-grow-1 position-relative">
+    
+    <form novalidate [formGroup]="form">
+
+        <div class="input-group">
+            <!-- Input with autocomplete -->
+            <div class="form-control d-flex" [title]="parseResult?.error || ''" [ngClass]="{'is-invalid': !!parseResult?.error}">
+
+                <sq-field-search-items #fieldSearchItemsContainer></sq-field-search-items>
+
+                <!-- Search input -->
+                <input type="text"
+                    class="search-input flex-grow-1"
+                    formControlName="search"
+                    spellcheck="false"
+                    autocomplete="off"
+
+                    [placeholder]="'msg#searchForm.searchFor' | sqMessage"
+                    [sqAutofocus]="autofocus"
+                    [sqAutocompleteExtended]="autocompleteSources"
+                    [dropdown]="dropdown"
+                    [off]="!loginService.complete || !appService.suggestQueries"
+                    [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''"
+
+                    [fieldSearchMode]="getMode()"
+                    [fieldSearchExpression]="fieldSearchExpression"
+                    [fieldSearchItemsContainer]="fieldSearchItemsContainer"
+                    [excludedFields]="['concepts','textlexicon','recent-query','saved-query','basket','recent-document']"
+
+                    (submit)="search()"
+                    (parse)="onParse($event)">
+            </div>
+
+            <!-- Search button -->
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="button" (click)="search()" 
+                    title="{{ 'msg#searchForm.search' | sqMessage }}"
+                    [attr.disabled]="!loginService.complete ? '' : null">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+    <!-- Autocomplete dropdown panel displaying suggestions -->
+    <sq-autocomplete-list #dropdown>
+        <ng-template #itemTpl let-item>
+            <div class="autocomplete-item p-2">
+                <i class="{{autocompleteIcon(item.category)}}"></i><!--
+                --><span class="mx-2" [innerHTML]="item.displayHtml || item.display"></span><!--
+                --><small *ngIf="item.category" class="autocomplete-category ml-2">{{(item.label || item.category) | sqMessage}}</small>
+            </div>
+        </ng-template>
+
+        <ng-template #footerTpl>
+            <div class="small d-flex align-items-center">
+                {{ 'msg#searchForm.fieldedSearch' | sqMessage}}: &nbsp;
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="off" value="off" (click)="setMode('off')" [checked]="getMode() === 'off'">
+                    <label class="form-check-label" for="off" (click)="setMode('off', $event)">{{ 'msg#searchForm.off' | sqMessage}}</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="selects" value="selects" (click)="setMode('selects')" [checked]="getMode() === 'selects'">
+                    <label class="form-check-label" for="selects" (click)="setMode('selects', $event)" [title]="'msg#searchForm.simpleTitle' | sqMessage">{{ 'msg#searchForm.simple' | sqMessage}}</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="text" value="text" (click)="setMode('text')" [checked]="getMode() === 'text'">
+                    <label class="form-check-label" for="text" (click)="setMode('text', $event)" [title]="'msg#searchForm.advancedTitle' | sqMessage">{{ 'msg#searchForm.advanced' | sqMessage}}</label>
+                </div>
+            </div>
+        </ng-template>
+    </sq-autocomplete-list>
+
+</div>
+

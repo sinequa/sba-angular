@@ -1,0 +1,62 @@
+{
+    "app": {
+        "name": "Vanilla Search"
+    },
+
+    "locale": {
+        "en": "English (United States)",
+        "en-gb": "English (United Kingdom)",
+        "fr": "Français",
+        "de": "Deutsch"
+    },
+
+    "searchForm": {
+        "search": "Suche",
+        "searchFor": "Suche nach...",
+        "advanced": "Erweitert",
+        "advancedSearch": "Erweiterte Suche",        
+        "scopeTitle": "Suchbereich: {name}",
+        "recentQuery": "Recent query",
+        "recentDocument": "Recent document",
+        "fieldedSearch": "Fielded Search",
+        "off": "Off",
+        "simple": "Simple",
+        "simpleTitle": "Graphical mode allowing to display selected filters as badges",
+        "advancedTitle": "Text mode allowing to write search expressions such as \"geo: Paris OR company: Sinequa\""
+    },
+
+    "facet": {
+        "filters": {
+            "title" : "Filter"
+        },
+        "preview": {
+            "title": "Vorschau"
+        }
+    },
+
+    "results": {
+        "tabPeople": "Personen",
+        "tabBusiness": "Firmen",
+        "tabLocation": "Orte"
+    },
+
+    "home": {
+        "recentDocumentsTooltip": "Recently opened documents",
+        "recentQueriesTooltip": "Letzte Suchanfragen",
+        "savedQueriesTooltip": "Gespeicherte Suchanfragen (einschließlich Filter)",
+        "basketsTooltip": "Ablagekörbe",
+        "darkMode": "Dark mode",
+        "lightMode": "Light mode"
+    },
+
+    "search": {
+        "pageTitle": "Suche - {search}"
+    },
+
+    "preview": {
+        "extracts": "Extrakte",
+        "entities": "Entitäten",
+        "searchText": "Suche \"{text}\" im Dokument",
+        "pageTitle": "Dokument-Navigator - {title}"
+    }
+}
