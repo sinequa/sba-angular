@@ -14,7 +14,7 @@
         "search": "Suche",
         "searchFor": "Suche nach...",
         "advanced": "Erweitert",
-        "advancedSearch": "Erweiterte Suche",
+        "advancedSearch": "Erweiterte Suche",        
         "scopeTitle": "Suchbereich: {name}",
         "recentQuery": "Recent query",
         "recentDocument": "Recent document",
@@ -31,9 +31,6 @@
         },
         "preview": {
             "title": "Vorschau"
-        },
-        "labels": {
-            "title": "Etiketten"
         }
     },
 
