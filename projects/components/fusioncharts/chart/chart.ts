@@ -189,7 +189,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy {
     ngDoCheck(){
         // We check that the parent component (if any) as been expanded at least once so that the fusioncharts
         // gets created when it is visible (otherwise, there can be visual bugs...)
-        this.ready = this.ready || !this.cardComponent?._collapsed;        
+        this.ready = !this.cardComponent?._collapsed;
     }
 
     updateData() {
