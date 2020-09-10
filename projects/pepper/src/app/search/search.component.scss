@@ -75,8 +75,16 @@ gridster-item {
 
 gridster-item.gridster-item-moving {
     z-index: 100 !important;
+
+    ::ng-deep iframe {
+        pointer-events: none !important;
+    }
 }
 
 gridster-item.gridster-item-resizing {
     overflow: hidden;
+    
+    ::ng-deep iframe {
+        pointer-events: none !important;
+    }
 }
