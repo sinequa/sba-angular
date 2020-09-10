@@ -259,7 +259,7 @@
                 "input": "projects/vanilla-search/src/styles/preview.scss",
                 "bundleName": "preview",
                 "lazy": true
-              }
+              }            
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
@@ -371,8 +371,5 @@
       }
     }
   },
-  "defaultProject": "core",
-  "cli": {
-    "analytics": "5d87b51e-0c7c-44f5-993c-f2d911a6fd46"
-  }
+  "defaultProject": "core"
 }
