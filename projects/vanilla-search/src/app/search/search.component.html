@@ -11,7 +11,7 @@
         </a>
 
         <!-- Button to toggle the visibility of facets on small screens -->
-        <button *ngIf="ui.screenSizeIsLessOrEqual('md')" class="ml-2 btn btn-lg btn-{{isDark()? 'dark' : 'light'}}" title="{{ 'msg#search.showFilters' | sqMessage }}" 
+        <button *ngIf="ui.screenSizeIsLessOrEqual('md')" class="ml-2 btn btn-lg btn-{{isDark()? 'dark' : 'light'}}" title="{{ 'msg#search.showFilters' | sqMessage }}"
             (click)="toggleFilters()">
             <i class="fas fa-filter text-muted"></i>
         </button>
@@ -20,7 +20,7 @@
         <app-search-form class="flex-grow-1 flex-basis-0 mx-3" *ngIf="showForm"></app-search-form>
 
         <!-- User menu which visibility can be toggled with a button on small screens -->
-        <button *ngIf="ui.screenSizeIsLess('sm') && !showFilters" class="btn btn-lg btn-{{isDark()? 'dark' : 'light'}}" title="{{ 'msg#search.showMenu' | sqMessage }}" 
+        <button *ngIf="ui.screenSizeIsLess('sm') && !showFilters" class="btn btn-lg btn-{{isDark()? 'dark' : 'light'}}" title="{{ 'msg#search.showMenu' | sqMessage }}"
             (click)="toggleMenu()">
             <i class="fas fa-bars text-muted"></i>
         </button>
@@ -77,7 +77,7 @@
             <sq-sponsored-results [query]="searchService.query"></sq-sponsored-results>
 
             <!-- List of documents (for loop) -->
-            <div *ngFor="let record of results.records" class="record d-flex" 
+            <div *ngFor="let record of results.records" class="record d-flex"
                 (click)="onDocumentClicked(record, $event)"
                 [ngClass]="{'selected': record.$selected || record === openedDoc}">
                 <div class="flex-grow-1 overflow-hidden">
@@ -88,12 +88,16 @@
                     <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
                     <sq-result-extracts [record]="record"></sq-result-extracts>
                     <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
+                    <div class="d-inline">
+                      <sq-labels [record]="record" [public]="true" class="d-inline"></sq-labels>
+                      <sq-labels [record]="record" [public]="false" class="d-inline"></sq-labels>
+                    </div>
                 </div>
                 <sq-result-thumbnail [record]="record" [thumbnailColumn]="'sourcevarchar4'" [linkBehavior]="'action'"
                     *ngIf="ui.screenSizeIsGreater('xs')" class="align-self-center">
                 </sq-result-thumbnail>
             </div>
-            
+
             <!-- Pager -->
             <sq-pager [results]="results" class="d-flex flex-column align-items-center mt-3"></sq-pager>
         </div>
@@ -114,10 +118,10 @@
             <sq-facet-card *ngIf="openedDoc" [collapsible]="false" class="d-block mb-3 facet-preview"
                 [buttonsStyle]="isDark()? 'dark' : 'light'"
                 [actionsSize]="''">
-                <sq-facet-preview-2 #facet 
-                    [record]="openedDoc" 
-                    [query]="searchService.query" 
-                    [height]="750" 
+                <sq-facet-preview-2 #facet
+                    [record]="openedDoc"
+                    [query]="searchService.query"
+                    [height]="750"
                     [metadata]="metadata"
                     [expandModal]="false"
                     [customActions]="previewCustomActions"
@@ -126,6 +130,6 @@
             </sq-facet-card>
 
         </div>
-        
+
     </div>
 </div>
