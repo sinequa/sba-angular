@@ -1,6 +1,10 @@
 .sq-autocomplete-list {
     width: 100%; /* take full width space */
     box-shadow: 0 2px 5px 1px lightgrey;  /* shadow */
+    z-index: 10;
+}
+
+.list-group {
     max-height: 500px; /* limit height and scroll */
     overflow: auto;
 }

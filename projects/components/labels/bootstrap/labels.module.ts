@@ -42,8 +42,8 @@ export const defaultLabelComponents: LabelsComponents = {
         BsSelectionModule,
         BsModalModule,
         BsAutocompleteModule,
-        LabelsModule,
-        BsActionModule
+        BsActionModule,
+        LabelsModule
     ],
     declarations: [
         BsLabelsAutocompleteComponent,
@@ -55,6 +55,7 @@ export const defaultLabelComponents: LabelsComponents = {
         BsEditLabel
     ],
     exports: [
+        LabelsModule,
         BsLabelsAutocompleteComponent,
         BsRenameLabel,
         BsLabelsMenuComponent,

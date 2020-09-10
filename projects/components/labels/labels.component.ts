@@ -13,44 +13,12 @@ import { AppService } from "@sinequa/core/app-utils";
         `
             .sq-labels-public {
                 background-color: #4fc3f7;
-                position: relative;
-                overflow: hidden;
-                cursor: pointer;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-                -webkit-tap-highlight-color: transparent;
-                color: #fff;
             }
             .sq-labels-private {
                 background-color: #7283a7;
-                position: relative;
-                overflow: hidden;
-                cursor: pointer;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-                -webkit-tap-highlight-color: transparent;
-                color: #fff;
             }
             .sq-label-remove {
                 margin-left: $spacer / 16;
-            }
-            .chip {
-                display: inline-block;
-                height: 20px;
-                padding: 0 6px;
-                margin-right: 0.5rem;
-                margin-top: 5px;
-                font-size: 13px;
-                font-weight: 500;
-                line-height: 18px;
-                cursor: pointer;
-                border-radius: 16px;
-                -webkit-transition: all 0.3s linear;
-                transition: all 0.3s linear;
             }
             .clickable {
                 cursor: pointer;

@@ -90,6 +90,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
 
     /** Custom placeholder */
     @Input() placeholder: string = '';
+
     @HostBinding('attr.placeholder') _placeholder;
 
     // Event emitters

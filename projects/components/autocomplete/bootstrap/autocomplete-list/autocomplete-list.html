@@ -2,7 +2,7 @@
     <div class="list-group list-group-flush">
         <a  href="#" (click)="_itemClicked(item, $event)"
             *ngFor="let item of _items; let i = index"
-            class="list-group-item list-group-item-action p-0 border-0"
+            class="list-group-item list-group-item-action p-0 border-0" 
             [ngClass]="{'list-group-item-primary': _isSelected(item, i)}"
             [sqScrollIntoView]="{active: _isSelected(item, i), first: i === 0}">
             <ng-container *ngIf="itemTpl">

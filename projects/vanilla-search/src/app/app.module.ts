@@ -24,7 +24,7 @@ import { BsBasketsModule } from '@sinequa/components/baskets';
 import { BsAlertsModule } from '@sinequa/components/alerts';
 import { BsSavedQueriesModule } from '@sinequa/components/saved-queries';
 import { UtilsModule, SCREEN_SIZE_RULES } from '@sinequa/components/utils';
-import { BsLabelsModule, LabelsModule } from '@sinequa/components/labels';
+import { BsLabelsModule } from '@sinequa/components/labels';
 import { BsUserSettingsModule } from '@sinequa/components/user-settings';
 import { ResultModule } from '@sinequa/components/result';
 import { BsFeedbackModule } from '@sinequa/components/feedback';
@@ -133,8 +133,7 @@ export const breakpoints = {
         BsFeedbackModule,
         BsPreviewModule,
         MetadataModule,
-        BsSelectionModule,
-        LabelsModule
+        BsSelectionModule
     ],
     declarations: [
         AppComponent,
