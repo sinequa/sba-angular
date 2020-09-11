@@ -136,7 +136,7 @@ export class BsExportQuery implements OnInit, OnDestroy {
         if (queryExport.indexOf(',') !== -1) {
             queryExport = queryExport.substring(0, queryExport.indexOf(','));
         }
-        return <CCQueryExport>app.webServices[queryExport];
+        return <CCQueryExport>Utils.getField(app.webServices, queryExport);
     }
 
     /**
