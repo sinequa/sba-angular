@@ -167,7 +167,10 @@ export class LabelsAutocomplete extends Autocomplete {
                 if(this.getState() === AutocompleteState.ACTIVE || this.getState() === AutocompleteState.OPENED){
 
                     /** Eliminate suggestions that are already selected */
-                    labels.labels = labels.labels.filter(label => !this.labelsItems.find(item => (item.display === label)))
+                    labels.labels = labels.labels.filter(label => !this.labelsItems.find(item => (item.display === label)));
+
+                    /** limit the suggestions to be displayed to 10  */
+                    labels.labels = labels.labels.slice(0, 10);
 
                     this.dropdown.update(true, labels.labels.map(label => {
                         return {
