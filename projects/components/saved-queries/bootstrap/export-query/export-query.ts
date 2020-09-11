@@ -136,7 +136,17 @@ export class BsExportQuery implements OnInit, OnDestroy {
         if (queryExport.indexOf(',') !== -1) {
             queryExport = queryExport.substring(0, queryExport.indexOf(','));
         }
-        return <CCQueryExport>app.webServices[queryExport];
+        const webservice = (<CCQueryExport>app.webServices[queryExport]);
+        if (!webservice) {
+            // The webservice may not be found due to different character cases
+            const upperCaseQueryExport = queryExport.toUpperCase();
+            for (const key of Object.keys(app.webServices)) {
+                if (key.toUpperCase().localeCompare(upperCaseQueryExport) === 0) {
+                    return (<CCQueryExport>app.webServices[key]);
+                }
+            }
+        }
+        return webservice;
     }
 
     /**
