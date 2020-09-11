@@ -1,11 +1,13 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
+        "baseUrl": ".",
+        "rootDir": ".",
         "paths": {
-            "@sinequa/core": ["projects/core/public-api"],
-            "@sinequa/core/*": ["projects/core/*"],
-            "@sinequa/components": ["projects/components/public-api"],
-            "@sinequa/components/*": ["projects/components/*"]
+            "@sinequa/core": ["../../dist/core"],
+            "@sinequa/core/*": ["../../dist/core/*"],
+            "@sinequa/components": ["./public-api"],
+            "@sinequa/components/*": ["./*"]
         }
     },
     "include": [
