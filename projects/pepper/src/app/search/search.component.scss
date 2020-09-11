@@ -68,6 +68,17 @@ gridster {
     z-index: 1;
 }
 
+// Active when resizing or dragging items: prevents a glitch when the mouse pointer hovers the preview's iframe
+gridster.display-grid {
+    ::ng-deep iframe {
+        pointer-events: none !important;
+    }
+
+    ::ng-deep iframe {
+        pointer-events: none !important;
+    }
+}
+
 gridster-item {
     border-radius: 0.25em;
     overflow: initial;
@@ -75,16 +86,8 @@ gridster-item {
 
 gridster-item.gridster-item-moving {
     z-index: 100 !important;
-
-    ::ng-deep iframe {
-        pointer-events: none !important;
-    }
 }
 
 gridster-item.gridster-item-resizing {
-    overflow: hidden;
-    
-    ::ng-deep iframe {
-        pointer-events: none !important;
-    }
+    overflow: hidden;    
 }
