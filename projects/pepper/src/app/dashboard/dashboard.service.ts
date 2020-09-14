@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ValidatorFn, Validators } from '@angular/forms';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, UrlSerializer } from '@angular/router';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { Location } from '@angular/common';
 import { Utils } from '@sinequa/core/base';
 import { LoginService } from '@sinequa/core/login';
 import { UserSettingsWebService } from '@sinequa/core/web-services';
@@ -58,7 +60,10 @@ export class DashboardService {
         public prefs: UserPreferences,
         public searchService: SearchService,
         public notificationService: NotificationsService,
-        public router: Router
+        public router: Router,
+        public location: Location,
+        public urlSerializer: UrlSerializer,
+        public clipboard: Clipboard
     ) {
         
         // Default options
@@ -115,11 +120,22 @@ export class DashboardService {
     protected handleNavigation() {
         const url = Utils.makeURL(this.router.url);
         const dashboard = url.searchParams.get("dashboard");
+        const dashboardShared = url.searchParams.get("dashboardShared");
         // Dashboards are not available yet! (pending login complete...)
         if(dashboard && dashboard !== this.dashboard?.name) {
             this.searchService.queryStringParams.dashboard = dashboard;
             if(this.hasDashboard(dashboard)) {
                 this.dashboard = this.getDashboard(dashboard)!;
+            }
+        }
+        else if(dashboardShared) {
+            const db = Utils.fromJson(dashboardShared);
+            if(db as DashboardItem[]) {
+                this.setDashboardItems(db);
+            }
+            else {
+                this.notificationService.error("Could not import this dashboard...");
+                console.error("Could not import this dashboard:", dashboardShared);
             }
         }
     }
@@ -146,12 +162,19 @@ export class DashboardService {
     }
 
     public setDefaultDashboard(items: DashboardItemOption[]) {
-        this.dashboard = {
+        this.defaultDashboard = {
             name: "<default>",
             items: []
         };
-        items.forEach(item => this.addWidget(item));
-        this.defaultDashboard = Utils.copy(this.dashboard); // Default dashboard is kept as a deep copy, so we don't change it by editing the dashboard
+        items.forEach(item => this.addWidget(item, this.defaultDashboard));
+        if(!this.dashboard) {
+            this.dashboard = Utils.copy(this.defaultDashboard); // Default dashboard is kept as a deep copy, so we don't change it by editing the dashboard
+        }
+    }
+
+    public setDashboardItems(items: DashboardItem[]) {
+        this.dashboard = { name: "<default>", items };
+        this.dashboardChanged.next(this.dashboard);
     }
 
     public isDashboardSaved(): boolean {
@@ -170,8 +193,8 @@ export class DashboardService {
         this.options.api?.optionsChanged!();
     }
 
-    public addWidget(option: DashboardItemOption, width = 2, height = 2, closable = true): DashboardItem {
-        this.dashboard.items.push({
+    public addWidget(option: DashboardItemOption, dashboard: Dashboard = this.dashboard, width = 2, height = 2, closable = true): DashboardItem {
+        dashboard.items.push({
             x: 0,
             y: 0,
             rows: height || 2,
@@ -181,8 +204,8 @@ export class DashboardService {
             title: option.text,
             closable: closable
         });
-        this.dashboardChanged.next(this.dashboard);
-        return this.dashboard.items[this.dashboard.items.length - 1];
+        this.dashboardChanged.next(dashboard);
+        return dashboard.items[dashboard.items.length - 1];
     }
     
     public removeItem(item: DashboardItem) {
@@ -207,9 +230,27 @@ export class DashboardService {
                 };
                 this.modalService.open(DashboardAddItemComponent, {model}).then(value => {
                     if(value === ModalResult.OK && model.selectedOption) {
-                        this.addWidget(model.selectedOption, model.width, model.height);
+                        this.addWidget(model.selectedOption, this.dashboard, model.width, model.height);
                     }
                 });
+            }
+        }));
+
+        dashboardActions.push(new Action({
+            icon: 'fas fa-share-alt',
+            text: 'Share',
+            title: 'Share this dashboard with a colleague',
+            action: () => {
+                const dashboard = Utils.toJson(this.dashboard.items);
+                const query = this.searchService.query.toJsonForQueryString();
+                const urlTree = this.router.createUrlTree(['/search'], {queryParams: {query, dashboardShared: dashboard}});
+                const url = window.location.origin+window.location.pathname+this.location.prepareExternalUrl(this.urlSerializer.serialize(urlTree));
+                if(this.clipboard.copy(url)) {
+                    this.notificationService.success("Share link copied to your clipboard");
+                }
+                else {
+                    this.notificationService.warning("Share link could not be copied to your clipboard: "+url);
+                }
             }
         }));
 

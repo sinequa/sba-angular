@@ -156,7 +156,7 @@ export class SearchComponent implements OnInit, OnDestroy {
           icon: 'far fa-file-alt',
           text: '',
           unique: false
-        }, 2, 3, false); // closable = false, as the underlying component already exposes a "close" action
+        }, this.dashboardService.dashboard, 2, 3, false); // closable = false, as the underlying component already exposes a "close" action
         item.recordId = record.id;
         item.queryStr = this.searchService.query.toJsonForQueryString();
       }
