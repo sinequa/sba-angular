@@ -13,11 +13,12 @@ nav_order: 10
 Please checkout the [reference documentation]({{site.baseurl}}components/modules/LabelsModule.html) auto-generated from source code.
 
 ## Features
+This module provides functionality to display the labels of a document, as well as components to manage them:
 
-This module helps to assign and to manage the labels of a document.
+- [`LabelsService`]({{site.baseurl}}components/injectables/LabelsService.html): manages the different operations that can be applied to the labels of a document in Sinequa.
+- A list of components to display and control the labels. These components are styled with the Bootstrap library, and their class names start with `Bs`.
 
-There are two implementations of label components, one for Bootstrap style and the other for Material.
-This documentation focuses on the Bootstrap-flavored components.
+![Labels]({{site.baseurl}}assets/modules/labels/displayed-labels-of-document.png){: .d-block .mx-auto }
 
 ## Import
 
@@ -33,6 +34,45 @@ import { BsLabelsModule } from '@sinequa/components/labels';
   /*....*/
 })
 ```
+
+This module is internationalized: If not already the case, you need to import its messages for the language(s) of your application. For example, in your app's `src/locales/en.ts`:
+
+```ts
+...
+import {enLabels} from "@sinequa/components/labels";
+
+const messages = Utils.merge({}, ..., enLabels, appMessages);
+```
+## Labels Service
+
+The [`LabelsService`]({{site.baseurl}}components/injectables/LabelsService.html) provides a variety of methods.
+
+So far, if your component wants to know the index columns, use the following :
+
+- `publicLabelsField(): string | undefined`
+
+    This method returns the index column for the public labels.
+
+- `privateLabelsField(): string | undefined`
+
+    This method returns the index column for the private labels.
+
+**Public** labels can have specific access rules. If your components need to respect users rights and the label's configuration on the server side, use the following : 
+
+- `allowPublicLabelsManagement(): boolean`
+
+    This method indicates if the configuration of the Sinequa server is **globally** allowing to manage (create/rename/delete) **public** labels.
+
+- `allowPublicLabelsEdition(): boolean`
+
+    This method indicates if the configuration of the Sinequa server is **globally** allowing to edit (add/remove/bulkAdd/bulkRemove) **public** labels.
+
+- `userLabelsRights(): LabelsRights`
+
+    This method retrieves the logged in user's rights to manage and edit **public** labels.
+
+Actually, the [`Labels Module`] defines three levels of actions that could be applied to labels.
+As for **global** actions, the menu in the top navbar could perform.
 
 ## API usage
 
