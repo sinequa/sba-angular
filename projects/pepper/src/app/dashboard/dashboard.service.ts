@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ValidatorFn, Validators } from '@angular/forms';
 import { Router, NavigationEnd } from '@angular/router';
 import { Utils } from '@sinequa/core/base';
+import { LoginService } from '@sinequa/core/login';
 import { UserSettingsWebService } from '@sinequa/core/web-services';
 import { ModalResult, ModalService, PromptOptions, ModalButton, ConfirmType } from '@sinequa/core/modal';
 import { Action } from '@sinequa/components/action';
@@ -42,6 +43,9 @@ export class DashboardService {
 
     options: GridsterConfig;
 
+    manualLayout: Action;
+    autoLayout: Action;
+    fixedLayout: Action;
     openAction: Action;
     autoSaveAction: Action;
 
@@ -50,6 +54,7 @@ export class DashboardService {
     constructor(
         public modalService: ModalService,
         public userSettingsService: UserSettingsWebService,
+        public loginService: LoginService,
         public prefs: UserPreferences,
         public searchService: SearchService,
         public notificationService: NotificationsService,
@@ -94,6 +99,7 @@ export class DashboardService {
             if(this.openAction) {
                 this.updateOpenAction();
                 this.updateAutoSaveAction();
+                this.setLayout(this.layout);
             }
         });
 
@@ -207,32 +213,39 @@ export class DashboardService {
             }
         }));
 
-        const manualLayout = new Action({
+        this.manualLayout = new Action({
             text: 'Manual Layout',
             title: 'Manual layout allows to position widgets freely in the dashboard',
-            selected: true,
+            selected: false,
             action: () => {
-                if(this.options.compactType !== 'none') {
-                    this.options.compactType = 'none';
-                    this.options.api?.optionsChanged!();
+                if(!this.manualLayout.selected) {
+                    this.setLayout("manual");
                 }
-                manualLayout.selected = true;
-                autoLayout.selected = false;
             }
         });
-        const autoLayout = new Action({
+        this.autoLayout = new Action({
             text: 'Auto Layout',
             title: 'Automatic layout compacts the view to the top-left corner, when space is available',
             selected: false,
             action: () => {
-                if(this.options.compactType !== 'compactLeft&Up') {
-                    this.options.compactType = 'compactLeft&Up';
-                    this.options.api?.optionsChanged!();
+                if(!this.autoLayout.selected) {
+                    this.setLayout("auto");
                 }
-                manualLayout.selected = false;
-                autoLayout.selected = true;
             }
         });
+        this.fixedLayout = new Action({
+            text: 'Fixed Layout',
+            title: 'Fixed layout prevents the dashboard from being modified',
+            selected: false,
+            action: () => {
+                if(!this.fixedLayout.selected) {
+                    this.setLayout("fixed");
+                }
+            }
+        });
+        if(this.loginService.complete) {
+            this.setLayout(this.layout);
+        }
 
         const newDashboard = new Action({
             text: "New",
@@ -249,7 +262,7 @@ export class DashboardService {
             selected: false,
             children: []
         });
-        if(this.userSettingsService.userSettings) {
+        if(this.loginService.complete) {
             this.updateOpenAction();
         }
 
@@ -323,8 +336,9 @@ export class DashboardService {
             icon: 'fas fa-cog fa-fw',
             title: 'Dashboard settings',
             children: [
-                manualLayout,
-                autoLayout,
+                this.manualLayout,
+                this.autoLayout,
+                this.fixedLayout,
                 new Action({separator: true}),
                 newDashboard,
                 this.openAction,
@@ -358,6 +372,30 @@ export class DashboardService {
 
     protected updateAutoSaveAction() {
         this.autoSaveAction.selected = this.autoSave;
+    }
+
+
+    protected setLayout(layout: string) {
+        if(layout === "auto") {
+            this.options.compactType = 'compactLeft&Up';
+            this.options.draggable!.enabled = true;
+            this.options.resizable!.enabled = true;
+        }
+        else if (layout === "fixed") {
+            this.options.compactType = 'none';
+            this.options.draggable!.enabled = false;
+            this.options.resizable!.enabled = false;
+        }
+        else {
+            this.options.compactType = 'none';
+            this.options.draggable!.enabled = true;
+            this.options.resizable!.enabled = true;
+        }
+        this.options.api?.optionsChanged!();
+        this.prefs.set("dashboard-layout", layout);
+        this.manualLayout.selected = this.layout === "manual";
+        this.autoLayout.selected = this.layout === "auto";
+        this.fixedLayout.selected = this.layout === "fixed";
     }
 
     protected newDashboard() {        
@@ -419,5 +457,9 @@ export class DashboardService {
 
     public get autoSave(): boolean {
         return !!this.prefs.get("auto-save-dashboards");
+    }
+
+    public get layout(): string {
+        return this.prefs.get("dashboard-layout") || "manual";
     }
 }
