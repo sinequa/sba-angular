@@ -11,7 +11,7 @@
       "@sinequa/core/*": ["projects/core/*"],
       "@sinequa/components": ["projects/components/public-api"],
       "@sinequa/components/*": ["projects/components/*"]
-  }
+    }
   },
   "files": [
     "test.ts"
