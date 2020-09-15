@@ -202,7 +202,7 @@ export class LabelsAutocomplete extends Autocomplete {
      */
     protected start() {
         if (!!this.labelsService.labelsAutoSuggestWildcard) {
-            this.setState(AutocompleteState.OPENED);
+            this.setState(AutocompleteState.ACTIVE);
             this._getLabelsSuggestions(this.labelsService.labelsAutoSuggestWildcard);
         } else {
             this.setState(AutocompleteState.START);

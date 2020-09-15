@@ -38,14 +38,14 @@ export default {
     },
 
     "bulkRemoveLabel": {
-        "title": "Label zu aktuellen Ergebnissen hinzufügen",
+        "title": "Label von aktuellen Ergebnissen entfernen",
         "alertText": "Diese Aktion löscht das (die) ausgewählte(n) Etikett(en) aus allen gefundenen Ergebnisse (nicht nur die der ersten Seite)",
         "successFeedback": "Etikett(en), das (die) aus allen gefundenen Ergebnissen gelöscht wurde(n)",
         "errorFeedback": "Ein Fehler ist aufgetreten. Die Suchanfrage war erfolglos"
     },
 
     "bulkAddLabel": {
-        "title": "Label von aktuellen Ergebnissen entfernen",
+        "title": "Label zu aktuellen Ergebnissen hinzufügen",
         "alertText": "Diese Aktion fügt das (die) ausgewählte(n) Etikett(en) zu allen gefundenen Ergebnissen (nicht nur denen der ersten Seite) hinzu",
         "infoText": "klicken Sie auf 'Enter', um ein neues Etikett, das nicht in den Vorschlägen existiert, hinzuzufügen",
         "successFeedback": "Etikett(en), das (die) allen gefundenen Ergebnissen hinzugefügt wurde(n)",
