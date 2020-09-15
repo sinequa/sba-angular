@@ -248,4 +248,16 @@ body.dark {
             border-color: $dark-borders;
         }
     }
+    
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: transparent; 
+    }
+
+    sq-network {
+        .vis-button {
+            background-color: #aaa;
+        }
+    }
+
 }

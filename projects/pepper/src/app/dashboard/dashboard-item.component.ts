@@ -7,6 +7,7 @@ import { SearchService } from '@sinequa/components/search';
 import { NetworkProvider, ProviderFactory, oOTBConfig, defaultOptions } from "@sinequa/components/network";
 import { GridsterItemComponent } from 'angular-gridster2';
 import { DashboardItem, DashboardService } from './dashboard.service';
+import { defaultChart } from '@sinequa/components/fusioncharts';
 
 
 @Component({
@@ -41,6 +42,7 @@ export class DashboardItemComponent implements OnChanges {
     timelineHeight = 200;
 
     // Fusion charts
+    chart = defaultChart;
     chartObj?: any;
 
     // Preview
@@ -82,6 +84,10 @@ export class DashboardItemComponent implements OnChanges {
                     }
                 );
             }
+        }
+
+        if(this.config.type === "chart") {
+            this.chart.theme = this.buttonsStyle === "dark"? "candy" : "fusion";
         }
 
         if(changes["height"] && this.height) {

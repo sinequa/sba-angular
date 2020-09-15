@@ -4,6 +4,7 @@ import { AbstractFacet, FacetService } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
 import { AgmInfoWindow } from '@agm/core';
 import { SearchService } from '@sinequa/components/search';
+import { darkStyle } from "./dark-style";
 
 @Component({
     selector: "sq-googlemaps",
@@ -15,6 +16,7 @@ export class MapComponent extends AbstractFacet implements OnChanges {
     @Input() height = 300;
     @Input() latitudeField = "latitude";
     @Input() longitudeField = "longitude";
+    @Input() style = "light";
     @Output() recordClicked = new EventEmitter<Record>();
 
     geoRecords: Record[] = [];
@@ -25,6 +27,8 @@ export class MapComponent extends AbstractFacet implements OnChanges {
 
     bounds: google.maps.LatLngBounds;
     openedWindow?: AgmInfoWindow;
+
+    mapStyles;
 
     constructor(
         public searchService: SearchService,
@@ -79,6 +83,10 @@ export class MapComponent extends AbstractFacet implements OnChanges {
                 this.geoRecords = this.results.records.filter(r => !!r[this.latitudeField]);
             }
             this.closeWindow();
+        }
+
+        if(changes['style']) {
+            this.mapStyles = this.style === "dark"? darkStyle : undefined;
         }
 
         // If no document, the view shows a default latitude / longitude

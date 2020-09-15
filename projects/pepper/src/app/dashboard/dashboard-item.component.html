@@ -12,6 +12,7 @@
         #facet
         [results]="results"
         [height]="timelineHeight"
+        [style]="buttonsStyle"
         (recordClicked)="onRecordClicked($event)">
     </sq-googlemaps>
 
@@ -46,6 +47,7 @@
         <sq-fusion-chart
             #facet
             [results]="results"
+            [chart]="chart"
             [aggregation]="config.aggregation || 'Company'"
             [aggregations]="['Company','Geo','Person','Concepts']"
             [type]="config.chartType || 'Column2D'"
