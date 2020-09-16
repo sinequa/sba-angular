@@ -7,7 +7,7 @@ import {Query, AppService, FormatService, ValueItem, Expr, ExprParser} from "@si
 import {Utils} from "@sinequa/core/base";
 import {Subject, Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {SearchService} from "@sinequa/components/search";
+import {SearchService, BreadcrumbsItem} from "@sinequa/components/search";
 import {SuggestService} from "@sinequa/components/autocomplete";
 
 // Facet interface (from models/UserSettings)
@@ -268,13 +268,13 @@ export class FacetService {
             if (expr && same && index !== -1){
                 let _items: AggregationItem[];
                 if (expr?.operands) {
-                    _items = this.toAggregationItem(aggregation, expr.operands).concat(items);
+                    _items = this.toAggregationItem(aggregation.valuesAreExpressions, expr.operands).concat(items);
                 } else {
                     // previous selection is a single value
-                    _items = this.toAggregationItem(aggregation, expr as Expr).concat(items);
+                    _items = this.toAggregationItem(aggregation.valuesAreExpressions, expr as Expr).concat(items);
                 }
                 // overrides options settings with expression if any
-                options = {and: options.and || expr.and, not: options.not|| expr.not};
+                options = {and: options.and || expr.and, not: options.not || expr.not};
                 const _expr = this.makeExpr(facetName, aggregation, _items, options);
                 if (_expr) {
                     this.searchService.query.replaceSelect(index, {expression: _expr, facet: facetName});
@@ -329,8 +329,8 @@ export class FacetService {
             if (expr && expr.parent && expr.parent.operands.length > 1) {
                 // create a new Expr from parent and replaces Select by this new one
                 // so, breadcrumbs stay ordered
-                const items: AggregationItem[] = this.toAggregationItem(aggregation, expr.parent.operands).filter(i => (i.value as string).replace(/ /g, "") !== item.value.toString().replace(/ /g, ""));
-                const _expr = this.makeExpr(facetName, aggregation, items, {and: expr.parent.and, not: expr.parent.not });
+                const items: AggregationItem[] = this.toAggregationItem(aggregation.valuesAreExpressions, expr.parent.operands).filter(i => (i.value as string).replace(/ /g, "") !== item.value.toString().replace(/ /g, ""));
+                const _expr = this.makeExpr(facetName, aggregation, items, {and: expr.parent.and, not: expr.parent.not});
                 if (_expr) this.searchService.query.replaceSelect(i, {expression: _expr, facet: facetName});
             } else {
                 // filter is a single value... remove it
@@ -882,10 +882,31 @@ export class FacetService {
         return expr
     }
 
-    toAggregationItem(aggregation: Aggregation, expr: Expr[] | Expr): AggregationItem[] {
-        const fn = [(item: Expr) => ({count: 0, value: item.value, display: item.display} as AggregationItem), (item: Expr) => ({count: 0, value: item.toString((item.value) ? true : false), display: item.display} as AggregationItem)];
-        const callback = aggregation.valuesAreExpressions ? fn[1] : fn[0];
+    toAggregationItem(valuesAreExpressions: boolean, expr: Expr[] | Expr): AggregationItem[] {
+        const fn = [(item: Expr) => ({count: 0, value: item.value, display: item.display, $column: item.column} as AggregationItem), (item: Expr) => ({count: 0, value: item.toString((item.value) ? true : false), display: item.display, $column: item.column} as AggregationItem)];
+        const callback = valuesAreExpressions ? fn[1] : fn[0];
         return [].concat(expr as []).map(callback) as AggregationItem[];
     }
 
+    getBreadcrumbsItems(facetName: string): BreadcrumbsItem[] {
+        if (this.searchService.breadcrumbs) {
+            return this.searchService.breadcrumbs.items.filter(item => item.facet === facetName);
+        }
+        return [];
+    }
+
+    getAggregationItemsFiltered(facetName: string, valuesAreExpressions: boolean = false): AggregationItem[] {
+        const items = this.getBreadcrumbsItems(facetName);
+
+        // aggregation items are constructed from nested expressions
+        const expr = [] as Expr[][];
+        for (const item of items) {
+            const value = (item.expr?.display === undefined) ? item.expr?.operands as Expr[] || item.expr : item.expr;
+            expr.push(value as Expr[]);
+        }
+        // faltten results
+        const flattenExpr = [].concat.apply([], expr);
+
+        return this.toAggregationItem(valuesAreExpressions, flattenExpr);
+    }
 }

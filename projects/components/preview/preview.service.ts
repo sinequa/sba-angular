@@ -32,6 +32,7 @@ export const PREVIEW_MODAL = new InjectionToken<Type<any>>("PREVIEW_MODAL");
 export class PreviewService {
 
     private readonly _events = new Subject<PreviewEvent>();
+    private rank: number;
 
     constructor(
         @Inject(PREVIEW_MODAL) public previewModal: Type<any>,
@@ -85,7 +86,7 @@ export class PreviewService {
                 || this.searchService?.query?.questionLanguage
                 || this.appService?.ccquery?.questionLanguage;
             const collection = !!record ? record.collection[0] : Utils.split(id, "|")[0];
-            const rank = !!record ? record.rank : 0;
+            const rank = !!record ? record.rank : this.rank || 0;
             auditEvent = {
                 type: AuditEventType.Doc_Preview,
                 detail: {
@@ -149,6 +150,7 @@ export class PreviewService {
     openRoute(record: Record, query: Query, path = "preview") {
 
         this.events.next({type: PreviewEventType.Route, record: record, query: query});
+        this.rank = record.rank;
 
         return this.router.navigate([path], {
             queryParams: {

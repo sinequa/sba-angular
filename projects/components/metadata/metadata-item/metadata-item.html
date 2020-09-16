@@ -36,7 +36,8 @@
             <ng-template #isNotTree>
                 <ng-container *ngIf="clickable; else notTreeNonClickable">
                     <ng-container *ngFor="let valueItem of valueItems; let $index = index">
-                        <a class="sq-metadata-item-value {{'sq-metadata-item-' + item}}" href="javascript:void(0)" (click)="select($index)">{{valueItem | sqValue:column}}</a>
+                        <a *ngIf="showTitle" class="sq-metadata-item-value {{'sq-metadata-item-' + item}}" href="javascript:void(0)" (click)="select($index)">{{valueItem | sqValue:column}}</a>
+                        <a *ngIf="!showTitle" class="sq-metadata-item-value {{'sq-metadata-item-' + item}}" href="javascript:void(0)" (click)="select($index)" title="{{label | sqMessage}}">{{valueItem | sqValue:column}}</a>
                     </ng-container>
                 </ng-container>
                 <ng-template  #notTreeNonClickable>

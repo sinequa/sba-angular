@@ -1,6 +1,6 @@
-import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef} from "@angular/core";
-import {Results, Aggregation, AggregationItem, Suggestion} from "@sinequa/core/web-services";
-import {Utils, Keys} from "@sinequa/core/base";
+import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy} from "@angular/core";
+import {Results, Aggregation, AggregationItem, Suggestion, CCColumn} from "@sinequa/core/web-services";
+import {Utils, Keys, FieldValue} from "@sinequa/core/base";
 import {FacetService} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
 import {AbstractFacet} from "../../abstract-facet";
@@ -8,7 +8,8 @@ import {AbstractFacet} from "../../abstract-facet";
 @Component({
     selector: "sq-facet-list",
     templateUrl: "./facet-list.html",
-    styleUrls: ["./facet-list.scss"]
+    styleUrls: ["./facet-list.scss"],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsFacetList extends AbstractFacet implements OnChanges {
     @Input() name: string; // If ommited, the aggregation name is used
@@ -29,7 +30,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
     searchBar = false; // Collapsed by default
     suggestDelay = 200;
     private readonly debounceSuggest: () => void;
-    readonly suggestions: Suggestion[] = [];
+    suggestions: Suggestion[] = [];
 
     // Loading more data
     skip = 0;
@@ -37,9 +38,8 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
     loadingMore = false;
 
     // Sets to keep track of selected/excluded/filtered items
-    private readonly filtered = new Set<AggregationItem>();
+    filtered: {value: FieldValue, display: string | undefined, count?: number, $column?: CCColumn}[] = []
     // TODO keep track of excluded terms and display them with specific color private
-    // readonly filtered = new Set<AggregationItem>();
 
     // Actions (displayed in facet menu)
     // All actions are built in the constructor
@@ -107,6 +107,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
                     this.suggestions.splice(0);
                     this.searchQuery = ""; // Remove suggestions if some remain
                 }
+                this.changeDetectorRef.markForCheck();
             }
         });
 
@@ -134,7 +135,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
             if(!this.count){
                 this.count = this.facetService.getAggregationCount(this.aggregation);
             }
-            this.filtered.clear();
+            this.filtered.length = 0;
             this.data = this.facetService.getAggregation(this.aggregation, this.results);
             this.skip = 0;
             this.searchBar = false;
@@ -186,18 +187,30 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
         if (this.data && this.data.items) {
             this.data.items.forEach(item => {
                 if (this.data && this.facetService.itemFiltered(this.getName(), this.data, item)) {
-                    this.filtered.add(item);
+                    if (!this.isFiltered(item)) {
+                        this.filtered.push({value: item.value, display: item.display || (item.value as string), count: item.count, $column: item.$column});
+                    }
                 }
             });
         }
+
+        // refresh filters from breadcrumbs
+        const items = this.facetService.getAggregationItemsFiltered(this.name, this.data?.valuesAreExpressions);
+        items.forEach(item => {
+            const value = {value: item.value, display: item.display, $column: item.$column};
+            if (!this.isFiltered(item)) {
+                this.filtered.push(value);
+            }
+        });
     }
 
     /**
      * Returns true if the given AggregationItem is filtered
      * @param item
      */
-    isFiltered(item: AggregationItem) : boolean {
-        return this.filtered.has(item);
+    isFiltered(item: AggregationItem | Suggestion): boolean {
+        const display = (this.isAggregationItem(item)) ? item.display || (item.value as string) : item.display
+        return this.filtered.some(it => it.display === display);
     }
 
     /**
@@ -309,7 +322,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      * @param event
      */
     filterSuggest(suggest: Suggestion, event) : boolean {
-        const item : AggregationItem = {
+        const item: AggregationItem = {
             value: suggest.normalized || suggest.display,
             display: suggest.display,
             count: 0
@@ -357,15 +370,20 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
     }
 
     private _suggest() {
-
         // Use autocomplete to refresh list
         if (!this.data) {
             return;
         }
         Utils.subscribe(this.facetService.suggest(this.searchQuery, this.data.column),
             (items) => {
-                this.suggestions.splice(0);
-                this.suggestions.push(...items.slice(0, this.count));
+                this.suggestions = [...items.slice(0, this.count)];
+                const hasSuggestions = (this.suggestions.length > 0);
+                if (!hasSuggestions && this.searchQuery.trim() !== "") {
+                    this.suggestions = [{ // Display "no results"
+                        display: "",
+                        category: ""
+                    }];
+                }
             },
             (err) => {
                 console.log(err);
@@ -374,12 +392,6 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
             () => {
                 if(this.searchQuery.trim() === ""){
                     this.suggestions.splice(0); // Might happen if these results are late
-                }
-                if(!this.hasSuggestions && this.searchQuery.trim() !== ""){
-                    this.suggestions.push({ // Display "no results"
-                        display: "",
-                        category: ""
-                    });
                 }
                 this.changeDetectorRef.markForCheck();
             });
@@ -405,5 +417,9 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
             return this.data.items;
         }
         return this.data.items.filter(item => item.count > 0);
+    }
+
+    private isAggregationItem(item: AggregationItem | Suggestion): item is AggregationItem {
+        return (item as AggregationItem).value !== undefined;
     }
 }
