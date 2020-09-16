@@ -23,6 +23,7 @@ export default {
 
     "renameLabel": {
         "title": "Renommer le(s) libellé(s) globalement",
+        "btnRename": "Renommer",
         "newLabel": "Nouveau Libellé",
         "oldLabels": "Ancien(s) libellé(s)",
         "alertText": "Cette action renomme le(s) libellé(s) sélectionné(s) dans l'index et est irréversible",
@@ -32,6 +33,7 @@ export default {
 
     "deleteLabel": {
         "title": "Supprimer le(s) libellé(s) globalement",
+        "btnDelete": "Supprimer",
         "alertText": "Cette action supprime le(s) libellé(s) sélectionné(s) de l'index et est irréversible",
         "successFeedback": "Libellé(s) supprimé(s) de l'index",
         "errorFeedback": "Une erreur s'est produite. Requête non aboutie"
@@ -39,6 +41,7 @@ export default {
 
     "bulkRemoveLabel": {
         "title": "Enlever le(s) libellé des résultats courants",
+        "btnBulkRemove": "Enlever",
         "alertText": "Cette action enlève le(s) libellé(s) sélectionné(s) de tous les résultats remontés par le moteur (pas seulement de la première page)",
         "successFeedback": "Libellé(s) enlevé(s) de tous les résultats remontés par le moteur",
         "errorFeedback": "Une erreur s'est produite. Requête non aboutie"
@@ -46,6 +49,7 @@ export default {
 
     "bulkAddLabel": {
         "title": "Ajouter le(s) libellé(s) aux résultats courants",
+        "btnBulkAdd": "Ajouter",
         "alertText": "Cette action ajoute le(s) libellé(s) sélectionné(s) à tous les résultats remontés par le moteur (pas seulement à la première page)",
         "infoText": "Appuyez sur 'Entrée' pour ajouter un nouveau libellé qui n'existe pas dans les suggestions",
         "successFeedback": "Libellé(s) ajouté(s) à tous les résultats remontés par le moteur",
@@ -54,6 +58,7 @@ export default {
 
     "editLabel": {
         "title": "Editer le(s) libellé(s) de(s) résultat(s) sélectionné(s)",
+        "btnEdit": "Editer",
         "alertText": "Cette action édite le(s) libellé(s) de(s) résultat(s) sélectionné(s)",
         "infoText": "Appuyez sur 'Entrée' pour ajouter un nouveau libellé qui n'existe pas dans les suggestions",
         "labelsToBeRemoved": "Libellé(s) à enlever",

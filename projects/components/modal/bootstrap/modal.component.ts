@@ -12,5 +12,6 @@ export class BsModal {
     @Input() buttons: ModalButton[];
     @Input() showHeader = true;
     @Input() showFooter = true;
+    @Input() isProcessingState = false;
     @HostBinding("class.sq-modal") true;
 }

@@ -1,0 +1,17 @@
+
+/*
+A loading icon that spins indefinitely with a 2s revolution.
+*/
+.loader {
+    border: 0.6rem solid #f3f3f3;
+    border-top: 0.6rem solid #3498db;
+    border-radius: 50%; /* transforms the loader into a circle. */
+    width: 2.5rem;
+    height: 2.5rem;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

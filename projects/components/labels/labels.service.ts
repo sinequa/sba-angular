@@ -9,7 +9,7 @@ import {
 import { AppService, ValueItem } from "@sinequa/core/app-utils";
 import { Utils, IRef } from "@sinequa/core/base";
 import { SearchService } from "@sinequa/components/search";
-import { ModalService, ModalResult } from "@sinequa/core/modal";
+import { ModalService } from "@sinequa/core/modal";
 import { Action } from "@sinequa/components/action";
 import { IntlService } from "@sinequa/core/intl";
 import { NotificationsService } from '@sinequa/core/notification';
@@ -142,52 +142,24 @@ export class LabelsService implements OnDestroy {
     }
 
     /** From navbar */
-    renameLabelModal(): void {
+    public renameLabelModal(): void {
         const data = { oldValues: [], newValue: "", properties: this._modalProperties(UpdateLabelsAction.rename) };
-        this.modalService
-            .open(this.labelsComponents.renameModal, { model: data })
-            .then((result) => {
-                if (result === ModalResult.OK) {
-                    this.renameLabels(
-                        data.oldValues,
-                        data.newValue,
-                        data.properties.public
-                    );
-                }
-            });
+        this.modalService.open(this.labelsComponents.renameModal, { model: data });
     }
 
-    deleteLabelModal(): void {
+    public deleteLabelModal(): void {
         const data = { values: [], properties: this._modalProperties(UpdateLabelsAction.delete) };
-        this.modalService
-            .open(this.labelsComponents.deleteModal, { model: data })
-            .then((result) => {
-                if (result === ModalResult.OK) {
-                    this.deleteLabels(data.values, data.properties.public);
-                }
-            });
+        this.modalService.open(this.labelsComponents.deleteModal, { model: data });
     }
 
-    bulkAddLabelModal(): void {
+    public bulkAddLabelModal(): void {
         const data = { values: [], properties: this._modalProperties(UpdateLabelsAction.bulkAdd) };
-        this.modalService
-            .open(this.labelsComponents.addModal, { model: data })
-            .then((result) => {
-                if (result === ModalResult.OK) {
-                    this.bulkAddLabels(data.values, data.properties.public);
-                }
-            });
+        this.modalService.open(this.labelsComponents.addModal, { model: data });
     }
 
-    bulkRemoveLabelModal(): void {
+    public bulkRemoveLabelModal(): void {
         const data = { values: [], properties: this._modalProperties(UpdateLabelsAction.bulkRemove) };
-        this.modalService
-            .open(this.labelsComponents.deleteModal, { model: data })
-            .then((result) => {
-                if (result === ModalResult.OK) {
-                    this.bulkRemoveLabels(data.values, data.properties.public);
-                }
-            });
+        this.modalService.open(this.labelsComponents.deleteModal, { model: data });
     }
 
     private _modalProperties(action: number): ModalProperties {
@@ -291,30 +263,6 @@ export class LabelsService implements OnDestroy {
     /** END From navbar */
 
     /** From result selector */
-    editLabelModal(): void {
-        const data = { valuesToBeAdded: [], valuesToBeRemoved: [], properties: this._modalProperties(UpdateLabelsAction.edit) };
-        this.modalService
-            .open(this.labelsComponents.editModal, { model: data })
-            .then((result) => {
-                if (result === ModalResult.OK) {
-                    this.addLabels(data.valuesToBeAdded, this.selectionService.getSelectedIds(), data.properties.public).subscribe(
-                        () => {},
-                        () => this.notificationService.error("msg#editLabel.errorFeedback"),
-                        () => {
-                            this.removeLabels(data.valuesToBeRemoved, this.selectionService.getSelectedIds(), data.properties.public).subscribe(
-                                () => {},
-                                () => this.notificationService.error("msg#editLabel.errorFeedback"),
-                                () => {
-                                    this.notificationService.success("msg#editLabel.successFeedback")
-                                    this.searchService.search(); /** Update the display immediately in the components and facets*/
-                                }
-                            )
-                        }
-                    )
-                }
-            });
-    }
-
     public buildSelectionAction(): Action | undefined {
         if (!this.publicLabelsField && !this.privateLabelsField) {
             return undefined;
@@ -333,6 +281,12 @@ export class LabelsService implements OnDestroy {
             action.hidden = true;
         }
         return action;
+    }
+
+    public editLabelModal(): void {
+        const data = { valuesToBeAdded: [], valuesToBeRemoved: [], properties: this._modalProperties(UpdateLabelsAction.edit) };
+        this.modalService
+            .open(this.labelsComponents.editModal, { model: data });
     }
     /** END result selector */
 

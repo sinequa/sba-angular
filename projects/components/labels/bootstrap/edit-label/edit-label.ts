@@ -1,10 +1,12 @@
-import { Component, OnInit, Inject } from "@angular/core";
-import { ModalButton, ModalResult, MODAL_MODEL } from "@sinequa/core/modal";
+import { Component, OnInit, Inject, ChangeDetectorRef } from "@angular/core";
+import { ModalButton, ModalResult, MODAL_MODEL, ModalRef } from "@sinequa/core/modal";
 import { ModalProperties, LabelsService } from "../../labels.service";
 import { SelectionService } from "@sinequa/components/selection";
 import { AppService } from "@sinequa/core/app-utils";
 import { Record } from '@sinequa/core/web-services';
 import { SearchService } from '@sinequa/components/search';
+import { Utils } from '@sinequa/core/base';
+import { NotificationsService } from '@sinequa/core/notification';
 
 @Component({
     selector: "sq-edit-label",
@@ -21,11 +23,12 @@ import { SearchService } from '@sinequa/components/search';
     ],
 })
 export class BsEditLabel implements OnInit {
-    selectedRecordsIds: string[];
-    buttons: ModalButton[];
+    public selectedRecordsIds: string[];
+    public buttons: ModalButton[];
     /** Initial labels list assigned to a record */
-    initialLabels: string[] = [];
-    record: Record | undefined;
+    public initialLabels: string[] = [];
+    public record: Record | undefined;
+    public isProcessing: boolean = false;
 
     constructor(
         @Inject(MODAL_MODEL)
@@ -37,7 +40,10 @@ export class BsEditLabel implements OnInit {
         private appService: AppService,
         private selectionService: SelectionService,
         private labelsService: LabelsService,
-        private searchService: SearchService
+        private searchService: SearchService,
+        private notificationService: NotificationsService,
+        private changeDetectorRef: ChangeDetectorRef,
+        private modalRef: ModalRef
     ) {}
 
     ngOnInit() {
@@ -48,8 +54,39 @@ export class BsEditLabel implements OnInit {
         }
         this.buttons = [
             new ModalButton({
-                result: ModalResult.OK,
+                text: "msg#editLabel.btnEdit",
                 primary: true,
+                result: ModalResult.Custom,
+                anchor: true,
+                action: () => {
+                    const observable = this.labelsService.addLabels(this.model.valuesToBeAdded, this.selectionService.getSelectedIds(), this.model.properties.public);
+                    if (observable) {
+                        this.isProcessing = true;
+                        this.changeDetectorRef.markForCheck();
+                        Utils.subscribe(observable,
+                            () => {},
+                            (error) => {
+                                this.notificationService.error("msg#editLabel.errorFeedback");
+                                this.modalRef.close(error);
+                            },
+                            () => {
+                                this.labelsService.removeLabels(this.model.valuesToBeRemoved, this.selectionService.getSelectedIds(), this.model.properties.public).subscribe(
+                                    () => {},
+                                    (error) => {
+                                        this.notificationService.error("msg#editLabel.errorFeedback");
+                                        this.modalRef.close(error);
+                                    },
+                                    () => {
+                                        this.isProcessing = false;
+                                        this.modalRef.close(ModalResult.OK);
+                                        this.notificationService.success("msg#editLabel.successFeedback")
+                                        this.searchService.search(); /** Update the display immediately in the components and facets*/
+                                    }
+                                )
+                            }
+                        );
+                    }
+                }
             }),
             new ModalButton({
                 result: ModalResult.Cancel,

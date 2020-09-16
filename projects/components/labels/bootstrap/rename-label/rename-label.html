@@ -1,5 +1,5 @@
 <form name="renameLabel" novalidate [formGroup]="form">
-    <sq-modal [title]="'msg#renameLabel.title'" [buttons]="buttons">
+    <sq-modal [title]="'msg#renameLabel.title'" [buttons]="buttons" [isProcessingState]="isProcessing">
         <div class="form-group sq-form-group">
             <div class="alert alert-danger" role="alert">
                 {{'msg#renameLabel.alertText' | sqMessage}}
