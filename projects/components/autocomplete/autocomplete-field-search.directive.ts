@@ -75,18 +75,23 @@ export class AutocompleteFieldSearch extends Autocomplete {
         }
 
         // Transform the field search expresion (Expr string) into a list of autocomplete items displayed in the field search container
-        if(changes["fieldSearchExpression"] && this.fieldSearchExpression && this.fieldSearchMode === "selects") {
-            const expr = this.appService.parseExpr(this.fieldSearchExpression);
-            if(expr instanceof Expr && this.fieldSearchItems.length !== expr.getFields().length) {
+        if(changes["fieldSearchExpression"] && this.fieldSearchMode === "selects") {
+            if(this.fieldSearchExpression) {
+                const expr = this.appService.parseExpr(this.fieldSearchExpression);
+                if(expr instanceof Expr && this.fieldSearchItems.length !== expr.getFields().length) {
+                    this.fieldSearchItems.splice(0);
+                    if(expr.and) {
+                        expr.operands.forEach(e => 
+                            this.fieldSearchItems.push(this.exprToItem(e))
+                        );
+                    }
+                    else {
+                        this.fieldSearchItems.push(this.exprToItem(expr));
+                    }
+                }
+            }
+            else {
                 this.fieldSearchItems.splice(0);
-                if(expr.and) {
-                    expr.operands.forEach(e => 
-                        this.fieldSearchItems.push(this.exprToItem(e))
-                    );
-                }
-                else {
-                    this.fieldSearchItems.push(this.exprToItem(expr));
-                }
             }
         }
 
