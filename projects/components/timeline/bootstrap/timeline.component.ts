@@ -426,7 +426,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
         const yAxis = d3.axisLeft<number>(this.y)
             .tickValues(yAxisTicks)
-            .tickFormat(d3.format("d"));
+            .tickFormat(d3.format("~s")); //https://github.com/d3/d3-format
         this.yAxis$.call(yAxis);
         this.yAxis$.selectAll(".domain").remove(); // Remove the axis line
     }
