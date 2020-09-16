@@ -9,11 +9,12 @@ import { UserSettingsWebService } from '@sinequa/core/web-services';
 import { ModalResult, ModalService, PromptOptions, ModalButton, ConfirmType } from '@sinequa/core/modal';
 import { Action } from '@sinequa/components/action';
 import { SearchService } from '@sinequa/components/search';
-import { DashboardAddItemModel, DashboardItemOption, MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, DashboardAddItemComponent, HEATMAP_WIDGET } from './dashboard-add-item.component';
+import { DashboardAddItemModel, DashboardAddItemComponent } from './dashboard-add-item.component';
 import { GridsterConfig, GridsterItem } from 'angular-gridster2';
 import { NotificationsService } from '@sinequa/core/notification';
 import { Subject } from 'rxjs';
 import { UserPreferences } from '@sinequa/components/user-settings';
+
 
 export interface DashboardItem extends GridsterItem {
     type: string;
@@ -34,6 +35,20 @@ export interface Dashboard {
     name: string;
     items: DashboardItem[];
 }
+
+export interface DashboardItemOption {
+    type: string;
+    icon: string;
+    text: string;
+    unique: boolean;
+}
+
+export const MAP_WIDGET: DashboardItemOption = {type: 'map', icon: 'fas fa-globe-americas fa-fw', text: 'Map', unique: true};
+export const TIMELINE_WIDGET: DashboardItemOption = {type: 'timeline', icon: 'fas fa-chart-line fa-fw', text: 'Timeline', unique: true};
+export const NETWORK_WIDGET: DashboardItemOption = {type: 'network', icon: 'fas fa-project-diagram fa-fw', text: 'Network', unique: true};
+export const CHART_WIDGET: DashboardItemOption = {type: 'chart', icon: 'fas fa-chart-bar fa-fw', text: 'Chart', unique: false};
+export const HEATMAP_WIDGET: DashboardItemOption = {type: 'heatmap', icon: 'fas fa-th fa-fw', text: 'Heatmap', unique: false};
+export const PREVIEW_WIDGET: DashboardItemOption = {type: 'preview', icon: 'far fa-file-alt', text: '', unique: false}
 
 @Injectable({
     providedIn: 'root'
@@ -193,12 +208,12 @@ export class DashboardService {
         this.options.api?.optionsChanged!();
     }
 
-    public addWidget(option: DashboardItemOption, dashboard: Dashboard = this.dashboard, width = 2, height = 2, closable = true): DashboardItem {
+    public addWidget(option: DashboardItemOption, dashboard: Dashboard = this.dashboard, rows = 2, cols = 2, closable = true): DashboardItem {
         dashboard.items.push({
             x: 0,
             y: 0,
-            rows: height || 2,
-            cols: width || 2,
+            rows: rows || 2,
+            cols: cols || 2,
             type: option.type,
             icon: option.icon,
             title: option.text,
@@ -213,7 +228,7 @@ export class DashboardService {
         this.dashboardChanged.next(this.dashboard);
     }
 
-    public createDashboardActions(): Action[] {
+    public createDashboardActions(addWidgetOptions: DashboardItemOption[]): Action[] {
 
         const dashboardActions = [] as Action[];
                 
@@ -224,7 +239,7 @@ export class DashboardService {
             action: () => {
                 // We include only items either not unique or not already in the dashboard
                 const model: DashboardAddItemModel = {
-                    options: [MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, HEATMAP_WIDGET].filter(item => 
+                    options: addWidgetOptions.filter(item => 
                         !item.unique || !this.dashboard.items.find(widget => widget.type === item.type)
                     )
                 };

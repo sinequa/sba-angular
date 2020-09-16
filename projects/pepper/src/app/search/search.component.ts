@@ -12,8 +12,7 @@ import { UIService } from '@sinequa/components/utils';
 import { PreviewService } from '@sinequa/components/preview';
 import { Action } from '@sinequa/components/action';
 import { FACETS, METADATA, FEATURES } from '../../config';
-import { MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET } from '../dashboard/dashboard-add-item.component';
-import { DashboardService } from '../dashboard/dashboard.service';
+import { DashboardService, MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, PREVIEW_WIDGET, HEATMAP_WIDGET } from '../dashboard/dashboard.service';
 
 @Component({
   selector: 'app-search',
@@ -31,7 +30,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   darkAction: Action;
   dashboardActions: Action[] = [];
 
+  // Used to scroll (on the results list side) to the latest document selected in a widget
   lastSelectedId?: string;
+  // Used to scroll (on the dashboard side) to this document when clicked on in the results list
   lastClickedId?: string;
 
   constructor(
@@ -82,7 +83,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: ""}));
         
     this.dashboardService.setDefaultDashboard([MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET]);
-    this.dashboardActions = this.dashboardService.createDashboardActions();
+    this.dashboardActions = this.dashboardService.createDashboardActions([MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, HEATMAP_WIDGET]);
   }
 
   /**
@@ -151,12 +152,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   onDocumentClicked(record: Record, event: Event) {
     if(!this.isClickAction(event)){
       if(!this.isOpened(record)) {
-        const item = this.dashboardService.addWidget({
-          type: 'preview',
-          icon: 'far fa-file-alt',
-          text: '',
-          unique: false
-        }, this.dashboardService.dashboard, 2, 3, false); // closable = false, as the underlying component already exposes a "close" action
+        const item = this.dashboardService.addWidget(PREVIEW_WIDGET);
+        item.closable = false; // closable = false, as the underlying component already exposes a "close" action
+        item.rows = 3; // Increase default height from 2 rows to 3
         item.recordId = record.id;
         item.queryStr = this.searchService.query.toJsonForQueryString();
       }

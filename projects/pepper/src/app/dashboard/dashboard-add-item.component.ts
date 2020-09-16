@@ -3,19 +3,7 @@ import { ModalButton, ModalResult } from '@sinequa/core/modal';
 import { Action } from '@sinequa/components/action';
 import { MODAL_MODEL } from '@sinequa/core/modal';
 import { FormGroup } from '@angular/forms';
-
-export interface DashboardItemOption {
-    type: string;
-    icon: string;
-    text: string;
-    unique: boolean;
-}
-
-export const MAP_WIDGET: DashboardItemOption = {type: 'map', icon: 'fas fa-globe-americas fa-fw', text: 'Map', unique: true};
-export const TIMELINE_WIDGET: DashboardItemOption = {type: 'timeline', icon: 'fas fa-chart-line fa-fw', text: 'Timeline', unique: true};
-export const NETWORK_WIDGET: DashboardItemOption = {type: 'network', icon: 'fas fa-project-diagram fa-fw', text: 'Network', unique: true};
-export const CHART_WIDGET: DashboardItemOption = {type: 'chart', icon: 'fas fa-chart-bar fa-fw', text: 'Chart', unique: false};
-export const HEATMAP_WIDGET: DashboardItemOption = {type: 'heatmap', icon: 'fas fa-th fa-fw', text: 'Heatmap', unique: false};
+import { DashboardItemOption } from './dashboard.service';
 
 export interface DashboardAddItemModel {
     options: DashboardItemOption[]; // Input of the modal

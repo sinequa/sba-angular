@@ -217,11 +217,11 @@ sq-feedback-menu {
         padding-bottom: 7px;
     }
     button:first-child {
-        border-top-left-radius: 3px;
+        border-top-left-radius: 5px;
         border-bottom-left-radius: 0;
     }
-    button:last-child {
-        border-top-right-radius: 3px;
+    button:last-of-type {
+        border-top-right-radius: 5px;
         border-bottom-right-radius: 0;
     }
     .dropdown-menu-right .dropdown-submenu > a:before {
