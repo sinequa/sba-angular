@@ -607,9 +607,6 @@ export class SearchService implements OnDestroy {
         if (!this.appService.ccquery) {
             return Promise.resolve(false);
         }
-        if(this.routingActive && !this.isSearchRouteActive()){
-            return Promise.resolve(false);
-        };
         let query = this._query;
         if (this.routingActive) {
             query = this.ensureQueryFromUrl();
