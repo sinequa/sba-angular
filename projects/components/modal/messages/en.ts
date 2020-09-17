@@ -7,5 +7,9 @@ export default {
         "title": "Override User",
         "userName": "User name",
         "domain": "Domain"
+    },
+
+    "btnClose": {
+        "text": "Close"
     }
 };

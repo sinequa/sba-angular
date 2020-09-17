@@ -1,17 +1,25 @@
-import {Component, Input, HostBinding, Injector} from "@angular/core";
-import {ModalButton, ModalRef} from "@sinequa/core/modal";
+import {Component, Input, HostBinding, Injector, OnChanges, SimpleChanges} from "@angular/core";
+import {ModalButton, ModalRef, ModalResult} from "@sinequa/core/modal";
 
 @Component({
     selector: "sq-modal-footer",
-    templateUrl: "./modal-footer.component.html"
+    templateUrl: "./modal-footer.component.html",
+    styleUrls: ["./modal-footer.component.scss"]
 })
-export class BsModalFooter {
+export class BsModalFooter implements OnChanges{
     @Input() buttons: ModalButton[] = [];
+    @Input() isProcessingState: boolean;
     @HostBinding("class.sq-modal-footer") true;
 
     constructor(
         protected modalRef: ModalRef,
         protected injector: Injector) {
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.isProcessingState) {
+            this.isProcessingState = changes.isProcessingState.currentValue;
+        }
     }
 
     buttonClick(button: ModalButton) {
@@ -23,5 +31,9 @@ export class BsModalFooter {
         }
         button.click(this.modalRef);
         return false;
+    }
+
+    public close(): void {
+        this.modalRef.close(ModalResult.Cancel);
     }
 }

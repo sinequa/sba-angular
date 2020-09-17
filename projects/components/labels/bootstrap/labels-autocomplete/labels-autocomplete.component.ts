@@ -33,7 +33,7 @@ import { AutocompleteItem } from '@sinequa/components/autocomplete';
             height: unset !important;
         }
         ::ng-deep .sq-autocomplete-list {
-                width: 94% !important;
+                width: 50% !important;
             }
     `]
 })

@@ -7,5 +7,9 @@ export default {
         "title": "Benutzer wechseln",
         "userName": "Benutzername",
         "domain": "Domäne"
+    },
+
+    "btnClose": {
+        "text": "Schließen"
     }
 };

@@ -151,8 +151,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   /**
    * Open the preview when this record has no url1
-   * @param record 
-   * @param isLink 
+   * @param record
+   * @param isLink
    */
   openPreviewIfNoUrl(record: Record, isLink: boolean) {
     if(!isLink){
@@ -185,7 +185,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     return event.type !== 'click' ||
         target.tagName === "A" ||
         target.tagName === "INPUT" ||
-        target.matches("sq-result-selector *, .sq-result-title, sq-result-source *");
+        target.matches("sq-result-selector *, .sq-result-title, sq-result-source *, sq-labels *");
   }
 
 
