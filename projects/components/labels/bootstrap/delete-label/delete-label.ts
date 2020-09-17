@@ -1,7 +1,16 @@
 import { Component, OnInit, Inject, ChangeDetectorRef } from "@angular/core";
-import { ModalButton, ModalResult, MODAL_MODEL, ModalRef } from "@sinequa/core/modal";
-import { UpdateLabelsAction, ModalProperties, LabelsService } from "../../labels.service";
-import { Utils } from '@sinequa/core/base';
+import {
+    ModalButton,
+    ModalResult,
+    MODAL_MODEL,
+    ModalRef,
+} from "@sinequa/core/modal";
+import {
+    UpdateLabelsAction,
+    ModalProperties,
+    LabelsService,
+} from "../../labels.service";
+import { Utils } from "@sinequa/core/base";
 
 @Component({
     selector: "sq-delete-label",
@@ -14,8 +23,8 @@ import { Utils } from '@sinequa/core/base';
             .clickable:hover {
                 opacity: 85%;
             }
-        `
-    ]
+        `,
+    ],
 })
 export class BsDeleteLabel implements OnInit {
     public buttons: ModalButton[];
@@ -23,6 +32,8 @@ export class BsDeleteLabel implements OnInit {
     public alert: string;
     public btnText: string;
     public isProcessing: boolean = false;
+
+    private _action: () => void;
 
     constructor(
         @Inject(MODAL_MODEL)
@@ -41,67 +52,53 @@ export class BsDeleteLabel implements OnInit {
                 this.title = "msg#deleteLabel.title";
                 this.btnText = "msg#deleteLabel.btnDelete";
                 this.alert = "msg#deleteLabel.alertText";
-                this.buttons = [
-                    new ModalButton({
-                        text: this.btnText,
-                        primary: true,
-                        result: ModalResult.Custom,
-                        anchor: true,
-                        action: () => {
-                            const observable = this.labelsService.deleteLabels(this.model.values, this.model.properties.public);
-                            if (observable) {
-                                this.isProcessing = true;
-                                this.changeDetectorRef.markForCheck();
-                                Utils.subscribe(observable,
-                                    () => {},
-                                    (error) => {
-                                        this.modalRef.close(error);
-                                    },
-                                    () => {
-                                        this.isProcessing = false;
-                                        this.modalRef.close(ModalResult.OK);
-                                    }
-                                );
+                this._action = () => {
+                    const observable = this.labelsService.deleteLabels(
+                        this.model.values,
+                        this.model.properties.public
+                    );
+                    if (observable) {
+                        this.isProcessing = true;
+                        this.changeDetectorRef.markForCheck();
+                        Utils.subscribe(
+                            observable,
+                            () => {},
+                            (error) => {
+                                this.modalRef.close(error);
+                            },
+                            () => {
+                                this.isProcessing = false;
+                                this.modalRef.close(ModalResult.OK);
                             }
-                        }
-                    }),
-                    new ModalButton({
-                        result: ModalResult.Cancel,
-                    }),
-                ];
+                        );
+                    }
+                };
                 break;
             case UpdateLabelsAction.bulkRemove:
                 this.title = "msg#bulkRemoveLabel.title";
                 this.btnText = "msg#bulkRemoveLabel.btnBulkRemove";
                 this.alert = "msg#bulkRemoveLabel.alertText";
-                this.buttons = [
-                    new ModalButton({
-                        text: this.btnText,
-                        primary: true,
-                        result: ModalResult.Custom,
-                        anchor: true,
-                        action: () => {
-                            const observable = this.labelsService.bulkRemoveLabels(this.model.values, this.model.properties.public);
-                            if (observable) {
-                                this.isProcessing = true;
-                                this.changeDetectorRef.markForCheck();
-                                Utils.subscribe(observable,
-                                    () => {},
-                                    (error) => {
-                                        this.modalRef.close(error);
-                                    },
-                                    () => {
-                                        this.isProcessing = false;
-                                        this.modalRef.close(ModalResult.OK);
-                                    }
-                                );
+                this._action = () => {
+                    const observable = this.labelsService.bulkRemoveLabels(
+                        this.model.values,
+                        this.model.properties.public
+                    );
+                    if (observable) {
+                        this.isProcessing = true;
+                        this.changeDetectorRef.markForCheck();
+                        Utils.subscribe(
+                            observable,
+                            () => {},
+                            (error) => {
+                                this.modalRef.close(error);
+                            },
+                            () => {
+                                this.isProcessing = false;
+                                this.modalRef.close(ModalResult.OK);
                             }
-                        }
-                    }),
-                    new ModalButton({
-                        result: ModalResult.Cancel,
-                    }),
-                ];
+                        );
+                    }
+                };
                 break;
             default:
                 this.title = "";
@@ -109,6 +106,19 @@ export class BsDeleteLabel implements OnInit {
                 this.alert = "";
                 break;
         }
+
+        this.buttons = [
+            new ModalButton({
+                text: this.btnText,
+                primary: true,
+                result: ModalResult.Custom,
+                anchor: true,
+                action: this._action,
+            }),
+            new ModalButton({
+                result: ModalResult.Cancel,
+            }),
+        ];
     }
 
     updateLabelsNature(nature: boolean) {

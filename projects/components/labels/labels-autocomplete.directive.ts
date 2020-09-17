@@ -259,6 +259,17 @@ export class LabelsAutocomplete extends Autocomplete {
     }
 
     /**
+     * The startOrActive() method from the original directive is overriden to
+     * immediately switch to ACTIVE if it is not the case
+     */
+    protected startOrActive(): void {
+        if(this.getState()!== AutocompleteState.ACTIVE && this.getState()!== AutocompleteState.OPENED){ // Avoid flickering
+            this.start();
+            this.active();
+        }
+    }
+
+    /**
      * Listen to user's keyboard actions in the <input>, in order to navigate
      * and select the autocomplete suggestions.
      * Overrides the parent keydown method, adds the management of the backspace key
@@ -310,20 +321,6 @@ export class LabelsAutocomplete extends Autocomplete {
     }
 
     /**
-     * Listens to click events on the <input> host and overrides the parent click events in order to launch the autocomplete
-     */
-    @HostListener("click") click() {
-        this.active();
-    }
-
-    /**
-     * Listens to touchstart events (mobile clicks) on the <input> host and overrides the parent touchstart events in order to launch the autocomplete
-     */
-    @HostListener("touchstart") touchstart() {
-        this.active();
-    }
-
-    /**
      * Listens to focus events on the <input> host and overrides the parent focus events in order to launch the autocomplete
      * If empty input :
      * - display top relevent labels if the auto-suggest wildcard is configured
@@ -332,6 +329,7 @@ export class LabelsAutocomplete extends Autocomplete {
      * retrieve suggestions based on this input text
      */
     @HostListener("focus") focus() {
+        this.start();
         this.active();
     }
 
