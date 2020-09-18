@@ -33,13 +33,12 @@ export class DashboardItemComponent implements OnChanges {
 
     // Properties specific to certain types of dashboard items
 
+    innerwidth = 600;
+    innerheight = 200;
+
     // Network
     networkProviders: NetworkProvider[] = [];
     networkOptions = defaultOptions;
-
-    // Timeline sizing
-    timelineWidth = 600;
-    timelineHeight = 200;
 
     // Fusion charts
     chart = defaultChart;
@@ -92,17 +91,17 @@ export class DashboardItemComponent implements OnChanges {
 
         if(changes["height"] && this.height) {
             this.networkOptions = Utils.copy(defaultOptions);
-            this.networkOptions.height = (this.height - 43) + "px";
-            this.timelineHeight = this.height - 43;
+            this.innerheight = this.height - 43;
+            this.networkOptions.height = this.innerheight + "px";
             if(this.chartObj) {
-                this.chartObj.resizeTo(this.width, this.timelineHeight)
+                this.chartObj.resizeTo(this.width, this.innerheight)
             }
         }
 
         if(changes["width"] && this.width) {
-            this.timelineWidth = this.width;
+            this.innerwidth = this.width;
             if(this.chartObj && !changes["height"]) {
-                this.chartObj.resizeTo(this.width, this.timelineHeight)
+                this.chartObj.resizeTo(this.width, this.innerheight)
             }
         }
 
@@ -113,7 +112,7 @@ export class DashboardItemComponent implements OnChanges {
 
     onChartInitialized(chartObj: any) {
         this.chartObj = chartObj;
-        this.chartObj.resizeTo(this.width, this.timelineHeight);
+        this.chartObj.resizeTo(this.width, this.innerheight);
     }
 
     onChartAggregationChange(aggregation: string) {

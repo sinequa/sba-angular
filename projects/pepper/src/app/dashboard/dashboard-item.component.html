@@ -11,7 +11,7 @@
     <sq-googlemaps *ngSwitchCase="'map'"
         #facet
         [results]="results"
-        [height]="timelineHeight"
+        [height]="innerheight"
         [style]="buttonsStyle"
         (recordClicked)="onRecordClicked($event)">
     </sq-googlemaps>
@@ -20,8 +20,8 @@
     <sq-facet-timeline *ngSwitchCase="'timeline'"
         #facet
         [results]="results"
-        [width]="timelineWidth"
-        [height]="timelineHeight"
+        [width]="innerwidth"
+        [height]="innerheight"
         (eventClicked)="onRecordClicked($event.record)">
     </sq-facet-timeline>
 
@@ -66,8 +66,8 @@
         [fieldY]="'company'"
         [fieldsX]="['geo', 'company', 'person']"
         [fieldsY]="['geo', 'company', 'person']"
-        [width]="timelineWidth"
-        [height]="timelineHeight">
+        [width]="innerwidth"
+        [height]="innerheight">
     </sq-facet-heatmap>
     
     <!-- Preview -->
@@ -78,7 +78,7 @@
             [query]="query"
             [scalingFactor]="0.8"
             [expandModal]="false"
-            [height]="timelineHeight"
+            [height]="innerheight"
             (recordClosed)="close.next()">
         </sq-facet-preview-2>
         <div *ngIf="error" class="text-white bg-warning">

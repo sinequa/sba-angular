@@ -41,11 +41,11 @@ import { FusionChartsModule } from '@sinequa/components/fusioncharts';
 
 import { VisTimelineModule } from '@sinequa/components/vis-timeline';
 import { NetworkModule } from '@sinequa/components/network';
+import { GoogleMapsModule } from '@sinequa/components/googlemaps';
 
-import { AgmCoreModule } from '@agm/core';
 import { GridsterModule } from 'angular-gridster2';
+import { AgmCoreModule } from '@agm/core';
 
-import { MapComponent } from './map/map.component';
 import { DashboardItemComponent } from './dashboard/dashboard-item.component'
 import { DashboardAddItemComponent } from './dashboard/dashboard-add-item.component'
 
@@ -160,9 +160,9 @@ export const selectionOptions: SelectionOptions = {
         FusionChartsModule,
         VisTimelineModule,
         NetworkModule,
-
+        GoogleMapsModule,
         AgmCoreModule.forRoot({
-            apiKey: "AIzaSyA3Wo1tqrZNKuWAy0gq--ZkQ-rMR_gJy5w&amp"
+            apiKey: "AIzaSyA3Wo1tqrZNKuWAy0gq--ZkQ-rMR_gJy5w&amp" // Replace with your own Google Maps API key
         }),
         GridsterModule
     ],
@@ -171,7 +171,6 @@ export const selectionOptions: SelectionOptions = {
         SearchComponent,
         SearchFormComponent,
         AutocompleteExtended,
-        MapComponent,
         DashboardItemComponent,
         DashboardAddItemComponent
     ],
