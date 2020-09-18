@@ -35,7 +35,7 @@ import { GoogleMapsModule } from '@sinequa/components/googlemaps';
     ...
     GoogleMapsModule,
     AgmCoreModule.forRoot({
-        apiKey: "AIzaSyA3Wo1tqrZNKuWAy0gq--ZkQ-rMR_gJy5w&amp" // Replace with your own Google Maps API key
+        apiKey: "xxxxxxxxxxxxxxxxxx" // Replace with your own Google Maps API key
     }),
 ```
 
