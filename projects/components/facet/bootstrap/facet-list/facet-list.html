@@ -34,7 +34,7 @@
             (click)="filterItem(item, $event)">
 
             <a  href="#"
-                class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
+                class="text-truncate mr-auto">{{item.display | sqValue:item.$column}}</a>
 
             <span class="fa-stack">
                 <i class="ml-2 far fa-minus-square fa-stack-1x icons icon-hover"></i>

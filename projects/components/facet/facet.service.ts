@@ -1,10 +1,11 @@
 import {Injectable, Inject, Optional, InjectionToken} from "@angular/core";
 import {UserSettingsWebService, UserSettings, Suggestion,
     Results, Aggregation, AggregationItem, TreeAggregation, TreeAggregationNode,
-    AuditEvents} from "@sinequa/core/web-services";
+    AuditEvents, EngineType
+} from "@sinequa/core/web-services";
 import {IntlService} from "@sinequa/core/intl";
 import {Query, AppService, FormatService, ValueItem, Expr, ExprParser} from "@sinequa/core/app-utils";
-import {Utils} from "@sinequa/core/base";
+import {FieldValue, Utils} from "@sinequa/core/base";
 import {Subject, Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {SearchService, BreadcrumbsItem} from "@sinequa/components/search";
@@ -329,7 +330,7 @@ export class FacetService {
             if (expr && expr.parent && expr.parent.operands.length > 1) {
                 // create a new Expr from parent and replaces Select by this new one
                 // so, breadcrumbs stay ordered
-                const items: AggregationItem[] = this.toAggregationItem(aggregation.valuesAreExpressions, expr.parent.operands).filter(i => (i.value as string).replace(/ /g, "") !== item.value.toString().replace(/ /g, ""));
+                const items: AggregationItem[] = this.toAggregationItem(aggregation.valuesAreExpressions, expr.parent.operands).filter(i => i.value.toString().replace(/ /g, "") !== item.value.toString().replace(/ /g, ""));
                 const _expr = this.makeExpr(facetName, aggregation, items, {and: expr.parent.and, not: expr.parent.not});
                 if (_expr) this.searchService.query.replaceSelect(i, {expression: _expr, facet: facetName});
             } else {
@@ -883,7 +884,17 @@ export class FacetService {
     }
 
     toAggregationItem(valuesAreExpressions: boolean, expr: Expr[] | Expr): AggregationItem[] {
-        const fn = [(item: Expr) => ({count: 0, value: item.value, display: item.display, $column: item.column} as AggregationItem), (item: Expr) => ({count: 0, value: item.toString((item.value) ? true : false), display: item.display, $column: item.column} as AggregationItem)];
+        const fn = [
+            (item: Expr) => {
+                let value: FieldValue = item.value as string;
+                if (item.column?.eType === EngineType.bool) {
+                    value = Utils.isTrue(item.value);
+                }
+                return ({count: 0, value, display: item.display, $column: item.column} as AggregationItem);
+            },
+            (item: Expr) => ({count: 0, value: item.toString((item.value) ? true : false), display: item.display, $column: item.column} as AggregationItem)
+        ];
+
         const callback = valuesAreExpressions ? fn[1] : fn[0];
         return [].concat(expr as []).map(callback) as AggregationItem[];
     }

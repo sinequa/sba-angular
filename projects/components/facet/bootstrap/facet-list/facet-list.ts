@@ -188,16 +188,16 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
             this.data.items.forEach(item => {
                 if (this.data && this.facetService.itemFiltered(this.getName(), this.data, item)) {
                     if (!this.isFiltered(item)) {
-                        this.filtered.push({value: item.value, display: item.display || (item.value as string), count: item.count, $column: item.$column});
+                    this.filtered.push({value: item.value, display: item.display || (item.value as string), count: item.count, $column: item.$column});
                     }
                 }
             });
         }
 
         // refresh filters from breadcrumbs
-        const items = this.facetService.getAggregationItemsFiltered(this.name, this.data?.valuesAreExpressions);
+        const items = this.facetService.getAggregationItemsFiltered(this.getName(), this.data?.valuesAreExpressions);
         items.forEach(item => {
-            const value = {value: item.value, display: item.display, $column: item.$column};
+            const value = {value: item.value, display: item.display || (item.value as string), $column: item.$column};
             if (!this.isFiltered(item)) {
                 this.filtered.push(value);
             }

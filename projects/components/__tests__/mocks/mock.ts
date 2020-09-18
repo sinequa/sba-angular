@@ -389,6 +389,22 @@ export const AGGREGATION_TIMELINE = {
   ]
 }
 
+export const AGGREGATION_BOOLEAN = {
+  "name": "bool",
+  "column": "sourcebool9",
+  "items": [
+    {
+      "value": false,
+      "count": 2104
+    },
+    {
+      "value": true,
+      "count": 55
+    }
+  ]
+}
+
+
 export const FACETS = [
   {
     name: "geo",
