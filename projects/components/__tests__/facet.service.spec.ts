@@ -1,18 +1,22 @@
 import {TestBed} from "@angular/core/testing";
 
-import {UserSettingsWebService, Aggregation, AggregationItem} from '@sinequa/core/web-services';
-import {AppService, FormatService, Expr, ExprValueInitializer} from '@sinequa/core/app-utils';
+import {UserSettingsWebService, Aggregation, AggregationItem, START_CONFIG} from '@sinequa/core/web-services';
+import {AppService, FormatService, Expr, ExprValueInitializer, ExprOperandsInitializer, ExprOperator, Query} from '@sinequa/core/app-utils';
 import {IntlService} from '@sinequa/core/intl';
 
 import {AGGREGATION_GEO, FACETS, AGGREGATION_SIZE} from './mocks/mock';
 import {FacetService, DEFAULT_FACETS, FacetEventType} from '../facet';
 import {SearchService, Breadcrumbs, BreadcrumbsItem} from '../search';
 import {SuggestService} from '../autocomplete';
+import {HttpHandler} from '@angular/common/http';
 
 describe("FacetService", () => {
 	const aggregation = {geo: AGGREGATION_GEO as Aggregation, size: AGGREGATION_SIZE as unknown as Aggregation};
 	let service: FacetService;
 	let searchService: SearchService;
+	let appService: AppService;
+	let formatService: FormatService;
+	let intlService: IntlService;
 
 	beforeEach(() => {
 		const userSettingsWebServiceStub = () => ({
@@ -35,19 +39,25 @@ describe("FacetService", () => {
 		TestBed.configureTestingModule({
 			providers: [
 				FacetService,
+				FormatService,
+				AppService,
+				HttpHandler,
 				{provide: SearchService, useFactory: searchServiceStub},
 				{
 					provide: UserSettingsWebService, useFactory: userSettingsWebServiceStub
 				},
 				{provide: SuggestService, useFactory: () => {}},
-				{provide: AppService, useFactory: () => {}},
 				{provide: IntlService, useFactory: () => {}},
-				{provide: FormatService, useFactory: () => {}},
+				{provide: START_CONFIG, useValue: {app: "testing_app"}},
 				{provide: DEFAULT_FACETS, useValue: FACETS}
 			]
 		});
 		service = TestBed.inject(FacetService);
 		searchService = TestBed.inject(SearchService);
+		appService = TestBed.inject(AppService);
+		formatService = TestBed.inject(FormatService);
+		intlService = TestBed.inject(IntlService);
+
 	});
 
 	it("can load instance", () => {
@@ -118,9 +128,6 @@ describe("FacetService", () => {
 		describe("removeFilter", () => {
 			it("should remove a single value filter", () => {
 				const items = aggregation["size"].items[0];
-				const appService = TestBed.inject(AppService);
-				const formatService = TestBed.inject(FormatService);
-				const intlService = TestBed.inject(IntlService);
 				const exprValueInitializer: ExprValueInitializer = {
 					exprContext: {appService, formatService, intlService},
 					display: "< 10 Ko",
@@ -151,9 +158,6 @@ describe("FacetService", () => {
 
 			it("should remove a selection filter", () => {
 				const items = aggregation["size"].items[1];
-				const appService = TestBed.inject(AppService);
-				const formatService = TestBed.inject(FormatService);
-				const intlService = TestBed.inject(IntlService);
 				const exprValueInitializer: ExprValueInitializer = {
 					exprContext: {appService, formatService, intlService},
 					display: "< 10 Ko",
@@ -161,7 +165,7 @@ describe("FacetService", () => {
 					field: "size",
 				}
 				const expr: Expr = new Expr(exprValueInitializer);
-				expr.toString = () =>  "size`< 10 Ko`:(>= 0 AND < 10240)";
+				expr.toString = () => "size`< 10 Ko`:(>= 0 AND < 10240)";
 
 				const item: BreadcrumbsItem = {
 					expr,
@@ -172,7 +176,7 @@ describe("FacetService", () => {
 
 				exprValueInitializer.display = "10 Ko à 100 Ko";
 				const expr2: Expr = new Expr(exprValueInitializer);
-				expr2.toString = () =>  "size`10 Ko à 100 Ko`:(>= 10240 AND < 102400)";
+				expr2.toString = () => "size`10 Ko à 100 Ko`:(>= 10240 AND < 102400)";
 
 				const item2: BreadcrumbsItem = {
 					expr: expr2,
@@ -189,14 +193,14 @@ describe("FacetService", () => {
 
 				spyOn(searchService.query, "removeSelect");
 				spyOn(searchService.query, "replaceSelect");
-				spyOn<any>(service,"makeExpr").and.callThrough();
+				spyOn<any>(service, "makeExpr").and.callThrough();
 
 				Object.assign(item2.expr, {parent: {operands: [item.expr, item2.expr]}});
 				spyOn<any>(service, "findItemFilter").and.returnValue(item2.expr);
 
 				service.removeFilter("Size", aggregation["size"], items);
 
-				expect(service["makeExpr"]).toHaveBeenCalledWith("Size", jasmine.anything(), [{count:0, value: "size`< 10 Ko`:(>= 0 AND < 10240)", display: "< 10 Ko"}], jasmine.anything());
+				expect(service["makeExpr"]).toHaveBeenCalledWith("Size", jasmine.anything(), [{count: 0, value: "size`< 10 Ko`:(>= 0 AND < 10240)", display: "< 10 Ko", $column: undefined}], jasmine.anything());
 				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(1, {expression: "size`< 10 Ko`:(>= 0 AND < 10240)", facet: "Size"});
 				expect(searchService.query.removeSelect).not.toHaveBeenCalled();
 			});
@@ -509,4 +513,226 @@ describe("FacetService", () => {
 
 		})
 	});
+
+	describe("toAggregationItem", () => {
+		it("should returns an AggregationItem", () => {
+			const item = aggregation["geo"].items[0];
+			const exprInitializer: ExprValueInitializer = {
+				exprContext: {appService, formatService, intlService},
+				display: "Iraq",
+				value: "IRAQ",
+				field: "country"
+			};
+
+			const expr: Expr = new Expr(exprInitializer);
+			const expected = service.toAggregationItem(aggregation["geo"].valuesAreExpressions, expr as Expr);
+
+			expect(expected).toEqual([{count: 0, value: item.value, display: item.display, $column: undefined}])
+		});
+
+		it("should returns an AggregationItem", () => {
+			const item = {value: "size`< 10 Ko`:(>=0 AND <10240)", display: "< 10 Ko"}
+
+			const op1: ExprValueInitializer = {
+				exprContext: {appService, formatService, intlService},
+				display: undefined,
+				value: "0",
+				field: "size",
+				operator: ExprOperator.gte
+			};
+			const op2: ExprValueInitializer = {
+				exprContext: {appService, formatService, intlService},
+				display: undefined,
+				value: "10240",
+				field: "size",
+				operator: ExprOperator.lt
+			};
+
+			const exprInitializer: ExprOperandsInitializer = {
+				exprContext: {appService, formatService, intlService},
+				display: "< 10 Ko",
+				and: true,
+				op1: new Expr(op1),
+				op2: new Expr(op2),
+				field: "size"
+			};
+
+			const expr: Expr = new Expr(exprInitializer);
+			const expected = service.toAggregationItem(aggregation["size"].valuesAreExpressions, expr as Expr);
+
+			expect(expected).toEqual([{count: 0, value: item.value, display: item.display, $column: undefined}])
+		});
+	})
+
+	it("should returns breadcrumbs items", () => {
+		// Given
+		// create a breadcrumbs with initial values
+		const exprValueInitializer: ExprValueInitializer = {
+			exprContext: {appService, formatService, intlService},
+			display: "Iraq",
+			value: "IRAQ",
+			field: "country"
+		}
+		const expr: Expr = new Expr(exprValueInitializer);
+
+		const item: BreadcrumbsItem = {
+			expr,
+			display: "Iraq",
+			facet: "Geo",
+			active: true
+		};
+		searchService.breadcrumbs = {
+			items: [{expr: undefined, display: "abc"}, item] as BreadcrumbsItem[],
+			activeSelects: [item] as BreadcrumbsItem[]
+		} as Breadcrumbs;
+
+		const breadcrumbsItems = service.getBreadcrumbsItems("Geo");
+		expect(breadcrumbsItems.length).toEqual(1);
+		expect(breadcrumbsItems).toEqual([{expr: jasmine.anything(), display: "Iraq", facet: "Geo", active: true}]);
+
+		const aggregationItems = service.toAggregationItem(aggregation["geo"].valuesAreExpressions, breadcrumbsItems[0].expr as Expr);
+		expect(aggregationItems.length).toEqual(1);
+		expect(aggregationItems).toEqual([{count: 0, value: 'IRAQ', display: 'Iraq', $column: undefined}]);
+	});
+
+
+	it("should returns aggregationItems", () => {
+		const query = new Query("training_query");
+		query.text = "obama";
+		query.tab = "all";
+		query.addSelect("geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`)))", "geo");
+		query.addSelect("company`Washington POST`:WASHINGTON POST", "company");
+		query.addSelect("size`< 10 Ko`:(>=0 AND <10240)", "size");
+		query.addSelect("documentlanguages:(`fr`)", "documentlanguages");
+
+		spyOn(query, 'copy').and.returnValue(query);
+		spyOn(query, 'copyAdvanced').and.returnValue(query);
+
+		// When
+		const breadcrumbs = Breadcrumbs.create(appService, searchService, query);
+		searchService.breadcrumbs = breadcrumbs;
+
+		// Then
+		expect(breadcrumbs.text instanceof Expr).toBeTrue();
+		expect(breadcrumbs.text.toString()).toEqual('text:obama');
+		expect(breadcrumbs.items.length).toEqual(5);
+		expect(breadcrumbs.items[0].expr?.toString()).toEqual("text:obama");
+		expect(breadcrumbs.items[1].expr?.toString()).toEqual("geo:(`Iraq`:IRAQ OR `Guantanamo`:GUANTANAMO)");
+		expect(breadcrumbs.items[2].expr?.toString()).toEqual("company`Washington POST`:WASHINGTON POST");
+		expect(breadcrumbs.items[3].expr?.toString(false)).toEqual("size`< 10 Ko`:(>=0 AND <10240)");
+		expect(breadcrumbs.items[4].expr?.toString(false)).toEqual("fr");
+
+		let expr: Expr = appService.parseExpr(breadcrumbs.items[1].expr?.toString() || "") as Expr;
+		expect(expr instanceof Expr).toBeTrue();
+		expect(expr.operands.length).toEqual(2);
+		expect(expr.operands[0].value).toEqual("IRAQ");
+		expect(expr.operands[0].field).toEqual("geo");
+		expect(expr.operands[1].value).toEqual("GUANTANAMO");
+
+		let r = service.toAggregationItem(aggregation["geo"].valuesAreExpressions, expr.operands);
+		expect(r).toEqual([{count: 0, value: "IRAQ", display: "Iraq", $column: undefined}, {count: 0, value: "GUANTANAMO", display: "Guantanamo", $column: undefined}])
+
+		expr = appService.parseExpr(breadcrumbs.items[2].expr?.toString() || "") as Expr;
+		expect(expr instanceof Expr).toBeTrue();
+		expect(expr.value).toEqual("WASHINGTON POST");
+		expect(expr.field).toEqual("company");
+
+		r = service.toAggregationItem(aggregation["geo"].valuesAreExpressions, expr);
+		expect(r).toEqual([{count: 0, value: "WASHINGTON POST", display: "Washington POST", $column: undefined}]);
+
+		expr = appService.parseExpr(breadcrumbs.items[3].expr?.toString(false) || "") as Expr;
+		expect(expr instanceof Expr).toBeTrue();
+		expect(expr.operands.length).toEqual(2);
+		expect(expr.operands[0].value).toEqual(">=0");
+		expect(expr.operands[0].field).toEqual("size");
+		expect(expr.operands[1].value).toEqual("<10240");
+		expect(expr.operands[1].field).toEqual("size");
+
+		r = service.toAggregationItem(aggregation["size"].valuesAreExpressions, expr);
+		expect(r).toEqual([{count: 0, value: "size`< 10 Ko`:(>=0 AND <10240)", display: "< 10 Ko", $column: undefined}]);
+	});
+
+	it("should convert Breadcrumbs items to aggregation items", () => {
+		// Given
+		const facetName = "geo";
+		const query = new Query("training_query");
+		query.text = "obama";
+		query.tab = "all";
+		query.addSelect("geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`)))", "geo");
+		query.addSelect("company`Washington POST`:WASHINGTON POST", "company");
+		query.addSelect("size`< 10 Ko`:(>=0 AND <10240)", "size");
+		query.addSelect("geo:((`Iowa`:(`IOWA`)) AND (`Honolulu`:(`HONOLULU`)))", "geo");
+		query.addSelect("geo`Chicago`:(`CHICAGO`)", "geo");
+
+
+		spyOn(query, 'copy').and.returnValue(query);
+		spyOn(query, 'copyAdvanced').and.returnValue(query);
+
+		const breadcrumbs = Breadcrumbs.create(appService, searchService, query);
+		searchService.breadcrumbs = breadcrumbs;
+
+		// When
+		const items = service.getBreadcrumbsItems(facetName);
+		expect(items.length).toEqual(3);
+		expect(items[0].expr?.operands.length).toEqual(2);
+		expect(items[1].expr?.operands.length).toEqual(2);
+		expect(items[2].expr?.operands).toBeUndefined()
+
+		// aggregation items are constructed from nested expressions
+		const r = [] as Expr[][];
+		for (const item of items) {
+			const value = item.expr?.operands as Expr[] || item.expr;
+			r.push(value);
+		}
+		// faltten results
+		const result = [].concat.apply([], r);
+
+		const aggItems = service.toAggregationItem(aggregation[facetName].valuesAreExpressions, result);
+
+		// Then
+		expect(aggItems.length).toEqual(5);
+		expect(aggItems.map(item => item.value)).toEqual(["IRAQ", "GUANTANAMO", "IOWA", "HONOLULU", "CHICAGO"]);
+	})
+
+	it("should convert Breadcrumbs items to aggregation items with ValuesAreExpression=true", () => {
+		// Given
+		const facetName = "size";
+		const query = new Query("training_query");
+		query.text = "obama";
+		query.tab = "all";
+		query.addSelect("geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`)))", "geo");
+		query.addSelect("company`Washington POST`:WASHINGTON POST", "company");
+		query.addSelect("((size`10 Ko à 100 Ko`:(>= 10240 AND < 102400)) OR (size`100 Ko à 1 Mo`:(>= 102400 AND < 1048576)))", "size");
+		query.addSelect("geo:((`Iowa`:(`IOWA`)) AND (`Honolulu`:(`HONOLULU`)))", "geo");
+		query.addSelect("geo`Chicago`:(`CHICAGO`)", "geo");
+		query.addSelect("size`1 Mo à 10 Mo`:(>= 1048576 AND < 10485760)", "size");
+		query.addSelect("documentlanguages:(`fr`)", "documentlanguages");
+
+		spyOn(query, 'copy').and.returnValue(query);
+		spyOn(query, 'copyAdvanced').and.returnValue(query);
+
+		const breadcrumbs = Breadcrumbs.create(appService, searchService, query);
+		searchService.breadcrumbs = breadcrumbs;
+
+		// When
+		const items = service.getBreadcrumbsItems(facetName);
+		expect(items.length).toEqual(2);
+		expect(items[0].expr?.operands.length).toEqual(2);
+		expect(items[1].expr?.operands.length).toEqual(2);
+
+		// aggregation items are constructed from nested expressions
+		const r = [] as Expr[][];
+		for (const item of items) {
+			const value = (item.expr?.display === undefined) ? item.expr?.operands as Expr[] || item.expr : item.expr;
+			r.push(value as Expr[]);
+		}
+		// faltten results
+		const result = [].concat.apply([], r);
+
+		const aggItems = service.toAggregationItem(aggregation[facetName].valuesAreExpressions, result);
+
+		// Then
+		expect(aggItems.length).toEqual(3);
+		expect(aggItems.map(item => item.display)).toEqual(["10 Ko à 100 Ko", "100 Ko à 1 Mo", "1 Mo à 10 Mo"]);
+	})
 });

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
+import { Component, OnInit, OnDestroy, Inject, ChangeDetectorRef } from "@angular/core";
 import {
     FormBuilder,
     FormGroup,
@@ -6,9 +6,9 @@ import {
     Validators,
 } from "@angular/forms";
 import { Subscription } from "rxjs";
-import { ModalButton, ModalResult, MODAL_MODEL } from "@sinequa/core/modal";
+import { ModalButton, ModalResult, MODAL_MODEL, ModalRef } from "@sinequa/core/modal";
 import { Utils } from "@sinequa/core/base";
-import { ModalProperties } from "../../labels.service";
+import { ModalProperties, LabelsService } from "../../labels.service";
 
 @Component({
     selector: "sq-rename-label",
@@ -26,10 +26,11 @@ import { ModalProperties } from "../../labels.service";
 })
 export class BsRenameLabel implements OnInit, OnDestroy {
 
-    labelControl: FormControl;
-    form: FormGroup;
-    formChanges: Subscription;
-    buttons: ModalButton[];
+    public labelControl: FormControl;
+    public form: FormGroup;
+    public formChanges: Subscription;
+    public buttons: ModalButton[];
+    public isProcessing: boolean = false;
 
     constructor(
         @Inject(MODAL_MODEL)
@@ -38,7 +39,10 @@ export class BsRenameLabel implements OnInit, OnDestroy {
             newValue: string;
             properties: ModalProperties;
         },
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private labelsService: LabelsService,
+        private changeDetectorRef: ChangeDetectorRef,
+        private modalRef: ModalRef
     ) {}
 
     ngOnInit() {
@@ -55,9 +59,32 @@ export class BsRenameLabel implements OnInit, OnDestroy {
 
         this.buttons = [
             new ModalButton({
-                result: ModalResult.OK,
+                text: "msg#renameLabel.btnRename",
                 primary: true,
                 validation: this.form,
+                result: ModalResult.Custom,
+                anchor: true,
+                action: () => {
+                    const observable = this.labelsService.renameLabels(
+                        this.model.oldValues,
+                        this.model.newValue,
+                        this.model.properties.public
+                    );
+                    if (observable) {
+                        this.isProcessing = true;
+                        this.changeDetectorRef.markForCheck();
+                        Utils.subscribe(observable,
+                            () => {},
+                            (error) => {
+                                this.modalRef.close(error);
+                            },
+                            () => {
+                                this.isProcessing = false;
+                                this.modalRef.close(ModalResult.OK);
+                            }
+                        );
+                    }
+                }
             }),
             new ModalButton({
                 result: ModalResult.Cancel,

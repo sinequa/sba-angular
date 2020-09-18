@@ -17,8 +17,7 @@ import { AppService } from '@sinequa/core/app-utils';
  */
 @Component({
     selector: 'sq-export-query',
-    templateUrl: './export-query.html',
-    styleUrls: ["./export-query.scss"]
+    templateUrl: './export-query.html'
 })
 export class BsExportQuery implements OnInit, OnDestroy {
 
@@ -136,7 +135,7 @@ export class BsExportQuery implements OnInit, OnDestroy {
         if (queryExport.indexOf(',') !== -1) {
             queryExport = queryExport.substring(0, queryExport.indexOf(','));
         }
-        return <CCQueryExport>app.webServices[queryExport];
+        return <CCQueryExport>Utils.getField(app.webServices, queryExport);
     }
 
     /**
@@ -181,11 +180,6 @@ export class BsExportQuery implements OnInit, OnDestroy {
      */
     public showSourceChooser(): boolean {
         return !this.sourceChosen(ExportSourceType.SavedQuery);
-    }
-
-
-    public close(): void {
-        this.modalRef.close(ModalResult.Cancel);
     }
 }
 

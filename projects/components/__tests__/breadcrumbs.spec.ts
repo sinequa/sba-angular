@@ -3,46 +3,70 @@ import {TestBed} from "@angular/core/testing";
 import {AppService, Query, FormatService, Expr, ExprValueInitializer} from '@sinequa/core/app-utils';
 import {IntlService} from '@sinequa/core/intl';
 
-import {appServiceStub, searchServiceStub} from './stubs';
+import {searchServiceStub} from './stubs';
 import {Breadcrumbs, BreadcrumbsItem} from '../search/breadcrumbs';
 import {SearchService} from '../search';
+import {HttpHandler} from '@angular/common/http';
+import {START_CONFIG} from '@sinequa/core/web-services';
 
 describe('Test class Breadcrumbs', () => {
   let breadcrumbs: Breadcrumbs;
+  let appService: AppService;
+  let searchService: SearchService;
+  let formatService: FormatService;
+  let intlService: IntlService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        {provide: AppService, useFactory: appServiceStub},
+        AppService,
+        HttpHandler,
+        {provide: START_CONFIG, useValue: {app: "testing_app"}},
         {provide: SearchService, useFactory: searchServiceStub},
         {provide: FormatService, useValue: {}},
         {provide: IntlService, useValue: {}}
       ]
     });
 
-    const appService = TestBed.inject(AppService);
-    const searchService = TestBed.inject(SearchService);
+    appService = TestBed.inject(AppService);
+    searchService = TestBed.inject(SearchService);
+    formatService = TestBed.inject(FormatService);
+    intlService = TestBed.inject(IntlService);
 
     const query = new Query("test");
     breadcrumbs = Breadcrumbs.create(appService, searchService, query);
   })
 
-  it('Breadcrumbs-create', () => {
-    expect(breadcrumbs).toBeDefined();
+  it("should returns a breadcrumbs object", () => {
+    const query = new Query("training_query");
+    query.text = "obama";
+    query.tab = "all";
+    query.addSelect("geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`)))", "geo");
+
+    spyOn(query, 'copy').and.returnValue(query);
+    spyOn(query, 'copyAdvanced').and.returnValue(query);
+
+    // When
+    breadcrumbs = Breadcrumbs.create(appService, searchService, query);
+
+    // Then
+    expect(breadcrumbs.text instanceof Expr).toBeTrue();
+    expect(breadcrumbs.text.toString()).toEqual('text:obama');
+    expect(breadcrumbs.items.length).toEqual(2);
+    expect(breadcrumbs.items[0].expr?.toString()).toEqual("text:obama");
+    expect(breadcrumbs.items[1].expr?.toString()).toEqual("geo:(`Iraq`:IRAQ OR `Guantanamo`:GUANTANAMO)");
   });
 
   describe("find()", () => {
     it('should returns an Expr', () => {
       // Given
-      const appService = TestBed.inject(AppService);
-      const formatService = TestBed.inject(FormatService);
-      const intlService = TestBed.inject(IntlService);
+      spyOn<any>(appService, "resolveColumnAlias").and.returnValue(false);
       const exprValueInitializer: ExprValueInitializer = {
         exprContext: {appService, formatService, intlService},
         display: "Iraq",
         value: "IRAQ",
-        field: "country",
-      }
+        field: "country"
+      };
       const expr: Expr = new Expr(exprValueInitializer);
 
       const item: BreadcrumbsItem = {
@@ -59,9 +83,7 @@ describe('Test class Breadcrumbs', () => {
 
     it('should returns an Expr when expr is an ExprValueInitializer', () => {
       // Given
-      const appService = TestBed.inject(AppService);
-      const formatService = TestBed.inject(FormatService);
-      const intlService = TestBed.inject(IntlService);
+      spyOn<any>(appService, "resolveColumnAlias").and.returnValue(false);
       const exprValueInitializer: ExprValueInitializer = {
         exprContext: {appService, formatService, intlService},
         display: "Iraq",
@@ -86,9 +108,6 @@ describe('Test class Breadcrumbs', () => {
   describe("findSelect()", () => {
     it('should returns an Expr', () => {
       // Given
-      const appService = TestBed.inject(AppService);
-      const formatService = TestBed.inject(FormatService);
-      const intlService = TestBed.inject(IntlService);
       const exprValueInitializer: ExprValueInitializer = {
         exprContext: {appService, formatService, intlService},
         display: "Iraq",
@@ -125,9 +144,6 @@ describe('Test class Breadcrumbs', () => {
 
     it('should returns undefined when not found', () => {
       // Given
-      const appService = TestBed.inject(AppService);
-      const formatService = TestBed.inject(FormatService);
-      const intlService = TestBed.inject(IntlService);
       const exprValueInitializer: ExprValueInitializer = {
         exprContext: {appService, formatService, intlService},
         display: "Iraq",

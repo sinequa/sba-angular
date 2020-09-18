@@ -7,5 +7,9 @@ export default {
         "title": "Emprunt d'identité",
         "userName": "Identifiant",
         "domain": "Domaine"
+    },
+
+    "btnClose": {
+        "text": "Fermer"
     }
 };

@@ -1,7 +1,8 @@
 <form name="exportQuery" novalidate [formGroup]="form">
     <sq-modal
         [title]="'msg#exportQuery.dialogTitle'"
-        [buttons]="!isDownloading? buttons : []">
+        [buttons]="buttons"
+        [isProcessingState]="isDownloading">
         <div class="form-group sq-form-group">
             <label for="format">{{ 'msg#exportQuery.dialogOutputFormat' | sqMessage }}</label>
             <select [sqValidation]="form" class="form-control custom-select" formControlName="format" id="format" sqAutofocus>
@@ -46,10 +47,6 @@
                     </label>
                 </div>
             </div>
-        </div>
-        <div *ngIf="isDownloading" class="modal-footer">
-            <span class="loader"></span>
-            <button type="button" class="btn" (click)="close()">{{ 'msg#exportQuery.btnClose' | sqMessage }}</button>
         </div>
     </sq-modal>
 </form>

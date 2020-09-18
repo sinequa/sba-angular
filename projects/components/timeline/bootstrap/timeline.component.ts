@@ -421,12 +421,16 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Draws the Y axis
      */
     protected drawYAxis() {
+        const yAxisTicks = this.y.ticks()
+            .filter(tick => Number.isInteger(tick)); // Keep only integer ticks https://stackoverflow.com/questions/13576906/d3-tick-marks-on-integers-only/56821215
+
         const yAxis = d3.axisLeft<number>(this.y)
-                        .tickFormat(d3.format(".2s"));
+            .tickValues(yAxisTicks)
+            .tickFormat(d3.format("~s")); //https://github.com/d3/d3-format
         this.yAxis$.call(yAxis);
         this.yAxis$.selectAll(".domain").remove(); // Remove the axis line
     }
-
+    
     /**
      * Updates the display of the brush's grips when the brush has moved
      * @param selection 

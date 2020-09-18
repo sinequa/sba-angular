@@ -1,5 +1,5 @@
 <form name="addLabel" novalidate>
-    <sq-modal [title]="'msg#editLabel.title'" [buttons]="buttons">
+    <sq-modal [title]="'msg#editLabel.title'" [buttons]="buttons" [isProcessingState]="isProcessing">
         <div class="form-group sq-form-group">
             <div class="alert alert-warning" role="alert">
                 {{'msg#editLabel.alertText' | sqMessage}}

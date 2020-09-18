@@ -1,5 +1,5 @@
 <form name="deleteLabel" novalidate>
-    <sq-modal [title]="title" [buttons]="buttons">
+    <sq-modal [title]="title" [buttons]="buttons" [isProcessingState]="isProcessing">
         <div class="form-group sq-form-group">
             <div class="alert" [ngClass]="{'alert-danger': model.properties.action === 3, 'alert-warning': model.properties.action === 5}" role="alert">
                 {{alert | sqMessage}}
