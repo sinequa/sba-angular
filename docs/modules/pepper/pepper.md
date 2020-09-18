@@ -65,12 +65,13 @@ This service manages the following tasks:
 
 Pepper is meant to be customized easily, especially to let developers create new types of widgets, either generic or specific to their project.
 
-Adding a widget will impact several parts of the code:
+Adding a widget will impact several parts of the code, and several aspects must be taken into account:
 
-- The widget must be displayed within an existing component.
-- The widget must be created somewhere in the application (upon initialization or user action).
+- The widget must be displayed (within its parent component `sq-dashboard-item`).
+- The widget creation must be triggered somewhere in the application (upon initialization or user action).
 - The widget must be synchronized with other widgets and the results list.
 - The widget might have properties needing to be persisted.
+- The widget size must adapt to the dashboard grid.
 
 ### Widget display
 
@@ -139,4 +140,92 @@ Similarly, widgets can listen to other types of global events. For example, the 
 
 ### Widget persistence
 
+The *state* of your widget can be defined in three locations:
+
+- The internal state of the component (for example, how much I have zoomed on the map). This state is not persisted: If you refresh the page, or if you reopen a saved dashboard, this internal state is reset to its defaults.
+- The inputs passed to the component from its parent (`sq-dashboard-item`). These inputs often consist of the **`Results`** object (or a subset of these results, like a `Record` or an `Aggregation`). This state is not persisted either: If you refresh the page, new results are obtained, transformed and passed to your component.
+- The inputs stored in the `DashboardItem` object. These inputs *are* persisted, because (by definition) the state of the dashboard that is persisted is essentially the list of `DashboardItem`. When you refresh the page, the dashboard items are downloaded from the user settings, allowing to display the widgets in the same state as you left them. When you share a dashboard with a colleague, the URL contains the serialized list of items.
+
+In the standard components, the items that are persisted are for example:
+
+- For all widgets: Widget size and position in the dashboard.
+- For the **preview** widget: **id** of the opened document and the **search query** yielding that document.
+- For the **chart** widget: Selected aggregation and chart type.
+
+If your custom widget needs to have a part of the state persisted, a few things need to happen:
+
+- In your component, that state must exist as an *optional* input (typically with a default value, to manage the case when the component is first created):
+
+    ```ts
+    @Input() myParam = false;
+    ```
+
+- When your component changes that state, it should emit an event:
+
+    ```ts
+    @Output() myParamChange = new EventEmitter<boolean>();
+
+    ...
+    this.myParam = !this.myParam;
+    this.myParamChange.next(myParam);
+    ```
+
+- In the template of `sq-dashboard-item`, bind the `myParam` input to its value in the `config` object and listen to the event to call an event handler:
+
+    ```html
+    <my-custom-widget
+        [myParam]="config['myParam']"
+        (myParamChange)="onMyParamChange($event)">
+    </my-custom-widget>
+    ```
+
+- In the controller of `sq-dashboard-item`, implement the following handler:
+
+    ```ts
+    onMyParamChange(myParamValue: boolean) {
+        this.config['myParam'] = myParamValue;
+        this.dashboardService.notifyItemChange(this.config);
+    }
+    ```
+
+    It is important to notify the `DashboardService` of the change in the dashboard, so the state can be immediately persisted if Auto-save is activated.
+
+Note that you can greatly simplify the above if your component directly have access to the `DashboardItem` and `DashboardService` (but that means your component won't be reusable outside of the context of a dashboard).
+
 ### Widget sizing
+
+One difficulty of building widgets is that their size is strongly constrained by the dashboard, so the components cannot take their ideal size: they must adapt to any size (for example by forcing a width and height of 100% or by scrolling vertically or horizontally) or conform an explicit size provided by the parent (`sq-dashboard-item`).
+
+The built-in components behave differently in that respect:
+
+- The network's canvas takes the available space using `width: 100%` and `height: 100%`.
+- The charts must be explicit resized when the dashboard is initialized or resized.
+- The map's height must be binded explicitly (the width automatically takes 100%).
+- The heatmap and timeline are svg-based and are redrawn when resized: the width and height are therefore binded explicitly.
+
+If your component must be redrawn when its size changes, it is likely to need an interface similar to the timeline or heatmap components. Concretely, it will probably require explicit width and height inputs (probably with default values). The `ngOnChange()` will then catch any change of dimension from the parent, and trigger the resize:
+
+```ts
+@Input() width = 600;
+@Input() height = 400;
+
+ngOnChanges(changes: SimpleChanges) {
+    if(changes['width'] || changes['height']) {
+        redraw();
+    }
+}
+```
+
+The width and height may also be used in the template. For example:
+
+{% raw %}
+
+```html
+<svg width="{{width}}+'px'" height="{{height}}+'px'">
+   ...
+</svg>
+```
+
+{% endraw %}
+
+Note that in the parent `sq-dashboard-item` component, the width and height of the item are inputs of the component and are automatically refreshed when the dashboard is modified. However, an `innerheight` parameter is computed in `ngOnChanges()` to account for the height of the facet header.
