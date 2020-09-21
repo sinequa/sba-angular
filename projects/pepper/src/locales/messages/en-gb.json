@@ -1,6 +1,6 @@
 {
     "app": {
-        "name": "Vanilla Search"
+        "name": "Pepper"
     },
 
     "locale": {
@@ -75,7 +75,10 @@
     },
 
     "search": {
-        "pageTitle": "Search - {search}"
+        "pageTitle": "Search - {search}",
+        "darkMode": "Dark mode",
+        "darkModeTitle": "Toggle dark mode",
+        "filters": "Filters"
     },
 
     "preview": {
@@ -83,5 +86,52 @@
         "entities": "Entities",
         "searchText": "Search \"{text}\" in the document",
         "pageTitle": "Document Navigator - {title}"
+    },
+
+    "dashboard": {
+        "map": "Map",
+        "timeline": "Timeline",
+        "network": "Network",
+        "chart": "Chart",
+        "heatmap": "Heatmap",
+
+        "addWidget": "Add Widget",
+        "addWidgetTitle": "Add a widget to the dashboard",
+        "addWidgetModalTitle": "Add a widget",
+        "addWidgetItemTitle": "Create a {item} widget",
+        "addWidgetSize": "Widget size",
+        "addWidgetWidth": "Widget width",
+        "addWidgetHeight": "Widget height",
+        "share": "Share",
+        "shareTitle": "Share this dashboard with a colleague",
+        "shareSuccess": "Share link copied to your clipboard",
+        "shareError": "Share link could not be copied to your clipboard: {url}",
+        "manual": "Manual Layout",
+        "manualTitle": "Manual layout allows to position widgets freely in the dashboard",
+        "auto": "Auto Layout",
+        "autoTitle": "Automatic layout compacts the view to the top-left corner, when space is available",
+        "fixed": "Fixed Layout",
+        "fixedTitle": "Fixed layout prevents the dashboard from being modified",
+        "new": "New",
+        "newTitle": "Create a new dashboard",
+        "open": "Open",
+        "openTitle": "Open a saved dashboard",
+        "openDashboard": "Open Dashboard \"{dashboard}\"",
+        "delete": "Delete",
+        "deleteTitle": "Delete the current dashboard",
+        "deleteConfirmTitle": "Delete the current dashboard",
+        "deleteConfirmMessage": "Are your sure you want to delete the current dashboard?",
+        "saveAs": "Save As...",
+        "saveAsTitle": "Save the dashboard to open it later",
+        "saveAsModalTitle": "Save Dashboard As",
+        "saveAsModalMessage": "Enter a name for this dashboard",
+        "save": "Save",
+        "saveTitle": "Save the dashboard",
+        "saveSuccess": "Dashboard saved",
+        "saveFailure": "Dashboard could not be saved!",
+        "autoSave": "Auto-save",
+        "autoSaveTitle": "Automatically save your dashboard",
+        "settingsTitle": "Dashboard settings",
+        "widgetClose": "Close"
     }
 }

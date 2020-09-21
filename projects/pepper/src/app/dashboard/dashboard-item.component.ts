@@ -56,7 +56,7 @@ export class DashboardItemComponent implements OnChanges {
         public dashboardService: DashboardService) {
         this.closeAction = new Action({
             icon: "fas fa-times",
-            title: "Close",
+            title: "msg#dashboard.widgetClose",
             action: () => this.close.next()
         });
     }

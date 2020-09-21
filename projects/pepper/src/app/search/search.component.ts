@@ -65,8 +65,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     });
 
     this.darkAction = new Action({
-      text: 'Dark mode',
-      title: 'Toggle dark mode',
+      text: 'msg#search.darkMode',
+      title: 'msg#search.darkModeTitle',
       icon: this.isDark()? 'fas fa-toggle-on fa-fw' : 'fas fa-toggle-off fa-fw',
       action: (action) => {
         this.toggleDark();
@@ -199,7 +199,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     return event.type !== 'click' ||
         target.tagName === "A" ||
         target.tagName === "INPUT" ||
-        target.matches("sq-result-selector *, .sq-result-title, sq-result-source *");
+        target.matches("sq-result-selector *, .sq-result-title, sq-result-source *, sq-labels *");
   }
 
   /**

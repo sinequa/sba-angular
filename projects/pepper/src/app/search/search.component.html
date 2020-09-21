@@ -30,7 +30,7 @@
     </div>
 
     <div class="container-fluid justify-content-start px-0" *ngIf="searchService.resultsStream | async as results">
-        <span class="text-muted mr-2"><i class="fas fa-filter"></i> Filters: </span>
+        <span class="text-muted mr-2"><i class="fas fa-filter"></i> {{ 'msg#search.filters' | sqMessage }}: </span>
         <sq-facet-filters [results]="results" [facets]="facets" class="mr-auto"></sq-facet-filters>
 
         <div class="btn-group mr-2" [sq-action-buttons]="{items: [darkAction], style: isDark()? 'dark text-muted' : 'light text-muted'}"></div>
@@ -85,6 +85,10 @@
                         <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
                         <sq-result-extracts [record]="record"></sq-result-extracts>
                         <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
+                        <div class="d-inline">
+                          <sq-labels [record]="record" [public]="true" class="d-inline"></sq-labels>
+                          <sq-labels [record]="record" [public]="false" class="d-inline"></sq-labels>
+                        </div>
                     </div>
                     <sq-result-thumbnail [record]="record" [thumbnailColumn]="'sourcevarchar4'" [linkBehavior]="'action'"
                         *ngIf="ui.screenSizeIsGreater('xs')" class="align-self-center">

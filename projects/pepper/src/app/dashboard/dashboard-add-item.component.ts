@@ -29,7 +29,8 @@ export class DashboardAddItemComponent {
         this.actions = model.options.map(option => new Action({
             icon: option.icon,
             text: option.text,
-            title: `Create a ${option.text} widget`,
+            title: 'msg#dashboard.addWidgetItemTitle',
+            messageParams: {values: {item: option.text}},
             action: (action: Action) => {
                 this.actions.forEach(a => a.selected = false); // Unselect other actions
                 action.selected = true; // Select this one

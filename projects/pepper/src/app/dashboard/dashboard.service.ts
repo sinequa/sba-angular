@@ -43,11 +43,11 @@ export interface DashboardItemOption {
     unique: boolean;
 }
 
-export const MAP_WIDGET: DashboardItemOption = {type: 'map', icon: 'fas fa-globe-americas fa-fw', text: 'Map', unique: true};
-export const TIMELINE_WIDGET: DashboardItemOption = {type: 'timeline', icon: 'fas fa-chart-line fa-fw', text: 'Timeline', unique: true};
-export const NETWORK_WIDGET: DashboardItemOption = {type: 'network', icon: 'fas fa-project-diagram fa-fw', text: 'Network', unique: true};
-export const CHART_WIDGET: DashboardItemOption = {type: 'chart', icon: 'fas fa-chart-bar fa-fw', text: 'Chart', unique: false};
-export const HEATMAP_WIDGET: DashboardItemOption = {type: 'heatmap', icon: 'fas fa-th fa-fw', text: 'Heatmap', unique: false};
+export const MAP_WIDGET: DashboardItemOption = {type: 'map', icon: 'fas fa-globe-americas fa-fw', text: 'msg#dashboard.map', unique: true};
+export const TIMELINE_WIDGET: DashboardItemOption = {type: 'timeline', icon: 'fas fa-chart-line fa-fw', text: 'msg#dashboard.timeline', unique: true};
+export const NETWORK_WIDGET: DashboardItemOption = {type: 'network', icon: 'fas fa-project-diagram fa-fw', text: 'msg#dashboard.network', unique: true};
+export const CHART_WIDGET: DashboardItemOption = {type: 'chart', icon: 'fas fa-chart-bar fa-fw', text: 'msg#dashboard.chart', unique: false};
+export const HEATMAP_WIDGET: DashboardItemOption = {type: 'heatmap', icon: 'fas fa-th fa-fw', text: 'msg#dashboard.heatmap', unique: false};
 export const PREVIEW_WIDGET: DashboardItemOption = {type: 'preview', icon: 'far fa-file-alt', text: '', unique: false}
 
 @Injectable({
@@ -126,7 +126,7 @@ export class DashboardService {
         // Autosave
         this.dashboardChanged.subscribe(dashboard => {
             if(this.autoSave && this.isDashboardSaved()) {
-                this.deboundSave();
+                this.debounceSave();
             }
         });
     }
@@ -234,8 +234,8 @@ export class DashboardService {
                 
         dashboardActions.push(new Action({
             icon: 'fas fa-plus fa-fw',
-            text: 'Add Widget',
-            title: 'Add a widget to the dashboard',
+            text: 'msg#dashboard.addWidget',
+            title: 'msg#dashboard.addWidgetTitle',
             action: () => {
                 // We include only items either not unique or not already in the dashboard
                 const model: DashboardAddItemModel = {
@@ -253,25 +253,25 @@ export class DashboardService {
 
         dashboardActions.push(new Action({
             icon: 'fas fa-share-alt',
-            text: 'Share',
-            title: 'Share this dashboard with a colleague',
+            text: 'msg#dashboard.share',
+            title: 'msg#dashboard.shareTitle',
             action: () => {
                 const dashboard = Utils.toJson(this.dashboard.items);
                 const query = this.searchService.query.toJsonForQueryString();
                 const urlTree = this.router.createUrlTree(['/search'], {queryParams: {query, dashboardShared: dashboard}});
                 const url = window.location.origin+window.location.pathname+this.location.prepareExternalUrl(this.urlSerializer.serialize(urlTree));
                 if(this.clipboard.copy(url)) {
-                    this.notificationService.success("Share link copied to your clipboard");
+                    this.notificationService.success("msg#dashboard.shareSuccess");
                 }
                 else {
-                    this.notificationService.warning("Share link could not be copied to your clipboard: "+url);
+                    this.notificationService.warning("msg#dashboard.shareError", {url});
                 }
             }
         }));
 
         this.manualLayout = new Action({
-            text: 'Manual Layout',
-            title: 'Manual layout allows to position widgets freely in the dashboard',
+            text: 'msg#dashboard.manual',
+            title: 'msg#dashboard.manualTitle',
             selected: false,
             action: () => {
                 if(!this.manualLayout.selected) {
@@ -280,8 +280,8 @@ export class DashboardService {
             }
         });
         this.autoLayout = new Action({
-            text: 'Auto Layout',
-            title: 'Automatic layout compacts the view to the top-left corner, when space is available',
+            text: 'msg#dashboard.auto',
+            title: 'msg#dashboard.autoTitle',
             selected: false,
             action: () => {
                 if(!this.autoLayout.selected) {
@@ -290,8 +290,8 @@ export class DashboardService {
             }
         });
         this.fixedLayout = new Action({
-            text: 'Fixed Layout',
-            title: 'Fixed layout prevents the dashboard from being modified',
+            text: 'msg#dashboard.fixed',
+            title: 'msg#dashboard.fixedTitle',
             selected: false,
             action: () => {
                 if(!this.fixedLayout.selected) {
@@ -304,8 +304,8 @@ export class DashboardService {
         }
 
         const newDashboard = new Action({
-            text: "New",
-            title: "Create a new dashboard",
+            text: "msg#dashboard.new",
+            title: "msg#dashboard.newTitle",
             selected: false,
             action: () => {
                 this.newDashboard();
@@ -313,8 +313,8 @@ export class DashboardService {
         });
 
         this.openAction = new Action({
-            text: "Open",
-            title: "Open a saved dashboard",
+            text: "msg#dashboard.open",
+            title: "msg#dashboard.openTitle",
             selected: false,
             children: []
         });
@@ -323,13 +323,13 @@ export class DashboardService {
         }
 
         const deleteAction = new Action({
-            text: 'Delete',
-            title: 'Delete the current dashboard',
+            text: 'msg#dashboard.delete',
+            title: 'msg#dashboard.deleteTitle',
             selected: false,
             action: () => {
                 this.modalService.confirm({
-                    title: "Delete the current dashboard",
-                    message: "Are your sure you want to delete the current dashboard?",
+                    title: "msg#dashboard.deleteConfirmTitle",
+                    message: "msg#dashboard.deleteConfirmMessage",
                     confirmType: ConfirmType.Warning,
                     buttons: [
                         new ModalButton({
@@ -355,16 +355,16 @@ export class DashboardService {
         });
 
         const saveAs = new Action({
-            text: 'Save As...',
-            title: 'Save the dashboard to open it later',
+            text: 'msg#dashboard.saveAs',
+            title: 'msg#dashboard.saveAsTitle',
             selected: false,
             action: () => {
                 this.saveAs();
             }
         });
         const save = new Action({
-            text: 'Save',
-            title: 'Save the dashboard',
+            text: 'msg#dashboard.save',
+            title: 'msg#dashboard.saveTitle',
             selected: false,
             action: () => {
                 if(!this.isDashboardSaved()){
@@ -376,8 +376,8 @@ export class DashboardService {
             }
         });
         this.autoSaveAction = new Action({
-            text: 'Auto-save',
-            title: 'Automatically save your dashboard',
+            text: 'msg#dashboard.autoSave',
+            title: 'msg#dashboard.autoSaveTitle',
             selected: this.autoSave,
             action: (action) => {
                 this.prefs.set("auto-save-dashboards", !this.autoSave);
@@ -390,7 +390,7 @@ export class DashboardService {
 
         const settings = new Action({
             icon: 'fas fa-cog fa-fw',
-            title: 'Dashboard settings',
+            title: 'msg#dashboard.settingsTitle',
             children: [
                 this.manualLayout,
                 this.autoLayout,
@@ -414,7 +414,8 @@ export class DashboardService {
     protected updateOpenAction() {
         this.openAction.children = this.dashboards.map(dashboard => new Action({
             text: dashboard.name,
-            title: 'Open Dashboard "'+dashboard.name+'"',
+            title: 'msg#dashboard.openDashboard',
+            messageParams: {values: {dashboard: dashboard.name}},
             action: () => {
                 this.dashboard = dashboard;
                 this.searchService.queryStringParams.dashboard = dashboard.name;
@@ -469,8 +470,8 @@ export class DashboardService {
         };
 
         const model: PromptOptions = {
-            title: 'Save Dashboard As',
-            message: 'Enter a name for this dashboard',
+            title: 'msg#dashboard.saveAsModalTitle',
+            message: 'msg#dashboard.saveAsModalMessage',
             buttons: [],
             output: 'dashboard',
             validators: [Validators.required, unique]
@@ -493,22 +494,23 @@ export class DashboardService {
 
     }
 
-    deboundSave = Utils.debounce(() => this.patchDashboards(false), 200); // debounce save to avoid multiple events
+    debounceSave = Utils.debounce(() => this.patchDashboards(false), 200); // debounce save to avoid multiple events
 
     protected patchDashboards(notify = true) {
         this.userSettingsService.patch({dashboards: this.dashboards})
             .subscribe(
                 next => {
                     if(notify) {
-                        this.notificationService.success("Dashboard saved!");
+                        this.notificationService.success("msg#dashboard.saveSuccess");
                     }
                 },
                 error => {
                     if(notify) {
-                        this.notificationService.error("Dashboard could not be saved!");
+                        this.notificationService.error("msg#dashboard.saveFailure");
                     }
-                    console.error("Could not patch Baskets!", error);
-            });
+                    console.error("Could not patch Dashboards!", error);
+                }
+            );
     }
 
     public get autoSave(): boolean {

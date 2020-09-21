@@ -1,6 +1,6 @@
 {
     "app": {
-        "name": "Vanilla Search"
+        "name": "Pepper"
     },
 
     "locale": {
@@ -75,7 +75,10 @@
     },
 
     "search": {
-        "pageTitle": "Recherche - {search}"
+        "pageTitle": "Recherche - {search}",
+        "darkMode": "Mode sombre",
+        "darkModeTitle": "Activer le mode sombre",
+        "filters": "Filtres"
     },
 
     "preview": {
@@ -83,5 +86,52 @@
         "entities": "Entités",
         "searchText": "Chercher \"{text}\" dans le document",
         "pageTitle": "Navigateur de documents - {title}"
+    },
+
+    "dashboard": {
+        "map": "Carte",
+        "timeline": "Historique",
+        "network": "Réseau",
+        "chart": "Graphique",
+        "heatmap": "Carte de chaleur",
+
+        "addWidget": "Nouveau Widget",
+        "addWidgetTitle": "Ajouter un Widget au tableau de bord",
+        "addWidgetModalTitle": "Ajouter un Widget",
+        "addWidgetItemTitle": "Créer un widget {item}",
+        "addWidgetSize": "Taille du Widget",
+        "addWidgetWidth": "Largeur du Widget",
+        "addWidgetHeight": "Hauteur du Widget",
+        "share": "Partager",
+        "shareTitle": "Partager ce tableau de bord avec un collègue",
+        "shareSuccess": "Lien de partage copié dans le presse-papier",
+        "shareError": "Le lien de partage n'a pas pu être copié dans le presse-papier: {url}",
+        "manual": "Positionnement manuel",
+        "manualTitle": "Le positionnement manuel permet de placer les Widgets librement dans le tableau de bord",
+        "auto": "Positionnement auto",
+        "autoTitle": "Le positionnement automatique compacte la vue vers le haut et la gauche, quand des espaces vides sont disponibles",
+        "fixed": "Positionnement fixe",
+        "fixedTitle": "Le positionnement fixe empêche toute modification du tableau de bord",
+        "new": "Nouveau",
+        "newTitle": "Créer un nouveau tableau de board",
+        "open": "Ouvrir",
+        "openTitle": "Ouvrir un tableau de bord enregistré",
+        "openDashboard": "Ouvrir le tableau de bord \"{dashboard}\"",
+        "delete": "Supprimer",
+        "deleteTitle": "Supprimer le tableau de bord actuel",
+        "deleteConfirmTitle": "Supprimer le tableau de bord actuel",
+        "deleteConfirmMessage": "Êtes-vous sûr de vouloir supprimer le tableau de bord actuel?",
+        "saveAs": "Enregistrer sous...",
+        "saveAsTitle": "Enregistrer le tableau de bord actuel pour le rouvrir plus tard",
+        "saveAsModalTitle": "Enregistrer le tableau de bord",
+        "saveAsModalMessage": "Entrez un nom pour ce tableau de bord",
+        "save": "Enregistrer",
+        "saveTitle": "Enregistrer le tableau de bord",
+        "saveSuccess": "Tableau de bord enregistré",
+        "saveFailure": "Le tableau de bord n'a pas pu être enregistré!",
+        "autoSave": "Enregistrement auto",
+        "autoSaveTitle": "Enregistrement automatique du tableau de bord",
+        "settingsTitle": "Options du tableau de bord",
+        "widgetClose": "Fermer"
     }
 }
