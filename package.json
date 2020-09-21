@@ -13,7 +13,8 @@
     "buildhellosearch": "ng build hello-search --prod",
     "buildcomponents": "ng build components",
     "buildvanilla": "ng build vanilla-search --prod",
-    "buildall": "npm run buildcore && npm run buildhellosearch && npm run buildcomponents && npm run buildvanilla",
+    "buildpepper": "ng build pepper --prod",
+    "buildall": "npm run buildcore && npm run buildhellosearch && npm run buildcomponents && npm run buildvanilla && npm run buildpepper",
     "makedoc-core": "cd projects/core && node ../../scripts/makedoc.js -d ../../docs/core -p tsconfig.lib.json -n \"Core\"",
     "makedoc-components": "cd projects/components && node ../../scripts/makedoc.js -d ../../docs/components -p tsconfig.lib.json -n \"Components\""
   },
@@ -40,6 +41,7 @@
     "@fortawesome/fontawesome-free": "^5.13.0",
     "@swimlane/ngx-charts": "^14.0.0",
     "angular-fusioncharts": "^3.0.4",
+    "angular-gridster2": "^10.1.4",
     "atomicjs": "^4.4.1",
     "bootstrap": "^4.4.1",
     "classlist.js": "^1.1.20150312",

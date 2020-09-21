@@ -369,6 +369,156 @@
           }
         }
       }
+    },
+    "pepper": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/pepper",
+      "sourceRoot": "projects/pepper/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "forkTypeChecker": false,
+            "customWebpackConfig": {
+              "path": "projects/pepper/webpack.config.js"
+            },
+            "outputPath": "dist-debug/pepper",
+            "index": "projects/pepper/src/index.html",
+            "main": "projects/pepper/src/main.ts",
+            "polyfills": "projects/pepper/src/polyfills.ts",
+            "tsConfig": "projects/pepper/tsconfig.app.json",
+            "aot": true,
+            "preserveSymlinks": true,
+            "assets": [
+              "projects/pepper/src/favicon.ico",
+              "projects/pepper/src/assets"
+            ],
+            "extractCss": true,
+            "styles": [
+              {
+                "input": "projects/pepper/src/styles/app.scss",
+                "bundleName": "app"
+              },
+              {
+                "input": "projects/pepper/src/styles/preview.scss",
+                "bundleName": "preview",
+                "lazy": true
+              }            
+            ],
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "hammerjs",
+              "intl",
+              "jssha",
+              "lodash",
+              "moment",
+              "element-resize-detector",
+              "batch-processor",
+              "rxjs",
+              "@formatjs/intl-relativetimeformat/polyfill",
+              "intl-pluralrules",
+              "jstz",
+              "atomicjs"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/pepper/src/environments/environment.ts",
+                  "with": "projects/pepper/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputPath": "dist/pepper",
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "10mb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "pepper:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "pepper:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "pepper:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/pepper/src/test.ts",
+            "polyfills": "projects/pepper/src/polyfills.ts",
+            "tsConfig": "projects/pepper/tsconfig.spec.json",
+            "karmaConfig": "projects/pepper/karma.conf.js",
+            "assets": [
+              "projects/pepper/src/favicon.ico",
+              "projects/pepper/src/assets"
+            ],
+            "styles": [
+              "projects/pepper/src/styles/app.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/pepper/tsconfig.app.json",
+              "projects/pepper/tsconfig.spec.json",
+              "projects/pepper/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/pepper/e2e/protractor.conf.js",
+            "devServerTarget": "pepper:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "pepper:serve:production"
+            }
+          }
+        }
+      }
     }
   },
   "defaultProject": "core"
