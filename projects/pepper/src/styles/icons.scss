@@ -1,0 +1,157 @@
+// Icon mappings between specific metadata and icon fonts.
+// Currently, Fontawesome and the Sinequa font are supported
+//
+// On the left of the mapping: the class present in Angular code (prefixed with sq-icon)
+// On the right of the mapping: A tupple containing the icon name, followed by the
+// font type code (one of "s" (solid), "b" (brand), "r" (regular), "l" (light)).
+// 
+$sq-icons-map: (
+    
+    // Category icons (used to associate an icon to a type of metadata/entity displayed in a facet, the preview, etc.)
+    "extractslocations": ("file-alt", "r"),  // sq-icon-extractslocations => far fa-file-alt
+    "matchlocations": ("flag", "r"),
+    "geo": ("map-marker-alt", "s"),
+    "person": ("user", "s"),
+    "company": ("building", "s"),
+    "title": ("tag", "s"),                   // sq-icon-title => fas fa-tag
+    "modified": ("calendar-alt", "r"),
+    "size": ("weight-hanging", "s"),
+    "treepath": ("folder-open", "s"),
+    "filename": ("file-alt", "r"),
+    "authors": ("user-edit", "s"),
+    "accesslists": ("lock", "s"),
+    "doctype": ("file", "r"),
+    "documentlanguages": ("globe-americas", "s"),
+    "globalrelevance": ("star", "r"),
+    "indexationtime": ("search", "s"),
+    "concepts": ("comment-dots", "r"),
+    "keywords": ("tags", "s"),
+    "matchingpartnames": ("align-left", "s"),
+    "msgfrom": ("envelope", "s"),
+    "msgto": ("envelope-open-text", "s"),
+
+    // File formats (Used to associate an icon to a specific file extension)
+    "file": ("file", "r"),    
+    ("file-htm", "file-html", "file-xhtm", "file-xhtml", "file-mht"): ("globe-europe", "s"),
+    ("file-doc", "file-docx", "file-docm", "file-dot", "file-dotx", "file-dotm", "file-rtf", "file-odt", "file-ott", "file-gdoc"): ("file-word", "r"),
+    ("file-xls", "file-xlsx", "file-xlt", "file-xltx", "file-xlsm", "file-xltm", "file-gsheet", "file-ods", "file-ots"): ("file-excel", "r"),
+    ("file-ppt", "file-pptx", "file-pptm", "file-pptm2", "file-pps", "file-ppsx", "file-ppsm", "file-pot", "file-potx", "file-potm",
+        "file-odp", "file-otp", "file-gslides"): ("file-powerpoint", "r"),
+    ("file-pdf"): ("file-pdf", "r"),
+    ("file-jpg", "file-jpeg", "file-bmp", "file-tiff", "file-tif", "file-gif", "file-png"): ("file-image", "r"),
+    ("file-mp4", "file-flv", "file-swf", "file-mts", "file-divx", "file-wmv", "file-avi", "file-mov", "file-mpg", "file-mpeg", "file-asf", "file-rm"): ("file-video", "r"),
+    ("file-mp3", "file-wav", "file-ogg", "file-wma", "file-aac", "file-m3u"): ("file-audio", "r"),
+    ("file-txt", "file-text"): ("file-alt", "r"),
+    ("file-xml", "file-cs", "file-java", "file-cpp", "file-c", "file-h", "file-hpp", "file-js", "file-ts"): ("file-code", "r"),
+    ("file-zip", "file-7zip", "file-7z", "file-rar", "file-gz"): ("file-archive", "r"),
+    ("file-notes", "file-quickr"): ("file-invoice", "s"),
+    ("file-email", "file-mail", "file-msg"): ("envelope", "r"),
+    ("file-mdb", "file-odb", "file-otb"): ("database", "r"),
+    ("file-xsn", "file-gform"): ("file-excel", "s"),
+    ("file-one"): ("book", "r"),
+    ("file-odf", "file-otf"): ("file-medical-alt", "s"),
+    ("file-vsdx", "file-vsx", "file-vtx", "file-vdx", "file-vssx", "file-vstx", "file-vsdm", "file-vssm", "file-vstm", "file-vdw", "file-vsd", "file-vss", "file-vst",
+        "file-odg", "file-otg", "file-gdraw"): ("object-group", "r"),
+    ("file-ldap", "file-ad"): ("users", "r"),
+    ("file-mmp", "file-mppx"): ("file-medical", "s"),
+    ("file-pub"): ("object-group", "r"),
+    
+);
+
+$sq-icons-color-map: (
+    
+    ("file-doc"): #3f3fca,
+    ("file-docx", "file-docm", "file-dot", "file-dotx", "file-dotm", "file-rtf"): #3f3fca,
+    ("file-xls", "file-xlsx", "file-xlt", "file-xltx", "file-xlsm", "file-xltm"): green,
+    ("file-ppt", "file-pptx", "file-pptm", "file-pptm2", "file-pps", "file-ppsx", "file-ppsm", "file-pot", "file-potx", "file-potm"): #e64b30,
+    ("file-pdf"): #ec2e2e,
+    ("file-txt", "file-text"): #202020,
+    
+    ("file-jpg", "file-jpeg", "file-bmp", "file-tiff", "file-tif", "file-gif", "file-png"): #4545bf,
+    ("file-mp4", "file-flv", "file-swf", "file-mts", "file-divx", "file-wmv", "file-avi", "file-mov", "file-mpg", "file-mpeg", "file-asf", "file-rm"): #4545bf,
+    ("file-mp3", "file-wav", "file-ogg", "file-wma", "file-aac", "file-m3u"): lightblue,
+    ("file-htm", "file-html", "file-xhtm", "file-xhtml", "file-mht", "file-xml", "file-cs", "file-java", "file-cpp", "file-c", "file-h", "file-hpp", "file-js", "file-ts"): #4545bf,
+    ("file-zip", "file-7zip", "file-7z", "file-rar", "file-gz"): yellow,
+    ("file-notes", "file-quickr"): orange,
+    ("file-email", "file-mail", "file-msg"): black,
+    ("file-mdb"): purple,
+    ("file-xsn"): purple,
+    ("file-one"): purple,
+    ("file-odb", "file-otb"): darkred,
+    ("file-odf", "file-otf"): grey,
+    ("file-odg", "file-otg"): orange,
+    ("file-odp", "file-otp"): red,
+    ("file-ods", "file-ots"): lightgreen,
+    ("file-odt", "file-ott"): grey,
+    ("file-ldap", "file-ad"): brown,
+    ("file-mmp", "file-mppx"): grey,
+    ("file-pub"): darkgreen,
+    ("file-vsdx", "file-vsx", "file-vtx", "file-vdx", "file-vssx", "file-vstx", "file-vsdm", "file-vssm", "file-vstm", "file-vdw", "file-vsd", "file-vss", "file-vst"): purple,
+    ("file-gdoc"): blue,
+    ("file-gdraw"): red,
+    ("file-gform"): purple,
+    ("file-gsheet"): darkgreen,
+    ("file-gslides"): orange,
+
+);
+
+$sq-icon-families: ("s", "b", "r", "l") !default;
+
+// generate icon class names
+@each $keys in map-keys($sq-icons-map) {
+    $values: map-get($sq-icons-map, $keys);
+    @if not(sq-contains-at-least-one($values, $sq-icon-families)) {
+        @error "$sq-icons-map - missing icon family for key: " + $keys;
+    }
+    @each $key in $keys {
+        @each $value in $values {
+            @if index($sq-icon-families, $value) {
+                .sq-icon-#{$key} {
+                    @extend .fa#{$value}; // solid, brand, regular or light
+                }
+            }            
+            @else {
+                .sq-icon-#{$key} {
+                    @extend .fa-#{$value};
+                }
+            }
+        }
+    }    
+}
+
+// generate icon colors
+@each $keys in map-keys($sq-icons-color-map) {
+    $value: map-get($sq-icons-color-map, $keys);
+    @each $key in $keys {
+        .sq-icon-#{$key}:before {
+            color: $value;
+        }
+    }
+}
+
+@function sq-contains-at-least-one($items, $values) {
+    @each $value in $values {
+        @if index($items, $value) {
+            @return true;
+        }
+    }
+    @return false;
+}
+
+
+// Flag images
+.sq-flag-en:before {
+    content: url('../resources/flags/flag-en.jpg');
+}
+
+.sq-flag-en-gb:before {
+    content: url('../resources/flags/flag-en-gb.jpg');
+}
+
+.sq-flag-fr:before {
+    content: url('../resources/flags/flag-fr.jpg');
+}
+
+.sq-flag-de:before {
+    content: url('../resources/flags/flag-de.jpg');
+}
