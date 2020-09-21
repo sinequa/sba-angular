@@ -50,9 +50,7 @@ There are three levels in the above snippet:
 - `<gridster-item>`: A component provided by the [angular-gridster2](https://tiberiuzuld.github.io/angular-gridster2/) library for wrapping each widget of the dashboard. This component will be responsible for managing the positioning, dragging and resizing of the widgets. The component takes in an **`item`** object (of type [`GridsterItem`](https://github.com/tiberiuzuld/angular-gridster2/blob/master/projects/angular-gridster2/src/lib/gridsterItem.interface.ts)).
 - `<sq-dashboard-item>`: A Sinequa component that is defined in the Pepper app (`app/dashboard/dashboard-item.component.ts`). This component is essentially a switch to display the right component in function of the widget type. The widget type is passed via the **`config`** input. Notice that the `item` input of `<gridster-item>` is also used for this `config` input. This is because we chose to use a single object to manage both the state of the widget ([`GridsterItem`](https://github.com/tiberiuzuld/angular-gridster2/blob/master/projects/angular-gridster2/src/lib/gridsterItem.interface.ts) interface) and its configuration (`DashboardItem` interface). The `DashboardItem` interface is in fact a direct extension of [`GridsterItem`](https://github.com/tiberiuzuld/angular-gridster2/blob/master/projects/angular-gridster2/src/lib/gridsterItem.interface.ts).
 
-Notice in the snippet above that the list of items, as well the options of the dashboard, are managed by a new `DashboardService`. This service is a Sinequa service that lives in the Pepper app (`app/dashboard/dashboard.service.ts`).
-
-This service manages the following tasks:
+Notice in the snippet above that the list of dashboard items, as well the options of the dashboard, are managed by a new `DashboardService`. This Angular service, which lives in the Pepper app (`app/dashboard/dashboard.service.ts`), manages the following tasks:
 
 - Storing the state of the dashboard and its global options.
 - Generating the dashboard menu shown above (`createDashboardActions()` method).
@@ -190,20 +188,20 @@ If your custom widget needs to have a part of the state persisted, a few things 
 
     It is important to notify the `DashboardService` of the change in the dashboard, so the state can be immediately persisted if Auto-save is activated.
 
-Note that you can greatly simplify the above if your component directly have access to the `DashboardItem` and `DashboardService` (but that means your component won't be reusable outside of the context of a dashboard).
+Note that you can greatly simplify the above if your component directly has access to the `DashboardItem` and `DashboardService` (but that means your component won't be reusable outside of the context of a dashboard).
 
 ### Widget sizing
 
-One difficulty of building widgets is that their size is strongly constrained by the dashboard, so the components cannot take their ideal size: they must adapt to any size (for example by forcing a width and height of 100% or by scrolling vertically or horizontally) or conform an explicit size provided by the parent (`sq-dashboard-item`).
+One difficulty of building widgets is that their size is strongly constrained by the dashboard, so the components cannot take their ideal size: they must adapt to any size (for example by forcing a width and height of 100% or by scrolling vertically or horizontally) or conform to an explicit size provided by the parent (`sq-dashboard-item`).
 
 The built-in components behave differently in that respect:
 
 - The network's canvas takes the available space using `width: 100%` and `height: 100%`.
-- The charts must be explicit resized when the dashboard is initialized or resized.
-- The map's height must be binded explicitly (the width automatically takes 100%).
-- The heatmap and timeline are svg-based and are redrawn when resized: the width and height are therefore binded explicitly.
+- The charts are explicitly resized when the dashboard is initialized or resized.
+- The map's `height` is bound explicitly (the width automatically takes 100%).
+- The heatmap and timeline are svg-based and are redrawn when resized: the `width` and `height` are therefore bound explicitly.
 
-If your component must be redrawn when its size changes, it is likely to need an interface similar to the timeline or heatmap components. Concretely, it will probably require explicit width and height inputs (probably with default values). The `ngOnChange()` will then catch any change of dimension from the parent, and trigger the resize:
+If your component must be redrawn when its size changes, it is likely to need an interface similar to the timeline or heatmap components. Concretely, it will probably require explicit width and height inputs (probably with default values). The `ngOnChange()` will then catch any change of dimension from the parent, and trigger the redrawing:
 
 ```ts
 @Input() width = 600;
@@ -216,7 +214,7 @@ ngOnChanges(changes: SimpleChanges) {
 }
 ```
 
-The width and height may also be used in the template. For example:
+The `width` and `height` inputs may also be used in the template. For example:
 
 {% raw %}
 
