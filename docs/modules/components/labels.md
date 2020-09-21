@@ -16,9 +16,7 @@ Please checkout the [reference documentation]({{site.baseurl}}components/modules
 This module provides functionality to display the labels of a document, as well as components to manage them:
 
 - [`LabelsService`]({{site.baseurl}}components/injectables/LabelsService.html): manages the different operations that can be applied to the labels of a document in Sinequa.
-- A list of components to display and control the labels. These components are styled with the Bootstrap library, and their class names start with `Bs`.
-
-![Labels]({{site.baseurl}}assets/modules/labels/displayed-labels-of-document.png){: .d-block .mx-auto }
+- A list of components to display and manage the labels. These components are styled with the Bootstrap library, and their class names start with `Bs`.
 
 ## Import
 
@@ -71,142 +69,57 @@ So far, if your component wants to know the index columns, use the following :
 
     This method retrieves the logged in user's rights to manage and edit **public** labels.
 
-Actually, the [`Labels Module`] defines three levels of actions that could be applied to labels.
-As for **global** actions, the menu in the top navbar could perform.
+Actually, the `Labels Module` defines three levels of actions that could be applied to labels :
 
-## API usage
+### Navigation bar menu actions
 
-### LabelsService
+As for **global** actions, the menu, in the navigation bar, uses the [`ModalService`]({{site.baseurl}}core/injectables/ModalService.html) to open a popup dialog and perform following actions :
 
-The [`LabelsService`]({{site.baseurl}}components/inj/ResultLabels.html) is the interface between the different
-UI components of the App and the server labels endpoit API.
+- `renameLabelModal(): void`
 
-It provides a variety of methods to
+    This method renames the label(s) in the index. **Be careful**, this action is irreversible.
 
-* display the Labels, the menus relating document labels
-* add and remove document labels
+- `deleteLabelModal(): void`
 
-#### Display the labels and labels menu
+    This method deletes the selected label(s) from the index. **Be careful**, this action is also irreversible.
 
-##### Knowing the label index column
+- `bulkRemoveLabelModal(): void`
 
-If your component wants to know the index columns, use the following properties:
+    This method unassign the given label(s) from all results reported by the engine (not only from the first page).
 
-* `LabelsService.publicLabelsField`: returns the index column for the public labels,
-* `LabelsService.privateLabelsField`: returns the index column for the private labels.
+- `bulkAddLabelModal(): void`
 
-##### Changing the label menu in the navigation bar
+    This method assign the given label(s) to all results reported by the engine (not only to the first page).
 
-If your component are to override the UI component that backs the labels menu component in the navigation bar,
-here are the methods that you may need for your component:
+Note that the methods `_modalProperties(action: number): ModalProperties` and `_getModalRadioButtonsConf(publicRight: boolean): any` are used to full-fill the **properties** of each modal.
 
-* `selectLabel(item: Action, $event: UIEvent)`: the menu action to assign labels to a document.
-The method expects that `item.data` is an [`IFormData`]({{site.baseurl}}components/interfaces/IFormData.html).
-This object in turn needs to be
+### Selection menu actions
+If you are targeting a specific selected documents, the selection menu actions is the right place to **edit** their labels.
 
-```typescript
-{
-  labelRef: IRef<string>, // A semicolon-delimited string representing the labels to add
-  public?: boolean        // Whether the labels are public or private
-}
-```
+- `buildSelectionAction(): Action | undefined`
 
-* `renameLabel(item: Action, $event: UIEvent)`: the menu action to change the labels of a document from a list of old labels
-to a new one.
-The method expects that `item.data` is an [`IFormData`]({{site.baseurl}}components/interfaces/IFormData.html).
-This object in turn needs to be
+    the syntactic sugar to append the labels **edit** action to the selection menu.
 
-```typescript
-{
-  labelRef: IRef<string>, // A semicolon-delimited labels list, with the first element being the new label,
-                          // and the rest are the old labels to be replaced
-  public?: boolean        // Whether the labels are public or private
-}
-```
+Therefor, two use cases can be distinguished :
 
-* `deleteLabel(item: Action, $event: UIEvent)`: the menu action to remove the labels of a document.
-The method expects that `item.data` is an [`IFormData`]({{site.baseurl}}components/interfaces/IFormData.html).
-This object in turn needs to be
+- For a single document selection, a popup dialog with one autocomplete input is used to update the labels of this document.
+Thus, it can be an assign, unassign or even both actions at the same time.
 
-```typescript
-{
-  labelRef: IRef<string>, // A semicolon-delimited labels list,
-  public?: boolean        // Whether the labels are public or private
-}
-```
+- For a multi-selection, the popup dialog is getting divided into two blocs to separately, defining which labels to be assigned to all the selected documents and which ones to be unassigned from them.
 
-This action first opens a modal to ask for user confirmation before actually executing the deletion.
+Both cases are using the same method:
 
-* `bulkAddLabel(item: Action, $event: UIEvent)`: the menu action to assign labels to the documents **matching the current query** in bulk.
-The method expects that `item.data` is an [`IFormData`]({{site.baseurl}}components/interfaces/IFormData.html).
-This object in turn needs to be
+- `editLabelModal(): void`
 
-```typescript
-{
-  labelRef: IRef<string>, // A semicolon-delimited string representing the labels to add
-  public?: boolean        // Whether the labels are public or private
-}
-```
+    This method edits the labels of the current selected documents.
 
-This action first opens a modal to ask for user confirmation before actually executing the label assignment.
+### Displayed labels actions
 
-* `bulkRemoveLabel(item: Action, $event: UIEvent)`: the menu action to remove the given labels from the documents **matching the current query** in bulk.
-The method expects that `item.data` is an [`IFormData`]({{site.baseurl}}components/interfaces/IFormData.html).
-This object in turn needs to be
+Each Document's labels are displayed just below its extracts.  
+Selecting a label will filter the current results page while keeping documents whose labels are given in the list. Here you will be using `selectLabels(labels: string[], _public: boolean): Promise<boolean>`.  
 
-```typescript
-{
-  labelRef: IRef<string>, // A semicolon-delimited string representing the labels to remove
-  public?: boolean        // Whether the labels are public or private
-}
-```
-
-This action first opens a modal to ask for user confirmation before actually executing the label assignment.
-
-##### Changing the label menu for selected documents
-
-If your component is to override the label menu component for selected documents, here are some methods that you should know:
-
-* `buildLabelsMenu()`: builds the label menu,
-The signature of this method is
-
-```typescript
-buildLabelsMenu(
-  addLabels: (items: Action[], _public: boolean) => void, // The action to add the labels
-  icon = "fas fa-tags",                                   // The menu icon
-  labelsText?,                                            // The tooltip of the menu,
-  labelsTitle = "msg#labels.labels",                      // The menu title
-  publicLabelsText = "msg#labels.publicLabels",           // The title for public label submenu
-  privateLabelsText = "msg#labels.privateLabels"          // The title for the private label submenu
-): Action | undefined
-```
-
-* `buildSelectionAction()`: the syntactic sugar to build the label menu,
-* `addLabels(labels: string[], docIds: string[], _public: boolean): Observable<void>`: an async method to assign labels to the given documents,
-* `removeLabels(labels: string[], docIds: string[], _public: boolean): Observable<void>`: an async method to unassign labels of the given documents,
-* `selectLabels(labels: string[], _public: boolean): Promise<boolean>`: an async method to filter the current results page while keeping documents whose labels are given in the list,
-* `renameLabels(labels: string[], newLabel: string, _public: boolean): Observable<void>`: an async method to rename all the labels in the given list to the `newLabel` name,
-* `deleteLabels(labels: string[], _public: boolean): Observable<void>`: an async method to delete all the labels in the given list,
-* `getCurrentRecordIds(): string[]`: retrieves the records in the current results,
-* `getRecordFromId(id: string) : Record | undefined`: retrieves the record corresponding to the given id,
-* `bulkAddLabels(labels: string[], _public: boolean): Observable<void>`: an async method to assign labels to the documents **matching the current query** in bulk,
-* `bulkRemoveLabels(labels: string[], _public: boolean): Observable<void>`: an async method to unassign the labels of the documents **matching the current query** in bulk,
-
-##### Manipulating the labels of a document
-
-If your component wants to manipulate the labels of the a document itself, without using the `LabelPipe` (ie `sqLabel`),
-here are some methods that you should know:
-
-* `LabelsService.privateLabelsPrefix`: returns the prefix that are to be prepended to private label value,
-* `addPrivatePrefix(labels: string|string[]): string|string[]`: prepends the private label prefix to the given label list,
-* `removePrivatePrefix(labels: string|string[]): string|string[]`: removes the private label prefix from the given label list,
-* `split(labels: string): string[]`: transform a semicolon-delimited label list string into a list of labels.
-* `sort(labels: string[], _public: boolean): string[]`: sorts the labels list in ascending order w.r.t the current locale.
-
-#### LABELS_COMPONENTS
-
-The `LabelsService` also provides the `LABELS_COMPONENTS` injection token which can be used to override the UI component
-to display the document labels.
+The `LabelsService` also provides the `LABELS_COMPONENTS` injection token which can be used to override the UI components
+used in this module.
 
 To do that you need to declare your component with the Angular providers in `app.module.ts`
 
@@ -214,14 +127,13 @@ To do that you need to declare your component with the Angular providers in `app
 /* ... */
 import { NgModule } from "@angular/core";
 import { LABELS_COMPONENTS } from "@sinequa/components/labels.service";
-import { MyLabelsComponent } from "./path/to/my.labels.component";
 /* ... */
 
 @NgModule({
   /* ... */
   providers: [
     /* ... */
-    { provide: LABELS_COMPONENTS, useValue: MyLabelsComponent },
+    { provide: LABELS_COMPONENTS, useValue: MyCustomLabelsComponents },
     /* ... */
   ]
   /* ... */
@@ -229,77 +141,168 @@ import { MyLabelsComponent } from "./path/to/my.labels.component";
 /* ... */
 ```
 
-### Components
+This MyCustomLabelsComponents object needs to be
 
-#### ResultLabels
-
-The [`ResultLabels` component]({{site.baseurl}}components/components/ResultLabels.html) is used to display
-the assigned labels of a document.
-
-This component is backed by `Labels` component.
-
-The inputs of the component are:
-
-* `record`: The record whose labels are to be displayed,
-* `caption`: The caption for the labels,
-* `public`: Whether the labels are public,
-* `field`: The index column where the labels are stored.
-
-#### Labels
-
-The [`Labels` component]({{site.baseurl}}components/components/Labels.html) is used to display and to manage
-the assigned labels of a document.
-
-The inputs of the component are:
-
-* `record`: The record whose labels are to be displayed,
-* `class`: The classes to put on the component,
-* `public`: Whether the labels are public,
-* `field`: The index column where the labels are stored.
-
-#### LabelsMenu
-
-The [`LabelsMenu` component]({{site.baseurl}}components/components/LabelsMenu.html) is used to display dropdown menu
-that manages public and private labels.
-
-You can see this menu either on the navigation bar or when selecting one or more documents in the results page.
-
-![Labels menu in navigation bar]({{site.baseurl}}assets/modules/labels/labels-navbar-menu.png)
-{: .d-block .mx-auto }
-*Labels menu in navigation bar*
-{: .text-center }
-
-![Labels menu for selected documents]({{site.baseurl}}assets/modules/labels/labels-menu-for-selected-documents.png)
-{: .d-block .mx-auto }
-*Labels menu for selected documents*
-{: .text-center }
-
-The inputs of the component are:
-
-* `results`: The current search results,
-* `icon`: The menu icon,
-* `autoAdjust`: Whether the component will adjust its display when the application is resized,
-* `autoAdjustBreakpoint`: The threshold of the application size at which the display of the component changes,
-* `collapseBreakpoint`: The threshold of the application size at which the display of the component changes when it is inside a parent menu,
-* `size`: The display size of the component,
-
-### LabelsAutocomplete directive
-
-The [`LabelsAutocomplete`]({{site.baseurl}}components/directives/LabelsAutocomplete.html) provides
-the `sqAutocompleteLabels` directive that when put to an input component, suggests user the existing labels as they type.
-This is very useful because the components that display labels like `Labels` and `LabelsMenu` do not show all the available
-labels.
-
-Example:
-
-```html
-<input type="text" class="sq-label-input"
-    name="newLabel" [(ngModel)]="newLabelRef.value"
-    autocomplete="off" spellcheck="off"
-    sqAutocompleteLabels [public]="public" >
+```typescript
+{
+    renameModal: Type<any>;
+    labelsAutocompleteComponent: Type<any>;
+    deleteModal: Type<any>;
+    addModal: Type<any>;
+    editModal: Type<any>;
+}
 ```
 
-### LabelPipe
+If your component wants to manipulate the labels of the a document itself, without using the `LabelPipe` (ie `sqLabel`),
+The `LabelsService` provides here some methods that you may need:
+* `LabelsService.privateLabelsPrefix`: returns the prefix that are to be pre-appended to private label value.
+* `addPrivatePrefix(labels: string|string[]): string|string[]`: prepends the private label prefix to the given label list.
+* `removePrivatePrefix(labels: string|string[]): string|string[]`: removes the private label prefix from the given label list.
+* `split(labels: string): string[]`: transform a semicolon-delimited label list string into a list of labels.
+* `sort(labels: string[], _public: boolean): string[]`: sorts the labels list in ascending order with respect to the current locale.
+
+### Components
+
+The `LabelsModule` comes with a set of components :
+
+- The [`LabelsMenu` component]({{site.baseurl}}components/components/LabelsMenu.html) is used to display dropdown menu
+  that manages public and private labels.  
+  
+  You can see this menu in the navigation bar. 
+
+  ![Labels menu in navigation bar]({{site.baseurl}}assets/modules/labels/navbar-menu-labels.png)
+  {: .d-block .mx-auto }
+  *Labels menu in navigation bar*
+  {: .text-center }
+
+  The inputs of the component are:
+
+   - `results`: The current search results.
+   - `icon`: The menu icon.
+   - `autoAdjust`: Whether the component will adjust its display when the application is resized.
+   - `autoAdjustBreakpoint`: The threshold of the application size at which the display of the component changes.
+   - `collapseBreakpoint`: The threshold of the application size at which the display of the component changes when it is inside a parent menu.
+   - `size`: The display size of the component.
+
+- The [`Labels` component]({{site.baseurl}}components/components/Labels.html) is used to display and to manage
+  the assigned labels of a document.  
+  Note the background color used to distinguish public and private labels.  
+
+  ![Labels]({{site.baseurl}}assets/modules/labels/displayed-labels-of-document.png)
+  {: .d-block .mx-auto }
+  *Display labels of a document*
+  {: .text-center }
+
+  The inputs of the component are:
+
+   - `record`: The record whose labels are to be displayed.
+   - `enableDelete`: Display the delete icon in the label tag.
+   - `public`: Whether the labels are public.
+
+- The [`ResultLabels` component]({{site.baseurl}}components/components/ResultLabels.html) is used to display
+  the assigned labels of a document. This component is backed by `Labels` component.  
+
+  The inputs of the component are:
+
+   - `record`: The record whose labels are to be displayed.
+   - `caption`: The caption for the labels.
+   - `public`: Whether the labels are public.
+
+- The [Modals components]() have basically a very common behavior for the different actions on the labels.  
+
+  The standard template can be seen as a(n):
+   - Alert texts: Explicitly explain the action to be performed on labels. 
+   - Radio button: The type of label you want to manage. Note that it **depends on the configuration of sinequa instance**.
+   - Autocomplete input: List of labels you want to manage.
+  
+  ![Labels]({{site.baseurl}}assets/modules/labels/single-document-labels-edit.png){: .d-block .mx-auto }
+
+  Each modal component uses the `MODAL_MODEL` injection token. The object needs to be
+
+  ```typescript
+  {
+      public: boolean;
+      allowEditPublicLabels: boolean;
+      allowManagePublicLabels: boolean;
+      allowNewLabels: boolean;
+      disableAutocomplete: boolean;
+      action: number;
+      radioButtons: ModalButton[];
+  }
+  ```
+  where: 
+   - `public`: Whether the labels are public.
+   - `allowEditPublicLabels`: The user right to **Add, Remove, BulkAdd, BulkRemove** operations.
+   - `allowManagePublicLabels`: The user right to **Create, Rename, Delete** operations.
+   - `allowNewLabels`: Whether considering the selection of a **not** existing label among the suggestions.
+   - `disableAutocomplete`: Turns off the autocomplete input.
+   - `action`: The action to be performed as result of the current popup dialog.
+   - `radioButtons`: Properties of the modal buttons .
+
+
+- The [`BsLabelsAutocomplete` component]({{site.baseurl}}components/components/BsLabelsAutocomplete.html) is the main building block of the `Modals components`.  
+  Actually, it is an input element, hosting the `sqAutocompleteLabels` directive, and linked to a container to display selected labels.
+
+  Example:
+
+  ```html
+  <sq-labels-items [public]="public" #labelsItemsContainer></sq-labels-items>
+  <input type="text"
+      class="input-autocomplete flex-grow-1"
+      name="labelName"
+      spellcheck="false"
+      autocomplete="off"
+      sqAutocompleteLabels
+      [public]="public"
+      [placeholder]="'msg#labels.selectLabel' | sqMessage"
+      [dropdown]="dropdown"
+      [labelsItemsContainer]="labelsItemsContainer"
+      [allowNewLabels]="allowNewLabels"
+      [allowManagePublicLabels]="allowManagePublicLabels"
+      (keydown)="keydown($event)"
+      (keypress)="keypress($event)"
+      (itemsUpdate)="onLabelsItemsChanged($event)"
+      [disabled]="disableAutocomplete"
+      [off]="disableAutocomplete"
+      [class.disabled]="disableAutocomplete"
+      [initLabels]="initLabels">
+  ```  
+
+  The inputs of the component are:
+
+   - `public`: Whether the labels are public.
+   - `disableAutocomplete`: Turns off the autocomplete input.
+   - `allowNewLabels`: Whether considering the selection of a **not** existing label among the suggestions.
+   - `allowManagePublicLabels`: Here it means the user right to allow adding new labels.
+   - `initLabels`: Initial labels to be displayed in the container.  
+
+  The component also emits a `labelsUpdate` event used to synchronize the list of selected labels and their type in the parent component.
+
+- The [`BsLabelsItems` component]({{site.baseurl}}components/components/BsLabelsItems.html) is the container used to display
+  selected labels onto the autocomplete input.  
+
+  The component takes as input `public` (Whether the labels are public) and emits `itemRemoved` event each time a label is getting removed from the list.
+
+### Labels Autocomplete directive
+
+The [`LabelsAutocomplete`]({{site.baseurl}}components/directives/LabelsAutocomplete.html) provides the `sqAutocompleteLabels` directive. It extends and overrides the main [`sqAutocomplete`]({{site.baseurl}}components/directives/Autocomplete.html) directive.  
+Thus, the suggestions are fetched and displayed also in case of empty input. This feature **requires** the `labelsAutoSuggestWildcard` to be configured in the sinequa server.
+
+![Labels]({{site.baseurl}}assets/modules/labels/wildcard-config.png){: .d-block .mx-auto }
+
+In addition to that, the selection of items is being possible on `blur` event. As a result, on blur, the value of the input is checked against the existing suggestions and then added to the list if it matches.
+
+The inputs of the directive are:
+
+   - `public`: Whether the labels are public.
+   - `labelsItemsContainer`: Container displaying the selected labels and obviously implementing `LabelsItemsContainer` interface.
+   - `allowNewLabels`: Whether considering the selection of a **not** existing label among the suggestions.
+   - `allowManagePublicLabels`: Here it means the user right to allow adding new labels.
+   - `initLabels`: Initial labels to be displayed in the container. 
+
+The directive also emits an `itemsUpdate` event which is needed to synchronize the list of selected labels in the parent component.
+
+### Labels Pipe
 
 Private labels are encoded before being stored in index columns.
 The [`LabelPipe`]({{site.baseurl}}components/pipes/LabelPipe.html) (`sqLabel`) is introduced to help you with displaying
