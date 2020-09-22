@@ -1,0 +1,89 @@
+<sq-facet-card 
+    [icon]="config.icon"
+    [title]="config.title"
+    [collapsible]="false"
+    [actions]="actions"
+    [actionsFirst]="false"
+    [buttonsStyle]="buttonsStyle"
+    [ngSwitch]="config.type">
+
+    <!-- Map view-->
+    <sq-googlemaps *ngSwitchCase="'map'"
+        #facet
+        [results]="results"
+        [height]="innerheight"
+        [style]="buttonsStyle"
+        (recordClicked)="onRecordClicked($event)">
+    </sq-googlemaps>
+
+    <!-- Timeline view-->
+    <sq-facet-timeline *ngSwitchCase="'timeline'"
+        #facet
+        [results]="results"
+        [width]="innerwidth"
+        [height]="innerheight"
+        (eventClicked)="onRecordClicked($event.record)">
+    </sq-facet-timeline>
+
+    <!-- Network view -->
+    <sq-network *ngSwitchCase="'network'"
+        #facet
+        [results]="results"
+        [providers]="networkProviders"
+        [options]="networkOptions">
+        <!-- Info cards -->
+        <ng-template #nodeTpl let-node>
+            <sq-node-info-card [node]="node"></sq-node-info-card>
+        </ng-template>
+
+        <ng-template #edgeTpl let-edge>
+            <sq-edge-info-card [edge]="edge"></sq-edge-info-card>
+        </ng-template>
+
+    </sq-network>
+
+    <!-- Chart view -->
+    <div style="overflow: hidden;" *ngSwitchCase="'chart'">
+        <sq-fusion-chart
+            #facet
+            [results]="results"
+            [chart]="chart"
+            [aggregation]="config.aggregation || 'Company'"
+            [aggregations]="['Company','Geo','Person','Concepts']"
+            [type]="config.chartType || 'Column2D'"
+            [types]="[{type: 'Column2D', display: 'Columns 2D'}, {type: 'Bar2D', display: 'Bars 2D'}, {type: 'Pie2D', display: 'Pie 2D'}, {type: 'Column3D', display: 'Columns 3D'}, {type: 'Bar3D', display: 'Bars 3D'}, {type: 'Pie3D', display: 'Pie 3D'}]"
+            (initialized)="onChartInitialized($event)"
+            (typeChange)="onChartTypeChange($event)"
+            (aggregationChange)="onChartAggregationChange($event)">
+        </sq-fusion-chart>
+    </div>
+
+    <!-- Heatmap view -->
+    <sq-facet-heatmap *ngSwitchCase="'heatmap'"
+        #facet
+        [results]="results"
+        [fieldX]="'geo'"
+        [fieldY]="'company'"
+        [fieldsX]="['geo', 'company', 'person']"
+        [fieldsY]="['geo', 'company', 'person']"
+        [width]="innerwidth"
+        [height]="innerheight">
+    </sq-facet-heatmap>
+    
+    <!-- Preview -->
+    <ng-container *ngSwitchCase="'preview'">
+        <sq-facet-preview-2 *ngIf="record"
+            #facet 
+            [record]="record" 
+            [query]="query"
+            [scalingFactor]="0.8"
+            [expandModal]="false"
+            [height]="innerheight"
+            (recordClosed)="close.next()">
+        </sq-facet-preview-2>
+        <div *ngIf="error" class="text-white bg-warning">
+            Could not retrieve document preview for {{config.recordId}}
+        </div>
+    </ng-container>
+
+</sq-facet-card>
