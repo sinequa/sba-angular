@@ -9,13 +9,13 @@
 
     <!--- suggestions items -->
     <ng-container *ngFor="let suggest of suggestions">
-    <div (click)="filterSuggest(suggest, $event)" *ngIf="suggest.display"
+    <div (click)="filterItem(suggest, $event)" *ngIf="suggest.display"
         class="d-flex flex-row align-items-center list-group-item text-truncate border-0 list-group-item-action px-3 py-1 facet-row"
         [ngClass]="{'list-group-item-success': isFiltered(suggest)}">
 
         <a  href="#"
             role="button" title="{{suggest.display}}"
-            class="text-truncate mr-auto">{{suggest.display}}</a>
+            class="text-truncate mr-auto">{{suggest | sqValue:suggest.$column}}</a>
 
         <span class="fa-stack" *ngIf="isFiltered(suggest)">
             <i class="ml-2 far fa-minus-square fa-stack-1x icons icon-hover"></i>
@@ -34,7 +34,7 @@
             (click)="filterItem(item, $event)">
 
             <a  href="#"
-                class="text-truncate mr-auto">{{item.display | sqValue:item.$column}}</a>
+                class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
 
             <span class="fa-stack">
                 <i class="ml-2 far fa-minus-square fa-stack-1x icons icon-hover"></i>
@@ -45,21 +45,18 @@
         </div>
 
         <!--- aggregation items without filtered -->
-        <ng-container *ngFor="let item of items">
-            <div  *ngIf="!isFiltered(item)"
-                class="d-flex flex-row align-items-center list-group-item text-truncate border-0 px-3 py-1 facet-row"
-                [ngClass]="{'list-group-item-primary':isSelected(item),'list-group-item-success':isFiltered(item),'list-group-item-action':!isFiltered(item),'filtered':isFiltered(item) }"
-                title="{{ (isSelected(item) ? 'msg#facet.itemUnselect' : 'msg#facet.itemSelect') | sqMessage}}"
-                (click)="selectItem(item)" href="#">
+        <div *ngFor="let item of items" 
+            class="d-flex flex-row align-items-center list-group-item list-group-item-action text-truncate border-0 px-3 py-1 facet-row"
+            [ngClass]="{ 'list-group-item-primary':isSelected(item) }"
+            title="{{ (isSelected(item) ? 'msg#facet.itemUnselect' : 'msg#facet.itemSelect') | sqMessage}}"
+            (click)="selectItem(item)" href="#">
 
-                <a  href="#" (click)="filterItem(item, $event)"
-                    title="{{ 'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)} }}"
-                    class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
+            <a  href="#" (click)="filterItem(item, $event)"
+                title="{{ 'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)} }}"
+                class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
 
-                <span *ngIf="showCount && item.count" class="ml-2 text-muted small">{{item.count | sqNumber}}</span>
-
+            <span *ngIf="showCount && item.count" class="ml-2 text-muted small">{{item.count | sqNumber}}</span>
         </div>
-        </ng-container>
 
         <a  *ngIf="hasMore"
             class="list-group-item border-0 px-3 py-1 text-center"

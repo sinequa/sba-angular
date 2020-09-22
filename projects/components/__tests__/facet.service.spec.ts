@@ -525,7 +525,7 @@ describe("FacetService", () => {
 			};
 
 			const expr: Expr = new Expr(exprInitializer);
-			const expected = service.toAggregationItem(aggregation["geo"].valuesAreExpressions, expr as Expr);
+			const expected = service.ExprToAggregationItem(expr as Expr, aggregation["geo"].valuesAreExpressions);
 
 			expect(expected).toEqual([{count: 0, value: item.value, display: item.display, $column: undefined}])
 		});
@@ -558,7 +558,7 @@ describe("FacetService", () => {
 			};
 
 			const expr: Expr = new Expr(exprInitializer);
-			const expected = service.toAggregationItem(aggregation["size"].valuesAreExpressions, expr as Expr);
+			const expected = service.ExprToAggregationItem(expr as Expr, aggregation["size"].valuesAreExpressions);
 
 			expect(expected).toEqual([{count: 0, value: item.value, display: item.display, $column: undefined}])
 		});
@@ -592,7 +592,7 @@ describe("FacetService", () => {
 			expect(breadcrumbsItems.length).toEqual(1);
 			expect(breadcrumbsItems).toEqual([{expr: jasmine.anything(), display: "Iraq", facet: "Geo", active: true}]);
 
-			const aggregationItems = service.toAggregationItem(aggregation["geo"].valuesAreExpressions, breadcrumbsItems[0].expr as Expr);
+			const aggregationItems = service.ExprToAggregationItem(breadcrumbsItems[0].expr as Expr, aggregation["geo"].valuesAreExpressions);
 			expect(aggregationItems.length).toEqual(1);
 			expect(aggregationItems).toEqual([{count: 0, value: 'IRAQ', display: 'Iraq', $column: undefined}]);
 		});
@@ -630,7 +630,7 @@ describe("FacetService", () => {
 			expect(expr.operands[0].field).toEqual("geo");
 			expect(expr.operands[1].value).toEqual("GUANTANAMO");
 
-			let r = service.toAggregationItem(aggregation["geo"].valuesAreExpressions, expr.operands);
+			let r = service.ExprToAggregationItem(expr.operands, aggregation["geo"].valuesAreExpressions);
 			expect(r).toEqual([{count: 0, value: "IRAQ", display: "Iraq", $column: undefined}, {count: 0, value: "GUANTANAMO", display: "Guantanamo", $column: undefined}])
 
 			expr = appService.parseExpr(breadcrumbs.items[2].expr?.toString() || "") as Expr;
@@ -638,7 +638,7 @@ describe("FacetService", () => {
 			expect(expr.value).toEqual("WASHINGTON POST");
 			expect(expr.field).toEqual("company");
 
-			r = service.toAggregationItem(aggregation["geo"].valuesAreExpressions, expr);
+			r = service.ExprToAggregationItem(expr, aggregation["geo"].valuesAreExpressions);
 			expect(r).toEqual([{count: 0, value: "WASHINGTON POST", display: "Washington POST", $column: undefined}]);
 
 			expr = appService.parseExpr(breadcrumbs.items[3].expr?.toString(false) || "") as Expr;
@@ -649,7 +649,7 @@ describe("FacetService", () => {
 			expect(expr.operands[1].value).toEqual("<10240");
 			expect(expr.operands[1].field).toEqual("size");
 
-			r = service.toAggregationItem(aggregation["size"].valuesAreExpressions, expr);
+			r = service.ExprToAggregationItem(expr, aggregation["size"].valuesAreExpressions);
 			expect(r).toEqual([{count: 0, value: "size`< 10 Ko`:(>=0 AND <10240)", display: "< 10 Ko", $column: undefined}]);
 		});
 
@@ -688,7 +688,7 @@ describe("FacetService", () => {
 			// faltten results
 			const result = [].concat.apply([], r);
 
-			const aggItems = service.toAggregationItem(aggregation[facetName].valuesAreExpressions, result);
+			const aggItems = service.ExprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
 
 			// Then
 			expect(aggItems.length).toEqual(5);
@@ -725,7 +725,7 @@ describe("FacetService", () => {
 			// faltten results
 			const result = [].concat.apply([], r);
 
-			const aggItems = service.toAggregationItem(aggregation[facetName].valuesAreExpressions, result);
+			const aggItems = service.ExprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
 
 			// Then
 			expect(aggItems.length).toEqual(3);
@@ -765,7 +765,7 @@ describe("FacetService", () => {
 			const result = [].concat.apply([], r);
 
 			// When
-			const aggItems = service.toAggregationItem(aggregation[facetName].valuesAreExpressions, result);
+			const aggItems = service.ExprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
 			expect(aggItems.length).toEqual(1);
 			expect(aggItems[0]).toEqual({count: 0, value: true, display: undefined, $column: jasmine.anything()});
 		})
@@ -803,7 +803,7 @@ describe("FacetService", () => {
 			const result = [].concat.apply([], r);
 
 			// When
-			const aggItems = service.toAggregationItem(aggregation[facetName].valuesAreExpressions, result);
+			const aggItems = service.ExprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
 			expect(aggItems.length).toEqual(2);
 			expect(aggItems[0]).toEqual({count: 0, value: false, display: undefined, $column: jasmine.anything()});
 			expect(aggItems[1]).toEqual({count: 0, value: true, display: undefined, $column: jasmine.anything()});

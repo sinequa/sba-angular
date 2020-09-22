@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy} from "@angular/core";
-import {Results, Aggregation, AggregationItem, Suggestion, CCColumn} from "@sinequa/core/web-services";
+import {Results, Aggregation, AggregationItem} from "@sinequa/core/web-services";
 import {Utils, Keys, FieldValue} from "@sinequa/core/base";
 import {FacetService} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
@@ -30,7 +30,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
     searchBar = false; // Collapsed by default
     suggestDelay = 200;
     private readonly debounceSuggest: () => void;
-    suggestions: Suggestion[] = [];
+    suggestions: AggregationItem[] = [];
 
     // Loading more data
     skip = 0;
@@ -38,7 +38,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
     loadingMore = false;
 
     // Sets to keep track of selected/excluded/filtered items
-    filtered: {value: FieldValue, display: string | undefined, count?: number, $column?: CCColumn}[] = []
+    filtered: Partial<AggregationItem>[] = [];
     // TODO keep track of excluded terms and display them with specific color private
 
     // Actions (displayed in facet menu)
@@ -188,7 +188,8 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
             this.data.items.forEach(item => {
                 if (this.data && this.facetService.itemFiltered(this.getName(), this.data, item)) {
                     if (!this.isFiltered(item)) {
-                    this.filtered.push({value: item.value, display: item.display || (item.value as string), count: item.count, $column: item.$column});
+                        item.$filtered = true;
+                        this.filtered.push(item);
                     }
                 }
             });
@@ -197,9 +198,8 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
         // refresh filters from breadcrumbs
         const items = this.facetService.getAggregationItemsFiltered(this.getName(), this.data?.valuesAreExpressions);
         items.forEach(item => {
-            const value = {value: item.value, display: item.display || (item.value as string), $column: item.$column};
             if (!this.isFiltered(item)) {
-                this.filtered.push(value);
+                this.filtered.push(item);
             }
         });
     }
@@ -208,9 +208,15 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      * Returns true if the given AggregationItem is filtered
      * @param item
      */
-    isFiltered(item: AggregationItem | Suggestion): boolean {
-        const display = (this.isAggregationItem(item)) ? item.display || (item.value as string) : item.display
-        return this.filtered.some(it => it.display === display);
+    isFiltered(item: AggregationItem): boolean {
+        // specific to Values Are Expressions where expression are not well formated by Expression Parser
+        // eg: when values is : "> 0", Expression Parser returns : ">0" without space beetwen operator and value
+        if (this.data?.valuesAreExpressions) {
+            const value = this.noWhitespace(item.value);
+            const filtered = this.filtered.map(item => ({...item, value: this.noWhitespace(item.value)})) || [];
+            return filtered.some(it => it.value === value);
+        }
+        return this.filtered.some(it => it.value === item.value)
     }
 
     /**
@@ -317,20 +323,6 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
     }
 
     /**
-     * Called when clicking on a facet suggest text
-     * @param suggest autocomplete suggestion returned by the suggestfield API
-     * @param event
-     */
-    filterSuggest(suggest: Suggestion, event) : boolean {
-        const item: AggregationItem = {
-            value: suggest.normalized || suggest.display,
-            display: suggest.display,
-            count: 0
-        };
-        return this.filterItem(item, event);
-    }
-
-    /**
      * Called on keyup event on search input
      * @param event
      */
@@ -376,12 +368,13 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
         }
         Utils.subscribe(this.facetService.suggest(this.searchQuery, this.data.column),
             (items) => {
-                this.suggestions = [...items.slice(0, this.count)];
+                this.suggestions = items.slice(0, this.count).map(item => this.facetService.suggestionToAggregationItem(item));
                 const hasSuggestions = (this.suggestions.length > 0);
                 if (!hasSuggestions && this.searchQuery.trim() !== "") {
                     this.suggestions = [{ // Display "no results"
+                        value: "",
                         display: "",
-                        category: ""
+                        count: 0
                     }];
                 }
             },
@@ -414,12 +407,24 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
             return [];
         }
         if (!this.data.isDistribution || this.displayEmptyDistributionIntervals) {
-            return this.data.items;
+            return this.data.items.filter(item => !!!item.$filtered);
         }
-        return this.data.items.filter(item => item.count > 0);
+        return this.data.items.filter(item => item.count > 0 && !!!item.$filtered);
     }
 
-    private isAggregationItem(item: AggregationItem | Suggestion): item is AggregationItem {
-        return (item as AggregationItem).value !== undefined;
-    }
+    /**
+     * Useful to compare string expressions
+     * 
+     * @param value string where spaces should be trimmed
+     * 
+     * @returns value trimmed. eg: "a b c" => "abc"
+     */
+    private noWhitespace = (value: FieldValue | undefined): FieldValue | undefined => {
+        switch (typeof value) {
+            case "string":
+                return value.replace(/\s/g, '');
+            default:
+                return value;
+        }
+    };
 }
