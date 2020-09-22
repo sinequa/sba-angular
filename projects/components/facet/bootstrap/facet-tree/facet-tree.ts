@@ -98,7 +98,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         if (!!changes["results"]) {     // New data from the search service
             this.filtered.clear();
-            this.data = this.facetService.getTreeAggregation(this.getName(), this.aggregation, this.results, this.initNodes);
+            this.data = this.facetService.getAggregation(this.aggregation, this.results, {facetName: this.getName(), levelCallback: this.initNodes});
 
             this.refreshFiltered();
         }

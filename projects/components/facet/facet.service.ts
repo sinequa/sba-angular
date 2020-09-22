@@ -326,7 +326,9 @@ export class FacetService {
             const expr = this.findItemFilter(facetName, aggregation, item);
             const i = this.searchService.breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === expr || select.expr === expr?.parent));
 
-            if (expr && expr.parent && expr.parent.operands.length > 1) {
+            // 'Select' can't be created when aggregation is a tree map, so, avoid aggregation tree
+            // and remove whole breadcrumbs
+            if (!aggregation.isTree && expr && expr.parent && expr.parent.operands.length > 1) {
                 // create a new Expr from parent and replaces Select by this new one
                 // so, breadcrumbs stay ordered
                 const items: AggregationItem[] = this.toAggregationItem(aggregation.valuesAreExpressions, expr.parent.operands).filter(i => (i.value as string).replace(/ /g, "") !== item.value.toString().replace(/ /g, ""));
@@ -413,13 +415,19 @@ export class FacetService {
      * @param aggregationName
      * @param results The search results can be provided explicitly or taken from the SearchService implicitly.
      */
-    getAggregation(aggregationName: string, results = this.searchService.results): Aggregation | undefined {
+    getAggregation(aggregationName: string, results = this.searchService.results, treeAggregationOptions?: {facetName: string, levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, filtered?: boolean) => void}): Aggregation | TreeAggregation | undefined {
         if (results && results.aggregations) {
-            for (const aggregation of results.aggregations) {
-                if (Utils.eqNC(aggregation.name, aggregationName)) {
-                    this.setColumn(aggregation);    // Useful for formatting and i18n
-                    return aggregation;
+            const aggregation = results.aggregations.find(agg => Utils.eqNC(agg.name, aggregationName))
+            if (aggregation) {
+                this.setColumn(aggregation);    // Useful for formatting and i18n
+                if (aggregation.isTree && treeAggregationOptions) {
+                    const expr = this.findFilter(treeAggregationOptions.facetName);
+                    const expandPaths = expr ? expr.getValues(aggregation.column) : [];
+                    this.initTreeNodes(treeAggregationOptions.facetName, aggregation, "/", aggregation.items as TreeAggregationNode[], expandPaths, treeAggregationOptions.levelCallback);
+
+                    return aggregation as TreeAggregation;
                 }
+                return aggregation;
             }
         }
         return undefined;
@@ -428,6 +436,7 @@ export class FacetService {
     /**
      * Look for a Tree aggregation with the given name in the search results and returns it.
      * Takes care of initializing the Node aggregation items to insert their properties ($column, $path, $opened, $level)
+     * @deprecated use getAggregation() instead
      * @param facetName
      * @param aggregationName
      * @param results The search results can be provided explicitly or taken from the SearchService implicitly.
@@ -902,7 +911,9 @@ export class FacetService {
         const expr = [] as Expr[][];
         for (const item of items) {
             const value = (item.expr?.display === undefined) ? item.expr?.operands as Expr[] || item.expr : item.expr;
-            expr.push(value as Expr[]);
+            if (value) {
+                expr.push(value as Expr[]);
+            }
         }
         // faltten results
         const flattenExpr = [].concat.apply([], expr);
