@@ -329,6 +329,10 @@ export interface AggregationItem {
      */
     $unselectable?: boolean;
     /**
+     * A client-side field that indicates whether this item is currently filtered
+     */
+    $filtered?: boolean;
+    /**
      * A client-side field that indicates the column that provided the value for this item.
      * This can be useful when mixing items from different aggregations.
      */

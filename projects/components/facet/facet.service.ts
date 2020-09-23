@@ -1,10 +1,11 @@
 import {Injectable, Inject, Optional, InjectionToken} from "@angular/core";
 import {UserSettingsWebService, UserSettings, Suggestion,
     Results, Aggregation, AggregationItem, TreeAggregation, TreeAggregationNode,
-    AuditEvents} from "@sinequa/core/web-services";
+    AuditEvents, EngineType
+} from "@sinequa/core/web-services";
 import {IntlService} from "@sinequa/core/intl";
 import {Query, AppService, FormatService, ValueItem, Expr, ExprParser} from "@sinequa/core/app-utils";
-import {Utils} from "@sinequa/core/base";
+import {FieldValue, Utils} from "@sinequa/core/base";
 import {Subject, Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {SearchService, BreadcrumbsItem} from "@sinequa/components/search";
@@ -268,10 +269,10 @@ export class FacetService {
             if (expr && same && index !== -1){
                 let _items: AggregationItem[];
                 if (expr?.operands) {
-                    _items = this.toAggregationItem(aggregation.valuesAreExpressions, expr.operands).concat(items);
+                    _items = this.ExprToAggregationItem(expr.operands, aggregation.valuesAreExpressions).concat(items);
                 } else {
                     // previous selection is a single value
-                    _items = this.toAggregationItem(aggregation.valuesAreExpressions, expr as Expr).concat(items);
+                    _items = this.ExprToAggregationItem(expr as Expr, aggregation.valuesAreExpressions).concat(items);
                 }
                 // overrides options settings with expression if any
                 options = {and: options.and || expr.and, not: options.not || expr.not};
@@ -331,7 +332,11 @@ export class FacetService {
             if (!aggregation.isTree && expr && expr.parent && expr.parent.operands.length > 1) {
                 // create a new Expr from parent and replaces Select by this new one
                 // so, breadcrumbs stay ordered
-                const items: AggregationItem[] = this.toAggregationItem(aggregation.valuesAreExpressions, expr.parent.operands).filter(i => (i.value as string).replace(/ /g, "") !== item.value.toString().replace(/ /g, ""));
+                const filterByValuesAreExpression = (it: AggregationItem) => it.value.toString().replace(/ /g, "") !== item.value.toString().replace(/ /g, "");
+                const filterByValue = (it: AggregationItem) => it.value !== item.value
+                const filter = (aggregation.valuesAreExpressions) ? filterByValuesAreExpression : filterByValue;
+
+                const items: AggregationItem[] = this.ExprToAggregationItem(expr.parent.operands, aggregation.valuesAreExpressions).filter(filter);
                 const _expr = this.makeExpr(facetName, aggregation, items, {and: expr.parent.and, not: expr.parent.not});
                 if (_expr) this.searchService.query.replaceSelect(i, {expression: _expr, facet: facetName});
             } else {
@@ -891,12 +896,35 @@ export class FacetService {
         return expr
     }
 
-    toAggregationItem(valuesAreExpressions: boolean, expr: Expr[] | Expr): AggregationItem[] {
-        const fn = [(item: Expr) => ({count: 0, value: item.value, display: item.display, $column: item.column} as AggregationItem), (item: Expr) => ({count: 0, value: item.toString((item.value) ? true : false), display: item.display, $column: item.column} as AggregationItem)];
+    /**
+     * Convert an Expression object or an Expression Array to their AggregationItem equivalent
+     * 
+     * @param expr Expression object or Expression Array
+     * @param valuesAreExpressions when true values should be converted to string otherwise no
+     * 
+     * @returns AggregationItem array with converted expression or an empty array
+     */
+    ExprToAggregationItem(expr: Expr[] | Expr, valuesAreExpressions: boolean = false): AggregationItem[] {
+        const fn = [
+            (item: Expr) => {
+                let value: FieldValue = item.value as string;
+                if (item.column?.eType === EngineType.bool) {
+                    value = Utils.isTrue(item.value);
+                }
+                return ({count: 0, value, display: item.display, $column: item.column} as AggregationItem);
+            },
+            (item: Expr) => ({count: 0, value: item.toString((item.value) ? true : false), display: item.display, $column: item.column} as AggregationItem)
+        ];
+
         const callback = valuesAreExpressions ? fn[1] : fn[0];
         return [].concat(expr as []).map(callback) as AggregationItem[];
     }
 
+    /**
+     * Get all Breadcrumbs items from a specific facet
+     * 
+     * @param facetName facet name where to extract all breadcrumbs
+     */
     getBreadcrumbsItems(facetName: string): BreadcrumbsItem[] {
         if (this.searchService.breadcrumbs) {
             return this.searchService.breadcrumbs.items.filter(item => item.facet === facetName);
@@ -904,6 +932,12 @@ export class FacetService {
         return [];
     }
 
+    /**
+     * Get all Aggregation items from a facet, currently filtered
+     * 
+     * @param facetName facet name where to inspect
+     * @param valuesAreExpressions when true, some transformations should be done
+     */
     getAggregationItemsFiltered(facetName: string, valuesAreExpressions: boolean = false): AggregationItem[] {
         const items = this.getBreadcrumbsItems(facetName);
 
@@ -918,6 +952,26 @@ export class FacetService {
         // faltten results
         const flattenExpr = [].concat.apply([], expr);
 
-        return this.toAggregationItem(valuesAreExpressions, flattenExpr);
+        return this.ExprToAggregationItem(flattenExpr, valuesAreExpressions);
+    }
+
+    /**
+     * Convert Suggestion to AggregationItem
+     * @param suggest a Suggestion object
+     *
+     * @returns AggregationItem object with is `$column` property defined.
+     * On boolean type, convert `value` property to boolean
+     */
+    suggestionToAggregationItem(suggest: Suggestion): AggregationItem {
+        const item: AggregationItem = {
+            value: suggest.normalized || suggest.display,
+            display: suggest.display,
+            count: 0,
+            $column: this.appService.getColumn(suggest.category)
+        };
+        if (item.$column?.eType === EngineType.bool) {
+            item.value = Utils.isTrue(item.value);
+        }
+        return item;
     }
 }

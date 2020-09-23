@@ -1,17 +1,17 @@
 import {TestBed} from "@angular/core/testing";
 
-import {UserSettingsWebService, Aggregation, AggregationItem, START_CONFIG} from '@sinequa/core/web-services';
+import {UserSettingsWebService, Aggregation, AggregationItem, START_CONFIG, EngineType} from '@sinequa/core/web-services';
 import {AppService, FormatService, Expr, ExprValueInitializer, ExprOperandsInitializer, ExprOperator, Query} from '@sinequa/core/app-utils';
 import {IntlService} from '@sinequa/core/intl';
 
-import {AGGREGATION_GEO, FACETS, AGGREGATION_SIZE} from './mocks/mock';
+import {AGGREGATION_GEO, FACETS, AGGREGATION_SIZE, AGGREGATION_BOOLEAN} from './mocks/mock';
 import {FacetService, DEFAULT_FACETS, FacetEventType} from '../facet';
 import {SearchService, Breadcrumbs, BreadcrumbsItem} from '../search';
 import {SuggestService} from '../autocomplete';
 import {HttpHandler} from '@angular/common/http';
 
 describe("FacetService", () => {
-	const aggregation = {geo: AGGREGATION_GEO as Aggregation, size: AGGREGATION_SIZE as unknown as Aggregation};
+	const aggregation = {geo: AGGREGATION_GEO as Aggregation, size: AGGREGATION_SIZE as unknown as Aggregation, bool: AGGREGATION_BOOLEAN as Aggregation};
 	let service: FacetService;
 	let searchService: SearchService;
 	let appService: AppService;
@@ -525,7 +525,7 @@ describe("FacetService", () => {
 			};
 
 			const expr: Expr = new Expr(exprInitializer);
-			const expected = service.toAggregationItem(aggregation["geo"].valuesAreExpressions, expr as Expr);
+			const expected = service.ExprToAggregationItem(expr as Expr, aggregation["geo"].valuesAreExpressions);
 
 			expect(expected).toEqual([{count: 0, value: item.value, display: item.display, $column: undefined}])
 		});
@@ -558,181 +558,256 @@ describe("FacetService", () => {
 			};
 
 			const expr: Expr = new Expr(exprInitializer);
-			const expected = service.toAggregationItem(aggregation["size"].valuesAreExpressions, expr as Expr);
+			const expected = service.ExprToAggregationItem(expr as Expr, aggregation["size"].valuesAreExpressions);
 
 			expect(expected).toEqual([{count: 0, value: item.value, display: item.display, $column: undefined}])
 		});
 	})
 
-	it("should returns breadcrumbs items", () => {
-		// Given
-		// create a breadcrumbs with initial values
-		const exprValueInitializer: ExprValueInitializer = {
-			exprContext: {appService, formatService, intlService},
-			display: "Iraq",
-			value: "IRAQ",
-			field: "country"
-		}
-		const expr: Expr = new Expr(exprValueInitializer);
+	describe("breadcrumbs conversions to AggregationItem", () => {
 
-		const item: BreadcrumbsItem = {
-			expr,
-			display: "Iraq",
-			facet: "Geo",
-			active: true
-		};
-		searchService.breadcrumbs = {
-			items: [{expr: undefined, display: "abc"}, item] as BreadcrumbsItem[],
-			activeSelects: [item] as BreadcrumbsItem[]
-		} as Breadcrumbs;
+		it("should returns aggregationItems as simples values", () => {
+			// Given
+			// create a breadcrumbs with initial values
+			const exprValueInitializer: ExprValueInitializer = {
+				exprContext: {appService, formatService, intlService},
+				display: "Iraq",
+				value: "IRAQ",
+				field: "country"
+			}
+			const expr: Expr = new Expr(exprValueInitializer);
 
-		const breadcrumbsItems = service.getBreadcrumbsItems("Geo");
-		expect(breadcrumbsItems.length).toEqual(1);
-		expect(breadcrumbsItems).toEqual([{expr: jasmine.anything(), display: "Iraq", facet: "Geo", active: true}]);
+			const item: BreadcrumbsItem = {
+				expr,
+				display: "Iraq",
+				facet: "Geo",
+				active: true
+			};
+			searchService.breadcrumbs = {
+				items: [{expr: undefined, display: "abc"}, item] as BreadcrumbsItem[],
+				activeSelects: [item] as BreadcrumbsItem[]
+			} as Breadcrumbs;
 
-		const aggregationItems = service.toAggregationItem(aggregation["geo"].valuesAreExpressions, breadcrumbsItems[0].expr as Expr);
-		expect(aggregationItems.length).toEqual(1);
-		expect(aggregationItems).toEqual([{count: 0, value: 'IRAQ', display: 'Iraq', $column: undefined}]);
-	});
+			const breadcrumbsItems = service.getBreadcrumbsItems("Geo");
+			expect(breadcrumbsItems.length).toEqual(1);
+			expect(breadcrumbsItems).toEqual([{expr: jasmine.anything(), display: "Iraq", facet: "Geo", active: true}]);
+
+			const aggregationItems = service.ExprToAggregationItem(breadcrumbsItems[0].expr as Expr, aggregation["geo"].valuesAreExpressions);
+			expect(aggregationItems.length).toEqual(1);
+			expect(aggregationItems).toEqual([{count: 0, value: 'IRAQ', display: 'Iraq', $column: undefined}]);
+		});
+
+		it("should returns aggregationItems as ValuesAreExpression", () => {
+			const query = new Query("training_query");
+			query.text = "obama";
+			query.tab = "all";
+			query.addSelect("geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`)))", "geo");
+			query.addSelect("company`Washington POST`:WASHINGTON POST", "company");
+			query.addSelect("size`< 10 Ko`:(>=0 AND <10240)", "size");
+			query.addSelect("documentlanguages:(`fr`)", "documentlanguages");
+
+			spyOn(query, 'copy').and.returnValue(query);
+			spyOn(query, 'copyAdvanced').and.returnValue(query);
+
+			// When
+			const breadcrumbs = Breadcrumbs.create(appService, searchService, query);
+			searchService.breadcrumbs = breadcrumbs;
+
+			// Then
+			expect(breadcrumbs.text instanceof Expr).toBeTrue();
+			expect(breadcrumbs.text.toString()).toEqual('text:obama');
+			expect(breadcrumbs.items.length).toEqual(5);
+			expect(breadcrumbs.items[0].expr?.toString()).toEqual("text:obama");
+			expect(breadcrumbs.items[1].expr?.toString()).toEqual("geo:(`Iraq`:IRAQ OR `Guantanamo`:GUANTANAMO)");
+			expect(breadcrumbs.items[2].expr?.toString()).toEqual("company`Washington POST`:WASHINGTON POST");
+			expect(breadcrumbs.items[3].expr?.toString(false)).toEqual("size`< 10 Ko`:(>=0 AND <10240)");
+			expect(breadcrumbs.items[4].expr?.toString(false)).toEqual("fr");
+
+			let expr: Expr = appService.parseExpr(breadcrumbs.items[1].expr?.toString() || "") as Expr;
+			expect(expr instanceof Expr).toBeTrue();
+			expect(expr.operands.length).toEqual(2);
+			expect(expr.operands[0].value).toEqual("IRAQ");
+			expect(expr.operands[0].field).toEqual("geo");
+			expect(expr.operands[1].value).toEqual("GUANTANAMO");
+
+			let r = service.ExprToAggregationItem(expr.operands, aggregation["geo"].valuesAreExpressions);
+			expect(r).toEqual([{count: 0, value: "IRAQ", display: "Iraq", $column: undefined}, {count: 0, value: "GUANTANAMO", display: "Guantanamo", $column: undefined}])
+
+			expr = appService.parseExpr(breadcrumbs.items[2].expr?.toString() || "") as Expr;
+			expect(expr instanceof Expr).toBeTrue();
+			expect(expr.value).toEqual("WASHINGTON POST");
+			expect(expr.field).toEqual("company");
+
+			r = service.ExprToAggregationItem(expr, aggregation["geo"].valuesAreExpressions);
+			expect(r).toEqual([{count: 0, value: "WASHINGTON POST", display: "Washington POST", $column: undefined}]);
+
+			expr = appService.parseExpr(breadcrumbs.items[3].expr?.toString(false) || "") as Expr;
+			expect(expr instanceof Expr).toBeTrue();
+			expect(expr.operands.length).toEqual(2);
+			expect(expr.operands[0].value).toEqual(">=0");
+			expect(expr.operands[0].field).toEqual("size");
+			expect(expr.operands[1].value).toEqual("<10240");
+			expect(expr.operands[1].field).toEqual("size");
+
+			r = service.ExprToAggregationItem(expr, aggregation["size"].valuesAreExpressions);
+			expect(r).toEqual([{count: 0, value: "size`< 10 Ko`:(>=0 AND <10240)", display: "< 10 Ko", $column: undefined}]);
+		});
+
+		it("should returns aggregationItems", () => {
+			// Given
+			const facetName = "geo";
+			const query = new Query("training_query");
+			query.text = "obama";
+			query.tab = "all";
+			query.addSelect("geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`)))", "geo");
+			query.addSelect("company`Washington POST`:WASHINGTON POST", "company");
+			query.addSelect("size`< 10 Ko`:(>=0 AND <10240)", "size");
+			query.addSelect("geo:((`Iowa`:(`IOWA`)) AND (`Honolulu`:(`HONOLULU`)))", "geo");
+			query.addSelect("geo`Chicago`:(`CHICAGO`)", "geo");
 
 
-	it("should returns aggregationItems", () => {
-		const query = new Query("training_query");
-		query.text = "obama";
-		query.tab = "all";
-		query.addSelect("geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`)))", "geo");
-		query.addSelect("company`Washington POST`:WASHINGTON POST", "company");
-		query.addSelect("size`< 10 Ko`:(>=0 AND <10240)", "size");
-		query.addSelect("documentlanguages:(`fr`)", "documentlanguages");
+			spyOn(query, 'copy').and.returnValue(query);
+			spyOn(query, 'copyAdvanced').and.returnValue(query);
 
-		spyOn(query, 'copy').and.returnValue(query);
-		spyOn(query, 'copyAdvanced').and.returnValue(query);
+			const breadcrumbs = Breadcrumbs.create(appService, searchService, query);
+			searchService.breadcrumbs = breadcrumbs;
 
-		// When
-		const breadcrumbs = Breadcrumbs.create(appService, searchService, query);
-		searchService.breadcrumbs = breadcrumbs;
+			// When
+			const items = service.getBreadcrumbsItems(facetName);
+			expect(items.length).toEqual(3);
+			expect(items[0].expr?.operands.length).toEqual(2);
+			expect(items[1].expr?.operands.length).toEqual(2);
+			expect(items[2].expr?.operands).toBeUndefined()
 
-		// Then
-		expect(breadcrumbs.text instanceof Expr).toBeTrue();
-		expect(breadcrumbs.text.toString()).toEqual('text:obama');
-		expect(breadcrumbs.items.length).toEqual(5);
-		expect(breadcrumbs.items[0].expr?.toString()).toEqual("text:obama");
-		expect(breadcrumbs.items[1].expr?.toString()).toEqual("geo:(`Iraq`:IRAQ OR `Guantanamo`:GUANTANAMO)");
-		expect(breadcrumbs.items[2].expr?.toString()).toEqual("company`Washington POST`:WASHINGTON POST");
-		expect(breadcrumbs.items[3].expr?.toString(false)).toEqual("size`< 10 Ko`:(>=0 AND <10240)");
-		expect(breadcrumbs.items[4].expr?.toString(false)).toEqual("fr");
+			// aggregation items are constructed from nested expressions
+			const r = [] as Expr[][];
+			for (const item of items) {
+				const value = item.expr?.operands as Expr[] || item.expr;
+				r.push(value);
+			}
+			// faltten results
+			const result = [].concat.apply([], r);
 
-		let expr: Expr = appService.parseExpr(breadcrumbs.items[1].expr?.toString() || "") as Expr;
-		expect(expr instanceof Expr).toBeTrue();
-		expect(expr.operands.length).toEqual(2);
-		expect(expr.operands[0].value).toEqual("IRAQ");
-		expect(expr.operands[0].field).toEqual("geo");
-		expect(expr.operands[1].value).toEqual("GUANTANAMO");
+			const aggItems = service.ExprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
 
-		let r = service.toAggregationItem(aggregation["geo"].valuesAreExpressions, expr.operands);
-		expect(r).toEqual([{count: 0, value: "IRAQ", display: "Iraq", $column: undefined}, {count: 0, value: "GUANTANAMO", display: "Guantanamo", $column: undefined}])
+			// Then
+			expect(aggItems.length).toEqual(5);
+			expect(aggItems.map(item => item.value)).toEqual(["IRAQ", "GUANTANAMO", "IOWA", "HONOLULU", "CHICAGO"]);
+		})
 
-		expr = appService.parseExpr(breadcrumbs.items[2].expr?.toString() || "") as Expr;
-		expect(expr instanceof Expr).toBeTrue();
-		expect(expr.value).toEqual("WASHINGTON POST");
-		expect(expr.field).toEqual("company");
+		it("should returns aggregationItems as ValuesAreExpression", () => {
+			// Given
+			const facetName = "size";
+			const query = new Query("training_query");
+			query.text = "obama";
+			query.tab = "all";
+			query.addSelect("((size`10 Ko à 100 Ko`:(>= 10240 AND < 102400)) OR (size`100 Ko à 1 Mo`:(>= 102400 AND < 1048576)))", "size");
+			query.addSelect("size`1 Mo à 10 Mo`:(>= 1048576 AND < 10485760)", "size");
 
-		r = service.toAggregationItem(aggregation["geo"].valuesAreExpressions, expr);
-		expect(r).toEqual([{count: 0, value: "WASHINGTON POST", display: "Washington POST", $column: undefined}]);
+			spyOn(query, 'copy').and.returnValue(query);
+			spyOn(query, 'copyAdvanced').and.returnValue(query);
 
-		expr = appService.parseExpr(breadcrumbs.items[3].expr?.toString(false) || "") as Expr;
-		expect(expr instanceof Expr).toBeTrue();
-		expect(expr.operands.length).toEqual(2);
-		expect(expr.operands[0].value).toEqual(">=0");
-		expect(expr.operands[0].field).toEqual("size");
-		expect(expr.operands[1].value).toEqual("<10240");
-		expect(expr.operands[1].field).toEqual("size");
+			const breadcrumbs = Breadcrumbs.create(appService, searchService, query);
+			searchService.breadcrumbs = breadcrumbs;
 
-		r = service.toAggregationItem(aggregation["size"].valuesAreExpressions, expr);
-		expect(r).toEqual([{count: 0, value: "size`< 10 Ko`:(>=0 AND <10240)", display: "< 10 Ko", $column: undefined}]);
-	});
+			// When
+			const items = service.getBreadcrumbsItems(facetName);
+			expect(items.length).toEqual(2);
+			expect(items[0].expr?.operands.length).toEqual(2);
+			expect(items[1].expr?.operands.length).toEqual(2);
 
-	it("should convert Breadcrumbs items to aggregation items", () => {
-		// Given
-		const facetName = "geo";
-		const query = new Query("training_query");
-		query.text = "obama";
-		query.tab = "all";
-		query.addSelect("geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`)))", "geo");
-		query.addSelect("company`Washington POST`:WASHINGTON POST", "company");
-		query.addSelect("size`< 10 Ko`:(>=0 AND <10240)", "size");
-		query.addSelect("geo:((`Iowa`:(`IOWA`)) AND (`Honolulu`:(`HONOLULU`)))", "geo");
-		query.addSelect("geo`Chicago`:(`CHICAGO`)", "geo");
+			// aggregation items are constructed from nested expressions
+			const r = [] as Expr[][];
+			for (const item of items) {
+				const value = (item.expr?.display === undefined) ? item.expr?.operands as Expr[] || item.expr : item.expr;
+				r.push(value as Expr[]);
+			}
+			// faltten results
+			const result = [].concat.apply([], r);
 
+			const aggItems = service.ExprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
 
-		spyOn(query, 'copy').and.returnValue(query);
-		spyOn(query, 'copyAdvanced').and.returnValue(query);
+			// Then
+			expect(aggItems.length).toEqual(3);
+			expect(aggItems.map(item => item.display)).toEqual(["10 Ko à 100 Ko", "100 Ko à 1 Mo", "1 Mo à 10 Mo"]);
+		})
 
-		const breadcrumbs = Breadcrumbs.create(appService, searchService, query);
-		searchService.breadcrumbs = breadcrumbs;
+		it("should returns aggregationItems as boolean value", () => {
+			// Given
+			const facetName = "bool";
+			const query = new Query("training_query");
+			query.text = "obama";
+			query.tab = "all";
+			query.addSelect("bool:(`true`)", "bool");
+			//query.addSelect("bool:((`false`) OR (`true`))", "bool");
 
-		// When
-		const items = service.getBreadcrumbsItems(facetName);
-		expect(items.length).toEqual(3);
-		expect(items[0].expr?.operands.length).toEqual(2);
-		expect(items[1].expr?.operands.length).toEqual(2);
-		expect(items[2].expr?.operands).toBeUndefined()
+			spyOn(query, 'copy').and.returnValue(query);
+			spyOn(query, 'copyAdvanced').and.returnValue(query);
 
-		// aggregation items are constructed from nested expressions
-		const r = [] as Expr[][];
-		for (const item of items) {
-			const value = item.expr?.operands as Expr[] || item.expr;
-			r.push(value);
-		}
-		// faltten results
-		const result = [].concat.apply([], r);
+			const breadcrumbs = Breadcrumbs.create(appService, searchService, query);
+			searchService.breadcrumbs = breadcrumbs;
 
-		const aggItems = service.toAggregationItem(aggregation[facetName].valuesAreExpressions, result);
+			// When
+			const items = service.getBreadcrumbsItems(facetName);
+			expect(items.length).toEqual(1);
+			expect(items[0].expr?.operands).toBeUndefined(); 		// (true) no operands
 
-		// Then
-		expect(aggItems.length).toEqual(5);
-		expect(aggItems.map(item => item.value)).toEqual(["IRAQ", "GUANTANAMO", "IOWA", "HONOLULU", "CHICAGO"]);
-	})
+			// as no resolve columns are done to find column type, we fake this value here
+			spyOnProperty<any>(items[0].expr, 'column', 'get').and.returnValue({eType: EngineType.bool});
 
-	it("should convert Breadcrumbs items to aggregation items with ValuesAreExpression=true", () => {
-		// Given
-		const facetName = "size";
-		const query = new Query("training_query");
-		query.text = "obama";
-		query.tab = "all";
-		query.addSelect("geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`)))", "geo");
-		query.addSelect("company`Washington POST`:WASHINGTON POST", "company");
-		query.addSelect("((size`10 Ko à 100 Ko`:(>= 10240 AND < 102400)) OR (size`100 Ko à 1 Mo`:(>= 102400 AND < 1048576)))", "size");
-		query.addSelect("geo:((`Iowa`:(`IOWA`)) AND (`Honolulu`:(`HONOLULU`)))", "geo");
-		query.addSelect("geo`Chicago`:(`CHICAGO`)", "geo");
-		query.addSelect("size`1 Mo à 10 Mo`:(>= 1048576 AND < 10485760)", "size");
-		query.addSelect("documentlanguages:(`fr`)", "documentlanguages");
+			// aggregation items are constructed from nested expressions
+			const r = [] as Expr[][];
+			for (const item of items) {
+				const value = (item.expr?.display === undefined) ? item.expr?.operands as Expr[] || item.expr : item.expr;
+				r.push(value as Expr[]);
+			}
+			// faltten results
+			const result = [].concat.apply([], r);
 
-		spyOn(query, 'copy').and.returnValue(query);
-		spyOn(query, 'copyAdvanced').and.returnValue(query);
+			// When
+			const aggItems = service.ExprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
+			expect(aggItems.length).toEqual(1);
+			expect(aggItems[0]).toEqual({count: 0, value: true, display: undefined, $column: jasmine.anything()});
+		})
 
-		const breadcrumbs = Breadcrumbs.create(appService, searchService, query);
-		searchService.breadcrumbs = breadcrumbs;
+		it("should returns aggregationItems as boolean values", () => {
+			// Given
+			const facetName = "bool";
+			const query = new Query("training_query");
+			query.text = "obama";
+			query.tab = "all";
+			query.addSelect("bool:((`false`) OR (`true`))", "bool");
 
-		// When
-		const items = service.getBreadcrumbsItems(facetName);
-		expect(items.length).toEqual(2);
-		expect(items[0].expr?.operands.length).toEqual(2);
-		expect(items[1].expr?.operands.length).toEqual(2);
+			spyOn(query, 'copy').and.returnValue(query);
+			spyOn(query, 'copyAdvanced').and.returnValue(query);
 
-		// aggregation items are constructed from nested expressions
-		const r = [] as Expr[][];
-		for (const item of items) {
-			const value = (item.expr?.display === undefined) ? item.expr?.operands as Expr[] || item.expr : item.expr;
-			r.push(value as Expr[]);
-		}
-		// faltten results
-		const result = [].concat.apply([], r);
+			const breadcrumbs = Breadcrumbs.create(appService, searchService, query);
+			searchService.breadcrumbs = breadcrumbs;
 
-		const aggItems = service.toAggregationItem(aggregation[facetName].valuesAreExpressions, result);
+			// When
+			const items = service.getBreadcrumbsItems(facetName);
+			expect(items.length).toEqual(1);
+			expect(items[0].expr?.operands).toBeDefined(); 		// (false, true) operands
 
-		// Then
-		expect(aggItems.length).toEqual(3);
-		expect(aggItems.map(item => item.display)).toEqual(["10 Ko à 100 Ko", "100 Ko à 1 Mo", "1 Mo à 10 Mo"]);
+			// as no resolve columns are done to find column type, we fake this value here
+			spyOnProperty<any>(items[0].expr?.operands[0], 'column', 'get').and.returnValue({eType: EngineType.bool});
+			spyOnProperty<any>(items[0].expr?.operands[1], 'column', 'get').and.returnValue({eType: EngineType.bool});
+
+			// aggregation items are constructed from nested expressions
+			const r = [] as Expr[][];
+			for (const item of items) {
+				const value = (item.expr?.display === undefined) ? item.expr?.operands as Expr[] || item.expr : item.expr;
+				r.push(value as Expr[]);
+			}
+			// faltten results
+			const result = [].concat.apply([], r);
+
+			// When
+			const aggItems = service.ExprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
+			expect(aggItems.length).toEqual(2);
+			expect(aggItems[0]).toEqual({count: 0, value: false, display: undefined, $column: jasmine.anything()});
+			expect(aggItems[1]).toEqual({count: 0, value: true, display: undefined, $column: jasmine.anything()});
+		})
+
 	})
 });
