@@ -125,7 +125,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    */
   private getFacetCount(facet: FacetConfig): string {
     if(facet.type==='tree'){
-      const agg = this.facetService.getTreeAggregation(facet.name, facet.aggregation, this.results);
+      const agg = this.facetService.getAggregation(facet.aggregation, this.results, {facetName: facet.name});
       if(!agg || !agg.items) return "";
       return agg.items.length + "";
     }
@@ -145,7 +145,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    */
   private hasData(facet: FacetConfig): boolean {
     if(facet.type==='tree'){
-      const agg = this.facetService.getTreeAggregation(facet.name, facet.aggregation, this.results);
+      const agg = this.facetService.getAggregation(facet.aggregation, this.results, {facetName: facet.name});
       return !!agg && !!agg.items && agg.items.length > 0;
     }
     const agg = this.facetService.getAggregation(facet.aggregation, this.results);

@@ -67,7 +67,7 @@ export class BsFacetFilters implements OnChanges {
         // Get facet data
         let items: AggregationItem[] | undefined;
         if (aggregation.isTree) {
-            const _aggregation = this.facetService.getTreeAggregation(facetName, aggregationName, this.results);
+            const _aggregation = this.facetService.getAggregation(aggregationName, this.results, {facetName});
             if (_aggregation) {
                 items = _aggregation.items;
             }
