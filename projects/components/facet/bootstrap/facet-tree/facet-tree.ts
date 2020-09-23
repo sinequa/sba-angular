@@ -8,17 +8,7 @@ import {AbstractFacet} from "../../abstract-facet";
 @Component({
     selector: "sq-facet-tree",
     templateUrl: "./facet-tree.html",
-    styles: [`
-.item-opener {
-    text-decoration: none !important;
-}
-
-a.filtered, a.filtered:hover {
-    text-decoration: none;
-    color: inherit;
-    cursor: inherit;
-}
-`]
+    styleUrls: ["./facet-tree.scss"]
 })
 export class BsFacetTree extends AbstractFacet implements OnChanges {
     @Input() name: string; // If ommited, the aggregation name is used
@@ -28,6 +18,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
     @Input() allowExclude: boolean = true; // Allow to exclude selected items
     @Input() allowOr: boolean = true; // Allow to search various items in OR mode
     @Input() expandedLevel: number = 2;
+    @Input() forceMaxHeight: boolean = true; // Allow to display a scrollbar automatically on long list items
 
     // Aggregation from the Results object
     data: TreeAggregation | undefined;
