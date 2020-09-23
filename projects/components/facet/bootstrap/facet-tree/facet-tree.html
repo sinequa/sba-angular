@@ -1,4 +1,4 @@
-<div *ngIf="!isHidden()" class="list-group list-group-flush">
+<div *ngIf="!isHidden()" class="list-group list-group-flush" [ngClass]="{'scrollable': forceMaxHeight }">
     <ng-container *ngTemplateOutlet="itemsTpl; context:data"></ng-container>
 </div>
 
