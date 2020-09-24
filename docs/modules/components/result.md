@@ -120,6 +120,12 @@ The [`sq-sponsored-results`]({{site.baseurl}}components/components/SponsoredResu
 <sq-sponsored-results [query]="searchService.query"></sq-sponsored-results>
 ```
 
+Note that, in the background, the [`SponsoredLinksWebService`]({{site.baseurl}}core/injectables/SponsoredLinksWebService.html) makes a call to the `query.links` API endpoint, every time the query text is modified (which does not include clicks on facets for example).
+
+The configuration of the links is done as depicted below in the Sinequa administration. Notice the bottom-right buttons to edit the properties of each link (including their thumbnail). See the general documentation about [Sponsored Links](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-ui-sponsored-links.html).
+
+![Sponso configuration]({{site.baseurl}}assets/modules/result/sponso-config.png){: .d-block .mx-auto }
+
 ### Entity summary
 
 The [`sq-result-entity-summary`]({{site.baseurl}}components/components/ResultEntitySummary.html) component displays a summary of the entities found in the document. The entities should normally be styled as they are in the document preview (if you import your preview stylesheet in your main stylesheet).
