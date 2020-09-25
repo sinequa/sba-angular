@@ -176,6 +176,12 @@ sq-feedback-menu {
     }
 }
 
+sq-facet-tree {
+    .list-group.list-group-flush.scrollable {
+        max-height: calc(75vh - 250px);
+    }
+}
+
 // Flex basis classes
 .flex-basis-0 {
     flex-basis: 0;
