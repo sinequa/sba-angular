@@ -19,7 +19,7 @@ pipeline {
 		}
 		stage('Test Components') {
 			steps {
-				bat "npm run ng test components -- --watch=false"					
+				bat "npm run test components -- --watch=false"					
 			}
 		}
 		stage('Build HelloSearch') {
