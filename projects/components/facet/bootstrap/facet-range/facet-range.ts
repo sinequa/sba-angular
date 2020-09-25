@@ -313,7 +313,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
             max = this.parseValue(!!new Date(this.max).getDate()? new Date(this.max) : this.max);
         }
         else {
-            if (this.data) {
+            if (this.data?.items) {
                 const item = this.data.items[0];
                 if (item && item.operatorResults) {
                     if (this.column && AppService.isDate(this.column)) {
