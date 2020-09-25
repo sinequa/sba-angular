@@ -135,6 +135,7 @@ export class LoginService implements OnDestroy {
      */
     overrideUser(userOverride: UserOverride | undefined) {
         this.authenticationService.userOverride = userOverride;
+        this.appService.clear();
         this.principalService.principal = undefined;
         this.userSettingsService.userSettings = undefined;
         this.setComplete();
