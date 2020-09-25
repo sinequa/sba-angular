@@ -14,7 +14,7 @@ Please checkout the [reference documentation]({{site.baseurl}}components/modules
 
 ## Features
 
-This module provides a way to manage multiple views of the search results. At the core, the [`ResultsViewService`]({{site.baseurl}}components/injectables/ResultsViewService.html) keeps track of the current active view, and the list of all available views. This service persists the view name in the URL, and manage the navigation and interactions with the [SearchService]({{site.baseurl}}components/injectables/SearchService.html).
+This module provides a way to manage multiple views of the search results. At the core, the [`ResultsViewService`]({{site.baseurl}}components/injectables/ResultsViewService.html) keeps track of the current active view, and the list of all available views. This service persists the view name in the URL, and manages the navigation and interactions with the [SearchService]({{site.baseurl}}components/injectables/SearchService.html).
 
 The module includes a component (coupled to the service) to select a view (among the list of all views), and a sample "grid" results view, that can be used as an alternative to a standard "list" results view. Other modules include other types of views, such as the [heatmap results view](heatmap.html).
 
@@ -87,7 +87,7 @@ Selecting a results view is as simple as calling:
 this.resultsViewService.selectResultsViewName("grid");
 ```
 
-Behind the scene, the service performs a series actions:
+Behind the scene, the service performs a series of actions:
 
 - Emit a `before-select` event (which can be caught by subscribing to `this.resultsViewService.events`). It is possible to trigger custom actions when this event is fired and tell the service to wait for these actions to complete before actually going to the next step: Simply add 1 (or more) `Promise` to the event object (`event.promises.push(myActionPromise)`).
 - Optionally, execute a new custom search query that will yield different results from the ones displayed in the current view. To do so, add a `beforeSearch` method to the `ResultsView` object to modify the query (example below). In that case, the service waits for the results to come in before going to the next step.

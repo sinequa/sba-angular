@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {Utils} from "@sinequa/core/base";
-import {AppService, FormatService, Query} from "@sinequa/core/app-utils";
+import {AppService, FormatService} from "@sinequa/core/app-utils";
 import {CCColumn, Results} from "@sinequa/core/web-services";
 import {SelectionService} from "@sinequa/components/selection";
 import {SearchService} from "@sinequa/components/search";
