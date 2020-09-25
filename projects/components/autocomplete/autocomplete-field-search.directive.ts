@@ -142,8 +142,8 @@ export class AutocompleteFieldSearch extends Autocomplete {
                 }
                 // Autocomplete "Goo" => "company:GOOGLE"
                 if(res && !res.field && item.category && 
-                    (this.includedFields && this.includedFields?.includes(item.display) || 
-                    (!this.includedFields && !this.excludedFields?.includes(item.display)))) { // Filter out fields if not in fieldSearch mode
+                    (this.includedFields && this.includedFields?.includes(item.category) || 
+                    (!this.includedFields && !this.excludedFields?.includes(item.category)))) { // Filter out fields if not in fieldSearch mode
                     this.replaceValueInForm(res, item.category + ":`" + (item.normalized || item.display) + "` ");
                     return true;
                 }
@@ -192,8 +192,8 @@ export class AutocompleteFieldSearch extends Autocomplete {
             }
 
             else if(this.fieldSearchMode === "selects" && item.category && 
-                (this.includedFields && this.includedFields?.includes(item.display) || 
-                (!this.includedFields && !this.excludedFields?.includes(item.display)))) { // Filter out fields if not in fieldSearch mode
+                (this.includedFields && this.includedFields?.includes(item.category) || 
+                (!this.includedFields && !this.excludedFields?.includes(item.category)))) { // Filter out fields if not in fieldSearch mode
                 // In the case of of a field name, we display the field for autocomplete, but we don't want to search for it
                 if(item.category === "$field$") {
                     this.setInputValue(item.display + ":");
