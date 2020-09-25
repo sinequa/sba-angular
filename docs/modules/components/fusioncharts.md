@@ -3,7 +3,7 @@ layout: default
 title: FusionCharts Module
 parent: Components
 grand_parent: Modules
-nav_order: 19
+nav_order: 20
 ---
 
 # FusionCharts Module

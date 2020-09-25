@@ -37,6 +37,15 @@ import { BsSearchModule } from '@sinequa/components/search';
     })
 ```
 
+This module is internationalized: If not already the case, you need to import its messages for the language(s) of your application. For example, in your app's `src/locales/en.ts`:
+
+```ts
+...
+import {enSearch} from "@sinequa/components/search";
+
+const messages = Utils.merge({}, ..., enSearch, appMessages);
+```
+
 ## Search Service
 
 ### Overview

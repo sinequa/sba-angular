@@ -3,7 +3,7 @@ layout: default
 title: Labels Module
 parent: Components
 grand_parent: Modules
-nav_order: 10
+nav_order: 7
 ---
 
 # Labels Module

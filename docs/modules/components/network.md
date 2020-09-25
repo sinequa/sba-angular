@@ -3,7 +3,7 @@ layout: default
 title: Network Module - BETA
 parent: Components
 grand_parent: Modules
-nav_order: 20
+nav_order: 21
 ---
 
 # Network Module - BETA

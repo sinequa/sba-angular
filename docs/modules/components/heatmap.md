@@ -3,7 +3,7 @@ layout: default
 title: Heatmap Module
 parent: Components
 grand_parent: Modules
-nav_order: 15
+nav_order: 16
 ---
 
 # Heatmap Module
@@ -33,6 +33,15 @@ import { BsHeatmapModule } from '@sinequa/components/heatmap';
   imports: [
     ...
     BsHeatmapModule
+```
+
+This module is internationalized: If not already the case, you need to import its messages for the language(s) of your application. For example, in your app's `src/locales/en.ts`:
+
+```ts
+...
+import {enHeatmap} from "@sinequa/components/heatmap";
+
+const messages = Utils.merge({}, ..., enHeatmap, appMessages);
 ```
 
 ## Server-side setup

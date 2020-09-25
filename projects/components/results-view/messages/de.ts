@@ -19,12 +19,6 @@ export default {
             "selectDocuments": "Dokumente auswählen",
             "unselectDocuments": "Dokumentauswahl aufheben"
         },
-        "resultsTiledView": {
-            "display": "Kachel-Ansicht",
-            "defaultTitle": "(Kein Titel)",
-            "preview": "Voranzeige",
-            "open": "Öffnen"
-        },
         "viewPageSize": "Anzahl der Ergebnisse pro Seite",
         "viewUpdateApply": "Anwenden",
         "warningNoViewForTab": "Der Reiter '{tab}' hat keine zugewiesenen Ergebnisansichten.",
@@ -34,13 +28,5 @@ export default {
         "resultsTextTab": "Text",
         "results_all_tab": "Alle",
         "results_text_tab": "Text",
-
-        "resultsScatterView" : {
-            "display": "Wertewolke"
-        },
-        "resultsConfusionMatrixView" : {
-            "display" : "Matrix",
-            "buttonLabel": "Klasse:"
-        }
     }
 };

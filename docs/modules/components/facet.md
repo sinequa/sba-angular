@@ -39,6 +39,15 @@ import { BsFacetModule } from '@sinequa/components/facet';
     BsFacetModule
 ```
 
+This module is internationalized: If not already the case, you need to import its messages for the language(s) of your application. For example, in your app's `src/locales/en.ts`:
+
+```ts
+...
+import {enFacet} from "@sinequa/components/facet";
+
+const messages = Utils.merge({}, ..., enFacet, appMessages);
+```
+
 ## Facet Card API
 
 The facet card API is based on a generic **container** component, [`sq-facet-card`]({{site.baseurl}}components/components/BsFacetCard.html), and an **abstract facet** component for the content of the facets ([`AbstractFacet`]({{site.baseurl}}components/classes/AbstractFacet.html)):

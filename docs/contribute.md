@@ -3,7 +3,6 @@ layout: default
 title: Contribute
 nav_order: 9
 description: Why and how to contribute
-permalink: /contribute
 ---
 
 # Why contribute
