@@ -14,7 +14,7 @@ Please checkout the [reference documentation]({{site.baseurl}}components/modules
 
 ## Features
 
-This modules provides simple components to easily display the different fields of a document/result/record (object of type [`Record`]({{site.baseurl}}core/interfaces/Record.html)).
+This module provides simple components to easily display the different fields of a document/result/record (object of type [`Record`]({{site.baseurl}}core/interfaces/Record.html)).
 
 These components do **not** depend on a styling framework like Bootstrap, nor on a global stylesheet.
 
@@ -31,6 +31,15 @@ import { ResultModule } from '@sinequa/components/result';
   imports: [
     ...
     ResultModule
+```
+
+This module is internationalized: If not already the case, you need to import its messages for the language(s) of your application. For example, in your app's `src/locales/en.ts`:
+
+```ts
+...
+import {enResult} from "@sinequa/components/result";
+
+const messages = Utils.merge({}, ..., enResult, appMessages);
 ```
 
 ## Components
