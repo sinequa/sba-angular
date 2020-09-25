@@ -53,7 +53,7 @@ export class AuditInterceptor implements HttpInterceptor {
      * can be overidden to update fields in the audit events associated with a
      * web service call.
      */
-    protected updateAuditRecord(auditRecord: AuditRecord) {
+    protected updateAuditRecord(auditRecord?: AuditRecord) {
     }
 
     /**

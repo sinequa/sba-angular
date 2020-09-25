@@ -382,21 +382,21 @@ export interface Aggregation {
     /**
      * Indicates whether the aggregation items are calculated using a distrbution (see App Dependencies in the Sinequa admin interface)
      */
-    isDistribution: boolean;
+    isDistribution?: boolean;
     /**
      * Indicates whether the aggregation items should be handled as tree nodes. This can be set to false for a tree aggregation
      * if the "Load tree as csv" option is checked in the Sinequa configuration
      */
-    isTree: boolean;
+    isTree?: boolean;
     /**
      * Indicates whether the values for the items are fielded search expressions. This is the case for aggregations using a
      * distribution (see `isDistribution`) and crossed distributions
      */
-    valuesAreExpressions: boolean;
+    valuesAreExpressions?: boolean;
     /**
      * The aggregation items for this aggregation
      */
-    items: AggregationItem[];
+    items?: AggregationItem[];
 }
 
 /**
