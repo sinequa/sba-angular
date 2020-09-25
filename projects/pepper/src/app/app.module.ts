@@ -162,7 +162,7 @@ export const selectionOptions: SelectionOptions = {
         NetworkModule,
         GoogleMapsModule,
         AgmCoreModule.forRoot({
-            apiKey: "AIzaSyA3Wo1tqrZNKuWAy0gq--ZkQ-rMR_gJy5w&amp" // Replace with your own Google Maps API key
+            apiKey: "" // Replace with your own Google Maps API key
         }),
         GridsterModule
     ],

@@ -1,0 +1,14 @@
+.scrollable {
+  max-height: calc(85vh - 100px);
+  overflow-y: auto;
+}
+
+.item-opener {
+    text-decoration: none !important;
+}
+
+a.filtered, a.filtered:hover {
+    text-decoration: none;
+    color: inherit;
+    cursor: inherit;
+}
