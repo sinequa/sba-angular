@@ -42,7 +42,7 @@ const messages = Utils.merge({}, ..., enResultsView, appMessages);
 
 ## Defining Results Views
 
-A "view" is defined by a [`ResultsView`]({{site.baseurl}}components/interfaces/ResultsView.html) object which contains different settings. Note that this object is independant from the actual rendering of the view: this aspect needs to be handled separately.
+A "view" is defined by a [`ResultsView`]({{site.baseurl}}components/interfaces/ResultsView.html) object which contains different settings. Note that this object is independent from the actual rendering of the view: this aspect needs to be handled separately.
 
 For example, let's imagine we have two views:
 
@@ -143,7 +143,7 @@ With the settings above, the view renders as follows:
 
 ## Switching Between Views
 
-To switch been results views, include the [`sq-results-view-selector`]({{site.baseurl}}components/components/BsResultsViewSelector.html) component. The component uses the [`ResultsViewService`]({{site.baseurl}}components/injectables/ResultsViewService.html) to display the current view and list of available views.
+To switch between results views, include the [`sq-results-view-selector`]({{site.baseurl}}components/components/BsResultsViewSelector.html) component. The component uses the [`ResultsViewService`]({{site.baseurl}}components/injectables/ResultsViewService.html) to display the current view and list of available views.
 
 ![Results View Selector]({{site.baseurl}}assets/modules/results-view/selector.png)
 
