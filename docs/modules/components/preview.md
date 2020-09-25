@@ -39,6 +39,15 @@ import { BsPreviewModule } from '@sinequa/components/preview';
     BsPreviewModule
 ```
 
+This module is internationalized: If not already the case, you need to import its messages for the language(s) of your application. For example, in your app's `src/locales/en.ts`:
+
+```ts
+...
+import {enPreview} from "@sinequa/components/preview";
+
+const messages = Utils.merge({}, ..., enPreview, appMessages);
+```
+
 ## Preview Service
 
 The [`PreviewService`]({{site.baseurl}}components/injectables/PreviewService.html) provides the following API:

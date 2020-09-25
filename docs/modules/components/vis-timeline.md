@@ -3,7 +3,7 @@ layout: default
 title: Vis Timeline Module
 parent: Components
 grand_parent: Modules
-nav_order: 17
+nav_order: 18
 ---
 
 # Vis Timeline Module

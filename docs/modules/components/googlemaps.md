@@ -1,9 +1,9 @@
 ---
 layout: default
-title: Google Maps
+title: Google Maps Module
 parent: Components
 grand_parent: Modules
-nav_order: 21
+nav_order: 22
 ---
 
 # Google Maps Module
@@ -37,6 +37,15 @@ import { GoogleMapsModule } from '@sinequa/components/googlemaps';
     AgmCoreModule.forRoot({
         apiKey: "xxxxxxxxxxxxxxxxxx" // Replace with your own Google Maps API key
     }),
+```
+
+This module is internationalized: If not already the case, you need to import its messages for the language(s) of your application. For example, in your app's `src/locales/en.ts`:
+
+```ts
+...
+import {enGooglemaps} from "@sinequa/components/googlemaps";
+
+const messages = Utils.merge({}, ..., enGooglemaps, appMessages);
 ```
 
 ## Map component

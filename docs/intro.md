@@ -3,7 +3,6 @@ layout: default
 title: Introduction
 nav_order: 2
 description: "Introduction to the SBA framework"
-permalink: /intro
 ---
 {: toc}
 
