@@ -112,7 +112,7 @@ describe("FacetService", () => {
 
 			it("should trigger an event", () => {
 				// Given
-				const items = aggregation["geo"].items[0];
+				const items = aggregation["geo"].items![0];
 				spyOn(service, 'addFilter');
 				spyOn(service.events, 'next');
 
@@ -127,7 +127,7 @@ describe("FacetService", () => {
 
 		describe("removeFilter", () => {
 			it("should remove a single value filter", () => {
-				const items = aggregation["size"].items[0];
+				const items = aggregation["size"].items![0];
 				const exprValueInitializer: ExprValueInitializer = {
 					exprContext: {appService, formatService, intlService},
 					display: "< 10 Ko",
@@ -157,7 +157,7 @@ describe("FacetService", () => {
 			});
 
 			it("should remove a selection filter", () => {
-				const items = aggregation["size"].items[1];
+				const items = aggregation["size"].items![1];
 				const exprValueInitializer: ExprValueInitializer = {
 					exprContext: {appService, formatService, intlService},
 					display: "< 10 Ko",
@@ -210,7 +210,7 @@ describe("FacetService", () => {
 
 			it("should add a single value filter", () => {
 				// Given
-				const items = aggregation["geo"].items[0];
+				const items = aggregation["geo"].items![0];
 				spyOn(searchService.query, "addSelect");
 
 				// When
@@ -238,7 +238,7 @@ describe("FacetService", () => {
 
 			it("should add a single value filter when items is an array of 1 element", () => {
 				// Given
-				const items = aggregation["geo"].items.slice(0, 1);
+				const items = aggregation["geo"].items!.slice(0, 1);
 				spyOn(searchService.query, "addSelect");
 
 				// When
@@ -251,7 +251,7 @@ describe("FacetService", () => {
 
 			it("should add a filter when items is an array", () => {
 				// Given
-				const items = aggregation["geo"].items.slice(0, 2);
+				const items = aggregation["geo"].items!.slice(0, 2);
 				spyOn(searchService.query, "addSelect");
 
 				// When
@@ -283,7 +283,7 @@ describe("FacetService", () => {
 				spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
 
 				// When
-				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items[2]); // IOWA
+				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2]); // IOWA
 
 				// Then
 				const expectedExpr = 'geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`)) OR (`Iowa`:(`IOWA`)))';
@@ -313,7 +313,7 @@ describe("FacetService", () => {
 				spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
 
 				// When
-				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items[2]); // IOWA
+				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2]); // IOWA
 
 				// Then
 				const expectedExpr = 'geo:((`Iraq`:(`IRAQ`)) AND (`Guantanamo`:(`GUANTANAMO`)) AND (`Iowa`:(`IOWA`)))';
@@ -343,7 +343,7 @@ describe("FacetService", () => {
 				spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
 
 				// When
-				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items.slice(2, 4), {and: false}); // [IOWA, NEW HAMSPHIRE]
+				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items!.slice(2, 4), {and: false}); // [IOWA, NEW HAMSPHIRE]
 
 				// Then
 				const expectedExpr = 'geo:((`Iowa`:(`IOWA`)) OR (`New Hampshire`:(`NEW HAMPSHIRE`)))';
@@ -368,7 +368,7 @@ describe("FacetService", () => {
 				spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
 
 				// When
-				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items[2]); // IOWA
+				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2]); // IOWA
 
 				// Then
 				const expectedExpr = 'geo:((`Iraq`:(`IRAQ`)) OR (`Iowa`:(`IOWA`)))';
@@ -401,7 +401,7 @@ describe("FacetService", () => {
 				} as Breadcrumbs;
 
 				// When
-				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items.slice(2, 4), {and: true}); // [IOWA, NEW HAMPSHIRE]
+				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items!.slice(2, 4), {and: true}); // [IOWA, NEW HAMPSHIRE]
 
 				// Then
 				const expectedExpr = 'geo:((`Iowa`:(`IOWA`)) AND (`New Hampshire`:(`NEW HAMPSHIRE`)))';
@@ -433,7 +433,7 @@ describe("FacetService", () => {
 				} as Breadcrumbs;
 
 				// When
-				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items.slice(2, 4)); // [IOWA, NEW HAMPSHIRE]
+				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items!.slice(2, 4)); // [IOWA, NEW HAMPSHIRE]
 
 				// Then
 				const expectedExpr = 'geo:((`Iowa`:(`IOWA`)) OR (`New Hampshire`:(`NEW HAMPSHIRE`)))';
@@ -443,7 +443,7 @@ describe("FacetService", () => {
 
 			it("should replace current select when options is replaceCurrent", () => {
 				// Given
-				const items = aggregation["geo"].items[0];
+				const items = aggregation["geo"].items![0];
 				const facetName = "Geo";
 				spyOn(searchService.query, "addSelect");
 				spyOn(searchService.query, "removeSelect");
@@ -459,7 +459,7 @@ describe("FacetService", () => {
 
 			it("should add a filter with NOT options", () => {
 				// Given
-				const items = aggregation["geo"].items.slice(0, 2);
+				const items = aggregation["geo"].items!.slice(0, 2);
 				spyOn(searchService.query, "addSelect");
 
 				// When
@@ -472,7 +472,7 @@ describe("FacetService", () => {
 
 			it("should add a filter with AND options", () => {
 				// Given
-				const items = aggregation["geo"].items.slice(0, 2);
+				const items = aggregation["geo"].items!.slice(0, 2);
 				spyOn(searchService.query, "addSelect");
 
 				// When
@@ -502,7 +502,7 @@ describe("FacetService", () => {
 				// Given
 				// "value": "size`< 10 Ko`:(>= 0 AND < 10240)",
 				// "display": "< 10 Ko",
-				const item: AggregationItem = aggregation["size"].items[0];
+				const item: AggregationItem = aggregation["size"].items![0];
 
 				// When
 				const expr = FacetService['makeFacetExpr'](aggregation["size"], item);
@@ -516,7 +516,7 @@ describe("FacetService", () => {
 
 	describe("toAggregationItem", () => {
 		it("should returns an AggregationItem", () => {
-			const item = aggregation["geo"].items[0];
+			const item = aggregation["geo"].items![0];
 			const exprInitializer: ExprValueInitializer = {
 				exprContext: {appService, formatService, intlService},
 				display: "Iraq",
