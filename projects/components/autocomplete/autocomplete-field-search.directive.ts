@@ -39,7 +39,10 @@ export class AutocompleteFieldSearch extends Autocomplete {
     /** Fields excluded from fielded search (searched as regular strings if selected) */
     @Input() excludedFields: string[] = ["concepts"];
 
-    /** Container displaying the fieldSearchItems (only needed if mode === "selects") */
+    /* Fields included in fielded search (have precedence over excluded fields) */
+    @Input() includedFields?: string[];
+
+   /** Container displaying the fieldSearchItems (only needed if mode === "selects") */
     @Input() fieldSearchItemsContainer?: FieldSearchItemsContainer;
 
     /** Current selection expression needed to update the list of field search items if mode === "selects" */
@@ -138,7 +141,9 @@ export class AutocompleteFieldSearch extends Autocomplete {
                     return true;
                 }
                 // Autocomplete "Goo" => "company:GOOGLE"
-                if(res && !res.field && item.category && !this.excludedFields.includes(item.category)) {
+                if(res && !res.field && item.category && 
+                    (this.includedFields && this.includedFields?.includes(item.category) || 
+                    (!this.includedFields && !this.excludedFields?.includes(item.category)))) { // Filter out fields if not in fieldSearch mode
                     this.replaceValueInForm(res, item.category + ":`" + (item.normalized || item.display) + "` ");
                     return true;
                 }
@@ -186,7 +191,9 @@ export class AutocompleteFieldSearch extends Autocomplete {
                 return this.insertAutocompleteItem(item);
             }
 
-            else if(this.fieldSearchMode === "selects" && item.category && !this.excludedFields.includes(item.category)) {
+            else if(this.fieldSearchMode === "selects" && item.category && 
+                (this.includedFields && this.includedFields?.includes(item.category) || 
+                (!this.includedFields && !this.excludedFields?.includes(item.category)))) { // Filter out fields if not in fieldSearch mode
                 // In the case of of a field name, we display the field for autocomplete, but we don't want to search for it
                 if(item.category === "$field$") {
                     this.setInputValue(item.display + ":");
@@ -226,7 +233,7 @@ export class AutocompleteFieldSearch extends Autocomplete {
                 if(selections.length > 0) {
                     selections += " AND ";
                 }
-                selections += item.category+"`"+item.display+"`:=`"+(item.normalized || item.display)+"`";
+                selections += item.category+"`"+item.display+"`:`"+(item.normalized || item.display)+"`";
             });
             return selections;
         }
@@ -298,7 +305,9 @@ export class AutocompleteFieldSearch extends Autocomplete {
             suggests => {
                 if(this.getState() === AutocompleteState.ACTIVE || this.getState() === AutocompleteState.OPENED){
                     this.dropdown.update(true, suggests
-                        .filter(item => item.category !== "$field$" || (this.fieldSearchMode !== "off" && !this.excludedFields.includes(item.display)) )  // Filter out fields if not in fieldSearch mode
+                        .filter(item => item.category !== "$field$" || (this.fieldSearchMode !== "off" && 
+                            (this.includedFields && this.includedFields?.includes(item.display) || 
+                            (!this.includedFields && !this.excludedFields?.includes(item.display)))))  // Filter out fields if not in fieldSearch mode
                         .map(item => {
                             if(!item.label){
                                 if(item.category === "$field$") {

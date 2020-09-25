@@ -7,19 +7,13 @@ import {
     LabelsRights
 } from "@sinequa/core/web-services";
 import { AppService, ValueItem } from "@sinequa/core/app-utils";
-import { Utils, IRef } from "@sinequa/core/base";
+import { Utils } from "@sinequa/core/base";
 import { SearchService } from "@sinequa/components/search";
 import { ModalService } from "@sinequa/core/modal";
 import { Action } from "@sinequa/components/action";
 import { IntlService } from "@sinequa/core/intl";
 import { NotificationsService } from '@sinequa/core/notification';
 import {SelectionService} from '@sinequa/components/selection';
-
-export interface IFormData {
-    labelRef: IRef<string>;
-    public: boolean;
-    autofocus: number;
-}
 
 export interface LabelsComponents {
     renameModal: Type<any>;
