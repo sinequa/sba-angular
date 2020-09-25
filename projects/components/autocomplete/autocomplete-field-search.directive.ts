@@ -233,7 +233,7 @@ export class AutocompleteFieldSearch extends Autocomplete {
                 if(selections.length > 0) {
                     selections += " AND ";
                 }
-                selections += item.category+"`"+item.display+"`:=`"+(item.normalized || item.display)+"`";
+                selections += item.category+"`"+item.display+"`:`"+(item.normalized || item.display)+"`";
             });
             return selections;
         }
