@@ -296,7 +296,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
             this.loadingMore = true;
             this.changeDetectorRef.markForCheck();
 
-            Utils.subscribe(this.facetService.loadData(this.aggregation, this.skip, this.count),
+            Utils.subscribe(this.facetService.loadData(this.aggregation, skip, this.count),
                 agg => {
                     this.skip = skip;
                     this.loadingMore = false;
