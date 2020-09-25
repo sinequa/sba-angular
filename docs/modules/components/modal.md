@@ -3,7 +3,7 @@ layout: default
 title: Modal Module
 parent: Components
 grand_parent: Modules
-nav_order: 6
+nav_order: 10
 ---
 
 # Modal Module
@@ -41,6 +41,15 @@ import { BsModalModule } from "@sinequa/components/modal"; // Bootstrap flavor o
     ],
     /*....*/
 })
+```
+
+This module is internationalized: If not already the case, you need to import its messages for the language(s) of your application. For example, in your app's `src/locales/en.ts`:
+
+```ts
+...
+import {enModal} from "@sinequa/components/modal";
+
+const messages = Utils.merge({}, ..., enModal, appMessages);
 ```
 
 ## API usage

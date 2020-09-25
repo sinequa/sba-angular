@@ -3,7 +3,7 @@ layout: default
 title: Ngx Charts Module
 parent: Components
 grand_parent: Modules
-nav_order: 18
+nav_order: 19
 ---
 
 # Ngx Charts Module

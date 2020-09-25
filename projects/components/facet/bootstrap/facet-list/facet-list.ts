@@ -284,29 +284,29 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      * (The only way to guess is to check if the facet is "full", it capacity being the (skip+)count)
      */
     get hasMore(): boolean {
-        return !!this.data && this.data.items && this.data.items.length >= this.skip + this.count;
+        return !!this.data?.items && this.data.items.length >= this.skip + this.count;
     }
 
     /**
      * Called on loadMore button click
      */
     loadMore(){
-        if (this.data) {
-            const skip = this.skip + this.data.items.length;    // avoid hasMore() to return false when fetching data
+        if (this.data?.items) {
+            const skip = this.data.items.length;    // avoid hasMore() to return false when fetching data
             this.loadingMore = true;
             this.changeDetectorRef.markForCheck();
 
-            Utils.subscribe(this.facetService.loadData(this.aggregation, this.skip, this.count),
+            Utils.subscribe(this.facetService.loadData(this.aggregation, skip, this.count),
                 agg => {
                     this.skip = skip;
                     this.loadingMore = false;
                     if (agg && agg.items) {
                         if (this.data) {
-                            this.data.items = this.data.items.concat(agg.items);
+                            this.data.items = this.data.items!.concat(agg.items);
+                            this.refreshFiltered();
                         }
-                        this.refreshFiltered();
-                        this.changeDetectorRef.markForCheck();
                     }
+                    this.changeDetectorRef.markForCheck();
                 },
                 err => {
                     this.loadingMore = false;
@@ -407,11 +407,11 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      * @memberof BsFacetList
      */
     public get items(): AggregationItem[] {
-        if (!this.data) {
+        if (!this.data?.items) {
             return [];
         }
         if (!this.data.isDistribution || this.displayEmptyDistributionIntervals) {
-            return this.data.items.filter(item => !!!item.$filtered);
+            return this.data.items.filter(item => !item.$filtered);
         }
         return this.data.items.filter(item => item.count > 0 && !!!item.$filtered);
     }

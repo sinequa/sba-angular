@@ -19,12 +19,6 @@ export default {
             "selectDocuments": "Select documents",
             "unselectDocuments": "Unselect documents"
         },
-        "resultsTiledView": {
-            "display": "Tiled",
-            "defaultTitle": "(No title)",
-            "preview": "Preview",
-            "open": "Open"
-        },
         "viewPageSize": "Number of results per page",
         "viewUpdateApply": "Apply",
         "warningNoViewForTab": "The '{tab}' tab has no associated result views.",
@@ -34,13 +28,5 @@ export default {
         "resultsTextTab": "Text",
         "results_all_tab": "All",
         "results_text_tab": "Text",
-
-        "resultsScatterView" : {
-            "display" : "Value Cloud"
-        },
-        "resultsConfusionMatrixView" : {
-            "display" : "Matrix",
-            "buttonLabel": "Class:"
-        }
     }
 };

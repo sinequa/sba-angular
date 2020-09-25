@@ -3,7 +3,7 @@ layout: default
 title: Collapse Module
 parent: Components
 grand_parent: Modules
-nav_order: 9
+nav_order: 12
 ---
 
 # Collapse Module
@@ -38,6 +38,15 @@ import { CollapseModule } from "@sinequa/components/collapse";
     ],
     /*....*/
 })
+```
+
+This module is internationalized: If not already the case, you need to import its messages for the language(s) of your application. For example, in your app's `src/locales/en.ts`:
+
+```ts
+...
+import {enCollapse} from "@sinequa/components/collapse";
+
+const messages = Utils.merge({}, ..., enCollapse, appMessages);
 ```
 
 ## API usage
