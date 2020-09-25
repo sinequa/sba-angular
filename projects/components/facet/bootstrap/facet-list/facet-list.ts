@@ -292,7 +292,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      */
     loadMore(){
         if (this.data) {
-            const skip = this.skip + this.data.items.length;    // avoid hasMore() to return false when fetching data
+            const skip = this.data.items.length;    // avoid hasMore() to return false when fetching data
             this.loadingMore = true;
             this.changeDetectorRef.markForCheck();
 
@@ -303,10 +303,10 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
                     if (agg && agg.items) {
                         if (this.data) {
                             this.data.items = this.data.items.concat(agg.items);
+                            this.refreshFiltered();
                         }
-                        this.refreshFiltered();
-                        this.changeDetectorRef.markForCheck();
                     }
+                    this.changeDetectorRef.markForCheck();
                 },
                 err => {
                     this.loadingMore = false;
