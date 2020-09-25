@@ -84,7 +84,7 @@ export class BsResultsScatterView implements OnChanges {
 
                 const dist_counts = {};
 
-                results.aggregations[0].items.forEach((item) => dist_counts[item.value as string] = item.count);
+                results.aggregations[0].items?.forEach((item) => dist_counts[item.value as string] = item.count);
 
                 const data: any[] = [];
                 this.colorvalues = [];
