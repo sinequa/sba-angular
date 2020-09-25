@@ -33,7 +33,6 @@ export interface ColumnData {
     templateUrl: "./results-grid-view.html"
 })
 export class BsResultsGridView implements OnChanges {
-    @Input() query: Query;
     @Input() results: Results;
     @Input() view: GridView;
     private orderBy: string | undefined;
