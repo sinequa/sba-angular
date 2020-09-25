@@ -292,10 +292,13 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      */
     loadMore(){
         if (this.data) {
-            this.skip += this.data.items.length;
+            const skip = this.skip + this.data.items.length;    // avoid hasMore() to return false when fetching data
             this.loadingMore = true;
+            this.changeDetectorRef.markForCheck();
+
             Utils.subscribe(this.facetService.loadData(this.aggregation, this.skip, this.count),
                 agg => {
+                    this.skip = skip;
                     this.loadingMore = false;
                     if (agg && agg.items) {
                         if (this.data) {
@@ -307,6 +310,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
                 },
                 err => {
                     this.loadingMore = false;
+                    this.changeDetectorRef.markForCheck();
                 });
         }
         return false; // Avoids following href
