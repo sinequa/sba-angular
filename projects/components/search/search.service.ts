@@ -2,7 +2,7 @@ import {Injectable, InjectionToken, Inject, Optional, OnDestroy} from "@angular/
 import {Router, NavigationStart, NavigationEnd, Params} from "@angular/router";
 import {Subject, BehaviorSubject, Observable, Subscription, of, throwError} from "rxjs";
 import {map, catchError} from "rxjs/operators";
-import {QueryWebService, AuditWebService, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
+import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
     AdvancedValue, AdvancedValueWithOperator, AdvancedOperator,
     AuditEvents, AuditEventType, AuditEvent} from "@sinequa/core/web-services";
@@ -17,6 +17,7 @@ export interface SearchOptions {
     routes?: string[];
     homeRoute?: string;
     deactivateRouting?: boolean;
+    preventQueryNameChanges?: boolean;
 }
 
 export const SEARCH_OPTIONS = new InjectionToken<SearchOptions>("SEARCH_OPTIONS");
@@ -130,10 +131,16 @@ export class SearchService implements OnDestroy {
         }
         this._query = query;
         if (this._query) {
-            let ccquery = this.appService.getCCQuery(this._query.name);
-            if (!ccquery) {
-                console.warn(`Query '${this._query.name}' not found`);
-                ccquery = this.appService.defaultCCQuery;
+            let ccquery: CCQuery | undefined;
+            if (this.options.preventQueryNameChanges) {
+                ccquery = this.appService.ccquery || this.appService.defaultCCQuery;
+            }
+            else {
+                ccquery = this.appService.getCCQuery(this._query.name);
+                if (!ccquery) {
+                    console.warn(`Query '${this._query.name}' not found`);
+                    ccquery = this.appService.defaultCCQuery;
+                }
             }
             if (ccquery) {
                 this._query.name = ccquery.name;
