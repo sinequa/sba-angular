@@ -43,6 +43,8 @@ const observable = this.httpClient.post<Results>(this.makeUrl(this.endPoint), {
 });
 ```
 
+Note that the `$auditRecord` field is supported across **all** web services, including the custom ones (in particular `JsonMethodPlugin`).
+
 ### Audit events via the audit web service
 
 The [`AuditWebService`]({{site.baseurl}}core/injectables/AuditWebService.html) is a standard Sinequa service that can be injected anywhere in your application to emit "standalone" audit events.
