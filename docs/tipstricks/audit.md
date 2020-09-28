@@ -25,7 +25,7 @@ By default, Sinequa components take care of emitting audit events when needed. F
 
 This can happen in two ways:
 
-- Normally, these audit events are emitted by "piggy-backing" on the web service HTTP call corresponding to the audit user action.
+- Normally, these audit events are emitted by "piggy-backing" on the web service HTTP call corresponding to the audited user action.
 - Alternatively, stand-alone audit events can be emitted via the [`AuditWebService`]({{site.baseurl}}core/injectables/AuditWebService.html).
 
 ### Audit events via standard web service calls
