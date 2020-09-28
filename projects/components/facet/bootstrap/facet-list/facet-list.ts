@@ -184,17 +184,6 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      * Actualize the state of filtered items (note that excluded terms are not in the distribution, so the equivalent cannot be done)
      */
     refreshFiltered(){
-        if (this.data && this.data.items) {
-            this.data.items.forEach(item => {
-                if (this.data && this.facetService.itemFiltered(this.getName(), this.data, item)) {
-                    if (!this.isFiltered(item)) {
-                        item.$filtered = true;
-                        this.filtered.push(item);
-                    }
-                }
-            });
-        }
-
         // refresh filters from breadcrumbs
         const items = this.facetService.getAggregationItemsFiltered(this.getName(), this.data?.valuesAreExpressions);
         items.forEach(item => {
@@ -202,6 +191,27 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
                 this.filtered.push(item);
             }
         });
+
+        if (this.data && this.data.items) {
+            this.data.items.forEach(item => {
+                const indx = this.filteredIndex(item);
+                if (this.data && this.facetService.itemFiltered(this.getName(), this.data, item)) {
+                    if (!this.isFiltered(item)) {
+                        item.$filtered = true;
+                        this.filtered.push(item);
+                    } else {
+                        item.$filtered = true;
+                        this.filtered[indx].count = item.count;
+                    }
+                } else {
+                    // sometime facetService.itemFiltered() could returns false but item is present in breadcrumbs
+                    if (indx !== -1) {
+                        item.$filtered = true;
+                        this.filtered[indx].count = item.count;
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -209,14 +219,31 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      * @param item
      */
     isFiltered(item: AggregationItem): boolean {
+        return (this.filteredIndex(item)) === -1 ? false : true;
+    }
+
+    /**
+     * Returns the index of the first element in the array
+     * corresponding to `item.value` or -1 when not found.
+     * A fallback to `item.display` is done before returning -1
+     * @param item item to find
+     */
+    filteredIndex(item: AggregationItem): number {
+        let indx = -1;
         // specific to Values Are Expressions where expression are not well formated by Expression Parser
         // eg: when values is : "> 0", Expression Parser returns : ">0" without space beetwen operator and value
         if (this.data?.valuesAreExpressions) {
-            const value = this.noWhitespace(item.value);
-            const filtered = this.filtered.map(item => ({...item, value: this.noWhitespace(item.value)})) || [];
-            return filtered.some(it => it.value === value);
+            const value = this.trimAllWhitespace(item.value);
+            const filtered = this.filtered.map(item => ({...item, value: this.trimAllWhitespace(item.value)})) || [];
+            indx = filtered.findIndex(it => it.value === value);
+        } else {
+            indx = this.filtered.findIndex(it => it.value === item.value)
+            if (indx === -1) {
+                // fallback to "display"
+                indx = this.filtered.findIndex(it => it.display === item.display);
+            }
         }
-        return this.filtered.some(it => it.value === item.value)
+        return indx;
     }
 
     /**
@@ -423,7 +450,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      * 
      * @returns value trimmed. eg: "a b c" => "abc"
      */
-    private noWhitespace = (value: FieldValue | undefined): FieldValue | undefined => {
+    private trimAllWhitespace = (value: FieldValue | undefined): FieldValue | undefined => {
         switch (typeof value) {
             case "string":
                 return value.replace(/\s/g, '');
