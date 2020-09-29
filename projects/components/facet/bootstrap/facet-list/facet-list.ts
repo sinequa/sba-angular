@@ -154,7 +154,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
 
         const selected = this.getSelectedItems();
 
-        if(!this.hasSuggestions() && selected.length > 0) {
+        if (selected.length > 0) {
             if(this.allowOr){
                 actions.push(this.filterItemsOr);
             }
@@ -289,6 +289,9 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
     getSelectedItems(): AggregationItem[] {
         if(!this.data || !this.data.items)
             return [];
+        if (this.hasSuggestions()) {
+            return this.suggestions.filter(i => this.isSelected(i));
+        }
         return this.data.items.filter(i => this.isSelected(i));
     }
 
