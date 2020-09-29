@@ -63,7 +63,8 @@
             (click)="selectItem(item, $event)">
 
             <a  href="#" (click)="filterItem(item, $event)"
-                title="{{ 'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)} }}"
+                tooltip="{{ 'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)} }}"
+                container="body"
                 class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
 
             <span *ngIf="showCount && item.count" class="ml-2 text-muted small">{{item.count | sqNumber}}</span>

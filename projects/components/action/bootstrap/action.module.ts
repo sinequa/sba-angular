@@ -1,5 +1,6 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
+import {TooltipModule} from 'ngx-bootstrap/tooltip';
 
 import {IntlModule} from "@sinequa/core/intl";
 import {LoadComponentModule} from "@sinequa/core/load-component";
@@ -16,7 +17,8 @@ import {BsDropdownDirective} from "./dropdown.directive";
     imports: [
         CommonModule,
         IntlModule,
-        LoadComponentModule
+        LoadComponentModule,
+        TooltipModule.forRoot()
     ],
     declarations: [
         BsActionButtons,
