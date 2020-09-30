@@ -35,18 +35,25 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
 
     // Select
     /**
-     * Utility function to returns aggregation item's index in supplied array. Otherwise -1, indicating
-     * that no element passed the test.
+     * Utility function to returns aggregation item's index in supplied array with fallback to `display` comparison.
+     * Otherwise -1, indicating that no element passed the test.
      * @param arr The array findIndex() was called upon
      * @param value The value to be test
      */
-    private findIndex = (arr: Array<AggregationItem>, value) => arr.findIndex(it => it.value === value);
+    private findIndex = (arr: Array<AggregationItem>, item: AggregationItem) => {
+        let index = arr.findIndex(it => it.value === item.value);
+        if (index === -1) {
+            // fallback to display comparison
+            index = arr.findIndex(it => it.display === item.display);
+        }
+        return index;
+    };
 
     /**
-     * Returns index of first element if exists in suggestions or aggregations collection.
+     * Returns index of first element existing in suggestions or aggregations collection.
      * @param item `AggregrationItem` to find
      */
-    private find = (item: AggregationItem) => (this.hasSuggestions()) ? this.findIndex(this.suggestions, item.value) : this.findIndex(this.data?.items || [], item.value);
+    private find = (item: AggregationItem) => (this.hasSuggestions()) ? this.findIndex(this.suggestions, item) : this.findIndex(this.data?.items || [], item);
     selected: AggregationItem[] = [];
 
 
@@ -56,7 +63,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
     loadingMore = false;
 
     // Sets to keep track of selected/excluded/filtered items
-    filtered: Partial<AggregationItem>[] = [];
+    filtered: AggregationItem[] = [];
     // TODO keep track of excluded terms and display them with specific color private
 
     // Actions (displayed in facet menu)
@@ -261,11 +268,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
             const filtered = this.filtered.map(item => ({...item, value: this.trimAllWhitespace(item.value)})) || [];
             indx = filtered.findIndex(it => it.value === value);
         } else {
-            indx = this.filtered.findIndex(it => it.value === item.value)
-            if (indx === -1) {
-                // fallback to "display"
-                indx = this.filtered.findIndex(it => it.display === item.display);
-            }
+            indx = this.findIndex(this.filtered, item);
         }
         return indx;
     }
@@ -304,7 +307,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      * @param item
      */
     isSelected(item: AggregationItem) : boolean {
-        return this.selected.findIndex(it => it.value === item.value) === -1 ? false : true;
+        return this.findIndex(this.selected, item) === -1 ? false : true;
     }
 
     /**
@@ -327,7 +330,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      */
     selectItem(item: AggregationItem) : boolean {
         if(!this.isFiltered(item)){
-            const index = this.selected.findIndex(it => it.value === item.value);
+            const index = this.findIndex(this.selected, item);
             if (index === -1) {
                 item.$selected = true;
                 this.selected.push(item);
@@ -439,7 +442,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
                     .filter(item => !this.isFiltered(item));
 
                 // update $selected status
-                this.suggestions.forEach(item => item.$selected = (this.findIndex(this.selected, item) === -1) ? false : true);
+                this.suggestions.forEach(item => item.$selected = this.isSelected(item));
 
                 const hasSuggestions = (this.suggestions.length > 0);
                 this.noResults = (!hasSuggestions && this.searchQuery.trim() !== "") ? true : false;
