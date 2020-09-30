@@ -7,46 +7,50 @@
             (ngModelChange)="suggest()">
     </div>
 
-    <!--- suggestions items -->
-    <ng-container *ngFor="let suggest of suggestions">
-        <div *ngIf="suggest.display"
-            class="d-flex flex-row align-items-center list-group-item text-truncate border-0 list-group-item-action px-3 py-1 facet-row"
-            [ngClass]="{'list-group-item-success': isFiltered(suggest), 'list-group-item-primary': isSelected(suggest)}"
-            (click)="selectItem(suggest)">
-            <div (click)="filterItem(suggest, $event)">
-                <a  href="#"
-                    role="button" 
-                    title="{{ 'msg#facet.filterItem' | sqMessage:{'terme':(suggest | sqValue:suggest.$column)} }}"
-                    class="text-truncate mr-auto">{{suggest | sqValue:suggest.$column}}</a>
+    <!-- filtered items -->
+    <div  *ngFor="let item of filtered"
+        class="d-flex flex-row align-items-center list-group-item list-group-item-success text-truncate border-0 px-3 py-1 facet-row"
+        title="{{ 'msg#facet.selectedValue' | sqMessage}}"
+        (click)="filterItem(item, $event)">
 
-                <span class="fa-stack" *ngIf="isFiltered(suggest)">
-                    <i class="ml-2 far fa-minus-square fa-stack-1x icons icon-hover"></i>
-                    <i class="ml-2 far fa-check-square fa-stack-1x icons icon-default"></i>
-                </span>
-                
-            </div>
-        </div>
-        <span *ngIf="!suggest.display" class="text-center text-muted small py-1"><i>{{'msg#facet.searchNoResult' | sqMessage}}</i></span>
-    </ng-container>
+        <a  href="#"
+            class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
+
+        <span class="fa-stack">
+            <i class="ml-2 far fa-minus-square fa-stack-1x icons icon-hover rotate"></i>
+            <i class="ml-2 far fa-check-square fa-stack-1x icons icon-default rotate"></i>
+        </span>
+        <span *ngIf="showCount && item.count" class="ml-2 text-muted small">{{item.count | sqNumber}}</span>
+
+    </div>
+
+    <!-- hidden selected items -->
+    <div  *ngFor="let item of hiddenSelected"
+        class="d-flex flex-row align-items-center list-group-item list-group-item-primary text-truncate border-0 px-3 py-1 facet-row"
+        title="{{ 'msg#facet.itemUnselect' | sqMessage}}"
+        (click)="selectItem(item)">
+
+        <a  href="#" (click)="filterItem(item, $event)"
+            title="{{ 'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)} }}"
+            class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
+        
+        <span *ngIf="showCount && item.count" class="ml-2 text-muted small">{{item.count | sqNumber}}</span>
+    </div>
+
+    <!--- suggestions items -->
+    <div *ngFor="let suggest of suggestions"
+        class="d-flex flex-row align-items-center list-group-item text-truncate border-0 list-group-item-action px-3 py-1 facet-row"
+        [ngClass]="{'list-group-item-primary': isSelected(suggest)}"
+        (click)="selectItem(suggest)">
+        
+        <a  href="#" (click)="filterItem(suggest, $event)"
+            role="button" 
+            title="{{ 'msg#facet.filterItem' | sqMessage:{'terme':(suggest | sqValue:suggest.$column)} }}"
+            class="text-truncate mr-auto">{{suggest | sqValue:suggest.$column}}</a>                
+    </div>
+    <span *ngIf="noResults" class="text-center text-muted small py-1"><i>{{'msg#facet.searchNoResult' | sqMessage}}</i></span>
 
     <ng-container *ngIf="!hasSuggestions()">
-        <!-- filtered items -->
-        <div  *ngFor="let item of filtered"
-            class="d-flex flex-row align-items-center list-group-item list-group-item-success text-truncate border-0 px-3 py-1 facet-row"
-            title="{{ 'msg#facet.selectedValue' | sqMessage}}"
-            (click)="filterItem(item, $event)">
-
-            <a  href="#"
-                class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
-
-            <span class="fa-stack">
-                <i class="ml-2 far fa-minus-square fa-stack-1x icons icon-hover"></i>
-                <i class="ml-2 far fa-check-square fa-stack-1x icons icon-default"></i>
-            </span>
-            <span *ngIf="showCount && item.count" class="text-muted small">{{item.count | sqNumber}}</span>
-
-        </div>
-
         <!--- aggregation items without filtered -->
         <div *ngFor="let item of items" 
             class="d-flex flex-row align-items-center list-group-item list-group-item-action text-truncate border-0 px-3 py-1 facet-row"
