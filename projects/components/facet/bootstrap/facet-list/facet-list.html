@@ -1,6 +1,6 @@
-<div *ngIf="!isHidden()" class="list-group list-group-flush">
+<div *ngIf="!isHidden()">
 
-    <div *ngIf="searchBar" class="list-group-item border-0 p-1">
+    <div *ngIf="searchBar" class="border-0 p-1">
         <input [(ngModel)]='searchQuery' class="form-control" sqAutofocus
             placeholder="{{'msg#facet.searchPlaceholder' | sqMessage}}"
             (keyup)="search($event)"
@@ -9,7 +9,7 @@
 
     <!-- filtered items -->
     <div  *ngFor="let item of filtered"
-        class="d-flex flex-row align-items-center list-group-item list-group-item-success text-truncate border-0 px-3 py-1 facet-row"
+        class="d-flex flex-row align-items-center list-group-item-success text-truncate border-0 px-3 py-1 facet-row"
         title="{{ 'msg#facet.selectedValue' | sqMessage}}"
         (click)="filterItem(item, $event)">
 
@@ -26,7 +26,7 @@
 
     <!-- hidden selected items -->
     <div  *ngFor="let item of hiddenSelected"
-        class="d-flex flex-row align-items-center list-group-item list-group-item-primary text-truncate border-0 px-3 py-1 facet-row"
+        class="d-flex flex-row align-items-center list-group-item-primary text-truncate border-0 px-3 py-1 facet-row"
         title="{{ 'msg#facet.itemUnselect' | sqMessage}}"
         (click)="selectItem(item)">
 
@@ -39,7 +39,7 @@
 
     <!--- suggestions items -->
     <div *ngFor="let suggest of suggestions"
-        class="d-flex flex-row align-items-center list-group-item text-truncate border-0 list-group-item-action px-3 py-1 facet-row"
+        class="d-flex flex-row align-items-center text-truncate border-0 px-3 py-1 facet-row"
         [ngClass]="{'list-group-item-primary': isSelected(suggest)}"
         (click)="selectItem(suggest)">
         
@@ -48,12 +48,12 @@
             title="{{ 'msg#facet.filterItem' | sqMessage:{'terme':(suggest | sqValue:suggest.$column)} }}"
             class="text-truncate mr-auto">{{suggest | sqValue:suggest.$column}}</a>                
     </div>
-    <span *ngIf="noResults" class="text-center text-muted small py-1"><i>{{'msg#facet.searchNoResult' | sqMessage}}</i></span>
+    <span *ngIf="noResults" class="d-block text-center text-muted small py-1"><i>{{'msg#facet.searchNoResult' | sqMessage}}</i></span>
 
     <ng-container *ngIf="!hasSuggestions()">
         <!--- aggregation items without filtered -->
         <div *ngFor="let item of items" 
-            class="d-flex flex-row align-items-center list-group-item list-group-item-action text-truncate border-0 px-3 py-1 facet-row"
+            class="d-flex flex-row align-items-center text-truncate border-0 px-3 py-1 facet-row"
             [ngClass]="{ 'list-group-item-primary':isSelected(item) }"
             title="{{ (isSelected(item) ? 'msg#facet.itemUnselect' : 'msg#facet.itemSelect') | sqMessage}}"
             (click)="selectItem(item)">
@@ -66,7 +66,7 @@
         </div>
 
         <a  *ngIf="hasMore"
-            class="list-group-item border-0 px-3 py-1 text-center"
+            class="d-block border-0 px-3 py-1 text-center"
             (click)="loadMore()" href="#">
             <span *ngIf="loadingMore" class="fas fa-sync fa-fw fa-spin"></span>
             <small *ngIf="!loadingMore">{{'msg#facet.loadMore' | sqMessage}}</small>

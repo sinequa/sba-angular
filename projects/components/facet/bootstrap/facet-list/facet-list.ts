@@ -160,6 +160,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
             this.skip = 0;
             this.searchBar = false;
             this.searchQuery = "";
+            this.noResults = false;
             this.suggestions.splice(0);
             this.refreshFiltered();
         }
