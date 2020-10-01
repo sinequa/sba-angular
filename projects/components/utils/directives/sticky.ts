@@ -1,4 +1,5 @@
-import { Component, AfterViewInit, OnDestroy, ElementRef, Input, ViewChild, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Utils } from '@sinequa/core/base';
 import { UIService } from '../ui.service';
 
 @Component({
@@ -29,8 +30,8 @@ export class StickyComponent implements OnInit, AfterViewInit, OnDestroy{
     
     constructor(protected ui: UIService){
     }
-   
-    onScroll() {
+
+    onScroll(forceScrollDown = false) {
         const scrollDelta = window.pageYOffset - this.scrollY;
         this.scrollY = window.pageYOffset;
 
@@ -38,18 +39,25 @@ export class StickyComponent implements OnInit, AfterViewInit, OnDestroy{
         const componentHeight = this.container.nativeElement.getBoundingClientRect().height;
 
         // Scrolling down
-        if(scrollDelta > 0) {
+        if(scrollDelta >= 0 || this.scrollY === 0 || forceScrollDown) {
             this.marginTop = Math.min(this.scrollY, this.marginTop);
             this.bottom = undefined;
-            this.top = Math.min(-offsets.bottom + window.innerHeight - componentHeight, offsets.top);
+            this.top = Math.min(window.innerHeight - componentHeight - offsets.bottom, offsets.top);
         }
         // Scrolling up
         else {
-            this.marginTop = Math.max(-offsets.bottom - offsets.top + window.innerHeight - componentHeight + this.scrollY, this.marginTop);
+            this.marginTop = Math.max(this.scrollY + window.innerHeight - componentHeight -offsets.bottom - offsets.top, this.marginTop);
             this.bottom = window.innerHeight - offsets.top - componentHeight;
             this.top = undefined;
+            if(this.scrollY <= this.marginTop) {
+                this.postScrollUp();
+            }
         }
     }
+
+    postScrollUp = Utils.debounce(() => {
+        this.onScroll(true);
+    }, 250);
 
     ngOnInit() {
         if(CSS.supports("position", "sticky") || CSS.supports("position", "-webkit-sticky")) {            
@@ -63,6 +71,7 @@ export class StickyComponent implements OnInit, AfterViewInit, OnDestroy{
         if(CSS.supports("position", "sticky") || CSS.supports("position", "-webkit-sticky")) {
             this.listener = () => this.onScroll();
             window.addEventListener('scroll', this.listener);
+            window.addEventListener('resize', this.listener);
             this.ui.addElementResizeListener(this.container.nativeElement, this.listener);
         }
     }
@@ -70,6 +79,7 @@ export class StickyComponent implements OnInit, AfterViewInit, OnDestroy{
     ngOnDestroy() {
         if(this.listener) {
             window.removeEventListener('scroll', this.listener);
+            window.removeEventListener('resize', this.listener);
             this.ui.removeElementResizeListener(this.container.nativeElement, this.listener);
         }
     }
