@@ -29,8 +29,33 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
     searchQuery = ""; // ngModel for textarea
     searchBar = false; // Collapsed by default
     suggestDelay = 200;
+    noResults = false;
     private readonly debounceSuggest: () => void;
     suggestions: AggregationItem[] = [];
+
+    // Select
+    /**
+     * Utility function to returns aggregation item's index in supplied array with fallback to `display` comparison.
+     * Otherwise -1, indicating that no element passed the test.
+     * @param arr The array findIndex() was called upon
+     * @param value The value to be test
+     */
+    private findIndex = (arr: Array<AggregationItem>, item: AggregationItem) => {
+        let index = arr.findIndex(it => it.value === item.value);
+        if (index === -1) {
+            // fallback to display comparison
+            index = arr.findIndex(it => it.display === item.display);
+        }
+        return index;
+    };
+
+    /**
+     * Returns index of first element existing in suggestions or aggregations collection.
+     * @param item `AggregrationItem` to find
+     */
+    private find = (item: AggregationItem) => (this.hasSuggestions()) ? this.findIndex(this.suggestions, item) : this.findIndex(this.data?.items || [], item);
+    selected: AggregationItem[] = [];
+
 
     // Loading more data
     skip = 0;
@@ -38,7 +63,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
     loadingMore = false;
 
     // Sets to keep track of selected/excluded/filtered items
-    filtered: Partial<AggregationItem>[] = [];
+    filtered: AggregationItem[] = [];
     // TODO keep track of excluded terms and display them with specific color private
 
     // Actions (displayed in facet menu)
@@ -106,6 +131,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
                 if(!this.searchBar){
                     this.suggestions.splice(0);
                     this.searchQuery = ""; // Remove suggestions if some remain
+                    this.noResults = false;
                 }
                 this.changeDetectorRef.markForCheck();
             }
@@ -136,10 +162,12 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
                 this.count = this.facetService.getAggregationCount(this.aggregation);
             }
             this.filtered.length = 0;
+            this.selected.length = 0;
             this.data = this.facetService.getAggregation(this.aggregation, this.results);
             this.skip = 0;
             this.searchBar = false;
             this.searchQuery = "";
+            this.noResults = false;
             this.suggestions.splice(0);
             this.refreshFiltered();
         }
@@ -154,7 +182,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
 
         const selected = this.getSelectedItems();
 
-        if(!this.hasSuggestions() && selected.length > 0) {
+        if (selected.length > 0) {
             if(this.allowOr){
                 actions.push(this.filterItemsOr);
             }
@@ -188,12 +216,15 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
         const items = this.facetService.getAggregationItemsFiltered(this.getName(), this.data?.valuesAreExpressions);
         items.forEach(item => {
             if (!this.isFiltered(item)) {
+                item.$filtered = true;
                 this.filtered.push(item);
             }
         });
 
         if (this.data && this.data.items) {
             this.data.items.forEach(item => {
+                // update $selected status
+                item.$selected = (this.isSelected(item)) ? true : false;
                 const indx = this.filteredIndex(item);
                 if (this.data && this.facetService.itemFiltered(this.getName(), this.data, item)) {
                     if (!this.isFiltered(item)) {
@@ -237,11 +268,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
             const filtered = this.filtered.map(item => ({...item, value: this.trimAllWhitespace(item.value)})) || [];
             indx = filtered.findIndex(it => it.value === value);
         } else {
-            indx = this.filtered.findIndex(it => it.value === item.value)
-            if (indx === -1) {
-                // fallback to "display"
-                indx = this.filtered.findIndex(it => it.display === item.display);
-            }
+            indx = this.findIndex(this.filtered, item);
         }
         return indx;
     }
@@ -280,16 +307,21 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      * @param item
      */
     isSelected(item: AggregationItem) : boolean {
-        return !!item.$selected;
+        return this.findIndex(this.selected, item) === -1 ? false : true;
     }
 
     /**
      * Returns all the selected items
      */
     getSelectedItems(): AggregationItem[] {
-        if(!this.data || !this.data.items)
-            return [];
-        return this.data.items.filter(i => this.isSelected(i));
+        return (!this.selected) ? [] : this.selected;
+    }
+
+    /**
+     * Returns hidden selected items
+     */
+    get hiddenSelected(): AggregationItem[] {
+        return (!this.selected) ? [] : this.selected.filter(item => this.find(item) === -1);
     }
 
     /**
@@ -298,7 +330,13 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      */
     selectItem(item: AggregationItem) : boolean {
         if(!this.isFiltered(item)){
-            item.$selected = !item.$selected;
+            const index = this.findIndex(this.selected, item);
+            if (index === -1) {
+                item.$selected = true;
+                this.selected.push(item);
+            } else {
+                this.selected.splice(index, 1);
+            }
         }
         return false;
     }
@@ -350,7 +388,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      * Returns true if the search mode is active (ie. there are suggestions to display in place of the aggregation)
      */
     hasSuggestions(): boolean {
-        return this.suggestions.length > 0;
+        return this.suggestions.length > 0 || this.noResults;
     }
 
     /**
@@ -399,15 +437,15 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
         }
         Utils.subscribe(this.facetService.suggest(this.searchQuery, this.data.column),
             (items) => {
-                this.suggestions = items.slice(0, this.count).map(item => this.facetService.suggestionToAggregationItem(item));
+                this.suggestions = items.slice(0, this.count)
+                    .map(item => this.facetService.suggestionToAggregationItem(item))
+                    .filter(item => !this.isFiltered(item));
+
+                // update $selected status
+                this.suggestions.forEach(item => item.$selected = this.isSelected(item));
+
                 const hasSuggestions = (this.suggestions.length > 0);
-                if (!hasSuggestions && this.searchQuery.trim() !== "") {
-                    this.suggestions = [{ // Display "no results"
-                        value: "",
-                        display: "",
-                        count: 0
-                    }];
-                }
+                this.noResults = (!hasSuggestions && this.searchQuery.trim() !== "") ? true : false;
             },
             (err) => {
                 console.log(err);
@@ -427,7 +465,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
     }
 
     /**
-     * The items in the aggregation.
+     * The items in the aggregation without filtered.
      *
      * @readonly
      * @type {AggregationItem[]}
@@ -445,9 +483,9 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
 
     /**
      * Useful to compare string expressions
-     * 
+     *
      * @param value string where spaces should be trimmed
-     * 
+     *
      * @returns value trimmed. eg: "a b c" => "abc"
      */
     private trimAllWhitespace = (value: FieldValue | undefined): FieldValue | undefined => {
