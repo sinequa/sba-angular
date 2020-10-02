@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Utils } from '@sinequa/core/base';
 import { UIService } from '../ui.service';
 
@@ -15,7 +15,8 @@ import { UIService } from '../ui.service';
     position: sticky;
     position: -webkit-sticky;
 }
-    `]
+    `],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StickyComponent implements OnInit, AfterViewInit, OnDestroy{
     @Input("sqSticky") offsets?: {top: number, bottom: number};
@@ -28,7 +29,9 @@ export class StickyComponent implements OnInit, AfterViewInit, OnDestroy{
     
     private listener;
     
-    constructor(protected ui: UIService){
+    constructor(
+        protected ui: UIService,
+        protected cdRef: ChangeDetectorRef){
     }
 
     onScroll(forceScrollDown = false) {
@@ -37,9 +40,8 @@ export class StickyComponent implements OnInit, AfterViewInit, OnDestroy{
 
         const offsets = this.offsets || {top: 0, bottom: 0};
         const componentHeight = this.container.nativeElement.getBoundingClientRect().height;
-
-        // Scrolling down
-        if(scrollDelta >= 0 || this.scrollY === 0 || forceScrollDown) {
+        // Scrolling down (OR top of page OR forced after a scroll up OR component height small than screen height)
+        if(scrollDelta >= 0 || this.scrollY === 0 || forceScrollDown || componentHeight + offsets.top + offsets.bottom < window.innerHeight) {
             this.marginTop = Math.min(this.scrollY, this.marginTop);
             this.bottom = undefined;
             this.top = Math.min(window.innerHeight - componentHeight - offsets.bottom, offsets.top);
@@ -53,6 +55,7 @@ export class StickyComponent implements OnInit, AfterViewInit, OnDestroy{
                 this.postScrollUp();
             }
         }
+        this.cdRef.markForCheck();
     }
 
     postScrollUp = Utils.debounce(() => {
