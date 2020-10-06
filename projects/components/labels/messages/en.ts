@@ -58,7 +58,7 @@ export default {
 
     "editLabel": {
         "title": "Edit the label(s) of the selected result(s)",
-        "btnEdit": "Edit",
+        "btnEdit": "Save",
         "alertText": "This action edits the label(s) of the selected result(s)",
         "infoText": "Press 'Enter' to add a new label that does not exist in the suggestions",
         "labelsToBeRemoved": "Label(s) to be removed",

@@ -135,7 +135,7 @@ export class BsEditLabel implements OnInit {
                 : this.labelsService.privateLabelsField;
             const labelsField = this.appService.resolveColumnAlias(field);
             if (!this.model.properties.public) {
-                return this.labelsService.removePrivatePrefix(this.record[labelsField]) as string[];
+                return !!this.record[labelsField] ? this.labelsService.removePrivatePrefix(this.record[labelsField]) as string[] : [] as string[];
             }
             return this.record[labelsField];
         } else {

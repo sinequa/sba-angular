@@ -58,7 +58,7 @@ export default {
 
     "editLabel": {
         "title": "Bearbeiten des (der) Etikett(en) aus dem (den) ausgewählten Ergebnis(sen)",
-        "btnEdit": "Bearbeiten",
+        "btnEdit": "speichern",
         "alertText": "Diese Aktion bearbeitet das (die) Etikett(en) des (der) ausgewählten Ergebnisse(s)",
         "infoText": "klicken Sie auf 'Enter', um ein neues Etikett, das nicht in den Vorschlägen existiert, hinzuzufügen",
         "labelsToBeRemoved": "Zu löschende(s) Etikett(en)",
