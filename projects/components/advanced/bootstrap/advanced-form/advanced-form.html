@@ -7,5 +7,14 @@
         <div *ngSwitchCase="'AdvancedFormRange'" style="flex-grow: 0;">
             <sq-advanced-form-range [form]="form" [config]="item"></sq-advanced-form-range>
         </div>
+        <div *ngSwitchCase="'AdvancedFormEntry'" style="flex-grow: 0;">
+          <sq-advanced-form-entry [form]="form" [config]="item" [autocompleteEnabled]="autocompleteEnabled" [suggestQuery]="suggestQuery"></sq-advanced-form-entry>
+        </div>
+        <div *ngSwitchCase="'AdvancedFormMultiEntry'" style="flex-grow: 0;">
+          <sq-advanced-form-multi-entry [form]="form" [config]="item" [autocompleteEnabled]="autocompleteEnabled" [suggestQuery]="suggestQuery"></sq-advanced-form-multi-entry>
+        </div>
+        <div *ngSwitchCase="'AdvancedFormCheckbox'" style="flex-grow: 0;">
+          <sq-advanced-form-checkbox [form]="form" [config]="item"></sq-advanced-form-checkbox>
+        </div>
     </ng-container>
 </div>

@@ -4,7 +4,7 @@ import {Validator} from "@sinequa/core/validation";
 export interface Control {
     type: string;
     active: boolean;
-    field: string;
+    field: string; // Name/Alias of column in the index
     operator: AdvancedOperator;
     label: string;
     autocompleteEnabled: boolean;

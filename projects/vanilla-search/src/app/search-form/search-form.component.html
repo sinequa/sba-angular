@@ -1,7 +1,7 @@
 
 <!-- Wrapper div to ensure the autocomplete dropdown is aligned with the search input and button -->
 <div class="d-flex flex-column flex-grow-1 position-relative">
-    
+
     <form novalidate [formGroup]="form">
 
         <div class="input-group">
@@ -33,14 +33,33 @@
                     (parse)="onParse($event)">
             </div>
 
-            <!-- Search button -->
+            <!-- Search buttons -->
             <div class="input-group-append">
-                <button class="btn btn-primary" type="button" (click)="search()" 
+                <button class="btn btn-light btn-advanced-search" type="button"
+                    [attr.disabled]="!loginService.complete ? '' : null"
+                    #btnAdvancedSearch>
+                    <i class="fas fa-angle-down"></i>
+                </button>
+                <button class="btn btn-primary" type="button" (click)="search()"
                     title="{{ 'msg#searchForm.search' | sqMessage }}"
                     [attr.disabled]="!loginService.complete ? '' : null">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
+        </div>
+
+        <!-- Card displaying advanced-search -->
+        <div class="card advanced-search" *ngIf="showAdvancedSearch" #cardAdvancedSearch>
+          <div class="card-header d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
+              Advanced Search
+          </div>
+          <sq-advanced
+              [showing]="true"
+              [form]="form"
+              [query]="query"
+              [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''"
+              [items]= "items">
+          </sq-advanced>
         </div>
 
     </form>

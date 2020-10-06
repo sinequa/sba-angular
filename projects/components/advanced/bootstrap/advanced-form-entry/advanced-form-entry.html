@@ -1,10 +1,11 @@
-<div class="form-group" [formGroup]="form">
+<div class="form-group" [formGroup]="form" *ngIf="initialized">
     <label for="{{name}}">{{label | sqMessage}}</label>
     <div class="input-autocomplete">
-        <input *ngIf="!isDate" 
-            [sq-advanced-form-autocomplete]="{control: config, autocompleteEnabled: autocompleteEnabled, suggestQuery: suggestQuery}" 
+        <!-- <input *ngIf="!isDate" -->
+        <input
+            [sq-advanced-form-autocomplete]="{control: config, autocompleteEnabled: autocompleteEnabled, suggestQuery: suggestQuery}"
             [dropdown]="dropdown"
-            [sq-advanced-form-validation]="{form: form, config: config}" 
+            [sq-advanced-form-validation]="{form: form, config: config}"
             type="text" class="form-control" [id]="name" [formControlName]="name" autocomplete="off" spellcheck="off">
         <sq-autocomplete-list #dropdown>
             <ng-template #itemTpl let-item>
@@ -12,8 +13,8 @@
             </ng-template>
         </sq-autocomplete-list>
     </div>
-    <sq-date-picker *ngIf="isDate" 
-        [options]="{system: false, minDate: minDate, maxDate: maxDate}" 
+    <!-- <sq-date-picker *ngIf="isDate"
+        [options]="{system: false, minDate: minDate, maxDate: maxDate}"
         [formControlName]="name" [id]="name"
-        [sq-advanced-form-validation]="{form: form, config: config}"></sq-date-picker>
+        [sq-advanced-form-validation]="{form: form, config: config}"></sq-date-picker> -->
 </div>

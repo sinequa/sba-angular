@@ -239,7 +239,9 @@ export class BsAdvanced implements OnChanges, OnDestroy {
             else {
                 const formControl = this.form.get(name);
                 const value: AdvancedValue = this.ensureAdvancedValue(control, formControl ? formControl.value : undefined);
+                console.log(this.query);
                 this.query.setAdvancedValue(control.field, value, control.operator, !this.isDistribution(control));
+                console.log(this.query);
             }
         }
     }

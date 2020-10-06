@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CCColumn } from "@sinequa/core/web-services";
 import { AppService } from "@sinequa/core/app-utils";
@@ -17,7 +17,7 @@ import { MultiEntry } from "../advanced-models";
 }
     `]
 })
-export class BsAdvancedFormMultiEntry implements OnInit {
+export class BsAdvancedFormMultiEntry implements OnInit, AfterViewInit {
 
     @Input() form: FormGroup;
     @Input() config: MultiEntry;
@@ -28,6 +28,7 @@ export class BsAdvancedFormMultiEntry implements OnInit {
     column: CCColumn | undefined;
     minDate: Date | undefined;
     maxDate: Date | undefined;
+    initialized = false;
 
     @ViewChild('inputRef', {static: false}) inputRef: ElementRef;
     @ViewChild('datePicker', {static: false}) datePicker: BsDatePicker;
@@ -47,6 +48,11 @@ export class BsAdvancedFormMultiEntry implements OnInit {
         }
     }
 
+    ngAfterViewInit() {
+      setTimeout(() => {
+        this.initialized = true;
+      }, 500);
+    }
     public get valueType(): string {
         return this.isDate ? ValueType.Date : ValueType.String;
     }
