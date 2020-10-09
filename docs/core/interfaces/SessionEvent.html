@@ -284,6 +284,7 @@ export class LoginService implements OnDestroy {
      */
     overrideUser(userOverride: UserOverride | undefined) {
         this.authenticationService.userOverride &#x3D; userOverride;
+        this.appService.clear();
         this.principalService.principal &#x3D; undefined;
         this.userSettingsService.userSettings &#x3D; undefined;
         this.setComplete();
@@ -414,8 +415,15 @@ export class LoginService implements OnDestroy {
             return Promise.resolve(); // initiate retry
         }
         if (!this.startConfig.usePopupForLogin &amp;&amp; this.authenticationService.autoLoginActive) {
-            this.authenticationService.autoAuthenticate().subscribe();
-            return Promise.reject(&quot;performing auto login&quot;);
+            return this.authenticationService.autoAuthenticate().toPromise()
+                .then(result &#x3D;&gt; {
+                    if (result/*auto-authentication initiated*/) {
+                        return Promise.reject(&quot;performing auto login&quot;);
+                    }
+                    else {
+                        return undefined;
+                    }
+                });
         }
         let firstCaller &#x3D; false;
         const automaticProvider &#x3D; this.getAutomaticProvider();

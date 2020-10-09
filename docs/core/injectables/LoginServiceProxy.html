@@ -101,7 +101,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="379" class="link-to-prism">login/login.service.ts:379</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="387" class="link-to-prism">login/login.service.ts:387</a></div>
                             </td>
                         </tr>
 
@@ -161,7 +161,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="384" class="link-to-prism">login/login.service.ts:384</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="392" class="link-to-prism">login/login.service.ts:392</a></div>
                                 </td>
                             </tr>
 
@@ -318,6 +318,7 @@ export class LoginService implements OnDestroy {
      */
     overrideUser(userOverride: UserOverride | undefined) {
         this.authenticationService.userOverride &#x3D; userOverride;
+        this.appService.clear();
         this.principalService.principal &#x3D; undefined;
         this.userSettingsService.userSettings &#x3D; undefined;
         this.setComplete();
@@ -448,8 +449,15 @@ export class LoginService implements OnDestroy {
             return Promise.resolve(); // initiate retry
         }
         if (!this.startConfig.usePopupForLogin &amp;&amp; this.authenticationService.autoLoginActive) {
-            this.authenticationService.autoAuthenticate().subscribe();
-            return Promise.reject(&quot;performing auto login&quot;);
+            return this.authenticationService.autoAuthenticate().toPromise()
+                .then(result &#x3D;&gt; {
+                    if (result/*auto-authentication initiated*/) {
+                        return Promise.reject(&quot;performing auto login&quot;);
+                    }
+                    else {
+                        return undefined;
+                    }
+                });
         }
         let firstCaller &#x3D; false;
         const automaticProvider &#x3D; this.getAutomaticProvider();
