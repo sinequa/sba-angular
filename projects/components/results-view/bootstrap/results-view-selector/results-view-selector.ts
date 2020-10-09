@@ -63,11 +63,13 @@ export class BsResultsViewSelector implements OnChanges, OnDestroy {
     private buildViewAction() {
         if (this.resultsViewService.views.length <= 1) {
             this.viewAction = undefined;
+            this.items = [];
             return;
         }
         const includedViews = this.resultsViewService.getIncludedViews(this.query.tab);
         if (includedViews.length <= 1) {
             this.viewAction = undefined;
+            this.items = [];
             return;
         }
         if (this.useDropdownMenu) {

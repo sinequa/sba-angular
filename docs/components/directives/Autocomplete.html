@@ -518,8 +518,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="424"
-                            class="link-to-prism">autocomplete/autocomplete.directive.ts:424</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="425"
+                            class="link-to-prism">autocomplete/autocomplete.directive.ts:425</a></div>
                 </td>
             </tr>
 
@@ -555,8 +555,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="400"
-                            class="link-to-prism">autocomplete/autocomplete.directive.ts:400</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="401"
+                            class="link-to-prism">autocomplete/autocomplete.directive.ts:401</a></div>
                 </td>
             </tr>
 
@@ -595,8 +595,8 @@ various actions (call to suggest API, etc.).</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="416"
-                            class="link-to-prism">autocomplete/autocomplete.directive.ts:416</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="417"
+                            class="link-to-prism">autocomplete/autocomplete.directive.ts:417</a></div>
                 </td>
             </tr>
 
@@ -637,8 +637,8 @@ various actions (call to suggest API, etc.).</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="434"
-                            class="link-to-prism">autocomplete/autocomplete.directive.ts:434</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="435"
+                            class="link-to-prism">autocomplete/autocomplete.directive.ts:435</a></div>
                 </td>
             </tr>
 
@@ -680,8 +680,8 @@ according to the current state of the autocomplete</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="458"
-                            class="link-to-prism">autocomplete/autocomplete.directive.ts:458</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="459"
+                            class="link-to-prism">autocomplete/autocomplete.directive.ts:459</a></div>
                 </td>
             </tr>
 
@@ -718,8 +718,8 @@ and select the autocomplete suggestions.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="408"
-                            class="link-to-prism">autocomplete/autocomplete.directive.ts:408</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="409"
+                            class="link-to-prism">autocomplete/autocomplete.directive.ts:409</a></div>
                 </td>
             </tr>
 
@@ -1243,7 +1243,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     protected getSuggests() {
         let value &#x3D; this.getInputValue();
         if(value) { // If there is text, make a call to the suggest API
-            const parseResult &#x3D; this.parseQuery(value); // If using fieldSearch, the result can be used to detect an active field
+            const parseResult &#x3D; this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
             let fields: string[] | undefined &#x3D; undefined;
             if(parseResult.result &amp;&amp; this.fieldSearch){
                 const position &#x3D; this.getInputPosition(); // Position of the caret, if needed
@@ -1318,7 +1318,8 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     /**
      * Parse the query for syntax error (also allows to detect field search if needed)
      */
-    protected parseQuery(value: string) : ParseResult {
+    protected parseQuery() : ParseResult {
+        const value &#x3D; this.getInputValue();
         const result &#x3D; this.appService.parseExpr(value, {allowEmptyValues: true});
         const event &#x3D; result instanceof Expr? { result: result } : { error: result };
         this.parse.next(event);

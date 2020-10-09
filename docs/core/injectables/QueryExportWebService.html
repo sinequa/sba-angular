@@ -201,15 +201,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>exportResult(webService: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query: <a href="../interfaces/IQuery.html">IQuery</a>, results: <a href="../interfaces/Results.html">Results | undefined</a>, format: <a href="../undefineds/ExportOutputFormat.html">ExportOutputFormat</a>, maxCount?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>exportResult(webService: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query: <a href="../interfaces/IQuery.html">IQuery</a>, results: <a href="../interfaces/Results.html">Results | undefined</a>, format: <a href="../undefineds/ExportOutputFormat.html">ExportOutputFormat</a>, maxCount?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, exportedColumns?: string[])</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">web-services/query-export.web.service.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">web-services/query-export.web.service.ts:66</a></div>
                 </td>
             </tr>
 
@@ -309,6 +309,22 @@
 
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>exportedColumns</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>(Optional) The columns to export, empty means all columns.</p>
+
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -342,15 +358,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>exportSavedQuery(webService: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, queryName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, format: <a href="../undefineds/ExportOutputFormat.html">ExportOutputFormat</a>, maxCount?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>exportSavedQuery(webService: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, queryName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, format: <a href="../undefineds/ExportOutputFormat.html">ExportOutputFormat</a>, maxCount?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, exportedColumns?: string[])</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="164"
-                            class="link-to-prism">web-services/query-export.web.service.ts:164</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="173"
+                            class="link-to-prism">web-services/query-export.web.service.ts:173</a></div>
                 </td>
             </tr>
 
@@ -436,6 +452,22 @@
 
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>exportedColumns</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>(Optional) The columns to export, empty means all columns.</p>
+
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -469,15 +501,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>exportSelection(webService: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query: <a href="../interfaces/IQuery.html">IQuery</a>, results: <a href="../interfaces/Results.html">Results | undefined</a>, selection: string[], format: <a href="../undefineds/ExportOutputFormat.html">ExportOutputFormat</a>, maxCount?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>exportSelection(webService: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query: <a href="../interfaces/IQuery.html">IQuery</a>, results: <a href="../interfaces/Results.html">Results | undefined</a>, selection: string[], format: <a href="../undefineds/ExportOutputFormat.html">ExportOutputFormat</a>, maxCount?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, exportedColumns?: string[])</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="111"
-                            class="link-to-prism">web-services/query-export.web.service.ts:111</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="116"
+                            class="link-to-prism">web-services/query-export.web.service.ts:116</a></div>
                 </td>
             </tr>
 
@@ -586,6 +618,22 @@
 
                                     <td>
                                         <p>(Optional) The maximum number of exported rows.</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>exportedColumns</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>(Optional) The columns to export, empty means all columns.</p>
 
                                     </td>
                                 </tr>
@@ -841,13 +889,16 @@ export class QueryExportWebService extends HttpService {
      * @param query The query to export.
      * @param format The export format.
      * @param maxCount (Optional) The maximum number of exported rows.
+     * @param exportedColumns (Optional) The columns to export, empty means all columns.
      */
     public exportResult(
         webService: string,
         query: IQuery,
         results: Results | undefined,
         format: ExportOutputFormat,
-        maxCount?: number): Observable&lt;HttpResponse&lt;Blob&gt;&gt; {
+        maxCount?: number,
+        exportedColumns?: string[]
+    ): Observable&lt;HttpResponse&lt;Blob&gt;&gt; {
 
         const methodName &#x3D; &#x27;exportResult&#x27;;
         const preliminaryCheckResult &#x3D; this.preliminaryCheck(methodName, webService, format);
@@ -868,6 +919,7 @@ export class QueryExportWebService extends HttpService {
             type: ExportSourceType[ExportSourceType.Result],
             format: ExportOutputFormat[format],
             maxCount: maxCount ? maxCount.toString() : undefined,
+            exportedColumns: exportedColumns,
             auditEvents: {
                 type: AuditEventType.Search_ExportCSV,
                 detail: {
@@ -887,6 +939,7 @@ export class QueryExportWebService extends HttpService {
      * @param selection
      * @param format The export format.
      * @param maxCount (Optional) The maximum number of exported rows.
+     * @param exportedColumns (Optional) The columns to export, empty means all columns.
      */
     public exportSelection(
         webService: string,
@@ -894,7 +947,9 @@ export class QueryExportWebService extends HttpService {
         results: Results | undefined,
         selection: string[],
         format: ExportOutputFormat,
-        maxCount?: number): Observable&lt;HttpResponse&lt;Blob&gt;&gt; {
+        maxCount?: number,
+        exportedColumns?: string[]
+    ): Observable&lt;HttpResponse&lt;Blob&gt;&gt; {
 
         const methodName &#x3D; &#x27;exportSelection&#x27;;
         const preliminaryCheckResult &#x3D; this.preliminaryCheck(methodName, webService, format);
@@ -922,6 +977,7 @@ export class QueryExportWebService extends HttpService {
             type: ExportSourceType[ExportSourceType.Selection],
             format: ExportOutputFormat[format],
             maxCount: maxCount ? maxCount.toString() : undefined,
+            exportedColumns: exportedColumns,
             auditEvents: {
                 type: AuditEventType.Search_Selection_ExportCSV,
                 detail: {
@@ -940,12 +996,15 @@ export class QueryExportWebService extends HttpService {
      * @param queryName The query name.
      * @param format The export format.
      * @param maxCount (Optional) The maximum number of exported rows.
+     * @param exportedColumns (Optional) The columns to export, empty means all columns.
      */
     public exportSavedQuery(
         webService: string,
         queryName: string,
         format: ExportOutputFormat,
-        maxCount?: number): Observable&lt;HttpResponse&lt;Blob&gt;&gt; {
+        maxCount?: number,
+        exportedColumns?: string[]
+    ): Observable&lt;HttpResponse&lt;Blob&gt;&gt; {
 
         const methodName &#x3D; &#x27;exportSavedQuery&#x27;;
         const preliminaryCheckResult &#x3D; this.preliminaryCheck(methodName, webService, format);
@@ -966,6 +1025,7 @@ export class QueryExportWebService extends HttpService {
             format: ExportOutputFormat[format],
             name: queryName,
             maxCount: maxCount ? maxCount.toString() : undefined,
+            exportedColumns: exportedColumns,
             auditEvents: {
                 type: AuditEventType.Search_SavedQuery_ExportCSV,
                 detail: {

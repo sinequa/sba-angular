@@ -1504,6 +1504,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/CaretPosition.html" data-type="entity-link">CaretPosition</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/CCQueryExport.html" data-type="entity-link">CCQueryExport</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/CCQueryExportColumnDef.html" data-type="entity-link">CCQueryExportColumnDef</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/ChartDataPoint.html" data-type="entity-link">ChartDataPoint</a>
                             </li>
                             <li class="link">
