@@ -42,7 +42,7 @@
                 </button>
                 <button class="btn btn-primary" type="button" (click)="search()"
                     title="{{ 'msg#searchForm.search' | sqMessage }}"
-                    [attr.disabled]="!loginService.complete ? '' : null">
+                    [attr.disabled]="!loginService.complete || !form.valid ? '' : null">
                     <i class="fas fa-search"></i>
                 </button>
             </div>

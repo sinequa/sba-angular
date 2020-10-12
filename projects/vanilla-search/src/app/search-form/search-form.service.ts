@@ -11,7 +11,7 @@ import {
 /* Services */
 import { ValidationService, ValidatorType } from "@sinequa/core/validation";
 import { AppService } from "@sinequa/core/app-utils";
-import { AdvancedFormType, Select } from "@sinequa/components/advanced";
+import { AdvancedFormType } from "@sinequa/components/advanced";
 
 export let advancedSearchSchema: Map<string, any> = new Map([
     [

@@ -6,25 +6,27 @@ import {
     HostListener,
     ElementRef,
     ChangeDetectorRef,
+    AfterViewInit,
 } from "@angular/core";
 import { FormGroup, FormControl, AbstractControl } from "@angular/forms";
 import { SearchService, FirstPageService } from "@sinequa/components/search";
 import { LoginService } from "@sinequa/core/login";
-import { AppService, Query } from "@sinequa/core/app-utils";
+import { AppService } from "@sinequa/core/app-utils";
 import { Subscription } from "rxjs";
 import { FEATURES } from "../../config";
 import { ParseResult } from "@sinequa/components/autocomplete";
 import { AutocompleteExtended } from "./autocomplete-extended.directive";
 import { UserPreferences } from "@sinequa/components/user-settings";
-import { SearchFormService } from './search-form.service';
 import {Utils} from "@sinequa/core/base";
+import { FormService } from '@sinequa/components/advanced/form.service';
+import { advancedSearchFormConfig } from './advanced-search-form.config';
 
 @Component({
     selector: "app-search-form",
     templateUrl: "./search-form.component.html",
     styleUrls: ["./search-form.component.scss"],
 })
-export class SearchFormComponent implements OnInit, OnDestroy {
+export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
     searchControl: AbstractControl | null;
     form: FormGroup;
     autofocus = 0;
@@ -34,7 +36,6 @@ export class SearchFormComponent implements OnInit, OnDestroy {
     parseResult?: ParseResult;
     showAdvancedSearch = false;
 
-    query: Query | undefined;
     items;
 
     @ViewChild(AutocompleteExtended) autocompleteDirective: AutocompleteExtended;
@@ -48,7 +49,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
         public loginService: LoginService,
         public appService: AppService,
         public prefs: UserPreferences,
-        private searchFormService: SearchFormService,
+        private formService: FormService,
         private firstPageService: FirstPageService,
         private changeDetectorRef: ChangeDetectorRef
     ) {
@@ -64,28 +65,19 @@ export class SearchFormComponent implements OnInit, OnDestroy {
             });
     }
 
-
     ngOnInit() {
         /**
-         * Initialization of the form
+         * Initialize the form with default control
          */
-        this.form = this.searchFormService.buildForm();
+        this.form = this.formService.buildForm();
         this.searchControl = this.form.get('search') ? this.form.get('search') : new FormControl("");
-
-        /**
-         * Initialization of the query
-         */
-        if (!this.query) {
-            this.query = this.searchService.query;
-        }
 
         /**
          * Every time the query changes, we want to update the search form
          */
         this._searchSubscription = this.searchService.queryStream.subscribe(
             (query) => {
-                this.query = query;
-                this.updateFormValues(query);
+                this.updateFormValues();
                 this.fieldSearchExpression = query?.findSelect(
                     "search-form"
                 )?.expression;
@@ -206,6 +198,13 @@ export class SearchFormComponent implements OnInit, OnDestroy {
         }
     }
 
+    /**
+     * Here we can add whatever formControl we want to link to this.form
+     */
+    ngAfterViewInit() {
+
+    }
+
     private _searchSubscription: Subscription;
     ngOnDestroy() {
         if (this._searchSubscription) {
@@ -217,18 +216,15 @@ export class SearchFormComponent implements OnInit, OnDestroy {
      * Trigger a search query via the search service
      */
     search() {
-        if (this.loginService.complete) {
-            this.searchService.clearQuery();
-            this.searchService.query.text = this.searchControl?.value || "";
+        if (this.loginService.complete && this.form.valid) {
+            this.updateQuery()
             if (this.getMode() === "selects") {
                 const expr = this.autocompleteDirective.getFieldSearchExpression();
                 if (expr) {
                     this.searchService.query.addSelect(expr, "search-form");
                 }
             }
-            if (this.query) {
-                this.searchService.searchAdvanced(this.query);
-            }
+            this.searchService.searchAdvanced(this.searchService.query);
         }
     }
 
@@ -291,11 +287,37 @@ export class SearchFormComponent implements OnInit, OnDestroy {
 
     /**
      * Updates the search form based on the new query
+     * @param emitEvent by default, we don't propagate changes. Set it to 'true' if changes emitters need to be turned on
      */
-    updateFormValues(query: Query | undefined): void {
-        this.searchControl?.setValue(
-            !query || !query.text ? "" : query.text
+    updateFormValues(emitEvent: boolean = false): void {
+        Object.keys(this.form.controls).forEach(
+          (key) => {
+            if (key === "search") {
+              this.searchControl?.setValue(
+                !this.searchService.query || !this.searchService.query.text ? "" : this.searchService.query.text
+            );
+            } else {
+              const value = this.formService.getAdvancedValue(advancedSearchFormConfig.get(key));
+              this.form.controls[key]?.setValue(value, { emitEvent: emitEvent });
+            }
+          }
         );
+    }
+
+    /**
+     * Returns a new value of query baed on the current search form values
+     */
+    updateQuery(): void {
+      this.searchService.clearQuery();
+      Object.keys(this.form.controls).forEach(
+        (key) => {
+          if (key === "search") {
+            this.searchService.query.text = this.searchControl?.value || "";
+          } else {
+            this.formService.setAdvancedValue(this.form.controls[key]?.value, advancedSearchFormConfig.get(key));
+          }
+        }
+      );
 
     }
 
@@ -317,4 +339,22 @@ export class SearchFormComponent implements OnInit, OnDestroy {
     toggleAdvancedSearch() {
         this.showAdvancedSearch = !this.showAdvancedSearch;
     }
+
+    // private _parser(field: string): string | undefined {
+    //   const column = this.appService.getColumn(field);
+    //   return  column ? column.parser : undefined;
+    // }
+
+    // private _rangeType(field: string): string | number | Date {
+    //   const column = this.appService.getColumn(field);
+    //   let rangeType;
+    //   if (column && (AppService.isInteger(column) || AppService.isDouble(column))) {
+    //     rangeType = 0;
+    //   } else if (column && AppService.isDate(column)) {
+    //       rangeType = new Date();
+    //   } else {
+    //       rangeType = "";
+    //   }
+    //   return rangeType;
+    //   }
 }
