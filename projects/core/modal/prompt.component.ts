@@ -11,7 +11,9 @@ import { Utils } from '@sinequa/core/base';
         <form novalidate [formGroup]="form" style="border: solid;padding: 16px;background-color: white;" cdkTrapFocus [cdkTrapFocusAutoCapture]="true">
             <h3 style="margin-top: 0;">{{title | sqMessage}}</h3>
             <div>{{model.message | sqMessage:model.messageParams}}</div>
-            <input type="text" formControlName="input">
+            <input type="text" formControlName="input" *ngIf="!model.rowCount">
+            <textarea type="text" formControlName="input" spellcheck="on" rows="{{model.rowCount}}" autofocus *ngIf="!!model.rowCount">
+            </textarea>
             <ng-container *ngIf="showError(inputControl)">
                 <br>
                 <span style="color: red;">{{form.get("input")?.errors | sqValidationError}}</span>
