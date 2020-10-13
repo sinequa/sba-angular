@@ -52,6 +52,8 @@ For example, let's imagine we have two views:
 First, we define the [`ResultsView`]({{site.baseurl}}components/interfaces/ResultsView.html) objects and inject them in our `app.module.ts`:
 
 ```ts
+import { BsResultsViewModule, ResultsView } from '@sinequa/components/results-view';
+
 export const allViews: ResultsView[] = [
     {
         name: "list",
