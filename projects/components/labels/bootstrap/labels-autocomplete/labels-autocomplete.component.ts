@@ -1,6 +1,14 @@
-import {Component, ElementRef, EventEmitter, Output, Input, OnChanges, SimpleChanges} from "@angular/core";
-import {Keys} from "@sinequa/core/base";
-import { AutocompleteItem } from '@sinequa/components/autocomplete';
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    Output,
+    Input,
+    OnChanges,
+    SimpleChanges,
+} from "@angular/core";
+import { Keys } from "@sinequa/core/base";
+import { AutocompleteItem } from "@sinequa/components/autocomplete";
 
 /**
  * Component containing a form and autocomplete to search
@@ -13,40 +21,65 @@ import { AutocompleteItem } from '@sinequa/components/autocomplete';
 @Component({
     selector: "sq-labels-autocomplete",
     templateUrl: "./labels-autocomplete.component.html",
-    styles: [`
-        .sq-dropdown-form {
-            min-width: 13rem;
-            display: inline;
-        }
-        .input-autocomplete{
-            border: none;
-            display: inline-block;
-        }
-        .input-autocomplete:focus {
-            outline: none;
-        }
-        .disabled {
-            cursor: not-allowed;
-        }
-        .form-control {
-            display: inline-block !important;
-            height: unset !important;
-        }
-        ::ng-deep .sq-autocomplete-list {
+    styles: [
+        `
+            .sq-dropdown-form {
+                min-width: 13rem;
+                display: inline;
+            }
+            .disabled {
+                cursor: not-allowed;
+            }
+            :host ::ng-deep .sq-autocomplete-list {
                 width: 50% !important;
             }
-    `]
+            .clickable {
+                cursor: pointer;
+            }
+            .clickable:hover {
+                opacity: 85%;
+            }
+            .label-public {
+                background-color: #4fc3f7;
+                margin: 2px;
+            }
+            .label-private {
+                background-color: #7283a7;
+                margin: 2px;
+            }
+
+            :host div {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                height: unset !important;
+            }
+            :host input {
+                border: none;
+                flex-grow: 1;
+                flex-basis: 100px;
+                min-width: 100px;
+            }
+            :host input:focus {
+                outline: none;
+            }
+        `
+    ]
 })
 export class BsLabelsAutocompleteComponent implements OnChanges {
-
     /** Event synchronizing the list of selected labels and label's type in the parent component */
     @Output() labelsUpdate = new EventEmitter<string[]>();
 
     @Input() public: boolean; /** Whether labels are public/private */
-    @Input() disableAutocomplete: boolean = false /** Whether the autocomplete input is disabled or not */;
-    @Input() allowNewLabels: boolean; /** Whether enable adding new labels or not */
-    @Input() allowManagePublicLabels: boolean; /** Define the right of adding new labels */
-    @Input() initLabels: string[]; /** Initial labels to be displayed in the labelsAutocomplete input*/
+    @Input()
+    disableAutocomplete: boolean = false /** Whether the autocomplete input is disabled or not */;
+    @Input()
+    allowNewLabels: boolean; /** Whether enable adding new labels or not */
+    @Input()
+    allowManagePublicLabels: boolean; /** Define the right of adding new labels */
+    @Input()
+    initLabels: string[]; /** Initial labels to be displayed in the labelsAutocomplete input*/
 
     constructor(private elementRef: ElementRef) {}
 
@@ -61,7 +94,8 @@ export class BsLabelsAutocompleteComponent implements OnChanges {
 
     private getDropdownItem(): HTMLElement | null {
         if (this.elementRef) {
-            let current: HTMLElement | null = this.elementRef.nativeElement as HTMLElement;
+            let current: HTMLElement | null = this.elementRef
+                .nativeElement as HTMLElement;
             while (current && !current.classList.contains("dropdown-item")) {
                 current = current.parentElement;
             }
@@ -93,6 +127,6 @@ export class BsLabelsAutocompleteComponent implements OnChanges {
     }
 
     onLabelsItemsChanged(labelsItems: AutocompleteItem[]) {
-        this.labelsUpdate.next(labelsItems.map((item => item.display)))
+        this.labelsUpdate.next(labelsItems.map((item) => item.display));
     }
 }

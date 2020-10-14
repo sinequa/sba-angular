@@ -2,6 +2,13 @@
     <section class="sq-dropdown-form">
         <div class="form-control">
             <sq-labels-items [public]="public" #labelsItemsContainer></sq-labels-items>
+            <span
+                *ngFor="let item of labelsItemsContainer.items"
+                class="badge badge-pill badge-info align-self-center"
+                [ngClass]="{'label-public': public, 'label-private': !public}">
+                {{ item.display }}
+                <span class="fas fa-times-circle clickable" (click)="labelsItemsContainer.removeItem(item)"></span>
+            </span>
             <input type="text"
                 class="input-autocomplete flex-grow-1"
                 name="labelName"
