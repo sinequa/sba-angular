@@ -53,13 +53,14 @@
           <div class="card-header d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
               Advanced Search
           </div>
-          <sq-advanced
+          <!-- <sq-advanced
               [showing]="true"
               [form]="form"
               [query]="query"
               [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''"
               [items]= "items">
-          </sq-advanced>
+          </sq-advanced> -->
+          <sq-advanced-form-select [form]="form" [config]="getAdvancedSearchFormConfig('sources')"></sq-advanced-form-select>
         </div>
 
     </form>

@@ -18,7 +18,7 @@ import { ParseResult } from "@sinequa/components/autocomplete";
 import { AutocompleteExtended } from "./autocomplete-extended.directive";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import {Utils} from "@sinequa/core/base";
-import { FormService } from '@sinequa/components/advanced/form.service';
+import { FormService } from '@sinequa/components/advanced';
 import { advancedSearchFormConfig } from './advanced-search-form.config';
 
 @Component({
@@ -49,7 +49,7 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
         public loginService: LoginService,
         public appService: AppService,
         public prefs: UserPreferences,
-        private formService: FormService,
+        public formService: FormService,
         private firstPageService: FirstPageService,
         private changeDetectorRef: ChangeDetectorRef
     ) {
@@ -202,7 +202,7 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
      * Here we can add whatever formControl we want to link to this.form
      */
     ngAfterViewInit() {
-
+      this.form.addControl('sources', this.formService.createSelectControl(advancedSearchFormConfig.get('sources')))
     }
 
     private _searchSubscription: Subscription;
@@ -340,6 +340,9 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
         this.showAdvancedSearch = !this.showAdvancedSearch;
     }
 
+    getAdvancedSearchFormConfig(name: string): any {
+      return advancedSearchFormConfig.get(name);
+    }
     // private _parser(field: string): string | undefined {
     //   const column = this.appService.getColumn(field);
     //   return  column ? column.parser : undefined;

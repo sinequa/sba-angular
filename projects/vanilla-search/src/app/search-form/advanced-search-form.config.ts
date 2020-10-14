@@ -7,6 +7,7 @@ export let advancedSearchFormConfig: Map<string, any> = new Map([
           aggregation: "",
           autocompleteEnabled: true,
           field: "treepath",
+          name: "sources",
           label: "Sources",
           list: "",
           multiple: true,

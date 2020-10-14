@@ -39,8 +39,8 @@ export class BsAdvancedFormSelect implements OnInit, OnDestroy {
         this.options = {
             disabled: false,
             multiple: Utils.isUndefined(this.config.multiple) || this.config.multiple,
-            height: this.config.height,
-            visibleThreshold: this.config.visibleThreshold,
+            // height: this.config.height,
+            // visibleThreshold: this.config.visibleThreshold,
             items: this.getItems()
         };
 
