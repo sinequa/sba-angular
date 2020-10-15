@@ -9,7 +9,6 @@ import {
 } from "@angular/core";
 import { Keys } from "@sinequa/core/base";
 import { AutocompleteItem } from "@sinequa/components/autocomplete";
-import { Subject } from "rxjs";
 
 /**
  * Component containing a form and autocomplete to search
@@ -78,26 +77,38 @@ export class BsLabelsAutocompleteComponent implements OnChanges {
     @Input() allowManagePublicLabels: boolean; /** Define the right of adding new labels */
     @Input() initLabels: string[]; /** Initial labels to be displayed in the labelsAutocomplete input*/
 
-    itemRemoved$ = new Subject<AutocompleteItem>(); /** Subject firing each delete of an AutocompleteItem from the list */
-    items: AutocompleteItem[] = []; /** List of assigned labels to selected record(s) */
+    labelsItems: AutocompleteItem[] = []; /** List of assigned labels to selected record(s) */
 
     constructor(private elementRef: ElementRef) {}
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.public) {
             this.public = changes.public.currentValue;
+            this.labelsItems = [];
         }
         if (changes.initLabels) {
-            this.initLabels = changes.initLabels.currentValue;
+            this.initLabels = changes.initLabels.currentValue
+                ? changes.initLabels.currentValue
+                : [];
+            this.labelsItems = this.initLabels.map((label) => {
+                return {
+                    display: label,
+                    category: "",
+                };
+            });
         }
     }
 
     removeItem(item: AutocompleteItem) {
-        this.itemRemoved$.next(item);
+        this.labelsItems.splice(this.labelsItems.indexOf(item), 1);
+        this.labelsItems = [
+            ...this.labelsItems,
+        ]; /** Need to programmatically update this.labelsItems object in order to fire ngOnChanges hook in sqAutocompleteLabels */
+        this.labelsUpdate.next(this.labelsItems.map((item) => item.display));
     }
 
     onLabelsItemsChanged(labelsItems: AutocompleteItem[]) {
-        this.items = labelsItems;
+        this.labelsItems = labelsItems; /** Need to Programmatically update this.labelsItems to catch updates happening in the sqAutocompleteLabels  */
         this.labelsUpdate.next(labelsItems.map((item) => item.display));
     }
 

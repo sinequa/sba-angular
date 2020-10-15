@@ -2,7 +2,7 @@
     <section class="sq-dropdown-form">
         <div class="form-control">
             <span
-                *ngFor="let item of items"
+                *ngFor="let item of labelsItems"
                 class="badge badge-pill badge-info align-self-center"
                 [ngClass]="{'label-public': public, 'label-private': !public}">
                 {{ item.display }}
@@ -25,8 +25,7 @@
                 [disabled]="disableAutocomplete"
                 [off]="disableAutocomplete"
                 [class.disabled]="disableAutocomplete"
-                [initLabels]="initLabels"
-                [itemRemoved$]="itemRemoved$">
+                [labelsItems]="labelsItems">
         </div>
         <sq-autocomplete-list #dropdown>
             <ng-template #itemTpl let-item>
