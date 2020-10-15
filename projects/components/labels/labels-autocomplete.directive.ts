@@ -16,21 +16,9 @@ import {
 import { AppService } from "@sinequa/core/app-utils";
 import { UIService } from "@sinequa/components/utils";
 import { LabelsWebService, Labels } from "@sinequa/core/web-services";
-import { Subscription } from "rxjs";
+import { Subscription, Subject } from "rxjs";
 import { Keys } from "@sinequa/core/base";
 import { LabelsService } from "./labels.service";
-
-/**
- * Interface required to be implement by the component displaying
- * the labels items (basically the content of labelsItems)
- */
-export interface LabelsItemsContainer {
-    /** Update the list of items displayed by the container */
-    update(items: AutocompleteItem[]): void;
-
-    /** Event triggered when the user removes an item from the container */
-    itemRemoved: EventEmitter<AutocompleteItem>;
-}
 
 @Directive({
     selector: "[sqAutocompleteLabels]",
@@ -39,8 +27,8 @@ export class LabelsAutocomplete extends Autocomplete {
     /** Event synchronizing the list of selected labels in the parent component */
     @Output() itemsUpdate = new EventEmitter<AutocompleteItem[]>();
 
-    /** Container displaying the labelsItems */
-    @Input() labelsItemsContainer?: LabelsItemsContainer;
+    /** Subject firing each delete of an AutocompleteItem from the list */
+    @Input() itemRemoved$: Subject<AutocompleteItem>;
 
     /** Whether the labels are public or not */
     @Input() public: boolean;
@@ -88,12 +76,12 @@ export class LabelsAutocomplete extends Autocomplete {
      * @param changes
      */
     ngOnChanges(changes: SimpleChanges) {
-        // Subscribe to the labels items' container
-        if (changes["labelsItemsContainer"] && this.labelsItemsContainer) {
+        // Subscribe to the deletion subject
+        if (changes["itemRemoved$"]) {
             if (this._labelsSubscription) {
                 this._labelsSubscription.unsubscribe();
             }
-            this._labelsSubscription = this.labelsItemsContainer.itemRemoved.subscribe(
+            this._labelsSubscription = this.itemRemoved$.subscribe(
                 (item) => {
                     this.labelsItems.splice(this.labelsItems.indexOf(item), 1);
                     this.itemsUpdate.next(this.labelsItems);
@@ -130,7 +118,6 @@ export class LabelsAutocomplete extends Autocomplete {
 
         this.updatePlaceholder();
         this.itemsUpdate.next(this.labelsItems);
-        this.labelsItemsContainer?.update(this.labelsItems);
     }
 
     private _labelsSubscription: Subscription;
@@ -251,7 +238,6 @@ export class LabelsAutocomplete extends Autocomplete {
             // Store the autocomplete items that will be used to create a selection
             this.labelsItems.push(item);
             this.updatePlaceholder();
-            this.labelsItemsContainer?.update(this.labelsItems);
             this.itemsUpdate.next(this.labelsItems);
             this.setInputValue("");
         }
@@ -285,7 +271,6 @@ export class LabelsAutocomplete extends Autocomplete {
                 if (this.getInputValue() === "") {
                     this.labelsItems.pop();
                     this.updatePlaceholder();
-                    this.labelsItemsContainer?.update(this.labelsItems);
                     this.itemsUpdate.next(this.labelsItems);
                 }
             }

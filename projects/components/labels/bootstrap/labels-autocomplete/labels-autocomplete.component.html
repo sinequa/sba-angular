@@ -1,13 +1,12 @@
 <form name="labelsForm" class="d-inline">
     <section class="sq-dropdown-form">
         <div class="form-control">
-            <sq-labels-items [public]="public" #labelsItemsContainer></sq-labels-items>
             <span
-                *ngFor="let item of labelsItemsContainer.items"
+                *ngFor="let item of items"
                 class="badge badge-pill badge-info align-self-center"
                 [ngClass]="{'label-public': public, 'label-private': !public}">
                 {{ item.display }}
-                <span class="fas fa-times-circle clickable" (click)="labelsItemsContainer.removeItem(item)"></span>
+                <span class="fas fa-times-circle clickable" (click)="removeItem(item)"></span>
             </span>
             <input type="text"
                 class="input-autocomplete flex-grow-1"
@@ -18,7 +17,6 @@
                 [public]="public"
                 [placeholder]="'msg#labels.selectLabel' | sqMessage"
                 [dropdown]="dropdown"
-                [labelsItemsContainer]="labelsItemsContainer"
                 [allowNewLabels]="allowNewLabels"
                 [allowManagePublicLabels]="allowManagePublicLabels"
                 (keydown)="keydown($event)"
@@ -27,7 +25,8 @@
                 [disabled]="disableAutocomplete"
                 [off]="disableAutocomplete"
                 [class.disabled]="disableAutocomplete"
-                [initLabels]="initLabels">
+                [initLabels]="initLabels"
+                [itemRemoved$]="itemRemoved$">
         </div>
         <sq-autocomplete-list #dropdown>
             <ng-template #itemTpl let-item>

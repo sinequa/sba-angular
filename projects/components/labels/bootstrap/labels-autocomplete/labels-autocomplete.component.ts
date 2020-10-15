@@ -9,6 +9,7 @@ import {
 } from "@angular/core";
 import { Keys } from "@sinequa/core/base";
 import { AutocompleteItem } from "@sinequa/components/autocomplete";
+import { Subject } from "rxjs";
 
 /**
  * Component containing a form and autocomplete to search
@@ -64,22 +65,21 @@ import { AutocompleteItem } from "@sinequa/components/autocomplete";
             :host input:focus {
                 outline: none;
             }
-        `
-    ]
+        `,
+    ],
 })
 export class BsLabelsAutocompleteComponent implements OnChanges {
     /** Event synchronizing the list of selected labels and label's type in the parent component */
     @Output() labelsUpdate = new EventEmitter<string[]>();
 
     @Input() public: boolean; /** Whether labels are public/private */
-    @Input()
-    disableAutocomplete: boolean = false /** Whether the autocomplete input is disabled or not */;
-    @Input()
-    allowNewLabels: boolean; /** Whether enable adding new labels or not */
-    @Input()
-    allowManagePublicLabels: boolean; /** Define the right of adding new labels */
-    @Input()
-    initLabels: string[]; /** Initial labels to be displayed in the labelsAutocomplete input*/
+    @Input() disableAutocomplete: boolean = false /** Whether the autocomplete input is disabled or not */;
+    @Input() allowNewLabels: boolean; /** Whether enable adding new labels or not */
+    @Input() allowManagePublicLabels: boolean; /** Define the right of adding new labels */
+    @Input() initLabels: string[]; /** Initial labels to be displayed in the labelsAutocomplete input*/
+
+    itemRemoved$ = new Subject<AutocompleteItem>(); /** Subject firing each delete of an AutocompleteItem from the list */
+    items: AutocompleteItem[] = []; /** List of assigned labels to selected record(s) */
 
     constructor(private elementRef: ElementRef) {}
 
@@ -90,6 +90,15 @@ export class BsLabelsAutocompleteComponent implements OnChanges {
         if (changes.initLabels) {
             this.initLabels = changes.initLabels.currentValue;
         }
+    }
+
+    removeItem(item: AutocompleteItem) {
+        this.itemRemoved$.next(item);
+    }
+
+    onLabelsItemsChanged(labelsItems: AutocompleteItem[]) {
+        this.items = labelsItems;
+        this.labelsUpdate.next(labelsItems.map((item) => item.display));
     }
 
     private getDropdownItem(): HTMLElement | null {
@@ -124,9 +133,5 @@ export class BsLabelsAutocompleteComponent implements OnChanges {
             return false;
         }
         return undefined;
-    }
-
-    onLabelsItemsChanged(labelsItems: AutocompleteItem[]) {
-        this.labelsUpdate.next(labelsItems.map((item) => item.display));
     }
 }

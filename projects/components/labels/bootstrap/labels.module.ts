@@ -16,7 +16,6 @@ import {BsRenameLabel} from "./rename-label/rename-label";
 import {BsLabelsMenuComponent} from "./labels-menu/labels-menu.component";
 
 import {LABELS_COMPONENTS, LabelsComponents} from "../labels.service";
-import { BsLabelsItemsComponent } from './labels-items.component';
 import { BsDeleteLabel } from './delete-label/delete-label';
 import { BsAddLabel } from './add-label/add-label';
 import { BsLabelsAutocompleteComponent } from './labels-autocomplete/labels-autocomplete.component';
@@ -49,7 +48,6 @@ export const defaultLabelComponents: LabelsComponents = {
         BsLabelsAutocompleteComponent,
         BsRenameLabel,
         BsLabelsMenuComponent,
-        BsLabelsItemsComponent,
         BsDeleteLabel,
         BsAddLabel,
         BsEditLabel
@@ -59,7 +57,6 @@ export const defaultLabelComponents: LabelsComponents = {
         BsLabelsAutocompleteComponent,
         BsRenameLabel,
         BsLabelsMenuComponent,
-        BsLabelsItemsComponent,
         BsDeleteLabel,
         BsAddLabel,
         BsEditLabel
