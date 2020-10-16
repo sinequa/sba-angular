@@ -18,7 +18,7 @@ import { AppService } from "@sinequa/core/app-utils";
                 background-color: #7283a7;
             }
             .sq-label-remove {
-                margin-left: $spacer / 16;
+                margin-left: 3px;
             }
             .clickable {
                 cursor: pointer;

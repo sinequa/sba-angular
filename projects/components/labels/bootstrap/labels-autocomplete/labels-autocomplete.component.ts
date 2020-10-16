@@ -75,7 +75,7 @@ export class BsLabelsAutocompleteComponent implements OnChanges {
     @Input() disableAutocomplete: boolean = false /** Whether the autocomplete input is disabled or not */;
     @Input() allowNewLabels: boolean; /** Whether enable adding new labels or not */
     @Input() allowManagePublicLabels: boolean; /** Define the right of adding new labels */
-    @Input() initLabels: string[]; /** Initial labels to be displayed in the labelsAutocomplete input*/
+    @Input() initLabels: string[] = []; /** Initial labels to be displayed in the labelsAutocomplete input*/
 
     labelsItems: AutocompleteItem[] = []; /** List of assigned labels to selected record(s) */
 
@@ -83,13 +83,9 @@ export class BsLabelsAutocompleteComponent implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.public) {
-            this.public = changes.public.currentValue;
             this.labelsItems = [];
         }
         if (changes.initLabels) {
-            this.initLabels = changes.initLabels.currentValue
-                ? changes.initLabels.currentValue
-                : [];
             this.labelsItems = this.initLabels.map((label) => {
                 return {
                     display: label,
