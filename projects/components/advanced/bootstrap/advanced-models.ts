@@ -25,13 +25,7 @@ export interface ListControl {
     aggregation: string;
 }
 
-export enum AdvancedFormType {
-    Checkbox = "AdvancedFormCheckbox",
-    Entry = "AdvancedFormEntry",
-    Range = "AdvancedFormRange",
-    Select = "AdvancedFormSelect",
-    MultiEntry = "AdvancedFormMultiEntry"
-}
+
 
 export interface Checkbox extends Control {
 }
@@ -39,14 +33,6 @@ export interface Checkbox extends Control {
 export interface Entry extends Control {
 }
 
-export interface Range extends Control {
-}
-
-// export interface Select extends ListControl {
-//     height: number;
-//     visibleThreshold: number;
-//     multiple: boolean;
-// }
 
 export interface MultiEntry extends Control {
     nbVisibleLines?: number;

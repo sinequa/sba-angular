@@ -6,14 +6,35 @@ import {
     FormGroup,
     ValidatorFn,
     AsyncValidatorFn,
+    Validators,
 } from "@angular/forms";
 
 /* Services */
 import { AdvancedValue, AdvancedOperator } from "@sinequa/core/web-services";
-import { AdvancedFormType } from "./bootstrap";
 import { Utils } from "@sinequa/core/base";
-import {SearchService} from "@sinequa/components/search";
+import { SearchService } from "@sinequa/components/search";
 import { AppService } from "@sinequa/core/app-utils";
+import { ValidationService } from '@sinequa/core/validation';
+
+export enum AdvancedFormType {
+    Checkbox = "AdvancedFormCheckbox",
+    Entry = "AdvancedFormEntry",
+    Range = "AdvancedFormRange",
+    Select = "AdvancedFormSelect",
+    MultiEntry = "AdvancedFormMultiEntry",
+}
+
+export interface AdvancedFormValidators {
+    min: (min: string | number | Date, config) => ValidatorFn;
+    max: (max: string | number | Date, config) => ValidatorFn;
+    required: ValidatorFn;
+    email: ValidatorFn;
+    pattern: (pattern: string | RegExp) => ValidatorFn;
+    integer: (config) => ValidatorFn;
+    number: (config) => ValidatorFn;
+    date: (config) => ValidatorFn;
+    range: (config) => ValidatorFn;
+}
 
 export interface Select {
     field: string;
@@ -26,14 +47,37 @@ export interface Select {
     type: string;
 }
 
+export interface Range {
+    type: string;
+    field: string;
+    label: string;
+    name: string;
+    min: string | number | Date;
+    max: string | number | Date;
+}
+
 @Injectable({
     providedIn: "root",
 })
 export class FormService {
+
+    public readonly advancedFormValidators: AdvancedFormValidators = {
+        min: (min, config) => this.validationService.minValidator(min, this._parser(config)),
+        max: (max, config) => this.validationService.minValidator(max, this._parser(config)),
+        required: Validators.required,
+        email: Validators.email,
+        pattern: (pattern: string | RegExp) => Validators.pattern(pattern),
+        integer: (config) => this.validationService.integerValidator(this._parser(config)),
+        number: (config) => this.validationService.numberValidator(this._parser(config)),
+        date: (config) => this.validationService.dateValidator(this._parser(config)),
+        range: (config) => this.validationService.rangeValidator(this._rangeType(config), this._parser(config))
+    }
+
     constructor(
         public appService: AppService,
         public searchService: SearchService,
-        public formBuilder: FormBuilder
+        public formBuilder: FormBuilder,
+        private validationService: ValidationService,
     ) {}
 
     buildForm(): FormGroup {
@@ -58,27 +102,24 @@ export class FormService {
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
     ): FormControl {
-        return new FormControl(
-            {
-                value: this.searchService.query?.getAdvancedValue(
-                    config.field,
-                    config.operator
-                ),
-                disabled: false,
-            },
-            {
-                validators: !!validators ? validators : [],
-                asyncValidators: !!asyncValidators ? asyncValidators : [],
-                updateOn: "change",
-            }
-        );
+        return this._createControl(config, validators, asyncValidators);
+    }
+
+    createRangeControl(
+        config: Range,
+        validators?: ValidatorFn[],
+        asyncValidators?: AsyncValidatorFn[]
+    ): FormControl {
+        return this._createControl(config, validators, asyncValidators);
     }
 
     /**
      * Retrieve the value to be set to a specific form control from a given query
      * @param config the advanced-search-form field config
      */
-    getAdvancedValue(config: Select | any): AdvancedValue | AdvancedValue[] {
+    getAdvancedValue(
+        config: Select | Range | any
+    ): AdvancedValue | AdvancedValue[] {
         if (Utils.eqNC(config.type, AdvancedFormType.Range)) {
             const range: AdvancedValue[] = [];
             range.push(
@@ -110,7 +151,10 @@ export class FormService {
      * @param value new value to be updated in the query
      * @param config the advanced-search-form field config
      */
-    setAdvancedValue(value: AdvancedValue | AdvancedValue[], config: Select | any) {
+    setAdvancedValue(
+        value: AdvancedValue | AdvancedValue[],
+        config: Select | any
+    ) {
         if (Utils.eqNC(config.type, AdvancedFormType.Range)) {
             const range = value;
             const from = Utils.isArray(range)
@@ -137,6 +181,45 @@ export class FormService {
                 !this._isDistribution(config)
             );
         }
+    }
+
+    private _parser(config: Select | Range | any): string | undefined {
+        const column = this.appService.getColumn(config.field);
+        return column ? column.parser : undefined;
+    }
+
+    private _rangeType(config: Select | Range | any): string | number | Date {
+        const column = this.appService.getColumn(config.field);
+        let rangeType;
+        if (
+            column &&
+            (AppService.isInteger(column) || AppService.isDouble(column))
+        ) {
+            rangeType = 0;
+        } else if (column && AppService.isDate(column)) {
+            rangeType = new Date();
+        } else {
+            rangeType = "";
+        }
+        return rangeType;
+    }
+
+    private _createControl(
+        config: Select | Range | any,
+        validators?: ValidatorFn[],
+        asyncValidators?: AsyncValidatorFn[]
+    ): FormControl {
+        return new FormControl(
+            {
+                value: this.getAdvancedValue(config),
+                disabled: false,
+            },
+            {
+                validators: !!validators ? validators : [],
+                asyncValidators: !!asyncValidators ? asyncValidators : [],
+                updateOn: "change",
+            }
+        );
     }
 
     private _ensureAdvancedValue(

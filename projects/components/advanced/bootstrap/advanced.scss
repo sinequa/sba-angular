@@ -1,4 +1,4 @@
-
+@import "~ngx-bootstrap/datepicker/bs-datepicker.css";
 // select
 $sq-select-default-width: 26.5ch !default;
 
@@ -32,7 +32,7 @@ Style for multi-entry input (or tags input)
     padding: 0.25rem 0.75rem;
 
     // Make the tags input behaves like other form control when focused
-    &:focus-within { 
+    &:focus-within {
         //@extend .form-control:focus; => @extend of compound selectors no longer supported
         @include sq-inner-form-control-focus();
     }
@@ -120,7 +120,7 @@ Style for multi-entry input (or tags input)
 }
 
 sq-select {
-        
+
     .sq-button-text {
         display: inline-block;
         text-align: left;
@@ -136,7 +136,7 @@ sq-select {
         }
 
         @include form-control-focus();
-        
+
         border: $input-border-width solid $input-border-color;
         @if $enable-rounded {
             // Manually use the if/else instead of the mixin to account for iOS override

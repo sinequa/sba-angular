@@ -25,4 +25,26 @@ export let advancedSearchFormConfig: Map<string, Select | any> = new Map([
             type: AdvancedFormType.Select,
         }
     ],
+    [
+        "size",
+        {
+            field: "size",
+            name: "size",
+            label: "From / To",
+            type: AdvancedFormType.Range,
+            min: "",
+            max: ""
+        }
+    ],
+    [
+        "modified",
+        {
+            field: "modified",
+            name: "modified",
+            label: "From / To",
+            type: AdvancedFormType.Range,
+            min: "",
+            max: ""
+        }
+    ]
 ]);

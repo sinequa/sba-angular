@@ -17,9 +17,9 @@ import { FEATURES } from "../../config";
 import { ParseResult } from "@sinequa/components/autocomplete";
 import { AutocompleteExtended } from "./autocomplete-extended.directive";
 import { UserPreferences } from "@sinequa/components/user-settings";
-import {Utils} from "@sinequa/core/base";
-import { FormService } from '@sinequa/components/advanced';
-import { advancedSearchFormConfig } from './advanced-search-form.config';
+import { Utils } from "@sinequa/core/base";
+import { FormService } from "@sinequa/components/advanced";
+import { advancedSearchFormConfig } from "./advanced-search-form.config";
 
 @Component({
     selector: "app-search-form",
@@ -38,9 +38,10 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
     items;
 
-    @ViewChild(AutocompleteExtended) autocompleteDirective: AutocompleteExtended;
+    @ViewChild(AutocompleteExtended)
+    autocompleteDirective: AutocompleteExtended;
     @ViewChild("btnAdvancedSearch") private btnAdvancedSearch: ElementRef;
-    @ViewChild("cardAdvancedSearch") private cardAdvancedSearch: ElementRef;
+    // @ViewChild("cardAdvancedSearch") private cardAdvancedSearch: ElementRef;
 
     initAdvancedSearchDone: boolean;
 
@@ -52,26 +53,25 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
         public prefs: UserPreferences,
         public formService: FormService,
         private changeDetectorRef: ChangeDetectorRef
-    ) {
-    }
+    ) {}
 
     ngOnInit() {
-
-      /**
+        /**
          * If firstPage values not needed for advanced form then no need to call firstPageService.getFirstPage,
          * just set this.initAdvancedSearchDone = true
          */
         this.initAdvancedSearchDone = false;
-        Utils.subscribe(this.firstPageService.getFirstPage(),
-            () => {
-                this.initAdvancedSearchDone = true;
-                this.changeDetectorRef.markForCheck();
-            });
+        Utils.subscribe(this.firstPageService.getFirstPage(), () => {
+            this.initAdvancedSearchDone = true;
+            this.changeDetectorRef.markForCheck();
+        });
         /**
          * Initialize the form with default control
          */
         this.form = this.formService.buildForm();
-        this.searchControl = this.form.get('search') ? this.form.get('search') : new FormControl("");
+        this.searchControl = this.form.get("search")
+            ? this.form.get("search")
+            : new FormControl("");
 
         /**
          * Every time the query changes, we want to update the search form
@@ -203,8 +203,41 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
      * Here we can add whatever formControl we want to link to this.form
      */
     ngAfterViewInit() {
-      this.form.addControl('sources', this.formService.createSelectControl(advancedSearchFormConfig.get('sources'))),
-      this.form.addControl('authors', this.formService.createSelectControl(advancedSearchFormConfig.get('authors')))
+        this.form.addControl(
+            "sources",
+            this.formService.createSelectControl(
+                advancedSearchFormConfig.get("sources"),
+                // [
+                //     this.formService.advancedFormValidators.required
+                // ]
+            )
+        );
+        this.form.addControl(
+            "authors",
+            this.formService.createSelectControl(
+                advancedSearchFormConfig.get("authors")
+            )
+        );
+        this.form.addControl(
+            "size",
+            this.formService.createSelectControl(
+                advancedSearchFormConfig.get("size"),
+                [
+                    this.formService.advancedFormValidators.range(advancedSearchFormConfig.get("size")),
+                    this.formService.advancedFormValidators.number(advancedSearchFormConfig.get("size"))
+                ]
+            )
+        );
+        this.form.addControl(
+            "modified",
+            this.formService.createSelectControl(
+                advancedSearchFormConfig.get("modified"),
+                [
+                    this.formService.advancedFormValidators.range(advancedSearchFormConfig.get("modified")),
+                    this.formService.advancedFormValidators.date(advancedSearchFormConfig.get("modified"))
+                ]
+            )
+        );
     }
 
     private _searchSubscription: Subscription;
@@ -219,7 +252,7 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     search() {
         if (this.loginService.complete && this.form.valid) {
-            this.updateQuery()
+            this.updateQuery();
             if (this.getMode() === "selects") {
                 const expr = this.autocompleteDirective.getFieldSearchExpression();
                 if (expr) {
@@ -227,7 +260,7 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
             }
             this.searchService.searchAdvanced(this.searchService.query);
-            this.searchService.navigate({path: "/search"});
+            this.searchService.navigate({ path: "/search" });
         }
     }
 
@@ -293,35 +326,39 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param emitEvent by default, we don't propagate changes. Set it to 'true' if changes emitters need to be turned on
      */
     updateFormValues(emitEvent: boolean = false): void {
-        Object.keys(this.form.controls).forEach(
-          (key) => {
+        Object.keys(this.form.controls).forEach((key) => {
             if (key === "search") {
-              this.searchControl?.setValue(
-                !this.searchService.query || !this.searchService.query.text ? "" : this.searchService.query.text
-            );
+                this.searchControl?.setValue(
+                    !this.searchService.query || !this.searchService.query.text
+                        ? ""
+                        : this.searchService.query.text
+                );
             } else {
-              const value = this.formService.getAdvancedValue(advancedSearchFormConfig.get(key));
-              this.form.controls[key]?.setValue(value, { emitEvent: emitEvent });
+                const value = this.formService.getAdvancedValue(
+                    advancedSearchFormConfig.get(key)
+                );
+                this.form.controls[key]?.setValue(value, {
+                    emitEvent: emitEvent,
+                });
             }
-          }
-        );
+        });
     }
 
     /**
      * Returns a new value of query baed on the current search form values
      */
     updateQuery(): void {
-      this.searchService.clearQuery();
-      Object.keys(this.form.controls).forEach(
-        (key) => {
-          if (key === "search") {
-            this.searchService.query.text = this.searchControl?.value || "";
-          } else {
-            this.formService.setAdvancedValue(this.form.controls[key]?.value, advancedSearchFormConfig.get(key));
-          }
-        }
-      );
-
+        this.searchService.clearQuery();
+        Object.keys(this.form.controls).forEach((key) => {
+            if (key === "search") {
+                this.searchService.query.text = this.searchControl?.value || "";
+            } else {
+                this.formService.setAdvancedValue(
+                    this.form.controls[key]?.value,
+                    advancedSearchFormConfig.get(key)
+                );
+            }
+        });
     }
 
     /**
@@ -332,11 +369,12 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
     handleClick(event: Event) {
         if (this.btnAdvancedSearch?.nativeElement.contains(event.target)) {
             this.toggleAdvancedSearch();
-        } else {
-            if (!this.cardAdvancedSearch?.nativeElement.contains(event.target)) {
-                this.showAdvancedSearch = false;
-            }
         }
+        // else {
+        //     if (!this.cardAdvancedSearch?.nativeElement.contains(event.target)) {
+        //         this.showAdvancedSearch = false;
+        //     }
+        // }
     }
 
     toggleAdvancedSearch() {
@@ -344,23 +382,6 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     getAdvancedSearchFormConfig(name: string): any {
-      return advancedSearchFormConfig.get(name);
+        return advancedSearchFormConfig.get(name);
     }
-    // private _parser(field: string): string | undefined {
-    //   const column = this.appService.getColumn(field);
-    //   return  column ? column.parser : undefined;
-    // }
-
-    // private _rangeType(field: string): string | number | Date {
-    //   const column = this.appService.getColumn(field);
-    //   let rangeType;
-    //   if (column && (AppService.isInteger(column) || AppService.isDouble(column))) {
-    //     rangeType = 0;
-    //   } else if (column && AppService.isDate(column)) {
-    //       rangeType = new Date();
-    //   } else {
-    //       rangeType = "";
-    //   }
-    //   return rangeType;
-    //   }
 }

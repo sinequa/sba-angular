@@ -63,6 +63,8 @@
           <div class="d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
             <sq-advanced-form-select [form]="form" [config]="getAdvancedSearchFormConfig('sources')"></sq-advanced-form-select>
             <sq-advanced-form-select [form]="form" [config]="getAdvancedSearchFormConfig('authors')"></sq-advanced-form-select>
+            <sq-advanced-form-range [form]="form" [config]="getAdvancedSearchFormConfig('size')" [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''" [autocompleteEnabled]="true"></sq-advanced-form-range>
+            <sq-advanced-form-range [form]="form" [config]="getAdvancedSearchFormConfig('modified')" [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''" [autocompleteEnabled]="true"></sq-advanced-form-range>
           </div>
         </div>
     </form>
