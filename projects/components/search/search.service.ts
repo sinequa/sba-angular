@@ -107,7 +107,7 @@ export class SearchService implements OnDestroy {
     }
 
     get resultsStream(): Observable<Results | undefined> {
-        return this._resultsStream;
+        return this._resultsStream.asObservable();
     }
 
     getTabConfig(name: string): CCTab | undefined {
