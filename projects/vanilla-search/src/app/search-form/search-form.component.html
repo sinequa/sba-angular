@@ -49,7 +49,7 @@
         </div>
 
         <!-- Card displaying advanced-search -->
-        <div class="card advanced-search" *ngIf="showAdvancedSearch" #cardAdvancedSearch>
+        <div class="card advanced-search" *ngIf="showAdvancedSearch && initAdvancedSearchDone" #cardAdvancedSearch>
           <div class="card-header d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
               Advanced Search
           </div>
@@ -60,9 +60,11 @@
               [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''"
               [items]= "items">
           </sq-advanced> -->
-          <sq-advanced-form-select [form]="form" [config]="getAdvancedSearchFormConfig('sources')"></sq-advanced-form-select>
+          <div class="d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
+            <sq-advanced-form-select [form]="form" [config]="getAdvancedSearchFormConfig('sources')"></sq-advanced-form-select>
+            <sq-advanced-form-select [form]="form" [config]="getAdvancedSearchFormConfig('authors')"></sq-advanced-form-select>
+          </div>
         </div>
-
     </form>
 
     <!-- Autocomplete dropdown panel displaying suggestions -->

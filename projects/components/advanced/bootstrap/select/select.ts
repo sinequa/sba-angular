@@ -4,10 +4,8 @@ import { Utils, NameValueArrayView, Keys } from "@sinequa/core/base";
 
 export interface SelectOptions {
     items: NameValueArrayView<string, any>;
-    height?: number;
     disabled?: boolean;
     multiple?: boolean;
-    visibleThreshold?: number;
 }
 
 @Component({
@@ -28,15 +26,12 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
     activeItem: number = -1;
     private cancelBlur: boolean = false; // For IE which takes focus when clicking on dropdown scrollbar despite the mousedown handling
     public names: string[];
-
-    //stores indices of selected items
-    private selectedItems: number[];
+    private selectedItems: number[]; //stores indices of selected items
     private onChangeCallback: (_: any) => void = () => {};
 
     ngOnInit() {
         this.clearSelected();
-        // disable an empty list
-        this.disabled = !!this.options.disabled || this.options.items.length === 0;
+        this.disabled = !!this.options.disabled || this.options.items.length === 0; // disable an empty list
         this.names = [];
         this.options.items.forEach(item => this.names.push(item.name));
     }
@@ -136,7 +131,6 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
 
     toggleItemSelected(itemIndex: number): void {
         const idx: number = this.selectedItems.indexOf(itemIndex);
-
         // Remove item if it was already selected
         if (idx > -1) {
             this.selectedItems.splice(idx, 1);
@@ -155,10 +149,7 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
         this.triggerOnChange();
     }
 
-    /*
-        Template properties
-    */
-
+    /* Template properties */
     get buttonTitleMessageParams(): any {
         return {
             values: {
@@ -169,7 +160,6 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
 
     get buttonTitle(): string {
         const selectCount = this.countSelected();
-        const threshold = this.options.visibleThreshold || 4;
 
         if (selectCount === 0) {
             return "msg#advanced.select.noItems";
@@ -180,9 +170,6 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
         if (selectCount === this.options.items.length) {
             return "msg#advanced.select.allItems";
         }
-        if (selectCount > threshold) {
-            return "msg#advanced.select.nItems";
-        }
 
         //Get list of items names corresponding to selected indices
         return this.selectedItems
@@ -192,18 +179,16 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
     }
 
     get itemListHeight(): string {
-        //If size is undefined use 10 as default
-        return ((this.options.height || 10) * 4) + "ex";
+        // use 10 as default
+        return (10 * 4) + "ex";
     }
+    /* End Template properties */
 
-    /*
-        Change event
-    */
-
+    /* Change event */
     private triggerOnChange() {
         // Gather selected item values
         let values: any;
-        // We cannot pass an empty array, when empty use undefined instead
+        // We can not pass an empty array, when empty use undefined instead
         if (this.selectedItems.length === 0) {
             values = undefined;
         }
@@ -218,11 +203,9 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
 
         this.onChangeCallback(values);
     }
+    /* End Change event */
 
-    /*
-        ControlValueAccessor methods
-    */
-
+    /* ControlValueAccessor methods */
     writeValue(value: any): void {
         this.clearSelected();
         if (value) {
@@ -243,4 +226,5 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
 
     registerOnTouched(fn: any): void {
     }
+    /* End ControlValueAccessor methods */
 }

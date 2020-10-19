@@ -42,11 +42,11 @@ export interface Entry extends Control {
 export interface Range extends Control {
 }
 
-export interface Select extends ListControl {
-    height: number;
-    visibleThreshold: number;
-    multiple: boolean;
-}
+// export interface Select extends ListControl {
+//     height: number;
+//     visibleThreshold: number;
+//     multiple: boolean;
+// }
 
 export interface MultiEntry extends Control {
     nbVisibleLines?: number;

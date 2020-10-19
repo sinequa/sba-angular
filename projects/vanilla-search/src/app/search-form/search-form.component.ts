@@ -47,13 +47,17 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
     constructor(
         public searchService: SearchService,
         public loginService: LoginService,
+        public firstPageService: FirstPageService,
         public appService: AppService,
         public prefs: UserPreferences,
         public formService: FormService,
-        private firstPageService: FirstPageService,
         private changeDetectorRef: ChangeDetectorRef
     ) {
-        /**
+    }
+
+    ngOnInit() {
+
+      /**
          * If firstPage values not needed for advanced form then no need to call firstPageService.getFirstPage,
          * just set this.initAdvancedSearchDone = true
          */
@@ -63,9 +67,6 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.initAdvancedSearchDone = true;
                 this.changeDetectorRef.markForCheck();
             });
-    }
-
-    ngOnInit() {
         /**
          * Initialize the form with default control
          */
@@ -85,124 +86,125 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         );
 
-        if (!this.items) {
-            this.items = [
-                {
-                    active: true,
-                    aggregation: "",
-                    autocompleteEnabled: true,
-                    className: "",
-                    collapseGroup: "",
-                    description: "",
-                    displayRule: "",
-                    field: "treepath",
-                    label: "Sources",
-                    list: "",
-                    max: "",
-                    min: "",
-                    multiple: true,
-                    name: "",
-                    operator: "",
-                    pattern: "",
-                    size: "",
-                    stretch: false,
-                    stretchFactor: "",
-                    type: "AdvancedFormSelect",
-                    validators: "",
-                },
-                {
-                    active: true,
-                    collapseGroup: "",
-                    description: "",
-                    displayRule: "",
-                    field: "authors",
-                    label: "Authors",
-                    multiple: true,
-                    size: "",
-                    stretch: false,
-                    stretchFactor: "",
-                    type: "AdvancedFormSelect",
-                },
-                {
-                    active: true,
-                    aggregation: "",
-                    autocompleteEnabled: true,
-                    className: "",
-                    collapseGroup: "",
-                    description: "",
-                    displayRule: "",
-                    field: "authors",
-                    label: "Authors",
-                    list: "",
-                    max: "",
-                    min: "",
-                    name: "",
-                    operator: "",
-                    pattern: "",
-                    size: "",
-                    stretch: false,
-                    stretchFactor: "",
-                    type: "AdvancedFormEntry",
-                    validators: "",
-                },
-                {
-                    active: true,
-                    aggregation: "",
-                    autocompleteEnabled: true,
-                    className: "",
-                    collapseGroup: "",
-                    description: "",
-                    displayRule: "",
-                    field: "treepath",
-                    label: "Sources",
-                    list: "",
-                    max: "",
-                    min: "",
-                    multiple: true,
-                    name: "",
-                    operator: "",
-                    pattern: "",
-                    size: "",
-                    stretch: false,
-                    stretchFactor: "",
-                    type: "AdvancedFormMultiEntry",
-                    validators: "",
-                },
-                {
-                    active: true,
-                    autocompleteEnabled: true,
-                    collapseGroup: "",
-                    description: "",
-                    displayRule: "",
-                    field: "size",
-                    label: "Size",
-                    size: "",
-                    stretch: false,
-                    stretchFactor: "",
-                    type: "AdvancedFormRange",
-                },
-                {
-                    active: true,
-                    autocompleteEnabled: false,
-                    collapseGroup: "",
-                    description: "",
-                    displayRule: "",
-                    field: "treepath",
-                    label: "Sources",
-                    size: "",
-                    stretch: false,
-                    stretchFactor: "",
-                    type: "AdvancedFormCheckbox",
-                },
-            ];
-        }
+        // if (!this.items) {
+        //     this.items = [
+        //         {
+        //             active: true,
+        //             aggregation: "",
+        //             autocompleteEnabled: true,
+        //             className: "",
+        //             collapseGroup: "",
+        //             description: "",
+        //             displayRule: "",
+        //             field: "treepath",
+        //             label: "Sources",
+        //             list: "",
+        //             max: "",
+        //             min: "",
+        //             multiple: true,
+        //             name: "",
+        //             operator: "",
+        //             pattern: "",
+        //             size: "",
+        //             stretch: false,
+        //             stretchFactor: "",
+        //             type: "AdvancedFormSelect",
+        //             validators: "",
+        //         },
+        //         {
+        //             active: true,
+        //             collapseGroup: "",
+        //             description: "",
+        //             displayRule: "",
+        //             field: "authors",
+        //             label: "Authors",
+        //             multiple: true,
+        //             size: "",
+        //             stretch: false,
+        //             stretchFactor: "",
+        //             type: "AdvancedFormSelect",
+        //         },
+        //         {
+        //             active: true,
+        //             aggregation: "",
+        //             autocompleteEnabled: true,
+        //             className: "",
+        //             collapseGroup: "",
+        //             description: "",
+        //             displayRule: "",
+        //             field: "authors",
+        //             label: "Authors",
+        //             list: "",
+        //             max: "",
+        //             min: "",
+        //             name: "",
+        //             operator: "",
+        //             pattern: "",
+        //             size: "",
+        //             stretch: false,
+        //             stretchFactor: "",
+        //             type: "AdvancedFormEntry",
+        //             validators: "",
+        //         },
+        //         {
+        //             active: true,
+        //             aggregation: "",
+        //             autocompleteEnabled: true,
+        //             className: "",
+        //             collapseGroup: "",
+        //             description: "",
+        //             displayRule: "",
+        //             field: "treepath",
+        //             label: "Sources",
+        //             list: "",
+        //             max: "",
+        //             min: "",
+        //             multiple: true,
+        //             name: "",
+        //             operator: "",
+        //             pattern: "",
+        //             size: "",
+        //             stretch: false,
+        //             stretchFactor: "",
+        //             type: "AdvancedFormMultiEntry",
+        //             validators: "",
+        //         },
+        //         {
+        //             active: true,
+        //             autocompleteEnabled: true,
+        //             collapseGroup: "",
+        //             description: "",
+        //             displayRule: "",
+        //             field: "size",
+        //             label: "Size",
+        //             size: "",
+        //             stretch: false,
+        //             stretchFactor: "",
+        //             type: "AdvancedFormRange",
+        //         },
+        //         {
+        //             active: true,
+        //             autocompleteEnabled: false,
+        //             collapseGroup: "",
+        //             description: "",
+        //             displayRule: "",
+        //             field: "treepath",
+        //             label: "Sources",
+        //             size: "",
+        //             stretch: false,
+        //             stretchFactor: "",
+        //             type: "AdvancedFormCheckbox",
+        //         },
+        //     ];
+        // }
     }
 
     /**
      * Here we can add whatever formControl we want to link to this.form
      */
     ngAfterViewInit() {
-      this.form.addControl('sources', this.formService.createSelectControl(advancedSearchFormConfig.get('sources')))
+      this.form.addControl('sources', this.formService.createSelectControl(advancedSearchFormConfig.get('sources'))),
+      this.form.addControl('authors', this.formService.createSelectControl(advancedSearchFormConfig.get('authors')))
     }
 
     private _searchSubscription: Subscription;
@@ -225,6 +227,7 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
             }
             this.searchService.searchAdvanced(this.searchService.query);
+            this.searchService.navigate({path: "/search"});
         }
     }
 
@@ -327,10 +330,10 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     @HostListener("document:click", ["$event"])
     handleClick(event: Event) {
-        if (this.btnAdvancedSearch.nativeElement.contains(event.target)) {
+        if (this.btnAdvancedSearch?.nativeElement.contains(event.target)) {
             this.toggleAdvancedSearch();
         } else {
-            if (!this.cardAdvancedSearch.nativeElement.contains(event.target)) {
+            if (!this.cardAdvancedSearch?.nativeElement.contains(event.target)) {
                 this.showAdvancedSearch = false;
             }
         }
