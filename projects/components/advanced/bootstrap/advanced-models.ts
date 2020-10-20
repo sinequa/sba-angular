@@ -30,8 +30,6 @@ export interface ListControl {
 export interface Checkbox extends Control {
 }
 
-export interface Entry extends Control {
-}
 
 
 export interface MultiEntry extends Control {

@@ -21,7 +21,6 @@ import {BsDatePicker} from "./date-picker/date-picker";
 import {BsDateRangePicker} from "./date-range-picker/date-range-picker";
 import {BsSelectComponent} from "./select/select";
 import {BsMultiEntryInput} from "./multi-entry-input/multi-entry-input";
-import {BsNumericRangeInput} from "./numeric-range-input/numeric-range-input";
 
 // Directives
 import {BsAdvancedFormAutocomplete} from "./advanced-form-autocomplete.directive";
@@ -53,7 +52,6 @@ import {BsAdvancedFormValidation} from "./advanced-form-validation.directive";
         BsDateRangePicker,
         BsSelectComponent,
         BsMultiEntryInput,
-        BsNumericRangeInput,
 
         BsAdvancedFormAutocomplete,
         BsAdvancedFormValidation,
@@ -70,7 +68,6 @@ import {BsAdvancedFormValidation} from "./advanced-form-validation.directive";
         BsDateRangePicker,
         BsSelectComponent,
         BsMultiEntryInput,
-        BsNumericRangeInput,
 
         BsAdvancedFormAutocomplete,
         BsAdvancedFormValidation,

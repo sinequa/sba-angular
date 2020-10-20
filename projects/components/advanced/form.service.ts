@@ -43,7 +43,7 @@ export interface Select {
     list: string;
     aggregation: string;
     multiple: boolean;
-    operator: AdvancedOperator.NONE;
+    operator: AdvancedOperator;
     type: string;
 }
 
@@ -54,6 +54,16 @@ export interface Range {
     name: string;
     min: string | number | Date;
     max: string | number | Date;
+}
+
+export interface Entry {
+    type: string;
+    field: string;
+    operator: AdvancedOperator;
+    label: string;
+    name: string;
+    min?: string | number | Date;
+    max?: string | number | Date;
 }
 
 @Injectable({
@@ -113,27 +123,42 @@ export class FormService {
         return this._createControl(config, validators, asyncValidators);
     }
 
+    createEntryControl(
+        config: Entry,
+        validators?: ValidatorFn[],
+        asyncValidators?: AsyncValidatorFn[]
+    ): FormControl {
+        return this._createControl(config, validators, asyncValidators);
+    }
+
+    createMultiEntryControl(
+        config: Entry,
+        validators?: ValidatorFn[],
+        asyncValidators?: AsyncValidatorFn[]
+    ): FormControl {
+        return this._createControl(config, validators, asyncValidators);
+    }
+
     /**
      * Retrieve the value to be set to a specific form control from a given query
      * @param config the advanced-search-form field config
      */
     getAdvancedValue(
-        config: Select | Range | any
+        config: Select | Range | Entry | any
     ): AdvancedValue | AdvancedValue[] {
         if (Utils.eqNC(config.type, AdvancedFormType.Range)) {
             const range: AdvancedValue[] = [];
-            range.push(
-                this.searchService.query?.getAdvancedValue(
-                    config.field,
-                    AdvancedOperator.GTE
-                )
+            range.push(this.searchService.query?.getAdvancedValue(
+                config.field,
+                AdvancedOperator.GTE
+            )
             );
-            range.push(
-                this.searchService.query?.getAdvancedValue(
+            range.push(this.searchService.query?.getAdvancedValue(
                     config.field,
                     AdvancedOperator.LTE
                 )
             );
+            console.log(range);
             return range;
         } else {
             const value:
@@ -153,7 +178,7 @@ export class FormService {
      */
     setAdvancedValue(
         value: AdvancedValue | AdvancedValue[],
-        config: Select | any
+        config: Select | Range | Entry | any
     ) {
         if (Utils.eqNC(config.type, AdvancedFormType.Range)) {
             const range = value;
@@ -205,7 +230,7 @@ export class FormService {
     }
 
     private _createControl(
-        config: Select | Range | any,
+        config: Select | Range | Entry | any,
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
     ): FormControl {

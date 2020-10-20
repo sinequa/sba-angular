@@ -7,7 +7,6 @@
         <ng-template let-props="props" let-fns="fns">
             <span (keydown)="onKeyDown($event, fns.add, fns.removeLast)">
                 <div class="input-autocomplete">
-                    <!-- <input *ngIf="!isDate" #inputRef type="text" -->
                   <input *ngIf="!isDate" #inputRef type="text"
                     [style.width]="fns.calculateInputWidth(tagsInputValue)"
                         [ngModel]="tagsInputValue" [ngModelOptions]="{standalone: true}"
@@ -20,10 +19,10 @@
                         </ng-template>
                     </sq-autocomplete-list>
                 </div>
-                <!-- <sq-date-picker *ngIf="isDate" #datePicker [style.width]="props.maxInputWidth"
+                <sq-date-picker *ngIf="isDate" #datePicker [style.width]="props.maxInputWidth"
                     [ngModel]="tagsInputValue" [ngModelOptions]="{standalone: true}"
                     (ngModelChange)="onInputChanged($event)"
-                    [options]="{system: false, minDate: minDate, maxDate: maxDate}"></sq-date-picker> -->
+                    [options]="{system: false, minDate: minDate, maxDate: maxDate}"></sq-date-picker>
                 <span *ngIf="!hasNoInput" class="fas fa-plus-circle sq-plus" (click)="onPlusClicked(fns.add)"></span>
             </span>
         </ng-template>

@@ -31,19 +31,15 @@ export class BsAdvancedFormSelect implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.name = this.config.name || this.config.field;
-
+        this.name = this.config.name;
         this.control = this.form.get(this.name);
         this.column = this.appService.getColumn(this.config.field);
-
         this.options = {
             disabled: this.control?.disabled,
             multiple: Utils.isUndefined(this.config.multiple) || this.config.multiple,
             items: this.getItems()
         };
-
         this.label = this.config.label;
-
         this.selectedValues = [];
 
         if (this.control) {

@@ -49,7 +49,7 @@
         </div>
 
         <!-- Card displaying advanced-search -->
-        <div class="card advanced-search" *ngIf="showAdvancedSearch && initAdvancedSearchDone" #cardAdvancedSearch>
+        <div class="card advanced-search" *ngIf="showAdvancedSearch && initAdvancedSearchData && initAdvancedSearchForm" #cardAdvancedSearch>
           <div class="card-header d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
               Advanced Search
           </div>
@@ -65,6 +65,7 @@
             <sq-advanced-form-select [form]="form" [config]="getAdvancedSearchFormConfig('authors')"></sq-advanced-form-select>
             <sq-advanced-form-range [form]="form" [config]="getAdvancedSearchFormConfig('size')" [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''" [autocompleteEnabled]="true"></sq-advanced-form-range>
             <sq-advanced-form-range [form]="form" [config]="getAdvancedSearchFormConfig('modified')" [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''" [autocompleteEnabled]="true"></sq-advanced-form-range>
+            <!-- <sq-advanced-form-multi-entry [form]="form" [config]="getAdvancedSearchFormConfig('multiEntry')" [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''" [autocompleteEnabled]="true"></sq-advanced-form-multi-entry> -->
           </div>
         </div>
     </form>

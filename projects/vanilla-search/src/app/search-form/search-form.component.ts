@@ -5,7 +5,6 @@ import {
     ViewChild,
     HostListener,
     ElementRef,
-    ChangeDetectorRef,
     AfterViewInit,
 } from "@angular/core";
 import { FormGroup, FormControl, AbstractControl } from "@angular/forms";
@@ -43,7 +42,8 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild("btnAdvancedSearch") private btnAdvancedSearch: ElementRef;
     // @ViewChild("cardAdvancedSearch") private cardAdvancedSearch: ElementRef;
 
-    initAdvancedSearchDone: boolean;
+    initAdvancedSearchData: boolean;
+    initAdvancedSearchForm: boolean = false;
 
     constructor(
         public searchService: SearchService,
@@ -51,8 +51,7 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
         public firstPageService: FirstPageService,
         public appService: AppService,
         public prefs: UserPreferences,
-        public formService: FormService,
-        private changeDetectorRef: ChangeDetectorRef
+        public formService: FormService
     ) {}
 
     ngOnInit() {
@@ -60,11 +59,18 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
          * If firstPage values not needed for advanced form then no need to call firstPageService.getFirstPage,
          * just set this.initAdvancedSearchDone = true
          */
-        this.initAdvancedSearchDone = false;
-        Utils.subscribe(this.firstPageService.getFirstPage(), () => {
-            this.initAdvancedSearchDone = true;
-            this.changeDetectorRef.markForCheck();
+        this.initAdvancedSearchData = false;
+        Utils.subscribe(this.loginService.events, (event) => {
+            switch (event.type) {
+                case "session-start":
+                case "session-changed":
+                    Utils.subscribe(this.firstPageService.getFirstPage(), () => {
+                        this.initAdvancedSearchData = true;
+                    });
+                    break;
+            }
         });
+
         /**
          * Initialize the form with default control
          */
@@ -203,47 +209,65 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
      * Here we can add whatever formControl we want to link to this.form
      */
     ngAfterViewInit() {
-        this.form.addControl(
-            "sources",
-            this.formService.createSelectControl(
-                advancedSearchFormConfig.get("sources"),
-                // [
-                //     this.formService.advancedFormValidators.required
-                // ]
-            )
-        );
-        this.form.addControl(
-            "authors",
-            this.formService.createSelectControl(
-                advancedSearchFormConfig.get("authors")
-            )
-        );
-        this.form.addControl(
-            "size",
-            this.formService.createSelectControl(
-                advancedSearchFormConfig.get("size"),
-                [
-                    this.formService.advancedFormValidators.range(advancedSearchFormConfig.get("size")),
-                    this.formService.advancedFormValidators.number(advancedSearchFormConfig.get("size"))
-                ]
-            )
-        );
-        this.form.addControl(
-            "modified",
-            this.formService.createSelectControl(
-                advancedSearchFormConfig.get("modified"),
-                [
-                    this.formService.advancedFormValidators.range(advancedSearchFormConfig.get("modified")),
-                    this.formService.advancedFormValidators.date(advancedSearchFormConfig.get("modified"))
-                ]
-            )
-        );
+        setTimeout(() => {
+            this.form.addControl(
+                "sources",
+                this.formService.createSelectControl(
+                    advancedSearchFormConfig.get("sources")
+                )
+            );
+            this.form.addControl(
+                "authors",
+                this.formService.createSelectControl(
+                    advancedSearchFormConfig.get("authors")
+                )
+            );
+            this.form.addControl(
+                "size",
+                this.formService.createSelectControl(
+                    advancedSearchFormConfig.get("size"),
+                    [
+                        this.formService.advancedFormValidators.range(
+                            advancedSearchFormConfig.get("size")
+                        ),
+                        this.formService.advancedFormValidators.number(
+                            advancedSearchFormConfig.get("size")
+                        ),
+                    ]
+                )
+            );
+            this.form.addControl(
+                "modified",
+                this.formService.createSelectControl(
+                    advancedSearchFormConfig.get("modified"),
+                    [
+                        this.formService.advancedFormValidators.range(
+                            advancedSearchFormConfig.get("modified")
+                        ),
+                        this.formService.advancedFormValidators.date(
+                            advancedSearchFormConfig.get("modified")
+                        ),
+                    ]
+                )
+            );
+            this.form.addControl(
+                "multiEntry",
+                this.formService.createMultiEntryControl(
+                    advancedSearchFormConfig.get("multiEntry")
+                )
+            );
+            this.initAdvancedSearchForm = true;
+        }, 200);
     }
 
     private _searchSubscription: Subscription;
+    private _firstPageSubscription: Subscription;
     ngOnDestroy() {
         if (this._searchSubscription) {
             this._searchSubscription.unsubscribe();
+        }
+        if (this._firstPageSubscription) {
+            this._firstPageSubscription.unsubscribe();
         }
     }
 

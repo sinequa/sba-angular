@@ -12,5 +12,4 @@ export * from "./date-range-picker/date-range-picker";
 export * from "./advanced-form-autocomplete.directive";
 export * from "./advanced-form-validation.directive";
 export * from "./multi-entry-input/multi-entry-input";
-export * from "./numeric-range-input/numeric-range-input";
 export * from "./select/select";

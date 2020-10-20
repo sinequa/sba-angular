@@ -42,7 +42,7 @@ export class BsAdvancedFormRange implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.name = this.config.name || this.config.field;
+        this.name = this.config.name;
         this.fromName = "from_" + this.name;
         this.toName = "to_" + this.name;
         this.forName = this.fromName;
