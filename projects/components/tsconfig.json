@@ -7,7 +7,8 @@
             "@sinequa/core": ["../../dist/core"],
             "@sinequa/core/*": ["../../dist/core/*"],
             "@sinequa/components": ["./public-api"],
-            "@sinequa/components/*": ["./*"]
+            "@sinequa/components/*": ["./*"],
+            "@testing/*": ["./__tests__/*"]
         }
     },
     "include": [
