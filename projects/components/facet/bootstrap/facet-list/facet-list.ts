@@ -42,7 +42,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      */
     private findIndex = (arr: Array<AggregationItem>, item: AggregationItem) => {
         let index = arr.findIndex(it => it.value === item.value);
-        if (index === -1) {
+        if (index === -1 && item.display) {
             // fallback to display comparison
             index = arr.findIndex(it => it.display === item.display);
         }
@@ -335,6 +335,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
                 item.$selected = true;
                 this.selected.push(item);
             } else {
+                item.$selected = false;
                 this.selected.splice(index, 1);
             }
         }
