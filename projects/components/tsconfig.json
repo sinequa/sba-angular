@@ -2,10 +2,10 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "baseUrl": ".",
-        "rootDir": ".",
+        "rootDir": "..",
         "paths": {
-            "@sinequa/core": ["../../dist/core"],
-            "@sinequa/core/*": ["../../dist/core/*"],
+            "@sinequa/core": ["../core"],
+            "@sinequa/core/*": ["../core/*"],
             "@sinequa/components": ["./public-api"],
             "@sinequa/components/*": ["./*"],
             "@testing/*": ["./__tests__/*"]

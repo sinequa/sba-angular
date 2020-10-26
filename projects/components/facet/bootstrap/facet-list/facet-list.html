@@ -1,20 +1,24 @@
-<div *ngIf="!isHidden()">
+<div *ngIf="!isHidden()" class="list-group list-group-flush">
+    <!-- <div *ngIf="displayActions && actions" class="d-flex pb-2 pr-2">
+        <div class="btn-group ml-auto"
+            [sq-action-buttons]="{items: actions, size: 'sm'}">
+        </div>
+    </div> -->
 
-    <div *ngIf="searchBar" class="border-0 p-1">
-        <input [(ngModel)]='searchQuery' class="form-control" sqAutofocus
-            placeholder="{{'msg#facet.searchPlaceholder' | sqMessage}}"
-            (keyup)="search($event)"
-            (ngModelChange)="suggest()">
+    <div *ngIf="searchBar" class="border-0 p-1" [formGroup]="myGroup">
+        <input class="form-control" sqAutofocus
+            formControlName="searchQuery"
+            placeholder="{{'msg#facet.searchPlaceholder' | sqMessage}}">
     </div>
 
     <!-- filtered items -->
     <div  *ngFor="let item of filtered"
-        class="d-flex flex-row align-items-center list-group-item-success text-truncate border-0 px-3 py-1 facet-row"
+        class="d-flex flex-row align-items-center list-group-item list-group-item-action list-group-item-success text-truncate border-0 px-3 py-1 facet-row"
+        [ngClass]="{'list-group-item-success': (item.$filtered && !item.$excluded), 'list-group-item-secondary': item.$excluded}"
         title="{{ 'msg#facet.selectedValue' | sqMessage}}"
         (click)="filterItem(item, $event)">
 
-        <a  href="#"
-            class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
+        <a href="#" class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
 
         <span class="fa-stack">
             <i class="ml-2 far fa-minus-square fa-stack-1x icons icon-hover rotate"></i>
@@ -28,7 +32,7 @@
     <div  *ngFor="let item of hiddenSelected"
         class="d-flex flex-row align-items-center list-group-item-primary text-truncate border-0 px-3 py-1 facet-row"
         title="{{ 'msg#facet.itemUnselect' | sqMessage}}"
-        (click)="selectItem(item)">
+        (click)="selectItem(item, $event)">
 
         <a  href="#" (click)="filterItem(item, $event)"
             title="{{ 'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)} }}"
@@ -38,10 +42,10 @@
     </div>
 
     <!--- suggestions items -->
-    <div *ngFor="let suggest of suggestions"
+    <div *ngFor="let suggest of suggestions$ | async"
         class="d-flex flex-row align-items-center text-truncate border-0 px-3 py-1 facet-row"
         [ngClass]="{'list-group-item-primary': isSelected(suggest)}"
-        (click)="selectItem(suggest)">
+        (click)="selectItem(suggest, $event)">
         
         <a  href="#" (click)="filterItem(suggest, $event)"
             role="button" 
@@ -52,11 +56,11 @@
 
     <ng-container *ngIf="!hasSuggestions()">
         <!--- aggregation items without filtered -->
-        <div *ngFor="let item of items" 
-            class="d-flex flex-row align-items-center text-truncate border-0 px-3 py-1 facet-row"
-            [ngClass]="{ 'list-group-item-primary':isSelected(item) }"
+        <div *ngFor="let item of items$ | async"
+            class="d-flex flex-row align-items-center list-group-item list-group-item-action border-0 px-3 py-1 facet-row"
+            [ngClass]="{ 'list-group-item-primary': isSelected(item) }"
             title="{{ (isSelected(item) ? 'msg#facet.itemUnselect' : 'msg#facet.itemSelect') | sqMessage}}"
-            (click)="selectItem(item)">
+            (click)="selectItem(item, $event)">
 
             <a  href="#" (click)="filterItem(item, $event)"
                 title="{{ 'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)} }}"
@@ -67,7 +71,7 @@
 
         <a  *ngIf="hasMore"
             class="d-block border-0 px-3 py-1 text-center"
-            (click)="loadMore()" href="#">
+            (click)="loadMore($event)" href="#">
             <span *ngIf="loadingMore" class="fas fa-sync fa-fw fa-spin"></span>
             <small *ngIf="!loadingMore">{{'msg#facet.loadMore' | sqMessage}}</small>
         </a>

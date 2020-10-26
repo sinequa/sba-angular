@@ -1,9 +1,12 @@
-import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy} from "@angular/core";
+import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy, OnInit, OnDestroy} from "@angular/core";
 import {Results, Aggregation, AggregationItem} from "@sinequa/core/web-services";
-import {Utils, Keys, FieldValue} from "@sinequa/core/base";
+import {Utils, FieldValue} from "@sinequa/core/base";
 import {FacetService} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
 import {AbstractFacet} from "../../abstract-facet";
+import {BehaviorSubject, Observable, of, Subscription} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
     selector: "sq-facet-list",
@@ -11,7 +14,7 @@ import {AbstractFacet} from "../../abstract-facet";
     styleUrls: ["./facet-list.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BsFacetList extends AbstractFacet implements OnChanges {
+export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnDestroy {
     @Input() name: string; // If ommited, the aggregation name is used
     @Input() results: Results;
     @Input() aggregation: string;
@@ -21,17 +24,21 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
     @Input() allowOr: boolean = true; // Allow to search various items in OR mode
     @Input() allowAnd: boolean = true; // Allow to search various items in AND mode
     @Input() displayEmptyDistributionIntervals: boolean = false; // If the aggregration is a distribution, then this property controls whether empty distribution intervals will be displayed
+    @Input() displayActions = false;
 
     // Aggregation from the Results object
-    data: Aggregation | undefined;
+    data$ = new BehaviorSubject<Aggregation | undefined>(undefined)
+    items$ = new BehaviorSubject<AggregationItem[]>([]);
+    data = () => this.data$.getValue();
+    subscriptions: Subscription[] = [];
 
     // Search
-    searchQuery = ""; // ngModel for textarea
+    myGroup: FormGroup;
+    searchQuery: FormControl; // ngModel for textarea
     searchBar = false; // Collapsed by default
     suggestDelay = 200;
     noResults = false;
-    private readonly debounceSuggest: () => void;
-    suggestions: AggregationItem[] = [];
+    suggestions$: BehaviorSubject<AggregationItem[]> = new BehaviorSubject<AggregationItem[]>([]);
 
     // Select
     /**
@@ -53,7 +60,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      * Returns index of first element existing in suggestions or aggregations collection.
      * @param item `AggregrationItem` to find
      */
-    private find = (item: AggregationItem) => (this.hasSuggestions()) ? this.findIndex(this.suggestions, item) : this.findIndex(this.data?.items || [], item);
+    private find = (item: AggregationItem) => (this.hasSuggestions()) ? this.findIndex(this.suggestions$.getValue(), item) : this.findIndex(this.items$.getValue() || [], item);
     selected: AggregationItem[] = [];
 
 
@@ -77,16 +84,23 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
 
     constructor(
         private facetService: FacetService,
-        private changeDetectorRef: ChangeDetectorRef){
+        private changeDetectorRef: ChangeDetectorRef) {
         super();
+
+        this.myGroup = new FormGroup({
+            searchQuery: new FormControl()
+        });
+
+        this.searchQuery = this.myGroup.get("searchQuery") as FormControl;
+        this.subscriptions["suggest"] = this.suggest$(this.searchQuery.valueChanges).subscribe(values => this.suggestions$.next(values));
 
         // Keep documents with ANY of the selected items
         this.filterItemsOr = new Action({
             icon: "fas fa-filter",
             title: "msg#facet.filterItems",
             action: () => {
-                if (this.data) {
-                    this.facetService.addFilterSearch(this.getName(), this.data, this.getSelectedItems());
+                if (this.data()) {
+                    this.facetService.addFilterSearch(this.getName(), this.data() as Aggregation, this.getSelectedItems());
                 }
             }
         });
@@ -96,8 +110,8 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
             icon: "fas fa-bullseye",
             title: "msg#facet.filterItemsAnd",
             action: () => {
-                if (this.data) {
-                    this.facetService.addFilterSearch(this.getName(), this.data, this.getSelectedItems(), {and: true});
+                if (this.data()) {
+                    this.facetService.addFilterSearch(this.getName(), this.data() as Aggregation, this.getSelectedItems(), {and: true});
                 }
             }
         });
@@ -107,8 +121,8 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
             icon: "fas fa-times",
             title: "msg#facet.excludeItems",
             action: () => {
-                if (this.data) {
-                    this.facetService.addFilterSearch(this.getName(), this.data, this.getSelectedItems(), {not: true});
+                if (this.data()) {
+                    this.facetService.addFilterSearch(this.getName(), this.data() as Aggregation, this.getSelectedItems(), {not: true});
                 }
             }
         });
@@ -129,18 +143,17 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
             action: () => {
                 this.searchBar = !this.searchBar;
                 if(!this.searchBar){
-                    this.suggestions.splice(0);
-                    this.searchQuery = ""; // Remove suggestions if some remain
-                    this.noResults = false;
+                    this.clearSearch();
                 }
                 this.changeDetectorRef.markForCheck();
             }
         });
+    }
 
-        // The suggest (autocomplete) query is debounded to avoid flooding the server
-        this.debounceSuggest = Utils.debounce(() => {
-            this._suggest();
-        }, this.suggestDelay);
+    clearSearch() {
+        this.searchQuery.setValue(""); // Remove suggestions if some remain
+        this.noResults = false;
+        this.suggestions$.next([]);
     }
 
     /**
@@ -163,14 +176,35 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
             }
             this.filtered.length = 0;
             this.selected.length = 0;
-            this.data = this.facetService.getAggregation(this.aggregation, this.results);
             this.skip = 0;
             this.searchBar = false;
-            this.searchQuery = "";
-            this.noResults = false;
-            this.suggestions.splice(0);
-            this.refreshFiltered();
+            this.clearSearch();
+            this.data$.next(this.facetService.getAggregation(this.aggregation, this.results));
         }
+    }
+
+    ngOnInit() {
+        this.subscriptions["data"] = this.data$.pipe(
+            map(data => {
+                this.refreshFiltered(data as Aggregation);
+
+                if (!data || !data?.items) {
+                    return [];
+                }
+
+                if (!data?.isDistribution || this.displayEmptyDistributionIntervals) {
+                    return data.items.filter(item => !item.$filtered);
+                } else {
+                    return data.items.filter(item => item.count > 0 && !!!item.$filtered);
+                }
+            }),
+        ).subscribe(items => {
+            this.items$.next(items);
+        });
+    }
+
+    ngOnDestroy() {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 
     /**
@@ -211,9 +245,9 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
     /**
      * Actualize the state of filtered items (note that excluded terms are not in the distribution, so the equivalent cannot be done)
      */
-    refreshFiltered(){
+    refreshFiltered(data: Aggregation) {
         // refresh filters from breadcrumbs
-        const items = this.facetService.getAggregationItemsFiltered(this.getName(), this.data?.valuesAreExpressions);
+        const items = this.facetService.getAggregationItemsFiltered(this.getName(), data?.valuesAreExpressions);
         items.forEach(item => {
             if (!this.isFiltered(item)) {
                 item.$filtered = true;
@@ -221,12 +255,12 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
             }
         });
 
-        if (this.data && this.data.items) {
-            this.data.items.forEach(item => {
+        if (data && data.items) {
+            data.items.forEach(item => {
                 // update $selected status
                 item.$selected = (this.isSelected(item)) ? true : false;
                 const indx = this.filteredIndex(item);
-                if (this.data && this.facetService.itemFiltered(this.getName(), this.data, item)) {
+                if (data && this.facetService.itemFiltered(this.getName(), data, item)) {
                     if (!this.isFiltered(item)) {
                         item.$filtered = true;
                         this.filtered.push(item);
@@ -263,7 +297,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
         let indx = -1;
         // specific to Values Are Expressions where expression are not well formated by Expression Parser
         // eg: when values is : "> 0", Expression Parser returns : ">0" without space beetwen operator and value
-        if (this.data?.valuesAreExpressions) {
+        if (this.data()?.valuesAreExpressions) {
             const value = this.trimAllWhitespace(item.value);
             const filtered = this.filtered.map(item => ({...item, value: this.trimAllWhitespace(item.value)})) || [];
             indx = filtered.findIndex(it => it.value === value);
@@ -286,12 +320,13 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      * @param event
      */
     filterItem(item: AggregationItem, event) : boolean {
-        if (this.data) {
+        const data = this.data();
+        if (data) {
             if (!this.isFiltered(item)) {
-                this.facetService.addFilterSearch(this.getName(), this.data, item);
+                this.facetService.addFilterSearch(this.getName(), data, item);
             }
             else {
-                this.facetService.removeFilterSearch(this.getName(), this.data, item);
+                this.facetService.removeFilterSearch(this.getName(), data, item);
             }
         }
         event.preventDefault();
@@ -328,8 +363,14 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      * Called when selecting/unselecting an item in the facet
      * @param item
      */
-    selectItem(item: AggregationItem) : boolean {
-        if(!this.isFiltered(item)){
+    selectItem(item: AggregationItem, e: Event): boolean {
+        e.stopPropagation();
+        this.updateSelected(item);
+        return false;
+    }
+
+    private updateSelected(item: AggregationItem) {
+        if (!this.isFiltered(item)) {
             const index = this.findIndex(this.selected, item);
             if (index === -1) {
                 item.$selected = true;
@@ -339,7 +380,6 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
                 this.selected.splice(index, 1);
             }
         }
-        return false;
     }
 
 
@@ -350,15 +390,16 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      * (The only way to guess is to check if the facet is "full", it capacity being the (skip+)count)
      */
     get hasMore(): boolean {
-        return !!this.data?.items && this.data.items.length >= this.skip + this.count;
+        return this.items$.getValue().length >= this.skip + this.count;
     }
 
     /**
      * Called on loadMore button click
      */
-    loadMore(){
-        if (this.data?.items) {
-            const skip = this.data.items.length;    // avoid hasMore() to return false when fetching data
+    loadMore(e: Event) {
+        e.stopPropagation();
+        if (this.data()) {
+            const skip = this.items$.getValue().length;    // avoid hasMore() to return false when fetching data
             this.loadingMore = true;
             this.changeDetectorRef.markForCheck();
 
@@ -367,9 +408,9 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
                     this.skip = skip;
                     this.loadingMore = false;
                     if (agg && agg.items) {
-                        if (this.data) {
-                            this.data.items = this.data.items!.concat(agg.items);
-                            this.refreshFiltered();
+                        if (this.data()) {
+                            agg.items = this.items$.getValue()!.concat(agg.items);
+                            this.data$.next(agg);
                         }
                     }
                     this.changeDetectorRef.markForCheck();
@@ -389,27 +430,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      * Returns true if the search mode is active (ie. there are suggestions to display in place of the aggregation)
      */
     hasSuggestions(): boolean {
-        return this.suggestions.length > 0 || this.noResults;
-    }
-
-    /**
-     * Called on keyup event on search input
-     * @param event
-     */
-    search(event: KeyboardEvent){
-        if(this.searchQuery.trim() === "")
-            return;
-
-        if(event.keyCode === Keys.enter){
-            // Get new distribution with prefix
-            // this.skip = 0;
-
-            // TODO: when API allows for prefixes
-
-            // empty the form
-            this.searchQuery = "";
-        }
-
+        return this.suggestions$.getValue().length > 0 || this.noResults;
     }
 
     /**
@@ -417,69 +438,39 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
      * Uses the suggestfield API to retrieve suggestions from the server
      * The suggestions "override" the data from the distribution (until search results are cleared)
      */
-    suggest(){
+    suggest$ = (text$: Observable<string>) => text$.pipe(
+        debounceTime(this.suggestDelay),
+        distinctUntilChanged(),
+        switchMap(term => {
+            if (term.trim() === "") {
+                this.noResults = false;
+                return of([]);
+            }
+            return this.facetService.suggest(term, this.data()?.column || '').pipe(
+                catchError(err => {
+                    console.log(err);
+                    this.noResults = false;
+                    return of([]);
+                }),
+                map(items => {
+                    const suggestions = items.slice(0, this.count)
+                        .map(item => this.facetService.suggestionToAggregationItem(item))
+                        .filter(item => !this.isFiltered(item));
 
-        // If nothing to suggest, switch to normal distribution
-        if(this.searchQuery.trim() === ""){
-            this.suggestions.splice(0);
-        }
-        // Use fielded autocomplete to populate facet
-        // Debounce is used to avoid flooding the the server
-        else {
-            this.debounceSuggest();
-        }
+                    // update $selected status
+                    suggestions.forEach(item => item.$selected = this.isSelected(item));
 
-    }
-
-    private _suggest() {
-        // Use autocomplete to refresh list
-        if (!this.data) {
-            return;
-        }
-        Utils.subscribe(this.facetService.suggest(this.searchQuery, this.data.column),
-            (items) => {
-                this.suggestions = items.slice(0, this.count)
-                    .map(item => this.facetService.suggestionToAggregationItem(item))
-                    .filter(item => !this.isFiltered(item));
-
-                // update $selected status
-                this.suggestions.forEach(item => item.$selected = this.isSelected(item));
-
-                const hasSuggestions = (this.suggestions.length > 0);
-                this.noResults = (!hasSuggestions && this.searchQuery.trim() !== "") ? true : false;
-            },
-            (err) => {
-                console.log(err);
-                this.suggestions.splice(0);
-            },
-            () => {
-                if(this.searchQuery.trim() === ""){
-                    this.suggestions.splice(0); // Might happen if these results are late
-                }
-                this.changeDetectorRef.markForCheck();
-            });
-    }
+                    const hasSuggestions = (suggestions.length > 0);
+                    this.noResults = (!hasSuggestions && term.trim() !== "") ? true : false;
+                    return suggestions;
+                })
+            )
+        })
+    )
 
     /* AbstractFacet abstract methods */
     isHidden(): boolean {
-        return !this.data;
-    }
-
-    /**
-     * The items in the aggregation without filtered.
-     *
-     * @readonly
-     * @type {AggregationItem[]}
-     * @memberof BsFacetList
-     */
-    public get items(): AggregationItem[] {
-        if (!this.data?.items) {
-            return [];
-        }
-        if (!this.data.isDistribution || this.displayEmptyDistributionIntervals) {
-            return this.data.items.filter(item => !item.$filtered);
-        }
-        return this.data.items.filter(item => item.count > 0 && !!!item.$filtered);
+        return !this.data();
     }
 
     /**

@@ -1,14 +1,14 @@
 import {TestBed} from "@angular/core/testing";
+import {HttpHandler} from '@angular/common/http';
 
 import {UserSettingsWebService, Aggregation, AggregationItem, START_CONFIG, EngineType} from '@sinequa/core/web-services';
 import {AppService, FormatService, Expr, ExprValueInitializer, ExprOperandsInitializer, ExprOperator, Query} from '@sinequa/core/app-utils';
 import {IntlService} from '@sinequa/core/intl';
 
-import {AGGREGATION_GEO, FACETS, AGGREGATION_SIZE, AGGREGATION_BOOLEAN} from './mocks/mock';
+import {AGGREGATION_GEO, FACETS, AGGREGATION_SIZE, AGGREGATION_BOOLEAN} from '@testing/mocks/aggregations';
 import {FacetService, DEFAULT_FACETS, FacetEventType} from '../facet';
 import {SearchService, Breadcrumbs, BreadcrumbsItem} from '../search';
 import {SuggestService} from '../autocomplete';
-import {HttpHandler} from '@angular/common/http';
 
 describe("FacetService", () => {
 	const aggregation = {geo: AGGREGATION_GEO as Aggregation, size: AGGREGATION_SIZE as unknown as Aggregation, bool: AGGREGATION_BOOLEAN as Aggregation};
@@ -19,14 +19,14 @@ describe("FacetService", () => {
 	let intlService: IntlService;
 
 	beforeEach(() => {
-		const userSettingsWebServiceStub = () => ({
+		const UserSettingsWebServiceFactory = () => ({
 			events: {subscribe: f => f({})},
 			patch: (object, auditEvents) => ({subscribe: f => f({})}),
 			timezone: {},
 			userSettings: {}
 		});
 
-		const searchServiceStub = () => ({
+		const SearchServiceFactory = () => ({
 			search: () => {},
 			query: {
 				replaceSelect: () => {},
@@ -42,9 +42,9 @@ describe("FacetService", () => {
 				FormatService,
 				AppService,
 				HttpHandler,
-				{provide: SearchService, useFactory: searchServiceStub},
+				{provide: SearchService, useFactory: SearchServiceFactory},
 				{
-					provide: UserSettingsWebService, useFactory: userSettingsWebServiceStub
+					provide: UserSettingsWebService, useFactory: UserSettingsWebServiceFactory
 				},
 				{provide: SuggestService, useFactory: () => {}},
 				{provide: IntlService, useFactory: () => {}},
@@ -142,14 +142,19 @@ describe("FacetService", () => {
 					facet: "Size",
 					active: true
 				};
+
+				// Given breadcrumbs:
+				// < 10 Ko
 				searchService.breadcrumbs = {
 					items: [] as BreadcrumbsItem[],
-					activeSelects: [item] as BreadcrumbsItem[]
+					activeSelects: [item] as BreadcrumbsItem[],
+					findSelect: (facet) => item.expr
 				} as Breadcrumbs;
 				searchService.breadcrumbs.items = [{expr: undefined, display: "abc"}, item];
 
 				spyOn(searchService.query, "removeSelect");
 				spyOn<any>(service, "findItemFilter").and.returnValue(item.expr)
+				spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
 
 				service.removeFilter("Size", aggregation["size"], items);
 
@@ -157,7 +162,7 @@ describe("FacetService", () => {
 			});
 
 			it("should remove a selection filter", () => {
-				const items = aggregation["size"].items![1];
+				const aggItem = aggregation["size"].items![1];
 				const exprValueInitializer: ExprValueInitializer = {
 					exprContext: {appService, formatService, intlService},
 					display: "< 10 Ko",
@@ -185,10 +190,13 @@ describe("FacetService", () => {
 					active: false
 				};
 
+				// Given Breadcrumbs:
+				// text:abc / < 10 Ko / 10 Ko to 100 Ko
 				searchService.breadcrumbs = {
 					activeIndex: 1,
 					items: [{expr: undefined, display: "abc"}, item, item2] as BreadcrumbsItem[],
-					activeSelects: [item, item2] as BreadcrumbsItem[]
+					activeSelects: [item, item2] as BreadcrumbsItem[],
+					findSelect: (facet) => item2.expr
 				} as Breadcrumbs;
 
 				spyOn(searchService.query, "removeSelect");
@@ -197,10 +205,11 @@ describe("FacetService", () => {
 
 				Object.assign(item2.expr, {parent: {operands: [item.expr, item2.expr]}});
 				spyOn<any>(service, "findItemFilter").and.returnValue(item2.expr);
+				spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(1);
 
-				service.removeFilter("Size", aggregation["size"], items);
+				service.removeFilter("Size", aggregation["size"], aggItem);
 
-				expect(service["makeExpr"]).toHaveBeenCalledWith("Size", jasmine.anything(), [{count: 0, value: "size`< 10 Ko`:(>= 0 AND < 10240)", display: "< 10 Ko", $column: undefined}], jasmine.anything());
+				expect(service["makeExpr"]).toHaveBeenCalledWith("Size", jasmine.anything(), [{count: 0, value: "size`< 10 Ko`:(>= 0 AND < 10240)", display: "< 10 Ko", $column: undefined, $excluded: undefined}]);
 				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(1, {expression: "size`< 10 Ko`:(>= 0 AND < 10240)", facet: "Size"});
 				expect(searchService.query.removeSelect).not.toHaveBeenCalled();
 			});
@@ -527,7 +536,7 @@ describe("FacetService", () => {
 			const expr: Expr = new Expr(exprInitializer);
 			const expected = service.ExprToAggregationItem(expr as Expr, aggregation["geo"].valuesAreExpressions);
 
-			expect(expected).toEqual([{count: 0, value: item.value, display: item.display, $column: undefined}])
+			expect(expected).toEqual([{count: 0, value: item.value, display: item.display, $column: undefined, $excluded: undefined}])
 		});
 
 		it("should returns an AggregationItem", () => {
@@ -560,7 +569,7 @@ describe("FacetService", () => {
 			const expr: Expr = new Expr(exprInitializer);
 			const expected = service.ExprToAggregationItem(expr as Expr, aggregation["size"].valuesAreExpressions);
 
-			expect(expected).toEqual([{count: 0, value: item.value, display: item.display, $column: undefined}])
+			expect(expected).toEqual([{count: 0, value: item.value, display: item.display, $column: undefined, $excluded: undefined}])
 		});
 	})
 
@@ -594,7 +603,7 @@ describe("FacetService", () => {
 
 			const aggregationItems = service.ExprToAggregationItem(breadcrumbsItems[0].expr as Expr, aggregation["geo"].valuesAreExpressions);
 			expect(aggregationItems.length).toEqual(1);
-			expect(aggregationItems).toEqual([{count: 0, value: 'IRAQ', display: 'Iraq', $column: undefined}]);
+			expect(aggregationItems).toEqual([{count: 0, value: 'IRAQ', display: 'Iraq', $column: undefined, $excluded: undefined}]);
 		});
 
 		it("should returns aggregationItems as ValuesAreExpression", () => {
@@ -631,7 +640,7 @@ describe("FacetService", () => {
 			expect(expr.operands[1].value).toEqual("GUANTANAMO");
 
 			let r = service.ExprToAggregationItem(expr.operands, aggregation["geo"].valuesAreExpressions);
-			expect(r).toEqual([{count: 0, value: "IRAQ", display: "Iraq", $column: undefined}, {count: 0, value: "GUANTANAMO", display: "Guantanamo", $column: undefined}])
+			expect(r).toEqual([{count: 0, value: "IRAQ", display: "Iraq", $column: undefined, $excluded: undefined}, {count: 0, value: "GUANTANAMO", display: "Guantanamo", $column: undefined, $excluded: undefined}])
 
 			expr = appService.parseExpr(breadcrumbs.items[2].expr?.toString() || "") as Expr;
 			expect(expr instanceof Expr).toBeTrue();
@@ -639,7 +648,7 @@ describe("FacetService", () => {
 			expect(expr.field).toEqual("company");
 
 			r = service.ExprToAggregationItem(expr, aggregation["geo"].valuesAreExpressions);
-			expect(r).toEqual([{count: 0, value: "WASHINGTON POST", display: "Washington POST", $column: undefined}]);
+			expect(r).toEqual([{count: 0, value: "WASHINGTON POST", display: "Washington POST", $column: undefined, $excluded: undefined}]);
 
 			expr = appService.parseExpr(breadcrumbs.items[3].expr?.toString(false) || "") as Expr;
 			expect(expr instanceof Expr).toBeTrue();
@@ -650,7 +659,7 @@ describe("FacetService", () => {
 			expect(expr.operands[1].field).toEqual("size");
 
 			r = service.ExprToAggregationItem(expr, aggregation["size"].valuesAreExpressions);
-			expect(r).toEqual([{count: 0, value: "size`< 10 Ko`:(>=0 AND <10240)", display: "< 10 Ko", $column: undefined}]);
+			expect(r).toEqual([{count: 0, value: "size`< 10 Ko`:(>=0 AND <10240)", display: "< 10 Ko", $column: undefined, $excluded: undefined}]);
 		});
 
 		it("should returns aggregationItems", () => {
@@ -767,7 +776,7 @@ describe("FacetService", () => {
 			// When
 			const aggItems = service.ExprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
 			expect(aggItems.length).toEqual(1);
-			expect(aggItems[0]).toEqual({count: 0, value: true, display: undefined, $column: jasmine.anything()});
+			expect(aggItems[0]).toEqual({count: 0, value: true, display: undefined, $column: jasmine.anything(), $excluded: undefined});
 		})
 
 		it("should returns aggregationItems as boolean values", () => {
@@ -805,8 +814,8 @@ describe("FacetService", () => {
 			// When
 			const aggItems = service.ExprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
 			expect(aggItems.length).toEqual(2);
-			expect(aggItems[0]).toEqual({count: 0, value: false, display: undefined, $column: jasmine.anything()});
-			expect(aggItems[1]).toEqual({count: 0, value: true, display: undefined, $column: jasmine.anything()});
+			expect(aggItems[0]).toEqual({count: 0, value: false, display: undefined, $column: jasmine.anything(), $excluded: undefined});
+			expect(aggItems[1]).toEqual({count: 0, value: true, display: undefined, $column: jasmine.anything(), $excluded: undefined});
 		})
 
 	})

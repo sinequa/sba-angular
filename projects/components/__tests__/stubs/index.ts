@@ -1,4 +1,7 @@
-import {searchServiceStub} from "./searchService.stub";
 import {RouterStub} from "./router.stub";
+import {AppServiceStub} from "./appService.stub";
 
-export {searchServiceStub, RouterStub};
+export {
+  RouterStub,
+  AppServiceStub
+};
