@@ -264,7 +264,7 @@ export class FacetService {
         if (this.searchService.breadcrumbs && this.searchService.breadcrumbs.activeSelects.length > 0 && !options.replaceCurrent) {
             const expr = this.searchService.breadcrumbs.findSelect(facetName);
             const index = this.searchService.breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === expr || select.expr === expr?.parent));
-            const same = (!Array.isArray(items)) ? true : (options.and ? "AND" : "OR") === (expr?.and ? "AND" : "OR") && (options.not ? "YES" : "NO") === (expr?.not ? "YES" : "NO");
+            const same = (!Array.isArray(items)) ? true : (options.and ? "AND" : "OR") === (expr?.and ? "AND" : "OR") && (options.not ? "YES" : "NO") === ((expr?.not || expr?.operands[0].not) ? "YES" : "NO");
 
             if (expr && same && index !== -1){
                 let _items: AggregationItem[];
@@ -274,6 +274,8 @@ export class FacetService {
                     // previous selection is a single value
                     _items = this.ExprToAggregationItem(expr as Expr, aggregation.valuesAreExpressions).concat(items);
                 }
+                // MUST reset $excluded property otherwise expression is misunderstood
+                _items.forEach(item => item.$excluded = undefined);
                 // overrides options settings with expression if any
                 options = {and: options.and || expr.and, not: options.not || expr.not};
                 const _expr = this.makeExpr(facetName, aggregation, _items, options);
@@ -324,7 +326,8 @@ export class FacetService {
      */
     public removeFilter(facetName: string, aggregation: Aggregation, item: AggregationItem){
         if (this.searchService.breadcrumbs) {
-            const expr = this.findItemFilter(facetName, aggregation, item);
+            const filterExpr = this.findItemFilter(facetName, aggregation, item) || this.appService.parseExpr(this.makeExpr(facetName, aggregation, item) || '');
+            const expr = this.searchService.breadcrumbs.findSelect(facetName, filterExpr);
             const i = this.searchService.breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === expr || select.expr === expr?.parent));
 
             // 'Select' can't be created when aggregation is a tree map, so, avoid aggregation tree
@@ -337,7 +340,7 @@ export class FacetService {
                 const filter = (aggregation.valuesAreExpressions) ? filterByValuesAreExpression : filterByValue;
 
                 const items: AggregationItem[] = this.ExprToAggregationItem(expr.parent.operands, aggregation.valuesAreExpressions).filter(filter);
-                const _expr = this.makeExpr(facetName, aggregation, items, {and: expr.parent.and, not: expr.parent.not});
+                const _expr = this.makeExpr(facetName, aggregation, items);
                 if (_expr) this.searchService.query.replaceSelect(i, {expression: _expr, facet: facetName});
             } else {
                 // filter is a single value... remove it
@@ -911,9 +914,9 @@ export class FacetService {
                 if (item.column?.eType === EngineType.bool) {
                     value = Utils.isTrue(item.value);
                 }
-                return ({count: 0, value, display: item.display, $column: item.column} as AggregationItem);
+                return ({count: 0, value, display: item.display, $column: item.column, $excluded: (item?.not || item?.parent?.not)} as AggregationItem);
             },
-            (item: Expr) => ({count: 0, value: item.toString((item.value) ? true : false), display: item.display, $column: item.column} as AggregationItem)
+            (item: Expr) => ({count: 0, value: item.toString((item.value) ? true : false), display: item.display, $column: item.column, $excluded: (item?.not || item?.parent?.not)} as AggregationItem)
         ];
 
         const callback = valuesAreExpressions ? fn[1] : fn[0];

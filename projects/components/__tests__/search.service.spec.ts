@@ -7,28 +7,15 @@ import {NotificationsService} from "@sinequa/core/notification";
 import {LoginService} from "@sinequa/core/login";
 import {IntlService} from "@sinequa/core/intl";
 
+import {AuditWebServiceFactory, LoginServiceFactory, NotificationsServiceFactory, QueryWebServiceFactory} from '@testing/factories';
+import {RouterStub} from '@testing/stubs';
+
 import {BreadcrumbsItem, Breadcrumbs} from "../search/breadcrumbs";
 import {SearchService} from "../search/search.service";
 
 describe("SearchService", () => {
   let service: SearchService;
   beforeEach(() => {
-
-    class RouterStub {
-      url = '';
-      events = {subscribe: f => f({})};
-      getCurrentNavigation = () => ({extras: {state: {}}});
-      navigate = (array, extras) => ({});
-      navigateByUrl = (url: string) => this.url = url;
-    };
-
-    const queryWebServiceStub = () => ({
-      getResults: (query, auditEvents, arg) => ({pipe: () => ({})}),
-      getMultipleResults: (queries, auditEvents) => ({})
-    });
-    const auditWebServiceStub = () => ({
-      notifyDocument: (click_ResultLink, record, arg, object, object1) => ({})
-    });
 
     const appServiceStub = {
       events: {subscribe: f => f},
@@ -38,26 +25,20 @@ describe("SearchService", () => {
         allowEmptySearch: false
       },
       defaultCCQuery: {name: "default_ccquery_name"},
-      getCCQuery: name =>({name: "def"}),
+      getCCQuery: name => ({name: "def"}),
       parseExpr: expression => ({field: {}, value: {}, not: {}})
     };
-
-    const notificationsServiceStub = () => ({info: string => ({})});
-    const loginServiceStub = () => ({
-      events: {subscribe: f => f},
-      complete: true
-    });
 
     TestBed.configureTestingModule({
       providers: [
         SearchService,
         {provide: Router, useClass: RouterStub},
-        {provide: QueryWebService, useFactory: queryWebServiceStub},
-        {provide: AuditWebService, useFactory: auditWebServiceStub},
+        {provide: QueryWebService, useFactory: QueryWebServiceFactory},
+        {provide: AuditWebService, useFactory: AuditWebServiceFactory},
         {provide: AppService, useValue: appServiceStub},
         {provide: FormatService, useValue: {}},
-        {provide: NotificationsService, useFactory: notificationsServiceStub},
-        {provide: LoginService, useFactory: loginServiceStub},
+        {provide: NotificationsService, useFactory: NotificationsServiceFactory},
+        {provide: LoginService, useFactory: LoginServiceFactory},
         {provide: IntlService, useValue: {}}
       ]
     });

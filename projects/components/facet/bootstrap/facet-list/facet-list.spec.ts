@@ -75,7 +75,7 @@ describe('BsFacetList', () => {
         context.results = RESULTS as any;
         context.searchBar = true;
 
-        expect(context.data).toBeUndefined();
+        expect(context.data()).toBeUndefined();
         expect(context.count).toEqual(0);
         expect(context.isHidden()).toBeTrue();
 
@@ -91,7 +91,7 @@ describe('BsFacetList', () => {
 
         // Components expectations
         expect(context.getName()).toEqual("Geo");
-        expect(context.data?.name).toEqual("Geo");
+        expect(context.data()?.name).toEqual("Geo");
         expect(context.count).toEqual(10);
         expect(context.isHidden()).toBeFalse();
 
@@ -99,9 +99,9 @@ describe('BsFacetList', () => {
         expect(context.searchBar).toBeFalse();
         expect(context.filtered.length).toEqual(0);
         expect(context.skip).toEqual(0);
-        expect(context.searchQuery).toEqual("");
+        expect(context.searchQuery.value).toEqual("");
         expect(context.noResults).toBeFalse();
-        expect(context.suggestions.length).toEqual(0);
+        expect(context.suggestions$.getValue().length).toEqual(0);
 
         expect(context.refreshFiltered).toHaveBeenCalledTimes(1);
     });
@@ -140,7 +140,7 @@ describe('BsFacetList', () => {
         expect(el?.title).toEqual("msg#facet.itemUnselect");
 
         // Component expectations
-        expect(context.items[4].$selected).toBeTrue();
+        expect(context.items$.getValue()[4].$selected).toBeTrue();
         expect(context.selected.length).toEqual(1);
 
         expect(context.selectItem).toHaveBeenCalledTimes(1);
