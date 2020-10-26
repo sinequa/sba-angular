@@ -25,11 +25,11 @@ export class DashboardItemComponent implements OnChanges {
 
     @Input() buttonsStyle: string;
 
-    @Output() close = new EventEmitter();
     @Output() recordClicked = new EventEmitter<Record>();
 
     actions: Action[] = [];
     closeAction: Action;
+    renameAction: Action;
 
     // Properties specific to certain types of dashboard items
 
@@ -54,10 +54,17 @@ export class DashboardItemComponent implements OnChanges {
         public providerFactory: ProviderFactory,
         public searchService: SearchService,
         public dashboardService: DashboardService) {
+
         this.closeAction = new Action({
             icon: "fas fa-times",
             title: "msg#dashboard.widgetClose",
-            action: () => this.close.next()
+            action: () => this.close()
+        });
+
+        this.renameAction = new Action({
+            icon: "far fa-edit",
+            title: "msg#dashboard.renameWidgetTitle",
+            action: () => this.rename()
         });
     }
 
@@ -106,7 +113,7 @@ export class DashboardItemComponent implements OnChanges {
         }
 
         if(this.config.closable) {
-            this.actions = [this.closeAction];
+            this.actions = [this.renameAction, this.closeAction];
         }
     }
 
@@ -129,5 +136,13 @@ export class DashboardItemComponent implements OnChanges {
         if(record){
             this.recordClicked.next(record);
         }
+    }
+
+    rename() {
+        this.dashboardService.renameWidgetModal(this.config);
+    }
+
+    close() {
+        this.dashboardService.removeItem(this.config);
     }
 }

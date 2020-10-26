@@ -132,6 +132,9 @@
         "autoSave": "Enregistrement auto",
         "autoSaveTitle": "Enregistrement automatique du tableau de bord",
         "settingsTitle": "Options du tableau de bord",
-        "widgetClose": "Fermer"
+        "widgetClose": "Fermer",
+        "renameWidget": "Renommer un widget",
+        "renameWidgetMessage": "Entrez un nouveau nom pour ce widget",
+        "renameWidgetTitle": "Renommer ce widget"
     }
 }

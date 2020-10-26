@@ -132,7 +132,10 @@
         "autoSave": "Auto-save",
         "autoSaveTitle": "Automatically save your dashboard",
         "settingsTitle": "Dashboard settings",
-        "widgetClose": "Close"
+        "widgetClose": "Close",
+        "renameWidget": "Rename widget",
+        "renameWidgetMessage": "Enter a new name for this widget",
+        "renameWidgetTitle": "Rename this widget"
     }
 
 }
