@@ -30,37 +30,37 @@ export interface IAction {
 }
 
 export class Action implements IAction {
-    name: string;
-    text: string;
-    href: string;
-    icon: string; // css class
-    iconAfter: string; // css class
-    separator: boolean;
-    scrollable: boolean;
-    scrollGroup: boolean;
-    component: Function;
-    componentInputs: any;
-    data: any;
-    title: string;
-    selected: boolean;
-    disabled: boolean;
-    hidden: boolean;
-    flattenable: boolean;
-    messageParams: MessageParams;
-    action: (item: Action, event: UIEvent) => void;
-    toggle: (item: Action, open: boolean) => void;
-    updater: (item: Action) => void;
-    init: (item: Action) => void;
-    destroy: (item: Action) => void;
+    name?: string;
+    text?: string;
+    href?: string;
+    icon?: string; // css class
+    iconAfter?: string; // css class
+    separator?: boolean;
+    scrollable?: boolean;
+    scrollGroup?: boolean;
+    component?: Function;
+    componentInputs?: any;
+    data?: any;
+    title?: string;
+    selected?: boolean;
+    disabled?: boolean;
+    hidden?: boolean;
+    flattenable?: boolean;
+    messageParams?: MessageParams;
+    action?: (item: Action, event: UIEvent) => void;
+    toggle?: (item: Action, open: boolean) => void;
+    updater?: (item: Action) => void;
+    init?: (item: Action) => void;
+    destroy?: (item: Action) => void;
 
-    children: Action[];
+    children?: Action[];
 
     constructor(options: IAction) {
         Utils.extend(this, options);
     }
 
     get hasChildren(): boolean {
-        return this.children && (this.children.length > 0);
+        return !!this.children && (this.children.length > 0);
     }
 
     get showSelected(): boolean {
