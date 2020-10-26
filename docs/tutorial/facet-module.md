@@ -41,7 +41,7 @@ You can now insert some of the Facet module components in your component's templ
 Facets are actually composed of two components:
 
 - The outside "frame" or "card": `sq-facet-card`
-- The inside content, which depends of the type of data or visualization: `sq-facet-list`, `sq-facet`, `sq-facet-chart`, `sq-facet-range`, `sq-facet-chart`, `sq-facet-refine`, or in fact any other custom content you want!
+- The inside content, which depends of the type of data or visualization: `sq-facet-list`, `sq-facet-tree`, `sq-facet-ngx-chart`, `sq-facet-range`, `sq-facet-timeline`, `sq-facet-refine`, or in fact any other custom content you want!
 
 We will start with a simple `sq-facet-list`:
 
