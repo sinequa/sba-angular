@@ -247,15 +247,11 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         const providersActionList = new Action({
             icon: "fas fa-tasks",
             title: "msg#network.actions.providers",
-            children: []
-        });
-        this.providers.forEach(p => {
-            const providerActions = new Action({
+            children: this.providers.map(p => new Action({
                 text: this.intlService.formatMessage(p.name),
-                title: this.intlService.formatMessage(p.name)
-            });
-            providerActions.children = p.getProviderActions();
-            providersActionList.children.push(providerActions);
+                title: this.intlService.formatMessage(p.name),
+                children: p.getProviderActions()
+            }))
         });
         this._actions.push(providersActionList);
 
