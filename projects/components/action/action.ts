@@ -1,7 +1,7 @@
 ﻿import {Utils} from "@sinequa/core/base";
 import {MessageParams} from "@sinequa/core/intl";
 
-export interface IAction {
+export abstract class IAction {
     name?: string;
     text?: string;
     href?: string;
@@ -29,33 +29,10 @@ export interface IAction {
     children?: Action[];
 }
 
-export class Action implements IAction {
-    name?: string;
-    text?: string;
-    href?: string;
-    icon?: string; // css class
-    iconAfter?: string; // css class
-    separator?: boolean;
-    scrollable?: boolean;
-    scrollGroup?: boolean;
-    component?: Function;
-    componentInputs?: any;
-    data?: any;
-    title?: string;
-    selected?: boolean;
-    disabled?: boolean;
-    hidden?: boolean;
-    flattenable?: boolean;
-    messageParams?: MessageParams;
-    action?: (item: Action, event: UIEvent) => void;
-    toggle?: (item: Action, open: boolean) => void;
-    updater?: (item: Action) => void;
-    init?: (item: Action) => void;
-    destroy?: (item: Action) => void;
-
-    children?: Action[];
+export class Action extends IAction {
 
     constructor(options: IAction) {
+        super();
         Utils.extend(this, options);
     }
 
