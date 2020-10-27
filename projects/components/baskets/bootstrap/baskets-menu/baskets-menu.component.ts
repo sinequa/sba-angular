@@ -62,18 +62,14 @@ export class BsBasketsMenuComponent implements OnInit {
     if (this.basketsService.hasBasket) {
         const scrollGroup = new Action({
             scrollGroup: true,
-            children: []
-        });
-        basketsActions.push(scrollGroup);
-        for (let i = 0, ic = this.basketsService.baskets.length; i < ic; i++) {
-            const basket = this.basketsService.baskets[i];
-            scrollGroup.children.push(new Action({
+            children: this.basketsService.baskets.map(basket => new Action({
                 text: basket.name,
                 title: basket.name,
                 data: basket,
-                action: _ => { this.basketsService.searchBasket(basket); }
-            }));
-        }
+                action: () => this.basketsService.searchBasket(basket)
+            }))
+        });
+        basketsActions.push(scrollGroup);
     }
 
     basketsActions.push(this.createAction);

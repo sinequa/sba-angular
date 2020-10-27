@@ -226,7 +226,9 @@ export class PreviewTooltip implements OnChanges {
     entityAction(action: Action, event: Event){
         event.stopPropagation(); // stop the propagation to avoid triggering the tooltip listeners
         this.zone.run(() => {
-            action.action(action, <any> {type: this.entityType, idx: this.entityIdx, value: this.entityValue, display: this.entityDisplay});
+            if(action.action) {
+                action.action(action, <any> {type: this.entityType, idx: this.entityIdx, value: this.entityValue, display: this.entityDisplay});
+            }
         });
     }
 
@@ -238,7 +240,9 @@ export class PreviewTooltip implements OnChanges {
     selectedTextAction(action: Action, event: Event){
         event.stopPropagation(); // stop the propagation to avoid triggering the tooltip listeners
         this.zone.run(() => {
-            action.action(action, <any> {text: this.selectedText});
+            if(action.action) {
+                action.action(action, <any> {text: this.selectedText});
+            }
         });
     }
 

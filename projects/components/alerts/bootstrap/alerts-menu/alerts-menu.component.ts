@@ -86,22 +86,16 @@ export class BsAlertsMenuComponent implements OnInit, OnDestroy {
     if (this.alertsService.hasAlert) {
         const scrollGroup = new Action({
             scrollGroup: true,
-            children: []
+            children: this.alertsService.alerts.map(alert => new Action({
+              text: alert.name,
+              data: alert,
+              action: (item: Action) => {
+                const alert: Alert = Utils.copy(item.data);
+                this.alertsService.editAlertModal(alert);
+              }
+          }))
         });
         alertsActions.push(scrollGroup);
-        for (let i = 0, ic = this.alertsService.alerts.length; i < ic; i++) {
-            const alert = this.alertsService.alerts[i];
-            scrollGroup.children.push(new Action({
-                text: alert.name,
-                data: alert,
-                action: (item: Action) => {
-                  //this.searchService.query = Utils.extend(this.searchService.makeQuery(), (<UserSettings.Alert>item.data).query);
-                  //this.searchService.search();
-                  const alert: Alert = Utils.copy(item.data);
-                  this.alertsService.editAlertModal(alert);
-                }
-            }));
-        }
     }
 
     if (!!this.searchService.results) {
