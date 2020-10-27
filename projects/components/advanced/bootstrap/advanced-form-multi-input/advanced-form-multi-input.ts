@@ -1,0 +1,154 @@
+import {
+    Component,
+    Input,
+    OnInit,
+    ElementRef,
+    OnDestroy,
+} from "@angular/core";
+import { FormGroup, AbstractControl } from "@angular/forms";
+import { Keys, Utils } from "@sinequa/core/base";
+import { AutocompleteItem } from "@sinequa/components/autocomplete";
+import { Subscription } from "rxjs";
+import { Entry } from "../../form.service";
+
+/**
+ * Component representing a text input that accepts multiple entries.
+ * This component also performs value validation on each entry.
+ *
+ */
+@Component({
+    selector: "sq-advanced-form-multi-input",
+    templateUrl: "./advanced-form-multi-input.html",
+    styles: [
+        `
+            .sq-dropdown-form {
+                min-width: 13rem;
+                display: inline;
+            }
+            .disabled {
+                cursor: not-allowed;
+            }
+            .clickable {
+                cursor: pointer;
+            }
+            .clickable:hover {
+                opacity: 85%;
+            }
+            :host div {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                height: unset !important;
+            }
+            :host input {
+                border: none;
+                flex-grow: 1;
+                flex-basis: 100px;
+                min-width: 100px;
+            }
+            :host input:focus {
+                outline: none;
+            }
+        `,
+    ],
+})
+export class BsAdvancedFormMultiInput
+    implements OnInit, OnDestroy {
+    @Input() form: FormGroup;
+    @Input() config: Entry;
+    @Input() autocompleteEnabled: boolean = true;
+    @Input() suggestQuery: string;
+
+    items: AutocompleteItem[] = []; /** List of items performed in the advanced search */
+    name: string;
+    label: string;
+    control: AbstractControl | null;
+    private _valueChangesSubscription: Subscription;
+
+    constructor(
+        private elementRef: ElementRef
+    ) {}
+
+    ngOnInit(): void {
+        this.name = this.config.name;
+        this.label = this.config.label;
+        this.control = this.form.get(this.name);
+        if (this.control) {
+            this.items = this.control.value.map((item) => {
+                return {
+                    display: item,
+                    category: "",
+                };
+            });
+            this._valueChangesSubscription = Utils.subscribe(
+                this.control.valueChanges,
+                (value) => {
+                    this.items = value.map((item) => {
+                        return {
+                            display: item,
+                            category: "",
+                        };
+                    });
+                }
+            );
+        }
+    }
+
+    ngOnDestroy() {
+        if (this._valueChangesSubscription) {
+            this._valueChangesSubscription.unsubscribe();
+        }
+    }
+
+    removeItem(item: AutocompleteItem) {
+        this.items.splice(this.items.indexOf(item), 1);
+        this._updateControl();
+    }
+
+    onItemsChanged(items: AutocompleteItem[]) {
+        this.items = items;
+        this._updateControl();
+    }
+
+    keydown(event: KeyboardEvent) {
+        // Intercept tab and set focus to surrounding dropdown-item
+        console.log("keydown parent");
+        if (event.keyCode === Keys.tab) {
+            const dropdownItem = this._getDropdownItem();
+            if (dropdownItem) {
+                dropdownItem.focus();
+                event.preventDefault();
+                return false;
+            }
+        }
+        return undefined;
+    }
+
+    keypress(event: KeyboardEvent) {
+        console.log("keypress parent");
+        if (event.keyCode === Keys.enter) {
+            // Stop click event firing on surrounding anchor (Firefox)
+            event.preventDefault();
+            return false;
+        }
+        return undefined;
+    }
+
+    private _updateControl(): void {
+        this.control?.markAsDirty();
+        this.control?.setValue(this.items.map((item) => item.display));
+    }
+
+    private _getDropdownItem(): HTMLElement | null {
+        if (this.elementRef) {
+            let current: HTMLElement | null = this.elementRef
+                .nativeElement as HTMLElement;
+            while (current && !current.classList.contains("dropdown-item")) {
+                current = current.parentElement;
+            }
+            return current;
+        }
+        return null;
+    }
+}

@@ -25,6 +25,8 @@ import {BsMultiEntryInput} from "./multi-entry-input/multi-entry-input";
 // Directives
 import {BsAdvancedFormAutocomplete} from "./advanced-form-autocomplete.directive";
 import {BsAdvancedFormValidation} from "./advanced-form-validation.directive";
+import { BsAdvancedFormMultiInput } from './advanced-form-multi-input/advanced-form-multi-input';
+import { BsAdvancedFormAutocompleteExtended } from './advanced-form-multi-input/advanced-form-autocomplete-extended.directive';
 
 @NgModule({
     imports: [
@@ -48,11 +50,13 @@ import {BsAdvancedFormValidation} from "./advanced-form-validation.directive";
         BsAdvancedFormMultiEntry,
         BsAdvancedFormRange,
         BsAdvancedFormSelect,
+        BsAdvancedFormMultiInput,
         BsDatePicker,
         BsDateRangePicker,
         BsSelectComponent,
         BsMultiEntryInput,
 
+        BsAdvancedFormAutocompleteExtended,
         BsAdvancedFormAutocomplete,
         BsAdvancedFormValidation,
     ],
@@ -64,11 +68,13 @@ import {BsAdvancedFormValidation} from "./advanced-form-validation.directive";
         BsAdvancedFormMultiEntry,
         BsAdvancedFormRange,
         BsAdvancedFormSelect,
+        BsAdvancedFormMultiInput,
         BsDatePicker,
         BsDateRangePicker,
         BsSelectComponent,
         BsMultiEntryInput,
 
+        BsAdvancedFormAutocompleteExtended,
         BsAdvancedFormAutocomplete,
         BsAdvancedFormValidation,
     ]

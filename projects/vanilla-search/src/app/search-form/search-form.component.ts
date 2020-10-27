@@ -210,12 +210,12 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     ngAfterViewInit() {
         setTimeout(() => {
-            this.form.addControl(
-                "sources",
-                this.formService.createSelectControl(
-                    advancedSearchFormConfig.get("sources")
-                )
-            );
+            // this.form.addControl(
+            //     "sources",
+            //     this.formService.createSelectControl(
+            //         advancedSearchFormConfig.get("sources")
+            //     )
+            // );
             this.form.addControl(
                 "authors",
                 this.formService.createSelectControl(

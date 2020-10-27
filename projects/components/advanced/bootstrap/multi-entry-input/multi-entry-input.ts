@@ -49,7 +49,7 @@ export class BsMultiEntryInput implements ControlValueAccessor, OnInit, AfterVie
     @ContentChild(TemplateRef, {static: false}) template: TemplateRef<any>;
     public values: any[];
     public names: string[];
-    public afterViewInit: boolean;
+    public afterViewInit = true;
 
     private onChangeCallback: (_: any) => void = () => {};
 
@@ -65,7 +65,7 @@ export class BsMultiEntryInput implements ControlValueAccessor, OnInit, AfterVie
     }
 
     ngAfterViewInit(): void {
-        this.afterViewInit = true;
+        // this.afterViewInit = true;
     }
 
     private get isDate(): boolean {

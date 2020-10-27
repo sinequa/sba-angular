@@ -158,7 +158,6 @@ export class FormService {
                     AdvancedOperator.LTE
                 )
             );
-            console.log(range);
             return range;
         } else {
             const value:
