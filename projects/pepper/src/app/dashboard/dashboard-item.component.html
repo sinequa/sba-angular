@@ -79,7 +79,7 @@
             [scalingFactor]="0.8"
             [expandModal]="false"
             [height]="innerheight"
-            (recordClosed)="close.next()">
+            (recordClosed)="close()">
         </sq-facet-preview-2>
         <div *ngIf="error" class="text-white bg-warning">
             Could not retrieve document preview for {{config.recordId}}

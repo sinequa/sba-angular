@@ -110,7 +110,6 @@
                             [width]="item.width"
                             [height]="item.height"
                             [buttonsStyle]="isDark()? 'dark' : 'light'"
-                            (close)="dashboardService.removeItem(item)"
                             (recordClicked)="onDocumentClickedFromView($event)"
                             
                             [sqScrollIntoView]="{active: item.recordId && item.recordId === lastClickedId, first: i === 0}">
