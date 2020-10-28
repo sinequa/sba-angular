@@ -340,7 +340,10 @@ export class FacetService {
                 const filter = (aggregation.valuesAreExpressions) ? filterByValuesAreExpression : filterByValue;
 
                 const items: AggregationItem[] = this.ExprToAggregationItem(expr.parent.operands, aggregation.valuesAreExpressions).filter(filter);
-                const _expr = this.makeExpr(facetName, aggregation, items);
+                // MUST reset $excluded property otherwise expression is misunderstood (mainly NOT expressions)
+                items.forEach(item => item.$excluded = undefined);
+                const {not, and} = this.searchService.breadcrumbs.selects[i].expr || {};
+                const _expr = this.makeExpr(facetName, aggregation, items, {not, and});
                 if (_expr) this.searchService.query.replaceSelect(i, {expression: _expr, facet: facetName});
             } else {
                 // filter is a single value... remove it
