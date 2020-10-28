@@ -488,10 +488,10 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
                 (value) => {
                     this.manualRefresh.emit();
                 });
-            this.data = this.facetService.getAggregation(this.aggregation, this.results);
-            this.column = this.data && this.appService.getColumn(this.data.column);
         }
         if (!!changes["results"]) {
+            this.data = this.facetService.getAggregation(this.aggregation, this.results);
+            this.column = this.data && this.appService.getColumn(this.data.column);
             this.init();
         }
     }
@@ -505,8 +505,12 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
     }
 
     ngOnDestroy() {
-        this.localeChange.unsubscribe();
-        this.uiService.removeElementResizeListener(this.slider.nativeElement, this.onResize);
+        if(this.localeChange) {
+            this.localeChange.unsubscribe();
+        }
+        if(this.uiService && this.slider) {
+            this.uiService.removeElementResizeListener(this.slider.nativeElement, this.onResize);
+        }
     }
 
     onUserChangeEnd(changeContext: ChangeContext) {
