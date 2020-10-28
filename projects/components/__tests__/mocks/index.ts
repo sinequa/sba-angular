@@ -7,7 +7,6 @@ import {
 } from "./aggregations";
 import {FACETS} from "./facets";
 import {RESULTS} from "./results";
-import {RESULTS_COVID} from "./results-covid";
 
 export {
   AGGREGATION_GEO,
@@ -16,6 +15,5 @@ export {
   AGGREGATION_TIMELINE,
   AGGREGATION_BOOLEAN,
   FACETS,
-  RESULTS,
-  RESULTS_COVID
+  RESULTS
 }

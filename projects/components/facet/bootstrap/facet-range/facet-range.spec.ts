@@ -14,7 +14,6 @@ import {startConfig} from "@testing/mocks/start.config";
 import {BsFacetModule} from '../facet.module';
 import {BsFacetRange} from './facet-range';
 import {MODAL_CONFIRM, MODAL_PROMPT} from '@sinequa/core/modal';
-import {RESULTS_COVID} from '@testing/mocks/results-covid';
 import {AppService} from '@sinequa/core/app-utils';
 import {UIService} from '@sinequa/components/utils';
 
@@ -46,7 +45,23 @@ describe('BsFacetRange', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BsFacetRange);
     context = fixture.debugElement.componentInstance;
-    context.results = RESULTS_COVID as unknown as Results;
+    context.results = {
+      aggregations: [
+        {
+          "name": "ModifiedRange",
+          "column": "modified",
+          "items": [
+            {
+              "count": 120397,
+              "operatorResults": {
+                "min": "1901-01-01 00:00:00",
+                "max": "2020-09-15 00:00:00"
+              }
+            }
+          ]
+        }
+      ]
+    } as unknown as Results;
     context.aggregation = "ModifiedRange";
 
     // fake getColumn() return value
