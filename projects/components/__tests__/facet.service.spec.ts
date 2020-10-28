@@ -161,7 +161,7 @@ describe("FacetService", () => {
 				expect(searchService.query.removeSelect).toHaveBeenCalledWith(0);
 			});
 
-			it("should remove a selection filter", () => {
+			it("should remove a single value from a select filter", () => {
 				const aggItem = aggregation["size"].items![1];
 				const exprValueInitializer: ExprValueInitializer = {
 					exprContext: {appService, formatService, intlService},
@@ -191,9 +191,10 @@ describe("FacetService", () => {
 				};
 
 				// Given Breadcrumbs:
-				// text:abc / < 10 Ko / 10 Ko to 100 Ko
+				// text:abc / < 10 Ko OR 10 Ko to 100 Ko
 				searchService.breadcrumbs = {
 					activeIndex: 1,
+					selects: [item, item2],
 					items: [{expr: undefined, display: "abc"}, item, item2] as BreadcrumbsItem[],
 					activeSelects: [item, item2] as BreadcrumbsItem[],
 					findSelect: (facet) => item2.expr
@@ -207,9 +208,10 @@ describe("FacetService", () => {
 				spyOn<any>(service, "findItemFilter").and.returnValue(item2.expr);
 				spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(1);
 
+				// When remove filter : 10 Ko to 100 Ko
 				service.removeFilter("Size", aggregation["size"], aggItem);
 
-				expect(service["makeExpr"]).toHaveBeenCalledWith("Size", jasmine.anything(), [{count: 0, value: "size`< 10 Ko`:(>= 0 AND < 10240)", display: "< 10 Ko", $column: undefined, $excluded: undefined}]);
+				expect(service["makeExpr"]).toHaveBeenCalledWith("Size", jasmine.anything(), [{count: 0, value: "size`< 10 Ko`:(>= 0 AND < 10240)", display: "< 10 Ko", $column: undefined, $excluded: undefined}], jasmine.anything());
 				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(1, {expression: "size`< 10 Ko`:(>= 0 AND < 10240)", facet: "Size"});
 				expect(searchService.query.removeSelect).not.toHaveBeenCalled();
 			});
@@ -258,7 +260,7 @@ describe("FacetService", () => {
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, 'Geo');
 			});
 
-			it("should add a filter when items is an array", () => {
+			it("should add a select filter when items is an array", () => {
 				// Given
 				const items = aggregation["geo"].items!.slice(0, 2);
 				spyOn(searchService.query, "addSelect");
@@ -271,7 +273,7 @@ describe("FacetService", () => {
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, 'Geo');
 			});
 
-			it("should append a single facet item to the previous select (same facet)", () => {
+			it("should append a single item to the previous select (same facet)", () => {
 				// breadcrumps: IRAQ OR GUANTANAMO
 				// expected breadcrumps: IRAQ OR GUANTANAMO OR IOWA
 				// Given
@@ -300,7 +302,7 @@ describe("FacetService", () => {
 				expect(searchService.query.addSelect).not.toHaveBeenCalled();
 			});
 
-			it("should append a single facet item to the previous select with AND operator (same facet)", () => {
+			it("should append a single item to the previous select with AND operator (same facet)", () => {
 				// breadcrumps: IRAQ AND GUANTANAMO
 				// expected breadcrumps: IRAQ AND GUANTANAMO AND IOWA
 				// Given
@@ -330,7 +332,43 @@ describe("FacetService", () => {
 				expect(searchService.query.addSelect).not.toHaveBeenCalled();
 			});
 
-			it("should create a new select with OR operators with an existing AND select", () => {
+			it("should append a single item to the previous select with NOT operator (same facet)", () => {
+				// breadcrumps: NOT(IRAQ OR GUANTANAMO)
+				// expected breadcrumps: NOT(IRAQ OR GUANTANAMO OR IOWA)
+				// Given
+				spyOn(searchService.query, "addSelect");
+				spyOn(searchService.query, "replaceSelect");
+
+				// breadcrumbItem
+				const item = {
+					expr: {
+						not: true,
+						operands: [
+							{value: 'IRAQ', display: 'Iraq'},
+							{value: 'GUANTANAMO', display: 'Guantanamo'}
+						]
+					}
+				};
+
+				searchService.breadcrumbs = {
+					activeIndex: 0,
+					selects: [item, item],
+					activeSelects: [item, item],
+					removeItem: (item) => (item),
+					findSelect: (facetName) => item.expr
+				} as Breadcrumbs;
+				spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
+
+				// When
+				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2], {not: true}); // IOWA
+
+				// Then
+				const expectedExpr = 'NOT (geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`)) OR (`Iowa`:(`IOWA`))))';
+				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(0, {expression: expectedExpr, facet: "Geo"})
+				expect(searchService.query.addSelect).not.toHaveBeenCalled();
+			});
+
+			it("should create a new select with OR operators when previous select is AND/OR operator", () => {
 				// breadcrumps: IRAQ AND GUANTANAMO
 				// expected breadcrumps: (IRAQ AND GUANTANAMO)/(IOWA OR NEW HAMPSHIRE)
 				// Given
@@ -388,7 +426,7 @@ describe("FacetService", () => {
 
 			it("should add 2 new AND facet items without append them to previous OR select", () => {
 				// breadcrumps: IRAQ OR GUANTANAMO
-				// expected breadcrumps : (IRAQ OR GUANTANAMO)/(IOWA AND NEW HAMPSHIRE)
+				// expected breadcrumps : (IRAQ OR GUANTANAMO) / (IOWA AND NEW HAMPSHIRE)
 				// Given
 				spyOn(searchService.query, "addSelect");
 				spyOn(searchService.query, "replaceSelect");
@@ -451,11 +489,37 @@ describe("FacetService", () => {
 			});
 
 			it("should replace current select when options is replaceCurrent", () => {
+				// breadcrumps: GUANTANAMO
+				// expected breadcrumps: IRAQ
 				// Given
 				const items = aggregation["geo"].items![0];
 				const facetName = "Geo";
 				spyOn(searchService.query, "addSelect");
 				spyOn(searchService.query, "removeSelect");
+
+				const exprValueInitializer: ExprValueInitializer = {
+					exprContext: {appService, formatService, intlService},
+					display: "Guantanamo",
+					value: "GUANTANAMO",
+					field: "geo",
+				}
+				const expr: Expr = new Expr(exprValueInitializer);
+				expr.toString = () => "geo`GUANTANAMO";
+
+				const item: BreadcrumbsItem = {
+					expr,
+					display: "Guantanamo",
+					facet: "Geo",
+					active: true,
+				};
+
+				searchService.breadcrumbs = {
+					activeIndex: 0,
+					items: [item],
+					activeSelects: [item],
+					removeItem: (item) => (item),
+					findSelect: (facetName) => item.expr
+				} as Breadcrumbs;
 
 				// When
 				service.addFilter(facetName, aggregation["geo"], items, {replaceCurrent: true});
@@ -467,6 +531,8 @@ describe("FacetService", () => {
 			});
 
 			it("should add a filter with NOT options", () => {
+				// breadcrumps: empty
+				// expected breadcrumbs: NOT (IRAQ OR GUANTANAMO)
 				// Given
 				const items = aggregation["geo"].items!.slice(0, 2);
 				spyOn(searchService.query, "addSelect");
@@ -490,6 +556,84 @@ describe("FacetService", () => {
 				// Then
 				const expectedExpr = 'geo:((`Iraq`:(`IRAQ`)) AND (`Guantanamo`:(`GUANTANAMO`)))';
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, 'Geo');
+			});
+
+			it("should remove an item from a NOT select", () => {
+				// breadcrumps: NOT(IRAQ OR GUANTANAMO OR IOWA)
+				// expected breadcrumps : NOT (IRAQ OR GUANTANAMO)
+				// Given
+				const exprValueInitializer: ExprValueInitializer[] = [
+					{
+						exprContext: {appService, formatService, intlService},
+						display: "Iraq",
+						value: "IRAQ",
+						field: "geo",
+					},
+					{
+						exprContext: {appService, formatService, intlService},
+						display: "Guantanamo",
+						value: "GUANTANAMO",
+						field: "geo",
+					},
+					{
+						exprContext: {appService, formatService, intlService},
+						display: "Iowa",
+						value: "IOWA",
+						field: "geo",
+					},
+				]
+				const exprs: Expr[] = exprValueInitializer.map(exprValue => {
+					const expr = new Expr(exprValue);
+					expr.toString = () => `"${exprValue.field}\`${exprValue.value}\`"`;
+					return expr;
+				})
+
+				const expr = {
+					and: false,
+					not: true,
+					operands: [
+						exprs[0],
+						exprs[1],
+						exprs[2]
+					]
+				}
+				Object.assign(exprs[0], {parent: {operands: [exprs[0], exprs[1], exprs[2]]}});
+				Object.assign(exprs[1], {parent: {operands: [exprs[0], exprs[1], exprs[2]]}});
+				Object.assign(exprs[2], {parent: {operands: [exprs[0], exprs[1], exprs[2]]}});
+
+				const item: BreadcrumbsItem = {
+					expr,
+					display: "",
+					facet: "Geo",
+					active: true,
+				} as BreadcrumbsItem;
+
+				spyOn(searchService.query, "removeSelect");
+				spyOn(searchService.query, "replaceSelect");
+
+				searchService.breadcrumbs = {
+					activeIndex: 0,
+					selects: [item],
+					activeSelects: [item],
+					items: [{expr: undefined, display: "abc"}, item],
+					activeItem: item,
+					removeItem: (item) => (item),
+					findSelect: (facetName) => {}
+				} as Breadcrumbs;
+
+				// return IOWA expression
+				spyOn<any>(service, "findItemFilter").and.returnValue(exprs[2]);
+				// return select expression
+				spyOn<any>(searchService.breadcrumbs, "findSelect").and.returnValue(exprs[2]);
+				spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
+
+				// When remove item: IOWA
+				service.removeFilter('Geo', aggregation["geo"], aggregation["geo"].items![2]); // IOWA
+
+				// Then
+				const expectedExpr = 'NOT (geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`))))';
+				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(0, {expression: expectedExpr, facet: "Geo"});
+				expect(searchService.query.removeSelect).not.toHaveBeenCalledWith(0);
 			});
 
 		});
