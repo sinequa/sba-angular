@@ -40,7 +40,7 @@ export default {
     },
 
     "bulkRemoveLabel": {
-        "title": "Remove label(s) to the current results",
+        "title": "Remove label(s) from the current results",
         "btnBulkRemove": "Remove",
         "alertText": "This action removes the selected label(s) from all results reported by the engine (not only from the first page)",
         "successFeedback": "Label(s) removed from all results reported by the engine",
@@ -48,7 +48,7 @@ export default {
     },
 
     "bulkAddLabel": {
-        "title": "Add label(s) from the current results",
+        "title": "Add label(s) to the current results",
         "btnBulkAdd": "Add",
         "alertText": "This action assigns the selected label(s) to all results reported by the engine (not only to the first page)",
         "infoText": "Press 'Enter' to add a new label that does not exist in the suggestions",
