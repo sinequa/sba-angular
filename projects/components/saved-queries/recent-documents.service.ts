@@ -226,12 +226,7 @@ export class RecentDocumentsService implements OnDestroy {
         if(this.maxDocuments >=0 )
             this.recentdocuments.splice(this.maxDocuments);
 
-        this.patchRecentDocuments([{
-            type: RecentDocumentEventType.Add,
-            detail: {
-                recentdocument: recentdocument.id
-            }
-        }]);
+        this.patchRecentDocuments(); // No need to emit an "Add" audit event, since it is redundant with the main search API
         return true;
     }
 

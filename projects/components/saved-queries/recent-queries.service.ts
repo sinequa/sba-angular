@@ -190,12 +190,7 @@ export class RecentQueriesService implements OnDestroy {
         if(this.maxQueries >=0 )
             this.recentqueries.splice(this.maxQueries);
 
-        this.patchRecentQueries([{
-            type: RecentQueryEventType.Add,
-            detail: {
-                recentquery: recentquery.query.text
-            }
-        }]);
+        this.patchRecentQueries(); // No need to emit an "Add" audit event, since it is redundant with the main search API
         return true;
     }
 
