@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, Inject, ChangeDetectorRef } from "@angular/core";
+import {
+    Component,
+    OnInit,
+    OnDestroy,
+    Inject,
+    ChangeDetectorRef,
+} from "@angular/core";
 import {
     FormBuilder,
     FormGroup,
@@ -6,7 +12,12 @@ import {
     Validators,
 } from "@angular/forms";
 import { Subscription } from "rxjs";
-import { ModalButton, ModalResult, MODAL_MODEL, ModalRef } from "@sinequa/core/modal";
+import {
+    ModalButton,
+    ModalResult,
+    MODAL_MODEL,
+    ModalRef,
+} from "@sinequa/core/modal";
 import { Utils } from "@sinequa/core/base";
 import { ModalProperties, LabelsService } from "../../labels.service";
 
@@ -21,11 +32,10 @@ import { ModalProperties, LabelsService } from "../../labels.service";
             .clickable:hover {
                 opacity: 85%;
             }
-        `
-    ]
+        `,
+    ],
 })
 export class BsRenameLabel implements OnInit, OnDestroy {
-
     public labelControl: FormControl;
     public form: FormGroup;
     public formChanges: Subscription;
@@ -38,6 +48,7 @@ export class BsRenameLabel implements OnInit, OnDestroy {
             oldValues: string[];
             newValue: string;
             properties: ModalProperties;
+            callback: () => void;
         },
         private formBuilder: FormBuilder,
         private labelsService: LabelsService,
@@ -73,7 +84,8 @@ export class BsRenameLabel implements OnInit, OnDestroy {
                     if (observable) {
                         this.isProcessing = true;
                         this.changeDetectorRef.markForCheck();
-                        Utils.subscribe(observable,
+                        Utils.subscribe(
+                            observable,
                             () => {},
                             (error) => {
                                 this.modalRef.close(error);
@@ -81,10 +93,11 @@ export class BsRenameLabel implements OnInit, OnDestroy {
                             () => {
                                 this.isProcessing = false;
                                 this.modalRef.close(ModalResult.OK);
+                                this.model.callback();
                             }
                         );
                     }
-                }
+                },
             }),
             new ModalButton({
                 result: ModalResult.Cancel,

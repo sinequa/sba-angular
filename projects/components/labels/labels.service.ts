@@ -1,10 +1,16 @@
-import { Injectable, Inject, InjectionToken, Type, OnDestroy } from "@angular/core";
+import {
+    Injectable,
+    Inject,
+    InjectionToken,
+    Type,
+    OnDestroy,
+} from "@angular/core";
 import { Observable, of, Subscription } from "rxjs";
 import {
     PrincipalWebService,
     LabelsWebService,
     AuditEventType,
-    LabelsRights
+    LabelsRights,
 } from "@sinequa/core/web-services";
 import { AppService, ValueItem } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
@@ -12,8 +18,8 @@ import { SearchService } from "@sinequa/components/search";
 import { ModalService } from "@sinequa/core/modal";
 import { Action } from "@sinequa/components/action";
 import { IntlService } from "@sinequa/core/intl";
-import { NotificationsService } from '@sinequa/core/notification';
-import {SelectionService} from '@sinequa/components/selection';
+import { NotificationsService } from "@sinequa/core/notification";
+import { SelectionService } from "@sinequa/components/selection";
 
 export interface LabelsComponents {
     renameModal: Type<any>;
@@ -24,13 +30,13 @@ export interface LabelsComponents {
 }
 
 export interface ModalProperties {
-    public: boolean,
-    allowEditPublicLabels: boolean,
-    allowManagePublicLabels: boolean,
-    allowNewLabels: boolean,
-    disableAutocomplete: boolean,
-    action: number,
-    radioButtons: any[]
+    public: boolean;
+    allowEditPublicLabels: boolean;
+    allowManagePublicLabels: boolean;
+    allowNewLabels: boolean;
+    disableAutocomplete: boolean;
+    action: number;
+    radioButtons: any[];
 }
 
 export const enum UpdateLabelsAction {
@@ -40,7 +46,7 @@ export const enum UpdateLabelsAction {
     delete,
     bulkAdd,
     bulkRemove,
-    edit
+    edit,
 }
 
 export const LABELS_COMPONENTS = new InjectionToken<LabelsComponents>(
@@ -54,7 +60,7 @@ export class LabelsService implements OnDestroy {
     private _privateLabelsPrefix: string | undefined;
     private static readonly defaultLabelsRights: LabelsRights = {
         canManagePublicLabels: true,
-        canEditPublicLabels: true
+        canEditPublicLabels: true,
     };
     private labelsRightsSubscription: Subscription | undefined;
     private labelsRights: LabelsRights | undefined;
@@ -118,13 +124,14 @@ export class LabelsService implements OnDestroy {
                 const observable = this.labelsWebService.getUserRights();
                 this.labelsRightsSubscription = Utils.subscribe(
                     observable,
-                    response => rights = response
+                    (response) => (rights = response)
                 );
-            }
-            else {
+            } else {
                 rights = LabelsService.defaultLabelsRights;
             }
-            this.labelsRights = !!rights ? rights : LabelsService.defaultLabelsRights;
+            this.labelsRights = !!rights
+                ? rights
+                : LabelsService.defaultLabelsRights;
         }
         return this.labelsRights;
     }
@@ -136,29 +143,58 @@ export class LabelsService implements OnDestroy {
     }
 
     /** From navbar */
-    public renameLabelModal(): void {
-        const data = { oldValues: [], newValue: "", properties: this._modalProperties(UpdateLabelsAction.rename) };
-        this.modalService.open(this.labelsComponents.renameModal, { model: data });
+    public renameLabelModal(callback?: () => void): void {
+        const data = {
+            oldValues: [],
+            newValue: "",
+            properties: this._modalProperties(UpdateLabelsAction.rename),
+            callback: callback,
+        };
+        this.modalService.open(this.labelsComponents.renameModal, {
+            model: data,
+        });
     }
 
-    public deleteLabelModal(): void {
-        const data = { values: [], properties: this._modalProperties(UpdateLabelsAction.delete) };
-        this.modalService.open(this.labelsComponents.deleteModal, { model: data });
+    public deleteLabelModal(callback?: () => void): void {
+        const data = {
+            values: [],
+            properties: this._modalProperties(UpdateLabelsAction.delete),
+            callback: callback,
+        };
+        this.modalService.open(this.labelsComponents.deleteModal, {
+            model: data,
+        });
     }
 
-    public bulkAddLabelModal(): void {
-        const data = { values: [], properties: this._modalProperties(UpdateLabelsAction.bulkAdd) };
+    public bulkAddLabelModal(callback?: () => void): void {
+        const data = {
+            values: [],
+            properties: this._modalProperties(UpdateLabelsAction.bulkAdd),
+            callback: callback,
+        };
         this.modalService.open(this.labelsComponents.addModal, { model: data });
     }
 
-    public bulkRemoveLabelModal(): void {
-        const data = { values: [], properties: this._modalProperties(UpdateLabelsAction.bulkRemove) };
-        this.modalService.open(this.labelsComponents.deleteModal, { model: data });
+    public bulkRemoveLabelModal(callback?: () => void): void {
+        const data = {
+            values: [],
+            properties: this._modalProperties(UpdateLabelsAction.bulkRemove),
+            callback: callback,
+        };
+        this.modalService.open(this.labelsComponents.deleteModal, {
+            model: data,
+        });
     }
 
     private _modalProperties(action: number): ModalProperties {
-        const allowManagePublicLabels: boolean = this.allowPublicLabelsManagement && this.userLabelsRights && this.userLabelsRights.canManagePublicLabels;
-        const allowEditPublicLabels: boolean = this.allowPublicLabelsEdition && this.userLabelsRights && this.userLabelsRights.canEditPublicLabels;
+        const allowManagePublicLabels: boolean =
+            this.allowPublicLabelsManagement &&
+            this.userLabelsRights &&
+            this.userLabelsRights.canManagePublicLabels;
+        const allowEditPublicLabels: boolean =
+            this.allowPublicLabelsEdition &&
+            this.userLabelsRights &&
+            this.userLabelsRights.canEditPublicLabels;
         let allowNewLabels: boolean = false;
         let radioButtonsConf: any;
 
@@ -175,20 +211,24 @@ export class LabelsService implements OnDestroy {
                 allowNewLabels = true;
                 break;
             default:
-            break;
+                break;
         }
 
         switch (action) {
             case UpdateLabelsAction.rename:
             case UpdateLabelsAction.delete:
-                radioButtonsConf = this._getModalRadioButtonsConf(allowManagePublicLabels);
+                radioButtonsConf = this._getModalRadioButtonsConf(
+                    allowManagePublicLabels
+                );
                 break;
             case UpdateLabelsAction.add:
             case UpdateLabelsAction.bulkAdd:
             case UpdateLabelsAction.remove:
             case UpdateLabelsAction.bulkRemove:
             case UpdateLabelsAction.edit:
-                radioButtonsConf = this._getModalRadioButtonsConf(allowManagePublicLabels || allowEditPublicLabels);
+                radioButtonsConf = this._getModalRadioButtonsConf(
+                    allowManagePublicLabels || allowEditPublicLabels
+                );
                 break;
             default:
                 break;
@@ -199,8 +239,8 @@ export class LabelsService implements OnDestroy {
             allowManagePublicLabels: allowManagePublicLabels,
             allowNewLabels: allowNewLabels,
             action: action,
-            ...radioButtonsConf
-        }
+            ...radioButtonsConf,
+        };
     }
 
     private _getModalRadioButtonsConf(publicRight: boolean): any {
@@ -212,52 +252,72 @@ export class LabelsService implements OnDestroy {
             name: "msg#labels.public",
             value: true,
             disabled: false,
-            checked: true
-        }
+            checked: true,
+        };
         let privateRadioButton = {
             id: "privateLabel",
             name: "msg#labels.private",
             value: false,
             disabled: false,
-            checked: false
-        }
+            checked: false,
+        };
         if (!!this.publicLabelsField && !!this.privateLabelsField) {
             if (publicRight) {
                 isPublic = true;
                 radioButtons = [publicRadioButton, privateRadioButton];
             } else {
                 isPublic = false;
-                publicRadioButton = {...publicRadioButton, disabled: true, checked: false};
-                privateRadioButton = {...privateRadioButton, disabled: true, checked: true};
+                publicRadioButton = {
+                    ...publicRadioButton,
+                    disabled: true,
+                    checked: false,
+                };
+                privateRadioButton = {
+                    ...privateRadioButton,
+                    disabled: true,
+                    checked: true,
+                };
                 radioButtons = [publicRadioButton, privateRadioButton];
             }
         } else if (!!this.publicLabelsField) {
             if (publicRight) {
                 isPublic = true;
-                publicRadioButton = {...publicRadioButton, disabled: true, checked: true}
+                publicRadioButton = {
+                    ...publicRadioButton,
+                    disabled: true,
+                    checked: true,
+                };
                 radioButtons = [publicRadioButton];
             } else {
                 isPublic = false;
                 disableAutocomplete = true;
-                publicRadioButton = {...publicRadioButton, disabled: true, checked: false}
+                publicRadioButton = {
+                    ...publicRadioButton,
+                    disabled: true,
+                    checked: false,
+                };
                 radioButtons = [publicRadioButton];
             }
         } else if (!!this.privateLabelsField) {
             isPublic = false;
-            privateRadioButton = {...privateRadioButton, disabled: true, checked: true};
+            privateRadioButton = {
+                ...privateRadioButton,
+                disabled: true,
+                checked: true,
+            };
             radioButtons = [privateRadioButton];
         }
 
         return {
             public: isPublic,
             disableAutocomplete: disableAutocomplete,
-            radioButtons: radioButtons
-        }
+            radioButtons: radioButtons,
+        };
     }
     /** END From navbar */
 
     /** From result selector */
-    public buildSelectionAction(): Action | undefined {
+    public buildSelectionAction(callback?: () => void): Action | undefined {
         if (!this.publicLabelsField && !this.privateLabelsField) {
             return undefined;
         }
@@ -265,10 +325,10 @@ export class LabelsService implements OnDestroy {
             icon: "fas fa-tags",
             title: "msg#labels.labels",
             action: () => {
-                this.editLabelModal();
+                this.editLabelModal(callback);
             },
         });
-        if(action){
+        if (action) {
             action.updater = (action) => {
                 action.hidden = !this.selectionService.haveSelectedRecords;
             };
@@ -277,10 +337,16 @@ export class LabelsService implements OnDestroy {
         return action;
     }
 
-    public editLabelModal(): void {
-        const data = { valuesToBeAdded: [], valuesToBeRemoved: [], properties: this._modalProperties(UpdateLabelsAction.edit) };
-        this.modalService
-            .open(this.labelsComponents.editModal, { model: data });
+    public editLabelModal(callback?: () => void): void {
+        const data = {
+            valuesToBeAdded: [],
+            valuesToBeRemoved: [],
+            properties: this._modalProperties(UpdateLabelsAction.edit),
+            callback: callback,
+        };
+        this.modalService.open(this.labelsComponents.editModal, {
+            model: data,
+        });
     }
     /** END result selector */
 
@@ -473,15 +539,19 @@ export class LabelsService implements OnDestroy {
             newLabel,
             _public
         );
-        Utils.subscribe(observable, () => {},
-        () => {
-            this.notificationService.error("msg#renameLabel.errorFeedback")
-        },
-        () => {
-            this.notificationService.success("msg#renameLabel.successFeedback")
-            this.searchService.search(); /** Update the display immediately in the components and facets*/
-
-        });
+        Utils.subscribe(
+            observable,
+            () => {},
+            () => {
+                this.notificationService.error("msg#renameLabel.errorFeedback");
+            },
+            () => {
+                this.notificationService.success(
+                    "msg#renameLabel.successFeedback"
+                );
+                this.searchService.search(); /** Update the display immediately in the components and facets*/
+            }
+        );
         return observable;
     }
 
@@ -490,15 +560,19 @@ export class LabelsService implements OnDestroy {
             return of();
         }
         const observable = this.labelsWebService.delete(labels, _public);
-        Utils.subscribe(observable, () => {},
-        () => {
-            this.notificationService.error("msg#deleteLabel.errorFeedback")
-        },
-        () => {
-            this.notificationService.success("msg#deleteLabel.successFeedback")
-            this.searchService.search(); /** Update the display immediately in the components and facets*/
-
-        });
+        Utils.subscribe(
+            observable,
+            () => {},
+            () => {
+                this.notificationService.error("msg#deleteLabel.errorFeedback");
+            },
+            () => {
+                this.notificationService.success(
+                    "msg#deleteLabel.successFeedback"
+                );
+                this.searchService.search(); /** Update the display immediately in the components and facets*/
+            }
+        );
         return observable;
     }
 
@@ -511,15 +585,21 @@ export class LabelsService implements OnDestroy {
             this.searchService.query,
             _public
         );
-        Utils.subscribe(observable, () => {},
-        () => {
-            this.notificationService.error("msg#bulkAddLabel.errorFeedback")
-        },
-        () => {
-            this.notificationService.success("msg#bulkAddLabel.successFeedback")
-            this.searchService.search(); /** Update the display immediately in the components and facets*/
-
-        });
+        Utils.subscribe(
+            observable,
+            () => {},
+            () => {
+                this.notificationService.error(
+                    "msg#bulkAddLabel.errorFeedback"
+                );
+            },
+            () => {
+                this.notificationService.success(
+                    "msg#bulkAddLabel.successFeedback"
+                );
+                this.searchService.search(); /** Update the display immediately in the components and facets*/
+            }
+        );
         return observable;
     }
 
@@ -532,15 +612,21 @@ export class LabelsService implements OnDestroy {
             this.searchService.query,
             _public
         );
-        Utils.subscribe(observable, () => {},
-        () => {
-            this.notificationService.error("msg#bulkRemoveLabel.errorFeedback")
-        },
-        () => {
-            this.notificationService.success("msg#bulkRemoveLabel.successFeedback")
-            this.searchService.search(); /** Update the display immediately in the components and facets*/
-
-        });
+        Utils.subscribe(
+            observable,
+            () => {},
+            () => {
+                this.notificationService.error(
+                    "msg#bulkRemoveLabel.errorFeedback"
+                );
+            },
+            () => {
+                this.notificationService.success(
+                    "msg#bulkRemoveLabel.successFeedback"
+                );
+                this.searchService.search(); /** Update the display immediately in the components and facets*/
+            }
+        );
         return observable;
     }
 

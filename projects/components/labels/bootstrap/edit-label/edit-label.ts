@@ -1,12 +1,17 @@
 import { Component, OnInit, Inject, ChangeDetectorRef } from "@angular/core";
-import { ModalButton, ModalResult, MODAL_MODEL, ModalRef } from "@sinequa/core/modal";
+import {
+    ModalButton,
+    ModalResult,
+    MODAL_MODEL,
+    ModalRef,
+} from "@sinequa/core/modal";
 import { ModalProperties, LabelsService } from "../../labels.service";
 import { SelectionService } from "@sinequa/components/selection";
 import { AppService } from "@sinequa/core/app-utils";
-import { Record } from '@sinequa/core/web-services';
-import { SearchService } from '@sinequa/components/search';
-import { Utils } from '@sinequa/core/base';
-import { NotificationsService } from '@sinequa/core/notification';
+import { Record } from "@sinequa/core/web-services";
+import { SearchService } from "@sinequa/components/search";
+import { Utils } from "@sinequa/core/base";
+import { NotificationsService } from "@sinequa/core/notification";
 
 @Component({
     selector: "sq-edit-label",
@@ -36,6 +41,7 @@ export class BsEditLabel implements OnInit {
             valuesToBeAdded: string[];
             valuesToBeRemoved: string[];
             properties: ModalProperties;
+            callback: () => void;
         },
         private appService: AppService,
         private selectionService: SelectionService,
@@ -47,9 +53,13 @@ export class BsEditLabel implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.selectedRecordsIds = !!this.selectionService.getSelectedIds() ? this.selectionService.getSelectedIds() : [];
+        this.selectedRecordsIds = !!this.selectionService.getSelectedIds()
+            ? this.selectionService.getSelectedIds()
+            : [];
         if (this.selectedRecordsIds.length === 1) {
-            this.record = this.searchService.getRecordFromId(this.selectedRecordsIds[0]);
+            this.record = this.searchService.getRecordFromId(
+                this.selectedRecordsIds[0]
+            );
             this.initialLabels = this._getInitialRecordLabels();
         }
         this.buttons = [
@@ -59,34 +69,52 @@ export class BsEditLabel implements OnInit {
                 result: ModalResult.Custom,
                 anchor: true,
                 action: () => {
-                    const observable = this.labelsService.addLabels(this.model.valuesToBeAdded, this.selectionService.getSelectedIds(), this.model.properties.public);
+                    const observable = this.labelsService.addLabels(
+                        this.model.valuesToBeAdded,
+                        this.selectionService.getSelectedIds(),
+                        this.model.properties.public
+                    );
                     if (observable) {
                         this.isProcessing = true;
                         this.changeDetectorRef.markForCheck();
-                        Utils.subscribe(observable,
+                        Utils.subscribe(
+                            observable,
                             () => {},
                             (error) => {
-                                this.notificationService.error("msg#editLabel.errorFeedback");
+                                this.notificationService.error(
+                                    "msg#editLabel.errorFeedback"
+                                );
                                 this.modalRef.close(error);
                             },
                             () => {
-                                this.labelsService.removeLabels(this.model.valuesToBeRemoved, this.selectionService.getSelectedIds(), this.model.properties.public).subscribe(
-                                    () => {},
-                                    (error) => {
-                                        this.notificationService.error("msg#editLabel.errorFeedback");
-                                        this.modalRef.close(error);
-                                    },
-                                    () => {
-                                        this.isProcessing = false;
-                                        this.modalRef.close(ModalResult.OK);
-                                        this.notificationService.success("msg#editLabel.successFeedback")
-                                        this.searchService.search(); /** Update the display immediately in the components and facets*/
-                                    }
-                                )
+                                this.labelsService
+                                    .removeLabels(
+                                        this.model.valuesToBeRemoved,
+                                        this.selectionService.getSelectedIds(),
+                                        this.model.properties.public
+                                    )
+                                    .subscribe(
+                                        () => {},
+                                        (error) => {
+                                            this.notificationService.error(
+                                                "msg#editLabel.errorFeedback"
+                                            );
+                                            this.modalRef.close(error);
+                                        },
+                                        () => {
+                                            this.isProcessing = false;
+                                            this.modalRef.close(ModalResult.OK);
+                                            this.model.callback();
+                                            this.notificationService.success(
+                                                "msg#editLabel.successFeedback"
+                                            );
+                                            this.searchService.search(); /** Update the display immediately in the components and facets*/
+                                        }
+                                    );
                             }
                         );
                     }
-                }
+                },
             }),
             new ModalButton({
                 result: ModalResult.Cancel,
@@ -113,16 +141,16 @@ export class BsEditLabel implements OnInit {
             );
         } else {
             this.model.valuesToBeAdded = values;
-            this.model.valuesToBeRemoved = []
+            this.model.valuesToBeRemoved = [];
         }
     }
 
     onLabelsToBeAddedChanged(values: string[]) {
-        this.model.valuesToBeAdded = values
+        this.model.valuesToBeAdded = values;
     }
 
     onLabelsToBeRemovedChanged(values: string[]) {
-        this.model.valuesToBeRemoved = values
+        this.model.valuesToBeRemoved = values;
     }
 
     /**
@@ -135,12 +163,15 @@ export class BsEditLabel implements OnInit {
                 : this.labelsService.privateLabelsField;
             const labelsField = this.appService.resolveColumnAlias(field);
             if (!this.model.properties.public) {
-                return !!this.record[labelsField] ? this.labelsService.removePrivatePrefix(this.record[labelsField]) as string[] : [] as string[];
+                return !!this.record[labelsField]
+                    ? (this.labelsService.removePrivatePrefix(
+                          this.record[labelsField]
+                      ) as string[])
+                    : ([] as string[]);
             }
             return this.record[labelsField] || [];
         } else {
-            return []
+            return [];
         }
     }
 }
-
