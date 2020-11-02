@@ -9,7 +9,7 @@ import { FormGroup, AbstractControl } from "@angular/forms";
 import { Keys, Utils } from "@sinequa/core/base";
 import { AutocompleteItem } from "@sinequa/components/autocomplete";
 import { Subscription } from "rxjs";
-import { Entry } from "../../form.service";
+import { AdvancedInput } from "../../form.service";
 
 /**
  * Component representing a text input that accepts multiple entries.
@@ -56,7 +56,7 @@ import { Entry } from "../../form.service";
 export class BsAdvancedFormMultiInput
     implements OnInit, OnDestroy {
     @Input() form: FormGroup;
-    @Input() config: Entry;
+    @Input() config: AdvancedInput;
     @Input() autocompleteEnabled: boolean = true;
     @Input() suggestQuery: string;
 
@@ -75,21 +75,21 @@ export class BsAdvancedFormMultiInput
         this.label = this.config.label;
         this.control = this.form.get(this.name);
         if (this.control) {
-            this.items = this.control.value.map((item) => {
+            this.items = this.control.value ? this.control.value.map((item) => {
                 return {
                     display: item,
                     category: "",
                 };
-            });
+            }) : [];
             this._valueChangesSubscription = Utils.subscribe(
                 this.control.valueChanges,
                 (value) => {
-                    this.items = value.map((item) => {
+                    this.items = value ? value.map((item) => {
                         return {
                             display: item,
                             category: "",
                         };
-                    });
+                    }) : [];
                 }
             );
         }
@@ -113,7 +113,6 @@ export class BsAdvancedFormMultiInput
 
     keydown(event: KeyboardEvent) {
         // Intercept tab and set focus to surrounding dropdown-item
-        console.log("keydown parent");
         if (event.keyCode === Keys.tab) {
             const dropdownItem = this._getDropdownItem();
             if (dropdownItem) {
@@ -126,7 +125,6 @@ export class BsAdvancedFormMultiInput
     }
 
     keypress(event: KeyboardEvent) {
-        console.log("keypress parent");
         if (event.keyCode === Keys.enter) {
             // Stop click event firing on surrounding anchor (Firefox)
             event.preventDefault();

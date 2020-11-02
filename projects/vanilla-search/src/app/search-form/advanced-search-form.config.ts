@@ -1,7 +1,7 @@
-import { AdvancedFormType, Select, Range, Entry } from "@sinequa/components/advanced";
+import { AdvancedFormType, AdvancedSelect, AdvancedRange, AdvancedInput } from "@sinequa/components/advanced";
 import { AdvancedOperator } from '@sinequa/core/web-services';
 
-export let advancedSearchFormConfig: Map<string, Select | Range | Entry | any> = new Map([
+export let advancedSearchFormConfig: Map<string, AdvancedSelect | AdvancedRange | AdvancedInput | any> = new Map([
     [
         "sources",
         {
@@ -53,13 +53,21 @@ export let advancedSearchFormConfig: Map<string, Select | Range | Entry | any> =
     [
         "multiEntry",
         {
-            field: "treepath",
+            field: "docformat",
             name: "multiEntry",
-            label: "Sources multi entry",
+            label: "Formats",
             operator: AdvancedOperator.NONE,
-            type: AdvancedFormType.MultiEntry,
-            min: "",
-            max: ""
+            type: AdvancedFormType.MultiEntry
+        }
+    ],
+    [
+        "entry",
+        {
+            field: "filename",
+            name: "entry",
+            label: "filename",
+            operator: AdvancedOperator.NONE,
+            type: AdvancedFormType.Entry
         }
     ]
 ]);

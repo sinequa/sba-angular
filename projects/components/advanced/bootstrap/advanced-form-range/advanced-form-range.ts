@@ -4,7 +4,7 @@ import { Subscription } from "rxjs";
 import { Utils } from "@sinequa/core/base";
 import { CCColumn } from "@sinequa/core/web-services";
 import { AppService } from "@sinequa/core/app-utils";
-import { Range } from "../../form.service";
+import { AdvancedRange } from "../../form.service";
 
 @Component({
     selector: "sq-advanced-form-range",
@@ -20,7 +20,7 @@ import { Range } from "../../form.service";
 })
 export class BsAdvancedFormRange implements OnInit, OnDestroy {
     @Input() form: FormGroup;
-    @Input() config: Range;
+    @Input() config: AdvancedRange;
     @Input() autocompleteEnabled: boolean;
     @Input() suggestQuery: string;
     name: string;

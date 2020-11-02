@@ -17,22 +17,8 @@ export interface Control {
     validators: Validator[];
 }
 
-export interface ListControl {
-    field: string;
-    label: string;
-    name: string;
-    list: string;
-    aggregation: string;
-}
-
 
 
 export interface Checkbox extends Control {
 }
 
-
-
-export interface MultiEntry extends Control {
-    nbVisibleLines?: number;
-    distinct?: boolean;
-}

@@ -1,11 +1,11 @@
 import {Component, Input, OnInit, AfterViewInit, OnDestroy, ViewChild, forwardRef} from "@angular/core";
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 import {Subscription} from "rxjs";
-import {DatePickerOptions} from "../date-picker/date-picker";
 import {Utils} from "@sinequa/core/base";
 import {IntlService} from "@sinequa/core/intl";
 import {BsDaterangepickerDirective, BsDaterangepickerConfig, BsDatepickerDirective, BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 import moment from "moment";
+import { DatePickerOptions } from '../date-picker/date-picker';
 
 export const DATE_RANGE_PICKER_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,

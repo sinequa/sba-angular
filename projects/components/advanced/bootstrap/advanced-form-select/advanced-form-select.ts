@@ -3,10 +3,10 @@ import {FormGroup, AbstractControl} from "@angular/forms";
 import {AppService} from "@sinequa/core/app-utils";
 import {CCColumn, Aggregation} from "@sinequa/core/web-services";
 import {Utils, NameValueArrayView, NameValueArrayViewHelper, FieldValue} from "@sinequa/core/base";
-import {SelectOptions} from "../select/select";
 import {Subscription} from "rxjs";
 import {FirstPageService} from "@sinequa/components/search";
-import { Select } from '../../form.service';
+import { AdvancedSelect } from '../../form.service';
+import { SelectOptions } from './select/select';
 
 @Component({
     selector: "sq-advanced-form-select",
@@ -14,7 +14,7 @@ import { Select } from '../../form.service';
 })
 export class BsAdvancedFormSelect implements OnInit, OnDestroy {
     @Input() form: FormGroup;
-    @Input() config: Select;
+    @Input() config: AdvancedSelect;
     control: AbstractControl | null;
     column: CCColumn | undefined;
     name: string;

@@ -36,34 +36,27 @@ export interface AdvancedFormValidators {
     range: (config) => ValidatorFn;
 }
 
-export interface Select {
+export interface BasicConfig {
+    type: string;
     field: string;
     label: string;
     name: string;
+}
+
+export interface AdvancedSelect extends BasicConfig {
     list: string;
     aggregation: string;
     multiple: boolean;
     operator: AdvancedOperator;
-    type: string;
 }
 
-export interface Range {
-    type: string;
-    field: string;
-    label: string;
-    name: string;
+export interface AdvancedRange extends BasicConfig {
     min: string | number | Date;
     max: string | number | Date;
 }
 
-export interface Entry {
-    type: string;
-    field: string;
+export interface AdvancedInput extends BasicConfig {
     operator: AdvancedOperator;
-    label: string;
-    name: string;
-    min?: string | number | Date;
-    max?: string | number | Date;
 }
 
 @Injectable({
@@ -108,7 +101,7 @@ export class FormService {
     }
 
     createSelectControl(
-        config: Select,
+        config: AdvancedSelect,
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
     ): FormControl {
@@ -116,7 +109,7 @@ export class FormService {
     }
 
     createRangeControl(
-        config: Range,
+        config: AdvancedRange,
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
     ): FormControl {
@@ -124,7 +117,7 @@ export class FormService {
     }
 
     createEntryControl(
-        config: Entry,
+        config: AdvancedInput,
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
     ): FormControl {
@@ -132,7 +125,7 @@ export class FormService {
     }
 
     createMultiEntryControl(
-        config: Entry,
+        config: AdvancedInput,
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
     ): FormControl {
@@ -144,7 +137,7 @@ export class FormService {
      * @param config the advanced-search-form field config
      */
     getAdvancedValue(
-        config: Select | Range | Entry | any
+        config: AdvancedSelect | AdvancedRange | AdvancedInput | any
     ): AdvancedValue | AdvancedValue[] {
         if (Utils.eqNC(config.type, AdvancedFormType.Range)) {
             const range: AdvancedValue[] = [];
@@ -177,7 +170,7 @@ export class FormService {
      */
     setAdvancedValue(
         value: AdvancedValue | AdvancedValue[],
-        config: Select | Range | Entry | any
+        config: AdvancedSelect | AdvancedRange | AdvancedInput | any
     ) {
         if (Utils.eqNC(config.type, AdvancedFormType.Range)) {
             const range = value;
@@ -207,12 +200,12 @@ export class FormService {
         }
     }
 
-    private _parser(config: Select | Range | any): string | undefined {
+    private _parser(config: AdvancedSelect | AdvancedRange | AdvancedInput | any): string | undefined {
         const column = this.appService.getColumn(config.field);
         return column ? column.parser : undefined;
     }
 
-    private _rangeType(config: Select | Range | any): string | number | Date {
+    private _rangeType(config: AdvancedSelect | AdvancedRange | AdvancedInput | any): string | number | Date {
         const column = this.appService.getColumn(config.field);
         let rangeType;
         if (
@@ -229,7 +222,7 @@ export class FormService {
     }
 
     private _createControl(
-        config: Select | Range | Entry | any,
+        config: AdvancedSelect | AdvancedRange | AdvancedInput | any,
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
     ): FormControl {
@@ -247,7 +240,7 @@ export class FormService {
     }
 
     private _ensureAdvancedValue(
-        config: Select | any,
+        config: AdvancedSelect | AdvancedRange | AdvancedInput | any,
         value: any
     ): AdvancedValue {
         if (value !== undefined) {
@@ -275,7 +268,7 @@ export class FormService {
         return value;
     }
 
-    private _isDistribution(config: Select | any): boolean {
+    private _isDistribution(config: AdvancedSelect | AdvancedRange | AdvancedInput | any): boolean {
         if (config.aggregation) {
             const ccaggregation = this.appService.getCCAggregation(
                 config.aggregation

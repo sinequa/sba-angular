@@ -13,20 +13,19 @@ import {BsAutocompleteModule} from "@sinequa/components/autocomplete";
 import {BsAdvanced} from "./advanced/advanced";
 import {BsAdvancedForm} from "./advanced-form/advanced-form";
 import {BsAdvancedFormCheckbox} from "./advanced-form-checkbox/advanced-form-checkbox";
-import {BsAdvancedFormEntry} from "./advanced-form-entry/advanced-form-entry";
-import {BsAdvancedFormMultiEntry} from "./advanced-form-multi-entry/advanced-form-multi-entry";
 import {BsAdvancedFormRange} from "./advanced-form-range/advanced-form-range";
 import {BsAdvancedFormSelect} from "./advanced-form-select/advanced-form-select";
-import {BsDatePicker} from "./date-picker/date-picker";
-import {BsDateRangePicker} from "./date-range-picker/date-range-picker";
-import {BsSelectComponent} from "./select/select";
-import {BsMultiEntryInput} from "./multi-entry-input/multi-entry-input";
+import { BsAdvancedFormMultiInput } from './advanced-form-multi-input/advanced-form-multi-input';
+import { BsAdvancedFormInput } from './advanced-form-input/advanced-form-input';
+import { BsDatePicker } from './advanced-form-range/date-picker/date-picker';
+import { BsDateRangePicker } from './advanced-form-range/date-range-picker/date-range-picker';
+import { BsSelectComponent } from './advanced-form-select/select/select';
 
 // Directives
 import {BsAdvancedFormAutocomplete} from "./advanced-form-autocomplete.directive";
 import {BsAdvancedFormValidation} from "./advanced-form-validation.directive";
-import { BsAdvancedFormMultiInput } from './advanced-form-multi-input/advanced-form-multi-input';
 import { BsAdvancedFormAutocompleteExtended } from './advanced-form-multi-input/advanced-form-autocomplete-extended.directive';
+
 
 @NgModule({
     imports: [
@@ -46,15 +45,13 @@ import { BsAdvancedFormAutocompleteExtended } from './advanced-form-multi-input/
         BsAdvanced,
         BsAdvancedForm,
         BsAdvancedFormCheckbox,
-        BsAdvancedFormEntry,
-        BsAdvancedFormMultiEntry,
+        BsAdvancedFormInput,
         BsAdvancedFormRange,
         BsAdvancedFormSelect,
         BsAdvancedFormMultiInput,
         BsDatePicker,
         BsDateRangePicker,
         BsSelectComponent,
-        BsMultiEntryInput,
 
         BsAdvancedFormAutocompleteExtended,
         BsAdvancedFormAutocomplete,
@@ -64,15 +61,13 @@ import { BsAdvancedFormAutocompleteExtended } from './advanced-form-multi-input/
         BsAdvanced,
         BsAdvancedForm,
         BsAdvancedFormCheckbox,
-        BsAdvancedFormEntry,
-        BsAdvancedFormMultiEntry,
+        BsAdvancedFormInput,
         BsAdvancedFormRange,
         BsAdvancedFormSelect,
         BsAdvancedFormMultiInput,
         BsDatePicker,
         BsDateRangePicker,
         BsSelectComponent,
-        BsMultiEntryInput,
 
         BsAdvancedFormAutocompleteExtended,
         BsAdvancedFormAutocomplete,
