@@ -239,30 +239,6 @@ export class LabelsAutocomplete extends Autocomplete {
             }
             /** Allow the selection one of new labels that not exists in the list */
             if (event.keyCode === Keys.enter) {
-                // if (!!this.getInputValue() && this.getInputValue() !== "") {
-                //     if (this.allowNewLabels) {
-                //         /** When it is an add Labels action ==> check the privilege to create new label */
-                //         if (
-                //             !this.public ||
-                //             (this.public && this.allowManagePublicLabels)
-                //         ) {
-                //             this.setAutocompleteItem({
-                //                 display: this.getInputValue(),
-                //                 category: "",
-                //             });
-                //         }
-                //     } else {
-                //         /** For all other actions on the labels, check if the typed text equals an existing label in the _suggestions  */
-                //         if (
-                //             this._suggestions.indexOf(this.getInputValue()) > -1
-                //         ) {
-                //             this.setAutocompleteItem({
-                //                 display: this.getInputValue(),
-                //                 category: "",
-                //             });
-                //         }
-                //     }
-                // }
                 this._manageSetAutocompleteItem();
             }
         }
