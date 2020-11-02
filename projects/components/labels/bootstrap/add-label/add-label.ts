@@ -31,7 +31,6 @@ export class BsAddLabel implements OnInit {
         public model: {
             values: string[];
             properties: ModalProperties;
-            callback: () => void;
         },
         private labelsService: LabelsService,
         private changeDetectorRef: ChangeDetectorRef,
@@ -62,7 +61,6 @@ export class BsAddLabel implements OnInit {
                             () => {
                                 this.isProcessing = false;
                                 this.modalRef.close(ModalResult.OK);
-                                this.model.callback();
                             }
                         );
                     }

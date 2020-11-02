@@ -41,7 +41,6 @@ export class BsEditLabel implements OnInit {
             valuesToBeAdded: string[];
             valuesToBeRemoved: string[];
             properties: ModalProperties;
-            callback: () => void;
         },
         private appService: AppService,
         private selectionService: SelectionService,
@@ -104,7 +103,6 @@ export class BsEditLabel implements OnInit {
                                         () => {
                                             this.isProcessing = false;
                                             this.modalRef.close(ModalResult.OK);
-                                            this.model.callback();
                                             this.notificationService.success(
                                                 "msg#editLabel.successFeedback"
                                             );

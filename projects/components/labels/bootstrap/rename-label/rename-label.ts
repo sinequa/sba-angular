@@ -48,7 +48,6 @@ export class BsRenameLabel implements OnInit, OnDestroy {
             oldValues: string[];
             newValue: string;
             properties: ModalProperties;
-            callback: () => void;
         },
         private formBuilder: FormBuilder,
         private labelsService: LabelsService,
@@ -93,7 +92,6 @@ export class BsRenameLabel implements OnInit, OnDestroy {
                             () => {
                                 this.isProcessing = false;
                                 this.modalRef.close(ModalResult.OK);
-                                this.model.callback();
                             }
                         );
                     }

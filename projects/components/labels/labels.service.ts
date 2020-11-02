@@ -15,7 +15,7 @@ import {
 import { AppService, ValueItem } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
 import { SearchService } from "@sinequa/components/search";
-import { ModalService } from "@sinequa/core/modal";
+import { ModalService, ModalResult } from "@sinequa/core/modal";
 import { Action } from "@sinequa/components/action";
 import { IntlService } from "@sinequa/core/intl";
 import { NotificationsService } from "@sinequa/core/notification";
@@ -143,45 +143,43 @@ export class LabelsService implements OnDestroy {
     }
 
     /** From navbar */
-    public renameLabelModal(callback?: () => void): void {
+    public renameLabelModal(): Promise<ModalResult> {
         const data = {
             oldValues: [],
             newValue: "",
             properties: this._modalProperties(UpdateLabelsAction.rename),
-            callback: callback,
         };
-        this.modalService.open(this.labelsComponents.renameModal, {
+        return this.modalService.open(this.labelsComponents.renameModal, {
             model: data,
         });
     }
 
-    public deleteLabelModal(callback?: () => void): void {
+    public deleteLabelModal(): Promise<ModalResult> {
         const data = {
             values: [],
             properties: this._modalProperties(UpdateLabelsAction.delete),
-            callback: callback,
         };
-        this.modalService.open(this.labelsComponents.deleteModal, {
+        return this.modalService.open(this.labelsComponents.deleteModal, {
             model: data,
         });
     }
 
-    public bulkAddLabelModal(callback?: () => void): void {
+    public bulkAddLabelModal(): Promise<ModalResult> {
         const data = {
             values: [],
             properties: this._modalProperties(UpdateLabelsAction.bulkAdd),
-            callback: callback,
         };
-        this.modalService.open(this.labelsComponents.addModal, { model: data });
+        return this.modalService.open(this.labelsComponents.addModal, {
+            model: data,
+        });
     }
 
-    public bulkRemoveLabelModal(callback?: () => void): void {
+    public bulkRemoveLabelModal(): Promise<ModalResult> {
         const data = {
             values: [],
             properties: this._modalProperties(UpdateLabelsAction.bulkRemove),
-            callback: callback,
         };
-        this.modalService.open(this.labelsComponents.deleteModal, {
+        return this.modalService.open(this.labelsComponents.deleteModal, {
             model: data,
         });
     }
@@ -317,7 +315,7 @@ export class LabelsService implements OnDestroy {
     /** END From navbar */
 
     /** From result selector */
-    public buildSelectionAction(callback?: () => void): Action | undefined {
+    public buildSelectionAction(): Action | undefined {
         if (!this.publicLabelsField && !this.privateLabelsField) {
             return undefined;
         }
@@ -325,7 +323,7 @@ export class LabelsService implements OnDestroy {
             icon: "fas fa-tags",
             title: "msg#labels.labels",
             action: () => {
-                this.editLabelModal(callback);
+                this.editLabelModal();
             },
         });
         if (action) {
@@ -337,14 +335,13 @@ export class LabelsService implements OnDestroy {
         return action;
     }
 
-    public editLabelModal(callback?: () => void): void {
+    public editLabelModal(): Promise<ModalResult> {
         const data = {
             valuesToBeAdded: [],
             valuesToBeRemoved: [],
             properties: this._modalProperties(UpdateLabelsAction.edit),
-            callback: callback,
         };
-        this.modalService.open(this.labelsComponents.editModal, {
+        return this.modalService.open(this.labelsComponents.editModal, {
             model: data,
         });
     }

@@ -40,7 +40,6 @@ export class BsDeleteLabel implements OnInit {
         public model: {
             values: string[];
             properties: ModalProperties;
-            callback: () => void;
         },
         private labelsService: LabelsService,
         private changeDetectorRef: ChangeDetectorRef,
@@ -70,7 +69,6 @@ export class BsDeleteLabel implements OnInit {
                             () => {
                                 this.isProcessing = false;
                                 this.modalRef.close(ModalResult.OK);
-                                this.model.callback();
                             }
                         );
                     }
@@ -97,7 +95,6 @@ export class BsDeleteLabel implements OnInit {
                             () => {
                                 this.isProcessing = false;
                                 this.modalRef.close(ModalResult.OK);
-                                this.model.callback();
                             }
                         );
                     }
