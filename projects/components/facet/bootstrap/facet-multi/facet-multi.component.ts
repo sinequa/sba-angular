@@ -32,6 +32,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 
   @Input() results: Results;
   @Input() facets: FacetConfig[];
+  @Input() showCount: boolean = true;
   @Output() events = new EventEmitter<FacetConfig>();
   @ViewChild("facet", {static: false}) public facetComponent: AbstractFacet;
 
