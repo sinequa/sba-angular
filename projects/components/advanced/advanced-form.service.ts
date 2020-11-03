@@ -14,7 +14,7 @@ import { AdvancedValue, AdvancedOperator } from "@sinequa/core/web-services";
 import { Utils } from "@sinequa/core/base";
 import { SearchService } from "@sinequa/components/search";
 import { AppService } from "@sinequa/core/app-utils";
-import { ValidationService } from '@sinequa/core/validation';
+import { ValidationService } from "@sinequa/core/validation";
 
 export enum AdvancedFormType {
     Checkbox = "AdvancedFormCheckbox",
@@ -25,15 +25,53 @@ export enum AdvancedFormType {
 }
 
 export interface AdvancedFormValidators {
-    min: (min: string | number | Date, config) => ValidatorFn;
-    max: (max: string | number | Date, config) => ValidatorFn;
+    min: (
+        min: string | number | Date,
+        config:
+            | AdvancedSelect
+            | AdvancedRange
+            | AdvancedInput
+            | AdvancedCheckbox
+    ) => ValidatorFn;
+    max: (
+        max: string | number | Date,
+        config:
+            | AdvancedSelect
+            | AdvancedRange
+            | AdvancedInput
+            | AdvancedCheckbox
+    ) => ValidatorFn;
     required: ValidatorFn;
     email: ValidatorFn;
     pattern: (pattern: string | RegExp) => ValidatorFn;
-    integer: (config) => ValidatorFn;
-    number: (config) => ValidatorFn;
-    date: (config) => ValidatorFn;
-    range: (config) => ValidatorFn;
+    integer: (
+        config:
+            | AdvancedSelect
+            | AdvancedRange
+            | AdvancedInput
+            | AdvancedCheckbox
+    ) => ValidatorFn;
+    number: (
+        config:
+            | AdvancedSelect
+            | AdvancedRange
+            | AdvancedInput
+            | AdvancedCheckbox
+    ) => ValidatorFn;
+    date: (
+        config:
+            | AdvancedSelect
+            | AdvancedRange
+            | AdvancedInput
+            | AdvancedCheckbox
+    ) => ValidatorFn;
+    range: (
+        config:
+            | AdvancedSelect
+            | AdvancedRange
+            | AdvancedInput
+            | AdvancedCheckbox
+    ) => ValidatorFn;
 }
 
 export interface BasicConfig {
@@ -67,24 +105,32 @@ export interface AdvancedCheckbox extends BasicConfig {
     providedIn: "root",
 })
 export class AdvancedFormService {
-
     public readonly advancedFormValidators: AdvancedFormValidators = {
-        min: (min, config) => this.validationService.minValidator(min, this._parser(config)),
-        max: (max, config) => this.validationService.minValidator(max, this._parser(config)),
+        min: (min, config) =>
+            this.validationService.minValidator(min, this._parser(config)),
+        max: (max, config) =>
+            this.validationService.minValidator(max, this._parser(config)),
         required: Validators.required,
         email: Validators.email,
         pattern: (pattern: string | RegExp) => Validators.pattern(pattern),
-        integer: (config) => this.validationService.integerValidator(this._parser(config)),
-        number: (config) => this.validationService.numberValidator(this._parser(config)),
-        date: (config) => this.validationService.dateValidator(this._parser(config)),
-        range: (config) => this.validationService.rangeValidator(this._rangeType(config), this._parser(config))
-    }
+        integer: (config) =>
+            this.validationService.integerValidator(this._parser(config)),
+        number: (config) =>
+            this.validationService.numberValidator(this._parser(config)),
+        date: (config) =>
+            this.validationService.dateValidator(this._parser(config)),
+        range: (config) =>
+            this.validationService.rangeValidator(
+                this._rangeType(config),
+                this._parser(config)
+            ),
+    };
 
     constructor(
         public appService: AppService,
         public searchService: SearchService,
         public formBuilder: FormBuilder,
-        private validationService: ValidationService,
+        private validationService: ValidationService
     ) {}
 
     buildForm(): FormGroup {
@@ -149,29 +195,38 @@ export class AdvancedFormService {
      * @param config the advanced-search-form field config
      */
     getAdvancedValue(
-        config: AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox | any
+        config:
+            | AdvancedSelect
+            | AdvancedRange
+            | AdvancedInput
+            | AdvancedCheckbox
     ): AdvancedValue | AdvancedValue[] {
         if (Utils.eqNC(config.type, AdvancedFormType.Range)) {
             const range: AdvancedValue[] = [];
-            range.push(this.searchService.query?.getAdvancedValue(
-                config.field,
-                AdvancedOperator.GTE
-            )
+            range.push(
+                this.searchService.query?.getAdvancedValue(
+                    config.field,
+                    AdvancedOperator.GTE
+                )
             );
-            range.push(this.searchService.query?.getAdvancedValue(
+            range.push(
+                this.searchService.query?.getAdvancedValue(
                     config.field,
                     AdvancedOperator.LTE
                 )
             );
             return range;
         } else {
-            const value:
-                | AdvancedValue
-                | AdvancedValue[] = this.searchService.query?.getAdvancedValue(
-                config.field,
-                config.operator
-            );
-            return value;
+            if ("operator" in config) {
+                const value:
+                    | AdvancedValue
+                    | AdvancedValue[] = this.searchService.query?.getAdvancedValue(
+                    config.field,
+                    config.operator
+                );
+                return value;
+            }
+            return undefined;
         }
     }
 
@@ -182,7 +237,11 @@ export class AdvancedFormService {
      */
     setAdvancedValue(
         value: AdvancedValue | AdvancedValue[],
-        config: AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox | any
+        config:
+            | AdvancedSelect
+            | AdvancedRange
+            | AdvancedInput
+            | AdvancedCheckbox
     ) {
         if (Utils.eqNC(config.type, AdvancedFormType.Range)) {
             const range = value;
@@ -203,21 +262,35 @@ export class AdvancedFormService {
                 AdvancedOperator.LTE
             );
         } else {
-            this.searchService.query?.setAdvancedValue(
-                config.field,
-                this._ensureAdvancedValue(config, value),
-                config.operator,
-                !this._isDistribution(config)
-            );
+            if ("operator" in config) {
+                this.searchService.query?.setAdvancedValue(
+                    config.field,
+                    this._ensureAdvancedValue(config, value),
+                    config.operator,
+                    !this._isDistribution(config)
+                );
+            }
         }
     }
 
-    private _parser(config: AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox | any): string | undefined {
+    private _parser(
+        config:
+            | AdvancedSelect
+            | AdvancedRange
+            | AdvancedInput
+            | AdvancedCheckbox
+    ): string | undefined {
         const column = this.appService.getColumn(config.field);
         return column ? column.parser : undefined;
     }
 
-    private _rangeType(config: AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox | any): string | number | Date {
+    private _rangeType(
+        config:
+            | AdvancedSelect
+            | AdvancedRange
+            | AdvancedInput
+            | AdvancedCheckbox
+    ): string | number | Date {
         const column = this.appService.getColumn(config.field);
         let rangeType;
         if (
@@ -234,7 +307,11 @@ export class AdvancedFormService {
     }
 
     private _createControl(
-        config: AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox | any,
+        config:
+            | AdvancedSelect
+            | AdvancedRange
+            | AdvancedInput
+            | AdvancedCheckbox,
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
     ): FormControl {
@@ -252,7 +329,11 @@ export class AdvancedFormService {
     }
 
     private _ensureAdvancedValue(
-        config: AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox | any,
+        config:
+            | AdvancedSelect
+            | AdvancedRange
+            | AdvancedInput
+            | AdvancedCheckbox,
         value: any
     ): AdvancedValue {
         if (value !== undefined) {
@@ -280,8 +361,14 @@ export class AdvancedFormService {
         return value;
     }
 
-    private _isDistribution(config: AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox | any): boolean {
-        if (config.aggregation) {
+    private _isDistribution(
+        config:
+            | AdvancedSelect
+            | AdvancedRange
+            | AdvancedInput
+            | AdvancedCheckbox
+    ): boolean {
+        if ("aggregation" in config && config.aggregation) {
             const ccaggregation = this.appService.getCCAggregation(
                 config.aggregation
             );

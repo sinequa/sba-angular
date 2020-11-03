@@ -16,7 +16,7 @@ import { ParseResult } from "@sinequa/components/autocomplete";
 import { AutocompleteExtended } from "./autocomplete-extended.directive";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import { Utils } from "@sinequa/core/base";
-import { AdvancedFormService } from "@sinequa/components/advanced";
+import { AdvancedFormService, AdvancedSelect, AdvancedRange, AdvancedInput, AdvancedCheckbox } from "@sinequa/components/advanced";
 import { advancedSearchFormConfig } from "./advanced-search-form.config";
 
 @Component({
@@ -176,7 +176,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
                 );
             } else {
                 const value = this.advancedFormService.getAdvancedValue(
-                    advancedSearchFormConfig.get(key)
+                    advancedSearchFormConfig.get(key) as AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox
                 );
                 this.form.controls[key]?.setValue(value, {
                     emitEvent: emitEvent,
@@ -196,7 +196,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
             } else {
                 this.advancedFormService.setAdvancedValue(
                     this.form.controls[key]?.value,
-                    advancedSearchFormConfig.get(key)
+                    advancedSearchFormConfig.get(key) as AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox
                 );
             }
         });
@@ -242,36 +242,36 @@ export class SearchFormComponent implements OnInit, OnDestroy {
                     this.form.addControl(
                         "sources",
                         this.advancedFormService.createSelectControl(
-                            advancedSearchFormConfig.get("sources")
+                            advancedSearchFormConfig.get("sources") as AdvancedSelect
                         )
                     );
                     this.form.addControl(
                         "authors",
                         this.advancedFormService.createSelectControl(
-                            advancedSearchFormConfig.get("authors")
+                            advancedSearchFormConfig.get("authors") as AdvancedSelect
                         )
                     );
                     this.form.addControl(
                         "size",
-                        this.advancedFormService.createSelectControl(
-                            advancedSearchFormConfig.get("size"),
+                        this.advancedFormService.createRangeControl(
+                            advancedSearchFormConfig.get("size") as AdvancedRange,
                             [
                                 this.advancedFormService.advancedFormValidators.range(
-                                    advancedSearchFormConfig.get("size")
+                                    advancedSearchFormConfig.get("size") as AdvancedRange
                                 )
                             ]
                         )
                     );
                     this.form.addControl(
                         "modified",
-                        this.advancedFormService.createSelectControl(
-                            advancedSearchFormConfig.get("modified"),
+                        this.advancedFormService.createRangeControl(
+                            advancedSearchFormConfig.get("modified") as AdvancedRange,
                             [
                                 this.advancedFormService.advancedFormValidators.range(
-                                    advancedSearchFormConfig.get("modified")
+                                    advancedSearchFormConfig.get("modified") as AdvancedRange
                                 ),
                                 this.advancedFormService.advancedFormValidators.date(
-                                    advancedSearchFormConfig.get("modified")
+                                    advancedSearchFormConfig.get("modified") as AdvancedRange
                                 ),
                             ]
                         )
@@ -279,19 +279,19 @@ export class SearchFormComponent implements OnInit, OnDestroy {
                     this.form.addControl(
                         "multiInput",
                         this.advancedFormService.createMultiInputControl(
-                            advancedSearchFormConfig.get("multiInput")
+                            advancedSearchFormConfig.get("multiInput") as AdvancedInput
                         )
                     );
                     this.form.addControl(
                         "input",
                         this.advancedFormService.createInputControl(
-                            advancedSearchFormConfig.get("input")
+                            advancedSearchFormConfig.get("input") as AdvancedInput
                         )
                     );
                     this.form.addControl(
                         "checkbox",
                         this.advancedFormService.createCheckboxControl(
-                            advancedSearchFormConfig.get("checkbox")
+                            advancedSearchFormConfig.get("checkbox") as AdvancedCheckbox
                         )
                     );
                     this.initAdvancedSearchForm = true;
