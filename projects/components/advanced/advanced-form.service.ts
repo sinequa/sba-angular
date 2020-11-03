@@ -18,10 +18,10 @@ import { ValidationService } from '@sinequa/core/validation';
 
 export enum AdvancedFormType {
     Checkbox = "AdvancedFormCheckbox",
-    Entry = "AdvancedFormEntry",
+    Input = "AdvancedFormInput",
     Range = "AdvancedFormRange",
     Select = "AdvancedFormSelect",
-    MultiEntry = "AdvancedFormMultiEntry",
+    MultiInput = "AdvancedFormMultiInput",
 }
 
 export interface AdvancedFormValidators {
@@ -59,10 +59,14 @@ export interface AdvancedInput extends BasicConfig {
     operator: AdvancedOperator;
 }
 
+export interface AdvancedCheckbox extends BasicConfig {
+    operator: AdvancedOperator;
+}
+
 @Injectable({
     providedIn: "root",
 })
-export class FormService {
+export class AdvancedFormService {
 
     public readonly advancedFormValidators: AdvancedFormValidators = {
         min: (min, config) => this.validationService.minValidator(min, this._parser(config)),
@@ -116,7 +120,7 @@ export class FormService {
         return this._createControl(config, validators, asyncValidators);
     }
 
-    createEntryControl(
+    createInputControl(
         config: AdvancedInput,
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
@@ -124,8 +128,16 @@ export class FormService {
         return this._createControl(config, validators, asyncValidators);
     }
 
-    createMultiEntryControl(
+    createMultiInputControl(
         config: AdvancedInput,
+        validators?: ValidatorFn[],
+        asyncValidators?: AsyncValidatorFn[]
+    ): FormControl {
+        return this._createControl(config, validators, asyncValidators);
+    }
+
+    createCheckboxControl(
+        config: AdvancedCheckbox,
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
     ): FormControl {
@@ -137,7 +149,7 @@ export class FormService {
      * @param config the advanced-search-form field config
      */
     getAdvancedValue(
-        config: AdvancedSelect | AdvancedRange | AdvancedInput | any
+        config: AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox | any
     ): AdvancedValue | AdvancedValue[] {
         if (Utils.eqNC(config.type, AdvancedFormType.Range)) {
             const range: AdvancedValue[] = [];
@@ -170,7 +182,7 @@ export class FormService {
      */
     setAdvancedValue(
         value: AdvancedValue | AdvancedValue[],
-        config: AdvancedSelect | AdvancedRange | AdvancedInput | any
+        config: AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox | any
     ) {
         if (Utils.eqNC(config.type, AdvancedFormType.Range)) {
             const range = value;
@@ -200,12 +212,12 @@ export class FormService {
         }
     }
 
-    private _parser(config: AdvancedSelect | AdvancedRange | AdvancedInput | any): string | undefined {
+    private _parser(config: AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox | any): string | undefined {
         const column = this.appService.getColumn(config.field);
         return column ? column.parser : undefined;
     }
 
-    private _rangeType(config: AdvancedSelect | AdvancedRange | AdvancedInput | any): string | number | Date {
+    private _rangeType(config: AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox | any): string | number | Date {
         const column = this.appService.getColumn(config.field);
         let rangeType;
         if (
@@ -222,7 +234,7 @@ export class FormService {
     }
 
     private _createControl(
-        config: AdvancedSelect | AdvancedRange | AdvancedInput | any,
+        config: AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox | any,
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
     ): FormControl {
@@ -240,7 +252,7 @@ export class FormService {
     }
 
     private _ensureAdvancedValue(
-        config: AdvancedSelect | AdvancedRange | AdvancedInput | any,
+        config: AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox | any,
         value: any
     ): AdvancedValue {
         if (value !== undefined) {
@@ -268,7 +280,7 @@ export class FormService {
         return value;
     }
 
-    private _isDistribution(config: AdvancedSelect | AdvancedRange | AdvancedInput | any): boolean {
+    private _isDistribution(config: AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox | any): boolean {
         if (config.aggregation) {
             const ccaggregation = this.appService.getCCAggregation(
                 config.aggregation

@@ -4,8 +4,7 @@ import {
     OnDestroy,
     ViewChild,
     HostListener,
-    ElementRef,
-    AfterViewInit,
+    ElementRef
 } from "@angular/core";
 import { FormGroup, FormControl, AbstractControl } from "@angular/forms";
 import { SearchService, FirstPageService } from "@sinequa/components/search";
@@ -17,7 +16,7 @@ import { ParseResult } from "@sinequa/components/autocomplete";
 import { AutocompleteExtended } from "./autocomplete-extended.directive";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import { Utils } from "@sinequa/core/base";
-import { FormService } from "@sinequa/components/advanced";
+import { AdvancedFormService } from "@sinequa/components/advanced";
 import { advancedSearchFormConfig } from "./advanced-search-form.config";
 
 @Component({
@@ -25,7 +24,7 @@ import { advancedSearchFormConfig } from "./advanced-search-form.config";
     templateUrl: "./search-form.component.html",
     styleUrls: ["./search-form.component.scss"],
 })
-export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
+export class SearchFormComponent implements OnInit, OnDestroy {
     searchControl: AbstractControl | null;
     form: FormGroup;
     autofocus = 0;
@@ -35,14 +34,12 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
     parseResult?: ParseResult;
     showAdvancedSearch = false;
 
-    items;
-
     @ViewChild(AutocompleteExtended)
     autocompleteDirective: AutocompleteExtended;
     @ViewChild("btnAdvancedSearch") private btnAdvancedSearch: ElementRef;
     // @ViewChild("cardAdvancedSearch") private cardAdvancedSearch: ElementRef;
 
-    initAdvancedSearchData: boolean;
+    initAdvancedSearchData: boolean = false;
     initAdvancedSearchForm: boolean = false;
 
     constructor(
@@ -51,30 +48,14 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
         public firstPageService: FirstPageService,
         public appService: AppService,
         public prefs: UserPreferences,
-        public formService: FormService
+        public advancedFormService: AdvancedFormService
     ) {}
 
     ngOnInit() {
         /**
-         * If firstPage values not needed for advanced form then no need to call firstPageService.getFirstPage,
-         * just set this.initAdvancedSearchDone = true
+         * Initialize the form with default search control
          */
-        this.initAdvancedSearchData = false;
-        Utils.subscribe(this.loginService.events, (event) => {
-            switch (event.type) {
-                case "session-start":
-                case "session-changed":
-                    Utils.subscribe(this.firstPageService.getFirstPage(), () => {
-                        this.initAdvancedSearchData = true;
-                    });
-                    break;
-            }
-        });
-
-        /**
-         * Initialize the form with default control
-         */
-        this.form = this.formService.buildForm();
+        this.form = this.advancedFormService.buildForm();
         this.searchControl = this.form.get("search")
             ? this.form.get("search")
             : new FormControl("");
@@ -91,179 +72,6 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.autofocus++;
             }
         );
-
-        // if (!this.items) {
-        //     this.items = [
-        //         {
-        //             active: true,
-        //             aggregation: "",
-        //             autocompleteEnabled: true,
-        //             className: "",
-        //             collapseGroup: "",
-        //             description: "",
-        //             displayRule: "",
-        //             field: "treepath",
-        //             label: "Sources",
-        //             list: "",
-        //             max: "",
-        //             min: "",
-        //             multiple: true,
-        //             name: "",
-        //             operator: "",
-        //             pattern: "",
-        //             size: "",
-        //             stretch: false,
-        //             stretchFactor: "",
-        //             type: "AdvancedFormSelect",
-        //             validators: "",
-        //         },
-        //         {
-        //             active: true,
-        //             collapseGroup: "",
-        //             description: "",
-        //             displayRule: "",
-        //             field: "authors",
-        //             label: "Authors",
-        //             multiple: true,
-        //             size: "",
-        //             stretch: false,
-        //             stretchFactor: "",
-        //             type: "AdvancedFormSelect",
-        //         },
-        //         {
-        //             active: true,
-        //             aggregation: "",
-        //             autocompleteEnabled: true,
-        //             className: "",
-        //             collapseGroup: "",
-        //             description: "",
-        //             displayRule: "",
-        //             field: "authors",
-        //             label: "Authors",
-        //             list: "",
-        //             max: "",
-        //             min: "",
-        //             name: "",
-        //             operator: "",
-        //             pattern: "",
-        //             size: "",
-        //             stretch: false,
-        //             stretchFactor: "",
-        //             type: "AdvancedFormEntry",
-        //             validators: "",
-        //         },
-        //         {
-        //             active: true,
-        //             aggregation: "",
-        //             autocompleteEnabled: true,
-        //             className: "",
-        //             collapseGroup: "",
-        //             description: "",
-        //             displayRule: "",
-        //             field: "treepath",
-        //             label: "Sources",
-        //             list: "",
-        //             max: "",
-        //             min: "",
-        //             multiple: true,
-        //             name: "",
-        //             operator: "",
-        //             pattern: "",
-        //             size: "",
-        //             stretch: false,
-        //             stretchFactor: "",
-        //             type: "AdvancedFormMultiEntry",
-        //             validators: "",
-        //         },
-        //         {
-        //             active: true,
-        //             autocompleteEnabled: true,
-        //             collapseGroup: "",
-        //             description: "",
-        //             displayRule: "",
-        //             field: "size",
-        //             label: "Size",
-        //             size: "",
-        //             stretch: false,
-        //             stretchFactor: "",
-        //             type: "AdvancedFormRange",
-        //         },
-        //         {
-        //             active: true,
-        //             autocompleteEnabled: false,
-        //             collapseGroup: "",
-        //             description: "",
-        //             displayRule: "",
-        //             field: "treepath",
-        //             label: "Sources",
-        //             size: "",
-        //             stretch: false,
-        //             stretchFactor: "",
-        //             type: "AdvancedFormCheckbox",
-        //         },
-        //     ];
-        // }
-    }
-
-    /**
-     * Here we can add whatever formControl we want to link to this.form
-     */
-    ngAfterViewInit() {
-        setTimeout(() => {
-            this.form.addControl(
-                "sources",
-                this.formService.createSelectControl(
-                    advancedSearchFormConfig.get("sources")
-                )
-            );
-            this.form.addControl(
-                "authors",
-                this.formService.createSelectControl(
-                    advancedSearchFormConfig.get("authors")
-                )
-            );
-            this.form.addControl(
-                "size",
-                this.formService.createSelectControl(
-                    advancedSearchFormConfig.get("size"),
-                    [
-                        this.formService.advancedFormValidators.range(
-                            advancedSearchFormConfig.get("size")
-                        ),
-                        this.formService.advancedFormValidators.number(
-                            advancedSearchFormConfig.get("size")
-                        ),
-                    ]
-                )
-            );
-            this.form.addControl(
-                "modified",
-                this.formService.createSelectControl(
-                    advancedSearchFormConfig.get("modified"),
-                    [
-                        this.formService.advancedFormValidators.range(
-                            advancedSearchFormConfig.get("modified")
-                        ),
-                        this.formService.advancedFormValidators.date(
-                            advancedSearchFormConfig.get("modified")
-                        ),
-                    ]
-                )
-            );
-            this.form.addControl(
-                "multiEntry",
-                this.formService.createMultiEntryControl(
-                    advancedSearchFormConfig.get("multiEntry")
-                )
-            );
-            this.form.addControl(
-              "entry",
-              this.formService.createEntryControl(
-                  advancedSearchFormConfig.get("entry")
-              )
-          );
-            this.initAdvancedSearchForm = true;
-        });
     }
 
     private _searchSubscription: Subscription;
@@ -351,6 +159,9 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
         return this.prefs.get("field-search-mode") || "selects";
     }
 
+
+    //#region Advanced Search
+
     /**
      * Updates the search form based on the new query
      * @param emitEvent by default, we don't propagate changes. Set it to 'true' if changes emitters need to be turned on
@@ -364,7 +175,7 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
                         : this.searchService.query.text
                 );
             } else {
-                const value = this.formService.getAdvancedValue(
+                const value = this.advancedFormService.getAdvancedValue(
                     advancedSearchFormConfig.get(key)
                 );
                 this.form.controls[key]?.setValue(value, {
@@ -375,7 +186,7 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     /**
-     * Returns a new value of query baed on the current search form values
+     * Update the query based on the current search form values
      */
     updateQuery(): void {
         this.searchService.clearQuery();
@@ -383,7 +194,7 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
             if (key === "search") {
                 this.searchService.query.text = this.searchControl?.value || "";
             } else {
-                this.formService.setAdvancedValue(
+                this.advancedFormService.setAdvancedValue(
                     this.form.controls[key]?.value,
                     advancedSearchFormConfig.get(key)
                 );
@@ -409,9 +220,85 @@ export class SearchFormComponent implements OnInit, OnDestroy, AfterViewInit {
 
     toggleAdvancedSearch() {
         this.showAdvancedSearch = !this.showAdvancedSearch;
+        this._instantiateAdvancedForm();
     }
 
     getAdvancedSearchFormConfig(name: string): any {
         return advancedSearchFormConfig.get(name);
     }
+
+    /**
+     * Instantiation of the advanced search form and its dependencies/configurations
+     */
+    private _instantiateAdvancedForm(): void {
+        if (!this.initAdvancedSearchForm) {
+            this._firstPageSubscription = Utils.subscribe(
+                this.firstPageService.getFirstPage(),
+                () => {
+                    this.initAdvancedSearchData = true;
+                },
+                () => {},
+                () => {
+                    this.form.addControl(
+                        "sources",
+                        this.advancedFormService.createSelectControl(
+                            advancedSearchFormConfig.get("sources")
+                        )
+                    );
+                    this.form.addControl(
+                        "authors",
+                        this.advancedFormService.createSelectControl(
+                            advancedSearchFormConfig.get("authors")
+                        )
+                    );
+                    this.form.addControl(
+                        "size",
+                        this.advancedFormService.createSelectControl(
+                            advancedSearchFormConfig.get("size"),
+                            [
+                                this.advancedFormService.advancedFormValidators.range(
+                                    advancedSearchFormConfig.get("size")
+                                )
+                            ]
+                        )
+                    );
+                    this.form.addControl(
+                        "modified",
+                        this.advancedFormService.createSelectControl(
+                            advancedSearchFormConfig.get("modified"),
+                            [
+                                this.advancedFormService.advancedFormValidators.range(
+                                    advancedSearchFormConfig.get("modified")
+                                ),
+                                this.advancedFormService.advancedFormValidators.date(
+                                    advancedSearchFormConfig.get("modified")
+                                ),
+                            ]
+                        )
+                    );
+                    this.form.addControl(
+                        "multiInput",
+                        this.advancedFormService.createMultiInputControl(
+                            advancedSearchFormConfig.get("multiInput")
+                        )
+                    );
+                    this.form.addControl(
+                        "input",
+                        this.advancedFormService.createInputControl(
+                            advancedSearchFormConfig.get("input")
+                        )
+                    );
+                    this.form.addControl(
+                        "checkbox",
+                        this.advancedFormService.createCheckboxControl(
+                            advancedSearchFormConfig.get("checkbox")
+                        )
+                    );
+                    this.initAdvancedSearchForm = true;
+                }
+            );
+        }
+    }
+
+    //#endregion Advanced Search
 }

@@ -5,7 +5,7 @@ import {CCColumn, Aggregation} from "@sinequa/core/web-services";
 import {Utils, NameValueArrayView, NameValueArrayViewHelper, FieldValue} from "@sinequa/core/base";
 import {Subscription} from "rxjs";
 import {FirstPageService} from "@sinequa/components/search";
-import { AdvancedSelect } from '../../form.service';
+import { AdvancedSelect } from '../../advanced-form.service';
 import { SelectOptions } from './select/select';
 
 @Component({

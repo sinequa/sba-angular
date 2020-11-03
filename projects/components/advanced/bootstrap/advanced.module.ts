@@ -8,10 +8,7 @@ import {BsDatepickerModule} from "ngx-bootstrap/datepicker";
 
 import {UtilsModule} from "@sinequa/components/utils";
 import {BsAutocompleteModule} from "@sinequa/components/autocomplete";
-//import {SearchModule} from "@sinequa/components/search";
 
-import {BsAdvanced} from "./advanced/advanced";
-import {BsAdvancedForm} from "./advanced-form/advanced-form";
 import {BsAdvancedFormCheckbox} from "./advanced-form-checkbox/advanced-form-checkbox";
 import {BsAdvancedFormRange} from "./advanced-form-range/advanced-form-range";
 import {BsAdvancedFormSelect} from "./advanced-form-select/advanced-form-select";
@@ -42,8 +39,6 @@ import { BsAdvancedFormAutocompleteExtended } from './advanced-form-multi-input/
         BsAutocompleteModule
     ],
     declarations: [
-        BsAdvanced,
-        BsAdvancedForm,
         BsAdvancedFormCheckbox,
         BsAdvancedFormInput,
         BsAdvancedFormRange,
@@ -58,8 +53,6 @@ import { BsAdvancedFormAutocompleteExtended } from './advanced-form-multi-input/
         BsAdvancedFormValidation,
     ],
     exports: [
-        BsAdvanced,
-        BsAdvancedForm,
         BsAdvancedFormCheckbox,
         BsAdvancedFormInput,
         BsAdvancedFormRange,
