@@ -261,10 +261,10 @@ export class FacetService {
             this.searchService.query.removeSelect(facetName);
         }
 
-        if (this.searchService.breadcrumbs && this.searchService.breadcrumbs.activeSelects.length > 0 && !options.replaceCurrent) {
+        if (!aggregation.isTree && this.searchService.breadcrumbs && this.searchService.breadcrumbs.activeSelects.length > 0 && !options.replaceCurrent) {
             const expr = this.searchService.breadcrumbs.findSelect(facetName);
             const index = this.searchService.breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === expr || select.expr === expr?.parent));
-            const same = (!Array.isArray(items)) ? true : (options.and ? "AND" : "OR") === (expr?.and ? "AND" : "OR") && (options.not ? "YES" : "NO") === ((expr?.not || expr?.operands[0].not) ? "YES" : "NO");
+            const same = (!Array.isArray(items)) ? true : (options.and ? "AND" : "OR") === (expr?.and ? "AND" : "OR") && (options.not ? "YES" : "NO") === (expr?.not ? "YES" : "NO");
 
             if (expr && same && index !== -1){
                 let _items: AggregationItem[];
