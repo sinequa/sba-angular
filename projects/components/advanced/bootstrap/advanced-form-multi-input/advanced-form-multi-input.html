@@ -1,7 +1,7 @@
 <div [formGroup]="form" class="d-inline">
     <label>{{label | sqMessage}}</label>
     <section class="sq-dropdown-form">
-        <div class="form-control">
+        <div class="form-control" [sq-advanced-form-validation]="{form: form, config: config}">
             <span
                 *ngFor="let item of items"
                 class="badge badge-pill badge-secondary align-self-center mr-1">
@@ -13,9 +13,8 @@
                 type="text"
                 autocomplete="off"
                 spellcheck="off"
-                [sq-advanced-form-validation]="{form: form, config: config}"
-                [sq-advanced-form-autocomplete]="{control: config, autocompleteEnabled: autocompleteEnabled, suggestQuery: suggestQuery}"
                 sqAdvancedFormAutocompleteExtended
+                [advancedFormAutocompleteOptions]="{control: config, autocompleteEnabled: autocompleteEnabled, suggestQuery: suggestQuery}"
                 (itemsUpdate)="onItemsChanged($event)"
                 [items]="items"
                 [dropdown]="dropdown"

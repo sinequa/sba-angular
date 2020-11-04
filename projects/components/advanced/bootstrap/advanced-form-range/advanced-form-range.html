@@ -1,11 +1,12 @@
 <div class="form-group" [formGroup]="form">
     <label for="{{forName}}">{{label | sqMessage}}</label>
     <div *ngIf="!isDate" class="sq-advanced-form-range form-row"
-        [sq-advanced-form-validation]="{form: form, config: config}" 
+        [sq-advanced-form-validation]="{form: form, config: config}"
         [id]="name">
         <div class="col-auto input-autocomplete">
             <input
-                [sq-advanced-form-autocomplete]="{control: config, autocompleteEnabled: autocompleteEnabled, suggestQuery: suggestQuery}"
+                sqAdvancedFormAutocomplete
+                [advancedFormAutocompleteOptions]="{control: config, autocompleteEnabled: autocompleteEnabled, suggestQuery: suggestQuery}"
                 [dropdown]="dropdown1"
                 type="text" autocomplete="off" spellcheck="off" class="form-control sq-range-from" [id]="fromName"
                 [ngModel]="value[0]" (ngModelChange)="updateFrom($event)" [ngModelOptions]="{standalone: true}"/>
@@ -17,8 +18,9 @@
         </div>
         <div class="col-auto sq-separator">{{'msg#advanced.rangeSeparator' | sqMessage}}</div>
         <div class="col-auto input-autocomplete">
-            <input 
-                [sq-advanced-form-autocomplete]="{control: config, autocompleteEnabled: autocompleteEnabled, suggestQuery: suggestQuery}"
+            <input
+                sqAdvancedFormAutocomplete
+                [advancedFormAutocompleteOptions]="{control: config, autocompleteEnabled: autocompleteEnabled, suggestQuery: suggestQuery}"
                 [dropdown]="dropdown2"
                 type="text" autocomplete="off" spellcheck="off" class="form-control sq-range-to" [id]="toName"
                 [ngModel]="value[1]" (ngModelChange)="updateTo($event)" [ngModelOptions]="{standalone: true}"/>
@@ -29,8 +31,8 @@
             </sq-autocomplete-list>
         </div>
     </div>
-    <sq-date-range-picker *ngIf="isDate" 
-        [options]="{name: name, system: false, closedRange: false, minDate: minDate, maxDate: maxDate}" 
+    <sq-date-range-picker *ngIf="isDate"
+        [options]="{name: name, system: false, closedRange: false, minDate: minDate, maxDate: maxDate}"
         [formControlName]="name" [id]="name"
         [sq-advanced-form-validation]="{form: form, config: config}"></sq-date-range-picker>
 </div>

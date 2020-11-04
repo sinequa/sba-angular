@@ -1,20 +1,13 @@
 import {
     Directive,
-    ElementRef,
     Input,
     Output,
     EventEmitter,
-    HostListener
+    HostListener,
 } from "@angular/core";
-import {
-    SuggestService,
-    AutocompleteItem
-} from "@sinequa/components/autocomplete";
-import { AppService } from "@sinequa/core/app-utils";
-import { UIService } from "@sinequa/components/utils";
+import { AutocompleteItem } from "@sinequa/components/autocomplete";
 import { BsAdvancedFormAutocomplete } from "../advanced-form-autocomplete.directive";
-import { SuggestFieldWebService } from "@sinequa/core/web-services";
-import { Keys } from '@sinequa/core/base';
+import { Keys } from "@sinequa/core/base";
 
 /**
  * This directive extends the autocomplete directive to provide autocomplete on
@@ -23,34 +16,18 @@ import { Keys } from '@sinequa/core/base';
 @Directive({
     selector: "[sqAdvancedFormAutocompleteExtended]",
 })
-export class BsAdvancedFormAutocompleteExtended extends BsAdvancedFormAutocomplete{
+export class BsAdvancedFormAutocompleteExtended extends BsAdvancedFormAutocomplete {
     /** Event synchronizing the list of selected labels in the parent component */
     @Output() itemsUpdate = new EventEmitter<AutocompleteItem[]>();
 
     /** Stores the selected labels items selected via Tab */
     @Input() items: AutocompleteItem[] = [];
 
-    constructor(
-        elementRef: ElementRef,
-        suggestService: SuggestService,
-        appService: AppService,
-        uiService: UIService,
-        suggestFieldWebService: SuggestFieldWebService
-    ) {
-        super(
-            elementRef,
-            suggestService,
-            appService,
-            uiService,
-            suggestFieldWebService
-        );
-    }
-
     /**
      * The setAutocompleteItem() method from the original directive is overriden to
      * Sets the content of the <input> based on the given
      * Autocomplete Item.
-     * @returns false since labels items don't need to be searched
+     * @returns false since we don't need trigger search at this point of time
      */
     protected setAutocompleteItem(item: AutocompleteItem): boolean {
         if (item) {
@@ -79,10 +56,6 @@ export class BsAdvancedFormAutocompleteExtended extends BsAdvancedFormAutocomple
                     this.items.pop();
                     this.itemsUpdate.next(this.items);
                 }
-            }
-            /** Allow the selection of new item */
-            if (event.keyCode === Keys.enter) {
-                this._manageSetAutocompleteItem();
             }
         }
         return keydown;

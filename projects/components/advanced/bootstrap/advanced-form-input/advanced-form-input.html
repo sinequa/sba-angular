@@ -2,7 +2,8 @@
     <label for="{{name}}">{{label | sqMessage}}</label>
     <div class="input-autocomplete">
         <input
-            [sq-advanced-form-autocomplete]="{control: config, autocompleteEnabled: autocompleteEnabled, suggestQuery: suggestQuery}"
+            sqAdvancedFormAutocomplete
+            [advancedFormAutocompleteOptions]="{control: config, autocompleteEnabled: autocompleteEnabled, suggestQuery: suggestQuery}"
             [dropdown]="dropdown"
             [sq-advanced-form-validation]="{form: form, config: config}"
             type="text" class="form-control" [id]="name" [formControlName]="name" autocomplete="off" spellcheck="off">

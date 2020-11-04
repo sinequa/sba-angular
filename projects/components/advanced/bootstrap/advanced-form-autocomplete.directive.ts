@@ -13,21 +13,15 @@ import {
 export interface AdvancedFormAutocompleteOptions {
     autocompleteEnabled: boolean;
     suggestQuery: string;
-    control:
-        AdvancedSelect
-        | AdvancedRange
-        | AdvancedInput
-        | AdvancedCheckbox
-        | any;
+    control: AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox;
 }
 
 @Directive({
     // tslint:disable-next-line: directive-selector
-    selector: "[sq-advanced-form-autocomplete]",
+    selector: "[sqAdvancedFormAutocomplete]",
 })
 export class BsAdvancedFormAutocomplete extends Autocomplete {
-    @Input("sq-advanced-form-autocomplete")
-    afaOptions: AdvancedFormAutocompleteOptions;
+    @Input() advancedFormAutocompleteOptions: AdvancedFormAutocompleteOptions;
 
     constructor(
         elementRef: ElementRef,
@@ -46,7 +40,7 @@ export class BsAdvancedFormAutocomplete extends Autocomplete {
      */
     ngOnInit() {
         this._dropdownSubscription = this.dropdown.clicked.subscribe((item) => {
-            this.select(item, true); // An item was selected from the autocomplete => take the value
+            this.select(item, false); // An item was selected from the autocomplete => take the value
         });
         this.start();
     }
@@ -55,11 +49,10 @@ export class BsAdvancedFormAutocomplete extends Autocomplete {
         const value = this.getInputValue();
         if (value) {
             // If there is text, make a call to the suggest API
-
             this.processSuggests(
                 this.suggestFieldWebService.get(
                     value,
-                    this.afaOptions.control.field
+                    this.advancedFormAutocompleteOptions.control.field
                 )
             );
         } else {
