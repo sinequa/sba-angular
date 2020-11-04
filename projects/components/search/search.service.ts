@@ -722,6 +722,31 @@ export class SearchService implements OnDestroy {
         }));
     }
 
+    /**
+     * Load more results and append them to previous results
+     */
+    loadMore() {
+        let page = this.query.page || this.page;
+        page += (page <= this.pageCount) ? 1 : 0;
+        if (page <= this.pageCount) {
+            this.query.page = page;
+            this.getResults(this.query).subscribe(results => {
+                if(this.results && results) {
+                    this.results.records = [...this.results?.records || [], ...results.records] || [];
+                    this._resultsStream.next(this.results);
+                }
+            });
+        }
+    }
+
+    /**
+     * @returns true if more are available otherwise false
+     */
+    hasMore(): boolean {
+        const page = this.query.page || this.page;
+        return (page < this.pageCount);
+    }
+
     didYouMean(text: string, context: "search" | "refine", kind: DidYouMeanKind): Promise<boolean> {
         if (context === "search") {
             this.query.text = text;
