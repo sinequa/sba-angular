@@ -15,6 +15,6 @@
 
 <ng-template #not_in_dropdown_menu>
     <span *ngIf="!!item.icon" class="{{item.icon}}" aria-hidden="true"></span>
-    <span class="{{item.styles?.text}}">{{text | sqMessage:item.messageParams}}</span>
+    <span [ngClass]="item.styles">{{text | sqMessage:item.messageParams}}</span>
     <span *ngIf="!!item.iconAfter" class="{{item.iconAfter}}" aria-hidden="true"></span>
 </ng-template>

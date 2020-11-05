@@ -88,7 +88,7 @@ export class BsFacetFilters implements OnChanges {
                 title: facet.title,
                 icon: facet.icon,
                 disabled: !this.hasData(facet),
-                styles: this.hasFiltered(facet.name) ? {text: "ml-2 font-weight-bold"} : {text: "ml-2"},
+                styles: this.hasFiltered(facet.name) ? "ml-2 font-weight-bold" : "ml-2",
                 children: children
             });
         });
@@ -110,17 +110,24 @@ export class BsFacetFilters implements OnChanges {
         }
     }
 
+    /**
+     * Use to outline facet when filters are sets
+     * @param facetName facet name
+     *
+     * @returns true if filters are sets otherwise false
+     */
     private hasFiltered(facetName): boolean {
         return this.facetService.hasFiltered(facetName);
     }
 
+    /**
+     * Use to disable menu item when no items in a facet
+     * @param facet facet to check
+     *
+     * @returns true if facet contains at least one item otherwise false
+     */
     private hasData(facet: FacetConfig): boolean {
-        if (facet.type === 'tree') {
-            const agg = this.facetService.getAggregation(facet.aggregation, this.results, {facetName: facet.name});
-            return !!agg && !!agg.items && agg.items.length > 0;
-        }
-        const agg = this.facetService.getAggregation(facet.aggregation, this.results);
-        return !!agg && !!agg.items && agg.items.length > 0;
+        return this.facetService.hasData(facet, this.results);
     }
 
 }

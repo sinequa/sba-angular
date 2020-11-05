@@ -20,6 +20,6 @@ export class BsActionMenu implements OnInit{
     }
 
     identify(index:number, item: Action) {
-        return item.text;
+        return item.name || item.text || item.title || index;
     }
 }
