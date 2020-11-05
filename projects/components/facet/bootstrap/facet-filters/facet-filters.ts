@@ -14,7 +14,7 @@ import {BsFacetTree} from '../facet-tree/facet-tree';
 export class BsFacetFilters implements OnChanges {
     @Input() results: Results;
     @Input() facets: FacetConfig[];
-    @Input() enableAddFacet = true;
+    @Input() enableAddFacet = false;
 
     @Input() autoAdjust: boolean = true;
     @Input() autoAdjustBreakpoint: string = 'xl';
@@ -62,14 +62,15 @@ export class BsFacetFilters implements OnChanges {
                 new Action({
                     component: (facet.type === 'list') ? BsFacetList : BsFacetTree,
                     componentInputs: {results: this.results, name: facet.name, aggregation: facet.aggregation, searchable: facet.searchable, displayActions: true}
-                }),
-                new Action({separator: true})
+                })
             ];
 
             if (this.enableAddFacet) {
                 const isOpened = this.facetService.isFacetOpened(facet.name);
 
-                children.push(new Action({
+                children.push(...[
+                    new Action({separator: true}),
+                    new Action({
                     name: "toggle-facet",
                     icon: isOpened ? this.facetStatus.remove.icon : this.facetStatus.add.icon,
                     text: isOpened ? this.facetStatus.remove.title : this.facetStatus.add.title,
@@ -78,7 +79,7 @@ export class BsFacetFilters implements OnChanges {
                     action: (ActionItem: Action, $event: UIEvent) => {
                         this.onClickToggleFacet(ActionItem, $event);
                     }
-                }));
+                })]);
             }
 
             return new Action({
@@ -86,6 +87,8 @@ export class BsFacetFilters implements OnChanges {
                 text: facet.title,
                 title: facet.title,
                 icon: facet.icon,
+                disabled: !this.hasData(facet),
+                styles: this.hasFiltered(facet.name) ? {text: "ml-2 font-weight-bold"} : {text: "ml-2"},
                 children: children
             });
         });
@@ -105,6 +108,19 @@ export class BsFacetFilters implements OnChanges {
             item.icon = this.facetStatus.add.icon;
             this.facetService.removeFacet({name: facet.name, position: 0, hidden: false, expanded: true, view: ""});
         }
+    }
+
+    private hasFiltered(facetName): boolean {
+        return this.facetService.hasFiltered(facetName);
+    }
+
+    private hasData(facet: FacetConfig): boolean {
+        if (facet.type === 'tree') {
+            const agg = this.facetService.getAggregation(facet.aggregation, this.results, {facetName: facet.name});
+            return !!agg && !!agg.items && agg.items.length > 0;
+        }
+        const agg = this.facetService.getAggregation(facet.aggregation, this.results);
+        return !!agg && !!agg.items && agg.items.length > 0;
     }
 
 }

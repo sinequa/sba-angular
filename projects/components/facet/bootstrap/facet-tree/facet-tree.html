@@ -1,9 +1,12 @@
 <div *ngIf="!isHidden()" class="list-group list-group-flush" [ngClass]="{'scrollable': forceMaxHeight }">
+    <div *ngIf="displayActions && actions" class="d-flex pb-2 pr-2">
+        <div class="btn-group ml-auto" [sq-action-buttons]="{items: actions, size: 'sm'}">
+        </div>
+    </div>
     <ng-container *ngTemplateOutlet="itemsTpl; context:data"></ng-container>
 </div>
 
 <ng-template #itemsTpl let-items="items">
-    
     <ng-container *ngFor="let item of items">
 
         <a  class="d-flex flex-row align-items-center list-group-item border-0 pl-1 pr-3 py-1" 
