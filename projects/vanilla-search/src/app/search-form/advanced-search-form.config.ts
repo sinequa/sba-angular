@@ -53,9 +53,9 @@ export let advancedSearchFormConfig: Map<string, AdvancedSelect | AdvancedRange 
     [
         "multiInput",
         {
-            field: "docformat",
+            field: "company",
             name: "multiInput",
-            label: "Formats",
+            label: "company",
             operator: AdvancedOperator.NONE,
             type: AdvancedFormType.MultiInput
         }
@@ -63,9 +63,9 @@ export let advancedSearchFormConfig: Map<string, AdvancedSelect | AdvancedRange 
     [
         "input",
         {
-            field: "filename",
+            field: "docformat",
             name: "input",
-            label: "filename",
+            label: "docformat",
             operator: AdvancedOperator.NONE,
             type: AdvancedFormType.Input
         }
@@ -73,9 +73,9 @@ export let advancedSearchFormConfig: Map<string, AdvancedSelect | AdvancedRange 
     [
         "checkbox",
         {
-            field: "company",
+            field: "filename",
             name: "checkbox",
-            label: "company",
+            label: "filename",
             operator: AdvancedOperator.NONE,
             type: AdvancedFormType.Checkbox
         }
