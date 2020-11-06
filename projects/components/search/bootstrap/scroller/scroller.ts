@@ -1,26 +1,21 @@
-import {Component, ElementRef, ViewChild, Input, OnDestroy, AfterViewInit} from '@angular/core';
-import {SearchService} from '../../search.service';
+  import {Component, ElementRef, ViewChild, Input, OnDestroy, AfterViewInit} from '@angular/core';
+  import {SearchService} from '../../search.service';
 
-@Component({
-  selector: 'sq-scroller',
-  template: `<div #anchor></div>`,
-  styleUrls: ['./scroller.scss']
-})
-export class BsScroller implements AfterViewInit, OnDestroy {
+  @Component({
+    selector: 'sq-scroller',
+    template: `<div #anchor></div>`
+  })
+  export class BsScroller implements AfterViewInit, OnDestroy {
   @Input() options = {};
   @ViewChild('anchor') anchor: ElementRef<HTMLElement>;
 
   private observer: IntersectionObserver;
 
-  constructor(private host: ElementRef, private searchService: SearchService) {}
-
-  get element() {
-    return this.host.nativeElement;
-  }
+  constructor(private searchService: SearchService) {}
 
   ngAfterViewInit() {
     const options = {
-      root: this.isHostScrollable() ? this.host.nativeElement : null,
+      root: null,
       ...this.options
     };
 
@@ -31,13 +26,6 @@ export class BsScroller implements AfterViewInit, OnDestroy {
     }, options);
 
     this.observer.observe(this.anchor.nativeElement);
-  }
-
-  private isHostScrollable() {
-    const style = window.getComputedStyle(this.element);
-
-    return style.getPropertyValue('overflow') === 'auto' ||
-      style.getPropertyValue('overflow-y') === 'scroll';
   }
 
   ngOnDestroy() {

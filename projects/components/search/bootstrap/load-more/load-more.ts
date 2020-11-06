@@ -1,17 +1,34 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Action, IAction} from '@sinequa/components/action';
 import {Subscription} from 'rxjs';
 
 import {SearchService} from '../../search.service';
 
 @Component({
-  selector: "sq-load-more-button",
+  selector: "sq-load-more",
   templateUrl: "./load-more.html"
 })
-export class BsLoadMoreButton implements OnInit, OnDestroy {
+export class BsLoadMore implements OnInit, OnDestroy {
+  @Input() buttonsStyle = "outline-primary";
+  @Input() actionsSize = "sm"
+
   private subscription: Subscription = new Subscription();
+  loadMoreAction: IAction;
   hasMore = false;
 
   constructor(private searchService: SearchService) {
+    this.loadMoreAction = new Action({
+      text: "msg#facet.loadMore",
+      title: "msg#facet.loadMore",
+      action: (action) => {
+        this.searchService.loadMore();
+        action.update();
+      },
+      updater:() => {
+        // hide button while fetching new data
+        this.hasMore = false;
+      }
+    });
   }
 
   ngOnInit() {
@@ -23,9 +40,5 @@ export class BsLoadMoreButton implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-  }
-
-  loadMore(event: Event) {
-    this.searchService.loadMore();
   }
 }

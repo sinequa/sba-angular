@@ -1,3 +1,1 @@
-<button *ngIf="hasMore" type="button" class="btn btn-outline-primary w-100" (click)="loadMore($event)">
-  {{'msg#facet.loadMore' | sqMessage}}
-</button>
+<div *ngIf="hasMore" class="btn-group" [sq-action-buttons]="{items: [loadMoreAction], style: buttonsStyle, size: actionsSize, rightAligned: false}"></div>
