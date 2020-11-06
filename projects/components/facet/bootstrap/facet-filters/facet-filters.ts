@@ -14,7 +14,7 @@ import {BsFacetTree} from '../facet-tree/facet-tree';
 export class BsFacetFilters implements OnChanges {
     @Input() results: Results;
     @Input() facets: FacetConfig[];
-    @Input() enableAddFacet = true;
+    @Input() enableAddFacet = false;
 
     @Input() autoAdjust: boolean = true;
     @Input() autoAdjustBreakpoint: string = 'xl';
@@ -62,14 +62,15 @@ export class BsFacetFilters implements OnChanges {
                 new Action({
                     component: (facet.type === 'list') ? BsFacetList : BsFacetTree,
                     componentInputs: {results: this.results, name: facet.name, aggregation: facet.aggregation, searchable: facet.searchable, displayActions: true}
-                }),
-                new Action({separator: true})
+                })
             ];
 
             if (this.enableAddFacet) {
                 const isOpened = this.facetService.isFacetOpened(facet.name);
 
-                children.push(new Action({
+                children.push(...[
+                    new Action({separator: true}),
+                    new Action({
                     name: "toggle-facet",
                     icon: isOpened ? this.facetStatus.remove.icon : this.facetStatus.add.icon,
                     text: isOpened ? this.facetStatus.remove.title : this.facetStatus.add.title,
@@ -78,7 +79,7 @@ export class BsFacetFilters implements OnChanges {
                     action: (ActionItem: Action, $event: UIEvent) => {
                         this.onClickToggleFacet(ActionItem, $event);
                     }
-                }));
+                })]);
             }
 
             return new Action({
@@ -86,6 +87,8 @@ export class BsFacetFilters implements OnChanges {
                 text: facet.title,
                 title: facet.title,
                 icon: facet.icon,
+                disabled: !this.hasData(facet),
+                styles: this.hasFiltered(facet.name) ? "ml-2 font-weight-bold" : "ml-2",
                 children: children
             });
         });
@@ -105,6 +108,26 @@ export class BsFacetFilters implements OnChanges {
             item.icon = this.facetStatus.add.icon;
             this.facetService.removeFacet({name: facet.name, position: 0, hidden: false, expanded: true, view: ""});
         }
+    }
+
+    /**
+     * Use to outline facet when filters are sets
+     * @param facetName facet name
+     *
+     * @returns true if filters are sets otherwise false
+     */
+    private hasFiltered(facetName): boolean {
+        return this.facetService.hasFiltered(facetName);
+    }
+
+    /**
+     * Use to disable menu item when no items in a facet
+     * @param facet facet to check
+     *
+     * @returns true if facet contains at least one item otherwise false
+     */
+    private hasData(facet: FacetConfig): boolean {
+        return this.facetService.hasData(facet, this.results);
     }
 
 }

@@ -19,6 +19,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
     @Input() allowOr: boolean = true; // Allow to search various items in OR mode
     @Input() expandedLevel: number = 2;
     @Input() forceMaxHeight: boolean = true; // Allow to display a scrollbar automatically on long list items
+    @Input() displayActions = false;
 
     // Aggregation from the Results object
     data: TreeAggregation | undefined;

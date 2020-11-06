@@ -6,6 +6,7 @@ export abstract class IAction {
     text?: string;
     href?: string;
     icon?: string;
+    styles?: string | string[] | Set<string> | {[klass: string]: any;};
     iconAfter?: string;
     separator?: boolean;
     scrollable?: boolean; // The children are scrollable

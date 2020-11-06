@@ -10,6 +10,7 @@ import {Subject, Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {SearchService, BreadcrumbsItem} from "@sinequa/components/search";
 import {SuggestService} from "@sinequa/components/autocomplete";
+import {FacetConfig} from './bootstrap';
 
 // Facet interface (from models/UserSettings)
 export interface FacetState {
@@ -979,5 +980,21 @@ export class FacetService {
             item.value = Utils.isTrue(item.value);
         }
         return item;
+    }
+
+    /**
+     * Check if a facet contains items
+     * @param facet facet to check
+     * @param results search results
+     *
+     * @returns true if the facet contains a least one item otherwise false
+     */
+    hasData(facet: FacetConfig, results: Results): boolean {
+        if (facet.type === 'tree') {
+            const agg = this.getAggregation(facet.aggregation, results, {facetName: facet.name});
+            return !!agg && !!agg.items && agg.items.length > 0;
+        }
+        const agg = this.getAggregation(facet.aggregation, results);
+        return !!agg && !!agg.items && agg.items.length > 0;
     }
 }

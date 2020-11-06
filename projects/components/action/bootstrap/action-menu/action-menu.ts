@@ -18,4 +18,8 @@ export class BsActionMenu implements OnInit{
             this.items = [<Action>this.items];
         }
     }
+
+    identify(index:number, item: Action) {
+        return item.name || item.text || item.title || index;
+    }
 }
