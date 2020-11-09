@@ -1,7 +1,7 @@
 import {Injectable, InjectionToken, Inject, Optional, OnDestroy} from "@angular/core";
 import {Router, NavigationStart, NavigationEnd, Params} from "@angular/router";
 import {Subject, BehaviorSubject, Observable, Subscription, of, throwError} from "rxjs";
-import {map, catchError} from "rxjs/operators";
+import {map, catchError  } from "rxjs/operators";
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
     AdvancedValue, AdvancedValueWithOperator, AdvancedOperator,
@@ -35,6 +35,7 @@ export class SearchService implements OnDestroy {
     protected loginSubscription: Subscription;
     protected routerSubscription: Subscription;
     protected appSubscription: Subscription;
+    protected fetchingLoadMore = false;
     protected _events = new Subject<SearchService.Events>();
     protected _queryStream = new BehaviorSubject<Query | undefined>(undefined);
     protected _resultsStream = new BehaviorSubject<Results | undefined>(undefined);
@@ -720,6 +721,36 @@ export class SearchService implements OnDestroy {
                 "from-result-id": !!this.results ? this.results.id : null
             }
         }));
+    }
+
+    /**
+     * Load more results and append them to previous results
+     */
+    loadMore() {
+        if(!this.fetchingLoadMore) {
+            let page = this.query.page || this.page;
+            page += (page <= this.pageCount) ? 1 : 0;
+            if (page <= this.pageCount) {
+                this.fetchingLoadMore = true;
+                this.query.page = page;
+                this.getResults(this.query)
+                .subscribe(results => {
+                    if(this.results && results) {
+                        this.results.records = [...this.results?.records || [], ...results.records] || [];
+                        this._resultsStream.next(this.results);
+                    }
+                    this.fetchingLoadMore = false;
+                });
+            }
+        }
+    }
+
+    /**
+     * @returns true if more are available otherwise false
+     */
+    hasMore(): boolean {
+        const page = this.query.page || this.page;
+        return (page < this.pageCount);
     }
 
     didYouMean(text: string, context: "search" | "refine", kind: DidYouMeanKind): Promise<boolean> {
