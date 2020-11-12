@@ -54,7 +54,10 @@ export enum AdvancedOperator {
     LT = "<",
     LTE = "<=",
     GT = ">",
-    GTE = ">="
+    GTE = ">=",
+    LIKE = "LIKE",
+    CONTAINS = "CONTAINS",
+    IN = "IN"
 }
 
 /**

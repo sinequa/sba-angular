@@ -10,11 +10,23 @@ import {
 } from "@angular/forms";
 
 /* Services */
-import { AdvancedValue, AdvancedOperator } from "@sinequa/core/web-services";
+import {
+    AdvancedValue,
+    AdvancedOperator,
+    AdvancedValueWithOperator,
+    BasicAdvancedValue,
+} from "@sinequa/core/web-services";
 import { Utils } from "@sinequa/core/base";
 import { SearchService } from "@sinequa/components/search";
-import { AppService } from "@sinequa/core/app-utils";
+import {
+    AppService,
+    Expr,
+    ExprOperator,
+    FormatService,
+} from "@sinequa/core/app-utils";
 import { ValidationService } from "@sinequa/core/validation";
+
+export const advancedFacetPrefix = "advanced_";
 
 export enum AdvancedFormType {
     Checkbox = "AdvancedFormCheckbox",
@@ -97,9 +109,7 @@ export interface AdvancedInput extends BasicConfig {
     operator: AdvancedOperator;
 }
 
-export interface AdvancedCheckbox extends BasicConfig {
-    operator: AdvancedOperator;
-}
+export interface AdvancedCheckbox extends BasicConfig {}
 
 @Injectable({
     providedIn: "root",
@@ -107,22 +117,28 @@ export interface AdvancedCheckbox extends BasicConfig {
 export class AdvancedFormService {
     public readonly advancedFormValidators: AdvancedFormValidators = {
         min: (min, config) =>
-            this.validationService.minValidator(min, this._parser(config)),
+            this.validationService.minValidator(
+                min,
+                this._parser(config.field)
+            ),
         max: (max, config) =>
-            this.validationService.minValidator(max, this._parser(config)),
+            this.validationService.minValidator(
+                max,
+                this._parser(config.field)
+            ),
         required: Validators.required,
         email: Validators.email,
         pattern: (pattern: string | RegExp) => Validators.pattern(pattern),
         integer: (config) =>
-            this.validationService.integerValidator(this._parser(config)),
+            this.validationService.integerValidator(this._parser(config.field)),
         number: (config) =>
-            this.validationService.numberValidator(this._parser(config)),
+            this.validationService.numberValidator(this._parser(config.field)),
         date: (config) =>
-            this.validationService.dateValidator(this._parser(config)),
+            this.validationService.dateValidator(this._parser(config.field)),
         range: (config) =>
             this.validationService.rangeValidator(
                 this._rangeType(config),
-                this._parser(config)
+                this._parser(config.field)
             ),
     };
 
@@ -130,7 +146,8 @@ export class AdvancedFormService {
         public appService: AppService,
         public searchService: SearchService,
         public formBuilder: FormBuilder,
-        private validationService: ValidationService
+        public validationService: ValidationService,
+        public formatService: FormatService
     ) {}
 
     buildForm(): FormGroup {
@@ -200,31 +217,50 @@ export class AdvancedFormService {
             | AdvancedRange
             | AdvancedInput
             | AdvancedCheckbox
-    ): AdvancedValue | AdvancedValue[] {
-        if (Utils.eqNC(config.type, AdvancedFormType.Range)) {
-            const range: AdvancedValue[] = [];
-            range.push(
-                this.searchService.query?.getAdvancedValue(
-                    config.field,
-                    AdvancedOperator.GTE
-                )
-            );
-            range.push(
-                this.searchService.query?.getAdvancedValue(
-                    config.field,
-                    AdvancedOperator.LTE
-                )
-            );
-            return range;
-        } else {
-            if ("operator" in config) {
-                const value:
-                    | AdvancedValue
-                    | AdvancedValue[] = this.searchService.query?.getAdvancedValue(
-                    config.field,
-                    config.operator
-                );
+    ): AdvancedValue {
+        let expr: Expr | string;
+        const expression = this.searchService.query?.findSelect(
+            advancedFacetPrefix + config.field
+        )?.expression;
+        if (expression) {
+            expr = this.appService.parseExpr(expression);
+            if (expr instanceof Expr) {
+                let value;
+                if (
+                    Utils.isString(expr.value) &&
+                    expr.value.indexOf("[") > -1
+                ) {
+                    value = JSON.parse(expr.value.replace(/`/g, '"'));
+                }
+                if (!value) {
+                    if (expr.values && expr.values.length > 1) {
+                        value = expr.values;
+                    } else {
+                        value = expr.value;
+                    }
+                }
+                value = this.formatAdvancedValue(config, value);
+                if (Utils.eqNC(config.type, AdvancedFormType.Range)) {
+                    if (Utils.isArray(value)) {
+                        return value;
+                    } else {
+                        if (expr.operator === ExprOperator.gte) {
+                            return [value, undefined];
+                        } else if (expr.operator === ExprOperator.lte) {
+                            return [undefined, value];
+                        }
+                    }
+                }
                 return value;
+            } else {
+                if (Utils.eqNC(config.type, AdvancedFormType.Range)) {
+                    return [undefined, undefined];
+                }
+                return undefined;
+            }
+        } else {
+            if (Utils.eqNC(config.type, AdvancedFormType.Range)) {
+                return [undefined, undefined];
             }
             return undefined;
         }
@@ -236,74 +272,158 @@ export class AdvancedFormService {
      * @param config the advanced-search-form field config
      */
     setAdvancedValue(
-        value: AdvancedValue | AdvancedValue[],
+        value: AdvancedValue,
         config:
             | AdvancedSelect
             | AdvancedRange
             | AdvancedInput
             | AdvancedCheckbox
     ) {
+        let expression: string | undefined;
         if (Utils.eqNC(config.type, AdvancedFormType.Range)) {
             const range = value;
             const from = Utils.isArray(range)
-                ? this._ensureAdvancedValue(config, range[0])
+                ? this.ensureAdvancedValue(config, range[0])
                 : undefined;
             const to = Utils.isArray(range)
-                ? this._ensureAdvancedValue(config, range[1])
+                ? this.ensureAdvancedValue(config, range[1])
                 : undefined;
-            this.searchService.query?.setAdvancedValue(
-                config.field,
-                from,
-                AdvancedOperator.GTE
-            );
-            this.searchService.query?.setAdvancedValue(
-                config.field,
-                to,
-                AdvancedOperator.LTE
-            );
+            expression = this.makeRangeExpr(config.field, from, to);
         } else {
             if ("operator" in config) {
-                this.searchService.query?.setAdvancedValue(
+                expression = this.makeExpr(config.field, {
+                    value: this.ensureAdvancedValue(config, value),
+                    operator: config.operator,
+                });
+            } else {
+                expression = this.makeExpr(
                     config.field,
-                    this._ensureAdvancedValue(config, value),
-                    config.operator,
-                    !this._isDistribution(config)
+                    this.ensureAdvancedValue(config, value)
                 );
             }
         }
-    }
-
-    private _parser(
-        config:
-            | AdvancedSelect
-            | AdvancedRange
-            | AdvancedInput
-            | AdvancedCheckbox
-    ): string | undefined {
-        const column = this.appService.getColumn(config.field);
-        return column ? column.parser : undefined;
-    }
-
-    private _rangeType(
-        config:
-            | AdvancedSelect
-            | AdvancedRange
-            | AdvancedInput
-            | AdvancedCheckbox
-    ): string | number | Date {
-        const column = this.appService.getColumn(config.field);
-        let rangeType;
-        if (
-            column &&
-            (AppService.isInteger(column) || AppService.isDouble(column))
-        ) {
-            rangeType = 0;
-        } else if (column && AppService.isDate(column)) {
-            rangeType = new Date();
-        } else {
-            rangeType = "";
+        this.searchService.query?.removeSelect(
+            advancedFacetPrefix + config.field
+        );
+        if (expression) {
+            this.searchService.query?.addSelect(
+                expression,
+                advancedFacetPrefix + config.field
+            );
         }
-        return rangeType;
+    }
+
+    public makeRangeExpr(
+        field: string,
+        from: AdvancedValue,
+        to: AdvancedValue
+    ): string | undefined {
+        const parser = this._parser(field);
+        if (parser) {
+            from = this.formatService.parseValue(from, parser);
+            to = this.formatService.parseValue(to, parser);
+        }
+        if (!Utils.isArray(from) && !Utils.isArray(to)) {
+            if (!!from && !!to) {
+                return `${field}:[${this.appService.escapeFieldValue(
+                    field,
+                    from
+                )}..${this.appService.escapeFieldValue(field, to)}]`;
+            } else if (!!from) {
+                return this.makeExpr(field, {
+                    value: this.appService.escapeFieldValue(field, from),
+                    operator: AdvancedOperator.GTE,
+                });
+            } else if (!!to) {
+                return this.makeExpr(field, {
+                    value: this.appService.escapeFieldValue(field, to),
+                    operator: AdvancedOperator.LTE,
+                });
+            }
+        }
+        return undefined;
+    }
+
+    public makeExpr(
+        field: string,
+        value: AdvancedValue | AdvancedValueWithOperator
+    ): string | undefined {
+        let expression = field + ":";
+        let advancedValue: AdvancedValue;
+        if (this._isAdvancedValueWithOperator(value)) {
+            expression += value.operator;
+            advancedValue = value.value;
+        } else {
+            advancedValue = value;
+        }
+        if (!advancedValue) {
+            return undefined;
+        } else {
+            const parser = this._parser(field);
+            if (parser) {
+                advancedValue = this.formatService.parseValue(
+                    advancedValue,
+                    parser
+                );
+            }
+        }
+        if (Utils.isArray(advancedValue)) {
+            expression += "[";
+            advancedValue.forEach((value1, index) => {
+                if (index > 0) {
+                    expression += ",";
+                }
+                expression += this.appService.escapeFieldValue(field, value1);
+            });
+            expression += "]";
+        } else {
+            expression += this.appService.escapeFieldValue(
+                field,
+                advancedValue
+            );
+        }
+        return expression;
+    }
+
+    public formatAdvancedValue(
+        config:
+            | AdvancedSelect
+            | AdvancedRange
+            | AdvancedInput
+            | AdvancedCheckbox,
+        advancedValue: AdvancedValue
+    ): AdvancedValue {
+        advancedValue = this.ensureAdvancedValue(config, advancedValue);
+        if (advancedValue) {
+            const column = this.appService.getColumn(config.field);
+            if (column && column.formatter) {
+                if (Utils.isArray(advancedValue)) {
+                    return advancedValue.map((value) =>
+                        value
+                            ? this.formatService.formatValue(value, column)
+                            : value
+                    );
+                }
+                return this.formatService.formatValue(advancedValue, column);
+            }
+        }
+        return advancedValue;
+    }
+
+    public ensureAdvancedValue(
+        config:
+            | AdvancedSelect
+            | AdvancedRange
+            | AdvancedInput
+            | AdvancedCheckbox,
+        advancedValue: AdvancedValue
+    ): AdvancedValue {
+        if (Utils.isArray(advancedValue)) {
+            return advancedValue.map((value) =>
+                this._ensureAdvancedValue(config, value)
+            );
+        }
+        return this._ensureAdvancedValue(config, advancedValue);
     }
 
     private _createControl(
@@ -334,8 +454,8 @@ export class AdvancedFormService {
             | AdvancedRange
             | AdvancedInput
             | AdvancedCheckbox,
-        value: any
-    ): AdvancedValue {
+        value: BasicAdvancedValue
+    ): BasicAdvancedValue {
         if (value !== undefined) {
             const column = this.appService.getColumn(config.field);
             if (column) {
@@ -361,6 +481,33 @@ export class AdvancedFormService {
         return value;
     }
 
+    private _parser(field: string): string | undefined {
+        const column = this.appService.getColumn(field);
+        return column ? column.parser : undefined;
+    }
+
+    private _rangeType(
+        config:
+            | AdvancedSelect
+            | AdvancedRange
+            | AdvancedInput
+            | AdvancedCheckbox
+    ): string | number | Date {
+        const column = this.appService.getColumn(config.field);
+        let rangeType;
+        if (
+            column &&
+            (AppService.isInteger(column) || AppService.isDouble(column))
+        ) {
+            rangeType = 0;
+        } else if (column && AppService.isDate(column)) {
+            rangeType = new Date();
+        } else {
+            rangeType = "";
+        }
+        return rangeType;
+    }
+
     private _isDistribution(
         config:
             | AdvancedSelect
@@ -373,6 +520,27 @@ export class AdvancedFormService {
                 config.aggregation
             );
             return !!ccaggregation && !!ccaggregation.distribution;
+        }
+        return false;
+    }
+
+    /**
+     * Return `true` if the passed value is an `AdvancedValueWithOperator`
+     */
+    private _isAdvancedValueWithOperator(
+        value: any
+    ): value is AdvancedValueWithOperator {
+        if (
+            Utils.isObject(value) &&
+            !Utils.isArray(value) &&
+            !Utils.isDate(value)
+        ) {
+            if (
+                value.hasOwnProperty("value") &&
+                value.hasOwnProperty("operator")
+            ) {
+                return true;
+            }
         }
         return false;
     }

@@ -1,10 +1,4 @@
-import {
-    Component,
-    Input,
-    OnInit,
-    ElementRef,
-    OnDestroy,
-} from "@angular/core";
+import { Component, Input, OnInit, ElementRef, OnDestroy } from "@angular/core";
 import { FormGroup, AbstractControl } from "@angular/forms";
 import { Keys, Utils } from "@sinequa/core/base";
 import { AutocompleteItem } from "@sinequa/components/autocomplete";
@@ -53,8 +47,7 @@ import { AdvancedInput } from "../../advanced-form.service";
         `,
     ],
 })
-export class BsAdvancedFormMultiInput
-    implements OnInit, OnDestroy {
+export class BsAdvancedFormMultiInput implements OnInit, OnDestroy {
     @Input() form: FormGroup;
     @Input() config: AdvancedInput;
     @Input() autocompleteEnabled: boolean = true;
@@ -66,30 +59,39 @@ export class BsAdvancedFormMultiInput
     control: AbstractControl | null;
     private _valueChangesSubscription: Subscription;
 
-    constructor(
-        private elementRef: ElementRef
-    ) {}
+    constructor(private elementRef: ElementRef) {}
 
     ngOnInit(): void {
         this.name = this.config.name;
         this.label = this.config.label;
         this.control = this.form.get(this.name);
         if (this.control) {
-            this.items = this.control.value ? this.control.value.map((item) => {
-                return {
-                    display: item,
-                    category: "",
-                };
-            }) : [];
+            this.items = this.control.value
+                ? Utils.isArray(this.control.value)
+                    ? this.control.value.map((item) => {
+                          return {
+                              display: item,
+                              category: "",
+                          };
+                      })
+                    : [this.control.value].map((item) => {
+                          return {
+                              display: item,
+                              category: "",
+                          };
+                      })
+                : [];
             this._valueChangesSubscription = Utils.subscribe(
                 this.control.valueChanges,
                 (value) => {
-                    this.items = value ? value.map((item) => {
-                        return {
-                            display: item,
-                            category: "",
-                        };
-                    }) : [];
+                    this.items = value
+                        ? value.map((item) => {
+                              return {
+                                  display: item,
+                                  category: "",
+                              };
+                          })
+                        : [];
                 }
             );
         }
