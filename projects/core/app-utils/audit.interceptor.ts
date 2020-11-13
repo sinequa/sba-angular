@@ -63,7 +63,7 @@ export class AuditInterceptor implements HttpInterceptor {
             if(!event.detail) {
                 event.detail = {};
             }
-            event.detail.sessionid = sessionid;
+            event.detail['session-id'] = sessionid;
         });
     }
 
