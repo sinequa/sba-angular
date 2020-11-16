@@ -9,7 +9,7 @@ import {SqHttpClient} from "@sinequa/core/web-services";
 import {TokenService} from "./token.service";
 import {JWTService} from "./jwt.service";
 
-type Authentication = {
+interface Authentication {
     csrfToken: string;
     headers?: MapOf<string>;    // set in http headers
     params?: MapOf<string>;     // added to query string
