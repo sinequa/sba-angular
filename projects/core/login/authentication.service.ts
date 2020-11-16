@@ -9,7 +9,7 @@ import {SqHttpClient} from "@sinequa/core/web-services";
 import {TokenService} from "./token.service";
 import {JWTService} from "./jwt.service";
 
-interface Authentication {
+type Authentication = {
     csrfToken: string;
     headers?: MapOf<string>;    // set in http headers
     params?: MapOf<string>;     // added to query string
@@ -18,7 +18,7 @@ interface Authentication {
 /**
  * Describes the credentials that a user would enter manually to authenticate
  */
-export interface Credentials {
+export type Credentials = {
     userName?: string;
     password?: string;
 }
@@ -29,7 +29,7 @@ const LEGACY_PROCESSED_CREDENTIALS_KIND = 0;
  * Describes the object created after successful authentication. The form of this object
  * is designed to maintain compatibility with previous SBA libraries
  */
-export interface ProcessedCredentials {
+export type ProcessedCredentials = {
     /**
      * An unused "kind" value - always set to 0
      */
@@ -54,7 +54,7 @@ export interface ProcessedCredentials {
 /**
  * Describes the object used by an administrator to authenticate as another user
  */
-export interface UserOverride {
+export type UserOverride = {
     /**
      * The user name of the user to authenticate as
      */
@@ -68,7 +68,7 @@ export interface UserOverride {
 /**
  * Describes a JWT object
  */
-export interface JsonWebToken {
+export type JsonWebToken = {
     header: {
         typ: string;
         alg: string;
@@ -235,8 +235,10 @@ export class AuthenticationService extends HttpService {
      * {@link HttpInterceptor}
      *
      * @param config HttpHeaders and HttpParams to be updated
+     *
+     * @returns new configuration
      */
-    addAuthentication(config: {headers: HttpHeaders, params: HttpParams}) {
+    addAuthentication(config: {headers: HttpHeaders, params: HttpParams}): {headers: HttpHeaders, params: HttpParams} {
         this.doAuthentication();
         if (this.authentication) {
             if (this.authentication.headers) {
@@ -254,6 +256,7 @@ export class AuthenticationService extends HttpService {
                 }
             }
         }
+        return config;
     }
 
     /**
@@ -368,11 +371,13 @@ export class AuthenticationService extends HttpService {
      *
      * @param config An object containing the `HttpHeaders` to update
      */
-    addUserOverride(config: {headers: HttpHeaders}) {
+    addUserOverride(config: {headers: HttpHeaders}): HttpHeaders {
         if (this.userOverride && this.userOverrideActive) {
             config.headers = config.headers.set("sinequa-override-user", this.userOverride.userName);
             config.headers = config.headers.set("sinequa-override-domain", this.userOverride.domain);
         }
+
+        return config.headers;
     }
 
     /**

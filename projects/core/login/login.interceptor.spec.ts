@@ -1,24 +1,12 @@
 import {HttpClient, HttpErrorResponse, HttpInterceptor, HttpParams, HTTP_INTERCEPTORS} from "@angular/common/http";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
-import {Injector} from '@angular/core';
 import {inject, TestBed} from "@angular/core/testing";
-import {Router, RouterModule} from '@angular/router';
 
 import {HTTP_REQUEST_INITIALIZERS, LoginInterceptor} from '.';
-import {AppService} from '../app-utils';
-import {ModalService} from '../modal';
 import {NotificationsService} from '../notification';
-import {PrincipalWebService, START_CONFIG, UserSettingsWebService} from '../web-services';
+import {START_CONFIG} from '../web-services';
 import {AuthenticationService} from './authentication.service';
-import {LoginService, LoginServiceProxy, MODAL_LOGIN} from './login.service';
-
-class RouterStub {
-  url = '';
-  events = {subscribe: f => f({})};
-  getCurrentNavigation = () => ({extras: {state: {}}});
-  navigate = (array, extras) => ({});
-  navigateByUrl = (url: string) => this.url = url;
-};
+import {LoginService} from './login.service';
 
 describe("login interceptor", () => {
   let interceptorInstance: HttpInterceptor | null;
@@ -39,24 +27,14 @@ describe("login interceptor", () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        RouterModule
         // ...
       ],
       providers: [
         {provide: START_CONFIG, useValue: {app: "testing_app"}},
-        // before refacto
-        {provide: Router, useClass: RouterStub},
-        {provide: MODAL_LOGIN, useValue: {}},
         {provide: HTTP_REQUEST_INITIALIZERS, useValue: {}},
+        {provide: LoginService, deps: [START_CONFIG], useClass: LoginService},
         {provide: AuthenticationService, deps: [START_CONFIG], useClass: AuthenticationService},
-        {provide: AppService, deps: [START_CONFIG]},
-        {provide: ModalService, useValue: {}},
-        {provide: LoginService, deps: [START_CONFIG, MODAL_LOGIN,Router,AppService,PrincipalWebService,UserSettingsWebService,ModalService,NotificationsService, AuthenticationService], useClass: LoginService},
-        {provide: LoginServiceProxy, deps: [Injector], useClass: LoginServiceProxy},
-        // after refacto
-        // {provide: LoginService, deps: [START_CONFIG], useClass: LoginService},
-        // {provide: HTTP_INTERCEPTORS, deps: [START_CONFIG, HTTP_REQUEST_INITIALIZERS, NotificationsService, LoginService, AuthenticationService], useClass: LoginInterceptor, multi: true}
-        {provide: HTTP_INTERCEPTORS, deps: [START_CONFIG, HTTP_REQUEST_INITIALIZERS, LoginServiceProxy, NotificationsService], useClass: LoginInterceptor, multi: true}
+        {provide: HTTP_INTERCEPTORS, deps: [START_CONFIG, HTTP_REQUEST_INITIALIZERS, NotificationsService, LoginService, AuthenticationService], useClass: LoginInterceptor, multi: true}
       ]
     });
 
@@ -91,7 +69,7 @@ describe("login interceptor", () => {
     const login = TestBed.inject(LoginService);
     spyOn(login, "getCredentials").and.returnValue(Promise.resolve());
     // before refacto this method doesn't exists
-    // spyOn<any>(interceptorInstance, "handle401Error").and.callThrough();
+    spyOn<any>(interceptorInstance, "handle401Error").and.callThrough();
 
     const message = '401 error';
 
@@ -110,14 +88,14 @@ describe("login interceptor", () => {
     req.flush(message, {status: 401, statusText: 'Unauthorized'});
 
     expect(login.getCredentials).toHaveBeenCalledTimes(1);
-    // expect((interceptorInstance as LoginInterceptor)["handle401Error"]).toHaveBeenCalledTimes(1);
+    expect((interceptorInstance as LoginInterceptor)["handle401Error"]).toHaveBeenCalledTimes(1);
   });
 
   it('When an error occurs, error is rethrow', () => {
     const login = TestBed.inject(LoginService);
     spyOn(login, "getCredentials").and.returnValue(Promise.resolve());
     // before refacto this method doesn't exists
-    // spyOn<any>(interceptorInstance, "handle401Error").and.callThrough();
+    spyOn<any>(interceptorInstance, "handle401Error").and.callThrough();
 
     const message = '403 Forbidden';
 
