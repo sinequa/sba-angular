@@ -18,7 +18,7 @@ type Authentication = {
 /**
  * Describes the credentials that a user would enter manually to authenticate
  */
-export type Credentials = {
+export interface Credentials {
     userName?: string;
     password?: string;
 }
@@ -29,7 +29,7 @@ const LEGACY_PROCESSED_CREDENTIALS_KIND = 0;
  * Describes the object created after successful authentication. The form of this object
  * is designed to maintain compatibility with previous SBA libraries
  */
-export type ProcessedCredentials = {
+export interface ProcessedCredentials {
     /**
      * An unused "kind" value - always set to 0
      */
@@ -54,7 +54,7 @@ export type ProcessedCredentials = {
 /**
  * Describes the object used by an administrator to authenticate as another user
  */
-export type UserOverride = {
+export interface UserOverride {
     /**
      * The user name of the user to authenticate as
      */
@@ -68,7 +68,7 @@ export type UserOverride = {
 /**
  * Describes a JWT object
  */
-export type JsonWebToken = {
+export interface JsonWebToken {
     header: {
         typ: string;
         alg: string;

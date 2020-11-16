@@ -17,7 +17,7 @@ import {AuthenticationService, ProcessedCredentials, Credentials, UserOverride} 
  * * `session-end`: emitted after logout and also when the {@link LoginService} is destroyed
  * * `session-changed`: emitted whenever the login state changes - login, logout and user override
  */
-export type SessionEvent = {
+export interface SessionEvent {
     type: "session-start" | "session-end" | "session-changed";
 }
 
@@ -33,7 +33,7 @@ export const MODAL_LOGIN = new InjectionToken<Type<any>>('MODAL_LOGIN');
 /**
  * Describes the data retrieved during the login process.
  */
-export type LoginData = {
+export interface LoginData {
     /**
      * The application configuration.
      */
