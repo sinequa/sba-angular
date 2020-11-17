@@ -1,4 +1,4 @@
-import {Injectable, Injector, Inject, OnDestroy, Type, InjectionToken, Optional} from "@angular/core";
+import {Injectable, Inject, OnDestroy, Type, InjectionToken, Optional} from "@angular/core";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {BehaviorSubject, Observable, forkJoin, of, throwError} from "rxjs";
@@ -75,7 +75,7 @@ export class LoginService implements OnDestroy {
         protected userSettingsService: UserSettingsWebService,
         protected modalService: ModalService,
         protected notificationsService: NotificationsService,
-        public authenticationService: AuthenticationService) {
+        protected authenticationService: AuthenticationService) {
         // NB unload doesn't fire reliably so we listen for beforeunload
         window.addEventListener("beforeunload", this.beforeUnloadEventListener);
     }
@@ -378,21 +378,5 @@ export class LoginService implements OnDestroy {
                 this.loginModalPromise = undefined;
                 throw reason;
             });
-    }
-}
-
-@Injectable({
-    providedIn: "root"
-})
-export class LoginServiceProxy {
-    constructor(private injector: Injector) {
-    }
-
-    private _loginService: LoginService;
-    get loginService(): LoginService {
-        if (!this._loginService) {
-            this._loginService = this.injector.get(LoginService);
-        }
-        return this._loginService;
     }
 }
