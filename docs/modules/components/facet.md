@@ -207,3 +207,18 @@ This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/R
 
 </sq-facet-card>
 ```
+
+### Facet Filters
+
+The [`sq-facet-filters`]({{site.baseurl}}components/components/BsFacetFilters.html) components displays facets as a navigation bar where each item is a facet displayed as a dropdown component. This component act in a similar way as [`sq-facet-bat`]({{site.baseurl}}components/components/BsFacetBar.html) component. The facets' configuration and list of facets displayed by default must be injected in the Facet Service by calling `BsFacetModule.forRoot([...], [...])` in your `app.module.ts`. Then you can add or remove facets by calling the appropriate method in the Facet service.
+
+![Multi facet]({{site.baseurl}}assets/modules/facet/facet-filters.png){: .d-block .mx-auto}
+
+This component requires a: 
+* [`Results`]({{site.baseurl}}core/interfaces/Results.html) input.
+* [`FacetConfig`]({{site.baseurl}}components/interfaces/FacetConfig.html)'s array input.
+```html
+<nav class="navbar navbar-expand navbar-light bg-light">
+    <sq-facet-filters [results]="results" [facets]="facets" class="mr-auto"></sq-facet-filters>
+</nav>
+```

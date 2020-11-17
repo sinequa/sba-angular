@@ -224,3 +224,25 @@ The [`sq-loading-bar`]({{site.baseurl}}components/components/BsLoadingBar.html) 
 ```html
 <sq-loading-bar></sq-loading-bar>
 ```
+
+### Load More Button
+
+The [`sq-load-more`]({{site.baseurl}}components/components/BsLoadMore.html) component display a simple button allowing user to fetch next results.
+
+Results comes from [`SearchService.ResultsStream`]({{site.baseurl}}components/injectables/SearchService.html) and requires no mandatory input.
+
+```html
+<sq-load-more></sq-load-more>
+```
+
+### Lazy-loading results while scrolling down
+
+The [`sq-scroller`]({{site.baseurl}}components/components/BsScroller.html) component allow continuously loading results as the user scrolls down the page.
+
+Results comes from [`SearchService.ResultsStream`]({{site.baseurl}}components/injectables/SearchService.html) and requires no mandatory input.
+
+We are using the [`Observer API`](https://https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) to doing this.
+
+```html
+<sq-scroller></sq-scroller>
+```
