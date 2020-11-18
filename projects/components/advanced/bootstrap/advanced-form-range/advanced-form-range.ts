@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, OnDestroy } from "@angular/core";
+import {
+    Component,
+    Input,
+    OnInit,
+    OnDestroy,
+    AfterViewInit,
+} from "@angular/core";
 import { FormGroup, AbstractControl } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { Utils } from "@sinequa/core/base";
@@ -18,7 +24,7 @@ import { AdvancedRange } from "../../advanced-form.service";
         `,
     ],
 })
-export class BsAdvancedFormRange implements OnInit, OnDestroy {
+export class BsAdvancedFormRange implements OnInit, AfterViewInit, OnDestroy {
     @Input() form: FormGroup;
     @Input() config: AdvancedRange;
     @Input() autocompleteEnabled: boolean;
@@ -33,13 +39,15 @@ export class BsAdvancedFormRange implements OnInit, OnDestroy {
     maxDate: Date | undefined;
     control: AbstractControl | null;
     value: (string | number | Date)[];
+    isDate: boolean;
+    initialized = false;
     private _valueChangesSubscription: Subscription;
 
     constructor(private appService: AppService) {}
 
-    get isDate(): boolean {
-        return !!this.column && AppService.isDate(this.column);
-    }
+    // get isDate(): boolean {
+    //     return !!this.column && AppService.isDate(this.column);
+    // }
 
     ngOnInit() {
         this.name = this.config.name;
@@ -48,24 +56,31 @@ export class BsAdvancedFormRange implements OnInit, OnDestroy {
         this.forName = this.fromName;
         this.column = this.appService.getColumn(this.config.field);
         this.label = this.config.label;
-        if (this.isDate) {
-            this.minDate = Utils.isDate(this.config.min)
-                ? this.config.min
-                : undefined;
-            this.maxDate = Utils.isDate(this.config.max)
-                ? this.config.max
-                : undefined;
-        }
-        this.control = this.form.get(this.name);
-        if (this.control) {
-            this.value = this.control.value;
-            this._valueChangesSubscription = Utils.subscribe(
-                this.control.valueChanges,
-                (value) => {
-                    this.value = value;
-                }
-            );
-        }
+        this.isDate = !!this.column && AppService.isDate(this.column);
+    }
+
+    ngAfterViewInit() {
+        setTimeout(() => {
+            if (this.isDate) {
+                this.minDate = Utils.isDate(this.config.min)
+                    ? this.config.min
+                    : undefined;
+                this.maxDate = Utils.isDate(this.config.max)
+                    ? this.config.max
+                    : undefined;
+            }
+            this.control = this.form.get(this.name);
+            if (this.control) {
+                this.value = this.control.value;
+                this._valueChangesSubscription = Utils.subscribe(
+                    this.control.valueChanges,
+                    (value) => {
+                        this.value = value;
+                    }
+                );
+            }
+            this.initialized = true;
+        });
     }
 
     ngOnDestroy() {
