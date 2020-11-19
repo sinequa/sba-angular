@@ -47,20 +47,20 @@ export class BsMySearch extends AbstractFacet implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes["results"]) {
-            const advancedValues = this.searchService.query.getAdvancedValues();
-            this.advancedFields = Object.keys(advancedValues);
-            this.advancedValues = {};
-            for (const key of this.advancedFields) {
-                this.advancedValues[key] = advancedValues[key].map(value => ({
-                    value: value,
-                    display: this.searchService.query.getAdvancedValueExpr(this.appService, key, value)
-                }));
-            }
+            // const advancedValues = this.searchService.query.getAdvancedValues();
+            // this.advancedFields = Object.keys(advancedValues);
+            // this.advancedValues = {};
+            // for (const key of this.advancedFields) {
+            //     this.advancedValues[key] = advancedValues[key].map(value => ({
+            //         value: value,
+            //         display: this.searchService.query.getAdvancedValueExpr(this.appService, key, value)
+            //     }));
+            // }
         }
     }
 
     removeAdvancedValue(field: string, value: AdvancedValue | AdvancedValueWithOperator): boolean {
-        this.searchService.removeAdvanced(field, value);
+        // this.searchService.removeAdvanced(field, value);
         return false;
     }
 

@@ -6,7 +6,7 @@ import {
     AdvancedRange,
     AdvancedInput,
     AdvancedCheckbox,
-} from "../advanced-form.service";
+} from "../advanced.service";
 
 @Directive({
     selector: "[sq-advanced-form-validation]",

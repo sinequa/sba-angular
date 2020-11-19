@@ -10,7 +10,7 @@ import { Subscription } from "rxjs";
 import { Utils } from "@sinequa/core/base";
 import { CCColumn } from "@sinequa/core/web-services";
 import { AppService } from "@sinequa/core/app-utils";
-import { AdvancedRange } from "../../advanced-form.service";
+import { AdvancedRange } from "../../advanced.service";
 
 @Component({
     selector: "sq-advanced-form-range",

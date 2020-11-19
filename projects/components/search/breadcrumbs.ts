@@ -1,5 +1,4 @@
 import {Query, AppService, ExprParser, Expr, ExprValueInitializer} from "@sinequa/core/app-utils";
-import {AdvancedValue, AdvancedValueWithOperator} from "@sinequa/core/web-services";
 import {Utils} from "@sinequa/core/base";
 import {SearchService} from "./search.service";
 
@@ -151,31 +150,6 @@ export class Breadcrumbs {
         }
     }
 
-    private initAdvanced() {
-        if (this.query) {
-            const advancedQuery = this.query.copyAdvanced();
-            if (advancedQuery.advanced) {
-                for (const key of Object.keys(advancedQuery.advanced)) {
-                    const value = advancedQuery.advanced[key];
-                    let values: (AdvancedValue | AdvancedValueWithOperator)[];
-                    if (!Utils.isArray(value) || this.query.isValueArray(value)) {
-                        values = [value];
-                    }
-                    else {
-                        values = value;
-                    }
-                    for (const value1 of values) {
-                        const expr = advancedQuery.getAdvancedValueExpr(this.appService, key, value1);
-                        if (expr instanceof Expr) {
-                            this.advanced.push(expr);
-                            this.addFields(expr);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     private makeBreadcrumbsItemFromExpr(text: string): BreadcrumbsItem {
         let expr = this.appService.parseExpr(text);
         if (!(expr instanceof Expr)) {
@@ -218,7 +192,6 @@ export class Breadcrumbs {
     }
 
     private init(): Breadcrumbs {
-        this.initAdvanced();
         this.initItems();
         return this;
     }
@@ -290,7 +263,6 @@ export class Breadcrumbs {
         if (!this.query) {
             this.query = query.copy();
         }
-        this.searchService.mergeAdvanced(this.query, query);
         this.query.text = query.text;
         this.query.basket = query.basket;
         if (!this.query.text && !this.query.basket) {

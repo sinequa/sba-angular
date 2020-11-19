@@ -60,6 +60,8 @@ export enum AdvancedOperator {
     IN = "IN"
 }
 
+export const advancedFacetPrefix = "advanced_";
+
 /**
  * Defines the possible basic types of an advanced value
  */

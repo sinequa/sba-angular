@@ -16,7 +16,7 @@ import { ParseResult } from "@sinequa/components/autocomplete";
 import { AutocompleteExtended } from "./autocomplete-extended.directive";
 import { UserPreferences } from "@sinequa/components/user-settings";
 import { Utils } from "@sinequa/core/base";
-import { AdvancedFormService, AdvancedSelect, AdvancedRange, AdvancedInput, AdvancedCheckbox } from "@sinequa/components/advanced";
+import { AdvancedService, AdvancedSelect, AdvancedRange, AdvancedInput, AdvancedCheckbox } from "@sinequa/components/advanced";
 import { advancedSearchFormConfig } from "./advanced-search-form.config";
 
 @Component({
@@ -48,14 +48,14 @@ export class SearchFormComponent implements OnInit, OnDestroy {
         public firstPageService: FirstPageService,
         public appService: AppService,
         public prefs: UserPreferences,
-        public advancedFormService: AdvancedFormService
+        public advancedService: AdvancedService
     ) {}
 
     ngOnInit() {
         /**
          * Initialize the form with default search control
          */
-        this.form = this.advancedFormService.buildForm();
+        this.form = this.advancedService.buildForm();
         this.searchControl = this.form.get("search")
             ? this.form.get("search")
             : new FormControl("");
@@ -97,8 +97,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
                     this.searchService.query.addSelect(expr, "search-form");
                 }
             }
-            this.searchService.searchAdvanced(this.searchService.query);
-            this.searchService.navigate({ path: "/search" });
+            this.searchService.search({ path: "/search" });
         }
     }
 
@@ -175,7 +174,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
                         : this.searchService.query.text
                 );
             } else {
-                const value = this.advancedFormService.getAdvancedValue(
+                const value = this.advancedService.getAdvancedValue(
                     advancedSearchFormConfig.get(key) as AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox
                 );
                 this.form.controls[key]?.setValue(value, {
@@ -189,12 +188,11 @@ export class SearchFormComponent implements OnInit, OnDestroy {
      * Update the query based on the current search form values
      */
     updateQuery(): void {
-        this.searchService.clearQuery();
         Object.keys(this.form.controls).forEach((key) => {
             if (key === "search") {
                 this.searchService.query.text = this.searchControl?.value || "";
             } else {
-                this.advancedFormService.setAdvancedValue(
+                this.advancedService.setAdvancedValue(
                     this.form.controls[key]?.value,
                     advancedSearchFormConfig.get(key) as AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox
                 );
@@ -241,22 +239,22 @@ export class SearchFormComponent implements OnInit, OnDestroy {
                 () => {
                     this.form.addControl(
                         "sources",
-                        this.advancedFormService.createSelectControl(
+                        this.advancedService.createSelectControl(
                             advancedSearchFormConfig.get("sources") as AdvancedSelect
                         )
                     );
                     this.form.addControl(
                         "authors",
-                        this.advancedFormService.createSelectControl(
+                        this.advancedService.createSelectControl(
                             advancedSearchFormConfig.get("authors") as AdvancedSelect
                         )
                     );
                     this.form.addControl(
                         "size",
-                        this.advancedFormService.createRangeControl(
+                        this.advancedService.createRangeControl(
                             advancedSearchFormConfig.get("size") as AdvancedRange,
                             [
-                                this.advancedFormService.advancedFormValidators.range(
+                                this.advancedService.advancedFormValidators.range(
                                     advancedSearchFormConfig.get("size") as AdvancedRange
                                 )
                             ]
@@ -264,13 +262,13 @@ export class SearchFormComponent implements OnInit, OnDestroy {
                     );
                     this.form.addControl(
                         "modified",
-                        this.advancedFormService.createRangeControl(
+                        this.advancedService.createRangeControl(
                             advancedSearchFormConfig.get("modified") as AdvancedRange,
                             [
-                                this.advancedFormService.advancedFormValidators.range(
+                                this.advancedService.advancedFormValidators.range(
                                     advancedSearchFormConfig.get("modified") as AdvancedRange
                                 ),
-                                this.advancedFormService.advancedFormValidators.date(
+                                this.advancedService.advancedFormValidators.date(
                                     advancedSearchFormConfig.get("modified") as AdvancedRange
                                 ),
                             ]
@@ -278,19 +276,19 @@ export class SearchFormComponent implements OnInit, OnDestroy {
                     );
                     this.form.addControl(
                         "multiInput",
-                        this.advancedFormService.createMultiInputControl(
+                        this.advancedService.createMultiInputControl(
                             advancedSearchFormConfig.get("multiInput") as AdvancedInput
                         )
                     );
                     this.form.addControl(
                         "input",
-                        this.advancedFormService.createInputControl(
+                        this.advancedService.createInputControl(
                             advancedSearchFormConfig.get("input") as AdvancedInput
                         )
                     );
                     this.form.addControl(
                         "checkbox",
-                        this.advancedFormService.createCheckboxControl(
+                        this.advancedService.createCheckboxControl(
                             advancedSearchFormConfig.get("checkbox") as AdvancedCheckbox
                         )
                     );

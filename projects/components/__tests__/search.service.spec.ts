@@ -198,70 +198,6 @@ describe("SearchService", () => {
     });
   });
 
-  describe("searchAdvanced", () => {
-    it("makes expected calls", () => {
-      const query: Query = new Query("abc");
-      spyOn(service, "applyAdvanced").and.callThrough();
-      spyOn<any>(service, "makeAuditEvent").and.callThrough();
-
-      service.searchAdvanced(query);
-
-      expect(service.applyAdvanced).toHaveBeenCalled();
-      expect(service["makeAuditEvent"]).toHaveBeenCalled();
-    });
-  });
-
-  describe("mergeAdvanced", () => {
-    it("makes expected calls", () => {
-      const target: Query = new Query("abc");
-      const source: Query = new Query("def");
-      spyOn(source, "copyAdvanced").and.callThrough();
-
-      service.mergeAdvanced(target, source);
-
-      expect(source.copyAdvanced).toHaveBeenCalled();
-    });
-  });
-
-  describe("applyAdvanced", () => {
-    it("makes expected calls when allowEmptySearch = false", () => {
-      const auditEventsStub: AuditEvents = <any>{};
-      const query: Query = new Query("abc");
-      spyOn(service, "mergeAdvanced").and.callThrough();
-      spyOn(service, "checkEmptySearch").and.callThrough();
-      spyOn(service, "clear");
-      spyOn(service, "navigate").and.callThrough();
-
-      service.applyAdvanced(query, auditEventsStub);
-
-      expect(service.query).toEqual(jasmine.any(Query));
-      expect(service.mergeAdvanced).toHaveBeenCalled();
-      expect(service.checkEmptySearch).toHaveBeenCalled();
-      expect(service.clear).toHaveBeenCalled();
-      expect(service.navigate).not.toHaveBeenCalled();
-    });
-
-    it("makes expected calls when allowEmptySearch = true", () => {
-      const auditEventsStub: AuditEvents = <any>{};
-      const query: Query = new Query("abc");
-      const app = TestBed.inject(AppService);
-      app.ccquery = {allowEmptySearch: true} as CCQuery;
-
-      spyOn(service, "mergeAdvanced").and.callThrough();
-      spyOn(service, "checkEmptySearch").and.callThrough();
-      spyOn(service, "clear");
-      spyOn(service, "navigate").and.callThrough();
-
-      service.applyAdvanced(query, auditEventsStub);
-
-      expect(service.query).toEqual(jasmine.any(Query));
-      expect(service.mergeAdvanced).toHaveBeenCalled();
-      expect(service.checkEmptySearch).toHaveBeenCalled();
-      expect(service.clear).not.toHaveBeenCalled();
-      expect(service.navigate).toHaveBeenCalledWith({advanced: true}, jasmine.anything());
-    });
-  });
-
   describe("removeSelect", () => {
     it("makes expected calls", () => {
       spyOn(service, "removeBreadcrumbsItem").and.callThrough();
@@ -335,10 +271,6 @@ describe("SearchService", () => {
       query = {action: "search", basket: "abc"} as Query;
       expect(service.isEmptySearchIgnoreSelects(query)).toBeFalse();
 
-      // advanced must contains one value at least
-      query = {action: "search", advanced: [{value: 1, operator: "NONE"}] as unknown} as Query;
-      expect(service.isEmptySearchIgnoreSelects(query)).toBeFalse();
-
       // query.action not "search"
       query = {action: "open"} as Query;
       expect(service.isEmptySearchIgnoreSelects(query)).toBeFalse();
@@ -377,7 +309,7 @@ describe("SearchService", () => {
       expect(routerStub.getCurrentNavigation).toHaveBeenCalled();
     });
   });
-  
+
   describe("isSearchRouteActive", () => {
     it("makes expected calls", () => {
       spyOn<any>(service, "isSearchRoute").and.callThrough();
@@ -461,7 +393,7 @@ describe("SearchService", () => {
         expect(expected).toEqual(tab);
       });
 
-      it("should return undefined if tab name is not found or results is undefined", () => { 
+      it("should return undefined if tab name is not found or results is undefined", () => {
         const tab: Tab = {name: "abc", display: "abc/efg", value: "def", count: 52};
 
         // When results is undefined

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { AppService } from "@sinequa/core/app-utils";
-import { AdvancedInput } from '../../advanced-form.service';
+import { AdvancedInput } from '../../advanced.service';
 
 @Component({
     selector: "sq-advanced-form-input",

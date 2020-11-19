@@ -3,7 +3,7 @@ import { FormGroup, AbstractControl } from "@angular/forms";
 import { Keys, Utils } from "@sinequa/core/base";
 import { AutocompleteItem } from "@sinequa/components/autocomplete";
 import { Subscription } from "rxjs";
-import { AdvancedInput } from "../../advanced-form.service";
+import { AdvancedInput } from "../../advanced.service";
 
 /**
  * Component representing a text input that accepts multiple entries.

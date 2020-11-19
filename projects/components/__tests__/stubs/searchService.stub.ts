@@ -4,5 +4,4 @@ export const searchServiceStub = () => ({
   search: () => {},
   isEmptySearchIgnoreSelects: () => {},
   query: new Query("test"),
-  mergeAdvanced: () => {}
 })

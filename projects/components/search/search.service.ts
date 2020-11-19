@@ -4,7 +4,6 @@ import {Subject, BehaviorSubject, Observable, Subscription, of, throwError} from
 import {map, catchError} from "rxjs/operators";
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
-    AdvancedValue, AdvancedValueWithOperator, AdvancedOperator,
     AuditEvents, AuditEventType, AuditEvent} from "@sinequa/core/web-services";
 import {AppService, FormatService, ValueItem, Query, ExprParser, Expr} from "@sinequa/core/app-utils";
 import {NotificationsService} from "@sinequa/core/notification";
@@ -346,10 +345,6 @@ export class SearchService implements OnDestroy {
             if (query.basket) {
                 return false;
             }
-            // Test no advanced
-            if (query.advanced && Object.keys(query.advanced).length > 0) {
-                return false;
-            }
             return true;
         }
         return false;
@@ -643,7 +638,6 @@ export class SearchService implements OnDestroy {
                 navigationOptions = navigationOptions || {};
                 this._setResults(results, {
                     resuseBreadcrumbs: navigationOptions.reuseBreadcrumbs,
-                    advanced: navigationOptions.advanced
                 });
                 return results;
             });
@@ -686,16 +680,6 @@ export class SearchService implements OnDestroy {
                     scope: this.query.scope
                 }
             }));
-    }
-
-    searchAdvanced(query: Query): Promise<boolean> {
-        return this.applyAdvanced(query, this.makeAuditEvent({
-            type: AuditEventType.Search_Text,
-            detail: {
-                text: this.query.text,
-                advanced: true
-            }
-        }));
     }
 
     searchRefine(text: string): Promise<boolean> {
@@ -753,39 +737,6 @@ export class SearchService implements OnDestroy {
             return this.results.records.find(record => Utils.eq(record.id, id));
         }
         return undefined;
-    }
-
-    mergeAdvanced(target: Query, source: Query) {
-        const deltas = Utils.deltas({advanced: {}}, source.copyAdvanced()); // Utils.copy(this.advancedDefaults) => {}
-        target.toStandard();
-        delete target.page;
-        Utils.merge(target, deltas);
-        return target;
-    }
-
-    applyAdvanced(query: Query, auditEvents?: AuditEvents): Promise<boolean> {
-        this.mergeAdvanced(this.query, query);
-        if (!this.checkEmptySearch(this.query)) {
-            this.clear();
-            return Promise.resolve(false);
-        }
-        return this.navigate({advanced: true}, auditEvents);
-    }
-
-    removeAdvanced(field: string, value: AdvancedValue | AdvancedValueWithOperator) {
-        const query = this.query.copy();
-        let operator: AdvancedOperator | undefined;
-        if (query.isAdvancedValueWithOperator(value)) {
-            operator = value.operator;
-        }
-        query.removeAdvancedValue(field, operator);
-        this.applyAdvanced(query, this.makeAuditEvent({
-            type: AuditEventType.Search_RemoveAdvanced,
-            detail: {
-                name: field,
-                "from-result-id": !!this.results ? this.results.id : null
-            }
-        }));
     }
 
     private makeSelectExpr(field: string, valueItem: ValueItem, excludeField?: boolean): string {
@@ -983,7 +934,6 @@ export module SearchService {
         path?: string; // absolute path, current path used if not specified
         reuseBreadcrumbs?: boolean;
         selectTab?: boolean;
-        advanced?: boolean;
         analyzeQueryText?: boolean;
         queryIntents?: QueryIntent[];
         queryAnalysis?: QueryAnalysis;

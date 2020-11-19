@@ -15,6 +15,7 @@ import {
     AdvancedOperator,
     AdvancedValueWithOperator,
     BasicAdvancedValue,
+    advancedFacetPrefix,
 } from "@sinequa/core/web-services";
 import { Utils } from "@sinequa/core/base";
 import { SearchService } from "@sinequa/components/search";
@@ -25,8 +26,6 @@ import {
     FormatService,
 } from "@sinequa/core/app-utils";
 import { ValidationService } from "@sinequa/core/validation";
-
-export const advancedFacetPrefix = "advanced_";
 
 export enum AdvancedFormType {
     Checkbox = "AdvancedFormCheckbox",
@@ -114,7 +113,7 @@ export interface AdvancedCheckbox extends BasicConfig {}
 @Injectable({
     providedIn: "root",
 })
-export class AdvancedFormService {
+export class AdvancedService {
     public readonly advancedFormValidators: AdvancedFormValidators = {
         min: (min, config) =>
             this.validationService.minValidator(
@@ -311,6 +310,15 @@ export class AdvancedFormService {
                 advancedFacetPrefix + config.field
             );
         }
+    }
+
+    /**
+     * Remove all advanced search select(s) from the query
+     * Trigger new search
+     */
+    resetAdvancedSearch(): void {
+        this.searchService.setQuery(this.searchService.query?.toStandard());
+        this.searchService.search();
     }
 
     public makeRangeExpr(

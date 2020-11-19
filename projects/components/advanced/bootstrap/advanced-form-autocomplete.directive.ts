@@ -8,7 +8,7 @@ import {
     AdvancedRange,
     AdvancedInput,
     AdvancedCheckbox,
-} from "../advanced-form.service";
+} from "../advanced.service";
 
 export interface AdvancedFormAutocompleteOptions {
     autocompleteEnabled: boolean;

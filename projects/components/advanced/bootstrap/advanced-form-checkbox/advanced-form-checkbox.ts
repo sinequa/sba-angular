@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { FormGroup } from "@angular/forms";
-import { AdvancedCheckbox } from "../../advanced-form.service";
+import { AdvancedCheckbox } from "../../advanced.service";
 
 @Component({
     selector: "sq-advanced-form-checkbox",
