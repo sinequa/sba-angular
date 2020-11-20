@@ -399,7 +399,7 @@ export const environment = {
 
 ### OAuth2
 
-OAuth is a standard for managing "Access Delegation", which is used by users to grant websites access to their information. In practice, it is not used by Sinequa to access any information of the user, but simply for identifying them and granting them an identity token. The process is therefore very similar to SAML.
+OAuth is a protocol for managing "Access Delegation", which is used by websites to let users grant them access to their information. In practice, it is not used by Sinequa to access any information of the user, but simply for identifying them and granting them an identity token. The process is therefore very similar to SAML.
 
 In the front-end part of the SBA, the login process is the same as SAML:
 
@@ -411,7 +411,7 @@ In the Sinequa administration, the configuration of the OAuth2 protocol involves
 
     ![OAuth identity provider]({{site.baseurl}}assets/tipstricks/oauth.png){: .d-block .mx-auto }
 
-- In the configuration of your OAuth identity provider (eg. Google SSO), include the URL of the Sinequa server as a redirection URL.
+- In the configuration of your OAuth identity provider (eg. Google SSO), include the URL of the Sinequa server (`https://my-sinequa-server.com/oauth/redirect`) as a redirection URL.
 - Add the name of the provider to your `app.module.ts`:
 
     ```ts
