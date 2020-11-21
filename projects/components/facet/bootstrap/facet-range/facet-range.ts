@@ -476,6 +476,13 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
                     } else {
                         value = expr.value;
                     }
+                    if (Utils.isArray(value)) {
+                        value =  value.map(
+                            (val) => val ? this.advancedService.castAdvancedValue(val, this.column) : val
+                        );
+                    } else {
+                        value = this.advancedService.castAdvancedValue(value, this.column)
+                    }
                     if (this.column.formatter) {
                         if (Utils.isArray(value)) {
                             value =  value.map(

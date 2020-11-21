@@ -16,6 +16,8 @@ import {
     AdvancedValueWithOperator,
     BasicAdvancedValue,
     advancedFacetPrefix,
+    Select,
+    CCColumn,
 } from "@sinequa/core/web-services";
 import { Utils } from "@sinequa/core/base";
 import { SearchService } from "@sinequa/components/search";
@@ -24,6 +26,7 @@ import {
     Expr,
     ExprOperator,
     FormatService,
+    Query,
 } from "@sinequa/core/app-utils";
 import { ValidationService } from "@sinequa/core/validation";
 
@@ -85,30 +88,30 @@ export interface AdvancedFormValidators {
     ) => ValidatorFn;
 }
 
-export interface BasicConfig {
+export interface BasicAdvancedConfig {
     type: string;
     field: string;
     label: string;
     name: string;
 }
 
-export interface AdvancedSelect extends BasicConfig {
+export interface AdvancedSelect extends BasicAdvancedConfig {
     list: string;
     aggregation: string;
     multiple: boolean;
     operator: AdvancedOperator;
 }
 
-export interface AdvancedRange extends BasicConfig {
+export interface AdvancedRange extends BasicAdvancedConfig {
     min: string | number | Date;
     max: string | number | Date;
 }
 
-export interface AdvancedInput extends BasicConfig {
+export interface AdvancedInput extends BasicAdvancedConfig {
     operator: AdvancedOperator;
 }
 
-export interface AdvancedCheckbox extends BasicConfig {}
+export interface AdvancedCheckbox extends BasicAdvancedConfig {}
 
 @Injectable({
     providedIn: "root",
@@ -149,7 +152,7 @@ export class AdvancedService {
         public formatService: FormatService
     ) {}
 
-    buildForm(): FormGroup {
+    public buildForm(): FormGroup {
         const search = new FormControl(
             {
                 value: "",
@@ -166,7 +169,7 @@ export class AdvancedService {
         });
     }
 
-    createSelectControl(
+    public createSelectControl(
         config: AdvancedSelect,
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
@@ -174,7 +177,7 @@ export class AdvancedService {
         return this._createControl(config, validators, asyncValidators);
     }
 
-    createRangeControl(
+    public createRangeControl(
         config: AdvancedRange,
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
@@ -182,7 +185,7 @@ export class AdvancedService {
         return this._createControl(config, validators, asyncValidators);
     }
 
-    createInputControl(
+    public createInputControl(
         config: AdvancedInput,
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
@@ -190,7 +193,7 @@ export class AdvancedService {
         return this._createControl(config, validators, asyncValidators);
     }
 
-    createMultiInputControl(
+    public createMultiInputControl(
         config: AdvancedInput,
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
@@ -198,7 +201,7 @@ export class AdvancedService {
         return this._createControl(config, validators, asyncValidators);
     }
 
-    createCheckboxControl(
+    public createCheckboxControl(
         config: AdvancedCheckbox,
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
@@ -210,8 +213,9 @@ export class AdvancedService {
      * Retrieve the value to be set to a specific form control from a given query
      * @param config the advanced-search-form field config
      */
-    getAdvancedValue(
+    public getAdvancedValue(
         config:
+            | BasicAdvancedConfig
             | AdvancedSelect
             | AdvancedRange
             | AdvancedInput
@@ -270,9 +274,10 @@ export class AdvancedService {
      * @param value new value to be updated in the query
      * @param config the advanced-search-form field config
      */
-    setAdvancedValue(
+    public setAdvancedValue(
         value: AdvancedValue,
         config:
+            | BasicAdvancedConfig
             | AdvancedSelect
             | AdvancedRange
             | AdvancedInput
@@ -313,12 +318,90 @@ export class AdvancedService {
     }
 
     /**
-     * Remove all advanced search select(s) from the query
-     * Trigger new search
+     * Remove all advanced search select(s) from a given query and update searchService.query accordingly
+     * By default, Trigger search() action
+     * @param query
+     * @param searchable
      */
-    resetAdvancedSearch(): void {
-        this.searchService.setQuery(this.searchService.query?.toStandard());
-        this.searchService.search();
+    public resetAdvanced(
+        query?: Query | undefined,
+        searchable: boolean = true
+    ): void {
+        if (!query) {
+            query = this.searchService.query.copy();
+        }
+        this.searchService.setQuery(query.toStandard());
+        if (searchable) {
+            this.searchService.search();
+        }
+    }
+
+    /**
+     * Return an object containing all the filled (field, value) in the advanced search form
+     */
+    public getAdvancedValues(): Object {
+        const obj = new Object();
+        const advancedSelect = this.searchService.query?.select?.filter(
+            (select: Select) => select.facet.startsWith(advancedFacetPrefix)
+        );
+        if (advancedSelect) {
+            for (const select of advancedSelect) {
+                const expression = select.expression;
+                const expr = this.appService.parseExpr(expression);
+                if (expr instanceof Expr) {
+                    let value;
+                    if (
+                        Utils.isString(expr.value) &&
+                        expr.value.indexOf("[") > -1
+                    ) {
+                        value = JSON.parse(expr.value.replace(/`/g, '"'));
+                    }
+                    if (!value) {
+                        if (expr.values && expr.values.length > 1) {
+                            value = expr.values;
+                        } else {
+                            value = expr.value;
+                        }
+                    }
+                    if (!Utils.isArray(value)) {
+                        if (expr.operator === ExprOperator.gte) {
+                            value = [value, undefined];
+                        } else if (expr.operator === ExprOperator.lte) {
+                            value = [undefined, value];
+                        }
+                    }
+                    const column = this.appService.getColumn(expr.field!);
+                    if (column) {
+                        if (Utils.isArray(value)) {
+                            value = value.map((val) =>
+                                val ? this.castAdvancedValue(val, column) : val
+                            );
+                        } else {
+                            value = this.castAdvancedValue(value, column);
+                        }
+                        if (column.formatter) {
+                            if (Utils.isArray(value)) {
+                                value = value.map((val) =>
+                                    val
+                                        ? this.formatService.formatValue(
+                                              val,
+                                              column
+                                          )
+                                        : val
+                                );
+                            } else {
+                                value = this.formatService.formatValue(
+                                    value,
+                                    column
+                                );
+                            }
+                        }
+                    }
+                    obj[expr.field!] = value;
+                }
+            }
+        }
+        return obj;
     }
 
     public makeRangeExpr(
@@ -395,6 +478,7 @@ export class AdvancedService {
 
     public formatAdvancedValue(
         config:
+            | BasicAdvancedConfig
             | AdvancedSelect
             | AdvancedRange
             | AdvancedInput
@@ -420,6 +504,7 @@ export class AdvancedService {
 
     public ensureAdvancedValue(
         config:
+            | BasicAdvancedConfig
             | AdvancedSelect
             | AdvancedRange
             | AdvancedInput
@@ -434,8 +519,30 @@ export class AdvancedService {
         return this._ensureAdvancedValue(config, advancedValue);
     }
 
+    public castAdvancedValue(value: any, column: CCColumn | undefined): any {
+        if (column) {
+            if (Utils.isString(value)) {
+                if (AppService.isDate(column)) {
+                    value = Utils.toDate(value);
+                } else if (AppService.isInteger(column)) {
+                    if (Utils.testInteger(value)) {
+                        value = Utils.toInt(value);
+                    }
+                } else if (AppService.isDouble(column)) {
+                    if (Utils.testFloat(value)) {
+                        value = Utils.toNumber(value);
+                    }
+                } else if (AppService.isBoolean(column)) {
+                    value = Utils.isTrue(value);
+                }
+            }
+        }
+        return value;
+    }
+
     private _createControl(
         config:
+            | BasicAdvancedConfig
             | AdvancedSelect
             | AdvancedRange
             | AdvancedInput
@@ -458,6 +565,7 @@ export class AdvancedService {
 
     private _ensureAdvancedValue(
         config:
+            | BasicAdvancedConfig
             | AdvancedSelect
             | AdvancedRange
             | AdvancedInput
@@ -466,24 +574,8 @@ export class AdvancedService {
     ): BasicAdvancedValue {
         if (value !== undefined) {
             const column = this.appService.getColumn(config.field);
-            if (column) {
-                if (Utils.isString(value)) {
-                    if (!this._isDistribution(config)) {
-                        if (AppService.isDate(column)) {
-                            value = Utils.toDate(value);
-                        } else if (AppService.isInteger(column)) {
-                            if (Utils.testInteger(value)) {
-                                value = Utils.toInt(value);
-                            }
-                        } else if (AppService.isDouble(column)) {
-                            if (Utils.testFloat(value)) {
-                                value = Utils.toNumber(value);
-                            }
-                        } else if (AppService.isBoolean(column)) {
-                            value = Utils.isTrue(value);
-                        }
-                    }
-                }
+            if (!this._isDistribution(config)) {
+                value = this.castAdvancedValue(value, column);
             }
         }
         return value;
@@ -496,6 +588,7 @@ export class AdvancedService {
 
     private _rangeType(
         config:
+            | BasicAdvancedConfig
             | AdvancedSelect
             | AdvancedRange
             | AdvancedInput
@@ -518,6 +611,7 @@ export class AdvancedService {
 
     private _isDistribution(
         config:
+            | BasicAdvancedConfig
             | AdvancedSelect
             | AdvancedRange
             | AdvancedInput

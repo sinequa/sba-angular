@@ -1,7 +1,21 @@
-import { AdvancedFormType, AdvancedSelect, AdvancedRange, AdvancedInput, AdvancedCheckbox } from "@sinequa/components/advanced";
-import { AdvancedOperator } from '@sinequa/core/web-services';
+import {
+    AdvancedFormType,
+    BasicAdvancedConfig,
+    AdvancedSelect,
+    AdvancedRange,
+    AdvancedInput,
+    AdvancedCheckbox,
+} from "@sinequa/components/advanced";
+import { AdvancedOperator } from "@sinequa/core/web-services";
 
-export let advancedSearchFormConfig: Map<string, AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox> = new Map([
+export let advancedSearchFormConfig: Map<
+    string,
+    | BasicAdvancedConfig
+    | AdvancedSelect
+    | AdvancedRange
+    | AdvancedInput
+    | AdvancedCheckbox
+> = new Map([
     [
         "sources",
         {
@@ -12,8 +26,8 @@ export let advancedSearchFormConfig: Map<string, AdvancedSelect | AdvancedRange 
             list: "",
             multiple: true,
             operator: AdvancedOperator.NONE,
-            type: AdvancedFormType.Select
-        }
+            type: AdvancedFormType.Select,
+        },
     ],
     [
         "authors",
@@ -25,8 +39,8 @@ export let advancedSearchFormConfig: Map<string, AdvancedSelect | AdvancedRange 
             list: "",
             multiple: true,
             operator: AdvancedOperator.NONE,
-            type: AdvancedFormType.Select
-        }
+            type: AdvancedFormType.Select,
+        },
     ],
     [
         "size",
@@ -36,8 +50,8 @@ export let advancedSearchFormConfig: Map<string, AdvancedSelect | AdvancedRange 
             label: "From / To",
             type: AdvancedFormType.Range,
             min: "",
-            max: ""
-        }
+            max: "",
+        },
     ],
     [
         "modified",
@@ -47,8 +61,8 @@ export let advancedSearchFormConfig: Map<string, AdvancedSelect | AdvancedRange 
             label: "From / To",
             type: AdvancedFormType.Range,
             min: "",
-            max: ""
-        }
+            max: "",
+        },
     ],
     [
         "multiInput",
@@ -57,8 +71,8 @@ export let advancedSearchFormConfig: Map<string, AdvancedSelect | AdvancedRange 
             name: "multiInput",
             label: "company",
             operator: AdvancedOperator.NONE,
-            type: AdvancedFormType.MultiInput
-        }
+            type: AdvancedFormType.MultiInput,
+        },
     ],
     [
         "input",
@@ -67,8 +81,8 @@ export let advancedSearchFormConfig: Map<string, AdvancedSelect | AdvancedRange 
             name: "input",
             label: "docformat",
             operator: AdvancedOperator.NONE,
-            type: AdvancedFormType.Input
-        }
+            type: AdvancedFormType.Input,
+        },
     ],
     [
         "checkbox",
@@ -77,7 +91,7 @@ export let advancedSearchFormConfig: Map<string, AdvancedSelect | AdvancedRange 
             name: "checkbox",
             label: "filename",
             operator: AdvancedOperator.NONE,
-            type: AdvancedFormType.Checkbox
-        }
-    ]
+            type: AdvancedFormType.Checkbox,
+        },
+    ],
 ]);

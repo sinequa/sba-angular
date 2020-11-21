@@ -6,6 +6,7 @@ import {
     AdvancedRange,
     AdvancedInput,
     AdvancedCheckbox,
+    BasicAdvancedConfig,
 } from "../advanced.service";
 
 @Directive({
@@ -17,6 +18,7 @@ export class BsAdvancedFormValidation
     @Input("sq-advanced-form-validation") afvOptions: {
         form: FormGroup;
         config:
+            | BasicAdvancedConfig
             | AdvancedSelect
             | AdvancedRange
             | AdvancedInput
