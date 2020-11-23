@@ -31,7 +31,7 @@ export class BsResultsHeatmapView extends BsFacetHeatmapComponent {
         public prefs: UserPreferences,
         public resultsViewService : ResultsViewService
     ) {
-        super(appService, searchService, facetService, selectionService, formBuilder, cdRef, prefs);
+        super(appService, searchService, facetService, selectionService, formBuilder, cdRef, prefs, undefined);
     
         this.height = 1200;
         this.width = 1200;

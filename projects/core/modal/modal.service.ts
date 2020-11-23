@@ -129,6 +129,11 @@ export interface PromptOptions extends ConfirmOptions {
      * List of validators for the input form control
      */
     validators?: ValidatorFn[];
+    /**
+     * If omitted, a single-line input is displayed. If specified, a textarea with the
+     * given number of rows is displayed
+     */    
+    rowCount?: number;
 }
 
 /**

@@ -62,23 +62,18 @@ export class BsSortSelector implements OnChanges {
         }
         this.sortAction = new Action({
             title: "msg#sortSelector.sortByTitle",
-            children: [
-            ]
+            children: sortingChoices
+                .filter(sortingChoice => this.searchService.hasRelevance || !Utils.includes(sortingChoice.orderByClause, "globalrelevance"))
+                .map(sortingChoice => new Action({
+                    icon: this.isAscendingSort(sortingChoice.orderByClause) ? 'fas fa-sort-amount-up'
+                            : this.isDescendingSort(sortingChoice.orderByClause) ? 'fas fa-sort-amount-down' : '',
+                    text: sortingChoice.display || sortingChoice.name,
+                    data: sortingChoice,
+                    action: (item: Action, event: Event) => {
+                        this.selectSort(item.data);
+                    }
+                }))
         });
-        for (const sortingChoice of sortingChoices) {
-            if (!this.searchService.hasRelevance && Utils.includes(sortingChoice.orderByClause, "globalrelevance")) {
-                continue;
-            }
-            this.sortAction.children.push(new Action({
-                icon: this.isAscendingSort(sortingChoice.orderByClause) ? 'fas fa-sort-amount-up'
-                        : this.isDescendingSort(sortingChoice.orderByClause) ? 'fas fa-sort-amount-down' : '',
-                text: sortingChoice.display || sortingChoice.name,
-                data: sortingChoice,
-                action: (item: Action, event: Event) => {
-                    this.selectSort(item.data);
-                }
-            }));
-        }
         if (!!this.searchService.results) {
             this.setCurrentSort(this.searchService.results.sort);
         }

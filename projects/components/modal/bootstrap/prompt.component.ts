@@ -11,7 +11,9 @@ import { Utils } from '@sinequa/core/base';
             <sq-modal [title]="title" [buttons]="buttons">
                 <div class="form-group sq-form-group">
                     <label for="input">{{model.message | sqMessage:model.messageParams}}</label>
-                    <input [sqValidation]="form" type="text" class="form-control" id="input" formControlName="input" spellcheck="off" sqAutofocus>
+                    <input [sqValidation]="form" type="text" class="form-control" id="input" formControlName="input" spellcheck="off" sqAutofocus *ngIf="!model.rowCount">
+                    <textarea [sqValidation]="form" type="text" class="form-control" id="input" formControlName="input" spellcheck="on" rows="{{model.rowCount}}" sqAutofocus *ngIf="!!model.rowCount">
+                    </textarea>
                 </div>
             </sq-modal>
         </form>

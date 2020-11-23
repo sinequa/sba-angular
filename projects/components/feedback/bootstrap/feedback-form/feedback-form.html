@@ -1,9 +1,0 @@
-<form name="feedback" novalidate [formGroup]="form">
-    <sq-modal [title]="model.title" [buttons]="buttons">
-        <div class="form-group sq-form-group">
-            <label for="feedbackMsg">{{'msg#feedback.title' | sqMessage}}</label>
-            <textarea [sqValidation]="form" type="text" class="form-control" id="feedbackMsg" formControlName="feedbackMsg" spellcheck="on" rows="5" sqAutofocus>
-            </textarea>
-        </div>
-    </sq-modal>
-</form>

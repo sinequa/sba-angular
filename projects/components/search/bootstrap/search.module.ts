@@ -16,6 +16,8 @@ import {BsPageSizeSelector} from "./page-size-selector/page-size-selector";
 import {BsSortSelector} from "./sort-selector/sort-selector";
 import {BsTabs} from "./tabs/tabs";
 import {BsLoadingBar} from "./loading-bar/loading-bar";
+import {BsScroller} from "./scroller/scroller"
+import {BsLoadMore} from './load-more/load-more';
 
 @NgModule({
     imports: [
@@ -32,12 +34,14 @@ import {BsLoadingBar} from "./loading-bar/loading-bar";
     declarations: [
         BsDidYouMean,
         BsBreadcrumbs, BsPager, BsPageSizeSelector, BsSortSelector,
-        BsTabs, BsLoadingBar
+        BsTabs, BsLoadingBar,
+        BsScroller, BsLoadMore
     ],
     exports: [
         BsDidYouMean,
         BsBreadcrumbs, BsPager, BsPageSizeSelector, BsSortSelector,
-        BsTabs, BsLoadingBar
+        BsTabs, BsLoadingBar,
+        BsScroller, BsLoadMore
     ],
 })
 export class BsSearchModule {

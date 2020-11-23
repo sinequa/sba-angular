@@ -1,13 +1,12 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
-import { Utils } from '@sinequa/core/base';
 import {Record, EntityItem} from "@sinequa/core/web-services";
-
-import {TimelineOptions, DataItem} from "ngx-vis";
+import {TimelineOptions, DataItem, VisTimelineService} from "ngx-vis";
 
 import moment from "moment";
 
 export const defaultOptions : TimelineOptions = {
     minHeight : '150px',
+    maxHeight : '350px',
     margin: {
         axis: 5,
         item: 5
@@ -19,6 +18,7 @@ export const defaultOptions : TimelineOptions = {
     templateUrl: "./result-timeline.html"
 })
 export class ResultTimeline implements OnChanges {
+    @Input() name = "vis-timeline";
     @Input() record: Record;
     @Input() dates: EntityItem[];
     @Input() events: EntityItem[];
@@ -28,7 +28,11 @@ export class ResultTimeline implements OnChanges {
     @Input() max_dates: number = 100;
     @Input() options: TimelineOptions = defaultOptions;
     
+    initDone = false;
     items : DataItem[] = [];
+
+    constructor(public visTimelineService: VisTimelineService){
+    }
 
     ngOnChanges(changes:SimpleChanges) {
         if(!!changes['record']){
@@ -44,7 +48,7 @@ export class ResultTimeline implements OnChanges {
         const events = this.events || [];
 
         const all_ids: string[] = [];
-        const all_dates: Date[] = [];
+        const all_dates: string[] = [];
 
         events.forEach(event => {
             const data_date = event.display;
@@ -57,21 +61,21 @@ export class ResultTimeline implements OnChanges {
             //console.log(year);
             //console.log(regdate.test(date) );
             //console.log( year < 2050 && year > 1950);
-            const id = this.record.id ; //+ "#" + pos;
+            const id = this.record.id + "#" + data_date;
             if(year < this.max_year && year > this.min_year && all_ids.indexOf(id)===-1){
                 this.items.push({id: id, content: cooc[0], start: date});
-                all_dates.push(date);
+                all_dates.push(cooc[1]);
                 all_ids.push(id);
             }
         });
 
         dates.forEach(dateobj => {
-            const date: Date = Utils.isDate(dateobj.display)? dateobj.display : moment(dateobj.display).toDate();
+            const date: Date = moment(dateobj.display).toDate();
             //console.log("date:",data_date[i+1]);
             //const pos = dateobj.locations.split(",")[0];
             const year = date.getFullYear();
-            const id = this.record.id + "#" + date.toString();
-            if(year < this.max_year && year > this.min_year && all_dates.indexOf(date)===-1 && all_ids.indexOf(id)===-1){
+            const id = this.record.id + "#" + dateobj.display;
+            if(year < this.max_year && year > this.min_year && all_dates.indexOf(dateobj.display)===-1 && all_ids.indexOf(id)===-1){
                 this.items.push({id: id, content: moment(date).format('ll'), start: date});
                 all_ids.push(id);
             }
@@ -110,5 +114,12 @@ export class ResultTimeline implements OnChanges {
         }else{
             console.log("no timeline for this doc...");
         }
+        if(this.initDone) {
+            this.visTimelineService.setItems(this.name, this.items);
+        }
+    }
+
+    timelineInitialized() {
+        this.initDone = true;
     }
 }

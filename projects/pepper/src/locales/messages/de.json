@@ -107,6 +107,9 @@
         "autoSave": "Auto speichern",
         "autoSaveTitle": "Speichern Sie Ihr Dashboard automatisch",
         "settingsTitle": "Dashboard-Einstellungen",
-        "widgetClose": "Schließen"
+        "widgetClose": "Schließen",
+        "renameWidget": "Widget umbenennen",
+        "renameWidgetMessage": "Geben Sie einen neuen Namen für dieses Widget ein",
+        "renameWidgetTitle": "Benennen Sie dieses Widget um"
     }
 }

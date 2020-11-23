@@ -101,7 +101,7 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
     if(changes["previewDocument"]){
       if(this.previewDocument){
         this.data.forEach(val => {
-          if(this.hidden[val.value]){
+          if(this.hidden.get(val.value)){
             this.previewDocument.toggleHighlight(this.entity, false, val.value);
           }
         });

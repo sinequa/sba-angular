@@ -120,7 +120,7 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
           iconAfter: "sq-image sq-flag-" + locale.name,
           action: (item: Action, $event: UIEvent) => {    // On click, switch to this language
             this.intlService.use((item.data as Locale).name).subscribe(
-              (value) => this.languageAction.children.forEach(a => a.update()));
+              (value) => this.languageAction.children!.forEach(a => a.update()));
           },
           updater: (action) => {  // Update the status of buttons
             action.selected = action.data === this.intlService.currentLocale;

@@ -63,29 +63,27 @@ export class BsResultsViewSelector implements OnChanges, OnDestroy {
     private buildViewAction() {
         if (this.resultsViewService.views.length <= 1) {
             this.viewAction = undefined;
+            this.items = [];
             return;
         }
         const includedViews = this.resultsViewService.getIncludedViews(this.query.tab);
         if (includedViews.length <= 1) {
             this.viewAction = undefined;
+            this.items = [];
             return;
         }
         if (this.useDropdownMenu) {
             this.viewAction = new Action({
                 title: "msg#results.viewTitle",
-                children: [
-                ]
-            });
-            for (const view of includedViews) {
-                this.viewAction.children.push(new Action({
+                children: includedViews.map(view => new Action({
                     text: view.display,
                     icon: view.icon,
                     data: view,
                     action: (item: Action, event: Event) => {
                         this.selectView(item.data);
                     }
-                }));
-            }
+                }))
+            });
             this.items = [this.viewAction];
         }
         else {

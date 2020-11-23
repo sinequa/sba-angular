@@ -1,6 +1,6 @@
 import {Query} from '@sinequa/core/app-utils';
 
-export const searchServiceStub = () => ({
+export const SearchServiceFactory = () => ({
   search: () => {},
   isEmptySearchIgnoreSelects: () => {},
   query: new Query("test"),

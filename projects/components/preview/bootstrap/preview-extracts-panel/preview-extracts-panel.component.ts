@@ -78,26 +78,24 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
       title: "msg#sortSelector.sortByTitle",
       text:  "msg#preview.relevanceSortHighlightButtonText",
       children: [
+        new Action({
+          icon: 'fas fa-sort-amount-down',
+          text: "msg#preview.relevanceSortHighlightButtonText",
+          action: (item: Action, event: Event) => {
+              this.extracts.sort((a,b) => a.relevanceIndex-b.relevanceIndex);
+              this.sortAction.text = item.text;
+          }
+        }),
+        new Action({
+          icon: 'fas fa-sort-amount-down',
+          text: "msg#preview.textOrderSortHighlightButtonText",
+          action: (item: Action, event: Event) => {
+              this.extracts.sort((a,b) => a.textIndex-b.textIndex);
+              this.sortAction.text = item.text;
+          }
+        })
       ]
     });
-
-    this.sortAction.children.push(new Action({
-      icon: 'fas fa-sort-amount-down',
-      text: "msg#preview.relevanceSortHighlightButtonText",
-      action: (item: Action, event: Event) => {
-          this.extracts.sort((a,b) => a.relevanceIndex-b.relevanceIndex);
-          this.sortAction.text = item.text;
-      }
-    }));
-
-    this.sortAction.children.push(new Action({
-      icon: 'fas fa-sort-amount-down',
-      text: "msg#preview.textOrderSortHighlightButtonText",
-      action: (item: Action, event: Event) => {
-          this.extracts.sort((a,b) => a.textIndex-b.textIndex);
-          this.sortAction.text = item.text;
-      }
-    }));
 
   }
 

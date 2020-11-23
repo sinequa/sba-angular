@@ -18,7 +18,7 @@ export const AGGREGATION_GEO = {
         "label": "msg#metadata.geoLabel",
         "labelPlural": "msg#metadata.geoPluralLabel"
       },
-      "$selected": true
+      "$selected": false
     },
     {
       "value": "GUANTANAMO",
@@ -235,7 +235,7 @@ export const AGGREGATION_SIZE = {
         "labelPlural": "msg#metadata.sizePluralLabel",
         "formatter": "memorysize"
       },
-      "$selected": true
+      "$selected": false
     },
     {
       "value": "size`100 Ko à 1 Mo`:(>= 102400 AND < 1048576)",
@@ -254,7 +254,7 @@ export const AGGREGATION_SIZE = {
         "labelPlural": "msg#metadata.sizePluralLabel",
         "formatter": "memorysize"
       },
-      "$selected": true
+      "$selected": false
     },
     {
       "value": "size`1 Mo à 10 Mo`:(>= 1048576 AND < 10485760)",
@@ -294,6 +294,79 @@ export const AGGREGATION_SIZE = {
     }
   ]
 };
+
+export const AGGREGATION_CONCEPTS = {
+  "name": "Concepts",
+  "column": "concepts",
+  "items": [
+    {
+      "value": "presidential campaign",
+      "score": 33.93,
+      "count": 53,
+      "$selected": false
+    },
+    {
+      "value": "White House",
+      "score": 28.726,
+      "count": 70,
+      "$selected": false
+    },
+    {
+      "value": "national security team",
+      "score": 27.341,
+      "count": 11,
+      "$selected": false
+    },
+    {
+      "value": "Senate Republicans",
+      "score": 27.282,
+      "count": 18,
+      "$selected": false
+    },
+    {
+      "value": "Tax Cuts",
+      "score": 26.193,
+      "count": 27,
+      "$selected": false
+    },
+    {
+      "value": "Democratic presidential primary",
+      "score": 23.732,
+      "count": 14,
+      "$selected": false
+    },
+    {
+      "value": "Affordable Care Act",
+      "score": 23.237,
+      "count": 28,
+      "$selected": false
+    },
+    {
+      "value": "Clinton administration",
+      "score": 22.503,
+      "count": 23,
+      "$selected": false
+    },
+    {
+      "value": "Republican Senator",
+      "score": 22.463,
+      "count": 27,
+      "$selected": false
+    },
+    {
+      "value": "first African American president",
+      "score": 22.37,
+      "count": 11,
+      "$selected": false
+    },
+    {
+      "value": "presidential candidate",
+      "score": 21.773,
+      "count": 37,
+      "$selected": false
+    }
+  ]
+}
 
 export const AGGREGATION_TIMELINE = {
   "name": "Modified",
@@ -403,111 +476,3 @@ export const AGGREGATION_BOOLEAN = {
     }
   ]
 }
-
-
-export const FACETS = [
-  {
-    name: "geo",
-    title: "msg#facet.geo.title",
-    type: "list",
-    aggregation: "Geo",
-    icon: "fas fa-globe-americas",
-    showCount: true,
-    searchable: true,
-    allowExclude: true,
-    allowOr: true,
-    allowAnd: false,
-    displayEmptyDistributionIntervals: false,
-  },
-  {
-    name: "company",
-    title: "msg#facet.company.title",
-    type: "list",
-    aggregation: "Company",
-    icon: "fas fa-building",
-    showCount: true,
-    searchable: true,
-    allowExclude: true,
-    allowOr: true,
-    allowAnd: false,
-    displayEmptyDistributionIntervals: false,
-  },
-  {
-    name: "person",
-    title: "msg#facet.person.title",
-    type: "list",
-    aggregation: "Person",
-    icon: "fas fa-user",
-    showCount: true,
-    searchable: true,
-    allowExclude: true,
-    allowOr: true,
-    allowAnd: false,
-    displayEmptyDistributionIntervals: false,
-  },
-  {
-    name: "docformat",
-    title: "msg#facet.docformat.title",
-    type: "list",
-    aggregation: "DocFormat",
-    icon: "far fa-file-word",
-    showCount: true,
-    searchable: true,
-    allowExclude: true,
-    allowOr: true,
-    allowAnd: false,
-    displayEmptyDistributionIntervals: false,
-  },
-  {
-    name: "modified",
-    title: "msg#facet.modified.title",
-    type: "list",
-    aggregation: "Modified",
-    icon: "fas fa-calendar-day",
-    showCount: true,
-    searchable: true,
-    allowExclude: true,
-    allowOr: true,
-    allowAnd: false,
-    displayEmptyDistributionIntervals: false,
-  },
-  {
-    name: "size",
-    title: "msg#facet.size.title",
-    type: "list",
-    aggregation: "Size",
-    icon: "fas fa-sort-amount-up-alt",
-    showCount: true,
-    searchable: true,
-    allowExclude: true,
-    allowOr: true,
-    allowAnd: false,
-    displayEmptyDistributionIntervals: false,
-  },
-  {
-    name: "documentlanguages",
-    title: "msg#facet.documentlanguages.title",
-    type: "list",
-    aggregation: "DocumentLanguages",
-    icon: "far fa-comment",
-    showCount: true,
-    searchable: true,
-    allowExclude: true,
-    allowOr: true,
-    allowAnd: false,
-    displayEmptyDistributionIntervals: false,
-  },
-  {
-    name: "concepts",
-    title: "msg#facet.concepts.title",
-    type: "list",
-    aggregation: "Concepts",
-    icon: "fas fa-comment-dots",
-    showCount: true,
-    searchable: true,
-    allowExclude: true,
-    allowOr: true,
-    allowAnd: false,
-    displayEmptyDistributionIntervals: false,
-  },
-];

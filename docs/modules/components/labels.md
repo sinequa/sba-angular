@@ -75,19 +75,19 @@ Actually, the `Labels Module` defines three levels of actions that could be appl
 
 As for **global** actions, the menu, in the navigation bar, uses the [`ModalService`]({{site.baseurl}}core/injectables/ModalService.html) to open a popup dialog and perform following actions :
 
-- `renameLabelModal(): void`
+- `renameLabelModal(): Promise<ModalResult>`
 
     This method renames the label(s) in the index. **Be careful**, this action is irreversible.
 
-- `deleteLabelModal(): void`
+- `deleteLabelModal(): Promise<ModalResult>`
 
     This method deletes the selected label(s) from the index. **Be careful**, this action is also irreversible.
 
-- `bulkRemoveLabelModal(): void`
+- `bulkRemoveLabelModal(): Promise<ModalResult>`
 
     This method unassign the given label(s) from all results reported by the engine (not only from the first page).
 
-- `bulkAddLabelModal(): void`
+- `bulkAddLabelModal(): Promise<ModalResult>`
 
     This method assign the given label(s) to all results reported by the engine (not only to the first page).
 
@@ -109,7 +109,7 @@ Thus, it can be an assign, unassign or even both actions at the same time.
 
 Both cases are using the same method:
 
-- `editLabelModal(): void`
+- `editLabelModal(): Promise<ModalResult>`
 
     This method edits the labels of the current selected documents.
 

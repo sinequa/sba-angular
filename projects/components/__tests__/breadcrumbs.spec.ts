@@ -1,13 +1,14 @@
 import {TestBed} from "@angular/core/testing";
+import {HttpHandler} from '@angular/common/http';
 
 import {AppService, Query, FormatService, Expr, ExprValueInitializer} from '@sinequa/core/app-utils';
 import {IntlService} from '@sinequa/core/intl';
+import {START_CONFIG} from '@sinequa/core/web-services';
 
-import {searchServiceStub} from './stubs';
+import {SearchServiceFactory} from '@testing/factories';
+
 import {Breadcrumbs, BreadcrumbsItem} from '../search/breadcrumbs';
 import {SearchService} from '../search';
-import {HttpHandler} from '@angular/common/http';
-import {START_CONFIG} from '@sinequa/core/web-services';
 
 describe('Test class Breadcrumbs', () => {
   let breadcrumbs: Breadcrumbs;
@@ -22,7 +23,7 @@ describe('Test class Breadcrumbs', () => {
         AppService,
         HttpHandler,
         {provide: START_CONFIG, useValue: {app: "testing_app"}},
-        {provide: SearchService, useFactory: searchServiceStub},
+        {provide: SearchService, useFactory: SearchServiceFactory},
         {provide: FormatService, useValue: {}},
         {provide: IntlService, useValue: {}}
       ]

@@ -16,21 +16,8 @@ import {
 import { AppService } from "@sinequa/core/app-utils";
 import { UIService } from "@sinequa/components/utils";
 import { LabelsWebService, Labels } from "@sinequa/core/web-services";
-import { Subscription } from "rxjs";
 import { Keys } from "@sinequa/core/base";
 import { LabelsService } from "./labels.service";
-
-/**
- * Interface required to be implement by the component displaying
- * the labels items (basically the content of labelsItems)
- */
-export interface LabelsItemsContainer {
-    /** Update the list of items displayed by the container */
-    update(items: AutocompleteItem[]): void;
-
-    /** Event triggered when the user removes an item from the container */
-    itemRemoved: EventEmitter<AutocompleteItem>;
-}
 
 @Directive({
     selector: "[sqAutocompleteLabels]",
@@ -38,9 +25,6 @@ export interface LabelsItemsContainer {
 export class LabelsAutocomplete extends Autocomplete {
     /** Event synchronizing the list of selected labels in the parent component */
     @Output() itemsUpdate = new EventEmitter<AutocompleteItem[]>();
-
-    /** Container displaying the labelsItems */
-    @Input() labelsItemsContainer?: LabelsItemsContainer;
 
     /** Whether the labels are public or not */
     @Input() public: boolean;
@@ -51,11 +35,8 @@ export class LabelsAutocomplete extends Autocomplete {
     /** Define the right of adding new labels in labelsItems or not */
     @Input() allowManagePublicLabels: boolean = false;
 
-    /** Initial labels to be displayed in the labelsAutocomplete input*/
-    @Input() initLabels: string[];
-
     /** Stores the selected labels items selected via Tab */
-    public labelsItems: AutocompleteItem[] = [];
+    @Input() labelsItems: AutocompleteItem[] = [];
 
     /** Stores the suggestions retrieved by th server in order to perform checks on key.enter events */
     private _suggestions: string[] = [];
@@ -88,18 +69,8 @@ export class LabelsAutocomplete extends Autocomplete {
      * @param changes
      */
     ngOnChanges(changes: SimpleChanges) {
-        // Subscribe to the labels items' container
-        if (changes["labelsItemsContainer"] && this.labelsItemsContainer) {
-            if (this._labelsSubscription) {
-                this._labelsSubscription.unsubscribe();
-            }
-            this._labelsSubscription = this.labelsItemsContainer.itemRemoved.subscribe(
-                (item) => {
-                    this.labelsItems.splice(this.labelsItems.indexOf(item), 1);
-                    this.itemsUpdate.next(this.labelsItems);
-                    this.updatePlaceholder();
-                }
-            );
+        if (changes["labelsItems"]) {
+            this.updatePlaceholder();
         }
 
         // Override start() by using init() instead, so that no double queries are generated and autocomplete dropdown is shown only on focus
@@ -108,39 +79,14 @@ export class LabelsAutocomplete extends Autocomplete {
         }
 
         // If labels category changes, we must remove the selected labels items and reinitialize the autocomplete
-        if (changes["public"]) {
+        if (changes["public"] && !changes["public"].firstChange) {
+            const newInitLabels = [...changes["labelsItems"].currentValue];
             this.inputElement.blur();
-            this.labelsItems.splice(0);
+            /** Reset the input Value*/
             this.setInputValue("");
-        }
-
-        // If initLabels changes, we must update the already selected labels items
-        if (changes["initLabels"]) {
-            if (!!changes["initLabels"].currentValue) {
-                this.labelsItems = changes["initLabels"].currentValue.map(
-                    (label) => {
-                        return {
-                            display: label,
-                            category: "",
-                        };
-                    }
-                );
-            }
-        }
-
-        this.updatePlaceholder();
-        this.itemsUpdate.next(this.labelsItems);
-        this.labelsItemsContainer?.update(this.labelsItems);
-    }
-
-    private _labelsSubscription: Subscription;
-    /**
-     * Unsubscribe when destroying the component
-     */
-    ngOnDestroy() {
-        super.ngOnDestroy();
-        if (this._labelsSubscription) {
-            this._labelsSubscription.unsubscribe();
+            /** initialize the input needed specially for labels edit cases */
+            this.updatePlaceholder();
+            this.itemsUpdate.next(newInitLabels);
         }
     }
 
@@ -251,7 +197,6 @@ export class LabelsAutocomplete extends Autocomplete {
             // Store the autocomplete items that will be used to create a selection
             this.labelsItems.push(item);
             this.updatePlaceholder();
-            this.labelsItemsContainer?.update(this.labelsItems);
             this.itemsUpdate.next(this.labelsItems);
             this.setInputValue("");
         }
@@ -263,7 +208,11 @@ export class LabelsAutocomplete extends Autocomplete {
      * immediately switch to ACTIVE if it is not the case
      */
     protected startOrActive(): void {
-        if(this.getState()!== AutocompleteState.ACTIVE && this.getState()!== AutocompleteState.OPENED){ // Avoid flickering
+        if (
+            this.getState() !== AutocompleteState.ACTIVE &&
+            this.getState() !== AutocompleteState.OPENED
+        ) {
+            // Avoid flickering
             this.start();
             this.active();
         }
@@ -285,36 +234,12 @@ export class LabelsAutocomplete extends Autocomplete {
                 if (this.getInputValue() === "") {
                     this.labelsItems.pop();
                     this.updatePlaceholder();
-                    this.labelsItemsContainer?.update(this.labelsItems);
                     this.itemsUpdate.next(this.labelsItems);
                 }
             }
             /** Allow the selection one of new labels that not exists in the list */
             if (event.keyCode === Keys.enter) {
-                if (!!this.getInputValue() && this.getInputValue() !== "") {
-                    if (this.allowNewLabels) {
-                        /** When it is an add Labels action ==> check the privilege to create new label */
-                        if (
-                            !this.public ||
-                            (this.public && this.allowManagePublicLabels)
-                        ) {
-                            this.setAutocompleteItem({
-                                display: this.getInputValue(),
-                                category: "",
-                            });
-                        }
-                    } else {
-                        /** For all other actions on the labels, check if the typed text equals an existing label in the _suggestions  */
-                        if (
-                            this._suggestions.indexOf(this.getInputValue()) > -1
-                        ) {
-                            this.setAutocompleteItem({
-                                display: this.getInputValue(),
-                                category: "",
-                            });
-                        }
-                    }
-                }
+                this._manageSetAutocompleteItem();
             }
         }
         return keydown;
@@ -337,29 +262,7 @@ export class LabelsAutocomplete extends Autocomplete {
      * Listens to blur events (out of focus) on the <input> host and overrides the parent blur events
      */
     @HostListener("blur", ["$event"]) blur(event: FocusEvent) {
-        /** Always consider if there is text in the <input> and that it is not yet added in the labelsItems  */
-        if (!!this.getInputValue() && this.getInputValue() !== "") {
-            if (this.allowNewLabels) {
-                /** When it is an add Labels action */
-                if (
-                    !this.public ||
-                    (this.public && this.allowManagePublicLabels)
-                ) {
-                    this.setAutocompleteItem({
-                        display: this.getInputValue(),
-                        category: "",
-                    });
-                }
-            } else {
-                /** For all other actions on the labels */
-                if (this._suggestions.indexOf(this.getInputValue()) > -1) {
-                    this.setAutocompleteItem({
-                        display: this.getInputValue(),
-                        category: "",
-                    });
-                }
-            }
-        }
+        this._manageSetAutocompleteItem();
         this.init();
     }
 
@@ -391,5 +294,31 @@ export class LabelsAutocomplete extends Autocomplete {
      */
     updatePlaceholder() {
         this._placeholder = this.labelsItems.length > 0 ? "" : this.placeholder;
+    }
+
+    private _manageSetAutocompleteItem(): void {
+        /** Always consider if there is text in the <input> and that it is not yet added in the labelsItems  */
+        if (!!this.getInputValue() && this.getInputValue() !== "") {
+            if (this.allowNewLabels) {
+                /** When it is an add Labels action ==> check the privilege to create new label */
+                if (
+                    !this.public ||
+                    (this.public && this.allowManagePublicLabels)
+                ) {
+                    this.setAutocompleteItem({
+                        display: this.getInputValue(),
+                        category: "",
+                    });
+                }
+            } else {
+                /** For all other actions on the labels, check if the typed text equals an existing label in the _suggestions  */
+                if (this._suggestions.indexOf(this.getInputValue()) > -1) {
+                    this.setAutocompleteItem({
+                        display: this.getInputValue(),
+                        category: "",
+                    });
+                }
+            }
+        }
     }
 }

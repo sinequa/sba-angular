@@ -1,7 +1,12 @@
-import {Component, OnInit, Inject, ChangeDetectorRef} from "@angular/core";
-import {ModalButton, ModalResult, MODAL_MODEL, ModalRef} from "@sinequa/core/modal";
-import { ModalProperties, LabelsService } from '../../labels.service';
-import { Utils } from '@sinequa/core/base';
+import { Component, OnInit, Inject, ChangeDetectorRef } from "@angular/core";
+import {
+    ModalButton,
+    ModalResult,
+    MODAL_MODEL,
+    ModalRef,
+} from "@sinequa/core/modal";
+import { ModalProperties, LabelsService } from "../../labels.service";
+import { Utils } from "@sinequa/core/base";
 
 @Component({
     selector: "sq-add-label",
@@ -18,7 +23,6 @@ import { Utils } from '@sinequa/core/base';
     ],
 })
 export class BsAddLabel implements OnInit {
-
     public buttons: ModalButton[];
     public isProcessing: boolean = false;
 
@@ -41,11 +45,15 @@ export class BsAddLabel implements OnInit {
                 result: ModalResult.Custom,
                 anchor: true,
                 action: () => {
-                    const observable = this.labelsService.bulkAddLabels(this.model.values, this.model.properties.public);
+                    const observable = this.labelsService.bulkAddLabels(
+                        this.model.values,
+                        this.model.properties.public
+                    );
                     if (observable) {
                         this.isProcessing = true;
                         this.changeDetectorRef.markForCheck();
-                        Utils.subscribe(observable,
+                        Utils.subscribe(
+                            observable,
                             () => {},
                             (error) => {
                                 this.modalRef.close(error);
@@ -56,7 +64,7 @@ export class BsAddLabel implements OnInit {
                             }
                         );
                     }
-                }
+                },
             }),
             new ModalButton({
                 result: ModalResult.Cancel,

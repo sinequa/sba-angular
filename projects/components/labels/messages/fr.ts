@@ -58,7 +58,7 @@ export default {
 
     "editLabel": {
         "title": "Editer le(s) libellé(s) de(s) résultat(s) sélectionné(s)",
-        "btnEdit": "Editer",
+        "btnEdit": "Sauvegarder",
         "alertText": "Cette action édite le(s) libellé(s) de(s) résultat(s) sélectionné(s)",
         "infoText": "Appuyez sur 'Entrée' pour ajouter un nouveau libellé qui n'existe pas dans les suggestions",
         "labelsToBeRemoved": "Libellé(s) à enlever",

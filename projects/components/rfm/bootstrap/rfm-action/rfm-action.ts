@@ -117,7 +117,6 @@ export class BsRfmAction implements OnChanges, OnDestroy {
 
     buildAction() {
         this.action = new Action({
-            children: [],
             updater: (item) => {
                 item.icon = this.getActionIcon(this.rfmImage);
             }
@@ -128,18 +127,16 @@ export class BsRfmAction implements OnChanges, OnDestroy {
             };
         }
         if (this.displayMenu) {
-            for (const rfmDisplay of this.menuActions) {
-                this.action.children.push(new Action({
-                    icon: this.getActionIcon(rfmDisplay),
-                    data: rfmDisplay,
-                    action: (item) => {
-                        this.selectRfmDisplay(item.data);
-                    },
-                    updater: (item) => {
-                        item.disabled = rfmDisplay === this.rfmStatus;
-                    }
-                }));
-            }
+            this.action.children = this.menuActions.map(rfmDisplay => new Action({
+                icon: this.getActionIcon(rfmDisplay),
+                data: rfmDisplay,
+                action: (item) => {
+                    this.selectRfmDisplay(item.data);
+                },
+                updater: (item) => {
+                    item.disabled = rfmDisplay === this.rfmStatus;
+                }
+            }));
         }
         this.action.update();
     }

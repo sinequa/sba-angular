@@ -10,6 +10,7 @@ import {Subject, Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {SearchService, BreadcrumbsItem} from "@sinequa/components/search";
 import {SuggestService} from "@sinequa/components/autocomplete";
+import {FacetConfig} from './bootstrap';
 
 // Facet interface (from models/UserSettings)
 export interface FacetState {
@@ -261,7 +262,7 @@ export class FacetService {
             this.searchService.query.removeSelect(facetName);
         }
 
-        if (this.searchService.breadcrumbs && this.searchService.breadcrumbs.activeSelects.length > 0 && !options.replaceCurrent) {
+        if (!aggregation.isTree && this.searchService.breadcrumbs && this.searchService.breadcrumbs.activeSelects.length > 0 && !options.replaceCurrent) {
             const expr = this.searchService.breadcrumbs.findSelect(facetName);
             const index = this.searchService.breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === expr || select.expr === expr?.parent));
             const same = (!Array.isArray(items)) ? true : (options.and ? "AND" : "OR") === (expr?.and ? "AND" : "OR") && (options.not ? "YES" : "NO") === (expr?.not ? "YES" : "NO");
@@ -274,6 +275,8 @@ export class FacetService {
                     // previous selection is a single value
                     _items = this.ExprToAggregationItem(expr as Expr, aggregation.valuesAreExpressions).concat(items);
                 }
+                // MUST reset $excluded property otherwise expression is misunderstood
+                _items.forEach(item => item.$excluded = undefined);
                 // overrides options settings with expression if any
                 options = {and: options.and || expr.and, not: options.not || expr.not};
                 const _expr = this.makeExpr(facetName, aggregation, _items, options);
@@ -324,7 +327,8 @@ export class FacetService {
      */
     public removeFilter(facetName: string, aggregation: Aggregation, item: AggregationItem){
         if (this.searchService.breadcrumbs) {
-            const expr = this.findItemFilter(facetName, aggregation, item);
+            const filterExpr = this.findItemFilter(facetName, aggregation, item) || this.appService.parseExpr(this.makeExpr(facetName, aggregation, item) || '');
+            const expr = this.searchService.breadcrumbs.findSelect(facetName, filterExpr);
             const i = this.searchService.breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === expr || select.expr === expr?.parent));
 
             // 'Select' can't be created when aggregation is a tree map, so, avoid aggregation tree
@@ -337,7 +341,10 @@ export class FacetService {
                 const filter = (aggregation.valuesAreExpressions) ? filterByValuesAreExpression : filterByValue;
 
                 const items: AggregationItem[] = this.ExprToAggregationItem(expr.parent.operands, aggregation.valuesAreExpressions).filter(filter);
-                const _expr = this.makeExpr(facetName, aggregation, items, {and: expr.parent.and, not: expr.parent.not});
+                // MUST reset $excluded property otherwise expression is misunderstood (mainly NOT expressions)
+                items.forEach(item => item.$excluded = undefined);
+                const {not, and} = this.searchService.breadcrumbs.selects[i].expr || {};
+                const _expr = this.makeExpr(facetName, aggregation, items, {not, and});
                 if (_expr) this.searchService.query.replaceSelect(i, {expression: _expr, facet: facetName});
             } else {
                 // filter is a single value... remove it
@@ -911,9 +918,9 @@ export class FacetService {
                 if (item.column?.eType === EngineType.bool) {
                     value = Utils.isTrue(item.value);
                 }
-                return ({count: 0, value, display: item.display, $column: item.column} as AggregationItem);
+                return ({count: 0, value, display: item.display, $column: item.column, $excluded: (item?.not || item?.parent?.not)} as AggregationItem);
             },
-            (item: Expr) => ({count: 0, value: item.toString((item.value) ? true : false), display: item.display, $column: item.column} as AggregationItem)
+            (item: Expr) => ({count: 0, value: item.toString((item.value) ? true : false), display: item.display, $column: item.column, $excluded: (item?.not || item?.parent?.not)} as AggregationItem)
         ];
 
         const callback = valuesAreExpressions ? fn[1] : fn[0];
@@ -973,5 +980,21 @@ export class FacetService {
             item.value = Utils.isTrue(item.value);
         }
         return item;
+    }
+
+    /**
+     * Check if a facet contains items
+     * @param facet facet to check
+     * @param results search results
+     *
+     * @returns true if the facet contains a least one item otherwise false
+     */
+    hasData(facet: FacetConfig, results: Results): boolean {
+        if (facet.type === 'tree') {
+            const agg = this.getAggregation(facet.aggregation, results, {facetName: facet.name});
+            return !!agg && !!agg.items && agg.items.length > 0;
+        }
+        const agg = this.getAggregation(facet.aggregation, results);
+        return !!agg && !!agg.items && agg.items.length > 0;
     }
 }

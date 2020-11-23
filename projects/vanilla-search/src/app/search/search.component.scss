@@ -29,3 +29,16 @@
 .full-width {
     flex-basis: 100%;
 }
+
+.nav-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.main {
+    margin-top: 70px;
+    margin-bottom: 20px;
+}

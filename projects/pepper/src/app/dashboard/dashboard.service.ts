@@ -14,6 +14,7 @@ import { GridsterConfig, GridsterItem } from 'angular-gridster2';
 import { NotificationsService } from '@sinequa/core/notification';
 import { Subject } from 'rxjs';
 import { UserPreferences } from '@sinequa/components/user-settings';
+import { IntlService } from '@sinequa/core/intl';
 
 
 export interface DashboardItem extends GridsterItem {
@@ -78,7 +79,8 @@ export class DashboardService {
         public router: Router,
         public location: Location,
         public urlSerializer: UrlSerializer,
-        public clipboard: Clipboard
+        public clipboard: Clipboard,
+        public intlService: IntlService
     ) {
         
         // Default options
@@ -93,12 +95,12 @@ export class DashboardService {
             resizable: {enabled: true},
             itemChangeCallback: (item, itemComponent) => {
                 item.layerIndex = itemComponent.gridster.rows - item.y; // Hack to give items at the top of the page a higher z-index than at the bottom, so their dropdown menus do not get hidden by the cards below
-                this.dashboardChanged.next(this.dashboard);
+                this.notifyItemChange(item as DashboardItem);
             },
             itemResizeCallback: (item, itemComponent) => {
                 item.height = itemComponent.height; // Items must know their own width/height to (re)size their content
                 item.width = itemComponent.width;
-                this.dashboardChanged.next(this.dashboard);
+                this.notifyItemChange(item as DashboardItem);
             },
             scrollToNewItems: true, // Scroll to new items when inserted
             gridType: 'verticalFixed', // The grid has a fixed size vertically, and fits the screen horizontally
@@ -225,7 +227,29 @@ export class DashboardService {
     
     public removeItem(item: DashboardItem) {
         this.dashboard.items.splice(this.dashboard.items.indexOf(item), 1);
-        this.dashboardChanged.next(this.dashboard);
+        this.notifyItemChange(item);
+    }
+
+    public renameWidget(item: DashboardItem, newTitle: string) {
+        item.title = newTitle;
+        this.notifyItemChange(item);
+    }
+
+    public renameWidgetModal(item: DashboardItem) {
+        
+        const model: PromptOptions = {
+            title: 'msg#dashboard.renameWidget',
+            message: 'msg#dashboard.renameWidgetMessage',
+            buttons: [],
+            output: this.intlService.formatMessage(item.title),
+            validators: [Validators.required]
+        };
+
+        this.modalService.prompt(model).then(res => {
+            if(res === ModalResult.OK) {
+                this.renameWidget(item, model.output);
+            }
+        });
     }
 
     public createDashboardActions(addWidgetOptions: DashboardItemOption[]): Action[] {
