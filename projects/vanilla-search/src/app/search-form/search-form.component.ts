@@ -105,7 +105,6 @@ export class SearchFormComponent implements OnInit, OnDestroy {
                 }
             }
             this.searchService.search({ path: "/search" });
-            console.log(this.advancedService. getAdvancedValues())
         }
     }
 

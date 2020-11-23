@@ -408,7 +408,6 @@ export class AdvancedService {
                 const expression = select.expression;
                 const expr = this.appService.parseExpr(expression);
                 if (expr instanceof Expr) {
-                    console.log(expr.getFields());
                     let value;
                     if (
                         Utils.isString(expr.value) &&
