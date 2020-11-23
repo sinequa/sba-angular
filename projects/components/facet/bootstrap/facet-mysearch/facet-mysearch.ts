@@ -1,67 +1,39 @@
-import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
-import {MapOf} from "@sinequa/core/base";
-import {AppService, Expr} from "@sinequa/core/app-utils";
-import {Results, AdvancedValue, AdvancedValueWithOperator} from "@sinequa/core/web-services";
-import {SearchService, BreadcrumbsItem} from "@sinequa/components/search";
-import {AbstractFacet} from "../../abstract-facet";
+import { Component, Input } from "@angular/core";
+import { AppService } from "@sinequa/core/app-utils";
+import { Results } from "@sinequa/core/web-services";
+import { SearchService, BreadcrumbsItem } from "@sinequa/components/search";
+import { AbstractFacet } from "../../abstract-facet";
+import { AdvancedService } from "@sinequa/components/advanced";
 
 @Component({
-    selector: "sq-mysearch",
+    selector: "sq-facet-mysearch",
     templateUrl: "./facet-mysearch.html",
-    styles:[`
-    .badge{
-        font-size: 90%;
-    }
-    `]
+    styles: [
+        `
+            .badge {
+                font-size: 12px;
+            }
+            .clickable {
+                margin: 3px;
+                cursor: pointer;
+            }
+            .clickable:hover {
+                opacity: 85%;
+            }
+        `,
+    ],
 })
-export class BsMySearch extends AbstractFacet implements OnChanges {
+export class BsMySearch extends AbstractFacet {
     @Input() results: Results;
     @Input() allowDeletion: boolean = true;
     @Input() displayFieldNames: boolean = true;
-    advancedValues: MapOf<{value: AdvancedValue | AdvancedValueWithOperator, display: Expr | string}[]>;
-    advancedFields: string[];
 
     constructor(
         public appService: AppService,
-        public searchService: SearchService) {
-            super();
-    }
-
-    getField(item: BreadcrumbsItem): string {
-        if (item.expr) {
-            if (item.expr.field) {
-                return item.expr.field;
-            }
-            else {
-                if (!item.expr.isStructured) {
-                    return "text";
-                }
-                else {
-                    const fields = item.expr.getFields();
-                    return fields.join("-");
-                }
-            }
-        }
-        return "unknown";
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        if (changes["results"]) {
-            // const advancedValues = this.searchService.query.getAdvancedValues();
-            // this.advancedFields = Object.keys(advancedValues);
-            // this.advancedValues = {};
-            // for (const key of this.advancedFields) {
-            //     this.advancedValues[key] = advancedValues[key].map(value => ({
-            //         value: value,
-            //         display: this.searchService.query.getAdvancedValueExpr(this.appService, key, value)
-            //     }));
-            // }
-        }
-    }
-
-    removeAdvancedValue(field: string, value: AdvancedValue | AdvancedValueWithOperator): boolean {
-        // this.searchService.removeAdvanced(field, value);
-        return false;
+        public searchService: SearchService,
+        public advancedService: AdvancedService
+    ) {
+        super();
     }
 
     removeItem(item: BreadcrumbsItem): boolean {

@@ -107,7 +107,7 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
             maxDate: this.options.maxDate,
             containerClass:'theme-default',
             showWeekNumbers: false,
-            rangeInputFormat: this.options.system ? this.SystemFormat : "L"
+            rangeInputFormat: this.options.system ? this.SystemFormat : moment.localeData().longDateFormat('L')
         };
     }
 
@@ -126,7 +126,7 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
             maxDate: this.maxDate,
             containerClass:'theme-default',
             showWeekNumbers: false,
-            dateInputFormat: this.options.system ? this.SystemFormat : "L",
+            dateInputFormat: this.options.system ? this.SystemFormat : moment.localeData().longDateFormat('L'),
         };
     }
 
@@ -136,7 +136,7 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
             maxDate: this.options.maxDate,
             containerClass:'theme-default',
             showWeekNumbers: false,
-            dateInputFormat: this.options.system ? this.SystemFormat : "L",
+            dateInputFormat: this.options.system ? this.SystemFormat : moment.localeData().longDateFormat('L'),
         };
     }
 

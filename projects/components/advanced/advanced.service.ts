@@ -117,6 +117,9 @@ export interface AdvancedCheckbox extends BasicAdvancedConfig {}
     providedIn: "root",
 })
 export class AdvancedService {
+    /**
+     * Abstracted form validators packaged within SBA to standardize advanced-search validation
+     */
     public readonly advancedFormValidators: AdvancedFormValidators = {
         min: (min, config) =>
             this.validationService.minValidator(
@@ -152,6 +155,9 @@ export class AdvancedService {
         public formatService: FormatService
     ) {}
 
+    /**
+     * Build default search form with a simple search input control
+     */
     public buildForm(): FormGroup {
         const search = new FormControl(
             {
@@ -169,6 +175,12 @@ export class AdvancedService {
         });
     }
 
+    /**
+     * Return a standard FormControl compatible with a select component
+     * @param config required configuration for the generic advanced-form-select
+     * @param validators optional validators to be added to the returned FormControl
+     * @param asyncValidators optional asyncValidators to be added to the returned FormControl
+     */
     public createSelectControl(
         config: AdvancedSelect,
         validators?: ValidatorFn[],
@@ -177,6 +189,12 @@ export class AdvancedService {
         return this._createControl(config, validators, asyncValidators);
     }
 
+    /**
+     * Return a standard FormControl compatible with a range-input component
+     * @param config required configuration for the generic advanced-form-range
+     * @param validators optional validators to be added to the returned FormControl
+     * @param asyncValidators optional asyncValidators to be added to the returned FormControl
+     */
     public createRangeControl(
         config: AdvancedRange,
         validators?: ValidatorFn[],
@@ -185,6 +203,12 @@ export class AdvancedService {
         return this._createControl(config, validators, asyncValidators);
     }
 
+    /**
+     * Return a standard FormControl compatible with a text input component
+     * @param config required configuration for the generic advanced-form-input
+     * @param validators optional validators to be added to the returned FormControl
+     * @param asyncValidators optional asyncValidators to be added to the returned FormControl
+     */
     public createInputControl(
         config: AdvancedInput,
         validators?: ValidatorFn[],
@@ -193,6 +217,12 @@ export class AdvancedService {
         return this._createControl(config, validators, asyncValidators);
     }
 
+    /**
+     * Return a standard FormControl compatible with a multi-value text input component
+     * @param config required configuration for the generic advanced-form-multi-input
+     * @param validators optional validators to be added to the returned FormControl
+     * @param asyncValidators optional asyncValidators to be added to the returned FormControl
+     */
     public createMultiInputControl(
         config: AdvancedInput,
         validators?: ValidatorFn[],
@@ -201,6 +231,12 @@ export class AdvancedService {
         return this._createControl(config, validators, asyncValidators);
     }
 
+    /**
+     * Return a standard FormControl compatible with a checkbox component
+     * @param config required configuration for the generic advanced-form-checkbox
+     * @param validators optional validators to be added to the returned FormControl
+     * @param asyncValidators optional asyncValidators to be added to the returned FormControl
+     */
     public createCheckboxControl(
         config: AdvancedCheckbox,
         validators?: ValidatorFn[],
@@ -210,8 +246,8 @@ export class AdvancedService {
     }
 
     /**
-     * Retrieve the value to be set to a specific form control from a given query
-     * @param config the advanced-search-form field config
+     * Retrieve the value to be set to a specific FormControl from a given Query
+     * @param config advanced-search-form component's configuration
      */
     public getAdvancedValue(
         config:
@@ -270,9 +306,9 @@ export class AdvancedService {
     }
 
     /**
-     * Update the query with the new values
+     * Update the Query with the advanced-search-form values
      * @param value new value to be updated in the query
-     * @param config the advanced-search-form field config
+     * @param config advanced-search-form component's configuration
      */
     public setAdvancedValue(
         value: AdvancedValue,
@@ -318,12 +354,35 @@ export class AdvancedService {
     }
 
     /**
-     * Remove all advanced search select(s) from a given query and update searchService.query accordingly
+     * Remove a specific advanced value by its field.
+     * By default, Trigger search() action
+     * @param field
+     * @param query
+     * @param searchable
+     */
+    public removeAdvancedValue(
+        field: string,
+        query?: Query | undefined,
+        searchable: boolean = true
+    ): void {
+        if (!!field) {
+            if (!query) {
+                query = this.searchService.query.copy();
+            }
+            query.removeSelect(advancedFacetPrefix + field);
+            if (searchable) {
+                this.searchService.search();
+            }
+        }
+    }
+
+    /**
+     * Remove all advanced-search select(s) from a given query and update searchService.query accordingly
      * By default, Trigger search() action
      * @param query
      * @param searchable
      */
-    public resetAdvanced(
+    public resetAdvancedValues(
         query?: Query | undefined,
         searchable: boolean = true
     ): void {
@@ -337,7 +396,7 @@ export class AdvancedService {
     }
 
     /**
-     * Return an object containing all the filled (field, value) in the advanced search form
+     * Return an object containing all the filled (field, value) in the advanced-search-form
      */
     public getAdvancedValues(): Object {
         const obj = new Object();
@@ -349,6 +408,7 @@ export class AdvancedService {
                 const expression = select.expression;
                 const expr = this.appService.parseExpr(expression);
                 if (expr instanceof Expr) {
+                    console.log(expr.getFields());
                     let value;
                     if (
                         Utils.isString(expr.value) &&
@@ -404,6 +464,12 @@ export class AdvancedService {
         return obj;
     }
 
+    /**
+     * Return a string expression of a range select
+     * @param field
+     * @param from lower value of the range
+     * @param to higher value of the range
+     */
     public makeRangeExpr(
         field: string,
         from: AdvancedValue,
@@ -435,6 +501,11 @@ export class AdvancedService {
         return undefined;
     }
 
+    /**
+     * Return a string expression of a select
+     * @param field
+     * @param value
+     */
     public makeExpr(
         field: string,
         value: AdvancedValue | AdvancedValueWithOperator
@@ -476,6 +547,11 @@ export class AdvancedService {
         return expression;
     }
 
+    /**
+     * Format a given value according to its column definition
+     * @param config
+     * @param advancedValue
+     */
     public formatAdvancedValue(
         config:
             | BasicAdvancedConfig
@@ -502,6 +578,11 @@ export class AdvancedService {
         return advancedValue;
     }
 
+    /**
+     * Check the validity of value against its column
+     * @param config
+     * @param advancedValue
+     */
     public ensureAdvancedValue(
         config:
             | BasicAdvancedConfig
@@ -519,6 +600,11 @@ export class AdvancedService {
         return this._ensureAdvancedValue(config, advancedValue);
     }
 
+    /**
+     * Cast a given value as per its column definition
+     * @param value
+     * @param column
+     */
     public castAdvancedValue(value: any, column: CCColumn | undefined): any {
         if (column) {
             if (Utils.isString(value)) {
@@ -540,6 +626,12 @@ export class AdvancedService {
         return value;
     }
 
+    /**
+     * Create a generic FormControl
+     * @param config required configuration for the generic advanced-form-select
+     * @param validators optional validators to be added to the returned FormControl
+     * @param asyncValidators optional asyncValidators to be added to the returned FormControl
+     */
     private _createControl(
         config:
             | BasicAdvancedConfig
@@ -581,6 +673,10 @@ export class AdvancedService {
         return value;
     }
 
+    /**
+     * Return the parser if existing in the given field
+     * @param field
+     */
     private _parser(field: string): string | undefined {
         const column = this.appService.getColumn(field);
         return column ? column.parser : undefined;
