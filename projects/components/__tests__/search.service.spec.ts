@@ -1,7 +1,7 @@
 import {TestBed} from "@angular/core/testing";
 import {Router} from "@angular/router";
 
-import {AuditEvents, AuditWebService, QueryWebService, CCQuery, Results, Tab} from "@sinequa/core/web-services";
+import {AuditWebService, QueryWebService, Results, Tab} from "@sinequa/core/web-services";
 import {AppService, FormatService, Query} from "@sinequa/core/app-utils";
 import {NotificationsService} from "@sinequa/core/notification";
 import {LoginService} from "@sinequa/core/login";
