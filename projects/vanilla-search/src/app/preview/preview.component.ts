@@ -1,7 +1,7 @@
-import { Component, OnInit, OnChanges, Input, Optional, Inject, InjectionToken, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Optional, Inject, InjectionToken, OnDestroy} from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Location } from "@angular/common";
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd, RouterEvent } from '@angular/router';
 import { LoginService } from '@sinequa/core/login';
 import { PreviewData } from '@sinequa/core/web-services';
 import { Query } from '@sinequa/core/app-utils';
@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 import { IntlService } from '@sinequa/core/intl';
 import { UIService } from '@sinequa/components/utils';
 import { UserPreferences } from '@sinequa/components/user-settings';
+import {filter} from 'rxjs/operators';
 
 export interface PreviewConfig {
   initialCollapsedPanel?: boolean;
@@ -65,6 +66,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   subpanels = ["extracts", "entities"];
   subpanel = 'extracts';
   previewSearchable = true;
+  loadingPreview = false;
 
   // Subscriptions
   private loginSubscription: Subscription;
@@ -99,7 +101,10 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     });
 
     // The URL can be changed when searching within the page
-    this.routerSubscription = this.router.events.subscribe({
+    this.routerSubscription = this.router.events
+      .pipe(
+        filter(event => event instanceof RouterEvent && event.url !== this.homeRoute)
+      ).subscribe({
       next: (event) => {
         if (event instanceof NavigationEnd) {
           this.clear();
@@ -209,6 +214,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
           this.previewData = previewData;
           this.downloadUrl = this.previewData ? this.previewService.makeDownloadUrl(this.previewData.documentCachedContentUrl) : undefined;
           this.titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle", {title: previewData.record.title || ""}));
+          this.loadingPreview = true;
         }
       );
     }
@@ -219,9 +225,19 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
    * @param previewDocument
    */
   onPreviewReady(previewDocument: PreviewDocument){
+    if(this.previewData) {
+      // uses preferences to uncheck highlighted entities
+      const uncheckedEntities = this.entitiesStartUnchecked;
+      Object.keys(uncheckedEntities)
+        .map(key => ({entity: key, value: uncheckedEntities[key]}))
+        .filter(item => item.value === true)
+        .map(item => previewDocument.toggleHighlight(item.entity, false));
+    }
+
     this.previewDocument = previewDocument;
     this.previewDocument.selectHighlight("matchlocations", 0); // Scroll to first match
-  }
+    this.loadingPreview = false;
+}
 
   /**
    * Back button (navigating back to search)
