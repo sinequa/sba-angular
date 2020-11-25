@@ -3,7 +3,7 @@
 
   @Component({
     selector: 'sq-scroller',
-    template: `<div #anchor></div>`
+    template: `<div #anchor style="height:5px"></div>`
   })
   export class BsScroller implements AfterViewInit, OnDestroy {
   @Input() options = {};
