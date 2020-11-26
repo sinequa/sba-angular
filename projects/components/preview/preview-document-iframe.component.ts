@@ -1,4 +1,5 @@
-import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild } from "@angular/core";
+import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild, OnChanges } from "@angular/core";
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import { PreviewDocument } from "./preview-document";
 
 
@@ -24,9 +25,10 @@ import { PreviewDocument } from "./preview-document";
 @Component({
     selector: "sq-preview-document-iframe",
     template: `<iframe #documentFrame
+                    [hidden]="loading"
                     [sandbox]="sandbox || defaultSandbox"
-                    [src]="downloadUrl"
-                    (sqLoad)="onPreviewDocLoad($event.event)"
+                    [src]="sanitizedUrlSrc"
+                    (load)="onPreviewDocLoad($event)"
                     [ngStyle]="{'-ms-zoom': scalingFactor, '-moz-transform': 'scale('+scalingFactor+')', '-o-transform': 'scale('+scalingFactor+')', '-webkit-transform': 'scale('+scalingFactor+')'}">
                 </iframe>`,
     styles: [`
@@ -52,14 +54,23 @@ iframe {
 }
     `]
 })
-export class PreviewDocumentIframe {
+export class PreviewDocumentIframe implements OnChanges {
     defaultSandbox : string = "allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts";
-    @Input() sandbox : string 
-    @Input() downloadUrl: string;
+    @Input() sandbox : string;
+    @Input() downloadUrl: string | SafeResourceUrl;
     @Input() scalingFactor: number = 1.0;
     @Output() onPreviewReady = new EventEmitter<PreviewDocument>();
     @ViewChild('documentFrame', {static: false}) documentFrame: ElementRef;  // Reference to the preview HTML in the iframe
     @ContentChild('tooltip', { read: ElementRef, static: false }) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
+
+    public loading = true;
+    public sanitizedUrlSrc: SafeResourceUrl;
+
+    constructor(private sanitizer: DomSanitizer) {
+        // when donwloadUrl is undefined, a sanitizer error occurs, code below prevents this
+        // setting a default safe url
+        this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+    }
 
     public onPreviewDocLoad(event: Event) {
         const previewDocument = new PreviewDocument(this.documentFrame);
@@ -75,9 +86,18 @@ export class PreviewDocumentIframe {
 
         // Let upstream component know
         this.onPreviewReady.next(previewDocument);
+
+        this.loading = false;
     }
 
     addTooltip(previewDocument: PreviewDocument){
         previewDocument.insertComponent(this.tooltip.nativeElement);
+    }
+
+    ngOnChanges() {
+        this.loading = true;
+        if(this.downloadUrl) {
+            this.sanitizedUrlSrc = this.downloadUrl;
+        }
     }
 }

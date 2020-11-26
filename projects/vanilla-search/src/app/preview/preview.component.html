@@ -45,10 +45,13 @@
 
         <!-- Right panel (iframe with preview HTML) -->
         <div class="flex-grow-1 d-flex flex-column">
-            <sq-preview-document-iframe [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)" *ngIf="downloadUrl">
+            <div *ngIf="loadingPreview" class="d-flex justify-content-center align-items-center h-100">
+                <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"></div>
+            </div>
+            <sq-preview-document-iframe [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)">
 
                 <!-- Tooltip injected in the preview -->
-                <sq-preview-tooltip #tooltip [previewDocument]="previewDocument"[previewData]="previewData" 
+                <sq-preview-tooltip #tooltip [previewDocument]="previewDocument" [previewData]="previewData" 
                     [entityActions]="tooltipEntityActions" [selectedTextActions]="tooltipTextActions">
                 </sq-preview-tooltip>
 

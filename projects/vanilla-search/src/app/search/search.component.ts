@@ -58,16 +58,6 @@ export class SearchComponent implements OnInit, OnDestroy {
         }
       }
     })];
-
-    // Subscribe to the search service to update the page title based on the searched text
-    this._searchServiceSubscription = this.searchService.resultsStream.subscribe(results => {
-      this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
-      if(!this.showResults){
-        this.openedDoc = undefined;
-        this._showFilters = false;
-      }
-    });
-
   }
 
   /**
@@ -75,6 +65,15 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   ngOnInit() {
     this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: ""}));
+
+    this._searchServiceSubscription = this.searchService.resultsStream
+      .subscribe(results => {
+        this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
+        if (!this.showResults) {
+          this.openedDoc = undefined;
+          this._showFilters = false;
+        }
+      });
   }
 
   /**
