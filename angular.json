@@ -521,8 +521,5 @@
       }
     }
   },
-  "defaultProject": "core",
-  "cli": {
-    "analytics": false
-  }
+  "defaultProject": "core"
 }
