@@ -49,13 +49,6 @@ If the App is deployed on the Sinequa server, it needs to point to an **Angular 
 *App configuration - General tab*
 {: .text-center }
 
-In the **Auto-Login** tab of the App configuration, it is possible to reference a login provider configured at the level of the Webapp.
-Note that for certain types of SSO (like Windows authentication), the configuration needs to be done essentially in the IIS server (See [Login methods]({{site.baseurl}}tipstricks/login-methods.html)).
-
-![Auto-Login tab]({{site.baseurl}}assets/gettingstarted/admin-app-auth.png)
-*App configuration - Auto-Login tab*
-{: .text-center }
-
 In the **Customization (JSON)** tab of the App configuration, it is possible to write data (in JSON syntax),
 which will be passed to the Angular app on initialization.
 The benefit of using this field (rather than just writing the data in the app source code) is that this data may change
@@ -77,6 +70,8 @@ when saving the App configuration and notifies you should the JSON be not valid.
 Please refer to [Tips & tricks - Server-side-configuration]({{site.baseurl}}tipstricks/configuration.html#server-side-configuration) for an example of how to use the JSON data to customize vanilla-search.
 
 In the **Advanced** tab of the App configuration, it is possible to restrict the availability of the app to certain users and groups.
+You can also assign the current App configuration as the default Angular app for a user or a group.
+This default Angular app is used when the assigned user navigates on the Sinequa server without specifying the app that they want to use.
 
 ![Advanced tab]({{site.baseurl}}assets/gettingstarted/admin-app-sec.png)
 *App configuration - Advanced tab*
