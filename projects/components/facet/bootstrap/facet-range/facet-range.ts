@@ -3,14 +3,14 @@ import {Subscription} from "rxjs";
 import {Utils} from "@sinequa/core/base";
 import {AppService, FormatService, Expr, ExprOperator} from "@sinequa/core/app-utils";
 import {IntlService} from "@sinequa/core/intl";
-import {CCColumn, Results, Aggregation, AdvancedOperator} from "@sinequa/core/web-services";
+import {CCColumn, Results, Aggregation} from "@sinequa/core/web-services";
 import {Options, LabelType, ChangeContext} from "ng5-slider";
 import moment from "moment";
 import {FacetService} from "../../facet.service";
 import {SearchService} from "@sinequa/components/search";
 import {UIService} from "@sinequa/components/utils";
 import {AbstractFacet} from "../../abstract-facet";
-import { AdvancedService } from "@sinequa/components/advanced";
+import { AdvancedService, AdvancedOperator } from "@sinequa/components/advanced";
 
 export enum RoundTarget {
     number,

@@ -18,8 +18,7 @@ import { AdvancedInput } from '../../advanced.service';
 export class BsAdvancedFormInput implements OnInit {
     @Input() form: FormGroup;
     @Input() config: AdvancedInput;
-    @Input() autocompleteEnabled: boolean;
-    @Input() suggestQuery: string;
+    @Input() autocompleteEnabled: boolean = true;
 
     name: string;
     label: string;

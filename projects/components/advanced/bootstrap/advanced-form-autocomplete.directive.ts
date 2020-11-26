@@ -8,20 +8,15 @@ import {
     AdvancedRange,
     AdvancedInput,
     AdvancedCheckbox,
+    BasicAdvancedConfig,
 } from "../advanced.service";
-
-export interface AdvancedFormAutocompleteOptions {
-    autocompleteEnabled: boolean;
-    suggestQuery: string;
-    control: AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox;
-}
 
 @Directive({
     // tslint:disable-next-line: directive-selector
     selector: "[sqAdvancedFormAutocomplete]",
 })
 export class BsAdvancedFormAutocomplete extends Autocomplete {
-    @Input() advancedFormAutocompleteOptions: AdvancedFormAutocompleteOptions;
+    @Input() config : BasicAdvancedConfig | AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox;
 
     constructor(
         elementRef: ElementRef,
@@ -52,7 +47,7 @@ export class BsAdvancedFormAutocomplete extends Autocomplete {
             this.processSuggests(
                 this.suggestFieldWebService.get(
                     value,
-                    this.advancedFormAutocompleteOptions.control.field
+                    this.config.field
                 )
             );
         } else {

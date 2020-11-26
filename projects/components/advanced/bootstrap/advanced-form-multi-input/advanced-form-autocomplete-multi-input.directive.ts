@@ -9,14 +9,10 @@ import { AutocompleteItem } from "@sinequa/components/autocomplete";
 import { BsAdvancedFormAutocomplete } from "../advanced-form-autocomplete.directive";
 import { Keys } from "@sinequa/core/base";
 
-/**
- * This directive extends the autocomplete directive to provide autocomplete on
- * additional objects, such as recent queries, documents and baskets
- */
 @Directive({
-    selector: "[sqAdvancedFormAutocompleteExtended]",
+    selector: "[sqAdvancedFormAutocompleteMultiInput]",
 })
-export class BsAdvancedFormAutocompleteExtended extends BsAdvancedFormAutocomplete {
+export class BsAdvancedFormAutocompleteMultiInput extends BsAdvancedFormAutocomplete {
     /** Event synchronizing the list of selected labels in the parent component */
     @Output() itemsUpdate = new EventEmitter<AutocompleteItem[]>();
 
@@ -43,19 +39,23 @@ export class BsAdvancedFormAutocompleteExtended extends BsAdvancedFormAutocomple
      * Listen to user's keyboard actions in the <input>, in order to navigate
      * and select the autocomplete suggestions.
      * Overrides the parent keydown method, adds the management of the backspace key
-     * to remove labels items, enhance the enter key to support adding new labels.
+     * to remove items, enhance the enter key to support adding new items.
      * @param event the keyboard
      */
     keydown(event: KeyboardEvent) {
         const keydown = super.keydown(event);
 
         if (keydown === undefined) {
-            //We can remove selections by typing <backspace> when the input is empty
+            /** We can remove selections by typing <backspace> when the input is empty */
             if (event.keyCode === Keys.backspace) {
                 if (this.getInputValue() === "") {
                     this.items.pop();
                     this.itemsUpdate.next(this.items);
                 }
+            }
+            /** Allow the selection one of new labels that not exists in the list */
+            if (event.keyCode === Keys.enter) {
+                this._manageSetAutocompleteItem();
             }
         }
         return keydown;

@@ -259,7 +259,7 @@
                 "input": "projects/vanilla-search/src/styles/preview.scss",
                 "bundleName": "preview",
                 "lazy": true
-              }            
+              }
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
@@ -409,7 +409,7 @@
                 "input": "projects/pepper/src/styles/preview.scss",
                 "bundleName": "preview",
                 "lazy": true
-              }            
+              }
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
@@ -521,5 +521,8 @@
       }
     }
   },
-  "defaultProject": "core"
+  "defaultProject": "core",
+  "cli": {
+    "analytics": false
+  }
 }

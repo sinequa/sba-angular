@@ -13,45 +13,12 @@ import { AdvancedInput } from "../../advanced.service";
 @Component({
     selector: "sq-advanced-form-multi-input",
     templateUrl: "./advanced-form-multi-input.html",
-    styles: [
-        `
-            .sq-dropdown-form {
-                min-width: 13rem;
-                display: inline;
-            }
-            .disabled {
-                cursor: not-allowed;
-            }
-            .clickable {
-                cursor: pointer;
-            }
-            .clickable:hover {
-                opacity: 85%;
-            }
-            :host div {
-                width: 100%;
-                display: flex;
-                flex-wrap: wrap;
-                align-items: center;
-                height: unset !important;
-            }
-            :host input {
-                border: none;
-                flex-grow: 1;
-                flex-basis: 100px;
-                min-width: 100px;
-            }
-            :host input:focus {
-                outline: none;
-            }
-        `,
-    ],
+    styleUrls: ["./advanced-form-multi-input.scss"]
 })
 export class BsAdvancedFormMultiInput implements OnInit, OnDestroy {
     @Input() form: FormGroup;
     @Input() config: AdvancedInput;
     @Input() autocompleteEnabled: boolean = true;
-    @Input() suggestQuery: string;
 
     items: AutocompleteItem[] = []; /** List of items performed in the advanced search */
     name: string;

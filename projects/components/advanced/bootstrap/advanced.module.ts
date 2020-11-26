@@ -21,7 +21,7 @@ import { BsSelectComponent } from './advanced-form-select/select/select';
 // Directives
 import {BsAdvancedFormAutocomplete} from "./advanced-form-autocomplete.directive";
 import {BsAdvancedFormValidation} from "./advanced-form-validation.directive";
-import { BsAdvancedFormAutocompleteExtended } from './advanced-form-multi-input/advanced-form-autocomplete-extended.directive';
+import { BsAdvancedFormAutocompleteMultiInput } from './advanced-form-multi-input/advanced-form-autocomplete-multi-input.directive';
 
 
 @NgModule({
@@ -48,7 +48,7 @@ import { BsAdvancedFormAutocompleteExtended } from './advanced-form-multi-input/
         BsDateRangePicker,
         BsSelectComponent,
 
-        BsAdvancedFormAutocompleteExtended,
+        BsAdvancedFormAutocompleteMultiInput,
         BsAdvancedFormAutocomplete,
         BsAdvancedFormValidation,
     ],
@@ -62,7 +62,7 @@ import { BsAdvancedFormAutocompleteExtended } from './advanced-form-multi-input/
         BsDateRangePicker,
         BsSelectComponent,
 
-        BsAdvancedFormAutocompleteExtended,
+        BsAdvancedFormAutocompleteMultiInput,
         BsAdvancedFormAutocomplete,
         BsAdvancedFormValidation,
     ]

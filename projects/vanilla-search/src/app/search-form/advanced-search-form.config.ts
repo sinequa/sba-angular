@@ -5,8 +5,8 @@ import {
     AdvancedRange,
     AdvancedInput,
     AdvancedCheckbox,
+    AdvancedOperator,
 } from "@sinequa/components/advanced";
-import { AdvancedOperator } from "@sinequa/core/web-services";
 
 export let advancedSearchFormConfig: Map<
     string,

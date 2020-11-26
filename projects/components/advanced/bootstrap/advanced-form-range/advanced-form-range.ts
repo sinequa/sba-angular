@@ -3,7 +3,6 @@ import {
     Input,
     OnInit,
     OnDestroy,
-    AfterViewInit,
 } from "@angular/core";
 import { FormGroup, AbstractControl } from "@angular/forms";
 import { Subscription } from "rxjs";
@@ -14,21 +13,13 @@ import { AdvancedRange } from "../../advanced.service";
 
 @Component({
     selector: "sq-advanced-form-range",
-    templateUrl: "./advanced-form-range.html",
-    styles: [
-        `
-            .input-autocomplete {
-                display: flex;
-                flex-direction: column;
-            }
-        `,
-    ],
+    templateUrl: "./advanced-form-range.html"
 })
-export class BsAdvancedFormRange implements OnInit, AfterViewInit, OnDestroy {
+export class BsAdvancedFormRange implements OnInit, OnDestroy {
     @Input() form: FormGroup;
     @Input() config: AdvancedRange;
-    @Input() autocompleteEnabled: boolean;
-    @Input() suggestQuery: string;
+    @Input() autocompleteEnabled: boolean = true;
+
     name: string;
     fromName: string;
     toName: string;
@@ -40,14 +31,9 @@ export class BsAdvancedFormRange implements OnInit, AfterViewInit, OnDestroy {
     control: AbstractControl | null;
     value: (string | number | Date)[];
     isDate: boolean;
-    initialized = false;
     private _valueChangesSubscription: Subscription;
 
     constructor(private appService: AppService) {}
-
-    // get isDate(): boolean {
-    //     return !!this.column && AppService.isDate(this.column);
-    // }
 
     ngOnInit() {
         this.name = this.config.name;
@@ -57,30 +43,24 @@ export class BsAdvancedFormRange implements OnInit, AfterViewInit, OnDestroy {
         this.column = this.appService.getColumn(this.config.field);
         this.label = this.config.label;
         this.isDate = !!this.column && AppService.isDate(this.column);
-    }
-
-    ngAfterViewInit() {
-        setTimeout(() => {
-            if (this.isDate) {
-                this.minDate = Utils.isDate(this.config.min)
-                    ? this.config.min
-                    : undefined;
-                this.maxDate = Utils.isDate(this.config.max)
-                    ? this.config.max
-                    : undefined;
-            }
-            this.control = this.form.get(this.name);
-            if (this.control) {
-                this.value = this.control.value;
-                this._valueChangesSubscription = Utils.subscribe(
-                    this.control.valueChanges,
-                    (value) => {
-                        this.value = value;
-                    }
-                );
-            }
-            this.initialized = true;
-        });
+        if (this.isDate) {
+            this.minDate = Utils.isDate(this.config.min)
+                ? this.config.min
+                : undefined;
+            this.maxDate = Utils.isDate(this.config.max)
+                ? this.config.max
+                : undefined;
+        }
+        this.control = this.form.get(this.name);
+        if (this.control) {
+            this.value = this.control.value;
+            this._valueChangesSubscription = Utils.subscribe(
+                this.control.valueChanges,
+                (value) => {
+                    this.value = value;
+                }
+            );
+        }
     }
 
     ngOnDestroy() {

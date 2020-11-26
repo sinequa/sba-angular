@@ -10,4 +10,4 @@ export * from "./advanced-form-range/date-picker/date-picker";
 export * from "./advanced-form-range/date-range-picker/date-range-picker";
 export * from "./advanced-form-autocomplete.directive";
 export * from "./advanced-form-validation.directive";
-export * from "./advanced-form-multi-input/advanced-form-autocomplete-extended.directive";
+export * from "./advanced-form-multi-input/advanced-form-autocomplete-multi-input.directive";

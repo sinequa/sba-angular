@@ -1,5 +1,8 @@
 ﻿import {Utils, MapOf} from "@sinequa/core/base";
-import {IQuery, Select, Open, SpellingCorrectionMode, AggregationOptions, advancedFacetPrefix} from "@sinequa/core/web-services";
+import {IQuery, Select, Open, SpellingCorrectionMode, AggregationOptions} from "@sinequa/core/web-services";
+
+
+export const advancedFacetPrefix = "advanced_";
 
 /**
  * Represents a query for retrieving search results from a Sinequa search engine.

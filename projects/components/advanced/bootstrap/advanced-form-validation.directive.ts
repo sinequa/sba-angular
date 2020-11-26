@@ -10,25 +10,20 @@ import {
 } from "../advanced.service";
 
 @Directive({
-    selector: "[sq-advanced-form-validation]",
+    selector: "[sqAdvancedFormValidation]",
 })
-export class BsAdvancedFormValidation
-    extends ValidationDirective
-    implements OnInit {
-    @Input("sq-advanced-form-validation") afvOptions: {
-        form: FormGroup;
-        config:
-            | BasicAdvancedConfig
-            | AdvancedSelect
-            | AdvancedRange
-            | AdvancedInput
-            | AdvancedCheckbox;
-    };
-
+export class BsAdvancedFormValidation extends ValidationDirective implements OnInit {
+    @Input() config:
+        | BasicAdvancedConfig
+        | AdvancedSelect
+        | AdvancedRange
+        | AdvancedInput
+        | AdvancedCheckbox;
+    @Input() validationForm: FormGroup;
     ngOnInit() {
         this.options = {
-            form: this.afvOptions.form,
-            controlName: this.afvOptions.config.name,
+            form: this.validationForm,
+            controlName: this.config.name,
         };
         super.ngOnInit();
     }

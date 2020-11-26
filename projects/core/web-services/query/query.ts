@@ -45,53 +45,6 @@ export interface AggregationOptions {
 }
 
 /**
- * Defines the operators that can be used when specifying advanced search values
- */
-export enum AdvancedOperator {
-    NONE = "",
-    EQ = "=",
-    NEQ = "<>",
-    LT = "<",
-    LTE = "<=",
-    GT = ">",
-    GTE = ">=",
-    LIKE = "LIKE",
-    CONTAINS = "CONTAINS",
-    IN = "IN"
-}
-
-export const advancedFacetPrefix = "advanced_";
-
-/**
- * Defines the possible basic types of an advanced value
- */
-export type BasicAdvancedValue = string | number | Date | boolean | undefined;
-
-/**
- * Defines an advamced value type as either a single basic advanved value or an array of basic advanced values
- */
-export type AdvancedValue = BasicAdvancedValue | BasicAdvancedValue[];
-
-/**
- * Defines an advanced value with an operator
- */
-export interface AdvancedValueWithOperator {
-    /**
-     * An advanced value
-     */
-    value: AdvancedValue;
-    /**
-     * An operator
-     */
-    operator: AdvancedOperator;
-}
-
-/**
- * Defines the range of types that can be used when specifying advanced search criteria
- */
-export type AdvancedValueEntry = AdvancedValue | AdvancedValueWithOperator | (AdvancedValue | AdvancedValueWithOperator)[];
-
-/**
  * Describes the query object that can be passed to the {@link QueryWebService}
  */
 export interface IQuery {
@@ -212,8 +165,4 @@ export interface IQuery {
      * Specifies a value for the `GROUP BY` clause of the query
      */
     groupBy?: string;
-    /**
-     * Specifies any "advanced search" parameters to be included in the query
-     */
-    advanced?: MapOf<AdvancedValueEntry>;
 }

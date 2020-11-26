@@ -10,15 +10,7 @@ import {
 } from "@angular/forms";
 
 /* Services */
-import {
-    AdvancedValue,
-    AdvancedOperator,
-    AdvancedValueWithOperator,
-    BasicAdvancedValue,
-    advancedFacetPrefix,
-    Select,
-    CCColumn,
-} from "@sinequa/core/web-services";
+import { Select, CCColumn } from "@sinequa/core/web-services";
 import { Utils } from "@sinequa/core/base";
 import { SearchService } from "@sinequa/components/search";
 import {
@@ -27,8 +19,52 @@ import {
     ExprOperator,
     FormatService,
     Query,
+    advancedFacetPrefix,
 } from "@sinequa/core/app-utils";
 import { ValidationService } from "@sinequa/core/validation";
+
+/**
+ * Defines the operators that can be used when specifying advanced search values
+ */
+export enum AdvancedOperator {
+    NONE = "",
+    EQ = "=",
+    NEQ = "<>",
+    LT = "<",
+    LTE = "<=",
+    GT = ">",
+    GTE = ">=",
+    /**
+     * TODO
+     */
+    // LIKE = "LIKE",
+    // CONTAINS = "CONTAINS",
+    // IN = "IN",
+}
+
+/**
+ * Defines the possible basic types of an advanced value
+ */
+export type BasicAdvancedValue = string | number | Date | boolean | undefined;
+
+/**
+ * Defines an advamced value type as either a single basic advanved value or an array of basic advanced values
+ */
+export type AdvancedValue = BasicAdvancedValue | BasicAdvancedValue[];
+
+/**
+ * Defines an advanced value with an operator
+ */
+export interface AdvancedValueWithOperator {
+    /**
+     * An advanced value
+     */
+    value: AdvancedValue;
+    /**
+     * An operator
+     */
+    operator: AdvancedOperator;
+}
 
 export enum AdvancedFormType {
     Checkbox = "AdvancedFormCheckbox",
@@ -42,6 +78,7 @@ export interface AdvancedFormValidators {
     min: (
         min: string | number | Date,
         config:
+            | BasicAdvancedConfig
             | AdvancedSelect
             | AdvancedRange
             | AdvancedInput
@@ -50,6 +87,7 @@ export interface AdvancedFormValidators {
     max: (
         max: string | number | Date,
         config:
+            | BasicAdvancedConfig
             | AdvancedSelect
             | AdvancedRange
             | AdvancedInput
@@ -60,6 +98,7 @@ export interface AdvancedFormValidators {
     pattern: (pattern: string | RegExp) => ValidatorFn;
     integer: (
         config:
+            | BasicAdvancedConfig
             | AdvancedSelect
             | AdvancedRange
             | AdvancedInput
@@ -67,6 +106,7 @@ export interface AdvancedFormValidators {
     ) => ValidatorFn;
     number: (
         config:
+            | BasicAdvancedConfig
             | AdvancedSelect
             | AdvancedRange
             | AdvancedInput
@@ -74,6 +114,7 @@ export interface AdvancedFormValidators {
     ) => ValidatorFn;
     date: (
         config:
+            | BasicAdvancedConfig
             | AdvancedSelect
             | AdvancedRange
             | AdvancedInput
@@ -81,6 +122,7 @@ export interface AdvancedFormValidators {
     ) => ValidatorFn;
     range: (
         config:
+            | BasicAdvancedConfig
             | AdvancedSelect
             | AdvancedRange
             | AdvancedInput
