@@ -76,6 +76,8 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   tooltipEntityActions: Action[] = [];
   tooltipTextActions: Action[] = [];
 
+  private readonly scaleFactorThreshold = 0.1;
+  scaleFactor = 1.0;
 
   constructor(
     @Optional() @Inject(PREVIEW_CONFIG) previewConfig: PreviewConfig,
@@ -284,5 +286,15 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     const startUnchecked = this.entitiesStartUnchecked;
     startUnchecked[event.entity] = !event.checked;
     this.prefs.set("preview-entities-checked", startUnchecked);
+  }
+
+  increaseScaleFactor() {
+    this.scaleFactor = this.scaleFactor + this.scaleFactorThreshold;
+    return false;
+  }
+
+  decreaseScaleFactor() {
+    this.scaleFactor = this.scaleFactor - this.scaleFactorThreshold;
+    return false;
   }
 }

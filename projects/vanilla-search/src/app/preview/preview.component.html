@@ -48,7 +48,7 @@
             <div *ngIf="loadingPreview" class="d-flex justify-content-center align-items-center h-100">
                 <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"></div>
             </div>
-            <sq-preview-document-iframe [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)">
+            <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)">
 
                 <!-- Tooltip injected in the preview -->
                 <sq-preview-tooltip #tooltip [previewDocument]="previewDocument" [previewData]="previewData" 
@@ -84,6 +84,13 @@
             <a class="btn btn-lg btn-light" title="Original document" target="_blank" href="{{previewData.record.url1}}"
                 *ngIf="!!previewData && !!previewData.record.url1" (click)="openOriginalDoc()">
                 <i class="fas fa-link"></i>
+            </a>
+
+            <a class="btn btn-lg btn-light" title="Maximize" (click)="increaseScaleFactor()">
+                <i class="fas fa-search-plus"></i>
+            </a>
+            <a class="btn btn-lg btn-light" title="Minimize" (click)="decreaseScaleFactor()">
+                <i class="fas fa-search-minus"></i>
             </a>
         </div>
         <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="Sinequa logo" title="Sinequa" *ngIf="!isDark()">
