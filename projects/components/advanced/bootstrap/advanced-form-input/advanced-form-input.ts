@@ -5,15 +5,7 @@ import { AdvancedInput } from '../../advanced.service';
 
 @Component({
     selector: "sq-advanced-form-input",
-    templateUrl: "./advanced-form-input.html",
-    styles: [
-        `
-            .input-autocomplete {
-                display: flex;
-                flex-direction: column;
-            }
-        `,
-    ],
+    templateUrl: "./advanced-form-input.html"
 })
 export class BsAdvancedFormInput implements OnInit {
     @Input() form: FormGroup;
