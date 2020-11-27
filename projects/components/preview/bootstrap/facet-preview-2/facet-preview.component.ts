@@ -63,6 +63,8 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   get actions(): Action[] {
     const actions: Action[] = [];
     if(this.customActions){
+      // update custom actions as minimize could be disabled
+      this.customActions.forEach(action => action.update());
       actions.push(...this.customActions);
     }
     if(this.expandModal){

@@ -294,7 +294,12 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   decreaseScaleFactor() {
-    this.scaleFactor = this.scaleFactor - this.scaleFactorThreshold;
+    this.scaleFactor = Math.max(0.1, this.scaleFactor - this.scaleFactorThreshold);
     return false;
   }
+
+  shouldDisableMinimize() {
+    return this.scaleFactor <= 0.1;
+  }
+
 }

@@ -73,10 +73,14 @@ export class SearchComponent implements OnInit, OnDestroy {
     const minimizePreviewAction = new Action({
       icon: "fas fa-search-minus",
       title: "msg#facet.preview.minimize",
+      disabled: this.scaleFactor === 0.1,
       action: () => {
         if (this.openedDoc) {
-          this.scaleFactor = this.scaleFactor - this.scaleFactorThreshold;
+          this.scaleFactor = Math.max(0.1, this.scaleFactor - this.scaleFactorThreshold);
         }
+      },
+      updater: (action) => {
+        action.disabled = this.scaleFactor === 0.1;
       }
     })
 

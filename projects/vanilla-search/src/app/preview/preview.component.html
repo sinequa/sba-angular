@@ -86,12 +86,12 @@
                 <i class="fas fa-link"></i>
             </a>
 
-            <a class="btn btn-lg btn-light" title="Maximize" (click)="increaseScaleFactor()">
+            <button class="btn btn-lg btn-light" title="Maximize" (click)="increaseScaleFactor()">
                 <i class="fas fa-search-plus"></i>
-            </a>
-            <a class="btn btn-lg btn-light" title="Minimize" (click)="decreaseScaleFactor()">
+            </button>
+            <button class="btn btn-lg btn-light" title="Minimize" (click)="decreaseScaleFactor()" [disabled]="shouldDisableMinimize()">
                 <i class="fas fa-search-minus"></i>
-            </a>
+            </button>
         </div>
         <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="Sinequa logo" title="Sinequa" *ngIf="!isDark()">
         <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="Sinequa logo" title="Sinequa" *ngIf="isDark()">
