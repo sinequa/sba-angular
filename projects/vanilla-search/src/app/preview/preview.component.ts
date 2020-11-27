@@ -302,4 +302,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     return this.scaleFactor <= 0.1;
   }
 
+  leftPanelTooltipPlacement() {
+    return this.collapsedPanel ? 'right' : 'bottom'
+  }
 }
