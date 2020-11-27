@@ -1,11 +1,11 @@
 <ng-container *ngFor="let item of options.items">
     <ng-container *ngIf="!!item && !item.hidden">
         <ng-container *ngIf="item.href">
-            <a class="btn-text" [attr.href]="!item.disabled ? item.href : null" (click)="itemClick(item, $event)" tooltip="{{item.title | sqMessage:item.messageParams}}" [attr.aria-label]="item.title | sqMessage:item.messageParams" [sq-action-item]="{item: item, size: options.size, autoAdjust: options.autoAdjust, autoAdjustBreakpoint: options.autoAdjustBreakpoint, rightAligned: options.rightAligned}"></a>
+            <a class="btn-text" [attr.href]="!item.disabled ? item.href : null" (click)="itemClick(item, $event)" container="body" tooltip="{{item.title | sqMessage:item.messageParams}}" [attr.aria-label]="item.title | sqMessage:item.messageParams" [sq-action-item]="{item: item, size: options.size, autoAdjust: options.autoAdjust, autoAdjustBreakpoint: options.autoAdjustBreakpoint, rightAligned: options.rightAligned}"></a>
         </ng-container>
         <ng-container *ngIf="!item.href">
             <div *ngIf="item.hasChildren" class="btn-group dropdown" [sq-action-item]="{item: item, size: options.size, style: options.style, autoAdjust: options.autoAdjust, autoAdjustBreakpoint: options.autoAdjustBreakpoint, rightAligned: options.rightAligned}"></div>
-            <button *ngIf="!item.hasChildren" type="button" class="btn {{styleClass}} {{sizeClass}} {{item.selected ? 'active' : ''}} {{item.disabled ? 'disabled' : ''}}" (click)="itemClick(item, $event)" tooltip="{{item.title | sqMessage:item.messageParams}}" [attr.aria-label]="item.title | sqMessage:item.messageParams" [sq-action-item]="{item: item, size: options.size, autoAdjust: options.autoAdjust, autoAdjustBreakpoint: options.autoAdjustBreakpoint}"></button>
+            <button *ngIf="!item.hasChildren" type="button" class="btn {{styleClass}} {{sizeClass}} {{item.selected ? 'active' : ''}} {{item.disabled ? 'disabled' : ''}}" (click)="itemClick(item, $event)" container="body" tooltip="{{item.title | sqMessage:item.messageParams}}" [attr.aria-label]="item.title | sqMessage:item.messageParams" [sq-action-item]="{item: item, size: options.size, autoAdjust: options.autoAdjust, autoAdjustBreakpoint: options.autoAdjustBreakpoint}"></button>
         </ng-container>
     </ng-container>
 </ng-container>

@@ -31,7 +31,9 @@ export default {
     "facet": {
         "preview": {
             "closeTitle": "Schließen",
-            "expandTitle": "Maximieren"
+            "expandTitle": "Maximieren",
+            "minimize": "Rauszoomen",
+            "maximize": "hineinzoomen"
         }
     }
 };
