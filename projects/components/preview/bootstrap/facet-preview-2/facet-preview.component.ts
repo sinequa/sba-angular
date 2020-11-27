@@ -33,8 +33,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   data?: PreviewData;
   document?: PreviewDocument;
   downloadUrl?: SafeResourceUrl;
-  invFactor: number;
-  scaledHeight: number;
+  loadingPreview = false;
 
   constructor(
       private previewService: PreviewService) {
@@ -64,6 +63,8 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   get actions(): Action[] {
     const actions: Action[] = [];
     if(this.customActions){
+      // update custom actions as minimize could be disabled
+      this.customActions.forEach(action => action.update());
       actions.push(...this.customActions);
     }
     if(this.expandModal){
@@ -77,21 +78,22 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     if (changes["record"]) {
       this.previewService.getPreviewData(this.record.id, this.query).subscribe(
         previewData => {
+          this.loadingPreview = true;
           this.data = previewData;
           this.downloadUrl = this.data ? this.previewService.makeDownloadUrl(this.data.documentCachedContentUrl) : undefined;
         });
       this.downloadUrl = undefined;
       this.data = undefined;
       this.document = undefined;
+      this.loadingPreview = false;
     }
     if(changes["height"] || changes["scalingFactor"]) {
-      this.invFactor = 100.0 / this.scalingFactor;
-      this.scaledHeight = this.height / this.scalingFactor;
       this._height = this.height;
     }
   }
 
   onPreviewReady(document: PreviewDocument) {
+    this.loadingPreview = false;
     this.document = document;
     if (this.document && this.filters) {
         this.document.filterHighlights(this.filters);

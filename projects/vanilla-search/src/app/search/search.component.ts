@@ -26,6 +26,9 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   // Document "opened" via a click (opens the preview facet)
   public openedDoc?: Record;
+  public scaleFactor = 0.6;
+  private readonly scaleFactorThreshold = 0.1;
+  private readonly scaleFactorDefaultRate = 0.6;
 
   // Custom action for the preview facet (open the preview route)
   public previewCustomActions: Action[];
@@ -49,7 +52,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   ) {
 
     // Initialize the facet preview action (opens the preview route)
-    this.previewCustomActions = [new Action({
+    const expandPreviewAction = new Action({
       icon: "far fa-window-maximize",
       title: "msg#facet.preview.expandTitle",
       action: () => {
@@ -57,7 +60,31 @@ export class SearchComponent implements OnInit, OnDestroy {
           this.previewService.openRoute(this.openedDoc, this.searchService.query);
         }
       }
-    })];
+    });
+    const maximizePreviewAction = new Action({
+      icon: "fas fa-search-plus",
+      title: "msg#facet.preview.maximize",
+      action: () => {
+        if (this.openedDoc) {
+          this.scaleFactor = this.scaleFactor + this.scaleFactorThreshold;
+        }
+      }
+    })
+    const minimizePreviewAction = new Action({
+      icon: "fas fa-search-minus",
+      title: "msg#facet.preview.minimize",
+      disabled: this.scaleFactor === 0.1,
+      action: () => {
+        if (this.openedDoc) {
+          this.scaleFactor = Math.max(0.1, this.scaleFactor - this.scaleFactorThreshold);
+        }
+      },
+      updater: (action) => {
+        action.disabled = this.scaleFactor === 0.1;
+      }
+    })
+
+    this.previewCustomActions = [ expandPreviewAction, maximizePreviewAction, minimizePreviewAction ];
   }
 
   /**
@@ -141,6 +168,7 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   onDocumentClicked(record: Record, event: Event) {
     if(!this.isClickAction(event)){
+      this.scaleFactor = this.scaleFactorDefaultRate;
       this.openedDoc = record;
       if(this.ui.screenSizeIsLessOrEqual('md')){
         this._showFilters = false; // Hide filters on small screens if a document gets opened
@@ -182,9 +210,9 @@ export class SearchComponent implements OnInit, OnDestroy {
       return false;
     }
     return event.type !== 'click' ||
-        target.tagName === "A" ||
-        target.tagName === "INPUT" ||
-        target.matches("sq-result-selector *, .sq-result-title, sq-result-source *, sq-labels *");
+      target.tagName === "A" ||
+      target.tagName === "INPUT" ||
+      target.matches("sq-result-selector *, .sq-result-title, sq-result-source *, sq-labels *");
   }
 
 
