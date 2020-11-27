@@ -1,7 +1,7 @@
 <div [formGroup]="form" class="d-inline">
     <label>{{label | sqMessage}}</label>
     <section class="sq-dropdown-form">
-        <div class="form-control"
+        <div class="form-control multi-entry"
             sqAdvancedFormValidation
             [config]="config"
             [validationForm]="form">
@@ -19,6 +19,7 @@
                 sqAdvancedFormAutocompleteMultiInput
                 [config]="config"
                 [off]="!autocompleteEnabled"
+                [suggestQuery]="suggestQuery"
                 (itemsUpdate)="onItemsChanged($event)"
                 [items]="items"
                 [dropdown]="dropdown"

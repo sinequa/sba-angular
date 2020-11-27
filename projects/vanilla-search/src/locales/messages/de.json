@@ -14,7 +14,7 @@
         "search": "Suche",
         "searchFor": "Suche nach...",
         "advanced": "Erweitert",
-        "advancedSearch": "Erweiterte Suche",        
+        "advancedSearch": "Erweiterte Suche",
         "scopeTitle": "Suchbereich: {name}",
         "recentQuery": "Recent query",
         "recentDocument": "Recent document",
@@ -22,7 +22,15 @@
         "off": "Off",
         "simple": "Simple",
         "simpleTitle": "Graphical mode allowing to display selected filters as badges",
-        "advancedTitle": "Text mode allowing to write search expressions such as \"geo: Paris OR company: Sinequa\""
+        "advancedTitle": "Text mode allowing to write search expressions such as \"geo: Paris OR company: Sinequa\"",
+        "labels": {
+          "treepath": "Treepath",
+          "docformat": "Dateiendungen",
+          "authors": "Autoren",
+          "size": "Größe (von/bis)",
+          "modified": "Datum (Von/Bis)",
+          "person": "Menschen"
+        }
     },
 
     "facet": {

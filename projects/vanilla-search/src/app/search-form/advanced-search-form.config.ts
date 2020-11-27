@@ -22,7 +22,7 @@ export let advancedSearchFormConfig: Map<
             aggregation: "",
             field: "treepath",
             name: "sources",
-            label: "Sources",
+            label: "msg#searchForm.labels.treepath",
             list: "",
             multiple: true,
             operator: AdvancedOperator.NONE,
@@ -35,7 +35,7 @@ export let advancedSearchFormConfig: Map<
             aggregation: "",
             field: "authors",
             name: "authors",
-            label: "Authors",
+            label: "msg#searchForm.labels.authors",
             list: "",
             multiple: true,
             operator: AdvancedOperator.NONE,
@@ -47,7 +47,7 @@ export let advancedSearchFormConfig: Map<
         {
             field: "size",
             name: "size",
-            label: "From / To",
+            label: "msg#searchForm.labels.size",
             type: AdvancedFormType.Range,
             min: "",
             max: "",
@@ -58,7 +58,7 @@ export let advancedSearchFormConfig: Map<
         {
             field: "modified",
             name: "modified",
-            label: "From / To",
+            label: "msg#searchForm.labels.modified",
             type: AdvancedFormType.Range,
             min: "",
             max: "",
@@ -67,9 +67,9 @@ export let advancedSearchFormConfig: Map<
     [
         "multiInput",
         {
-            field: "company",
+            field: "person",
             name: "multiInput",
-            label: "company",
+            label: "msg#searchForm.labels.person",
             operator: AdvancedOperator.NONE,
             type: AdvancedFormType.MultiInput,
         },
@@ -79,19 +79,9 @@ export let advancedSearchFormConfig: Map<
         {
             field: "docformat",
             name: "input",
-            label: "docformat",
+            label: "msg#searchForm.labels.docformat",
             operator: AdvancedOperator.NONE,
             type: AdvancedFormType.Input,
         },
-    ],
-    [
-        "checkbox",
-        {
-            field: "filename",
-            name: "checkbox",
-            label: "filename",
-            operator: AdvancedOperator.NONE,
-            type: AdvancedFormType.Checkbox,
-        },
-    ],
+    ]
 ]);

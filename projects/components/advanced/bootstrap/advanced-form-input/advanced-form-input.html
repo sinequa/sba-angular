@@ -5,11 +5,16 @@
             sqAdvancedFormAutocomplete
             [config]="config"
             [off]="!autocompleteEnabled"
+            [suggestQuery]="suggestQuery"
             [dropdown]="dropdown"
             sqAdvancedFormValidation
-            [config]="config"
             [validationForm]="form"
-            type="text" class="form-control" [id]="name" [formControlName]="name" autocomplete="off" spellcheck="off">
+            type="text"
+            class="form-control"
+            [id]="name"
+            [formControlName]="name"
+            autocomplete="off"
+            spellcheck="off">
         <sq-autocomplete-list #dropdown>
             <ng-template #itemTpl let-item>
                 <div class="py-2">{{item.display}}</div>

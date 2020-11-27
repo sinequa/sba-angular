@@ -2,7 +2,6 @@ import { Directive, Input, ElementRef } from "@angular/core";
 import { Autocomplete, SuggestService } from "@sinequa/components/autocomplete";
 import { UIService } from "@sinequa/components/utils";
 import { AppService } from "@sinequa/core/app-utils";
-import { SuggestFieldWebService } from "@sinequa/core/web-services";
 import {
     AdvancedSelect,
     AdvancedRange,
@@ -22,8 +21,7 @@ export class BsAdvancedFormAutocomplete extends Autocomplete {
         elementRef: ElementRef,
         suggestService: SuggestService,
         appService: AppService,
-        uiService: UIService,
-        private suggestFieldWebService: SuggestFieldWebService
+        uiService: UIService
     ) {
         super(elementRef, suggestService, appService, uiService);
     }
@@ -45,10 +43,7 @@ export class BsAdvancedFormAutocomplete extends Autocomplete {
         if (value) {
             // If there is text, make a call to the suggest API
             this.processSuggests(
-                this.suggestFieldWebService.get(
-                    value,
-                    this.config.field
-                )
+                this.getSuggestsObs(value, [this.config.field])
             );
         } else {
             // If empty input, restart autocomplete

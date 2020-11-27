@@ -19,6 +19,7 @@ export class BsAdvancedFormRange implements OnInit, OnDestroy {
     @Input() form: FormGroup;
     @Input() config: AdvancedRange;
     @Input() autocompleteEnabled: boolean = true;
+    @Input() suggestQuery: string;
 
     name: string;
     fromName: string;

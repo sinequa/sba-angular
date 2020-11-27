@@ -17,19 +17,6 @@ sq-select {
         .form-inline & { // to beat Bootstrap's specificity
             width: $sq-select-default-width;
         }
-
-        @include form-control-focus();
-
-        border: $input-border-width solid $input-border-color;
-        @if $enable-rounded {
-            // Manually use the if/else instead of the mixin to account for iOS override
-            border-radius: $input-border-radius;
-        } @else {
-            // Otherwise undo the iOS default
-            border-radius: 0;
-        }
-        @include box-shadow($input-box-shadow);
-        @include transition($input-transition);
     }
 
     .dropdown-menu {

@@ -37,7 +37,7 @@
             <div class="input-group-append">
                 <button class="btn btn-light btn-advanced-search" type="button"
                     [attr.disabled]="!loginService.complete ? '' : null"
-                    #btnAdvancedSearch>
+                    (click)="toggleAdvancedSearch()">
                     <i class="fas fa-angle-down"></i>
                 </button>
                 <button class="btn btn-primary" type="button" (click)="search()"
@@ -49,21 +49,20 @@
         </div>
 
         <!-- Card displaying advanced-search -->
-        <div class="card advanced-search" *ngIf="showAdvancedSearch" #cardAdvancedSearch>
+        <div class="card advanced-search" *ngIf="showAdvancedSearch">
           <div class="card-header d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
-              Advanced Search
+            {{ 'msg#searchForm.advancedSearch' | sqMessage }}
           </div>
-          <div *ngIf="!(initAdvancedSearchData && initAdvancedSearchForm)" class="d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
+          <div *ngIf="!initAdvancedSearchForm" class="d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
             <span class="fas fa-sync fa-spin fa-fw"></span>
           </div>
-          <div *ngIf="initAdvancedSearchData && initAdvancedSearchForm" class="d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
+          <div *ngIf="initAdvancedSearchForm" class="d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
             <sq-advanced-form-select [form]="form" [config]="getAdvancedSearchFormConfig('sources')"></sq-advanced-form-select>
             <sq-advanced-form-select [form]="form" [config]="getAdvancedSearchFormConfig('authors')"></sq-advanced-form-select>
-            <sq-advanced-form-range [form]="form" [config]="getAdvancedSearchFormConfig('size')"  [autocompleteEnabled]="false"></sq-advanced-form-range>
-            <sq-advanced-form-range [form]="form" [config]="getAdvancedSearchFormConfig('modified')"  [autocompleteEnabled]="false"></sq-advanced-form-range>
-            <sq-advanced-form-multi-input [form]="form" [config]="getAdvancedSearchFormConfig('multiInput')"  [autocompleteEnabled]="true"></sq-advanced-form-multi-input>
-            <sq-advanced-form-input [form]="form" [config]="getAdvancedSearchFormConfig('input')"  [autocompleteEnabled]="true"></sq-advanced-form-input>
-            <sq-advanced-form-checkbox [form]="form" [config]="getAdvancedSearchFormConfig('checkbox')"></sq-advanced-form-checkbox>
+            <sq-advanced-form-range [form]="form" [config]="getAdvancedSearchFormConfig('size')" [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''" [autocompleteEnabled]="false"></sq-advanced-form-range>
+            <sq-advanced-form-range [form]="form" [config]="getAdvancedSearchFormConfig('modified')" [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''" [autocompleteEnabled]="false"></sq-advanced-form-range>
+            <sq-advanced-form-multi-input [form]="form" [config]="getAdvancedSearchFormConfig('multiInput')" [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''" [autocompleteEnabled]="true"></sq-advanced-form-multi-input>
+            <sq-advanced-form-input [form]="form" [config]="getAdvancedSearchFormConfig('input')" [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''" [autocompleteEnabled]="true"></sq-advanced-form-input>
           </div>
         </div>
     </form>

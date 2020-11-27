@@ -13,12 +13,13 @@ import { AdvancedInput } from "../../advanced.service";
 @Component({
     selector: "sq-advanced-form-multi-input",
     templateUrl: "./advanced-form-multi-input.html",
-    styleUrls: ["./advanced-form-multi-input.scss"]
+    styleUrls: ["./advanced-form-multi-input.scss"],
 })
 export class BsAdvancedFormMultiInput implements OnInit, OnDestroy {
     @Input() form: FormGroup;
     @Input() config: AdvancedInput;
     @Input() autocompleteEnabled: boolean = true;
+    @Input() suggestQuery: string;
 
     items: AutocompleteItem[] = []; /** List of items performed in the advanced search */
     name: string;
@@ -34,20 +35,17 @@ export class BsAdvancedFormMultiInput implements OnInit, OnDestroy {
         this.control = this.form.get(this.name);
         if (this.control) {
             this.items = this.control.value
-                ? Utils.isArray(this.control.value)
-                    ? this.control.value.map((item) => {
-                          return {
-                              display: item,
-                              category: "",
-                          };
-                      })
-                    : [this.control.value].map((item) => {
-                          return {
-                              display: item,
-                              category: "",
-                          };
-                      })
+                ? (Utils.isArray(this.control.value)
+                      ? this.control.value
+                      : [this.control.value]
+                  ).map((item) => {
+                      return {
+                          display: item,
+                          category: "",
+                      };
+                  })
                 : [];
+
             this._valueChangesSubscription = Utils.subscribe(
                 this.control.valueChanges,
                 (value) => {
