@@ -44,6 +44,8 @@ export interface DashboardItemOption {
     unique: boolean;
 }
 
+export const defaultDashboardName = "<default>";
+
 export const MAP_WIDGET: DashboardItemOption = {type: 'map', icon: 'fas fa-globe-americas fa-fw', text: 'msg#dashboard.map', unique: true};
 export const TIMELINE_WIDGET: DashboardItemOption = {type: 'timeline', icon: 'fas fa-chart-line fa-fw', text: 'msg#dashboard.timeline', unique: true};
 export const NETWORK_WIDGET: DashboardItemOption = {type: 'network', icon: 'fas fa-project-diagram fa-fw', text: 'msg#dashboard.network', unique: true};
@@ -66,6 +68,7 @@ export class DashboardService {
     fixedLayout: Action;
     openAction: Action;
     autoSaveAction: Action;
+    setDefaultAction: Action;
 
     dashboardChanged = new Subject<Dashboard>();
 
@@ -155,6 +158,8 @@ export class DashboardService {
                 console.error("Could not import this dashboard:", dashboardShared);
             }
         }
+        // Update the state of the setDefault action after an Open, Save, New
+        this.updateSetDefaultAction();
     }
 
     /**
@@ -179,23 +184,30 @@ export class DashboardService {
     }
 
     public setDefaultDashboard(items: DashboardItemOption[]) {
-        this.defaultDashboard = {
-            name: "<default>",
-            items: []
-        };
-        items.forEach(item => this.addWidget(item, this.defaultDashboard));
+        const defaultDashboard = this.prefs.get("dashboard-default");
+        if(defaultDashboard && this.hasDashboard(defaultDashboard)) {
+            this.defaultDashboard = Utils.copy(this.getDashboard(defaultDashboard)!);
+            this.defaultDashboard.name = defaultDashboardName;
+        }
+        else {
+            this.defaultDashboard = {
+                name: defaultDashboardName,
+                items: []
+            };
+            items.forEach(item => this.addWidget(item, this.defaultDashboard));
+        }
         if(!this.dashboard) {
             this.dashboard = Utils.copy(this.defaultDashboard); // Default dashboard is kept as a deep copy, so we don't change it by editing the dashboard
         }
     }
 
     public setDashboardItems(items: DashboardItem[]) {
-        this.dashboard = { name: "<default>", items };
+        this.dashboard = { name: defaultDashboardName, items };
         this.dashboardChanged.next(this.dashboard);
     }
 
     public isDashboardSaved(): boolean {
-        return this.defaultDashboard && this.dashboard.name !== this.defaultDashboard.name;
+        return this.defaultDashboard && this.dashboard.name !== defaultDashboardName;
     }
 
     
@@ -354,6 +366,7 @@ export class DashboardService {
                 this.modalService.confirm({
                     title: "msg#dashboard.deleteConfirmTitle",
                     message: "msg#dashboard.deleteConfirmMessage",
+                    messageParams: {values: {dashboard: this.dashboard.name}},
                     confirmType: ConfirmType.Warning,
                     buttons: [
                         new ModalButton({
@@ -371,6 +384,12 @@ export class DashboardService {
                             this.dashboards.splice(i, 1);
                             this.patchDashboards(false);
                             this.updateOpenAction();
+                            if(this.prefs.get("dashboard-default") === this.dashboard.name) {
+                                this.prefs.delete("dashboard-default");
+                            }
+                        }
+                        else if(this.prefs.get("dashboard-default")) {
+                            this.prefs.delete("dashboard-default");
                         }
                         this.newDashboard();
                     }
@@ -411,6 +430,36 @@ export class DashboardService {
                 }
             }
         });
+        this.setDefaultAction = new Action({
+            text: 'msg#dashboard.setDefault',
+            title: 'msg#dashboard.setDefaultTitle',
+            selected: false,
+            disabled: true,
+            action: () => {
+                this.modalService.confirm({
+                    title: "msg#dashboard.setDefaultConfirmTitle",
+                    message: "msg#dashboard.setDefaultConfirm",
+                    messageParams: {values: {dashboard: this.dashboard.name}},
+                    buttons: [
+                        new ModalButton({
+                            result: ModalResult.OK,
+                            primary: true
+                        }),
+                        new ModalButton({
+                            result: ModalResult.Cancel
+                        })
+                    ]
+                }).then(res => {
+                    if(res === ModalResult.OK) {
+                        this.defaultDashboard = Utils.copy(this.dashboard);
+                        this.prefs.set("dashboard-default", this.defaultDashboard.name);
+                        this.defaultDashboard.name = defaultDashboardName;
+                        this.updateSetDefaultAction();
+                        this.notificationService.success("msg#dashboard.setDefaultSuccess", {dashboard: this.dashboard.name});
+                    }
+                });
+            }
+        });
 
         const settings = new Action({
             icon: 'fas fa-cog fa-fw',
@@ -426,7 +475,8 @@ export class DashboardService {
                 new Action({separator: true}),
                 save,
                 saveAs,
-                this.autoSaveAction
+                this.autoSaveAction,
+                this.setDefaultAction
             ],
         });
         
@@ -455,6 +505,12 @@ export class DashboardService {
         this.autoSaveAction.selected = this.autoSave;
     }
 
+    protected updateSetDefaultAction() {
+        // We cannot set this as the default dashboard if is unsaved or if it is already the default
+        if(this.setDefaultAction) {
+            this.setDefaultAction.disabled = !this.dashboard || this.dashboard.name === defaultDashboardName || this.dashboard.name === this.prefs.get("dashboard-default");
+        }
+    }
 
     protected setLayout(layout: string) {
         if(layout === "auto") {
@@ -488,7 +544,7 @@ export class DashboardService {
     protected saveAs() {
 
         const unique : ValidatorFn = (control) => {
-            const unique = control.value !== this.defaultDashboard.name && !this.getDashboard(control.value);
+            const unique = control.value !== defaultDashboardName && !this.getDashboard(control.value);
             if(!unique) return {unique: true};
             return null;
         };
