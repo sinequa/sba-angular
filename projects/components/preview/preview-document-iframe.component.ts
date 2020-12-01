@@ -1,4 +1,4 @@
-import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild, OnChanges } from "@angular/core";
+import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild, OnChanges, SimpleChanges } from "@angular/core";
 import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 import { PreviewDocument } from "./preview-document";
 
@@ -29,12 +29,14 @@ import { PreviewDocument } from "./preview-document";
                     [sandbox]="sandbox || defaultSandbox"
                     [src]="sanitizedUrlSrc"
                     (load)="onPreviewDocLoad($event)"
-                    [ngStyle]="{'-ms-zoom': scalingFactor, '-moz-transform': 'scale('+scalingFactor+')', '-o-transform': 'scale('+scalingFactor+')', '-webkit-transform': 'scale('+scalingFactor+')'}">
+                    [style.--factor]="scalingFactor"
+                    [ngStyle]="{'-ms-zoom': scalingFactor, '-moz-transform': 'scale(var(--factor))', '-o-transform': 'scale(var(--factor))', '-webkit-transform': 'scale(var(--factor))'}">
                 </iframe>`,
     styles: [`
 :host{
     flex: 1;
 }
+
 
 iframe {
     background-color: white;
@@ -44,8 +46,8 @@ iframe {
     top: 0;
     left: 0;
     bottom: 0;
-    height: 100%;
-    width: 100%;
+    height: calc(100% / var(--factor));
+    width: calc(100% / var(--factor));
     border: 0;
 
     -moz-transform-origin: 0 0;
@@ -63,7 +65,7 @@ export class PreviewDocumentIframe implements OnChanges {
     @ViewChild('documentFrame', {static: false}) documentFrame: ElementRef;  // Reference to the preview HTML in the iframe
     @ContentChild('tooltip', { read: ElementRef, static: false }) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
-    public loading = true;
+    public loading = false;
     public sanitizedUrlSrc: SafeResourceUrl;
 
     constructor(private sanitizer: DomSanitizer) {
@@ -94,7 +96,10 @@ export class PreviewDocumentIframe implements OnChanges {
         previewDocument.insertComponent(this.tooltip.nativeElement);
     }
 
-    ngOnChanges() {
+    ngOnChanges(simpleChanges: SimpleChanges) {
+        if(simpleChanges.scalingFactor && !simpleChanges.scalingFactor.firstChange) {
+            return;
+        }
         this.loading = true;
         if(this.downloadUrl) {
             this.sanitizedUrlSrc = this.downloadUrl;

@@ -49,7 +49,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   ) {
 
     // Initialize the facet preview action (opens the preview route)
-    this.previewCustomActions = [new Action({
+    const expandPreviewAction = new Action({
       icon: "far fa-window-maximize",
       title: "msg#facet.preview.expandTitle",
       action: () => {
@@ -57,7 +57,9 @@ export class SearchComponent implements OnInit, OnDestroy {
           this.previewService.openRoute(this.openedDoc, this.searchService.query);
         }
       }
-    })];
+    });
+
+    this.previewCustomActions = [ expandPreviewAction ];
   }
 
   /**
@@ -182,9 +184,9 @@ export class SearchComponent implements OnInit, OnDestroy {
       return false;
     }
     return event.type !== 'click' ||
-        target.tagName === "A" ||
-        target.tagName === "INPUT" ||
-        target.matches("sq-result-selector *, .sq-result-title, sq-result-source *, sq-labels *");
+      target.tagName === "A" ||
+      target.tagName === "INPUT" ||
+      target.matches("sq-result-selector *, .sq-result-title, sq-result-source *, sq-labels *");
   }
 
 

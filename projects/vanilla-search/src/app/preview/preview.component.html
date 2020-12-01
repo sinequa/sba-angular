@@ -48,7 +48,7 @@
             <div *ngIf="loadingPreview" class="d-flex justify-content-center align-items-center h-100">
                 <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"></div>
             </div>
-            <sq-preview-document-iframe [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)">
+            <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)">
 
                 <!-- Tooltip injected in the preview -->
                 <sq-preview-tooltip #tooltip [previewDocument]="previewDocument" [previewData]="previewData" 
@@ -66,27 +66,33 @@
         <div [ngClass]="{'btn-group': !collapsedPanel, 'btn-group-vertical':collapsedPanel}">
             
             <!-- Toggles the left panel collapsed/expanded state -->
-            <button class="btn btn-lg btn-primary" title="Expand" (click)="collapsedPanel = !collapsedPanel">
+            <button class="btn btn-lg btn-primary" [placement]="leftPanelTooltipPlacement()" tooltip="Expand" (click)="collapsedPanel = !collapsedPanel">
                 <i class="fas fa-bars"></i>
             </button>
 
             <!-- Back button (go back to /search route) -->
-            <button class="btn btn-lg btn-light" title="Back" (click)="back()" *ngIf="showBackButton">
+            <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" tooltip="Back" (click)="back()" *ngIf="showBackButton">
                 <i class="fas fa-arrow-left"></i>
             </button>
 
             <!-- Home page link -->
-            <a [routerLink]="[homeRoute]" class="btn btn-lg btn-light" title="Home" *ngIf="homeRoute">
+            <a [routerLink]="[homeRoute]" class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" tooltip="Home" *ngIf="homeRoute">
                 <i class="fas fa-home"></i>
             </a>
 
             <!-- Link to the original document -->
-            <a class="btn btn-lg btn-light" title="Original document" target="_blank" href="{{previewData.record.url1}}"
+            <a class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" tooltip="Original document" target="_blank" href="{{previewData.record.url1}}"
                 *ngIf="!!previewData && !!previewData.record.url1" (click)="openOriginalDoc()">
                 <i class="fas fa-link"></i>
             </a>
+
+            <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" tooltip="{{'msg#facet.preview.maximize' | sqMessage }}" (click)="increaseScaleFactor()">
+                <i class="fas fa-search-plus"></i>
+            </button>
+            <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" tooltip="{{'msg#facet.preview.minimize' | sqMessage }}" (click)="decreaseScaleFactor()" [disabled]="shouldDisableMinimize()">
+                <i class="fas fa-search-minus"></i>
+            </button>
         </div>
-        <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="Sinequa logo" title="Sinequa" *ngIf="!isDark()">
-        <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="Sinequa logo" title="Sinequa" *ngIf="isDark()">
+        <img id="logo" src="{{ isDark() ? 'assets/sinequa-logo-dark-sm.png' : 'assets/sinequa-logo-light-sm.png'}}" alt="Sinequa logo" tooltip="Sinequa">
     </div>
 </ng-template>
