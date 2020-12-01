@@ -198,26 +198,6 @@ export class AdvancedService {
     ) {}
 
     /**
-     * Build default search form with a simple search input control
-     */
-    public buildForm(): FormGroup {
-        const search = new FormControl(
-            {
-                value: "",
-                disabled: false,
-            },
-            {
-                validators: [],
-                updateOn: "change",
-            }
-        );
-
-        return this.formBuilder.group({
-            search: search,
-        });
-    }
-
-    /**
      * Return a standard FormControl compatible with a select component
      * @param config required configuration for the generic advanced-form-select
      * @param validators optional validators to be added to the returned FormControl
@@ -228,7 +208,7 @@ export class AdvancedService {
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
     ): FormControl {
-        return this._createControl(config, validators, asyncValidators);
+        return this.createControl(config, validators, asyncValidators);
     }
 
     /**
@@ -242,7 +222,7 @@ export class AdvancedService {
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
     ): FormControl {
-        return this._createControl(config, validators, asyncValidators);
+        return this.createControl(config, validators, asyncValidators);
     }
 
     /**
@@ -256,7 +236,7 @@ export class AdvancedService {
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
     ): FormControl {
-        return this._createControl(config, validators, asyncValidators);
+        return this.createControl(config, validators, asyncValidators);
     }
 
     /**
@@ -270,7 +250,7 @@ export class AdvancedService {
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
     ): FormControl {
-        return this._createControl(config, validators, asyncValidators);
+        return this.createControl(config, validators, asyncValidators);
     }
 
     /**
@@ -284,11 +264,11 @@ export class AdvancedService {
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
     ): FormControl {
-        return this._createControl(config, validators, asyncValidators);
+        return this.createControl(config, validators, asyncValidators);
     }
 
     /**
-     * Retrieve the value to be set to a specific FormControl from a given Query
+     * Retrieve the value to be set to a specific FormControl from the search Query
      * @param config advanced-search-form component's configuration
      */
     public getAdvancedValue(
@@ -348,7 +328,7 @@ export class AdvancedService {
     }
 
     /**
-     * Update the Query with the advanced-search-form values
+     * Update the search query with a specific FormControl value
      * @param value new value to be updated in the query
      * @param config advanced-search-form component's configuration
      */
@@ -396,10 +376,10 @@ export class AdvancedService {
     }
 
     /**
-     * Remove a specific advanced value by its field.
+     * Remove a specific advanced value by its field name.
      * By default, Trigger search() action
      * @param field
-     * @param query
+     * @param query by default searchService.query is used
      * @param searchable
      */
     public removeAdvancedValue(
@@ -419,9 +399,9 @@ export class AdvancedService {
     }
 
     /**
-     * Remove all advanced-search select(s) from a given query and update searchService.query accordingly
+     * Remove all related advanced-search select(s) from a given query and update searchService.query accordingly
      * By default, Trigger search() action
-     * @param query
+     * @param query by default searchService.query is used
      * @param searchable
      */
     public resetAdvancedValues(
@@ -438,7 +418,7 @@ export class AdvancedService {
     }
 
     /**
-     * Return an object containing all the filled (field, value) in the advanced-search-form
+     * Return an object containing all the filled (field, value) in the advanced-search form
      */
     public getAdvancedValues(): Object {
         const obj = new Object();
@@ -673,13 +653,8 @@ export class AdvancedService {
      * @param validators optional validators to be added to the returned FormControl
      * @param asyncValidators optional asyncValidators to be added to the returned FormControl
      */
-    private _createControl(
-        config:
-            | BasicAdvancedConfig
-            | AdvancedSelect
-            | AdvancedRange
-            | AdvancedInput
-            | AdvancedCheckbox,
+    protected createControl(
+        config: BasicAdvancedConfig,
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
     ): FormControl {

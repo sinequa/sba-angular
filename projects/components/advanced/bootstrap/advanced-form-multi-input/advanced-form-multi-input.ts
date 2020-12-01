@@ -21,7 +21,7 @@ export class BsAdvancedFormMultiInput implements OnInit, OnDestroy {
     @Input() autocompleteEnabled: boolean = true;
     @Input() suggestQuery: string;
 
-    items: AutocompleteItem[] = []; /** List of items performed in the advanced search */
+    items: AutocompleteItem[] = []; /** List of items already existing in the advanced search */
     name: string;
     label: string;
     control: AbstractControl | null;

@@ -13,10 +13,10 @@ import { Keys } from "@sinequa/core/base";
     selector: "[sqAdvancedFormAutocompleteMultiInput]",
 })
 export class BsAdvancedFormAutocompleteMultiInput extends BsAdvancedFormAutocomplete {
-    /** Event synchronizing the list of selected labels in the parent component */
+    /** Event synchronizing the list of search terms in the parent component */
     @Output() itemsUpdate = new EventEmitter<AutocompleteItem[]>();
 
-    /** Stores the selected labels items selected via Tab */
+    /** Stores the selected search terms selected via Tab */
     @Input() items: AutocompleteItem[] = [];
 
     /**
@@ -53,7 +53,7 @@ export class BsAdvancedFormAutocompleteMultiInput extends BsAdvancedFormAutocomp
                     this.itemsUpdate.next(this.items);
                 }
             }
-            /** Allow the selection one of new labels that not exists in the list */
+            /** Allow the selection one of new item */
             if (event.keyCode === Keys.enter) {
                 this._manageSetAutocompleteItem();
             }
