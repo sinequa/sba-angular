@@ -46,14 +46,13 @@ import { GoogleMapsModule } from '@sinequa/components/googlemaps';
 import { GridsterModule } from 'angular-gridster2';
 import { AgmCoreModule } from '@agm/core';
 
-import { DashboardItemComponent } from './dashboard/dashboard-item.component'
-import { DashboardAddItemComponent } from './dashboard/dashboard-add-item.component'
-
 // Components
 import { AppComponent } from "./app.component";
 import { SearchComponent } from './search/search.component';
 import { SearchFormComponent } from './search-form/search-form.component';
 import { AutocompleteExtended } from './search-form/autocomplete-extended.directive';
+import { DashboardItemComponent } from './dashboard/dashboard-item.component';
+import { DashboardAddItemComponent } from './dashboard/dashboard-add-item.component';
 
 // Environment
 import { environment } from "../environments/environment";

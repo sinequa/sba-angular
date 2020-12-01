@@ -26,6 +26,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   public multiFacetTitle = "msg#facet.filters.title";
 
   private _searchServiceSubscription: Subscription;
+  private _loginSubscription: Subscription;
   
   darkAction: Action;
   dashboardActions: Action[] = [];
@@ -58,6 +59,14 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.cdRef.detectChanges();
       }, 0); 
     });
+    
+    this._loginSubscription = this.loginService.events.subscribe(event => {
+      if (event.type === "session-start") {
+        // Note: the default dashboard must be set post-login so that it can be overriden by a default dashboard set by the user
+        this.dashboardService.setDefaultDashboard([MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET]);
+        this.dashboardActions = this.dashboardService.createDashboardActions([MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, HEATMAP_WIDGET]);
+      }
+    });
   
     this.ui.addResizeListener(event => {
       this.dashboardService.options.fixedRowHeight = (window.innerHeight - 150) / 4;
@@ -81,9 +90,6 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   ngOnInit() {
     this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: ""}));
-        
-    this.dashboardService.setDefaultDashboard([MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET]);
-    this.dashboardActions = this.dashboardService.createDashboardActions([MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, HEATMAP_WIDGET]);
   }
 
   /**
@@ -91,6 +97,7 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy(){
     this._searchServiceSubscription.unsubscribe();
+    this._loginSubscription.unsubscribe();
   }
 
   /**
