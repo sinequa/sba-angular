@@ -27,13 +27,17 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Output() recordClosed = new EventEmitter<void>();
   @HostBinding('style.height.px') _height: number = this.height;
 
-  closeAction: Action;
-  _expandModalAction: Action;
+  private closeAction: Action;
+  private expandModalAction: Action;
+  private minimizeAction: Action;
+  private maximizeAction: Action;
 
   data?: PreviewData;
   document?: PreviewDocument;
   downloadUrl?: SafeResourceUrl;
   loadingPreview = false;
+
+  private readonly scaleFactorThreshold = 0.1;
 
   constructor(
       private previewService: PreviewService) {
@@ -48,7 +52,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       }
     });
 
-    this._expandModalAction = new Action({
+    this.expandModalAction = new Action({
       icon: "far fa-window-maximize",
       title: "msg#facet.preview.expandTitle",
       action: () => {
@@ -58,19 +62,38 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
         });
       }
     });
+
+    this.maximizeAction = new Action({
+      icon: "fas fa-search-plus",
+      title: "msg#facet.preview.maximize",
+      action: () => {
+        this.scalingFactor = this.scalingFactor + this.scaleFactorThreshold;
+      }
+    })
+    this.minimizeAction = new Action({
+      icon: "fas fa-search-minus",
+      title: "msg#facet.preview.minimize",
+      disabled: this.scalingFactor === 0.1,
+      action: () => {
+        this.scalingFactor = Math.max(0.1, this.scalingFactor - this.scaleFactorThreshold);
+      },
+      updater: (action) => {
+        action.disabled = this.scalingFactor === 0.1;
+      }
+    })
+
   }
 
   get actions(): Action[] {
     const actions: Action[] = [];
     if(this.customActions){
-      // update custom actions as minimize could be disabled
-      this.customActions.forEach(action => action.update());
       actions.push(...this.customActions);
     }
     if(this.expandModal){
-      actions.push(this._expandModalAction);
+      actions.push(this.expandModalAction);
     }
-    actions.push(this.closeAction);
+    this.minimizeAction.update();
+    actions.push(this.maximizeAction, this.minimizeAction, this.closeAction);
     return actions;
   }
 
