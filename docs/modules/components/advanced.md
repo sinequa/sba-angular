@@ -149,11 +149,11 @@ Those validators are accessible via the **readonly** attribute `advancedFormVali
 
 Actually, each created FormControl is not useful unless it is able to perform some related advanced-search lifecycle actions. For this, `AdvancedService` comes with several methods :
 
-- `getAdvancedValue(config: BasicAdvancedConfig | AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox): AdvancedValue`
+- `getAdvancedValue(config: BasicAdvancedConfig | AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox, query?: Query | undefined): AdvancedValue`
 
     This method retrieves the value to be set to a specific FormControl from the search query.
 
-- `setAdvancedValue(value: AdvancedValue, config: BasicAdvancedConfig | AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox): AdvancedValue`
+- `setAdvancedValue(value: AdvancedValue, config: BasicAdvancedConfig | AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox, query?: Query | undefined): AdvancedValue`
 
     This method updates the search query with a specific FormControl value.
 
@@ -165,7 +165,7 @@ Actually, each created FormControl is not useful unless it is able to perform so
 
     This method removes all advanced values from a given query and then can trigger a new search event.
 
-- `getAdvancedValues(): Object`
+- `getAdvancedValues(query?: Query | undefined): Object`
 
     This method returns an object containing all the filled (field, value) in the advanced-search form.
 

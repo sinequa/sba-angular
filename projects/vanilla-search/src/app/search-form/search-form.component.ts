@@ -76,7 +76,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
           this.searchService.query.addSelect(expr, "search-form");
         }
       }
-      this.searchService.search({ path: "/search" });
+      this.searchService.searchText("search");
     }
   }
 

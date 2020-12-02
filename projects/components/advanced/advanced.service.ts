@@ -269,6 +269,7 @@ export class AdvancedService {
     /**
      * Retrieve the value to be set to a specific FormControl from the search Query
      * @param config advanced-search-form component's configuration
+     * @param query Query where to fetch advanced values, if omitted, use searchService.query
      */
     public getAdvancedValue(
         config:
@@ -276,10 +277,14 @@ export class AdvancedService {
             | AdvancedSelect
             | AdvancedRange
             | AdvancedInput
-            | AdvancedCheckbox
+            | AdvancedCheckbox,
+        query?: Query | undefined
     ): AdvancedValue {
+        if (!query) {
+            query = this.searchService.query;
+        }
         let expr: Expr | string;
-        const expression = this.searchService.query?.findSelect(
+        const expression = query.findSelect(
             advancedFacetPrefix + config.field
         )?.expression;
         if (expression) {
@@ -330,6 +335,7 @@ export class AdvancedService {
      * Update the search query with a specific FormControl value
      * @param value new value to be updated in the query
      * @param config advanced-search-form component's configuration
+     * @param query Query where to update advanced values, if omitted, use searchService.query
      */
     public setAdvancedValue(
         value: AdvancedValue,
@@ -338,8 +344,12 @@ export class AdvancedService {
             | AdvancedSelect
             | AdvancedRange
             | AdvancedInput
-            | AdvancedCheckbox
+            | AdvancedCheckbox,
+        query?: Query | undefined
     ) {
+        if (!query) {
+            query = this.searchService.query;
+        }
         let expression: string | undefined;
         if (Utils.eqNC(config.type, AdvancedFormType.Range)) {
             const range = value;
@@ -363,11 +373,11 @@ export class AdvancedService {
                 );
             }
         }
-        this.searchService.query?.removeSelect(
+        query.removeSelect(
             advancedFacetPrefix + config.field
         );
         if (expression) {
-            this.searchService.query?.addSelect(
+            query.addSelect(
                 expression,
                 advancedFacetPrefix + config.field
             );
@@ -378,7 +388,7 @@ export class AdvancedService {
      * Remove a specific advanced value by its field name.
      * By default, Trigger search() action
      * @param field
-     * @param query by default searchService.query is used
+     * @param query Query from which will remove the specific advanced value, if omitted, use searchService.query
      * @param searchable
      */
     public removeAdvancedValue(
@@ -400,7 +410,7 @@ export class AdvancedService {
     /**
      * Remove all related advanced-search select(s) from a given query and update searchService.query accordingly
      * By default, Trigger search() action
-     * @param query by default searchService.query is used
+     * @param query Query from which will remove all advanced values, if omitted, use searchService.query
      * @param searchable
      */
     public resetAdvancedValues(
@@ -418,10 +428,14 @@ export class AdvancedService {
 
     /**
      * Return an object containing all the filled (field, value) in the advanced-search form
+     * @param query Query from which will fetch advanced values, if omitted, use searchService.query
      */
-    public getAdvancedValues(): Object {
+    public getAdvancedValues(query?: Query | undefined): Object {
+        if (!query) {
+            query = this.searchService.query.copy();
+        }
         const obj = new Object();
-        const advancedSelect = this.searchService.query?.select?.filter(
+        const advancedSelect = query.select?.filter(
             (select: Select) => select.facet.startsWith(advancedFacetPrefix)
         );
         if (advancedSelect) {
