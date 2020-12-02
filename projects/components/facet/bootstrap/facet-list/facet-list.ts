@@ -122,6 +122,14 @@ export class BsFacetList extends AbstractFacet implements OnChanges {
         }, this.suggestDelay);
     }
 
+    ngOnInit() {
+        if (this.showCount === undefined) this.showCount = true;
+        if (this.searchable === undefined) this.searchable = true;
+        if (this.allowExclude === undefined) this.allowExclude = true;
+        if (this.allowOr === undefined) this.allowOr = true;
+        if (this.allowAnd === undefined) this.allowAnd = true;
+    }
+
     /**
      * Name of the facet, used to create and retrieve selections
      * through the facet service.

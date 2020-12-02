@@ -82,6 +82,12 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
 
     }
 
+    ngOnInit() {
+        if (this.showCount === undefined) this.showCount = true;
+        if (this.allowExclude === undefined) this.allowExclude = true;
+        if (this.allowOr === undefined) this.allowOr = true;
+    }
+
     /**
      * Name of the facet, used to create and retrieve selections
      * through the facet service.
