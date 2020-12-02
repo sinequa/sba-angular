@@ -1,0 +1,24 @@
+<div class="form-group" [formGroup]="form">
+    <label for="{{name}}">{{label | sqMessage}}</label>
+    <div class="d-flex flex-column">
+        <input
+            sqAdvancedFormAutocomplete
+            [config]="config"
+            [off]="!autocompleteEnabled"
+            [suggestQuery]="suggestQuery"
+            [dropdown]="dropdown"
+            sqAdvancedFormValidation
+            [validationForm]="form"
+            type="text"
+            class="form-control"
+            [id]="name"
+            [formControlName]="name"
+            autocomplete="off"
+            spellcheck="off">
+        <sq-autocomplete-list #dropdown>
+            <ng-template #itemTpl let-item>
+                <div class="py-2">{{item.display}}</div>
+            </ng-template>
+        </sq-autocomplete-list>
+    </div>
+</div>

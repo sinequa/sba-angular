@@ -1,14 +1,26 @@
 <div class="form-group" [formGroup]="form">
     <label for="{{forName}}">{{label | sqMessage}}</label>
-    <div *ngIf="!isDate" class="sq-advanced-form-range form-row"
-        [sq-advanced-form-validation]="{form: form, config: config}" 
+    <div *ngIf="!isDate"
+        class="sq-advanced-form-range form-row"
+        sqAdvancedFormValidation
+        [config]="config"
+        [validationForm]="form"
         [id]="name">
-        <div class="col-auto input-autocomplete">
+        <div class="col-auto d-flex flex-column">
             <input
-                [sq-advanced-form-autocomplete]="{control: config, autocompleteEnabled: autocompleteEnabled, suggestQuery: suggestQuery}"
+                sqAdvancedFormAutocomplete
+                [config]="config"
+                [off]="!autocompleteEnabled"
+                [suggestQuery]="suggestQuery"
                 [dropdown]="dropdown1"
-                type="text" autocomplete="off" spellcheck="off" class="form-control sq-range-from" [id]="fromName"
-                [ngModel]="value[0]" (ngModelChange)="updateFrom($event)" [ngModelOptions]="{standalone: true}"/>
+                type="text"
+                autocomplete="off"
+                spellcheck="off"
+                class="form-control sq-range-from"
+                [id]="fromName"
+                [ngModel]="value[0]"
+                (ngModelChange)="updateFrom($event)"
+                [ngModelOptions]="{standalone: true}"/>
             <sq-autocomplete-list #dropdown1>
                 <ng-template #itemTpl let-item>
                     <div class="py-2">{{item.display}}</div>
@@ -16,12 +28,21 @@
             </sq-autocomplete-list>
         </div>
         <div class="col-auto sq-separator">{{'msg#advanced.rangeSeparator' | sqMessage}}</div>
-        <div class="col-auto input-autocomplete">
-            <input 
-                [sq-advanced-form-autocomplete]="{control: config, autocompleteEnabled: autocompleteEnabled, suggestQuery: suggestQuery}"
+        <div class="col-auto d-flex flex-column">
+            <input
+                sqAdvancedFormAutocomplete
+                [config]="config"
+                [suggestQuery]="suggestQuery"
+                [off]="!autocompleteEnabled"
                 [dropdown]="dropdown2"
-                type="text" autocomplete="off" spellcheck="off" class="form-control sq-range-to" [id]="toName"
-                [ngModel]="value[1]" (ngModelChange)="updateTo($event)" [ngModelOptions]="{standalone: true}"/>
+                type="text"
+                autocomplete="off"
+                spellcheck="off"
+                class="form-control sq-range-to"
+                [id]="toName"
+                [ngModel]="value[1]"
+                (ngModelChange)="updateTo($event)"
+                [ngModelOptions]="{standalone: true}"/>
             <sq-autocomplete-list #dropdown2>
                 <ng-template #itemTpl let-item>
                     <div class="py-2">{{item.display}}</div>
@@ -29,8 +50,12 @@
             </sq-autocomplete-list>
         </div>
     </div>
-    <sq-date-range-picker *ngIf="isDate" 
-        [options]="{name: name, system: false, closedRange: false, minDate: minDate, maxDate: maxDate}" 
-        [formControlName]="name" [id]="name"
-        [sq-advanced-form-validation]="{form: form, config: config}"></sq-date-range-picker>
+    <sq-date-range-picker *ngIf="isDate"
+        [options]="{name: name, system: false, closedRange: false, minDate: minDate, maxDate: maxDate}"
+        [formControlName]="name"
+        [id]="name"
+        sqAdvancedFormValidation
+        [config]="config"
+        [validationForm]="form">
+    </sq-date-range-picker>
 </div>

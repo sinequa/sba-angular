@@ -81,6 +81,7 @@ import {LocalesConfig, Locale} from "@sinequa/core/intl";
 import enLocale from "../locales/en";
 import frLocale from "../locales/fr";
 import deLocale from "../locales/de";
+import { BsAdvancedModule } from '@sinequa/components/advanced';
 
 export class AppLocalesConfig implements LocalesConfig {
     defaultLocale: Locale;
@@ -135,7 +136,8 @@ export const breakpoints = {
         BsFeedbackModule,
         BsPreviewModule,
         MetadataModule,
-        BsSelectionModule
+        BsSelectionModule,
+        BsAdvancedModule
     ],
     declarations: [
         AppComponent,

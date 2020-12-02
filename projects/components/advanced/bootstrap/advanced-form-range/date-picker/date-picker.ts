@@ -82,7 +82,7 @@ export class BsDatePicker implements OnInit, AfterViewInit, OnDestroy, ControlVa
             maxDate: this.options.maxDate,
             containerClass:'theme-default',
             showWeekNumbers: false,
-            dateInputFormat: this.options.system ? this.SystemFormat : "L"
+            dateInputFormat: this.options.system ? this.SystemFormat : moment.localeData().longDateFormat('L')
         };
     }
 

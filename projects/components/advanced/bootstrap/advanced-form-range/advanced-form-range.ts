@@ -1,26 +1,26 @@
-import {Component, Input, OnInit, OnDestroy} from "@angular/core";
-import {FormGroup, AbstractControl} from "@angular/forms";
-import {Subscription} from "rxjs";
-import {Utils} from "@sinequa/core/base";
-import {CCColumn} from "@sinequa/core/web-services";
-import {AppService} from "@sinequa/core/app-utils";
-import {Range} from "../advanced-models";
+import {
+    Component,
+    Input,
+    OnInit,
+    OnDestroy,
+} from "@angular/core";
+import { FormGroup, AbstractControl } from "@angular/forms";
+import { Subscription } from "rxjs";
+import { Utils } from "@sinequa/core/base";
+import { CCColumn } from "@sinequa/core/web-services";
+import { AppService } from "@sinequa/core/app-utils";
+import { AdvancedRange } from "../../advanced.service";
 
 @Component({
     selector: "sq-advanced-form-range",
-    templateUrl: "./advanced-form-range.html",
-    styles: [`
-.input-autocomplete{
-    display: flex;
-    flex-direction: column;
-}
-    `]
+    templateUrl: "./advanced-form-range.html"
 })
 export class BsAdvancedFormRange implements OnInit, OnDestroy {
     @Input() form: FormGroup;
-    @Input() config: Range;
-    @Input() autocompleteEnabled: boolean;
+    @Input() config: AdvancedRange;
+    @Input() autocompleteEnabled: boolean = true;
     @Input() suggestQuery: string;
+
     name: string;
     fromName: string;
     toName: string;
@@ -31,40 +31,42 @@ export class BsAdvancedFormRange implements OnInit, OnDestroy {
     maxDate: Date | undefined;
     control: AbstractControl | null;
     value: (string | number | Date)[];
-    valueChangesSubscription: Subscription;
+    isDate: boolean;
+    private _valueChangesSubscription: Subscription;
 
-    constructor(
-        private appService: AppService) {
-    }
-
-    get isDate(): boolean {
-        return !!this.column && AppService.isDate(this.column);
-    }
+    constructor(private appService: AppService) {}
 
     ngOnInit() {
-        this.name = this.config.name || this.config.field;
+        this.name = this.config.name;
         this.fromName = "from_" + this.name;
         this.toName = "to_" + this.name;
         this.forName = this.fromName;
         this.column = this.appService.getColumn(this.config.field);
-        this.label = this.config.label || this.appService.getPluralLabel(this.config.field);
+        this.label = this.config.label;
+        this.isDate = !!this.column && AppService.isDate(this.column);
         if (this.isDate) {
-            this.minDate = Utils.isDate(this.config.min) ? this.config.min : undefined;
-            this.maxDate = Utils.isDate(this.config.max) ? this.config.max : undefined;
+            this.minDate = Utils.isDate(this.config.min)
+                ? this.config.min
+                : undefined;
+            this.maxDate = Utils.isDate(this.config.max)
+                ? this.config.max
+                : undefined;
         }
         this.control = this.form.get(this.name);
         if (this.control) {
             this.value = this.control.value;
-            this.valueChangesSubscription = Utils.subscribe(this.control.valueChanges,
+            this._valueChangesSubscription = Utils.subscribe(
+                this.control.valueChanges,
                 (value) => {
                     this.value = value;
-                });
+                }
+            );
         }
     }
 
     ngOnDestroy() {
-        if (this.valueChangesSubscription) {
-            this.valueChangesSubscription.unsubscribe();
+        if (this._valueChangesSubscription) {
+            this._valueChangesSubscription.unsubscribe();
         }
     }
 
@@ -74,8 +76,7 @@ export class BsAdvancedFormRange implements OnInit, OnDestroy {
             if (value1 !== undefined) {
                 return value1;
             }
-        }
-        else if (this.column && AppService.isNumber(this.column)) {
+        } else if (this.column && AppService.isNumber(this.column)) {
             if (Utils.testFloat(value)) {
                 return Utils.toNumber(value);
             }

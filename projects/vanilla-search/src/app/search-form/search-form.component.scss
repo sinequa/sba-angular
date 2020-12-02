@@ -4,7 +4,7 @@
 // were the input.
 .search-input {
     border: none;
-    width: 100%;  
+    width: 100%;
 }
 .search-input:focus {
     outline: none;
@@ -19,4 +19,13 @@
 .form-control.is-invalid:focus-within {
     border-color: #dc3545;
     box-shadow: 0 0 0 0.2rem rgba(220,53,69,.25);
+}
+.advanced-search {
+    position: absolute;
+    width: 100%;
+    z-index: 99;
+    margin-bottom: 15px;
+}
+.btn-advanced-search {
+  border: 1px solid #ced4da;
 }

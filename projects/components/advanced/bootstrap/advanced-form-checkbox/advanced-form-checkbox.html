@@ -1,7 +1,13 @@
 <div class="form-group" [formGroup]="form">
     <div class="form-check">
         <label class="custom-control custom-checkbox">
-            <input class="custom-control-input" type="checkbox" [formControlName]="name">
+            <input
+                class="custom-control-input"
+                type="checkbox"
+                sqAdvancedFormValidation
+                [config]="config"
+                [validationForm]="form"
+                [formControlName]="name">
             <span class="custom-control-label">{{label | sqMessage}}</span>
         </label>
     </div>

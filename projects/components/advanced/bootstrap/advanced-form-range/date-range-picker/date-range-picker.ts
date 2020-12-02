@@ -1,11 +1,11 @@
 import {Component, Input, OnInit, AfterViewInit, OnDestroy, ViewChild, forwardRef} from "@angular/core";
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 import {Subscription} from "rxjs";
-import {DatePickerOptions} from "../date-picker/date-picker";
 import {Utils} from "@sinequa/core/base";
 import {IntlService} from "@sinequa/core/intl";
 import {BsDaterangepickerDirective, BsDaterangepickerConfig, BsDatepickerDirective, BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 import moment from "moment";
+import { DatePickerOptions } from '../date-picker/date-picker';
 
 export const DATE_RANGE_PICKER_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -107,7 +107,7 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
             maxDate: this.options.maxDate,
             containerClass:'theme-default',
             showWeekNumbers: false,
-            rangeInputFormat: this.options.system ? this.SystemFormat : "L"
+            rangeInputFormat: this.options.system ? this.SystemFormat : moment.localeData().longDateFormat('L')
         };
     }
 
@@ -126,7 +126,7 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
             maxDate: this.maxDate,
             containerClass:'theme-default',
             showWeekNumbers: false,
-            dateInputFormat: this.options.system ? this.SystemFormat : "L",
+            dateInputFormat: this.options.system ? this.SystemFormat : moment.localeData().longDateFormat('L'),
         };
     }
 
@@ -136,7 +136,7 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
             maxDate: this.options.maxDate,
             containerClass:'theme-default',
             showWeekNumbers: false,
-            dateInputFormat: this.options.system ? this.SystemFormat : "L",
+            dateInputFormat: this.options.system ? this.SystemFormat : moment.localeData().longDateFormat('L'),
         };
     }
 
@@ -184,12 +184,14 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
         if (!this.value || !value || !Utils.equals(this.value[0], value[0]) || !Utils.equals(this.value[1], value[1])) {
             if (!value) {
                 value = [undefined, undefined];
+            } else {
+                !!value[0] ? value[0] = new Date(value[0]) : value[0] = value[0];
+                !!value[1] ? value[1] = new Date(value[1]) : value[1] = value[1];
             }
             if (this.options.closedRange) {
                 this.value = value;
                 this.zeroTimes();
-            }
-            else {
+            } else {
                 this.resetMinMaxDate();
                 this.value = value;
                 this.zeroTimes();

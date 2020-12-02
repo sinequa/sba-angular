@@ -1,8 +1,8 @@
-﻿import {AppService} from "../app.service";
-import {Utils, MapOf} from "@sinequa/core/base";
-import {ExprParser, Expr} from "./expr-parser";
-import {IQuery, Select, Open, SpellingCorrectionMode, AggregationOptions, AdvancedValueEntry,
-    AdvancedOperator, BasicAdvancedValue, AdvancedValue, AdvancedValueWithOperator} from "@sinequa/core/web-services";
+﻿import {Utils, MapOf} from "@sinequa/core/base";
+import {IQuery, Select, Open, SpellingCorrectionMode, AggregationOptions} from "@sinequa/core/web-services";
+
+
+export const advancedFacetPrefix = "advanced_";
 
 /**
  * Represents a query for retrieving search results from a Sinequa search engine.
@@ -35,7 +35,6 @@ export class Query implements IQuery {
     aggregations: MapOf<AggregationOptions> | string[];
     orderBy?: string;
     groupBy?: string;
-    advanced?: MapOf<AdvancedValueEntry>;
 
     /**
      * Return a copy of the passed query
@@ -226,10 +225,15 @@ export class Query implements IQuery {
     }
 
     /**
-     * Remove advanced search filters from the query
+     * Remove advanced search select(s) from the query
      */
     toStandard(): Query {
-        delete this.advanced;
+        const advancedSelect = this.select?.filter(
+          (select: Select) => select.facet.startsWith(advancedFacetPrefix)
+        )
+        advancedSelect?.forEach(
+          (select) => this.removeSelect(select.facet)
+        )
         return this;
     }
 
@@ -243,7 +247,7 @@ export class Query implements IQuery {
     }
 
     /**
-     * Return a copy of this query but without any advanced fields
+     * Return a copy of this query but without any advanced select
      */
     copyStandard(): Query {
         const query = this.copy();
@@ -251,16 +255,22 @@ export class Query implements IQuery {
     }
 
     /**
-     * Remove all properties from the query except `advanced` and optionally `text`
+     * Remove all properties from the query except advanced search select(s) and optionally `text`
      *
      * @param withText If `true` do not remove the `text` field
      */
     toAdvanced(withText: boolean = false): Query {
         for (const property in this) {
-            if (this.hasOwnProperty(property) && !Utils.eqNC(property, "advanced") && (!withText || !Utils.eqNC(property, "text"))) {
+            if (this.hasOwnProperty(property) && !Utils.eqNC(property, "select") && (!withText || !Utils.eqNC(property, "text"))) {
                 delete this[property];
             }
         }
+        const notAdvancedSelect = this.select?.filter(
+          (select: Select) => select.facet.indexOf(advancedFacetPrefix) === -1
+        )
+        notAdvancedSelect?.forEach(
+          (select) => this.removeSelect(select.facet)
+        )
         return this;
     }
 
@@ -272,25 +282,6 @@ export class Query implements IQuery {
     copyAdvanced(withText: boolean = false): Query {
         const query = this.copy();
         return query.toAdvanced(withText);
-    }
-
-    /**
-     * Returns `true` if the advanced parameters of this query are the same as the advanced parameters
-     * of the passed query.
-     *
-     * @param query A query to compare with this instance
-     * @param withText Also include the `text` field in the comparison
-     */
-    advancedEquals(query: Query, withText: boolean = false): boolean {
-        if (!query) {
-            return false;
-        }
-        if (withText) {
-            if (this.text !== query.text) {
-                return false;
-            }
-        }
-        return Utils.equals(this.advanced, query.advanced);
     }
 
     /**
@@ -366,301 +357,5 @@ export class Query implements IQuery {
         delete obj.pageSize;
         const str = Utils.toJson(obj);
         return Utils.sha512(str);
-    }
-
-    /**
-     * Return `true` if the passed value is an `AdvancedValueWithOperator`
-     */
-    isAdvancedValueWithOperator(value: any): value is AdvancedValueWithOperator {
-        if (Utils.isObject(value) && !Utils.isArray(value) && !Utils.isDate(value)) {
-            if (value.hasOwnProperty("value") && value.hasOwnProperty("operator")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Return `true` if the passed value is an array that doesn't contain any `AdvancedValueWithOperator`
-     * objects
-     */
-    isValueArray(value: any): value is (string[] | number[] | Date[] | boolean[]) {
-        if (Utils.isArray(value)) {
-            return value.every(element => !this.isAdvancedValueWithOperator(element));
-        }
-        return false;
-    }
-
-    private _escapeAdvancedValue(field: string, value: BasicAdvancedValue): BasicAdvancedValue {
-        if (value && Utils.isString(value)) {
-            return ExprParser.escape(value);
-        }
-        return value;
-    }
-
-    private escapeAdvancedValue(field: string, value: AdvancedValue): AdvancedValue {
-        if (Utils.isArray(value)) {
-            return value.map(value1 => this._escapeAdvancedValue(field, value1));
-        }
-        else {
-            return this._escapeAdvancedValue(field, value);
-        }
-    }
-
-    private _unescapeAdvancedValue(field: string, value: BasicAdvancedValue): BasicAdvancedValue {
-        if (value && Utils.isString(value)) {
-            return ExprParser.unescape(value);
-        }
-        return value;
-    }
-
-    private unescapeAdvancedValue(field: string, value: AdvancedValue): AdvancedValue {
-        if (Utils.isArray(value)) {
-            return value.map(value1 => this._unescapeAdvancedValue(field, value1));
-        }
-        else {
-            return this._unescapeAdvancedValue(field, value);
-        }
-    }
-
-    /**
-     * Get the `AdvancedValue` corresponding to the passed field and operator
-     */
-    getAdvancedValue(field: string, operator: AdvancedOperator): AdvancedValue | undefined {
-        if (this.advanced) {
-            const value = this.advanced[field];
-            if (Utils.isArray(value)) {
-                if (operator) {
-                    for (const _value of value) {
-                        if (this.isAdvancedValueWithOperator(_value)) {
-                            if (operator === _value.operator) {
-                                return this.unescapeAdvancedValue(field, _value.value);
-                            }
-                        }
-                    }
-                }
-                else {
-                    if (this.isValueArray(value)) {
-                        return this.unescapeAdvancedValue(field, value);
-                    }
-                    for (const _value of value) {
-                        if (!this.isAdvancedValueWithOperator(_value)) {
-                            return this.unescapeAdvancedValue(field, _value);
-                        }
-                    }
-                }
-            }
-            else {
-                if (operator) {
-                    if (this.isAdvancedValueWithOperator(value)) {
-                        if (operator === value.operator) {
-                            return this.unescapeAdvancedValue(field, value.value);
-                        }
-                    }
-                }
-                else {
-                    if (!this.isAdvancedValueWithOperator(value)) {
-                        return this.unescapeAdvancedValue(field, value);
-                    }
-                }
-            }
-        }
-        return undefined;
-    }
-
-    /**
-     * Get a dictionary of advanced values keyed by field name
-     */
-    getAdvancedValues(): MapOf<(AdvancedValue | AdvancedValueWithOperator)[]> {
-        if (!this.advanced) {
-            return {};
-        }
-        const map: MapOf<(AdvancedValue | AdvancedValueWithOperator)[]> = {};
-        for (const key of Object.keys(this.advanced)) {
-            let value = this.advanced[key];
-            if (!Utils.isArray(value) || this.isValueArray(value)) {
-                value = [value];
-            }
-            map[key] = value;
-        }
-        return map;
-    }
-
-    /**
-     * Get the value of an advanced value as a fielded search expression {@link Expr}.
-     *
-     * @param appService The `AppService`
-     * @param field The field
-     * @param value The advanced value
-     */
-    getAdvancedValueExpr(appService: AppService, field: string, value: AdvancedValue | AdvancedValueWithOperator): Expr | string {
-        // The string value may already contain the field expression (eg for distributions)
-        // Try parsing the value and if successful see whether the field on the expression
-        // matches the passed field. If it does, use the value as the full expression.
-        if (Utils.isString(value)) {
-            const expr1 = appService.parseExpr(ExprParser.unescape(value));
-            if (expr1 instanceof Expr && Utils.eqNC(expr1.field || "", field)) {
-                return expr1;
-            }
-        }
-        let expression = field + ":";
-        let advancedValue: AdvancedValue;
-        if (this.isAdvancedValueWithOperator(value)) {
-            expression += value.operator;
-            advancedValue = value.value;
-        }
-        else {
-            advancedValue = value;
-        }
-        if (Utils.isArray(advancedValue)) {
-            expression += "[";
-            advancedValue.forEach((value1, index) => {
-                if (index > 0) {
-                    expression += ",";
-                }
-                expression += appService.escapeFieldValue(field, value1);
-            });
-            expression += "]";
-        }
-        else {
-            expression += appService.escapeFieldValue(field, advancedValue);
-        }
-        const expr = appService.parseExpr(expression);
-        return expr;
-    }
-
-    private advancedValueIsEmpty(value: AdvancedValue): boolean {
-        return value === null || Utils.isUndefined(value) || value === "";
-    }
-
-    /**
-     * Set an advanced value on this query. An empty replacement `value` leads to an advanced value being removed
-     * from the query. When an operator is specified with the value then multiple values with different operators
-     * can be stored for a field. The incoming operator is matched against any existing operator when deciding
-     * whether to replace or append a new advanced value
-     *
-     * @param field The field associated with the value
-     * @param value The value
-     * @param operator The advanced operator
-     * @param escapeValue If `true` the value is escaped
-     */
-    setAdvancedValue(field: string, value: AdvancedValue, operator?: AdvancedOperator, escapeValue = false) {
-        const advanced = this.advanced || {};
-        let currentValue = advanced[field];
-        if (escapeValue) {
-            value = this.escapeAdvancedValue(field, value);
-        }
-        const valueWithOperator = operator && !this.advancedValueIsEmpty(value) ?
-            {
-                value,
-                operator
-            } as AdvancedValueWithOperator : undefined;
-        let done = false;
-        if (Utils.isArray(currentValue)) {
-            if (this.isValueArray(currentValue)) {
-                if (operator) {
-                    advanced[field] = valueWithOperator;
-                }
-                else {
-                    advanced[field] = value;
-                }
-                done = true;
-            }
-            else {
-                for (let i = 0, ic = currentValue.length; i < ic; i++) {
-                    const _value = currentValue[i];
-                    if (operator) {
-                        if (this.isAdvancedValueWithOperator(_value)) {
-                            if (_value.operator === operator) {
-                                if (this.advancedValueIsEmpty(value)) {
-                                    currentValue.splice(i, 1);
-                                    i--;
-                                    ic--;
-                                }
-                                else {
-                                    _value.value = value;
-                                }
-                                done = true;
-                                break;
-                            }
-                        }
-                    }
-                    else {
-                        if (!this.isAdvancedValueWithOperator(_value)) {
-                            if (this.advancedValueIsEmpty(value)) {
-                                currentValue.splice(i, 1);
-                                i--;
-                                ic--;
-                            }
-                            else {
-                                currentValue[i] = value;
-                            }
-                            done = true;
-                            break;
-                        }
-                    }
-                }
-                if (currentValue.length === 0) {
-                    advanced[field] = undefined;
-                }
-            }
-        }
-        else if (!Utils.isUndefined(currentValue)) {
-            if (operator) {
-                if (this.isAdvancedValueWithOperator(currentValue)) {
-                    if (currentValue.operator === operator) {
-                        if (this.advancedValueIsEmpty(value)) {
-                            advanced[field] = undefined;
-                        }
-                        else {
-                            currentValue.value = value;
-                        }
-                        done = true;
-                    }
-                }
-            }
-            else if (!this.isAdvancedValueWithOperator(currentValue)) {
-                advanced[field] = value;
-                done = true;
-            }
-        }
-        else {
-            if (operator) {
-                advanced[field] = valueWithOperator;
-            }
-            else {
-                advanced[field] = value;
-            }
-            done = true;
-        }
-        if (!done && !this.advancedValueIsEmpty(value)) {
-            if (!Utils.isArray(currentValue)) {
-                currentValue = [currentValue];
-            }
-            if (operator) {
-                currentValue.push(valueWithOperator);
-            }
-            else {
-                currentValue.push(value);
-            }
-            advanced[field] = currentValue;
-        }
-        if (Object.keys(advanced).length === 0) {
-            this.advanced = undefined;
-        }
-        else {
-            this.advanced = advanced;
-        }
-    }
-
-    /**
-     * Remove the advanced value associated with the passed field. If the operator
-     * is specified then it is matched when testing the value to be removed
-     *
-     * @param field The field for which an advanced value should be removed
-     * @param operator An optional advanced operator
-     */
-    removeAdvancedValue(field: string, operator?: AdvancedOperator) {
-        this.setAdvancedValue(field, undefined, operator);
     }
 }
