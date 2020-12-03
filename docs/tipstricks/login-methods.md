@@ -435,4 +435,111 @@ export const startConfig: StartConfig = {
 };
 ```
 
-⚠️ At the moment `ng serve` is only supported in CORS mode, so it is not possible to set up a proxy as it is for SAML.
+In development mode, you should use a proxy to avoid CORS issues. Run `ng serve <app name> --ssl=true --proxyConfig=./path/to/proxy.json`, with the following configuration:
+
+```json
+{
+    "/api": {
+        "target": "https://my-sinequa-server.com",
+        "secure": false,
+        "changeOrigin": true
+    },
+    "/xdownload": {
+        "target": "https://my-sinequa-server.com",
+        "secure": false,
+        "changeOrigin": true
+    },
+    "/auth/redirect": {
+        "target": "https://my-sinequa-server.com",
+        "secure": false,
+        "changeOrigin": true
+    }
+}
+```
+
+⚠️ However, the problem with using a proxy in this situation is that the JWT cookie will be associated with the Sinequa server URL (`https://my-sinequa-server.com`) instead of your proxy URL (`https://localhost:4200`). The requests (sent to the latter) will not be authentified and the user will keep being redirected to the Identity Provider.
+
+**You therefore need to configure an alternative provider where the URL of the service is set to the proxy URL**. In your Webapp configuration (Auto-Login tab), duplicate the provider and set the "Server url override" parameter to `https://localhost:4200`:
+
+![Server url override]({{site.baseurl}}assets/tipstricks/oauth-server-override.png){: .d-block .mx-auto }
+
+In the Identity Provider's configuration, you also need to add `https://localhost:4200/auth/redirect` as a valid redirection URL.
+
+You can now use this new provider in your SBA with `ng serve`. Update the `StartConfig` to use this alternative provider (here called `"google-dev"`).
+
+```ts
+export const startConfig: StartConfig = {
+    app: "my-app",
+    autoOAuthProvider: "google-dev",
+    production: environment.production
+};
+```
+
+You can use the environment files to use `"google-dev"` in development mode (with `ng serve`) and `"google"` when the app is deployed on the server:
+
+```ts
+export const startConfig: StartConfig = {
+    app: "my-app",
+    autoOAuthProvider: environment.autoOAuthProvider,
+    production: environment.production
+};
+```
+
+With `src/environments/environment.ts`:
+
+```ts
+export const environment = {
+  autoOAuthProvider: "google-dev",
+  production: false
+};
+```
+
+And `src/environments/environment.prod.ts`:
+
+```ts
+export const environment = {
+  autoOAuthProvider: "google",
+  production: true
+};
+```
+
+## Custom Authentication
+
+In some situations, authentication is taken care of by a process independent of Sinequa. The identity of the user is known, and we would like the HTTP requests sent to Sinequa to be automatically authenticated. This situation can occur when users go through a reverse proxy or API gateway: The proxy takes care of authentication and users never directly talk to the Sinequa server.
+
+In this case, we need to add the user's identity to our HTTP requests, and catch this identity in Sinequa with a `WebAppPlugin`. One solution can be to forward an authentication token to Sinequa and decrypt it on the server to get the identity of the user.
+
+The plugin might look as follows. Note that `GetLoginInfo()` is called for every HTTP request, so it needs to be relatively fast (it can be slow on the first call, to store some information in cache, and then fast for the following requests):
+
+```c#
+namespace Sinequa.Plugin
+{
+
+    public class CustomAuthenticationPlugin : WebAppPlugin
+    {
+
+        public override LoginInfo GetLoginInfo(IDocContext Ctxt)
+        {
+            // The HttpManager can provide any information about the current HTTP request
+            HttpManager hm = Ctxt.Hm;
+
+            // We can also get information from a URL query parameter with Hm.Request(<name>)
+            // or from a cookie with Hm.RequestCookieGet(<name>)
+            string head  = hm.RequestHeader("Authorization");
+
+            // Then we need to obtain the identity of the user somehow
+            string userid = decryptHeader(head);
+
+            // The identity might not be determined, in which case returning `null` results in a 401 error
+            if(userid) return null;
+
+            // The user id was determined, so we return a LoginInfo object
+            LoginInfo login = new LoginInfo();
+            login.UserInfo = userid;
+            return login;
+        }
+
+    }
+
+}
+```
