@@ -531,7 +531,7 @@ namespace Sinequa.Plugin
             string userid = decryptHeader(head);
 
             // The identity might not be determined, in which case returning `null` results in a 401 error
-            if(userid) return null;
+            if(userid == null) return null;
 
             // The user id was determined, so we return a LoginInfo object
             LoginInfo login = new LoginInfo();
