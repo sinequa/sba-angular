@@ -27,7 +27,7 @@ export class ResultTimeline implements OnChanges {
     @Input() min_dates: number = 1;
     @Input() max_dates: number = 100;
     @Input() options: TimelineOptions = defaultOptions;
-    
+
     initDone = false;
     items : DataItem[] = [];
 
@@ -35,7 +35,7 @@ export class ResultTimeline implements OnChanges {
     }
 
     ngOnChanges(changes:SimpleChanges) {
-        if(!!changes['record']){
+        if(!!changes['record'] || !!changes['dates'] || !!changes['events']){
             this.updateTimeline();
         }
     }

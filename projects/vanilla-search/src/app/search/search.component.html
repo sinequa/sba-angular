@@ -100,8 +100,11 @@
                 </sq-result-thumbnail>
             </div>
 
-            <!-- Pager -->
-            <sq-pager [results]="results" class="d-flex flex-column align-items-center mt-3"></sq-pager>
+            <!-- Infinite scroll -->
+            <sq-scroller></sq-scroller>
+
+            <!-- Pagination -->
+            <!-- <sq-pager [results]="results" class="d-flex flex-column align-items-center mt-3"></sq-pager> -->
         </div>
 
         <!-- Right part-->
