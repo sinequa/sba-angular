@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { SavedQueriesService, SavedQuery } from '../../saved-queries.service';
+import { SavedQueriesService, SavedQuery, SavedQueryEventType } from '../../saved-queries.service';
 import { AbstractFacet } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
 
@@ -84,7 +84,7 @@ export class BsFacetSavedQueries extends AbstractFacet  {
     }
 
     openSavedQuery(query: SavedQuery){
-        this.savedQueriesService.searchSavedQuery(query, this.searchRoute);
+        this.savedQueriesService.setEvent({type: SavedQueryEventType.Search, savedquery: query})
         return false;
     }
 
@@ -92,5 +92,12 @@ export class BsFacetSavedQueries extends AbstractFacet  {
         event.stopPropagation();
         this.savedQueriesService.deleteSavedQuery(query);
         this.page = Math.min(this.page, this.maxPage);
+        return false;
+    }
+
+    getQueryParams(savedQuery: SavedQuery) {
+        const query = this.savedQueriesService.searchService.makeQuery(savedQuery.query);
+        const queryParams = query.toJsonForQueryString();
+        return {query: queryParams};
     }
 }

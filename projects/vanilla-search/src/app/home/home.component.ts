@@ -5,7 +5,7 @@ import { LoginService } from '@sinequa/core/login';
 import { IntlService } from '@sinequa/core/intl';
 import { SearchService } from '@sinequa/components/search';
 import { RecentDocument } from '@sinequa/components/saved-queries';
-import { PreviewService } from '@sinequa/components/preview';
+import { PreviewEventType, PreviewService } from '@sinequa/components/preview';
 import { FEATURES } from '../../config';
 
 @Component({
@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
    * @param document
    */
   openRecentDocument(document: RecentDocument) {
-    this.previewService.openRoute(document as any, this.searchService.makeQuery());
+    this.previewService.setEvent({type: PreviewEventType.Route, record: document as any, query: this.searchService.makeQuery()});
   }
 
   /**

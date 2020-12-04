@@ -1,20 +1,15 @@
 <div class="card">    
-    <div class="card-header d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
-        <div class="d-flex flex-row align-items-baseline">
-            <div *ngIf="!!icon" class="card-icon">
-                <span class="{{icon}} mr-2" tooltip="{{(tooltip || title) | sqMessage}}" aria-hidden="true"></span>
+    <div class="card-header cursor-default pl-3 pr-2 py-1">
+        <div class="d-flex">
+            <div class="d-flex align-items-baseline mr-auto" tooltip="{{(tooltip || title) | sqMessage}}">
+                <div *ngIf="!!icon" class="card-icon {{icon}} mr-2" aria-hidden="true"></div>
+                <div *ngIf="title" class="card-title text-truncate mb-0 py-1 mr-auto">{{title | sqMessage }}</div>
             </div>
-            <div class="card-title text-truncate mb-0 py-1 mr-auto" *ngIf="title">
-                <span tooltip="{{ (!!icon) ? '' : (tooltip || title) | sqMessage}}">{{title | sqMessage }}</span>
-            </div>
-            <ng-container *ngIf="facetComponent && facetComponent.headerTpl">
-                <ng-container [ngTemplateOutlet]="facetComponent.headerTpl"></ng-container>
+            <ng-container *ngIf="facetComponent && facetComponent.headerTpl" [ngTemplateOutlet]="facetComponent.headerTpl">
             </ng-container>
             <div class="btn-group" [sq-action-buttons]="{items: allActions, style: buttonsStyle, size: actionsSize, rightAligned: true}"></div>
         </div>
-        <ng-container *ngIf="facetComponent && facetComponent.subHeaderTpl">
-            <ng-container [ngTemplateOutlet]="facetComponent.subHeaderTpl"></ng-container>
-        </ng-container>
+        <ng-container *ngIf="facetComponent && facetComponent.subHeaderTpl" [ngTemplateOutlet]="facetComponent.subHeaderTpl"></ng-container>
     </div>
     <sq-collapse [collapsed]="_collapsed" *ngIf="!_settingsOpened">
         <ng-template>
@@ -22,10 +17,6 @@
             </ng-content>
         </ng-template>
     </sq-collapse>
-    <div *ngIf="hasSettings && _settingsOpened">
-        <ng-container [ngTemplateOutlet]="facetComponent.settingsTpl"></ng-container>
-    </div>
-    <div class="card-footer" *ngIf="facetComponent && facetComponent.footerTpl">
-        <ng-container [ngTemplateOutlet]="facetComponent.footerTpl"></ng-container>
-    </div>
+    <ng-container *ngIf="hasSettings && _settingsOpened" [ngTemplateOutlet]="facetComponent.settingsTpl"></ng-container>
+    <ng-container class="card-footer" *ngIf="facetComponent && facetComponent.footerTpl" [ngTemplateOutlet]="facetComponent.footerTpl"></ng-container>
 </div>

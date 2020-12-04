@@ -82,13 +82,20 @@ export class BsFacetRecentDocuments extends AbstractFacet  {
             window.open(document.url1, "_blank");
         }
         this.documentOpened.emit(document); // Can be use to trigger actions, like the preview
-        return false;
+        return true;
     }
 
     deleteDocument(document: RecentDocument, event: Event){
         event.stopPropagation();
         this.recentDocumentsService.deleteRecentDocument(document);
         this.page = Math.min(this.page, this.maxPage);
+        return false;
     }
 
+    getQueryParams(document: RecentDocument) {
+        return {
+            id: document.id,
+            query: this.searchService.makeQuery().toJsonForQueryString()
+        };
+    }
 }

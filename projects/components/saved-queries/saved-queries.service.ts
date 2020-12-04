@@ -123,7 +123,7 @@ export class SavedQueriesService implements OnDestroy {
         this.userSettingsService.events.subscribe(event => {
             // E.g. new login occurs
             // ==> Menus need to be rebuilt
-            this.events.next({type: SavedQueryEventType.Loaded});
+            this.setEvent({type: SavedQueryEventType.Loaded});
         });
         // Listen to own events, to trigger change events
         this._events.subscribe(event => {
@@ -219,7 +219,7 @@ export class SavedQueriesService implements OnDestroy {
             return false; // This savedquery already exists
 
         this.savedqueries.unshift(savedquery);
-        this.events.next({type : SavedQueryEventType.Add, savedquery: savedquery});
+        this.setEvent({type : SavedQueryEventType.Add, savedquery});
         this.patchSavedQueries([{
             type: SavedQueryEventType.Add,
             detail: {
@@ -247,7 +247,7 @@ export class SavedQueriesService implements OnDestroy {
         if(index >= 0 && index < this.savedqueries.length){
 
             this.savedqueries.splice(index, 1, savedquery);
-            this.events.next({type : SavedQueryEventType.Update, savedquery: savedquery});
+            this.setEvent({type : SavedQueryEventType.Update, savedquery});
             this.patchSavedQueries([
                 {
                     type: SavedQueryEventType.Update,
@@ -271,7 +271,7 @@ export class SavedQueriesService implements OnDestroy {
      */
     public updateSavedQueries(savedqueries : SavedQuery[], auditEvents?: AuditEvents) : boolean {
         Utils.arraySet(this.savedqueries, savedqueries);
-        this.events.next({type : SavedQueryEventType.Update});
+        this.setEvent({type : SavedQueryEventType.Update});
         this.patchSavedQueries(auditEvents);
         return true;
     }
@@ -291,7 +291,7 @@ export class SavedQueriesService implements OnDestroy {
             return false; // Nothing to delete
 
         this.savedqueries.splice(index, 1);
-        this.events.next({type : SavedQueryEventType.Delete, savedquery: savedquery});
+        this.setEvent({type : SavedQueryEventType.Delete, savedquery});
         this.patchSavedQueries([
             {
                 type: SavedQueryEventType.Delete,
@@ -319,7 +319,7 @@ export class SavedQueriesService implements OnDestroy {
         return this.userSettingsService.patch({savedQueries: this.savedqueries}, auditEvents)
             .subscribe(
                 next => {
-                    this.events.next({type: SavedQueryEventType.Patched});
+                    this.setEvent({type: SavedQueryEventType.Patched});
                 },
                 error => {
                     console.error("Could not patch Saved queries!", error);
@@ -406,7 +406,7 @@ export class SavedQueriesService implements OnDestroy {
      */
     searchSavedQuery(savedquery: SavedQuery, path?: string): Promise<boolean> {
         this.searchService.setQuery(Utils.extend(this.searchService.makeQuery(), Utils.copy(savedquery.query)));
-        this.events.next({type: SavedQueryEventType.Search, savedquery: savedquery});
+        this.setEvent({type: SavedQueryEventType.Search, savedquery});
         return this.searchService.search({ path: path }, {
             type: SavedQueryEventType.Search,
             detail: {
@@ -494,6 +494,9 @@ export class SavedQueriesService implements OnDestroy {
         return this.modalService.open(this.savedQueryComponents.exportSavedQueryModal, {model});
     }
 
+    setEvent(event: {type: SavedQueryEventType, savedquery?: SavedQuery}) {
+        this.events.next(event);
+    }
 
     ngOnDestroy() {
         this.events.complete();
