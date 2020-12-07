@@ -1,7 +1,7 @@
 <div class="list-group list-group-flush">
     <a *ngFor="let query of savedQueriesService.savedqueries | slice:startIndex:endIndex"
         class="saved-query-item list-group-item list-group-item-action d-flex align-items-center"
-        [routerLink]="[this.searchRoute]" [queryParams]="getQueryParams(query)"
+        [routerLink]="[searchRoute]" [queryParams]="getQueryParams(query)"
         (click)="openSavedQuery(query)">
         <span class="query-name mr-auto text-truncate" tooltipHtml="{{ query.name }}">{{ query.name }}</span>
         <span *ngIf="query.query.text" class="query-text text-muted small font-italic text-right ml-2">"{{ query.query.text }}"</span>

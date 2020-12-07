@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BasketsService, Basket, BasketEventType } from '../../baskets.service';
+import { BasketsService, Basket } from '../../baskets.service';
 import { AbstractFacet } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
 
@@ -87,8 +87,8 @@ export class BsFacetBasketsComponent extends AbstractFacet {
   }
 
   openBasket(basket: Basket){
-    this.basketsService.setEvent({type:BasketEventType.Open, basket})
-    return false;
+    this.basketsService.notifyOpenBasket(basket)
+    return true;
   }
 
   get actions(): Action[] {

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { SearchService } from '@sinequa/components/search';
-import { RecentQueriesService, RecentQuery, RecentQueryEventType } from '../../recent-queries.service';
+import { RecentQueriesService, RecentQuery } from '../../recent-queries.service';
 import { AbstractFacet } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
 import { SavedQueriesService } from '../../saved-queries.service';
@@ -81,8 +81,8 @@ export class BsFacetRecentQueries extends AbstractFacet  {
     }
 
     openRecentQuery(query: RecentQuery){
-        this.recentQueriesService.setEvent({type: RecentQueryEventType.Search, recentquery: query})
-        return false;
+        this.recentQueriesService.notifyOpenRecentQuery(query);
+        return true;
     }
 
     deleteQuery(query: RecentQuery, event: Event){
