@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
    * @param document
    */
   openRecentDocument(document: RecentDocument) {
-    this.previewService.setEvent({type: PreviewEventType.Route, record: document as any, query: this.searchService.makeQuery()});
+    this.previewService.notifyOpenPreview(document as any);
   }
 
   /**
