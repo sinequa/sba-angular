@@ -1,7 +1,7 @@
 import {Overlay} from '@angular/cdk/overlay';
 import {CommonModule} from '@angular/common';
 import {HttpHandler} from '@angular/common/http';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {Router} from '@angular/router';
 import {SearchService} from '@sinequa/components/search';
 
@@ -27,7 +27,7 @@ describe('BsFacetList', () => {
     let context: BsFacetList;
     let fixture: ComponentFixture<BsFacetList>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [BsFacetList, ValuePipe, NumberPipe],
             imports: [

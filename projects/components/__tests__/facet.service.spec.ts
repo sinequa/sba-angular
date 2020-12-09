@@ -835,7 +835,7 @@ describe("FacetService", () => {
 			// aggregation items are constructed from nested expressions
 			const r = [] as Expr[][];
 			for (const item of items) {
-				const value = item.expr?.operands as Expr[] || item.expr;
+				const value = item.expr?.operands as Expr[] || [item.expr];
 				r.push(value);
 			}
 			// faltten results
