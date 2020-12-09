@@ -160,8 +160,4 @@ export class PreviewService {
             }
         });
     }
-
-    notifyOpenPreview(record: Record) {
-        this._events.next({type: PreviewEventType.Route, record, query: this.searchService.makeQuery()});
-    }
 }

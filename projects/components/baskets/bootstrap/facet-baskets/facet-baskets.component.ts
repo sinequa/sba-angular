@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BasketsService, Basket } from '../../baskets.service';
+import { BasketsService, Basket, BasketEventType } from '../../baskets.service';
 import { AbstractFacet } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
 
@@ -108,5 +108,14 @@ export class BsFacetBasketsComponent extends AbstractFacet {
     const query = this.basketsService.makeQuery(basket);
     const queryParams = query.toJsonForQueryString();
     return {query: queryParams};
+  }
+
+  getRouterState(basket: Basket) {
+    return {
+      type: BasketEventType.Open,
+      detail: {
+        basket: basket.name
+      }
+    }
   }
 }

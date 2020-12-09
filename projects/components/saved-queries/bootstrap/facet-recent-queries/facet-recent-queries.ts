@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { SearchService } from '@sinequa/components/search';
-import { RecentQueriesService, RecentQuery } from '../../recent-queries.service';
+import { RecentQueriesService, RecentQuery, RecentQueryEventType } from '../../recent-queries.service';
 import { AbstractFacet } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
 import { SavedQueriesService } from '../../saved-queries.service';
@@ -103,5 +103,14 @@ export class BsFacetRecentQueries extends AbstractFacet  {
         const query = this.searchService.makeQuery(recentQuery);
         const queryParams = query.toJsonForQueryString();
         return {query: queryParams};
+    }
+
+    getRouterState(recentQuery: Query) {
+        return {
+            type: RecentQueryEventType.Search,
+            detail: {
+                recentquery: recentQuery.text
+            }
+        }
     }
 }

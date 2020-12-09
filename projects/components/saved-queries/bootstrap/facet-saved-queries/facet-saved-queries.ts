@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { SavedQueriesService, SavedQuery } from '../../saved-queries.service';
+import { SavedQueriesService, SavedQuery, SavedQueryEventType } from '../../saved-queries.service';
 import { AbstractFacet } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
 
@@ -99,5 +99,14 @@ export class BsFacetSavedQueries extends AbstractFacet  {
         const query = this.savedQueriesService.searchService.makeQuery(savedQuery.query);
         const queryParams = query.toJsonForQueryString();
         return {query: queryParams};
+    }
+
+    getRouterState(savedQuery: SavedQuery) {
+        return {
+            type: SavedQueryEventType.Search,
+            detail: {
+                "saved-query": savedQuery.name
+            }
+        }
     }
 }

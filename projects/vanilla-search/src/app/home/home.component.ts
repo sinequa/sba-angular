@@ -4,8 +4,6 @@ import { AppService } from '@sinequa/core/app-utils';
 import { LoginService } from '@sinequa/core/login';
 import { IntlService } from '@sinequa/core/intl';
 import { SearchService } from '@sinequa/components/search';
-import { RecentDocument } from '@sinequa/components/saved-queries';
-import { PreviewEventType, PreviewService } from '@sinequa/components/preview';
 import { FEATURES } from '../../config';
 
 @Component({
@@ -20,7 +18,6 @@ export class HomeComponent implements OnInit {
     public searchService: SearchService,
     private titleService: Title,
     private intlService: IntlService,
-    private previewService: PreviewService,
     private appService: AppService) { }
 
   /**
@@ -41,14 +38,6 @@ export class HomeComponent implements OnInit {
       this.loginService.login();
     }
     return false;
-  }
-
-  /**
-   * Open recent documents in the preview
-   * @param document
-   */
-  openRecentDocument(document: RecentDocument) {
-    this.previewService.notifyOpenPreview(document as any);
   }
 
   /**
