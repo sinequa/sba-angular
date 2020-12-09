@@ -18,7 +18,7 @@
     "noImplicitThis": true,
     "noUnusedLocals" : true,
     "strictFunctionTypes" : true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "typeRoots": [
       "node_modules/@types",
       "projects/core/@types"
