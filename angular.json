@@ -257,7 +257,7 @@
               {
                 "input": "projects/vanilla-search/src/styles/preview.scss",
                 "bundleName": "preview",
-                "lazy": true
+                "inject": false
               }
             ],
             "scripts": [],
@@ -407,7 +407,7 @@
               {
                 "input": "projects/pepper/src/styles/preview.scss",
                 "bundleName": "preview",
-                "lazy": true
+                "inject": false
               }
             ],
             "scripts": [],
