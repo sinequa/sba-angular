@@ -304,8 +304,8 @@ export module MlAuditService {
         resultsId?: string;
         queryId?: string;
         sessionId?: string;
-        actionType: ActionType;
-        documentIds: string | string[];
+        actionType?: ActionType;
+        documentIds?: string | string[];
     }
 
     export interface ActionInitializer {
