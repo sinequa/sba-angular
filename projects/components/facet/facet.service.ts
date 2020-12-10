@@ -862,7 +862,7 @@ export class FacetService {
         let addGlobalField = !aggregation.valuesAreExpressions;
         if (Utils.isArray(items)) {
             if (items.length === 0) {
-                return;
+                return undefined;
             }
             addGlobalField = !aggregation.valuesAreExpressions && items.length > 1;
             const excludeField = addGlobalField;
@@ -905,10 +905,10 @@ export class FacetService {
 
     /**
      * Convert an Expression object or an Expression Array to their AggregationItem equivalent
-     * 
+     *
      * @param expr Expression object or Expression Array
      * @param valuesAreExpressions when true values should be converted to string otherwise no
-     * 
+     *
      * @returns AggregationItem array with converted expression or an empty array
      */
     ExprToAggregationItem(expr: Expr[] | Expr, valuesAreExpressions: boolean = false): AggregationItem[] {
@@ -929,7 +929,7 @@ export class FacetService {
 
     /**
      * Get all Breadcrumbs items from a specific facet
-     * 
+     *
      * @param facetName facet name where to extract all breadcrumbs
      */
     getBreadcrumbsItems(facetName: string): BreadcrumbsItem[] {
@@ -941,7 +941,7 @@ export class FacetService {
 
     /**
      * Get all Aggregation items from a facet, currently filtered
-     * 
+     *
      * @param facetName facet name where to inspect
      * @param valuesAreExpressions when true, some transformations should be done
      */
