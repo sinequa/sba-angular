@@ -2,6 +2,8 @@ import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import {RouterModule} from '@angular/router';
+import {TooltipModule} from 'ngx-bootstrap/tooltip';
 
 import {IntlModule} from "@sinequa/core/intl";
 import {ValidationModule} from "@sinequa/core/validation";
@@ -26,11 +28,13 @@ import {BsFacetRecentDocuments} from "./facet-recent-documents/facet-recent-docu
         CommonModule,
         FormsModule, ReactiveFormsModule,
         DragDropModule,
+        TooltipModule,
 
         BsModalModule,
 
         IntlModule,
         ValidationModule,
+        RouterModule,
 
         BsSelectionModule,
         BsModalModule,

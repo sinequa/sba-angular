@@ -5,7 +5,10 @@ import {AbstractFacet} from "../../abstract-facet";
 
 @Component({
     selector: "sq-facet-card",
-    templateUrl: "./facet-card.html"
+    templateUrl: "./facet-card.html",
+    styles: [`
+        .cursor-default {cursor: default;}
+    `]
 })
 export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
 

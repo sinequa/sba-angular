@@ -259,9 +259,12 @@ export class SearchService implements OnDestroy {
         return Math.ceil(this.results.rowCount / this.results.pageSize);
     }
 
-    makeQuery(): Query {
+    makeQuery(recentQuery?: Query): Query {
         const ccquery = this.appService.ccquery;
         const query = new Query(ccquery ? ccquery.name : "_unknown");
+        if(recentQuery){
+            Object.assign(query, recentQuery);
+        }
         this._events.next({type: "make-query", query: query});
         return query;
     }

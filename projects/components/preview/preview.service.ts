@@ -106,7 +106,8 @@ export class PreviewService {
                 previewData.resultId = resultId || "";
                 return previewData;
             });
-        this.events.next({type: PreviewEventType.Data, record: record, query: query});
+        this._events.next({type: PreviewEventType.Data, record, query});
+
         return observable;
     }
 
@@ -118,7 +119,7 @@ export class PreviewService {
         model.record = record;
         model.query = query;
 
-        this.events.next({type: PreviewEventType.Modal, record: record, query: query});
+        this._events.next({type: PreviewEventType.Modal, record, query});
 
         this.modalService.open(this.previewModal, { model });
     }
@@ -142,14 +143,14 @@ export class PreviewService {
         const httpParams = Utils.makeHttpParams(params);
         const url = "#/preview?" + httpParams.toString();
 
-        this.events.next({type: PreviewEventType.Window, record: record, query: query});
+        this._events.next({type: PreviewEventType.Window, record, query});
 
         return window.open(url, "_blank");
     }
 
-    openRoute(record: Record, query: Query, path = "preview") {
+    openRoute(record: Record, query: Query, path = "preview"): Promise<Boolean> {
 
-        this.events.next({type: PreviewEventType.Route, record: record, query: query});
+        this._events.next({type:PreviewEventType.Route, record, query});
         this.rank = record.rank;
 
         return this.router.navigate([path], {
