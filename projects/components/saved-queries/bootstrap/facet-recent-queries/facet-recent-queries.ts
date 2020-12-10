@@ -107,9 +107,11 @@ export class BsFacetRecentQueries extends AbstractFacet  {
 
     getRouterState(recentQuery: Query) {
         return {
-            type: RecentQueryEventType.Search,
-            detail: {
-                recentquery: recentQuery.text
+            audit: {
+                type: RecentQueryEventType.Search,
+                detail: {
+                    recentquery: recentQuery.text
+                }
             }
         }
     }
