@@ -126,7 +126,7 @@ export const selectionOptions: SelectionOptions = {
 @NgModule({
     imports: [
         BrowserModule,
-        RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
+        RouterModule.forRoot(routes),
         FormsModule,
         ReactiveFormsModule,
 

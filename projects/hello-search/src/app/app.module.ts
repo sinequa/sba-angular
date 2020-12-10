@@ -28,7 +28,7 @@ export const startConfig: StartConfig = {
 @NgModule({
     imports: [
         BrowserModule,
-        RouterModule.forRoot([], { relativeLinkResolution: 'legacy' }),
+        RouterModule.forRoot([]),
         FormsModule,
         ReactiveFormsModule,
 

@@ -110,7 +110,7 @@ export const breakpoints = {
 @NgModule({
     imports: [
         BrowserModule,
-        RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
+        RouterModule.forRoot(routes),
         FormsModule,
         ReactiveFormsModule,
         TooltipModule,
