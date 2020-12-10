@@ -54,7 +54,7 @@
     </div>
     <span *ngIf="noResults" class="d-block text-center text-muted small py-1"><i>{{'msg#facet.searchNoResult' | sqMessage}}</i></span>
 
-    <ng-container *ngIf="!hasSuggestions()">
+    <div *ngIf="!hasSuggestions()" class="facet-results-scrollable">
         <!--- aggregation items without filtered -->
         <div *ngFor="let item of items$ | async"
             class="d-flex flex-row align-items-center list-group-item list-group-item-action border-0 px-3 py-1 facet-row"
@@ -63,8 +63,7 @@
             (click)="selectItem(item, $event)">
 
             <a  href="#" (click)="filterItem(item, $event)"
-                tooltip="{{ 'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)} }}"
-                container="body"
+                title="{{ 'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)} }}"
                 class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
 
             <span *ngIf="showCount && item.count" class="ml-2 text-muted small">{{item.count | sqNumber}}</span>
@@ -77,6 +76,6 @@
             <small *ngIf="!loadingMore">{{'msg#facet.loadMore' | sqMessage}}</small>
         </a>
 
-    </ng-container>
+    </div>
 
 </div>

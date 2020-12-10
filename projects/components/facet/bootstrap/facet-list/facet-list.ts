@@ -399,7 +399,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
     loadMore(e: Event) {
         e.stopPropagation();
         if (this.data()) {
-            const skip = this.items$.getValue().length;    // avoid hasMore() to return false when fetching data
+            const skip = this.items$.getValue().length + 1;    // avoid hasMore() to return false when fetching data
             this.loadingMore = true;
             this.changeDetectorRef.markForCheck();
 
