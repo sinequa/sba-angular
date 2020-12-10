@@ -103,9 +103,11 @@ export class BsFacetSavedQueries extends AbstractFacet  {
 
     getRouterState(savedQuery: SavedQuery) {
         return {
-            type: SavedQueryEventType.Search,
-            detail: {
-                "saved-query": savedQuery.name
+            audit: {
+                type: SavedQueryEventType.Search,
+                detail: {
+                    "saved-query": savedQuery.name
+                }
             }
         }
     }

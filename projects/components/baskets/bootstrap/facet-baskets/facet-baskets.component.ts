@@ -112,9 +112,11 @@ export class BsFacetBasketsComponent extends AbstractFacet {
 
   getRouterState(basket: Basket) {
     return {
-      type: BasketEventType.Open,
-      detail: {
-        basket: basket.name
+      audit: {
+        type: BasketEventType.Open,
+        detail: {
+          basket: basket.name
+        }
       }
     }
   }
