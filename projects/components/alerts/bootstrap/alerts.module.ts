@@ -42,7 +42,8 @@ import {BsAlertsMenuComponent} from "./alerts-menu/alerts-menu.component";
                 editAlertModal: BsEditAlert,
                 manageAlertsModal: BsManageAlerts
             }
-        }
+        },
+        { provide: Window, useValue: { window } }
     ]
 })
 export class BsAlertsModule {
