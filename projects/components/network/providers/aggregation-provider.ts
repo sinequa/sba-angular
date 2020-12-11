@@ -94,7 +94,8 @@ export class AggregationProvider extends BaseProvider {
 
         Object.keys(query.aggregations).forEach(aggregation => {
             if(!this.context.appService.getCCAggregation(aggregation)) {
-                throw new Error(`Aggregation '${aggregation}' does not exist in the Query web service configuration`);
+                // This may not be a mistake if the aggregation belong to a different web service configuration
+                console.warn(`Aggregation '${aggregation}' does not exist in the Query web service configuration`);
             }
         });
 
@@ -144,13 +145,13 @@ export class AggregationProvider extends BaseProvider {
         if(type.parse) {
             rawData = type.parse(item, type);
         }
-        // Default parsing, assuming cross-distribution format ("Apple/Steve Jobs")
         else {
-            if(!item.display){
-                throw new Error(`Aggregation Item '${item.value}' has no display value`);
-            }
             // Source distributions are at least two-dimensional
             if(!sourceNode) {
+                if(!item.display){
+                    throw new Error(`Aggregation Item '${item.value}' has no display value`);
+                }
+                // Default parsing, assuming cross-distribution format ("Apple/Steve Jobs")
                 const displays = item.display.split("/");
                 const expr = this.context.appService.parseExpr(item.value.toString()) as Expr;
                 const values = expr.operands.map(e => e.value!);
@@ -163,7 +164,7 @@ export class AggregationProvider extends BaseProvider {
             else if(sourceNode.id !== this.getNodeId(type.nodeTypes[1], item.value.toString())) {
                 rawData = {
                     values: [this.getNodeValue(sourceNode), item.value.toString()],
-                    displays: [sourceNode.label, item.display]
+                    displays: [sourceNode.label, item.display || item.value.toString()]
                 };
             }                        
         }
@@ -198,18 +199,15 @@ export class AggregationProvider extends BaseProvider {
         // Initialize the counts
         this.edgeTypes.forEach(type => this.skips[type.aggregation] = 0);
 
-        if(!this.active) {
-            this.provider.next();
-            return;
-        }
-
         // Fetch the "source" aggregation edges
         const types = this.edgeTypes.filter(type => type.trigger === "source");
 
-        if(types.length > 0) {
+        if(this.active && types.length > 0) {
             this.fetchAggregations(types);
         }
-
+        else {            
+            this.provider.next();
+        }
     }
 
     /**
