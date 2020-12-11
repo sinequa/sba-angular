@@ -390,7 +390,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
      * (The only way to guess is to check if the facet is "full", it capacity being the (skip+)count)
      */
     get hasMore(): boolean {
-        return this.items$.getValue().length >= this.skip + this.count;
+        return (this.data()?.items?.length || 0) >= this.skip + this.count;
     }
 
     /**
@@ -399,7 +399,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
     loadMore(e: Event) {
         e.stopPropagation();
         if (this.data()) {
-            const skip = this.items$.getValue().length + 1;    // avoid hasMore() to return false when fetching data
+            const skip = this.data()?.items?.length || 0;    // avoid hasMore() to return false when fetching data
             this.loadingMore = true;
             this.changeDetectorRef.markForCheck();
 
