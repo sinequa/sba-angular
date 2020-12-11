@@ -32,6 +32,8 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
     data = () => this.data$.getValue();
     subscriptions: Subscription[] = [];
 
+    filtering: boolean = false;
+
     // Search
     myGroup: FormGroup;
     searchQuery: FormControl; // ngModel for textarea
@@ -139,11 +141,12 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
         this.searchItems = new Action({
             icon: "fas fa-search",
             title: "msg#facet.searchItems",
-            action: () => {
+            action: (item, event) => {
                 this.searchBar = !this.searchBar;
                 if(!this.searchBar){
                     this.clearSearch();
                 }
+                event.stopPropagation();
                 this.changeDetectorRef.markForCheck();
             }
         });
@@ -318,9 +321,10 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
      * @param item
      * @param event
      */
-    filterItem(item: AggregationItem, event) : boolean {
+    filterItem(item: AggregationItem, event) {
         const data = this.data();
         if (data) {
+            this.filtering = true;
             if (!this.isFiltered(item)) {
                 this.facetService.addFilterSearch(this.getName(), data, item);
             }
@@ -329,8 +333,6 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
             }
         }
         event.preventDefault();
-        event.stopPropagation();
-        return false;   // Stop the propagation of the event (link inside link)
     }
 
 
@@ -362,10 +364,13 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
      * Called when selecting/unselecting an item in the facet
      * @param item
      */
-    selectItem(item: AggregationItem, e: Event): boolean {
-        e.stopPropagation();
-        this.updateSelected(item);
-        return false;
+    selectItem(item: AggregationItem, e: Event) {
+        e.preventDefault();
+        if(!this.filtering) {
+            this.updateSelected(item);
+            e.stopPropagation();
+        }
+        this.filtering = false;
     }
 
     private updateSelected(item: AggregationItem) {
