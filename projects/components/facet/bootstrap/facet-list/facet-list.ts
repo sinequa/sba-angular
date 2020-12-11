@@ -403,7 +403,6 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
         e.stopPropagation();
         if (this.data()) {
             const skip = this.resultsLength;    // avoid hasMore() to return false when fetching data
-            console.log("skip, item$, filtered", skip, this.items$.getValue().length, this.filtered.length);
             this.loadingMore = true;
             this.changeDetectorRef.markForCheck();
 
