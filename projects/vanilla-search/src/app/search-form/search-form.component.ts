@@ -68,7 +68,17 @@ export class SearchFormComponent implements OnInit, OnDestroy {
    * Trigger a search query via the search service
    */
   search() {
-    if(this.loginService.complete && this.form.valid){
+    if(this.loginService.complete && this.form.valid) {
+      /** Close the advanced form */
+      this.showAdvancedSearch = false
+      /** Store relevant filters (tab ...)*/
+      const queryTab = this.searchService.query.tab;
+      /**
+       * Clear the query and reset all filters.
+       * Remove this.searchService.clearQuery() if you need to keep all filters.
+      */
+      this.searchService.clearQuery();
+      /** Update the new query with entered text & advanced search filters & fielded search */
       this.updateQuery();
       if(this.getMode() === "selects") {
         const expr = this.autocompleteDirective.getFieldSearchExpression();
@@ -76,6 +86,10 @@ export class SearchFormComponent implements OnInit, OnDestroy {
           this.searchService.query.addSelect(expr, "search-form");
         }
       }
+      if (!!queryTab) {
+        this.searchService.query.tab = queryTab;
+      }
+      /** Trigger the search with the new criteria */
       this.searchService.searchText("search");
     }
   }
