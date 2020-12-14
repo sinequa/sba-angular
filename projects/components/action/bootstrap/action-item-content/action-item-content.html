@@ -1,8 +1,6 @@
 <ng-container *ngIf="inDropdownMenu; then in_dropdown_menu else not_in_dropdown_menu"></ng-container>
 
-<div *ngIf="!!item.component" (click)="componentClick($event)">
-    <ng-container [sqLoadComponent]="{component: item.component, inputs: item.componentInputs }"></ng-container>
-</div>
+<div *ngIf="!!item.component" (click)="componentClick($event)"[sqLoadComponent]="{component: item.component, inputs: item.componentInputs }"></div>
 
 <ng-template #in_dropdown_menu>
     <div class="d-flex flex-row sq-action-item-content-container">
