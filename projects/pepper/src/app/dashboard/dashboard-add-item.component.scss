@@ -7,7 +7,7 @@ sq-modal ::ng-deep {
     button {
         margin: 0.5em;
     }
-    sq-action-item-content > span {
+    sq-action-item-content > span > span {
         font-size: 5em;
         display: block;
         color: #7f939b;

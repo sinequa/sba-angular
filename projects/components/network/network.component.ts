@@ -194,12 +194,14 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         dataset.updateDatasets(this.context.nodes, this.context.edges);
 
         // Fit the nodes and edges
-        this.networkService.fit(this.name, {
-            animation: {             // animation object, can also be Boolean
-                duration: 1000,                 // animation duration in milliseconds (Number)
-                easingFunction: "easeInOutQuad" // Animation easing function, available are:
-            }
-        });
+        if(this._networkInitialized) {
+            this.networkService.fit(this.name, {
+                animation: {             // animation object, can also be Boolean
+                    duration: 1000,                 // animation duration in milliseconds (Number)
+                    easingFunction: "easeInOutQuad" // Animation easing function, available are:
+                }
+            });
+        }
 
         // Notify providers that nodes were inserted (which could trigger an update of the data)
         this.providers.forEach(p => p.onNodesInserted(this.context.nodes.get()));
