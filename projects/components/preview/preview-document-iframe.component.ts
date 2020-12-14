@@ -75,6 +75,9 @@ export class PreviewDocumentIframe implements OnChanges {
     }
 
     public onPreviewDocLoad(event: Event) {
+        // unfortunately, initializing "sanitizedUrlSrc" property in constructor() trigges load() callback;
+        // so, while not "loading", just exit the method
+        if (!this.loading) return;
         const previewDocument = new PreviewDocument(this.documentFrame);
 
         // SVG highlight:
