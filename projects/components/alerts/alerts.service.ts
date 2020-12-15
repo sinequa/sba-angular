@@ -111,7 +111,7 @@ export interface AlertComponents {
     manageAlertsModal: Type<any>;
 }
 export const ALERT_COMPONENTS = new InjectionToken<AlertComponents>('ALERT_COMPONENTS');
-
+export const WINDOW = new InjectionToken('WindowToken');
 
 @Injectable({
     providedIn: 'root',
@@ -126,7 +126,7 @@ export class AlertsService implements OnDestroy {
         public searchService: SearchService,
         public modalService: ModalService,
         @Inject(ALERT_COMPONENTS) public alertComponents: AlertComponents,
-        private window : Window
+        @Inject(WINDOW) private window : Window
     ){
         // Listen to the user settings
         this.userSettingsService.events.subscribe(event => {
@@ -366,7 +366,7 @@ export class AlertsService implements OnDestroy {
             combine: true,
             respectTabSelection: false
         };
-        const queryUrl = this.window.window.location.href;
+        const queryUrl = this.window.location.href;
         return this.modalService.open(this.alertComponents.editAlertModal, {model: alert})
             .then((result) => {
                 if (result === ModalResult.OK) {
@@ -402,7 +402,7 @@ export class AlertsService implements OnDestroy {
     public editAlertModal(alert: Alert, noUpdate?: boolean) : Promise<boolean> {
 
         const prevName = alert.name;
-        const queryUrl = this.window.window.location.href;
+        const queryUrl = this.window.location.href;
         return this.modalService.open(this.alertComponents.editAlertModal, {model: alert})
             .then((result) => {
 

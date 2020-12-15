@@ -10,10 +10,14 @@ import {UtilsModule} from "@sinequa/components/utils";
 import {BsActionModule} from "@sinequa/components/action";
 import {BsModalModule} from "@sinequa/components/modal";
 
-import {ALERT_COMPONENTS} from "../alerts.service";
+import {ALERT_COMPONENTS, WINDOW} from "../alerts.service";
 import {BsEditAlert} from "./edit-alert/edit-alert";
 import {BsManageAlerts} from "./manage-alerts/manage-alerts";
 import {BsAlertsMenuComponent} from "./alerts-menu/alerts-menu.component";
+
+function windowFactory() {
+    return window;
+}
 
 @NgModule({
     imports: [
@@ -43,7 +47,10 @@ import {BsAlertsMenuComponent} from "./alerts-menu/alerts-menu.component";
                 manageAlertsModal: BsManageAlerts
             }
         },
-        { provide: Window, useValue: { window } }
+        {
+            provide: WINDOW,
+            useFactory: windowFactory
+        }
     ]
 })
 export class BsAlertsModule {
