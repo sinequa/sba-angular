@@ -1,7 +1,6 @@
 /* Dépendences fonctionnelles internes d'Angular */
 import { Injectable } from "@angular/core";
 import {
-    FormBuilder,
     FormControl,
     ValidatorFn,
     AsyncValidatorFn,
@@ -159,7 +158,7 @@ export interface AdvancedCheckbox extends BasicAdvancedConfig {}
 })
 export class AdvancedService {
     /**
-     * Abstracted form validators packaged within SBA to standardize advanced-search validation
+     * Default form validators packaged within SBA to standardize advanced-search validation
      */
     public readonly advancedFormValidators: AdvancedFormValidators = {
         min: (min, config) =>
@@ -168,7 +167,7 @@ export class AdvancedService {
                 this._parser(config.field)
             ),
         max: (max, config) =>
-            this.validationService.minValidator(
+            this.validationService.maxValidator(
                 max,
                 this._parser(config.field)
             ),
@@ -191,7 +190,6 @@ export class AdvancedService {
     constructor(
         public appService: AppService,
         public searchService: SearchService,
-        public formBuilder: FormBuilder,
         public validationService: ValidationService,
         public formatService: FormatService
     ) {}
@@ -346,7 +344,7 @@ export class AdvancedService {
             | AdvancedInput
             | AdvancedCheckbox,
         query?: Query | undefined
-    ) {
+    ): void {
         if (!query) {
             query = this.searchService.query;
         }
@@ -393,14 +391,15 @@ export class AdvancedService {
      */
     public removeAdvancedValue(
         field: string,
-        query?: Query | undefined,
-        searchable: boolean = true
+        searchable: boolean = true,
+        query?: Query | undefined
     ): void {
         if (!!field) {
             if (!query) {
                 query = this.searchService.query.copy();
             }
             query.removeSelect(advancedFacetPrefix + field);
+            this.searchService.setQuery(query, false);
             if (searchable) {
                 this.searchService.search();
             }
@@ -414,13 +413,13 @@ export class AdvancedService {
      * @param searchable
      */
     public resetAdvancedValues(
-        query?: Query | undefined,
-        searchable: boolean = true
+      searchable: boolean = true,
+      query?: Query | undefined
     ): void {
         if (!query) {
             query = this.searchService.query.copy();
         }
-        this.searchService.setQuery(query.toStandard());
+        this.searchService.setQuery(query.toStandard(), false);
         if (searchable) {
             this.searchService.search();
         }
