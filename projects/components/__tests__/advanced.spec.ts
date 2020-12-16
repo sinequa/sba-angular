@@ -13,9 +13,10 @@ import {
   AdvancedCheckbox,
   AdvancedOperator,
   AdvancedFormType,
+  BasicAdvancedValue,
 } from "../advanced";
 import { ValidationService } from "@sinequa/core/validation";
-import { START_CONFIG } from "@sinequa/core/web-services";
+import { START_CONFIG, CCColumn } from "@sinequa/core/web-services";
 import { HttpHandler } from "@angular/common/http";
 import { IntlService, LOCALES_CONFIG } from "@sinequa/core/intl";
 import { FormControl } from "@angular/forms";
@@ -23,12 +24,12 @@ import { MODAL_LOGIN } from '@sinequa/core/login';
 import { MODAL_CONFIRM, MODAL_PROMPT } from '@sinequa/core/modal';
 import { AuthService } from 'ng2-ui-auth';
 import { AppLocalesConfig } from './mocks/app.locales.config';
+import { Utils } from '@sinequa/core/base';
 
 describe("AdvancedService", () => {
   let service: AdvancedService;
   let searchService: SearchService;
   let appService: AppService;
-  // let validationService: ValidationService;
   let formatService: FormatService;
   let intlService: IntlService;
 
@@ -66,7 +67,6 @@ describe("AdvancedService", () => {
     appService = TestBed.inject(AppService);
     formatService = TestBed.inject(FormatService);
     intlService = TestBed.inject(IntlService);
-    // validationService = TestBed.inject(ValidationService);
   });
 
   it("can load instance", () => {
@@ -493,4 +493,229 @@ describe("AdvancedService", () => {
     });
   });
 
+  describe("get advanced values as object from searchService.query", () => {
+    let spy;
+    beforeEach(() => {
+      spy = spyOn(appService, 'parseExpr');
+    });
+
+    afterEach(() => {
+      spy.calls.reset();
+    })
+
+    it("when defined advanced filter exists in the query", () => {
+      searchService.query.select = [
+        {expression: "treepath:[`Product`,`web`]", facet: "advanced_treepath"}
+      ];
+      const exprValueInitializer: ExprValueInitializer = {
+        exprContext: {appService, formatService, intlService},
+        values: ["Product","web"],
+        field: "treepath",
+        operator: 10
+      };
+      const expr: Expr = new Expr(exprValueInitializer);
+      spy.and.returnValue(expr);
+
+      const value = service.getAdvancedValues();
+
+      expect(value).toEqual({ treepath: ["Product","web"] });
+    });
+
+    it("when no advanced filter exists in the query", () => {
+      searchService.query.select = [
+        {expression: "foo:[`Product`,`web`]", facet: "foo"}
+      ];
+      const exprValueInitializer: ExprValueInitializer = {
+        exprContext: {appService, formatService, intlService},
+        values: ["toto"],
+        field: "foo",
+        operator: 10
+      };
+      const expr: Expr = new Expr(exprValueInitializer);
+      spy.and.returnValue(expr);
+
+      const value = service.getAdvancedValues();
+
+      expect(value).toEqual({});
+    });
+  });
+
+  describe("make a range expression", () => {
+
+    it("when both operands are defined", () => {
+      const expr = service.makeRangeExpr("toto", 1, 10);
+
+      expect(expr).toEqual("toto:[1..10]");
+    });
+
+    it("when only higher operand is defined", () => {
+      const expr = service.makeRangeExpr("toto", undefined, 150);
+
+      expect(expr).toEqual("toto:<=150");
+    });
+
+    it("when only lower operand is defined", () => {
+      const expr = service.makeRangeExpr("toto", 5, undefined);
+
+      expect(expr).toEqual("toto:>=5");
+    });
+
+    it("when no operand is defined", () => {
+      const expr = service.makeRangeExpr("toto", undefined, undefined);
+
+      expect(expr).toBeUndefined();
+    });
+
+  });
+
+  describe("make an expression", () => {
+
+    it("with a list of items", () => {
+      const expr = service.makeExpr("toto", [1, 10]);
+
+      expect(expr).toEqual("toto:[1,10]");
+    });
+
+    it("with a single item", () => {
+      const expr = service.makeExpr("toto", "foo");
+
+      expect(expr).toEqual("toto:foo");
+    });
+
+    it("with undefined value", () => {
+      const expr = service.makeExpr("toto", undefined);
+
+      expect(expr).toBeUndefined();
+    });
+
+  });
+
+  describe("format an advanced value", () => {
+    let spy;
+    let config;
+    beforeEach(() => {
+      spy = spyOn(formatService, 'formatValue');
+      config = {} as BasicAdvancedValue;
+    });
+
+    afterEach(() => {
+      spy.calls.reset();
+    })
+
+    it("single value with formatted column", () => {
+      const column = {formatter: "toto"} as CCColumn;
+      spyOn(appService, 'getColumn').and.returnValue(column)
+
+      service.formatAdvancedValue(config, "foo");
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith("foo", column);
+    });
+
+    it("list of items (including undefined values) with formatted column", () => {
+      const column = {formatter: "toto"} as CCColumn;
+      const value = ["foo", "test", undefined];
+      spyOn(appService, 'getColumn').and.returnValue(column)
+
+      service.formatAdvancedValue(config, value);
+
+      expect(spy).toHaveBeenCalledTimes(2);
+      expect(spy).toHaveBeenCalledWith("foo", column);
+      expect(spy).toHaveBeenCalledWith("test", column);
+    });
+
+    it("with unformatted column", () => {
+      const column = {formatter: undefined} as CCColumn;
+      spyOn(appService, 'getColumn').and.returnValue(column)
+
+      service.formatAdvancedValue(config, 1520845152);
+
+      expect(spy).not.toHaveBeenCalled();
+    });
+
+  });
+
+  describe("ensure an advanced value", () => {
+    let spy;
+    let config;
+    beforeEach(() => {
+      spy = spyOn<any>(service, '_ensureAdvancedValue');
+      config = {} as BasicAdvancedValue;
+    });
+
+    afterEach(() => {
+      spy.calls.reset();
+    })
+
+    it("case single value", () => {
+
+      service.ensureAdvancedValue(config, "foo");
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(config, "foo");
+    });
+
+    it("list of items (including undefined values)", () => {
+      const value = ["foo", "test", undefined];
+
+      service.ensureAdvancedValue(config, value);
+
+      expect(spy).toHaveBeenCalledTimes(value.length);
+      expect(spy).toHaveBeenCalledWith(config, "foo");
+      expect(spy).toHaveBeenCalledWith(config, "test");
+      expect(spy).toHaveBeenCalledWith(config, undefined);
+    });
+
+  });
+
+  describe("cast an advanced value", () => {
+    let column;
+    beforeEach(() => {
+      column = {formatter: "toto"} as CCColumn;
+      spyOn(Utils, 'isString').and.returnValue(true)
+    });
+
+    it("string as Date", () => {
+      spyOn(AppService, 'isDate').and.returnValue(true)
+      const spy = spyOn(Utils, 'toDate');
+
+      service.castAdvancedValue("12/12/1212", column);
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith("12/12/1212");
+    });
+
+    it("string as integer", () => {
+      spyOn(AppService, 'isInteger').and.returnValue(true)
+      spyOn(Utils, 'testInteger').and.returnValue(true)
+      const spy = spyOn(Utils, 'toInt');
+
+      service.castAdvancedValue("12", column);
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith("12");
+    });
+
+    it("string as number", () => {
+      spyOn(AppService, 'isDouble').and.returnValue(true)
+      spyOn(Utils, 'testFloat').and.returnValue(true)
+      const spy = spyOn(Utils, 'toNumber');
+
+      service.castAdvancedValue("129.487", column);
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith("129.487");
+    });
+
+    it("string as boolean", () => {
+      spyOn(AppService, 'isBoolean').and.returnValue(true)
+      const spy = spyOn(Utils, 'isTrue');
+
+      service.castAdvancedValue("true", column);
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith("true");
+    });
+
+  });
 });

@@ -437,7 +437,7 @@ export class AdvancedService {
         const advancedSelect = query.select?.filter(
             (select: Select) => select.facet.startsWith(advancedFacetPrefix)
         );
-        if (advancedSelect) {
+        if (advancedSelect && advancedSelect.length > 0) {
             for (const select of advancedSelect) {
                 const expression = select.expression;
                 const expr = this.appService.parseExpr(expression);
