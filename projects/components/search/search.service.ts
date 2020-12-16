@@ -797,11 +797,11 @@ export class SearchService implements OnDestroy {
         return sb.join("");
     }
 
-    private _addFieldSelect(expr: string, options: SearchService.AddFieldSelectOptions): number {
+    private _addFieldSelect(expr: string, options: SearchService.AddFieldSelectOptions, facet?: string): number {
         if (options.not) {
             expr = "NOT (" + expr + ")";
         }
-        return this.query.addSelect(expr);
+        return this.query.addSelect(expr, facet);
     }
 
     private makeFieldExpr(
@@ -831,7 +831,17 @@ export class SearchService implements OnDestroy {
             item = items as ValueItem;
         }
         if (item) {
-            return this._addFieldSelect(this.makeFieldExpr(field, item, _options), _options);
+            // Before to add a new select, check if it's not existing
+            const exprAsString = this.makeSelectExpr(field, item, false);
+            const expr = this.appService.parseExpr(exprAsString);
+            if(expr){
+                const expr1 = this.breadcrumbs?.findSelect("", expr)
+                if(!expr1) {
+                    return this._addFieldSelect(this.makeFieldExpr(field, item, _options), _options, field);
+                }
+            }
+            this.notificationsService.info("msg#search.alreadySelected");
+            return 0;
         }
         if (Utils.isArray(items)) {
             if (_options.and) {
