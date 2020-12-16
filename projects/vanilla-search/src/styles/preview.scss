@@ -26,7 +26,7 @@ $extracts-highlights:(
 $terms-highlights: (
     matchlocations: (
         main-color: $matchlocations-color,
-        background-color: $matchlocations-color, 
+        background-color: $matchlocations-color,
         color: black,
         border: $matchlocations-border
     )
@@ -38,7 +38,7 @@ $highlights: map-merge(map-merge($extracts-highlights, $terms-highlights), $meta
 @function get-highlight-color($name) {
     $highlight: map-get($highlights, $name);
     $color: map-get($highlight, "main-color");
-    @return $color; 
+    @return $color;
 }
 
 @mixin highlight($term) {
@@ -102,7 +102,7 @@ $highlights: map-merge(map-merge($extracts-highlights, $terms-highlights), $meta
 }
 
 @keyframes shadowfocus {
-    0% { 
+    0% {
         box-shadow: 0px 0px 50px 11px #0000008a;
     }
     100% {
@@ -133,31 +133,46 @@ line.sq-svg {
 
 
 // Tooltip injected in the iframe
+.bottom-tooltip {
+    &::after {
+      bottom: 100%; /* At the top of the tooltip */
+      left: 50%;
+      content: " ";
+      position: absolute;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: transparent transparent #4c4c4c transparent;
+  }
+}
+
+.top-tooltip {
+    &::after {
+      content: " ";
+      position: absolute;
+      top: 100%; /* At the bottom of the tooltip */
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #4c4c4c transparent transparent transparent;
+  }
+}
+
 .sq-selection-tooltip {
 
-    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;  
-    font-size: 14px; 
-    font-style: normal; 
-    font-variant: normal; 
-    font-weight: 400; 
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
     line-height: 20px;
     position: fixed;
     background-color: #4c4c4c;
     color: #eee;
     padding: 0.5em;
-    border-radius: 12px;    
+    border-radius: 12px;
     z-index: 100000000000;
-
-    &::after {
-        content: " ";
-        position: absolute;
-        top: 100%; /* At the bottom of the tooltip */
-        left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: #4c4c4c transparent transparent transparent;
-    }
 
     .display {
         font-weight: bold;
