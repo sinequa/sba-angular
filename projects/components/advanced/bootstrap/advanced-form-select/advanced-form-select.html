@@ -1,11 +1,11 @@
 <div class="form-group" [formGroup]="form">
-    <label for="{{name}}">{{label | sqMessage}}</label>
+    <label for="{{field}}">{{label | sqMessage}}</label>
     <sq-select
         [options]="options"
-        [formControlName]="name"
-        [id]="name"
+        [formControlName]="field"
+        [id]="field"
         sqAdvancedFormValidation
-        [config]="config"
+        [field]="field"
         [validationForm]="form">
     </sq-select>
 </div>

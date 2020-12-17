@@ -5,7 +5,7 @@ import {map, catchError  } from "rxjs/operators";
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
     AuditEvents, AuditEventType, AuditEvent} from "@sinequa/core/web-services";
-import {AppService, FormatService, ValueItem, Query, ExprParser, Expr} from "@sinequa/core/app-utils";
+import {AppService, FormatService, ValueItem, Query, ExprParser, Expr, ExprBuilder} from "@sinequa/core/app-utils";
 import {NotificationsService} from "@sinequa/core/notification";
 import {LoginService} from "@sinequa/core/login";
 import {IntlService} from "@sinequa/core/intl";
@@ -48,7 +48,8 @@ export class SearchService implements OnDestroy {
         protected intlService: IntlService,
         protected formatService: FormatService,
         protected auditService: AuditWebService,
-        protected notificationsService: NotificationsService) {
+        protected notificationsService: NotificationsService,
+        protected exprBuilder: ExprBuilder) {
 
         if (!this.options) {
             this.options = {
@@ -687,7 +688,7 @@ export class SearchService implements OnDestroy {
     }
 
     searchRefine(text: string): Promise<boolean> {
-        this.query.addSelect(this.makeSelectExpr("refine", {value: text}), "refine");
+        this.query.addSelect(this.exprBuilder.makeRefineExpr(text));
         return this.search(undefined,
             this.makeAuditEvent({
                 type: AuditEventType.Search_Refine,
@@ -773,97 +774,14 @@ export class SearchService implements OnDestroy {
         return undefined;
     }
 
-    private makeSelectExpr(field: string, valueItem: ValueItem, excludeField?: boolean): string {
-        let haveField = false;
-        const sb: string[] = [];
-        if (!excludeField) {
-            sb.push(field);
-            haveField = true;
-        }
-        if (valueItem.display) {
-            let display = valueItem.display;
-            if (Utils.isDate(display)) { // ES-7785
-                display = Utils.toSysDateStr(display);
+    addFieldSelect(field: string, items: ValueItem | ValueItem[], options?: SearchService.AddFieldSelectOptions) {
+        if (items) {
+            let expr = this.exprBuilder.makeFieldExpr(field, items, options?.and);
+            if (options?.not) {
+                expr = this.exprBuilder.makeNotExpr(expr);
             }
-            sb.push(ExprParser.escape(display));
-            haveField = true;
+            this.query.addSelect(expr);
         }
-        if (haveField) {
-            sb.push(":(", ExprParser.escape(Utils.toSqlValue(valueItem.value)), ")");
-        }
-        else {
-            sb.push(ExprParser.escape(Utils.toSqlValue(valueItem.value)));
-        }
-        return sb.join("");
-    }
-
-    private _addFieldSelect(expr: string, options: SearchService.AddFieldSelectOptions, facet?: string): number {
-        if (options.not) {
-            expr = "NOT (" + expr + ")";
-        }
-        return this.query.addSelect(expr, facet);
-    }
-
-    private makeFieldExpr(
-        field: string, valueItem: ValueItem, options: SearchService.AddFieldSelectOptions,
-        excludeField?: boolean): string {
-        if (options && options.valuesAreExpressions) {
-            return valueItem.value as string;
-        }
-        return this.makeSelectExpr(field, valueItem, excludeField);
-    }
-
-    addFieldSelect(field: string, items: ValueItem | ValueItem[], options?: SearchService.AddFieldSelectOptions): number {
-        if (!items) {
-            return 0;
-        }
-        const _options = Utils.extend({not: false, and: false}, options);
-        let item: ValueItem | undefined;
-        if (Utils.isArray(items)) {
-            if (items.length === 0) {
-                return 0;
-            }
-            if (items.length === 1) {
-                item = items[0];
-            }
-        }
-        else {
-            item = items as ValueItem;
-        }
-        if (item) {
-            // Before to add a new select, check if it's not existing
-            const exprAsString = this.makeSelectExpr(field, item, false);
-            const expr = this.appService.parseExpr(exprAsString);
-            if(expr){
-                const expr1 = this.breadcrumbs?.findSelect("", expr)
-                if(!expr1) {
-                    return this._addFieldSelect(this.makeFieldExpr(field, item, _options), _options, field);
-                }
-            }
-            this.notificationsService.info("msg#search.alreadySelected");
-            return 0;
-        }
-        if (Utils.isArray(items)) {
-            if (_options.and) {
-                let count = 0;
-                for (const _item of items) {
-                    count += this._addFieldSelect(this.makeFieldExpr(field, _item, _options), _options);
-                }
-                return count;
-            }
-            // or
-            let expr = "";
-            for (const _item of items) {
-                if (expr) {
-                    expr = expr + " OR ";
-                }
-                const expr1 = this.makeFieldExpr(field, _item, _options, true);
-                expr += "(" + expr1 + ")";
-            }
-            expr = field + ":(" + expr + ")";
-            return this._addFieldSelect(expr, _options);
-        }
-        return 0;
     }
 
 

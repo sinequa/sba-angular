@@ -1,9 +1,9 @@
-import { Component, Input, OnInit, ElementRef, OnDestroy } from "@angular/core";
+import { Component, Input, OnChanges, ElementRef, OnDestroy } from "@angular/core";
 import { FormGroup, AbstractControl } from "@angular/forms";
 import { Keys, Utils } from "@sinequa/core/base";
 import { AutocompleteItem } from "@sinequa/components/autocomplete";
 import { Subscription } from "rxjs";
-import { AdvancedInput } from "../../advanced.service";
+import { AppService } from '@sinequa/core/app-utils';
 
 /**
  * Component representing a text input that accepts multiple entries.
@@ -15,24 +15,26 @@ import { AdvancedInput } from "../../advanced.service";
     templateUrl: "./advanced-form-multi-input.html",
     styleUrls: ["./advanced-form-multi-input.scss"],
 })
-export class BsAdvancedFormMultiInput implements OnInit, OnDestroy {
+export class BsAdvancedFormMultiInput implements OnChanges, OnDestroy {
     @Input() form: FormGroup;
-    @Input() config: AdvancedInput;
-    @Input() autocompleteEnabled: boolean = true;
+    @Input() field: string;
     @Input() suggestQuery: string;
+    @Input() label: string;
 
     items: AutocompleteItem[] = []; /** List of items already existing in the advanced search */
-    name: string;
-    label: string;
-    control: AbstractControl | null;
     private _valueChangesSubscription: Subscription;
+    
+    control: AbstractControl | null;
+    
+    constructor(
+        private elementRef: ElementRef,
+        public appService: AppService) {}
 
-    constructor(private elementRef: ElementRef) {}
-
-    ngOnInit(): void {
-        this.name = this.config.name;
-        this.label = this.config.label;
-        this.control = this.form.get(this.name);
+    ngOnChanges(): void {
+        if(this.label === undefined) {
+            this.label = this.appService.getPluralLabel(this.field, this.field);
+        }
+        this.control = this.form.get(this.field);
         if (this.control) {
             this.items = this.control.value
                 ? (Utils.isArray(this.control.value)
@@ -49,6 +51,9 @@ export class BsAdvancedFormMultiInput implements OnInit, OnDestroy {
             this._valueChangesSubscription = Utils.subscribe(
                 this.control.valueChanges,
                 (value) => {
+                    if(value && !Utils.isArray(value)) {
+                        value = [value];
+                    }
                     this.items = value
                         ? value.map((item) => {
                               return {
@@ -59,6 +64,9 @@ export class BsAdvancedFormMultiInput implements OnInit, OnDestroy {
                         : [];
                 }
             );
+        }
+        else {
+            throw new Error("No form control named "+this.field);
         }
     }
 
