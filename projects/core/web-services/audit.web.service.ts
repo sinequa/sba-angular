@@ -200,6 +200,7 @@ export class AuditWebService extends HttpService {
             app: this.appName,
             "doc-id": doc.id,
             rank: doc.rank,
+            title: doc.title,
             source: Utils.treeFirstNode(doc.collection[0]),
             collection: doc.collection[0],
             "result-id": resultId,
