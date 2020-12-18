@@ -219,6 +219,9 @@ export class AdvancedService {
         if (Utils.isString(expr.value) && expr.value.indexOf("[") > -1) {
             value = JSON.parse(expr.value.replace(/`/g, '"'));
         }
+        else if(expr.operands?.length > 0) {
+            value = expr.operands.map(e => e.value);
+        }
         if (!value) {
             if (expr.values && expr.values.length > 1) {
                 value = expr.values;
@@ -287,7 +290,7 @@ export class AdvancedService {
         range: (string | Date | number)[] | undefined,
         query?: Query) {
 
-        let expr;
+        let expr: string | undefined;
         if(range && range.length === 2) {
             let from = this.parse(range[0] || undefined, field);
             let to = this.parse(range[1] || undefined, field);

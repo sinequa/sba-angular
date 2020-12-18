@@ -4,7 +4,7 @@ import { Utils } from '@sinequa/core/base';
 import { DataSet } from "vis-data/peer/esm/vis-data";
 import { SearchService } from '@sinequa/components/search';
 import { VisNetworkService } from 'ngx-vis';
-import { AppService } from '@sinequa/core/app-utils';
+import { AppService, ExprBuilder } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 
 // TYPES (configuration)
@@ -122,6 +122,7 @@ export interface NetworkContext {
     networkService: VisNetworkService;
     appService: AppService;
     intlService: IntlService;
+    exprBuilder: ExprBuilder;
     /** Interactions */
     select(node?: Node, edge?: Edge): void;
 }

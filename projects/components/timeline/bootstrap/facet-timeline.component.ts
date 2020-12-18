@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, Output, 
 import { Observable, of, combineLatest, ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Results, AggregationItem, Aggregation, CCAggregation, Record } from '@sinequa/core/web-services';
-import { AppService, Expr } from '@sinequa/core/app-utils';
+import { AppService, Expr, ExprBuilder } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { AbstractFacet, FacetService } from '@sinequa/components/facet';
 import { SearchService } from '@sinequa/components/search';
@@ -105,6 +105,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         public searchService: SearchService,
         public appService: AppService,
         public selectionService: SelectionService,
+        public exprBuilder: ExprBuilder,
         public cdRef: ChangeDetectorRef
     ){
         super();
@@ -398,7 +399,10 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     onSelectionChange(selection: [Date, Date] | undefined) {
         this.selection = selection;
         if(selection) {
-            let expr = '';
+            const from = this.formatDayRequest(selection[0]);
+            const to = this.formatDayRequest(selection[1]);
+
+            let exprs: string[] = [];
             this.searchService.query.removeSelect(this.name);
 
             this.timeseries.forEach((config) => {
@@ -409,16 +413,14 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
                     const aggregation = (config as TimelineAggregation).aggregation || (config as TimelineCombinedAggregations).default.aggregation;
                     const ccaggregation = this.appService.getCCAggregation(aggregation);
                     if(ccaggregation) {
-                        if(expr){
-                            expr += " OR ";
-                        }
-                        expr += `${ccaggregation.column}:[${this.formatDayRequest(selection[0])}..${this.formatDayRequest(selection[1])}]`;
+                        exprs.push(this.exprBuilder.makeRangeExpr(ccaggregation.column, from, to));
                     }
                 }
 
             });
 
-            if(expr) {
+            if(exprs.length > 0) {
+                const expr = this.exprBuilder.concatOrExpr(exprs);
                 this.searchService.query.addSelect(expr, this.name);
                 this.searchService.search();
             }

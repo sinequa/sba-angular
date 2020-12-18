@@ -1,7 +1,7 @@
 import { Component, Input, SimpleChanges, Output, EventEmitter, OnChanges } from '@angular/core';
 import { Results, Record } from '@sinequa/core/web-services';
 import { Utils } from '@sinequa/core/base';
-import { Query } from '@sinequa/core/app-utils'
+import { ExprBuilder, Query } from '@sinequa/core/app-utils'
 import { Action } from '@sinequa/components/action';
 import { SearchService } from '@sinequa/components/search';
 import { NetworkProvider, ProviderFactory, oOTBConfig, defaultOptions } from "@sinequa/components/network";
@@ -53,7 +53,8 @@ export class DashboardItemComponent implements OnChanges {
         public gridsterItemComponent: GridsterItemComponent,
         public providerFactory: ProviderFactory,
         public searchService: SearchService,
-        public dashboardService: DashboardService) {
+        public dashboardService: DashboardService,
+        public exprBuilder: ExprBuilder) {
 
         this.closeAction = new Action({
             icon: "fas fa-times",
@@ -79,7 +80,7 @@ export class DashboardItemComponent implements OnChanges {
                 this.record = this.results.records.find(r => r.id === this.config.recordId)
             }
             if(!this.record) {
-                this.query.addSelect('id:`'+this.config.recordId+"`");
+                this.query.addSelect(this.exprBuilder.makeExpr('id', this.config.recordId));
                 this.searchService.getResults(this.query, undefined, {searchInactive: true}).subscribe(
                     results => {
                         this.record = results.records[0];
