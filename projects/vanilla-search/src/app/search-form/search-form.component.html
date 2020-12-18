@@ -36,14 +36,14 @@
             <!-- Search buttons -->
             <div class="input-group-append">
                 <button class="btn btn-light btn-advanced-search" type="button"
-                    [attr.disabled]="!loginService.complete ? '' : null"
                     [title]="'msg#searchForm.advancedSearch' | sqMessage"
+                    [disabled]="!loginService.complete ? '' : null"
                     (click)="toggleAdvancedSearch()">
                     <i class="fas fa-angle-down"></i>
                 </button>
                 <button class="btn btn-primary" type="button" (click)="search()"
-                    title="{{ 'msg#searchForm.search' | sqMessage }}"
-                    [attr.disabled]="!loginService.complete || !form.valid ? '' : null">
+                    [title]="'msg#searchForm.search' | sqMessage"
+                    [disabled]="!loginService.complete || !form.valid ? '' : null">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
@@ -51,11 +51,11 @@
 
         <!-- Card displaying advanced-search -->
         <div class="card advanced-search" *ngIf="showAdvancedSearch">
-            <div *ngIf="!(defaultResults$ | async)" class="d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
+            <div *ngIf="!firstPageService.firstPage" class="d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
                 <span class="fas fa-sync fa-spin fa-fw"></span>
             </div>
-            <div *ngIf="defaultResults$ | async as results" class="d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
-                <sq-advanced-form-select [form]="form" [field]="'treepath'"></sq-advanced-form-select>
+            <div *ngIf="firstPageService.firstPage" class="d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
+                <sq-advanced-form-select [form]="form" [field]="'treepath'" [multiple]="true"></sq-advanced-form-select>
                 <sq-advanced-form-select [form]="form" [field]="'authors'" [multiple]="true"></sq-advanced-form-select>
                 <sq-advanced-form-range [form]="form" [field]="'size'"></sq-advanced-form-range>
                 <sq-advanced-form-range [form]="form" [field]="'modified'"></sq-advanced-form-range>

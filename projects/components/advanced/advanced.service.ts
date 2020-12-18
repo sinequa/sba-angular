@@ -8,7 +8,6 @@ import {
 } from "@angular/forms";
 
 /* Services */
-import { CCColumn } from "@sinequa/core/web-services";
 import { Utils } from "@sinequa/core/base";
 import { SearchService } from "@sinequa/components/search";
 import {
@@ -21,25 +20,7 @@ import {
     ExprBuilder, ValueItem
 } from "@sinequa/core/app-utils";
 import { ValidationService } from "@sinequa/core/validation";
-
-/**
- * Defines the operators that can be used when specifying advanced search values
- */
-export enum AdvancedOperator {
-    NONE = "",
-    EQ = "=",
-    NEQ = "<>",
-    LT = "<",
-    LTE = "<=",
-    GT = ">",
-    GTE = ">=",
-    /**
-     * TODO
-     */
-    // LIKE = "LIKE",
-    // CONTAINS = "CONTAINS",
-    // IN = "IN",
-}
+import { CCColumn } from '@sinequa/core/web-services';
 
 /**
  * Defines the possible basic types of an advanced value
@@ -51,64 +32,18 @@ export type BaseAdvancedValue = string | number | Date | boolean | undefined;
  */
 export type AdvancedValue = BaseAdvancedValue | BaseAdvancedValue[];
 
-/**
- * Defines an advanced value with an operator
- */
-export interface AdvancedValueWithOperator {
-    /**
-     * An advanced value
-     */
-    value: AdvancedValue;
-    /**
-     * An operator
-     */
-    operator: AdvancedOperator;
-}
-
-export enum AdvancedFormType {
-    Checkbox = "AdvancedFormCheckbox",
-    Input = "AdvancedFormInput",
-    Range = "AdvancedFormRange",
-    Select = "AdvancedFormSelect",
-    MultiInput = "AdvancedFormMultiInput",
-}
 
 export interface AdvancedFormValidators {
-    min: (min: string | number | Date, config: AdvancedConfig) => ValidatorFn;
-    max: (max: string | number | Date, config: AdvancedConfig) => ValidatorFn;
+    min: (min: string | number | Date, field: string) => ValidatorFn;
+    max: (max: string | number | Date, field: string) => ValidatorFn;
     required: ValidatorFn;
     email: ValidatorFn;
     pattern: (pattern: string | RegExp) => ValidatorFn;
-    integer: (config: AdvancedConfig) => ValidatorFn;
-    number: (config: AdvancedConfig) => ValidatorFn;
-    date: (config: AdvancedConfig) => ValidatorFn;
-    range: (config: AdvancedConfig) => ValidatorFn;
+    integer: (field: string) => ValidatorFn;
+    number: (field: string) => ValidatorFn;
+    date: (field: string) => ValidatorFn;
+    range: (field: string) => ValidatorFn;
 }
-
-export interface BaseAdvancedConfig {
-    type: AdvancedFormType;
-    field: string;
-}
-
-export interface AdvancedSelect extends BaseAdvancedConfig {
-    list: string;
-    aggregation: string;
-    multiple: boolean;
-    operator: AdvancedOperator;
-}
-
-export interface AdvancedRange extends BaseAdvancedConfig {
-    min: string | number | Date;
-    max: string | number | Date;
-}
-
-export interface AdvancedInput extends BaseAdvancedConfig {
-    operator: AdvancedOperator;
-}
-
-export interface AdvancedCheckbox extends BaseAdvancedConfig {}
-
-export type AdvancedConfig = AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox;
 
 @Injectable({
     providedIn: "root",
@@ -119,29 +54,29 @@ export class AdvancedService {
      * Default form validators packaged within SBA to standardize advanced-search validation
      */
     public readonly validators: AdvancedFormValidators = {
-        min: (min, config) =>
+        min: (min, field) =>
             this.validationService.minValidator(
                 min,
-                this._parser(config.field)
+                this._parser(field)
             ),
-        max: (max, config) =>
+        max: (max, field) =>
             this.validationService.maxValidator(
                 max,
-                this._parser(config.field)
+                this._parser(field)
             ),
         required: Validators.required,
         email: Validators.email,
         pattern: (pattern: string | RegExp) => Validators.pattern(pattern),
-        integer: (config) =>
-            this.validationService.integerValidator(this._parser(config.field)),
-        number: (config) =>
-            this.validationService.numberValidator(this._parser(config.field)),
-        date: (config) =>
-            this.validationService.dateValidator(this._parser(config.field)),
-        range: (config) =>
+        integer: (field) =>
+            this.validationService.integerValidator(this._parser(field)),
+        number: (field) =>
+            this.validationService.numberValidator(this._parser(field)),
+        date: (field) =>
+            this.validationService.dateValidator(this._parser(field)),
+        range: (field) =>
             this.validationService.rangeValidator(
-                this._rangeType(config),
-                this._parser(config.field)
+                this._rangeType(field),
+                this._parser(field)
             ),
     };
 
@@ -160,11 +95,13 @@ export class AdvancedService {
      * @param asyncValidators optional asyncValidators to be added to the returned FormControl
      */
     public createSelectControl(
-        config: AdvancedSelect,
+        field: string,
         validators?: ValidatorFn[],
-        asyncValidators?: AsyncValidatorFn[]
+        asyncValidators?: AsyncValidatorFn[],
+        query = this.searchService.query
     ): FormControl {
-        return this.createControl(config, validators, asyncValidators);
+        const value = this.getAdvancedValue(field, query);
+        return this.createControl(value, validators, asyncValidators);
     }
 
     /**
@@ -174,11 +111,13 @@ export class AdvancedService {
      * @param asyncValidators optional asyncValidators to be added to the returned FormControl
      */
     public createRangeControl(
-        config: AdvancedRange,
+        field: string,
         validators?: ValidatorFn[],
-        asyncValidators?: AsyncValidatorFn[]
+        asyncValidators?: AsyncValidatorFn[],
+        query = this.searchService.query
     ): FormControl {
-        return this.createControl(config, validators, asyncValidators);
+        const value = this.getRangeValue(field, query);
+        return this.createControl(value, validators, asyncValidators);
     }
 
     /**
@@ -188,11 +127,13 @@ export class AdvancedService {
      * @param asyncValidators optional asyncValidators to be added to the returned FormControl
      */
     public createInputControl(
-        config: AdvancedInput,
+        field: string,
         validators?: ValidatorFn[],
-        asyncValidators?: AsyncValidatorFn[]
+        asyncValidators?: AsyncValidatorFn[],
+        query = this.searchService.query
     ): FormControl {
-        return this.createControl(config, validators, asyncValidators);
+        const value = this.getAdvancedValue(field, query);
+        return this.createControl(value, validators, asyncValidators);
     }
 
     /**
@@ -202,11 +143,13 @@ export class AdvancedService {
      * @param asyncValidators optional asyncValidators to be added to the returned FormControl
      */
     public createMultiInputControl(
-        config: AdvancedInput,
+        field: string,
         validators?: ValidatorFn[],
-        asyncValidators?: AsyncValidatorFn[]
+        asyncValidators?: AsyncValidatorFn[],
+        query = this.searchService.query
     ): FormControl {
-        return this.createControl(config, validators, asyncValidators);
+        const value = this.getAdvancedValue(field, query);
+        return this.createControl(value, validators, asyncValidators);
     }
 
     /**
@@ -216,11 +159,13 @@ export class AdvancedService {
      * @param asyncValidators optional asyncValidators to be added to the returned FormControl
      */
     public createCheckboxControl(
-        config: AdvancedCheckbox,
+        field: string,
         validators?: ValidatorFn[],
-        asyncValidators?: AsyncValidatorFn[]
+        asyncValidators?: AsyncValidatorFn[],
+        query = this.searchService.query
     ): FormControl {
-        return this.createControl(config, validators, asyncValidators);
+        const value = this.getAdvancedValue(field, query);
+        return this.createControl(value, validators, asyncValidators);
     }
 
     /**
@@ -228,49 +173,70 @@ export class AdvancedService {
      * @param config advanced-search-form component's configuration
      * @param query Query where to fetch advanced values, if omitted, use searchService.query
      */
-    public getAdvancedValue(
-        config: AdvancedConfig,
-        query = this.searchService.query
-    ): AdvancedValue {
+    public getAdvancedValue(field: string, query = this.searchService.query): AdvancedValue {
+        let expr = this.getAdvancedExpr(field, query);
+        if (expr) {
+            const value = this.getValueFromExpr(expr);
+            return this.formatAdvancedValue(field, value);
+        }
+        return undefined;
+    }
+
+    public getRangeValue(field: string, query = this.searchService.query): AdvancedValue {
+        const expr = this.getAdvancedExpr(field, query);
+        if(expr) {
+            let value = this.getValueFromExpr(expr);
+            value = this.formatAdvancedValue(field, value);
+            if (Utils.isArray(value)) {
+                return value;
+            } else {
+                if (expr.operator === ExprOperator.gte) {
+                    return [value, undefined];
+                } else if (expr.operator === ExprOperator.lte) {
+                    return [undefined, value];
+                }
+            }
+        }
+        return [undefined, undefined];
+    }
+
+    protected getAdvancedExpr(field: string, query = this.searchService.query): Expr | undefined {
         let expr: Expr | string;
         const expression = query.findSelect(
-            advancedFacetPrefix + config.field
+            advancedFacetPrefix + field
         )?.expression;
         if (expression) {
             expr = this.appService.parseExpr(expression);
             if (expr instanceof Expr) {
-                let value;
-                if (
-                    Utils.isString(expr.value) &&
-                    expr.value.indexOf("[") > -1
-                ) {
-                    value = JSON.parse(expr.value.replace(/`/g, '"'));
-                }
-                if (!value) {
-                    if (expr.values && expr.values.length > 1) {
-                        value = expr.values;
-                    } else {
-                        value = expr.value;
-                    }
-                }
-                value = this.formatAdvancedValue(config, value);
-                if (Utils.eqNC(config.type, AdvancedFormType.Range)) {
-                    if (Utils.isArray(value)) {
-                        return value;
-                    } else {
-                        if (expr.operator === ExprOperator.gte) {
-                            return [value, undefined];
-                        } else if (expr.operator === ExprOperator.lte) {
-                            return [undefined, value];
-                        }
-                    }
-                }
-                return value;
+                return expr;
             }
         }
         return undefined;
     }
+
+    protected getValueFromExpr(expr: Expr): AdvancedValue {
+        let value: AdvancedValue;
+        if (Utils.isString(expr.value) && expr.value.indexOf("[") > -1) {
+            value = JSON.parse(expr.value.replace(/`/g, '"'));
+        }
+        if (!value) {
+            if (expr.values && expr.values.length > 1) {
+                value = expr.values;
+            } else {
+                value = expr.value;
+            }
+        }
+        return value;
+    }
     
+    /**
+     * Sets a select on a query (defaults to searchService.query) for a given
+     * field and value(s)
+     * @param field 
+     * @param value 
+     * @param query 
+     * @param combineWithAnd 
+     */
     public setSelect(field: string, value: AdvancedValue, query?: Query, combineWithAnd?: boolean) {
         let expr;
         if(value !== undefined) {
@@ -286,6 +252,14 @@ export class AdvancedService {
         this.setAdvancedSelect(query, field, expr);
     }
 
+    /**
+     * Sets a select on a query (defaults to searchService.query) for a given
+     * field, operator and value
+     * @param field 
+     * @param value 
+     * @param operator 
+     * @param query 
+     */
     public setNumericalSelect(
         field: string,
         value: string | Date | number | undefined,
@@ -301,6 +275,13 @@ export class AdvancedService {
         this.setAdvancedSelect(query, field, expr);
     }
 
+    /**
+     * Sets a select on a query (defaults to searchService.query) for a given
+     * field and range of values
+     * @param field 
+     * @param range 
+     * @param query 
+     */
     public setRangeSelect(
         field: string,
         range: (string | Date | number)[] | undefined,
@@ -308,8 +289,8 @@ export class AdvancedService {
 
         let expr;
         if(range && range.length === 2) {
-            let from = this.parse(range[0], field);
-            let to = this.parse(range[1], field);
+            let from = this.parse(range[0] || undefined, field);
+            let to = this.parse(range[1] || undefined, field);
             if (from && to) {
                 expr = this.exprBuilder.makeRangeExpr(field, from, to);
             } else if (from) {
@@ -322,7 +303,13 @@ export class AdvancedService {
         this.setAdvancedSelect(query, field, expr);
     }
 
-    protected setAdvancedSelect(query = this.searchService.query, field: string, expr?: string) {
+    /**
+     * Sets a select for a given field and expression on the query (defaults to searchService.query)
+     * @param query 
+     * @param field 
+     * @param expr 
+     */
+    protected setAdvancedSelect(query = this.searchService.query, field: string, expr: string | undefined) {
         query.removeSelect(
             advancedFacetPrefix + field
         );
@@ -334,7 +321,12 @@ export class AdvancedService {
         }
     }
     
-    protected asValueItems(value: AdvancedValue, field: string): (string | ValueItem)[] {
+    /**
+     * Transforms an AdvancedValue into a ValueItem[]
+     * @param value 
+     * @param field 
+     */
+    protected asValueItems(value: AdvancedValue, field: string): ValueItem[] {
         if(!Utils.isArray(value)) {
             value = [value];
         }
@@ -351,16 +343,16 @@ export class AdvancedService {
      */
     public removeAdvancedValue(
         field: string,
-        searchable: boolean = true,
+        search: boolean = true,
         query?: Query | undefined
     ): void {
-        if (!!field) {
+        if (field) {
             if (!query) {
                 query = this.searchService.query.copy();
             }
             query.removeSelect(advancedFacetPrefix + field);
             this.searchService.setQuery(query, false);
-            if (searchable) {
+            if (search) {
                 this.searchService.search();
             }
         }
@@ -372,15 +364,12 @@ export class AdvancedService {
      * @param query Query from which will remove all advanced values, if omitted, use searchService.query
      * @param searchable
      */
-    public resetAdvancedValues(
-      searchable: boolean = true,
-      query?: Query | undefined
-    ): void {
+    public resetAdvancedValues(search: boolean = true, query?: Query | undefined): void {
         if (!query) {
             query = this.searchService.query.copy();
         }
         this.searchService.setQuery(query.toStandard(), false);
-        if (searchable) {
+        if (search) {
             this.searchService.search();
         }
     }
@@ -390,50 +379,33 @@ export class AdvancedService {
      * @param config
      * @param advancedValue
      */
-    public formatAdvancedValue(
-        config: AdvancedConfig,
-        advancedValue: AdvancedValue
-    ): AdvancedValue {
-        advancedValue = this.ensureAdvancedValue(config, advancedValue);
-        if (advancedValue) {
-            const column = this.appService.getColumn(config.field);
+    public formatAdvancedValue(field: string, value: AdvancedValue): AdvancedValue {
+        if (value) {
+            const column = this.appService.getColumn(field);
             if (column && column.formatter) {
-                if (Utils.isArray(advancedValue)) {
-                    return advancedValue.map((value) =>
-                        value
-                            ? this.formatService.formatValue(value, column)
-                            : value
-                    );
+                if(Utils.isArray(value)){
+                    return value.map(v => v? this.formatBaseAdvancedValue(v, column) : v)
                 }
-                return this.formatService.formatValue(advancedValue, column);
+                return this.formatBaseAdvancedValue(value, column);
             }
         }
-        return advancedValue;
+        return value;
     }
 
-    /**
-     * Check the validity of value against its column
-     * @param config
-     * @param advancedValue
-     */
-    public ensureAdvancedValue(
-        config: AdvancedConfig,
-        advancedValue: AdvancedValue
-    ): AdvancedValue {
-        if (Utils.isArray(advancedValue)) {
-            return advancedValue.map((value) =>
-                this._ensureAdvancedValue(config, value)
-            );
+    protected formatBaseAdvancedValue(value: BaseAdvancedValue, column: CCColumn): BaseAdvancedValue {
+        if(value) {
+            value = this.castAdvancedValue(value, column);
+            return this.formatService.formatValue(value!, column);
         }
-        return this._ensureAdvancedValue(config, advancedValue);
+        return value
     }
-
+    
     /**
      * Cast a given value as per its column definition
      * @param value
      * @param column
      */
-    public castAdvancedValue(value: any, column: CCColumn | undefined): any {
+    public castAdvancedValue(value: BaseAdvancedValue, column: CCColumn | undefined): BaseAdvancedValue {
         if (column) {
             if (Utils.isString(value)) {
                 if (AppService.isDate(column)) {
@@ -461,13 +433,13 @@ export class AdvancedService {
      * @param asyncValidators optional asyncValidators to be added to the returned FormControl
      */
     protected createControl(
-        config: BaseAdvancedConfig,
+        value: AdvancedValue,
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
     ): FormControl {
         return new FormControl(
             {
-                value: this.getAdvancedValue(config),
+                value,
                 disabled: false,
             },
             {
@@ -476,19 +448,6 @@ export class AdvancedService {
                 updateOn: "change",
             }
         );
-    }
-
-    private _ensureAdvancedValue(
-        config: BaseAdvancedConfig,
-        value: BaseAdvancedValue
-    ): BaseAdvancedValue {
-        if (value !== undefined) {
-            const column = this.appService.getColumn(config.field);
-            if (!this._isDistribution(config)) {
-                value = this.castAdvancedValue(value, column);
-            }
-        }
-        return value;
     }
 
     protected parse<T>(value: T, field: string): T | string {
@@ -509,9 +468,9 @@ export class AdvancedService {
     }
 
     protected _rangeType(
-        config: AdvancedConfig
+        field: string
     ): string | number | Date {
-        const column = this.appService.getColumn(config.field);
+        const column = this.appService.getColumn(field);
         let rangeType;
         if (
             column &&
@@ -524,18 +483,6 @@ export class AdvancedService {
             rangeType = "";
         }
         return rangeType;
-    }
-
-    private _isDistribution(
-        config: AdvancedConfig
-    ): boolean {
-        if ("aggregation" in config && config.aggregation) {
-            const ccaggregation = this.appService.getCCAggregation(
-                config.aggregation
-            );
-            return !!ccaggregation && !!ccaggregation.distribution;
-        }
-        return false;
     }
 
 }

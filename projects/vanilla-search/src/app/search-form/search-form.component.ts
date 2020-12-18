@@ -3,14 +3,13 @@ import { FormBuilder, FormGroup, FormControl } from "@angular/forms";
 import { SearchService } from '@sinequa/components/search';
 import { LoginService } from '@sinequa/core/login';
 import { AppService } from '@sinequa/core/app-utils';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { FEATURES } from '../../config';
 import { ParseResult } from '@sinequa/components/autocomplete';
 import { AutocompleteExtended } from './autocomplete-extended.directive';
 import { UserPreferences } from '@sinequa/components/user-settings';
 import { FirstPageService } from '@sinequa/components/search';
-import { AdvancedService, AdvancedFormType, AdvancedInput, AdvancedOperator, AdvancedRange, AdvancedSelect } from '@sinequa/components/advanced';
-import { Results } from '@sinequa/core/web-services';
+import { AdvancedService } from '@sinequa/components/advanced';
 
 @Component({
   selector: 'app-search-form',
@@ -18,11 +17,8 @@ import { Results } from '@sinequa/core/web-services';
   styleUrls: ['./search-form.component.scss']
 })
 export class SearchFormComponent implements OnInit, OnDestroy {
-  form: FormGroup;
-
-  // Form control for the main search bar
   searchControl: FormControl;
-
+  form: FormGroup;
   autofocus = 0;
 
   fieldSearchExpression?: string;
@@ -30,63 +26,9 @@ export class SearchFormComponent implements OnInit, OnDestroy {
   parseResult?: ParseResult;
 
   @ViewChild(AutocompleteExtended) autocompleteDirective: AutocompleteExtended;
-
-  // Form controls for the advanced form  
-  sourcesControl: FormControl;
-  authorsControl: FormControl;
-  sizeControl: FormControl;
-  modifiedControl: FormControl;
-  personControl: FormControl;
-  formatControl: FormControl;
-  showAdvancedSearch: boolean = false;
-  defaultResults$: Observable<Results>;
+  showAdvancedSearch: boolean;
+  initAdvanced: boolean;
   
-  // Advanced form config
-
-  sourcesConfig: AdvancedSelect = {
-    aggregation: "",
-    field: "treepath",
-    list: "",
-    multiple: true,
-    operator: AdvancedOperator.NONE,
-    type: AdvancedFormType.Select,
-  };
-
-  authorsConfig: AdvancedSelect =  {
-    aggregation: "",
-    field: "authors",
-    list: "",
-    multiple: true,
-    operator: AdvancedOperator.NONE,
-    type: AdvancedFormType.Select,
-  };
-
-  sizeConfig: AdvancedRange = {
-    field: "size",
-    type: AdvancedFormType.Range,
-    min: "",
-    max: "",
-  };
-
-  modifiedConfig: AdvancedRange = {
-    field: "modified",
-    type: AdvancedFormType.Range,
-    min: "",
-    max: "",
-  };
-
-  personConfig: AdvancedInput = {
-    field: "person",
-    operator: AdvancedOperator.NONE,
-    type: AdvancedFormType.MultiInput,
-  };
-
-  formatConfig: AdvancedInput = {
-    field: "docformat",
-    operator: AdvancedOperator.NONE,
-    type: AdvancedFormType.Input,
-  }
-
   constructor(
     public searchService: SearchService,
     public loginService: LoginService,
@@ -102,28 +44,8 @@ export class SearchFormComponent implements OnInit, OnDestroy {
    */
   ngOnInit() {
     this.searchControl = new FormControl('');
-    this.sourcesControl = this.advancedService.createSelectControl(this.sourcesConfig);
-    this.authorsControl = this.advancedService.createSelectControl(this.authorsConfig);
-    this.sizeControl = this.advancedService.createRangeControl(this.sizeConfig,
-      [this.advancedService.validators.range(this.sizeConfig)]
-    );
-    this.modifiedControl = this.advancedService.createRangeControl(this.modifiedConfig,
-      [
-        this.advancedService.validators.range(this.modifiedConfig),
-        this.advancedService.validators.date(this.modifiedConfig),
-      ]
-    );
-    this.personControl = this.advancedService.createMultiInputControl(this.personConfig);
-    this.formatControl = this.advancedService.createInputControl(this.formatConfig);
-
     this.form = this.formBuilder.group({
-      search: this.searchControl,
-      treepath: this.sourcesControl,
-      authors: this.authorsControl,
-      size: this.sizeControl,
-      modified: this.modifiedControl,
-      person: this.personControl,
-      docformat: this.formatControl
+      search: this.searchControl
     });
 
     // Every time the query changes, we want to update the search form
@@ -134,12 +56,12 @@ export class SearchFormComponent implements OnInit, OnDestroy {
       this.autofocus++;
       // Update advanced form 
       // TODO: Add {emitEvent: emitEvent} to setValue() ?
-      this.sourcesControl.setValue(this.advancedService.getAdvancedValue(this.sourcesConfig));
-      this.authorsControl.setValue(this.advancedService.getAdvancedValue(this.authorsConfig));
-      this.sizeControl.setValue(this.advancedService.getAdvancedValue(this.sizeConfig) || [undefined, undefined]);
-      this.modifiedControl.setValue(this.advancedService.getAdvancedValue(this.modifiedConfig) || [undefined, undefined]);
-      this.personControl.setValue(this.advancedService.getAdvancedValue(this.personConfig));
-      this.formatControl.setValue(this.advancedService.getAdvancedValue(this.formatConfig));
+      this.form.get('treepath')?.setValue(this.advancedService.getAdvancedValue('treepath'));
+      this.form.get('authors')?.setValue(this.advancedService.getAdvancedValue('authors'));
+      this.form.get('size')?.setValue(this.advancedService.getRangeValue('size'));
+      this.form.get('modified')?.setValue(this.advancedService.getRangeValue('modified'));
+      this.form.get('person')?.setValue(this.advancedService.getAdvancedValue('person'));
+      this.form.get('docformat')?.setValue(this.advancedService.getAdvancedValue('docformat'));
     });
   }
 
@@ -155,34 +77,43 @@ export class SearchFormComponent implements OnInit, OnDestroy {
    */
   search() {
     if(this.loginService.complete && this.form.valid) {
+
       /** Close the advanced form */
-      this.showAdvancedSearch = false
+      this.showAdvancedSearch = false;
+
       /** Store relevant filters (tab ...)*/
       const queryTab = this.searchService.query.tab;
+
       /**
        * Clear the query and reset all filters.
        * Remove this.searchService.clearQuery() if you need to keep all filters.
       */
       this.searchService.clearQuery();
+
       /** Update the new query with entered text & advanced search filters & fielded search */
       this.searchService.query.text = this.searchControl?.value || "";
-      // Advanced form update
-      this.advancedService.setSelect('treepath', this.sourcesControl.value);
-      this.advancedService.setSelect('authors', this.authorsControl.value);
-      this.advancedService.setRangeSelect('size', this.sizeControl.value);      
-      this.advancedService.setRangeSelect('modified', this.modifiedControl.value);      
-      this.advancedService.setSelect('person', this.personControl.value);
-      this.advancedService.setSelect('docformat', this.formatControl.value);
+      
+      // Advanced form update, if any
+      this.advancedService.setSelect('treepath', this.form.get('treepath')?.value);
+      this.advancedService.setSelect('authors', this.form.get('authors')?.value);
+      this.advancedService.setRangeSelect('size', this.form.get('size')?.value);      
+      this.advancedService.setRangeSelect('modified', this.form.get('modified')?.value);      
+      this.advancedService.setSelect('person', this.form.get('person')?.value);
+      this.advancedService.setSelect('docformat', this.form.get('docformat')?.value);
 
+      // Add select from the fielded search ("selects", aka "simple" mode)
       if(this.getMode() === "selects") {
         const expr = this.autocompleteDirective.getFieldSearchExpression();
         if(expr) {
           this.searchService.query.addSelect(expr, "search-form");
         }
       }
+
+      // Stay on the same tab even after a new search
       if (!!queryTab) {
         this.searchService.query.tab = queryTab;
       }
+
       /** Trigger the search with the new criteria */
       this.searchService.searchText("search");
     }
@@ -240,8 +171,33 @@ export class SearchFormComponent implements OnInit, OnDestroy {
    */
   toggleAdvancedSearch() {
     this.showAdvancedSearch = !this.showAdvancedSearch;
-    if(!this.defaultResults$) {
-      this.defaultResults$ = this.firstPageService.getFirstPage();
+    this._instantiateAdvancedForm();
+  }
+
+  /**
+   * Instantiation of the advanced search form and its dependencies/configurations
+   */
+  private _instantiateAdvancedForm() {    
+    if(!this.initAdvanced) {
+      if(!this.firstPageService.firstPage) {
+        this.firstPageService.getFirstPage();
+      }
+      
+      this.form.addControl('treepath', this.advancedService.createSelectControl('treepath'));
+      this.form.addControl('authors', this.advancedService.createSelectControl('authors'));
+      this.form.addControl('size', this.advancedService.createRangeControl('size',
+        [this.advancedService.validators.range('size')]
+      ));
+      this.form.addControl('modified', this.advancedService.createRangeControl('modified',
+        [
+          this.advancedService.validators.range('modified'),
+          this.advancedService.validators.date('modified'),
+        ]
+      ));
+      this.form.addControl('person', this.advancedService.createMultiInputControl('person'));
+      this.form.addControl('docformat', this.advancedService.createInputControl('format'));
+      
+      this.initAdvanced = true;
     }
   }
 }
