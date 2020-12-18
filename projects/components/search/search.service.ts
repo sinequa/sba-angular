@@ -774,14 +774,16 @@ export class SearchService implements OnDestroy {
         return undefined;
     }
 
-    addFieldSelect(field: string, items: ValueItem | ValueItem[], options?: SearchService.AddFieldSelectOptions) {
-        if (items) {
+    addFieldSelect(field: string, items: ValueItem | ValueItem[], options?: SearchService.AddSelectOptions): boolean {
+        if (items && (!Utils.isArray(items) || items.length > 0)) {
             let expr = this.exprBuilder.makeFieldExpr(field, items, options?.and);
             if (options?.not) {
                 expr = this.exprBuilder.makeNotExpr(expr);
             }
-            this.query.addSelect(expr);
+            this.query.addSelect(expr, options?.facetName);
+            return true;
         }
+        return false;
     }
 
 
@@ -890,6 +892,7 @@ export module SearchService {
     export interface AddSelectOptions {
         not?: boolean;      // default "false"
         and?: boolean;      // default "false"
+        facetName?: string; // default: undefined
     }
 
     export interface NavigationOptions {
@@ -906,10 +909,6 @@ export module SearchService {
     export interface HistoryState {
         audit?: AuditEvents;
         navigationOptions?: NavigationOptions;
-    }
-
-    export interface AddFieldSelectOptions extends AddSelectOptions {
-        valuesAreExpressions?: boolean;
     }
 
     export interface Event {
