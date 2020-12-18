@@ -4,17 +4,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { AppService, FormatService, ExprValueInitializer, Expr } from "@sinequa/core/app-utils";
 
 import { SearchService } from "../search";
-import {
-  AdvancedService,
-  BasicAdvancedConfig,
-  AdvancedSelect,
-  AdvancedRange,
-  AdvancedInput,
-  AdvancedCheckbox,
-  AdvancedOperator,
-  AdvancedFormType,
-  BasicAdvancedValue,
-} from "../advanced";
+import { AdvancedService } from "../advanced";
 import { ValidationService } from "@sinequa/core/validation";
 import { START_CONFIG, CCColumn } from "@sinequa/core/web-services";
 import { HttpHandler } from "@angular/common/http";
@@ -71,14 +61,12 @@ describe("AdvancedService", () => {
 
   it("can load instance", () => {
     expect(service).toBeTruthy();
-    expect(service.advancedFormValidators).toBeDefined();
+    expect(service.validators).toBeDefined();
   });
 
   describe("advanced validators", () => {
     it("min", () => {
-      const validator = service.advancedFormValidators.min(10, {
-        field: "toto",
-      } as BasicAdvancedConfig);
+      const validator = service.validators.min(10, "toto");
       const control = new FormControl("control", [validator]);
       control.setValue(1);
       expect(control.errors?.min).toBeDefined();
@@ -86,9 +74,7 @@ describe("AdvancedService", () => {
     });
 
     it("max", () => {
-      const validator = service.advancedFormValidators.max(10, {
-        field: "toto",
-      } as BasicAdvancedConfig);
+      const validator = service.validators.max(10, "toto");
       const control = new FormControl("control", [validator]);
       control.setValue(11);
       expect(control.errors?.max).toBeDefined();
@@ -96,7 +82,7 @@ describe("AdvancedService", () => {
     });
 
     it("required", () => {
-      const validator = service.advancedFormValidators.required;
+      const validator = service.validators.required;
       const control = new FormControl("control", [validator]);
       control.setValue(null);
       expect(control.errors?.required).toBeDefined();
@@ -104,7 +90,7 @@ describe("AdvancedService", () => {
     });
 
     it("email", () => {
-      const validator = service.advancedFormValidators.email;
+      const validator = service.validators.email;
       const control = new FormControl("control", [validator]);
       control.setValue("test");
       expect(control.errors?.email).toBeDefined();
@@ -112,7 +98,7 @@ describe("AdvancedService", () => {
     });
 
     it("pattern", () => {
-      const validator = service.advancedFormValidators.pattern("^[0-9]+$");
+      const validator = service.validators.pattern("^[0-9]+$");
       const control = new FormControl("control", [validator]);
       control.setValue("abc");
       expect(control.errors?.pattern).toBeDefined();
@@ -120,9 +106,7 @@ describe("AdvancedService", () => {
     });
 
     it("integer", () => {
-      const validator = service.advancedFormValidators.integer({
-        field: "toto",
-      } as BasicAdvancedConfig);
+      const validator = service.validators.integer("toto");
       const control = new FormControl("control", [validator]);
       control.setValue(1.8);
       expect(control.errors?.integer).toBeDefined();
@@ -130,9 +114,7 @@ describe("AdvancedService", () => {
     });
 
     it("number", () => {
-      const validator = service.advancedFormValidators.number({
-        field: "toto",
-      } as BasicAdvancedConfig);
+      const validator = service.validators.number("toto");
       const control = new FormControl("control", [validator]);
       control.setValue("test");
       expect(control.errors?.number).toBeDefined();
@@ -140,9 +122,7 @@ describe("AdvancedService", () => {
     });
 
     it("range", () => {
-      const validator = service.advancedFormValidators.range({
-        field: "toto",
-      } as BasicAdvancedConfig);
+      const validator = service.validators.range("toto");
       const control = new FormControl("control", [validator]);
       control.setValue(["b", "a"]);
       expect(control.errors?.range).toBeDefined();
@@ -150,9 +130,7 @@ describe("AdvancedService", () => {
     });
 
     it("date", () => {
-      const validator = service.advancedFormValidators.date({
-        field: "toto",
-      } as BasicAdvancedConfig);
+      const validator = service.validators.date("toto");
       const control = new FormControl("control", [validator]);
       control.setValue("10");
       expect(control.errors?.date).toBeDefined();
@@ -162,33 +140,48 @@ describe("AdvancedService", () => {
 
   describe("create advanced controls", () => {
     let spy;
+    let spyGetAdvanced;
+    let spyGetRange;
     beforeEach(() => {
       spy = spyOn<any>(service, "createControl");
+      spyGetAdvanced = spyOn<any>(service, "getAdvancedValue");
+      spyGetRange = spyOn<any>(service, "getRangeValue");
+      searchService.query.select = [];
     });
 
     it("select-control", () => {
-      service.createSelectControl({} as AdvancedSelect, []);
-      expect(spy).toHaveBeenCalledWith({} as AdvancedSelect, [], undefined);
+      service.createSelectControl("toto", []);
+      expect(spyGetAdvanced).toHaveBeenCalledWith("toto", searchService.query);
+      expect(spyGetRange).not.toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledWith(undefined, [], undefined);
     });
 
     it("range-control", () => {
-      service.createRangeControl({} as AdvancedRange);
-      expect(spy).toHaveBeenCalledWith({} as AdvancedRange, undefined, undefined);
+      service.createRangeControl("toto");
+      expect(spyGetAdvanced).not.toHaveBeenCalled();
+      expect(spyGetRange).toHaveBeenCalledWith("toto", searchService.query);
+      expect(spy).toHaveBeenCalledWith(undefined, undefined, undefined);
     });
 
     it("input-control", () => {
-      service.createInputControl({} as AdvancedInput, []);
-      expect(spy).toHaveBeenCalledWith({} as AdvancedInput, [], undefined);
+      service.createInputControl("toto", []);
+      expect(spyGetAdvanced).toHaveBeenCalledWith("toto", searchService.query);
+      expect(spyGetRange).not.toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledWith(undefined, [], undefined);
     });
 
     it("multi-input-control", () => {
-      service.createMultiInputControl({} as AdvancedInput, undefined, []);
-      expect(spy).toHaveBeenCalledWith({} as AdvancedInput, undefined, []);
+      service.createMultiInputControl("toto", undefined, []);
+      expect(spyGetAdvanced).toHaveBeenCalledWith("toto", searchService.query);
+      expect(spyGetRange).not.toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledWith(undefined, undefined, []);
     });
 
     it("checkbox-control", () => {
-      service.createCheckboxControl({} as AdvancedCheckbox, []);
-      expect(spy).toHaveBeenCalledWith({} as AdvancedCheckbox, [], undefined);
+      service.createCheckboxControl("toto", []);
+      expect(spyGetAdvanced).toHaveBeenCalledWith("toto", searchService.query);
+      expect(spyGetRange).not.toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledWith(undefined, [], undefined);
     });
   });
 
@@ -214,11 +207,6 @@ describe("AdvancedService", () => {
 
     it("when defined filter for a mono-select and multi-select component", () => {
       // Case multi-select
-      const config1 = {
-        field: "treepath",
-        operator: AdvancedOperator.NONE,
-        multiple: true
-      } as AdvancedSelect;
 
       const exprValueInitializer1: ExprValueInitializer = {
         exprContext: {appService, formatService, intlService},
@@ -228,18 +216,12 @@ describe("AdvancedService", () => {
       };
       const expr1: Expr = new Expr(exprValueInitializer1);
       spy.and.returnValue(expr1);
-      const value1 = service.getAdvancedValue(config1);
+      const value1 = service.getAdvancedValue("treepath");
 
       expect(spyQueryAction).toHaveBeenCalledWith("advanced_treepath");
       expect(value1).toEqual(["Product","web"]);
 
       // Case mono-select
-      const config2 = {
-        field: "authors",
-        operator: AdvancedOperator.NONE,
-        multiple: false
-      } as AdvancedSelect;
-
       const exprValueInitializer2: ExprValueInitializer = {
         exprContext: {appService, formatService, intlService},
         values: ["sinequa"],
@@ -248,7 +230,7 @@ describe("AdvancedService", () => {
       };
       const expr2: Expr = new Expr(exprValueInitializer2);
       spy.and.returnValue(expr2);
-      const value2 = service.getAdvancedValue(config2);
+      const value2 = service.getAdvancedValue("authors");
 
       expect(spyQueryAction).toHaveBeenCalledWith("advanced_authors");
       expect(value2).toEqual("sinequa");
@@ -256,11 +238,6 @@ describe("AdvancedService", () => {
 
     it("when defined filter for a number/date range component", () => {
       // Case numbers with only one operand of the range
-      const config1 = {
-        field: "size",
-        type: AdvancedFormType.Range
-      } as AdvancedRange;
-
       const exprValueInitializer1: ExprValueInitializer = {
         exprContext: {appService, formatService, intlService},
         values: ["262144000"],
@@ -270,17 +247,12 @@ describe("AdvancedService", () => {
       };
       const expr1: Expr = new Expr(exprValueInitializer1);
       spy.and.returnValue(expr1);
-      const value1 = service.getAdvancedValue(config1);
+      const value1 = service.getRangeValue("size");
 
       expect(spyQueryAction).toHaveBeenCalledWith("advanced_size");
       expect(value1).toEqual([undefined, '262144000']);
 
       // Case dates with 2 operands of the range
-      const config2 = {
-        field: "modified",
-        type: AdvancedFormType.Range
-      } as AdvancedRange;
-
       const exprValueInitializer2: ExprValueInitializer = {
         exprContext: {appService, formatService, intlService},
         values: ["2020-12-01", "2020-12-16"],
@@ -289,7 +261,7 @@ describe("AdvancedService", () => {
       };
       const expr2: Expr = new Expr(exprValueInitializer2);
       spy.and.returnValue(expr2);
-      const value2 = service.getAdvancedValue(config2);
+      const value2 = service.getRangeValue("modified");
 
       expect(spyQueryAction).toHaveBeenCalledWith("advanced_modified");
       expect(value2).toEqual(["2020-12-01", "2020-12-16"]);
@@ -297,11 +269,6 @@ describe("AdvancedService", () => {
 
     it("when defined filter for a multi-input/input component", () => {
       // Case multi-input
-      const config1 = {
-        field: "person",
-        operator: AdvancedOperator.NONE
-      } as AdvancedInput;
-
       const exprValueInitializer1: ExprValueInitializer = {
         exprContext: {appService, formatService, intlService},
         values: ["Elon Musk","Bill Gates"],
@@ -310,17 +277,12 @@ describe("AdvancedService", () => {
       };
       const expr1: Expr = new Expr(exprValueInitializer1);
       spy.and.returnValue(expr1);
-      const value1 = service.getAdvancedValue(config1);
+      const value1 = service.getAdvancedValue("person");
 
       expect(spyQueryAction).toHaveBeenCalledWith("advanced_person");
       expect(value1).toEqual(["Elon Musk","Bill Gates"]);
 
       // Case input
-      const config2 = {
-        field: "docformat",
-        operator: AdvancedOperator.NONE
-      } as AdvancedInput;
-
       const exprValueInitializer2: ExprValueInitializer = {
         exprContext: {appService, formatService, intlService},
         values: ["htm"],
@@ -329,7 +291,7 @@ describe("AdvancedService", () => {
       };
       const expr2: Expr = new Expr(exprValueInitializer2);
       spy.and.returnValue(expr2);
-      const value2 = service.getAdvancedValue(config2);
+      const value2 = service.getAdvancedValue("docformat");
 
       expect(spyQueryAction).toHaveBeenCalledWith("advanced_docformat");
       expect(value2).toEqual("htm");
@@ -337,23 +299,13 @@ describe("AdvancedService", () => {
 
     it("Undefined filter should also be processed", () => {
       // Case range
-      const config1 = {
-        field: "foo",
-        type: AdvancedFormType.Range
-      } as AdvancedRange;
-
-      const value1 = service.getAdvancedValue(config1);
+      const value1 = service.getRangeValue("foo");
 
       expect(spyQueryAction).toHaveBeenCalledWith("advanced_foo");
       expect(value1).toEqual([undefined,undefined]);
 
       // All other Cases: as example Select
-      const config2 = {
-        field: "toto",
-        type: AdvancedFormType.Select
-      } as AdvancedSelect;
-
-      const value2 = service.getAdvancedValue(config2);
+      const value2 = service.getAdvancedValue("toto");
 
       expect(spyQueryAction).toHaveBeenCalledWith("advanced_toto");
       expect(value2).toEqual(undefined);
@@ -376,48 +328,28 @@ describe("AdvancedService", () => {
 
     it("from a number/date range component", () => {
       // Case numbers with only one operand of the range
-      const config1 = {
-        field: "size",
-        type: AdvancedFormType.Range
-      } as AdvancedRange;
-
-      service.setAdvancedValue([undefined, '262144000'], config1);
+      service.setNumericalSelect('size', 262144000, '<=');
 
       expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_size");
-      expect(spyQueryAddAction).toHaveBeenCalledWith("size:<=262144000","advanced_size");
+      expect(spyQueryAddAction).toHaveBeenCalledWith("size:<= 262144000","advanced_size");
 
       // Case dates with 2 operands of the range
-      const config2 = {
-        field: "modified",
-        type: AdvancedFormType.Range
-      } as AdvancedRange;
-
-      service.setAdvancedValue(["2020-12-01", "2020-12-16"], config2);
+      service.setRangeSelect('modified', ["2020-12-01", "2020-12-16"]);
 
       expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_modified");
-      expect(spyQueryAddAction).toHaveBeenCalledWith("modified:[2020-12-01..2020-12-16]","advanced_modified");
+      expect(spyQueryAddAction).toHaveBeenCalledWith("modified: [2020-12-01..2020-12-16]","advanced_modified");
     });
 
     it("from a (select/input/checkbox...) component", () => {
-      const config1 = {
-        field: "treepath",
-        operator: AdvancedOperator.NONE,
-        multiple: true
-      } as AdvancedSelect;
 
-      service.setAdvancedValue(["Product","web"], config1);
+      service.setSelect('treepath', ["Product","web"]);
 
       expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_treepath");
-      expect(spyQueryAddAction).toHaveBeenCalledWith("treepath:[Product,web]","advanced_treepath");
+      expect(spyQueryAddAction).toHaveBeenCalledWith("treepath: (`Product` OR `web`)","advanced_treepath");
     });
 
     it("with undefined value", () => {
-      const config1 = {
-        field: "person",
-        operator: AdvancedOperator.NONE
-      } as AdvancedInput;
-
-      service.setAdvancedValue(undefined, config1);
+      service.setSelect('person', undefined);
 
       expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_person");
       expect(spyQueryAddAction).not.toHaveBeenCalled();
@@ -442,7 +374,7 @@ describe("AdvancedService", () => {
       service.removeAdvancedValue("foo");
 
       expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_foo");
-      expect(searchService.query.select).toEqual([]);
+      expect(searchService.query.select).toEqual(undefined);
       expect(spySearch).toHaveBeenCalled();
     });
 
@@ -458,7 +390,7 @@ describe("AdvancedService", () => {
       service.removeAdvancedValue("foo", false);
 
       expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_foo");
-      expect(searchService.query.select).toEqual([]);
+      expect(searchService.query.select).toEqual(undefined);
       expect(spySearch).not.toHaveBeenCalled();
     });
   });
@@ -503,99 +435,13 @@ describe("AdvancedService", () => {
       spy.calls.reset();
     })
 
-    it("when defined advanced filter exists in the query", () => {
-      searchService.query.select = [
-        {expression: "treepath:[`Product`,`web`]", facet: "advanced_treepath"}
-      ];
-      const exprValueInitializer: ExprValueInitializer = {
-        exprContext: {appService, formatService, intlService},
-        values: ["Product","web"],
-        field: "treepath",
-        operator: 10
-      };
-      const expr: Expr = new Expr(exprValueInitializer);
-      spy.and.returnValue(expr);
-
-      const value = service.getAdvancedValues();
-
-      expect(value).toEqual({ treepath: ["Product","web"] });
-    });
-
-    it("when no advanced filter exists in the query", () => {
-      searchService.query.select = [
-        {expression: "foo:[`Product`,`web`]", facet: "foo"}
-      ];
-      const exprValueInitializer: ExprValueInitializer = {
-        exprContext: {appService, formatService, intlService},
-        values: ["toto"],
-        field: "foo",
-        operator: 10
-      };
-      const expr: Expr = new Expr(exprValueInitializer);
-      spy.and.returnValue(expr);
-
-      const value = service.getAdvancedValues();
-
-      expect(value).toEqual({});
-    });
   });
 
-  describe("make a range expression", () => {
-
-    it("when both operands are defined", () => {
-      const expr = service.makeRangeExpr("toto", 1, 10);
-
-      expect(expr).toEqual("toto:[1..10]");
-    });
-
-    it("when only higher operand is defined", () => {
-      const expr = service.makeRangeExpr("toto", undefined, 150);
-
-      expect(expr).toEqual("toto:<=150");
-    });
-
-    it("when only lower operand is defined", () => {
-      const expr = service.makeRangeExpr("toto", 5, undefined);
-
-      expect(expr).toEqual("toto:>=5");
-    });
-
-    it("when no operand is defined", () => {
-      const expr = service.makeRangeExpr("toto", undefined, undefined);
-
-      expect(expr).toBeUndefined();
-    });
-
-  });
-
-  describe("make an expression", () => {
-
-    it("with a list of items", () => {
-      const expr = service.makeExpr("toto", [1, 10]);
-
-      expect(expr).toEqual("toto:[1,10]");
-    });
-
-    it("with a single item", () => {
-      const expr = service.makeExpr("toto", "foo");
-
-      expect(expr).toEqual("toto:foo");
-    });
-
-    it("with undefined value", () => {
-      const expr = service.makeExpr("toto", undefined);
-
-      expect(expr).toBeUndefined();
-    });
-
-  });
 
   describe("format an advanced value", () => {
     let spy;
-    let config;
     beforeEach(() => {
       spy = spyOn(formatService, 'formatValue');
-      config = {} as BasicAdvancedValue;
     });
 
     afterEach(() => {
@@ -606,7 +452,7 @@ describe("AdvancedService", () => {
       const column = {formatter: "toto"} as CCColumn;
       spyOn(appService, 'getColumn').and.returnValue(column)
 
-      service.formatAdvancedValue(config, "foo");
+      service.formatAdvancedValue("toto", "foo");
 
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy).toHaveBeenCalledWith("foo", column);
@@ -617,7 +463,7 @@ describe("AdvancedService", () => {
       const value = ["foo", "test", undefined];
       spyOn(appService, 'getColumn').and.returnValue(column)
 
-      service.formatAdvancedValue(config, value);
+      service.formatAdvancedValue("toto", value);
 
       expect(spy).toHaveBeenCalledTimes(2);
       expect(spy).toHaveBeenCalledWith("foo", column);
@@ -628,42 +474,9 @@ describe("AdvancedService", () => {
       const column = {formatter: undefined} as CCColumn;
       spyOn(appService, 'getColumn').and.returnValue(column)
 
-      service.formatAdvancedValue(config, 1520845152);
+      service.formatAdvancedValue("toto", 1520845152);
 
       expect(spy).not.toHaveBeenCalled();
-    });
-
-  });
-
-  describe("ensure an advanced value", () => {
-    let spy;
-    let config;
-    beforeEach(() => {
-      spy = spyOn<any>(service, '_ensureAdvancedValue');
-      config = {} as BasicAdvancedValue;
-    });
-
-    afterEach(() => {
-      spy.calls.reset();
-    })
-
-    it("case single value", () => {
-
-      service.ensureAdvancedValue(config, "foo");
-
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith(config, "foo");
-    });
-
-    it("list of items (including undefined values)", () => {
-      const value = ["foo", "test", undefined];
-
-      service.ensureAdvancedValue(config, value);
-
-      expect(spy).toHaveBeenCalledTimes(value.length);
-      expect(spy).toHaveBeenCalledWith(config, "foo");
-      expect(spy).toHaveBeenCalledWith(config, "test");
-      expect(spy).toHaveBeenCalledWith(config, undefined);
     });
 
   });
