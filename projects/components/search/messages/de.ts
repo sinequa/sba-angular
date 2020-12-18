@@ -1,6 +1,7 @@
 export default {
     "search": {
-        "emptySearchNotification": "Bitte geben Sie einige Suchbegriffe ein, um eine Suche durchzuführen"
+        "emptySearchNotification": "Bitte geben Sie einige Suchbegriffe ein, um eine Suche durchzuführen",
+        "alreadyFiltered": "bereits ausgewählt"
     },
 
     "breadcrumbs": {
