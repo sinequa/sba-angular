@@ -15,7 +15,7 @@ export class BsAdvancedFormCheckbox {
 
     ngOnChanges() {
         if(this.label === undefined) {
-            this.label = this.appService.getLabel(this.field, this.field);
+            this.label = this.appService.getLabel(this.field);
         }
     }
 }

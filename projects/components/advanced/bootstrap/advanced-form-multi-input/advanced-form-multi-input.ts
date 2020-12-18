@@ -32,7 +32,7 @@ export class BsAdvancedFormMultiInput implements OnChanges, OnDestroy {
 
     ngOnChanges(): void {
         if(this.label === undefined) {
-            this.label = this.appService.getPluralLabel(this.field, this.field);
+            this.label = this.appService.getPluralLabel(this.field);
         }
         this.control = this.form.get(this.field);
         if (this.control) {

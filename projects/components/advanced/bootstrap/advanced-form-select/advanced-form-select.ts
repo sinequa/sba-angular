@@ -47,10 +47,10 @@ export class BsAdvancedFormSelect implements OnInit, OnDestroy {
         };
         if(this.label === undefined) {
             if(this.multiple) {
-                this.label = this.appService.getPluralLabel(this.field, this.field);
+                this.label = this.appService.getPluralLabel(this.field);
             }
             else {
-                this.label = this.appService.getLabel(this.field, this.field);
+                this.label = this.appService.getLabel(this.field);
             }
         }
         this.selectedValues = [];

@@ -220,7 +220,7 @@ export class ExprBuilder {
      */
     private formatField(field: string, display?: string): string {
         if(display) {
-            field = field+ExprParser.escape(display);
+            field = `${field}${ExprParser.escape(display)}`;
         }
         return field;
     }

@@ -41,7 +41,7 @@ export class BsAdvancedFormRange implements OnInit, OnDestroy {
         this.forName = this.fromName;
         this.column = this.appService.getColumn(this.field);
         if(this.label === undefined) {
-            this.label = this.appService.getPluralLabel(this.field, this.field);
+            this.label = this.appService.getPluralLabel(this.field);
         }
         this.isDate = !!this.column && AppService.isDate(this.column);
         if (this.isDate) {
