@@ -28,7 +28,7 @@ import { CCColumn } from '@sinequa/core/web-services';
 export type BaseAdvancedValue = string | number | Date | boolean | undefined;
 
 /**
- * Defines an advamced value type as either a single basic advanved value or an array of basic advanced values
+ * Defines an advanced value type as either a single basic advanced value or an array of basic advanced values
  */
 export type AdvancedValue = BaseAdvancedValue | BaseAdvancedValue[];
 
@@ -90,9 +90,10 @@ export class AdvancedService {
 
     /**
      * Return a standard FormControl compatible with a select component
-     * @param config required configuration for the generic advanced-form-select
+     * @param field
      * @param validators optional validators to be added to the returned FormControl
      * @param asyncValidators optional asyncValidators to be added to the returned FormControl
+     * @param query Query where to fetch advanced values, if omitted, use searchService.query
      */
     public createSelectControl(
         field: string,
@@ -106,9 +107,10 @@ export class AdvancedService {
 
     /**
      * Return a standard FormControl compatible with a range-input component
-     * @param config required configuration for the generic advanced-form-range
+     * @param field
      * @param validators optional validators to be added to the returned FormControl
      * @param asyncValidators optional asyncValidators to be added to the returned FormControl
+     * @param query Query where to fetch advanced values, if omitted, use searchService.query
      */
     public createRangeControl(
         field: string,
@@ -122,9 +124,10 @@ export class AdvancedService {
 
     /**
      * Return a standard FormControl compatible with a text input component
-     * @param config required configuration for the generic advanced-form-input
+     * @param field
      * @param validators optional validators to be added to the returned FormControl
      * @param asyncValidators optional asyncValidators to be added to the returned FormControl
+     * @param query Query where to fetch advanced values, if omitted, use searchService.query
      */
     public createInputControl(
         field: string,
@@ -138,9 +141,10 @@ export class AdvancedService {
 
     /**
      * Return a standard FormControl compatible with a multi-value text input component
-     * @param config required configuration for the generic advanced-form-multi-input
+     * @param field
      * @param validators optional validators to be added to the returned FormControl
      * @param asyncValidators optional asyncValidators to be added to the returned FormControl
+     * @param query Query where to fetch advanced values, if omitted, use searchService.query
      */
     public createMultiInputControl(
         field: string,
@@ -154,9 +158,10 @@ export class AdvancedService {
 
     /**
      * Return a standard FormControl compatible with a checkbox component
-     * @param config required configuration for the generic advanced-form-checkbox
+     * @param field
      * @param validators optional validators to be added to the returned FormControl
      * @param asyncValidators optional asyncValidators to be added to the returned FormControl
+     * @param query Query where to fetch advanced values, if omitted, use searchService.query
      */
     public createCheckboxControl(
         field: string,
@@ -169,12 +174,12 @@ export class AdvancedService {
     }
 
     /**
-     * Retrieve the value to be set to a specific FormControl from the search Query
-     * @param config advanced-search-form component's configuration
+     * Retrieve the value to be set to a specific FormControl from the Query
+     * @param field
      * @param query Query where to fetch advanced values, if omitted, use searchService.query
      */
     public getAdvancedValue(field: string, query = this.searchService.query): AdvancedValue {
-        let expr = this.getAdvancedExpr(field, query);
+        const expr = this.getAdvancedExpr(field, query);
         if (expr) {
             const value = this.getValueFromExpr(expr);
             return this.formatAdvancedValue(field, value);
@@ -231,19 +236,19 @@ export class AdvancedService {
         }
         return value;
     }
-    
+
     /**
      * Sets a select on a query (defaults to searchService.query) for a given
      * field and value(s)
-     * @param field 
-     * @param value 
-     * @param query 
-     * @param combineWithAnd 
+     * @param field
+     * @param value
+     * @param query
+     * @param combineWithAnd
      */
     public setSelect(field: string, value: AdvancedValue, query?: Query, combineWithAnd?: boolean) {
         let expr;
         if(value !== undefined) {
-            let _value = this.asValueItems(value, field);
+            const _value = this.asValueItems(value, field);
             if(combineWithAnd) {
                 expr = this.exprBuilder.makeAndExpr(field, _value);
             }
@@ -251,39 +256,39 @@ export class AdvancedService {
                 expr = this.exprBuilder.makeOrExpr(field, _value);
             }
         }
-        // When expr is not defined, this simply removes the selection 
+        // When expr is not defined, this simply removes the selection
         this.setAdvancedSelect(query, field, expr);
     }
 
     /**
      * Sets a select on a query (defaults to searchService.query) for a given
      * field, operator and value
-     * @param field 
-     * @param value 
-     * @param operator 
-     * @param query 
+     * @param field
+     * @param value
+     * @param operator
+     * @param query
      */
     public setNumericalSelect(
         field: string,
         value: string | Date | number | undefined,
-        operator: '>' | '>=' | '<' | '<=' | '=' | '<>', 
+        operator: '>' | '>=' | '<' | '<=' | '=' | '<>',
         query?: Query) {
-            
+
         let expr;
         if(value !== undefined) {
             value = this.parse(value, field);
             expr = this.exprBuilder.makeNumericalExpr(field, operator, value);
         }
-        // When expr is not defined, this simply removes the selection 
+        // When expr is not defined, this simply removes the selection
         this.setAdvancedSelect(query, field, expr);
     }
 
     /**
      * Sets a select on a query (defaults to searchService.query) for a given
      * field and range of values
-     * @param field 
-     * @param range 
-     * @param query 
+     * @param field
+     * @param range
+     * @param query
      */
     public setRangeSelect(
         field: string,
@@ -292,8 +297,8 @@ export class AdvancedService {
 
         let expr: string | undefined;
         if(range && range.length === 2) {
-            let from = this.parse(range[0] || undefined, field);
-            let to = this.parse(range[1] || undefined, field);
+            const from = this.parse(range[0] || undefined, field);
+            const to = this.parse(range[1] || undefined, field);
             if (from && to) {
                 expr = this.exprBuilder.makeRangeExpr(field, from, to);
             } else if (from) {
@@ -302,15 +307,15 @@ export class AdvancedService {
                 expr = this.exprBuilder.makeNumericalExpr(field, '<=', to);
             }
         }
-        // When expr is not defined, this simply removes the selection 
+        // When expr is not defined, this simply removes the selection
         this.setAdvancedSelect(query, field, expr);
     }
 
     /**
      * Sets a select for a given field and expression on the query (defaults to searchService.query)
-     * @param query 
-     * @param field 
-     * @param expr 
+     * @param query
+     * @param field
+     * @param expr
      */
     protected setAdvancedSelect(query = this.searchService.query, field: string, expr: string | undefined) {
         query.removeSelect(
@@ -323,11 +328,11 @@ export class AdvancedService {
             );
         }
     }
-    
+
     /**
      * Transforms an AdvancedValue into a ValueItem[]
-     * @param value 
-     * @param field 
+     * @param value
+     * @param field
      */
     protected asValueItems(value: AdvancedValue, field: string): ValueItem[] {
         if(!Utils.isArray(value)) {
@@ -342,7 +347,7 @@ export class AdvancedService {
      * By default, Trigger search() action
      * @param field
      * @param query Query from which will remove the specific advanced value, if omitted, use searchService.query
-     * @param searchable
+     * @param search
      */
     public removeAdvancedValue(
         field: string,
@@ -365,7 +370,7 @@ export class AdvancedService {
      * Remove all related advanced-search select(s) from a given query and update searchService.query accordingly
      * By default, Trigger search() action
      * @param query Query from which will remove all advanced values, if omitted, use searchService.query
-     * @param searchable
+     * @param search
      */
     public resetAdvancedValues(search: boolean = true, query?: Query | undefined): void {
         if (!query) {
@@ -379,8 +384,8 @@ export class AdvancedService {
 
     /**
      * Format a given value according to its column definition
-     * @param config
-     * @param advancedValue
+     * @param field
+     * @param value
      */
     public formatAdvancedValue(field: string, value: AdvancedValue): AdvancedValue {
         if (value) {
@@ -402,7 +407,7 @@ export class AdvancedService {
         }
         return value
     }
-    
+
     /**
      * Cast a given value as per its column definition
      * @param value
@@ -431,7 +436,7 @@ export class AdvancedService {
 
     /**
      * Create a generic FormControl
-     * @param config required configuration for the generic advanced-form-select
+     * @param value value of the FormControl
      * @param validators optional validators to be added to the returned FormControl
      * @param asyncValidators optional asyncValidators to be added to the returned FormControl
      */
