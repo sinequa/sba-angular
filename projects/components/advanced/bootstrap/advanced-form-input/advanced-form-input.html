@@ -1,18 +1,18 @@
 <div class="form-group" [formGroup]="form">
-    <label for="{{name}}">{{label | sqMessage}}</label>
+    <label for="{{field}}">{{label | sqMessage}}</label>
     <div class="d-flex flex-column">
         <input
             sqAdvancedFormAutocomplete
-            [config]="config"
-            [off]="!autocompleteEnabled"
+            [off]="!suggestQuery"
             [suggestQuery]="suggestQuery"
             [dropdown]="dropdown"
             sqAdvancedFormValidation
             [validationForm]="form"
+            [field]="field"
             type="text"
             class="form-control"
-            [id]="name"
-            [formControlName]="name"
+            [id]="field"
+            [formControlName]="field"
             autocomplete="off"
             spellcheck="off">
         <sq-autocomplete-list #dropdown>

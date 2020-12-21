@@ -1,8 +1,10 @@
-import { Directive, Input, Output, EventEmitter, SimpleChanges } from "@angular/core";
+import { Directive, Input, Output, EventEmitter, SimpleChanges, ElementRef } from "@angular/core";
 import { Observable, Subscription, of } from "rxjs";
 import { Utils, Keys} from "@sinequa/core/base";
-import { Expr, ExprValueInfo} from "@sinequa/core/app-utils";
+import { AppService, Expr, ExprBuilder, ExprParser, ExprValueInfo} from "@sinequa/core/app-utils";
 import { Autocomplete, AutocompleteItem, AutocompleteState } from './autocomplete.directive';
+import { SuggestService } from './suggest.service';
+import { UIService } from '@sinequa/components/utils';
 
 /**
  * Interface required to be implement by the component displaying
@@ -56,6 +58,13 @@ export class AutocompleteFieldSearch extends Autocomplete {
 
     @Output() parse = new EventEmitter<ParseResult>();
 
+    constructor(elementRef: ElementRef<any>, 
+        suggestService: SuggestService,
+        appService: AppService,
+        uiService: UIService,
+        protected exprBuilder: ExprBuilder){
+        super(elementRef, suggestService, appService, uiService);
+    }
 
 
     /**
@@ -132,19 +141,19 @@ export class AutocompleteFieldSearch extends Autocomplete {
                 const res = parseResult.result.findValue(this.getInputPosition()); // Get the expression at the caret location
                 // Autocomplete "compa" => "company:"
                 if(res && item.category === "$field$") {
-                    this.replaceValueInForm(res, item.display + ":");
+                    this.replaceValueInForm(res, item.display + ": ");
                     return false;
                 }
-                // Autocomplete "company:Goo" => "company:GOOGLE"
+                // Autocomplete "company:Goo" => "company:`GOOGLE`"
                 if(res && res.field === item.category) {
-                    this.replaceValueInForm(res, "`" + (item.normalized || item.display) + "` ");
+                    this.replaceValueInForm(res, ExprParser.escape(item.normalized || item.display));
                     return true;
                 }
-                // Autocomplete "Goo" => "company:GOOGLE"
+                // Autocomplete "Goo" => "company:`GOOGLE`"
                 if(res && !res.field && item.category && 
                     (this.includedFields && this.includedFields?.includes(item.category) || 
                     (!this.includedFields && !this.excludedFields?.includes(item.category)))) { // Filter out fields if not in fieldSearch mode
-                    this.replaceValueInForm(res, item.category + ":`" + (item.normalized || item.display) + "` ");
+                    this.replaceValueInForm(res, this.exprBuilder.makeExpr(item.category, item.normalized || item.display));
                     return true;
                 }
                 // Autocomplete "Search eng" => "Search engine"
@@ -163,7 +172,7 @@ export class AutocompleteFieldSearch extends Autocomplete {
             this.setInputValue(item.display + ":");
             return false;
         }
-        this.setInputValue(item.category + ":`" + (item.normalized || item.display) + "` ");
+        this.setInputValue(this.exprBuilder.makeExpr(item.category, item.normalized || item.display)); // person: `Bill Gates`
         return true;
     }
 
@@ -228,14 +237,8 @@ export class AutocompleteFieldSearch extends Autocomplete {
      */
     protected itemsToExpr(items: AutocompleteItem[]): string | undefined {
         if(items.length > 0) {
-            let selections = "";
-            items.forEach(item => {
-                if(selections.length > 0) {
-                    selections += " AND ";
-                }
-                selections += item.category+"`"+item.display+"`:`"+(item.normalized || item.display)+"`";
-            });
-            return selections;
+            return this.exprBuilder.concatAndExpr(items.map(item => 
+                this.exprBuilder.makeExpr(item.category, item.normalized || item.display, item.display)));
         }
         return undefined;
     }

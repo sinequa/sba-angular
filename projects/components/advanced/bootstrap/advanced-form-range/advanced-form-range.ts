@@ -9,7 +9,6 @@ import { Subscription } from "rxjs";
 import { Utils } from "@sinequa/core/base";
 import { CCColumn } from "@sinequa/core/web-services";
 import { AppService } from "@sinequa/core/app-utils";
-import { AdvancedRange } from "../../advanced.service";
 
 @Component({
     selector: "sq-advanced-form-range",
@@ -17,16 +16,16 @@ import { AdvancedRange } from "../../advanced.service";
 })
 export class BsAdvancedFormRange implements OnInit, OnDestroy {
     @Input() form: FormGroup;
-    @Input() config: AdvancedRange;
-    @Input() autocompleteEnabled: boolean = true;
+    @Input() field: string;
     @Input() suggestQuery: string;
+    @Input() min: Date | number | string;
+    @Input() max: Date | number | string;
+    @Input() label: string;
 
-    name: string;
     fromName: string;
     toName: string;
     forName: string;
     column: CCColumn | undefined;
-    label: string;
     minDate: Date | undefined;
     maxDate: Date | undefined;
     control: AbstractControl | null;
@@ -37,22 +36,23 @@ export class BsAdvancedFormRange implements OnInit, OnDestroy {
     constructor(private appService: AppService) {}
 
     ngOnInit() {
-        this.name = this.config.name;
-        this.fromName = "from_" + this.name;
-        this.toName = "to_" + this.name;
+        this.fromName = "from_" + this.field;
+        this.toName = "to_" + this.field;
         this.forName = this.fromName;
-        this.column = this.appService.getColumn(this.config.field);
-        this.label = this.config.label;
+        this.column = this.appService.getColumn(this.field);
+        if(this.label === undefined) {
+            this.label = this.appService.getPluralLabel(this.field);
+        }
         this.isDate = !!this.column && AppService.isDate(this.column);
         if (this.isDate) {
-            this.minDate = Utils.isDate(this.config.min)
-                ? this.config.min
+            this.minDate = Utils.isDate(this.min)
+                ? this.min
                 : undefined;
-            this.maxDate = Utils.isDate(this.config.max)
-                ? this.config.max
+            this.maxDate = Utils.isDate(this.max)
+                ? this.max
                 : undefined;
         }
-        this.control = this.form.get(this.name);
+        this.control = this.form.get(this.field);
         if (this.control) {
             this.value = this.control.value;
             this._valueChangesSubscription = Utils.subscribe(
@@ -61,6 +61,9 @@ export class BsAdvancedFormRange implements OnInit, OnDestroy {
                     this.value = value;
                 }
             );
+        }
+        else {
+            throw new Error("No form control named "+this.field);
         }
     }
 

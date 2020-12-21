@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, SimpleChanges, AfterViewInit, OnDestroy, ViewChild, ElementRef, EventEmitter} from "@angular/core";
 import {Subscription} from "rxjs";
 import {Utils} from "@sinequa/core/base";
-import {AppService, FormatService, Expr, ExprOperator} from "@sinequa/core/app-utils";
+import {AppService, FormatService, Expr, ExprOperator, ExprBuilder} from "@sinequa/core/app-utils";
 import {IntlService} from "@sinequa/core/intl";
 import {CCColumn, Results, Aggregation} from "@sinequa/core/web-services";
 import {Options, LabelType, ChangeContext} from "ng5-slider";
@@ -10,7 +10,7 @@ import {FacetService} from "../../facet.service";
 import {SearchService} from "@sinequa/components/search";
 import {UIService} from "@sinequa/components/utils";
 import {AbstractFacet} from "../../abstract-facet";
-import { AdvancedService, AdvancedOperator } from "@sinequa/components/advanced";
+import {AdvancedService} from "@sinequa/components/advanced";
 
 export enum RoundTarget {
     number,
@@ -71,8 +71,9 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
         protected searchService: SearchService,
         protected formatService: FormatService,
         protected intlService: IntlService,
-        private uiService: UIService,
-        private advancedService: AdvancedService) {
+        protected uiService: UIService,
+        protected advancedService: AdvancedService,
+        protected exprBuilder: ExprBuilder) {
             super();
     }
 
@@ -537,17 +538,11 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
                 valTo = Utils.isNumber(to) ? new Date(to) : undefined;
             }
             if (!!valFrom && !!valTo) {
-                expression = `${this.column.name}:[${this.appService.escapeFieldValue(this.column.name, valFrom )}..${this.appService.escapeFieldValue(this.column.name, valTo)}]`;
+                expression = this.exprBuilder.makeRangeExpr(this.column.name, valFrom, valTo);
             } else if (!!valFrom) {
-                expression = this.advancedService.makeExpr(this.column.name, {
-                    value: this.appService.escapeFieldValue(this.column.name, valFrom),
-                    operator: AdvancedOperator.GTE,
-                });
+                expression = this.exprBuilder.makeNumericalExpr(this.column.name, '>=', valFrom);
             } else if (!!valTo) {
-                expression = this.advancedService.makeExpr(this.column.name, {
-                    value: this.appService.escapeFieldValue(this.column.name, valTo),
-                    operator: AdvancedOperator.LTE,
-                });
+                expression = this.exprBuilder.makeNumericalExpr(this.column.name, '<=', valTo);
             }
             this.searchService.query?.removeSelect(this.column.name);
             if (expression) {

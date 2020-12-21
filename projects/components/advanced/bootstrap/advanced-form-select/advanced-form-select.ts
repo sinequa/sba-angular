@@ -1,11 +1,10 @@
 import {Component, Input, OnInit, OnDestroy} from "@angular/core";
-import {FormGroup, AbstractControl} from "@angular/forms";
+import {FormGroup} from "@angular/forms";
 import {AppService} from "@sinequa/core/app-utils";
 import {CCColumn, Aggregation} from "@sinequa/core/web-services";
 import {Utils, NameValueArrayView, NameValueArrayViewHelper, FieldValue} from "@sinequa/core/base";
 import {Subscription} from "rxjs";
 import {FirstPageService} from "@sinequa/components/search";
-import { AdvancedSelect } from '../../advanced.service';
 import { SelectOptions } from './select/select';
 
 @Component({
@@ -14,11 +13,16 @@ import { SelectOptions } from './select/select';
 })
 export class BsAdvancedFormSelect implements OnInit, OnDestroy {
     @Input() form: FormGroup;
-    @Input() config: AdvancedSelect;
-    control: AbstractControl | null;
+    @Input() field: string;
+    /** Optional label: the component looks for the label in the Query web service configuration for the given field */
+    @Input() label: string;
+    /** Whether the component supports multiple selection */
+    @Input() multiple: boolean;
+    /** Optional input. The component automatically looks for an aggretion with the name equal to the field */
+    @Input() aggregation: string;
+    /** Gets a list defined on the server (deprecated) */
+    @Input() list: string;
     column: CCColumn | undefined;
-    name: string;
-    label: string;
 
     options: SelectOptions;
     selectedValues: FieldValue[]; //selected item value list
@@ -31,19 +35,28 @@ export class BsAdvancedFormSelect implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.name = this.config.name;
-        this.control = this.form.get(this.name);
-        this.column = this.appService.getColumn(this.config.field);
+        const control = this.form.get(this.field);
+        if(!control) {
+            throw new Error("No control in search-form named "+this.field);
+        }
+        this.column = this.appService.getColumn(this.field);
         this.options = {
-            disabled: this.control?.disabled,
-            multiple: Utils.isUndefined(this.config.multiple) || this.config.multiple,
+            disabled: control?.disabled,
+            multiple: !!this.multiple,
             items: this.getItems()
         };
-        this.label = this.config.label;
+        if(this.label === undefined) {
+            if(this.multiple) {
+                this.label = this.appService.getPluralLabel(this.field);
+            }
+            else {
+                this.label = this.appService.getLabel(this.field);
+            }
+        }
         this.selectedValues = [];
 
-        if (this.control) {
-            this._valueChangesSubscription = this.control.valueChanges.subscribe(value => this.selectedValues = value || []);
+        if (control) {
+            this._valueChangesSubscription = control.valueChanges.subscribe(value => this.selectedValues = value || []);
         }
     }
 
@@ -54,8 +67,8 @@ export class BsAdvancedFormSelect implements OnInit, OnDestroy {
     }
 
     private getItems(): NameValueArrayView<string, any> {
-        if (this.config.list) {
-            const cclist = this.appService.getList(this.config.list);
+        if (this.list) {
+            const cclist = this.appService.getList(this.list);
             if (cclist) {
                 return NameValueArrayViewHelper.fromObjects(cclist.items, "name", "value");
             }
@@ -64,8 +77,8 @@ export class BsAdvancedFormSelect implements OnInit, OnDestroy {
         const firstPage = this.firstPageService.firstPage;
         if (firstPage) {
             // Find aggregation for field
-            const condition = (this.config.aggregation) ?
-                (aggr: Aggregation) => Utils.eqNC(aggr.name, this.config.aggregation) :
+            const condition = (this.aggregation) ?
+                (aggr: Aggregation) => Utils.eqNC(aggr.name, this.aggregation) :
                 (aggr: Aggregation) => this.column && Utils.eqNC(aggr.column, this.column.name);
             const aggregation = firstPage.aggregations.find(condition);
 
