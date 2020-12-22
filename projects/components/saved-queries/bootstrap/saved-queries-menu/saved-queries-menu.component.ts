@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './saved-queries-menu.component.html'
 })
 export class BsSavedQueriesMenuComponent implements OnInit, OnDestroy {
-
+  @Input() searchRoute: string = "/search";
   @Input() icon: string = "far fa-save";
   @Input() autoAdjust: boolean = true;
   @Input() autoAdjustBreakpoint: string = 'xl';
@@ -93,7 +93,7 @@ export class BsSavedQueriesMenuComponent implements OnInit, OnDestroy {
                 text: savedQuery.name,
                 title: savedQuery.name,
                 data: savedQuery,
-                action: (item: Action) => { this.savedQueriesService.searchSavedQuery(item.data); }
+                action: (item: Action) => { this.savedQueriesService.searchSavedQuery(item.data, this.searchRoute); }
             }));
         }
     }

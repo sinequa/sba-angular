@@ -8,7 +8,7 @@ import { BasketsService } from '../../baskets.service';
   templateUrl: './baskets-menu.component.html'
 })
 export class BsBasketsMenuComponent implements OnInit {
-
+  @Input() searchRoute: string = "/search";
   @Input() icon: string = "fas fa-shopping-basket";
   @Input() autoAdjust: boolean = true;
   @Input() autoAdjustBreakpoint: string = 'xl';
@@ -71,7 +71,7 @@ export class BsBasketsMenuComponent implements OnInit {
                 text: basket.name,
                 title: basket.name,
                 data: basket,
-                action: _ => { this.basketsService.searchBasket(basket); }
+                action: _ => { this.basketsService.searchBasket(basket, this.searchRoute); }
             }));
         }
     }
