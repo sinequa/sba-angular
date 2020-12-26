@@ -22,15 +22,7 @@
         "off": "Off",
         "simple": "Simple",
         "simpleTitle": "Graphical mode allowing to display selected filters as badges",
-        "advancedTitle": "Text mode allowing to write search expressions such as \"geo: Paris OR company: Sinequa\"",
-        "labels": {
-          "treepath": "Sources",
-          "docformat": "File extensions",
-          "authors": "Authors",
-          "size": "Size (From/To)",
-          "modified": "Date (From/To)",
-          "person": "People"
-        }
+        "advancedTitle": "Text mode allowing to write search expressions such as \"geo: Paris OR company: Sinequa\""
     },
 
     "baskets": {

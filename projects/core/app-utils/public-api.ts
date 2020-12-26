@@ -1,4 +1,5 @@
 export * from "./query/expr-parser";
+export * from "./query/expr-builder";
 export * from "./query/query";
 
 export * from "./app.service";

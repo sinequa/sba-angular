@@ -5,6 +5,7 @@ import { Action } from '@sinequa/components/action';
 import { AgmInfoWindow } from '@agm/core';
 import { SearchService } from '@sinequa/components/search';
 import { darkStyle } from "./dark-style";
+import { ExprBuilder } from '@sinequa/core/app-utils';
 
 @Component({
     selector: "sq-googlemaps",
@@ -45,7 +46,8 @@ export class MapComponent extends AbstractFacet implements OnChanges {
 
     constructor(
         public searchService: SearchService,
-        public facetService: FacetService
+        public facetService: FacetService,
+        public exprBuilder: ExprBuilder
     ){
         super();
         
@@ -71,7 +73,12 @@ export class MapComponent extends AbstractFacet implements OnChanges {
                 const maxLat = this.bounds.getNorthEast().lat();
                 const minLng = this.bounds.getSouthWest().lng();
                 const maxLng = this.bounds.getNorthEast().lng();
-                const expr = `${this.latitudeField}:>=${minLat} AND ${this.latitudeField}:<=${maxLat} AND ${this.longitudeField}:>=${minLng} AND ${this.longitudeField}:<=${maxLng}`
+                const expr = this.exprBuilder.concatAndExpr([
+                    this.exprBuilder.makeNumericalExpr(this.latitudeField, '>=', minLat),
+                    this.exprBuilder.makeNumericalExpr(this.latitudeField, '<=', maxLat),
+                    this.exprBuilder.makeNumericalExpr(this.longitudeField, '>=', minLng),
+                    this.exprBuilder.makeNumericalExpr(this.longitudeField, '<=', maxLng)
+                ]);
                 this.searchService.query.addSelect(expr, this.name);
                 this.searchService.search();
             }

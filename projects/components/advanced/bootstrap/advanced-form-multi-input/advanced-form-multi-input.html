@@ -3,7 +3,7 @@
     <section class="sq-dropdown-form">
         <div class="form-control multi-entry"
             sqAdvancedFormValidation
-            [config]="config"
+            [field]="field"
             [validationForm]="form">
             <span
                 *ngFor="let item of items"
@@ -17,8 +17,8 @@
                 autocomplete="off"
                 spellcheck="off"
                 sqAdvancedFormAutocompleteMultiInput
-                [config]="config"
-                [off]="!autocompleteEnabled"
+                [field]="field"
+                [off]="!suggestQuery"
                 [suggestQuery]="suggestQuery"
                 (itemsUpdate)="onItemsChanged($event)"
                 [items]="items"

@@ -2,7 +2,7 @@ import {TestBed} from "@angular/core/testing";
 import {HttpHandler} from '@angular/common/http';
 
 import {UserSettingsWebService, Aggregation, AggregationItem, START_CONFIG, EngineType} from '@sinequa/core/web-services';
-import {AppService, FormatService, Expr, ExprValueInitializer, ExprOperandsInitializer, ExprOperator, Query} from '@sinequa/core/app-utils';
+import {AppService, FormatService, Expr, ExprValueInitializer, ExprOperandsInitializer, ExprOperator, Query, ExprBuilder} from '@sinequa/core/app-utils';
 import {IntlService} from '@sinequa/core/intl';
 
 import {AGGREGATION_GEO, FACETS, AGGREGATION_SIZE, AGGREGATION_BOOLEAN} from '@testing/mocks';
@@ -17,6 +17,7 @@ describe("FacetService", () => {
 	let appService: AppService;
 	let formatService: FormatService;
 	let intlService: IntlService;
+	let exprBuilder: ExprBuilder;
 
 	beforeEach(() => {
 		const UserSettingsWebServiceFactory = () => ({
@@ -57,6 +58,7 @@ describe("FacetService", () => {
 		appService = TestBed.inject(AppService);
 		formatService = TestBed.inject(FormatService);
 		intlService = TestBed.inject(IntlService);
+		exprBuilder = TestBed.inject(ExprBuilder);
 
 	});
 
@@ -202,7 +204,7 @@ describe("FacetService", () => {
 
 				spyOn(searchService.query, "removeSelect");
 				spyOn(searchService.query, "replaceSelect");
-				spyOn<any>(service, "makeExpr").and.callThrough();
+				//spyOn<any>(service, "makeExpr").and.callThrough();
 
 				Object.assign(item2.expr, {parent: {operands: [item.expr, item2.expr]}});
 				spyOn<any>(service, "findItemFilter").and.returnValue(item2.expr);
@@ -211,7 +213,7 @@ describe("FacetService", () => {
 				// When remove filter : 10 Ko to 100 Ko
 				service.removeFilter("Size", aggregation["size"], aggItem);
 
-				expect(service["makeExpr"]).toHaveBeenCalledWith("Size", jasmine.anything(), [{count: 0, value: "size`< 10 Ko`:(>= 0 AND < 10240)", display: "< 10 Ko", $column: undefined, $excluded: undefined}], jasmine.anything());
+				//expect(service["makeExpr"]).toHaveBeenCalledWith("Size", jasmine.anything(), [{count: 0, value: "size`< 10 Ko`:(>= 0 AND < 10240)", display: "< 10 Ko", $column: undefined, $excluded: undefined}], jasmine.anything());
 				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(1, {expression: "size`< 10 Ko`:(>= 0 AND < 10240)", facet: "Size"});
 				expect(searchService.query.removeSelect).not.toHaveBeenCalled();
 			});
@@ -228,7 +230,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], items);
 
 				// Then
-				const expectedExpr = 'geo`Iraq`:(`IRAQ`)';
+				const expectedExpr = 'geo: (`Iraq`:`IRAQ`)';
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, 'Geo');
 			})
 
@@ -256,7 +258,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], items);
 
 				// Then
-				const expectedExpr = 'geo`Iraq`:(`IRAQ`)';
+				const expectedExpr = 'geo: (`Iraq`:`IRAQ`)';
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, 'Geo');
 			});
 
@@ -269,7 +271,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], items);
 
 				// Then
-				const expectedExpr = 'geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`)))';
+				const expectedExpr = 'geo: (`Iraq`:`IRAQ` OR `Guantanamo`:`GUANTANAMO`)';
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, 'Geo');
 			});
 
@@ -297,7 +299,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2]); // IOWA
 
 				// Then
-				const expectedExpr = 'geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`)) OR (`Iowa`:(`IOWA`)))';
+				const expectedExpr = 'geo: (`Iraq`:`IRAQ` OR `Guantanamo`:`GUANTANAMO` OR `Iowa`:`IOWA`)';
 				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(0, {expression: expectedExpr, facet: "Geo"})
 				expect(searchService.query.addSelect).not.toHaveBeenCalled();
 			});
@@ -327,7 +329,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2]); // IOWA
 
 				// Then
-				const expectedExpr = 'geo:((`Iraq`:(`IRAQ`)) AND (`Guantanamo`:(`GUANTANAMO`)) AND (`Iowa`:(`IOWA`)))';
+				const expectedExpr = 'geo: (`Iraq`:`IRAQ` AND `Guantanamo`:`GUANTANAMO` AND `Iowa`:`IOWA`)';
 				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(0, {expression: expectedExpr, facet: "Geo"})
 				expect(searchService.query.addSelect).not.toHaveBeenCalled();
 			});
@@ -363,7 +365,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2], {not: true}); // IOWA
 
 				// Then
-				const expectedExpr = 'NOT (geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`)) OR (`Iowa`:(`IOWA`))))';
+				const expectedExpr = 'NOT (geo: (`Iraq`:`IRAQ` OR `Guantanamo`:`GUANTANAMO` OR `Iowa`:`IOWA`))';
 				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(0, {expression: expectedExpr, facet: "Geo"})
 				expect(searchService.query.addSelect).not.toHaveBeenCalled();
 			});
@@ -393,7 +395,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items!.slice(2, 4), {and: false}); // [IOWA, NEW HAMSPHIRE]
 
 				// Then
-				const expectedExpr = 'geo:((`Iowa`:(`IOWA`)) OR (`New Hampshire`:(`NEW HAMPSHIRE`)))';
+				const expectedExpr = 'geo: (`Iowa`:`IOWA` OR `New Hampshire`:`NEW HAMPSHIRE`)';
 				expect(searchService.query.replaceSelect).not.toHaveBeenCalled();
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, "Geo");
 			});
@@ -418,7 +420,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2]); // IOWA
 
 				// Then
-				const expectedExpr = 'geo:((`Iraq`:(`IRAQ`)) OR (`Iowa`:(`IOWA`)))';
+				const expectedExpr = 'geo: (`Iraq`:`IRAQ` OR `Iowa`:`IOWA`)';
 				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(0, {expression: expectedExpr, facet: "Geo"})
 				expect(searchService.query.addSelect).not.toHaveBeenCalled();
 			});
@@ -451,7 +453,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items!.slice(2, 4), {and: true}); // [IOWA, NEW HAMPSHIRE]
 
 				// Then
-				const expectedExpr = 'geo:((`Iowa`:(`IOWA`)) AND (`New Hampshire`:(`NEW HAMPSHIRE`)))';
+				const expectedExpr = 'geo: (`Iowa`:`IOWA` AND `New Hampshire`:`NEW HAMPSHIRE`)';
 				expect(searchService.query.replaceSelect).not.toHaveBeenCalled();
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, "Geo");
 			});
@@ -483,7 +485,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items!.slice(2, 4)); // [IOWA, NEW HAMPSHIRE]
 
 				// Then
-				const expectedExpr = 'geo:((`Iowa`:(`IOWA`)) OR (`New Hampshire`:(`NEW HAMPSHIRE`)))';
+				const expectedExpr = 'geo: (`Iowa`:`IOWA` OR `New Hampshire`:`NEW HAMPSHIRE`)';
 				expect(searchService.query.replaceSelect).not.toHaveBeenCalled();
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, "Geo");
 			});
@@ -525,7 +527,7 @@ describe("FacetService", () => {
 				service.addFilter(facetName, aggregation["geo"], items, {replaceCurrent: true});
 
 				// Then
-				const expectedExpr = 'geo`Iraq`:(`IRAQ`)';
+				const expectedExpr = 'geo: (`Iraq`:`IRAQ`)';
 				expect(searchService.query.removeSelect).toHaveBeenCalledWith(facetName);
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, facetName);
 			});
@@ -541,7 +543,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], items, {not: true});
 
 				// Then
-				const expectedExpr = 'NOT (geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`))))';
+				const expectedExpr = 'NOT (geo: (`Iraq`:`IRAQ` OR `Guantanamo`:`GUANTANAMO`))';
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, 'Geo');
 			});
 
@@ -554,7 +556,7 @@ describe("FacetService", () => {
 				service.addFilter('Geo', aggregation["geo"], items, {and: true});
 
 				// Then
-				const expectedExpr = 'geo:((`Iraq`:(`IRAQ`)) AND (`Guantanamo`:(`GUANTANAMO`)))';
+				const expectedExpr = 'geo: (`Iraq`:`IRAQ` AND `Guantanamo`:`GUANTANAMO`)';
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, 'Geo');
 			});
 
@@ -631,24 +633,24 @@ describe("FacetService", () => {
 				service.removeFilter('Geo', aggregation["geo"], aggregation["geo"].items![2]); // IOWA
 
 				// Then
-				const expectedExpr = 'NOT (geo:((`Iraq`:(`IRAQ`)) OR (`Guantanamo`:(`GUANTANAMO`))))';
+				const expectedExpr = 'NOT (geo: (`Iraq`:`IRAQ` OR `Guantanamo`:`GUANTANAMO`))';
 				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(0, {expression: expectedExpr, facet: "Geo"});
 				expect(searchService.query.removeSelect).not.toHaveBeenCalledWith(0);
 			});
 
 		});
 
-		describe("makeFacetExpr", () => {
+		describe("makeAggregationExpr", () => {
 
 			it("should returns an Expr", () => {
 				// Given
 				const item: AggregationItem = {count: 0, value: 'IRAQ', display: 'Iraq'}
 
 				// When
-				const expr = FacetService['makeFacetExpr'](aggregation["geo"], item);
+				const expr = exprBuilder.makeAggregationExpr(aggregation["geo"], item);
 
 				// Then
-				expect(expr).toEqual("geo`Iraq`:(`IRAQ`)");
+				expect(expr).toEqual("geo: (`Iraq`:`IRAQ`)");
 			});
 
 			it("should returns an Expr when flag valuesAreExpressions is true", () => {
@@ -658,7 +660,7 @@ describe("FacetService", () => {
 				const item: AggregationItem = aggregation["size"].items![0];
 
 				// When
-				const expr = FacetService['makeFacetExpr'](aggregation["size"], item);
+				const expr = exprBuilder.makeAggregationExpr(aggregation["size"], item);
 
 				// Then
 				expect(expr).toEqual("size`< 10 Ko`:(>= 0 AND < 10240)");

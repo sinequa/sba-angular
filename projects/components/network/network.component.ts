@@ -3,7 +3,7 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Subscription, combineLatest } from 'rxjs';
 
 import { Results } from '@sinequa/core/web-services';
-import { AppService } from '@sinequa/core/app-utils';
+import { AppService, ExprBuilder } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { UserPreferences } from '@sinequa/components/user-settings';
 import { AbstractFacet } from '@sinequa/components/facet';
@@ -86,7 +86,8 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         public appService: AppService,
         public intlService: IntlService,
         public formBuilder: FormBuilder,
-        public prefs: UserPreferences
+        public prefs: UserPreferences,
+        public exprBuilder: ExprBuilder
     ) {
         super();
 
@@ -128,6 +129,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
             appService: appService,
             networkService: networkService,
             intlService: intlService,
+            exprBuilder: exprBuilder,
             select: (node?: Node, edge?: Edge) => this.select(node, edge),
         };
     }

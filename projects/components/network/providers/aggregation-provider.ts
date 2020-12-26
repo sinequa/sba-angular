@@ -89,7 +89,7 @@ export class AggregationProvider extends BaseProvider {
         });
 
         if(sourceNode && sourceNode.type.field) {
-            query.addSelect(sourceNode.type.field + ":=`"+ this.getNodeValue(sourceNode) +"`");
+            query.addSelect(this.context.exprBuilder.makeExpr(sourceNode.type.field, this.getNodeValue(sourceNode)));
         }
 
         Object.keys(query.aggregations).forEach(aggregation => {

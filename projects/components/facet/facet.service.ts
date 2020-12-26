@@ -4,7 +4,7 @@ import {UserSettingsWebService, UserSettings, Suggestion,
     AuditEvents, EngineType
 } from "@sinequa/core/web-services";
 import {IntlService} from "@sinequa/core/intl";
-import {Query, AppService, FormatService, ValueItem, Expr, ExprParser} from "@sinequa/core/app-utils";
+import {Query, AppService, FormatService, ExprBuilder, Expr, ExprParser} from "@sinequa/core/app-utils";
 import {FieldValue, Utils} from "@sinequa/core/base";
 import {Subject, Observable} from "rxjs";
 import {map} from "rxjs/operators";
@@ -69,18 +69,19 @@ export const DEFAULT_FACETS = new InjectionToken<FacetState[]>('DEFAULT_FACETS')
 })
 export class FacetService {
 
-    private readonly _events = new Subject<FacetChangeEvent>();
-    private readonly _changes = new Subject<FacetChangeEvent>();
+    protected readonly _events = new Subject<FacetChangeEvent>();
+    protected readonly _changes = new Subject<FacetChangeEvent>();
 
     constructor(
-        private userSettingsService: UserSettingsWebService,
-        private searchService: SearchService,
-        private suggestService: SuggestService,
-        private appService: AppService,
-        private intlService: IntlService,
-        private formatService: FormatService,
-        @Optional() @Inject(ALL_FACETS) private allFacets: any[],
-        @Optional() @Inject(DEFAULT_FACETS) private defaultFacets: FacetState[]){
+        protected userSettingsService: UserSettingsWebService,
+        protected searchService: SearchService,
+        protected suggestService: SuggestService,
+        protected appService: AppService,
+        protected intlService: IntlService,
+        protected formatService: FormatService,
+        protected exprBuilder: ExprBuilder,
+        @Optional() @Inject(ALL_FACETS) protected allFacets: any[],
+        @Optional() @Inject(DEFAULT_FACETS) protected defaultFacets: FacetState[]){
 
         // Listen to the user settings
         this.userSettingsService.events.subscribe(event => {
@@ -145,7 +146,7 @@ export class FacetService {
         return !!this.facets.find(f => f.name === facetName);
     }
 
-    private facetIndex(name: string): number {
+    protected facetIndex(name: string): number {
         for (let i = 0, ic = this.facets.length; i < ic; i++) {
             const facet = this.facets[i];
             if (facet && facet.name === name) {
@@ -202,7 +203,7 @@ export class FacetService {
      * @param auditEvents : Audit Events to be triggered
      * @returns an Observable which can be used to trigger further events
      */
-    private patchFacets(auditEvents?: AuditEvents) {
+    protected patchFacets(auditEvents?: AuditEvents) {
         return this.userSettingsService.patch({facets: this.facets} as UserSettings, auditEvents)
             .subscribe(
                 next => {
@@ -278,15 +279,20 @@ export class FacetService {
                 // MUST reset $excluded property otherwise expression is misunderstood
                 _items.forEach(item => item.$excluded = undefined);
                 // overrides options settings with expression if any
-                options = {and: options.and || expr.and, not: options.not || expr.not};
-                const _expr = this.makeExpr(facetName, aggregation, _items, options);
+                let _expr = this.exprBuilder.makeAggregationExpr(aggregation, _items, options.and || expr.and);
+                if (options.not || expr.not) {
+                    _expr = this.exprBuilder.makeNotExpr(_expr);
+                }
                 if (_expr) {
                     this.searchService.query.replaceSelect(index, {expression: _expr, facet: facetName});
                     return;
                 }
             }
         }
-        const expr = this.makeExpr(facetName, aggregation, items, options);
+        let expr = this.exprBuilder.makeAggregationExpr(aggregation, items, options.and);
+        if (options.not) {
+            expr = this.exprBuilder.makeNotExpr(expr);
+        }
         if (expr) this.searchService.query.addSelect(expr, facetName);
     }
 
@@ -327,7 +333,7 @@ export class FacetService {
      */
     public removeFilter(facetName: string, aggregation: Aggregation, item: AggregationItem){
         if (this.searchService.breadcrumbs) {
-            const filterExpr = this.findItemFilter(facetName, aggregation, item) || this.appService.parseExpr(this.makeExpr(facetName, aggregation, item) || '');
+            const filterExpr = this.findItemFilter(facetName, aggregation, item) || this.appService.parseExpr(this.exprBuilder.makeAggregationExpr(aggregation, item));
             const expr = this.searchService.breadcrumbs.findSelect(facetName, filterExpr);
             const i = this.searchService.breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === expr || select.expr === expr?.parent));
 
@@ -344,7 +350,10 @@ export class FacetService {
                 // MUST reset $excluded property otherwise expression is misunderstood (mainly NOT expressions)
                 items.forEach(item => item.$excluded = undefined);
                 const {not, and} = this.searchService.breadcrumbs.selects[i].expr || {};
-                const _expr = this.makeExpr(facetName, aggregation, items, {not, and});
+                let _expr = this.exprBuilder.makeAggregationExpr(aggregation, items, and);
+                if (not) {
+                    _expr = this.exprBuilder.makeNotExpr(_expr);
+                }
                 if (_expr) this.searchService.query.replaceSelect(i, {expression: _expr, facet: facetName});
             } else {
                 // filter is a single value... remove it
@@ -525,7 +534,7 @@ export class FacetService {
         return !!this.findItemFilter(facetName, aggregation, item);
     }
 
-    private findItemFilter(facetName: string, aggregation: Aggregation, item: AggregationItem) : Expr | undefined {
+    protected findItemFilter(facetName: string, aggregation: Aggregation, item: AggregationItem) : Expr | undefined {
         let expr: Expr | undefined;
         let exprText: string;
         if (!aggregation.valuesAreExpressions) {
@@ -563,7 +572,7 @@ export class FacetService {
      * @param expandPaths
      * @param levelCallback
      */
-    private initTreeNodes(facetName: string, aggregation: Aggregation,
+    protected initTreeNodes(facetName: string, aggregation: Aggregation,
         root: string, children: TreeAggregationNode[],
         expandPaths?: string[],
         levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, selected?: boolean) => void
@@ -621,7 +630,7 @@ export class FacetService {
         }
     }
 
-    private setColumn(aggregation: Aggregation){
+    protected setColumn(aggregation: Aggregation){
         if(!aggregation.isTree && aggregation.items){
             const column = this.appService.getColumn(aggregation.column);
             aggregation.items.forEach((value) => value.$column = column);
@@ -632,91 +641,12 @@ export class FacetService {
 
     // static methods
 
-    /**
-     * Create an Expression to filter or exclude an item in a facet
-     * @param aggregation the Aggregation to which the item belong
-     * @param item the filtered/excluded item (might be a tree item)
-     * @param label an optional label to display the value (by default will have none)
-     */
-    private static makeFacetExpr(
-        aggregation: Aggregation,
-        item: AggregationItem | TreeAggregationNode,
-        excludeField?: boolean,
-        label?: string): string {
 
-        let expr: string;
-        if (aggregation.valuesAreExpressions) {
-            expr = <string>item.value;
-        }
-        else {
-            let valueItem: ValueItem = item;
-            let displayObj: {label?: string, display?: string} | undefined;
-            if (label) {
-                displayObj = {
-                    label: label,
-                    display: item.display
-                };
-            }
-            if (aggregation.isTree) {
-                let display: string;
-                if (displayObj) {
-                    displayObj.display = displayObj.display || <string>item.value;
-                    display = Utils.toJson(displayObj);
-                }
-                else {
-                    display = item.display || <string>item.value;
-                }
-                valueItem = {
-                    value: (item as TreeAggregationNode).$path + "*",
-                    display: display
-                };
-            }
-            else {
-                if (displayObj) {
-                    valueItem = {
-                        value: item.value,
-                        display: Utils.toJson(displayObj)
-                    };
-                }
-            }
-            expr = this.makeFilterExpr(excludeField? "" : aggregation.column, valueItem);
-        }
-        if (item.$excluded) {
-            expr = "NOT (" + expr + ")";
-        }
-        return expr;
-    }
-
-    // Copied from Search service
-    private static makeFilterExpr(field: string, valueItem: ValueItem): string {
-        let haveField = false;
-        const sb: string[] = [];
-        if (field) {
-            sb.push(field);
-            haveField = true;
-        }
-        if (valueItem.display) {
-            let display = valueItem.display;
-            if (Utils.isDate(display)) { // ES-7785
-                display = Utils.toSysDateStr(display);
-            }
-            sb.push(ExprParser.escape(display));
-            haveField = true;
-        }
-        if (haveField) {
-            sb.push(":(", ExprParser.escape(Utils.toSqlValue(valueItem.value)), ")");
-        }
-        else {
-            sb.push(ExprParser.escape(Utils.toSqlValue(valueItem.value)));
-        }
-        return sb.join("");
-    }
-
-    private static getChildrenCount(node: TreeAggregationNode): number {
+    protected static getChildrenCount(node: TreeAggregationNode): number {
         return !!node.items ? node.items.length : node.hasChildren ? -1 : 0;
     }
 
-    private static splitTreepath(path: string): string[] {
+    protected static splitTreepath(path: string): string[] {
         if (!path) return [];
         path = path.trim();
         if (path.length > 0 && path[0] === "/") {
@@ -731,13 +661,6 @@ export class FacetService {
         return path.split("/");
     }
 
-    /*private static treepathDepth(path: string): number {
-        let names = FacetService.splitTreepath(path);
-        if (!names) {
-            return 0;
-        }
-        return names.length;
-    }*/
 
     public static treepathLast(path: string): string {
         const parts = FacetService.splitTreepath(path);
@@ -747,26 +670,8 @@ export class FacetService {
         return parts[parts.length - 1];
     }
 
-    /*private static getTreePath(nodes: TreeAggregationNode[], node: TreeAggregationNode) {
-        let path: string = null;
-        FacetService.traverse(nodes, (lineage) => {
-            if (lineage) {
-                let _node = lineage[lineage.length - 1];
-                if (node === _node) {
-                    path = "/";
-                    for (let _node of lineage) {
-                        path = path + _node.value + "/";
-                    }
-                    console.log(path);
-                    return true; // stop
-                }
-            }
-            return false; // don't stop
-        });
-        return path;
-    }*/
 
-    private static traverse(nodes: TreeAggregationNode[], callback: (lineage: TreeAggregationNode[] | undefined) => boolean): boolean {
+    protected static traverse(nodes: TreeAggregationNode[], callback: (lineage: TreeAggregationNode[] | undefined) => boolean): boolean {
         if (!nodes || nodes.length === 0) {
             return false;
         }
@@ -802,7 +707,7 @@ export class FacetService {
         return false;
     }
 
-    private static getAggregationNode(nodes: TreeAggregationNode[], path: string): TreeAggregationNode | undefined {
+    protected static getAggregationNode(nodes: TreeAggregationNode[], path: string): TreeAggregationNode | undefined {
         if (!nodes || nodes.length === 0) {
             return undefined;
         }
@@ -829,79 +734,6 @@ export class FacetService {
         return node;
     }
 
-    /*private static compareFieldValues(a: FieldValue, b: FieldValue): number {
-        if (!a && !b) {
-            return 0;
-        }
-        if (!a) {
-            return -1;
-        }
-        if (!b) {
-            return 1;
-        }
-        if (Utils.isNumber(a) && Utils.isNumber(b)) {
-            return a - b;
-        }
-        if (Utils.isDate(a) && Utils.isDate(b)) {
-            return a.getTime() - b.getTime();
-        }
-        if (Utils.isBoolean(a) && Utils.isBoolean(b)) {
-            return (a ? 1 : 0) - (b ? 1 : 0);
-        }
-        return Utils.compare(String(a), String(b));
-    }*/
-
-    private makeExpr(
-        facetName: string,
-        aggregation: Aggregation,
-        items: AggregationItem | AggregationItem[],
-        options: AddFilterOptions = {}) :string | undefined {
-
-        let _exprs: string[] | undefined;
-        let _expr: string = "";
-        let addGlobalField = !aggregation.valuesAreExpressions;
-        if (Utils.isArray(items)) {
-            if (items.length === 0) {
-                return undefined;
-            }
-            addGlobalField = !aggregation.valuesAreExpressions && items.length > 1;
-            const excludeField = addGlobalField;
-            _exprs = items.map(value => FacetService.makeFacetExpr(aggregation, value, excludeField));
-            if (_exprs.length === 1) {
-                _expr = _exprs[0];
-            }
-        }
-        else {
-            _expr = FacetService.makeFacetExpr(aggregation, items as AggregationItem);
-        }
-        // SINGLE VALUE CASE
-        if (_expr) {
-            if(options.not) {
-                _expr = "NOT (" + _expr + ")";
-            }
-            return _expr;
-        }
-        // AND / OR
-        const operator = options.and ? " AND " : " OR ";
-        let expr = "";
-        if (_exprs) {
-            for (const _expr of _exprs) {
-                if (expr) {
-                    expr = expr + operator;
-                }
-                expr += "(" + _expr + ")";
-            }
-            expr = "(" + expr + ")";
-        }
-        if (addGlobalField) {
-            expr = aggregation.column + ":" + expr;
-        }
-
-        if(options.not) {
-            expr = "NOT (" + expr + ")";
-        }
-        return expr
-    }
 
     /**
      * Convert an Expression object or an Expression Array to their AggregationItem equivalent

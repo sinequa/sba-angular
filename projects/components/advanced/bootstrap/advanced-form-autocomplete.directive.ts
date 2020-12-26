@@ -2,20 +2,13 @@ import { Directive, Input, ElementRef } from "@angular/core";
 import { Autocomplete, SuggestService } from "@sinequa/components/autocomplete";
 import { UIService } from "@sinequa/components/utils";
 import { AppService } from "@sinequa/core/app-utils";
-import {
-    AdvancedSelect,
-    AdvancedRange,
-    AdvancedInput,
-    AdvancedCheckbox,
-    BasicAdvancedConfig,
-} from "../advanced.service";
 
 @Directive({
     // tslint:disable-next-line: directive-selector
     selector: "[sqAdvancedFormAutocomplete]",
 })
 export class BsAdvancedFormAutocomplete extends Autocomplete {
-    @Input() config : BasicAdvancedConfig | AdvancedSelect | AdvancedRange | AdvancedInput | AdvancedCheckbox;
+    @Input() field : string;
 
     constructor(
         elementRef: ElementRef,
@@ -43,7 +36,7 @@ export class BsAdvancedFormAutocomplete extends Autocomplete {
         if (value) {
             // If there is text, make a call to the suggest API
             this.processSuggests(
-                this.getSuggestsObs(value, [this.config.field])
+                this.getSuggestsObs(value, [this.field])
             );
         } else {
             // If empty input, restart autocomplete

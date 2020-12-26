@@ -42,7 +42,7 @@ export class ResultSource implements OnInit {
     }
 
     select(item){
-        if(this.searchService.addFieldSelect("treepath", item) !== 0) {
+        if(this.searchService.addFieldSelect("treepath", item)) {
             this.searchService.search();
         }
     }
