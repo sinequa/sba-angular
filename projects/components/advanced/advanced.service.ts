@@ -309,7 +309,7 @@ export class AdvancedService {
             }
         }
         // When expr is not defined, this simply removes the selection
-        this.setAdvancedSelect(query, field, expr);
+        this.setAdvancedSelect(field, expr, query);
     }
 
     /**
@@ -331,7 +331,7 @@ export class AdvancedService {
             expr = this.exprBuilder.makeBooleanExpr(field, value);
         }
         // When expr is not defined, this simply removes the selection
-        this.setAdvancedSelect(query, field, expr);
+        this.setAdvancedSelect(field, expr, query);
     }
 
     /**
@@ -357,7 +357,7 @@ export class AdvancedService {
             expr = this.exprBuilder.makeNumericalExpr(field, operator, value);
         }
         // When expr is not defined, this simply removes the selection
-        this.setAdvancedSelect(query, field, expr);
+        this.setAdvancedSelect(field, expr, query);
     }
 
     /**
@@ -385,7 +385,7 @@ export class AdvancedService {
             }
         }
         // When expr is not defined, this simply removes the selection
-        this.setAdvancedSelect(query, field, expr);
+        this.setAdvancedSelect(field, expr, query);
     }
 
     /**
@@ -395,45 +395,14 @@ export class AdvancedService {
      * @param expr
      */
     protected setAdvancedSelect(
-        query = this.searchService.query,
         field: string,
-        expr: string | undefined
+        expr: string | undefined,
+        query = this.searchService.query
     ) {
         query.removeSelect(advancedFacetPrefix + field);
         if (expr) {
             query.addSelect(expr, advancedFacetPrefix + field);
         }
-    }
-
-    /**
-     * Transforms an AdvancedValue into a parsed ValueItem[]
-     * @param value
-     * @param field
-     */
-    protected asValueItems(
-        value: ValueItem | ValueItem[],
-        field: string
-    ): ValueItem[] {
-        if (this._isValueItemArray(value)) {
-            return value.map((val) => ({
-                value: this.parse(val.value, field) as
-                    | string
-                    | Date
-                    | number
-                    | boolean,
-                display: val.display,
-            }));
-        }
-        return [
-            {
-                value: this.parse(value.value, field) as
-                    | string
-                    | Date
-                    | number
-                    | boolean,
-                display: value.display,
-            },
-        ];
     }
 
     /**
@@ -473,6 +442,37 @@ export class AdvancedService {
         }
     }
 
+    /**
+     * Transforms a value to a parsed ValueItem[]
+     * @param value
+     * @param field
+     */
+    protected asValueItems(
+        value: ValueItem | ValueItem[],
+        field: string
+    ): ValueItem[] {
+        if (this._isValueItemArray(value)) {
+            return value.map((val) => ({
+                value: this.parse(val.value, field) as
+                    | string
+                    | Date
+                    | number
+                    | boolean,
+                display: val.display,
+            }));
+        }
+        return [
+            {
+                value: this.parse(value.value, field) as
+                    | string
+                    | Date
+                    | number
+                    | boolean,
+                display: value.display,
+            },
+        ];
+    }
+
     public formatValueItems(
         field: string,
         value: ValueItem | ValueItem[]
@@ -488,7 +488,7 @@ export class AdvancedService {
      * @param field
      * @param value
      */
-    public formatValueItem(field: string, value: ValueItem): ValueItem {
+    protected formatValueItem(field: string, value: ValueItem): ValueItem {
         const column = this.appService.getColumn(field);
         if (column) {
             value.display = (this.formatBaseAdvancedValue(
