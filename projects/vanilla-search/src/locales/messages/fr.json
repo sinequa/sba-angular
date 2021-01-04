@@ -22,15 +22,7 @@
         "off": "Désactivée",
         "simple": "Simple",
         "simpleTitle": "Mode graphique affichant les filtres sélectionnés sous forme de badges",
-        "advancedTitle": "Mode textuel permettant d'utiliser des expressions de recherche telles que \"geo: Paris OR company: Sinequa\"",
-        "labels": {
-          "treepath": "Sources",
-          "docformat": "Extensions du fichier",
-          "authors": "Auteurs",
-          "size": "Taille (De/À)",
-          "modified": "Date (De/À)",
-          "person": "Personnes"
-        }
+        "advancedTitle": "Mode textuel permettant d'utiliser des expressions de recherche telles que \"geo: Paris OR company: Sinequa\""
     },
 
     "baskets": {

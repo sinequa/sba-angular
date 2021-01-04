@@ -184,7 +184,8 @@ export class BaseProvider implements NetworkProvider {
                 icon: "fas fa-filter",
                 title: this.context.intlService.formatMessage("msg#network.actions.filterSearch", {label: node.label}),
                 action: () => {
-                    node.context.searchService.query.addSelect(node.type.field! + "`"+ node.label + "`:`"+this.getNodeValue(node)+"`", node.context.name);
+                    const expr = this.context.exprBuilder.makeExpr(node.type.field!, this.getNodeValue(node), node.label);
+                    node.context.searchService.query.addSelect(expr, node.context.name);
                     node.context.searchService.search();
                 }
             }));
@@ -209,7 +210,8 @@ export class BaseProvider implements NetworkProvider {
                     icon: "fas fa-filter",
                     title: this.context.intlService.formatMessage("msg#network.actions.filterSearch", {label: edge.fieldValue}),
                     action: () => {
-                        edge.context.searchService.query.addSelect(edge.type.field + ":`"+edge.fieldValue+"`", edge.context.name);
+                        const expr = this.context.exprBuilder.makeExpr(edge.type.field!, edge.fieldValue!);
+                        edge.context.searchService.query.addSelect(expr, edge.context.name);
                         edge.context.searchService.search();
                     }
                 }));
@@ -219,7 +221,10 @@ export class BaseProvider implements NetworkProvider {
                     icon: "fas fa-filter",
                     title: this.context.intlService.formatMessage("msg#network.actions.filterSearch2", {label1: nodeFrom.label, label2: nodeTo.label}),
                     action: () => {
-                        edge.context.searchService.query.addSelect(nodeFrom.type.field + "`"+ nodeFrom.label + "`:`"+this.getNodeValue(nodeFrom)+"` AND " + nodeTo.type.field + "`"+ nodeTo.label + "`:`"+this.getNodeValue(nodeTo)+"`", edge.context.name);
+                        const exprFrom = this.context.exprBuilder.makeExpr(nodeFrom.type.field!, this.getNodeValue(nodeFrom), nodeFrom.label);
+                        const exprTo = this.context.exprBuilder.makeExpr(nodeTo.type.field!, this.getNodeValue(nodeTo), nodeTo.label);
+                        const expr = this.context.exprBuilder.concatAndExpr([exprFrom, exprTo]);
+                        edge.context.searchService.query.addSelect(expr, edge.context.name);
                         edge.context.searchService.search();
                     }
                 }));

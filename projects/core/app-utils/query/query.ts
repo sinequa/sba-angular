@@ -112,6 +112,10 @@ export class Query implements IQuery {
                 const _select = this.select[i];
                 if (Utils.eqNC(_select.facet, indexOrFacet)) {
                     this.select.splice(i, 1);
+                    if (this.select.length === 0) {
+                        delete this.select; // Clean the query if no more select
+                        return;
+                    }
                     if (!all) {
                         return;
                     }

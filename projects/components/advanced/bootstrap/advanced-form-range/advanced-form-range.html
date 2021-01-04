@@ -3,14 +3,14 @@
     <div *ngIf="!isDate"
         class="sq-advanced-form-range form-row"
         sqAdvancedFormValidation
-        [config]="config"
+        [field]="field"
         [validationForm]="form"
-        [id]="name">
+        [id]="field">
         <div class="col-auto d-flex flex-column">
             <input
                 sqAdvancedFormAutocomplete
-                [config]="config"
-                [off]="!autocompleteEnabled"
+                [field]="field"
+                [off]="!suggestQuery"
                 [suggestQuery]="suggestQuery"
                 [dropdown]="dropdown1"
                 type="text"
@@ -31,9 +31,9 @@
         <div class="col-auto d-flex flex-column">
             <input
                 sqAdvancedFormAutocomplete
-                [config]="config"
+                [field]="field"
                 [suggestQuery]="suggestQuery"
-                [off]="!autocompleteEnabled"
+                [off]="!suggestQuery"
                 [dropdown]="dropdown2"
                 type="text"
                 autocomplete="off"
@@ -51,11 +51,11 @@
         </div>
     </div>
     <sq-date-range-picker *ngIf="isDate"
-        [options]="{name: name, system: false, closedRange: false, minDate: minDate, maxDate: maxDate}"
-        [formControlName]="name"
-        [id]="name"
+        [options]="{name: field, system: false, closedRange: false, minDate: minDate, maxDate: maxDate}"
+        [formControlName]="field"
+        [id]="field"
         sqAdvancedFormValidation
-        [config]="config"
+        [field]="field"
         [validationForm]="form">
     </sq-date-range-picker>
 </div>

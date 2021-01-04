@@ -44,6 +44,7 @@ export interface Alert {
     active: boolean;
     combine: boolean;
     respectTabSelection: boolean;
+    appQueryUrl?: string; // the URL reference the query of the Alert in the SBA.
 }
 
 // from core/models/audit
@@ -110,7 +111,7 @@ export interface AlertComponents {
     manageAlertsModal: Type<any>;
 }
 export const ALERT_COMPONENTS = new InjectionToken<AlertComponents>('ALERT_COMPONENTS');
-
+export const WINDOW = new InjectionToken('WindowToken');
 
 @Injectable({
     providedIn: 'root',
@@ -124,7 +125,8 @@ export class AlertsService implements OnDestroy {
         public userSettingsService: UserSettingsWebService,
         public searchService: SearchService,
         public modalService: ModalService,
-        @Inject(ALERT_COMPONENTS) public alertComponents: AlertComponents
+        @Inject(ALERT_COMPONENTS) public alertComponents: AlertComponents,
+        @Inject(WINDOW) private window : Window
     ){
         // Listen to the user settings
         this.userSettingsService.events.subscribe(event => {
@@ -364,6 +366,7 @@ export class AlertsService implements OnDestroy {
             combine: true,
             respectTabSelection: false
         };
+        const queryUrl = this.window.location.href;
         return this.modalService.open(this.alertComponents.editAlertModal, {model: alert})
             .then((result) => {
                 if (result === ModalResult.OK) {
@@ -374,12 +377,14 @@ export class AlertsService implements OnDestroy {
                         return this.modalService.yesNo("msg#alerts.alertAlreadyExists")
                             .then((result) => {
                                 if (result === ModalResult.Yes) {
+                                    alert.appQueryUrl = queryUrl;
                                     return this.updateAlert(alert, index);
                                 }
                                 return false;
                             });
 
                     } else {
+                        alert.appQueryUrl = queryUrl;
                         return this.createAlert(alert);
                     }
                 }
@@ -397,7 +402,7 @@ export class AlertsService implements OnDestroy {
     public editAlertModal(alert: Alert, noUpdate?: boolean) : Promise<boolean> {
 
         const prevName = alert.name;
-
+        const queryUrl = this.window.location.href;
         return this.modalService.open(this.alertComponents.editAlertModal, {model: alert})
             .then((result) => {
 
@@ -418,6 +423,7 @@ export class AlertsService implements OnDestroy {
                                     if (prevAlert) {
                                         this.deleteAlert(prevAlert); // Remove the alert with old name
                                     }
+                                    alert.appQueryUrl = queryUrl;
                                     return this.updateAlert(alert, this.alertIndex(alert.name)); // Update the alert with new name (index might have changed due to delete of old name)
                                 }
                                 return false;
@@ -425,6 +431,7 @@ export class AlertsService implements OnDestroy {
 
                     } else {
 
+                        alert.appQueryUrl = queryUrl;
                         return this.updateAlert(alert, prevIndex); // Update this alert
 
                     }
