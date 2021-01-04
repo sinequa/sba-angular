@@ -74,6 +74,7 @@ export class BsAdvancedFormAutocompleteMultiInput extends BsAdvancedFormAutocomp
         if (!!this.getInputValue() && this.getInputValue() !== "") {
             this.setAutocompleteItem({
                 display: this.getInputValue(),
+                normalized: this.getInputValue(),
                 category: "",
             });
         }

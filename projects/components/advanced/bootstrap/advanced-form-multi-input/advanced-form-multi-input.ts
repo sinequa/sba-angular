@@ -3,7 +3,7 @@ import { FormGroup, AbstractControl } from "@angular/forms";
 import { Keys, Utils } from "@sinequa/core/base";
 import { AutocompleteItem } from "@sinequa/components/autocomplete";
 import { Subscription } from "rxjs";
-import { AppService } from '@sinequa/core/app-utils';
+import { AppService, ValueItem } from '@sinequa/core/app-utils';
 
 /**
  * Component representing a text input that accepts multiple entries.
@@ -23,9 +23,9 @@ export class BsAdvancedFormMultiInput implements OnChanges, OnDestroy {
 
     items: AutocompleteItem[] = []; /** List of items already existing in the advanced search */
     private _valueChangesSubscription: Subscription;
-    
+
     control: AbstractControl | null;
-    
+
     constructor(
         private elementRef: ElementRef,
         public appService: AppService) {}
@@ -38,14 +38,15 @@ export class BsAdvancedFormMultiInput implements OnChanges, OnDestroy {
         if (this.control) {
             this.items = this.control.value
                 ? (Utils.isArray(this.control.value)
-                      ? this.control.value
-                      : [this.control.value]
-                  ).map((item) => {
-                      return {
-                          display: item,
-                          category: "",
-                      };
-                  })
+                        ? this.control.value
+                        : [this.control.value]
+                    ).map((item: ValueItem) => {
+                        return {
+                            display: item.display ? item.display : item.value.toString(),
+                            normalized: item.value.toString(),
+                            category: "",
+                        };
+                    })
                 : [];
 
             this._valueChangesSubscription = Utils.subscribe(
@@ -55,12 +56,13 @@ export class BsAdvancedFormMultiInput implements OnChanges, OnDestroy {
                         value = [value];
                     }
                     this.items = value
-                        ? value.map((item) => {
-                              return {
-                                  display: item,
-                                  category: "",
-                              };
-                          })
+                        ? value.map((item: ValueItem) => {
+                                return {
+                                    display: item.display ? item.display : item.value.toString(),
+                                    normalized: item.value.toString(),
+                                    category: "",
+                                };
+                            })
                         : [];
                 }
             );
@@ -109,8 +111,16 @@ export class BsAdvancedFormMultiInput implements OnChanges, OnDestroy {
     }
 
     private _updateControl(): void {
+        const value = this.items.length > 0
+            ? this.items.map((item) => (
+                {
+                    value: item.normalized!,
+                    display: item.display
+                }
+            ))
+            : undefined
         this.control?.markAsDirty();
-        this.control?.setValue(this.items.map((item) => item.display));
+        this.control?.setValue(value, {emitEvent: false});
     }
 
     private _getDropdownItem(): HTMLElement | null {

@@ -17,7 +17,6 @@ import { AppService } from "@sinequa/core/app-utils";
 export class BsAdvancedFormRange implements OnInit, OnDestroy {
     @Input() form: FormGroup;
     @Input() field: string;
-    @Input() suggestQuery: string;
     @Input() min: Date | number | string;
     @Input() max: Date | number | string;
     @Input() label: string;
