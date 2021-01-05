@@ -58,6 +58,7 @@ export const enum AuditEventType {
     Search_Selection_ExportCSV = "Search_Selection_ExportCSV",
     Search_AlertQuery = "Search_AlertQuery",
     Search_Select_AnalyticsItem = "Search_Select_AnalyticsItem",
+    Search_Sort = "Search_Sort",
 
     SavedQuery_Add = "SavedQuery_Add",
     SavedQuery_Delete = "SavedQuery_Delete",
