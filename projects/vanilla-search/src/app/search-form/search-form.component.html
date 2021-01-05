@@ -30,7 +30,8 @@
                     [excludedFields]="['concepts','textlexicon','recent-query','saved-query','basket','recent-document']"
 
                     (submit)="search()"
-                    (parse)="onParse($event)">
+                    (parse)="onParse($event)"
+                    (mousedown)="onMouseDown()">
             </div>
 
             <!-- Search buttons -->

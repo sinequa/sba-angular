@@ -1,7 +1,7 @@
 import { TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from '@angular/router/testing';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { AppService, FormatService, ExprValueInitializer, Expr } from "@sinequa/core/app-utils";
+import { AppService, FormatService, ExprValueInitializer, Expr, ExprOperandsInitializer } from "@sinequa/core/app-utils";
 
 import { SearchService } from "../search";
 import { AdvancedService } from "../advanced";
@@ -140,47 +140,54 @@ describe("AdvancedService", () => {
 
   describe("create advanced controls", () => {
     let spy;
-    let spyGetAdvanced;
+    let spyGetValue;
     let spyGetRange;
+    let spyGetBoolean;
     beforeEach(() => {
       spy = spyOn<any>(service, "createControl");
-      spyGetAdvanced = spyOn<any>(service, "getAdvancedValue");
+      spyGetValue = spyOn<any>(service, "getValue");
       spyGetRange = spyOn<any>(service, "getRangeValue");
+      spyGetBoolean = spyOn<any>(service, "getBooleanValue");
       searchService.query.select = [];
     });
 
     it("select-control", () => {
       service.createSelectControl("toto", []);
-      expect(spyGetAdvanced).toHaveBeenCalledWith("toto", searchService.query);
+      expect(spyGetValue).toHaveBeenCalledWith("toto", searchService.query);
       expect(spyGetRange).not.toHaveBeenCalled();
+      expect(spyGetBoolean).not.toHaveBeenCalled();
       expect(spy).toHaveBeenCalledWith(undefined, [], undefined);
     });
 
     it("range-control", () => {
       service.createRangeControl("toto");
-      expect(spyGetAdvanced).not.toHaveBeenCalled();
+      expect(spyGetValue).not.toHaveBeenCalled();
+      expect(spyGetBoolean).not.toHaveBeenCalled();
       expect(spyGetRange).toHaveBeenCalledWith("toto", searchService.query);
       expect(spy).toHaveBeenCalledWith(undefined, undefined, undefined);
     });
 
     it("input-control", () => {
       service.createInputControl("toto", []);
-      expect(spyGetAdvanced).toHaveBeenCalledWith("toto", searchService.query);
+      expect(spyGetValue).toHaveBeenCalledWith("toto", searchService.query);
       expect(spyGetRange).not.toHaveBeenCalled();
+      expect(spyGetBoolean).not.toHaveBeenCalled();
       expect(spy).toHaveBeenCalledWith(undefined, [], undefined);
     });
 
     it("multi-input-control", () => {
       service.createMultiInputControl("toto", undefined, []);
-      expect(spyGetAdvanced).toHaveBeenCalledWith("toto", searchService.query);
+      expect(spyGetValue).toHaveBeenCalledWith("toto", searchService.query);
       expect(spyGetRange).not.toHaveBeenCalled();
+      expect(spyGetBoolean).not.toHaveBeenCalled();
       expect(spy).toHaveBeenCalledWith(undefined, undefined, []);
     });
 
     it("checkbox-control", () => {
       service.createCheckboxControl("toto", []);
-      expect(spyGetAdvanced).toHaveBeenCalledWith("toto", searchService.query);
+      expect(spyGetValue).not.toHaveBeenCalled();
       expect(spyGetRange).not.toHaveBeenCalled();
+      expect(spyGetBoolean).toHaveBeenCalledWith("toto", searchService.query);
       expect(spy).toHaveBeenCalledWith(undefined, [], undefined);
     });
   });
@@ -190,12 +197,12 @@ describe("AdvancedService", () => {
     let spyQueryAction;
     beforeEach(() => {
       searchService.query.select = [
-        {expression: "treepath:[`Product`,`web`]", facet: "advanced_treepath"},
-        {expression: "authors:[`sinequa`]", facet: "advanced_authors"},
+        {expression: "treepath: (`Product`:`Product` OR `web`:`web`)", facet: "advanced_treepath"},
+        {expression: "authors: (`Sinequa`:`sinequa`)", facet: "advanced_authors"},
         {expression: "size:<=262144000", facet: "advanced_size"},
         {expression: "modified:[2020-12-01..2020-12-16]", facet: "advanced_modified"},
-        {expression: "person:[`Elon Musk`,`Bill Gates`]", facet: "advanced_person"},
-        {expression: "docformat:`htm`", facet: "advanced_docformat"}
+        {expression: "person: (`Bill Gates`:`BILL GATES` OR `Bill Clinton`:`BILL CLINTON`)", facet: "advanced_person"},
+        {expression: "docformat: (`htm`:`htm`)", facet: "advanced_docformat"}
       ];
       spy = spyOn(appService, 'parseExpr');
       spyQueryAction = spyOn(searchService.query, 'findSelect').and.callThrough();
@@ -207,33 +214,55 @@ describe("AdvancedService", () => {
 
     it("when defined filter for a mono-select and multi-select component", () => {
       // Case multi-select
-
-      const exprValueInitializer1: ExprValueInitializer = {
+      const op1 : ExprValueInitializer = {
         exprContext: {appService, formatService, intlService},
-        values: ["Product","web"],
+        values: ["Product"],
+        display: "Product",
+        value: "Product",
         field: "treepath",
-        operator: 10
+        operator: 0
+      }
+
+      const op2 : ExprValueInitializer = {
+        exprContext: {appService, formatService, intlService},
+        values: ["web"],
+        display: "web",
+        value: "web",
+        field: "treepath",
+        operator: 0
+      }
+
+      const exprOperandsInitializer1: ExprOperandsInitializer = {
+        exprContext: {appService, formatService, intlService},
+        op1: op1 as Expr,
+        op2: op2 as Expr,
+        field: "treepath",
+        and: false
       };
-      const expr1: Expr = new Expr(exprValueInitializer1);
+      const expr1: Expr = new Expr(exprOperandsInitializer1);
       spy.and.returnValue(expr1);
-      const value1 = service.getAdvancedValue("treepath");
+      const value1 = service.getValue("treepath");
 
       expect(spyQueryAction).toHaveBeenCalledWith("advanced_treepath");
-      expect(value1).toEqual(["Product","web"]);
+      expect(value1).toEqual([
+        {display: "Product",value: "Product"},
+        {display: "web",value: "web"}
+      ]);
 
       // Case mono-select
       const exprValueInitializer2: ExprValueInitializer = {
         exprContext: {appService, formatService, intlService},
         values: ["sinequa"],
+        display: "Sinequa",
         field: "authors",
-        operator: 10
+        operator: 0
       };
       const expr2: Expr = new Expr(exprValueInitializer2);
       spy.and.returnValue(expr2);
-      const value2 = service.getAdvancedValue("authors");
+      const value2 = service.getValue("authors");
 
       expect(spyQueryAction).toHaveBeenCalledWith("advanced_authors");
-      expect(value2).toEqual("sinequa");
+      expect(value2).toEqual({display: "Sinequa",value: "sinequa"});
     });
 
     it("when defined filter for a number/date range component", () => {
@@ -269,32 +298,54 @@ describe("AdvancedService", () => {
 
     it("when defined filter for a multi-input/input component", () => {
       // Case multi-input
-      const exprValueInitializer1: ExprValueInitializer = {
+      const op1 : ExprValueInitializer = {
         exprContext: {appService, formatService, intlService},
-        values: ["Elon Musk","Bill Gates"],
+        values: ["BILL GATES"],
+        display: "Bill Gates",
+        value: "BILL GATES",
         field: "person",
-        operator: 10
+        operator: 0
+      }
+
+      const op2 : ExprValueInitializer = {
+        exprContext: {appService, formatService, intlService},
+        values: ["BILL CLINTON"],
+        display: "Bill Clinton",
+        value: "BILL CLINTON",
+        field: "person",
+        operator: 0
+      }
+
+      const exprOperandsInitializer1: ExprOperandsInitializer = {
+        exprContext: {appService, formatService, intlService},
+        op1: op1 as Expr,
+        op2: op2 as Expr,
+        field: "person",
+        and: false
       };
-      const expr1: Expr = new Expr(exprValueInitializer1);
+      const expr1: Expr = new Expr(exprOperandsInitializer1);
       spy.and.returnValue(expr1);
-      const value1 = service.getAdvancedValue("person");
+      const value1 = service.getValue("person");
 
       expect(spyQueryAction).toHaveBeenCalledWith("advanced_person");
-      expect(value1).toEqual(["Elon Musk","Bill Gates"]);
+      expect(value1).toEqual([
+        {display: "Bill Gates",value: "BILL GATES"},
+        {display: "Bill Clinton",value: "BILL CLINTON"}
+      ]);
 
       // Case input
       const exprValueInitializer2: ExprValueInitializer = {
         exprContext: {appService, formatService, intlService},
         values: ["htm"],
         field: "docformat",
-        operator: 10
+        operator: 0
       };
       const expr2: Expr = new Expr(exprValueInitializer2);
       spy.and.returnValue(expr2);
-      const value2 = service.getAdvancedValue("docformat");
+      const value2 = service.getValue("docformat");
 
       expect(spyQueryAction).toHaveBeenCalledWith("advanced_docformat");
-      expect(value2).toEqual("htm");
+      expect(value2).toEqual({display: "htm",value: "htm"});
     });
 
     it("Undefined filter should also be processed", () => {
@@ -305,7 +356,7 @@ describe("AdvancedService", () => {
       expect(value1).toEqual([undefined,undefined]);
 
       // All other Cases: as example Select
-      const value2 = service.getAdvancedValue("toto");
+      const value2 = service.getValue("toto");
 
       expect(spyQueryAction).toHaveBeenCalledWith("advanced_toto");
       expect(value2).toEqual(undefined);
@@ -342,10 +393,13 @@ describe("AdvancedService", () => {
 
     it("from a (select/input/checkbox...) component", () => {
 
-      service.setSelect('treepath', ["Product","web"]);
+      service.setSelect('treepath', [
+        {display: "Product",value: "Product"},
+        {display: "web",value: "web"}
+      ]);
 
       expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_treepath");
-      expect(spyQueryAddAction).toHaveBeenCalledWith("treepath: (`Product` OR `web`)","advanced_treepath");
+      expect(spyQueryAddAction).toHaveBeenCalledWith("treepath: (`Product`:`Product` OR `web`:`web`)","advanced_treepath");
     });
 
     it("with undefined value", () => {
@@ -360,7 +414,7 @@ describe("AdvancedService", () => {
     let spyQueryRemoveAction;
     let spySearch;
     beforeEach(() => {
-      searchService.query.select = [{expression: "foo:[`toto`]", facet: "advanced_foo"}];
+      searchService.query.select = [{expression: "foo: (`toto`:`toto`)", facet: "advanced_foo"}];
       spySearch = spyOn(searchService, 'search').and.callThrough();
       spyQueryRemoveAction = spyOn(searchService.query, 'removeSelect').and.callThrough();
     });
@@ -382,7 +436,7 @@ describe("AdvancedService", () => {
       service.removeAdvancedValue("test");
 
       expect(spyQueryRemoveAction).toHaveBeenCalledWith("advanced_test");
-      expect(searchService.query.select).toEqual([{expression: "foo:[`toto`]", facet: "advanced_foo"}]);
+      expect(searchService.query.select).toEqual([{expression: "foo: (`toto`:`toto`)", facet: "advanced_foo"}]);
       expect(spySearch).toHaveBeenCalled();
     });
 
@@ -400,8 +454,8 @@ describe("AdvancedService", () => {
 
     beforeEach(() => {
       searchService.query.select = [
-        {expression: "foo:[`toto`]", facet: "advanced_foo"},
-        {expression: "test:[`titi`]", facet: "test"}
+        {expression: "foo: (`toto`:`toto`)", facet: "advanced_foo"},
+        {expression: "test: (`titi`:`titi`)", facet: "test"}
       ];
       spySearch = spyOn(searchService, 'search').and.callThrough();
     });
@@ -413,30 +467,17 @@ describe("AdvancedService", () => {
     it("then trigger new search", () => {
       service.resetAdvancedValues();
 
-      expect(searchService.query.select).toEqual([{expression: "test:[`titi`]", facet: "test"}]);
+      expect(searchService.query.select).toEqual([{expression: "test: (`titi`:`titi`)", facet: "test"}]);
       expect(spySearch).toHaveBeenCalled();
     });
 
     it("without triggering new search", () => {
       service.resetAdvancedValues(false);
 
-      expect(searchService.query.select).toEqual([{expression: "test:[`titi`]", facet: "test"}]);
+      expect(searchService.query.select).toEqual([{expression: "test: (`titi`:`titi`)", facet: "test"}]);
       expect(spySearch).not.toHaveBeenCalled();
     });
   });
-
-  describe("get advanced values as object from searchService.query", () => {
-    let spy;
-    beforeEach(() => {
-      spy = spyOn(appService, 'parseExpr');
-    });
-
-    afterEach(() => {
-      spy.calls.reset();
-    })
-
-  });
-
 
   describe("format an advanced value", () => {
     let spy;

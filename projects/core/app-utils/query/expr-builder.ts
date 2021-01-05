@@ -8,7 +8,7 @@ import { ExprParser } from './expr-parser';
     providedIn: 'root'
 })
 export class ExprBuilder {
-    
+
     /**
      * Make a standard selection expression
      * (resulting in a SQL clause like "company contains 'BOEING'")
@@ -19,6 +19,17 @@ export class ExprBuilder {
     makeExpr(field: string, value: string, display?: string): string {
         field = this.formatField(field, display);
         return `${field}: ${ExprParser.escape(value)}`; // company`Boeing`: BOEING
+    }
+
+    /**
+     * Make a boolean expression
+     * @param field Name of the field to select (eg. "toto")
+     * @param value Value of the field to select (eg. "true")
+     * @param display Optional string to display that value (eg. "True")
+     */
+    makeBooleanExpr(field: string, value: boolean, display?: string): string {
+        field = this.formatField(field, display);
+        return `${field}: ${ExprParser.escape(Utils.toSqlValue(value))}`; // toto`True`: true
     }
 
 
@@ -36,7 +47,7 @@ export class ExprBuilder {
         display?: string): string {
 
         field = this.formatField(field, display);
-        
+
         if(Utils.isString(value)) {
             value = ExprParser.escape(value);
         }
@@ -111,7 +122,7 @@ export class ExprBuilder {
         return `${field}: (${this.concatWithOperator(values, 'AND')})`; // company: (IBM AND APPLE AND GOOGLE)
     }
 
-    
+
     /**
      * Return an expression that selects multiple values for a field
      * (All values are ORed)
@@ -143,9 +154,9 @@ export class ExprBuilder {
     }
 
     /**
-     * Returns the negative expression of the given expression 
+     * Returns the negative expression of the given expression
      * eg. NOT(person:Bill GATES)
-     * @param expr 
+     * @param expr
      */
     makeNotExpr(expr: string): string {
         return `NOT (${expr})`;
@@ -154,7 +165,7 @@ export class ExprBuilder {
     /**
      * Returns an expression that is the union of given expressions
      * eg. person:Bill GATES OR company:MICROSOFT
-     * @param exprs 
+     * @param exprs
      */
     concatOrExpr(exprs: string[]): string {
         if (exprs.length <= 1) {
@@ -167,7 +178,7 @@ export class ExprBuilder {
     /**
      * Returns an expression that is the intersection of given expressions
      * eg. person:Bill GATES AND company:MICROSOFT
-     * @param exprs 
+     * @param exprs
      */
     concatAndExpr(exprs: string[]): string {
         if (exprs.length <= 1) {
@@ -215,8 +226,8 @@ export class ExprBuilder {
 
     /**
      * Combines the field with the optional display value(s)
-     * @param field 
-     * @param display 
+     * @param field
+     * @param display
      */
     private formatField(field: string, display?: string): string {
         if(display) {
@@ -228,8 +239,8 @@ export class ExprBuilder {
 
     /**
      * Return the AggregationItem list as a ValueItem list
-     * @param items 
-     * @param isTree 
+     * @param items
+     * @param isTree
      */
     private asValueItems(items: AggregationItem[], isTree?: boolean): ValueItem[] {
         if(isTree) {
