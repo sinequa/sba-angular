@@ -721,7 +721,16 @@ export class SearchService implements OnDestroy {
             if (page <= this.pageCount) {
                 this.fetchingLoadMore = true;
                 this.query.page = page;
-                this.getResults(this.query)
+
+                const auditEvents = this.makeAuditEvent({
+                    type: AuditEventType.Search_GotoPage,
+                    detail: {
+                        page: page,
+                        "from-result-id": !!this.results ? this.results.id : null
+                    }
+                })
+
+                this.getResults(this.query, auditEvents)
                 .subscribe(results => {
                     if(this.results && results) {
                         this.results.records = [...this.results?.records || [], ...results.records] || [];
