@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {Utils} from "@sinequa/core/base";
 import {AppService} from "@sinequa/core/app-utils";
-import {CCSortingChoice, Results} from "@sinequa/core/web-services";
+import {AuditEvent, AuditEventType, CCSortingChoice, Results} from "@sinequa/core/web-services";
 import {Action} from "@sinequa/components/action";
 import {SearchService} from "../../search.service";
 
@@ -51,7 +51,14 @@ export class BsSortSelector implements OnChanges {
     private selectSort(sortingChoice: CCSortingChoice) {
         this.setCurrentSort(sortingChoice.name);
         this.searchService.query.sort = sortingChoice.name;
-        this.searchService.search();
+        const audit: AuditEvent = {
+            type: AuditEventType.Search_Sort,
+            detail: {
+                sort: sortingChoice.name,
+                orderByClause: sortingChoice.orderByClause,
+            }
+        };
+        this.searchService.search(undefined, audit);
     }
 
     private buildSortAction() {
