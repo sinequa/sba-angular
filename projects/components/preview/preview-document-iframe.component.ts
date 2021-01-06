@@ -103,8 +103,8 @@ export class PreviewDocumentIframe implements OnChanges {
         if(simpleChanges.scalingFactor && !simpleChanges.scalingFactor.firstChange) {
             return;
         }
-        this.loading = true;
         if(this.downloadUrl) {
+            this.loading = true;
             this.sanitizedUrlSrc = this.downloadUrl;
         }
     }

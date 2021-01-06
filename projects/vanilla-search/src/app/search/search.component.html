@@ -130,7 +130,8 @@
                     [metadata]="metadata"
                     [expandModal]="false"
                     [customActions]="previewCustomActions"
-                    (recordClosed)="closeDocument()">
+                    (recordClosed)="closeDocument()"
+                    (previewLoaded)="previewReady($event)">
                 </sq-facet-preview-2>
             </sq-facet-card>
 
