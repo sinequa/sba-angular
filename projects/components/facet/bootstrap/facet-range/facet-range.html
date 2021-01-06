@@ -1,14 +1,13 @@
 <ng-container *ngIf="data">
     <div #slider class="card-body">
-        <ng5-slider *ngIf="sliderActive" [(value)]="value" [(highValue)]="highValue" [options]="options" [manualRefresh]="manualRefresh" (userChangeEnd)="onUserChangeEnd($event)"></ng5-slider>
+        <ng5-slider
+            *ngIf="sliderActive"
+            [(value)]="value"
+            [(highValue)]="highValue"
+            [options]="options"
+            [manualRefresh]="manualRefresh"
+            (userChangeEnd)="onUserChangeEnd($event)">
+        </ng5-slider>
         <span *ngIf="!sliderActive">{{'msg#facet.range.unavailable' | sqMessage}}</span>
-    </div>
-    <div *ngIf="rangeSelected || rangeActive" class="btn-toolbar sq-range-facet-toolbar">
-        <div *ngIf="rangeSelected" class="btn-group btn-group-sm sq-range-facet-apply">
-            <button class="btn btn-secondary btn-sm" (click)="applyRange()">{{'msg#facet.range.apply' | sqMessage}}</button>
-        </div>
-        <div *ngIf="rangeActive" class="btn-group btn-group-sm sq-range-facet-clear">
-            <button class="btn btn-secondary btn-sm" (click)="clearRange()">{{'msg#facet.range.clear' | sqMessage}}</button>
-        </div>
     </div>
 </ng-container>
