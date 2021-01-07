@@ -1,7 +1,9 @@
 <div class="form-group" [formGroup]="form">
     <label for="{{field}}">{{label | sqMessage}}</label>
     <sq-select
-        [options]="options"
+        [items]="items"
+        [multiple]="multiple"
+        [disabled]="disabled"
         [formControlName]="field"
         [id]="field"
         sqAdvancedFormValidation

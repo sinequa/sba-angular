@@ -9,7 +9,25 @@ import {Utils} from "@sinequa/core/base";
  */
 function isEmptyInputValue(value: any): boolean {
     // we don't check for string here so it also works with arrays
-    return value == null || value.length === 0;
+    return value === null || value === undefined || value.length === 0;
+}
+
+const processInputValue = (value: any) => { // add support for object values of the advanced search
+  if (Utils.isArray(value)) {
+    return value.map(
+      (val) => {
+        if (Utils.isObject(val) && val.hasOwnProperty("value")) {
+          return val.value;
+        }
+        return val;
+      }
+    )
+  } else {
+    if (Utils.isObject(value) && value.hasOwnProperty("value")) {
+      return [value.value];
+    }
+    return [value];
+  }
 }
 
 // Email regular expression, taken from built-in Angular validators.
@@ -133,12 +151,7 @@ export class ValidationService {
             }
 
             let values: any[] = [];
-            if (Utils.isArray(control.value)) {
-                values = control.value;
-            }
-            else {
-                values = [control.value];
-            }
+            values = processInputValue(control.value);
 
             for (const value of values) {
                 if (!regex.test(value)) {
@@ -162,12 +175,7 @@ export class ValidationService {
         }
 
         let values: any[] = [];
-        if (Utils.isArray(control.value)) {
-            values = control.value;
-        }
-        else {
-            values = [control.value];
-        }
+        values = processInputValue(control.value);
 
         for (const value of values) {
             if (!EMAIL_REGEXP.test(value)) {
@@ -247,13 +255,10 @@ export class ValidationService {
             if (isEmptyInputValue(control.value) || isEmptyInputValue(min)) {
                 return null;  // don't validate empty values to allow optional controls
             }
+
             let values: any[] = [];
-            if (Utils.isArray(control.value)) {
-                values = control.value;
-            }
-            else {
-                values = [control.value];
-            }
+            values = processInputValue(control.value);
+
             for (const value of values) {
                 if (!isEmptyInputValue(value)) {
                     let value1 = value;
@@ -306,12 +311,8 @@ export class ValidationService {
                 return null;  // don't validate empty values to allow optional controls
             }
             let values: any[] = [];
-            if (Utils.isArray(control.value)) {
-                values = control.value;
-            }
-            else {
-                values = [control.value];
-            }
+            values = processInputValue(control.value);
+
             for (const value of values) {
                 if (!isEmptyInputValue(value)) {
                     let value1 = value;
@@ -361,12 +362,8 @@ export class ValidationService {
                 return null;  // don't validate empty values to allow optional controls
             }
             let values: any[] = [];
-            if (Utils.isArray(control.value)) {
-                values = control.value;
-            }
-            else {
-                values = [control.value];
-            }
+            values = processInputValue(control.value);
+
             for (const value of values) {
                 if (!isEmptyInputValue(value)) {
                     let value1 = value;
@@ -395,12 +392,8 @@ export class ValidationService {
                 return null;  // don't validate empty values to allow optional controls
             }
             let values: any[] = [];
-            if (Utils.isArray(control.value)) {
-                values = control.value;
-            }
-            else {
-                values = [control.value];
-            }
+            values = processInputValue(control.value);
+
             for (const value of values) {
                 if (!isEmptyInputValue(value)) {
                     let value1 = value;
@@ -430,12 +423,8 @@ export class ValidationService {
                 return null;  // don't validate empty values to allow optional controls
             }
             let values: any[] = [];
-            if (Utils.isArray(control.value)) {
-                values = control.value;
-            }
-            else {
-                values = [control.value];
-            }
+            values = processInputValue(control.value);
+
             for (const value of values) {
                 if (!isEmptyInputValue(value)) {
                     if (Utils.isString(value)) {
