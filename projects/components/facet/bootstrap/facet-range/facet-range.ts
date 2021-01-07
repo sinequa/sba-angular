@@ -11,6 +11,7 @@ import {SearchService} from "@sinequa/components/search";
 import {UIService} from "@sinequa/components/utils";
 import {AbstractFacet} from "../../abstract-facet";
 import {AdvancedService} from "@sinequa/components/advanced";
+import { Action } from '@sinequa/components/action';
 
 export enum RoundTarget {
     number,
@@ -65,6 +66,8 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
     protected localeChange: Subscription;
     protected format: string;
 
+    clearFiltersAction: Action;
+    applyFiltersAction: Action;
     constructor(
         private facetService: FacetService,
         protected appService: AppService,
@@ -74,7 +77,20 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
         protected uiService: UIService,
         protected advancedService: AdvancedService,
         protected exprBuilder: ExprBuilder) {
-            super();
+
+        super();
+
+        this.clearFiltersAction = new Action({
+            icon: "far fa-minus-square",
+            title: "msg#facet.range.clear",
+            action: () => this.clearRange()
+        });
+
+        this.applyFiltersAction = new Action({
+            icon: "fas fa-filter",
+            title: "msg#facet.range.apply",
+            action: () => this.applyRange()
+        });
     }
 
     protected translate = (value: number, label: LabelType): string => {
@@ -463,7 +479,6 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
 
     onUserChangeEnd(changeContext: ChangeContext) {
         this.rangeSelected = this.value !== this.startValue || this.highValue !== this.startHighValue;
-        //console.log(`value: ${this.value}, nearest: ${this.roundNearest(this.value)}`);
     }
 
     getRange(): number[] | undefined[] {
@@ -471,7 +486,6 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
             let expr: Expr | string;
             let value;
             const expression = this.searchService.query?.findSelect(this.column.name)?.expression;
-
             if (expression) {
                 expr = this.appService.parseExpr(expression);
                 if (expr instanceof Expr) {
@@ -480,22 +494,6 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
                     } else {
                         value = expr.value;
                     }
-                    if (Utils.isArray(value)) {
-                        value =  value.map(
-                            (val) => val ? this.advancedService.castAdvancedValue(val, this.column) : val
-                        );
-                    } else {
-                        value = this.advancedService.castAdvancedValue(value, this.column)
-                    }
-                    if (this.column.formatter) {
-                        if (Utils.isArray(value)) {
-                            value =  value.map(
-                                (val) => val ? this.formatService.formatValue(val, this.column) : val
-                            );
-                        } else {
-                            value = this.formatService.formatValue(value, this.column)
-                        }
-                    }
                     if (!Utils.isArray(value)) {
                         if (expr.operator === ExprOperator.gte) {
                             value = [value, undefined];
@@ -503,26 +501,17 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
                             value = [undefined, value];
                         }
                     }
-                } else {
-                    value = [undefined, undefined];
-                }
-            } else {
-                value = [undefined, undefined];
-            }
-
-            if (Utils.isArray(value)) {
-                if (AppService.isDate(this.column)) {
                     value =  value.map(
-                        (val) => val ? new Date(val).getTime() : val
+                        (val) => val ? this.advancedService.castAdvancedValue(val, this.column) : val
                     );
-                } else {
-                    value =  value.map(
-                        (val) => val ? Utils.toNumber(val) : val
-                    );
+                    if (AppService.isDate(this.column)) {
+                        value =  value.map(
+                            (val) => val ? new Date(val).getTime() : val
+                        );
+                    }
+                    return value;
                 }
             }
-
-            return value;
         }
         return [undefined, undefined]
     }
@@ -532,10 +521,8 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
         let valTo;
         let expression: string | undefined;
         if (this.column) {
-            if (AppService.isDate(this.column)) {
-                valFrom = Utils.isNumber(from) ? new Date(from) : undefined;
-                valTo = Utils.isNumber(to) ? new Date(to) : undefined;
-            }
+            valFrom = AppService.isDate(this.column) && Utils.isNumber(from) ? new Date(from) : from;
+            valTo = AppService.isDate(this.column) && Utils.isNumber(to) ? new Date(to) : to;
             if (!!valFrom && !!valTo) {
                 expression = this.exprBuilder.makeRangeExpr(this.column.name, valFrom, valTo);
             } else if (!!valFrom) {
@@ -561,5 +548,16 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
     clearRange() {
         this.setRange(undefined, undefined);
         this.searchService.search();
+    }
+
+    get actions(): Action[] {
+        const actions: Action[] = [];
+        if(this.rangeSelected){
+            actions.push(this.applyFiltersAction);
+        }
+        if(this.rangeActive){
+          actions.push(this.clearFiltersAction);
+        }
+        return actions;
     }
 }

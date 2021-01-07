@@ -58,6 +58,7 @@ export const enum AuditEventType {
     Search_Selection_ExportCSV = "Search_Selection_ExportCSV",
     Search_AlertQuery = "Search_AlertQuery",
     Search_Select_AnalyticsItem = "Search_Select_AnalyticsItem",
+    Search_Sort = "Search_Sort",
 
     SavedQuery_Add = "SavedQuery_Add",
     SavedQuery_Delete = "SavedQuery_Delete",
@@ -200,6 +201,7 @@ export class AuditWebService extends HttpService {
             app: this.appName,
             "doc-id": doc.id,
             rank: doc.rank,
+            title: doc.title,
             source: Utils.treeFirstNode(doc.collection[0]),
             collection: doc.collection[0],
             "result-id": resultId,

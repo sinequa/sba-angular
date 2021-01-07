@@ -1,12 +1,7 @@
 import { Component, forwardRef, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Utils, NameValueArrayView, Keys } from "@sinequa/core/base";
-
-export interface SelectOptions {
-    items: NameValueArrayView<string, any>;
-    disabled?: boolean;
-    multiple?: boolean;
-}
+import { Utils, Keys } from "@sinequa/core/base";
+import { ValueItem } from '@sinequa/core/app-utils';
 
 @Component({
     selector: "sq-select",
@@ -18,9 +13,10 @@ export interface SelectOptions {
         }]
 })
 export class BsSelectComponent implements ControlValueAccessor, OnInit {
-    @Input() options: SelectOptions;
+    @Input() items: ValueItem[];
+    @Input() disabled: boolean;
+    @Input() multiple: boolean;
     @ViewChild("button", {static: false}) buttonElement: ElementRef;
-    disabled: boolean = false;
     opened: boolean = false;
     isOpen: boolean = false;
     activeItem: number = -1;
@@ -31,9 +27,11 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
 
     ngOnInit() {
         this.clearSelected();
-        this.disabled = !!this.options.disabled || this.options.items.length === 0; // disable an empty list
+        if (this.items.length === 0) {
+          this.disabled = false;
+        }
         this.names = [];
-        this.options.items.forEach(item => this.names.push(item.name));
+        this.items.forEach(item => this.names.push(item.display!));
     }
 
     setOpen(value: boolean): void {
@@ -84,7 +82,7 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
                 this.setOpen(true);
             }
             this.activeItem++;
-            if (this.activeItem >= this.options.items.length) {
+            if (this.activeItem >= this.items.length) {
                 this.activeItem = 0;
             }
             $event.preventDefault();
@@ -97,14 +95,14 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
             }
             this.activeItem--;
             if (this.activeItem < 0) {
-                this.activeItem = this.options.items.length - 1;
+                this.activeItem = this.items.length - 1;
             }
             $event.preventDefault();
             $event.stopPropagation();
         }
         // enter or space
         else if (($event.keyCode === Keys.enter || $event.keyCode === Keys.space) &&
-            this.activeItem >= 0 && this.activeItem < this.options.items.length) {
+            this.activeItem >= 0 && this.activeItem < this.items.length) {
             this.toggleItemSelected(this.activeItem);
             $event.preventDefault();
             $event.stopPropagation();
@@ -136,7 +134,7 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
             this.selectedItems.splice(idx, 1);
         }
         // regular case: just add the index, and update the active item if it exists
-        else if (this.options.multiple) {
+        else if (this.multiple) {
             this.selectedItems.push(itemIndex);
             if (this.activeItem >= 0)
                 this.activeItem = itemIndex;
@@ -164,16 +162,16 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
         if (selectCount === 0) {
             return "msg#advanced.select.noItems";
         }
-        if (!this.options.multiple) {
-            return this.options.items.getName(this.selectedItems[0]);
+        if (!this.multiple) {
+            return this.items[this.selectedItems[0]].display!;
         }
-        if (selectCount === this.options.items.length) {
+        if (selectCount === this.items.length) {
             return "msg#advanced.select.allItems";
         }
 
         //Get list of items names corresponding to selected indices
         return this.selectedItems
-            .map(index => this.options.items.getName(index))
+            .map(index => this.items[index].display!)
             .sort()
             .join(", ");
     }
@@ -187,18 +185,18 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
     /* Change event */
     private triggerOnChange() {
         // Gather selected item values
-        let values: any;
+        let values: ValueItem | ValueItem[] | undefined;
         // We can not pass an empty array, when empty use undefined instead
         if (this.selectedItems.length === 0) {
             values = undefined;
         }
         // return an array if multiple
-        else if (this.options.multiple) {
-            values = this.selectedItems.map(index => this.options.items.getValue(index));
+        else if (this.multiple) {
+            values = this.selectedItems.map(index => this.items[index]);
         }
         // directly pass the value if not multiple
         else {
-            values = this.options.items.getValue(this.selectedItems[0]);
+            values = this.items[this.selectedItems[0]];
         }
 
         this.onChangeCallback(values);
@@ -206,14 +204,14 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
     /* End Change event */
 
     /* ControlValueAccessor methods */
-    writeValue(value: any): void {
+    writeValue(value: ValueItem | ValueItem[]): void {
         this.clearSelected();
         if (value) {
             // the value may not be an array if this select is not multiple
             const asArray = Array.isArray(value) ? value : [value];
             //Mark items as selected based on input values
-            this.options.items.forEach((item, index) => {
-                if (asArray.includes(item.value) && index !== undefined) {
+            this.items.forEach((item, index) => {
+                if (asArray.find((el) => el.value === item.value) && index !== undefined) {
                     this.selectedItems.push(index);
                 }
             });
