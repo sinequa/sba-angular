@@ -115,7 +115,7 @@ describe("FacetService", () => {
 			it("should trigger an event", () => {
 				// Given
 				const items = aggregation["geo"].items![0];
-				spyOn(service, 'addFilter');
+				spyOn(service, 'addFilter').and.returnValue(true);
 				spyOn(service.events, 'next');
 
 				// When
@@ -124,6 +124,20 @@ describe("FacetService", () => {
 				// Then
 				expect(service.addFilter).toHaveBeenCalledWith("Geo", aggregation["geo"], items, {});
 				expect(service.events.next).toHaveBeenCalledWith({type: FacetEventType.AddFilter, facet: undefined});
+			})
+			
+			it("should not trigger an event", () => {
+				// Given
+				const items = aggregation["geo"].items![0];
+				spyOn(service, 'addFilter').and.returnValue(false);
+				spyOn(service.events, 'next');
+
+				// When
+				service.addFilterSearch("Geo", aggregation["geo"], items);
+
+				// Then
+				expect(service.addFilter).toHaveBeenCalledWith("Geo", aggregation["geo"], items, {});
+				expect(service.events.next).not.toHaveBeenCalled();
 			})
 		});
 
@@ -680,7 +694,7 @@ describe("FacetService", () => {
 			};
 
 			const expr: Expr = new Expr(exprInitializer);
-			const expected = service.ExprToAggregationItem(expr as Expr, aggregation["geo"].valuesAreExpressions);
+			const expected = service.exprToAggregationItem(expr as Expr, aggregation["geo"].valuesAreExpressions);
 
 			expect(expected).toEqual([{count: 0, value: item.value, display: item.display, $column: undefined, $excluded: undefined}])
 		});
@@ -713,7 +727,7 @@ describe("FacetService", () => {
 			};
 
 			const expr: Expr = new Expr(exprInitializer);
-			const expected = service.ExprToAggregationItem(expr as Expr, aggregation["size"].valuesAreExpressions);
+			const expected = service.exprToAggregationItem(expr as Expr, aggregation["size"].valuesAreExpressions);
 
 			expect(expected).toEqual([{count: 0, value: item.value, display: item.display, $column: undefined, $excluded: undefined}])
 		});
@@ -743,11 +757,11 @@ describe("FacetService", () => {
 				activeSelects: [item] as BreadcrumbsItem[]
 			} as Breadcrumbs;
 
-			const breadcrumbsItems = service.getBreadcrumbsItems("Geo");
+			const breadcrumbsItems = service.getBreadcrumbsItems("Geo", searchService.breadcrumbs);
 			expect(breadcrumbsItems.length).toEqual(1);
 			expect(breadcrumbsItems).toEqual([{expr: jasmine.anything(), display: "Iraq", facet: "Geo", active: true}]);
 
-			const aggregationItems = service.ExprToAggregationItem(breadcrumbsItems[0].expr as Expr, aggregation["geo"].valuesAreExpressions);
+			const aggregationItems = service.exprToAggregationItem(breadcrumbsItems[0].expr as Expr, aggregation["geo"].valuesAreExpressions);
 			expect(aggregationItems.length).toEqual(1);
 			expect(aggregationItems).toEqual([{count: 0, value: 'IRAQ', display: 'Iraq', $column: undefined, $excluded: undefined}]);
 		});
@@ -785,7 +799,7 @@ describe("FacetService", () => {
 			expect(expr.operands[0].field).toEqual("geo");
 			expect(expr.operands[1].value).toEqual("GUANTANAMO");
 
-			let r = service.ExprToAggregationItem(expr.operands, aggregation["geo"].valuesAreExpressions);
+			let r = service.exprToAggregationItem(expr.operands, aggregation["geo"].valuesAreExpressions);
 			expect(r).toEqual([{count: 0, value: "IRAQ", display: "Iraq", $column: undefined, $excluded: undefined}, {count: 0, value: "GUANTANAMO", display: "Guantanamo", $column: undefined, $excluded: undefined}])
 
 			expr = appService.parseExpr(breadcrumbs.items[2].expr?.toString() || "") as Expr;
@@ -793,7 +807,7 @@ describe("FacetService", () => {
 			expect(expr.value).toEqual("WASHINGTON POST");
 			expect(expr.field).toEqual("company");
 
-			r = service.ExprToAggregationItem(expr, aggregation["geo"].valuesAreExpressions);
+			r = service.exprToAggregationItem(expr, aggregation["geo"].valuesAreExpressions);
 			expect(r).toEqual([{count: 0, value: "WASHINGTON POST", display: "Washington POST", $column: undefined, $excluded: undefined}]);
 
 			expr = appService.parseExpr(breadcrumbs.items[3].expr?.toString(false) || "") as Expr;
@@ -804,7 +818,7 @@ describe("FacetService", () => {
 			expect(expr.operands[1].value).toEqual("<10240");
 			expect(expr.operands[1].field).toEqual("size");
 
-			r = service.ExprToAggregationItem(expr, aggregation["size"].valuesAreExpressions);
+			r = service.exprToAggregationItem(expr, aggregation["size"].valuesAreExpressions);
 			expect(r).toEqual([{count: 0, value: "size`< 10 Ko`:(>=0 AND <10240)", display: "< 10 Ko", $column: undefined, $excluded: undefined}]);
 		});
 
@@ -828,7 +842,7 @@ describe("FacetService", () => {
 			searchService.breadcrumbs = breadcrumbs;
 
 			// When
-			const items = service.getBreadcrumbsItems(facetName);
+			const items = service.getBreadcrumbsItems(facetName, breadcrumbs);
 			expect(items.length).toEqual(3);
 			expect(items[0].expr?.operands.length).toEqual(2);
 			expect(items[1].expr?.operands.length).toEqual(2);
@@ -843,7 +857,7 @@ describe("FacetService", () => {
 			// faltten results
 			const result = [].concat.apply([], r);
 
-			const aggItems = service.ExprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
+			const aggItems = service.exprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
 
 			// Then
 			expect(aggItems.length).toEqual(5);
@@ -866,7 +880,7 @@ describe("FacetService", () => {
 			searchService.breadcrumbs = breadcrumbs;
 
 			// When
-			const items = service.getBreadcrumbsItems(facetName);
+			const items = service.getBreadcrumbsItems(facetName, breadcrumbs);
 			expect(items.length).toEqual(2);
 			expect(items[0].expr?.operands.length).toEqual(2);
 			expect(items[1].expr?.operands.length).toEqual(2);
@@ -880,7 +894,7 @@ describe("FacetService", () => {
 			// faltten results
 			const result = [].concat.apply([], r);
 
-			const aggItems = service.ExprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
+			const aggItems = service.exprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
 
 			// Then
 			expect(aggItems.length).toEqual(3);
@@ -903,7 +917,7 @@ describe("FacetService", () => {
 			searchService.breadcrumbs = breadcrumbs;
 
 			// When
-			const items = service.getBreadcrumbsItems(facetName);
+			const items = service.getBreadcrumbsItems(facetName, breadcrumbs);
 			expect(items.length).toEqual(1);
 			expect(items[0].expr?.operands).toBeUndefined(); 		// (true) no operands
 
@@ -920,7 +934,7 @@ describe("FacetService", () => {
 			const result = [].concat.apply([], r);
 
 			// When
-			const aggItems = service.ExprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
+			const aggItems = service.exprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
 			expect(aggItems.length).toEqual(1);
 			expect(aggItems[0]).toEqual({count: 0, value: true, display: undefined, $column: jasmine.anything(), $excluded: undefined});
 		})
@@ -940,7 +954,7 @@ describe("FacetService", () => {
 			searchService.breadcrumbs = breadcrumbs;
 
 			// When
-			const items = service.getBreadcrumbsItems(facetName);
+			const items = service.getBreadcrumbsItems(facetName, breadcrumbs);
 			expect(items.length).toEqual(1);
 			expect(items[0].expr?.operands).toBeDefined(); 		// (false, true) operands
 
@@ -958,7 +972,7 @@ describe("FacetService", () => {
 			const result = [].concat.apply([], r);
 
 			// When
-			const aggItems = service.ExprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
+			const aggItems = service.exprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
 			expect(aggItems.length).toEqual(2);
 			expect(aggItems[0]).toEqual({count: 0, value: false, display: undefined, $column: jasmine.anything(), $excluded: undefined});
 			expect(aggItems[1]).toEqual({count: 0, value: true, display: undefined, $column: jasmine.anything(), $excluded: undefined});

@@ -3,6 +3,7 @@ import { Results } from '@sinequa/core/web-services';
 import { AbstractFacet } from '../../abstract-facet';
 import { Action } from '@sinequa/components/action';
 import { FacetService } from '../../facet.service';
+import { Utils } from '@sinequa/core/base';
 
 export interface FacetConfig {
   name: string;
@@ -124,32 +125,14 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    * @param facet
    */
   private getFacetCount(facet: FacetConfig): string {
-    if(facet.type==='tree'){
-      const agg = this.facetService.getAggregation(facet.aggregation, this.results, {facetName: facet.name});
-      if(!agg || !agg.items) return "";
-      return agg.items.length + "";
-    }
-    const agg = this.facetService.getAggregation(facet.aggregation, this.results);
-    const count = this.facetService.getAggregationCount(facet.aggregation);
-    if (!agg || !agg.items)
+    const agg = this.results.aggregations.find(agg => Utils.eqNC(agg.name, facet.aggregation)); // avoid calling getAggregation() which is costly for trees
+    if (!agg?.items)
       return "";
+    const count = this.facetService.getAggregationCount(facet.aggregation); // configured count (default: 10)
     const aggItemCounter = (!agg.isDistribution || facet.displayEmptyDistributionIntervals)
       ? agg.items.length
       : agg.items.filter(item => item.count > 0).length;
     return aggItemCounter >= count ? `${count}+` : `${aggItemCounter}`;
-  }
-
-  /**
-   * Return whether a given facet has data to show
-   * @param facet
-   */
-  private hasData(facet: FacetConfig): boolean {
-    if(facet.type==='tree'){
-      const agg = this.facetService.getAggregation(facet.aggregation, this.results, {facetName: facet.name});
-      return !!agg && !!agg.items && agg.items.length > 0;
-    }
-    const agg = this.facetService.getAggregation(facet.aggregation, this.results);
-    return !!agg && !!agg.items && agg.items.length > 0;
   }
 
   /**
@@ -167,7 +150,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   ngOnChanges() {
     this.facets.forEach(facet => {
       facet.$count = this.getFacetCount(facet);
-      facet.$hasData = this.hasData(facet);
+      facet.$hasData = this.facetService.hasData(facet, this.results);
       facet.$hasFiltered = this.hasFiltered(facet);
     });
     this.changeDetectorRef.detectChanges();
