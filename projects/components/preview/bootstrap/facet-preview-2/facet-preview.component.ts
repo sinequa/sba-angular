@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, HostBinding } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, HostBinding, AfterViewChecked } from "@angular/core";
 import { SafeResourceUrl } from "@angular/platform-browser";
 import { Query } from '@sinequa/core/app-utils';
 import { Record, PreviewData } from "@sinequa/core/web-services";
@@ -12,7 +12,7 @@ import { Action } from '@sinequa/components/action';
   templateUrl: './facet-preview.component.html',
   styleUrls: ['./facet-preview.component.scss']
 })
-export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges {
+export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges, AfterViewChecked {
 
   @Input() record: Record;
   @Input() query: Query;
@@ -25,6 +25,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Input() customActions: Action[];
   @Input() filters: HighlightFilters;
   @Output() recordClosed = new EventEmitter<void>();
+  @Output() previewLoaded = new EventEmitter<PreviewDocument>();
   @HostBinding('style.height.px') _height: number = this.height;
 
   private closeAction: Action;
@@ -38,6 +39,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   loadingPreview = false;
 
   private readonly scaleFactorThreshold = 0.1;
+  private loaded = false;
 
   constructor(
       private previewService: PreviewService) {
@@ -115,11 +117,21 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     }
   }
 
+  ngAfterViewChecked() {
+    if (this.document && this.loaded) {
+      this.loaded = false;
+      // as now view is checked, emit event
+      this.previewLoaded.emit(this.document);
+    }
+  }
+
   onPreviewReady(document: PreviewDocument) {
     this.loadingPreview = false;
     this.document = document;
     if (this.document && this.filters) {
-        this.document.filterHighlights(this.filters);
+      this.document.filterHighlights(this.filters);
     }
+
+    this.loaded = true;
   }
 }
