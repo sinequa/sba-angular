@@ -10,8 +10,10 @@
     "component-selector": [
       true,
       "element",
-      "lib",
+      "sq",
       "kebab-case"
-    ]
+    ],
+    "component-class-suffix": false,
+    "no-output-on-prefix": false
   }
 }
