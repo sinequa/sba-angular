@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Action } from '@sinequa/components/action';
 import { FacetConfig } from '@sinequa/components/facet';
-import { PreviewService } from '@sinequa/components/preview';
+import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
 import { UIService } from '@sinequa/components/utils';
@@ -38,14 +38,14 @@ export class SearchComponent implements OnInit, OnDestroy {
   private _searchServiceSubscription: Subscription;
 
   constructor(
-    public searchService: SearchService,
-    public selectionService: SelectionService,
     private previewService: PreviewService,
     private titleService: Title,
     private intlService: IntlService,
     private appService: AppService,
+    public searchService: SearchService,
+    public selectionService: SelectionService,
     public loginService: LoginService,
-    public ui: UIService
+    public ui: UIService,
   ) {
 
     // Initialize the facet preview action (opens the preview route)
@@ -171,6 +171,17 @@ export class SearchComponent implements OnInit, OnDestroy {
         this._showFilters = true; // Show filters on medium screen when document is closed
       }
     }
+  }
+
+  /**
+   * Document is loaded and displayed on screen. It could be manipulated easily.
+   *
+   * eg: scroll to a specific location
+   * document.getContentWindow().scrollTo(0, 3000);
+   * @param document the document currently in preview
+   */
+  previewReady(document: PreviewDocument) {
+    // document.getContentWindow().scrollTo(0, Math.random() * 4000);
   }
 
   // VERY SPECIFIC TO THIS APP:
