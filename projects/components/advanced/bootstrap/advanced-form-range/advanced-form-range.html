@@ -8,11 +8,6 @@
         [id]="field">
         <div class="col-auto d-flex flex-column">
             <input
-                sqAdvancedFormAutocomplete
-                [field]="field"
-                [off]="!suggestQuery"
-                [suggestQuery]="suggestQuery"
-                [dropdown]="dropdown1"
                 type="text"
                 autocomplete="off"
                 spellcheck="off"
@@ -21,20 +16,10 @@
                 [ngModel]="value[0]"
                 (ngModelChange)="updateFrom($event)"
                 [ngModelOptions]="{standalone: true}"/>
-            <sq-autocomplete-list #dropdown1>
-                <ng-template #itemTpl let-item>
-                    <div class="py-2">{{item.display}}</div>
-                </ng-template>
-            </sq-autocomplete-list>
         </div>
         <div class="col-auto sq-separator">{{'msg#advanced.rangeSeparator' | sqMessage}}</div>
         <div class="col-auto d-flex flex-column">
             <input
-                sqAdvancedFormAutocomplete
-                [field]="field"
-                [suggestQuery]="suggestQuery"
-                [off]="!suggestQuery"
-                [dropdown]="dropdown2"
                 type="text"
                 autocomplete="off"
                 spellcheck="off"
@@ -43,11 +28,6 @@
                 [ngModel]="value[1]"
                 (ngModelChange)="updateTo($event)"
                 [ngModelOptions]="{standalone: true}"/>
-            <sq-autocomplete-list #dropdown2>
-                <ng-template #itemTpl let-item>
-                    <div class="py-2">{{item.display}}</div>
-                </ng-template>
-            </sq-autocomplete-list>
         </div>
     </div>
     <sq-date-range-picker *ngIf="isDate"
