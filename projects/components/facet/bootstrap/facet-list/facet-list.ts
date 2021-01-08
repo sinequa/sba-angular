@@ -62,7 +62,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
      * Returns index of first element existing in suggestions or aggregations collection.
      * @param item `AggregrationItem` to find
      */
-    private find = (item: AggregationItem) => (this.hasSuggestions()) ? this.findIndex(this.suggestions$.getValue(), item) : this.findIndex(this.items$.getValue() || [], item);
+    private find = (item: AggregationItem) => this.hasSuggestions() ? this.findIndex(this.suggestions$.getValue(), item) : this.findIndex(this.items$.getValue() || [], item);
     selected: AggregationItem[] = [];
 
 
@@ -190,14 +190,14 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
             map(data => {
                 this.refreshFiltered(data as Aggregation);
 
-                if (!data || !data?.items) {
+                if (!data?.items) {
                     return [];
                 }
 
                 if (!data?.isDistribution || this.displayEmptyDistributionIntervals) {
                     return data.items.filter(item => !item.$filtered);
                 } else {
-                    return data.items.filter(item => item.count > 0 && !!!item.$filtered);
+                    return data.items.filter(item => item.count > 0 && !item.$filtered);
                 }
             }),
         ).subscribe(items => {
@@ -247,7 +247,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
     /**
      * Actualize the state of filtered items (note that excluded terms are not in the distribution, so the equivalent cannot be done)
      */
-    refreshFiltered(data: Aggregation) {
+    refreshFiltered(data: Aggregation | undefined) {
         // refresh filters from breadcrumbs
         const items = this.facetService.getAggregationItemsFiltered(this.getName(), data?.valuesAreExpressions);
         items.forEach(item => {
@@ -257,28 +257,25 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
             }
         });
 
-        if (data && data.items) {
-            data.items.forEach(item => {
-                // update $selected status
-                item.$selected = (this.isSelected(item)) ? true : false;
-                const indx = this.filteredIndex(item);
-                if (data && this.facetService.itemFiltered(this.getName(), data, item)) {
-                    if (!this.isFiltered(item)) {
-                        item.$filtered = true;
-                        this.filtered.push(item);
-                    } else {
-                        item.$filtered = true;
-                        this.filtered[indx].count = item.count;
-                    }
+        data?.items?.forEach(item => {
+            // update $selected status
+            item.$selected = this.isSelected(item);
+            const indx = this.filteredIndex(item);
+            if (this.facetService.itemFiltered(this.getName(), data, item)) {
+                item.$filtered = true;
+                if (!this.isFiltered(item)) {
+                    this.filtered.push(item);
                 } else {
-                    // sometime facetService.itemFiltered() could returns false but item is present in breadcrumbs
-                    if (indx !== -1) {
-                        item.$filtered = true;
-                        this.filtered[indx].count = item.count;
-                    }
+                    this.filtered[indx].count = item.count;
                 }
-            });
-        }
+            } else {
+                // sometime facetService.itemFiltered() could returns false but item is present in breadcrumbs
+                if (indx !== -1) {
+                    item.$filtered = true;
+                    this.filtered[indx].count = item.count;
+                }
+            }
+        });
     }
 
     /**
@@ -286,7 +283,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
      * @param item
      */
     isFiltered(item: AggregationItem): boolean {
-        return (this.filteredIndex(item)) === -1 ? false : true;
+        return this.filteredIndex(item) !== -1;
     }
 
     /**
@@ -343,7 +340,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
      * @param item
      */
     isSelected(item: AggregationItem) : boolean {
-        return this.findIndex(this.selected, item) === -1 ? false : true;
+        return this.findIndex(this.selected, item) !== -1;
     }
 
     /**
@@ -357,7 +354,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
      * Returns hidden selected items
      */
     get hiddenSelected(): AggregationItem[] {
-        return (!this.selected) ? [] : this.selected.filter(item => this.find(item) === -1);
+        return this.selected?.filter(item => this.find(item) === -1) || [];
     }
 
     /**
@@ -414,16 +411,13 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
             Utils.subscribe(this.facetService.loadData(this.aggregation, skip, this.count),
                 agg => {
                     this.skip = skip;
-                    this.loadingMore = false;
-                    if (agg && agg.items) {
-                        if (this.data()) {
-                            agg.items = this.items$.getValue()!.concat(agg.items);
-                            this.data$.next(agg);
-                        }
+                    if (agg?.items && this.data()) {
+                        agg.items = this.items$.getValue().concat(agg.items);
+                        this.data$.next(agg);
                     }
-                    this.changeDetectorRef.markForCheck();
                 },
-                err => {
+                undefined,
+                () => {
                     this.loadingMore = false;
                     this.changeDetectorRef.markForCheck();
                 });
@@ -469,7 +463,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
                     suggestions.forEach(item => item.$selected = this.isSelected(item));
 
                     const hasSuggestions = (suggestions.length > 0);
-                    this.noResults = (!hasSuggestions && term.trim() !== "") ? true : false;
+                    this.noResults = !hasSuggestions && term.trim() !== "";
                     return suggestions;
                 })
             )

@@ -90,22 +90,22 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
     ngOnChanges(changes: SimpleChanges) {
         if (!!changes["results"]) {     // New data from the search service
             this.filtered.clear();
-            this.data = this.facetService.getAggregation(this.aggregation, this.results, {facetName: this.getName(), levelCallback: this.initNodes});
-
-            this.refreshFiltered();
+            this.data = this.facetService.getAggregation(this.aggregation, this.results, {
+                facetName: this.getName(),
+                levelCallback: this.initNodes
+            });
         }
     }
 
     // For each new node, set up properties necessary for display
     // This callback could also be used to filter or sorts nodes, etc.
-    private initNodes = (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, filtered?: boolean) => {
-        if (node) {
-            if(filtered){
-                this.filtered.add(node);
-            }
-            if(node.hasChildren && !opened && node.items && node.items.length >= 0 && level <= this.expandedLevel){
-                node.$opened = true;
-            }
+    @Input()
+    initNodes = (nodes: TreeAggregationNode[], level: number, node: TreeAggregationNode) => {
+        if(node.$filtered){
+            this.filtered.add(node);
+        }
+        if(node.hasChildren && !node.$opened && node.items && node.items.length >= 0 && level <= this.expandedLevel){
+            node.$opened = true;
         }
     }
 
@@ -136,19 +136,6 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
 
 
     // Filtered items
-
-    /**
-     * Actualize the state of filtered items (note that excluded terms are not in the distribution, so the equivalent cannot be done)
-     */
-    refreshFiltered(){
-        if(this.data && this.data.items) {
-            this.data.items.forEach(item => {
-                if(this.data && this.facetService.itemFiltered(this.getName(), this.data, item)){
-                    this.filtered.add(item);
-                }
-            });
-        }
-    }
 
     /**
      * Returns true if the given AggregationItem is filtered

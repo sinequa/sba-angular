@@ -325,10 +325,6 @@ export interface AggregationItem {
      */
     $excluded?: boolean;
     /**
-     * A client-side field that indicates whether this item is currently unselectable
-     */
-    $unselectable?: boolean;
-    /**
      * A client-side field that indicates whether this item is currently filtered
      */
     $filtered?: boolean;
@@ -365,6 +361,10 @@ export interface TreeAggregationNode extends AggregationItem {
      * A client-side field that indicates whether a parent node is currently open
      */
     $opened?: boolean;
+    /**
+     * The level at which this node is in the Tree aggregation
+     */
+    $level: number;
 }
 
 /**
