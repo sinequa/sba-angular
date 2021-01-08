@@ -4,11 +4,11 @@ import {UserSettingsWebService, UserSettings, Suggestion,
     AuditEvents, EngineType, Select
 } from "@sinequa/core/web-services";
 import {IntlService} from "@sinequa/core/intl";
-import {Query, AppService, FormatService, ExprBuilder, Expr, ExprParser} from "@sinequa/core/app-utils";
+import {Query, AppService, FormatService, ExprBuilder, Expr} from "@sinequa/core/app-utils";
 import {FieldValue, Utils} from "@sinequa/core/base";
 import {Subject, Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {SearchService, BreadcrumbsItem} from "@sinequa/components/search";
+import {SearchService, BreadcrumbsItem, Breadcrumbs} from "@sinequa/components/search";
 import {SuggestService} from "@sinequa/components/autocomplete";
 import {FacetConfig} from './bootstrap';
 
@@ -228,18 +228,21 @@ export class FacetService {
         items: AggregationItem | AggregationItem[],
         options: AddFilterOptions = {}): Promise<boolean> {
 
-        this.addFilter(facetName, aggregation, items, options);
-        this.events.next({ type: FacetEventType.AddFilter, facet: this.facet(facetName) });
-        return this.searchService.search(undefined, {
+        const success = this.addFilter(facetName, aggregation, items, options);
+        if(success) {
+            this.events.next({ type: FacetEventType.AddFilter, facet: this.facet(facetName) });
+            return this.searchService.search(undefined, {
                 type: FacetEventType.AddFilter,
                 detail: {
                     item: <any>this.searchService.query.lastSelect(),
                     itembox: facetName,
                     itemcolumn: aggregation.column,
                     isitemexclude: options.not,
-                    "from-result-id": !!this.searchService.results ? this.searchService.results.id : null
+                    "from-result-id": this.searchService.results?.id
                 }
             });
+        }
+        return Promise.resolve(false);
     }
 
 
@@ -249,32 +252,36 @@ export class FacetService {
      * @param aggregation
      * @param items
      * @param options
+     * @param query the query on which to add the filter (defaults to search service query)
+     * @param breadcrumbs breadcrumbs in which to look for selected items (defaults  to search service breadcrumbs)
      */
     public addFilter(
         facetName: string,
         aggregation: Aggregation,
         items: AggregationItem | AggregationItem[],
-        options: AddFilterOptions = {}) : void {
+        options: AddFilterOptions = {},
+        query = this.searchService.query,
+        breadcrumbs = this.searchService.breadcrumbs): boolean {
 
         if (!items) {
-            return;
+            return false;
         }
         if (options.replaceCurrent) {
-            this.searchService.query.removeSelect(facetName);
+            query.removeSelect(facetName);
         }
 
-        if (!aggregation.isTree && this.searchService.breadcrumbs && this.searchService.breadcrumbs.activeSelects.length > 0 && !options.replaceCurrent) {
-            const expr = this.searchService.breadcrumbs.findSelect(facetName);
-            const index = this.searchService.breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === expr || select.expr === expr?.parent));
+        if (!aggregation.isTree && breadcrumbs?.activeSelects.length && !options.replaceCurrent) {
+            const expr = breadcrumbs.findSelect(facetName);
+            const index = breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === expr || select.expr === expr?.parent));
             const same = (!Array.isArray(items)) ? true : (options.and ? "AND" : "OR") === (expr?.and ? "AND" : "OR") && (options.not ? "YES" : "NO") === (expr?.not ? "YES" : "NO");
 
             if (expr && same && index !== -1){
                 let _items: AggregationItem[];
                 if (expr?.operands) {
-                    _items = this.ExprToAggregationItem(expr.operands, aggregation.valuesAreExpressions).concat(items);
+                    _items = this.exprToAggregationItem(expr.operands, aggregation.valuesAreExpressions).concat(items);
                 } else {
                     // previous selection is a single value
-                    _items = this.ExprToAggregationItem(expr as Expr, aggregation.valuesAreExpressions).concat(items);
+                    _items = this.exprToAggregationItem(expr as Expr, aggregation.valuesAreExpressions).concat(items);
                 }
                 // MUST reset $excluded property otherwise expression is misunderstood
                 _items.forEach(item => item.$excluded = undefined);
@@ -284,8 +291,8 @@ export class FacetService {
                     _expr = this.exprBuilder.makeNotExpr(_expr);
                 }
                 if (_expr) {
-                    this.searchService.query.replaceSelect(index, {expression: _expr, facet: facetName});
-                    return;
+                    query.replaceSelect(index, {expression: _expr, facet: facetName});
+                    return true;
                 }
             }
         }
@@ -293,16 +300,21 @@ export class FacetService {
         if (options.not) {
             expr = this.exprBuilder.makeNotExpr(expr);
         }
-        if (expr) this.searchService.query.addSelect(expr, facetName);
+        if (expr) {
+            query.addSelect(expr, facetName);
+            return true;
+        }
+        return false;
     }
 
     /**
      * Clears the query from the current selection on the given facet
      * @param facetName
      * @param all
+     * @param query the query to clear from the facet selection (defaults to search service query)
      */
-    public clearFilters(facetName: string, all?: boolean) {
-        this.searchService.query.removeSelect(facetName, all);
+    public clearFilters(facetName: string, all?: boolean, query = this.searchService.query) {
+        query.removeSelect(facetName, all);
     }
 
     /**
@@ -320,22 +332,30 @@ export class FacetService {
                 type: FacetEventType.ClearFilters,
                 detail: {
                     itembox: facetName,
-                    "from-result-id": !!this.searchService.results ? this.searchService.results.id : null
+                    "from-result-id": this.searchService.results?.id
                 }
             });
     }
 
     /**
      * Remove a filter and update the appropriate Select if it was previously included in a selection
-     * @param facetName
-     * @param aggregation
-     * @param item
+     * @param facetName the facet that removes the filter
+     * @param aggregation the aggregation that contains the item to remove
+     * @param item the aggregation item to remove from the query
+     * @param query the query on which to remove the filter (defaults to search service query)
+     * @param breadcrumbs breadcrumbs in which to look for selected items (defaults  to search service breadcrumbs)
      */
-    public removeFilter(facetName: string, aggregation: Aggregation, item: AggregationItem): Select | undefined{
-        if (this.searchService.breadcrumbs) {
-            const filterExpr = this.findItemFilter(facetName, aggregation, item) || this.appService.parseExpr(this.exprBuilder.makeAggregationExpr(aggregation, item));
-            const expr = this.searchService.breadcrumbs.findSelect(facetName, filterExpr);
-            const i = this.searchService.breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === expr || select.expr === expr?.parent));
+    public removeFilter(
+        facetName: string,
+        aggregation: Aggregation,
+        item: AggregationItem,
+        query = this.searchService.query,
+        breadcrumbs = this.searchService.breadcrumbs): Select | undefined {
+
+        if (breadcrumbs) {
+            const filterExpr = this.findItemFilter(facetName, aggregation, item, breadcrumbs) || this.appService.parseExpr(this.exprBuilder.makeAggregationExpr(aggregation, item));
+            const expr = breadcrumbs.findSelect(facetName, filterExpr);
+            const i = breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === expr || select.expr === expr?.parent));
 
             // 'Select' can't be created when aggregation is a tree map, so, avoid aggregation tree
             // and remove whole breadcrumbs
@@ -346,40 +366,49 @@ export class FacetService {
                 const filterByValue = (it: AggregationItem) => it.value !== item.value
                 const filter = (aggregation.valuesAreExpressions) ? filterByValuesAreExpression : filterByValue;
 
-                const items: AggregationItem[] = this.ExprToAggregationItem(expr.parent.operands, aggregation.valuesAreExpressions).filter(filter);
+                const items: AggregationItem[] = this.exprToAggregationItem(expr.parent.operands, aggregation.valuesAreExpressions).filter(filter);
                 // MUST reset $excluded property otherwise expression is misunderstood (mainly NOT expressions)
                 items.forEach(item => item.$excluded = undefined);
-                const {not, and} = this.searchService.breadcrumbs.selects[i].expr || {};
+                const {not, and} = breadcrumbs.selects[i].expr || {};
                 let _expr = this.exprBuilder.makeAggregationExpr(aggregation, items, and);
                 if (not) {
                     _expr = this.exprBuilder.makeNotExpr(_expr);
                 }
                 if (_expr) {
-                    this.searchService.query.replaceSelect(i, {expression: _expr, facet: facetName});
-                    return ({expression: this.exprBuilder.makeAggregationExpr(aggregation, item), facet: facetName});
+                    query.replaceSelect(i, {expression: _expr, facet: facetName});
+                    return {expression: this.exprBuilder.makeAggregationExpr(aggregation, item), facet: facetName};
                 }
             } else {
                 // filter is a single value... remove it
-                const select = this.searchService.query.select ? this.searchService.query.select[i] : undefined;
-                this.searchService.query.removeSelect(i);
+                const select = query.select ? query.select[i] : undefined;
+                query.removeSelect(i);
                 return select;
             }
         }
         return undefined;
     }
 
+    /**
+     * Removes the aggregation from the search service query and refresh the search
+     * @param facetName 
+     * @param aggregation 
+     * @param item 
+     */
     public removeFilterSearch(facetName: string, aggregation: Aggregation, item: AggregationItem): Promise<boolean>{
         const select = this.removeFilter(facetName, aggregation, item);
-        this._events.next({type: FacetEventType.RemoveFilter, facet: this.facet(facetName)});
-        return this.searchService.search(undefined, {
-            type: FacetEventType.RemoveFilter,
-            detail: {
-                item: {expression: select?.expression, facet: select?.facet},
-                itembox: facetName,
-                itemcolumn: aggregation.column,
-                "from-result-id": !!this.searchService.results ? this.searchService.results.id : null
-            }
-        }); // Note: Audit event generated by the removeBreadcrumbItem call
+        if(select) {
+            this._events.next({type: FacetEventType.RemoveFilter, facet: this.facet(facetName || "")});
+            return this.searchService.search(undefined, {
+                type: FacetEventType.RemoveFilter,
+                detail: {
+                    item: {expression: select?.expression, facet: select?.facet},
+                    itembox: facetName,
+                    itemcolumn: aggregation.column,
+                    "from-result-id": !!this.searchService.results ? this.searchService.results.id : null
+                }
+            });
+        }
+        return Promise.resolve(false);
     }
 
     /**
@@ -387,13 +416,20 @@ export class FacetService {
      * @param aggregation
      * @param skip
      * @param count
+     * @param query the query to use to fetch the data (default to search service query)
      */
-    public loadData(aggregation: string, skip: number = 0, count: number = 10): Observable<Aggregation | undefined> {
-        const query = Utils.copy(this.searchService.query);
+    public loadData(
+        aggregation: string,
+        skip: number = 0,
+        count: number = 10,
+        query = this.searchService.query,
+        searchInactive = true): Observable<Aggregation | undefined> {
+            
+        query = Utils.copy(query);
         query.action = "aggregate";
         query.aggregations = {};
         query.aggregations[aggregation] = {skip: skip, count: count};
-        return this.searchService.getResults(query, undefined, {searchInactive: true}).pipe(
+        return this.searchService.getResults(query, undefined, {searchInactive}).pipe(
             map((results: Results) => {
                 const data = results.aggregations.find(a => Utils.eqNC(a.name, aggregation));
                 if (data) {
@@ -427,21 +463,20 @@ export class FacetService {
      * Returns true if this facet has at least one active selection
      * filtering the search
      * @param facetName
+     * @param breadcrumbs breadcrumbs in which to look for selected items (defaults to search service breadcrumbs)
      */
-    public hasFiltered(facetName: string) : boolean {
-        return !!this.findFilter(facetName);
+    public hasFiltered(facetName: string, breadcrumbs = this.searchService.breadcrumbs) : boolean {
+        return !!this.findFilter(facetName, breadcrumbs);
     }
 
     /**
      * Returns an active selection of this facet filtering the search
      * Returns it as an expression
      * @param facetName
+     * @param breadcrumbs breadcrumbs in which to look for selected items (defaults to search service breadcrumbs)
      */
-    public findFilter(facetName: string) : Expr | undefined {
-        if (this.searchService.breadcrumbs) {
-            return this.searchService.breadcrumbs.findSelect(facetName);
-        }
-        return undefined;
+    public findFilter(facetName: string, breadcrumbs = this.searchService.breadcrumbs) : Expr | undefined {
+        return breadcrumbs?.findSelect(facetName);
     }
 
     /**
@@ -450,8 +485,16 @@ export class FacetService {
      * @param aggregationName
      * @param results The search results can be provided explicitly or taken from the SearchService implicitly.
      */
-    getAggregation(aggregationName: string, results = this.searchService.results, treeAggregationOptions?: {facetName: string, levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, filtered?: boolean) => void}): Aggregation | TreeAggregation | undefined {
-        if (results && results.aggregations) {
+    getAggregation(
+        aggregationName: string,
+        results = this.searchService.results,
+        treeAggregationOptions?: {
+            facetName: string,
+            levelCallback?: (nodes: TreeAggregationNode[], level: number, node: TreeAggregationNode) => void
+        }
+    ): Aggregation | TreeAggregation | undefined {
+        
+        if (results?.aggregations) {
             const aggregation = results.aggregations.find(agg => Utils.eqNC(agg.name, aggregationName))
             if (aggregation) {
                 this.setColumn(aggregation);    // Useful for formatting and i18n
@@ -478,11 +521,15 @@ export class FacetService {
      * @param levelCallback A callback method called at every level of the tree.
      * Can be used to read or alter the properties of the nodes (opening, closing), or node list (sorting)
      */
-    getTreeAggregation(facetName: string, aggregationName: string, results = this.searchService.results,
-        levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, filtered?: boolean) => void
+    getTreeAggregation(
+        facetName: string,
+        aggregationName: string,
+        results = this.searchService.results,
+        levelCallback?: (nodes: TreeAggregationNode[], level: number, node: TreeAggregationNode) => void
     ): TreeAggregation | undefined {
+
         const agg = this.getAggregation(aggregationName, results);
-        if(agg && agg.isTree){
+        if(agg?.isTree){
             const expr = this.findFilter(facetName);
             const expandPaths = expr ? expr.getValues(agg.column) : [];
             this.initTreeNodes(facetName, agg, "/", agg.items as TreeAggregationNode[], expandPaths, levelCallback);
@@ -497,8 +544,7 @@ export class FacetService {
      * @param aggregationName
      */
     getAggregationCount(aggregationName: string) : number {
-        const ccaggregation = this.appService.getCCAggregation(aggregationName);
-        return (ccaggregation && ccaggregation.count) || 10;
+        return this.appService.getCCAggregation(aggregationName)?.count || 10;
     }
 
     /**
@@ -510,18 +556,23 @@ export class FacetService {
      * @param levelCallback A callback method called at every level of the tree.
      * Can be used to read or alter the properties of the nodes (opening, closing), or node list (sorting)
      */
-    open(facetName: string, aggregation: TreeAggregation,
+    open(
+        facetName: string,
+        aggregation: TreeAggregation,
         item: TreeAggregationNode,
-        levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, filtered?: boolean) => void
+        levelCallback?: (nodes: TreeAggregationNode[], level: number, node: TreeAggregationNode) => void,
+        query = this.searchService.query,
+        searchInactive = true
     ): Observable<Results> {
+
         const value = item.$path + "*";
-        const query = Query.copy(this.searchService.query);
+        query = Query.copy(query);
         query.action = "open";
-        const expr = aggregation.column + ":(" + ExprParser.escape(value) + ")";
+        const expr = this.exprBuilder.makeExpr(aggregation.column, value);
         query.addOpen(expr, aggregation.name);
 
         this.events.next({type: FacetEventType.Open, facet: this.facet(facetName)});
-        return this.searchService.getResults(query, undefined, {searchInactive: true}).pipe(
+        return this.searchService.getResults(query, undefined, {searchInactive}).pipe(
             map((results: Results) => {
                 if (item.$path) {
                     const source = FacetService.getAggregationNode(results.aggregations[0].items as TreeAggregationNode[], item.$path);
@@ -543,12 +594,13 @@ export class FacetService {
      * @param facetName
      * @param aggregation
      * @param item
+     * @param breadcrumbs breadcrumbs in which to look for selected items (default to search service breadcrumbs)
      */
-    itemFiltered(facetName: string, aggregation: Aggregation, item: AggregationItem): boolean {
-        return !!this.findItemFilter(facetName, aggregation, item);
+    itemFiltered(facetName: string, aggregation: Aggregation, item: AggregationItem, breadcrumbs = this.searchService.breadcrumbs): boolean {
+        return !!this.findItemFilter(facetName, aggregation, item, breadcrumbs);
     }
 
-    protected findItemFilter(facetName: string, aggregation: Aggregation, item: AggregationItem) : Expr | undefined {
+    protected findItemFilter(facetName: string, aggregation: Aggregation, item: AggregationItem, breadcrumbs: Breadcrumbs | undefined) : Expr | undefined {
         let expr: Expr | undefined;
         let exprText: string;
         if (!aggregation.valuesAreExpressions) {
@@ -559,7 +611,7 @@ export class FacetService {
             else {
                 value = Utils.toSqlValue(item.value);
             }
-            exprText = aggregation.column + ":" + ExprParser.escape(value);
+            exprText = this.exprBuilder.makeExpr(aggregation.column, value);
         }
         else {
             exprText = item.value as string;
@@ -569,7 +621,7 @@ export class FacetService {
             expr = <Expr>ret;
         }
         if (expr) {
-            const expr2 = this.searchService.breadcrumbs && this.searchService.breadcrumbs.findSelect(facetName, expr);
+            const expr2 = breadcrumbs?.findSelect(facetName, expr);
             if(!!expr2 && (!expr2.parent || !expr2.parent.parent)){
                 return expr2;
             }
@@ -586,10 +638,13 @@ export class FacetService {
      * @param expandPaths
      * @param levelCallback
      */
-    protected initTreeNodes(facetName: string, aggregation: Aggregation,
-        root: string, children: TreeAggregationNode[],
+    protected initTreeNodes(
+        facetName: string,
+        aggregation: Aggregation,
+        root: string,
+        children: TreeAggregationNode[],
         expandPaths?: string[],
-        levelCallback?: (nodes: TreeAggregationNode[], level: number, node?: TreeAggregationNode, opened?: boolean, selected?: boolean) => void
+        levelCallback?: (nodes: TreeAggregationNode[], level: number, node: TreeAggregationNode) => void
     ) {
         if (!children) {
             return;
@@ -603,45 +658,36 @@ export class FacetService {
             rootLevel = 0;
         }
         const column = this.appService.getColumn(aggregation.column);
-        FacetService
-            .traverse(children, (_nodes) => {
-                if (!_nodes) {
-                    return false;
-                }
-                let path = root;
-                let level = rootLevel;
-                for (const _node of _nodes) {
-                    path = path + _node.value + "/";
-                    level++;
-                }
-                // console.log(path);
-                const _node = _nodes[_nodes.length - 1];
-                _node.$path = path;
-                _node.$column = column;
-                _node["$level"] = level;
-                _node.$opened = false;
-                let filtered = false;
-                if (expandPaths) {
-                    for (const expandPath of expandPaths) {
-                        if (expandPath.indexOf(path) === 0) {
-                            if (FacetService.getChildrenCount(_node) > 0) {
-                                _node.$opened = true;
-                            }
-                        }
+        Utils.traverse(children, (_nodes) => {
+            if (!_nodes) {
+                return false;
+            }
+            let path = root;
+            let level = rootLevel;
+            for (const _node of _nodes) {
+                path = path + _node.value + "/";
+                level++;
+            }
+            // console.log(path);
+            const _node = _nodes[_nodes.length - 1];
+            _node.$path = path;
+            _node.$column = column;
+            _node.$level = level;
+            _node.$opened = false;
+            _node.$filtered = this.itemFiltered(facetName, aggregation, _node)
+            expandPaths?.forEach(expandPath => {
+                if (expandPath.indexOf(path) === 0) {
+                    const count = !!_node.items ? _node.items.length : _node.hasChildren ? -1 : 0;
+                    if (count > 0) {
+                        _node.$opened = true;
                     }
                 }
-                if (this.itemFiltered(facetName, aggregation, _node)) {
-                    filtered = true;
-                    _nodes.forEach(node => node.$unselectable = true);
-                }
-                if (levelCallback) {
-                    levelCallback(_node.items, level, _node, _node.$opened, filtered);
-                }
-                return false; // don't stop
             });
-        if (levelCallback) {
-            levelCallback(children, rootLevel);
-        }
+            if (levelCallback) {
+                levelCallback(_nodes, level, _node);
+            }
+            return false; // don't stop
+        });
     }
 
     protected setColumn(aggregation: Aggregation){
@@ -654,11 +700,6 @@ export class FacetService {
 
 
     // static methods
-
-
-    protected static getChildrenCount(node: TreeAggregationNode): number {
-        return !!node.items ? node.items.length : node.hasChildren ? -1 : 0;
-    }
 
     protected static splitTreepath(path: string): string[] {
         if (!path) return [];
@@ -682,43 +723,6 @@ export class FacetService {
             return "";
         }
         return parts[parts.length - 1];
-    }
-
-
-    protected static traverse(nodes: TreeAggregationNode[], callback: (lineage: TreeAggregationNode[] | undefined) => boolean): boolean {
-        if (!nodes || nodes.length === 0) {
-            return false;
-        }
-        if (!callback) {
-            return false;
-        }
-        const lineage: TreeAggregationNode[] = [];
-        const stack: (TreeAggregationNode | undefined)[] = [];
-        let _i = nodes.length;
-        while (_i--) {
-            stack.push(nodes[_i]);
-        }
-        while (stack.length) {
-            const node = stack.pop();
-            if (!node) {
-                lineage.pop();
-                callback(undefined);
-            }
-            else {
-                lineage.push(node);
-                if (callback(lineage)) {
-                    return true;
-                }
-                stack.push(undefined);
-                if (node.items && node.items.length > 0) {
-                    _i = node.items.length;
-                    while (_i--) {
-                        stack.push(node.items[_i]);
-                    }
-                }
-            }
-        }
-        return false;
     }
 
     protected static getAggregationNode(nodes: TreeAggregationNode[], path: string): TreeAggregationNode | undefined {
@@ -757,7 +761,7 @@ export class FacetService {
      *
      * @returns AggregationItem array with converted expression or an empty array
      */
-    ExprToAggregationItem(expr: Expr[] | Expr, valuesAreExpressions: boolean = false): AggregationItem[] {
+    exprToAggregationItem(expr: Expr[] | Expr, valuesAreExpressions: boolean = false): AggregationItem[] {
         const fn = [
             (item: Expr) => {
                 let value: FieldValue = item.value as string;
@@ -777,12 +781,10 @@ export class FacetService {
      * Get all Breadcrumbs items from a specific facet
      *
      * @param facetName facet name where to extract all breadcrumbs
+     * @param breadcrumbs breadcrumbs in which to look for selected items
      */
-    getBreadcrumbsItems(facetName: string): BreadcrumbsItem[] {
-        if (this.searchService.breadcrumbs) {
-            return this.searchService.breadcrumbs.items.filter(item => item.facet === facetName);
-        }
-        return [];
+    getBreadcrumbsItems(facetName: string, breadcrumbs: Breadcrumbs | undefined): BreadcrumbsItem[] {
+        return breadcrumbs?.items.filter(item => item.facet === facetName) || [];
     }
 
     /**
@@ -790,9 +792,10 @@ export class FacetService {
      *
      * @param facetName facet name where to inspect
      * @param valuesAreExpressions when true, some transformations should be done
+     * @param breadcrumbs breadcrumbs in which to look for selected items (default to search service breadcrumbs)
      */
-    getAggregationItemsFiltered(facetName: string, valuesAreExpressions: boolean = false): AggregationItem[] {
-        const items = this.getBreadcrumbsItems(facetName);
+    getAggregationItemsFiltered(facetName: string, valuesAreExpressions: boolean = false, breadcrumbs = this.searchService.breadcrumbs): AggregationItem[] {
+        const items = this.getBreadcrumbsItems(facetName, breadcrumbs);
 
         // aggregation items are constructed from nested expressions
         const expr = [] as Expr[][];
@@ -805,7 +808,7 @@ export class FacetService {
         // faltten results
         const flattenExpr = [].concat.apply([], expr);
 
-        return this.ExprToAggregationItem(flattenExpr, valuesAreExpressions);
+        return this.exprToAggregationItem(flattenExpr, valuesAreExpressions);
     }
 
     /**
@@ -836,11 +839,7 @@ export class FacetService {
      * @returns true if the facet contains a least one item otherwise false
      */
     hasData(facet: FacetConfig, results: Results): boolean {
-        if (facet.type === 'tree') {
-            const agg = this.getAggregation(facet.aggregation, results, {facetName: facet.name});
-            return !!agg && !!agg.items && agg.items.length > 0;
-        }
-        const agg = this.getAggregation(facet.aggregation, results);
-        return !!agg && !!agg.items && agg.items.length > 0;
+        // Avoid calling getAggregation() which is costly
+        return !!results.aggregations.find(agg => Utils.eqNC(agg.name, facet.aggregation))?.items?.length;
     }
 }
