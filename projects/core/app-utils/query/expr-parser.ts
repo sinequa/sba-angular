@@ -1499,14 +1499,14 @@ export class Expr {
             if (column && column.parser) {
                 value = this.exprContext.formatService.parseValue(value, column.parser);
             }
-            if (AppService.isNumber(column)) {
+            if (AppServiceHelpers.isNumber(column)) {
                 if (!Utils.isNumber(dataValue)) {
                     dataValue = 0;
                 }
                 const _value = Utils.toNumber(value);
                 return dataValue - _value;
             }
-            if (AppService.isDate(column)) {
+            if (AppServiceHelpers.isDate(column)) {
                 if (Utils.isString(dataValue)){
                     dataValue = Utils.toDate(dataValue);
                 }
@@ -1518,7 +1518,7 @@ export class Expr {
                 }
                 return NaN;
             }
-            if (AppService.isBoolean(column)) {
+            if (AppServiceHelpers.isBoolean(column)) {
                 const _value = Utils.isTrue(value) ? 1 : 0;
                 return (dataValue ? 1 : 0) - _value;
             }
