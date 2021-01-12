@@ -101,7 +101,7 @@
             "index": "projects/hello-search/src/index.html",
             "main": "projects/hello-search/src/main.ts",
             "polyfills": "projects/hello-search/src/polyfills.ts",
-            "tsConfig": "projects/hello-search/tsconfig.app.json",
+            "tsConfig": "projects/hello-search/tsconfig.json",
             "aot": true,
             "preserveSymlinks": true,
             "assets": [
@@ -196,7 +196,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/hello-search/tsconfig.app.json",
+              "projects/hello-search/tsconfig.json",
               "projects/hello-search/tsconfig.spec.json",
               "projects/hello-search/e2e/tsconfig.json"
             ],
@@ -241,7 +241,7 @@
             "index": "projects/vanilla-search/src/index.html",
             "main": "projects/vanilla-search/src/main.ts",
             "polyfills": "projects/vanilla-search/src/polyfills.ts",
-            "tsConfig": "projects/vanilla-search/tsconfig.app.json",
+            "tsConfig": "projects/vanilla-search/tsconfig.json",
             "aot": true,
             "preserveSymlinks": true,
             "assets": [
@@ -346,7 +346,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/vanilla-search/tsconfig.app.json",
+              "projects/vanilla-search/tsconfig.json",
               "projects/vanilla-search/tsconfig.spec.json",
               "projects/vanilla-search/e2e/tsconfig.json"
             ],
@@ -391,7 +391,7 @@
             "index": "projects/pepper/src/index.html",
             "main": "projects/pepper/src/main.ts",
             "polyfills": "projects/pepper/src/polyfills.ts",
-            "tsConfig": "projects/pepper/tsconfig.app.json",
+            "tsConfig": "projects/pepper/tsconfig.json",
             "aot": true,
             "preserveSymlinks": true,
             "assets": [
@@ -423,7 +423,9 @@
               "@formatjs/intl-relativetimeformat/polyfill",
               "intl-pluralrules",
               "jstz",
-              "atomicjs"
+              "atomicjs",
+              "vis-timeline",
+              "vis-network"
             ]
           },
           "configurations": {
@@ -496,7 +498,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/pepper/tsconfig.app.json",
+              "projects/pepper/tsconfig.json",
               "projects/pepper/tsconfig.spec.json",
               "projects/pepper/e2e/tsconfig.json"
             ],
