@@ -120,6 +120,7 @@ export class AlertsService implements OnDestroy {
     private readonly _events = new Subject<AlertChangeEvent>();
     private readonly _changes = new Subject<AlertChangeEvent>();
 
+    private _searchPath: string;
     constructor(
         public userSettingsService: UserSettingsWebService,
         public searchService: SearchService,
@@ -161,6 +162,14 @@ export class AlertsService implements OnDestroy {
      */
     public get events() : Subject<AlertChangeEvent> {
         return this._events;
+    }
+
+    public get searchPath(): string {
+        return this._searchPath;
+    }
+
+    public set searchPath(path: string) {
+        this._searchPath = path;
     }
 
     /**
@@ -336,7 +345,7 @@ export class AlertsService implements OnDestroy {
     public searchAlert(alert: Alert) : Promise<boolean> {
         this.searchService.setQuery(Utils.extend(this.searchService.makeQuery(), Utils.copy(alert.query)));
         this.events.next({type: AlertEventType.Search_AlertQuery, alert: alert});
-        return this.searchService.search(undefined, {
+        return this.searchService.search( {path: this.searchPath}, {
             type: AlertEventType.Search_AlertQuery,
             detail: {
                 alert: alert.name

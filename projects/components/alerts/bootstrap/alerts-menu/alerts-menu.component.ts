@@ -11,7 +11,8 @@ import { Subscription } from 'rxjs';
   templateUrl: './alerts-menu.component.html'
 })
 export class BsAlertsMenuComponent implements OnInit, OnDestroy {
-
+  
+  @Input() searchRoute: string = "/search";
   @Input() icon: string = "fas fa-bell";
   @Input() autoAdjust: boolean = true;
   @Input() autoAdjustBreakpoint: string = 'xl';
@@ -80,6 +81,8 @@ export class BsAlertsMenuComponent implements OnInit, OnDestroy {
       this.menu = undefined;
       return;
     }
+
+    if (this.searchRoute) this.alertsService.searchPath = this.searchRoute;
 
     const alertsActions: Action[] = [];
 
