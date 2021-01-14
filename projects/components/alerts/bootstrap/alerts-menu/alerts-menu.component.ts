@@ -40,7 +40,7 @@ export class BsAlertsMenuComponent implements OnInit, OnDestroy {
     this.manageAction = new Action({
       text: "msg#alerts.manageAlerts",
       title: "msg#alerts.manageAlerts",
-      action: () => { this.alertsService.manageAlertsModal(); }
+      action: () => { this.alertsService.manageAlertsModal(this.searchRoute); }
     });
 
   }
@@ -82,8 +82,6 @@ export class BsAlertsMenuComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.searchRoute) this.alertsService.searchPath = this.searchRoute;
-
     const alertsActions: Action[] = [];
 
     if (this.alertsService.hasAlert) {
@@ -101,7 +99,7 @@ export class BsAlertsMenuComponent implements OnInit, OnDestroy {
                   //this.searchService.query = Utils.extend(this.searchService.makeQuery(), (<UserSettings.Alert>item.data).query);
                   //this.searchService.search();
                   const alert: Alert = Utils.copy(item.data);
-                  this.alertsService.editAlertModal(alert);
+                  this.alertsService.editAlertModal(alert, undefined, this.searchRoute);
                 }
             }));
         }
