@@ -103,6 +103,16 @@ export class Timer {
 }
 
 /**
+ * A generic interface for tree nodes
+ */
+export interface TreeNode {
+    /**
+     * Children elements of this tree node
+     */
+    items?: TreeNode[];
+}
+
+/**
  * A utility class containing a variety of static methods and properties
  */
 // @dynamic
@@ -743,6 +753,47 @@ export class Utils {
     static treeCount(s: string): number {
         const count = Utils.count(s, "/");
         return count > 0 ? count - 1 : 0;
+    }
+
+    /**
+     * Traverses a tree structure, executing a callback function at every node
+     * @param nodes the nodes to traverse
+     * @param callback the callback function
+     */
+    public static traverse<T extends TreeNode>(nodes: T[], callback: (lineage: T[] | undefined) => boolean): boolean {
+        if (!nodes || nodes.length === 0) {
+            return false;
+        }
+        if (!callback) {
+            return false;
+        }
+        const lineage: T[] = [];
+        const stack: (T | undefined)[] = [];
+        let _i = nodes.length;
+        while (_i--) {
+            stack.push(nodes[_i]);
+        }
+        while (stack.length) {
+            const node = stack.pop();
+            if (!node) {
+                lineage.pop();
+                callback(undefined);
+            }
+            else {
+                lineage.push(node);
+                if (callback(lineage)) {
+                    return true;
+                }
+                stack.push(undefined);
+                if (node.items && node.items.length > 0) {
+                    _i = node.items.length;
+                    while (_i--) {
+                        stack.push(node.items[_i] as T);
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**

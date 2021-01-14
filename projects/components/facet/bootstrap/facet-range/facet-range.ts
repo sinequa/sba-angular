@@ -438,8 +438,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
             floor = this.options.floor = this.roundDown(floor);
             ceil = this.options.ceil = this.roundUp(ceil);
         }
-        const from = (this.getRange())[0];
-        const to = (this.getRange())[1];
+        const [from, to] = this.getRange();
         this.rangeActive = !Utils.isUndefined(from) || !Utils.isUndefined(to);
         this.rangeSelected = false;
         this.value = this.startValue = Math.max(from || floor, floor);
