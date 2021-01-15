@@ -79,6 +79,7 @@ export interface AlertChangeEvent {
 export interface ManageAlertsModel {
     alerts: Alert[];
     auditEvents?: AuditEvent[];
+    searchRoute?: string;
 }
 
 /**
@@ -333,10 +334,10 @@ export class AlertsService implements OnDestroy {
      * @param alert
      * @returns the search service promise
      */
-    public searchAlert(alert: Alert) : Promise<boolean> {
+    public searchAlert(alert: Alert, path?: string) : Promise<boolean> {
         this.searchService.setQuery(Utils.extend(this.searchService.makeQuery(), Utils.copy(alert.query)));
         this.events.next({type: AlertEventType.Search_AlertQuery, alert: alert});
-        return this.searchService.search(undefined, {
+        return this.searchService.search( {path: path}, {
             type: AlertEventType.Search_AlertQuery,
             detail: {
                 alert: alert.name
@@ -364,7 +365,7 @@ export class AlertsService implements OnDestroy {
             combine: true,
             respectTabSelection: false
         };
-        return this.modalService.open(this.alertComponents.editAlertModal, {model: alert})
+        return this.modalService.open(this.alertComponents.editAlertModal, {model: { alert: alert }})
             .then((result) => {
                 if (result === ModalResult.OK) {
 
@@ -391,14 +392,15 @@ export class AlertsService implements OnDestroy {
      * Opens a dialog allowing a user to edit an existing alert.
      * @param alert: The alert to edit
      * @param noUpdate: if true, will not update the server after the edit
+     * @param searchRoute: the route to use when replaying the alert's query
      * @returns a boolean promise resolved when the user closes the dialog
      * the result is true if the alert was updated.
      */
-    public editAlertModal(alert: Alert, noUpdate?: boolean) : Promise<boolean> {
+    public editAlertModal(alert: Alert, noUpdate?: boolean, searchRoute?: string) : Promise<boolean> {
 
         const prevName = alert.name;
 
-        return this.modalService.open(this.alertComponents.editAlertModal, {model: alert})
+        return this.modalService.open(this.alertComponents.editAlertModal,  {model: { alert: alert, searchRoute: searchRoute }})
             .then((result) => {
 
                 if (result === ModalResult.OK) {
@@ -440,9 +442,9 @@ export class AlertsService implements OnDestroy {
      * @returns a boolean promise resolved when the user closes the dialog
      * the result is true is the list was updated.
      */
-    public manageAlertsModal() : Promise<boolean> {
+    public manageAlertsModal(searchRoute?: string) : Promise<boolean> {
 
-        const model: ManageAlertsModel = { alerts: Utils.copy(this.alerts) };
+        const model: ManageAlertsModel =  { alerts: Utils.copy(this.alerts), searchRoute: searchRoute };
 
         return this.modalService.open(this.alertComponents.manageAlertsModal, {model})
             .then((result) => {
