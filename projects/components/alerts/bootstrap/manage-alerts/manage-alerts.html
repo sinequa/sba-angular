@@ -1,11 +1,11 @@
 <form name="manageAlerts" novalidate>
     <sq-modal [title]="'msg#manageAlerts.title'" [buttons]="buttons">
-        <div *ngIf="alertManager.alerts.length" class="form-group clearfix">
+        <div *ngIf="model.alerts.length" class="form-group clearfix">
             <button type="button" class="btn btn-secondary float-right" (click)="reorder()">{{(reordering ? "msg#manageAlerts.edit" : "msg#manageAlerts.reorder") | sqMessage}}</button>
         </div>
         <div class="form-group">
-            <div class="list-group" cdkDropList [cdkDropListData]="alertManager.alerts" [cdkDropListDisabled]="!reordering" (cdkDropListDropped)="dropped($event)">
-                <a *ngFor="let alert of alertManager.alerts; let $index = index" href="#" (click)="editAlert(alert)" cdkDrag 
+            <div class="list-group" cdkDropList [cdkDropListData]="model.alerts" [cdkDropListDisabled]="!reordering" (cdkDropListDropped)="dropped($event)">
+                <a *ngFor="let alert of model.alerts; let $index = index" href="#" (click)="editAlert(alert)" cdkDrag 
                     [ngClass]="['list-group-item list-group-item-action d-flex w-auto-unimportant', reordering ? 'cursor-move': '']">
                     <div [ngClass]="{'sq-active': !reordering, 'sq-alert-text': true}">{{alert.name}}</div>
                     <div class="ml-auto">

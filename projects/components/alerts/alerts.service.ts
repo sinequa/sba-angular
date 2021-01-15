@@ -79,6 +79,7 @@ export interface AlertChangeEvent {
 export interface ManageAlertsModel {
     alerts: Alert[];
     auditEvents?: AuditEvent[];
+    searchRoute?: string;
 }
 
 /**
@@ -443,12 +444,12 @@ export class AlertsService implements OnDestroy {
      */
     public manageAlertsModal(searchRoute?: string) : Promise<boolean> {
 
-        const model: { alertManager: ManageAlertsModel, searchRoute?: string } = { alertManager: { alerts: Utils.copy(this.alerts) }, searchRoute: searchRoute };
+        const model: ManageAlertsModel =  { alerts: Utils.copy(this.alerts), searchRoute: searchRoute };
 
         return this.modalService.open(this.alertComponents.manageAlertsModal, {model})
             .then((result) => {
                 if (result === ModalResult.OK) {
-                    return this.updateAlerts(model.alertManager.alerts, model.alertManager.auditEvents);
+                    return this.updateAlerts(model.alerts, model.auditEvents);
                 }
                 return false;
             });

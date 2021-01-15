@@ -18,13 +18,9 @@ export class BsManageAlerts implements OnInit {
     nameValidators: ValidatorFn[];
 
     constructor(
-        @Inject(MODAL_MODEL) public model: { alertManager: ManageAlertsModel, searchRoute: string },
+        @Inject(MODAL_MODEL) public model: ManageAlertsModel,
         public alertsService: AlertsService) {
         this.reordering = false;
-    }
-
-    get alertManager() {
-        return this.model.alertManager;
     }
 
     ngOnInit() {
@@ -33,13 +29,13 @@ export class BsManageAlerts implements OnInit {
                 text: "msg#manageAlerts.removeAll",
                 result: ModalResult.Custom,
                 action: (button) => {
-                    this.alertManager.alerts.splice(0);
+                    this.model.alerts.splice(0);
                     button.visible = false;
                     this.addAuditEvent({
                         type: AlertEventType.DeleteAll
                     });
                 },
-                visible: this.alertManager.alerts.length > 0
+                visible: this.model.alerts.length > 0
             }),
             new ModalButton({
                 result: ModalResult.OK,
@@ -52,10 +48,10 @@ export class BsManageAlerts implements OnInit {
     }
 
     addAuditEvent(auditEvent: AuditEvent) {
-        if (!this.alertManager.auditEvents) {
-            this.alertManager.auditEvents = [];
+        if (!this.model.auditEvents) {
+            this.model.auditEvents = [];
         }
-        this.alertManager.auditEvents.push(auditEvent);
+        this.model.auditEvents.push(auditEvent);
     }
 
     reorder() {
@@ -63,8 +59,8 @@ export class BsManageAlerts implements OnInit {
     }
 
     remove(alert: Alert, index: number) {
-        this.alertManager.alerts.splice(index, 1);
-        this.removeAllButton.visible = this.alertManager.alerts.length > 0;
+        this.model.alerts.splice(index, 1);
+        this.removeAllButton.visible = this.model.alerts.length > 0;
         this.addAuditEvent({
             type: AuditEventType.Alert_Delete,
             detail: {
@@ -94,6 +90,6 @@ export class BsManageAlerts implements OnInit {
     }
 
     dropped(drop: CdkDragDrop<Alert[]>) {
-        Utils.arrayMove(this.alertManager.alerts, drop.previousIndex, drop.currentIndex);
+        Utils.arrayMove(this.model.alerts, drop.previousIndex, drop.currentIndex);
     }
 }
