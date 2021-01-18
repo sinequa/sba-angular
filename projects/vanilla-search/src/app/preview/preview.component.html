@@ -86,11 +86,11 @@
                 <i class="fas fa-link"></i>
             </a>
 
-            <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" tooltip="{{'msg#facet.preview.maximize' | sqMessage }}" (click)="increaseScaleFactor()">
-                <i class="fas fa-search-plus"></i>
-            </button>
             <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" tooltip="{{'msg#facet.preview.minimize' | sqMessage }}" (click)="decreaseScaleFactor()" [disabled]="shouldDisableMinimize()">
                 <i class="fas fa-search-minus"></i>
+            </button>
+            <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" tooltip="{{'msg#facet.preview.maximize' | sqMessage }}" (click)="increaseScaleFactor()">
+                <i class="fas fa-search-plus"></i>
             </button>
         </div>
         <img id="logo" src="{{ isDark() ? 'assets/sinequa-logo-dark-sm.png' : 'assets/sinequa-logo-light-sm.png'}}" alt="Sinequa logo" tooltip="Sinequa">

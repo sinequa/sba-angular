@@ -234,11 +234,11 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
         .map(key => ({entity: key, value: uncheckedEntities[key]}))
         .filter(item => item.value === true)
         .map(item => previewDocument.toggleHighlight(item.entity, false));
+        
+      this.previewDocument = previewDocument;
+      this.previewDocument.selectHighlight("matchlocations", 0); // Scroll to first match
+      this.loadingPreview = false;
     }
-
-    this.previewDocument = previewDocument;
-    this.previewDocument.selectHighlight("matchlocations", 0); // Scroll to first match
-    this.loadingPreview = false;
 }
 
   /**

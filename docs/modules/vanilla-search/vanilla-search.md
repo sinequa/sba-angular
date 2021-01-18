@@ -258,7 +258,7 @@ The styles of Vanilla Search come from various sources:
     @import "~bootstrap/scss/bootstrap"; 
 
     // Fontawesome
-    $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
+    $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
     @import "~@fortawesome/fontawesome-free/scss/fontawesome";
     @import "~@fortawesome/fontawesome-free/scss/brands";
     @import "~@fortawesome/fontawesome-free/scss/regular";

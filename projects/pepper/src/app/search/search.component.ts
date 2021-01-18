@@ -60,6 +60,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       }, 0); 
     });
     
+    // Upon login (ie access to user settings) initialize the dashboard widgets and actions
     this._loginSubscription = this.loginService.events.subscribe(event => {
       if (event.type === "session-start") {
         // Note: the default dashboard must be set post-login so that it can be overriden by a default dashboard set by the user
@@ -68,11 +69,13 @@ export class SearchComponent implements OnInit, OnDestroy {
       }
     });
   
+    // When the screen is resized, we resize the dashboard row height, so that items keep fitting the screen height
     this.ui.addResizeListener(event => {
       this.dashboardService.options.fixedRowHeight = (window.innerHeight - 150) / 4;
       this.dashboardService.updateOptions(this.dashboardService.options);
     });
 
+    // Action to toggle the dark mode
     this.darkAction = new Action({
       text: 'msg#search.darkMode',
       title: 'msg#search.darkModeTitle',
