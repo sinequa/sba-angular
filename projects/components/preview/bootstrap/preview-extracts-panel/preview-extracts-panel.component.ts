@@ -35,25 +35,22 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
       const extracts = this.previewData.highlightsPerCategory["extractslocations"].values; //Extract locations Array ordered by "relevance"
       if(!!extracts && extracts.length > 0){
 
-        var extractsLocations = extracts[0].locations;
-
         // Init the extracts Array and storing the relevancy index = i because extractsLocations is already ordered by relevance
-        extractsLocations.forEach((el,i) => {
-          this.extracts.push({
+        this.extracts = extracts[0].locations.map((el, i) => {
+          return {
             text: "",
             startIndex: el.start,
             relevanceIndex: i,
             textIndex: 0
-          })
+          }
         });
-
         
         this.extracts
-        .sort((a,b)=> a.startIndex - b.startIndex) // Sorting by start index (text index)
-        .forEach((el,i) => {
-            el.text = this.sanitize(this.previewDocument.getHighlightText("extractslocations", i)) // Retrieving the text using getHighlightText
-            el.textIndex = i // Storing the TextIndex to be able to select extracts
-        }) 
+          .sort((a,b)=> a.startIndex - b.startIndex) // Sorting by start index (text index)
+          .forEach((el,i) => {
+              el.text = this.sanitize(this.previewDocument.getHighlightText("extractslocations", i)); // Retrieving the text using getHighlightText
+              el.textIndex = i; // Storing the TextIndex to be able to select extracts
+          });
 
         // Sorting by Relevance to display extract ordered by Relevance
         this.extracts.sort((a,b) => a.relevanceIndex-b.relevanceIndex);

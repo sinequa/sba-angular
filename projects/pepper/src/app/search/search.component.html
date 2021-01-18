@@ -102,8 +102,11 @@
             <!-- Dashboard -->
             <div class="col-lg-8 h-100 px-0">
 
+                <!-- Gridster dashboard component -->
                 <gridster [options]="dashboardService.options">
+                    <!-- Gridster item component (one for each widget): Manages drag & drop, resize, etc. -->
                     <gridster-item [item]="item" *ngFor="let item of dashboardService.dashboard.items; index as i">
+                        <!-- Sinequa dashboard item component which wraps each widget type-->
                         <sq-dashboard-item 
                             [config]="item"
                             [results]="results"
