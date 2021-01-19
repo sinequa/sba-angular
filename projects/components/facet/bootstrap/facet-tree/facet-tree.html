@@ -16,10 +16,10 @@
     
             <span class="mr-auto text-truncate" [ngStyle]="{'margin-left.rem' : item['$level'] - 1}">
 
-                <a *ngIf="item['hasChildren']" class="item-opener" href="#" (click)="open(item, $event)">
+                <a *ngIf="item['hasChildren']" class="item-opener" href="#" (click)="open(item, $event)" title="{{ (item['$opened'] ? 'msg#facet.closeItem' : 'msg#facet.openItem') | sqMessage }}">
                     <span *ngIf="item['$opening']" class="fas fa-sync fa-fw fa-spin"></span>
-                    <span *ngIf="!item['$opening'] && item['$opened']" class="fas fa-caret-down fa-fw" title="{{'msg#facet.closeItem' | sqMessage}}"></span>
-                    <span *ngIf="!item['$opening'] && !item['$opened']" class="fas fa-caret-right fa-fw" title="{{'msg#facet.openItem' | sqMessage}}"></span>
+                    <span *ngIf="!item['$opening'] && item['$opened']" class="fas fa-caret-down fa-fw"></span>
+                    <span *ngIf="!item['$opening'] && !item['$opened']" class="fas fa-caret-right fa-fw"></span>
                 </a>
                 <span *ngIf="!item['hasChildren']" class="fas fa-fw"></span>
     
