@@ -48,6 +48,10 @@
             <div *ngIf="loadingPreview" class="d-flex justify-content-center align-items-center h-100">
                 <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"></div>
             </div>
+            <div *ngIf="!loadingPreview && previewData" class="ml-2">
+                <sq-result-title [record]="previewData?.record"></sq-result-title>
+                <sq-result-source [record]="previewData?.record" [displayTreepath]="false"></sq-result-source>
+            </div>
             <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)">
 
                 <!-- Tooltip injected in the preview -->
@@ -66,30 +70,30 @@
         <div [ngClass]="{'btn-group': !collapsedPanel, 'btn-group-vertical':collapsedPanel}">
             
             <!-- Toggles the left panel collapsed/expanded state -->
-            <button class="btn btn-lg btn-primary" [placement]="leftPanelTooltipPlacement()" tooltip="Expand" (click)="collapsedPanel = !collapsedPanel">
+            <button class="btn btn-lg btn-primary" title="Expand" (click)="collapsedPanel = !collapsedPanel">
                 <i class="fas fa-bars"></i>
             </button>
 
             <!-- Back button (go back to /search route) -->
-            <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" tooltip="Back" (click)="back()" *ngIf="showBackButton">
+            <button class="btn btn-lg btn-light" title="Back" (click)="back()" *ngIf="showBackButton">
                 <i class="fas fa-arrow-left"></i>
             </button>
 
             <!-- Home page link -->
-            <a [routerLink]="[homeRoute]" class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" tooltip="Home" *ngIf="homeRoute">
+            <a [routerLink]="[homeRoute]" class="btn btn-lg btn-light" title="Home" *ngIf="homeRoute">
                 <i class="fas fa-home"></i>
             </a>
 
             <!-- Link to the original document -->
-            <a class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" tooltip="Original document" target="_blank" href="{{previewData.record.url1}}"
+            <a class="btn btn-lg btn-light" title="Original document" target="_blank" href="{{previewData.record.url1}}"
                 *ngIf="!!previewData && !!previewData.record.url1" (click)="openOriginalDoc()">
                 <i class="fas fa-link"></i>
             </a>
 
-            <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" tooltip="{{'msg#facet.preview.minimize' | sqMessage }}" (click)="decreaseScaleFactor()" [disabled]="shouldDisableMinimize()">
+            <button class="btn btn-lg btn-light" title="{{'msg#facet.preview.minimize' | sqMessage }}" (click)="decreaseScaleFactor()" [disabled]="shouldDisableMinimize()">
                 <i class="fas fa-search-minus"></i>
             </button>
-            <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" tooltip="{{'msg#facet.preview.maximize' | sqMessage }}" (click)="increaseScaleFactor()">
+            <button class="btn btn-lg btn-light" title="{{'msg#facet.preview.maximize' | sqMessage }}" (click)="increaseScaleFactor()">
                 <i class="fas fa-search-plus"></i>
             </button>
         </div>
