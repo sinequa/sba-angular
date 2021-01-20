@@ -140,6 +140,10 @@
         "widgetClose": "Fermer",
         "renameWidget": "Renommer un widget",
         "renameWidgetMessage": "Entrez un nouveau nom pour ce widget",
-        "renameWidgetTitle": "Renommer ce widget"
+        "renameWidgetTitle": "Renommer ce widget",
+        "fullScreenTitle": "Plein écran",
+        "exitFullScreenTitle": "Quitter plein écran",
+        "maximizeTitle": "Maximiser",
+        "minimizeTitle": "Réduire"
     }
 }

@@ -18,7 +18,7 @@ $container-max-widths: (
 );
 
 // Bootstrap styles
-@import "~bootstrap/scss/bootstrap"; 
+@import "~bootstrap/scss/bootstrap";
 
 // Fontawesome
 $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
@@ -82,7 +82,7 @@ a {
     .sq-home-facet-bar {
         min-height: 287px;
     }
-    
+
     .card {
         box-shadow: 0 5px 7px rgba(0,0,0,.08);
     }
@@ -125,7 +125,7 @@ sq-sort-selector button.btn {
     font-size: 0.85em;
     border: none;
 
-    & > div {        
+    & > div {
         padding: 5px 0;
     }
 }
@@ -198,17 +198,17 @@ sq-feedback-menu {
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #f1f1f1;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #888; 
+    background: #888;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #555; 
+    background: #555;
 }
 
 .dashboard-actions {
@@ -229,4 +229,22 @@ sq-feedback-menu {
     }
 }
 
+.widget-maximized-view {
+    top: 0px !important;
+    left: 0px !important;
+    z-index: 999 !important;
+    position: absolute !important;
+    height: 100% !important;
+    transform: unset !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.no-scroll {
+    overflow: unset !important;
+}
+
 @import 'dark-mode';
+
+
+

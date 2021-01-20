@@ -14,7 +14,7 @@
         "search": "Suche",
         "searchFor": "Suche nach...",
         "advanced": "Erweitert",
-        "advancedSearch": "Erweiterte Suche",        
+        "advancedSearch": "Erweiterte Suche",
         "scopeTitle": "Suchbereich: {name}",
         "recentQuery": "Recent query",
         "recentDocument": "Recent document",
@@ -115,6 +115,10 @@
         "widgetClose": "Schließen",
         "renameWidget": "Widget umbenennen",
         "renameWidgetMessage": "Geben Sie einen neuen Namen für dieses Widget ein",
-        "renameWidgetTitle": "Benennen Sie dieses Widget um"
+        "renameWidgetTitle": "Benennen Sie dieses Widget um",
+        "fullScreenTitle": "Vollbild",
+        "exitFullScreenTitle": "Verlassen des Vollbildmodus",
+        "maximizeTitle": "Maximieren",
+        "minimizeTitle": "reduzieren"
     }
 }

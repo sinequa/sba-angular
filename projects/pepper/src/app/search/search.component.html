@@ -23,7 +23,7 @@
             </ng-container>
             <sq-user-menu></sq-user-menu>
         </ul>
-        
+
         <sq-feedback-menu [style]="'primary'" [rightAligned]="true">
         </sq-feedback-menu>
 
@@ -48,7 +48,7 @@
 
             <!-- Results -->
             <div class="col-lg-4 py-3 results-list">
-                
+
                 <!-- Result selection toolbar -->
                 <div class="card text-white bg-primary position-fixed action-bar">
                     <div class="card-header">
@@ -73,7 +73,7 @@
                 <sq-sponsored-results [query]="searchService.query"></sq-sponsored-results>
 
                 <!-- List of documents (for loop) -->
-                <div *ngFor="let record of results.records; index as i" class="record d-flex" 
+                <div *ngFor="let record of results.records; index as i" class="record d-flex"
                     (click)="onDocumentClicked(record, $event)"
                     [ngClass]="{'selected': record.$selected || isOpened(record)}"
                     [sqScrollIntoView]="{active: record.id === lastSelectedId, first: i === 0}">
@@ -94,7 +94,7 @@
                         *ngIf="ui.screenSizeIsGreater('xs')" class="align-self-center">
                     </sq-result-thumbnail>
                 </div>
-                
+
                 <!-- Pager -->
                 <sq-pager [results]="results" class="d-flex flex-column align-items-center mt-3"></sq-pager>
             </div>
@@ -107,23 +107,23 @@
                     <!-- Gridster item component (one for each widget): Manages drag & drop, resize, etc. -->
                     <gridster-item [item]="item" *ngFor="let item of dashboardService.dashboard.items; index as i">
                         <!-- Sinequa dashboard item component which wraps each widget type-->
-                        <sq-dashboard-item 
+                        <sq-dashboard-item
                             [config]="item"
                             [results]="results"
                             [width]="item.width"
                             [height]="item.height"
                             [buttonsStyle]="isDark()? 'dark' : 'light'"
                             (recordClicked)="onDocumentClickedFromView($event)"
-                            
+
                             [sqScrollIntoView]="{active: item.recordId && item.recordId === lastClickedId, first: i === 0}">
                         </sq-dashboard-item>
                     </gridster-item>
                 </gridster>
 
             </div>
-            
+
         </div>
-        
+
     </div>
 </ng-container>
 

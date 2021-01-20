@@ -1,4 +1,4 @@
-<sq-facet-card 
+<sq-facet-card
     [icon]="config.icon"
     [title]="config.title"
     [collapsible]="false"
@@ -69,15 +69,16 @@
         [width]="innerwidth"
         [height]="innerheight">
     </sq-facet-heatmap>
-    
+
     <!-- Preview -->
     <ng-container *ngSwitchCase="'preview'">
         <sq-facet-preview-2 *ngIf="record"
-            #facet 
-            [record]="record" 
+            #facet
+            [record]="record"
             [query]="query"
             [scalingFactor]="0.8"
             [expandModal]="false"
+            [closable]="false"
             [height]="innerheight"
             (recordClosed)="close()">
         </sq-facet-preview-2>
