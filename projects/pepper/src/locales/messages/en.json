@@ -76,8 +76,6 @@
 
     "search": {
         "pageTitle": "Search - {search}",
-        "darkMode": "Dark mode",
-        "darkModeTitle": "Toggle dark mode",
         "filters": "Filters"
     },
 

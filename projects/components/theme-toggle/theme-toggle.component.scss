@@ -1,0 +1,33 @@
+.oval {
+  position: relative;
+  margin: 10px;
+  width: 50px;
+  height: 26px;
+  border-radius: 25px;
+  background-color: #0275d8;
+  -webkit-transition: background-color 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.ovalSelected {
+  background: #fadc04;
+}
+
+.buttonToggle {
+  position: absolute;
+  margin-top: 3px;
+  margin-left: 3px;
+  left: 0px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #f7f7f7;
+  -webkit-transition: left 0.15s ease-in-out, background-color 0.15s ease-in-out;
+  transition: left 0.15s ease-in-out, background-color 0.15s ease-in-out;
+}
+
+.buttonSelected {
+  left: 25px;
+  background-color: #919191;
+}
