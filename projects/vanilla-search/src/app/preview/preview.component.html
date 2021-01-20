@@ -49,7 +49,7 @@
                 <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"></div>
             </div>
             <div *ngIf="!loadingPreview && previewData" class="shadow-sm mb-1 pl-2">
-                <sq-result-title [record]="previewData?.record"></sq-result-title>
+                <h1>{{ previewData?.record.title }}</h1>
                 <sq-result-source [record]="previewData?.record" [displayTreepath]="false"></sq-result-source>
             </div>
             <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)">
