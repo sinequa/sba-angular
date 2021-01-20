@@ -196,7 +196,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/hello-search/tsconfig.app.json",
+              "projects/hello-search/tsconfig.json",
               "projects/hello-search/tsconfig.spec.json",
               "projects/hello-search/e2e/tsconfig.json"
             ],
@@ -346,7 +346,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/vanilla-search/tsconfig.app.json",
+              "projects/vanilla-search/tsconfig.json",
               "projects/vanilla-search/tsconfig.spec.json",
               "projects/vanilla-search/e2e/tsconfig.json"
             ],
@@ -498,7 +498,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/pepper/tsconfig.app.json",
+              "projects/pepper/tsconfig.json",
               "projects/pepper/tsconfig.spec.json",
               "projects/pepper/e2e/tsconfig.json"
             ],

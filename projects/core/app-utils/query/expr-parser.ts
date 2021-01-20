@@ -435,7 +435,7 @@ export class Expr {
     }
 
     /**
-     * Return `true` if this expression is a leaf node (does not have a value)
+     * Return `true` if this expression is a leaf node (does have a value)
      */
     public get isLeaf(): boolean {
         // if (this.value === null && !this.operands) throw "Expr.isLeaf - bad expression";

@@ -24,7 +24,7 @@
         "simpleTitle": "Graphical mode allowing to display selected filters as badges",
         "advancedTitle": "Text mode allowing to write search expressions such as \"geo: Paris OR company: Sinequa\""
     },
-    
+
     "baskets": {
         "baskets": "Collections",
         "addToBasket": "Add to collection",
@@ -32,7 +32,7 @@
         "removeFromAllBaskets": "Remove from all collections",
         "removeFromAllBasketsConfirmation": "Are you sure you want to remove this result from these collections: {baskets}?",
         "basketAlreadyExists": "A collection with that name already exists. Would you like to replace it?",
-        "noBasket": "You have not yet added a document to a collection...",        
+        "noBasket": "You have not yet added a document to a collection...",
         "createBasket": "Create Collection",
         "manageBaskets": "Manage Collections"
     },
@@ -140,6 +140,10 @@
         "widgetClose": "Close",
         "renameWidget": "Rename widget",
         "renameWidgetMessage": "Enter a new name for this widget",
-        "renameWidgetTitle": "Rename this widget"
+        "renameWidgetTitle": "Rename this widget",
+        "fullScreenTitle": "Full screen",
+        "exitFullScreenTitle": "Exit full screen",
+        "maximizeTitle": "Maximize",
+        "minimizeTitle": "Reduce"
     }
 }

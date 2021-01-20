@@ -16,7 +16,14 @@ import { Subject } from 'rxjs';
 import { UserPreferences } from '@sinequa/components/user-settings';
 import { IntlService } from '@sinequa/core/intl';
 
-
+/**
+ * Interface storing the configuration of a widget. It must contain the minimal amount of information
+ * to rebuild the widget's content (eg. for the preview we need an id and a query).
+ * This configuration is stored in user settings and/or shared with other users, so it must not include
+ * large objects or raw data (only the means to rebuild these objects or data).
+ * This interface is an extension of GridsterItem, so that we store things like the position of each
+ * widget in the dashboard.
+ */
 export interface DashboardItem extends GridsterItem {
     type: string;
     icon: string;
@@ -31,11 +38,18 @@ export interface DashboardItem extends GridsterItem {
     chartType?: string; // For type === 'chart'
 }
 
+/**
+ * A dashboard configuration interface incl. a name and the configuration of each widget
+ */
 export interface Dashboard {
     name: string;
     items: DashboardItem[];
 }
 
+/**
+ * An interface to define a type of widget that can be added to the dashboard. This basic information
+ * is used to create a button to select a type of widget among a list.
+ */
 export interface DashboardItemOption {
     type: string;
     icon: string;
@@ -43,8 +57,12 @@ export interface DashboardItemOption {
     unique: boolean;
 }
 
+// Name of the "default dashboard" (displayed prior to any user customization)
 export const defaultDashboardName = "<default>";
 
+// List of widgets supported in this dashboard. They can be used:
+// - to define the "default dashboard" (by calling setDefaultDashboard())
+// - to create the "dashboard actions" (which include the possibility of adding new widgets to the dashboard)
 export const MAP_WIDGET: DashboardItemOption = {type: 'map', icon: 'fas fa-globe-americas fa-fw', text: 'msg#dashboard.map', unique: true};
 export const TIMELINE_WIDGET: DashboardItemOption = {type: 'timeline', icon: 'fas fa-chart-line fa-fw', text: 'msg#dashboard.timeline', unique: true};
 export const NETWORK_WIDGET: DashboardItemOption = {type: 'network', icon: 'fas fa-project-diagram fa-fw', text: 'msg#dashboard.network', unique: true};
@@ -52,16 +70,21 @@ export const CHART_WIDGET: DashboardItemOption = {type: 'chart', icon: 'fas fa-c
 export const HEATMAP_WIDGET: DashboardItemOption = {type: 'heatmap', icon: 'fas fa-th fa-fw', text: 'msg#dashboard.heatmap', unique: false};
 export const PREVIEW_WIDGET: DashboardItemOption = {type: 'preview', icon: 'far fa-file-alt', text: '', unique: false}
 
+
 @Injectable({
     providedIn: 'root'
 })
 export class DashboardService {
 
+    /** Currently active dashboard */
     dashboard: Dashboard;
+    /** Default dashboard (active by default or if the user reinitializes the dashboard) */
     defaultDashboard: Dashboard;
 
+    /** Options of the Gridster dashboard component*/
     options: GridsterConfig;
 
+    /** Action objects part of the "dashboard actions" (returned by createDashboardActions()) */
     manualLayout: Action;
     autoLayout: Action;
     fixedLayout: Action;
@@ -69,6 +92,7 @@ export class DashboardService {
     autoSaveAction: Action;
     setDefaultAction: Action;
 
+    /** A subject firing events when the dashboard changes */
     dashboardChanged = new Subject<Dashboard>();
 
     constructor(
@@ -85,7 +109,7 @@ export class DashboardService {
         public intlService: IntlService
     ) {
 
-        // Default options
+        // Default options of the Gridster dashboard
         this.options = {
             swap: true,
             draggable: {
@@ -113,12 +137,14 @@ export class DashboardService {
             minCols: 4
         };
 
+        // Manage URL changes (which may include dashboard name or config to be imported)
         this.router.events.subscribe(event => {
             if(event instanceof NavigationEnd) {
                 this.handleNavigation();
             }
         })
 
+        // Dashboards are stored in User Settings
         this.userSettingsService.events.subscribe(event => {
             // E.g. new login occurs
             // ==> Menus need to be rebuilt
@@ -129,7 +155,7 @@ export class DashboardService {
             }
         });
 
-        // Autosave
+        // Manage Autosave
         this.dashboardChanged.subscribe(dashboard => {
             if(this.autoSave && this.isDashboardSaved()) {
                 this.debounceSave();
@@ -138,6 +164,10 @@ export class DashboardService {
     }
 
 
+    /**
+     * Handle URL changes. Retrieve a dashboard name or configuration if any, depending on
+     * the params contained in the URL.
+     */
     protected handleNavigation() {
         const url = Utils.makeURL(this.router.url);
         const dashboard = url.searchParams.get("dashboard");
@@ -176,20 +206,35 @@ export class DashboardService {
         return this.userSettingsService.userSettings["dashboards"];
     }
 
+    /**
+     * Tests whether a dashboard name exists or not in the user settings
+     * @param dashboard
+     */
     public hasDashboard(dashboard: string): boolean {
         return !!this.getDashboard(dashboard);
     }
 
+    /**
+     * Retrieves a dashboard configuration from the user settings
+     * @param dashboard
+     */
     public getDashboard(dashboard: string): Dashboard | undefined {
         return this.dashboards.find(d => d.name === dashboard);
     }
 
+    /**
+     * Sets the configuration for the "default dashboard" (dashboard displayed by default or
+     * when the user reinitializes the dashboard).
+     * @param items
+     */
     public setDefaultDashboard(items: DashboardItemOption[]) {
+        // The default dashboard may have been customized by the user, in which case we ignore the "items" input
         const defaultDashboard = this.prefs.get("dashboard-default");
         if(defaultDashboard && this.hasDashboard(defaultDashboard)) {
             this.defaultDashboard = Utils.copy(this.getDashboard(defaultDashboard)!);
             this.defaultDashboard.name = defaultDashboardName;
         }
+        // There is no user-customized default dashboard: we create one and initialize it with the "items" input
         else {
             this.defaultDashboard = {
                 name: defaultDashboardName,
@@ -197,38 +242,63 @@ export class DashboardService {
             };
             items.forEach(item => this.addWidget(item, this.defaultDashboard));
         }
+        // If there is no dashboard explicitly opened currently, we open the default dashboard that we just created
         if(!this.dashboard) {
             this.dashboard = Utils.copy(this.defaultDashboard); // Default dashboard is kept as a deep copy, so we don't change it by editing the dashboard
         }
     }
 
-    public setDashboardItems(items: DashboardItem[]) {
-        this.dashboard = { name: defaultDashboardName, items };
+    /**
+     * Explicitly sets the current dashboard's items (and optionally its name)
+     * @param items
+     */
+    public setDashboardItems(items: DashboardItem[], name = defaultDashboardName) {
+        this.dashboard = { name, items };
         this.dashboardChanged.next(this.dashboard);
     }
 
+    /**
+     * A dashboard is considered saved if it has a name that is different from the default one
+     */
     public isDashboardSaved(): boolean {
-        return this.defaultDashboard && this.dashboard.name !== defaultDashboardName;
+        return this.defaultDashboard && this.dashboard && this.dashboard.name !== defaultDashboardName;
     }
 
 
     // Dashboard modifications
 
+    /**
+     * Fire an event when a dashboard item changes
+     * @param item
+     */
     public notifyItemChange(item: DashboardItem) {
         this.dashboardChanged.next(this.dashboard);
     }
 
+    /**
+     * Update the Gridster options
+     * @param options
+     */
     public updateOptions(options: GridsterConfig) {
         this.options = options;
         this.options.api?.optionsChanged!();
     }
 
+    /**
+     * Add a new widget to the dashboard. The widget is added a x = y = 0 so that Gridster automaticaly
+     * finds a good spot to insert the widget.
+     * @param option a DashboardItemOption, containing among other thing the type of widget to be created
+     * @param dashboard a Dashboard object (default to the currently active widget)
+     * @param rows the number of rows that this widget should take in the dashboard (default to 2)
+     * @param cols the number of columns that this widget should take in the dashboard (default to 2)
+     * @param closable whether this widget is closable (default to true)
+     */
     public addWidget(option: DashboardItemOption, dashboard: Dashboard = this.dashboard, rows = 2, cols = 2): DashboardItem {
         dashboard.items.push({
             x: 0,
             y: 0,
-            rows: rows || 2,
-            cols: cols || 2,
+            rows,
+            cols,
             type: option.type,
             icon: option.icon,
             title: option.text
@@ -237,16 +307,29 @@ export class DashboardService {
         return dashboard.items[dashboard.items.length - 1];
     }
 
+    /**
+     * Remove a widget from the dashboard
+     * @param item
+     */
     public removeItem(item: DashboardItem) {
         this.dashboard.items.splice(this.dashboard.items.indexOf(item), 1);
         this.notifyItemChange(item);
     }
 
+    /**
+     * Rename a widget in the dashboard
+     * @param item
+     * @param newTitle
+     */
     public renameWidget(item: DashboardItem, newTitle: string) {
         item.title = newTitle;
         this.notifyItemChange(item);
     }
 
+    /**
+     * Open a dialog to submit a new name for a given widget
+     * @param item
+     */
     public renameWidgetModal(item: DashboardItem) {
 
         const model: PromptOptions = {
@@ -264,10 +347,23 @@ export class DashboardService {
         });
     }
 
+    /**
+     * Creates a list of Action objects that allow to interact with this dashboard.
+     * These actions are meant to be displayed next to the dashboard within a menu
+     * component.
+     * The actions include:
+     * - Adding widgets
+     * - Sharing the dashboard
+     * - Changing the layout mode of Gridster
+     * - Saving, opening and deleting the dashboard
+     * @param addWidgetOptions list of DashboardItemOption used to display a list
+     * of widget types for the user to choose from
+     */
     public createDashboardActions(addWidgetOptions: DashboardItemOption[]): Action[] {
 
         const dashboardActions = [] as Action[];
 
+        // Action to add a widget
         dashboardActions.push(new Action({
             icon: 'fas fa-plus fa-fw',
             text: 'msg#dashboard.addWidget',
@@ -287,6 +383,7 @@ export class DashboardService {
             }
         }));
 
+        // Action to share a widget
         dashboardActions.push(new Action({
             icon: 'fas fa-share-alt',
             text: 'msg#dashboard.share',
@@ -305,6 +402,7 @@ export class DashboardService {
             }
         }));
 
+        // Action to select the "manual" layout mode
         this.manualLayout = new Action({
             text: 'msg#dashboard.manual',
             title: 'msg#dashboard.manualTitle',
@@ -315,6 +413,7 @@ export class DashboardService {
                 }
             }
         });
+        // Action to select the "auto" layout mode
         this.autoLayout = new Action({
             text: 'msg#dashboard.auto',
             title: 'msg#dashboard.autoTitle',
@@ -325,6 +424,7 @@ export class DashboardService {
                 }
             }
         });
+        // Action to select the "fixed" layout mode
         this.fixedLayout = new Action({
             text: 'msg#dashboard.fixed',
             title: 'msg#dashboard.fixedTitle',
@@ -339,15 +439,15 @@ export class DashboardService {
             this.setLayout(this.layout);
         }
 
+        // Action to create a new dashboard
         const newDashboard = new Action({
             text: "msg#dashboard.new",
             title: "msg#dashboard.newTitle",
             selected: false,
-            action: () => {
-                this.newDashboard();
-            }
+            action: () => this.newDashboard()
         });
 
+        // Action to open a saved dashboard
         this.openAction = new Action({
             text: "msg#dashboard.open",
             title: "msg#dashboard.openTitle",
@@ -358,6 +458,7 @@ export class DashboardService {
             this.updateOpenAction();
         }
 
+        // Action to delete the current dashboard from the saved dashboards
         const deleteAction = new Action({
             text: 'msg#dashboard.delete',
             title: 'msg#dashboard.deleteTitle',
@@ -397,14 +498,14 @@ export class DashboardService {
             }
         });
 
+        // Action to save this dashboard in the usersettings
         const saveAs = new Action({
             text: 'msg#dashboard.saveAs',
             title: 'msg#dashboard.saveAsTitle',
             selected: false,
-            action: () => {
-                this.saveAs();
-            }
+            action: () => this.saveAs()
         });
+        // Action to save this (already saved) dashboard in the usersettings
         const save = new Action({
             text: 'msg#dashboard.save',
             title: 'msg#dashboard.saveTitle',
@@ -418,6 +519,7 @@ export class DashboardService {
                 }
             }
         });
+        // Action to toggle auto-save mode
         this.autoSaveAction = new Action({
             text: 'msg#dashboard.autoSave',
             title: 'msg#dashboard.autoSaveTitle',
@@ -430,6 +532,7 @@ export class DashboardService {
                 }
             }
         });
+        // Action to set the currently saved dashboard as the default one
         this.setDefaultAction = new Action({
             text: 'msg#dashboard.setDefault',
             title: 'msg#dashboard.setDefaultTitle',
@@ -451,16 +554,22 @@ export class DashboardService {
                     ]
                 }).then(res => {
                     if(res === ModalResult.OK) {
+                        // Make the current dashboard as the default one (locally)
                         this.defaultDashboard = Utils.copy(this.dashboard);
+                        // Store the name of the saved default dashboard for resetting it upon next login
                         this.prefs.set("dashboard-default", this.defaultDashboard.name);
+                        // Update the name of the current dashboard (it can diverge from its saved version)
                         this.defaultDashboard.name = defaultDashboardName;
+                        // Update the action to reflect the new app state
                         this.updateSetDefaultAction();
+                        // Notify user that this worked
                         this.notificationService.success("msg#dashboard.setDefaultSuccess", {dashboard: this.dashboard.name});
                     }
                 });
             }
         });
 
+        // Assemble the actions into one menu
         const settings = new Action({
             icon: 'fas fa-cog fa-fw',
             title: 'msg#dashboard.settingsTitle',
@@ -485,6 +594,9 @@ export class DashboardService {
         return dashboardActions;
     }
 
+    /**
+     * Update the "open" action to reflect the list of saved dashboards
+     */
     protected updateOpenAction() {
         this.openAction.children = this.dashboards.map(dashboard => new Action({
             text: dashboard.name,
@@ -501,10 +613,16 @@ export class DashboardService {
         }
     }
 
+    /**
+     * Update the state of the autosave action
+     */
     protected updateAutoSaveAction() {
         this.autoSaveAction.selected = this.autoSave;
     }
 
+    /**
+     * Update the state of the setDefault action
+     */
     protected updateSetDefaultAction() {
         // We cannot set this as the default dashboard if is unsaved or if it is already the default
         if(this.setDefaultAction) {
@@ -512,6 +630,10 @@ export class DashboardService {
         }
     }
 
+    /**
+     * Modifies the layout mode of the Gridster dashboard
+     * @param layout
+     */
     protected setLayout(layout: string) {
         if(layout === "auto") {
             this.options.compactType = 'compactLeft&Up';
@@ -535,12 +657,19 @@ export class DashboardService {
         this.fixedLayout.selected = this.layout === "fixed";
     }
 
+    /**
+     * Creates a new dashboard (using the default dashboard)
+     */
     protected newDashboard() {
         this.dashboard = Utils.copy(this.defaultDashboard);
         delete this.searchService.queryStringParams.dashboard;
         this.searchService.navigate({skipSearch: true});
     }
 
+    /**
+     * Prompts the user for a name and saves the dashboard under this name in the
+     * user settings.
+     */
     protected saveAs() {
 
         const unique : ValidatorFn = (control) => {
@@ -564,7 +693,7 @@ export class DashboardService {
                 // Update User settings
                 this.dashboards.push(dashboard);
                 this.patchDashboards();
-                // Update URL
+                // Update URL (store dashboard name in the queryParams)
                 this.searchService.queryStringParams.dashboard = model.output; // Needed when refreshing the page
                 this.searchService.navigate({skipSearch: true});
                 // Update menu
@@ -576,6 +705,10 @@ export class DashboardService {
 
     debounceSave = Utils.debounce(() => this.patchDashboards(false), 200); // debounce save to avoid multiple events
 
+    /**
+     * Updates the list of dashboards in the user settings
+     * @param notify
+     */
     protected patchDashboards(notify = true) {
         this.userSettingsService.patch({dashboards: this.dashboards})
             .subscribe(
@@ -593,10 +726,12 @@ export class DashboardService {
             );
     }
 
+    /** Getter for the auto-save preference */
     public get autoSave(): boolean {
         return !!this.prefs.get("auto-save-dashboards");
     }
 
+    /** Getter for the layout mode preference */
     public get layout(): string {
         return this.prefs.get("dashboard-layout") || "manual";
     }

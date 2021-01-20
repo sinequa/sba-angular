@@ -52,11 +52,11 @@ The problem with CORS is that, when active, the browser restricts a number of fu
 
 **CORS may be an issue depending on where your SBA is deployed:**
 
-- When your SBA is deployed on a Sinequa server, there is no problem because CORS is not active: The application's URL (`https://my-sinequa-server.com/app/my-sba`) has the same origin as the application's API (`https://my-sinequa-server.com/api`).
+- When your SBA is deployed on a Sinequa WebApp, there is no problem because CORS is not active: The application's URL (`https://my-sinequa-server.com/app/my-sba`) has the same origin as the application's API (`https://my-sinequa-server.com/api`).
 
     ![CORS inactive]({{site.baseurl}}assets/tipstricks/cors-inactive.png){: .d-block .mx-auto }
 
-- However, if your SBA is deployed on another server (`https://my-app-server.com`), CORS is active and you might run into some issues, which can interfere with the login process (particularly with HTTP instead of HTTPS). When the SBA is hosted on a different server, the `url` of the Sinequa server must be specified in the `StartConfig` object (defined in `app.module.ts`):
+- However, if your SBA is deployed on a different domain (`https://my-app-server.com`), CORS is active and you might run into some issues, which can interfere with the login process (particularly with HTTP instead of HTTPS). When the SBA is hosted on a different server, the `url` of the Sinequa server must be specified in the `StartConfig` object (defined in `app.module.ts`):
 
     ```ts
     export const startConfig: StartConfig = {
@@ -162,7 +162,7 @@ To set-up authentication via the default form, you must do the following:
 
 Windows Single Sign-On (SSO) allows to use the fact that a user is already authentified by logging in to Windows, and that the browser can transmit their identity directly to the server.
 
-One benefit of this approach is that all the work is managed by the Web Server (IIS). Therefore the application can sent HTTP request directly, without having to respond to 401 errors or exit the application.
+One benefit of this approach is that all the work is managed by the Web Server (IIS). Therefore the application can send HTTP requests directly, without having to respond to 401 errors or exit the application.
 
 The process is very much simplified:
 
@@ -325,9 +325,9 @@ In the Sinequa administration, the configuration of the SAML 2.0 protocol involv
     };
     ```
 
-If your SBA is deployed on the Sinequa server, this configuration should enable you to log in to your application, just as you can log in to the Sinequa administration.
+If your SBA is deployed on the Sinequa webapp, this configuration should enable you to log in to your application, just as you can log in to the Sinequa administration.
 
-If your SBA is deployed on a different server, CORS is active and you need to add the `url` of the Sinequa server to your `StartConfig`.
+If your SBA is deployed on a different domain, CORS is active and you need to add the `url` of the Sinequa server to your `StartConfig`.
 
 In development mode, you should use a proxy to avoid CORS issues. Run `ng serve <app name> --ssl=true --proxyConfig=./path/to/proxy.json`, with the following configuration:
 
