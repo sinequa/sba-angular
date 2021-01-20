@@ -48,7 +48,7 @@
             <div *ngIf="loadingPreview" class="d-flex justify-content-center align-items-center h-100">
                 <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"></div>
             </div>
-            <div *ngIf="!loadingPreview && previewData" class="ml-2">
+            <div *ngIf="!loadingPreview && previewData" class="shadow-sm mb-1 pl-2">
                 <sq-result-title [record]="previewData?.record"></sq-result-title>
                 <sq-result-source [record]="previewData?.record" [displayTreepath]="false"></sq-result-source>
             </div>
