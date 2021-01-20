@@ -97,10 +97,10 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       actions.push(this.expandModalAction);
     }
     if(this.closable){
-        actions.push(this.closeAction);
-      }
+      actions.push(this.closeAction);
+    }
     this.minimizeAction.update();
-    actions.push(this.maximizeAction, this.minimizeAction);
+    actions.push(this.minimizeAction, this.maximizeAction);
     return actions;
   }
 

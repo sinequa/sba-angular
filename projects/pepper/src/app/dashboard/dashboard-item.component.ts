@@ -26,16 +26,16 @@ export class DashboardItemComponent implements OnChanges {
     @Input() results: Results;
 
     // Whether this widget can be renamed or not
-    @Input() renamable: boolean = true;
+    @Input() renamable = false;
 
     // Whether this widget can be removed or not
-    @Input() closable: boolean = true;
+    @Input() closable = true;
 
     // Whether this widget can be displayed in full-screen mode or not
-    @Input() fullScreenExpandable: boolean = true;
+    @Input() fullScreenExpandable = false;
 
     // Whether this widget can be viewed in maximized dimensions or not
-    @Input() maximizable: boolean = true;
+    @Input() maximizable = true;
 
     // Size of the container, known only after it has been resized by the Gridster library
     @Input() width?: number;
@@ -52,9 +52,7 @@ export class DashboardItemComponent implements OnChanges {
     closeAction: Action;
     renameAction: Action;
     fullScreenAction: Action;
-    exitFullScreenAction: Action;
     maximizeAction: Action;
-    minimizeAction: Action;
 
     // Properties specific to certain types of dashboard items
     innerwidth = 600;
@@ -100,22 +98,18 @@ export class DashboardItemComponent implements OnChanges {
             action: () => this.toggleFullScreen()
         });
 
-        this.exitFullScreenAction = new Action({
-            icon: "fas fa-compress",
-            title: "msg#dashboard.exitFullScreenTitle",
-            action: () => this.toggleFullScreen()
-        });
-
         this.maximizeAction = new Action({
             icon: "fas fa-expand-alt",
             title: "msg#dashboard.maximizeTitle",
-            action: () => this.toggleMaximizedView()
-        });
-
-        this.minimizeAction = new Action({
-            icon: "fas fa-compress-alt",
-            title: "msg#dashboard.minimizeTitle",
-            action: () => this.toggleMaximizedView()
+            action: (action) => {
+                this.toggleMaximizedView();
+                action.icon = this.gridsterItemComponent.el.classList.contains('widget-maximized-view')
+                              ? "fas fa-compress-alt"
+                              : "fas fa-expand-alt";
+                action.title = this.gridsterItemComponent.el.classList.contains('widget-maximized-view')
+                              ? "msg#dashboard.minimizeTitle"
+                              : "msg#dashboard.maximizeTitle";
+            }
         });
     }
 
@@ -190,12 +184,7 @@ export class DashboardItemComponent implements OnChanges {
             this.actions = [this.fullScreenAction, ...this.actions];
         }
         if (this.maximizable) {
-            this.actions = [
-                this.gridsterItemComponent.el.classList.contains('widget-maximized-view')
-                    ? this.minimizeAction
-                    : this.maximizeAction,
-                ...this.actions
-            ]
+            this.actions = [this.maximizeAction, ...this.actions]
         }
     }
 
@@ -206,7 +195,6 @@ export class DashboardItemComponent implements OnChanges {
             if (elem.requestFullscreen) {
                 this.config.height = window.screen.height; // update gridsterItem to full-fill the screen height
                 this.config.width = window.screen.width; // update gridsterItem to full-fill the screen width
-
                 elem.requestFullscreen()
                     .catch(
                         (err) => console.error(`Error attempting to enable full-screen mode: ${err.message}`)
@@ -223,18 +211,16 @@ export class DashboardItemComponent implements OnChanges {
          */
         elem.onfullscreenchange = () => {
             if (document.fullscreenElement) {
-                const index = this.actions.indexOf(this.fullScreenAction);
-                this.actions[index] = this.exitFullScreenAction;
+                this.fullScreenAction.icon = "fas fa-compress";
+                this.fullScreenAction.title = "msg#dashboard.exitFullScreenTitle";
+            } else {
+                this.fullScreenAction.icon = "fas fa-expand";
+                this.fullScreenAction.title = "msg#dashboard.fullScreenTitle";
             }
 
             // update related maximize/minimize actions since they can not be performed in full-screen mode
-            const indexMaximizeAction = this.actions.indexOf(this.maximizeAction);
-            if (indexMaximizeAction > -1) {
-                this.actions[indexMaximizeAction].disabled = document.fullscreenElement !== null;
-            }
-            const indexMinimizeAction = this.actions.indexOf(this.minimizeAction);
-            if (indexMinimizeAction > -1) {
-                this.actions[indexMinimizeAction].disabled = document.fullscreenElement !== null;
+            if (this.maximizable) {
+                this.maximizeAction.disabled =  document.fullscreenElement !== null;
             }
         }
     }
@@ -261,13 +247,8 @@ export class DashboardItemComponent implements OnChanges {
         }
 
         // update related full-screen actions since they can not be performed in maximized mode
-        const indexFullScreenAction = this.actions.indexOf(this.fullScreenAction);
-        if (indexFullScreenAction > -1) {
-            this.actions[indexFullScreenAction].disabled = elem.classList.contains('widget-maximized-view');
-        }
-        const indexExitFullScreenAction = this.actions.indexOf(this.exitFullScreenAction);
-        if (indexExitFullScreenAction > -1) {
-            this.actions[indexExitFullScreenAction].disabled = elem.classList.contains('widget-maximized-view');
+        if (this.fullScreenExpandable) {
+            this.fullScreenAction.disabled = elem.classList.contains('widget-maximized-view');
         }
     }
 
