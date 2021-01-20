@@ -1,7 +1,7 @@
 <div class="card-body overflow-auto">
     <ng-container *ngFor="let item of searchService.breadcrumbs?.activeItems">
         <div *ngIf="!item.hidden" class="badge badge-pill font-weight-normal badge-secondary m-1">
-            <span class="" tooltip="{{item.display | sqExpr:{withFields: displayFieldNames} }}" [innerHTML]="item.display | sqExpr:{withFields: displayFieldNames, asHTML: true}"></span>
+            <span class="" title="{{item.display | sqExpr:{withFields: displayFieldNames} }}" [innerHTML]="item.display | sqExpr:{withFields: displayFieldNames, asHTML: true}"></span>
             <i class="fas fa-times-circle clickable" (click)="removeItem(item)" *ngIf="allowDeletion"
                 title="{{'msg#facet.mySearch.itemRemove' | sqMessage}}">
             </i>

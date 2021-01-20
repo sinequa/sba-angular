@@ -1,7 +1,6 @@
 import {NgModule, ModuleWithProviders} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {TooltipModule} from "ngx-bootstrap/tooltip";
 
 import {Ng5SliderModule} from "ng5-slider";
 
@@ -39,8 +38,7 @@ import {BsFacetMultiComponent} from "./facet-multi/facet-multi.component";
         BsSearchModule,
         BsAutocompleteModule,
 
-        Ng5SliderModule,
-        TooltipModule.forRoot()
+        Ng5SliderModule
     ],
     declarations: [
         BsFacetCard, BsFacetList, BsFacetTree,

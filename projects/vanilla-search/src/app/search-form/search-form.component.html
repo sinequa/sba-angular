@@ -37,13 +37,13 @@
             <!-- Search buttons -->
             <div class="input-group-append">
                 <button class="btn btn-light btn-advanced-search" type="button"
-                    [title]="'msg#searchForm.advancedSearch' | sqMessage"
+                    [sqTooltip]="'msg#searchForm.advancedSearch' | sqMessage"
                     [disabled]="!loginService.complete ? '' : null"
                     (click)="toggleAdvancedSearch()">
                     <i class="fas fa-angle-down"></i>
                 </button>
                 <button class="btn btn-primary" type="button" (click)="search()"
-                    [title]="'msg#searchForm.search' | sqMessage"
+                    [sqTooltip]="'msg#searchForm.search' | sqMessage"
                     [disabled]="!loginService.complete || !form.valid ? '' : null">
                     <i class="fas fa-search"></i>
                 </button>
