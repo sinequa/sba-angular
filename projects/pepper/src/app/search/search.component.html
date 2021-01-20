@@ -33,7 +33,7 @@
         <span class="text-muted mr-2"><i class="fas fa-filter"></i> {{ 'msg#search.filters' | sqMessage }}: </span>
         <sq-facet-filters [results]="results" [facets]="facets" class="mr-auto"></sq-facet-filters>
 
-        <div class="btn-group mr-2" [sq-action-buttons]="{items: [darkAction], style: isDark()? 'dark text-muted' : 'light text-muted'}"></div>
+        <sq-theme-toggle></sq-theme-toggle>
         <div class="btn-group dashboard-actions" [sq-action-buttons]="{items: dashboardActions, style: 'primary', rightAligned: true}"></div>
     </div>
 </nav>

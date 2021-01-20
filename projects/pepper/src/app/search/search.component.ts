@@ -75,16 +75,6 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.dashboardService.updateOptions(this.dashboardService.options);
     });
 
-    // Action to toggle the dark mode
-    this.darkAction = new Action({
-      text: 'msg#search.darkMode',
-      title: 'msg#search.darkModeTitle',
-      icon: this.isDark()? 'fas fa-toggle-on fa-fw' : 'fas fa-toggle-off fa-fw',
-      action: (action) => {
-        this.toggleDark();
-        action.icon = this.isDark()? 'fas fa-toggle-on fa-fw' : 'fas fa-toggle-off fa-fw';
-      }
-    })
   }
 
 
@@ -219,14 +209,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     return document.body.classList.contains("dark");
   }
 
-  /**
-   * Toggle dark mode
-   */
-  toggleDark() {
-    document.body.classList.toggle("dark");
-    localStorage.setItem('sinequa-theme', this.isDark()? 'dark' : 'normal');
-    return false;
-  }
 
   /**
    * Whether the record is opened or not in the dashboard
