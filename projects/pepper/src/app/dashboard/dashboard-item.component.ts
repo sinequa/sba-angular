@@ -9,7 +9,6 @@ import { GridsterItemComponent } from 'angular-gridster2';
 import { DashboardItem, DashboardService } from './dashboard.service';
 import { defaultChart } from '@sinequa/components/fusioncharts';
 
-
 @Component({
     selector: 'sq-dashboard-item',
     templateUrl: './dashboard-item.component.html',
@@ -23,6 +22,11 @@ export class DashboardItemComponent implements OnChanges {
     @Input() width?: number;
     @Input() height?: number;
 
+    // Optional actions to be added to dashboard widgets
+    @Input() closable?: number;
+    @Input() fullScreenExpandable?: number;
+    @Input() maximizable?: number;
+
     @Input() buttonsStyle: string;
 
     @Output() recordClicked = new EventEmitter<Record>();
@@ -30,11 +34,16 @@ export class DashboardItemComponent implements OnChanges {
     actions: Action[] = [];
     closeAction: Action;
     renameAction: Action;
+    fullScreenAction: Action;
+    exitFullScreenAction: Action;
+    maximizeAction: Action;
+    minimizeAction: Action;
 
     // Properties specific to certain types of dashboard items
-
     innerwidth = 600;
     innerheight = 200;
+    initialHeight: number | undefined;
+    initialWidth: number | undefined;
 
     // Network
     networkProviders: NetworkProvider[] = [];
@@ -67,9 +76,33 @@ export class DashboardItemComponent implements OnChanges {
             title: "msg#dashboard.renameWidgetTitle",
             action: () => this.rename()
         });
+
+        this.fullScreenAction = new Action({
+            icon: "fas fa-expand",
+            title: "Full screen",
+            action: () => this.toggleFullScreen()
+        });
+
+        this.exitFullScreenAction = new Action({
+            icon: "fas fa-compress",
+            title: "Exit full screen",
+            action: () => this.toggleFullScreen()
+        });
+
+        this.maximizeAction = new Action({
+            icon: "fas fa-expand-alt",
+            title: "Maximize",
+            action: () => this.toggleMaximizedView()
+        });
+
+        this.minimizeAction = new Action({
+            icon: "fas fa-compress-alt",
+            title: "Minimize",
+            action: () => this.toggleMaximizedView()
+        });
     }
 
-    ngOnChanges(changes: SimpleChanges) {        
+    ngOnChanges(changes: SimpleChanges) {
         if(this.config.type === "network" && this.results && this.networkProviders.length === 0) {
             this.networkProviders = oOTBConfig(this.providerFactory);
         }
@@ -113,8 +146,93 @@ export class DashboardItemComponent implements OnChanges {
             }
         }
 
-        if(this.config.closable) {
+        if(this.closable) {
             this.actions = [this.renameAction, this.closeAction];
+        }
+
+        if (this.fullScreenExpandable) {
+            this.actions = [this.fullScreenAction, ...this.actions];
+        }
+
+        if (this.maximizable) {
+            this.actions = [
+                this.gridsterItemComponent.el.classList.contains('widget-maximized-view')
+                    ? this.minimizeAction
+                    : this.maximizeAction,
+                ...this.actions
+            ]
+        }
+    }
+
+    toggleFullScreen(): void {
+        const elem = this.gridsterItemComponent.el;
+
+        if (!document.fullscreenElement) {
+            if (elem.requestFullscreen) {
+                this.config.height = window.screen.height; // update gridsterItem to full-fill the screen height
+                this.config.width = window.screen.width; // update gridsterItem to full-fill the screen width
+
+                elem.requestFullscreen()
+                    .catch(
+                        (err) => console.error(`Error attempting to enable full-screen mode: ${err.message}`)
+                    );
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+
+        /**
+         * callback to update the item's actions on switch from/to full-screen mode
+         */
+        elem.onfullscreenchange = () => {
+            if (document.fullscreenElement) {
+                const index = this.actions.indexOf(this.fullScreenAction);
+                this.actions[index] = this.exitFullScreenAction;
+            }
+
+            // update related maximize/minimize actions since they can not be performed in full-screen mode
+            const indexMaximizeAction = this.actions.indexOf(this.maximizeAction);
+            if (indexMaximizeAction > -1) {
+                this.actions[indexMaximizeAction].disabled = document.fullscreenElement !== null;
+            }
+            const indexMinimizeAction = this.actions.indexOf(this.minimizeAction);
+            if (indexMinimizeAction > -1) {
+                this.actions[indexMinimizeAction].disabled = document.fullscreenElement !== null;
+            }
+        }
+    }
+
+    toggleMaximizedView(): void {
+        const elem = this.gridsterItemComponent.el;
+
+        if (!this.initialHeight) { // save original height before maximizing
+            this.initialHeight = this.innerheight + 43;
+        }
+        if (!this.initialWidth) { // save original width before maximizing
+            this.initialWidth = this.innerwidth;
+        }
+
+        elem.classList.toggle('widget-maximized-view'); // allow container of gridsterItem to full-fill its direct parent dimensions
+        this.gridsterItemComponent.el.parentElement?.classList.toggle('no-scroll'); // disable the direct parent scroll
+
+        if (elem.classList.contains('widget-maximized-view')) { // update component defined in gridsterItem to full-fill its maximized space
+            this.config.height = this.gridsterItemComponent.el.parentElement?.clientHeight!;
+            this.config.width = this.gridsterItemComponent.el.parentElement?.clientWidth!;
+        } else { // restore original dashboard view
+            this.config.height = this.initialHeight;
+            this.config.width = this.initialWidth;
+        }
+
+        // update related full-screen actions since they can not be performed in maximized mode
+        const indexFullScreenAction = this.actions.indexOf(this.fullScreenAction);
+        if (indexFullScreenAction > -1) {
+            this.actions[indexFullScreenAction].disabled = elem.classList.contains('widget-maximized-view');
+        }
+        const indexExitFullScreenAction = this.actions.indexOf(this.exitFullScreenAction);
+        if (indexExitFullScreenAction > -1) {
+            this.actions[indexExitFullScreenAction].disabled = elem.classList.contains('widget-maximized-view');
         }
     }
 

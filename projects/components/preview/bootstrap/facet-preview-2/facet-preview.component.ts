@@ -22,6 +22,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Input() scalingFactor: number = 0.6;
   @Input() metadata: string[] = [];
   @Input() expandModal: boolean = true;
+  @Input() closable: boolean = true;
   @Input() customActions: Action[];
   @Input() filters: HighlightFilters;
   @Output() recordClosed = new EventEmitter<void>();
@@ -94,8 +95,11 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     if(this.expandModal){
       actions.push(this.expandModalAction);
     }
+    if(this.closable){
+        actions.push(this.closeAction);
+      }
     this.minimizeAction.update();
-    actions.push(this.maximizeAction, this.minimizeAction, this.closeAction);
+    actions.push(this.maximizeAction, this.minimizeAction);
     return actions;
   }
 

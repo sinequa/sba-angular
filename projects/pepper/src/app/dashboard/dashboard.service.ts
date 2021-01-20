@@ -21,7 +21,6 @@ export interface DashboardItem extends GridsterItem {
     type: string;
     icon: string;
     title: string;
-    closable?: boolean;
     width?: number;
     height?: number;
 
@@ -85,7 +84,7 @@ export class DashboardService {
         public clipboard: Clipboard,
         public intlService: IntlService
     ) {
-        
+
         // Default options
         this.options = {
             swap: true,
@@ -101,9 +100,11 @@ export class DashboardService {
                 this.notifyItemChange(item as DashboardItem);
             },
             itemResizeCallback: (item, itemComponent) => {
-                item.height = itemComponent.height; // Items must know their own width/height to (re)size their content
-                item.width = itemComponent.width;
-                this.notifyItemChange(item as DashboardItem);
+                if (!document.fullscreenElement) { // Exclude the change detection on switch from/to full-screen mode
+                    item.height = itemComponent.height; // Items must know their own width/height to (re)size their content
+                    item.width = itemComponent.width;
+                    this.notifyItemChange(item as DashboardItem);
+                }
             },
             scrollToNewItems: true, // Scroll to new items when inserted
             gridType: 'verticalFixed', // The grid has a fixed size vertically, and fits the screen horizontally
@@ -117,7 +118,7 @@ export class DashboardService {
                 this.handleNavigation();
             }
         })
-        
+
         this.userSettingsService.events.subscribe(event => {
             // E.g. new login occurs
             // ==> Menus need to be rebuilt
@@ -210,7 +211,7 @@ export class DashboardService {
         return this.defaultDashboard && this.dashboard.name !== defaultDashboardName;
     }
 
-    
+
     // Dashboard modifications
 
     public notifyItemChange(item: DashboardItem) {
@@ -222,7 +223,7 @@ export class DashboardService {
         this.options.api?.optionsChanged!();
     }
 
-    public addWidget(option: DashboardItemOption, dashboard: Dashboard = this.dashboard, rows = 2, cols = 2, closable = true): DashboardItem {
+    public addWidget(option: DashboardItemOption, dashboard: Dashboard = this.dashboard, rows = 2, cols = 2): DashboardItem {
         dashboard.items.push({
             x: 0,
             y: 0,
@@ -230,13 +231,12 @@ export class DashboardService {
             cols: cols || 2,
             type: option.type,
             icon: option.icon,
-            title: option.text,
-            closable: closable
+            title: option.text
         });
         this.dashboardChanged.next(dashboard);
         return dashboard.items[dashboard.items.length - 1];
     }
-    
+
     public removeItem(item: DashboardItem) {
         this.dashboard.items.splice(this.dashboard.items.indexOf(item), 1);
         this.notifyItemChange(item);
@@ -248,7 +248,7 @@ export class DashboardService {
     }
 
     public renameWidgetModal(item: DashboardItem) {
-        
+
         const model: PromptOptions = {
             title: 'msg#dashboard.renameWidget',
             message: 'msg#dashboard.renameWidgetMessage',
@@ -267,7 +267,7 @@ export class DashboardService {
     public createDashboardActions(addWidgetOptions: DashboardItemOption[]): Action[] {
 
         const dashboardActions = [] as Action[];
-                
+
         dashboardActions.push(new Action({
             icon: 'fas fa-plus fa-fw',
             text: 'msg#dashboard.addWidget',
@@ -275,7 +275,7 @@ export class DashboardService {
             action: () => {
                 // We include only items either not unique or not already in the dashboard
                 const model: DashboardAddItemModel = {
-                    options: addWidgetOptions.filter(item => 
+                    options: addWidgetOptions.filter(item =>
                         !item.unique || !this.dashboard.items.find(widget => widget.type === item.type)
                     )
                 };
@@ -479,7 +479,7 @@ export class DashboardService {
                 this.setDefaultAction
             ],
         });
-        
+
         dashboardActions.push(settings);
 
         return dashboardActions;
@@ -535,7 +535,7 @@ export class DashboardService {
         this.fixedLayout.selected = this.layout === "fixed";
     }
 
-    protected newDashboard() {        
+    protected newDashboard() {
         this.dashboard = Utils.copy(this.defaultDashboard);
         delete this.searchService.queryStringParams.dashboard;
         this.searchService.navigate({skipSearch: true});
