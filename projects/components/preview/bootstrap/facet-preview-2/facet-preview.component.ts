@@ -70,12 +70,13 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
         this.scalingFactor = this.scalingFactor + this.scaleFactorThreshold;
       }
     })
+
     this.minimizeAction = new Action({
       icon: "fas fa-search-minus",
       title: "msg#facet.preview.minimize",
       disabled: this.scalingFactor === 0.1,
       action: () => {
-        this.scalingFactor = Math.max(0.1, this.scalingFactor - this.scaleFactorThreshold);
+        this.scalingFactor = Math.round(Math.max(0.1, this.scalingFactor - this.scaleFactorThreshold) * 100) / 100;
       },
       updater: (action) => {
         action.disabled = this.scalingFactor === 0.1;
@@ -93,7 +94,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       actions.push(this.expandModalAction);
     }
     this.minimizeAction.update();
-    actions.push(this.maximizeAction, this.minimizeAction, this.closeAction);
+    actions.push(this.minimizeAction, this.maximizeAction, this.closeAction);
     return actions;
   }
 
