@@ -1,9 +1,9 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {TooltipModule} from 'ngx-bootstrap/tooltip';
 
 import {IntlModule} from "@sinequa/core/intl";
 import {LoadComponentModule} from "@sinequa/core/load-component";
+import {UtilsModule} from "@sinequa/components/utils";
 
 import {BsActionButtons} from "./action-buttons/action-buttons";
 import {BsActionItemContent} from "./action-item-content/action-item-content";
@@ -18,7 +18,7 @@ import {BsDropdownDirective} from "./dropdown.directive";
         CommonModule,
         IntlModule,
         LoadComponentModule,
-        TooltipModule.forRoot()
+        UtilsModule
     ],
     declarations: [
         BsActionButtons,
@@ -26,13 +26,13 @@ import {BsDropdownDirective} from "./dropdown.directive";
         BsActionItem,
         BsActionMenu,
         BsDropdownMenu,
-        BsDropdownDirective,
+        BsDropdownDirective
     ],
     exports: [
         BsActionButtons,
         BsActionMenu,
         BsActionItem,
-        BsDropdownDirective,
+        BsDropdownDirective
     ]
 })
 export class BsActionModule {
