@@ -48,6 +48,11 @@
             <div *ngIf="loadingPreview" class="d-flex justify-content-center align-items-center h-100">
                 <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"></div>
             </div>
+            <div *ngIf="!loadingPreview && previewData" class="shadow-sm mb-1 pl-2">
+                <h1>{{ previewData?.record.title }}</h1>
+                <!-- Link to the original document -->
+                <a title="Original document" target="_blank" href="{{previewData?.record.url1}}" (click)="openOriginalDoc()">{{previewData?.record.url1}}</a>
+            </div>
             <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)">
 
                 <!-- Tooltip injected in the preview -->
