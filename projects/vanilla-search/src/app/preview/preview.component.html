@@ -50,7 +50,8 @@
             </div>
             <div *ngIf="!loadingPreview && previewData" class="shadow-sm mb-1 pl-2">
                 <h1>{{ previewData?.record.title }}</h1>
-                <sq-result-source [record]="previewData?.record" [displayTreepath]="false"></sq-result-source>
+                <!-- Link to the original document -->
+                <a title="Original document" target="_blank" href="{{previewData?.record.url1}}" (click)="openOriginalDoc()">{{previewData?.record.url1}}</a>
             </div>
             <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)">
 
@@ -82,12 +83,6 @@
             <!-- Home page link -->
             <a [routerLink]="[homeRoute]" class="btn btn-lg btn-light" title="Home" *ngIf="homeRoute">
                 <i class="fas fa-home"></i>
-            </a>
-
-            <!-- Link to the original document -->
-            <a class="btn btn-lg btn-light" title="Original document" target="_blank" href="{{previewData.record.url1}}"
-                *ngIf="!!previewData && !!previewData.record.url1" (click)="openOriginalDoc()">
-                <i class="fas fa-link"></i>
             </a>
 
             <button class="btn btn-lg btn-light" title="{{'msg#facet.preview.minimize' | sqMessage }}" (click)="decreaseScaleFactor()" [disabled]="shouldDisableMinimize()">
