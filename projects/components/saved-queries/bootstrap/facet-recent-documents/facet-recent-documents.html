@@ -4,7 +4,7 @@
             class="recent-document-item list-group-item list-group-item-action d-flex align-items-center"
             [attr.href]="document.url1" target="_blank" rel="noopener"
             (click)="openRecentDocument(document)">
-            <span class="document-text mr-auto text-truncate" tooltip="{{ document.title }}">{{ document.title }}</span>
+            <span class="document-text mr-auto text-truncate" title="{{ document.title }}">{{ document.title }}</span>
             <span *ngIf="document.date" class="document-date ml-2 text-muted small text-right">{{ document.date | sqDate }}</span>
             <i *ngIf="enableDelete" class="document-delete ml-2 fas fa-times fa-fw" (click)="deleteDocument(document, $event)"></i>
         </a>
@@ -12,7 +12,7 @@
         <a class="recent-document-item list-group-item list-group-item-action d-flex align-items-center"
             [routerLink]="searchRoute" [queryParams]="getQueryParams(document)"
             (click)="openRecentDocument(document)">
-            <span class="document-text mr-auto text-truncate" tooltip="{{ document.title }}">{{ document.title }}</span>
+            <span class="document-text mr-auto text-truncate" title="{{ document.title }}">{{ document.title }}</span>
             <span *ngIf="document.date" class="document-date ml-2 text-muted small text-right">{{ document.date | sqDate }}</span>
             <i *ngIf="enableDelete" class="document-delete ml-2 fas fa-times fa-fw" (click)="deleteDocument(document, $event)"></i>
         </a>

@@ -28,7 +28,6 @@ export interface DashboardItem extends GridsterItem {
     type: string;
     icon: string;
     title: string;
-    closable?: boolean;
     width?: number;
     height?: number;
 
@@ -109,7 +108,7 @@ export class DashboardService {
         public clipboard: Clipboard,
         public intlService: IntlService
     ) {
-        
+
         // Default options of the Gridster dashboard
         this.options = {
             swap: true,
@@ -125,9 +124,11 @@ export class DashboardService {
                 this.notifyItemChange(item as DashboardItem);
             },
             itemResizeCallback: (item, itemComponent) => {
-                item.height = itemComponent.height; // Items must know their own width/height to (re)size their content
-                item.width = itemComponent.width;
-                this.notifyItemChange(item as DashboardItem);
+                if (!document.fullscreenElement) { // Exclude the change detection on switch from/to full-screen mode
+                    item.height = itemComponent.height; // Items must know their own width/height to (re)size their content
+                    item.width = itemComponent.width;
+                    this.notifyItemChange(item as DashboardItem);
+                }
             },
             scrollToNewItems: true, // Scroll to new items when inserted
             gridType: 'verticalFixed', // The grid has a fixed size vertically, and fits the screen horizontally
@@ -142,7 +143,7 @@ export class DashboardService {
                 this.handleNavigation();
             }
         })
-        
+
         // Dashboards are stored in User Settings
         this.userSettingsService.events.subscribe(event => {
             // E.g. new login occurs
@@ -207,7 +208,7 @@ export class DashboardService {
 
     /**
      * Tests whether a dashboard name exists or not in the user settings
-     * @param dashboard 
+     * @param dashboard
      */
     public hasDashboard(dashboard: string): boolean {
         return !!this.getDashboard(dashboard);
@@ -215,7 +216,7 @@ export class DashboardService {
 
     /**
      * Retrieves a dashboard configuration from the user settings
-     * @param dashboard 
+     * @param dashboard
      */
     public getDashboard(dashboard: string): Dashboard | undefined {
         return this.dashboards.find(d => d.name === dashboard);
@@ -224,7 +225,7 @@ export class DashboardService {
     /**
      * Sets the configuration for the "default dashboard" (dashboard displayed by default or
      * when the user reinitializes the dashboard).
-     * @param items 
+     * @param items
      */
     public setDefaultDashboard(items: DashboardItemOption[]) {
         // The default dashboard may have been customized by the user, in which case we ignore the "items" input
@@ -260,15 +261,15 @@ export class DashboardService {
      * A dashboard is considered saved if it has a name that is different from the default one
      */
     public isDashboardSaved(): boolean {
-        return this.defaultDashboard && this.dashboard.name !== defaultDashboardName;
+        return this.defaultDashboard && this.dashboard && this.dashboard.name !== defaultDashboardName;
     }
 
-    
+
     // Dashboard modifications
 
     /**
      * Fire an event when a dashboard item changes
-     * @param item 
+     * @param item
      */
     public notifyItemChange(item: DashboardItem) {
         this.dashboardChanged.next(this.dashboard);
@@ -276,7 +277,7 @@ export class DashboardService {
 
     /**
      * Update the Gridster options
-     * @param options 
+     * @param options
      */
     public updateOptions(options: GridsterConfig) {
         this.options = options;
@@ -292,7 +293,7 @@ export class DashboardService {
      * @param cols the number of columns that this widget should take in the dashboard (default to 2)
      * @param closable whether this widget is closable (default to true)
      */
-    public addWidget(option: DashboardItemOption, dashboard: Dashboard = this.dashboard, rows = 2, cols = 2, closable = true): DashboardItem {
+    public addWidget(option: DashboardItemOption, dashboard: Dashboard = this.dashboard, rows = 2, cols = 2): DashboardItem {
         dashboard.items.push({
             x: 0,
             y: 0,
@@ -300,16 +301,15 @@ export class DashboardService {
             cols,
             type: option.type,
             icon: option.icon,
-            title: option.text,
-            closable: closable
+            title: option.text
         });
         this.dashboardChanged.next(dashboard);
         return dashboard.items[dashboard.items.length - 1];
     }
-    
+
     /**
      * Remove a widget from the dashboard
-     * @param item 
+     * @param item
      */
     public removeItem(item: DashboardItem) {
         this.dashboard.items.splice(this.dashboard.items.indexOf(item), 1);
@@ -318,8 +318,8 @@ export class DashboardService {
 
     /**
      * Rename a widget in the dashboard
-     * @param item 
-     * @param newTitle 
+     * @param item
+     * @param newTitle
      */
     public renameWidget(item: DashboardItem, newTitle: string) {
         item.title = newTitle;
@@ -328,10 +328,10 @@ export class DashboardService {
 
     /**
      * Open a dialog to submit a new name for a given widget
-     * @param item 
+     * @param item
      */
     public renameWidgetModal(item: DashboardItem) {
-        
+
         const model: PromptOptions = {
             title: 'msg#dashboard.renameWidget',
             message: 'msg#dashboard.renameWidgetMessage',
@@ -362,7 +362,7 @@ export class DashboardService {
     public createDashboardActions(addWidgetOptions: DashboardItemOption[]): Action[] {
 
         const dashboardActions = [] as Action[];
-        
+
         // Action to add a widget
         dashboardActions.push(new Action({
             icon: 'fas fa-plus fa-fw',
@@ -371,7 +371,7 @@ export class DashboardService {
             action: () => {
                 // We include only items either not unique or not already in the dashboard
                 const model: DashboardAddItemModel = {
-                    options: addWidgetOptions.filter(item => 
+                    options: addWidgetOptions.filter(item =>
                         !item.unique || !this.dashboard.items.find(widget => widget.type === item.type)
                     )
                 };
@@ -588,7 +588,7 @@ export class DashboardService {
                 this.setDefaultAction
             ],
         });
-        
+
         dashboardActions.push(settings);
 
         return dashboardActions;
@@ -632,7 +632,7 @@ export class DashboardService {
 
     /**
      * Modifies the layout mode of the Gridster dashboard
-     * @param layout 
+     * @param layout
      */
     protected setLayout(layout: string) {
         if(layout === "auto") {
@@ -660,7 +660,7 @@ export class DashboardService {
     /**
      * Creates a new dashboard (using the default dashboard)
      */
-    protected newDashboard() {        
+    protected newDashboard() {
         this.dashboard = Utils.copy(this.defaultDashboard);
         delete this.searchService.queryStringParams.dashboard;
         this.searchService.navigate({skipSearch: true});
@@ -707,7 +707,7 @@ export class DashboardService {
 
     /**
      * Updates the list of dashboards in the user settings
-     * @param notify 
+     * @param notify
      */
     protected patchDashboards(notify = true) {
         this.userSettingsService.patch({dashboards: this.dashboards})

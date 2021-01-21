@@ -71,27 +71,33 @@
         <div [ngClass]="{'btn-group': !collapsedPanel, 'btn-group-vertical':collapsedPanel}">
             
             <!-- Toggles the left panel collapsed/expanded state -->
-            <button class="btn btn-lg btn-primary" title="Expand" (click)="collapsedPanel = !collapsedPanel">
+            <button class="btn btn-lg btn-primary" [placement]="leftPanelTooltipPlacement()" sqTooltip="Expand" (click)="collapsedPanel = !collapsedPanel">
                 <i class="fas fa-bars"></i>
             </button>
 
             <!-- Back button (go back to /search route) -->
-            <button class="btn btn-lg btn-light" title="Back" (click)="back()" *ngIf="showBackButton">
+            <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" sqTooltip="Back" (click)="back()" *ngIf="showBackButton">
                 <i class="fas fa-arrow-left"></i>
             </button>
 
             <!-- Home page link -->
-            <a [routerLink]="[homeRoute]" class="btn btn-lg btn-light" title="Home" *ngIf="homeRoute">
+            <a [routerLink]="[homeRoute]" class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" sqTooltip="Home" *ngIf="homeRoute">
                 <i class="fas fa-home"></i>
             </a>
 
-            <button class="btn btn-lg btn-light" title="{{'msg#facet.preview.minimize' | sqMessage }}" (click)="decreaseScaleFactor()" [disabled]="shouldDisableMinimize()">
+            <!-- Link to the original document -->
+            <a class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" sqTooltip="Original document" target="_blank" href="{{previewData.record.url1}}"
+                *ngIf="!!previewData && !!previewData.record.url1" (click)="openOriginalDoc()">
+                <i class="fas fa-link"></i>
+            </a>
+
+            <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" sqTooltip="{{'msg#facet.preview.minimize' | sqMessage }}" (click)="decreaseScaleFactor()" [disabled]="shouldDisableMinimize()">
                 <i class="fas fa-search-minus"></i>
             </button>
-            <button class="btn btn-lg btn-light" title="{{'msg#facet.preview.maximize' | sqMessage }}" (click)="increaseScaleFactor()">
+            <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" sqTooltip="{{'msg#facet.preview.maximize' | sqMessage }}" (click)="increaseScaleFactor()">
                 <i class="fas fa-search-plus"></i>
             </button>
         </div>
-        <img id="logo" src="{{ isDark() ? 'assets/sinequa-logo-dark-sm.png' : 'assets/sinequa-logo-light-sm.png'}}" alt="Sinequa logo" tooltip="Sinequa">
+        <img id="logo" src="{{ isDark() ? 'assets/sinequa-logo-dark-sm.png' : 'assets/sinequa-logo-light-sm.png'}}" alt="Sinequa logo" title="Sinequa">
     </div>
 </ng-template>

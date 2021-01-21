@@ -22,6 +22,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Input() scalingFactor: number = 0.6;
   @Input() metadata: string[] = [];
   @Input() expandModal: boolean = true;
+  @Input() closable: boolean = true;
   @Input() customActions: Action[];
   @Input() filters: HighlightFilters;
   @Output() recordClosed = new EventEmitter<void>();
@@ -72,12 +73,13 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
         this.scalingFactor = this.scalingFactor + this.scaleFactorThreshold;
       }
     })
+
     this.minimizeAction = new Action({
       icon: "fas fa-search-minus",
       title: "msg#facet.preview.minimize",
       disabled: this.scalingFactor === 0.1,
       action: () => {
-        this.scalingFactor = Math.max(0.1, this.scalingFactor - this.scaleFactorThreshold);
+        this.scalingFactor = Math.round(Math.max(0.1, this.scalingFactor - this.scaleFactorThreshold) * 100) / 100;
       },
       updater: (action) => {
         action.disabled = this.scalingFactor === 0.1;
@@ -94,8 +96,11 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     if(this.expandModal){
       actions.push(this.expandModalAction);
     }
+    if(this.closable){
+      actions.push(this.closeAction);
+    }
     this.minimizeAction.update();
-    actions.push(this.maximizeAction, this.minimizeAction, this.closeAction);
+    actions.push(this.minimizeAction, this.maximizeAction);
     return actions;
   }
 
