@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router, NavigationEnd, RouterEvent } from '@angular/router';
 import { LoginService } from '@sinequa/core/login';
-import { PreviewData } from '@sinequa/core/web-services';
+import { PreviewData, Results } from '@sinequa/core/web-services';
 import { Query } from '@sinequa/core/app-utils';
 import { Action } from '@sinequa/components/action';
 import { PreviewService, PreviewDocument } from '@sinequa/components/preview';
@@ -68,6 +68,9 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   previewSearchable = true;
   loadingPreview = false;
 
+  // Page management for splitted documents
+  pagesResults: Results;
+
   // Subscriptions
   private loginSubscription: Subscription;
   private routerSubscription: Subscription;
@@ -91,7 +94,8 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     protected previewService: PreviewService,
     protected searchService: SearchService,
     public prefs: UserPreferences,
-    public ui: UIService) {
+    public ui: UIService,
+    protected activatedRoute: ActivatedRoute) {
 
     // If the page is refreshed login needs to happen again, then we can get the preview data
     this.loginSubscription = this.loginService.events.subscribe({
@@ -214,8 +218,16 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
       this.previewService.getPreviewData(this.id, this.query).subscribe(
         previewData => {
           this.previewData = previewData;
-          this.downloadUrl = this.previewData ? this.previewService.makeDownloadUrl(this.previewData.documentCachedContentUrl) : undefined;
-          this.titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle", {title: previewData.record.title || ""}));
+          let url = previewData?.documentCachedContentUrl;
+          // Manage splitted documents
+          let pageNumber = this.previewService.getPageNumber(previewData.record);
+          if(pageNumber) {
+            url = `${url.slice(0, url.length-4)}-${pageNumber}.htm`; // SBA-115 provisory bug fix
+            this.previewService.fetchPages(previewData.record.containerid!, this.query!)
+              .subscribe(results => this.pagesResults = results);
+          }
+          this.downloadUrl = url ? this.previewService.makeDownloadUrl(url) : undefined;
+          this.titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle", {title: previewData?.record?.title || ""}));
           this.loadingPreview = true;
         }
       );
@@ -239,7 +251,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
       this.previewDocument.selectHighlight("matchlocations", 0); // Scroll to first match
       this.loadingPreview = false;
     }
-}
+  }
 
   /**
    * Back button (navigating back to search)
@@ -263,6 +275,38 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   openOriginalDoc(){
     if (this.previewData) {
       this.searchService.notifyOpenOriginalDocument(this.previewData.record);
+    }
+  }
+
+  /**
+   * Navigate to another page of this document
+   * @param id 
+   */
+  gotoPage(page: number) {
+    const containerid = this.previewData?.record.containerid;
+    if(containerid) {
+      const id = `${containerid}/#${page}#`;
+      this.router.navigate([], {
+        relativeTo: this.activatedRoute,
+        queryParams: { id }, // Assumes that we can keep the same query(!)
+        queryParamsHandling: 'merge'
+      });
+    }
+  }
+
+  /**
+   * Search for new text within the same document
+   * @param text
+   */
+  searchText(text: string) {
+    if(this.query && this.query.text !== text) {
+      this.query.text = text;
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {query: this.query.toJsonForQueryString()},
+        queryParamsHandling: 'merge',
+        state: {}
+      });
     }
   }
 

@@ -1,5 +1,5 @@
-<ng-container *ngIf="!!previewData && !!previewDocument">
-    <div class="d-flex justify-content-between">
+<ng-container *ngIf="previewData && previewDocument?.document.body">
+    <div class="d-flex justify-content-between" *ngIf="extracts?.length > 0">
         <button class="btn btn-light" (click)="previousExtract()" [disabled]="currentExtract < 1">
             <i class="fas fa-arrow-left"></i>&nbsp;{{ 'msg#preview.previousDocument' | sqMessage}}
         </button>
@@ -7,6 +7,10 @@
         <button class="btn btn-light float-right" (click)="nextExtract()" [disabled]="currentExtract >= extracts.length-1">
             {{ 'msg#preview.nextDocument' | sqMessage}}&nbsp;<i class="fas fa-arrow-right"></i>
         </button>
+    </div>
+
+    <div class="text-center text-muted" *ngIf="extracts?.length === 0">
+        <span>{{ 'msg#preview.noextract' | sqMessage}}</span>
     </div>
     
     <div class="list-group">
