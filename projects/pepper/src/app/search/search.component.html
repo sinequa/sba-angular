@@ -47,10 +47,27 @@
         <div class="row h-100">
 
             <!-- Results -->
-            <div class="col-lg-4 py-3 results-list">
+            <div
+                (mouseenter)="onMouseEnter()"
+                (mouseleave)="onMouseLeave()"
+                class="py-3 px-3 results-list"
+                [ngClass]="{'results-list--hidden': !showResults}">
+
+                <!-- Result sidebar toggle -->
+                <span
+                    class="toggle-results"
+                    [ngClass]="showResults ? 'toggle-results--hide' : 'toggle-results--show'"
+                    sqTooltip="{{ toggleResultsTitle | sqMessage }}"
+                    *ngIf="!showResults || hoveredResults">
+                    <i
+                        class="toggle-results-icon"
+                        [ngClass]="showResults ? 'fas fa-chevron-circle-left' : 'fas fa-chevron-circle-right'"
+                        (click)="toggleResults()">
+                    </i>
+                </span>
 
                 <!-- Result selection toolbar -->
-                <div class="card text-white bg-primary position-fixed action-bar">
+                <div *ngIf="showResults" class="card text-white bg-primary position-fixed action-bar">
                     <div class="card-header">
                         <sq-results-selector [style]="isDark()? 'dark' : 'primary'"></sq-results-selector>
                     </div>
@@ -100,10 +117,10 @@
             </div>
 
             <!-- Dashboard -->
-            <div class="col-lg-8 h-100 px-0">
+            <div class="h-100 px-0 dashboard-container" [ngClass]="{'dashboard-container--expanded': !showResults}">
 
                 <!-- Gridster dashboard component -->
-                <gridster [options]="dashboardService.options">
+                <gridster #gridster [options]="dashboardService.options">
                     <!-- Gridster item component (one for each widget): Manages drag & drop, resize, etc. -->
                     <gridster-item [item]="item" *ngFor="let item of dashboardService.dashboard.items; index as i">
                         <!-- Sinequa dashboard item component which wraps each widget type-->

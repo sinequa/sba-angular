@@ -372,7 +372,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
                     easingFunction: "easeInOutQuad"
                 }
             });
-            }, 100);
+            }, 1000);
         }
     }
 
