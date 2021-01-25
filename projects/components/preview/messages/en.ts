@@ -28,7 +28,12 @@ export default {
         "showAll": "Show all values",
         "sortAlphabetically": "Sort alphabetically",
         "sortFrequency": "Sort by frequency",
-        "loading": "Loading..."
+        "loading": "Loading...",
+        "noextract": "No extract",
+        "search": "Search",
+        "gotopage": "Go to page",
+        "page": "Page {page}",
+        "current": "current"
     },
     "facet": {
         "preview": {

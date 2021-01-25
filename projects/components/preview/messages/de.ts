@@ -26,7 +26,12 @@ export default {
         "showAll": "Zeige alle Werte",
         "sortAlphabetically": "Alphabetische Sortierung",
         "sortFrequency": "Sortierung nach Häufigkeit",
-        "loading": "Laden..."
+        "loading": "Laden...",
+        "noextract": "kein Auszug",
+        "search": "Suche",
+        "gotopage": "Zur Seite gehen",
+        "page": "Seite {page}",
+        "current": "aktuell"
     },
     "facet": {
         "preview": {

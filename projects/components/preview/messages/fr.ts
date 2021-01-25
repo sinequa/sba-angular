@@ -28,7 +28,12 @@ export default {
         "showAll": "Montrer toutes les valeurs",
         "sortAlphabetically": "Trier par ordre alphabetique",
         "sortFrequency": "Trier par fréquence",
-        "loading": "Chargement..."
+        "loading": "Chargement...",
+        "noextract": "Pas d'extrait",
+        "search": "Recherche",
+        "gotopage": "Aller à la page",
+        "page": "Page {page}",
+        "current": "actuel"
     },
     "facet": {
         "preview": {
