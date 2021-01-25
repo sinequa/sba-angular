@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { AppService } from '@sinequa/core/app-utils';
@@ -13,6 +13,7 @@ import { PreviewService } from '@sinequa/components/preview';
 import { Action } from '@sinequa/components/action';
 import { FACETS, METADATA, FEATURES } from '../../config';
 import { DashboardService, MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, PREVIEW_WIDGET, HEATMAP_WIDGET } from '../dashboard/dashboard.service';
+import { GridsterComponent } from 'angular-gridster2';
 
 @Component({
   selector: 'app-search',
@@ -27,7 +28,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   private _searchServiceSubscription: Subscription;
   private _loginSubscription: Subscription;
-  
+
   darkAction: Action;
   dashboardActions: Action[] = [];
 
@@ -35,6 +36,11 @@ export class SearchComponent implements OnInit, OnDestroy {
   lastSelectedId?: string;
   // Used to scroll (on the dashboard side) to this document when clicked on in the results list
   lastClickedId?: string;
+
+  showResults = true;
+  hoveredResults;
+  toggleResultsTitle = "msg#search.hideResults";
+  @ViewChild('gridster') gridster!: GridsterComponent;
 
   constructor(
     public searchService: SearchService,
@@ -53,13 +59,13 @@ export class SearchComponent implements OnInit, OnDestroy {
     // Subscribe to the search service to update the page title based on the searched text
     this._searchServiceSubscription = this.searchService.resultsStream.subscribe(results => {
       this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
-      
+
       // Hack to fix an issue with change detection...
       setTimeout(() => {
         this.cdRef.detectChanges();
-      }, 0); 
+      }, 0);
     });
-    
+
     // Upon login (ie access to user settings) initialize the dashboard widgets and actions
     this._loginSubscription = this.loginService.events.subscribe(event => {
       if (event.type === "session-start") {
@@ -68,7 +74,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.dashboardActions = this.dashboardService.createDashboardActions([MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, HEATMAP_WIDGET]);
       }
     });
-  
+
     // When the screen is resized, we resize the dashboard row height, so that items keep fitting the screen height
     this.ui.addResizeListener(event => {
       this.dashboardService.options.fixedRowHeight = (window.innerHeight - 150) / 4;
@@ -176,7 +182,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   /**
    * Responds to a click on a document represented within a view (eg. on a map)
-   * @param record 
+   * @param record
    */
   onDocumentClickedFromView(record: Record) {
     this.selectionService.toggleSelectedRecords(record);
@@ -187,8 +193,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   /**
    * Open the preview when this record has no url1
-   * @param record 
-   * @param isLink 
+   * @param record
+   * @param isLink
    */
   openPreviewIfNoUrl(record: Record, isLink: boolean) {
     if(!isLink){
@@ -230,9 +236,29 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   /**
    * Whether the record is opened or not in the dashboard
-   * @param record 
+   * @param record
    */
   isOpened(record: Record): boolean {
     return !!this.dashboardService.dashboard.items.find(item => item.recordId === record.id);
+  }
+
+  /**
+   * Hide/show the result's sidebar
+   */
+  toggleResults(): void {
+    this.showResults = !this.showResults;
+    this.toggleResultsTitle = this.showResults ? "msg#search.hideResults" : "msg#search.showResults";
+    // wait for the transition to be finished before updating the gridster dimensions
+    setTimeout(() => {
+        this.gridster.resize();
+    }, 500);
+  }
+
+  onMouseEnter() {
+    this.hoveredResults = true;
+  }
+
+  onMouseLeave() {
+    this.hoveredResults = false;
   }
 }
