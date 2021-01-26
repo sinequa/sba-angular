@@ -50,7 +50,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     // Initialize the facet preview action (opens the preview route)
     const expandPreviewAction = new Action({
-      icon: "far fa-window-maximize",
+      icon: "fas fa-expand-alt",
       title: "msg#facet.preview.expandTitle",
       action: () => {
         if (this.openedDoc) {
