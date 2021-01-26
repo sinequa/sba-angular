@@ -55,11 +55,15 @@ export class BsExportQuery implements OnInit, OnDestroy {
         }
 
         this.exportableColumns = [];
+        let maxCount = 1000; // Default max count hard coded in web service
         if (this.appService.app) {
             const queryExportConfig = this.getDefaultQueryExportConfig(this.appService.app);
             const columns = (queryExportConfig.columns && queryExportConfig.columns['column$']) || [];
             for (const column of columns) {
                 this.exportableColumns.push(column.title);
+            }
+            if(queryExportConfig.maxCount && Utils.isNumber(queryExportConfig.maxCount)) {
+                maxCount = queryExportConfig.maxCount;
             }
         }
 
@@ -69,7 +73,9 @@ export class BsExportQuery implements OnInit, OnDestroy {
             'export': [this.model.export, Validators.required],
             'maxCount': [this.model.maxCount, Validators.compose([
                 this.validationService.integerValidator(),
-                this.validationService.minValidator(1)])],
+                this.validationService.minValidator(1),
+                this.validationService.maxValidator(maxCount)
+            ])],
         });
 
         this.isDownloading = false;
