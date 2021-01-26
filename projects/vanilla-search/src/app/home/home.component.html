@@ -9,7 +9,7 @@
     <!-- Search Form (app/search-form) -->
     <app-search-form></app-search-form>
 
-    <span class="mt-2">
+    <div class="d-flex align-items-center mt-2">
         <!-- Login/Logout link -->    
         <button class="btn btn-link" (click)="toggleLogin()">{{ (!!loginService.principal ? 'msg#userMenu.logout' : 'msg#userMenu.login') | sqMessage}}</button>
     
@@ -18,7 +18,7 @@
         <!-- Dark mode -->   
         <button class="btn btn-link" (click)="toggleDark()">{{ (isDark()? 'msg#home.lightMode' : 'msg#home.darkMode') | sqMessage}}</button>
     
-    </span>
+    </div>
 
     <!-- Home facets -->
     <div class="sq-home-facet-bar container mt-5" *ngIf="homeFacets.length">
