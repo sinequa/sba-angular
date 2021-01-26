@@ -54,6 +54,10 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
 
     /** General Vis options passed to the network (https://visjs.github.io/vis-network/docs/network/) */
     @Input() options: Options = defaultOptions;
+
+    /** Timeout (milliseconds) before programmatically refresh the network display after resize */
+    @Input() timeoutSlot = 1000;
+
     optionsPrefs: Options;
 
     @Output() nodeClicked = new EventEmitter<Node>();
@@ -366,13 +370,13 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         if(this._networkInitialized) {
             this.networkService.setOptions(this.name, this.optionsPrefs);
             setTimeout(() => {
-              this.networkService.fit(this.name, {
-                animation: {
-                    duration: 1000,
-                    easingFunction: "easeInOutQuad"
-                }
-            });
-            }, 100);
+                this.networkService.fit(this.name, {
+                    animation: {
+                        duration: 1000,
+                        easingFunction: "easeInOutQuad"
+                    }
+                });
+            }, this.timeoutSlot);
         }
     }
 
