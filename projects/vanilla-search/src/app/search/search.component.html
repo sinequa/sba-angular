@@ -34,7 +34,8 @@
                 </ng-container>
                 <sq-user-menu></sq-user-menu>
             </ul>
-            <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ml-1">
+            
+            <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ml-1" *ngIf="loginService.complete">
             </sq-feedback-menu>
 
         </div>
