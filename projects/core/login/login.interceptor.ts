@@ -159,19 +159,21 @@ export class LoginInterceptor implements HttpInterceptor {
         }
 
         this.notificationsService.enter("network");
-
-        return next.handle(request.clone({
+        
+        const _request = request.clone({
             headers: config.headers,
             params: config.params,
             body: request.body,
             withCredentials: true
-        })).pipe(
+        });
+
+        return next.handle(_request).pipe(
             catchError((error, caught) => {
                 this.notificationsService.leave("network");
                 if (error instanceof HttpErrorResponse) {
                     switch (error.status) {
                         case 401: {
-                            return this.handle401Error(error, request, next, options, caught);
+                            return this.handle401Error(error, _request, next, options, caught);
                         }
                     }
                 }
