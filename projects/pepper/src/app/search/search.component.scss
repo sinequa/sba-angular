@@ -12,6 +12,45 @@
 .results-list {
     max-height: 100%;
     overflow-y: auto;
+    width: 500px;
+    transition: width .5s;
+
+    &--hidden {
+        width: 0px !important;
+        padding: 0px !important;
+    }
+}
+
+.toggle-results {
+    position: absolute;
+    top: 100px;
+
+    &--show{
+        z-index: 999;
+    }
+
+    &--hide{
+        left: 465px;
+    }
+
+    &-icon {
+        font-size: 24px;
+        color: #007bff;
+        cursor: pointer;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}
+
+.dashboard-container {
+    transition: width .5s;
+    width: calc(100% - 500px);
+
+    &--expanded {
+        width: 100% !important;
+    }
 }
 
 #logo {
@@ -37,7 +76,7 @@ h1 {
     padding: 0.5em 15px;
     margin: 0 -15px;
     cursor: pointer;
-    
+
     sq-result-source {
         display: grid;
     }
@@ -89,5 +128,5 @@ gridster-item.gridster-item-moving {
 }
 
 gridster-item.gridster-item-resizing {
-    overflow: hidden;    
+    overflow: hidden;
 }

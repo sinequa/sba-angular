@@ -76,7 +76,9 @@
 
     "search": {
         "pageTitle": "Search - {search}",
-        "filters": "Filters"
+        "filters": "Filters",
+        "hideResults": "Hide results",
+        "showResults": "Show results"
     },
 
     "preview": {

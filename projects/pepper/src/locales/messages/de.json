@@ -51,7 +51,9 @@
 
     "search": {
         "pageTitle": "Suche - {search}",
-        "filters": "Filter"
+        "filters": "Filter",
+        "hideResults": "Ergebnisse ausblenden",
+        "showResults": "Ergebnisse zeigen"
     },
 
     "preview": {
