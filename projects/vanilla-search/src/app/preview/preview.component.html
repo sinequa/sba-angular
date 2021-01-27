@@ -9,12 +9,13 @@
             <!-- Navigation buttons/links (template below) -->
             <ng-container *ngTemplateOutlet="nav"></ng-container>
 
-            <!-- Expanded panel different subpanels available -->
-            <div class="overflow-y-scroll border-top p-2" *ngIf="!collapsedPanel">
-
+            <div class="border-top border-bottom p-2" *ngIf="!collapsedPanel">
                 <!-- Search form allowing the search preview -->
-                <sq-preview-search-form *ngIf="previewSearchable" [query]="query"></sq-preview-search-form>
-
+                <sq-preview-search-form *ngIf="previewSearchable" [query]="query" (searchText)="searchText($event)"></sq-preview-search-form>
+    
+                <!-- Page form allowing to go to an arbitrary page number (when the document is splitted)-->
+                <sq-preview-page-form [pageNumber]="previewData?.record?.$page" (gotopage)="gotoPage($event)"></sq-preview-page-form>
+    
                 <!-- Navigation between the active sub panels -->
                 <ul class="nav nav-pills justify-content-center mb-1">
                     <li class="nav-item" *ngFor="let panel of subpanels">
@@ -23,17 +24,25 @@
                         </a>
                     </li>
                 </ul>
+            </div>
+
+            <!-- Expanded panel different subpanels available -->
+            <div class="overflow-y-scroll p-2" *ngIf="!collapsedPanel">
     
                 <!-- Legacy preview highlights -->
                 <sq-preview-highlights *ngIf="subpanel === 'highlights' && !!previewData" class="my-2" 
                     [previewData]="previewData" [previewDocument]="previewDocument">
                 </sq-preview-highlights>
 
-                <!-- Extracts panel -->
-                <sq-preview-extracts-panel *ngIf="subpanel === 'extracts'"
+                <!-- Extracts/Pages panel -->
+                <sq-preview-extracts-panel *ngIf="subpanel === 'extracts' && !pagesResults"
                     [previewData]="previewData" [previewDocument]="previewDocument">
                 </sq-preview-extracts-panel>
-                        
+                <sq-preview-pages-panel *ngIf="subpanel === 'extracts' && pagesResults"
+                    [previewData]="previewData" [previewDocument]="previewDocument" [pages]="pagesResults"
+                    (gotopage)="gotoPage($event)">
+                </sq-preview-pages-panel>
+
                 <!-- Entities panel -->
                 <sq-preview-entity-panel *ngIf="subpanel === 'entities'"
                     [previewData]="previewData" [previewDocument]="previewDocument" [style]="isDark()? 'dark' : 'light'" [startUnchecked]="entitiesStartUnchecked" (facetChecked)="entitiesChecked($event)">
@@ -46,7 +55,12 @@
         <!-- Right panel (iframe with preview HTML) -->
         <div class="flex-grow-1 d-flex flex-column">
             <div *ngIf="loadingPreview" class="d-flex justify-content-center align-items-center h-100">
-                <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"></div>
+                <div class="spinner-grow" role="status"></div>
+            </div>
+            <div *ngIf="!loadingPreview && previewData" class="shadow-sm mb-1 pl-2">
+                <h1>{{ previewData?.record.title }}</h1>
+                <!-- Link to the original document -->
+                <a title="Original document" target="_blank" href="{{previewData?.record.url1}}" (click)="openOriginalDoc()">{{previewData?.record.url1}}</a>
             </div>
             <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)">
 
@@ -78,12 +92,6 @@
             <!-- Home page link -->
             <a [routerLink]="[homeRoute]" class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" sqTooltip="Home" *ngIf="homeRoute">
                 <i class="fas fa-home"></i>
-            </a>
-
-            <!-- Link to the original document -->
-            <a class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" sqTooltip="Original document" target="_blank" href="{{previewData.record.url1}}"
-                *ngIf="!!previewData && !!previewData.record.url1" (click)="openOriginalDoc()">
-                <i class="fas fa-link"></i>
             </a>
 
             <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" sqTooltip="{{'msg#facet.preview.minimize' | sqMessage }}" (click)="decreaseScaleFactor()" [disabled]="shouldDisableMinimize()">

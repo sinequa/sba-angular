@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { PreviewData } from '@sinequa/core/web-services';
 import { PreviewDocument } from '../../preview-document';
@@ -30,8 +30,8 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   /**
    * Extracts the list of extracts from the preview document
    */
-  ngOnChanges() {
-    if(this.previewData && this.previewDocument){
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes["previewDocument"] && this.previewData && this.previewDocument?.document.body){
       const extracts = this.previewData.highlightsPerCategory["extractslocations"].values; //Extract locations Array ordered by "relevance"
       if(!!extracts && extracts.length > 0){
 

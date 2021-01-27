@@ -76,8 +76,6 @@
 
     "search": {
         "pageTitle": "Recherche - {search}",
-        "darkMode": "Mode sombre",
-        "darkModeTitle": "Activer le mode sombre",
         "filters": "Filtres",
         "hideResults": "Cacher les résultats",
         "showResults": "Afficher les résultats"

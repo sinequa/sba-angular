@@ -2,9 +2,9 @@ import {Injectable, InjectionToken, Inject, Type} from "@angular/core";
 import {SafeResourceUrl, DomSanitizer} from "@angular/platform-browser";
 import {Router} from "@angular/router";
 import {Observable, Subject} from "rxjs";
-import {AppService, Query} from "@sinequa/core/app-utils";
+import {AppService, ExprBuilder, Query} from "@sinequa/core/app-utils";
 import {AuthenticationService} from "@sinequa/core/login";
-import {PreviewWebService, PreviewData, AuditEventType, Record, AuditEvent} from "@sinequa/core/web-services";
+import {PreviewWebService, PreviewData, AuditEventType, Record, AuditEvent, Results} from "@sinequa/core/web-services";
 import {Utils} from "@sinequa/core/base";
 import {ModalService} from "@sinequa/core/modal";
 import {SearchService} from "@sinequa/components/search";
@@ -43,7 +43,8 @@ export class PreviewService {
         private searchService: SearchService,
         private modalService: ModalService,
         private recentDocumentsService: RecentDocumentsService,
-        private sanitizer: DomSanitizer) {
+        private sanitizer: DomSanitizer,
+        public exprBuilder: ExprBuilder) {
 
         // Subscribe to own events and add documents to the recent documents service
         this.events.subscribe(event => {
@@ -159,5 +160,37 @@ export class PreviewService {
                 query: this.getQueryStr(query)
             }
         });
+    }
+
+    /**
+     * Get the page number of a splitted document's record or undefined if
+     * it is not in fact splitted. Stores the page number in the record itself ($page property)
+     * @param record 
+     */
+    getPageNumber(record: Record): number | undefined {
+        let containerid: string | undefined = record.containerid;
+        if(containerid && record.id.startsWith(containerid)) {
+            let pageNumberStr = record.id.slice(containerid.length+1);
+            if(/#\d+#/g.test(pageNumberStr)) {
+                let pageNumber = parseInt(pageNumberStr.slice(1, pageNumberStr.length-1));
+                if(!isNaN(pageNumber)) {
+                    record.$page = pageNumber;
+                    return pageNumber;
+                }
+            }
+        }
+        return undefined;
+    }
+
+    /**
+     * Returns the pages of a given record id
+     * @param containerid
+     * @param query
+     */
+    fetchPages(containerid: string, query: Query): Observable<Results> {
+        query = this.makeQuery(query);
+        query.groupBy = ""; // If the query web service uses GROUP BY containerid
+        query.addSelect(this.exprBuilder.makeExpr("containerid", containerid));
+        return this.searchService.getResults(query);
     }
 }
