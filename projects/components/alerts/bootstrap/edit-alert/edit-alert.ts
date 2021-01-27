@@ -60,7 +60,7 @@ export class BsEditAlert implements OnInit, OnDestroy {
             alertName: this.alertNameControl,
             alertFrequency: this.alertFrequencyControl,
             alertTimes: this.alertTimesControl,
-            alertActive: this.alertTimesControl,
+            alertActive: this.alertActiveControl,
             updateQuery: this.updateQueryControl
         });
         this.formChanges = Utils.subscribe(this.form.valueChanges,
