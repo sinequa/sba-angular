@@ -24,18 +24,20 @@
             <sq-user-menu></sq-user-menu>
         </ul>
 
-        <sq-feedback-menu [style]="'primary'" [rightAligned]="true">
+        <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ml-1" *ngIf="loginService.complete">
         </sq-feedback-menu>
 
     </div>
 
-    <div class="container-fluid justify-content-start px-0" *ngIf="searchService.resultsStream | async as results">
-        <span class="text-muted mr-2"><i class="fas fa-filter"></i> {{ 'msg#search.filters' | sqMessage }}: </span>
-        <sq-facet-filters [results]="results" [facets]="facets" class="mr-auto"></sq-facet-filters>
-
-        <div class="btn-group mr-2" [sq-action-buttons]="{items: [darkAction], style: isDark()? 'dark text-muted' : 'light text-muted'}"></div>
-        <div class="btn-group dashboard-actions" [sq-action-buttons]="{items: dashboardActions, style: 'primary', rightAligned: true}"></div>
-    </div>
+    <ng-container *ngIf="loginService.complete">
+        <div class="container-fluid justify-content-start px-0" *ngIf="searchService.resultsStream | async as results">
+            <span class="text-muted mr-2"><i class="fas fa-filter"></i> {{ 'msg#search.filters' | sqMessage }}: </span>
+            <sq-facet-filters [results]="results" [facets]="facets" class="mr-auto"></sq-facet-filters>
+    
+            <div class="btn-group mr-2" [sq-action-buttons]="{items: [darkAction], style: isDark()? 'dark text-muted' : 'light text-muted'}"></div>
+            <div class="btn-group dashboard-actions" [sq-action-buttons]="{items: dashboardActions, style: 'primary', rightAligned: true}"></div>
+        </div>
+    </ng-container>
 </nav>
 
 <!-- Loading bar (Manages its own state and visibility via the search service) -->

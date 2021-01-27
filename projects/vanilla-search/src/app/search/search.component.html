@@ -34,6 +34,9 @@
                 </ng-container>
                 <sq-user-menu></sq-user-menu>
             </ul>
+            
+            <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ml-1" *ngIf="loginService.complete">
+            </sq-feedback-menu>
 
         </div>
     </nav>
@@ -54,9 +57,13 @@
             <sq-facet-card [title]="multiFacetTitle" [icon]="multiFacetIcon" [collapsible]="false" [buttonsStyle]="isDark()? 'dark' : 'light'" class="d-block mt-3">
                 <sq-facet-multi #facet [results]="results" [facets]="facets" (events)="facetChanged($event)"></sq-facet-multi>
             </sq-facet-card>
-            <sq-feedback-menu [style]="'primary'"
-                class="d-flex flex-column align-items-center mt-3">
-            </sq-feedback-menu>
+        </div>
+        
+        <!-- Result selection toolbar -->
+        <div class="card text-white bg-primary position-fixed action-bar" *ngIf="ui.screenSizeIsGreater('sm')">
+            <div class="card-header">
+                <sq-results-selector [style]="isDark()? 'dark' : 'primary'"></sq-results-selector>
+            </div>
         </div>
 
         <!-- Results -->
@@ -109,15 +116,6 @@
 
         <!-- Right part-->
         <div class="col-md-5 col-lg-4 col-xl-5" [sqSticky]="{top: 70, bottom: 30}">
-
-            <!-- Result selection toolbar -->
-            <div class="card mb-3" [ngClass]="{'d-inline-block': !selectionService.haveSelectedRecords}"
-                *ngIf="ui.screenSizeIsGreater('sm')">
-                <div class="card-header d-flex flex-row align-items-center border-0">
-                    <span class="mr-auto">{{ 'msg#selection.selectedDocuments' | sqMessage:{values: {count: selectionService.getSelectedCount()} } }}</span>
-                    <sq-results-selector [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-results-selector>
-                </div>
-            </div>
 
             <!-- Scaled-down preview -->
             <sq-facet-card *ngIf="openedDoc" [collapsible]="false" class="d-block mb-3 facet-preview"
