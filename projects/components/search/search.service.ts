@@ -821,6 +821,7 @@ export class SearchService implements OnDestroy {
         options.selectTab = true;
         const tabName = typeof arg === 'string' ? arg : arg.name;
         this.query.tab = tabName;
+        delete this.query.queryId; // SBA-154
         this._events.next({type: "before-select-tab", query: this.query});
         return this.search(options,
             this.makeAuditEvent({
