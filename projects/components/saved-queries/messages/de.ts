@@ -35,7 +35,7 @@ export default {
         "btnClose": "Schließen",
         "successNotification": "Herunterladen beendet",
         "exportedColumns": "Zu exportierende Spalten", // DONOTPUSH
-        "exportedColumnsLabelTooltip": "Wählen Sie die Spalten aus, die Sie exportieren möchten. Eine leere Auswahl bedeutet, dass alle Spalten exportiert werden", // DONOTPUSH
+        "exportedColumnsLabelTooltip": "Wählen Sie die Spalten aus, die Sie exportieren möchten. Eine leere Auswahl bedeutet, dass alle Spalten exportiert werden",
         "dialogMaxCountTooltip": "Standardmäßig ist die Anzahl der Ergebnisse auf {count} begrenzt"
     },
 
