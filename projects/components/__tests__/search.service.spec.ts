@@ -151,7 +151,7 @@ describe("SearchService", () => {
 
       expect(service.isEmptySearch).toHaveBeenCalled();
       expect(service.clear).toHaveBeenCalled();
-      expect(service.navigate).toHaveBeenCalledWith({path: "home"}, jasmine.anything())
+      expect(service.navigate).toHaveBeenCalledWith({path: "home"})
       expect(service.selectBreadcrumbsItem).not.toHaveBeenCalled();
     });
 
