@@ -610,11 +610,18 @@ export interface Record {
      * Information about the search terms and whether they exist in the document or not
      */
     termspresence: TermPresence[];
-
     /**
      * A client-side field that indicates whether this document is currrently selected
      */
     $selected: boolean;
+    /**
+     * id of the container of this document (for splitted documents, attachments, etc.)
+     */
+    containerid?: string;
+    /**
+     * Page number of this document (for splitted documents). Added by the front-end
+     */
+    $page?: number;
 }
 
 /**

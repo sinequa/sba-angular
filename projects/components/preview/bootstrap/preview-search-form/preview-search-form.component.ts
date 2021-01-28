@@ -1,6 +1,5 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
 import { Query } from '@sinequa/core/app-utils';
 
 @Component({
@@ -10,14 +9,13 @@ import { Query } from '@sinequa/core/app-utils';
 })
 export class BsPreviewSearchFormComponent implements OnChanges {
   @Input() query: Query;
+  @Output() searchText = new EventEmitter<string>();
 
   // Search form
   readonly form: FormGroup;
   readonly searchControl: FormControl;
 
   constructor(
-    protected router: Router,
-    private route: ActivatedRoute,
     private formBuilder: FormBuilder) {
 
     this.searchControl = new FormControl('');
@@ -34,16 +32,9 @@ export class BsPreviewSearchFormComponent implements OnChanges {
   }
 
   /**
-   * Updates the query with the content of the search form and navigate to this new query
-   * (the page is updated via the router.events listener in the constructor)
+   * Emits an event for the parent component to search this next text
    */
-  search(){
-    this.query.text = this.searchControl.value || "";
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {query: this.query.toJsonForQueryString()},
-      queryParamsHandling: 'merge',
-      state: {}
-    });
+  search() {
+    this.searchText.next(this.searchControl.value || "");
   }
 }

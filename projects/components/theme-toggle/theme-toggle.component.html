@@ -1,0 +1,6 @@
+<div class="d-flex align-items-center" title="{{ tooltip | sqMessage }}">
+  <div>{{ label | sqMessage }}</div>
+  <div class="oval" [ngClass]="{ovalSelected: theme == 'dark'}" (click)="toggleTheme()">
+    <div class="buttonToggle" [ngClass]="{buttonSelected: theme == 'dark'}"></div>
+  </div>
+</div>

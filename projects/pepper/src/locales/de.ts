@@ -26,9 +26,11 @@ import {deStatusBar} from "@sinequa/components/status-bar";
 import {deUserSettings} from "@sinequa/components/user-settings";
 import {deNetwork} from "@sinequa/components/network";
 import {deGooglemaps} from "@sinequa/components/googlemaps";
+import {deTheme} from "@sinequa/components/theme-toggle";
 
 const messages = Utils.merge({}, deCore, deAdvanced, deAlerts, deBaskets, deFacet, deFeedback, deHeatmap, deLabels, deMetadata,
-    deNotification, dePreview, deResult, deResultsView, deSavedQueries, deSelection, deSearch, deStatusBar, deUserSettings, deNetwork, deGooglemaps, appMessages);
+    deNotification, dePreview, deResult, deResultsView, deSavedQueries, deSelection, deSearch, deStatusBar, deUserSettings, deNetwork, deGooglemaps, appMessages,
+    deTheme);
 
 export default <LocaleData>{
     intl: {

@@ -1,0 +1,13 @@
+<form novalidate [formGroup]="form" *ngIf="pageNumber" class="mb-2">
+    <div [sqValidation]="{form: form, controlName: 'page'}" class="input-group mb-1">
+        <div class="input-group-prepend">
+            <label for="page-input" class="input-group-text">{{ 'msg#preview.gotopage' | sqMessage}}</label>
+        </div>
+        <input id="page-input" type="text" class="form-control" placeholder="page" formControlName="page" autocomplete="off" spellcheck="off">
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit" (click)="submit()" >
+                <i class="fas fa-fw fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+</form>
