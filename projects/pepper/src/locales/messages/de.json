@@ -53,7 +53,9 @@
         "pageTitle": "Suche - {search}",
         "darkMode": "Dunkler Modus",
         "darkModeTitle": "Dunkelmodus umschalten",
-        "filters": "Filter"
+        "filters": "Filter",
+        "hideResults": "Ergebnisse ausblenden",
+        "showResults": "Ergebnisse zeigen"
     },
 
     "preview": {
