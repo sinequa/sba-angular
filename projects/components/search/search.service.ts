@@ -318,9 +318,7 @@ export class SearchService implements OnDestroy {
         this._setResults(undefined);
         this._events.next({type: "clear", path});
         if (navigate) {
-            this.navigate({path: path || this.options.homeRoute}, this.makeAuditEvent({
-                type: AuditEventType.Search_FirstPage
-            }));
+            this.navigate({path: path || this.options.homeRoute});
         }
     }
 
