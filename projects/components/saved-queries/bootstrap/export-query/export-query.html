@@ -27,7 +27,10 @@
             </select>
         </div>
         <div class="form-group sq-form-group">
-            <label for="maxCount">{{ 'msg#exportQuery.dialogMaxCount' | sqMessage }}</label>
+            <label 
+                for="maxCount"
+                title="{{ 'msg#exportQuery.dialogMaxCountTooltip' | sqMessage:{values: {count: maxCount} } }}"
+            >{{ 'msg#exportQuery.dialogMaxCount' | sqMessage }}&nbsp;&#9432;</label>
             <input [sqValidation]="form" type="number" class="form-control" id="maxCount" formControlName="maxCount" autocomplete="off" spellcheck="off">
         </div>
         <div class="form-group sq-form-group" *ngIf="showSourceChooser()">
