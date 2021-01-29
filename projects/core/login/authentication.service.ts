@@ -3,7 +3,7 @@ import {HttpHeaders, HttpParams, HttpResponse, HttpErrorResponse} from "@angular
 import {Observable, timer, of, throwError} from "rxjs";
 import {share, flatMap, map, catchError} from "rxjs/operators";
 import {AuthService} from "ng2-ui-auth";
-import {HttpService, START_CONFIG, StartConfig} from "@sinequa/core/web-services";
+import {HttpService, START_CONFIG, StartConfig, AuditWebService} from "@sinequa/core/web-services";
 import {Utils, IRef, MapOf} from "@sinequa/core/base";
 import {SqHttpClient} from "@sinequa/core/web-services";
 import {TokenService} from "./token.service";
@@ -108,6 +108,7 @@ export class AuthenticationService extends HttpService {
         @Inject(START_CONFIG) startConfig: StartConfig,
         private httpClient: SqHttpClient,
         private tokenService: TokenService,
+        private auditService: AuditWebService,
         private jWTService: JWTService,
         private authService: AuthService) {
         super(startConfig);
@@ -362,6 +363,7 @@ export class AuthenticationService extends HttpService {
      */
     logout() {
         this.tokenService.deleteWebTokenCookie().subscribe();
+        this.auditService.notifyLogout().subscribe();
         this.authentication = undefined;
         this.processedCredentials = undefined;
     }

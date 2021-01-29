@@ -59,6 +59,7 @@ export const enum AuditEventType {
     Search_AlertQuery = "Search_AlertQuery",
     Search_Select_AnalyticsItem = "Search_Select_AnalyticsItem",
     Search_Sort = "Search_Sort",
+    Search_Exit_Logout = "Search_Exit_Logout",
 
     SavedQuery_Add = "SavedQuery_Add",
     SavedQuery_Delete = "SavedQuery_Delete",
@@ -263,6 +264,22 @@ export class AuditWebService extends HttpService {
             Object.keys(rfmParameters).forEach(key => rfmDetail[key] = rfmParameters[key]);
             data.rfmDetail = rfmDetail;
         }
+        return this.notify(data);
+    }
+
+    /**
+     * Notify logout
+     */
+    notifyLogout() : Observable<void> {
+        const detail: JsonObject = {
+            app: this.appName,
+        };
+
+        const data: AuditEvent = {
+            type: AuditEventType.Search_Exit_Logout,
+            detail
+        };
+
         return this.notify(data);
     }
 
