@@ -36,6 +36,7 @@ export default {
         "successNotification": "Download complete",
         "exportedColumns": "Columns to export",
         "exportedColumnsLabelTooltip": "Select the columns that you want to export, an empty selection means exporting all columns",
+        "dialogMaxCountTooltip": "By default, the number of results is limited to {count}"
     },
 
     "manageSavedQueries": {

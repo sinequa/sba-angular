@@ -37,6 +37,8 @@ export class BsExportQuery implements OnInit, OnDestroy {
 
     private formChanges: Subscription;
 
+    maxCount = 1000; // Default max count hard coded in web service
+
     constructor(
         @Inject(MODAL_MODEL) public model: ExportQueryModel,
         private formBuilder: FormBuilder,
@@ -55,11 +57,15 @@ export class BsExportQuery implements OnInit, OnDestroy {
         }
 
         this.exportableColumns = [];
+
         if (this.appService.app) {
             const queryExportConfig = this.getDefaultQueryExportConfig(this.appService.app);
             const columns = (queryExportConfig.columns && queryExportConfig.columns['column$']) || [];
             for (const column of columns) {
                 this.exportableColumns.push(column.title);
+            }
+            if(queryExportConfig.maxCount && Utils.isNumber(queryExportConfig.maxCount)) {
+                this.maxCount = queryExportConfig.maxCount;
             }
         }
 
@@ -69,7 +75,8 @@ export class BsExportQuery implements OnInit, OnDestroy {
             'export': [this.model.export, Validators.required],
             'maxCount': [this.model.maxCount, Validators.compose([
                 this.validationService.integerValidator(),
-                this.validationService.minValidator(1)])],
+                this.validationService.minValidator(1)
+            ])],
         });
 
         this.isDownloading = false;
