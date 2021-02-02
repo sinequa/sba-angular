@@ -44,15 +44,10 @@ export class PreviewDocument {
     private readonly _window: Window;
 
     constructor(iframe: ElementRef){
-        const frame = iframe.nativeElement;
-        if (frame && frame.contentWindow && frame.contentWindow.frames) {
-            const sheet = frame.contentWindow.frames["frSheet"]; // aspose xls preview
-            if (sheet) {
-                this._window = sheet;
-                return;
-            }
+        this._window = iframe?.nativeElement?.contentWindow;
+        if (this._window?.frames && this._window.frames["frSheet"]) {
+            this._window = this._window.frames["frSheet"];  // aspose xls preview
         }
-        this._window = frame.contentWindow;
     }
 
 

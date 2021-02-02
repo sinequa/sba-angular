@@ -1,5 +1,6 @@
 import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild, OnChanges, SimpleChanges } from "@angular/core";
-import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Utils } from "@sinequa/core/base";
 import { PreviewDocument } from "./preview-document";
 
 
@@ -26,7 +27,7 @@ import { PreviewDocument } from "./preview-document";
     selector: "sq-preview-document-iframe",
     template: `<iframe #documentFrame
                     [hidden]="loading"
-                    [sandbox]="sandbox || defaultSandbox"
+                    [attr.sandbox]="_sandbox"
                     [src]="sanitizedUrlSrc"
                     (load)="onPreviewDocLoad($event)"
                     [style.--factor]="scalingFactor"
@@ -58,7 +59,7 @@ iframe {
 })
 export class PreviewDocumentIframe implements OnChanges {
     defaultSandbox : string = "allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts";
-    @Input() sandbox : string;
+    @Input() sandbox : string | null;
     @Input() downloadUrl: string | SafeResourceUrl;
     @Input() scalingFactor: number = 1.0;
     @Output() onPreviewReady = new EventEmitter<PreviewDocument>();
@@ -67,6 +68,8 @@ export class PreviewDocumentIframe implements OnChanges {
 
     public loading = false;
     public sanitizedUrlSrc: SafeResourceUrl;
+
+    public _sandbox: string | null = this.defaultSandbox;
 
     constructor(private sanitizer: DomSanitizer) {
         // when donwloadUrl is undefined, a sanitizer error occurs, code below prevents this
@@ -100,6 +103,10 @@ export class PreviewDocumentIframe implements OnChanges {
     }
 
     ngOnChanges(simpleChanges: SimpleChanges) {
+        if(simpleChanges.sandbox) {
+            this._sandbox = (Utils.isString(this.sandbox) || this.sandbox === null) ? 
+                this.sandbox : this.defaultSandbox;
+        }
         if(simpleChanges.scalingFactor && !simpleChanges.scalingFactor.firstChange) {
             return;
         }
