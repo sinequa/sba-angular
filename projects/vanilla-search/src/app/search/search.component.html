@@ -50,7 +50,7 @@
     <div class="row" *ngIf="searchService.resultsStream | async; let results">
 
         <!-- Left facet bar -->
-        <div class="col-md-4 col-lg-3 col-xl-2" *ngIf="showFilters" [sqSticky]="{top: 70, bottom: 30}">
+        <div class="col-md-4 col-lg-3 col-xl-2" *ngIf="showFilters" [sqSticky]="{top: 70, bottom: 80}">
             <sq-facet-card [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'" [collapsible]="false" [buttonsStyle]="isDark()? 'dark' : 'light'">
                 <sq-facet-tree #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-tree>
             </sq-facet-card>
