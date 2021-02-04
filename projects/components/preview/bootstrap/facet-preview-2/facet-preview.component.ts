@@ -17,7 +17,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Input() record: Record;
   @Input() query: Query;
   @Input() iframeClass: string;
-  @Input() sandbox : string;
+  @Input() sandbox : string | null;
   @Input() height: number = 500;
   @Input() scalingFactor: number = 0.6;
   @Input() metadata: string[] = [];
@@ -93,14 +93,14 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     if(this.customActions){
       actions.push(...this.customActions);
     }
+    this.minimizeAction.update();
+    actions.push(this.minimizeAction, this.maximizeAction);
     if(this.expandModal){
       actions.push(this.expandModalAction);
     }
     if(this.closable){
       actions.push(this.closeAction);
     }
-    this.minimizeAction.update();
-    actions.push(this.minimizeAction, this.maximizeAction);
     return actions;
   }
 

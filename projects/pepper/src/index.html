@@ -15,7 +15,15 @@
             </div>
         </app>
         <script>
+    // Get theme from local storage
     let theme = localStorage.getItem('sinequa-theme');
+    // Detect OS theme
+    if(!theme && window.matchMedia) {
+        if(window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            theme = 'dark';
+        }
+    }
+    // Apply theme (defaults to light mode)
     if(theme && theme === 'dark'){
         document.body.classList.toggle("dark");
         document.getElementById("sinequa-logo").setAttribute("src", "assets/sinequa-logo-dark-lg.png")

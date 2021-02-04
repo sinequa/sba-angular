@@ -397,6 +397,7 @@ export class FacetService {
         const select = this.removeFilter(facetName, aggregation, item);
         if(select) {
             this._events.next({type: FacetEventType.RemoveFilter, facet: this.facet(facetName || "")});
+            delete this.searchService.query.queryId; // SBA-154
             return this.searchService.search(undefined, {
                 type: FacetEventType.RemoveFilter,
                 detail: {

@@ -3,7 +3,7 @@ import {Router} from "@angular/router";
 import {SearchService} from "./search.service";
 import {Subscription, Observable, of} from 'rxjs';
 import {Utils} from "@sinequa/core/base";
-import {Results} from "@sinequa/core/web-services";
+import {AuditEventType, Results} from "@sinequa/core/web-services";
 
 export interface FirstPageOptions {
     displayOnHomePage?: boolean;
@@ -80,7 +80,11 @@ export class FirstPageService implements OnDestroy {
         }
         const query = this.searchService.makeQuery();
         query.isFirstPage = true;
-        const observable = this.searchService.getResults(query, undefined, {searchInactive: true});
+        const observable = this.searchService.getResults(query, {
+            type: AuditEventType.Search_FirstPage
+        }, {
+            searchInactive: true
+        });
         Utils.subscribe(observable,
             (results) => {
                 this.firstPage = results;

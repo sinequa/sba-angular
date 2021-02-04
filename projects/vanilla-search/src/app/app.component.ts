@@ -1,4 +1,5 @@
 import { Component, ChangeDetectorRef } from "@angular/core";
+import { NavigationEnd, Router } from "@angular/router";
 import { ComponentWithLogin, LoginService } from "@sinequa/core/login";
 import { BasketsService } from '@sinequa/components/baskets';
 import { SavedQueriesService, RecentQueriesService, RecentDocumentsService } from '@sinequa/components/saved-queries';
@@ -8,6 +9,7 @@ import { UserPreferences } from '@sinequa/components/user-settings';
 import { SelectionService } from '@sinequa/components/selection';
 import { AppService } from '@sinequa/core/app-utils';
 import { FEATURES } from '../config';
+import { AuditWebService } from "@sinequa/core/web-services";
 
 @Component({
     selector: "app",
@@ -33,7 +35,10 @@ export class AppComponent extends ComponentWithLogin {
         recentQueriesService: RecentQueriesService,
         RecentDocumentsService: RecentDocumentsService,
         public selectionService: SelectionService,
-        public appService: AppService
+        public appService: AppService,
+
+        public router: Router,
+        public auditWebService: AuditWebService
         ){
         super(loginService, cdRef);
 
@@ -78,8 +83,24 @@ export class AppComponent extends ComponentWithLogin {
                 }
             });
 
+            this.auditRouteChange();
+
+            this.router.events.subscribe(event => {
+                if(event instanceof NavigationEnd && this.loginService.complete) { // Check login complete in case of logout
+                    this.auditRouteChange();
+                }
+            });
+
         }
     }
 
+    auditRouteChange() {
+        const route = this.router.url.substr(1).split('?')[0]; // Extract route name
+        if(route) {
+            this.auditWebService.notify({
+                type: `Navigation.${route}`
+            });
+        }
+    }
 
 }

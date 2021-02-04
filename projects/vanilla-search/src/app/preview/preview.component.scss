@@ -6,3 +6,12 @@
     width: 3rem;
     height: 3rem;
 }
+
+.preview-bg {
+    background-color: #efefef;
+}
+
+:host-context(.dark)
+.preview-bg {
+  background-color: black;
+}
