@@ -32,7 +32,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    */
   ngOnChanges() {
     if(this.previewData && this.previewDocument){
-      const extracts = this.previewData.highlightsPerCategory["extractslocations"].values; //Extract locations Array ordered by "relevance"
+      const extracts = this.previewData.highlightsPerCategory["extractslocations"]?.values; //Extract locations Array ordered by "relevance"
       if(!!extracts && extracts.length > 0){
 
         // Init the extracts Array and storing the relevancy index = i because extractsLocations is already ordered by relevance
