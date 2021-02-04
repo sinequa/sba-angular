@@ -10,7 +10,6 @@ import {Subject, Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {SearchService, BreadcrumbsItem, Breadcrumbs} from "@sinequa/components/search";
 import {SuggestService} from "@sinequa/components/autocomplete";
-import {FacetConfig} from './bootstrap';
 
 // Facet interface (from models/UserSettings)
 export interface FacetState {
@@ -390,9 +389,9 @@ export class FacetService {
 
     /**
      * Removes the aggregation from the search service query and refresh the search
-     * @param facetName 
-     * @param aggregation 
-     * @param item 
+     * @param facetName
+     * @param aggregation
+     * @param item
      */
     public removeFilterSearch(facetName: string, aggregation: Aggregation, item: AggregationItem): Promise<boolean>{
         const select = this.removeFilter(facetName, aggregation, item);
@@ -424,7 +423,7 @@ export class FacetService {
         count: number = 10,
         query = this.searchService.query,
         searchInactive = true): Observable<Aggregation | undefined> {
-            
+
         query = Utils.copy(query);
         query.action = "aggregate";
         query.aggregations = {};
@@ -493,7 +492,7 @@ export class FacetService {
             levelCallback?: (nodes: TreeAggregationNode[], level: number, node: TreeAggregationNode) => void
         }
     ): Aggregation | TreeAggregation | undefined {
-        
+
         if (results?.aggregations) {
             const aggregation = results.aggregations.find(agg => Utils.eqNC(agg.name, aggregationName))
             if (aggregation) {
@@ -833,13 +832,57 @@ export class FacetService {
 
     /**
      * Check if a facet contains items
-     * @param facet facet to check
+     * @param aggregation aggregation name
      * @param results search results
      *
      * @returns true if the facet contains a least one item otherwise false
      */
-    hasData(facet: FacetConfig, results: Results): boolean {
+    hasData(aggregation: string, results: Results): boolean {
         // Avoid calling getAggregation() which is costly
-        return !!results.aggregations.find(agg => Utils.eqNC(agg.name, facet.aggregation))?.items?.length;
+        return !!results.aggregations.find(agg => Utils.eqNC(agg.name, aggregation))?.items?.length;
     }
+
+    /**
+     * Returns the index of the first element in the supplied array
+     * corresponding to `item.value` or -1 when not found.
+     * A fallback to `item.display` is done before returning -1
+     * @param item item to find
+     */
+    filteredIndex(data: Aggregation | undefined, arr: Array<AggregationItem>, item: AggregationItem): number {
+        let indx = -1;
+        // specific to Values Are Expressions where expression are not well formatted by Expression Parser
+        // eg: when values is : "> 0", Expression Parser returns : ">0" without space between operator and value
+        if (data?.valuesAreExpressions) {
+            const value = this.trimAllWhitespace(item.value);
+            const normalizedArr = arr.map(item => ({...item, value: this.trimAllWhitespace(item.value)})) || [];
+            indx = normalizedArr.findIndex(it => it.value === value);
+        } else {
+            indx = this.findAggregationItemIndex(arr, item);
+        }
+        return indx;
+    }
+
+    /**
+     * Utility function to returns aggregation item's index in supplied array with fallback to `display` comparison.
+     * Otherwise -1, indicating that no element passed the test.
+     * @param arr The array findIndex() was called upon
+     * @param value The value to be test
+     */
+    public findAggregationItemIndex = (arr: Array<AggregationItem>, item: AggregationItem) => {
+        let index = arr.findIndex(it => it.value === item.value);
+        if (index === -1 && item.display) {
+            // fallback to display comparison
+            index = arr.findIndex(it => it.display === item.display);
+        }
+        return index;
+    };
+
+    private trimAllWhitespace = (value: FieldValue | undefined): FieldValue | undefined => {
+        switch (typeof value) {
+            case "string":
+                return value.replace(/\s/g, '');
+            default:
+                return value;
+        }
+    };
 }

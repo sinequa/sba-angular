@@ -150,7 +150,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   ngOnChanges() {
     this.facets.forEach(facet => {
       facet.$count = this.getFacetCount(facet);
-      facet.$hasData = this.facetService.hasData(facet, this.results);
+      facet.$hasData = this.facetService.hasData(facet.aggregation, this.results);
       facet.$hasFiltered = this.hasFiltered(facet);
     });
     this.changeDetectorRef.detectChanges();
