@@ -10,7 +10,7 @@
         </a>
     </li>
     <!-- average rating -->
-    <li *ngIf="showAverage && getAverageRating() !== undefined" class="sq-user-rating-average">
+    <li *ngIf="showAverage && getAverageRating() !== undefined && getAverageRating() !== ''" class="sq-user-rating-average">
         <span>{{'msg#userRatings.average'|sqMessage:messageParams}}</span>
     </li>
 </ul>
