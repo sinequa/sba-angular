@@ -57,9 +57,6 @@
             <sq-facet-card [title]="multiFacetTitle" [icon]="multiFacetIcon" [collapsible]="false" [buttonsStyle]="isDark()? 'dark' : 'light'" class="d-block mt-3">
                 <sq-facet-multi #facet [results]="results" [facets]="facets" (events)="facetChanged($event)"></sq-facet-multi>
             </sq-facet-card>
-            <sq-facet-card [title]="'msg#facet.tagcloud.title'" [icon]="'fas fa-cloud'" [collapsible]="false" [buttonsStyle]="isDark()? 'dark' : 'light'" class="d-block mt-3">
-                <sq-facet-tag-cloud #facet [results]="results" [aggregations]="['Company','Geo','Person','Concepts']"></sq-facet-tag-cloud>
-            </sq-facet-card>
         </div>
 
         <!-- Result selection toolbar -->

@@ -82,7 +82,7 @@ $highlights: map-merge(map-merge($extracts-highlights, $terms-highlights), $meta
     }
 }
 
-@mixin tagCloud($term) {
+@mixin simpleHighlight($term) {
     $tag-cloud: map-get($highlights, $term);
     $color: map-get($tag-cloud, "main-color");
 
@@ -96,7 +96,7 @@ $highlights: map-merge(map-merge($extracts-highlights, $terms-highlights), $meta
 @each $name in map-keys($highlights) {
     @include highlight($name);
     @include svgHighlight($name);
-    @include tagCloud($name);
+    @include simpleHighlight($name);
 }
 
 
