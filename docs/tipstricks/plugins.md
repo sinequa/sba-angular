@@ -32,13 +32,9 @@ The `QueryPlugin` has many methods which can be overriden, and we cannot go in t
 - Before Search: These methods can be overriden to modify the way the SQL query is built (eg. to add, remove or modifies specific SQL clauses).
 - After Search: These methods can be overriden to post-process the results of the SQL query and/or modify how these results are writen in the JSON response.
 
-The complete workflow of execution is depicted in the image below:
+The complete API of the `QueryPlugin` is listed on [Sinequa's documentation website](https://doc.sinequa.com/api/.net/html/T_Sinequa_Plugins_QueryPlugin.htm).
 
-![Query Plugin Execution]({{site.baseurl}}assets/tipstricks/QueryPlugin_Workflow.svg){: .d-block .mx-auto }
-
-Note that the green methods are `virtual`, which means they can be overriden.
-
-Also note that within a `QueryPlugin`, you have access to various useful objects, in particular:
+Note that within a `QueryPlugin`, you have access to various useful objects, in particular:
 
 - `this.Request`: The query object (a `Json` object) that this web service is responding to. It is possible to access any sub property of the query (which can include non-standard properties, added specifically for the purpose of customization).
 - `this.Response`: The response returned by the web service (a `Json` object). It is possible modify any property of this response. Note that, depending on the method you override, the response might not yet be complete. From the front-end point of view, this response is read as a [`Results`]({{site.baseurl}}core/interfaces/Results.html) object.
@@ -197,6 +193,8 @@ The `QueryPlugin` includes other customizable methods, notably:
 ### Create a custom endpoint
 
 A `JsonMethodPlugin` is a C# plugin deployed on the Sinequa server that exposes a custom endpoint of the Sinequa REST API. A `JsonMethodPlugin` has access to the full Sinequa C# API, so it can do practically anything, including one or multiple queries to the Sinequa engines.
+
+The complete API of the `JsonMethodPlugin` is listed on [Sinequa's documentation website](https://doc.sinequa.com/api/.net/html/Methods_T_Sinequa_Plugins_JsonMethodPlugin.htm).
 
 As an example, let's take the following plugin:
 
