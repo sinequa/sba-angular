@@ -82,12 +82,21 @@ $highlights: map-merge(map-merge($extracts-highlights, $terms-highlights), $meta
     }
 }
 
+@mixin simpleHighlight($term) {
+    $tag-cloud: map-get($highlights, $term);
+    $color: map-get($tag-cloud, "main-color");
+
+    .sq-metadata-color-#{$term} {
+        color: $color !important;
+    }
+}
 
 // Actually generate highlight rules
 
 @each $name in map-keys($highlights) {
     @include highlight($name);
     @include svgHighlight($name);
+    @include simpleHighlight($name);
 }
 
 

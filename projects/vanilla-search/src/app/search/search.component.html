@@ -34,7 +34,7 @@
                 </ng-container>
                 <sq-user-menu></sq-user-menu>
             </ul>
-            
+
             <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ml-1" *ngIf="loginService.complete">
             </sq-feedback-menu>
 
@@ -58,7 +58,7 @@
                 <sq-facet-multi #facet [results]="results" [facets]="facets" (events)="facetChanged($event)"></sq-facet-multi>
             </sq-facet-card>
         </div>
-        
+
         <!-- Result selection toolbar -->
         <div class="card text-white bg-primary position-fixed action-bar" *ngIf="ui.screenSizeIsGreater('sm')">
             <div class="card-header">

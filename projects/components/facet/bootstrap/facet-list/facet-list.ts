@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy, OnInit, OnDestroy} from "@angular/core";
 import {Results, Aggregation, AggregationItem} from "@sinequa/core/web-services";
-import {Utils, FieldValue} from "@sinequa/core/base";
+import {Utils} from "@sinequa/core/base";
 import {FacetService} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
 import {AbstractFacet} from "../../abstract-facet";
@@ -43,26 +43,14 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
     suggestions$: BehaviorSubject<AggregationItem[]> = new BehaviorSubject<AggregationItem[]>([]);
 
     // Select
-    /**
-     * Utility function to returns aggregation item's index in supplied array with fallback to `display` comparison.
-     * Otherwise -1, indicating that no element passed the test.
-     * @param arr The array findIndex() was called upon
-     * @param value The value to be test
-     */
-    private findIndex = (arr: Array<AggregationItem>, item: AggregationItem) => {
-        let index = arr.findIndex(it => it.value === item.value);
-        if (index === -1 && item.display) {
-            // fallback to display comparison
-            index = arr.findIndex(it => it.display === item.display);
-        }
-        return index;
-    };
 
     /**
      * Returns index of first element existing in suggestions or aggregations collection.
      * @param item `AggregrationItem` to find
      */
-    private find = (item: AggregationItem) => this.hasSuggestions() ? this.findIndex(this.suggestions$.getValue(), item) : this.findIndex(this.items$.getValue() || [], item);
+    private find = (item: AggregationItem) => this.hasSuggestions()
+                                                    ? this.facetService.findAggregationItemIndex(this.suggestions$.getValue(), item)
+                                                    : this.facetService.findAggregationItemIndex(this.items$.getValue() || [], item);
     selected: AggregationItem[] = [];
 
 
@@ -251,7 +239,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
         // refresh filters from breadcrumbs
         const items = this.facetService.getAggregationItemsFiltered(this.getName(), data?.valuesAreExpressions);
         items.forEach(item => {
-            if (!this.isFiltered(item)) {
+            if (!this.isFiltered(data, item)) {
                 item.$filtered = true;
                 this.filtered.push(item);
             }
@@ -260,10 +248,10 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
         data?.items?.forEach(item => {
             // update $selected status
             item.$selected = this.isSelected(item);
-            const indx = this.filteredIndex(item);
+            const indx = this.facetService.filteredIndex(data, this.filtered, item);
             if (this.facetService.itemFiltered(this.getName(), data, item)) {
                 item.$filtered = true;
-                if (!this.isFiltered(item)) {
+                if (!this.isFiltered(data, item)) {
                     this.filtered.push(item);
                 } else {
                     this.filtered[indx].count = item.count;
@@ -282,28 +270,8 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
      * Returns true if the given AggregationItem is filtered
      * @param item
      */
-    isFiltered(item: AggregationItem): boolean {
-        return this.filteredIndex(item) !== -1;
-    }
-
-    /**
-     * Returns the index of the first element in the array
-     * corresponding to `item.value` or -1 when not found.
-     * A fallback to `item.display` is done before returning -1
-     * @param item item to find
-     */
-    filteredIndex(item: AggregationItem): number {
-        let indx = -1;
-        // specific to Values Are Expressions where expression are not well formated by Expression Parser
-        // eg: when values is : "> 0", Expression Parser returns : ">0" without space beetwen operator and value
-        if (this.data()?.valuesAreExpressions) {
-            const value = this.trimAllWhitespace(item.value);
-            const filtered = this.filtered.map(item => ({...item, value: this.trimAllWhitespace(item.value)})) || [];
-            indx = filtered.findIndex(it => it.value === value);
-        } else {
-            indx = this.findIndex(this.filtered, item);
-        }
-        return indx;
+    isFiltered(data: Aggregation | undefined, item: AggregationItem): boolean {
+        return this.facetService.filteredIndex(data, this.filtered, item) !== -1;
     }
 
     /**
@@ -322,7 +290,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
         const data = this.data();
         if (data) {
             this.filtering = true;
-            if (!this.isFiltered(item)) {
+            if (!this.isFiltered(data, item)) {
                 this.facetService.addFilterSearch(this.getName(), data, item);
             }
             else {
@@ -340,7 +308,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
      * @param item
      */
     isSelected(item: AggregationItem) : boolean {
-        return this.findIndex(this.selected, item) !== -1;
+        return this.facetService.findAggregationItemIndex(this.selected, item) !== -1;
     }
 
     /**
@@ -371,8 +339,8 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
     }
 
     private updateSelected(item: AggregationItem) {
-        if (!this.isFiltered(item)) {
-            const index = this.findIndex(this.selected, item);
+        if (!this.isFiltered(this.data(), item)) {
+            const index = this.facetService.findAggregationItemIndex(this.selected, item);
             if (index === -1) {
                 item.$selected = true;
                 this.selected.push(item);
@@ -457,7 +425,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
                 map(items => {
                     const suggestions = items.slice(0, this.count)
                         .map(item => this.facetService.suggestionToAggregationItem(item))
-                        .filter(item => !this.isFiltered(item));
+                        .filter(item => !this.isFiltered(this.data(), item));
 
                     // update $selected status
                     suggestions.forEach(item => item.$selected = this.isSelected(item));
@@ -474,20 +442,4 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
     isHidden(): boolean {
         return !this.data();
     }
-
-    /**
-     * Useful to compare string expressions
-     *
-     * @param value string where spaces should be trimmed
-     *
-     * @returns value trimmed. eg: "a b c" => "abc"
-     */
-    private trimAllWhitespace = (value: FieldValue | undefined): FieldValue | undefined => {
-        switch (typeof value) {
-            case "string":
-                return value.replace(/\s/g, '');
-            default:
-                return value;
-        }
-    };
 }

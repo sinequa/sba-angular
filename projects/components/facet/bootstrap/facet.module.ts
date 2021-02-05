@@ -23,6 +23,7 @@ import {BsFacetTree} from "./facet-tree/facet-tree";
 import {BsFacetFilters} from "./facet-filters/facet-filters";
 import {BsFacetFiltersBackground} from "./facet-filters-background/facet-filters-background";
 import {BsFacetMultiComponent} from "./facet-multi/facet-multi.component";
+import { BsFacetTagCloud } from './facet-tag-cloud/facet-tag-cloud';
 
 @NgModule({
     imports: [
@@ -45,14 +46,16 @@ import {BsFacetMultiComponent} from "./facet-multi/facet-multi.component";
         BsFacetFilters, BsFacetFiltersBackground,
         BsRefine,
         BsFacetRange, BsMySearch, BsFacetBar,
-        BsFacetMultiComponent
+        BsFacetMultiComponent,
+        BsFacetTagCloud
     ],
     exports: [
         BsFacetCard, BsFacetList, BsFacetTree,
         BsFacetFilters,
         BsRefine,
         BsFacetRange, BsMySearch, BsFacetBar,
-        BsFacetMultiComponent
+        BsFacetMultiComponent,
+        BsFacetTagCloud
     ],
 })
 export class BsFacetModule {

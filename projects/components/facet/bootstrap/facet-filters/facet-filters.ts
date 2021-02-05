@@ -127,7 +127,7 @@ export class BsFacetFilters implements OnChanges {
      * @returns true if facet contains at least one item otherwise false
      */
     private hasData(facet: FacetConfig): boolean {
-        return this.facetService.hasData(facet, this.results);
+        return this.facetService.hasData(facet.aggregation, this.results);
     }
 
 }
