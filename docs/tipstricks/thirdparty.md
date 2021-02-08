@@ -15,5 +15,3 @@ When you install a new library, say with `npm install d3`, npm also installs the
 - Always rebuild the Sinequa libraries ([`@sinequa/core`]({{site.baseurl}}modules/core/core.html) and [`@sinequa/components`]({{site.baseurl}}modules/components/components.html)).
 
 Also note that you can install dependencies specifically for your application, without affecting the rest of the workspace (although this does not solve possible conflicts of version mentioned above). To do so, [add a `package.json` file](https://docs.npmjs.com/creating-a-package-json-file) at the root of your application. You can then add libraries as usual with `npm install`. Your imports will be correcly resolved in the new `node_modules/` folder, as well as in the other `node_modules/` folder at the root of the workspace (the first one takes precedence).
-
-
