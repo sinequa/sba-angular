@@ -29,7 +29,7 @@ It is also important to know that other web services make use of the `QueryPlugi
 The `QueryPlugin` has many methods which can be overriden, and we cannot go in the details of all of them here. However, we can split these methods in the following categories:
 
 - Initialization: These methods initialize the properties of the `QueryPlugin` class in function of the user's query. The query object sent by the client corresponds to the [`Query`]({{site.baseurl}}core/interfaces/IQuery.html) type, which is used throughout the SBA framework.
-- Before Search: These methods can be overriden to modify the way the SQL query is built (eg. to add, remove or modifies specific SQL clauses).
+- Before Search: These methods can be overriden to modify the way the SQL query is built (eg. to add, remove or modify specific SQL clauses).
 - After Search: These methods can be overriden to post-process the results of the SQL query and/or modify how these results are writen in the JSON response.
 
 The complete API of the `QueryPlugin` is listed on [Sinequa's documentation website](https://doc.sinequa.com/api/.net/html/T_Sinequa_Plugins_QueryPlugin.htm).
@@ -37,7 +37,7 @@ The complete API of the `QueryPlugin` is listed on [Sinequa's documentation webs
 Note that within a `QueryPlugin`, you have access to various useful objects, in particular:
 
 - `this.Request`: The query object (a `Json` object) that this web service is responding to. It is possible to access any sub property of the query (which can include non-standard properties, added specifically for the purpose of customization).
-- `this.Response`: The response returned by the web service (a `Json` object). It is possible modify any property of this response. Note that, depending on the method you override, the response might not yet be complete. From the front-end point of view, this response is read as a [`Results`]({{site.baseurl}}core/interfaces/Results.html) object.
+- `this.Response`: The response returned by the web service (a `Json` object). It is possible to modify any property of this response. Note that, depending on the method you override, the response might not yet be complete. From the front-end point of view, this response is read as a [`Results`]({{site.baseurl}}core/interfaces/Results.html) object.
 
 ### Initialization methods
 
@@ -254,7 +254,7 @@ public override JsonMethodAuthLevel GetRequiredAuthLevel()
 }
 ```
 
-There are four levels: `User`, `Admin`, `AdminOrDelegatedAdmin` and `None`. Note that it is possible to retrieve the user's identity via `this.Session.User`.
+There are four levels: `User`, `Admin`, `AdminOrDelegatedAdmin` and `None`. Note that it is possible to retrieve the user's identity via `this.Session.User`. Additionally, `this.Session` has the following properties indicating whether the current user is an admin or delegated admin: `IsAdmin`, `IsDelegatedAdmin`, and `IsAdminOrDelegatedAdmin` .
 
 ### Customizing existing web services
 
