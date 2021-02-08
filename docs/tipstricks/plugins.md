@@ -37,7 +37,7 @@ The complete API of the `QueryPlugin` is listed on [Sinequa's documentation webs
 Note that within a `QueryPlugin`, you have access to various useful objects, in particular:
 
 - `this.Request`: The query object (a `Json` object) that this web service is responding to. It is possible to access any sub property of the query (which can include non-standard properties, added specifically for the purpose of customization).
-- `this.Response`: The response returned by the web service (a `Json` object). It is possible to modify any property of this response. Note that, depending on the method you override, `this.Response` might not have always the same content (for example, if you override a "before search" method, the response does not contain any data yet). From the front-end point of view, this response is read as a [`Results`]({{site.baseurl}}core/interfaces/Results.html) object.
+- `this.Response`: The response returned by the web service (a `Json` object). It is possible to modify any property of this response. Note that, depending on the method you override, `this.Response` might not always have the same content (for example, if you override a "before search" method, the response does not contain any data yet). From the front-end point of view, this response is read as a [`Results`]({{site.baseurl}}core/interfaces/Results.html) object.
 
 ### Initialization methods
 
