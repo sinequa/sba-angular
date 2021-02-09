@@ -1,4 +1,4 @@
-import { Directive, Input, Output, EventEmitter, SimpleChanges, ElementRef } from "@angular/core";
+import { Directive, Input, Output, EventEmitter, SimpleChanges, ElementRef, OnChanges, OnDestroy } from "@angular/core";
 import { Observable, Subscription, of } from "rxjs";
 import { Utils, Keys} from "@sinequa/core/base";
 import { AppService, Expr, ExprBuilder, ExprParser, ExprValueInfo} from "@sinequa/core/app-utils";
@@ -27,7 +27,7 @@ export interface ParseResult {
 @Directive({
     selector: "[sqAutocompleteFieldSearch]"
 })
-export class AutocompleteFieldSearch extends Autocomplete {
+export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, OnDestroy {
 
 
     // FIELDED SEARCH
@@ -265,7 +265,7 @@ export class AutocompleteFieldSearch extends Autocomplete {
         let value = this.getInputValue();
         if(value) { // If there is text, make a call to the suggest API
             const parseResult = this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
-            let fields: string[] | undefined = undefined;
+            let fields: string[] | undefined;
             if(parseResult.result && this.fieldSearchMode !== "off"){
                 const position = this.getInputPosition(); // Position of the caret, if needed
                 const res = parseResult.result.findValue(position);

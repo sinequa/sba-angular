@@ -387,12 +387,6 @@ class SimpleHighlightCategoryFilterState implements HighlightCategoryFilterState
     readonly choice: HighlightCategoryFilterChoice = HighlightCategoryFilterChoice.All;
     private _filterValue: string = "";
 
-    constructor();
-
-    constructor(value: string);
-
-    constructor(choice: HighlightCategoryFilterChoice);
-
     constructor(param?: string | HighlightCategoryFilterChoice) {
         if (param == null) {
             return;
@@ -428,11 +422,11 @@ class SimpleHighlightCategoryFilterState implements HighlightCategoryFilterState
 class FilteredHighlightDataPerLocation implements HighlightDataPerLocation {
 
     [index: number]: {
-        start: number;
-        length: number;
-        values: string[];
-        displayValue: string;
-        positionInCategories: { [category: string]: number };
+        start: number,
+        length: number,
+        values: string[],
+        displayValue: string,
+        positionInCategories: { [category: string]: number }
     };
 
     public constructor(baseData: HighlightDataPerLocation, filters: { [key: string] : HighlightCategoryFilterState }) {

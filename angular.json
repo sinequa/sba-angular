@@ -30,14 +30,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/core/tsconfig.lib.json",
-              "projects/core/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/core/**/*.ts",
+              "projects/core/**/*.html"
             ]
           }
         }
@@ -70,14 +67,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/components/tsconfig.lib.json",
-              "projects/components/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/components/**/*.ts",
+              "projects/components/**/*.html"
             ]
           }
         }

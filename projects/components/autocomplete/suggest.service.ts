@@ -90,10 +90,8 @@ export class SuggestService {
             .map(obj => SuggestService.findMatch(primaryText(obj), query,
                 !!secondaryText ? secondaryText(obj) : [], obj)) // Look for matches in all saved queries
             .filter(item => !!item) // Keep only the matches
-            /*tslint:disable-next-line*/
             .sort((a,b) => b!.score - a!.score) // Sort by decreasing score
             .map(item => {
-                /*tslint:disable-next-line*/
                 item = item!;
                 return {    // Make an autocomplete item
                     display: item.display,
@@ -156,10 +154,8 @@ export class SuggestService {
             secondaryText
                 .map(t => this.findMatch(t, query)) // Search each secondary text for matches
                 .filter(item => !!item) // Keep only the matches
-                /*tslint:disable-next-line*/
                 .sort((a,b) => b!.score - a!.score) // Sort by decreasing score
                 .forEach(match => {
-                    /*tslint:disable-next-line*/
                     match = match!;
                     score += match.score / 2;  // Secondary matches added to the score, but count half
                     html += " <small>" + match.displayHtml + "</small>"; // Concatenate secondary match html to the main html

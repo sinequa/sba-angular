@@ -73,7 +73,6 @@ export class LoadComponentService {
             Object.keys(options.inputs).forEach(name => {
                 if (makeSimpleChanges) {
                     const previousValue = initialLoad ? undefined : loadedComponent.componentRef.instance[name];
-                    /*tslint:disable-next-line*/
                     const currentValue = options.inputs![name];
                     if (initialLoad || currentValue !== previousValue) {
                         if (!simpleChanges) {
@@ -82,7 +81,6 @@ export class LoadComponentService {
                         simpleChanges[name] = new SimpleChange(previousValue, currentValue, initialLoad);
                     }
                 }
-                /*tslint:disable-next-line*/
                 loadedComponent.componentRef.instance[name] = options.inputs![name];
             });
         }
@@ -90,7 +88,6 @@ export class LoadComponentService {
             Object.keys(options.outputs).forEach(name => {
                 const eventEmitter: EventEmitter<any> = loadedComponent.componentRef.instance[name];
                 if (eventEmitter) {
-                    /*tslint:disable-next-line*/
                     const subscription = eventEmitter.subscribe(options.outputs![name]);
                     if (!loadedComponent.subscriptions) {
                         loadedComponent.subscriptions = subscription;

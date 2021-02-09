@@ -318,7 +318,7 @@ export function wikiDynConfig(providerFactory: ProviderFactory, searchService: S
     providerFactory.createPersonNodeType(),
     // This function returns the query necessary to transform the node
     (node: Node) => {
-      let query = searchService.makeQuery();
+      const query = searchService.makeQuery();
       query.text = node.label;
       query.addSelect("treepath:=/Web/Wiki/");
       query.addSelect("sourcestr4:=human");
@@ -369,7 +369,7 @@ export function wikiMultiDynConfig(providerFactory: ProviderFactory, searchServi
     providerFactory.createPersonNodeType(),
     // a function that returns a query to retrieve the wikipedia page of this person
     (node: Node) => {
-      let query = searchService.makeQuery();
+      const query = searchService.makeQuery();
       query.text = node.label;
       query.addSelect("treepath:=/Web/Wiki/");
       query.addSelect("sourcestr4:=human");

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Subject } from 'rxjs';
 import { Action } from '@sinequa/components/action';
 import { Utils } from '@sinequa/core/base';

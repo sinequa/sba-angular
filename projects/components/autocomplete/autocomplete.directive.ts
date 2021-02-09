@@ -291,7 +291,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * and process them.
      */
     protected getSuggests() {
-        let value = this.getInputValue();
+        const value = this.getInputValue();
         if(value) { // If there is text, make a call to the suggest API
             this.processSuggests(
                 this.getSuggestsObs(value)

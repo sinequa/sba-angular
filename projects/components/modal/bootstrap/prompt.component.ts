@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { MODAL_MODEL, PromptOptions, ModalResult, ModalRef, ModalButton} from "@sinequa/core/modal";
@@ -19,7 +19,7 @@ import { Utils } from '@sinequa/core/base';
         </form>
     `
 })
-export class BsPrompt {
+export class BsPrompt implements OnInit, OnDestroy {
     inputControl: FormControl;
     form: FormGroup;
     formChanges: Subscription;

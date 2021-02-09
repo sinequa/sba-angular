@@ -66,8 +66,8 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
             title: "Select field",
             updater: (action) => {
                 if(this.aggregations){
-                    action.name = this.aggregation,
-                    action.text = this.aggregation,
+                    action.name = this.aggregation;
+                    action.text = this.aggregation;
                     action.children = this.aggregations
                         .filter(v => v!==this.aggregation)
                         .map(a => {

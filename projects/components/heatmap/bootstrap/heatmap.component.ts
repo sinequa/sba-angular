@@ -210,7 +210,7 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
         const quantiles = this.color.quantiles();
         const bucketWidth = (this.width - this.margin.left - this.margin.right) / this.buckets;
         for(let i=0; i < this.buckets; i++){
-            let color = this.color(i===0? 0 : quantiles[i-1]);
+            const color = this.color(i===0? 0 : quantiles[i-1]);
             if(i === 0 || color !== legend[legend.length-1].color){
                 legend.push({
                     x: legend.length * bucketWidth,

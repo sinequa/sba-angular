@@ -28,7 +28,6 @@ export class AuthenticationPopupService extends PopupService {
     }
 
     open(url: string, options: any/*IOauth2Options | IOauth1Options*/, cordova: boolean | undefined): Observable<Window> {
-        /*tslint:disable-next-line*/
         if (Utils.startsWith(url, this.startConfig.apiPath!)) {
             return this.httpClient.get<{redirectUrl: string}>(url, {
                 params: Utils.makeHttpParams({

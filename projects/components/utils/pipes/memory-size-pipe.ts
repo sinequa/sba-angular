@@ -9,7 +9,6 @@ import {FormatService} from "@sinequa/core/app-utils";
  * @example
  * <span>Size:</span><span>{{ documentSize | sqMemorySize }}</span>
  */
-// tslint:disable-next-line: use-pipe-transform-interface
 @Pipe({name: "sqMemorySize", pure: false})
 export class MemorySizePipe extends AbstractIntlPipe {
     constructor(

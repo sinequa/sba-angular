@@ -56,7 +56,7 @@ export class BsResultsHeatmapView extends BsFacetHeatmapComponent {
     }
 
     get _actions(): Action[] {
-        let actions = this.actions;
+        const actions = this.actions;
         actions.push(this.settingsAction);
         return actions;
     }

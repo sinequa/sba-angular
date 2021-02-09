@@ -334,7 +334,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
             updater: (action) => {
                 action.name = axis === 'x'? this.fieldXPref : this.fieldYPref;
                 action.text = this.appService.getPluralLabel(axis === 'x'? this.fieldXPref : this.fieldYPref);
-                action.icon = "sq-icon-"+(axis === 'x'? this.fieldXPref : this.fieldYPref),
+                action.icon = "sq-icon-"+(axis === 'x'? this.fieldXPref : this.fieldYPref);
                 action.children = ((axis === 'x'? this.fieldsX : this.fieldsY) || [])
                     .filter(f => f !== (axis === 'x'? this.fieldXPref : this.fieldYPref))
                     .map(f => {

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from "@angular/core";
 
 @Component({
-    selector: "qp-facet-filters-background",
+    selector: "sq-facet-filters-background",
     templateUrl: "./facet-filters-background.html",
     styleUrls: ["./facet-filters-background.css"]
 })

@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/no-conflicting-lifecycle */
 import {Component, Input, Output, EventEmitter, OnInit, OnDestroy, OnChanges, DoCheck, SimpleChanges, ViewChild, ElementRef, Type} from "@angular/core";
 import {Subscription} from "rxjs";
 import {Utils} from "@sinequa/core/base";
