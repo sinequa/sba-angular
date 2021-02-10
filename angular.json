@@ -187,15 +187,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/hello-search/tsconfig.json",
-              "projects/hello-search/tsconfig.spec.json",
-              "projects/hello-search/e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/hello-search/**/*.ts",
+              "projects/hello-search/**/*.html"
             ]
           }
         },
@@ -337,15 +333,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/vanilla-search/tsconfig.json",
-              "projects/vanilla-search/tsconfig.spec.json",
-              "projects/vanilla-search/e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/vanilla-search/**/*.ts",
+              "projects/vanilla-search/**/*.html"
             ]
           }
         },
@@ -489,15 +481,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/pepper/tsconfig.json",
-              "projects/pepper/tsconfig.spec.json",
-              "projects/pepper/e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/pepper/**/*.ts",
+              "projects/pepper/**/*.html"
             ]
           }
         },

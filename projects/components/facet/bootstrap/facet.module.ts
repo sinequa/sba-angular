@@ -21,7 +21,6 @@ import {BsFacetCard} from "./facet-card/facet-card";
 import {BsFacetList} from "./facet-list/facet-list";
 import {BsFacetTree} from "./facet-tree/facet-tree";
 import {BsFacetFilters} from "./facet-filters/facet-filters";
-import {BsFacetFiltersBackground} from "./facet-filters-background/facet-filters-background";
 import {BsFacetMultiComponent} from "./facet-multi/facet-multi.component";
 import { BsFacetTagCloud } from './facet-tag-cloud/facet-tag-cloud';
 
@@ -43,7 +42,7 @@ import { BsFacetTagCloud } from './facet-tag-cloud/facet-tag-cloud';
     ],
     declarations: [
         BsFacetCard, BsFacetList, BsFacetTree,
-        BsFacetFilters, BsFacetFiltersBackground,
+        BsFacetFilters,
         BsRefine,
         BsFacetRange, BsMySearch, BsFacetBar,
         BsFacetMultiComponent,
