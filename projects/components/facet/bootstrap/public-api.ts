@@ -1,7 +1,6 @@
 export * from "./facet-bar/facet-bar";
 export * from "./facet-card/facet-card";
 export * from "./facet-filters/facet-filters";
-export * from "./facet-filters-background/facet-filters-background";
 export * from "./facet-list/facet-list";
 export * from "./facet.module";
 export * from "./facet-mysearch/facet-mysearch";
