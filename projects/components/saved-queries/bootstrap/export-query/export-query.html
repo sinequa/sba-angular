@@ -1,7 +1,8 @@
 <form name="exportQuery" novalidate [formGroup]="form">
     <sq-modal
         [title]="'msg#exportQuery.dialogTitle'"
-        [buttons]="!isDownloading? buttons : []">
+        [buttons]="buttons"
+        [isProcessingState]="isDownloading">
         <div class="form-group sq-form-group">
             <label for="format">{{ 'msg#exportQuery.dialogOutputFormat' | sqMessage }}</label>
             <select [sqValidation]="form" class="form-control custom-select" formControlName="format" id="format" sqAutofocus>
@@ -26,7 +27,10 @@
             </select>
         </div>
         <div class="form-group sq-form-group">
-            <label for="maxCount">{{ 'msg#exportQuery.dialogMaxCount' | sqMessage }}</label>
+            <label 
+                for="maxCount"
+                title="{{ 'msg#exportQuery.dialogMaxCountTooltip' | sqMessage:{values: {count: maxCount} } }}"
+            >{{ 'msg#exportQuery.dialogMaxCount' | sqMessage }}&nbsp;&#9432;</label>
             <input [sqValidation]="form" type="number" class="form-control" id="maxCount" formControlName="maxCount" autocomplete="off" spellcheck="off">
         </div>
         <div class="form-group sq-form-group" *ngIf="showSourceChooser()">
@@ -46,10 +50,6 @@
                     </label>
                 </div>
             </div>
-        </div>
-        <div *ngIf="isDownloading" class="modal-footer">
-            <span class="loader"></span>
-            <button type="button" class="btn" (click)="close()">{{ 'msg#exportQuery.btnClose' | sqMessage }}</button>
         </div>
     </sq-modal>
 </form>

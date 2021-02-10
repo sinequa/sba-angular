@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>advanced/bootstrap/date-picker/date-picker.ts</code>
+            <code>advanced/bootstrap/advanced-form-range/date-picker/date-picker.ts</code>
         </p>
 
 
@@ -330,7 +330,7 @@ export class BsDatePicker implements OnInit, AfterViewInit, OnDestroy, ControlVa
             maxDate: this.options.maxDate,
             containerClass:&#x27;theme-default&#x27;,
             showWeekNumbers: false,
-            dateInputFormat: this.options.system ? this.SystemFormat : &quot;L&quot;
+            dateInputFormat: this.options.system ? this.SystemFormat : moment.localeData().longDateFormat(&#x27;L&#x27;)
         };
     }
 
@@ -365,7 +365,8 @@ export class BsDatePicker implements OnInit, AfterViewInit, OnDestroy, ControlVa
     registerOnTouched(fn: any): void {
     }
     //#endregion
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
 

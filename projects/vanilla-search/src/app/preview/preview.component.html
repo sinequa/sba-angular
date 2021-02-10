@@ -1,5 +1,5 @@
 <div class="container-fluid p-0 h-100">
-    <div class="row m-0 h-100">
+    <div class="d-flex m-0 h-100">
 
         <!-- Left panel (navigation, extracts and entities) -->
         <div class="d-flex flex-column align-items-stretch border-right h-100 p-0" 
@@ -44,11 +44,19 @@
         </div>
 
         <!-- Right panel (iframe with preview HTML) -->
-        <div class="flex-grow-1 d-flex flex-column">
-            <sq-preview-document-iframe [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)" *ngIf="downloadUrl">
+        <div class="flex-grow-1 d-flex flex-column preview-bg">
+            <div *ngIf="loadingPreview" class="d-flex justify-content-center align-items-center h-100">
+                <div class="spinner-grow" role="status"></div>
+            </div>
+            <div *ngIf="!loadingPreview && previewData" class="mb-1 pl-2">
+                <h1>{{ previewData?.record.title }}</h1>
+                <!-- Link to the original document -->
+                <a title="Original document" target="_blank" href="{{previewData?.record.url1}}" (click)="openOriginalDoc()">{{previewData?.record.url1}}</a>
+            </div>
+            <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)">
 
                 <!-- Tooltip injected in the preview -->
-                <sq-preview-tooltip #tooltip [previewDocument]="previewDocument"[previewData]="previewData" 
+                <sq-preview-tooltip #tooltip [previewDocument]="previewDocument" [previewData]="previewData" 
                     [entityActions]="tooltipEntityActions" [selectedTextActions]="tooltipTextActions">
                 </sq-preview-tooltip>
 
@@ -63,27 +71,33 @@
         <div [ngClass]="{'btn-group': !collapsedPanel, 'btn-group-vertical':collapsedPanel}">
             
             <!-- Toggles the left panel collapsed/expanded state -->
-            <button class="btn btn-lg btn-primary" title="Expand" (click)="collapsedPanel = !collapsedPanel">
+            <button class="btn btn-lg btn-primary" [placement]="leftPanelTooltipPlacement()" sqTooltip="Expand" (click)="collapsedPanel = !collapsedPanel">
                 <i class="fas fa-bars"></i>
             </button>
 
             <!-- Back button (go back to /search route) -->
-            <button class="btn btn-lg btn-light" title="Back" (click)="back()" *ngIf="showBackButton">
+            <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" sqTooltip="Back" (click)="back()" *ngIf="showBackButton">
                 <i class="fas fa-arrow-left"></i>
             </button>
 
             <!-- Home page link -->
-            <a [routerLink]="[homeRoute]" class="btn btn-lg btn-light" title="Home" *ngIf="homeRoute">
+            <a [routerLink]="[homeRoute]" class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" sqTooltip="Home" *ngIf="homeRoute">
                 <i class="fas fa-home"></i>
             </a>
 
             <!-- Link to the original document -->
-            <a class="btn btn-lg btn-light" title="Original document" target="_blank" href="{{previewData.record.url1}}"
+            <a class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" sqTooltip="Original document" target="_blank" href="{{previewData.record.url1}}"
                 *ngIf="!!previewData && !!previewData.record.url1" (click)="openOriginalDoc()">
                 <i class="fas fa-link"></i>
             </a>
+
+            <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" sqTooltip="{{'msg#facet.preview.minimize' | sqMessage }}" (click)="decreaseScaleFactor()" [disabled]="shouldDisableMinimize()">
+                <i class="fas fa-search-minus"></i>
+            </button>
+            <button class="btn btn-lg btn-light" [placement]="leftPanelTooltipPlacement()" sqTooltip="{{'msg#facet.preview.maximize' | sqMessage }}" (click)="increaseScaleFactor()">
+                <i class="fas fa-search-plus"></i>
+            </button>
         </div>
-        <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="Sinequa logo" title="Sinequa" *ngIf="!isDark()">
-        <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="Sinequa logo" title="Sinequa" *ngIf="isDark()">
+        <img id="logo" src="{{ isDark() ? 'assets/sinequa-logo-dark-sm.png' : 'assets/sinequa-logo-light-sm.png'}}" alt="Sinequa logo" title="Sinequa">
     </div>
 </ng-template>

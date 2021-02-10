@@ -173,12 +173,11 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, InjectionToken, Inject, Optional, OnDestroy} from &quot;@angular/core&quot;;
 import {Router, NavigationStart, NavigationEnd, Params} from &quot;@angular/router&quot;;
 import {Subject, BehaviorSubject, Observable, Subscription, of, throwError} from &quot;rxjs&quot;;
-import {map, catchError} from &quot;rxjs/operators&quot;;
+import {map, catchError  } from &quot;rxjs/operators&quot;;
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
-    AdvancedValue, AdvancedValueWithOperator, AdvancedOperator,
     AuditEvents, AuditEventType, AuditEvent} from &quot;@sinequa/core/web-services&quot;;
-import {AppService, FormatService, ValueItem, Query, ExprParser, Expr} from &quot;@sinequa/core/app-utils&quot;;
+import {AppService, FormatService, ValueItem, Query, ExprParser, Expr, ExprBuilder} from &quot;@sinequa/core/app-utils&quot;;
 import {NotificationsService} from &quot;@sinequa/core/notification&quot;;
 import {LoginService} from &quot;@sinequa/core/login&quot;;
 import {IntlService} from &quot;@sinequa/core/intl&quot;;
@@ -207,6 +206,7 @@ export class SearchService implements OnDestroy {
     protected loginSubscription: Subscription;
     protected routerSubscription: Subscription;
     protected appSubscription: Subscription;
+    protected fetchingLoadMore &#x3D; false;
     protected _events &#x3D; new Subject&lt;SearchService.Events&gt;();
     protected _queryStream &#x3D; new BehaviorSubject&lt;Query | undefined&gt;(undefined);
     protected _resultsStream &#x3D; new BehaviorSubject&lt;Results | undefined&gt;(undefined);
@@ -220,7 +220,8 @@ export class SearchService implements OnDestroy {
         protected intlService: IntlService,
         protected formatService: FormatService,
         protected auditService: AuditWebService,
-        protected notificationsService: NotificationsService) {
+        protected notificationsService: NotificationsService,
+        protected exprBuilder: ExprBuilder) {
 
         if (!this.options) {
             this.options &#x3D; {
@@ -279,7 +280,7 @@ export class SearchService implements OnDestroy {
     }
 
     get resultsStream(): Observable&lt;Results | undefined&gt; {
-        return this._resultsStream;
+        return this._resultsStream.asObservable();
     }
 
     getTabConfig(name: string): CCTab | undefined {
@@ -431,9 +432,12 @@ export class SearchService implements OnDestroy {
         return Math.ceil(this.results.rowCount / this.results.pageSize);
     }
 
-    makeQuery(): Query {
+    makeQuery(recentQuery?: Query): Query {
         const ccquery &#x3D; this.appService.ccquery;
         const query &#x3D; new Query(ccquery ? ccquery.name : &quot;_unknown&quot;);
+        if(recentQuery){
+            Object.assign(query, recentQuery);
+        }
         this._events.next({type: &quot;make-query&quot;, query: query});
         return query;
     }
@@ -516,10 +520,6 @@ export class SearchService implements OnDestroy {
             }
             // Test basket
             if (query.basket) {
-                return false;
-            }
-            // Test no advanced
-            if (query.advanced &amp;&amp; Object.keys(query.advanced).length &gt; 0) {
                 return false;
             }
             return true;
@@ -795,6 +795,9 @@ export class SearchService implements OnDestroy {
             navigationOptions &#x3D; state.navigationOptions;
         }
         navigationOptions &#x3D; navigationOptions || {};
+        if(navigationOptions.skipSearch) {
+            return Promise.resolve(true);
+        }
         if (!audit) {
             audit &#x3D; this.makeAuditEventFromCurrentQuery();
             if (audit &amp;&amp; audit.type &#x3D;&#x3D;&#x3D; AuditEventType.Search_Text) {
@@ -812,7 +815,6 @@ export class SearchService implements OnDestroy {
                 navigationOptions &#x3D; navigationOptions || {};
                 this._setResults(results, {
                     resuseBreadcrumbs: navigationOptions.reuseBreadcrumbs,
-                    advanced: navigationOptions.advanced
                 });
                 return results;
             });
@@ -857,18 +859,8 @@ export class SearchService implements OnDestroy {
             }));
     }
 
-    searchAdvanced(query: Query): Promise&lt;boolean&gt; {
-        return this.applyAdvanced(query, this.makeAuditEvent({
-            type: AuditEventType.Search_Text,
-            detail: {
-                text: this.query.text,
-                advanced: true
-            }
-        }));
-    }
-
     searchRefine(text: string): Promise&lt;boolean&gt; {
-        this.query.addSelect(this.makeSelectExpr(&quot;refine&quot;, {value: text}), &quot;refine&quot;);
+        this.query.addSelect(this.exprBuilder.makeRefineExpr(text));
         return this.search(undefined,
             this.makeAuditEvent({
                 type: AuditEventType.Search_Refine,
@@ -889,6 +881,45 @@ export class SearchService implements OnDestroy {
                 &quot;from-result-id&quot;: !!this.results ? this.results.id : null
             }
         }));
+    }
+
+    /**
+     * Load more results and append them to previous results
+     */
+    loadMore() {
+        if(!this.fetchingLoadMore) {
+            let page &#x3D; this.query.page || this.page;
+            page +&#x3D; (page &lt;&#x3D; this.pageCount) ? 1 : 0;
+            if (page &lt;&#x3D; this.pageCount) {
+                this.fetchingLoadMore &#x3D; true;
+                this.query.page &#x3D; page;
+
+                const auditEvents &#x3D; this.makeAuditEvent({
+                    type: AuditEventType.Search_GotoPage,
+                    detail: {
+                        page: page,
+                        &quot;from-result-id&quot;: !!this.results ? this.results.id : null
+                    }
+                })
+
+                this.getResults(this.query, auditEvents)
+                .subscribe(results &#x3D;&gt; {
+                    if(this.results &amp;&amp; results) {
+                        this.results.records &#x3D; [...this.results?.records || [], ...results.records] || [];
+                        this._resultsStream.next(this.results);
+                    }
+                    this.fetchingLoadMore &#x3D; false;
+                });
+            }
+        }
+    }
+
+    /**
+     * @returns true if more are available otherwise false
+     */
+    hasMore(): boolean {
+        const page &#x3D; this.query.page || this.page;
+        return (page &lt; this.pageCount);
     }
 
     didYouMean(text: string, context: &quot;search&quot; | &quot;refine&quot;, kind: DidYouMeanKind): Promise&lt;boolean&gt; {
@@ -924,120 +955,16 @@ export class SearchService implements OnDestroy {
         return undefined;
     }
 
-    mergeAdvanced(target: Query, source: Query) {
-        const deltas &#x3D; Utils.deltas({advanced: {}}, source.copyAdvanced()); // Utils.copy(this.advancedDefaults) &#x3D;&gt; {}
-        target.toStandard();
-        delete target.page;
-        Utils.merge(target, deltas);
-        return target;
-    }
-
-    applyAdvanced(query: Query, auditEvents?: AuditEvents): Promise&lt;boolean&gt; {
-        this.mergeAdvanced(this.query, query);
-        if (!this.checkEmptySearch(this.query)) {
-            this.clear();
-            return Promise.resolve(false);
-        }
-        return this.navigate({advanced: true}, auditEvents);
-    }
-
-    removeAdvanced(field: string, value: AdvancedValue | AdvancedValueWithOperator) {
-        const query &#x3D; this.query.copy();
-        let operator: AdvancedOperator | undefined;
-        if (query.isAdvancedValueWithOperator(value)) {
-            operator &#x3D; value.operator;
-        }
-        query.removeAdvancedValue(field, operator);
-        this.applyAdvanced(query, this.makeAuditEvent({
-            type: AuditEventType.Search_RemoveAdvanced,
-            detail: {
-                name: field,
-                &quot;from-result-id&quot;: !!this.results ? this.results.id : null
+    addFieldSelect(field: string, items: ValueItem | ValueItem[], options?: SearchService.AddSelectOptions): boolean {
+        if (items &amp;&amp; (!Utils.isArray(items) || items.length &gt; 0)) {
+            let expr &#x3D; this.exprBuilder.makeFieldExpr(field, items, options?.and);
+            if (options?.not) {
+                expr &#x3D; this.exprBuilder.makeNotExpr(expr);
             }
-        }));
-    }
-
-    private makeSelectExpr(field: string, valueItem: ValueItem, excludeField?: boolean): string {
-        let haveField &#x3D; false;
-        const sb: string[] &#x3D; [];
-        if (!excludeField) {
-            sb.push(field);
-            haveField &#x3D; true;
+            this.query.addSelect(expr, options?.facetName);
+            return true;
         }
-        if (valueItem.display) {
-            let display &#x3D; valueItem.display;
-            if (Utils.isDate(display)) { // ES-7785
-                display &#x3D; Utils.toSysDateStr(display);
-            }
-            sb.push(ExprParser.escape(display));
-            haveField &#x3D; true;
-        }
-        if (haveField) {
-            sb.push(&quot;:(&quot;, ExprParser.escape(Utils.toSqlValue(valueItem.value)), &quot;)&quot;);
-        }
-        else {
-            sb.push(ExprParser.escape(Utils.toSqlValue(valueItem.value)));
-        }
-        return sb.join(&quot;&quot;);
-    }
-
-    private _addFieldSelect(expr: string, options: SearchService.AddFieldSelectOptions): number {
-        if (options.not) {
-            expr &#x3D; &quot;NOT (&quot; + expr + &quot;)&quot;;
-        }
-        return this.query.addSelect(expr);
-    }
-
-    private makeFieldExpr(
-        field: string, valueItem: ValueItem, options: SearchService.AddFieldSelectOptions,
-        excludeField?: boolean): string {
-        if (options &amp;&amp; options.valuesAreExpressions) {
-            return valueItem.value as string;
-        }
-        return this.makeSelectExpr(field, valueItem, excludeField);
-    }
-
-    addFieldSelect(field: string, items: ValueItem | ValueItem[], options?: SearchService.AddFieldSelectOptions): number {
-        if (!items) {
-            return 0;
-        }
-        const _options &#x3D; Utils.extend({not: false, and: false}, options);
-        let item: ValueItem | undefined;
-        if (Utils.isArray(items)) {
-            if (items.length &#x3D;&#x3D;&#x3D; 0) {
-                return 0;
-            }
-            if (items.length &#x3D;&#x3D;&#x3D; 1) {
-                item &#x3D; items[0];
-            }
-        }
-        else {
-            item &#x3D; items as ValueItem;
-        }
-        if (item) {
-            return this._addFieldSelect(this.makeFieldExpr(field, item, _options), _options);
-        }
-        if (Utils.isArray(items)) {
-            if (_options.and) {
-                let count &#x3D; 0;
-                for (const _item of items) {
-                    count +&#x3D; this._addFieldSelect(this.makeFieldExpr(field, _item, _options), _options);
-                }
-                return count;
-            }
-            // or
-            let expr &#x3D; &quot;&quot;;
-            for (const _item of items) {
-                if (expr) {
-                    expr &#x3D; expr + &quot; OR &quot;;
-                }
-                const expr1 &#x3D; this.makeFieldExpr(field, _item, _options, true);
-                expr +&#x3D; &quot;(&quot; + expr1 + &quot;)&quot;;
-            }
-            expr &#x3D; field + &quot;:(&quot; + expr + &quot;)&quot;;
-            return this._addFieldSelect(expr, _options);
-        }
-        return 0;
+        return false;
     }
 
 
@@ -1055,17 +982,18 @@ export class SearchService implements OnDestroy {
         if (!this.breadcrumbs) {
             return false;
         }
-        if (this.breadcrumbs.textExpr) {
+        if (this.breadcrumbs.textExpr?.hasRelevance) {
             return true;
         }
         const refineExpr &#x3D; this.breadcrumbs.findSelect(&quot;refine&quot;);
-        return refineExpr !&#x3D; null;
+        return refineExpr?.hasRelevance || false;
     }
 
     selectTab(arg: string | Tab, options: SearchService.NavigationOptions &#x3D; {}): Promise&lt;boolean&gt; {
         options.selectTab &#x3D; true;
         const tabName &#x3D; typeof arg &#x3D;&#x3D;&#x3D; &#x27;string&#x27; ? arg : arg.name;
         this.query.tab &#x3D; tabName;
+        delete this.query.queryId; // SBA-154
         this._events.next({type: &quot;before-select-tab&quot;, query: this.query});
         return this.search(options,
             this.makeAuditEvent({
@@ -1146,26 +1074,23 @@ export module SearchService {
     export interface AddSelectOptions {
         not?: boolean;      // default &quot;false&quot;
         and?: boolean;      // default &quot;false&quot;
+        facetName?: string; // default: undefined
     }
 
     export interface NavigationOptions {
         path?: string; // absolute path, current path used if not specified
         reuseBreadcrumbs?: boolean;
         selectTab?: boolean;
-        advanced?: boolean;
         analyzeQueryText?: boolean;
         queryIntents?: QueryIntent[];
         queryAnalysis?: QueryAnalysis;
         skipLocationChange?: boolean;
+        skipSearch?: boolean;
     }
 
     export interface HistoryState {
         audit?: AuditEvents;
         navigationOptions?: NavigationOptions;
-    }
-
-    export interface AddFieldSelectOptions extends AddSelectOptions {
-        valuesAreExpressions?: boolean;
     }
 
     export interface Event {

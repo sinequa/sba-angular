@@ -210,6 +210,7 @@ import {Utils} from &quot;@sinequa/core/base&quot;;
 import {SelectionService} from &quot;@sinequa/components/selection&quot;;
 import {Action} from &quot;@sinequa/components/action&quot;;
 import {SearchService} from &quot;@sinequa/components/search&quot;;
+import {Query} from &#x27;@sinequa/core/app-utils&#x27;;
 
 // Basket interface (from models/UserSettings)
 export interface Basket {
@@ -323,7 +324,7 @@ export class BasketsService implements OnDestroy {
         this.userSettingsService.events.subscribe(event &#x3D;&gt; {
             // E.g. new login occurs
             // &#x3D;&#x3D;&gt; Menus need to be rebuilt
-            this.events.next({type: BasketEventType.Loaded});
+            this._events.next({type: BasketEventType.Loaded});
         });
         // Listen to own events, to trigger change events
         this._events.subscribe(event &#x3D;&gt; {
@@ -409,7 +410,7 @@ export class BasketsService implements OnDestroy {
             return false; // This basket already exists
 
         this.baskets.unshift(basket);
-        this.events.next({type : BasketEventType.Add, basket: basket});
+        this._events.next({type : BasketEventType.Add, basket: basket});
         this.patchBaskets([{
             type: BasketEventType.Add,
             detail: {
@@ -437,7 +438,7 @@ export class BasketsService implements OnDestroy {
         if(index &gt;&#x3D; 0 &amp;&amp; index &lt; this.baskets.length){
 
             this.baskets.splice(index, 1, basket);
-            this.events.next({type : BasketEventType.Update, basket: basket});
+            this._events.next({type : BasketEventType.Update, basket: basket});
             this.patchBaskets([
                 {
                     type: BasketEventType.Update,
@@ -461,7 +462,7 @@ export class BasketsService implements OnDestroy {
      */
     public updateBaskets(baskets: Basket[], auditEvents?: AuditEvents) : boolean {
         Utils.arraySet(this.baskets, baskets);
-        this.events.next({type : BasketEventType.Update});
+        this._events.next({type : BasketEventType.Update});
         this.patchBaskets(auditEvents);
         return true;
     }
@@ -481,7 +482,7 @@ export class BasketsService implements OnDestroy {
             return false; // Nothing to delete
 
         this.baskets.splice(index, 1);
-        this.events.next({type : BasketEventType.Delete, basket: basket});
+        this._events.next({type : BasketEventType.Delete, basket: basket});
         this.patchBaskets([
             {
                 type: BasketEventType.Delete,
@@ -523,7 +524,7 @@ export class BasketsService implements OnDestroy {
             }
         }
         if(!skipPatch){
-            this.events.next({type : BasketEventType.AddDoc});
+            this._events.next({type : BasketEventType.AddDoc});
             this.patchBaskets({
                 type: BasketEventType.AddDoc,
                 detail: {
@@ -567,7 +568,7 @@ export class BasketsService implements OnDestroy {
             }
         }
         if(!skipPatch){
-            this.events.next({type : BasketEventType.RemoveDoc});
+            this._events.next({type : BasketEventType.RemoveDoc});
             this.patchBaskets({
                 type: BasketEventType.RemoveDoc,
                 detail: {
@@ -596,7 +597,7 @@ export class BasketsService implements OnDestroy {
                 });
             }
         }
-        this.events.next({type : BasketEventType.RemoveDoc});
+        this._events.next({type : BasketEventType.RemoveDoc});
         this.patchBaskets(auditEvents);
         return true;
     }
@@ -611,7 +612,7 @@ export class BasketsService implements OnDestroy {
         return this.userSettingsService.patch({baskets: this.baskets}, auditEvents)
             .subscribe(
                 next &#x3D;&gt; {
-                    this.events.next({type: BasketEventType.Patched});
+                    this._events.next({type: BasketEventType.Patched});
                 },
                 error &#x3D;&gt; {
                     console.error(&quot;Could not patch Baskets!&quot;, error);
@@ -634,7 +635,7 @@ export class BasketsService implements OnDestroy {
         const query &#x3D; this.searchService.makeQuery();
         query.basket &#x3D; basket.name;
         this.searchService.setQuery(query);
-        this.events.next({type: BasketEventType.Open, basket: basket});
+        this._events.next({type: BasketEventType.Open, basket: basket});
         return this.searchService.search({ path: path }, {
             type: BasketEventType.Open,
             detail: {
@@ -774,6 +775,16 @@ export class BasketsService implements OnDestroy {
                 action.hidden &#x3D; !this.selectionService.haveSelectedRecords;
             }
         });
+    }
+
+    makeQuery(basket: Basket): Query {
+        const query &#x3D; this.searchService.makeQuery();
+        query.basket &#x3D; basket.name;
+        return query;
+    }
+
+    notifyOpenBasket(basket: Basket) {
+        this._events.next({type: BasketEventType.Open, basket});
     }
 
     ngOnDestroy() {

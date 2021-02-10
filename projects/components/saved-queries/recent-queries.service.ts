@@ -68,7 +68,7 @@ export class RecentQueriesService implements OnDestroy {
                 }
             });
             // ==> Menus need to be rebuilt
-            this.events.next({type: RecentQueryEventType.Loaded});
+            this._events.next({type: RecentQueryEventType.Loaded});
         });
         // Listen to own events, to trigger change events
         this._events.subscribe(event => {
@@ -176,11 +176,11 @@ export class RecentQueriesService implements OnDestroy {
             }
             this.recentqueries[i].date = recentquery.date; // Update the date of the existing query
             this.recentqueries[i].query = recentquery.query;
-            this.events.next({type : RecentQueryEventType.Update, recentquery: this.recentqueries[i]});
+            this._events.next({type : RecentQueryEventType.Update, recentquery: this.recentqueries[i]});
         }
         else {
             this.recentqueries.push(recentquery);
-            this.events.next({type : RecentQueryEventType.Add, recentquery: recentquery});
+            this._events.next({type : RecentQueryEventType.Add, recentquery});
         }
 
         // Sort the list
@@ -190,12 +190,7 @@ export class RecentQueriesService implements OnDestroy {
         if(this.maxQueries >=0 )
             this.recentqueries.splice(this.maxQueries);
 
-        this.patchRecentQueries([{
-            type: RecentQueryEventType.Add,
-            detail: {
-                recentquery: recentquery.query.text
-            }
-        }]);
+        this.patchRecentQueries(); // No need to emit an "Add" audit event, since it is redundant with the main search API
         return true;
     }
 
@@ -214,7 +209,7 @@ export class RecentQueriesService implements OnDestroy {
             return false; // Nothing to delete
 
         this.recentqueries.splice(index, 1);
-        this.events.next({type : RecentQueryEventType.Delete, recentquery: recentquery});
+        this._events.next({type : RecentQueryEventType.Delete, recentquery});
         this.patchRecentQueries([
             {
                 type: RecentQueryEventType.Delete,
@@ -235,7 +230,7 @@ export class RecentQueriesService implements OnDestroy {
         return this.userSettingsService.patch({recentQueries: this.recentqueries}, auditEvents)
             .subscribe(
                 next => {
-                    this.events.next({type: RecentQueryEventType.Patched});
+                    this._events.next({type: RecentQueryEventType.Patched});
                 },
                 error => {
                     console.error("Could not patch Recent queries!", error);
@@ -254,13 +249,17 @@ export class RecentQueriesService implements OnDestroy {
      */
     searchRecentQuery(recentquery: RecentQuery, path?: string): Promise<boolean> {
         this.searchService.setQuery(Utils.extend(this.searchService.makeQuery(), Utils.copy(recentquery.query)));
-        this.events.next({type: RecentQueryEventType.Search, recentquery: recentquery});
+        this._events.next({type: RecentQueryEventType.Search, recentquery});
         return this.searchService.search({ path: path }, {
             type: RecentQueryEventType.Search,
             detail: {
                 recentquery: recentquery.query.text
             }
         });
+    }
+
+    notifyOpenRecentQuery(recentquery: RecentQuery): void {
+        this._events.next({type: RecentQueryEventType.Search, recentquery});
     }
 
     ngOnDestroy() {

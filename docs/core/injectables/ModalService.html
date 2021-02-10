@@ -98,6 +98,9 @@
                                 <a href="#openRef">openRef</a>
                             </li>
                             <li>
+                                <a href="#prompt">prompt</a>
+                            </li>
+                            <li>
                                 <a href="#yesNo">yesNo</a>
                             </li>
                         </ul>
@@ -118,12 +121,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>, overlay: Overlay, confirmModal: Type<any>)</code>
+<code>constructor(injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>, overlay: Overlay, confirmModal: Type<any>, promptModal: Type<any>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="260" class="link-to-prism">modal/modal.service.ts:260</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="286" class="link-to-prism">modal/modal.service.ts:286</a></div>
                             </td>
                         </tr>
 
@@ -176,6 +179,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>promptModal</td>
+                                                  
+                                                        <td>
+                                                                    <code>Type&lt;any&gt;</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -212,8 +227,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="380"
-                            class="link-to-prism">modal/modal.service.ts:380</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="407"
+                            class="link-to-prism">modal/modal.service.ts:407</a></div>
                 </td>
             </tr>
 
@@ -290,8 +305,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="392"
-                            class="link-to-prism">modal/modal.service.ts:392</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="428"
+                            class="link-to-prism">modal/modal.service.ts:428</a></div>
                 </td>
             </tr>
 
@@ -424,8 +439,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="417"
-                            class="link-to-prism">modal/modal.service.ts:417</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="453"
+                            class="link-to-prism">modal/modal.service.ts:453</a></div>
                 </td>
             </tr>
 
@@ -576,8 +591,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="329"
-                            class="link-to-prism">modal/modal.service.ts:329</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="356"
+                            class="link-to-prism">modal/modal.service.ts:356</a></div>
                 </td>
             </tr>
 
@@ -676,8 +691,8 @@ with the <code>ModalResult</code> when the modal is closed.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="275"
-                            class="link-to-prism">modal/modal.service.ts:275</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="302"
+                            class="link-to-prism">modal/modal.service.ts:302</a></div>
                 </td>
             </tr>
 
@@ -757,6 +772,83 @@ with the <code>ModalResult</code> when the modal is closed.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="prompt"></a>
+                    <span class="name">
+                        <b>
+                            prompt
+                        </b>
+                        <a href="#prompt"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>prompt(options: <a href="../interfaces/PromptOptions.html">PromptOptions</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="416"
+                            class="link-to-prism">modal/modal.service.ts:416</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Open a prompt modal dialog displaying a message, an input and OK/Cancel buttons.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../interfaces/PromptOptions.html" target="_self" >PromptOptions</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The options used to open the prompt modal. These are set as the <code>MODAL_MODEL</code>  of the modal.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/enumerations.html#ModalResult" target="_self" >Promise&lt;ModalResult&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="yesNo"></a>
                     <span class="name">
                         <b>
@@ -775,8 +867,8 @@ with the <code>ModalResult</code> when the modal is closed.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="444"
-                            class="link-to-prism">modal/modal.service.ts:444</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="480"
+                            class="link-to-prism">modal/modal.service.ts:480</a></div>
                 </td>
             </tr>
 
@@ -912,7 +1004,7 @@ with the <code>ModalResult</code> when the modal is closed.</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, Type, Injector, InjectionToken} from &quot;@angular/core&quot;;
-import {FormGroup} from &quot;@angular/forms&quot;;
+import {FormGroup, ValidatorFn} from &quot;@angular/forms&quot;;
 import {Overlay, OverlayConfig, OverlayRef} from &#x27;@angular/cdk/overlay&#x27;;
 import {ComponentPortal, PortalInjector} from &#x27;@angular/cdk/portal&#x27;;
 import {Utils, Keys} from &quot;@sinequa/core/base&quot;;
@@ -1027,6 +1119,26 @@ export interface ConfirmOptions {
      * The buttons to display in the confirm modal.
      */
     buttons: ModalButton[];
+}
+
+/**
+ * Describes the options that can be passed to the [ModalService.prompt]{@link ModalService#prompt}
+ * method.
+ */
+export interface PromptOptions extends ConfirmOptions {
+    /**
+     * text written by the user in the prompt input
+     */
+    output: string;
+    /**
+     * List of validators for the input form control
+     */
+    validators?: ValidatorFn[];
+    /**
+     * If omitted, a single-line input is displayed. If specified, a textarea with the
+     * given number of rows is displayed
+     */    
+    rowCount?: number;
 }
 
 /**
@@ -1165,6 +1277,12 @@ export class ModalButton implements IModalButton {
 export const MODAL_CONFIRM &#x3D; new InjectionToken&lt;Type&lt;any&gt;&gt;(&#x27;MODAL_CONFIRM&#x27;);
 
 /**
+ * An injection token to set the component to use for the &#x60;prompt&#x60; modal displayed
+ * by the [ModalService.prompt]{@link ModalService#confirm} method.
+ */
+export const MODAL_PROMPT &#x3D; new InjectionToken&lt;Type&lt;any&gt;&gt;(&#x27;MODAL_PROMPT&#x27;);
+
+/**
  * A service to open modal dialogs.
  */
 @Injectable({
@@ -1174,7 +1292,8 @@ export class ModalService {
     constructor(
         protected injector: Injector,
         protected overlay: Overlay,
-        @Inject(MODAL_CONFIRM) protected confirmModal: Type&lt;any&gt;
+        @Inject(MODAL_CONFIRM) protected confirmModal: Type&lt;any&gt;,
+        @Inject(MODAL_PROMPT) protected promptModal: Type&lt;any&gt;
     ) {
     }
 
@@ -1292,6 +1411,15 @@ export class ModalService {
      */
     confirm(options: ConfirmOptions): Promise&lt;ModalResult&gt; {
         return this.open(this.confirmModal, {model: options});
+    }
+
+    /**
+     * Open a prompt modal dialog displaying a message, an input and OK/Cancel buttons.
+     *
+     * @param options The options used to open the prompt modal. These are set as the &#x60;MODAL_MODEL&#x60;  of the modal.
+     */
+    prompt(options: PromptOptions): Promise&lt;ModalResult&gt; {
+        return this.open(this.promptModal, {model: options});
     }
 
     /**

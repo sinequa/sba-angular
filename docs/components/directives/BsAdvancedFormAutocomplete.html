@@ -59,12 +59,6 @@
         </p>
 
 
-            <p class="comment">
-                <h3>Implements</h3>
-            </p>
-            <p class="comment">
-                            <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-            </p>
 
 
         <section>
@@ -74,7 +68,7 @@
 
                     <tr>
                         <td class="col-md-3">Selector</td>
-                        <td class="col-md-9"><code>[sq-advanced-form-autocomplete]</code></td>
+                        <td class="col-md-9"><code>[sqAdvancedFormAutocomplete]</code></td>
                     </tr>
 
                 </tbody>
@@ -86,6 +80,20 @@
     <table class="table table-sm table-bordered index-table">
         <tbody>
 
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -96,14 +104,45 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#sq-advanced-form-autocomplete">sq-advanced-form-autocomplete</a>
+                                <a href="#field">field</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#UpdateItem">UpdateItem</a>
                             </li>
                         </ul>
                     </td>
                 </tr>
 
 
-
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>HostListeners</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#blur">blur</a>
+                            </li>
+                            <li>
+                                <a href="#input">input</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
         </tbody>
     </table>
@@ -115,12 +154,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(elementRef: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, suggestService: <a href="../injectables/SuggestService.html">SuggestService</a>, appService: AppService, uiService: <a href="../injectables/UIService.html">UIService</a>, suggestFieldWebService: SuggestFieldWebService)</code>
+<code>constructor(elementRef: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, suggestService: <a href="../injectables/SuggestService.html">SuggestService</a>, appService: AppService, uiService: <a href="../injectables/UIService.html">UIService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -185,18 +224,6 @@
                                                     </td>
                                                     
                                                 </tr>
-                                                <tr>
-                                                        <td>suggestFieldWebService</td>
-                                                  
-                                                        <td>
-                                                                    <code>SuggestFieldWebService</code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -212,77 +239,323 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="sq-advanced-form-autocomplete"></a>
-                        <b>sq-advanced-form-autocomplete</b>
+                        <a name="field"></a>
+                        <b>field</b>
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../interfaces/AdvancedFormAutocompleteOptions.html" target="_self" >AdvancedFormAutocompleteOptions</a></code>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:19</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:13</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+            <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="UpdateItem"></a>
+                        <b>UpdateItem</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:12</a></div>
                             </td>
                         </tr>
             </tbody>
         </table>
 </section>
 
+            <section>
+    <h3>HostListeners</h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="blur"></a>
+                    <span class="name">
+                        <b>
+                            blur
+                        </b>
+                        <a href="#blur"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <i>Arguments : </i><code>'$event' </code>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>blur(event: FocusEvent)</code>
+                </td>
+            </tr>
 
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:94</a></div>
+                </td>
+            </tr>
 
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Listen to blur events on the <input> host and overrides the autocomplete blur events</p>
+</div>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="input"></a>
+                    <span class="name">
+                        <b>
+                            input
+                        </b>
+                        <a href="#input"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <i>Arguments : </i><code>'$event' </code>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>input(event: <a href="../interfaces/Event.html">Event</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="115"
+                            class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:115</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Overrides the parent inputChanged method, so that it is possible to reinitialize the autocomplete</p>
+</div>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:29</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The ngOnInit() method from the original directive is overriden
+On initialization, we listen to the autocomplete component for
+selection events</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
 
 
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Directive, Input, OnInit, ElementRef} from &quot;@angular/core&quot;;
-import {Autocomplete, SuggestService} from &quot;@sinequa/components/autocomplete&quot;;
-import {UIService} from &quot;@sinequa/components/utils&quot;;
-import {Control} from &quot;./advanced-models&quot;;
-import {AppService} from &#x27;@sinequa/core/app-utils&#x27;;
-import {SuggestFieldWebService} from &#x27;@sinequa/core/web-services&#x27;;
-
-export interface AdvancedFormAutocompleteOptions {
-    autocompleteEnabled: boolean;
-    suggestQuery: string;
-    control: Control;
-}
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, Input, ElementRef, HostListener, Output, EventEmitter } from &quot;@angular/core&quot;;
+import { Autocomplete, SuggestService, AutocompleteItem, AutocompleteState } from &quot;@sinequa/components/autocomplete&quot;;
+import { UIService } from &quot;@sinequa/components/utils&quot;;
+import { AppService } from &quot;@sinequa/core/app-utils&quot;;
+import { Observable } from &#x27;rxjs&#x27;;
 
 @Directive({
     // tslint:disable-next-line: directive-selector
-    selector: &quot;[sq-advanced-form-autocomplete]&quot;
+    selector: &quot;[sqAdvancedFormAutocomplete]&quot;,
 })
-export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
-    @Input(&quot;sq-advanced-form-autocomplete&quot;) afaOptions: AdvancedFormAutocompleteOptions;
+export class BsAdvancedFormAutocomplete extends Autocomplete {
+    @Output() UpdateItem &#x3D; new EventEmitter&lt;AutocompleteItem | undefined&gt;();
+    @Input() field : string;
 
     constructor(
         elementRef: ElementRef,
         suggestService: SuggestService,
         appService: AppService,
-        uiService: UIService,
-        private suggestFieldWebService: SuggestFieldWebService) {
+        uiService: UIService
+    ) {
         super(elementRef, suggestService, appService, uiService);
+    }
+
+    /**
+     * The ngOnInit() method from the original directive is overriden
+     * On initialization, we listen to the autocomplete component for
+     * selection events
+     */
+    ngOnInit() {
+        this._dropdownSubscription &#x3D; this.dropdown.clicked.subscribe((item) &#x3D;&gt; {
+            this.select(item, false); // An item was selected from the autocomplete &#x3D;&gt; take the value
+        });
+        this.start();
     }
 
     protected getSuggests() {
         const value &#x3D; this.getInputValue();
-        if(value) { // If there is text, make a call to the suggest API
-
+        if (value) {
+            // If there is text, make a call to the suggest API
             this.processSuggests(
-                this.suggestFieldWebService.get(value, this.afaOptions.control.field), [this.afaOptions.control.field]
+                this.getSuggestsObs(value, [this.field])
             );
-
-        }
-        else {  // If empty input, restart autocomplete
+        } else {
+            // If empty input, restart autocomplete
             this.start();
         }
     }
-}</code></pre>
+
+    protected processSuggests(obs: Observable&lt;AutocompleteItem[]&gt;){
+        obs.subscribe(
+            suggests &#x3D;&gt; {
+                if(this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.ACTIVE || this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.OPENED){
+                    this.dropdown.update(true, suggests
+                        .filter(item &#x3D;&gt; item.category !&#x3D;&#x3D; &quot;$field$&quot;)  // Filter out fields
+                        .map(item &#x3D;&gt; {
+                            if(!item.label){
+                                item.label &#x3D; this.appService.getLabel(item.category);
+                            }
+                            if (!item.normalized) {
+                                item.normalized &#x3D; item.display;
+                            }
+                            return item;
+                        }));
+                }
+            },
+            err &#x3D;&gt; {
+                this.dropdown.update(false);
+            },
+            () &#x3D;&gt; {
+                if(this.dropdown.hasItems &amp;&amp; this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.ACTIVE){
+                    this.open();    // Switch from ACTIVE to OPENED (if not already)
+                }
+                else if(!this.dropdown.hasItems &amp;&amp; this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.OPENED){   // No data
+                    this.active();  // Switch from OPENED to ACTIVE (if not already)
+                }
+            });
+    }
+
+    protected setAutocompleteItem(item: AutocompleteItem): boolean {
+        if(item) {
+            this.setInputValue(item.display);
+            this.UpdateItem.next({
+                ...item,
+                normalized: item.normalized ? item.normalized : item.display
+            });
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Listen to blur events on the &lt;input&gt; host and overrides the autocomplete blur events
+     */
+    @HostListener(&quot;blur&quot;, [&quot;$event&quot;]) blur(event: FocusEvent) {
+        /** If there is text in the &lt;input/&gt; and not selected from the dropdown &#x3D;&#x3D;&gt; set the item manually */
+        if (this.getState() !&#x3D;&#x3D; AutocompleteState.SELECTED) {
+            if (!!this.getInputValue() &amp;&amp; this.getInputValue() !&#x3D;&#x3D; &quot;&quot;) {
+                const item &#x3D; {
+                    display: this.getInputValue(),
+                    normalized: this.getInputValue(),
+                    category: &quot;&quot;,
+                }
+                this.setAutocompleteItem(item);
+            } else {
+                this.UpdateItem.next(undefined);
+            }
+        }
+        this.init();
+    }
+
+    /**
+     * Overrides the parent inputChanged method, so that it is possible to reinitialize the autocomplete
+     * @param event
+     */
+    @HostListener(&quot;input&quot;, [&quot;$event&quot;]) inputChanged(event: Event) {
+        switch (this.getState()) {
+            case AutocompleteState.OPENED:
+                this.suggest(); // Just request more data, but no state change
+                break;
+            case AutocompleteState.START:
+            case AutocompleteState.ACTIVE:
+                this.active(); // get more data, and change state if not already ACTIVE
+                break;
+            case AutocompleteState.SELECTED:
+                this.start(); // The model changed because we selected a value &#x3D;&#x3D;&gt; we restart in case the user keeps typing
+                this.active();
+                break;
+            case AutocompleteState.INIT:
+                break;
+        }
+    }
+}
+</code></pre>
     </div>
 
 </div>

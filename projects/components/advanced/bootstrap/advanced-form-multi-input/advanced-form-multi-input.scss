@@ -1,0 +1,29 @@
+.sq-dropdown-form {
+    min-width: 13rem;
+    display: inline;
+}
+.disabled {
+    cursor: not-allowed;
+}
+.clickable {
+    cursor: pointer;
+}
+.clickable:hover {
+    opacity: 85%;
+}
+.multi-entry {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    height: unset !important;
+}
+:host input {
+    border: none;
+    flex-grow: 1;
+    flex-basis: 100px;
+    min-width: 100px;
+}
+:host input:focus {
+    outline: none;
+}

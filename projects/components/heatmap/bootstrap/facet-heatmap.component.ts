@@ -1,8 +1,8 @@
-import { Component, Input, OnChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, DoCheck, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Utils } from '@sinequa/core/base';
 import { AppService } from '@sinequa/core/app-utils';
-import { AbstractFacet, FacetService } from '@sinequa/components/facet';
+import { AbstractFacet, BsFacetCard, FacetService } from '@sinequa/components/facet';
 import { Results, ListAggregation, AggregationItem } from '@sinequa/core/web-services';
 import { SearchService } from '@sinequa/components/search';
 import { Action } from '@sinequa/components/action';
@@ -14,7 +14,7 @@ import { HeatmapItem } from './heatmap.component';
     selector: "sq-facet-heatmap",
     templateUrl: './facet-heatmap.component.html'
 })
-export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges {
+export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges, DoCheck {
     @Input() results: Results;
     @Input() aggregation= "Heatmap";
     @Input() name?: string;
@@ -58,6 +58,10 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
     // Selected items
     readonly selectedItems = new Set<string>();
 
+    // A flag to wait for the parent component to actually display this child, since creating
+    // the heatmap component without displaying causes strange bugs...
+    ready = false;
+
     constructor(
         public appService: AppService,
         public searchService: SearchService,
@@ -65,7 +69,8 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
         public selectionService: SelectionService,
         public formBuilder: FormBuilder,
         public cdRef: ChangeDetectorRef,
-        public prefs: UserPreferences
+        public prefs: UserPreferences,
+        @Optional() public cardComponent?: BsFacetCard
     ){
         super();
            
@@ -102,7 +107,25 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
     /**
      * On changes triggers when the results change (following a new query)
      */
-    ngOnChanges() {
+    ngOnChanges(changes: SimpleChanges) {
+        this.updateActions();
+        // Create the heatmap data
+        if(changes['results'] || changes['aggregation']) {
+            this.updateData();
+        }
+    }
+    
+    ngDoCheck(){
+        // We check that the parent component (if any) as been expanded at least once so that the fusioncharts
+        // gets created when it is visible (otherwise, there can be visual bugs...)
+        this.ready = !this.cardComponent?._collapsed;
+    }
+
+    
+    /**
+     * Update the actions for selecting the X or Y fields
+     */
+    updateActions() {
         // Create or update the actions to change the X and Y axis
         if(this.fieldsX){
             if(!this.selectFieldX){
@@ -116,7 +139,12 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
             }
             this.selectFieldY.update();
         }
-        // Create the heatmap data
+    }
+
+    /**
+     * Updates the heatmap data
+     */
+    updateData() {
         if(this.results) {
             this.aggregationData = this.facetService.getAggregation(this.aggregation, this.results);
             if(!this.aggregationData){
@@ -126,8 +154,11 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
                 this.data = this.processAggregation();
             }
         }
+        else {
+            this.data = undefined;
+        }
     }
-    
+
     /**
      * This method is called by the parent sq-facet-card when the settings
      * button is clicked. This has the effect of displaying the settingsTpl template
@@ -158,7 +189,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
             });
         }
         else {
-            this.ngOnChanges();
+            this.updateData();
         }
     }
 
@@ -313,7 +344,8 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
                             icon: "sq-icon-"+f,
                             action : () => {
                                 this.prefs.set(this._name+'-field-'+axis, f);
-                                this.ngOnChanges();
+                                this.updateActions();
+                                this.updateData();
                             }
                         });
                     });

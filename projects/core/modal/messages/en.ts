@@ -12,6 +12,10 @@ export default {
 
         "confirm": {
             "title": "Confirm"
+        },
+
+        "prompt": {
+            "title": "Enter a value"
         }
     }
 };

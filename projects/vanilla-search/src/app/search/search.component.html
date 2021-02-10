@@ -1,60 +1,69 @@
-<!-- Navbar with app icon, search form, and menus -->
-<nav class="navbar navbar-expand-sm" [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
-    <div class="container-xl">
+<div class="nav-wrapper">
+    <!-- Navbar with app icon, search form, and menus -->
+    <nav class="navbar navbar-expand-sm" [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
+        <div class="container-xl">
 
-        <!-- Application logo -->
-        <a [routerLink]="['/home']" title="Home">
-            <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="180px" *ngIf="!isDark() && ui.screenSizeIsGreater('md')">
-            <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="30px" *ngIf="!isDark() && ui.screenSizeIsLessOrEqual('md')">
-            <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="150px" *ngIf="isDark() && ui.screenSizeIsGreater('md')">
-            <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="30px" *ngIf="isDark() && ui.screenSizeIsLessOrEqual('md')">
-        </a>
+            <!-- Application logo -->
+            <a [routerLink]="['/home']" title="Home">
+                <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="180px" *ngIf="!isDark() && ui.screenSizeIsGreater('md')">
+                <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="30px" *ngIf="!isDark() && ui.screenSizeIsLessOrEqual('md')">
+                <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="150px" *ngIf="isDark() && ui.screenSizeIsGreater('md')">
+                <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="30px" *ngIf="isDark() && ui.screenSizeIsLessOrEqual('md')">
+            </a>
 
-        <!-- Button to toggle the visibility of facets on small screens -->
-        <button *ngIf="ui.screenSizeIsLessOrEqual('md')" class="ml-2 btn btn-lg btn-{{isDark()? 'dark' : 'light'}}" title="{{ 'msg#search.showFilters' | sqMessage }}" 
-            (click)="toggleFilters()">
-            <i class="fas fa-filter text-muted"></i>
-        </button>
+            <!-- Button to toggle the visibility of facets on small screens -->
+            <button *ngIf="ui.screenSizeIsLessOrEqual('md')" class="ml-2 btn btn-lg btn-{{isDark()? 'dark' : 'light'}}" title="{{ 'msg#search.showFilters' | sqMessage }}"
+                (click)="toggleFilters()">
+                <i class="fas fa-filter text-muted"></i>
+            </button>
 
-        <!-- Search form -->
-        <app-search-form class="flex-grow-1 flex-basis-0 mx-3" *ngIf="showForm"></app-search-form>
+            <!-- Search form -->
+            <app-search-form class="flex-grow-1 flex-basis-0 mx-3" *ngIf="showForm"></app-search-form>
 
-        <!-- User menu which visibility can be toggled with a button on small screens -->
-        <button *ngIf="ui.screenSizeIsLess('sm') && !showFilters" class="btn btn-lg btn-{{isDark()? 'dark' : 'light'}}" title="{{ 'msg#search.showMenu' | sqMessage }}" 
-            (click)="toggleMenu()">
-            <i class="fas fa-bars text-muted"></i>
-        </button>
-        <ul class="navbar-nav navbar-right" *ngIf="showMenu" [ngClass]="{'full-width': ui.screenSizeIsLess('sm')}">
-            <ng-container *ngFor="let feature of features" [ngSwitch]="feature">
-                <sq-baskets-menu *ngSwitchCase="'baskets'" [icon]="'fas fa-inbox'"></sq-baskets-menu>
-                <sq-saved-queries-menu *ngSwitchCase="'saved-queries'"></sq-saved-queries-menu>
-                <sq-alerts-menu *ngSwitchCase="'alerts'"></sq-alerts-menu>
-                <sq-labels-menu *ngSwitchCase="'labels'" [results]="searchService.resultsStream | async"></sq-labels-menu>
-            </ng-container>
-            <sq-user-menu></sq-user-menu>
-        </ul>
+            <!-- User menu which visibility can be toggled with a button on small screens -->
+            <button *ngIf="ui.screenSizeIsLess('sm') && !showFilters" class="btn btn-lg btn-{{isDark()? 'dark' : 'light'}}" title="{{ 'msg#search.showMenu' | sqMessage }}"
+                (click)="toggleMenu()">
+                <i class="fas fa-bars text-muted"></i>
+            </button>
+            <ul class="navbar-nav navbar-right" *ngIf="showMenu" [ngClass]="{'full-width': ui.screenSizeIsLess('sm')}">
+                <ng-container *ngFor="let feature of features" [ngSwitch]="feature">
+                    <sq-baskets-menu *ngSwitchCase="'baskets'" [icon]="'fas fa-inbox'"></sq-baskets-menu>
+                    <sq-saved-queries-menu *ngSwitchCase="'saved-queries'"></sq-saved-queries-menu>
+                    <sq-alerts-menu *ngSwitchCase="'alerts'"></sq-alerts-menu>
+                    <sq-labels-menu *ngSwitchCase="'labels'" [results]="searchService.resultsStream | async"></sq-labels-menu>
+                </ng-container>
+                <sq-user-menu></sq-user-menu>
+            </ul>
+            
+            <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ml-1" *ngIf="loginService.complete">
+            </sq-feedback-menu>
 
-    </div>
-</nav>
+        </div>
+    </nav>
 
-<!-- Loading bar (Manages its own state and visibility via the search service) -->
-<sq-loading-bar></sq-loading-bar>
+    <!-- Loading bar (Manages its own state and visibility via the search service) -->
+    <sq-loading-bar></sq-loading-bar>
+</div>
 
 <!-- Main interface -->
-<div class="container-xl mt-3 mb-5" *ngIf="loginService.complete">
+<div class="container-xl main" *ngIf="loginService.complete">
     <div class="row" *ngIf="searchService.resultsStream | async; let results">
 
         <!-- Left facet bar -->
-        <div class="col-md-4 col-lg-3 col-xl-2" *ngIf="showFilters">
+        <div class="col-md-4 col-lg-3 col-xl-2" *ngIf="showFilters" [sqSticky]="{top: 70, bottom: 80}">
             <sq-facet-card [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'" [collapsible]="false" [buttonsStyle]="isDark()? 'dark' : 'light'">
                 <sq-facet-tree #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-tree>
             </sq-facet-card>
             <sq-facet-card [title]="multiFacetTitle" [icon]="multiFacetIcon" [collapsible]="false" [buttonsStyle]="isDark()? 'dark' : 'light'" class="d-block mt-3">
                 <sq-facet-multi #facet [results]="results" [facets]="facets" (events)="facetChanged($event)"></sq-facet-multi>
             </sq-facet-card>
-            <sq-feedback-menu [style]="'primary'"
-                class="d-flex flex-column align-items-center mt-3">
-            </sq-feedback-menu>
+        </div>
+        
+        <!-- Result selection toolbar -->
+        <div class="card text-white bg-primary position-fixed action-bar" *ngIf="ui.screenSizeIsGreater('sm')">
+            <div class="card-header">
+                <sq-results-selector [style]="isDark()? 'dark' : 'primary'"></sq-results-selector>
+            </div>
         </div>
 
         <!-- Results -->
@@ -77,7 +86,7 @@
             <sq-sponsored-results [query]="searchService.query"></sq-sponsored-results>
 
             <!-- List of documents (for loop) -->
-            <div *ngFor="let record of results.records" class="record d-flex" 
+            <div *ngFor="let record of results.records" class="record d-flex"
                 (click)="onDocumentClicked(record, $event)"
                 [ngClass]="{'selected': record.$selected || record === openedDoc}">
                 <div class="flex-grow-1 overflow-hidden">
@@ -88,44 +97,43 @@
                     <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
                     <sq-result-extracts [record]="record"></sq-result-extracts>
                     <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
+                    <div class="d-inline">
+                        <sq-labels [record]="record" [public]="true" class="d-inline"></sq-labels>
+                        <sq-labels [record]="record" [public]="false" class="d-inline"></sq-labels>
+                    </div>
                 </div>
                 <sq-result-thumbnail [record]="record" [thumbnailColumn]="'sourcevarchar4'" [linkBehavior]="'action'"
                     *ngIf="ui.screenSizeIsGreater('xs')" class="align-self-center">
                 </sq-result-thumbnail>
             </div>
-            
-            <!-- Pager -->
-            <sq-pager [results]="results" class="d-flex flex-column align-items-center mt-3"></sq-pager>
+
+            <!-- Infinite scroll -->
+            <sq-scroller></sq-scroller>
+
+            <!-- Pagination -->
+            <!-- <sq-pager [results]="results" class="d-flex flex-column align-items-center mt-3"></sq-pager> -->
         </div>
 
         <!-- Right part-->
-        <div class="col-md-5 col-lg-4 col-xl-5">
-
-            <!-- Result selection toolbar -->
-            <div class="card mb-3" [ngClass]="{'d-inline-block': !selectionService.haveSelectedRecords}"
-                *ngIf="ui.screenSizeIsGreater('sm')">
-                <div class="card-header d-flex flex-row align-items-center border-0">
-                    <span class="mr-auto">{{ 'msg#selection.selectedDocuments' | sqMessage:{values: {count: selectionService.getSelectedCount()} } }}</span>
-                    <sq-results-selector [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-results-selector>
-                </div>
-            </div>
+        <div class="col-md-5 col-lg-4 col-xl-5" [sqSticky]="{top: 70, bottom: 30}">
 
             <!-- Scaled-down preview -->
             <sq-facet-card *ngIf="openedDoc" [collapsible]="false" class="d-block mb-3 facet-preview"
                 [buttonsStyle]="isDark()? 'dark' : 'light'"
                 [actionsSize]="''">
-                <sq-facet-preview-2 #facet 
-                    [record]="openedDoc" 
-                    [query]="searchService.query" 
-                    [height]="750" 
+                <sq-facet-preview-2 #facet
+                    [record]="openedDoc"
+                    [query]="searchService.query"
+                    [height]="750"
                     [metadata]="metadata"
                     [expandModal]="false"
                     [customActions]="previewCustomActions"
-                    (recordClosed)="closeDocument()">
+                    (recordClosed)="closeDocument()"
+                    (previewLoaded)="previewReady($event)">
                 </sq-facet-preview-2>
             </sq-facet-card>
 
         </div>
-        
+
     </div>
 </div>

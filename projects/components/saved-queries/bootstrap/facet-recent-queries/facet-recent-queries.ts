@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { SearchService } from '@sinequa/components/search';
-import { RecentQueriesService, RecentQuery } from '../../recent-queries.service';
+import { RecentQueriesService, RecentQuery, RecentQueryEventType } from '../../recent-queries.service';
 import { AbstractFacet } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
 import { SavedQueriesService } from '../../saved-queries.service';
 import { Utils } from '@sinequa/core/base';
+import { Query } from '@sinequa/core/app-utils';
 
 @Component({
   selector: 'sq-facet-recent-queries',
@@ -80,19 +81,38 @@ export class BsFacetRecentQueries extends AbstractFacet  {
     }
 
     openRecentQuery(query: RecentQuery){
-        this.recentQueriesService.searchRecentQuery(query, this.searchRoute);
-        return false;
+        this.recentQueriesService.notifyOpenRecentQuery(query);
+        return true;
     }
 
     deleteQuery(query: RecentQuery, event: Event){
         event.stopPropagation();
         this.recentQueriesService.deleteRecentQuery(query);
         this.page = Math.min(this.page, this.maxPage);
+        return false;
     }
 
     saveQuery(query: RecentQuery, event: Event){
         event.stopPropagation();
         const q = Utils.extend(this.searchService.makeQuery(), Utils.copy(query.query));
         this.savedQueriesService.createSavedQueryModal(q);
+        return false;
+    }
+
+    getQueryParams(recentQuery: Query) {
+        const query = this.searchService.makeQuery(recentQuery);
+        const queryParams = query.toJsonForQueryString();
+        return {query: queryParams};
+    }
+
+    getRouterState(recentQuery: Query) {
+        return {
+            audit: {
+                type: RecentQueryEventType.Search,
+                detail: {
+                    recentquery: recentQuery.text
+                }
+            }
+        }
     }
 }

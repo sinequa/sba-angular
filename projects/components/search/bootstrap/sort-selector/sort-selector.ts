@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {Utils} from "@sinequa/core/base";
 import {AppService} from "@sinequa/core/app-utils";
-import {CCSortingChoice, Results} from "@sinequa/core/web-services";
+import {AuditEvent, AuditEventType, CCSortingChoice, Results} from "@sinequa/core/web-services";
 import {Action} from "@sinequa/components/action";
 import {SearchService} from "../../search.service";
 
@@ -51,7 +51,14 @@ export class BsSortSelector implements OnChanges {
     private selectSort(sortingChoice: CCSortingChoice) {
         this.setCurrentSort(sortingChoice.name);
         this.searchService.query.sort = sortingChoice.name;
-        this.searchService.search();
+        const audit: AuditEvent = {
+            type: AuditEventType.Search_Sort,
+            detail: {
+                sort: sortingChoice.name,
+                orderByClause: sortingChoice.orderByClause,
+            }
+        };
+        this.searchService.search(undefined, audit);
     }
 
     private buildSortAction() {
@@ -62,23 +69,18 @@ export class BsSortSelector implements OnChanges {
         }
         this.sortAction = new Action({
             title: "msg#sortSelector.sortByTitle",
-            children: [
-            ]
+            children: sortingChoices
+                .filter(sortingChoice => this.searchService.hasRelevance || !Utils.includes(sortingChoice.orderByClause, "globalrelevance"))
+                .map(sortingChoice => new Action({
+                    icon: this.isAscendingSort(sortingChoice.orderByClause) ? 'fas fa-sort-amount-up'
+                            : this.isDescendingSort(sortingChoice.orderByClause) ? 'fas fa-sort-amount-down' : '',
+                    text: sortingChoice.display || sortingChoice.name,
+                    data: sortingChoice,
+                    action: (item: Action, event: Event) => {
+                        this.selectSort(item.data);
+                    }
+                }))
         });
-        for (const sortingChoice of sortingChoices) {
-            if (!this.searchService.hasRelevance && Utils.includes(sortingChoice.orderByClause, "globalrelevance")) {
-                continue;
-            }
-            this.sortAction.children.push(new Action({
-                icon: this.isAscendingSort(sortingChoice.orderByClause) ? 'fas fa-sort-amount-up'
-                        : this.isDescendingSort(sortingChoice.orderByClause) ? 'fas fa-sort-amount-down' : '',
-                text: sortingChoice.display || sortingChoice.name,
-                data: sortingChoice,
-                action: (item: Action, event: Event) => {
-                    this.selectSort(item.data);
-                }
-            }));
-        }
         if (!!this.searchService.results) {
             this.setCurrentSort(this.searchService.results.sort);
         }

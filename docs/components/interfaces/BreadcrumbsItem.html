@@ -273,7 +273,6 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Query, AppService, ExprParser, Expr, ExprValueInitializer} from &quot;@sinequa/core/app-utils&quot;;
-import {AdvancedValue, AdvancedValueWithOperator} from &quot;@sinequa/core/web-services&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
 import {SearchService} from &quot;./search.service&quot;;
 
@@ -425,31 +424,6 @@ export class Breadcrumbs {
         }
     }
 
-    private initAdvanced() {
-        if (this.query) {
-            const advancedQuery &#x3D; this.query.copyAdvanced();
-            if (advancedQuery.advanced) {
-                for (const key of Object.keys(advancedQuery.advanced)) {
-                    const value &#x3D; advancedQuery.advanced[key];
-                    let values: (AdvancedValue | AdvancedValueWithOperator)[];
-                    if (!Utils.isArray(value) || this.query.isValueArray(value)) {
-                        values &#x3D; [value];
-                    }
-                    else {
-                        values &#x3D; value;
-                    }
-                    for (const value1 of values) {
-                        const expr &#x3D; advancedQuery.getAdvancedValueExpr(this.appService, key, value1);
-                        if (expr instanceof Expr) {
-                            this.advanced.push(expr);
-                            this.addFields(expr);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     private makeBreadcrumbsItemFromExpr(text: string): BreadcrumbsItem {
         let expr &#x3D; this.appService.parseExpr(text);
         if (!(expr instanceof Expr)) {
@@ -492,7 +466,6 @@ export class Breadcrumbs {
     }
 
     private init(): Breadcrumbs {
-        this.initAdvanced();
         this.initItems();
         return this;
     }
@@ -564,7 +537,6 @@ export class Breadcrumbs {
         if (!this.query) {
             this.query &#x3D; query.copy();
         }
-        this.searchService.mergeAdvanced(this.query, query);
         this.query.text &#x3D; query.text;
         this.query.basket &#x3D; query.basket;
         if (!this.query.text &amp;&amp; !this.query.basket) {

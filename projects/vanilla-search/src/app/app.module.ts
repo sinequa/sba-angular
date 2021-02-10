@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 // @sinequa/core library
 import { WebServicesModule, StartConfigWebService, StartConfig } from "@sinequa/core/web-services";
@@ -80,6 +81,7 @@ import {LocalesConfig, Locale} from "@sinequa/core/intl";
 import enLocale from "../locales/en";
 import frLocale from "../locales/fr";
 import deLocale from "../locales/de";
+import { BsAdvancedModule } from '@sinequa/components/advanced';
 
 export class AppLocalesConfig implements LocalesConfig {
     defaultLocale: Locale;
@@ -111,6 +113,7 @@ export const breakpoints = {
         RouterModule.forRoot(routes),
         FormsModule,
         ReactiveFormsModule,
+        TooltipModule,
 
         WebServicesModule.forRoot(startConfig),
         IntlModule.forRoot(AppLocalesConfig),
@@ -133,7 +136,8 @@ export const breakpoints = {
         BsFeedbackModule,
         BsPreviewModule,
         MetadataModule,
-        BsSelectionModule
+        BsSelectionModule,
+        BsAdvancedModule
     ],
     declarations: [
         AppComponent,

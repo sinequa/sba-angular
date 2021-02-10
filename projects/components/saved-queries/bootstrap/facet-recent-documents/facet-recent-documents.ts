@@ -19,6 +19,7 @@ import { SearchService } from '@sinequa/components/search';
   `]
 })
 export class BsFacetRecentDocuments extends AbstractFacet  {
+    @Input() searchRoute: string = "/preview";
     @Input() maxDocuments: number = 5;
     @Input() enableDelete: boolean = true;
     @Input() openOriginal: boolean = false;
@@ -76,19 +77,24 @@ export class BsFacetRecentDocuments extends AbstractFacet  {
         return [this.previousPage, this.nextPage];
     }
 
-    openRecentDocument(document: RecentDocument){
+    openRecentDocument(document: RecentDocument) {
         if(this.openOriginal && !!document.url1){
             this.searchService.notifyOpenOriginalDocument(<any> document);
-            window.open(document.url1, "_blank");
         }
         this.documentOpened.emit(document); // Can be use to trigger actions, like the preview
-        return false;
+        return true;
     }
 
     deleteDocument(document: RecentDocument, event: Event){
-        event.stopPropagation();
         this.recentDocumentsService.deleteRecentDocument(document);
         this.page = Math.min(this.page, this.maxPage);
+        return false;
     }
 
+    getQueryParams(document: RecentDocument) {
+        return {
+            id: document.id,
+            query: this.searchService.makeQuery().toJsonForQueryString()
+        };
+    }
 }

@@ -116,33 +116,6 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         
         this.instance = BsTimelineComponent.counter++;
         
-        // Scales
-        this.x = d3.scaleUtc()
-            .range([0, this.innerWidth]);
-        this.xt = this.x;
-
-        this.y = d3.scaleLinear()
-            .range([this.innerHeight, 0]);
-            
-        // Shapes
-        this.area = d3.area<TimelineDate>()
-            .curve(d3[this.curveType])
-            .x(d => this.xt(d.date))
-            .y0(this.y(0))
-            .y1(d => this.y(d.value));
-            
-        this.line = d3.line<TimelineDate>()
-            .curve(d3[this.curveType])
-            .x(d => this.xt(d.date))
-            .y(d => this.y(d.value));
-            
-        // Behaviors
-        this.brushBehavior = d3.brushX()
-            .extent([[0, 0], [this.innerWidth, this.innerHeight]])
-            .on("start", () => this.brushing = true)
-            .on('brush', () => this.onBrush())
-            .on('end', () => this.onBrushEnd());
-           
     }
 
     get innerWidth(): number {
@@ -155,6 +128,61 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
     // Note: ngOnChanges is always called once before ngAfterViewInit
     ngOnChanges(changes: SimpleChanges) {
+
+        if(!this.x) {
+            
+            // Scales
+            this.x = d3.scaleUtc()
+                .range([0, this.innerWidth]);
+            this.xt = this.x;
+
+            this.y = d3.scaleLinear()
+                .range([this.innerHeight, 0]);
+                
+            // Shapes
+            this.area = d3.area<TimelineDate>()
+                .curve(d3[this.curveType])
+                .x(d => this.xt(d.date))
+                .y0(this.y(0))
+                .y1(d => this.y(d.value));
+                
+            this.line = d3.line<TimelineDate>()
+                .curve(d3[this.curveType])
+                .x(d => this.xt(d.date))
+                .y(d => this.y(d.value));
+                
+            // Behaviors
+            this.brushBehavior = d3.brushX()
+                .extent([[0, 0], [this.innerWidth, this.innerHeight]])
+                .on("start", () => this.brushing = true)
+                .on('brush', () => this.onBrush())
+                .on('end', () => this.onBrushEnd());
+        }
+
+        // Resize handling
+
+        if(changes["height"]) {
+            this.y.range([this.innerHeight, 0]);
+            this.area.y0(this.y(0));
+            this.brushBehavior.extent([[0, 0], [this.innerWidth, this.innerHeight]]);
+            if(this.viewInit) {
+                this.drawYAxis();
+                this.brush$.call(this.brushBehavior);
+                this.grips$.selectAll("path").attr("d", this.drawGrips);
+            }
+        }
+
+        if(changes["width"]) {
+            this.x.range([0, this.innerWidth]);
+            this.brushBehavior.extent([[0, 0], [this.innerWidth, this.innerHeight]]);
+            if(this.viewInit) {
+                this.drawXAxis();
+                if(!changes["height"]) {
+                    this.brush$.call(this.brushBehavior);
+                    this.grips$.selectAll("path").attr("d", this.drawGrips);
+                }
+            }
+        }
 
         // If the parent changes the selection, we want to update it
         // If not, we keep the current selection as is
@@ -172,7 +200,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         // we want to update the brush.
         // If not, we keep the current selection as is.
         // We can update the brush only if the view is initialized (viewInit).
-        else if(this.viewInit && changes["selection"] && selectionChanged) {
+        else if(this.viewInit && ((changes["selection"] && selectionChanged) || changes["width"])) {
             this.updateBrush();
         }
 
@@ -393,12 +421,16 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Draws the Y axis
      */
     protected drawYAxis() {
+        const yAxisTicks = this.y.ticks()
+            .filter(tick => Number.isInteger(tick)); // Keep only integer ticks https://stackoverflow.com/questions/13576906/d3-tick-marks-on-integers-only/56821215
+
         const yAxis = d3.axisLeft<number>(this.y)
-                        .tickFormat(d3.format(".2s"));
+            .tickValues(yAxisTicks)
+            .tickFormat(d3.format("~s")); //https://github.com/d3/d3-format
         this.yAxis$.call(yAxis);
         this.yAxis$.selectAll(".domain").remove(); // Remove the axis line
     }
-
+    
     /**
      * Updates the display of the brush's grips when the brush has moved
      * @param selection 

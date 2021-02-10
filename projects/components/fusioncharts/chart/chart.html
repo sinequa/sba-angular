@@ -1,9 +1,9 @@
-<fusioncharts
+<fusioncharts *ngIf="ready"
     width="{{width}}"
     height="{{height}}"
     type="{{type}}"
     [dataSource]="dataSource"
-    (initialized)="initialized($event)"
+    (initialized)="onInitialized($event)"
     (dataplotClick)="dataplotClick($event)"
     >
 </fusioncharts>

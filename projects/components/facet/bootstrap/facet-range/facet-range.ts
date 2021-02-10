@@ -1,15 +1,17 @@
 import {Component, Input, OnChanges, SimpleChanges, AfterViewInit, OnDestroy, ViewChild, ElementRef, EventEmitter} from "@angular/core";
 import {Subscription} from "rxjs";
 import {Utils} from "@sinequa/core/base";
-import {AppService, FormatService, Query} from "@sinequa/core/app-utils";
+import {AppService, FormatService, Expr, ExprOperator, ExprBuilder} from "@sinequa/core/app-utils";
 import {IntlService} from "@sinequa/core/intl";
-import {CCColumn, Results, Aggregation, AdvancedOperator} from "@sinequa/core/web-services";
+import {CCColumn, Results, Aggregation} from "@sinequa/core/web-services";
 import {Options, LabelType, ChangeContext} from "ng5-slider";
 import moment from "moment";
 import {FacetService} from "../../facet.service";
 import {SearchService} from "@sinequa/components/search";
 import {UIService} from "@sinequa/components/utils";
 import {AbstractFacet} from "../../abstract-facet";
+import {AdvancedService} from "@sinequa/components/advanced";
+import { Action } from '@sinequa/components/action';
 
 export enum RoundTarget {
     number,
@@ -64,14 +66,31 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
     protected localeChange: Subscription;
     protected format: string;
 
+    clearFiltersAction: Action;
+    applyFiltersAction: Action;
     constructor(
         private facetService: FacetService,
         protected appService: AppService,
         protected searchService: SearchService,
         protected formatService: FormatService,
         protected intlService: IntlService,
-        private uiService: UIService) {
-            super();
+        protected uiService: UIService,
+        protected advancedService: AdvancedService,
+        protected exprBuilder: ExprBuilder) {
+
+        super();
+
+        this.clearFiltersAction = new Action({
+            icon: "far fa-minus-square",
+            title: "msg#facet.range.clear",
+            action: () => this.clearRange()
+        });
+
+        this.applyFiltersAction = new Action({
+            icon: "fas fa-filter",
+            title: "msg#facet.range.apply",
+            action: () => this.applyRange()
+        });
     }
 
     protected translate = (value: number, label: LabelType): string => {
@@ -233,60 +252,6 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
         return this.round(value, RoundType.nearest);
     }
 
-    protected getFrom(): number | undefined {
-        if (this.column) {
-            if (AppService.isDate(this.column)) {
-                const date = <Date>this.searchService.query.getAdvancedValue(this.column.name, AdvancedOperator.GTE);
-                if (date) {
-                    return date.getTime();
-                }
-            }
-            else {
-                return <number>this.searchService.query.getAdvancedValue(this.column.name, AdvancedOperator.GTE);
-            }
-        }
-        return undefined;
-    }
-
-    protected getTo(): number | undefined {
-        if (this.column) {
-            if (AppService.isDate(this.column)) {
-                const date = <Date>this.searchService.query.getAdvancedValue(this.column.name, AdvancedOperator.LTE);
-                if (date) {
-                    return date.getTime();
-                }
-            }
-            else {
-                return <number>this.searchService.query.getAdvancedValue(this.column.name, AdvancedOperator.LTE);
-            }
-        }
-        return undefined;
-    }
-
-    protected setFrom(query: Query, value: number | undefined) {
-        if (this.column) {
-            if (AppService.isDate(this.column)) {
-                const date = Utils.isNumber(value) ? new Date(value) : undefined;
-                query.setAdvancedValue(this.column.name, date, AdvancedOperator.GTE);
-            }
-            else {
-                query.setAdvancedValue(this.column.name, value, AdvancedOperator.GTE);
-            }
-        }
-    }
-
-    protected setTo(query: Query, value: number | undefined) {
-        if (this.column) {
-            if (AppService.isDate(this.column)) {
-                const date = Utils.isNumber(value) ? new Date(value) : undefined;
-                query.setAdvancedValue(this.column.name, date, AdvancedOperator.LTE);
-            }
-            else {
-                query.setAdvancedValue(this.column.name, value, AdvancedOperator.LTE);
-            }
-        }
-    }
-
     //TODO - remove fix engine hack
     private fixDate(dateStr: string): string {
         if (dateStr) {
@@ -313,7 +278,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
             max = this.parseValue(!!new Date(this.max).getDate()? new Date(this.max) : this.max);
         }
         else {
-            if (this.data) {
+            if (this.data?.items) {
                 const item = this.data.items[0];
                 if (item && item.operatorResults) {
                     if (this.column && AppService.isDate(this.column)) {
@@ -473,8 +438,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
             floor = this.options.floor = this.roundDown(floor);
             ceil = this.options.ceil = this.roundUp(ceil);
         }
-        const from = this.getFrom();
-        const to = this.getTo();
+        const [from, to] = this.getRange();
         this.rangeActive = !Utils.isUndefined(from) || !Utils.isUndefined(to);
         this.rangeSelected = false;
         this.value = this.startValue = Math.max(from || floor, floor);
@@ -488,10 +452,10 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
                 (value) => {
                     this.manualRefresh.emit();
                 });
-            this.data = this.facetService.getAggregation(this.aggregation, this.results);
-            this.column = this.data && this.appService.getColumn(this.data.column);
         }
         if (!!changes["results"]) {
+            this.data = this.facetService.getAggregation(this.aggregation, this.results);
+            this.column = this.data && this.appService.getColumn(this.data.column);
             this.init();
         }
     }
@@ -505,26 +469,95 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
     }
 
     ngOnDestroy() {
-        this.localeChange.unsubscribe();
-        this.uiService.removeElementResizeListener(this.slider.nativeElement, this.onResize);
+        if(this.localeChange) {
+            this.localeChange.unsubscribe();
+        }
+        if(this.uiService && this.slider) {
+            this.uiService.removeElementResizeListener(this.slider.nativeElement, this.onResize);
+        }
     }
 
     onUserChangeEnd(changeContext: ChangeContext) {
         this.rangeSelected = this.value !== this.startValue || this.highValue !== this.startHighValue;
-        //console.log(`value: ${this.value}, nearest: ${this.roundNearest(this.value)}`);
+    }
+
+    getRange(): number[] | undefined[] {
+        if (this.column) {
+            let expr: Expr | string;
+            let value;
+            const expression = this.searchService.query?.findSelect(this.column.name)?.expression;
+            if (expression) {
+                expr = this.appService.parseExpr(expression);
+                if (expr instanceof Expr) {
+                    if (expr.values && expr.values.length > 1) {
+                        value = expr.values;
+                    } else {
+                        value = expr.value;
+                    }
+                    if (!Utils.isArray(value)) {
+                        if (expr.operator === ExprOperator.gte) {
+                            value = [value, undefined];
+                        } else if (expr.operator === ExprOperator.lte) {
+                            value = [undefined, value];
+                        }
+                    }
+                    value =  value.map(
+                        (val) => val ? this.advancedService.castAdvancedValue(val, this.column) : val
+                    );
+                    if (AppService.isDate(this.column)) {
+                        value =  value.map(
+                            (val) => val ? new Date(val).getTime() : val
+                        );
+                    }
+                    return value;
+                }
+            }
+        }
+        return [undefined, undefined]
+    }
+
+    setRange(from: number | undefined, to: number | undefined) {
+        let valFrom;
+        let valTo;
+        let expression: string | undefined;
+        if (this.column) {
+            valFrom = AppService.isDate(this.column) && Utils.isNumber(from) ? new Date(from) : from;
+            valTo = AppService.isDate(this.column) && Utils.isNumber(to) ? new Date(to) : to;
+            if (!!valFrom && !!valTo) {
+                expression = this.exprBuilder.makeRangeExpr(this.column.name, valFrom, valTo);
+            } else if (!!valFrom) {
+                expression = this.exprBuilder.makeNumericalExpr(this.column.name, '>=', valFrom);
+            } else if (!!valTo) {
+                expression = this.exprBuilder.makeNumericalExpr(this.column.name, '<=', valTo);
+            }
+            this.searchService.query?.removeSelect(this.column.name);
+            if (expression) {
+                this.searchService.query?.addSelect(
+                    expression,
+                    this.column.name
+                );
+            }
+        }
     }
 
     applyRange() {
-        const query = this.searchService.query.copy();
-        this.setFrom(query, this.roundNearest(this.value));
-        this.setTo(query, this.roundNearest(this.highValue));
-        this.searchService.applyAdvanced(query);
+        this.setRange(this.roundNearest(this.value), this.roundNearest(this.highValue));
+        this.searchService.search();
     }
 
     clearRange() {
-        const query = this.searchService.query.copy();
-        this.setFrom(query, undefined);
-        this.setTo(query, undefined);
-        this.searchService.applyAdvanced(query);
+        this.setRange(undefined, undefined);
+        this.searchService.search();
+    }
+
+    get actions(): Action[] {
+        const actions: Action[] = [];
+        if(this.rangeSelected){
+            actions.push(this.applyFiltersAction);
+        }
+        if(this.rangeActive){
+          actions.push(this.clearFiltersAction);
+        }
+        return actions;
     }
 }

@@ -29,15 +29,17 @@ export interface Results {
      */
     pageSize: number;
     /**
-     * The number of document results in the currently selected tab. If tab search is not active then
-     * this will be the same as `totalRowCount`
+     * The number of document results for the query.
      */
     rowCount: number;
     /**
-     * The number of document results across all tabs. If tab search is not active then
-     * this will be the same as `rowCount`
+     * The number of document results for the query. If tab search is active and the `CCTabSearch.totalIsSumOfTabTotals` option is set then
+     * the total of counts of all the tabs will be returned. Otherwise this returns the same value as `rowCount`.
      */
     totalRowCount: number;
+    /**
+     * Returns the number of documents included in these results, as reported by the engine. It will have the same value as `records.length`.
+     */
     cursorRowCount: number;
     /**
      * The number of attributes in these results
@@ -323,9 +325,9 @@ export interface AggregationItem {
      */
     $excluded?: boolean;
     /**
-     * A client-side field that indicates whether this item is currently unselectable
+     * A client-side field that indicates whether this item is currently filtered
      */
-    $unselectable?: boolean;
+    $filtered?: boolean;
     /**
      * A client-side field that indicates the column that provided the value for this item.
      * This can be useful when mixing items from different aggregations.
@@ -359,6 +361,10 @@ export interface TreeAggregationNode extends AggregationItem {
      * A client-side field that indicates whether a parent node is currently open
      */
     $opened?: boolean;
+    /**
+     * The level at which this node is in the Tree aggregation
+     */
+    $level: number;
 }
 
 /**
@@ -376,21 +382,21 @@ export interface Aggregation {
     /**
      * Indicates whether the aggregation items are calculated using a distrbution (see App Dependencies in the Sinequa admin interface)
      */
-    isDistribution: boolean;
+    isDistribution?: boolean;
     /**
      * Indicates whether the aggregation items should be handled as tree nodes. This can be set to false for a tree aggregation
      * if the "Load tree as csv" option is checked in the Sinequa configuration
      */
-    isTree: boolean;
+    isTree?: boolean;
     /**
      * Indicates whether the values for the items are fielded search expressions. This is the case for aggregations using a
      * distribution (see `isDistribution`) and crossed distributions
      */
-    valuesAreExpressions: boolean;
+    valuesAreExpressions?: boolean;
     /**
      * The aggregation items for this aggregation
      */
-    items: AggregationItem[];
+    items?: AggregationItem[];
 }
 
 /**

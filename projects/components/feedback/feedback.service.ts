@@ -1,4 +1,4 @@
-import {Injectable, InjectionToken, Inject, Type} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {AuditWebService, AuditEvent} from "@sinequa/core/web-services";
 import {AppService} from "@sinequa/core/app-utils";
 import {NotificationsService} from "@sinequa/core/notification";
@@ -7,34 +7,6 @@ import {Utils} from "@sinequa/core/base";
 import {Action} from "@sinequa/components/action";
 
 export const AuditFeedbackType = "UserFeedback";
-
-/**
- * The modal types are unknown to this service.
- * The module using this service must provide these components
- * in their forRoot() method
- *
- * Example below:
- *
-    public static forRoot(): ModuleWithProviders<FeedbackModule> {
-        return {
-            ngModule: FeedbackModule,
-            providers: [
-                {
-                    provide: FEEDBACK_COMPONENTS,
-                    useValue: {
-                        feedbackForm: FeedbackForm
-                    }
-                },
-                FeedbackService,
-            ]
-        };
-    }
-
- */
-export interface FeedbackComponents {
-    feedbackForm: Type<any>;
-}
-export const FEEDBACK_COMPONENTS = new InjectionToken<FeedbackComponents>('FEEDBACK_COMPONENTS');
 
 
 @Injectable({
@@ -46,18 +18,17 @@ export class FeedbackService {
         public auditService: AuditWebService,
         public modalService: ModalService,
         public appService: AppService,
-        public notificationsService: NotificationsService,
-        @Inject(FEEDBACK_COMPONENTS) public feedbackComponents: FeedbackComponents
+        public notificationsService: NotificationsService
         ) {
     }
 
-    public sendUserFeedback(message: string, thankUser: boolean){
+    public sendUserFeedback(type: string, message: string, thankUser: boolean){
         const event : AuditEvent = {
             type: AuditFeedbackType,
             detail: {
                 app: this.appService.appName,
-                message: name,
-                detail: message,
+                message: type,
+                detail: message
             }
         };
         Utils.subscribe(this.auditService.notify([event]),
@@ -81,24 +52,21 @@ export class FeedbackService {
         })];
     }
 
-    public createAction(name:string, text:string, title:string, icon:string) : Action {
+    public createAction(type:string, text:string, title:string, icon:string) : Action {
         return new Action({
-            name: name,
             text: text,
             title: title,
             icon: icon,
-            action: (item, event) => {
-                this.openFeedbackModal(title);
-            }
+            action: () => this.openFeedbackModal(type, title)
         });
     }
 
-    public openFeedbackModal(title: string){
-        const message = {"message" : "", "title" : title};
-        this.modalService.open(this.feedbackComponents.feedbackForm, {model: message})
+    public openFeedbackModal(type: string, title: string){
+        const model = {title: 'msg#feedback.title', message: title, output: '', buttons: [], rowCount: 5};
+        this.modalService.prompt(model)
             .then((result) => {
-                if (result === ModalResult.OK && message.message.trim() !== "") {
-                    this.sendUserFeedback(message.message, true);
+                if (result === ModalResult.OK && model.output.trim() !== "") {
+                    this.sendUserFeedback(type, model.output, true);
                 }
             });
     }

@@ -3,7 +3,7 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Subscription, combineLatest } from 'rxjs';
 
 import { Results } from '@sinequa/core/web-services';
-import { AppService } from '@sinequa/core/app-utils';
+import { AppService, ExprBuilder } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { UserPreferences } from '@sinequa/components/user-settings';
 import { AbstractFacet } from '@sinequa/components/facet';
@@ -49,16 +49,20 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
 
     /** Input results - used to produce a OnChange event when  */
     @Input() results: Results;
-    
+
     @Input() providers: NetworkProvider[];
 
     /** General Vis options passed to the network (https://visjs.github.io/vis-network/docs/network/) */
     @Input() options: Options = defaultOptions;
+
+    /** Timeout (milliseconds) before programmatically refresh the network display after resize */
+    @Input() timeoutSlot = 1000;
+
     optionsPrefs: Options;
-    
+
     @Output() nodeClicked = new EventEmitter<Node>();
     @Output() edgeClicked = new EventEmitter<Edge>();
-  
+
     // Settings form
     form: FormGroup;
 
@@ -75,7 +79,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
     // Info cards
     @ContentChild("nodeTpl", {static: false}) nodeTpl: TemplateRef<any>;
     @ContentChild("edgeTpl", {static: false}) edgeTpl: TemplateRef<any>;
-    
+
     readonly context: NetworkContext;
 
     providersSubscription: Subscription;
@@ -86,7 +90,8 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         public appService: AppService,
         public intlService: IntlService,
         public formBuilder: FormBuilder,
-        public prefs: UserPreferences
+        public prefs: UserPreferences,
+        public exprBuilder: ExprBuilder
     ) {
         super();
 
@@ -94,7 +99,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         this.nodeClicked.subscribe((node?: Node) => {
             this.providers.forEach(p => p.onNodeClicked(node));
         });
-        
+
         // Notify providers when a node is clicked (this may trigger new data, or a node mutation)
         this.edgeClicked.subscribe((edge?: Edge) => {
             this.providers.forEach(p => p.onEdgeClicked(edge));
@@ -109,7 +114,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
                 this.updateActions();
             }
         });
-        
+
         // Clear the current filters
         this.clearFilters = new Action({
             icon: "far fa-minus-square",
@@ -128,6 +133,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
             appService: appService,
             networkService: networkService,
             intlService: intlService,
+            exprBuilder: exprBuilder,
             select: (node?: Node, edge?: Edge) => this.select(node, edge),
         };
     }
@@ -151,6 +157,9 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
             // Update the actions of the facet
             this.updateActions();
         }
+        else if(changes['options']) {
+            this.updateOptions();
+        }
 
     }
 
@@ -159,7 +168,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
      * call getData() on these providers to refresh the data
      */
     protected updateData() {
-        
+
         this.context.nodes.clear();
         this.context.edges.clear();
 
@@ -169,7 +178,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
 
         this.providersSubscription = combineLatest(
             this.providers.map(p => p.getProvider())
-        ).subscribe(datasets => 
+        ).subscribe(datasets =>
             this.mergeDatasets(datasets.filter(d => !!d) as NetworkDataset[])
         );
 
@@ -179,16 +188,26 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
     /**
      * Take in the datasets produced by each provider and merges them into
      * a single one
-     * @param datasets 
+     * @param datasets
      */
     protected mergeDatasets(datasets: NetworkDataset[]) {
         const dataset = datasets.reduce((prev, cur) => prev.merge(cur), new NetworkDataset());
-        
+
         // Notify providers that nodes were inserted (which could trigger an update of the data)
         this.providers.forEach(p => p.onDatasetsMerged(dataset));
 
         // TODO: Post process the dataset somehow to adjust visibility (or other properties)
         dataset.updateDatasets(this.context.nodes, this.context.edges);
+
+        // Fit the nodes and edges
+        if(this._networkInitialized) {
+            this.networkService.fit(this.name, {
+                animation: {             // animation object, can also be Boolean
+                    duration: 1000,                 // animation duration in milliseconds (Number)
+                    easingFunction: "easeInOutQuad" // Animation easing function, available are:
+                }
+            });
+        }
 
         // Notify providers that nodes were inserted (which could trigger an update of the data)
         this.providers.forEach(p => p.onNodesInserted(this.context.nodes.get()));
@@ -236,15 +255,11 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         const providersActionList = new Action({
             icon: "fas fa-tasks",
             title: "msg#network.actions.providers",
-            children: []
-        });
-        this.providers.forEach(p => {
-            const providerActions = new Action({
+            children: this.providers.map(p => new Action({
                 text: this.intlService.formatMessage(p.name),
-                title: this.intlService.formatMessage(p.name)
-            });
-            providerActions.children = p.getProviderActions();
-            providersActionList.children.push(providerActions);
+                title: this.intlService.formatMessage(p.name),
+                children: p.getProviderActions()
+            }))
         });
         this._actions.push(providersActionList);
 
@@ -265,17 +280,18 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
 
         // now we can use the service to register on events
         this.networkService.on(this.name, 'click');
-        
+
         this.networkService.click.subscribe((eventData: any[]) => this.onNetworkClick(eventData));
 
         this.networkService.setOptions(this.name, this.optionsPrefs);
+
     }
 
     /**
      * Method called when a node or edge in the network is clicked.
      * The method generates appropriate nodeClicked and edgeClicked events,
      * and updates the state of _selectedEdge and _selectedNode.
-     * @param eventData 
+     * @param eventData
      */
     protected onNetworkClick(eventData: any[]) {
         if (eventData[0] === this.name) {
@@ -302,7 +318,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
                 this.selectNode();
                 this.selectEdge();
             }
-                        
+
             this.updateActions();
         }
     }
@@ -332,7 +348,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
 
 
     // Settings
-    
+
     /**
      * Sets the options values either to the user preferences (stored in user settings)
      * or the default values.
@@ -353,6 +369,14 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
 
         if(this._networkInitialized) {
             this.networkService.setOptions(this.name, this.optionsPrefs);
+            setTimeout(() => {
+                this.networkService.fit(this.name, {
+                    animation: {
+                        duration: 1000,
+                        easingFunction: "easeInOutQuad"
+                    }
+                });
+            }, this.timeoutSlot);
         }
     }
 
@@ -417,11 +441,11 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
     get springLengthPref(): number {
         return this.prefs.get(this.name+'-spring-length') || 100;
     }
-    
+
     get springConstantPref(): number {
         return this.prefs.get(this.name+'-spring-constant') || 4;
     }
-    
+
     get dampingPref(): number {
         return this.prefs.get(this.name+'-damping') || 50;
     }

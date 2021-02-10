@@ -215,8 +215,7 @@ import { AppService } from &#x27;@sinequa/core/app-utils&#x27;;
  */
 @Component({
     selector: &#x27;sq-export-query&#x27;,
-    templateUrl: &#x27;./export-query.html&#x27;,
-    styleUrls: [&quot;./export-query.scss&quot;]
+    templateUrl: &#x27;./export-query.html&#x27;
 })
 export class BsExportQuery implements OnInit, OnDestroy {
 
@@ -236,6 +235,8 @@ export class BsExportQuery implements OnInit, OnDestroy {
 
     private formChanges: Subscription;
 
+    maxCount &#x3D; 1000; // Default max count hard coded in web service
+
     constructor(
         @Inject(MODAL_MODEL) public model: ExportQueryModel,
         private formBuilder: FormBuilder,
@@ -254,11 +255,15 @@ export class BsExportQuery implements OnInit, OnDestroy {
         }
 
         this.exportableColumns &#x3D; [];
+
         if (this.appService.app) {
             const queryExportConfig &#x3D; this.getDefaultQueryExportConfig(this.appService.app);
             const columns &#x3D; (queryExportConfig.columns &amp;&amp; queryExportConfig.columns[&#x27;column$&#x27;]) || [];
             for (const column of columns) {
                 this.exportableColumns.push(column.title);
+            }
+            if(queryExportConfig.maxCount &amp;&amp; Utils.isNumber(queryExportConfig.maxCount)) {
+                this.maxCount &#x3D; queryExportConfig.maxCount;
             }
         }
 
@@ -268,7 +273,8 @@ export class BsExportQuery implements OnInit, OnDestroy {
             &#x27;export&#x27;: [this.model.export, Validators.required],
             &#x27;maxCount&#x27;: [this.model.maxCount, Validators.compose([
                 this.validationService.integerValidator(),
-                this.validationService.minValidator(1)])],
+                this.validationService.minValidator(1)
+            ])],
         });
 
         this.isDownloading &#x3D; false;
@@ -379,11 +385,6 @@ export class BsExportQuery implements OnInit, OnDestroy {
      */
     public showSourceChooser(): boolean {
         return !this.sourceChosen(ExportSourceType.SavedQuery);
-    }
-
-
-    public close(): void {
-        this.modalRef.close(ModalResult.Cancel);
     }
 }
 

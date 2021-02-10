@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>autocomplete/autocomplete.directive.ts</code>
+            <code>autocomplete/autocomplete-field-search.directive.ts</code>
         </p>
 
 
@@ -170,196 +170,192 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Directive, Input, Output, ElementRef, HostListener, OnInit, EventEmitter, OnDestroy, OnChanges, SimpleChanges} from &quot;@angular/core&quot;;
-import {Observable, Subscription} from &quot;rxjs&quot;;
-import {Utils, Keys} from &quot;@sinequa/core/base&quot;;
-import {AppService, Expr} from &quot;@sinequa/core/app-utils&quot;;
-import {SuggestService} from &quot;./suggest.service&quot;;
-import {UIService} from &quot;@sinequa/components/utils&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, Input, Output, EventEmitter, SimpleChanges, ElementRef } from &quot;@angular/core&quot;;
+import { Observable, Subscription, of } from &quot;rxjs&quot;;
+import { Utils, Keys} from &quot;@sinequa/core/base&quot;;
+import { AppService, Expr, ExprBuilder, ExprParser, ExprValueInfo} from &quot;@sinequa/core/app-utils&quot;;
+import { Autocomplete, AutocompleteItem, AutocompleteState } from &#x27;./autocomplete.directive&#x27;;
+import { SuggestService } from &#x27;./suggest.service&#x27;;
+import { UIService } from &#x27;@sinequa/components/utils&#x27;;
 
 /**
- * Minimal interface for autocomplete items (note that the Suggestion
- * objects returned by the Suggestion service implement naturally this
- * interface)
+ * Interface required to be implement by the component displaying
+ * the fielded search items (basically the content of fieldSearchItems)
  */
-export interface AutocompleteItem {
-    display: string;
-    normalized?: string;
-    category: string;
-    label?: string;
+export interface FieldSearchItemsContainer {
+
+    /** Update the list of items displayed by the container */
+    update(items: AutocompleteItem[]): void;
+
+    /** Event triggered when the user removes an item from the container */
+    itemRemoved: EventEmitter&lt;AutocompleteItem&gt;;
 }
-
-/**
- * Interface required to be implemented by the dropdown components
- * binded to this autocomplete directive.
- * The component is responsible for displaying a list of items
- * and signaling back if a component was clicked. The component must
- * also manage navigation through the list (next/previous and selectedValue).
- */
-export interface AutocompleteComponent {
-
-    /**
-     * Whether there are any item to display
-     */
-    hasItems: boolean;
-
-    /**
-     * Event emitter for clicks on an autocomplete item
-     */
-    clicked: EventEmitter&lt;AutocompleteItem&gt;;
-
-    /**
-     * Returns the currently selected item, if any
-     */
-    selectedValue: AutocompleteItem | undefined;
-
-    /**
-     * Update the data and state of this component
-     * @param active whether the component should be displayed
-     * @param items The list of items to display
-     */
-    update(active: boolean, items?: AutocompleteItem[]): void;
-
-    /**
-     * Select the next item in the list and returns it
-     */
-    selectNext(): AutocompleteItem | undefined;
-
-    /**
-     * Select the previous item in the list and returns it
-     */
-    selectPrevious(): AutocompleteItem | undefined;
-}
-
 
 export interface ParseResult {
     result?: Expr;
     error?: string;
 }
 
-/**
- * States in which the autocomplete component can be
- */
-export enum AutocompleteState {
-    OFF &#x3D; &quot;OFF&quot;, // Autocomplete is turned off (via @Input())
-    INIT &#x3D; &quot;INIT&quot;, // Input is not focused, dropdown is closed
-    START &#x3D; &quot;START&quot;, // Input is focused, no text typed in, dropdown is closed
-    ACTIVE &#x3D; &quot;ACTIVE&quot;, // Input is focused, text is typed, suggests are being queried, dropdown is closed
-    OPENED &#x3D; &quot;OPENED&quot;, // Input is focused, text is typed, suggests are available, dropdown/autocomplete component is displayed
-    SELECTED &#x3D; &quot;SELECTED&quot; // Input is focused, an input from the dropdown was selected
-}
-
 @Directive({
-    selector: &quot;[sqAutocomplete]&quot;
+    selector: &quot;[sqAutocompleteFieldSearch]&quot;
 })
-export class Autocomplete implements OnInit, OnChanges, OnDestroy {
-    @Input() dropdown: AutocompleteComponent;
-    @Input() off: boolean;
-    @Input() fieldSearch: boolean;
-    @Input() excludedFields: string[] &#x3D; [&quot;concept&quot;];
-    @Input() suggestDelay: number &#x3D; 200;
-    @Input() suggestQuery: string;
-    @Output() stateChange &#x3D; new EventEmitter&lt;AutocompleteState&gt;();
-    @Output() submit &#x3D; new EventEmitter&lt;void&gt;();
+export class AutocompleteFieldSearch extends Autocomplete {
+
+
+    // FIELDED SEARCH
+
+    /** 
+     * &quot;text&quot; mode: fielded search is entirely managed as text in the &lt;input&gt; component 
+     * &quot;selects&quot; mode: fielded search stores the selected autocomplete items to create selections, while keeping a clean &lt;input&gt; content (better UI/UX but does not support operators like OR, NOT, and parentheses)
+     */
+    @Input() fieldSearchMode: &quot;off&quot; | &quot;text&quot; | &quot;selects&quot; &#x3D; &quot;text&quot;;
+
+    /** Fields excluded from fielded search (searched as regular strings if selected) */
+    @Input() excludedFields: string[] &#x3D; [&quot;concepts&quot;];
+
+    /* Fields included in fielded search (have precedence over excluded fields) */
+    @Input() includedFields?: string[];
+
+   /** Container displaying the fieldSearchItems (only needed if mode &#x3D;&#x3D;&#x3D; &quot;selects&quot;) */
+    @Input() fieldSearchItemsContainer?: FieldSearchItemsContainer;
+
+    /** Current selection expression needed to update the list of field search items if mode &#x3D;&#x3D;&#x3D; &quot;selects&quot; */
+    @Input() fieldSearchExpression?: string;
+ 
+    /** Stores the selected fielded search items selected via Tab */
+    public readonly fieldSearchItems: AutocompleteItem[] &#x3D; [];
+
+
+    // Event emitters
+
     @Output() parse &#x3D; new EventEmitter&lt;ParseResult&gt;();
 
-    private _state: AutocompleteState &#x3D; AutocompleteState.INIT;
-
-    // The input HTML element to which this directive is attached
-    private readonly inputElement: HTMLInputElement;
-
-
-    // Initialization
-
-    constructor(
-        elementRef: ElementRef,
-        protected suggestService: SuggestService,
-        protected appService: AppService,
-        protected uiService: UIService){
-
-        this.inputElement &#x3D; elementRef.nativeElement;
+    constructor(elementRef: ElementRef&lt;any&gt;, 
+        suggestService: SuggestService,
+        appService: AppService,
+        uiService: UIService,
+        protected exprBuilder: ExprBuilder){
+        super(elementRef, suggestService, appService, uiService);
     }
 
-
-    /**
-     * On initialization, we listen to the autocomplete component for
-     * selection events
-     */
-    ngOnInit(){
-        this._dropdownSubscription &#x3D; this.dropdown.clicked.subscribe(item &#x3D;&gt; {
-            this.select(item, true);  // An item was selected from the autocomplete &#x3D;&gt; take the value
-        });
-
-        this.inputElement.focus();
-        this.start();
-    }
 
     /**
      * If the off input changes state, react accordingly
      * @param changes
      */
     ngOnChanges(changes: SimpleChanges){
-        if(changes[&quot;off&quot;]){
-            this.start();
+        super.ngOnChanges(changes);
+
+        // Subscribe to the field search items&#x27;s container
+        if(changes[&quot;fieldSearchItemsContainer&quot;] &amp;&amp; this.fieldSearchItemsContainer) {
+            if(this._fieldSearchSubscription){
+                this._fieldSearchSubscription.unsubscribe();
+            }
+            this._fieldSearchSubscription &#x3D; this.fieldSearchItemsContainer.itemRemoved.subscribe(item &#x3D;&gt; {
+                this.fieldSearchItems.splice(this.fieldSearchItems.indexOf(item), 1);
+                this.updatePlaceholder();
+                this.submit.next();
+            });
         }
+
+        // Transform the field search expresion (Expr string) into a list of autocomplete items displayed in the field search container
+        if(changes[&quot;fieldSearchExpression&quot;] &amp;&amp; this.fieldSearchMode &#x3D;&#x3D;&#x3D; &quot;selects&quot;) {
+            if(this.fieldSearchExpression) {
+                const expr &#x3D; this.appService.parseExpr(this.fieldSearchExpression);
+                if(expr instanceof Expr &amp;&amp; this.fieldSearchItems.length !&#x3D;&#x3D; expr.getFields().length) {
+                    this.fieldSearchItems.splice(0);
+                    if(expr.and) {
+                        expr.operands.forEach(e &#x3D;&gt; 
+                            this.fieldSearchItems.push(this.exprToItem(e))
+                        );
+                    }
+                    else {
+                        this.fieldSearchItems.push(this.exprToItem(expr));
+                    }
+                }
+            }
+            else {
+                this.fieldSearchItems.splice(0);
+            }
+        }
+
+        // If fieldSearchMode changes from selects to something else, we must remove the field search items
+        if(changes[&quot;fieldSearchMode&quot;] &amp;&amp; this.fieldSearchMode !&#x3D;&#x3D; &quot;selects&quot; &amp;&amp; this.fieldSearchItems.length &gt; 0) {
+            this.fieldSearchItems.splice(0);
+        }
+
+        this.updatePlaceholder();
+        this.fieldSearchItemsContainer?.update(this.fieldSearchItems);
     }
 
 
-    private _dropdownSubscription: Subscription;
+    private _fieldSearchSubscription: Subscription;
     /**
      * Unsubscribe when destroying the component
      */
     ngOnDestroy(){
-        if(this._dropdownSubscription){
-            this._dropdownSubscription.unsubscribe();
+        super.ngOnDestroy();
+        if(this._fieldSearchSubscription){
+            this._fieldSearchSubscription.unsubscribe();
         }
     }
 
-
-    // Getters and Setters
-
     /**
-     * Return the current state of the autocomplete
+     * Insert the given autocomplete item into the current search input
+     * at the right location
+     * @param item 
      */
-    public getState(): AutocompleteState {
-        return this._state;
-    }
-
-    /**
-     * Set the current state of the autocomplete
-     */
-    protected setState(state: AutocompleteState) {
-        if(this.off){
-            if(this._state !&#x3D;&#x3D; AutocompleteState.OFF){
-                this._state &#x3D; AutocompleteState.OFF;
-                this.stateChange.next(this.getState());
+    protected insertAutocompleteItem(item: AutocompleteItem): boolean {
+        const value &#x3D; this.getInputValue(); // Current text in the input
+        if(value) { // There should always be text
+            const parseResult &#x3D; this.parseQuery(); // Parse the current text
+            if(parseResult.result) { // (if no result, a parsing error occurred)
+                const res &#x3D; parseResult.result.findValue(this.getInputPosition()); // Get the expression at the caret location
+                // Autocomplete &quot;compa&quot; &#x3D;&gt; &quot;company:&quot;
+                if(res &amp;&amp; item.category &#x3D;&#x3D;&#x3D; &quot;$field$&quot;) {
+                    this.replaceValueInForm(res, item.display + &quot;: &quot;);
+                    return false;
+                }
+                // Autocomplete &quot;company:Goo&quot; &#x3D;&gt; &quot;company:&#x60;GOOGLE&#x60;&quot;
+                if(res &amp;&amp; res.field &#x3D;&#x3D;&#x3D; item.category) {
+                    this.replaceValueInForm(res, ExprParser.escape(item.normalized || item.display));
+                    return true;
+                }
+                // Autocomplete &quot;Goo&quot; &#x3D;&gt; &quot;company:&#x60;GOOGLE&#x60;&quot;
+                if(res &amp;&amp; !res.field &amp;&amp; item.category &amp;&amp; 
+                    (this.includedFields &amp;&amp; this.includedFields?.includes(item.category) || 
+                    (!this.includedFields &amp;&amp; !this.excludedFields?.includes(item.category)))) { // Filter out fields if not in fieldSearch mode
+                    this.replaceValueInForm(res, this.exprBuilder.makeExpr(item.category, item.normalized || item.display));
+                    return true;
+                }
+                // Autocomplete &quot;Search eng&quot; &#x3D;&gt; &quot;Search engine&quot;
+                if(res &amp;&amp; !res.field) {
+                    this.replaceValueInForm(res, item.display);
+                    return true;
+                }
+                // Remaining edge case ?
+                console.error(item, parseResult.result);
             }
-            // ignore state change if Autocomplete is off
         }
-        else if(!!state &amp;&amp; this._state !&#x3D;&#x3D; state) {
-            this._state &#x3D; state;
-            //console.log(&quot;STATE: &quot;, this._state);
-            this.stateChange.next(this.getState());
+
+        console.error(&quot;Shouldn&#x27;t be here: an autocomplete item is selected, but there is no text or a parse error!&quot;);
+        // Default to just overriding the current value (a complex query with multiple items might become reduced to this single item!)
+        if(item.category &#x3D;&#x3D;&#x3D; &quot;$field$&quot;) {
+            this.setInputValue(item.display + &quot;:&quot;);
+            return false;
         }
+        this.setInputValue(this.exprBuilder.makeExpr(item.category, item.normalized || item.display)); // person: &#x60;Bill Gates&#x60;
+        return true;
     }
 
     /**
-     * Get the current text value of the HTML &lt;input&gt;
-     * to which this directive is attached
+     * Replaces the piece of expression (res) with a new value
+     * in the input form
+     * @param res The piece of expression parsed from the input content
+     * @param value The new value
      */
-    protected getInputValue() : string {
-        return this.inputElement.value;
-    }
-
-    /**
-     * Set the current text value of the HTML &lt;input&gt;
-     * to which this directive is attached
-     */
-    protected setInputValue(value: string) {
-        // Using setCaret() allows to properly update the underlying form
-        if(value){
-            this.uiService.setCaret(this.inputElement, 0, value.length, value);
-        }
+    protected replaceValueInForm(res: ExprValueInfo, value: string) {
+        this.uiService.setCaret(this.inputElement, res.start, res.start+res.length, value);
     }
 
     /**
@@ -372,15 +368,26 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      */
     protected setAutocompleteItem(item: AutocompleteItem): boolean {
         if(item) {
-            if(this.fieldSearch &amp;&amp; item.category &amp;&amp; !this.excludedFields.includes(item.category)){
-                if(item.category &#x3D;&#x3D;&#x3D; &quot;$field$&quot;){    // In the case of of a field name, we display the field for autocomplete, but we don&#x27;t want to search for it
-                    this.setInputValue(item.display + &quot;:&quot;);
-                }
-                else{
-                    this.setInputValue(item.category + &quot;:&#x60;&quot; + (item.normalized || item.display) + &quot;&#x60;&quot;);
-                    return true;
-                }
+            if(this.fieldSearchMode &#x3D;&#x3D;&#x3D; &quot;text&quot;) {
+                return this.insertAutocompleteItem(item);
             }
+
+            else if(this.fieldSearchMode &#x3D;&#x3D;&#x3D; &quot;selects&quot; &amp;&amp; item.category &amp;&amp; 
+                (this.includedFields &amp;&amp; this.includedFields?.includes(item.category) || 
+                (!this.includedFields &amp;&amp; !this.excludedFields?.includes(item.category)))) { // Filter out fields if not in fieldSearch mode
+                // In the case of of a field name, we display the field for autocomplete, but we don&#x27;t want to search for it
+                if(item.category &#x3D;&#x3D;&#x3D; &quot;$field$&quot;) {
+                    this.setInputValue(item.display + &quot;:&quot;);
+                    return false;
+                }
+                // Store the autocomplete item that will be used to create a selection
+                this.setInputValue(&quot;&quot;);
+                this.fieldSearchItems.push(item);
+                this.updatePlaceholder();
+                this.fieldSearchItemsContainer?.update(this.fieldSearchItems);
+                return true;
+            }
+
             else {
                 this.setInputValue(item.display);
                 return true;
@@ -389,89 +396,49 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
         return false;
     }
 
-
-    // Methods triggering state changes
-
     /**
-     * INIT state (Input is not focused, dropdown is closed)
+     * Returns an expression (Expr) for the fielded search items
      */
-    protected init(): void {
-        this.setState(AutocompleteState.INIT);
-        this.dropdown.update(false);    // If the dropdown was active
+    public getFieldSearchExpression(): string | undefined {
+        return this.itemsToExpr(this.fieldSearchItems);
     }
 
     /**
-     * START state (Input is focused, no text typed in, dropdown is closed)
+     * Transforms a list of AutocompleteItems into an expression
+     * @param items list of AutocompleteItems
      */
-    protected start(): void {
-        this.setState(AutocompleteState.START);
-        this.dropdown.update(false);    // If the dropdown was active
+    protected itemsToExpr(items: AutocompleteItem[]): string | undefined {
+        if(items.length &gt; 0) {
+            return this.exprBuilder.concatAndExpr(items.map(item &#x3D;&gt; 
+                this.exprBuilder.makeExpr(item.category, item.normalized || item.display, item.display)));
+        }
+        return undefined;
     }
 
     /**
-     * START state and if the &lt;input&gt; has content, immediately switch to ACTIVE
+     * Transforms an expression into a list of AutocompleteItems
+     * @param expr an expression
      */
-    protected startOrActive(): void {
-        if(this.getState()!&#x3D;&#x3D; AutocompleteState.ACTIVE &amp;&amp; this.getState()!&#x3D;&#x3D; AutocompleteState.OPENED){ // Avoid flickering
-            this.start();
-            if(!!this.getInputValue()){
-                this.active();
-            }
+    protected exprToItem(expr: Expr): AutocompleteItem {
+        return {
+            category: expr.field!,
+            display: expr.display!,
+            normalized: expr.value!,
         }
     }
 
     /**
-     * ACTIVE state (Input is focused, text is typed, suggests are being queried, dropdown is closed)
-     */
-    protected active(): void {
-        if(this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.START || this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.ACTIVE || this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.OPENED){
-            this.setState(AutocompleteState.ACTIVE);
-            this.dropdown.update(false);    // If the dropdown was active
-            this.suggest();
-        }
-    }
-
-    /**
-     * Select the given autocomplete suggestion for search
-     * @param submit if, true also trigger a submit
-     * @param item a specific item to submit
-     */
-    protected select(item: AutocompleteItem, submit?: boolean): void {
-        this.setState(AutocompleteState.SELECTED); // Change state BEFORE setting input value, so the event is correctly processed
-        const searchable &#x3D; this.setAutocompleteItem(item);
-        this.dropdown.update(false);    // Close dropdown
-
-        if(submit &amp;&amp; searchable) this.submit.next();
-    }
-
-    /**
-     * Switch to OPENED state (from ACTIVE only)
-     */
-    protected open(): void {
-        if(this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.ACTIVE){
-            this.setState(AutocompleteState.OPENED);
-        }
-    }
-
-    /**
-     * Request suggestions from the server, and update the dropdown contents
-     * and autocomplete state asynchronously.
-     * Override this method for a synchronous implementation.
-     */
-    protected suggest() {
-        this.debounceSuggest();
-    }
-
-    /**
-     * Actually makes the API call to the suggestService to retrieve suggestions
-     * and process them.
+     * Takes the text from the &lt;input&gt; element and parse it to
+     * determine what type of suggestion to request from the server.
+     * The suggestions are then fetched by getSuggestsObs() and processed
+     * by processSuggests().
      */
     protected getSuggests() {
         let value &#x3D; this.getInputValue();
         if(value) { // If there is text, make a call to the suggest API
             const parseResult &#x3D; this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
             let fields: string[] | undefined &#x3D; undefined;
-            if(parseResult.result &amp;&amp; this.fieldSearch){
+            if(parseResult.result &amp;&amp; this.fieldSearchMode !&#x3D;&#x3D; &quot;off&quot;){
                 const position &#x3D; this.getInputPosition(); // Position of the caret, if needed
                 const res &#x3D; parseResult.result.findValue(position);
                 // Field Search suggest
@@ -479,14 +446,23 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
                     fields &#x3D; Utils.startsWith(res.field, &quot;@&quot;) ? [&quot;text&quot;] : [res.field];
                     value &#x3D; res.value;
                 }
+                if(!!res &amp;&amp; this.fieldSearchMode &#x3D;&#x3D;&#x3D; &quot;text&quot;) {
+                    value &#x3D; res.value;
+                }
+            }
+
+            if(parseResult.error &amp;&amp; this.fieldSearchMode !&#x3D;&#x3D; &quot;off&quot;) {
+                this.processSuggests(of([])); // Empty autocomplete if parsing errors
+                return;
             }
 
             this.processSuggests(
-                this.suggestService.get(this.suggestQuery, value, fields), fields
+                this.getSuggestsObs(value, fields)
             );
 
         }
         else {  // If empty input, restart autocomplete
+            this.parse.next({}); // remove error messages if any
             this.start();
         }
     }
@@ -498,17 +474,18 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * - Switch between OPEN and ACTIVE states
      * - Use changeDetectorRef to update display
      * @param obs an observable of AutocompleteItem suggestions
-     * @param fields if in field search mode and a field is found in the query for autocomplete
      */
-    protected processSuggests(obs: Observable&lt;AutocompleteItem[]&gt;, fields: string[] | undefined){
+    protected processSuggests(obs: Observable&lt;AutocompleteItem[]&gt;){
         obs.subscribe(
             suggests &#x3D;&gt; {
                 if(this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.ACTIVE || this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.OPENED){
                     this.dropdown.update(true, suggests
-                        .filter(item &#x3D;&gt; this.fieldSearch || item.category !&#x3D;&#x3D; &quot;$field$&quot;)  // Filter out fields if not in fieldSearch mode
+                        .filter(item &#x3D;&gt; item.category !&#x3D;&#x3D; &quot;$field$&quot; || (this.fieldSearchMode !&#x3D;&#x3D; &quot;off&quot; &amp;&amp; 
+                            (this.includedFields &amp;&amp; this.includedFields?.includes(item.display) || 
+                            (!this.includedFields &amp;&amp; !this.excludedFields?.includes(item.display)))))  // Filter out fields if not in fieldSearch mode
                         .map(item &#x3D;&gt; {
                             if(!item.label){
-                                if(this.fieldSearch &amp;&amp; item.category &#x3D;&#x3D;&#x3D; &quot;$field$&quot;) {
+                                if(item.category &#x3D;&#x3D;&#x3D; &quot;$field$&quot;) {
                                     item.label &#x3D; &quot;Field&quot;;
                                 }
                                 else {
@@ -533,16 +510,8 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     }
 
     /**
-     * Use the suggest service to retrieve suggestions given the input text.
-     * The suggest (autocomplete) query is debounded to avoid flooding the server.
-     */
-    private readonly debounceSuggest: () &#x3D;&gt; void &#x3D; Utils.debounce(() &#x3D;&gt; {
-        this.getSuggests();
-    }, this.suggestDelay);
-
-
-    /**
-     * Parse the query for syntax error (also allows to detect field search if needed)
+     * Parse the query for syntax errors (also allows to detect field search if needed).
+     * Fires a parse event.
      */
     protected parseQuery() : ParseResult {
         const value &#x3D; this.getInputValue();
@@ -552,118 +521,38 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
         return event;
     }
 
-    protected getInputPosition(): number {
-        // Come back before trailing spaces so the preceding value is still seen as the input value
-        // (needed for ExprParser to stop autocomplete being cancelled on entering trailing spaces)
-        const position &#x3D; this.uiService.getCaret(this.inputElement).start;
-        const length &#x3D; Utils.len(Utils.trimEnd(this.getInputValue()));
-        return Math.min(position, length);
-    }
-
-    /**
-     * The following are event listeners applied to the &lt;input&gt; host component
-     * onto which this directive is applied.
-     * The events affect the state of the autocomplete, which triggers
-     * various actions (call to suggest API, etc.).
-     */
-
-    /**
-     * Listens to click events on the &lt;input&gt; host
-     */
-    @HostListener(&quot;click&quot;) click() {
-        //console.log(&quot;input clicked&quot;);
-        this.startOrActive();
-    }
-
-    /**
-     * Listens to touchstart events (mobile clicks) on the &lt;input&gt; host
-     */
-    @HostListener(&quot;touchstart&quot;) touchstart() {
-        //console.log(&quot;input touchstart&quot;);
-        this.startOrActive();
-    }
-
-    /**
-     * Listens to focus events on the &lt;input&gt; host
-     */
-    @HostListener(&quot;focus&quot;) focus() {
-        //console.log(&quot;input focus gained&quot;);
-        this.start();
-    }
-
-    /**
-     * Listens to blur events (out of focus) on the &lt;input&gt; host
-     */
-    @HostListener(&quot;blur&quot;, [&quot;$event&quot;]) blur(event: FocusEvent) {
-        //console.log(&quot;input focus lost&quot;);
-        this.init();
-    }
-
-    /**
-     * Listen to any change in the &lt;input&gt; content and react
-     * according to the current state of the autocomplete
-     * @param event
-     */
-    @HostListener(&quot;input&quot;, [&quot;$event&quot;]) inputChanged(event: Event) {
-        //console.log(&quot;input value changed&quot;);
-        switch(this.getState()){
-            case AutocompleteState.OPENED:
-                this.suggest(); // Just request more data, but no state change
-                break;
-            case AutocompleteState.START:
-            case AutocompleteState.ACTIVE:
-                this.active(); // get more data, and change state if not already ACTIVE
-                break;
-            case AutocompleteState.SELECTED:
-                this.start(); // The model changed because we selected a value &#x3D;&#x3D;&gt; we restart in case the user keeps typing
-                break;
-            case AutocompleteState.INIT:
-                console.error(&quot;Should not be in INIT state if the form changes&quot;);
-                break;
-        }
-    }
 
     /**
      * Listen to user&#x27;s keyboard actions in the &lt;input&gt;, in order to navigate
      * and select the autocomplete suggestions.
+     * Overrides the parent keydown method, adds the management of the backspace key
+     * to remove field search items.
      * @param event the keyboard
      */
-    @HostListener(&quot;keydown&quot;, [&quot;$event&quot;]) keydown(event: KeyboardEvent) {
-        // Navigation in the opened dropdown
-        if (this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.OPENED) {
-            switch (event.keyCode) {
-                case Keys.up:
-                    this.dropdown.selectPrevious();
-                    return false; // prevent default
-                case Keys.down:
-                    this.dropdown.selectNext();
-                    return false; // prevent default
-                case Keys.tab:
-                    if(!!this.dropdown.selectedValue){
-                        this.select(this.dropdown.selectedValue);
-                    } else {
-                        this.dropdown.selectNext();
-                    }
-                    return false; // prevent default (change focus)
-                case Keys.esc:
-                    this.start(); // Just restart the autocomplete
-                    //event.stopPropagation(); // needed?
-                    return false; // prevent default
-                case Keys.enter:
-                    if(!!this.dropdown.selectedValue){
-                        this.select(this.dropdown.selectedValue, true);
-                        //event.stopPropagation(); // needed?
-                        return false; // prevent default action (auto submit)
-                    }
-            }
-        }
+    keydown(event: KeyboardEvent) {
 
-        // If a search was triggered, restart the autocomplete
-        if(event.keyCode &#x3D;&#x3D;&#x3D; Keys.enter) {
-            this.submit.next();
-            this.start();
+        const keydown &#x3D; super.keydown(event);
+
+        if(keydown &#x3D;&#x3D;&#x3D; undefined) {
+            // In fielded search mode, we can remove selections by typing &lt;backspace&gt; when the input is empty
+            if(event.keyCode &#x3D;&#x3D;&#x3D; Keys.backspace) {
+                if(this.fieldSearchMode &#x3D;&#x3D;&#x3D; &quot;selects&quot; &amp;&amp; this.getInputValue() &#x3D;&#x3D;&#x3D; &#x27;&#x27;) {
+                    this.fieldSearchItems.pop();
+                    this.updatePlaceholder();
+                    this.fieldSearchItemsContainer?.update(this.fieldSearchItems);
+                }
+            }    
         }
-        return undefined;
+        
+        return keydown;
+    }
+
+    /**
+     * Updates the &lt;input&gt;&#x27;s placeholder to avoid displaying something
+     * when there are fieldSearchItems displayed to the left.
+     */
+    updatePlaceholder() {
+        this._placeholder &#x3D; this.fieldSearchItems.length &gt; 0 ? &#x27;&#x27; : this.placeholder;
     }
 }</code></pre>
     </div>

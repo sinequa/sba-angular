@@ -153,7 +153,7 @@ To solve this problem, we can configure a **proxy** to redirect the requests fro
 }
 ```
 
-Complete documentation about the proxy configuration is available [here](https://github.com/angular/angular-cli/blob/master/docs/documentation/stories/proxy.md).
+Complete documentation about the proxy configuration is available in the [Angular](https://angular.io/guide/build#proxying-to-a-backend-server) and [Webpack](https://webpack.js.org/configuration/dev-server/#devserverproxy) documentation.
 
 Now run the following command:
 

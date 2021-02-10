@@ -6,7 +6,7 @@
         <div class="modal-body">
             <ng-content></ng-content>
         </div>
-        <sq-modal-footer *ngIf="showFooter" [buttons]="buttons">
+        <sq-modal-footer *ngIf="showFooter" [buttons]="buttons" [isProcessingState]="isProcessingState">
             <ng-content select="[footer]"></ng-content>
         </sq-modal-footer>
     </div>

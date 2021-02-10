@@ -17,6 +17,11 @@ pipeline {
 				bat "npm run buildcomponents --if-present"					
 			}
 		}
+		stage('Test Components') {
+			steps {
+				bat "npm run test components -- --watch=false"					
+			}
+		}
 		stage('Build HelloSearch') {
 			steps {
 				bat "npm run buildhellosearch --if-present"	
@@ -25,6 +30,11 @@ pipeline {
 		stage('Build Vanilla') {
 			steps {
 				bat "npm run buildvanilla --if-present"	
+			}
+		}
+		stage('Build Pepper') {
+			steps {
+				bat "npm run buildpepper --if-present"	
 			}
 		}
 	}

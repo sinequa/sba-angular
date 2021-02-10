@@ -19,12 +19,6 @@ export default {
             "selectDocuments": "Sélectionner les documents",
             "unselectDocuments": "Désélectionner les documents "
         },
-        "resultsTiledView": {
-            "display": "Mosaïque",
-            "defaultTitle": "(Sans titre)",
-            "preview": "Prévisualiser",
-            "open": "Ouvrir"
-        },
         "viewPageSize": "Nombre de résultats par page",
         "viewUpdateApply": "Appliquer",
         "warningNoViewForTab": "L'onglet '{tab}' n'est associé à aucune vue.",
@@ -34,9 +28,5 @@ export default {
         "resultsTextTab": "Texte",
         "results_all_tab": "Tous",
         "results_text_tab": "Texte",
-
-        "resultsScatterView" : {
-            "display" : "Nuage de Valeurs"
-        }
     }
 };

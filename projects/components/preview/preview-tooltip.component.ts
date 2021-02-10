@@ -30,6 +30,7 @@ export class PreviewTooltip implements OnChanges {
     // Tooltip fixed positioning
     bottom: string = "0px";
     left: string = "0px";
+    isBottom: boolean = false;
 
     constructor(
         private zone: NgZone,
@@ -82,13 +83,20 @@ export class PreviewTooltip implements OnChanges {
     positionTooltipAbove(box: DOMRect | ClientRect){
         this.zone.run(() => {   // Necessary to compute the right size of the tooltip when updating the text
             const tooltipWidth = this.tooltip.nativeElement.getBoundingClientRect().width;
-            this.left = Math.round(box.left+0.5*box.width-0.5*tooltipWidth)+"px";
+            const tooltipHeight = this.tooltip.nativeElement.getBoundingClientRect().height;
+            this.left = Math.round(box.left + 0.5*box.width - 0.5*tooltipWidth)+"px";
             //absolute top positioning
             //this.bottom = Math.round(box.top-tooltipHeight-5+this.window.scrollY)+"px";
             //absolute bottom positioning
             //this.bottom = Math.round(this.document.documentElement.clientHeight - this.window.scrollY - box.top + 5)+"px";
             //fixed bottom positioning
-            this.bottom = Math.round(this.window.innerHeight - box.top + 5)+"px";
+            if (Math.round(box.top - 5 - tooltipHeight) > 0) {
+              this.isBottom = false;
+              this.bottom = Math.round(this.window.innerHeight - box.top + 5)+"px";
+            } else {
+              this.isBottom = true;
+              this.bottom = Math.round(this.window.innerHeight - box.top - box.height - tooltipHeight - 5)+"px";
+            }
             this.changeDetectorRef.detectChanges();
         });
     }
@@ -226,7 +234,9 @@ export class PreviewTooltip implements OnChanges {
     entityAction(action: Action, event: Event){
         event.stopPropagation(); // stop the propagation to avoid triggering the tooltip listeners
         this.zone.run(() => {
-            action.action(action, <any> {type: this.entityType, idx: this.entityIdx, value: this.entityValue, display: this.entityDisplay});
+            if(action.action) {
+                action.action(action, <any> {type: this.entityType, idx: this.entityIdx, value: this.entityValue, display: this.entityDisplay});
+            }
         });
     }
 
@@ -238,7 +248,9 @@ export class PreviewTooltip implements OnChanges {
     selectedTextAction(action: Action, event: Event){
         event.stopPropagation(); // stop the propagation to avoid triggering the tooltip listeners
         this.zone.run(() => {
-            action.action(action, <any> {text: this.selectedText});
+            if(action.action) {
+                action.action(action, <any> {text: this.selectedText});
+            }
         });
     }
 

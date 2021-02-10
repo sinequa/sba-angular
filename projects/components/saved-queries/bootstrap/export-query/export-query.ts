@@ -17,8 +17,7 @@ import { AppService } from '@sinequa/core/app-utils';
  */
 @Component({
     selector: 'sq-export-query',
-    templateUrl: './export-query.html',
-    styleUrls: ["./export-query.scss"]
+    templateUrl: './export-query.html'
 })
 export class BsExportQuery implements OnInit, OnDestroy {
 
@@ -38,6 +37,8 @@ export class BsExportQuery implements OnInit, OnDestroy {
 
     private formChanges: Subscription;
 
+    maxCount = 1000; // Default max count hard coded in web service
+
     constructor(
         @Inject(MODAL_MODEL) public model: ExportQueryModel,
         private formBuilder: FormBuilder,
@@ -56,11 +57,15 @@ export class BsExportQuery implements OnInit, OnDestroy {
         }
 
         this.exportableColumns = [];
+
         if (this.appService.app) {
             const queryExportConfig = this.getDefaultQueryExportConfig(this.appService.app);
             const columns = (queryExportConfig.columns && queryExportConfig.columns['column$']) || [];
             for (const column of columns) {
                 this.exportableColumns.push(column.title);
+            }
+            if(queryExportConfig.maxCount && Utils.isNumber(queryExportConfig.maxCount)) {
+                this.maxCount = queryExportConfig.maxCount;
             }
         }
 
@@ -70,7 +75,8 @@ export class BsExportQuery implements OnInit, OnDestroy {
             'export': [this.model.export, Validators.required],
             'maxCount': [this.model.maxCount, Validators.compose([
                 this.validationService.integerValidator(),
-                this.validationService.minValidator(1)])],
+                this.validationService.minValidator(1)
+            ])],
         });
 
         this.isDownloading = false;
@@ -181,11 +187,6 @@ export class BsExportQuery implements OnInit, OnDestroy {
      */
     public showSourceChooser(): boolean {
         return !this.sourceChosen(ExportSourceType.SavedQuery);
-    }
-
-
-    public close(): void {
-        this.modalRef.close(ModalResult.Cancel);
     }
 }
 

@@ -119,7 +119,7 @@ In your `styles/app.scss` stylesheet, add the following lines:
 @import "~bootstrap/scss/bootstrap";
 
 /*** Fontawesome ***/
-$fa-font-path: "@fortawesome/fontawesome-free/webfonts";
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
 @import "~@fortawesome/fontawesome-free/scss/brands";
 @import "~@fortawesome/fontawesome-free/scss/regular";

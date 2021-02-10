@@ -515,14 +515,12 @@ export class AppService implements OnDestroy {
      * on which the service relies
      */
     init(): Observable&lt;CCApp&gt; {
-        const observable &#x3D; this.appWebService.get();
-        observable.subscribe(
-            app &#x3D;&gt; {
+        return this.appWebService.get().pipe(
+            map(app &#x3D;&gt; {
                 this.setApp(app);
                 return app;
             }
-        );
-        return observable;
+        ));
     }
 
     /**

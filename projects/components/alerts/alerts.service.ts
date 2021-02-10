@@ -44,6 +44,7 @@ export interface Alert {
     active: boolean;
     combine: boolean;
     respectTabSelection: boolean;
+    appQueryUrl?: string; // the URL reference the query of the Alert in the SBA.
 }
 
 // from core/models/audit
@@ -79,6 +80,7 @@ export interface AlertChangeEvent {
 export interface ManageAlertsModel {
     alerts: Alert[];
     auditEvents?: AuditEvent[];
+    searchRoute?: string;
 }
 
 /**
@@ -110,7 +112,7 @@ export interface AlertComponents {
     manageAlertsModal: Type<any>;
 }
 export const ALERT_COMPONENTS = new InjectionToken<AlertComponents>('ALERT_COMPONENTS');
-
+export const WINDOW = new InjectionToken('WindowToken');
 
 @Injectable({
     providedIn: 'root',
@@ -124,7 +126,8 @@ export class AlertsService implements OnDestroy {
         public userSettingsService: UserSettingsWebService,
         public searchService: SearchService,
         public modalService: ModalService,
-        @Inject(ALERT_COMPONENTS) public alertComponents: AlertComponents
+        @Inject(ALERT_COMPONENTS) public alertComponents: AlertComponents,
+        @Inject(WINDOW) private window : Window
     ){
         // Listen to the user settings
         this.userSettingsService.events.subscribe(event => {
@@ -333,10 +336,10 @@ export class AlertsService implements OnDestroy {
      * @param alert
      * @returns the search service promise
      */
-    public searchAlert(alert: Alert) : Promise<boolean> {
+    public searchAlert(alert: Alert, path?: string) : Promise<boolean> {
         this.searchService.setQuery(Utils.extend(this.searchService.makeQuery(), Utils.copy(alert.query)));
         this.events.next({type: AlertEventType.Search_AlertQuery, alert: alert});
-        return this.searchService.search(undefined, {
+        return this.searchService.search( {path: path}, {
             type: AlertEventType.Search_AlertQuery,
             detail: {
                 alert: alert.name
@@ -364,7 +367,8 @@ export class AlertsService implements OnDestroy {
             combine: true,
             respectTabSelection: false
         };
-        return this.modalService.open(this.alertComponents.editAlertModal, {model: alert})
+        const queryUrl = this.window.location.href;
+        return this.modalService.open(this.alertComponents.editAlertModal, {model: { alert: alert }})
             .then((result) => {
                 if (result === ModalResult.OK) {
 
@@ -374,12 +378,14 @@ export class AlertsService implements OnDestroy {
                         return this.modalService.yesNo("msg#alerts.alertAlreadyExists")
                             .then((result) => {
                                 if (result === ModalResult.Yes) {
+                                    alert.appQueryUrl = queryUrl;
                                     return this.updateAlert(alert, index);
                                 }
                                 return false;
                             });
 
                     } else {
+                        alert.appQueryUrl = queryUrl;
                         return this.createAlert(alert);
                     }
                 }
@@ -391,14 +397,16 @@ export class AlertsService implements OnDestroy {
      * Opens a dialog allowing a user to edit an existing alert.
      * @param alert: The alert to edit
      * @param noUpdate: if true, will not update the server after the edit
+     * @param searchRoute: the route to use when replaying the alert's query
      * @returns a boolean promise resolved when the user closes the dialog
      * the result is true if the alert was updated.
      */
-    public editAlertModal(alert: Alert, noUpdate?: boolean) : Promise<boolean> {
+    public editAlertModal(alert: Alert, noUpdate?: boolean, searchRoute?: string) : Promise<boolean> {
 
         const prevName = alert.name;
 
-        return this.modalService.open(this.alertComponents.editAlertModal, {model: alert})
+        const queryUrl = this.window.location.href;
+        return this.modalService.open(this.alertComponents.editAlertModal,  {model: { alert: alert, searchRoute: searchRoute }})
             .then((result) => {
 
                 if (result === ModalResult.OK) {
@@ -418,6 +426,7 @@ export class AlertsService implements OnDestroy {
                                     if (prevAlert) {
                                         this.deleteAlert(prevAlert); // Remove the alert with old name
                                     }
+                                    alert.appQueryUrl = queryUrl;
                                     return this.updateAlert(alert, this.alertIndex(alert.name)); // Update the alert with new name (index might have changed due to delete of old name)
                                 }
                                 return false;
@@ -425,6 +434,7 @@ export class AlertsService implements OnDestroy {
 
                     } else {
 
+                        alert.appQueryUrl = queryUrl;
                         return this.updateAlert(alert, prevIndex); // Update this alert
 
                     }
@@ -440,9 +450,9 @@ export class AlertsService implements OnDestroy {
      * @returns a boolean promise resolved when the user closes the dialog
      * the result is true is the list was updated.
      */
-    public manageAlertsModal() : Promise<boolean> {
+    public manageAlertsModal(searchRoute?: string) : Promise<boolean> {
 
-        const model: ManageAlertsModel = { alerts: Utils.copy(this.alerts) };
+        const model: ManageAlertsModel =  { alerts: Utils.copy(this.alerts), searchRoute: searchRoute };
 
         return this.modalService.open(this.alertComponents.manageAlertsModal, {model})
             .then((result) => {

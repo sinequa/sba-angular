@@ -12,6 +12,11 @@ import {Utils} from "@sinequa/core/base";
     providedIn: "root"
 })
 export class AuditInterceptor implements HttpInterceptor {
+    
+    // Store the session id and its datetime of creation/refresh
+    sessionid: string;
+    sessionstart: Date;
+
     constructor(
         @Inject(START_CONFIG) private startConfig: StartConfig
     ) {
@@ -49,11 +54,46 @@ export class AuditInterceptor implements HttpInterceptor {
     }
 
     /**
+     * Add a sessionid to all the audit events
+     * @param auditRecord 
+     */
+    private addSessionId(auditRecord?: AuditRecord) {
+        const sessionid = this.getSessionId();
+        auditRecord?.auditEvents?.forEach(event => {
+            if(!event.detail) {
+                event.detail = {};
+            }
+            event.detail['session-id'] = sessionid;
+        });
+    }
+
+    /**
+     * Get a Session Id initialized upon login. The session is maintained for 10 minutes
+     * after the last call to this method.
+     */
+    private getSessionId(): string {
+        if(!this.sessionid || this.isSessionStale()) {
+            this.sessionid = Utils.guid();
+        }
+        this.sessionstart = new Date();
+        return this.sessionid;
+    }
+
+    /**
+     * Test whether the current session id valid or stale (need to be refreshed)
+     */
+    private isSessionStale(): boolean {
+        const lastSession = new Date().getTime() - this.sessionstart.getTime();
+        // Consider the session stale after 10 minutes
+        return lastSession > 10 * 60 * 1000;
+    }
+
+    /**
      * Called once the `$auditRecord` member has been standardized, this method
      * can be overidden to update fields in the audit events associated with a
      * web service call.
      */
-    protected updateAuditRecord(auditRecord: AuditRecord) {
+    protected updateAuditRecord(auditRecord?: AuditRecord) {
     }
 
     /**
@@ -63,6 +103,7 @@ export class AuditInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if (this.shouldIntercept(request.url) && this.isJsonable(request.body)) {
             request.body.$auditRecord = this.ensureAuditRecord(request.body.$auditRecord);
+            this.addSessionId(request.body.$auditRecord);
             this.updateAuditRecord(request.body.$auditRecord);
         }
         return next.handle(request);

@@ -66,7 +66,7 @@ export class BsResultsViewSelector implements OnChanges, OnDestroy {
             this.items = [];
             return;
         }
-        const includedViews = this.getIncludedViews();
+        const includedViews = this.resultsViewService.getIncludedViews(this.query.tab);
         if (includedViews.length <= 1) {
             this.viewAction = undefined;
             this.items = [];
@@ -75,19 +75,15 @@ export class BsResultsViewSelector implements OnChanges, OnDestroy {
         if (this.useDropdownMenu) {
             this.viewAction = new Action({
                 title: "msg#results.viewTitle",
-                children: [
-                ]
-            });
-            for (const view of includedViews) {
-                this.viewAction.children.push(new Action({
+                children: includedViews.map(view => new Action({
                     text: view.display,
                     icon: view.icon,
                     data: view,
                     action: (item: Action, event: Event) => {
                         this.selectView(item.data);
                     }
-                }));
-            }
+                }))
+            });
             this.items = [this.viewAction];
         }
         else {
@@ -105,24 +101,6 @@ export class BsResultsViewSelector implements OnChanges, OnDestroy {
             this.items = this.viewAction;
         }
         this.setCurrentViewAction();
-    }
-
-    private getIncludedViews(): ResultsView[] {
-        // NOTE: this method returns the list of result views that are "included" with the current query tab
-        // This is to reproduce the included results views configuration that can be done in profile but not in SBA due
-        // to the fact that result tabs are configured in the SBA query thus has no knowledge of the results views.
-        const views: ResultsView[] = [];
-        const currentTab = this.query.tab;
-        for (const view of this.resultsViewService.views) {
-            const included = !!view.includedTabs
-                ? view.includedTabs.includes(currentTab || "")
-                : !view.excludedTabs || !view.excludedTabs.includes(currentTab || "");
-
-            if (included) {
-                views.push(view);
-            }
-        }
-        return views;
     }
 
     ngOnChanges(changes: SimpleChanges) {

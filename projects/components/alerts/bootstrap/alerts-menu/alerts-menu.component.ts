@@ -11,7 +11,8 @@ import { Subscription } from 'rxjs';
   templateUrl: './alerts-menu.component.html'
 })
 export class BsAlertsMenuComponent implements OnInit, OnDestroy {
-
+  
+  @Input() searchRoute: string = "/search";
   @Input() icon: string = "fas fa-bell";
   @Input() autoAdjust: boolean = true;
   @Input() autoAdjustBreakpoint: string = 'xl';
@@ -39,7 +40,7 @@ export class BsAlertsMenuComponent implements OnInit, OnDestroy {
     this.manageAction = new Action({
       text: "msg#alerts.manageAlerts",
       title: "msg#alerts.manageAlerts",
-      action: () => { this.alertsService.manageAlertsModal(); }
+      action: () => { this.alertsService.manageAlertsModal(this.searchRoute); }
     });
 
   }
@@ -86,22 +87,16 @@ export class BsAlertsMenuComponent implements OnInit, OnDestroy {
     if (this.alertsService.hasAlert) {
         const scrollGroup = new Action({
             scrollGroup: true,
-            children: []
+            children: this.alertsService.alerts.map(alert => new Action({
+              text: alert.name,
+              data: alert,
+              action: (item: Action) => {
+                const alert: Alert = Utils.copy(item.data);
+                this.alertsService.editAlertModal(alert, undefined, this.searchRoute);
+              }
+          }))
         });
         alertsActions.push(scrollGroup);
-        for (let i = 0, ic = this.alertsService.alerts.length; i < ic; i++) {
-            const alert = this.alertsService.alerts[i];
-            scrollGroup.children.push(new Action({
-                text: alert.name,
-                data: alert,
-                action: (item: Action) => {
-                  //this.searchService.query = Utils.extend(this.searchService.makeQuery(), (<UserSettings.Alert>item.data).query);
-                  //this.searchService.search();
-                  const alert: Alert = Utils.copy(item.data);
-                  this.alertsService.editAlertModal(alert);
-                }
-            }));
-        }
     }
 
     if (!!this.searchService.results) {

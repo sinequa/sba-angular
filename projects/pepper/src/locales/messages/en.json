@@ -1,0 +1,152 @@
+{
+    "app": {
+        "name": "Pepper"
+    },
+
+    "locale": {
+        "en": "English (United States)",
+        "en-gb": "English (United Kingdom)",
+        "fr": "Français",
+        "de": "Deutsch"
+    },
+
+    "searchForm": {
+        "search": "Search",
+        "searchFor": "Search for...",
+        "advanced": "Advanced",
+        "advancedSearch": "Advanced search",
+        "scopeTitle": "Scope: {name}",
+        "recentQuery": "Recent query",
+        "recentDocument": "Recent document",
+        "fieldedSearch": "Fielded Search",
+        "off": "Off",
+        "simple": "Simple",
+        "simpleTitle": "Graphical mode allowing to display selected filters as badges",
+        "advancedTitle": "Text mode allowing to write search expressions such as \"geo: Paris OR company: Sinequa\""
+    },
+
+    "baskets": {
+        "baskets": "Collections",
+        "addToBasket": "Add to collection",
+        "removeFromBasket": "Remove from collection",
+        "removeFromAllBaskets": "Remove from all collections",
+        "removeFromAllBasketsConfirmation": "Are you sure you want to remove this result from these collections: {baskets}?",
+        "basketAlreadyExists": "A collection with that name already exists. Would you like to replace it?",
+        "noBasket": "You have not yet added a document to a collection...",
+        "createBasket": "Create Collection",
+        "manageBaskets": "Manage Collections"
+    },
+
+    "editBasket": {
+        "title": "Collection"
+    },
+
+    "manageBaskets": {
+        "title": "Manage Collections"
+    },
+
+    "selectBasket": {
+        "title": "Select Collection",
+        "newBasket": "New collection..."
+    },
+
+    "facet": {
+        "filters": {
+            "title" : "Filters"
+        },
+        "preview": {
+            "title": "Preview"
+        }
+    },
+
+    "results": {
+        "tabPeople": "People",
+        "tabBusiness": "Companies",
+        "tabLocation": "Places"
+    },
+
+    "home": {
+        "recentDocumentsTooltip": "Recently opened documents",
+        "recentQueriesTooltip": "Recent search queries",
+        "savedQueriesTooltip": "Saved search queries (including filters)",
+        "basketsTooltip": "Collections of bookmarked documents",
+        "darkMode": "Dark mode",
+        "lightMode": "Light mode"
+    },
+
+    "search": {
+        "pageTitle": "Search - {search}",
+        "darkMode": "Dark mode",
+        "darkModeTitle": "Toggle dark mode",
+        "filters": "Filters",
+        "hideResults": "Hide results",
+        "showResults": "Show results"
+    },
+
+    "preview": {
+        "extracts": "Extracts",
+        "entities": "Entities",
+        "searchText": "Search \"{text}\" in the document",
+        "pageTitle": "Document Navigator - {title}"
+    },
+
+    "dashboard": {
+        "map": "Map",
+        "timeline": "Timeline",
+        "network": "Network",
+        "chart": "Chart",
+        "heatmap": "Heatmap",
+
+        "addWidget": "Add Widget",
+        "addWidgetTitle": "Add a widget to the dashboard",
+        "addWidgetModalTitle": "Add a widget",
+        "addWidgetItemTitle": "Create a {item} widget",
+        "addWidgetSize": "Widget size",
+        "addWidgetWidth": "Widget width",
+        "addWidgetHeight": "Widget height",
+        "share": "Share",
+        "shareTitle": "Share this dashboard with a colleague",
+        "shareSuccess": "Share link copied to your clipboard",
+        "shareError": "Share link could not be copied to your clipboard: {url}",
+        "manual": "Manual Layout",
+        "manualTitle": "Manual layout allows to position widgets freely in the dashboard",
+        "auto": "Auto Layout",
+        "autoTitle": "Automatic layout compacts the view to the top-left corner, when space is available",
+        "fixed": "Fixed Layout",
+        "fixedTitle": "Fixed layout prevents the dashboard from being modified",
+        "new": "New",
+        "newTitle": "Create a new dashboard",
+        "open": "Open",
+        "openTitle": "Open a saved dashboard",
+        "openDashboard": "Open Dashboard \"{dashboard}\"",
+        "delete": "Delete",
+        "deleteTitle": "Delete the current dashboard",
+        "deleteConfirmTitle": "Delete the current dashboard",
+        "deleteConfirmMessage": "Are your sure you want to delete the dashboard \"{dashboard}\"?",
+        "saveAs": "Save As...",
+        "saveAsTitle": "Save the dashboard to open it later",
+        "saveAsModalTitle": "Save Dashboard As",
+        "saveAsModalMessage": "Enter a name for this dashboard",
+        "save": "Save",
+        "saveTitle": "Save the dashboard",
+        "saveSuccess": "Dashboard saved",
+        "saveFailure": "Dashboard could not be saved!",
+        "autoSave": "Auto-save",
+        "autoSaveTitle": "Automatically save your dashboard",
+        "setDefault": "Default dashboard",
+        "setDefaultTitle": "Set as default dashboard",
+        "setDefaultConfirm": "Do you want to set \"{dashboard}\" as the default dashboard?",
+        "setDefaultConfirmTitle": "Default dashboard",
+        "setDefaultSuccess": "\"{dashboard}\" was set as the default dashboard",
+        "settingsTitle": "Dashboard settings",
+        "widgetClose": "Close",
+        "renameWidget": "Rename widget",
+        "renameWidgetMessage": "Enter a new name for this widget",
+        "renameWidgetTitle": "Rename this widget",
+        "fullScreenTitle": "Full screen",
+        "exitFullScreenTitle": "Exit full screen",
+        "maximizeTitle": "Maximize",
+        "minimizeTitle": "Reduce"
+    }
+
+}

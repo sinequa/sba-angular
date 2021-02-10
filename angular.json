@@ -10,7 +10,7 @@
       "prefix": "sq",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/core/tsconfig.lib.json",
             "project": "projects/core/ng-package.json"
@@ -50,7 +50,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/components/tsconfig.lib.json",
             "project": "projects/components/ng-package.json"
@@ -101,7 +101,7 @@
             "index": "projects/hello-search/src/index.html",
             "main": "projects/hello-search/src/main.ts",
             "polyfills": "projects/hello-search/src/polyfills.ts",
-            "tsConfig": "projects/hello-search/tsconfig.app.json",
+            "tsConfig": "projects/hello-search/tsconfig.json",
             "aot": true,
             "preserveSymlinks": true,
             "assets": [
@@ -139,7 +139,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -197,7 +196,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/hello-search/tsconfig.app.json",
+              "projects/hello-search/tsconfig.json",
               "projects/hello-search/tsconfig.spec.json",
               "projects/hello-search/e2e/tsconfig.json"
             ],
@@ -242,7 +241,7 @@
             "index": "projects/vanilla-search/src/index.html",
             "main": "projects/vanilla-search/src/main.ts",
             "polyfills": "projects/vanilla-search/src/polyfills.ts",
-            "tsConfig": "projects/vanilla-search/tsconfig.app.json",
+            "tsConfig": "projects/vanilla-search/tsconfig.json",
             "aot": true,
             "preserveSymlinks": true,
             "assets": [
@@ -258,8 +257,8 @@
               {
                 "input": "projects/vanilla-search/src/styles/preview.scss",
                 "bundleName": "preview",
-                "lazy": true
-              }            
+                "inject": false
+              }
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
@@ -347,7 +346,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/vanilla-search/tsconfig.app.json",
+              "projects/vanilla-search/tsconfig.json",
               "projects/vanilla-search/tsconfig.spec.json",
               "projects/vanilla-search/e2e/tsconfig.json"
             ],
@@ -365,6 +364,158 @@
           "configurations": {
             "production": {
               "devServerTarget": "vanilla-search:serve:production"
+            }
+          }
+        }
+      }
+    },
+    "pepper": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/pepper",
+      "sourceRoot": "projects/pepper/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "forkTypeChecker": false,
+            "customWebpackConfig": {
+              "path": "projects/pepper/webpack.config.js"
+            },
+            "outputPath": "dist-debug/pepper",
+            "index": "projects/pepper/src/index.html",
+            "main": "projects/pepper/src/main.ts",
+            "polyfills": "projects/pepper/src/polyfills.ts",
+            "tsConfig": "projects/pepper/tsconfig.json",
+            "aot": true,
+            "preserveSymlinks": true,
+            "assets": [
+              "projects/pepper/src/favicon.ico",
+              "projects/pepper/src/assets"
+            ],
+            "extractCss": true,
+            "styles": [
+              {
+                "input": "projects/pepper/src/styles/app.scss",
+                "bundleName": "app"
+              },
+              {
+                "input": "projects/pepper/src/styles/preview.scss",
+                "bundleName": "preview",
+                "inject": false
+              }
+            ],
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "hammerjs",
+              "intl",
+              "jssha",
+              "lodash",
+              "moment",
+              "element-resize-detector",
+              "batch-processor",
+              "rxjs",
+              "@formatjs/intl-relativetimeformat/polyfill",
+              "intl-pluralrules",
+              "jstz",
+              "atomicjs",
+              "vis-timeline",
+              "vis-network"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/pepper/src/environments/environment.ts",
+                  "with": "projects/pepper/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputPath": "dist/pepper",
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "10mb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "pepper:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "pepper:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "pepper:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/pepper/src/test.ts",
+            "polyfills": "projects/pepper/src/polyfills.ts",
+            "tsConfig": "projects/pepper/tsconfig.spec.json",
+            "karmaConfig": "projects/pepper/karma.conf.js",
+            "assets": [
+              "projects/pepper/src/favicon.ico",
+              "projects/pepper/src/assets"
+            ],
+            "styles": [
+              "projects/pepper/src/styles/app.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/pepper/tsconfig.json",
+              "projects/pepper/tsconfig.spec.json",
+              "projects/pepper/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/pepper/e2e/protractor.conf.js",
+            "devServerTarget": "pepper:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "pepper:serve:production"
             }
           }
         }

@@ -3,7 +3,7 @@ layout: default
 title: Ngx Charts Module
 parent: Components
 grand_parent: Modules
-nav_order: 18
+nav_order: 19
 ---
 
 # Ngx Charts Module
@@ -92,7 +92,7 @@ This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/R
 
 ```html
 <sq-facet-card [title]="'Companies'" [icon]="'fas fa-building'">
-    <sq-facet-chart #facet [results]="results" [aggregation]="'Company'"></sq-facet-chart>
+    <sq-facet-ngx-chart #facet [results]="results" [aggregation]="'Company'"></sq-facet-ngx-chart>
 </sq-facet-card>
 ```
 

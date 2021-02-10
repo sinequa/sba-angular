@@ -215,7 +215,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Injector, Inject, OnDestroy, Type, InjectionToken, Optional} from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, OnDestroy, Type, InjectionToken, Optional} from &quot;@angular/core&quot;;
 import {HttpErrorResponse} from &quot;@angular/common/http&quot;;
 import {Router} from &quot;@angular/router&quot;;
 import {BehaviorSubject, Observable, forkJoin, of, throwError} from &quot;rxjs&quot;;
@@ -292,7 +292,7 @@ export class LoginService implements OnDestroy {
         protected userSettingsService: UserSettingsWebService,
         protected modalService: ModalService,
         protected notificationsService: NotificationsService,
-        public authenticationService: AuthenticationService) {
+        protected authenticationService: AuthenticationService) {
         // NB unload doesn&#x27;t fire reliably so we listen for beforeunload
         window.addEventListener(&quot;beforeunload&quot;, this.beforeUnloadEventListener);
     }
@@ -595,22 +595,6 @@ export class LoginService implements OnDestroy {
                 this.loginModalPromise &#x3D; undefined;
                 throw reason;
             });
-    }
-}
-
-@Injectable({
-    providedIn: &quot;root&quot;
-})
-export class LoginServiceProxy {
-    constructor(private injector: Injector) {
-    }
-
-    private _loginService: LoginService;
-    get loginService(): LoginService {
-        if (!this._loginService) {
-            this._loginService &#x3D; this.injector.get(LoginService);
-        }
-        return this._loginService;
     }
 }
 </code></pre>

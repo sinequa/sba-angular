@@ -216,6 +216,7 @@ import { FusionChartsModule as FCModule } from &quot;angular-fusioncharts&quot;;
 import * as FusionCharts from &quot;fusioncharts&quot;;
 import * as charts from &quot;fusioncharts/fusioncharts.charts&quot;;
 import * as FusionTheme from &quot;fusioncharts/themes/fusioncharts.theme.fusion&quot;;
+import * as CandyTheme from &quot;fusioncharts/themes/fusioncharts.theme.candy&quot;;
 
 import { IntlModule } from &#x27;@sinequa/core/intl&#x27;;
 import { BsSelectionModule } from &#x27;@sinequa/components/selection&#x27;;
@@ -224,7 +225,8 @@ import { UtilsModule } from &quot;@sinequa/components/utils&quot;;
 import { FusionChart } from &quot;./chart/chart&quot;;
 
 FusionCharts.options.creditLabel &#x3D; false;
-FCModule.fcRoot(FusionCharts, charts, FusionTheme);
+// Fusion is a light theme, Candy is a dark theme
+FCModule.fcRoot(FusionCharts, charts, FusionTheme, CandyTheme);
 
 @NgModule({
 

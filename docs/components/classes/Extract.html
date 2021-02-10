@@ -264,28 +264,25 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    */
   ngOnChanges() {
     if(this.previewData &amp;&amp; this.previewDocument){
-      const extracts &#x3D; this.previewData.highlightsPerCategory[&quot;extractslocations&quot;].values; //Extract locations Array ordered by &quot;relevance&quot;
+      const extracts &#x3D; this.previewData.highlightsPerCategory[&quot;extractslocations&quot;]?.values; //Extract locations Array ordered by &quot;relevance&quot;
       if(!!extracts &amp;&amp; extracts.length &gt; 0){
 
-        var extractsLocations &#x3D; extracts[0].locations;
-
         // Init the extracts Array and storing the relevancy index &#x3D; i because extractsLocations is already ordered by relevance
-        extractsLocations.forEach((el,i) &#x3D;&gt; {
-          this.extracts.push({
+        this.extracts &#x3D; extracts[0].locations.map((el, i) &#x3D;&gt; {
+          return {
             text: &quot;&quot;,
             startIndex: el.start,
             relevanceIndex: i,
             textIndex: 0
-          })
+          }
         });
-
         
         this.extracts
-        .sort((a,b)&#x3D;&gt; a.startIndex - b.startIndex) // Sorting by start index (text index)
-        .forEach((el,i) &#x3D;&gt; {
-            el.text &#x3D; this.sanitize(this.previewDocument.getHighlightText(&quot;extractslocations&quot;, i)) // Retrieving the text using getHighlightText
-            el.textIndex &#x3D; i // Storing the TextIndex to be able to select extracts
-        }) 
+          .sort((a,b)&#x3D;&gt; a.startIndex - b.startIndex) // Sorting by start index (text index)
+          .forEach((el,i) &#x3D;&gt; {
+              el.text &#x3D; this.sanitize(this.previewDocument.getHighlightText(&quot;extractslocations&quot;, i)); // Retrieving the text using getHighlightText
+              el.textIndex &#x3D; i; // Storing the TextIndex to be able to select extracts
+          });
 
         // Sorting by Relevance to display extract ordered by Relevance
         this.extracts.sort((a,b) &#x3D;&gt; a.relevanceIndex-b.relevanceIndex);
@@ -310,26 +307,24 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
       title: &quot;msg#sortSelector.sortByTitle&quot;,
       text:  &quot;msg#preview.relevanceSortHighlightButtonText&quot;,
       children: [
+        new Action({
+          icon: &#x27;fas fa-sort-amount-down&#x27;,
+          text: &quot;msg#preview.relevanceSortHighlightButtonText&quot;,
+          action: (item: Action, event: Event) &#x3D;&gt; {
+              this.extracts.sort((a,b) &#x3D;&gt; a.relevanceIndex-b.relevanceIndex);
+              this.sortAction.text &#x3D; item.text;
+          }
+        }),
+        new Action({
+          icon: &#x27;fas fa-sort-amount-down&#x27;,
+          text: &quot;msg#preview.textOrderSortHighlightButtonText&quot;,
+          action: (item: Action, event: Event) &#x3D;&gt; {
+              this.extracts.sort((a,b) &#x3D;&gt; a.textIndex-b.textIndex);
+              this.sortAction.text &#x3D; item.text;
+          }
+        })
       ]
     });
-
-    this.sortAction.children.push(new Action({
-      icon: &#x27;fas fa-sort-amount-down&#x27;,
-      text: &quot;msg#preview.relevanceSortHighlightButtonText&quot;,
-      action: (item: Action, event: Event) &#x3D;&gt; {
-          this.extracts.sort((a,b) &#x3D;&gt; a.relevanceIndex-b.relevanceIndex);
-          this.sortAction.text &#x3D; item.text;
-      }
-    }));
-
-    this.sortAction.children.push(new Action({
-      icon: &#x27;fas fa-sort-amount-down&#x27;,
-      text: &quot;msg#preview.textOrderSortHighlightButtonText&quot;,
-      action: (item: Action, event: Event) &#x3D;&gt; {
-          this.extracts.sort((a,b) &#x3D;&gt; a.textIndex-b.textIndex);
-          this.sortAction.text &#x3D; item.text;
-      }
-    }));
 
   }
 

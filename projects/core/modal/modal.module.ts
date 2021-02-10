@@ -1,5 +1,3 @@
-import {Confirm} from "./confirm.component";
-
 import {NgModule, ModuleWithProviders, Type} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -10,11 +8,15 @@ import {OverlayModule} from "@angular/cdk/overlay";
 // Sinequa modules
 import {BaseModule} from "@sinequa/core/base";
 import {IntlModule} from "@sinequa/core/intl";
-
+import {ValidationModule} from "@sinequa/core/validation";
 
 import {MODAL_CONFIRM} from "./modal.service";
+import {MODAL_PROMPT} from "./modal.service";
 
 import {MODAL_MODULE_PROVIDERS} from "./module.providers";
+
+import {Confirm} from "./confirm.component";
+import {Prompt} from './prompt.component';
 
 /**
  * This module contains an implementation of a [modal dialog service]{@link ModalService} which can be extended
@@ -33,10 +35,12 @@ import {MODAL_MODULE_PROVIDERS} from "./module.providers";
 
         // Sinequa modules
         BaseModule,
-        IntlModule
+        IntlModule,
+        ValidationModule,
     ],
     declarations: [
         Confirm,    // Default confirm
+        Prompt
     ],
     exports: [
     ],
@@ -45,11 +49,12 @@ import {MODAL_MODULE_PROVIDERS} from "./module.providers";
     ]
 })
 export class ModalModule {
-    static forRoot(confirmModal: Type<any> = Confirm): ModuleWithProviders<ModalModule> {
+    static forRoot(confirmModal: Type<any> = Confirm, promptModal: Type<any> = Prompt): ModuleWithProviders<ModalModule> {
         return {
             ngModule: ModalModule,
             providers: [
                 {provide: MODAL_CONFIRM, useValue: confirmModal},
+                {provide: MODAL_PROMPT, useValue: promptModal},
             ]
         };
     }

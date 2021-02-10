@@ -1,0 +1,65 @@
+$geo-color: #74B9FF;
+$company-color: #FF7675;
+$person-color: #00ABB5;
+$job-color : #00ABB5;
+$date-color : #8898D4;
+$event-color : #8898D4;
+$money-color : #51C160;
+$amount-color : #51C160;
+
+$metadata : (
+    geo: (
+        main-color: $geo-color,
+        background-color: $geo-color,
+        color: white
+    ),   
+    company: (
+        main-color: $company-color,
+        background-color: $company-color,
+        color: white
+    ),
+    person: (
+        main-color: $person-color,
+        background-color: $person-color,
+        color: white
+    ),    
+    job: (
+        main-color: $job-color,
+        background-color: $job-color,
+        color: white
+    ),   
+    date: (
+        main-color: $date-color,
+        background-color: $date-color,
+        color: white
+    ),    
+    event: (
+        main-color: $event-color,
+        background-color: $event-color,
+        color: white
+    ), 
+    money: (
+        main-color: $money-color,
+        background-color: $money-color,
+        color: white
+    ),   
+    amount: (
+        main-color: $amount-color,
+        background-color: $amount-color,
+        color: white
+    )
+);
+
+// Returns the "main color" of an entity
+@function get-metadata-color($name) {
+    $item: map-get($metadata, $name);
+    $color: map-get($item, "main-color");
+    @return $color; 
+}
+
+// Inserts the color and background of an entity
+@mixin generate-metadata-color($name) {
+    $item: map-get($metadata, $name);
+    color: map-get($item, "color");
+    background-color: map-get($item, "background-color");
+}

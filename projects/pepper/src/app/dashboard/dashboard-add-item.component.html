@@ -1,0 +1,19 @@
+<sq-modal [title]="'msg#dashboard.addWidgetModalTitle'" [buttons]="buttons">
+    <div class="d-flex justify-content-center" [sq-action-buttons]="{items: actions, style: 'light'}"></div>
+    <div class="form-inline m-2">
+        {{ 'msg#dashboard.addWidgetModalTitle' | sqMessage }}:
+        <select value="2" class="form-control form-control-sm mr-1 ml-2" title="{{ 'msg#dashboard.addWidgetWidth' | sqMessage }}" (change)="updateWidth($event)">
+            <option>1</option>
+            <option selected>2</option>
+            <option>3</option>
+            <option>4</option>
+        </select>
+        x
+        <select value="2" class="form-control form-control-sm ml-1" title="{{ 'msg#dashboard.addWidgetHeight' | sqMessage }}" (change)="updateHeight($event)">
+            <option>1</option>
+            <option selected>2</option>
+            <option>3</option>
+            <option>4</option>
+        </select>
+    </div>
+</sq-modal>

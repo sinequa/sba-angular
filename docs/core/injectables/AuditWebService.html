@@ -129,7 +129,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="141" class="link-to-prism">web-services/audit.web.service.ts:141</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">web-services/audit.web.service.ts:142</a></div>
                             </td>
                         </tr>
 
@@ -206,8 +206,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="272"
-                            class="link-to-prism">web-services/audit.web.service.ts:272</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="274"
+                            class="link-to-prism">web-services/audit.web.service.ts:274</a></div>
                 </td>
             </tr>
 
@@ -283,8 +283,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="186"
-                            class="link-to-prism">web-services/audit.web.service.ts:186</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="187"
+                            class="link-to-prism">web-services/audit.web.service.ts:187</a></div>
                 </td>
             </tr>
 
@@ -424,8 +424,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="240"
-                            class="link-to-prism">web-services/audit.web.service.ts:240</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="242"
+                            class="link-to-prism">web-services/audit.web.service.ts:242</a></div>
                 </td>
             </tr>
 
@@ -549,8 +549,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="157"
-                            class="link-to-prism">web-services/audit.web.service.ts:157</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="158"
+                            class="link-to-prism">web-services/audit.web.service.ts:158</a></div>
                 </td>
             </tr>
 
@@ -885,6 +885,7 @@ export const enum AuditEventType {
     Search_Selection_ExportCSV &#x3D; &quot;Search_Selection_ExportCSV&quot;,
     Search_AlertQuery &#x3D; &quot;Search_AlertQuery&quot;,
     Search_Select_AnalyticsItem &#x3D; &quot;Search_Select_AnalyticsItem&quot;,
+    Search_Sort &#x3D; &quot;Search_Sort&quot;,
 
     SavedQuery_Add &#x3D; &quot;SavedQuery_Add&quot;,
     SavedQuery_Delete &#x3D; &quot;SavedQuery_Delete&quot;,
@@ -1027,6 +1028,7 @@ export class AuditWebService extends HttpService {
             app: this.appName,
             &quot;doc-id&quot;: doc.id,
             rank: doc.rank,
+            title: doc.title,
             source: Utils.treeFirstNode(doc.collection[0]),
             collection: doc.collection[0],
             &quot;result-id&quot;: resultId,

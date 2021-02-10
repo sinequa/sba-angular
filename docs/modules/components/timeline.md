@@ -3,7 +3,7 @@ layout: default
 title: Timeline Module
 parent: Components
 grand_parent: Modules
-nav_order: 16
+nav_order: 17
 ---
 
 # Timeline Module

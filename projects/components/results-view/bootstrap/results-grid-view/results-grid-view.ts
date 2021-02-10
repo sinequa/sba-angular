@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {Utils} from "@sinequa/core/base";
-import {AppService, FormatService, Query} from "@sinequa/core/app-utils";
+import {AppService, FormatService} from "@sinequa/core/app-utils";
 import {CCColumn, Results} from "@sinequa/core/web-services";
 import {SelectionService} from "@sinequa/components/selection";
 import {SearchService} from "@sinequa/components/search";
@@ -33,7 +33,6 @@ export interface ColumnData {
     templateUrl: "./results-grid-view.html"
 })
 export class BsResultsGridView implements OnChanges {
-    @Input() query: Query;
     @Input() results: Results;
     @Input() view: GridView;
     private orderBy: string | undefined;

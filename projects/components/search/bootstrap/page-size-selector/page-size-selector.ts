@@ -106,9 +106,9 @@ export class BsPageSizeSelector implements OnChanges {
             this.pageSizingAction.messageParams = { values: { size: this.defaultPageSize } };
         }
         else {
-            const selectedAction = this.pageSizingAction.children.find(action => action.data === size);
+            const selectedAction = this.pageSizingAction.children?.find(action => action.data === size);
             this.pageSizingAction.text = 'msg#pageSizeSelector.pageSizeChoice';
-            this.pageSizingAction.messageParams = { values: { size: !!selectedAction ? selectedAction.data : undefined } };
+            this.pageSizingAction.messageParams = { values: { size: selectedAction?.data } };
         }
     }
 
