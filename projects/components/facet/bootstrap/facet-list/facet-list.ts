@@ -172,6 +172,12 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
      * @param changes
      */
     ngOnChanges(changes: SimpleChanges) {
+        if (this.showCount === undefined) this.showCount = true;
+        if (this.searchable === undefined) this.searchable = true;
+        if (this.allowExclude === undefined) this.allowExclude = true;
+        if (this.allowOr === undefined) this.allowOr = true;
+        if (this.allowAnd === undefined) this.allowAnd = true;
+
         if (!!changes["results"]) {     // New data from the search service
             if(!this.count){
                 this.count = this.facetService.getAggregationCount(this.aggregation);

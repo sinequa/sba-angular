@@ -73,7 +73,7 @@ export class BsManageAlerts implements OnInit {
     editAlert(alert: Alert) {
         if (!this.reordering) {
             const alert1 = Utils.copy(alert);
-            this.alertsService.editAlertModal(alert1, true)
+            this.alertsService.editAlertModal(alert1, true, this.model.searchRoute)
                 .then(result => {
                     if (result) {
                         Utils.copy(alert1, alert);
