@@ -22,7 +22,10 @@
         "off": "Off",
         "simple": "Simple",
         "simpleTitle": "Graphical mode allowing to display selected filters as badges",
-        "advancedTitle": "Text mode allowing to write search expressions such as \"geo: Paris OR company: Sinequa\""
+        "advancedTitle": "Text mode allowing to write search expressions such as \"geo: Paris OR company: Sinequa\"",
+        "keepFilters": "keep current filters",
+        "notKeepFilters": "Ignore current filters",
+        "clearAll": "Clear all"
     },
 
     "baskets": {

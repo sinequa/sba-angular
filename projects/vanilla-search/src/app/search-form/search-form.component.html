@@ -36,16 +36,29 @@
 
             <!-- Search buttons -->
             <div class="input-group-append">
-                <button class="btn btn-light btn-advanced-search" type="button"
+                <button class="btn btn-secondary" type="button"
                     [sqTooltip]="'msg#searchForm.advancedSearch' | sqMessage"
                     [disabled]="!loginService.complete ? '' : null"
                     (click)="toggleAdvancedSearch()">
                     <i class="fas fa-angle-down"></i>
                 </button>
+                <button class="btn btn-keep-filters" type="button"
+                    *ngIf="isFiltering"
+                    [sqTooltip]="keepFiltersTitle | sqMessage"
+                    [disabled]="!loginService.complete ? '' : null"
+                    (click)="toggleKeepFilters()">
+                    <i class="fas fa-filter" [ngClass]="{'btn-keep-filters--active': keepFilters}"></i>
+                </button>
                 <button class="btn btn-primary" type="button" (click)="search()"
                     [sqTooltip]="'msg#searchForm.search' | sqMessage"
                     [disabled]="!loginService.complete || !form.valid ? '' : null">
                     <i class="fas fa-search"></i>
+                </button>
+                <button class="btn btn-dark" type="button" (click)="clearAll()"
+                    *ngIf="route.routeConfig?.path === 'search'"
+                    [sqTooltip]="'msg#searchForm.clearAll' | sqMessage"
+                    [disabled]="!loginService.complete ? '' : null">
+                    <i class="fas fa-times"></i>
                 </button>
             </div>
         </div>
