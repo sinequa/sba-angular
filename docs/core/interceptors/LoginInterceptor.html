@@ -106,12 +106,12 @@ the Sinequa administration console.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(startConfig: <a href="../interfaces/StartConfig.html">StartConfig</a>, requestInitializers: <a href="../undefineds/HttpRequestInitializer.html">HttpRequestInitializer[]</a>, loginServiceProxy: <a href="../injectables/LoginServiceProxy.html">LoginServiceProxy</a>, notificationsService: <a href="../injectables/NotificationsService.html">NotificationsService</a>)</code>
+<code>constructor(startConfig: <a href="../interfaces/StartConfig.html">StartConfig</a>, requestInitializers: <a href="../undefineds/HttpRequestInitializer.html">HttpRequestInitializer[]</a>, notificationsService: <a href="../injectables/NotificationsService.html">NotificationsService</a>, loginService: <a href="../injectables/LoginService.html">LoginService</a>, authService: <a href="../injectables/AuthenticationService.html">AuthenticationService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">login/login.interceptor.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">login/login.interceptor.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -153,10 +153,10 @@ the Sinequa administration console.</p>
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>loginServiceProxy</td>
+                                                        <td>notificationsService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/LoginServiceProxy.html" target="_self" >LoginServiceProxy</a></code>
+                                                                        <code><a href="../injectables/NotificationsService.html" target="_self" >NotificationsService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -165,10 +165,22 @@ the Sinequa administration console.</p>
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>notificationsService</td>
+                                                        <td>loginService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/NotificationsService.html" target="_self" >NotificationsService</a></code>
+                                                                        <code><a href="../injectables/LoginService.html" target="_self" >LoginService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthenticationService.html" target="_self" >AuthenticationService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -212,8 +224,8 @@ the Sinequa administration console.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="131"
-                            class="link-to-prism">login/login.interceptor.ts:131</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">login/login.interceptor.ts:128</a></div>
                 </td>
             </tr>
 
@@ -293,18 +305,22 @@ the Sinequa administration console.</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, InjectionToken, Optional} from &quot;@angular/core&quot;;
-import {HttpInterceptor, HttpRequest, HttpResponse, HttpHandler,
-    HttpEvent, HttpErrorResponse, HttpParams} from &quot;@angular/common/http&quot;;
-import {Observable, of, from, throwError} from &quot;rxjs&quot;;
-import {map, switchMap, catchError} from &quot;rxjs/operators&quot;;
+import {
+    HttpInterceptor, HttpRequest, HttpHandler,
+    HttpEvent, HttpErrorResponse, HttpParams, HttpResponse
+} from &quot;@angular/common/http&quot;;
+import {from, Observable, throwError} from &quot;rxjs&quot;;
+import {catchError, map, switchMap} from &quot;rxjs/operators&quot;;
 import {Utils, SqError, SqErrorCode} from &quot;@sinequa/core/base&quot;;
 import {START_CONFIG, StartConfig} from &quot;@sinequa/core/web-services&quot;;
 import {NotificationsService} from &quot;@sinequa/core/notification&quot;;
-import {LoginService, LoginServiceProxy} from &quot;./login.service&quot;;
+import {LoginService} from &quot;./login.service&quot;;
 import {AuthenticationService} from &quot;./authentication.service&quot;;
 
 export type HttpRequestInitializer &#x3D; (request: HttpRequest&lt;any&gt;) &#x3D;&gt; boolean;
 export const HTTP_REQUEST_INITIALIZERS &#x3D; new InjectionToken&lt;HttpRequestInitializer[]&gt;(&quot;HTTP_REQUEST_INITIALIZERS&quot;);
+
+type Options &#x3D; {noAutoAuthentication: boolean, noUserOverride: boolean, hadCredentials: boolean, userOverrideActive: boolean};
 
 /**
  * An &#x60;HttpInterceptor&#x60; to handle &#x60;HTTP 401 unauthorized&#x60; error responses by calling
@@ -316,20 +332,13 @@ export const HTTP_REQUEST_INITIALIZERS &#x3D; new InjectionToken&lt;HttpRequestI
     providedIn: &quot;root&quot;
 })
 export class LoginInterceptor implements HttpInterceptor {
+
     constructor(
         @Inject(START_CONFIG) private startConfig: StartConfig,
         @Optional() @Inject(HTTP_REQUEST_INITIALIZERS) private requestInitializers: HttpRequestInitializer[],
-        private loginServiceProxy: LoginServiceProxy,
-        private notificationsService: NotificationsService) {
-    }
-
-    private get loginService(): LoginService {
-        return this.loginServiceProxy.loginService;
-    }
-
-    private get authenticationService(): AuthenticationService {
-        return this.loginService.authenticationService;
-    }
+        private notificationsService: NotificationsService,
+        private loginService: LoginService,
+        private authService: AuthenticationService) {}
 
     private processRequestInitializers(request: HttpRequest&lt;any&gt;) {
         if (this.requestInitializers) {
@@ -426,70 +435,93 @@ export class LoginInterceptor implements HttpInterceptor {
         if (!this.shouldIntercept(request.url) || request.params.has(&quot;noIntercept&quot;)) {
             return next.handle(request);
         }
-        const observableRequest &#x3D; of(request);
-        let noAutoAuthentication &#x3D; false;
-        let noUserOverride &#x3D; false;
-        let noNotify &#x3D; false;
-        let hadCredentials &#x3D; false;
-        let userOverrideActive &#x3D; false;
-        return observableRequest
-            .pipe(switchMap(request1 &#x3D;&gt; {
-                const config &#x3D; {headers: request1.headers, params: request1.params};
-                noAutoAuthentication &#x3D; Utils.isTrue(config.params.get(&quot;noAutoAuthentication&quot;));
-                config.params &#x3D; config.params.delete(&quot;noAutoAuthentication&quot;);
-                noUserOverride &#x3D; Utils.isTrue(config.params.get(&quot;noUserOverride&quot;));
-                config.params &#x3D; config.params.delete(&quot;noUserOverride&quot;);
-                noNotify &#x3D; Utils.isTrue(config.params.get(&quot;noNotify&quot;));
-                config.params &#x3D; config.params.delete(&quot;noNotify&quot;);
-                hadCredentials &#x3D; this.authenticationService.haveCredentials;
-                this.authenticationService.addAuthentication(config);
-                if (this.authenticationService.userOverrideActive &amp;&amp; !noUserOverride) {
-                    userOverrideActive &#x3D; true;
-                    this.authenticationService.addUserOverride(config);
-                }
-                else {
-                    userOverrideActive &#x3D; false;
-                }
-                config.headers &#x3D; config.headers.set(&quot;sinequa-force-camel-case&quot;, &quot;true&quot;);
-                if (this.isJsonable(request1.body)) {
-                    this.processRequestInitializers(request1);
-                }
-                const updatedRequest &#x3D; request1.clone({
-                    headers: config.headers,
-                    params: config.params,
-                    body: request1.body,
-                    withCredentials: true
-                });
-                this.notificationsService.enter(&quot;network&quot;);
-                return next.handle(updatedRequest)
-                    .pipe(map((event, index) &#x3D;&gt; {
-                        if (event instanceof HttpResponse) {
-                            this.notificationsService.leave(&quot;network&quot;);
-                            this.authenticationService.updateAuthentication(event);
-                        }
-                        return event;
-                    }));
-            }),
+
+        let config &#x3D; {headers: request.headers, params: request.params};
+
+        const options: Options &#x3D; {
+            noAutoAuthentication: Utils.isTrue(config.params.get(&quot;noAutoAuthentication&quot;)) || false,
+            noUserOverride: Utils.isTrue(config.params.get(&quot;noUserOverride&quot;)) || false,
+            hadCredentials: this.authService.haveCredentials,
+            userOverrideActive: false
+        }
+
+        const noNotify &#x3D; Utils.isTrue(config.params.get(&quot;noNotify&quot;)) || false;
+
+        config.params &#x3D; config.params.delete(&quot;noAutoAuthentication&quot;);
+        config.params &#x3D; config.params.delete(&quot;noUserOverride&quot;);
+        config.params &#x3D; config.params.delete(&quot;noNotify&quot;);
+
+        config &#x3D; this.authService.addAuthentication(config);
+
+        if (this.authService.userOverrideActive &amp;&amp; !options.noUserOverride) {
+            options.userOverrideActive &#x3D; true;
+            config.headers &#x3D; this.authService.addUserOverride(config);
+        }
+
+        config.headers &#x3D; config.headers.set(&quot;sinequa-force-camel-case&quot;, &quot;true&quot;);
+
+        if (this.isJsonable(request.body)) {
+            this.processRequestInitializers(request);
+        }
+
+        this.notificationsService.enter(&quot;network&quot;);
+        
+        const _request &#x3D; request.clone({
+            headers: config.headers,
+            params: config.params,
+            body: request.body,
+            withCredentials: true
+        });
+
+        return next.handle(_request).pipe(
             catchError((error, caught) &#x3D;&gt; {
                 this.notificationsService.leave(&quot;network&quot;);
-                if (error.status &#x3D;&#x3D;&#x3D; 401 &amp;&amp; !noAutoAuthentication) {
-                    if (userOverrideActive) {
-                        if (this.authenticationService.userOverrideActive) {
-                            this.authenticationService.deactivateUserOverride();
-                            this.authenticationService.userOverrideFailed &#x3D; true;
-                            this.notificationsService.error(&quot;msg#error.userOverrideFailure&quot;);
+                if (error instanceof HttpErrorResponse) {
+                    switch (error.status) {
+                        case 401: {
+                            return this.handle401Error(error, _request, next, options, caught);
                         }
-                        return caught;
                     }
-                    return from(this.getCredentials(error, !hadCredentials))
-                        .pipe(switchMap(value &#x3D;&gt; caught));
                 }
                 if (!noNotify) {
                     this.notifyError(error);
                 }
                 return throwError(error);
-            }));
-   }
+            }),
+            map((event) &#x3D;&gt; {
+                if (event instanceof HttpResponse) {
+                    this.notificationsService.leave(&quot;network&quot;);
+                    this.authService.updateAuthentication(event);
+                }
+                return event;
+            })
+        );
+    }
+
+    private handle401Error(err: HttpErrorResponse, req: HttpRequest&lt;any&gt;, next: HttpHandler, options: Options, caught: Observable&lt;HttpEvent&lt;any&gt;&gt;): Observable&lt;HttpEvent&lt;any&gt;&gt; {
+        if (!options.noAutoAuthentication) {
+            if (options.userOverrideActive) {
+                if (this.authService.userOverrideActive) {
+                    this.authService.deactivateUserOverride();
+                    this.authService.userOverrideFailed &#x3D; true;
+                    this.notificationsService.error(&quot;msg#error.userOverrideFailure&quot;);
+                }
+                return throwError(err);
+            }
+
+            return from(this.getCredentials(err, !options.hadCredentials))
+                .pipe(switchMap(value &#x3D;&gt; {
+                    const {headers} &#x3D; this.authService.addAuthentication(req);
+                    return next.handle(req.clone({headers}));
+                }),
+                    catchError(() &#x3D;&gt; {
+                        return next.handle(req);
+                    }));
+        }
+
+        return throwError(err);
+
+    }
 }
 </code></pre>
     </div>

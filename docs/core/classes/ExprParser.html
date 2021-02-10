@@ -181,7 +181,7 @@ For example: <code>football (age:&gt;=7 AND (name:smith OR name:jones))</code></
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="1727" class="link-to-prism">app-utils/query/expr-parser.ts:1727</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="1737" class="link-to-prism">app-utils/query/expr-parser.ts:1737</a></div>
                             </td>
                         </tr>
 
@@ -219,8 +219,8 @@ For example: <code>football (age:&gt;=7 AND (name:smith OR name:jones))</code></
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1781"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:1781</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1791"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:1791</a></div>
                 </td>
             </tr>
 
@@ -296,8 +296,8 @@ are prefixed by a backslash. Finally, the string is enclosed in backquotes.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2329"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:2329</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2339"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:2339</a></div>
                 </td>
             </tr>
 
@@ -395,8 +395,8 @@ are prefixed by a backslash. Finally, the string is enclosed in backquotes.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1811"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:1811</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1821"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:1821</a></div>
                 </td>
             </tr>
 
@@ -892,7 +892,7 @@ export class Expr {
     }
 
     /**
-     * Return &#x60;true&#x60; if this expression is a leaf node (does not have a value)
+     * Return &#x60;true&#x60; if this expression is a leaf node (does have a value)
      */
     public get isLeaf(): boolean {
         // if (this.value &#x3D;&#x3D;&#x3D; null &amp;&amp; !this.operands) throw &quot;Expr.isLeaf - bad expression&quot;;
@@ -1292,7 +1292,7 @@ export class Expr {
         if (!!value &amp;&amp; !!this.column &amp;&amp; (AppServiceHelpers.isString(this.column) || AppServiceHelpers.isCsv(this.column))) {
             return ExprParser.escape(value);
         }
-        return &quot;&quot;;
+        return value || &quot;&quot;;
     }
 
     private getValueString(): string {
@@ -1774,6 +1774,16 @@ export class Expr {
     }
 
     /**
+     * Return &#x60;true&#x60; if the exoression has at least one fulltext operand.
+     * The test on &#x60;isPositive&#x60; filters expressions that only contain
+     * negative fulltext terms which will be ignored on the server. Fulltext
+     * expressions must have at least one positive term.
+     */
+    get hasRelevance(): boolean {
+        return this.some(expr &#x3D;&gt; expr.isLeaf &amp;&amp; !expr.isStructured &amp;&amp; expr.isPositive);
+    }
+
+    /**
      * Return an array of all fields used in this expression
      */
     getFields(): string[] {
@@ -1946,14 +1956,14 @@ export class Expr {
             if (column &amp;&amp; column.parser) {
                 value &#x3D; this.exprContext.formatService.parseValue(value, column.parser);
             }
-            if (AppService.isNumber(column)) {
+            if (AppServiceHelpers.isNumber(column)) {
                 if (!Utils.isNumber(dataValue)) {
                     dataValue &#x3D; 0;
                 }
                 const _value &#x3D; Utils.toNumber(value);
                 return dataValue - _value;
             }
-            if (AppService.isDate(column)) {
+            if (AppServiceHelpers.isDate(column)) {
                 if (Utils.isString(dataValue)){
                     dataValue &#x3D; Utils.toDate(dataValue);
                 }
@@ -1965,7 +1975,7 @@ export class Expr {
                 }
                 return NaN;
             }
-            if (AppService.isBoolean(column)) {
+            if (AppServiceHelpers.isBoolean(column)) {
                 const _value &#x3D; Utils.isTrue(value) ? 1 : 0;
                 return (dataValue ? 1 : 0) - _value;
             }

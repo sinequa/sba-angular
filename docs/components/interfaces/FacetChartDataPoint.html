@@ -353,7 +353,7 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
 
         if (!!changes[&quot;results&quot;]) {
             // may be null if no data
-            this.data &#x3D; this.facetService.getAggregation(this.aggregation, this.results);
+            this.data &#x3D; this.facetService.getAggregation(this.aggregation, this.results, {facetName: this.getName()});
 
             this.updateSelectedValues();
 

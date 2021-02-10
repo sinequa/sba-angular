@@ -74,7 +74,7 @@
 
                     <tr>
                         <td class="col-md-3">Selector</td>
-                        <td class="col-md-9"><code>[sq-advanced-form-validation]</code></td>
+                        <td class="col-md-9"><code>[sqAdvancedFormValidation]</code></td>
                     </tr>
 
                 </tbody>
@@ -110,7 +110,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#sq-advanced-form-validation">sq-advanced-form-validation</a>
+                                <a href="#field">field</a>
+                            </li>
+                            <li>
+                                <a href="#validationForm">validationForm</a>
                             </li>
                         </ul>
                     </td>
@@ -130,19 +133,40 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="sq-advanced-form-validation"></a>
-                        <b>sq-advanced-form-validation</b>
+                        <a name="field"></a>
+                        <b>field</b>
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>literal type</code>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">advanced/bootstrap/advanced-form-validation.directive.ts:11</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">advanced/bootstrap/advanced-form-validation.directive.ts:9</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="validationForm"></a>
+                        <b>validationForm</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">advanced/bootstrap/advanced-form-validation.directive.ts:10</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -178,8 +202,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">advanced/bootstrap/advanced-form-validation.directive.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="12"
+                            class="link-to-prism">advanced/bootstrap/advanced-form-validation.directive.ts:12</a></div>
                 </td>
             </tr>
 
@@ -202,37 +226,26 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Directive, Input, OnInit} from &quot;@angular/core&quot;;
-import {FormGroup} from &quot;@angular/forms&quot;;
-import {Utils, MapOf} from &quot;@sinequa/core/base&quot;;
-import {ValidationDirective} from &quot;@sinequa/core/validation&quot;;
-import {Control} from &quot;./advanced-models&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, Input, OnInit } from &quot;@angular/core&quot;;
+import { FormGroup } from &quot;@angular/forms&quot;;
+import { ValidationDirective } from &quot;@sinequa/core/validation&quot;;
 
 @Directive({
-    selector: &quot;[sq-advanced-form-validation]&quot;
+    selector: &quot;[sqAdvancedFormValidation]&quot;,
 })
 export class BsAdvancedFormValidation extends ValidationDirective implements OnInit {
-    @Input(&quot;sq-advanced-form-validation&quot;) afvOptions: {form: FormGroup, config: Control};
-
+    @Input() field: string;
+    @Input() validationForm: FormGroup;
+    
     ngOnInit() {
-        const config &#x3D; this.afvOptions.config;
-        const controlName &#x3D; config.name || config.field;
-        const errorMessages: MapOf&lt;string&gt; &#x3D; {};
-        if (this.afvOptions.config.validators) {
-            for (const validator of config.validators) {
-                if (validator.active &amp;&amp; !!validator.errorMessage) {
-                    errorMessages[validator.name || Utils.toLowerCase(validator.type)] &#x3D; validator.errorMessage;
-                }
-            }
-        }
         this.options &#x3D; {
-            form: this.afvOptions.form,
-            controlName: controlName,
-            errorMessages: errorMessages
+            form: this.validationForm,
+            controlName: this.field,
         };
         super.ngOnInit();
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 
 </div>

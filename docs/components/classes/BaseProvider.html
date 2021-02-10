@@ -546,8 +546,8 @@ to all providers.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="202"
-                            class="link-to-prism">network/providers/base-provider.ts:202</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="203"
+                            class="link-to-prism">network/providers/base-provider.ts:203</a></div>
                 </td>
             </tr>
 
@@ -855,8 +855,8 @@ on or off, and an action to reset the data from this provider</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="232"
-                            class="link-to-prism">network/providers/base-provider.ts:232</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="237"
+                            class="link-to-prism">network/providers/base-provider.ts:237</a></div>
                 </td>
             </tr>
 
@@ -1278,7 +1278,8 @@ export class BaseProvider implements NetworkProvider {
                 icon: &quot;fas fa-filter&quot;,
                 title: this.context.intlService.formatMessage(&quot;msg#network.actions.filterSearch&quot;, {label: node.label}),
                 action: () &#x3D;&gt; {
-                    node.context.searchService.query.addSelect(node.type.field! + &quot;&#x60;&quot;+ node.label + &quot;&#x60;:&#x60;&quot;+this.getNodeValue(node)+&quot;&#x60;&quot;, node.context.name);
+                    const expr &#x3D; this.context.exprBuilder.makeExpr(node.type.field!, this.getNodeValue(node), node.label);
+                    node.context.searchService.query.addSelect(expr, node.context.name);
                     node.context.searchService.search();
                 }
             }));
@@ -1303,7 +1304,8 @@ export class BaseProvider implements NetworkProvider {
                     icon: &quot;fas fa-filter&quot;,
                     title: this.context.intlService.formatMessage(&quot;msg#network.actions.filterSearch&quot;, {label: edge.fieldValue}),
                     action: () &#x3D;&gt; {
-                        edge.context.searchService.query.addSelect(edge.type.field + &quot;:&#x60;&quot;+edge.fieldValue+&quot;&#x60;&quot;, edge.context.name);
+                        const expr &#x3D; this.context.exprBuilder.makeExpr(edge.type.field!, edge.fieldValue!);
+                        edge.context.searchService.query.addSelect(expr, edge.context.name);
                         edge.context.searchService.search();
                     }
                 }));
@@ -1313,7 +1315,10 @@ export class BaseProvider implements NetworkProvider {
                     icon: &quot;fas fa-filter&quot;,
                     title: this.context.intlService.formatMessage(&quot;msg#network.actions.filterSearch2&quot;, {label1: nodeFrom.label, label2: nodeTo.label}),
                     action: () &#x3D;&gt; {
-                        edge.context.searchService.query.addSelect(nodeFrom.type.field + &quot;&#x60;&quot;+ nodeFrom.label + &quot;&#x60;:&#x60;&quot;+this.getNodeValue(nodeFrom)+&quot;&#x60; AND &quot; + nodeTo.type.field + &quot;&#x60;&quot;+ nodeTo.label + &quot;&#x60;:&#x60;&quot;+this.getNodeValue(nodeTo)+&quot;&#x60;&quot;, edge.context.name);
+                        const exprFrom &#x3D; this.context.exprBuilder.makeExpr(nodeFrom.type.field!, this.getNodeValue(nodeFrom), nodeFrom.label);
+                        const exprTo &#x3D; this.context.exprBuilder.makeExpr(nodeTo.type.field!, this.getNodeValue(nodeTo), nodeTo.label);
+                        const expr &#x3D; this.context.exprBuilder.concatAndExpr([exprFrom, exprTo]);
+                        edge.context.searchService.query.addSelect(expr, edge.context.name);
                         edge.context.searchService.search();
                     }
                 }));

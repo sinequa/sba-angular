@@ -102,7 +102,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(matDialog: MatDialog, injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>, overlay: Overlay, intlService: IntlService, confirmModal: Type<any>)</code>
+<code>constructor(matDialog: MatDialog, injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>, overlay: Overlay, intlService: IntlService, confirmModal: Type<any>, promptModal: Type<any>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -184,6 +184,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>promptModal</td>
+                                                  
+                                                        <td>
+                                                                    <code>Type&lt;any&gt;</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -220,8 +232,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">modal/material/modal.service.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">modal/material/modal.service.ts:71</a></div>
                 </td>
             </tr>
 
@@ -296,7 +308,7 @@
 import {Overlay} from &#x27;@angular/cdk/overlay&#x27;;
 import {MatDialog, MatDialogRef, MatDialogConfig} from &quot;@angular/material/dialog&quot;;
 import {Subject, Observable, of} from &quot;rxjs&quot;;
-import {MODAL_CONFIRM, ModalService, ModalConfig, ModalResult, IModalRef, CheckCloseEvent} from &quot;@sinequa/core/modal&quot;;
+import {MODAL_CONFIRM, ModalService, ModalConfig, ModalResult, IModalRef, CheckCloseEvent, MODAL_PROMPT} from &quot;@sinequa/core/modal&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
 import {IntlService} from &quot;@sinequa/core/intl&quot;;
 
@@ -337,8 +349,9 @@ export class MdModalService extends ModalService {
         injector: Injector,
         overlay: Overlay,
         protected intlService: IntlService,
-        @Inject(MODAL_CONFIRM) confirmModal: Type&lt;any&gt;) {
-        super(injector, overlay, confirmModal);
+        @Inject(MODAL_CONFIRM) confirmModal: Type&lt;any&gt;,
+        @Inject(MODAL_PROMPT) promptModal: Type&lt;any&gt;) {
+        super(injector, overlay, confirmModal, promptModal);
     }
 
     private monkeyPatchDialogRef(dialogRef: SqMatDialogRef&lt;any&gt;) {
