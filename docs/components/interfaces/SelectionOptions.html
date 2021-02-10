@@ -458,6 +458,7 @@ export class SelectionService implements OnDestroy {
         return new Action({
             icon: &quot;far fa-square&quot;,
             text: &quot;msg#resultsSelector.selectDocuments&quot;,
+            title: this.allRecordsSelected ? &quot;msg#resultsSelector.unselectDocumentsTitle&quot; : &quot;msg#resultsSelector.selectDocumentsTitle&quot;,
             messageParams: {values: {count: this.selectedRecords.length}},
             action: (item, $event) &#x3D;&gt; {
                 this.toggleSelectedRecords(undefined, &quot;multiple-selector&quot;);

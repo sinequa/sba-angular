@@ -1,0 +1,794 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Core</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Core</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>PromptOptions</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>modal/modal.service.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Describes the options that can be passed to the <a href="../injectables/ModalService.html#prompt">ModalService.prompt</a>
+method.</p>
+
+            </p>
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../interfaces/ConfirmOptions.html" target="_self" >ConfirmOptions</a></code>
+            </p>
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#output">output</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#rowCount">rowCount</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#validators">validators</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="output"></a>
+                                        <span class="name"><b>output</b><a href="#output"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>output:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>text written by the user in the prompt input</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="rowCount"></a>
+                                        <span class="name"><b>rowCount</b><a href="#rowCount"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>rowCount:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>If omitted, a single-line input is displayed. If specified, a textarea with the
+given number of rows is displayed</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="validators"></a>
+                                        <span class="name"><b>validators</b><a href="#validators"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>validators:         <code><a href="../interfaces/Validator.html" target="_self" >ValidatorFn[]</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../interfaces/Validator.html" target="_self" >ValidatorFn[]</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>List of validators for the input form control</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, Type, Injector, InjectionToken} from &quot;@angular/core&quot;;
+import {FormGroup, ValidatorFn} from &quot;@angular/forms&quot;;
+import {Overlay, OverlayConfig, OverlayRef} from &#x27;@angular/cdk/overlay&#x27;;
+import {ComponentPortal, PortalInjector} from &#x27;@angular/cdk/portal&#x27;;
+import {Utils, Keys} from &quot;@sinequa/core/base&quot;;
+import {MessageParams} from &quot;@sinequa/core/intl&quot;; // Dependency to INTL !
+import {ModalRef, IModalRef} from &quot;./modal-ref&quot;;
+
+/** Describes the configuration object that can be passed when opening
+ * a modal with the {@link ModalService}.
+ */
+export interface ModalConfig {
+    /**
+     * Classes that should be added to the &#x60;Overlay&#x60; pane.
+     */
+    panelClass?: string | string[];
+    /**
+     * Indicates whether a backdrop should be added when opening the modal.
+     */
+    hasBackdrop?: boolean;
+    /**
+     * Classes that should be added to the backdrop.
+     */
+    backdropClass?: string | string[];
+    /**
+     * The data model that the modal will operate on.
+     */
+    model?: any;
+    /**
+     * The CSS width of the modal.
+     */
+    width?: string;
+    /**
+     * The CSS height of the modal.
+     */
+    height?: string;
+    /**
+     * Indicates whether the modal should occupy the screen width and height. In this case
+     * &#x60;width&#x60; and &#x60;height&#x60; are set to &#x60;100%&#x60; and the &#x60;sq-modal-fullscreen&#x60; class is added
+     * to &#x60;panelClass&#x60;
+     */
+    fullscreen?: boolean;
+    /**
+     * Indicates whether a click on the backdrop should close the modal. The default value
+     * is &#x60;true&#x60;.
+     */
+    closeOnBackdropClick?: boolean;
+}
+
+const DEFAULT_CONFIG: ModalConfig &#x3D; {
+    hasBackdrop: true,
+    backdropClass: [&quot;cdk-overlay-dark-backdrop&quot;, &quot;sq-modal-backdrop&quot;],
+    panelClass: &quot;sq-modal-pane&quot;,
+    model: null,
+    closeOnBackdropClick: true
+};
+
+/**
+ * The &#x60;MODAL_MODEL&#x60; injection token can be used to access the modal&#x27;s model in
+ * the the modal component. The value is &#x60;provided&#x60; from the value set in the
+ * {@link ModalConfig} options when the modal is opened.
+ */
+export const MODAL_MODEL &#x3D; new InjectionToken&lt;any&gt;(&#x27;MODAL_MODEL&#x27;);
+
+/**
+ * The possible result values that can be set when a modal is closed. Buttons in a modal
+ * have an associated &#x60;ModalResult&#x60; value. All buttons except those with a &#x60;Custom&#x60; result
+ * value will close the modal when they are clicked.
+ */
+export const enum ModalResult {
+    OK &#x3D; -1,
+    Cancel &#x3D; -2,
+    Yes &#x3D; -3,
+    No &#x3D; -4,
+    Abort &#x3D; -5,
+    Retry &#x3D; -6,
+    Ignore &#x3D; -7,
+    Custom &#x3D; 0
+}
+
+/**
+ * An enumeration of the types of confirm modals. The type of the confirm modal
+ * can be reflected in the icon and/or colors used.
+ */
+export const enum ConfirmType {
+    Success,
+    Info,
+    Warning,
+    Error
+}
+
+/**
+ * Describes the options that can be passed to the [ModalService.confirm]{@link ModalService#confirm}
+ * method.
+ */
+export interface ConfirmOptions {
+    /**
+     * The title of the confirm modal.
+     */
+    title?: string;
+    /**
+     * The message dispayed in the confirm modal.
+     */
+    message: string;
+    /**
+     * Any parameters for the &#x60;message&#x60;.
+     */
+    messageParams?: MessageParams;
+    /**
+     * The type of the confirm modal.
+     */
+    confirmType?: ConfirmType;
+    /**
+     * The buttons to display in the confirm modal.
+     */
+    buttons: ModalButton[];
+}
+
+/**
+ * Describes the options that can be passed to the [ModalService.prompt]{@link ModalService#prompt}
+ * method.
+ */
+export interface PromptOptions extends ConfirmOptions {
+    /**
+     * text written by the user in the prompt input
+     */
+    output: string;
+    /**
+     * List of validators for the input form control
+     */
+    validators?: ValidatorFn[];
+    /**
+     * If omitted, a single-line input is displayed. If specified, a textarea with the
+     * given number of rows is displayed
+     */    
+    rowCount?: number;
+}
+
+/**
+ * Describes the options that can be used when creating an instance of a {@link ModalButton}.
+ */
+export interface IModalButton {
+    /**
+     * The result associated with the button.
+     */
+    result: ModalResult;
+    /**
+     * Indicates whether this button is the primary button amongst a set of buttons.
+     */
+    primary?: boolean;
+    /**
+     * The button text.
+     */
+    text?: string;
+    /**
+     * Indicates whether the button is currently visible.
+     */
+    visible?: boolean;
+    /**
+     * The validation &#x60;FormGroup&#x60; that should be tested when the button is clicked.
+     * The button will only perform its &#x60;action&#x60; when the validation is &#x60;valid&#x60;.
+     */
+    validation?: FormGroup;
+    /**
+     * Indicats whether the button should be rendered with an &#x60;&lt;a&gt;&#x60; tag rather than
+     * a &#x60;&lt;button&gt;&#x60; tag.
+     */
+    anchor?: boolean;
+
+    /**
+     * The action to perform when the button is clicked. Buttons with &#x60;result&#x60; values other
+     * than &#x60;Custom&#x60; also close the modal.
+     */
+    action?: (button: ModalButton) &#x3D;&gt; void;
+}
+
+/**
+ * A class representing a button displayed in a modal.
+ */
+export class ModalButton implements IModalButton {
+    /**
+     * The result associated with the button.
+     */
+    result: ModalResult;
+    /**
+     * Indicates whether this button is the primary button amongst a set of buttons.
+     */
+    primary: boolean;
+    /**
+     * The button text.
+     */
+    text: string;
+    /**
+     * Indicates whether the button is currently visible.
+     */
+    visible: boolean;
+    /**
+     * The validation &#x60;FormGroup&#x60; that should be tested when the button is clicked.
+     * The button will only perform its &#x60;action&#x60; when the validation is &#x60;valid&#x60;.
+     */
+    validation: FormGroup;
+    /**
+     * Indicats whether the button should be rendered with an &#x60;&lt;a&gt;&#x60; tag rather than
+     * a &#x60;&lt;button&gt;&#x60; tag.
+     */
+    anchor: boolean;
+
+    /**
+     * The action to perform when the button is clicked. Buttons with &#x60;result&#x60; values other
+     * than &#x60;Custom&#x60; also close the modal.
+     */
+    action: (button: ModalButton) &#x3D;&gt; void;
+
+    constructor(options: IModalButton) {
+        Utils.extend(this, {visible: true, anchor: false}, options);
+    }
+
+    /**
+     * Get the button text. Buttons with non-custom result types
+     * have default text depending on their result type -
+     * &#x60;msg#modal.buttons.ok&#x60;, &#x60;msg#modal.buttons.cancel&#x60; etc
+     */
+    getText() {
+        if (this.text) {
+            return this.text;
+        }
+        switch (this.result) {
+            case ModalResult.OK:
+                return &quot;msg#modal.buttons.ok&quot;;
+            case ModalResult.Cancel:
+                return &quot;msg#modal.buttons.cancel&quot;;
+            case ModalResult.Yes:
+                return &quot;msg#modal.buttons.yes&quot;;
+            case ModalResult.No:
+                return &quot;msg#modal.buttons.no&quot;;
+            case ModalResult.Abort:
+                return &quot;msg#modal.buttons.abort&quot;;
+            case ModalResult.Retry:
+                return &quot;msg#modal.buttons.retry&quot;;
+            case ModalResult.Ignore:
+                return &quot;msg#modal.buttons.ignore&quot;;
+            default:
+                return &quot;&quot;;
+        }
+    }
+
+    /**
+     * Perform a click on a button. The button&#x27;s explicit action is performed if set and
+     * the modal closed with the button&#x27;s modal result if the &#x60;result&#x60; type is non-&#x60;Custom&#x60;.
+     * If the validation status not &#x60;valid&#x60; this method returns without performing any action.
+     *
+     * @param closer An object with a &#x60;close&#x60; method. If the result type is non-custom then
+     * the &#x60;close&#x60; method of this object is called.
+     */
+    click(closer: {close(result: any): void}) {
+        if (this.validation &amp;&amp; !this.validation.valid) {
+            return;
+        }
+        if (this.action) {
+            this.action(this);
+        }
+        if (this.result !&#x3D;&#x3D; ModalResult.Custom) {
+            closer.close(this.result);
+        }
+    }
+}
+
+/**
+ * An injection token to set the component to use for the &#x60;confirm&#x60; modal displayed
+ * by the [ModalService.confirm]{@link ModalService#confirm} method.
+ */
+export const MODAL_CONFIRM &#x3D; new InjectionToken&lt;Type&lt;any&gt;&gt;(&#x27;MODAL_CONFIRM&#x27;);
+
+/**
+ * An injection token to set the component to use for the &#x60;prompt&#x60; modal displayed
+ * by the [ModalService.prompt]{@link ModalService#confirm} method.
+ */
+export const MODAL_PROMPT &#x3D; new InjectionToken&lt;Type&lt;any&gt;&gt;(&#x27;MODAL_PROMPT&#x27;);
+
+/**
+ * A service to open modal dialogs.
+ */
+@Injectable({
+    providedIn: &quot;root&quot;
+})
+export class ModalService {
+    constructor(
+        protected injector: Injector,
+        protected overlay: Overlay,
+        @Inject(MODAL_CONFIRM) protected confirmModal: Type&lt;any&gt;,
+        @Inject(MODAL_PROMPT) protected promptModal: Type&lt;any&gt;
+    ) {
+    }
+
+    /**
+     * Open a modal dialog using the passed configuration options.
+     *
+     * @param component The type of the component to use for the modal.
+     * @param config Configuration options for the modal.
+     * @retuns An &#x60;IModalRef&#x60; object that can be used to close the modal.
+     */
+    openRef(component: Type&lt;any&gt;, config: ModalConfig &#x3D; {}): IModalRef {
+        // Override default configuration
+        const modalConfig &#x3D; { ...DEFAULT_CONFIG, ...config };
+        if (modalConfig.fullscreen) {
+            modalConfig.width &#x3D; &quot;100%&quot;;
+            modalConfig.height &#x3D; &quot;100%&quot;;
+            if (Utils.isString(modalConfig.panelClass)) {
+                modalConfig.panelClass &#x3D; [modalConfig.panelClass, &quot;sq-modal-fullscreen&quot;];
+            }
+            else if (modalConfig.panelClass) {
+                modalConfig.panelClass.push(&quot;sq-modal-fullscreen&quot;);
+            }
+            else {
+                modalConfig.panelClass &#x3D; &quot;sq-modal-fullscreen&quot;;
+            }
+        }
+        // Returns an OverlayRef which is a PortalHost
+        const overlayRef &#x3D; this.createOverlay(modalConfig);
+        // Instantiate remote control
+        const modalRef &#x3D; new ModalRef(overlayRef);
+        const overlayComponent &#x3D; this.attachDialogContainer(component, overlayRef, modalConfig, modalRef);
+        modalRef.componentInstance &#x3D; overlayComponent;
+        overlayRef.hostElement.classList.add(&quot;sq-modal-host&quot;);
+        if (modalConfig.closeOnBackdropClick) {
+            // NB backdropClick will not fire if pointer-events are enabled on modal-host
+            overlayRef.backdropClick().subscribe(() &#x3D;&gt; modalRef.close());
+            // Provide support for a scrollable sq-modal-host (overlay wrapper)
+            // The standard cdk styling disables pointer-events at this level which means that scrolling
+            // won&#x27;t work. We can enable pointer-events in css but then the backdrop will not receive the
+            // click event. So, we handle the click event directly on sq-modal-host also and if the
+            // click target &#x3D;&#x3D;&#x3D; sq-modal-host then we initiate modal closing here
+            overlayRef.hostElement.addEventListener(&quot;click&quot;, (event) &#x3D;&gt; {
+                if (event.target &#x3D;&#x3D;&#x3D; overlayRef.hostElement) {
+                    modalRef.close();
+                }
+            });
+        }
+        overlayRef.keydownEvents().subscribe((event) &#x3D;&gt; {
+            if (event.keyCode &#x3D;&#x3D;&#x3D; Keys.esc) {
+                modalRef.close();
+            }
+        });
+        modalRef.disableSubmit();
+        return modalRef;
+    }
+
+    /**
+     * A wrapper around the {@link #openRef} method which returns a &#x60;Promise&#x60; that resolves
+     * with the &#x60;ModalResult&#x60; when the modal is closed.
+     *
+     * @param component The type of the component to use for the modal.
+     * @param config Configuration options for the modal.
+     * @retuns The &#x60;ModalResult&#x60; when the modal is closed.
+     */
+    open(component: Type&lt;any&gt;, config: ModalConfig &#x3D; {}): Promise&lt;ModalResult&gt; {
+        const modalRef &#x3D; this.openRef(component, config);
+        return modalRef.afterClosed().toPromise();
+    }
+
+    private createOverlay(config: ModalConfig): OverlayRef {
+        const overlayConfig &#x3D; this.getOverlayConfig(config);
+        return this.overlay.create(overlayConfig);
+    }
+
+    private attachDialogContainer(component: Type&lt;any&gt;, overlayRef: OverlayRef, config: ModalConfig, modalRef: ModalRef) {
+        const injector &#x3D; this.createInjector(config, modalRef);
+
+        const containerPortal &#x3D; new ComponentPortal(component, null, injector);
+        const containerRef &#x3D; overlayRef.attach&lt;Type&lt;any&gt;&gt;(containerPortal);
+
+        return containerRef.instance;
+    }
+
+    private createInjector(config: ModalConfig, modalRef: ModalRef): PortalInjector {
+        const injectionTokens &#x3D; new WeakMap();
+
+        injectionTokens.set(ModalRef, modalRef);
+        injectionTokens.set(MODAL_MODEL, config.model);
+
+        return new PortalInjector(this.injector, injectionTokens);
+    }
+
+    private getOverlayConfig(config: ModalConfig): OverlayConfig {
+        const positionStrategy &#x3D; this.overlay.position()
+            .global()
+            .centerHorizontally()
+            .centerVertically();
+
+        const overlayConfig &#x3D; new OverlayConfig({
+            hasBackdrop: config.hasBackdrop,
+            backdropClass: config.backdropClass,
+            panelClass: config.panelClass,
+            scrollStrategy: this.overlay.scrollStrategies.block(),
+            positionStrategy
+        });
+
+        return overlayConfig;
+    }
+
+    /**
+     * Open a confirmation modal dialog displaying a message and a set buttons. This is similar to the Javacsript
+     * &#x60;Window.alert&#x60; method but renders a modal.
+     *
+     * @param options The options used to open the confirm modal. These are set as the &#x60;MODAL_MODEL&#x60;  of the modal.
+     */
+    confirm(options: ConfirmOptions): Promise&lt;ModalResult&gt; {
+        return this.open(this.confirmModal, {model: options});
+    }
+
+    /**
+     * Open a prompt modal dialog displaying a message, an input and OK/Cancel buttons.
+     *
+     * @param options The options used to open the prompt modal. These are set as the &#x60;MODAL_MODEL&#x60;  of the modal.
+     */
+    prompt(options: PromptOptions): Promise&lt;ModalResult&gt; {
+        return this.open(this.promptModal, {model: options});
+    }
+
+    /**
+     * Open a confirm modal that has an &#x60;OK&#x60; button.
+     *
+     * @param message The message to display in the modal.
+     * @param messageParams The parameters for the message.
+     * @param title The confirm modal&#x27;s title.
+     * @param confirmType The type of the confirm modal.
+     */
+    oK(
+        message: string,
+        messageParams?: MessageParams,
+        title?: string,
+        confirmType &#x3D; ConfirmType.Success): Promise&lt;ModalResult&gt; {
+        return this.confirm({
+            title,
+            message,
+            messageParams,
+            confirmType,
+            buttons: [
+                new ModalButton({ visible: true, result: ModalResult.OK, primary: true })
+            ]
+        });
+    }
+
+    /**
+     * Open a confirm modal that has &#x60;OK&#x60; and &#x60;Cancel&#x60; buttons.
+     *
+     * @param message The message to display in the modal.
+     * @param messageParams The parameters for the message.
+     * @param title The confirm modal&#x27;s title.
+     * @param confirmType The type of the confirm modal.
+     * @param primaryButton The result type of the button which should be primary.
+     */
+    oKCancel(
+        message: string,
+        messageParams?: MessageParams,
+        title?: string,
+        confirmType &#x3D; ConfirmType.Info,
+        primaryButton &#x3D; ModalResult.OK): Promise&lt;ModalResult&gt; {
+        return this.confirm({
+            title,
+            message,
+            messageParams,
+            confirmType,
+            buttons: [
+                new ModalButton({ visible: true, result: ModalResult.OK, primary: primaryButton &#x3D;&#x3D;&#x3D; ModalResult.OK }),
+                new ModalButton({ visible: true, result: ModalResult.Cancel, primary: primaryButton &#x3D;&#x3D;&#x3D; ModalResult.Cancel })
+            ]
+        });
+    }
+
+    /**
+     * Open a confirm modal that has &#x60;Yes&#x60; and &#x60;No&#x60; buttons.
+     *
+     * @param message The message to display in the modal.
+     * @param messageParams The parameters for the message.
+     * @param title The confirm modal&#x27;s title.
+     * @param confirmType The type of the confirm modal.
+     * @param primaryButton The result type of the button which should be primary.
+     */
+    yesNo(
+        message: string,
+        messageParams?: MessageParams,
+        title?: string,
+        confirmType &#x3D; ConfirmType.Info,
+        primaryButton &#x3D; ModalResult.Yes): Promise&lt;ModalResult&gt; {
+        return this.confirm({
+            title,
+            message,
+            messageParams,
+            confirmType,
+            buttons: [
+                new ModalButton({ visible: true, result: ModalResult.Yes, primary: primaryButton &#x3D;&#x3D;&#x3D; ModalResult.Yes }),
+                new ModalButton({ visible: true, result: ModalResult.No, primary: primaryButton &#x3D;&#x3D;&#x3D; ModalResult.No })
+            ]
+        });
+    }
+}
+</code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'PromptOptions.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

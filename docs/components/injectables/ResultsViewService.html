@@ -92,6 +92,10 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#getIncludedViews">getIncludedViews</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#getView">getView</a>
                             </li>
                             <li>
@@ -143,18 +147,20 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(defaultView: <a href="../interfaces/ResultsView.html">ResultsView</a>, resultsViews: ResultsView[])</code>
+<code>constructor(defaultView: <a href="../interfaces/ResultsView.html">ResultsView</a>, resultsViews: ResultsView[], router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, searchService: <a href="../injectables/SearchService.html">SearchService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">results-view/results-view.service.ts:50</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">results-view/results-view.service.ts:73</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
-                            <div class="io-description"><p>Constructor</p>
+                            <div class="io-description"><p>Constructor: Expects the configuration for a list of views and
+one default view. These views can be set when importing the module in the AppModule
+with the ResultsViewModule.forRoot() method.</p>
 </div>
                             <div>
                                     <b>Parameters :</b>
@@ -191,6 +197,42 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>route</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>searchService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SearchService.html" target="_self" >SearchService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -205,6 +247,80 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getIncludedViews"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getIncludedViews
+                        </b>
+                        <a href="#getIncludedViews"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getIncludedViews(tab?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="264"
+                            class="link-to-prism">results-view/results-view.service.ts:264</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the list of results views compatible with a given tab</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>tab</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>ResultsView[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -229,14 +345,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="133"
-                            class="link-to-prism">results-view/results-view.service.ts:133</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="256"
+                            class="link-to-prism">results-view/results-view.service.ts:256</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Returns the results view with the given name</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -297,14 +415,20 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="91"
-                            class="link-to-prism">results-view/results-view.service.ts:91</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="204"
+                            class="link-to-prism">results-view/results-view.service.ts:204</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Selects the given results view. This method is asynchronous:</p>
+<ul>
+<li>The selected results view might modify the query before being displayed</li>
+<li>The view selection works with a navigation via the router (adding the view name to the URL)</li>
+</ul>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -369,14 +493,20 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">results-view/results-view.service.ts:126</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="245"
+                            class="link-to-prism">results-view/results-view.service.ts:245</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Selects the results view with the given name. This method is asynchronous:</p>
+<ul>
+<li>The selected results view might modify the query before being displayed</li>
+<li>The view selection works with a navigation via the router (adding the view name to the URL)</li>
+</ul>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -453,7 +583,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">results-view/results-view.service.ts:58</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">results-view/results-view.service.ts:81</a></div>
                             </td>
                         </tr>
 
@@ -482,7 +612,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">results-view/results-view.service.ts:67</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">results-view/results-view.service.ts:133</a></div>
                                 </td>
                             </tr>
 
@@ -504,7 +634,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">results-view/results-view.service.ts:71</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="137" class="link-to-prism">results-view/results-view.service.ts:137</a></div>
                                 </td>
                             </tr>
 
@@ -526,7 +656,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">results-view/results-view.service.ts:75</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="141" class="link-to-prism">results-view/results-view.service.ts:141</a></div>
                                 </td>
                             </tr>
 
@@ -548,7 +678,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">results-view/results-view.service.ts:79</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">results-view/results-view.service.ts:145</a></div>
                                 </td>
                             </tr>
 
@@ -559,16 +689,37 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, InjectionToken} from &quot;@angular/core&quot;;
-import {Subject, Observable} from &quot;rxjs&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Inject, InjectionToken } from &quot;@angular/core&quot;;
+import { Router, ActivatedRoute, NavigationEnd } from &quot;@angular/router&quot;;
+import { Subject, Observable } from &quot;rxjs&quot;;
+import { Utils } from &#x27;@sinequa/core/base&#x27;;
+import { SearchService } from &#x27;@sinequa/components/search&#x27;;
+import { Query } from &#x27;@sinequa/core/app-utils&#x27;;
 
+/**
+ * Configuration of a Results View
+ */
 export interface ResultsView {
-    type: string;
+    /** Name of the results view */
     name: string;
+    /** Type of the results view (not used internally, but may be useful if multiple views share a common component) */
+    type: string;
+    /** How the results view should be displayed (default to the name) */
     display?: string;
+    /** Icon class for the results view */
     icon?: string;
+    /** List of tab for which this tab can be displayed (defaults to all if undefined) */
     includedTabs?: string[];
+    /** List of tab for which this tab is excluded (defaults to none if undefined) */
     excludedTabs?: string[];
+    /**
+     * Method called when selecting this results view. It can be used to modify the search query
+     * when a view has specific data to display. If the method returns true, then selecting this view
+     * triggers a search and the view selection becomes effective upon results. If the method results false,
+     * (or if the method is undefined), then selecting this view does not trigger a new search
+     * and the view selection is immediate.
+     */
+    beforeSearch?: (query: Query, previousView: ResultsView) &#x3D;&gt; boolean;
 }
 
 export interface ResultsViewEvent {
@@ -610,18 +761,63 @@ export class ResultsViewService {
     protected _resultsViewSelected &#x3D; new Subject&lt;ResultsView&gt;();
     protected _events &#x3D; new Subject&lt;ResultsViewEvents&gt;();
 
-    /**
-     * Constructor
-     * @param userSettingsService
-     */
+    protected pendingView: ResultsView | undefined;
 
+    /**
+     * Constructor: Expects the configuration for a list of views and
+     * one default view. These views can be set when importing the module in the AppModule
+     * with the ResultsViewModule.forRoot() method.
+     */
     constructor(
         @Inject(DEFAULT_VIEW) public defaultView: ResultsView,
-        @Inject(RESULTS_VIEWS) resultsViews: ResultsView[]
+        @Inject(RESULTS_VIEWS) resultsViews: ResultsView[],
+        protected router: Router,
+        protected route: ActivatedRoute,
+        protected searchService: SearchService
     ) {
         this._resultsViews &#x3D; resultsViews;
         this._resultsView &#x3D; this.defaultView;
+
+        /**
+         * Listener triggered whenever the URL changes
+         */
+        this.router.events.subscribe(event &#x3D;&gt; {
+            if (event instanceof NavigationEnd) {
+                this.handleNavigation();
+            }
+        });
+
+        /**
+         * Listener triggered whenever new results come in.
+         * Some views must be displayed after a search, hence the
+         * pendingView flag.
+         */
+        this.searchService.resultsStream.subscribe(results &#x3D;&gt; {
+            if(this.pendingView) {
+                this.searchService.queryStringParams.view &#x3D; this.pendingView.name;
+                this.searchService.navigate({skipSearch: true});
+                this.pendingView &#x3D; undefined;
+            }
+        });
+
+        // Automatically switch results views, if we go to a tab that has specific list of views
+        this.searchService.events.subscribe(event &#x3D;&gt; {
+            // Event called just before the query for the new tab is searched
+            if(event.type &#x3D;&#x3D;&#x3D; &quot;before-select-tab&quot; &amp;&amp; event.query.tab) {
+                const views &#x3D; this.getIncludedViews(event.query.tab);
+                // If there are views for this tab and they don&#x27;t include the current one...
+                if(views.length &gt; 0 &amp;&amp; !views.includes(this.resultsView)) {
+                    // Set the view as pending
+                    this.pendingView &#x3D; views[0];
+                    // Modify the query if needed
+                    if(this.pendingView.beforeSearch) {
+                        this.pendingView.beforeSearch(event.query, this.resultsView);
+                    }
+                }
+            }
+        })
     }
+
 
     // GETTERS
 
@@ -643,12 +839,59 @@ export class ResultsViewService {
 
     // EVENT HANDLERS
 
-    private setResultsView(view: ResultsView) {
+    /**
+     * Navigate to a new URL including the given results view&#x27;s name
+     * @param view 
+     */
+    protected navigate(view: ResultsView) {
+        let waitForResults &#x3D; !!view.beforeSearch;
+        if(view.beforeSearch) {
+            waitForResults &#x3D; view.beforeSearch(this.searchService.query, this.resultsView);
+        }
+        if(!waitForResults) {
+            // We switch view immediately via the search service (which centralizes the navigation)
+            this.searchService.queryStringParams.view &#x3D; view.name;
+            this.searchService.navigate({skipSearch: true});
+        }
+        else {
+            // We set the view as &quot;pending&quot;, that is waiting for new results to come in
+            this.pendingView &#x3D; view;
+            this.searchService.search();
+        }
+    }
+
+    /**
+     * Responds to a change in the URL: Sets the results view if the URL
+     * specifies a different results view name.
+     */
+    protected handleNavigation() {
+        const url &#x3D; Utils.makeURL(this.router.url);
+        const view &#x3D; this.getView(url.searchParams.get(&quot;view&quot;));
+        if(view &amp;&amp; view !&#x3D;&#x3D; this.resultsView) {
+            this.searchService.queryStringParams.view &#x3D; view.name; // Needed when refreshing the page
+            this.setResultsView(view);
+        }
+    }
+
+    /**
+     * Sets the results view and emits an event
+     * @param view 
+     */
+    protected setResultsView(view: ResultsView) {
         this._resultsView &#x3D; view;
         this._events.next({type: &quot;after-select&quot;, view});
         this._resultsViewSelected.next(view);
     }
 
+
+    // PUBLIC API
+
+    /**
+     * Selects the given results view. This method is asynchronous:
+     * - The selected results view might modify the query before being displayed
+     * - The view selection works with a navigation via the router (adding the view name to the URL)
+     * @param view 
+     */
     public selectResultsView(view: ResultsView) {
         if (view) {
             // Raise before event...
@@ -659,14 +902,14 @@ export class ResultsViewService {
             }
             this._events.next(beforeEvent);
             if (beforeEvent.promises.length &#x3D;&#x3D;&#x3D; 0) {
-                this.setResultsView(view);
+                this.navigate(view);
             }
             else {
                 Promise.all(beforeEvent.promises)
                     .then((results) &#x3D;&gt; {
                         const ok &#x3D; results.every(result &#x3D;&gt; result);
                         if (ok) {
-                            this.setResultsView(view);
+                            this.navigate(view);
                         }
                         else {
                             console.log(&quot;selectResultsView cancelled&quot;);
@@ -684,58 +927,45 @@ export class ResultsViewService {
         }
     }
 
+    /**
+     * Selects the results view with the given name. This method is asynchronous:
+     * - The selected results view might modify the query before being displayed
+     * - The view selection works with a navigation via the router (adding the view name to the URL)
+     * @param viewName 
+     */
     public selectResultsViewName(viewName: string){
-        const view &#x3D; this.views.find(v &#x3D;&gt; v.name &#x3D;&#x3D;&#x3D; viewName);
+        const view &#x3D; this.getView(viewName);
         if (view) {
             this.selectResultsView(view);
         }
     }
 
+    /**
+     * Returns the results view with the given name
+     * @param viewName 
+     */
     public getView(viewName): ResultsView | undefined {
         return this.views.find(v &#x3D;&gt; v.name &#x3D;&#x3D;&#x3D; viewName);
     }
 
-    // Former Search service methods
-
     /**
-     * Gets the query params from the current view, combining those in the view configuration and the view settings.
-     *
-     * @returns {CCResults.QueryParams} The query params from the current view.
+     * Returns the list of results views compatible with a given tab
+     * @param tab 
      */
-    /*
-    public getViewQueryParams(): CCResults.QueryParams {
-        const queryParams &#x3D; {};
-        const viewName &#x3D; this.resultsView ? this.resultsView.name : &#x27;&#x27;;
-        const userSettingsQueryParams &#x3D; this.userSettingsService.getCurrentQueryParams(viewName);
-        const configQueryParams &#x3D; (this.resultsView &amp;&amp; this.resultsView.queryParams)
-            ? Utils.copyWithoutNullOrEmpty({}, this.resultsView.queryParams)
-            : {};
-        Utils.merge(queryParams, configQueryParams, userSettingsQueryParams);
+    public getIncludedViews(tab?: string): ResultsView[] {
+        const views: ResultsView[] &#x3D; [];
+        for (const view of this.views) {
+            const included &#x3D; !!view.includedTabs
+                ? view.includedTabs.includes(tab || &quot;&quot;)
+                : !view.excludedTabs || !view.excludedTabs.includes(tab || &quot;&quot;);
 
-        return queryParams;
-    }
-
-
-    updateQueryParams(query: Query, oldParams: CCResults.QueryParams, newParams: CCResults.QueryParams): void {
-
-        if (!!query &amp;&amp; !!oldParams &amp;&amp; Object.keys(oldParams).length &gt; 0) {
-            for (let key of Object.keys(oldParams)) {
-                const paramsValue &#x3D; oldParams[key];
-                const queryValue &#x3D; query[key];
-                if (paramsValue &#x3D;&#x3D;&#x3D; queryValue) {
-                    delete query[key];
-                }
+            if (included) {
+                views.push(view);
             }
         }
-
-        if (!query || !newParams || Object.keys(newParams).length &#x3D;&#x3D;&#x3D; 0) {
-            return;
-        }
-
-        Utils.extend(query, newParams);
-
+        return views;
     }
-    */
+
 }</code></pre>
     </div>
 

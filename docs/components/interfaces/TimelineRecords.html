@@ -244,7 +244,7 @@
 import { Observable, of, combineLatest, ReplaySubject } from &#x27;rxjs&#x27;;
 import { map } from &#x27;rxjs/operators&#x27;;
 import { Results, AggregationItem, Aggregation, CCAggregation, Record } from &#x27;@sinequa/core/web-services&#x27;;
-import { AppService, Expr } from &#x27;@sinequa/core/app-utils&#x27;;
+import { AppService, Expr, ExprBuilder } from &#x27;@sinequa/core/app-utils&#x27;;
 import { Utils } from &#x27;@sinequa/core/base&#x27;;
 import { AbstractFacet, FacetService } from &#x27;@sinequa/components/facet&#x27;;
 import { SearchService } from &#x27;@sinequa/components/search&#x27;;
@@ -347,6 +347,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         public searchService: SearchService,
         public appService: AppService,
         public selectionService: SelectionService,
+        public exprBuilder: ExprBuilder,
         public cdRef: ChangeDetectorRef
     ){
         super();
@@ -640,7 +641,10 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     onSelectionChange(selection: [Date, Date] | undefined) {
         this.selection &#x3D; selection;
         if(selection) {
-            let expr &#x3D; &#x27;&#x27;;
+            const from &#x3D; this.formatDayRequest(selection[0]);
+            const to &#x3D; this.formatDayRequest(selection[1]);
+
+            let exprs: string[] &#x3D; [];
             this.searchService.query.removeSelect(this.name);
 
             this.timeseries.forEach((config) &#x3D;&gt; {
@@ -651,16 +655,14 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
                     const aggregation &#x3D; (config as TimelineAggregation).aggregation || (config as TimelineCombinedAggregations).default.aggregation;
                     const ccaggregation &#x3D; this.appService.getCCAggregation(aggregation);
                     if(ccaggregation) {
-                        if(expr){
-                            expr +&#x3D; &quot; OR &quot;;
-                        }
-                        expr +&#x3D; &#x60;${ccaggregation.column}:[${this.formatDayRequest(selection[0])}..${this.formatDayRequest(selection[1])}]&#x60;;
+                        exprs.push(this.exprBuilder.makeRangeExpr(ccaggregation.column, from, to));
                     }
                 }
 
             });
 
-            if(expr) {
+            if(exprs.length &gt; 0) {
+                const expr &#x3D; this.exprBuilder.concatOrExpr(exprs);
                 this.searchService.query.addSelect(expr, this.name);
                 this.searchService.search();
             }
