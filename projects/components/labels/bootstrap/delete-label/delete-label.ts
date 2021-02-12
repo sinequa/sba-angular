@@ -38,8 +38,8 @@ export class BsDeleteLabel implements OnInit {
     constructor(
         @Inject(MODAL_MODEL)
         public model: {
-            values: string[];
-            properties: ModalProperties;
+            values: string[],
+            properties: ModalProperties
         },
         private labelsService: LabelsService,
         private changeDetectorRef: ChangeDetectorRef,

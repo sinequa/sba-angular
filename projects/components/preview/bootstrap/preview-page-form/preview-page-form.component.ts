@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, Output } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { ValidationService } from "@sinequa/core/validation";
 
@@ -6,7 +6,7 @@ import { ValidationService } from "@sinequa/core/validation";
     selector: 'sq-preview-page-form',
     templateUrl: './preview-page-form.component.html'
 })
-export class BsPreviewPageFormComponent {
+export class BsPreviewPageFormComponent implements OnChanges{
     @Input() pageNumber?: number;
     @Output() gotopage = new EventEmitter<number>();
 
@@ -28,7 +28,7 @@ export class BsPreviewPageFormComponent {
     }
 
     submit() {
-        const page = parseInt(this.pageControl.value);
+        const page = parseInt(this.pageControl.value, 10);
         if(!isNaN(page) && page !== this.pageNumber) {
             this.gotopage.next(page);
         }

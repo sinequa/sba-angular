@@ -19,7 +19,6 @@ export abstract class HttpService {
      * The name of the application
      */
     get appName(): string {
-        /*tslint:disable-next-line*/
         return this.startConfig.app!;
     }
 
@@ -30,7 +29,6 @@ export abstract class HttpService {
      * @param api An API name
      */
     makeUrl(api: string): string {
-        /*tslint:disable-next-line*/
         return Utils.addUrl(this.startConfig.apiPath!, api);
     }
 

@@ -218,7 +218,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
                     agg = config.current;
                 }
                 
-                let range: [Date, Date] | undefined = !!this.minAggregationDate && !!this.maxAggregationDate ?
+                const range: [Date, Date] | undefined = !!this.minAggregationDate && !!this.maxAggregationDate ?
                     [this.minAggregationDate, this.maxAggregationDate] : undefined;
 
                 this.getTimeseries(agg, range).subscribe({
@@ -402,7 +402,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
             const from = this.formatDayRequest(selection[0]);
             const to = this.formatDayRequest(selection[1]);
 
-            let exprs: string[] = [];
+            const exprs: string[] = [];
             this.searchService.query.removeSelect(this.name);
 
             this.timeseries.forEach((config) => {
@@ -524,7 +524,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         
         const series: TimelineDate[] = [];
 
-        let _items = items
+        const _items = items
             .map(item => {
                 if(!!item.value && !(item.value instanceof Date)){
                     const val = item.value.toString();
@@ -538,7 +538,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
             .filter(item => !!item.value && (!range || ((item.value as Date) >= range[0] && (item.value as Date) <= range[1])));
 
         _items.forEach((item,i) => {
-            let date = item.value as Date;
+            const date = item.value as Date;
             
             if(i === 0 || timeInterval.offset(series[series.length-1].date, 1) < date) {
                 series.push({date: timeInterval.offset(date, -1), value: 0});

@@ -218,8 +218,8 @@ export interface QueryIntentAction {
  */
 export interface QueryIntentDatasets {
     [name: string] : {
-        attributes : [any];
-        rows : [any];
+        attributes : [any],
+        rows : [any]
     };
 }
 
@@ -738,12 +738,12 @@ export class QueryWebService extends HttpService {
         }
         const data: {
             methods: {
-                method: string;
-                app: string;
+                method: string,
+                app: string,
                 query: IQuery
-            }[];
-            propagateErrors: true;
-            $auditRecord?: AuditEvents;
+            }[],
+            propagateErrors: true,
+            $auditRecord?: AuditEvents
         } = {
             methods: [],
             propagateErrors: true,

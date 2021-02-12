@@ -177,7 +177,7 @@ export class Pattern {
 export class Patterns {
     private _text?: string;
     private _preparedPatterns?: Pattern[];
-    private _values?: { [key: string]: true; };
+    private _values?: { [key: string]: true };
     private _isEmpty: boolean;
 
     constructor(text?: string) {

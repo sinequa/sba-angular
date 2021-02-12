@@ -214,7 +214,6 @@ export class AuditWebService extends HttpService {
             detail["result-count"] = results.totalRowCount;
         }
         if (doc.text) {
-            /*tslint:disable-next-line*/
             detail["text"] = doc.text;
         }
         if (parameters) {

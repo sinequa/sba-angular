@@ -45,9 +45,9 @@ export class BsRenameLabel implements OnInit, OnDestroy {
     constructor(
         @Inject(MODAL_MODEL)
         public model: {
-            oldValues: string[];
-            newValue: string;
-            properties: ModalProperties;
+            oldValues: string[],
+            newValue: string,
+            properties: ModalProperties
         },
         private formBuilder: FormBuilder,
         private labelsService: LabelsService,

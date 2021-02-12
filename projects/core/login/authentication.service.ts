@@ -46,8 +46,8 @@ export interface ProcessedCredentials {
      * OAuth and SAML authentication
      */
     data: {
-        csrfToken: string; // the web token itself is stored in the sinequa-web-token cookie
-        provider: string;
+        csrfToken: string, // the web token itself is stored in the sinequa-web-token cookie
+        provider: string
     };
 }
 
@@ -70,15 +70,15 @@ export interface UserOverride {
  */
 export interface JsonWebToken {
     header: {
-        typ: string;
-        alg: string;
+        typ: string,
+        alg: string
     };
     payload: {
-        iss: string;
-        iat: string;
-        exp: string;
-        sub: string;
-        hash: string;
+        iss: string,
+        iat: string,
+        exp: string,
+        sub: string,
+        hash: string
     };
     signature: string;
 }

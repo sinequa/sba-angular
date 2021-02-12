@@ -74,7 +74,7 @@ export class BaseProvider implements NetworkProvider {
      * @param count (default: 1) A "count" property that can reflect the "size" or "importance" of the node in the network (note that the count property accumulates when nodes are merged)
      */
     protected createNode(type: NodeType, value: string, label?: string, visible = true, customProps = {}, count = 1): Node {
-        let node: Node = {
+        const node: Node = {
             id: this.getNodeId(type, value),
             label: label || value,
             type,
