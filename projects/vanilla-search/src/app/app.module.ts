@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 // @sinequa/core library
 import { WebServicesModule, StartConfigWebService, StartConfig } from "@sinequa/core/web-services";
@@ -113,7 +112,6 @@ export const breakpoints = {
         RouterModule.forRoot(routes),
         FormsModule,
         ReactiveFormsModule,
-        TooltipModule,
 
         WebServicesModule.forRoot(startConfig),
         IntlModule.forRoot(AppLocalesConfig),
