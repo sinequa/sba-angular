@@ -222,7 +222,6 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
           // Manage splitted documents
           let pageNumber = this.previewService.getPageNumber(previewData.record);
           if(pageNumber) {
-            url = `${url.slice(0, url.length-4)}-${pageNumber}.htm`; // SBA-115 provisory bug fix
             this.previewService.fetchPages(previewData.record.containerid!, this.query!)
               .subscribe(results => this.pagesResults = results);
           }
