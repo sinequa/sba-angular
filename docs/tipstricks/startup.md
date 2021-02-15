@@ -266,11 +266,9 @@ In Vanilla Search, the `AppComponent` does three important things:
 The Login process is described extensively in [Login Methods](login-methods.html). It is important to be aware that a common source of error is trying to perform some actions requiring to be logged in, without verifying whether or not it is the case. Because of point 3) above, it is very important to include checks in the applications, such as:
 
 ```html
-{% raw %}
-<h1 *ngIf="loginService.complete">
+{% raw %}<h1 *ngIf="loginService.complete">
     Hello {{principalService.principal.fullName}}!
-</h1>
-{% endraw %}
+</h1>{% endraw %}
 ```
 
 It is also frequently required to perform tasks upon login or logout events. The correct way to do so is to subscribe to the [`LoginService`]({{site.baseurl}}core/injectables/LoginService.html) events:
