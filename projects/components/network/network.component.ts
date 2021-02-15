@@ -21,10 +21,7 @@ import { IntlService } from '@sinequa/core/intl';
  * See: https://visjs.github.io/vis-network/docs/network/
  */
 export const defaultOptions: Options = {
-    height: '500px',
-    interaction: {
-        navigationButtons: true // For the buttons to be displayed, it is necessary to import the stylesheet "~vis-network/dist/vis-network.min.css"
-    }
+    height: '500px'
 };
 
 /**
