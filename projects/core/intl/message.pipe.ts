@@ -17,7 +17,6 @@ export interface MessageParams {
  * A pipe to display messages in the current locale. Inputs are processed by
  * [IntlService.formatMessage]{@link IntlService#formatMessage}
  */
-/* tslint:disable:use-pipe-transform-interface*/
 @Pipe({name: "sqMessage", pure: false})
 export class MessagePipe extends AbstractIntlPipe {
     constructor(

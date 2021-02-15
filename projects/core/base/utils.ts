@@ -805,11 +805,9 @@ export class Utils {
         let d = Date.now();
         const guid = (withHyphens ?
             'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx' : 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx').replace(/[xy]/g, (c) => {
-                /* tslint:disable:no-bitwise */
                 const r = (d + Math.random() * 16) % 16 | 0;
                 d = Math.floor(d / 16);
                 return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-                /* tslint:enable:no-bitwise */
             });
         return guid;
     }

@@ -210,7 +210,7 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
         const quantiles = this.color.quantiles();
         const bucketWidth = (this.width - this.margin.left - this.margin.right) / this.buckets;
         for(let i=0; i < this.buckets; i++){
-            let color = this.color(i===0? 0 : quantiles[i-1]);
+            const color = this.color(i===0? 0 : quantiles[i-1]);
             if(i === 0 || color !== legend[legend.length-1].color){
                 legend.push({
                     x: legend.length * bucketWidth,
@@ -227,12 +227,12 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
      * Truncates the axis strings to fit inside 90px width
      */
     wrap = (d: string, i: number, nodes: SVGTextElement[] | ArrayLike<SVGTextElement>) => {
-        var self = d3.select(nodes[i]),
-          textLength = nodes[i].getComputedTextLength(),
-          text = self.text(),
-          fullText = self.text();
+        const self = d3.select(nodes[i]);
+        let textLength = nodes[i].getComputedTextLength();
+        let text = self.text();
+        const fullText = self.text();
         while (textLength > 90 && text.length > 0) {
-          text = text.slice(0, -1);
+          text = text.slice(0, -1)
           self.text(text + '...');
           textLength = nodes[i].getComputedTextLength();
         }

@@ -47,11 +47,11 @@ export interface Location {
  */
 export interface HighlightDataPerLocation {
     [index: number]: {
-        start: number;
-        length: number;
-        values: string[];
-        displayValue: string;
-        positionInCategories: { [category: string]: number };
+        start: number,
+        length: number,
+        values: string[],
+        displayValue: string,
+        positionInCategories: { [category: string]: number }
     };
 
     size(): number;
