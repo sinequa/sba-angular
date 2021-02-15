@@ -362,10 +362,13 @@ export class AuthenticationService extends HttpService {
      * is removed
      */
     logout() {
-        this.tokenService.deleteWebTokenCookie().subscribe();
-        this.auditService.notifyLogout().subscribe();
-        this.authentication = undefined;
-        this.processedCredentials = undefined;
+        this.auditService.notifyLogout().subscribe(
+            _ => {
+                this.tokenService.deleteWebTokenCookie().subscribe()
+                this.authentication = undefined;
+                this.processedCredentials = undefined;
+            }
+        );
     }
 
     /**
