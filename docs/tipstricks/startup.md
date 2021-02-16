@@ -72,7 +72,7 @@ The `StartConfig` data can be populated in 2 different ways:
 - Manually: the values are directly written in `app.module.ts` (and/or in `environment.ts`, if the data is environment-dependent).
 - Automatically: You can activate the `StartConfigInitializer` (it is commented out by default) so that the `StartConfig` is fetched automatically from the server. This approach is convenient, but has two issues:
 
-    1. It requires that your app is served a URL with the pattern `/app/<app-name>` (which is the case if the app is deployed in Sinequa, but not if you are using `ng serve`).
+    1. It requires that your app is served from a URL with the pattern `/app/<app-name>` (which is the case if the app is deployed in Sinequa, but not if you are using `ng serve`).
     2. It makes an extra web service call to fetch the data from the server, which slows down the application startup.
 
 The key properties of the `StartConfig` are the following:
@@ -85,7 +85,7 @@ The key properties of the `StartConfig` are the following:
 
 ### Application Routes
 
-An Angular application can have multiple "routes". A route is a URL scheme, allowing to switch to different views and resources.
+An Angular application can have multiple "routes". A route is a URL scheme, allowing to switch between different views and resources.
 
 For instance, Vanilla Search has 3 routes: `/home` (displays the home page), `/search` (displays search results) and `/preview` (displays a document's preview). These 3 routes are defined as follows:
 
@@ -98,7 +98,7 @@ export const routes: Routes = [
 ];
 ```
 
-These routes must be injected in the `RouterModule` (a standard Angular module providing components and services for route changes).
+These routes must be injected in the `RouterModule` (a standard Angular module providing components and services for managing route changes).
 
 ```ts
 @NgModule({
@@ -122,7 +122,7 @@ Effectively, this tells the `SearchService` that `/search` is a "search route" (
 
 The `SearchOptions` also contains the following options:
 
-- `deactivateRouting` can be used to deactivating the storage of the search query in the URL (which means the query is not persisted in case of a page refresh).
+- `deactivateRouting` can be used to deactivate the storage of the search query in the URL (which means the query is not persisted in case of a page refresh).
 - `preventQueryNameChanges` can be used to explicitly forbid the use of a query web service different from the primary one.
 
 These search options must be injected in the `BsSearchModule`:
