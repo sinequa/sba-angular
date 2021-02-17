@@ -251,7 +251,7 @@ By:
     {
         "input": "projects/hello-search/src/styles/preview.scss",
         "bundleName": "preview",
-        "lazy": true
+        "inject": false
     }
 ],
 ```
