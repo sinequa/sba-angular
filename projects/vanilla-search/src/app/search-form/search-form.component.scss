@@ -26,11 +26,11 @@
     z-index: 99;
     margin-bottom: 15px;
 }
-.btn-keep-filters {
-  background-color: white;
-  border-left: 1px solid #ced4da;
-
-  &--active {
-    color: #007bff;
-  }
+.light-gray {
+    color: #AAA
+}
+.form-control:not(:focus-within) {
+    .btn-focus {
+        display: none;
+    }
 }

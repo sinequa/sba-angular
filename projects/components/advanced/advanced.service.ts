@@ -5,6 +5,7 @@ import {
     ValidatorFn,
     AsyncValidatorFn,
     Validators,
+    AbstractControl,
 } from "@angular/forms";
 
 /* Services */
@@ -164,6 +165,16 @@ export class AdvancedService {
     ): FormControl {
         const value = this.getBooleanValue(field, query);
         return this.createControl(value, validators, asyncValidators);
+    }
+
+    public resetControl(control: AbstractControl) {
+        control.reset();
+        control.setValue(undefined);
+    }
+
+    public resetRangeControl(control: AbstractControl) {
+        control.reset();
+        control.setValue([undefined, undefined]);
     }
 
     /**

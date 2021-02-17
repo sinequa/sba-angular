@@ -23,11 +23,16 @@ export class SearchFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   autofocus = 0;
 
+  /** Expression from the query selects, if any ("simple"/"selects" field search mode) */
   fieldSearchExpression?: string;
 
+  /** Result of query parsing ("advanced" field search mode) */
   parseResult?: ParseResult;
 
+  /** A reference to the AutocompleteExtended directive, needed to get the field search selections, if any */
   @ViewChild(AutocompleteExtended) autocompleteDirective: AutocompleteExtended;
+  
+  // Advanced search flags
   showAdvancedSearch: boolean;
   initAdvanced: boolean;
 
@@ -103,21 +108,13 @@ export class SearchFormComponent implements OnInit, OnDestroy {
       /** Store relevant filters (tab ...)*/
       const queryTab = this.searchService.query.tab;
 
-      /**
-       * If this.keepFilters = false, clear the query and reset all its filters.
-      */
+      /** If this.keepFilters = false, clear the query and reset all its filters. */
       if (!this.keepFilters) {
         this.searchService.clearQuery();
 
         /** MUST explicitly reset the advanced form if this.keepAdvancedSearchFilters = false */
         if (!this.keepAdvancedSearchFilters) {
-          Object.keys(this.form.controls).forEach(
-            (key: string) => {
-              if (key !== 'search') {
-                this.form.controls[key].setValue(undefined);
-              }
-            }
-          );
+          this.clearAdvancedForm();
         }
       }
 
@@ -151,10 +148,47 @@ export class SearchFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Clears the entire search and trigger an new EMPTY search
+   * Test if the form contains some inputs
    */
-  clearAll() {
-    this.searchService.clear(true, "search");
+  hasContent(): boolean {
+    return this.searchControl.value 
+      || this.fieldSearchExpression
+      || this.hasAdvancedContent();
+  }
+
+  /**
+   * Clears the entire search form
+   */
+  clearForm() {
+    this.searchControl.reset();
+    this.fieldSearchExpression = "";
+    this.clearAdvancedForm();
+  }
+
+  /**
+   * Test if the advanced form has non-undefined values set
+   */
+  hasAdvancedContent(): boolean {
+    return this.form.get("treepath")?.value
+      || this.form.get("authors")?.value
+      || this.form.get("size")?.value?.find(v => v)
+      || this.form.get("modified")?.value?.find(v => v)
+      || this.form.get("person")?.value
+      || this.form.get("docformat")?.value
+      || this.searchService.query.hasAdvanced();
+  }
+
+  /**
+   * Clear only the advanced form
+   */
+  clearAdvancedForm() {
+    this.advancedService.resetControl(this.form.get("treepath")!);
+    this.advancedService.resetControl(this.form.get("authors")!);
+    this.advancedService.resetRangeControl(this.form.get("size")!);
+    this.advancedService.resetRangeControl(this.form.get("modified")!);
+    this.advancedService.resetControl(this.form.get("person")!);
+    this.advancedService.resetControl(this.form.get("docformat")!);
+    this.searchService.query.toStandard();
   }
 
   onParse(parseResult: ParseResult) {
