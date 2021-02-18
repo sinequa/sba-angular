@@ -134,7 +134,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input, OnChanges, SimpleChanges} from &quot;@angular/core&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
-import {AppService, FormatService, Query} from &quot;@sinequa/core/app-utils&quot;;
+import {AppService, FormatService} from &quot;@sinequa/core/app-utils&quot;;
 import {CCColumn, Results} from &quot;@sinequa/core/web-services&quot;;
 import {SelectionService} from &quot;@sinequa/components/selection&quot;;
 import {SearchService} from &quot;@sinequa/components/search&quot;;
@@ -167,7 +167,6 @@ export interface ColumnData {
     templateUrl: &quot;./results-grid-view.html&quot;
 })
 export class BsResultsGridView implements OnChanges {
-    @Input() query: Query;
     @Input() results: Results;
     @Input() view: GridView;
     private orderBy: string | undefined;

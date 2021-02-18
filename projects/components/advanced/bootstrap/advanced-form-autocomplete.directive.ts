@@ -1,14 +1,13 @@
-import { Directive, Input, ElementRef, HostListener, Output, EventEmitter } from "@angular/core";
+import { Directive, Input, ElementRef, HostListener, Output, EventEmitter, OnInit } from "@angular/core";
 import { Autocomplete, SuggestService, AutocompleteItem, AutocompleteState } from "@sinequa/components/autocomplete";
 import { UIService } from "@sinequa/components/utils";
 import { AppService } from "@sinequa/core/app-utils";
 import { Observable } from 'rxjs';
 
 @Directive({
-    // tslint:disable-next-line: directive-selector
     selector: "[sqAdvancedFormAutocomplete]",
 })
-export class BsAdvancedFormAutocomplete extends Autocomplete {
+export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
     @Output() UpdateItem = new EventEmitter<AutocompleteItem | undefined>();
     @Input() field : string;
 

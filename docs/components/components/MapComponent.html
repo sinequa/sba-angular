@@ -1,0 +1,2068 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>MapComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>googlemaps/map.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+                <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+    </p>
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>sq-googlemaps</code></td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./map.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#bounds">bounds</a>
+                            </li>
+                            <li>
+                                <a href="#clearFilters">clearFilters</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#exprBuilder">exprBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#facetService">facetService</a>
+                            </li>
+                            <li>
+                                <a href="#filterArea">filterArea</a>
+                            </li>
+                            <li>
+                                <a href="#fitBounds">fitBounds</a>
+                            </li>
+                            <li>
+                                <a href="#geoRecords">geoRecords</a>
+                            </li>
+                            <li>
+                                <a href="#mapStyles">mapStyles</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Optional</span>
+                                <a href="#openedWindow">openedWindow</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#searchService">searchService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#footerTpl">footerTpl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#headerTpl">headerTpl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#settingsTpl">settingsTpl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#subHeaderTpl">subHeaderTpl</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#closeWindow">closeWindow</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges">ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#onBoundsChange">onBoundsChange</a>
+                            </li>
+                            <li>
+                                <a href="#onMapClick">onMapClick</a>
+                            </li>
+                            <li>
+                                <a href="#onMarkerClick">onMarkerClick</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isHidden">isHidden</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onCollapse">onCollapse</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onExpand">onExpand</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onOpenSettings">onOpenSettings</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#height">height</a>
+                            </li>
+                            <li>
+                                <a href="#latitudeField">latitudeField</a>
+                            </li>
+                            <li>
+                                <a href="#longitudeField">longitudeField</a>
+                            </li>
+                            <li>
+                                <a href="#name">name</a>
+                            </li>
+                            <li>
+                                <a href="#results">results</a>
+                            </li>
+                            <li>
+                                <a href="#style">style</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#recordClicked">recordClicked</a>
+                            </li>
+                            <li>
+                                <a href="#actionsChanged">actionsChanged</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#actions">actions</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(searchService: <a href="../injectables/SearchService.html">SearchService</a>, facetService: <a href="../injectables/FacetService.html">FacetService</a>, exprBuilder: ExprBuilder)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">googlemaps/map.component.ts:45</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>searchService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SearchService.html" target="_self" >SearchService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>facetService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/FacetService.html" target="_self" >FacetService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>exprBuilder</td>
+                                                  
+                                                        <td>
+                                                                    <code>ExprBuilder</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="height"></a>
+                        <b>height</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>300</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">googlemaps/map.component.ts:20</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Desired height of the map </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="latitudeField"></a>
+                        <b>latitudeField</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;latitude&quot;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">googlemaps/map.component.ts:22</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Name of the field storing the latitude as a decimal number </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="longitudeField"></a>
+                        <b>longitudeField</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;longitude&quot;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">googlemaps/map.component.ts:24</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Name of the field storing the longitude as a decimal number </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="name"></a>
+                        <b>name</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;map&quot;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">googlemaps/map.component.ts:16</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Name of the map used as an identifier for the facet, to associate its selects </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="results"></a>
+                        <b>results</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Results.html" target="_self" >Results</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">googlemaps/map.component.ts:18</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Results list displayed on the map when possible </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="style"></a>
+                        <b>style</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;light&quot;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">googlemaps/map.component.ts:26</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Map style (light or dark are supported) </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="recordClicked"></a>
+                        <b>recordClicked</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">googlemaps/map.component.ts:28</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Event emitter that emits a Record object when the marker of that record is clicked by the user </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="actionsChanged"></a>
+                        <b>actionsChanged</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFacet.html#source" target="_self" >AbstractFacet:21</a></code>
+</div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Event emitter triggered when the list of action changes</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeWindow"></a>
+                    <span class="name">
+                        <b>
+                            closeWindow
+                        </b>
+                        <a href="#closeWindow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeWindow()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="131"
+                            class="link-to-prism">googlemaps/map.component.ts:131</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <b>
+                            ngOnChanges
+                        </b>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">googlemaps/map.component.ts:99</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onBoundsChange"></a>
+                    <span class="name">
+                        <b>
+                            onBoundsChange
+                        </b>
+                        <a href="#onBoundsChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onBoundsChange(bounds: google.maps.LatLngBounds)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="151"
+                            class="link-to-prism">googlemaps/map.component.ts:151</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>bounds</td>
+                                    <td>
+                                            <code>google.maps.LatLngBounds</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onMapClick"></a>
+                    <span class="name">
+                        <b>
+                            onMapClick
+                        </b>
+                        <a href="#onMapClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onMapClick(event: <a href="../interfaces/Event.html">Event</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="141"
+                            class="link-to-prism">googlemaps/map.component.ts:141</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="../interfaces/Event.html" target="_self" >Event</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onMarkerClick"></a>
+                    <span class="name">
+                        <b>
+                            onMarkerClick
+                        </b>
+                        <a href="#onMarkerClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onMarkerClick(event: <a href="../interfaces/Event.html">Event</a>, record: Record, infoWindow?: AgmInfoWindow)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="145"
+                            class="link-to-prism">googlemaps/map.component.ts:145</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="../interfaces/Event.html" target="_self" >Event</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>record</td>
+                                    <td>
+                                            <code>Record</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>infoWindow</td>
+                                    <td>
+                                            <code>AgmInfoWindow</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isHidden"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            isHidden
+                        </b>
+                        <a href="#isHidden"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isHidden()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/AbstractFacet.html#source" target="_self" >AbstractFacet:61</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Method enabling the facet component to be hidden (if, for example there is no data to display)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onCollapse"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            onCollapse
+                        </b>
+                        <a href="#onCollapse"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onCollapse(collapsed: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/AbstractFacet.html#source" target="_self" >AbstractFacet:46</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Method called when a facet is collapsed</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>collapsed</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onExpand"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            onExpand
+                        </b>
+                        <a href="#onExpand"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onExpand(expanded: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/AbstractFacet.html#source" target="_self" >AbstractFacet:51</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Method called when a facet is resized via an action (not accounting for window resizing)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>expanded</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onOpenSettings"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            onOpenSettings
+                        </b>
+                        <a href="#onOpenSettings"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onOpenSettings(settingsOpened: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../components/AbstractFacet.html#source" target="_self" >AbstractFacet:56</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Method called when the settings of this facet are opened</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>settingsOpened</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="bounds"></a>
+                        <span class="name">
+                            <b>
+                            bounds</b>
+                            <a href="#bounds"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>google.maps.LatLngBounds</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">googlemaps/map.component.ts:40</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Bounds of the map updated on initialization and user interaction </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="clearFilters"></a>
+                        <span class="name">
+                            <b>
+                            clearFilters</b>
+                            <a href="#clearFilters"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Action.html" target="_self" >Action</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">googlemaps/map.component.ts:37</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="exprBuilder"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            exprBuilder</b>
+                            <a href="#exprBuilder"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ExprBuilder</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">googlemaps/map.component.ts:50</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="facetService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            facetService</b>
+                            <a href="#facetService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../injectables/FacetService.html" target="_self" >FacetService</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">googlemaps/map.component.ts:49</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="filterArea"></a>
+                        <span class="name">
+                            <b>
+                            filterArea</b>
+                            <a href="#filterArea"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Action.html" target="_self" >Action</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">googlemaps/map.component.ts:36</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="fitBounds"></a>
+                        <span class="name">
+                            <b>
+                            fitBounds</b>
+                            <a href="#fitBounds"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>google.maps.LatLngBoundsLiteral | boolean</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">googlemaps/map.component.ts:33</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Mode for fitting the map to its contained markers </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="geoRecords"></a>
+                        <span class="name">
+                            <b>
+                            geoRecords</b>
+                            <a href="#geoRecords"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Record[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">googlemaps/map.component.ts:31</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Filtered list of records, keeping only the geolocated records </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="mapStyles"></a>
+                        <span class="name">
+                            <b>
+                            mapStyles</b>
+                            <a href="#mapStyles"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">googlemaps/map.component.ts:45</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Styles of the map if any </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="openedWindow"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Optional</span>
+                            openedWindow</b>
+                            <a href="#openedWindow"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>AgmInfoWindow</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">googlemaps/map.component.ts:42</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Currently opened info window, which can be closed when another window is closed </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="searchService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            searchService</b>
+                            <a href="#searchService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../injectables/SearchService.html" target="_self" >SearchService</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">googlemaps/map.component.ts:48</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="footerTpl"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                                <span class="modifier">Optional</span>
+                            footerTpl</b>
+                            <a href="#footerTpl"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;footerTpl&#x27;, {static: true, read: TemplateRef})<br />
+                            </code>
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFacet.html#source" target="_self" >AbstractFacet:41</a></code>
+</div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Template for footer of this facet, if any</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="headerTpl"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                                <span class="modifier">Optional</span>
+                            headerTpl</b>
+                            <a href="#headerTpl"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;headerTpl&#x27;, {static: true, read: TemplateRef})<br />
+                            </code>
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFacet.html#source" target="_self" >AbstractFacet:31</a></code>
+</div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Template for header of this facet, if any</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="settingsTpl"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                                <span class="modifier">Optional</span>
+                            settingsTpl</b>
+                            <a href="#settingsTpl"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;settingsTpl&#x27;, {static: true, read: TemplateRef})<br />
+                            </code>
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFacet.html#source" target="_self" >AbstractFacet:26</a></code>
+</div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Template for the settings editor of this facet, if any</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="subHeaderTpl"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                                <span class="modifier">Optional</span>
+                            subHeaderTpl</b>
+                            <a href="#subHeaderTpl"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>TemplateRef&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChild(&#x27;subHeaderTpl&#x27;, {static: true, read: TemplateRef})<br />
+                            </code>
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFacet.html" target="_self" >AbstractFacet</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFacet.html#source" target="_self" >AbstractFacet:36</a></code>
+</div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Template for a sub-header of this facet, if any. This appears below the header</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="actions"></a>
+                        <span class="name"><b>actions</b><a href="#actions"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>actions()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">googlemaps/map.component.ts:88</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from &#x27;@angular/core&#x27;;
+import { Results, Record } from &#x27;@sinequa/core/web-services&#x27;;
+import { AbstractFacet, FacetService } from &#x27;@sinequa/components/facet&#x27;;
+import { Action } from &#x27;@sinequa/components/action&#x27;;
+import { AgmInfoWindow } from &#x27;@agm/core&#x27;;
+import { SearchService } from &#x27;@sinequa/components/search&#x27;;
+import { darkStyle } from &quot;./dark-style&quot;;
+import { ExprBuilder } from &#x27;@sinequa/core/app-utils&#x27;;
+
+@Component({
+    selector: &quot;sq-googlemaps&quot;,
+    templateUrl: &quot;./map.component.html&quot;
+})
+export class MapComponent extends AbstractFacet implements OnChanges {
+    /** Name of the map used as an identifier for the facet, to associate its selects */
+    @Input() name &#x3D; &quot;map&quot;;
+    /** Results list displayed on the map when possible */
+    @Input() results: Results;
+    /** Desired height of the map */
+    @Input() height &#x3D; 300;
+    /** Name of the field storing the latitude as a decimal number */
+    @Input() latitudeField &#x3D; &quot;latitude&quot;;
+    /** Name of the field storing the longitude as a decimal number */
+    @Input() longitudeField &#x3D; &quot;longitude&quot;;
+    /** Map style (light or dark are supported) */
+    @Input() style &#x3D; &quot;light&quot;;
+    /** Event emitter that emits a Record object when the marker of that record is clicked by the user */
+    @Output() recordClicked &#x3D; new EventEmitter&lt;Record&gt;();
+
+    /** Filtered list of records, keeping only the geolocated records */
+    geoRecords: Record[] &#x3D; [];
+    /** Mode for fitting the map to its contained markers */
+    fitBounds: google.maps.LatLngBoundsLiteral | boolean;
+
+    // Actions for selecting an area on the map, and clearing that selection
+    filterArea: Action;
+    clearFilters: Action;
+
+    /** Bounds of the map updated on initialization and user interaction */
+    bounds: google.maps.LatLngBounds;
+    /** Currently opened info window, which can be closed when another window is closed */
+    openedWindow?: AgmInfoWindow;
+
+    /** Styles of the map if any */
+    mapStyles: any;
+
+    constructor(
+        public searchService: SearchService,
+        public facetService: FacetService,
+        public exprBuilder: ExprBuilder
+    ){
+        super();
+        
+        // Clear the current filters
+        this.clearFilters &#x3D; new Action({
+            icon: &quot;far fa-minus-square&quot;,
+            title: &quot;msg#facet.clearSelects&quot;,
+            action: () &#x3D;&gt; {
+                this.searchService.query.removeSelect(this.name);
+                this.searchService.search();
+            }
+        });
+
+        // Filter the currently selected area
+        this.filterArea &#x3D; new Action({
+            icon: &quot;fas fa-search&quot;,
+            title: &quot;msg#googlemaps.filterArea&quot;,
+            action: () &#x3D;&gt; {
+                if(this.facetService.hasFiltered(this.name)) {
+                    this.searchService.query.removeSelect(this.name);
+                }
+                const minLat &#x3D; this.bounds.getSouthWest().lat();
+                const maxLat &#x3D; this.bounds.getNorthEast().lat();
+                const minLng &#x3D; this.bounds.getSouthWest().lng();
+                const maxLng &#x3D; this.bounds.getNorthEast().lng();
+                const expr &#x3D; this.exprBuilder.concatAndExpr([
+                    this.exprBuilder.makeNumericalExpr(this.latitudeField, &#x27;&gt;&#x3D;&#x27;, minLat),
+                    this.exprBuilder.makeNumericalExpr(this.latitudeField, &#x27;&lt;&#x3D;&#x27;, maxLat),
+                    this.exprBuilder.makeNumericalExpr(this.longitudeField, &#x27;&gt;&#x3D;&#x27;, minLng),
+                    this.exprBuilder.makeNumericalExpr(this.longitudeField, &#x27;&lt;&#x3D;&#x27;, maxLng)
+                ]);
+                this.searchService.query.addSelect(expr, this.name);
+                this.searchService.search();
+            }
+        });
+    }
+
+    get actions(): Action[] {
+        const actions &#x3D; [] as Action[];
+        if(this.facetService.hasFiltered(this.name)) {
+            actions.push(this.clearFilters);
+        }
+        if(this.bounds) {
+            actions.push(this.filterArea);
+        }
+        return actions;
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+
+        if(changes[&#x27;results&#x27;]) {
+            if(this.results) {
+                this.geoRecords &#x3D; this.results.records.filter(r &#x3D;&gt; !!r[this.latitudeField]);
+            }
+            this.closeWindow();
+        }
+
+        if(changes[&#x27;style&#x27;]) {
+            this.mapStyles &#x3D; this.style &#x3D;&#x3D;&#x3D; &quot;dark&quot;? darkStyle : undefined;
+        }
+
+        // If no document, the view shows a default latitude / longitude
+        if(this.geoRecords.length &#x3D;&#x3D;&#x3D; 0) {
+            this.fitBounds &#x3D; false;
+        }
+        // If multiple documents, the view is centered around them, at the right scale
+        else if(this.geoRecords.length &gt; 1) {
+            this.fitBounds &#x3D; true;
+        }
+        else {
+            // Custom bounds centered around the single geo record in the results
+            this.fitBounds &#x3D; {
+                east: this.geoRecords[0][this.longitudeField] + 0.02,
+                north: this.geoRecords[0][this.latitudeField] + 0.02,
+                south: this.geoRecords[0][this.latitudeField] - 0.02,
+                west: this.geoRecords[0][this.longitudeField] - 0.02
+            };
+        }
+    }
+
+    closeWindow() {
+        if(this.openedWindow) {
+            this.openedWindow.close();
+            this.openedWindow &#x3D; undefined;
+        }
+    }
+
+
+    // Manage map interactions (avoid multiple opened info windows)
+
+    onMapClick(event: Event) {
+        this.closeWindow();
+    }
+
+    onMarkerClick(event: Event, record: Record, infoWindow?: AgmInfoWindow) {
+        this.closeWindow();
+        this.openedWindow &#x3D; infoWindow;
+        this.recordClicked.next(record);
+    }
+
+    onBoundsChange(bounds: google.maps.LatLngBounds) {
+        this.bounds &#x3D; bounds;
+    }
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;agm-map
+    [latitude]&#x3D;&quot;35&quot;
+    [longitude]&#x3D;&quot;-30&quot;
+    [zoom]&#x3D;&quot;2&quot;
+    [fitBounds]&#x3D;&quot;fitBounds&quot; 
+    [styles]&#x3D;&quot;mapStyles&quot;
+    [ngStyle]&#x3D;&quot;{&#x27;height.px&#x27;: height}&quot;
+    (mapClick)&#x3D;&quot;onMapClick($event)&quot;
+    (boundsChange)&#x3D;&quot;onBoundsChange($event)&quot;&gt;
+
+    &lt;agm-marker *ngFor&#x3D;&quot;let record of geoRecords&quot;
+        [latitude]&#x3D;&quot;record[latitudeField]&quot;
+        [longitude]&#x3D;&quot;record[longitudeField]&quot;
+        [title]&#x3D;&quot;record[&#x27;title&#x27;]&quot;
+        [agmFitBounds]&#x3D;&quot;true&quot;
+        [opacity]&#x3D;&quot;record.$selected? 0.7 : 1&quot;
+        (markerClick)&#x3D;&quot;onMarkerClick($event, record, infoWindow)&quot;&gt;
+
+        &lt;agm-info-window #infoWindow [disableAutoPan]&#x3D;&quot;true&quot;&gt;
+            {{record[&#x27;title&#x27;]}}
+        &lt;/agm-info-window&gt;
+
+    &lt;/agm-marker&gt;
+
+&lt;/agm-map&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><agm-map    [latitude]="35"    [longitude]="-30"    [zoom]="2"    [fitBounds]="fitBounds"     [styles]="mapStyles"    [ngStyle]="{\'height.px\': height}"    (mapClick)="onMapClick($event)"    (boundsChange)="onBoundsChange($event)">    <agm-marker *ngFor="let record of geoRecords"        [latitude]="record[latitudeField]"        [longitude]="record[longitudeField]"        [title]="record[\'title\']"        [agmFitBounds]="true"        [opacity]="record.$selected? 0.7 : 1"        (markerClick)="onMarkerClick($event, record, infoWindow)">        <agm-info-window #infoWindow [disableAutoPan]="true">            {{record[\'title\']}}        </agm-info-window>    </agm-marker></agm-map></div>'
+    var COMPONENTS = [{'name': 'AbstractFacet', 'selector': ''},{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAddLabel', 'selector': 'sq-add-label'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormInput', 'selector': 'sq-advanced-form-input'},{'name': 'BsAdvancedFormMultiInput', 'selector': 'sq-advanced-form-multi-input'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDeleteLabel', 'selector': 'sq-delete-label'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEdgeInfoCard', 'selector': 'sq-edge-info-card'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditLabel', 'selector': 'sq-edit-label'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetFilters', 'selector': 'sq-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTimelineComponent', 'selector': 'sq-facet-timeline'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFieldSearchItemsComponent', 'selector': 'sq-field-search-items'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsAutocompleteComponent', 'selector': 'sq-labels-autocomplete'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLoadMore', 'selector': 'sq-load-more'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMySearch', 'selector': 'sq-facet-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNodeInfoCard', 'selector': 'sq-node-info-card'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsPrompt', 'selector': 'sq-prompt'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsScroller', 'selector': 'sq-scroller'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSelectionArranger', 'selector': 'sq-selection-arranger'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimelineComponent', 'selector': 'sq-timeline'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'FacetNgxChart', 'selector': 'sq-facet-ngx-chart'},{'name': 'FusionChart', 'selector': 'sq-fusion-chart'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MapComponent', 'selector': 'sq-googlemaps'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'NetworkComponent', 'selector': 'sq-network'},{'name': 'NgxChart', 'selector': 'sq-ngx-chart'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'StickyComponent', 'selector': '[sqSticky]'},{'name': 'TooltipComponent', 'selector': 'sqx-tooltip'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
+    var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'AutocompleteFieldSearch', 'selector': '[sqAutocompleteFieldSearch]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sqAdvancedFormAutocomplete]'},{'name': 'BsAdvancedFormAutocompleteMultiInput', 'selector': '[sqAdvancedFormAutocompleteMultiInput]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sqAdvancedFormValidation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'FocusKeyListDirective', 'selector': '[sqFocusKeyList]'},{'name': 'FocusKeyListItemDirective', 'selector': '[sqFocusKeyListItem]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ResizeEventDirective', 'selector': '[sqResize]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'},{'name': 'TooltipDirective', 'selector': '[sqTooltip]'}];
+    var ACTUAL_COMPONENT = {'name': 'MapComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'MapComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

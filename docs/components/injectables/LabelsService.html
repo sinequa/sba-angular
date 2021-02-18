@@ -75,26 +75,8 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#bulkAddLabel">bulkAddLabel</a>
-                            </li>
-                            <li>
-                                <a href="#bulkRemoveLabel">bulkRemoveLabel</a>
-                            </li>
-                            <li>
-                                <a href="#deleteLabel">deleteLabel</a>
-                            </li>
-                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#labelsComponents">labelsComponents</a>
-                            </li>
-                            <li>
-                                <a href="#renameLabel">renameLabel</a>
-                            </li>
-                            <li>
-                                <a href="#selectLabel">selectLabel</a>
-                            </li>
-                            <li>
-                                <a href="#toggle">toggle</a>
                             </li>
                         </ul>
                     </td>
@@ -116,32 +98,45 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#buildLabelsMenu">buildLabelsMenu</a>
+                                <a href="#buildSelectionAction">buildSelectionAction</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#buildSelectionAction">buildSelectionAction</a>
+                                <a href="#bulkAddLabelModal">bulkAddLabelModal</a>
                             </li>
                             <li>
                                 <a href="#bulkAddLabels">bulkAddLabels</a>
                             </li>
                             <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#bulkRemoveLabelModal">bulkRemoveLabelModal</a>
+                            </li>
+                            <li>
                                 <a href="#bulkRemoveLabels">bulkRemoveLabels</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#deleteLabelModal">deleteLabelModal</a>
                             </li>
                             <li>
                                 <a href="#deleteLabels">deleteLabels</a>
                             </li>
                             <li>
-                                <a href="#getCurrentRecordIds">getCurrentRecordIds</a>
+                                    <span class="modifier">Public</span>
+                                <a href="#editLabelModal">editLabelModal</a>
                             </li>
                             <li>
-                                <a href="#getRecordFromId">getRecordFromId</a>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
                             </li>
                             <li>
                                 <a href="#removeLabels">removeLabels</a>
                             </li>
                             <li>
                                 <a href="#removePrivatePrefix">removePrivatePrefix</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#renameLabelModal">renameLabelModal</a>
                             </li>
                             <li>
                                 <a href="#renameLabels">renameLabels</a>
@@ -178,6 +173,18 @@
                                     <a href="#privateLabelsField">privateLabelsField</a>
                                 </li>
                                 <li>
+                                    <a href="#labelsAutoSuggestWildcard">labelsAutoSuggestWildcard</a>
+                                </li>
+                                <li>
+                                    <a href="#allowPublicLabelsManagement">allowPublicLabelsManagement</a>
+                                </li>
+                                <li>
+                                    <a href="#allowPublicLabelsEdition">allowPublicLabelsEdition</a>
+                                </li>
+                                <li>
+                                    <a href="#userLabelsRights">userLabelsRights</a>
+                                </li>
+                                <li>
                                     <a href="#privateLabelsPrefix">privateLabelsPrefix</a>
                                 </li>
                             </ul>
@@ -193,12 +200,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(labelsWebService: <a href="../components/Labels.html">LabelsWebService</a>, appService: AppService, searchService: <a href="../injectables/SearchService.html">SearchService</a>, modalService: ModalService, principalWebService: PrincipalWebService, intlService: IntlService, selectionService: <a href="../injectables/SelectionService.html">SelectionService</a>, labelsComponents: <a href="../interfaces/LabelsComponents.html">LabelsComponents</a>)</code>
+<code>constructor(labelsWebService: <a href="../components/Labels.html">LabelsWebService</a>, appService: AppService, searchService: <a href="../injectables/SearchService.html">SearchService</a>, modalService: ModalService, principalWebService: PrincipalWebService, intlService: IntlService, notificationService: NotificationsService, selectionService: <a href="../injectables/SelectionService.html">SelectionService</a>, labelsComponents: <a href="../interfaces/LabelsComponents.html">LabelsComponents</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">labels/labels.service.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">labels/labels.service.ts:66</a></div>
                             </td>
                         </tr>
 
@@ -288,6 +295,18 @@
                                                     
                                                 </tr>
                                                 <tr>
+                                                        <td>notificationService</td>
+                                                  
+                                                        <td>
+                                                                    <code>NotificationsService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
                                                         <td>selectionService</td>
                                                   
                                                         <td>
@@ -347,14 +366,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="331"
-                            class="link-to-prism">labels/labels.service.ts:331</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="351"
+                            class="link-to-prism">labels/labels.service.ts:351</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>END result selector </p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -441,8 +462,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="534"
-                            class="link-to-prism">labels/labels.service.ts:534</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="601"
+                            class="link-to-prism">labels/labels.service.ts:601</a></div>
                 </td>
             </tr>
 
@@ -493,154 +514,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="buildLabelsMenu"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            buildLabelsMenu
-                        </b>
-                        <a href="#buildLabelsMenu"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>buildLabelsMenu(addLabels: (items: <a href="../classes/Action.html">Action[]</a>,_public: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>) => void, icon: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, labelsText?, labelsTitle: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, publicLabelsText: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, privateLabelsText: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="140"
-                            class="link-to-prism">labels/labels.service.ts:140</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Default value</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>addLabels</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-                                    <td>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>icon</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-                                    <td>
-                                        <code>&quot;fas fa-tags&quot;</code>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>labelsText</td>
-                                    <td>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-                                    <td>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>labelsTitle</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-                                    <td>
-                                        <code>&quot;msg#labels.labels&quot;</code>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>publicLabelsText</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-                                    <td>
-                                        <code>&quot;msg#labels.publicLabels&quot;</code>
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>privateLabelsText</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-                                    <td>
-                                        <code>&quot;msg#labels.privateLabels&quot;</code>
-                                    </td>
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/Action.html" target="_self" >Action | undefined</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="buildSelectionAction"></a>
                     <span class="name">
                         <b>
@@ -661,8 +534,51 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="198"
-                            class="link-to-prism">labels/labels.service.ts:198</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="318"
+                            class="link-to-prism">labels/labels.service.ts:318</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>END From navbar </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../classes/Action.html" target="_self" >Action | undefined</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bulkAddLabelModal"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            bulkAddLabelModal
+                        </b>
+                        <a href="#bulkAddLabelModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>bulkAddLabelModal()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="167"
+                            class="link-to-prism">labels/labels.service.ts:167</a></div>
                 </td>
             </tr>
 
@@ -671,7 +587,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/Action.html" target="_self" >Action | undefined</a></code>
+                        <b>Returns : </b>    <code>Promise&lt;ModalResult&gt;</code>
 
                     </div>
                 </td>
@@ -694,6 +610,252 @@
             <tr>
                 <td class="col-md-4">
 <code>bulkAddLabels(labels: string[], _public: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="482"
+                            class="link-to-prism">labels/labels.service.ts:482</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>labels</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>_public</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bulkRemoveLabelModal"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            bulkRemoveLabelModal
+                        </b>
+                        <a href="#bulkRemoveLabelModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>bulkRemoveLabelModal()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="177"
+                            class="link-to-prism">labels/labels.service.ts:177</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;ModalResult&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bulkRemoveLabels"></a>
+                    <span class="name">
+                        <b>
+                            bulkRemoveLabels
+                        </b>
+                        <a href="#bulkRemoveLabels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>bulkRemoveLabels(labels: string[], _public: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="509"
+                            class="link-to-prism">labels/labels.service.ts:509</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>labels</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>_public</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteLabelModal"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            deleteLabelModal
+                        </b>
+                        <a href="#deleteLabelModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>deleteLabelModal()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="157"
+                            class="link-to-prism">labels/labels.service.ts:157</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;ModalResult&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteLabels"></a>
+                    <span class="name">
+                        <b>
+                            deleteLabels
+                        </b>
+                        <a href="#deleteLabels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>deleteLabels(labels: string[], _public: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
@@ -764,108 +926,28 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="bulkRemoveLabels"></a>
+                    <a name="editLabelModal"></a>
                     <span class="name">
                         <b>
-                            bulkRemoveLabels
+                            <span class="modifier">Public</span>
+                            editLabelModal
                         </b>
-                        <a href="#bulkRemoveLabels"><span class="icon ion-ios-link"></span></a>
+                        <a href="#editLabelModal"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>bulkRemoveLabels(labels: string[], _public: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>editLabelModal()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="473"
-                            class="link-to-prism">labels/labels.service.ts:473</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>labels</td>
-                                    <td>
-                                            <code>string[]</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>_public</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;void&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="deleteLabels"></a>
-                    <span class="name">
-                        <b>
-                            deleteLabels
-                        </b>
-                        <a href="#deleteLabels"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>deleteLabels(labels: string[], _public: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="423"
-                            class="link-to-prism">labels/labels.service.ts:423</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="338"
+                            class="link-to-prism">labels/labels.service.ts:338</a></div>
                 </td>
             </tr>
 
@@ -874,91 +956,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>labels</td>
-                                    <td>
-                                            <code>string[]</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>_public</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;void&gt;</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getCurrentRecordIds"></a>
-                    <span class="name">
-                        <b>
-                            getCurrentRecordIds
-                        </b>
-                        <a href="#getCurrentRecordIds"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getCurrentRecordIds()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="438"
-                            class="link-to-prism">labels/labels.service.ts:438</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Get the ids of the record currently in searchService.results</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>string[]</code>
+                        <b>Returns : </b>    <code>Promise&lt;ModalResult&gt;</code>
 
                     </div>
                 </td>
@@ -969,26 +967,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getRecordFromId"></a>
+                    <a name="ngOnDestroy"></a>
                     <span class="name">
                         <b>
-                            getRecordFromId
+                            ngOnDestroy
                         </b>
-                        <a href="#getRecordFromId"><span class="icon ion-ios-link"></span></a>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getRecordFromId(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>ngOnDestroy()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="449"
-                            class="link-to-prism">labels/labels.service.ts:449</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="139"
+                            class="link-to-prism">labels/labels.service.ts:139</a></div>
                 </td>
             </tr>
 
@@ -997,39 +995,8 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>id</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>Record | undefined</code>
-
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -1057,8 +1024,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="343"
-                            class="link-to-prism">labels/labels.service.ts:343</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="363"
+                            class="link-to-prism">labels/labels.service.ts:363</a></div>
                 </td>
             </tr>
 
@@ -1151,8 +1118,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="558"
-                            class="link-to-prism">labels/labels.service.ts:558</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="628"
+                            class="link-to-prism">labels/labels.service.ts:628</a></div>
                 </td>
             </tr>
 
@@ -1203,6 +1170,49 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="renameLabelModal"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            renameLabelModal
+                        </b>
+                        <a href="#renameLabelModal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>renameLabelModal()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="146"
+                            class="link-to-prism">labels/labels.service.ts:146</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>From navbar </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;ModalResult&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="renameLabels"></a>
                     <span class="name">
                         <b>
@@ -1221,8 +1231,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="411"
-                            class="link-to-prism">labels/labels.service.ts:411</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="432"
+                            class="link-to-prism">labels/labels.service.ts:432</a></div>
                 </td>
             </tr>
 
@@ -1315,8 +1325,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="355"
-                            class="link-to-prism">labels/labels.service.ts:355</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="375"
+                            class="link-to-prism">labels/labels.service.ts:375</a></div>
                 </td>
             </tr>
 
@@ -1397,8 +1407,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="501"
-                            class="link-to-prism">labels/labels.service.ts:501</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="563"
+                            class="link-to-prism">labels/labels.service.ts:563</a></div>
                 </td>
             </tr>
 
@@ -1479,8 +1489,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="516"
-                            class="link-to-prism">labels/labels.service.ts:516</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="578"
+                            class="link-to-prism">labels/labels.service.ts:578</a></div>
                 </td>
             </tr>
 
@@ -1537,84 +1547,6 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="bulkAddLabel"></a>
-                        <span class="name">
-                            <b>
-                            bulkAddLabel</b>
-                            <a href="#bulkAddLabel"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">labels/labels.service.ts:109</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="bulkRemoveLabel"></a>
-                        <span class="name">
-                            <b>
-                            bulkRemoveLabel</b>
-                            <a href="#bulkRemoveLabel"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">labels/labels.service.ts:123</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="deleteLabel"></a>
-                        <span class="name">
-                            <b>
-                            deleteLabel</b>
-                            <a href="#deleteLabel"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">labels/labels.service.ts:95</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
                         <a name="labelsComponents"></a>
                         <span class="name">
                             <b>
@@ -1641,85 +1573,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">labels/labels.service.ts:49</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="renameLabel"></a>
-                        <span class="name">
-                            <b>
-                            renameLabel</b>
-                            <a href="#renameLabel"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">labels/labels.service.ts:81</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="selectLabel"></a>
-                        <span class="name">
-                            <b>
-                            selectLabel</b>
-                            <a href="#selectLabel"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">labels/labels.service.ts:73</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="toggle"></a>
-                        <span class="name">
-                            <b>
-                            toggle</b>
-                            <a href="#toggle"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="191" class="link-to-prism">labels/labels.service.ts:191</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">labels/labels.service.ts:77</a></div>
                             </td>
                         </tr>
 
@@ -1748,7 +1602,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">labels/labels.service.ts:63</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">labels/labels.service.ts:90</a></div>
                                 </td>
                             </tr>
 
@@ -1770,7 +1624,95 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">labels/labels.service.ts:67</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">labels/labels.service.ts:96</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="labelsAutoSuggestWildcard"></a>
+                        <span class="name"><b>labelsAutoSuggestWildcard</b><a href="#labelsAutoSuggestWildcard"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>labelsAutoSuggestWildcard()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">labels/labels.service.ts:102</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="allowPublicLabelsManagement"></a>
+                        <span class="name"><b>allowPublicLabelsManagement</b><a href="#allowPublicLabelsManagement"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>allowPublicLabelsManagement()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">labels/labels.service.ts:108</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="allowPublicLabelsEdition"></a>
+                        <span class="name"><b>allowPublicLabelsEdition</b><a href="#allowPublicLabelsEdition"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>allowPublicLabelsEdition()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">labels/labels.service.ts:114</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="userLabelsRights"></a>
+                        <span class="name"><b>userLabelsRights</b><a href="#userLabelsRights"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>userLabelsRights()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">labels/labels.service.ts:120</a></div>
                                 </td>
                             </tr>
 
@@ -1792,7 +1734,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="486" class="link-to-prism">labels/labels.service.ts:486</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="536" class="link-to-prism">labels/labels.service.ts:536</a></div>
                                 </td>
                             </tr>
 
@@ -1803,27 +1745,45 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, InjectionToken, Type} from &quot;@angular/core&quot;;
-import {Observable, of} from &quot;rxjs&quot;;
-import {LabelsWebService, AuditEventType, Record} from &quot;@sinequa/core/web-services&quot;;
-import {AppService, ValueItem} from &quot;@sinequa/core/app-utils&quot;;
-import {Utils, IRef} from &quot;@sinequa/core/base&quot;;
-import {SearchService} from &quot;@sinequa/components/search&quot;;
-import {ModalService, ModalResult} from &quot;@sinequa/core/modal&quot;;
-import {Action} from &quot;@sinequa/components/action&quot;;
-import {PrincipalWebService} from &quot;@sinequa/core/web-services&quot;;
-import {IntlService} from &quot;@sinequa/core/intl&quot;;
-import {SelectionService} from &#x27;@sinequa/components/selection&#x27;;
-
-export interface IFormData {
-    labelRef: IRef&lt;string&gt;;
-    public: boolean;
-    autofocus: number;
-}
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+    Injectable,
+    Inject,
+    InjectionToken,
+    Type,
+    OnDestroy,
+} from &quot;@angular/core&quot;;
+import { Observable, of, Subscription } from &quot;rxjs&quot;;
+import {
+    PrincipalWebService,
+    LabelsWebService,
+    AuditEventType,
+    LabelsRights,
+} from &quot;@sinequa/core/web-services&quot;;
+import { AppService, ValueItem } from &quot;@sinequa/core/app-utils&quot;;
+import { Utils } from &quot;@sinequa/core/base&quot;;
+import { SearchService } from &quot;@sinequa/components/search&quot;;
+import { ModalService, ModalResult } from &quot;@sinequa/core/modal&quot;;
+import { Action } from &quot;@sinequa/components/action&quot;;
+import { IntlService } from &quot;@sinequa/core/intl&quot;;
+import { NotificationsService } from &quot;@sinequa/core/notification&quot;;
+import { SelectionService } from &quot;@sinequa/components/selection&quot;;
 
 export interface LabelsComponents {
     renameModal: Type&lt;any&gt;;
-    labelActionItem: Type&lt;any&gt;;
+    labelsAutocompleteComponent: Type&lt;any&gt;;
+    deleteModal: Type&lt;any&gt;;
+    addModal: Type&lt;any&gt;;
+    editModal: Type&lt;any&gt;;
+}
+
+export interface ModalProperties {
+    public: boolean;
+    allowEditPublicLabels: boolean;
+    allowManagePublicLabels: boolean;
+    allowNewLabels: boolean;
+    disableAutocomplete: boolean;
+    action: number;
+    radioButtons: any[];
 }
 
 export const enum UpdateLabelsAction {
@@ -1832,16 +1792,25 @@ export const enum UpdateLabelsAction {
     rename,
     delete,
     bulkAdd,
-    bulkRemove
+    bulkRemove,
+    edit,
 }
 
-export const LABELS_COMPONENTS &#x3D; new InjectionToken&lt;LabelsComponents&gt;(&quot;LABELS_COMPONENTS&quot;);
+export const LABELS_COMPONENTS &#x3D; new InjectionToken&lt;LabelsComponents&gt;(
+    &quot;LABELS_COMPONENTS&quot;
+);
 
 @Injectable({
-    providedIn: &#x27;root&#x27;,
+    providedIn: &quot;root&quot;,
 })
-export class LabelsService {
+export class LabelsService implements OnDestroy {
     private _privateLabelsPrefix: string | undefined;
+    private static readonly defaultLabelsRights: LabelsRights &#x3D; {
+        canManagePublicLabels: true,
+        canEditPublicLabels: true,
+    };
+    private labelsRightsSubscription: Subscription | undefined;
+    private labelsRights: LabelsRights | undefined;
 
     constructor(
         private labelsWebService: LabelsWebService,
@@ -1850,182 +1819,261 @@ export class LabelsService {
         private modalService: ModalService,
         private principalWebService: PrincipalWebService,
         private intlService: IntlService,
+        private notificationService: NotificationsService,
         private selectionService: SelectionService,
-        @Inject(LABELS_COMPONENTS) public labelsComponents: LabelsComponents,
-        ){
-
-        this.principalWebService.events.subscribe(
-            (event) &#x3D;&gt; {
-                switch (event.type) {
-                    case &quot;changed&quot;:
-                        this._privateLabelsPrefix &#x3D; undefined;
-                        break;
-                }
-            });
-
+        @Inject(LABELS_COMPONENTS) public labelsComponents: LabelsComponents
+    ) {
+        this.principalWebService.events.subscribe((event) &#x3D;&gt; {
+            switch (event.type) {
+                case &quot;changed&quot;:
+                    this._privateLabelsPrefix &#x3D; undefined;
+                    this.labelsRights &#x3D; undefined;
+                    this.labelsRightsSubscription &#x3D; undefined;
+                    break;
+            }
+        });
     }
 
     public get publicLabelsField(): string | undefined {
-        return this.appService.cclabels ? this.appService.cclabels.publicLabelsField : undefined;
+        return this.appService.cclabels
+            ? this.appService.cclabels.publicLabelsField
+            : undefined;
     }
 
     public get privateLabelsField(): string | undefined {
-        return this.appService.cclabels ? this.appService.cclabels.privateLabelsField : undefined;
+        return this.appService.cclabels
+            ? this.appService.cclabels.privateLabelsField
+            : undefined;
     }
 
-    // From navbar
+    public get labelsAutoSuggestWildcard(): string | undefined {
+        return this.appService.cclabels
+            ? this.appService.cclabels.labelsAutoSuggestWildcard
+            : undefined;
+    }
 
-    selectLabel &#x3D; (item: Action, $event: UIEvent) &#x3D;&gt; {
-        const formData &#x3D; item.data as IFormData;
-        const labels &#x3D; this.split(formData.labelRef.value);
-        if (labels.length) {
-            this.selectLabels(labels, formData.public);
+    public get allowPublicLabelsManagement(): boolean {
+        return this.appService.cclabels
+            ? this.appService.cclabels.allowPublicLabelsCreation
+            : false;
+    }
+
+    public get allowPublicLabelsEdition(): boolean {
+        return this.appService.cclabels
+            ? this.appService.cclabels.allowPublicLabelsModification
+            : false;
+    }
+
+    public get userLabelsRights(): LabelsRights {
+        let rights: LabelsRights | undefined;
+        if (!this.labelsRights) {
+            if (!this.labelsRightsSubscription) {
+                const observable &#x3D; this.labelsWebService.getUserRights();
+                this.labelsRightsSubscription &#x3D; Utils.subscribe(
+                    observable,
+                    (response) &#x3D;&gt; (rights &#x3D; response)
+                );
+            } else {
+                rights &#x3D; LabelsService.defaultLabelsRights;
+            }
+            this.labelsRights &#x3D; !!rights
+                ? rights
+                : LabelsService.defaultLabelsRights;
+        }
+        return this.labelsRights;
+    }
+
+    ngOnDestroy() {
+        if (this.labelsRightsSubscription) {
+            this.labelsRightsSubscription.unsubscribe();
         }
     }
 
-    renameLabel &#x3D; (item: Action, $event: UIEvent) &#x3D;&gt; {
-        const formData &#x3D; item.data as IFormData;
-        const labels &#x3D; this.split(formData.labelRef.value);
-        if (labels.length) {
-            const data: IRef&lt;string&gt; &#x3D; { value: labels[0] };
-            this.modalService.open(this.labelsComponents.renameModal, {model: data})
-                .then((result) &#x3D;&gt; {
-                    if (result &#x3D;&#x3D;&#x3D; ModalResult.OK) {
-                        this.renameLabels(labels, data.value, formData.public);
-                    }
-                });
-        }
+    /** From navbar */
+    public renameLabelModal(): Promise&lt;ModalResult&gt; {
+        const data &#x3D; {
+            oldValues: [],
+            newValue: &quot;&quot;,
+            properties: this._modalProperties(UpdateLabelsAction.rename),
+        };
+        return this.modalService.open(this.labelsComponents.renameModal, {
+            model: data,
+        });
     }
 
-    deleteLabel &#x3D; (item: Action, $event: UIEvent) &#x3D;&gt; {
-        const formData &#x3D; item.data as IFormData;
-        const _labels &#x3D; formData.labelRef.value;
-        const labels &#x3D; this.split(_labels);
-        if (labels.length) {
-            this.modalService.yesNo(&quot;msg#labels.deleteLabelAreYouSure&quot;, {values: {name: _labels}})
-                .then((result) &#x3D;&gt; {
-                    if (result &#x3D;&#x3D;&#x3D; ModalResult.Yes) {
-                        this.deleteLabels(labels, formData.public);
-                    }
-                });
-        }
+    public deleteLabelModal(): Promise&lt;ModalResult&gt; {
+        const data &#x3D; {
+            values: [],
+            properties: this._modalProperties(UpdateLabelsAction.delete),
+        };
+        return this.modalService.open(this.labelsComponents.deleteModal, {
+            model: data,
+        });
     }
 
-    bulkAddLabel &#x3D; (item: Action, $event: UIEvent) &#x3D;&gt; {
-        const formData &#x3D; item.data as IFormData;
-        const _labels &#x3D; formData.labelRef.value;
-        const labels &#x3D; this.split(_labels);
-        if (labels.length) {
-            this.modalService.yesNo(&quot;msg#labels.bulkAddLabelAreYouSure&quot;, {values: {name: _labels}})
-                .then((result) &#x3D;&gt; {
-                    if (result &#x3D;&#x3D;&#x3D; ModalResult.Yes) {
-                        this.bulkAddLabels(labels, formData.public);
-                    }
-                });
-        }
+    public bulkAddLabelModal(): Promise&lt;ModalResult&gt; {
+        const data &#x3D; {
+            values: [],
+            properties: this._modalProperties(UpdateLabelsAction.bulkAdd),
+        };
+        return this.modalService.open(this.labelsComponents.addModal, {
+            model: data,
+        });
     }
 
-    bulkRemoveLabel &#x3D; (item: Action, $event: UIEvent) &#x3D;&gt; {
-        const formData &#x3D; item.data as IFormData;
-        const _labels &#x3D; formData.labelRef.value;
-        const labels &#x3D; this.split(_labels);
-        if (labels.length) {
-            this.modalService.yesNo(&quot;msg#labels.bulkRemoveLabelAreYouSure&quot;, {values: {name: _labels}})
-                .then((result) &#x3D;&gt; {
-                    if (result &#x3D;&#x3D;&#x3D; ModalResult.Yes) {
-                        this.bulkRemoveLabels(labels, formData.public);
-                    }
-                });
-        }
+    public bulkRemoveLabelModal(): Promise&lt;ModalResult&gt; {
+        const data &#x3D; {
+            values: [],
+            properties: this._modalProperties(UpdateLabelsAction.bulkRemove),
+        };
+        return this.modalService.open(this.labelsComponents.deleteModal, {
+            model: data,
+        });
     }
-    // END From navbar
 
-    // From result selector
+    private _modalProperties(action: number): ModalProperties {
+        const allowManagePublicLabels: boolean &#x3D;
+            this.allowPublicLabelsManagement &amp;&amp;
+            this.userLabelsRights &amp;&amp;
+            this.userLabelsRights.canManagePublicLabels;
+        const allowEditPublicLabels: boolean &#x3D;
+            this.allowPublicLabelsEdition &amp;&amp;
+            this.userLabelsRights &amp;&amp;
+            this.userLabelsRights.canEditPublicLabels;
+        let allowNewLabels: boolean &#x3D; false;
+        let radioButtonsConf: any;
 
-    public buildLabelsMenu(
-        addLabels: (items: Action[], _public: boolean) &#x3D;&gt; void,
-        icon &#x3D; &quot;fas fa-tags&quot;, labelsText?, labelsTitle &#x3D; &quot;msg#labels.labels&quot;,
-        publicLabelsText &#x3D; &quot;msg#labels.publicLabels&quot;, privateLabelsText &#x3D; &quot;msg#labels.privateLabels&quot;): Action | undefined {
+        switch (action) {
+            case UpdateLabelsAction.rename:
+            case UpdateLabelsAction.remove:
+            case UpdateLabelsAction.delete:
+            case UpdateLabelsAction.bulkRemove:
+                allowNewLabels &#x3D; false;
+                break;
+            case UpdateLabelsAction.add:
+            case UpdateLabelsAction.bulkAdd:
+            case UpdateLabelsAction.edit:
+                allowNewLabels &#x3D; true;
+                break;
+            default:
+                break;
+        }
 
+        switch (action) {
+            case UpdateLabelsAction.rename:
+            case UpdateLabelsAction.delete:
+                radioButtonsConf &#x3D; this._getModalRadioButtonsConf(
+                    allowManagePublicLabels
+                );
+                break;
+            case UpdateLabelsAction.add:
+            case UpdateLabelsAction.bulkAdd:
+            case UpdateLabelsAction.remove:
+            case UpdateLabelsAction.bulkRemove:
+            case UpdateLabelsAction.edit:
+                radioButtonsConf &#x3D; this._getModalRadioButtonsConf(
+                    allowManagePublicLabels || allowEditPublicLabels
+                );
+                break;
+            default:
+                break;
+        }
+
+        return {
+            allowEditPublicLabels: allowEditPublicLabels,
+            allowManagePublicLabels: allowManagePublicLabels,
+            allowNewLabels: allowNewLabels,
+            action: action,
+            ...radioButtonsConf,
+        };
+    }
+
+    private _getModalRadioButtonsConf(publicRight: boolean): any {
+        let isPublic: boolean &#x3D; true;
+        let disableAutocomplete: boolean &#x3D; false;
+        let radioButtons: any[] &#x3D; [];
+        let publicRadioButton &#x3D; {
+            id: &quot;publicLabel&quot;,
+            name: &quot;msg#labels.public&quot;,
+            value: true,
+            disabled: false,
+            checked: true,
+        };
+        let privateRadioButton &#x3D; {
+            id: &quot;privateLabel&quot;,
+            name: &quot;msg#labels.private&quot;,
+            value: false,
+            disabled: false,
+            checked: false,
+        };
+        if (!!this.publicLabelsField &amp;&amp; !!this.privateLabelsField) {
+            if (publicRight) {
+                isPublic &#x3D; true;
+                radioButtons &#x3D; [publicRadioButton, privateRadioButton];
+            } else {
+                isPublic &#x3D; false;
+                publicRadioButton &#x3D; {
+                    ...publicRadioButton,
+                    disabled: true,
+                    checked: false,
+                };
+                privateRadioButton &#x3D; {
+                    ...privateRadioButton,
+                    disabled: true,
+                    checked: true,
+                };
+                radioButtons &#x3D; [publicRadioButton, privateRadioButton];
+            }
+        } else if (!!this.publicLabelsField) {
+            if (publicRight) {
+                isPublic &#x3D; true;
+                publicRadioButton &#x3D; {
+                    ...publicRadioButton,
+                    disabled: true,
+                    checked: true,
+                };
+                radioButtons &#x3D; [publicRadioButton];
+            } else {
+                isPublic &#x3D; false;
+                disableAutocomplete &#x3D; true;
+                publicRadioButton &#x3D; {
+                    ...publicRadioButton,
+                    disabled: true,
+                    checked: false,
+                };
+                radioButtons &#x3D; [publicRadioButton];
+            }
+        } else if (!!this.privateLabelsField) {
+            isPublic &#x3D; false;
+            privateRadioButton &#x3D; {
+                ...privateRadioButton,
+                disabled: true,
+                checked: true,
+            };
+            radioButtons &#x3D; [privateRadioButton];
+        }
+
+        return {
+            public: isPublic,
+            disableAutocomplete: disableAutocomplete,
+            radioButtons: radioButtons,
+        };
+    }
+    /** END From navbar */
+
+    /** From result selector */
+    public buildSelectionAction(): Action | undefined {
         if (!this.publicLabelsField &amp;&amp; !this.privateLabelsField) {
             return undefined;
         }
-
-        let children: Action[];
-        const combined &#x3D; !!this.publicLabelsField &amp;&amp; !!this.privateLabelsField;
-
-        if (combined) {
-            children &#x3D; [
-                new Action({
-                    text: publicLabelsText,
-                    children: this._buildLabelsMenu(true, addLabels),
-                    toggle: this.toggle
-                }),
-                new Action({
-                    text: privateLabelsText,
-                    children: this._buildLabelsMenu(false, addLabels),
-                    toggle: this.toggle
-                })
-            ];
-        }
-        else if (!!this.publicLabelsField) {
-            children &#x3D; this._buildLabelsMenu(true, addLabels);
-        }
-        else if (!!this.privateLabelsField) {
-            children &#x3D; this._buildLabelsMenu(false, addLabels);
-        }
-        else {
-            console.log(&quot;no labels configured&quot;);
-            return undefined;
-        }
-
-        const menu &#x3D; new Action({
-            text: labelsText,
-            title: labelsTitle,
-            icon: icon,
-            children: children
+        const action &#x3D; new Action({
+            icon: &quot;fas fa-tags&quot;,
+            title: &quot;msg#labels.labels&quot;,
+            action: () &#x3D;&gt; {
+                this.editLabelModal();
+            },
         });
-
-        if (!combined) {
-            menu.toggle &#x3D; this.toggle;
-        }
-
-        return menu;
-    }
-
-    toggle &#x3D; (item: Action, open: boolean) &#x3D;&gt; {
-        if (open) {
-            const formItem &#x3D; item.children[0];
-            (&lt;IFormData&gt;formItem.data).autofocus++;
-        }
-    }
-
-    public buildSelectionAction(): Action | undefined {
-        const action &#x3D; this.buildLabelsMenu(
-            (items: Action[], _public: boolean) &#x3D;&gt; {
-                const formItem &#x3D; items[0];
-                items.push(
-                    new Action({
-                        text: _public? &quot;msg#labels.addPublicLabelTitle&quot; : &quot;msg#labels.addPrivateLabelTitle&quot;,
-                        action: (item, $event) &#x3D;&gt; {
-                            if ((&lt;IFormData&gt;formItem.data).labelRef.value) {
-                                const labels &#x3D; this.split((&lt;IFormData&gt;formItem.data).labelRef.value);
-                                this.addLabels(labels, this.selectionService.getSelectedIds(), _public);
-                            }
-                        }
-                    }));
-                items.push(
-                    new Action({
-                        text: _public? &quot;msg#labels.removePublicLabelTitle&quot; : &quot;msg#labels.removePrivateLabelTitle&quot;,
-                        action: (item, $event) &#x3D;&gt; {
-                            if ((&lt;IFormData&gt;formItem.data).labelRef.value) {
-                                const labels &#x3D; this.split((&lt;IFormData&gt;formItem.data).labelRef.value);
-                                this.removeLabels(labels, this.selectionService.getSelectedIds(), _public);
-                            }
-                        }
-                    }));
-            });
-        if(action){
+        if (action) {
             action.updater &#x3D; (action) &#x3D;&gt; {
                 action.hidden &#x3D; !this.selectionService.haveSelectedRecords;
             };
@@ -2034,132 +2082,49 @@ export class LabelsService {
         return action;
     }
 
-    // menu support
-    private _makeFormItem(_public: boolean): Action {
-        const action &#x3D; new Action({
-                component: this.labelsComponents.labelActionItem,
-                data: &lt;IFormData&gt;{
-                labelRef: {value: &quot;&quot;},
-                public: _public,
-                autofocus: 0,
-            }
-        });
-        action.componentInputs &#x3D; {
-            model: action
+    public editLabelModal(): Promise&lt;ModalResult&gt; {
+        const data &#x3D; {
+            valuesToBeAdded: [],
+            valuesToBeRemoved: [],
+            properties: this._modalProperties(UpdateLabelsAction.edit),
         };
-        return action;
+        return this.modalService.open(this.labelsComponents.editModal, {
+            model: data,
+        });
     }
+    /** END result selector */
 
 
-    // Build a standard labels menu with label entry form at the top and additional items added by a passed callback
-    private _buildLabelsMenu(_public: boolean, addItems: (items: Action[], _public: boolean) &#x3D;&gt; void): Action[] {
-        const items: Action[] &#x3D; [
-            this._makeFormItem(_public),
-            new Action({
-                separator: true
-            })
-        ];
-        addItems(items, _public);
-        return items;
-    }
-
-
-    // Labels
-    /**
-     * The following methods update the modify the labels for some documents via
-     * the LabelsWebService, and they update the records in searchService.results
-     * (for immediate display)
-     **/
-
-    private updateLabels(action: UpdateLabelsAction, labels: string[], ids: string[], newLabel: string, _public: boolean) {
-
-        if (!_public) {
-            labels &#x3D; &lt;string[]&gt;this.addPrivatePrefix(labels);
-        }
-        const field &#x3D; this.appService.cclabels &amp;&amp; this.appService.resolveColumnAlias(_public ?
-            this.appService.cclabels.publicLabelsField : this.appService.cclabels.privateLabelsField);
-        if (field &amp;&amp; this.searchService.results &amp;&amp; this.searchService.results.records) {
-            for (let j &#x3D; 0, jc &#x3D; this.searchService.results.records.length; j &lt; jc; j++) {
-                const record &#x3D; this.searchService.results.records[j];
-                if (!ids || ids.indexOf(record.id) !&#x3D;&#x3D; -1) {
-                    let currentLabels: string[] &#x3D; record[field];
-                    if (action &#x3D;&#x3D;&#x3D; UpdateLabelsAction.add) {
-                        if (!currentLabels) {
-                            currentLabels &#x3D; [];
-                        }
-                    }
-                    if (currentLabels) {
-                        for (let k &#x3D; 0, kc &#x3D; labels.length; k &lt; kc; k++) {
-                            const label &#x3D; labels[k];
-                            let index;
-                            switch (action) {
-                                case UpdateLabelsAction.add:
-                                case UpdateLabelsAction.bulkAdd:
-                                    if (currentLabels.indexOf(label) &#x3D;&#x3D;&#x3D; -1) {
-                                        currentLabels.push(label);
-                                    }
-                                    break;
-                                case UpdateLabelsAction.remove:
-                                case UpdateLabelsAction.bulkRemove:
-                                    index &#x3D; currentLabels.indexOf(label);
-                                    if (index !&#x3D;&#x3D; -1) {
-                                        currentLabels.splice(index, 1);
-                                    }
-                                    break;
-                                case UpdateLabelsAction.rename:
-                                    index &#x3D; currentLabels.indexOf(label);
-                                    if (index !&#x3D;&#x3D; -1) {
-                                        if (currentLabels.indexOf(newLabel) &#x3D;&#x3D;&#x3D; -1) {
-                                            currentLabels.splice(index, 1, newLabel);
-                                        }
-                                        else {
-                                            currentLabels.splice(index, 1);
-                                        }
-                                    }
-                                    break;
-                                case UpdateLabelsAction.delete:
-                                    index &#x3D; currentLabels.indexOf(label);
-                                    if (index !&#x3D;&#x3D; -1) {
-                                        currentLabels.splice(index, 1);
-                                    }
-                                    break;
-                            }
-                        }
-                        record[field] &#x3D; currentLabels;
-                    }
-                }
-            }
-        }
-        //TODO - facets
-    }
-
-    addLabels(labels: string[], ids: string[], _public: boolean): Observable&lt;void&gt; {
+    addLabels(
+        labels: string[],
+        ids: string[],
+        _public: boolean
+    ): Observable&lt;void&gt; {
         if (!labels || labels.length &#x3D;&#x3D;&#x3D; 0 || !ids || ids.length &#x3D;&#x3D;&#x3D; 0) {
             return of();
         }
         const observable &#x3D; this.labelsWebService.add(labels, ids, _public);
-        Utils.subscribe(observable,
-            () &#x3D;&gt; {
-                this.updateLabels(UpdateLabelsAction.add, labels, ids, &quot;&quot;, _public);
-            });
         return observable;
     }
 
-    removeLabels(labels: string[], ids: string[], _public: boolean): Observable&lt;void&gt; {
+    removeLabels(
+        labels: string[],
+        ids: string[],
+        _public: boolean
+    ): Observable&lt;void&gt; {
         if (!labels || labels.length &#x3D;&#x3D;&#x3D; 0 || !ids || ids.length &#x3D;&#x3D;&#x3D; 0) {
             return of();
         }
         const observable &#x3D; this.labelsWebService.remove(labels, ids, _public);
-        Utils.subscribe(observable,
-            () &#x3D;&gt; {
-                this.updateLabels(UpdateLabelsAction.remove, labels, ids, &quot;&quot;, _public);
-            });
         return observable;
     }
 
     selectLabels(labels: string[], _public: boolean): Promise&lt;boolean&gt; {
-        const field &#x3D; this.appService.cclabels &amp;&amp; (_public ?
-            this.appService.cclabels.publicLabelsField : this.appService.cclabels.privateLabelsField);
+        const field &#x3D;
+            this.appService.cclabels &amp;&amp;
+            (_public
+                ? this.appService.cclabels.publicLabelsField
+                : this.appService.cclabels.privateLabelsField);
         if (!field) {
             return Promise.resolve(false);
         }
@@ -2173,22 +2138,20 @@ export class LabelsService {
             if (selectedLabels.indexOf(label) &#x3D;&#x3D;&#x3D; -1) {
                 items.push({
                     value: label,
-                    display: display
+                    display: display,
                 });
             }
         }
 
         this.searchService.addFieldSelect(field, items);
-        return this.searchService.search(undefined,
-            {
-                type: AuditEventType.Label_Open,
-                detail: {
-                    label: !!labels ? labels.toString() : null,
-                    public: _public
-                }
-            });
+        return this.searchService.search(undefined, {
+            type: AuditEventType.Label_Open,
+            detail: {
+                label: !!labels ? labels.toString() : null,
+                public: _public,
+            },
+        });
     }
-
 
     /**
      * Retrieves the labels that are not in the current filters of breadcrumbs
@@ -2202,8 +2165,8 @@ export class LabelsService {
             for (const select of this.searchService.breadcrumbs.activeSelects) {
                 if (select.expr) {
                     const values &#x3D; select.expr.getValues(field);
-                    values.forEach(value &#x3D;&gt; {
-                        if(labels.indexOf(value) &#x3D;&#x3D;&#x3D; -1) {
+                    values.forEach((value) &#x3D;&gt; {
+                        if (labels.indexOf(value) &#x3D;&#x3D;&#x3D; -1) {
                             labels.push(value);
                         }
                     });
@@ -2213,15 +2176,32 @@ export class LabelsService {
         return labels;
     }
 
-    renameLabels(labels: string[], newLabel: string, _public: boolean): Observable&lt;void&gt; {
+    renameLabels(
+        labels: string[],
+        newLabel: string,
+        _public: boolean
+    ): Observable&lt;void&gt; {
         if (!labels || labels.length &#x3D;&#x3D;&#x3D; 0) {
             return of();
         }
-        const observable &#x3D; this.labelsWebService.rename(labels, newLabel, _public);
-        Utils.subscribe(observable,
+        const observable &#x3D; this.labelsWebService.rename(
+            labels,
+            newLabel,
+            _public
+        );
+        Utils.subscribe(
+            observable,
+            () &#x3D;&gt; {},
             () &#x3D;&gt; {
-                this.updateLabels(UpdateLabelsAction.rename, labels, [], newLabel, _public);
-            });
+                this.notificationService.error(&quot;msg#renameLabel.errorFeedback&quot;);
+            },
+            () &#x3D;&gt; {
+                this.notificationService.success(
+                    &quot;msg#renameLabel.successFeedback&quot;
+                );
+                this.searchService.search(); /** Update the display immediately in the components and facets*/
+            }
+        );
         return observable;
     }
 
@@ -2230,48 +2210,46 @@ export class LabelsService {
             return of();
         }
         const observable &#x3D; this.labelsWebService.delete(labels, _public);
-        Utils.subscribe(observable,
+        Utils.subscribe(
+            observable,
+            () &#x3D;&gt; {},
             () &#x3D;&gt; {
-                this.updateLabels(UpdateLabelsAction.delete, labels, [], &quot;&quot;, _public);
-            });
+                this.notificationService.error(&quot;msg#deleteLabel.errorFeedback&quot;);
+            },
+            () &#x3D;&gt; {
+                this.notificationService.success(
+                    &quot;msg#deleteLabel.successFeedback&quot;
+                );
+                this.searchService.search(); /** Update the display immediately in the components and facets*/
+            }
+        );
         return observable;
-    }
-
-    /**
-     * Get the ids of the record currently in searchService.results
-     */
-    getCurrentRecordIds(): string[]{
-        const ids: string[] &#x3D; [];
-        if (this.searchService.results &amp;&amp; this.searchService.results.records) {
-            for (let i &#x3D; 0, ic &#x3D; this.searchService.results ? this.searchService.results.records.length : 0; i &lt; ic; i++) {
-                const record &#x3D; this.searchService.results.records[i];
-                ids.push(record.id);
-            }
-        }
-        return ids;
-    }
-
-    getRecordFromId(id: string) : Record | undefined {
-        let record: Record | undefined;
-        if (this.searchService.results &amp;&amp; this.searchService.results.records) {
-            let rec : Record;
-            for( let i&#x3D;0, ic&#x3D;this.searchService.results.records.length; !record &amp;&amp; i&lt;ic; i++) {
-                rec &#x3D; this.searchService.results.records[i];
-                if (Utils.eq(rec.id, id)) record &#x3D; rec;
-            }
-        }
-        return record;
     }
 
     bulkAddLabels(labels: string[], _public: boolean): Observable&lt;void&gt; {
         if (!labels || labels.length &#x3D;&#x3D;&#x3D; 0) {
             return of();
         }
-        const observable &#x3D; this.labelsWebService.bulkAdd(labels, this.searchService.query, _public);
-        Utils.subscribe(observable,
+        const observable &#x3D; this.labelsWebService.bulkAdd(
+            labels,
+            this.searchService.query,
+            _public
+        );
+        Utils.subscribe(
+            observable,
+            () &#x3D;&gt; {},
             () &#x3D;&gt; {
-                this.updateLabels(UpdateLabelsAction.bulkAdd, labels, this.getCurrentRecordIds(), &quot;&quot;, _public);
-            });
+                this.notificationService.error(
+                    &quot;msg#bulkAddLabel.errorFeedback&quot;
+                );
+            },
+            () &#x3D;&gt; {
+                this.notificationService.success(
+                    &quot;msg#bulkAddLabel.successFeedback&quot;
+                );
+                this.searchService.search(); /** Update the display immediately in the components and facets*/
+            }
+        );
         return observable;
     }
 
@@ -2279,25 +2257,51 @@ export class LabelsService {
         if (!labels || labels.length &#x3D;&#x3D;&#x3D; 0) {
             return of();
         }
-        const observable &#x3D; this.labelsWebService.bulkRemove(labels, this.searchService.query, _public);
-        Utils.subscribe(observable,
+        const observable &#x3D; this.labelsWebService.bulkRemove(
+            labels,
+            this.searchService.query,
+            _public
+        );
+        Utils.subscribe(
+            observable,
+            () &#x3D;&gt; {},
             () &#x3D;&gt; {
-                this.updateLabels(UpdateLabelsAction.bulkRemove, labels, this.getCurrentRecordIds(), &quot;&quot;, _public);
-            });
+                this.notificationService.error(
+                    &quot;msg#bulkRemoveLabel.errorFeedback&quot;
+                );
+            },
+            () &#x3D;&gt; {
+                this.notificationService.success(
+                    &quot;msg#bulkRemoveLabel.successFeedback&quot;
+                );
+                this.searchService.search(); /** Update the display immediately in the components and facets*/
+            }
+        );
         return observable;
     }
-
 
     get privateLabelsPrefix(): string {
         if (!this.principalWebService.principal) {
             return &quot;&quot;;
         }
         if (!this._privateLabelsPrefix &amp;&amp; this.appService.cclabels) {
-            if (this.appService.isTree(this.appService.cclabels.privateLabelsField)) {
-                this._privateLabelsPrefix &#x3D; Utils.addUrl(&quot;/&quot;, Utils.replace(this.principalWebService.principal.userId, &quot;|&quot;, &quot;/&quot;), &quot;/&quot;);
-            }
-            else {
-                this._privateLabelsPrefix &#x3D; this.principalWebService.principal.userId + &quot;|&quot;;
+            if (
+                this.appService.isTree(
+                    this.appService.cclabels.privateLabelsField
+                )
+            ) {
+                this._privateLabelsPrefix &#x3D; Utils.addUrl(
+                    &quot;/&quot;,
+                    Utils.replace(
+                        this.principalWebService.principal.userId,
+                        &quot;|&quot;,
+                        &quot;/&quot;
+                    ),
+                    &quot;/&quot;
+                );
+            } else {
+                this._privateLabelsPrefix &#x3D;
+                    this.principalWebService.principal.userId + &quot;|&quot;;
             }
         }
         return this._privateLabelsPrefix || &quot;&quot;;
@@ -2322,25 +2326,29 @@ export class LabelsService {
         if (!labels) {
             return [];
         }
-        return labels.trim().split(/\s*;\s*/).filter((value) &#x3D;&gt; {
-            return value !&#x3D;&#x3D; &quot;&quot;;
-        });
+        return labels
+            .trim()
+            .split(/\s*;\s*/)
+            .filter((value) &#x3D;&gt; {
+                return value !&#x3D;&#x3D; &quot;&quot;;
+            });
     }
 
     private _addPrivatePrefix(label: string): string {
-        if (this.appService.cclabels &amp;&amp; this.appService.isTree(this.appService.cclabels.privateLabelsField)) {
+        if (
+            this.appService.cclabels &amp;&amp;
+            this.appService.isTree(this.appService.cclabels.privateLabelsField)
+        ) {
             return Utils.addUrl(this.privateLabelsPrefix, label);
-        }
-        else {
+        } else {
             return this.privateLabelsPrefix + label;
         }
     }
 
-    addPrivatePrefix(labels: string|string[]): string|string[] {
+    addPrivatePrefix(labels: string | string[]): string | string[] {
         if (typeof labels &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
             return this._addPrivatePrefix(labels);
-        }
-        else {
+        } else {
             for (let i &#x3D; 0, ic &#x3D; labels.length; i &lt; ic; i++) {
                 labels[i] &#x3D; this._addPrivatePrefix(labels[i]);
             }
@@ -2350,21 +2358,24 @@ export class LabelsService {
 
     private _removePrivatePrefix(label: string): string {
         if (label.indexOf(this.privateLabelsPrefix) &#x3D;&#x3D;&#x3D; 0) {
-            if (this.appService.cclabels &amp;&amp; this.appService.isTree(this.appService.cclabels.privateLabelsField)) {
+            if (
+                this.appService.cclabels &amp;&amp;
+                this.appService.isTree(
+                    this.appService.cclabels.privateLabelsField
+                )
+            ) {
                 return label.slice(this.privateLabelsPrefix.length - 1);
-            }
-            else {
+            } else {
                 return label.slice(this.privateLabelsPrefix.length);
             }
         }
         return label;
     }
 
-    removePrivatePrefix(labels: string|string[]): string|string[] {
+    removePrivatePrefix(labels: string | string[]): string | string[] {
         if (typeof labels &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
             return this._removePrivatePrefix(labels);
-        }
-        else {
+        } else {
             for (let i &#x3D; 0, ic &#x3D; labels.length; i &lt; ic; i++) {
                 labels[i] &#x3D; this._removePrivatePrefix(labels[i]);
             }

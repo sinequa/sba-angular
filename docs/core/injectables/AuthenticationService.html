@@ -299,8 +299,8 @@ be picked up in other browser tabs.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="239"
-                            class="link-to-prism">login/authentication.service.ts:239</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="241"
+                            class="link-to-prism">login/authentication.service.ts:241</a></div>
                 </td>
             </tr>
 
@@ -346,11 +346,12 @@ Currently, this adds the <code>sinequa-csrf-token</code> value to the HTTP heade
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <b>Returns : </b>    <code>literal type</code>
 
                     </div>
                     <div class="io-description">
-                        
+                        <p>new configuration</p>
+
                     </div>
                 </td>
             </tr>
@@ -378,8 +379,8 @@ Currently, this adds the <code>sinequa-csrf-token</code> value to the HTTP heade
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="371"
-                            class="link-to-prism">login/authentication.service.ts:371</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="374"
+                            class="link-to-prism">login/authentication.service.ts:374</a></div>
                 </td>
             </tr>
 
@@ -423,7 +424,7 @@ Currently, this adds the <code>sinequa-csrf-token</code> value to the HTTP heade
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <b>Returns : </b>        <code><a href="https://angular.io/api/common/http/HttpHeaders" target="_blank" >HttpHeaders</a></code>
 
                     </div>
                     <div class="io-description">
@@ -455,8 +456,8 @@ Currently, this adds the <code>sinequa-csrf-token</code> value to the HTTP heade
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="329"
-                            class="link-to-prism">login/authentication.service.ts:329</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="332"
+                            class="link-to-prism">login/authentication.service.ts:332</a></div>
                 </td>
             </tr>
 
@@ -550,8 +551,8 @@ in clear text. Prior to the authentication the passed <code>response</code> is c
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="385"
-                            class="link-to-prism">login/authentication.service.ts:385</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="390"
+                            class="link-to-prism">login/authentication.service.ts:390</a></div>
                 </td>
             </tr>
 
@@ -629,8 +630,8 @@ console</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="483"
-                            class="link-to-prism">login/authentication.service.ts:483</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="488"
+                            class="link-to-prism">login/authentication.service.ts:488</a></div>
                 </td>
             </tr>
 
@@ -725,8 +726,8 @@ written via, for example, a login to the admin console.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="360"
-                            class="link-to-prism">login/authentication.service.ts:360</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="363"
+                            class="link-to-prism">login/authentication.service.ts:363</a></div>
                 </td>
             </tr>
 
@@ -767,8 +768,8 @@ is removed</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="266"
-                            class="link-to-prism">login/authentication.service.ts:266</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="269"
+                            class="link-to-prism">login/authentication.service.ts:269</a></div>
                 </td>
             </tr>
 
@@ -1536,8 +1537,10 @@ export class AuthenticationService extends HttpService {
      * {@link HttpInterceptor}
      *
      * @param config HttpHeaders and HttpParams to be updated
+     *
+     * @returns new configuration
      */
-    addAuthentication(config: {headers: HttpHeaders, params: HttpParams}) {
+    addAuthentication(config: {headers: HttpHeaders, params: HttpParams}): {headers: HttpHeaders, params: HttpParams} {
         this.doAuthentication();
         if (this.authentication) {
             if (this.authentication.headers) {
@@ -1555,6 +1558,7 @@ export class AuthenticationService extends HttpService {
                 }
             }
         }
+        return config;
     }
 
     /**
@@ -1669,11 +1673,13 @@ export class AuthenticationService extends HttpService {
      *
      * @param config An object containing the &#x60;HttpHeaders&#x60; to update
      */
-    addUserOverride(config: {headers: HttpHeaders}) {
+    addUserOverride(config: {headers: HttpHeaders}): HttpHeaders {
         if (this.userOverride &amp;&amp; this.userOverrideActive) {
             config.headers &#x3D; config.headers.set(&quot;sinequa-override-user&quot;, this.userOverride.userName);
             config.headers &#x3D; config.headers.set(&quot;sinequa-override-domain&quot;, this.userOverride.domain);
         }
+
+        return config.headers;
     }
 
     /**

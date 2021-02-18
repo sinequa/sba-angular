@@ -188,7 +188,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         // If not, we keep the current selection as is
         // (Important to keep this statement outside of the if bellow since 
         // the change of selection can be combined with a change of data)
-        let selectionChanged = changes["selection"] && this.updateSelection();
+        const selectionChanged = changes["selection"] && this.updateSelection();
 
         // Only changes in data result in redrawing the chart
         // (other input, except selection, are expected to be static)
@@ -389,7 +389,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * and updates it. It returns true if there is actually a change.
      */
     protected updateSelection(): boolean {
-        let change = this.checkSelectionChange(this.selection, this.currentSelection);
+        const change = this.checkSelectionChange(this.selection, this.currentSelection);
         this.currentSelection = this.selection;
         return change;
     }

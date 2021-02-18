@@ -11,7 +11,6 @@ export interface MomentParams {
     precise?: boolean; // diff
 }
 
-// tslint:disable-next-line: use-pipe-transform-interface
 @Pipe({name: "sqMoment", pure: false})
 export class MomentPipe extends AbstractIntlPipe {
     constructor(

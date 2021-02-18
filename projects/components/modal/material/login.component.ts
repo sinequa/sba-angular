@@ -64,7 +64,6 @@ export class MdLogin implements OnInit, OnDestroy {
                     this.providerName = "";
                     this.providers = [{displayName: "msg#modal.login.signInWith", name: ""}];
                 }
-                /*tslint:disable-next-line*/
                 this.providers.push(this.startConfig.providers![providerName]);
             });
         }

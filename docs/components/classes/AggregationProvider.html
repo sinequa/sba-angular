@@ -638,8 +638,8 @@ fetched from the server.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="140"
-                            class="link-to-prism">network/providers/aggregation-provider.ts:140</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="141"
+                            class="link-to-prism">network/providers/aggregation-provider.ts:141</a></div>
                 </td>
             </tr>
 
@@ -766,8 +766,8 @@ distribution, with items formatted as &quot;Bill Gates/Microsoft&quot;.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="194"
-                            class="link-to-prism">network/providers/aggregation-provider.ts:194</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="195"
+                            class="link-to-prism">network/providers/aggregation-provider.ts:195</a></div>
                 </td>
             </tr>
 
@@ -838,8 +838,8 @@ distribution, with items formatted as &quot;Bill Gates/Microsoft&quot;.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="280"
-                            class="link-to-prism">network/providers/aggregation-provider.ts:280</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="278"
+                            class="link-to-prism">network/providers/aggregation-provider.ts:278</a></div>
                 </td>
             </tr>
 
@@ -917,8 +917,8 @@ We display &quot;expand&quot; actions for the edges with a &quot;manual&quot; tr
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="243"
-                            class="link-to-prism">network/providers/aggregation-provider.ts:243</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="241"
+                            class="link-to-prism">network/providers/aggregation-provider.ts:241</a></div>
                 </td>
             </tr>
 
@@ -960,8 +960,8 @@ We display actions allowing to add additional data for &quot;source&quot; edges
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="221"
-                            class="link-to-prism">network/providers/aggregation-provider.ts:221</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="219"
+                            class="link-to-prism">network/providers/aggregation-provider.ts:219</a></div>
                 </td>
             </tr>
 
@@ -1121,7 +1121,7 @@ clicked node.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseProvider.html#source" target="_self" >BaseProvider:202</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseProvider.html#source" target="_self" >BaseProvider:203</a></code>
 </div>
                 </td>
             </tr>
@@ -1460,7 +1460,7 @@ on or off, and an action to reset the data from this provider</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/BaseProvider.html#source" target="_self" >BaseProvider:232</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/BaseProvider.html#source" target="_self" >BaseProvider:237</a></code>
 </div>
                 </td>
             </tr>
@@ -1806,12 +1806,13 @@ export class AggregationProvider extends BaseProvider {
         });
 
         if(sourceNode &amp;&amp; sourceNode.type.field) {
-            query.addSelect(sourceNode.type.field + &quot;:&#x3D;&#x60;&quot;+ this.getNodeValue(sourceNode) +&quot;&#x60;&quot;);
+            query.addSelect(this.context.exprBuilder.makeExpr(sourceNode.type.field, this.getNodeValue(sourceNode)));
         }
 
         Object.keys(query.aggregations).forEach(aggregation &#x3D;&gt; {
             if(!this.context.appService.getCCAggregation(aggregation)) {
-                throw new Error(&#x60;Aggregation &#x27;${aggregation}&#x27; does not exist in the Query web service configuration&#x60;);
+                // This may not be a mistake if the aggregation belong to a different web service configuration
+                console.warn(&#x60;Aggregation &#x27;${aggregation}&#x27; does not exist in the Query web service configuration&#x60;);
             }
         });
 
@@ -1861,13 +1862,13 @@ export class AggregationProvider extends BaseProvider {
         if(type.parse) {
             rawData &#x3D; type.parse(item, type);
         }
-        // Default parsing, assuming cross-distribution format (&quot;Apple/Steve Jobs&quot;)
         else {
-            if(!item.display){
-                throw new Error(&#x60;Aggregation Item &#x27;${item.value}&#x27; has no display value&#x60;);
-            }
             // Source distributions are at least two-dimensional
             if(!sourceNode) {
+                if(!item.display){
+                    throw new Error(&#x60;Aggregation Item &#x27;${item.value}&#x27; has no display value&#x60;);
+                }
+                // Default parsing, assuming cross-distribution format (&quot;Apple/Steve Jobs&quot;)
                 const displays &#x3D; item.display.split(&quot;/&quot;);
                 const expr &#x3D; this.context.appService.parseExpr(item.value.toString()) as Expr;
                 const values &#x3D; expr.operands.map(e &#x3D;&gt; e.value!);
@@ -1880,7 +1881,7 @@ export class AggregationProvider extends BaseProvider {
             else if(sourceNode.id !&#x3D;&#x3D; this.getNodeId(type.nodeTypes[1], item.value.toString())) {
                 rawData &#x3D; {
                     values: [this.getNodeValue(sourceNode), item.value.toString()],
-                    displays: [sourceNode.label, item.display]
+                    displays: [sourceNode.label, item.display || item.value.toString()]
                 };
             }                        
         }
@@ -1915,18 +1916,15 @@ export class AggregationProvider extends BaseProvider {
         // Initialize the counts
         this.edgeTypes.forEach(type &#x3D;&gt; this.skips[type.aggregation] &#x3D; 0);
 
-        if(!this.active) {
-            this.provider.next();
-            return;
-        }
-
         // Fetch the &quot;source&quot; aggregation edges
         const types &#x3D; this.edgeTypes.filter(type &#x3D;&gt; type.trigger &#x3D;&#x3D;&#x3D; &quot;source&quot;);
 
-        if(types.length &gt; 0) {
+        if(this.active &amp;&amp; types.length &gt; 0) {
             this.fetchAggregations(types);
         }
-
+        else {            
+            this.provider.next();
+        }
     }
 
     /**

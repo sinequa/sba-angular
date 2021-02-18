@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, Optional } from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges, OnDestroy, Output, EventEmitter, Optional, DoCheck } from "@angular/core";
 import { IntlService } from "@sinequa/core/intl";
 import { Results, Aggregation, AggregationItem } from '@sinequa/core/web-services';
 import { UIService } from "@sinequa/components/utils";
@@ -21,7 +21,7 @@ export const defaultChart = {
     templateUrl: "./chart.html",
     styleUrls: ["./chart.scss"]
 })
-export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy {
+export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, DoCheck {
     @Input() results: Results;
     @Input() aggregation: string;
     @Input() aggregations?: string[];
@@ -87,7 +87,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy {
             title: "Select field",
             updater: (action) => {
                 if(this.aggregations){
-                    action.text = this.aggregation,
+                    action.text = this.aggregation;
                     action.children = this.aggregations
                         .filter(v => v!==this.aggregation)
                         .map(agg => {
@@ -109,7 +109,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy {
             title: "Select field",
             updater: (action) => {
                 if(this.types){
-                    action.text = this.types.find(t => t.type === this.type)?.display!,
+                    action.text = this.types.find(t => t.type === this.type)?.display!;
                     action.children = this.types
                         .filter(t => t.type !== this.type)
                         .map(t => {

@@ -24,7 +24,7 @@ export class BsTabs implements OnChanges {
     /**
      * Associate icon to a tab name ({tab1 : 'icon class 1', tab2 : ...})
      */
-    @Input() iconMap: {[key: string]: string;} = {};
+    @Input() iconMap: {[key: string]: string} = {};
 
     /**
      * Emits an event when a tab is selected

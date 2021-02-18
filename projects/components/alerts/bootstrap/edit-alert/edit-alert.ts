@@ -26,7 +26,7 @@ export class BsEditAlert implements OnInit, OnDestroy {
     private updateQueryControl: FormControl;
 
     constructor(
-        @Inject(MODAL_MODEL) public model: Alert,
+        @Inject(MODAL_MODEL) public model: { alert: Alert, searchRoute?: string },
         private formBuilder: FormBuilder,
         private searchService: SearchService,
         private alertsService: AlertsService,
@@ -40,31 +40,35 @@ export class BsEditAlert implements OnInit, OnDestroy {
         this.days = Alert.Days;
     }
 
+    get alert() {
+        return this.model.alert;
+    }
+
     ngOnInit() {
-        if (!this.model.days) {
-            this.model.days = this.days.None;
+        if (!this.alert.days) {
+            this.alert.days = this.days.None;
         }
-        this.canUpdateQuery = (!!this.alertsService.alert(this.model.name)) &&
+        this.canUpdateQuery = (!!this.alertsService.alert(this.alert.name)) &&
             !!this.searchService.results && !!this.searchService.results.records;
 
-        this.alertNameControl = new FormControl(this.model.name, Validators.required);
-        this.alertFrequencyControl = new FormControl(this.model.frequency);
-        this.alertTimesControl = new FormControl(this.model.times); // TODO validator
-        this.alertActiveControl = new FormControl(this.model.active);
+        this.alertNameControl = new FormControl(this.alert.name, Validators.required);
+        this.alertFrequencyControl = new FormControl(this.alert.frequency);
+        this.alertTimesControl = new FormControl(this.alert.times); // TODO validator
+        this.alertActiveControl = new FormControl(this.alert.active);
         this.updateQueryControl = new FormControl(this.updateQuery);
         this.form = this.formBuilder.group({
             alertName: this.alertNameControl,
             alertFrequency: this.alertFrequencyControl,
             alertTimes: this.alertTimesControl,
-            alertActive: this.alertTimesControl,
+            alertActive: this.alertActiveControl,
             updateQuery: this.updateQueryControl
         });
         this.formChanges = Utils.subscribe(this.form.valueChanges,
             (value) => {
-                this.model.name = this.alertNameControl.value;
-                this.model.frequency = this.alertFrequencyControl.value;
-                this.model.times = this.alertTimesControl.value;
-                this.model.active = this.alertActiveControl.value;
+                this.alert.name = this.alertNameControl.value;
+                this.alert.frequency = this.alertFrequencyControl.value;
+                this.alert.times = this.alertTimesControl.value;
+                this.alert.active = this.alertActiveControl.value;
                 this.updateQuery = this.updateQueryControl.value;
             }
         );
@@ -77,7 +81,7 @@ export class BsEditAlert implements OnInit, OnDestroy {
                     this.runQuery();
                     this.modalRef.close(ModalResult.Cancel); // dismiss the dialog too (?)
                 },
-                visible: !!this.alertsService.alert(this.model.name)
+                visible: !!this.alertsService.alert(this.alert.name)
             }),
             new ModalButton({
                 result: ModalResult.OK,
@@ -85,7 +89,7 @@ export class BsEditAlert implements OnInit, OnDestroy {
                 validation: this.form,
                 action: (button) => {
                     if (this.updateQuery) {
-                        this.alertsService.setAlertToCurrentQuery(this.model);
+                        this.alertsService.setAlertToCurrentQuery(this.alert);
                     }
                 }
             }),
@@ -100,20 +104,20 @@ export class BsEditAlert implements OnInit, OnDestroy {
     }
 
     dayChecked(day: Alert.Days): boolean {
-        return (this.model.days & day) !== 0;
+        return (this.alert.days & day) !== 0;
     }
 
     dayChange(event: UIEvent, day: Alert.Days) {
         const input = event.target as HTMLInputElement;
         if (input.checked) {
-            this.model.days |= day;
+            this.alert.days |= day;
         }
         else {
-            this.model.days &= ~day;
+            this.alert.days &= ~day;
         }
     }
 
     runQuery() {
-        this.alertsService.searchAlert(this.model);
+        this.alertsService.searchAlert(this.alert, this.model.searchRoute);
     }
 }

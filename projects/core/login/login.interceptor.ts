@@ -50,7 +50,6 @@ export class LoginInterceptor implements HttpInterceptor {
     }
 
     private shouldIntercept(url: string): boolean {
-        /*tslint:disable-next-line*/
         return Utils.startsWith(url, this.startConfig.apiPath!);
     }
 

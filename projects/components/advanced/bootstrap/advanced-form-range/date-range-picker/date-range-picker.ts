@@ -185,8 +185,8 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
             if (!value) {
                 value = [undefined, undefined];
             } else {
-                !!value[0] ? value[0] = new Date(value[0]) : value[0] = value[0];
-                !!value[1] ? value[1] = new Date(value[1]) : value[1] = value[1];
+                value[0] = !!value[0] ? new Date(value[0]) : value[0];
+                value[1] = !!value[1] ? new Date(value[1]) : value[1];
             }
             if (this.options.closedRange) {
                 this.value = value;

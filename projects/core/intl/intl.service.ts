@@ -274,7 +274,7 @@ const DEFAULT_FORMATS: IntlFormats = {
     }
 };
 
-/* tslint:disable:jsdoc-format*/
+/* eslint-disable jsdoc/check-alignment,jsdoc/check-indentation,jsdoc/newline-after-description */
 /**
  * This service provides methods for managing locales and for formatting dates, numbers and strings using
  * [ICU Message syntax]{@link https://formatjs.io/guides/message-syntax/}. [Messages]{@link LocaleData#messages} stored
@@ -293,7 +293,7 @@ const DEFAULT_FORMATS: IntlFormats = {
  * This service registers a number of [default custom ICU formats]{@link DEFAULT_FORMATS}. These can be overridden or
  * extended by providing the [INTL_CONFIG]{@link INTL_CONFIG} injection token.
  */
-/* tslint:enable:jsdoc-format*/
+/* eslint-enable jsdoc/check-alignment, jsdoc/check-indentation, jsdoc/newline-after-description */
 @Injectable({
     providedIn: "root"
 })
@@ -598,7 +598,6 @@ export class IntlService implements OnDestroy {
             if (lang1 === curLang.lang1 && lang2 === curLang.lang2) {
                 // We have a matching language, get its text
                 const nextLang = this.nextLang(text, curLang.end + 4, true);
-                /*tslint:disable-next-line*/
                 return text.substring(nextLang!.start, nextLang!.end);
             }
             else {
@@ -738,7 +737,7 @@ export class IntlService implements OnDestroy {
      * @param value The date to format
      * @param options The options can include a custom format
      */
-    formatDate(value: string | number | Date, options: Intl.DateTimeFormatOptions & { format?: string; } = {}): string {
+    formatDate(value: string | number | Date, options: Intl.DateTimeFormatOptions & { format?: string } = {}): string {
         const {format} = options;
         const date = value instanceof Date ? value : new Date(value);
         const defaults = (format && this.getNamedFormat("date", format)) || {};
@@ -759,7 +758,7 @@ export class IntlService implements OnDestroy {
      * @param value The date to format
      * @param options The options can include a custom format
      */
-    formatTime(value: string | number | Date, options: Intl.DateTimeFormatOptions & { format?: string; } = {}): string {
+    formatTime(value: string | number | Date, options: Intl.DateTimeFormatOptions & { format?: string } = {}): string {
         const {format} = options;
         const date = value instanceof Date ? value : new Date(value);
         const defaults = (format && this.getNamedFormat("time", format)) || {};
@@ -820,7 +819,7 @@ export class IntlService implements OnDestroy {
      */
     formatRelativeTime(
         value: number | Date | undefined, unit?: Intl.RelativeTimeUnit,
-        options: Intl.RelativeTimeFormatOptions & { format?: string; } = {}
+        options: Intl.RelativeTimeFormatOptions & { format?: string } = {}
     ): string {
         if (value === undefined) {
             return "";
@@ -851,7 +850,7 @@ export class IntlService implements OnDestroy {
      * @param value The number to format
      * @param options The options can include a custom format
      */
-    formatNumber(value: any, options: Intl.NumberFormatOptions & { format?: any; } = {}): string {
+    formatNumber(value: any, options: Intl.NumberFormatOptions & { format?: any } = {}): string {
         const {format} = options;
         const defaults = format && this.getNamedFormat("number", format);
         const filteredOptions = this.filterProps(options, NUMBER_FORMAT_OPTIONS, defaults);

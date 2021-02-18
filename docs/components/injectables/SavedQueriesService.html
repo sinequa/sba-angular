@@ -157,6 +157,9 @@
                                 <a href="#ngOnDestroy">ngOnDestroy</a>
                             </li>
                             <li>
+                                <a href="#notifyOpenSavedQuery">notifyOpenSavedQuery</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#rssHref">rssHref</a>
                             </li>
@@ -919,8 +922,8 @@ the result is true is the list was updated.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="498"
-                            class="link-to-prism">saved-queries/saved-queries.service.ts:498</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="501"
+                            class="link-to-prism">saved-queries/saved-queries.service.ts:501</a></div>
                 </td>
             </tr>
 
@@ -931,6 +934,76 @@ the result is true is the list was updated.</p>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notifyOpenSavedQuery"></a>
+                    <span class="name">
+                        <b>
+                            notifyOpenSavedQuery
+                        </b>
+                        <a href="#notifyOpenSavedQuery"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>notifyOpenSavedQuery(savedquery: <a href="../interfaces/SavedQuery.html">SavedQuery</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="497"
+                            class="link-to-prism">saved-queries/saved-queries.service.ts:497</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>savedquery</td>
+                                    <td>
+                                                <code><a href="../interfaces/SavedQuery.html" target="_self" >SavedQuery</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -1977,7 +2050,7 @@ export class SavedQueriesService implements OnDestroy {
         this.userSettingsService.events.subscribe(event &#x3D;&gt; {
             // E.g. new login occurs
             // &#x3D;&#x3D;&gt; Menus need to be rebuilt
-            this.events.next({type: SavedQueryEventType.Loaded});
+            this._events.next({type: SavedQueryEventType.Loaded});
         });
         // Listen to own events, to trigger change events
         this._events.subscribe(event &#x3D;&gt; {
@@ -2073,7 +2146,7 @@ export class SavedQueriesService implements OnDestroy {
             return false; // This savedquery already exists
 
         this.savedqueries.unshift(savedquery);
-        this.events.next({type : SavedQueryEventType.Add, savedquery: savedquery});
+        this._events.next({type : SavedQueryEventType.Add, savedquery});
         this.patchSavedQueries([{
             type: SavedQueryEventType.Add,
             detail: {
@@ -2101,7 +2174,7 @@ export class SavedQueriesService implements OnDestroy {
         if(index &gt;&#x3D; 0 &amp;&amp; index &lt; this.savedqueries.length){
 
             this.savedqueries.splice(index, 1, savedquery);
-            this.events.next({type : SavedQueryEventType.Update, savedquery: savedquery});
+            this._events.next({type : SavedQueryEventType.Update, savedquery});
             this.patchSavedQueries([
                 {
                     type: SavedQueryEventType.Update,
@@ -2125,7 +2198,7 @@ export class SavedQueriesService implements OnDestroy {
      */
     public updateSavedQueries(savedqueries : SavedQuery[], auditEvents?: AuditEvents) : boolean {
         Utils.arraySet(this.savedqueries, savedqueries);
-        this.events.next({type : SavedQueryEventType.Update});
+        this._events.next({type : SavedQueryEventType.Update});
         this.patchSavedQueries(auditEvents);
         return true;
     }
@@ -2145,7 +2218,7 @@ export class SavedQueriesService implements OnDestroy {
             return false; // Nothing to delete
 
         this.savedqueries.splice(index, 1);
-        this.events.next({type : SavedQueryEventType.Delete, savedquery: savedquery});
+        this._events.next({type : SavedQueryEventType.Delete, savedquery});
         this.patchSavedQueries([
             {
                 type: SavedQueryEventType.Delete,
@@ -2173,7 +2246,7 @@ export class SavedQueriesService implements OnDestroy {
         return this.userSettingsService.patch({savedQueries: this.savedqueries}, auditEvents)
             .subscribe(
                 next &#x3D;&gt; {
-                    this.events.next({type: SavedQueryEventType.Patched});
+                    this._events.next({type: SavedQueryEventType.Patched});
                 },
                 error &#x3D;&gt; {
                     console.error(&quot;Could not patch Saved queries!&quot;, error);
@@ -2260,7 +2333,7 @@ export class SavedQueriesService implements OnDestroy {
      */
     searchSavedQuery(savedquery: SavedQuery, path?: string): Promise&lt;boolean&gt; {
         this.searchService.setQuery(Utils.extend(this.searchService.makeQuery(), Utils.copy(savedquery.query)));
-        this.events.next({type: SavedQueryEventType.Search, savedquery: savedquery});
+        this._events.next({type: SavedQueryEventType.Search, savedquery});
         return this.searchService.search({ path: path }, {
             type: SavedQueryEventType.Search,
             detail: {
@@ -2348,6 +2421,9 @@ export class SavedQueriesService implements OnDestroy {
         return this.modalService.open(this.savedQueryComponents.exportSavedQueryModal, {model});
     }
 
+    notifyOpenSavedQuery(savedquery: SavedQuery) {
+        this._events.next({type: SavedQueryEventType.Search, savedquery});
+    }
 
     ngOnDestroy() {
         this.events.complete();

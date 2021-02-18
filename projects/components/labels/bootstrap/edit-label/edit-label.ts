@@ -38,9 +38,9 @@ export class BsEditLabel implements OnInit {
     constructor(
         @Inject(MODAL_MODEL)
         public model: {
-            valuesToBeAdded: string[];
-            valuesToBeRemoved: string[];
-            properties: ModalProperties;
+            valuesToBeAdded: string[],
+            valuesToBeRemoved: string[],
+            properties: ModalProperties
         },
         private appService: AppService,
         private selectionService: SelectionService,

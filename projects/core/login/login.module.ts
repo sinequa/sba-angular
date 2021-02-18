@@ -23,7 +23,6 @@ import {Login} from "./login.component";
 
 import {LOGIN_MODULE_PROVIDERS} from "./module.providers";
 
-/*tslint:disable-next-line*/
 export interface IPartialConfigOptions {} // until export restored to ng2-ui-auth@9
 
 /**

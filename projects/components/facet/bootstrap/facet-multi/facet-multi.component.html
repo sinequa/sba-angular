@@ -8,6 +8,7 @@
             <i class="ml-2 far fa-check-square fa-stack-1x icons icon-default"></i>
         </span>
         <span
+            *ngIf="showCount"
             class="mx-2 text-muted small"
             title="{{ 'msg#facet.filterItemCountTooltip' | sqMessage:{ values: { count: facet.$count } } }}"
         >

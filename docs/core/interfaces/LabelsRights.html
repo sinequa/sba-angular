@@ -1,0 +1,560 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Core</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Core</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>LabelsRights</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>web-services/labels.web.service.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Describes the object returned by the getUserRights action of the labels web service</p>
+
+            </p>
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#canEditPublicLabels">canEditPublicLabels</a>
+                                </li>
+                                <li>
+                                        <a href="#canManagePublicLabels">canManagePublicLabels</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="canEditPublicLabels"></a>
+                                        <span class="name"><b>canEditPublicLabels</b><a href="#canEditPublicLabels"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>canEditPublicLabels:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="canManagePublicLabels"></a>
+                                        <span class="name"><b>canManagePublicLabels</b><a href="#canManagePublicLabels"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>canManagePublicLabels:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject} from &quot;@angular/core&quot;;
+import {Observable} from &quot;rxjs&quot;;
+import {map} from &quot;rxjs/operators&quot;;
+import {SqHttpClient} from &quot;./http-client&quot;;
+import {HttpService} from &quot;./http.service&quot;;
+import {START_CONFIG, StartConfig} from &quot;./start-config.web.service&quot;;
+import {Utils} from &quot;@sinequa/core/base&quot;;
+import {IntlService} from &quot;@sinequa/core/intl&quot;;
+import {IQuery} from &quot;./query/query&quot;;
+import {AuditEventType} from &quot;./audit.web.service&quot;;
+
+/**
+ * Describes the object returned by the list action of the labels web service
+ */
+export interface Labels {
+    labels: string[];
+}
+
+/**
+ * Describes the object returned by the getUserRights action of the labels web service
+ */
+export interface LabelsRights {
+    canManagePublicLabels: boolean;
+    canEditPublicLabels: boolean;
+}
+
+/**
+ * A service for calling the labels web service
+ */
+@Injectable({
+    providedIn: &quot;root&quot;
+})
+export class LabelsWebService extends HttpService {
+
+    constructor(
+        @Inject(START_CONFIG) startConfig: StartConfig,
+        private httpClient: SqHttpClient,
+        private intlService: IntlService) {
+        super(startConfig);
+    }
+
+    /**
+     * Calls the list action of the labels web service
+     *
+     * @param prefix The string that the returned labels should begin with
+     * @param _public Determines whether public or private labels should be returned
+     */
+    list(
+        prefix: string,
+        _public: boolean): Observable&lt;Labels&gt; {
+        const observable &#x3D; this.httpClient.get&lt;Labels&gt;(this.makeUrl(&quot;labels&quot;), {
+            params: this.makeParams({
+                app: this.appName,
+                action: &quot;list&quot;,
+                q: prefix,
+                public: _public,
+                locale: this.intlService.currentLocale.name,
+                localize: false
+            })
+        });
+        Utils.subscribe(observable,
+            (response) &#x3D;&gt; {
+                return response;
+            },
+            (error) &#x3D;&gt; {
+                console.log(&quot;labelsService.list failure - error: &quot;, error);
+            });
+        return observable;
+    }
+
+    /**
+     * A wrapper around the list method. The matching labels are returned as an array of strings
+     *
+     * @param prefix The string that the returned labels should begin with
+     * @param _public Determines whether public or private labels should be returned
+     */
+    array(
+        prefix: string,
+        _public: boolean): Observable&lt;string[]&gt; {
+        return this.list(prefix, _public)
+            .pipe(map((value) &#x3D;&gt; {
+                return value.labels;
+            }));
+    }
+
+    /**
+     * Calls the getUserRights action of the labels web service
+     */
+
+    getUserRights(): Observable&lt;LabelsRights&gt; {
+        const observable &#x3D; this.httpClient.get&lt;LabelsRights&gt;(
+            this.makeUrl(&#x27;labels&#x27;),
+            {
+                params: this.makeParams({
+                    app: this.appName,
+                    action: &#x27;getUserRights&#x27;
+                })
+            }
+        );
+        Utils.subscribe(
+            observable,
+            response &#x3D;&gt; response,
+            error &#x3D;&gt; console.log(&quot;labelsService.getUserRights failure - error: &quot;, error)
+        );
+        return observable;
+    }
+
+    /**
+     * Add labels to a set of documents
+     *
+     * @param labels The labels to add
+     * @param ids The ids of the documents to which the labels should be added
+     * @param _public Determines whether the labels are public or private
+     */
+    add(labels: string[],
+        ids: string[],
+        _public: boolean): Observable&lt;void&gt; {
+        const observable &#x3D; this.httpClient.post&lt;void&gt;(this.makeUrl(&quot;labels&quot;), {
+            app: this.appName,
+            action: &quot;add&quot;,
+            labels: labels,
+            ids: ids,
+            public: _public,
+            $auditRecord: {
+                auditEvents: [
+                    {
+                        type: AuditEventType.Label_AddDoc,
+                        detail: {
+                            public: _public,
+                            label: !!labels ? labels.toString() : null,
+                            doccount: !!ids ? ids.length : 0
+                        }
+                    }
+                ],
+                mlAuditEvents: [
+                    {
+                        actionType: &quot;addToLabel&quot;,
+                        documentIds: ids
+                    }
+                ]
+            }
+        });
+        Utils.subscribe(observable,
+            (response) &#x3D;&gt; {
+                return response;
+            },
+            (error) &#x3D;&gt; {
+                console.log(&quot;labelsService.add failure - error: &quot;, error);
+            });
+        return observable;
+    }
+
+    /**
+     * Removes labels from a set of documents
+     *
+     * @param labels The labels to remove
+     * @param ids The ids of the documents from which the labels should be removed
+     * @param _public Determines whether the labels are public or private
+     */
+    remove(labels: string[],
+        ids: string[],
+        _public: boolean): Observable&lt;void&gt; {
+        const observable &#x3D; this.httpClient.post&lt;void&gt;(this.makeUrl(&quot;labels&quot;), {
+            app: this.appName,
+            action: &quot;remove&quot;,
+            labels: labels,
+            ids: ids,
+            public: _public,
+            $auditRecord: {
+                auditEvents: [
+                    {
+                        type: AuditEventType.Label_RemoveDoc,
+                        detail: {
+                            public: _public,
+                            label: !!labels ? labels.toString() : null,
+                            doccount: !!ids ? ids.length : 0
+                        }
+                    }
+                ],
+                mlAuditEvents: [
+                    {
+                        actionType: &quot;removeFromLabel&quot;,
+                        documentIds: ids
+                    }
+                ]
+            }
+        });
+        Utils.subscribe(observable,
+            (response) &#x3D;&gt; {
+                return response;
+            },
+            (error) &#x3D;&gt; {
+                console.log(&quot;labelsService.remove failure - error: &quot;, error);
+            });
+        return observable;
+    }
+
+    /**
+     * Renames a set of labels
+     *
+     * @param labels The labels to rename
+     * @param newLabel The new name for the labels
+     * @param _public Determines whether the labels are public or private
+     */
+    rename(labels: string[],
+        newLabel: string,
+        _public: boolean): Observable&lt;void&gt; {
+        const observable &#x3D; this.httpClient.post&lt;void&gt;(this.makeUrl(&quot;labels&quot;), {
+            app: this.appName,
+            action: &quot;rename&quot;,
+            labels: labels,
+            newLabel: newLabel,
+            public: _public,
+            auditEvents: {
+                type: AuditEventType.Label_Rename,
+                detail: {
+                    public: _public,
+                    oldlabel: !!labels ? labels.toString() : null,
+                    label: newLabel
+                }
+            }
+        });
+        Utils.subscribe(observable,
+            (response) &#x3D;&gt; {
+                return response;
+            },
+            (error) &#x3D;&gt; {
+                console.log(&quot;labelsService.rename failure - error: &quot;, error);
+            });
+        return observable;
+    }
+
+    /**
+     * Deletes a set of labels
+     *
+     * @param labels The labels to be deleted
+     * @param _public Determines whether the labels are public or private
+     */
+    delete(labels: string[],
+        _public: boolean): Observable&lt;void&gt; {
+        const observable &#x3D; this.httpClient.post&lt;void&gt;(this.makeUrl(&quot;labels&quot;), {
+            app: this.appName,
+            action: &quot;delete&quot;,
+            labels: labels,
+            public: _public,
+            auditEvents: {
+                type: AuditEventType.Label_Delete,
+                detail: {
+                    public: _public,
+                    label: !!labels ? labels.toString() : null
+                }
+            }
+        });
+        Utils.subscribe(observable,
+            (response) &#x3D;&gt; {
+                return response;
+            },
+            (error) &#x3D;&gt; {
+                console.log(&quot;labelsService.delete failure - error: &quot;, error);
+            });
+        return observable;
+    }
+
+    /**
+     * Adds labels to the documents identified by the passed query
+     *
+     * @param labels The labels to add
+     * @param query The query to produce the documents to which the labels should be added
+     * @param _public Determines whether the labels are public or private
+     */
+    bulkAdd(labels: string[],
+        query: IQuery,
+        _public: boolean): Observable&lt;void&gt; {
+        const observable &#x3D; this.httpClient.post&lt;void&gt;(this.makeUrl(&quot;labels&quot;), {
+            app: this.appName,
+            action: &quot;bulkAdd&quot;,
+            labels: labels,
+            query: query,
+            public: _public,
+            auditEvents: {
+                type: AuditEventType.Label_Add,
+                detail: {
+                    public: _public,
+                    label: !!labels ? labels.toString() : null,
+                    query: query !&#x3D; null ? query.name : null
+                }
+            }
+        });
+        Utils.subscribe(observable,
+            (response) &#x3D;&gt; {
+                return response;
+            },
+            (error) &#x3D;&gt; {
+                console.log(&quot;labelsService.bulkAdd failure - error: &quot;, error);
+            });
+        return observable;
+    }
+
+    /**
+     * Removes labels from the documents identified by the passed query
+     *
+     * @param labels The labels to remove
+     * @param query The query to produce the documents from which the labels should be removed
+     * @param _public Determines whether the labels are public or private
+     */
+    bulkRemove(labels: string[],
+        query: IQuery,
+        _public: boolean): Observable&lt;void&gt; {
+        const observable &#x3D; this.httpClient.post&lt;void&gt;(this.makeUrl(&quot;labels&quot;), {
+            app: this.appName,
+            action: &quot;bulkRemove&quot;,
+            labels: labels,
+            query: query,
+            public: _public,
+            auditEvents: {
+                type: AuditEventType.Label_Delete,
+                detail: {
+                    public: _public,
+                    label: !!labels ? labels.toString() : null,
+                    query: query !&#x3D; null ? query.name : null
+                }
+            }
+        });
+        Utils.subscribe(observable,
+            (response) &#x3D;&gt; {
+                return response;
+            },
+            (error) &#x3D;&gt; {
+                console.log(&quot;labelsService.bulkRemove failure - error: &quot;, error);
+            });
+        return observable;
+    }
+}
+</code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'LabelsRights.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

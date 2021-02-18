@@ -3,9 +3,7 @@ export class IteratorAdaptor<T,B> implements IterableIterator<T> {
     readonly throw?: (error?: any) => IteratorResult<T>;
 
     constructor(private base: Iterator<B>, private adaptor: (b: B) => T) {
-        /*tslint:disable-next-line*/
         this.return = (base.return) ? (v) => this.translate(this.base.return!(v)) : undefined;
-        /*tslint:disable-next-line*/
         this.throw  = (base.throw)  ? (e) => this.translate(this.base.throw!(e))  : undefined;
     }
 

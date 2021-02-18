@@ -607,6 +607,7 @@ import { Results } from &#x27;@sinequa/core/web-services&#x27;;
 import { AbstractFacet } from &#x27;../../abstract-facet&#x27;;
 import { Action } from &#x27;@sinequa/components/action&#x27;;
 import { FacetService } from &#x27;../../facet.service&#x27;;
+import { Utils } from &#x27;@sinequa/core/base&#x27;;
 
 export interface FacetConfig {
   name: string;
@@ -648,6 +649,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    * Action to switch back from an opened facet to the facet multi view
    */
   backAction: Action;
+  clearAllFiltersAction: Action;
 
   constructor(
     public facetService: FacetService,
@@ -667,6 +669,15 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
       }
     });
 
+    this.clearAllFiltersAction &#x3D; new Action({
+      icon: &quot;far fa-minus-square&quot;,
+      title: &quot;msg#facet.filters.clear&quot;,
+      action: () &#x3D;&gt; {
+        const facetsWithFiltered &#x3D; this.facets.filter((facet) &#x3D;&gt; facet.$hasFiltered).map(facet &#x3D;&gt; facet.name);
+        this.facetService.clearFiltersSearch(facetsWithFiltered, true);
+      }
+    });
+
   }
 
   /**
@@ -677,6 +688,9 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
     const actions: Action[] &#x3D; [];
     if(this.openedFacet){
       actions.push(this.backAction);
+    } else {
+      const hasFiltered &#x3D; this.facets.some(facet &#x3D;&gt; facet.$hasFiltered);
+      if (hasFiltered) actions.push(this.clearAllFiltersAction);
     }
     if(this.facetComponent){
       actions.push(...this.facetActions);
@@ -704,37 +718,25 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
     this.changeDetectorRef.detectChanges();
   }
 
+  clearFacetFilters(facet: FacetConfig, e:Event) {
+    e.stopPropagation();
+    this.facetService.clearFiltersSearch(facet.name, true);
+    return false;
+  }
+
   /**
    * Return the number of items to display for a given facet
    * @param facet
    */
   private getFacetCount(facet: FacetConfig): string {
-    if(facet.type&#x3D;&#x3D;&#x3D;&#x27;tree&#x27;){
-      const agg &#x3D; this.facetService.getTreeAggregation(facet.name, facet.aggregation, this.results);
-      if(!agg || !agg.items) return &quot;&quot;;
-      return agg.items.length + &quot;&quot;;
-    }
-    const agg &#x3D; this.facetService.getAggregation(facet.aggregation, this.results);
-    const count &#x3D; this.facetService.getAggregationCount(facet.aggregation);
-    if (!agg || !agg.items)
+    const agg &#x3D; this.results.aggregations.find(agg &#x3D;&gt; Utils.eqNC(agg.name, facet.aggregation)); // avoid calling getAggregation() which is costly for trees
+    if (!agg?.items)
       return &quot;&quot;;
+    const count &#x3D; this.facetService.getAggregationCount(facet.aggregation); // configured count (default: 10)
     const aggItemCounter &#x3D; (!agg.isDistribution || facet.displayEmptyDistributionIntervals)
       ? agg.items.length
       : agg.items.filter(item &#x3D;&gt; item.count &gt; 0).length;
     return aggItemCounter &gt;&#x3D; count ? &#x60;${count}+&#x60; : &#x60;${aggItemCounter}&#x60;;
-  }
-
-  /**
-   * Return whether a given facet has data to show
-   * @param facet
-   */
-  private hasData(facet: FacetConfig): boolean {
-    if(facet.type&#x3D;&#x3D;&#x3D;&#x27;tree&#x27;){
-      const agg &#x3D; this.facetService.getTreeAggregation(facet.name, facet.aggregation, this.results);
-      return !!agg &amp;&amp; !!agg.items &amp;&amp; agg.items.length &gt; 0;
-    }
-    const agg &#x3D; this.facetService.getAggregation(facet.aggregation, this.results);
-    return !!agg &amp;&amp; !!agg.items &amp;&amp; agg.items.length &gt; 0;
   }
 
   /**
@@ -752,7 +754,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   ngOnChanges() {
     this.facets.forEach(facet &#x3D;&gt; {
       facet.$count &#x3D; this.getFacetCount(facet);
-      facet.$hasData &#x3D; this.hasData(facet);
+      facet.$hasData &#x3D; this.facetService.hasData(facet, this.results);
       facet.$hasFiltered &#x3D; this.hasFiltered(facet);
     });
     this.changeDetectorRef.detectChanges();

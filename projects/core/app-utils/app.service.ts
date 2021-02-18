@@ -125,7 +125,6 @@ export class AppService implements OnDestroy {
         let etm = EngineTypeModifier.none;
         if (typeModifier) {
             for (const c of typeModifier) {
-                /*tslint:disable-next-line*/
                 etm |= AppService.toEngineTypeModifierSimple(c);
             }
         }
@@ -248,7 +247,6 @@ export class AppService implements OnDestroy {
      * Return the name of the SBA
      */
     get appName(): string {
-        /*tslint:disable-next-line*/
         return this.startConfig.app!;
     }
 
@@ -256,7 +254,6 @@ export class AppService implements OnDestroy {
      * Return the origin of the Sinequa server
      */
     get origin(): string {
-        /*tslint:disable-next-line*/
         return this.startConfig.origin!;
     }
 
@@ -929,7 +926,6 @@ export class AppService implements OnDestroy {
      * Return the url to the Sinequa administration console
      */
     get adminUrl(): string {
-        /*tslint:disable-next-line*/
         return this.updateUrlForCors(Utils.addUrl(this.startConfig.applicationPath!, "admin"));
     }
 }

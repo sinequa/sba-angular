@@ -3,7 +3,6 @@ import {AbstractIntlPipe, IntlService} from "@sinequa/core/intl";
 import {Expr, ExprMessageOptions} from "@sinequa/core/app-utils";
 import {Utils} from "@sinequa/core/base";
 
-// tslint:disable-next-line: use-pipe-transform-interface
 @Pipe({name: "sqExpr", pure: false})
 export class ExprPipe extends AbstractIntlPipe {
     constructor(

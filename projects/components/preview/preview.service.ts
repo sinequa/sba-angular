@@ -86,7 +86,8 @@ export class PreviewService {
             const queryLanguage = this.searchService.results?.queryAnalysis?.queryLanguage
                 || this.searchService?.query?.questionLanguage
                 || this.appService?.ccquery?.questionLanguage;
-            const collection = !!record ? record.collection[0] : Utils.split(id, "|")[0];
+            const collectionColumn = record?.collection;
+            const collection = !!collectionColumn ? collectionColumn[0] : Utils.split(id, "|")[0];
             const rank = !!record ? record.rank : this.rank || 0;
             auditEvent = {
                 type: AuditEventType.Doc_Preview,
@@ -168,11 +169,11 @@ export class PreviewService {
      * @param record 
      */
     getPageNumber(record: Record): number | undefined {
-        let containerid: string | undefined = record.containerid;
+        const containerid: string | undefined = record.containerid;
         if(containerid && record.id.startsWith(containerid)) {
-            let pageNumberStr = record.id.slice(containerid.length+1);
+            const pageNumberStr = record.id.slice(containerid.length+1);
             if(/#\d+#/g.test(pageNumberStr)) {
-                let pageNumber = parseInt(pageNumberStr.slice(1, pageNumberStr.length-1));
+                const pageNumber = parseInt(pageNumberStr.slice(1, pageNumberStr.length-1), 10);
                 if(!isNaN(pageNumber)) {
                     record.$page = pageNumber;
                     return pageNumber;

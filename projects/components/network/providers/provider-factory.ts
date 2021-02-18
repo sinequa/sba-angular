@@ -30,7 +30,7 @@ export class ProviderFactory {
      * @param nodeOptions Vis.js display properties of this node (may be a static object or a function returning an object given the node)
      * @param field an optional field name for this node type, which can be used to filter the content
      */
-    createNodeType(name: string, nodeOptions: {[key: string]: any;} | ((node: Node, type: NodeType) => {[key: string]: any;}), field?: string): NodeType {
+    createNodeType(name: string, nodeOptions: {[key: string]: any} | ((node: Node, type: NodeType) => {[key: string]: any}), field?: string): NodeType {
         return { name, nodeOptions, field }
     }
 
@@ -66,7 +66,7 @@ export class ProviderFactory {
      * @param trigger (default: onclick) Determines when the node should be mutated (oninsert: when the node is created, onclick: when the node is cliked, manual: via a click on a button or link)
      * @param field an optional field name for this node type, which can be used to filter the content
      */
-    createDynamicNodeType(name: string, getQuery: (node: Node) => Query, nodeOptions: {[key: string]: any;} | ((node: Node, type: NodeType) => {[key: string]: any;}), trigger: StructuralTriggerType = "onclick", field?: string): DynamicNodeType {
+    createDynamicNodeType(name: string, getQuery: (node: Node) => Query, nodeOptions: {[key: string]: any} | ((node: Node, type: NodeType) => {[key: string]: any}), trigger: StructuralTriggerType = "onclick", field?: string): DynamicNodeType {
         const nodeType = this.createNodeType(name, nodeOptions, field) as DynamicNodeType;
         nodeType.getQuery = getQuery;
         nodeType.trigger = trigger;
@@ -80,7 +80,7 @@ export class ProviderFactory {
      * @param nodeOptions Vis.js display properties of this node (may be a static object or a function returning an object given the node)
      * @param trigger (default: onclick) Determines when the node should be mutated (oninsert: when the node is created, onclick: when the node is cliked, manual: via a click on a button or link)
      */
-    makeNodeTypeDynamic(nodeType: NodeType, getQuery: (node: Node) => Query | undefined, nodeOptions?: {[key: string]: any;} | ((node: Node, type: NodeType) => {[key: string]: any;}), trigger: "oninsert" | "onclick" | "manual" = "onclick"): DynamicNodeType {
+    makeNodeTypeDynamic(nodeType: NodeType, getQuery: (node: Node) => Query | undefined, nodeOptions?: {[key: string]: any} | ((node: Node, type: NodeType) => {[key: string]: any}), trigger: "oninsert" | "onclick" | "manual" = "onclick"): DynamicNodeType {
         const _nodeType = nodeType as DynamicNodeType;
         _nodeType.getQuery = getQuery;
         _nodeType.trigger = trigger;
@@ -143,7 +143,7 @@ export class ProviderFactory {
      * @param size Size of the icon and text (the actual sizes in pixel are determined with a normalization function)
      * @param background The background color of the image, displayed while the image is loading
      */
-    createImageNodeOptions(imageUrl: string, size: number, background = 'white'): {[key: string]: any;} {
+    createImageNodeOptions(imageUrl: string, size: number, background = 'white'): {[key: string]: any} {
         return { 
             shape: "circularImage", 
             image: imageUrl,
@@ -162,7 +162,7 @@ export class ProviderFactory {
      * Create dynamic node options to display nodes with circular images.
      * @param getImageUrl A function that takes as input the node and returns the image URL
      */
-    createDynamicImageNodeOptions(getImageUrl: (node: Node) => string): ((node: Node, type: NodeType) => {[key: string]: any;}) {
+    createDynamicImageNodeOptions(getImageUrl: (node: Node) => string): ((node: Node, type: NodeType) => {[key: string]: any}) {
         return (node: Node, type: NodeType) => {
             const image = getImageUrl(node);
             return this.createImageNodeOptions(image, node.count);

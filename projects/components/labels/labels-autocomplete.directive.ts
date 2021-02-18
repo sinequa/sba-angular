@@ -6,6 +6,8 @@ import {
     SimpleChanges,
     Output,
     HostListener,
+    OnInit,
+    OnChanges,
 } from "@angular/core";
 import {
     Autocomplete,
@@ -22,7 +24,7 @@ import { LabelsService } from "./labels.service";
 @Directive({
     selector: "[sqAutocompleteLabels]",
 })
-export class LabelsAutocomplete extends Autocomplete {
+export class LabelsAutocomplete extends Autocomplete implements OnInit, OnChanges {
     /** Event synchronizing the list of selected labels in the parent component */
     @Output() itemsUpdate = new EventEmitter<AutocompleteItem[]>();
 
@@ -105,7 +107,7 @@ export class LabelsAutocomplete extends Autocomplete {
             const position = this.getInputPosition();
             let length = 0;
             let val:
-                | { value: string; start: number; length: number }
+                | { value: string, start: number, length: number }
                 | undefined;
             for (const label of labels) {
                 if (position >= length && position <= length + label.length) {

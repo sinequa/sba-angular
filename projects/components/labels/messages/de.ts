@@ -40,7 +40,7 @@ export default {
     },
 
     "bulkRemoveLabel": {
-        "title": "Label von aktuellen Ergebnissen entfernen",
+        "title": "Etikett(en) von aktuellen Ergebnissen entfernen",
         "btnBulkRemove": "Entfernen",
         "alertText": "Diese Aktion löscht das (die) ausgewählte(n) Etikett(en) aus allen gefundenen Ergebnisse (nicht nur die der ersten Seite)",
         "successFeedback": "Etikett(en), das (die) aus allen gefundenen Ergebnissen gelöscht wurde(n)",
@@ -48,7 +48,7 @@ export default {
     },
 
     "bulkAddLabel": {
-        "title": "Label zu aktuellen Ergebnissen hinzufügen",
+        "title": "Etikett(en) zu aktuellen Ergebnissen hinzufügen",
         "btnBulkAdd": "Hinzufügen",
         "alertText": "Diese Aktion fügt das (die) ausgewählte(n) Etikett(en) zu allen gefundenen Ergebnissen (nicht nur denen der ersten Seite) hinzu",
         "infoText": "klicken Sie auf 'Enter', um ein neues Etikett, das nicht in den Vorschlägen existiert, hinzuzufügen",

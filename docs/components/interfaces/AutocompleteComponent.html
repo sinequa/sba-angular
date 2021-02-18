@@ -419,10 +419,10 @@ also manage navigation through the list (next/previous and selectedValue).</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Directive, Input, Output, ElementRef, HostListener, OnInit, EventEmitter, OnDestroy, OnChanges, SimpleChanges} from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Directive, Input, Output, ElementRef, HostListener, OnInit, EventEmitter, OnDestroy, OnChanges, SimpleChanges, HostBinding} from &quot;@angular/core&quot;;
 import {Observable, Subscription} from &quot;rxjs&quot;;
 import {Utils, Keys} from &quot;@sinequa/core/base&quot;;
-import {AppService, Expr} from &quot;@sinequa/core/app-utils&quot;;
+import {AppService} from &quot;@sinequa/core/app-utils&quot;;
 import {SuggestService} from &quot;./suggest.service&quot;;
 import {UIService} from &quot;@sinequa/components/utils&quot;;
 
@@ -480,12 +480,6 @@ export interface AutocompleteComponent {
     selectPrevious(): AutocompleteItem | undefined;
 }
 
-
-export interface ParseResult {
-    result?: Expr;
-    error?: string;
-}
-
 /**
  * States in which the autocomplete component can be
  */
@@ -502,20 +496,33 @@ export enum AutocompleteState {
     selector: &quot;[sqAutocomplete]&quot;
 })
 export class Autocomplete implements OnInit, OnChanges, OnDestroy {
+
+    /** Reference to the AutocompleteComponent that displays the autocomplete items */
     @Input() dropdown: AutocompleteComponent;
+
+    /** Whether the autocomplete should be active or not */
     @Input() off: boolean;
-    @Input() fieldSearch: boolean;
-    @Input() excludedFields: string[] &#x3D; [&quot;concept&quot;];
+
+    /** Debounce delay between autocomplete queries */
     @Input() suggestDelay: number &#x3D; 200;
+
+    /** Name of the Suggest Query to be used */
     @Input() suggestQuery: string;
+
+    /** Custom placeholder */
+    @Input() placeholder: string &#x3D; &#x27;&#x27;;
+
+    @HostBinding(&#x27;attr.placeholder&#x27;) _placeholder;
+
+    // Event emitters
+
     @Output() stateChange &#x3D; new EventEmitter&lt;AutocompleteState&gt;();
     @Output() submit &#x3D; new EventEmitter&lt;void&gt;();
-    @Output() parse &#x3D; new EventEmitter&lt;ParseResult&gt;();
 
     private _state: AutocompleteState &#x3D; AutocompleteState.INIT;
 
     // The input HTML element to which this directive is attached
-    private readonly inputElement: HTMLInputElement;
+    protected readonly inputElement: HTMLInputElement;
 
 
     // Initialization
@@ -539,6 +546,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
             this.select(item, true);  // An item was selected from the autocomplete &#x3D;&gt; take the value
         });
 
+        this._placeholder &#x3D; this.placeholder;
         this.inputElement.focus();
         this.start();
     }
@@ -548,13 +556,14 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * @param changes
      */
     ngOnChanges(changes: SimpleChanges){
-        if(changes[&quot;off&quot;]){
+        // Turn on the autocomplete
+        if(changes[&quot;off&quot;] &amp;&amp; !this.off){
             this.start();
         }
     }
 
 
-    private _dropdownSubscription: Subscription;
+    protected _dropdownSubscription: Subscription;
     /**
      * Unsubscribe when destroying the component
      */
@@ -606,9 +615,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      */
     protected setInputValue(value: string) {
         // Using setCaret() allows to properly update the underlying form
-        if(value){
-            this.uiService.setCaret(this.inputElement, 0, value.length, value);
-        }
+        this.uiService.setCaret(this.inputElement, 0, -1, value); // 0, -1 erases the current value and writes the new one
     }
 
     /**
@@ -621,19 +628,8 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      */
     protected setAutocompleteItem(item: AutocompleteItem): boolean {
         if(item) {
-            if(this.fieldSearch &amp;&amp; item.category &amp;&amp; !this.excludedFields.includes(item.category)){
-                if(item.category &#x3D;&#x3D;&#x3D; &quot;$field$&quot;){    // In the case of of a field name, we display the field for autocomplete, but we don&#x27;t want to search for it
-                    this.setInputValue(item.display + &quot;:&quot;);
-                }
-                else{
-                    this.setInputValue(item.category + &quot;:&#x60;&quot; + (item.normalized || item.display) + &quot;&#x60;&quot;);
-                    return true;
-                }
-            }
-            else {
-                this.setInputValue(item.display);
-                return true;
-            }
+            this.setInputValue(item.display);
+            return true;
         }
         return false;
     }
@@ -718,26 +714,21 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     protected getSuggests() {
         let value &#x3D; this.getInputValue();
         if(value) { // If there is text, make a call to the suggest API
-            const parseResult &#x3D; this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
-            let fields: string[] | undefined &#x3D; undefined;
-            if(parseResult.result &amp;&amp; this.fieldSearch){
-                const position &#x3D; this.getInputPosition(); // Position of the caret, if needed
-                const res &#x3D; parseResult.result.findValue(position);
-                // Field Search suggest
-                if(!!res &amp;&amp; !!res.field){
-                    fields &#x3D; Utils.startsWith(res.field, &quot;@&quot;) ? [&quot;text&quot;] : [res.field];
-                    value &#x3D; res.value;
-                }
-            }
-
             this.processSuggests(
-                this.suggestService.get(this.suggestQuery, value, fields), fields
+                this.getSuggestsObs(value)
             );
-
         }
         else {  // If empty input, restart autocomplete
             this.start();
         }
+    }
+
+    /**
+     * Returns an observable of Suggestions, given some input text
+     * @param value input text for which to return suggestions
+     */
+    protected getSuggestsObs(value: string, fields?: string[]): Observable&lt;AutocompleteItem[]&gt; {
+        return this.suggestService.get(this.suggestQuery, value, fields);
     }
 
     /**
@@ -747,22 +738,16 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * - Switch between OPEN and ACTIVE states
      * - Use changeDetectorRef to update display
      * @param obs an observable of AutocompleteItem suggestions
-     * @param fields if in field search mode and a field is found in the query for autocomplete
      */
-    protected processSuggests(obs: Observable&lt;AutocompleteItem[]&gt;, fields: string[] | undefined){
+    protected processSuggests(obs: Observable&lt;AutocompleteItem[]&gt;){
         obs.subscribe(
             suggests &#x3D;&gt; {
                 if(this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.ACTIVE || this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.OPENED){
                     this.dropdown.update(true, suggests
-                        .filter(item &#x3D;&gt; this.fieldSearch || item.category !&#x3D;&#x3D; &quot;$field$&quot;)  // Filter out fields if not in fieldSearch mode
+                        .filter(item &#x3D;&gt; item.category !&#x3D;&#x3D; &quot;$field$&quot;)  // Filter out fields
                         .map(item &#x3D;&gt; {
                             if(!item.label){
-                                if(this.fieldSearch &amp;&amp; item.category &#x3D;&#x3D;&#x3D; &quot;$field$&quot;) {
-                                    item.label &#x3D; &quot;Field&quot;;
-                                }
-                                else {
-                                    item.label &#x3D; this.appService.getLabel(item.category);
-                                }
+                                item.label &#x3D; this.appService.getLabel(item.category);
                             }
                             return item;
                         }));
@@ -791,16 +776,8 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
 
 
     /**
-     * Parse the query for syntax error (also allows to detect field search if needed)
+     * Returns the caret position within the input
      */
-    protected parseQuery() : ParseResult {
-        const value &#x3D; this.getInputValue();
-        const result &#x3D; this.appService.parseExpr(value, {allowEmptyValues: true});
-        const event &#x3D; result instanceof Expr? { result: result } : { error: result };
-        this.parse.next(event);
-        return event;
-    }
-
     protected getInputPosition(): number {
         // Come back before trailing spaces so the preceding value is still seen as the input value
         // (needed for ExprParser to stop autocomplete being cancelled on entering trailing spaces)
@@ -914,7 +891,8 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
         }
         return undefined;
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
 

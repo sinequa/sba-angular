@@ -11,7 +11,8 @@ import { Subscription } from 'rxjs';
   templateUrl: './alerts-menu.component.html'
 })
 export class BsAlertsMenuComponent implements OnInit, OnDestroy {
-
+  
+  @Input() searchRoute: string = "/search";
   @Input() icon: string = "fas fa-bell";
   @Input() autoAdjust: boolean = true;
   @Input() autoAdjustBreakpoint: string = 'xl';
@@ -39,7 +40,7 @@ export class BsAlertsMenuComponent implements OnInit, OnDestroy {
     this.manageAction = new Action({
       text: "msg#alerts.manageAlerts",
       title: "msg#alerts.manageAlerts",
-      action: () => { this.alertsService.manageAlertsModal(); }
+      action: () => { this.alertsService.manageAlertsModal(this.searchRoute); }
     });
 
   }
@@ -91,7 +92,7 @@ export class BsAlertsMenuComponent implements OnInit, OnDestroy {
               data: alert,
               action: (item: Action) => {
                 const alert: Alert = Utils.copy(item.data);
-                this.alertsService.editAlertModal(alert);
+                this.alertsService.editAlertModal(alert, undefined, this.searchRoute);
               }
           }))
         });
