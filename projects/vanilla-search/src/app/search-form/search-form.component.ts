@@ -31,7 +31,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
 
   /** A reference to the AutocompleteExtended directive, needed to get the field search selections, if any */
   @ViewChild(AutocompleteExtended) autocompleteDirective: AutocompleteExtended;
-  
+
   // Advanced search flags
   showAdvancedSearch: boolean;
   initAdvanced: boolean;
@@ -86,6 +86,10 @@ export class SearchFormComponent implements OnInit, OnDestroy {
 
       // Update the filtering status
       this._updateFilteringStatus();
+
+      // Check user preferences regarding keeping filters
+      this.keepFilters = this.prefs.get('keep-filters-state');
+      this.keepFiltersTitle = this.keepFilters ? 'msg#searchForm.notKeepFilters' : 'msg#searchForm.keepFilters';
     });
   }
 
@@ -131,6 +135,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
 
       /** Add select from the fielded search ("selects", aka "simple" mode) */
       if(this.getMode() === "selects") {
+        this.searchService.query.removeSelect("search-form"); // Prevent having multiple instance if this.keepFilters = true
         const expr = this.autocompleteDirective.getFieldSearchExpression();
         if(expr) {
           this.searchService.query.addSelect(expr, "search-form");
@@ -148,21 +153,19 @@ export class SearchFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Test if the form contains some inputs
+   * Test if the search input is not empty
    */
   hasContent(): boolean {
-    return this.searchControl.value 
-      || this.fieldSearchExpression
-      || this.hasAdvancedContent();
+    return this.searchControl.value
+      || this.fieldSearchExpression;
   }
 
   /**
-   * Clears the entire search form
+   * Clears the search input and the fielded search
    */
   clearForm() {
     this.searchControl.reset();
     this.fieldSearchExpression = "";
-    this.clearAdvancedForm();
   }
 
   /**
@@ -174,8 +177,23 @@ export class SearchFormComponent implements OnInit, OnDestroy {
       || this.form.get("size")?.value?.find(v => v)
       || this.form.get("modified")?.value?.find(v => v)
       || this.form.get("person")?.value
-      || this.form.get("docformat")?.value
-      || this.searchService.query.hasAdvanced();
+      || this.form.get("docformat")?.value;
+  }
+
+  /**
+   * Clears the advanced-search form
+   */
+  clearAdvancedSearch(): void {
+    this.advancedService.resetAdvancedValues();
+    /** Close the advanced form */
+    this.showAdvancedSearch = false;
+  }
+
+  /**
+   * Test if the query contains advanced-search related filters
+   */
+  isAdvancedSearchActive(): boolean {
+    return this.searchService.query.hasAdvanced();
   }
 
   /**
@@ -188,7 +206,6 @@ export class SearchFormComponent implements OnInit, OnDestroy {
     this.advancedService.resetRangeControl(this.form.get("modified")!);
     this.advancedService.resetControl(this.form.get("person")!);
     this.advancedService.resetControl(this.form.get("docformat")!);
-    this.searchService.query.toStandard();
   }
 
   onParse(parseResult: ParseResult) {
@@ -243,7 +260,9 @@ export class SearchFormComponent implements OnInit, OnDestroy {
    */
   toggleKeepFilters(): void {
     this.keepFilters = !this.keepFilters;
-    this.keepFiltersTitle = this.keepFilters ? 'msg#searchForm.notKeepFilters' : 'msg#searchForm.keepFilters'
+    this.keepFiltersTitle = this.keepFilters ? 'msg#searchForm.notKeepFilters' : 'msg#searchForm.keepFilters';
+    /** Sets the state of keeping search's filters*/
+    this.prefs.set('keep-filters-state', this.keepFilters);
   }
 
   /**

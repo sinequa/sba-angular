@@ -32,35 +32,38 @@
                     (submit)="search()"
                     (parse)="onParse($event)"
                     (mousedown)="onMouseDown()">
-                    
+
                 <!-- Clear Button -->
                 <button type="button"
                     *ngIf="hasContent()"
-                    class="btn btn-link light-gray p-0 mr-2"
-                    [ngClass]="{'btn-focus': !showAdvancedSearch}"
-                    [sqTooltip]="'msg#searchForm.clearAll' | sqMessage"
+                    class="btn btn-focus p-0 mr-2"
+                    [sqTooltip]="'msg#searchForm.clear' | sqMessage"
                     [disabled]="!loginService.complete ? '' : null"
                     (click)="clearForm()">
-                    <i class="fas fa-times"></i>
+                    <i class="fas fa-times-circle text-muted"></i>
                 </button>
-                
+
                 <!-- Keep Filters Button -->
                 <button type="button"
                     *ngIf="isFiltering"
-                    class="btn btn-link btn-focus p-0 mr-2"
+                    class="btn btn-focus p-0 mr-2"
                     [sqTooltip]="keepFiltersTitle | sqMessage"
                     [disabled]="!loginService.complete ? '' : null"
                     (click)="toggleKeepFilters()">
-                    <i class="fas fa-filter" [ngClass]="{'light-gray': !keepFilters}"></i>
+                    <i class="fas fa-filter" [ngClass]="keepFilters ? 'light-green' : 'text-muted'"></i>
                 </button>
 
                 <!-- Toggle advanced search -->
                 <button type="button"
-                    class="btn btn-link p-0"
+                    class="btn p-0"
                     [sqTooltip]="'msg#searchForm.advancedSearch' | sqMessage"
                     [disabled]="!loginService.complete ? '' : null"
                     (click)="toggleAdvancedSearch()">
-                    <i class="fas" [ngClass]="{'fa-angle-down': !showAdvancedSearch, 'fa-angle-up': showAdvancedSearch, 'text-muted': !hasAdvancedContent()}"></i>
+                    <i class="fas fa-chevron-circle-{{showAdvancedSearch ? 'up' : 'down'}}"
+                        [ngClass]="{'text-muted': !hasAdvancedContent() && !isAdvancedSearchActive(),
+                                    'light-green': isAdvancedSearchActive(),
+                                    'light-blue': hasAdvancedContent() && !isAdvancedSearchActive()}">
+                    </i>
                 </button>
             </div>
 
@@ -76,6 +79,21 @@
 
         <!-- Card displaying advanced-search -->
         <div class="card advanced-search" *ngIf="showAdvancedSearch">
+            <div class="card-header pl-3 pr-2 py-1">
+              <div class="d-flex justify-content-between">
+                <span class=" mb-0 py-1">
+                    <i class="fab fa-searchengin mr-2"></i>
+                    {{'msg#searchForm.advancedSearch' | sqMessage}}
+                </span>
+                <button
+                    type="button" class="btn btn-light btn-sm"
+                    *ngIf="isAdvancedSearchActive()"
+                    [sqTooltip]="'msg#facet.clearSelects' | sqMessage"
+                    (click)="clearAdvancedSearch()">
+                    <i class="far fa-minus-square"></i>
+                </button>
+              </div>
+            </div>
             <div *ngIf="!firstPageService.firstPage" class="d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
                 <span class="fas fa-sync fa-spin fa-fw"></span>
             </div>

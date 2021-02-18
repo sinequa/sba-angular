@@ -6,7 +6,7 @@ import { FieldSearchItemsContainer } from '../autocomplete-field-search.directiv
     selector: "sq-field-search-items",
     template: `
 <span *ngFor="let item of items" class="badge badge-pill badge-info align-self-center mr-1" [ngClass]="item.category">
-    {{item.display}} <span class="fas fa-times clickable" (click)="removeItem(item)"></span>
+    {{item.display}} <span class="fas fa-times-circle clickable" (click)="removeItem(item)"></span>
 </span>
 `,
     styles: [`
@@ -33,7 +33,7 @@ export class BsFieldSearchItemsComponent implements FieldSearchItemsContainer {
         this.items = items;
         this.changeDetectorRef.markForCheck();
     }
-    
+
     removeItem(item: AutocompleteItem) {
         this.itemRemoved.next(item);
         this.changeDetectorRef.markForCheck();

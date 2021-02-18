@@ -26,11 +26,19 @@
     z-index: 99;
     margin-bottom: 15px;
 }
-.light-gray {
-    color: #AAA
+.light-green {
+    color: #b1dfbb !important
 }
-.form-control:not(:focus-within) {
-    .btn-focus {
-        display: none;
-    }
+.light-blue {
+    color: #9fcdff !important;
+}
+.form-control {
+  .btn-focus {
+      display: none;
+  }
+}
+.form-control:focus-within, .form-control:hover {
+  .btn-focus {
+      display: inline;
+  }
 }

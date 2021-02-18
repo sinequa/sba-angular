@@ -25,7 +25,8 @@
         "advancedTitle": "Text mode allowing to write search expressions such as \"geo: Paris OR company: Sinequa\"",
         "keepFilters": "keep current filters",
         "notKeepFilters": "Ignore current filters",
-        "clearAll": "Clear all"
+        "clearAll": "Clear all",
+        "clear": "Clear"
     },
 
     "baskets": {
