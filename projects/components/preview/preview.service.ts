@@ -86,7 +86,8 @@ export class PreviewService {
             const queryLanguage = this.searchService.results?.queryAnalysis?.queryLanguage
                 || this.searchService?.query?.questionLanguage
                 || this.appService?.ccquery?.questionLanguage;
-            const collection = !!record ? record.collection[0] : Utils.split(id, "|")[0];
+            const collectionColumn = record?.collection;
+            const collection = !!collectionColumn ? collectionColumn[0] : Utils.split(id, "|")[0];
             const rank = !!record ? record.rank : this.rank || 0;
             auditEvent = {
                 type: AuditEventType.Doc_Preview,
