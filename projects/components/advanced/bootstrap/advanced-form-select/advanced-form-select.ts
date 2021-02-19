@@ -21,7 +21,6 @@ export class BsAdvancedFormSelect implements OnInit, OnDestroy {
     @Input() aggregation: string;
 
     column: CCColumn | undefined;
-    disabled: boolean = false;
     items: ValueItem[];
 
     private _valueChangesSubscription: Subscription;
@@ -35,8 +34,6 @@ export class BsAdvancedFormSelect implements OnInit, OnDestroy {
         const control = this.form.get(this.field);
         if(!control) {
             throw new Error("No control in search-form named "+this.field);
-        } else {
-            this.disabled = control.disabled;
         }
         this.column = this.appService.getColumn(this.field);
         this.items = this.getItems();

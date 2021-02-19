@@ -26,6 +26,19 @@
     z-index: 99;
     margin-bottom: 15px;
 }
-.btn-advanced-search {
-  border: 1px solid #ced4da;
+.light-green {
+    color: #b1dfbb !important
+}
+.light-blue {
+    color: #9fcdff !important;
+}
+.form-control {
+  .btn-focus {
+      display: none;
+  }
+}
+.form-control:focus-within, .form-control:hover {
+  .btn-focus {
+      display: inline;
+  }
 }
