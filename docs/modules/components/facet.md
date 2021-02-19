@@ -217,8 +217,32 @@ The [`sq-facet-filters`]({{site.baseurl}}components/components/BsFacetFilters.ht
 This component requires a: 
 * [`Results`]({{site.baseurl}}core/interfaces/Results.html) input.
 * [`FacetConfig`]({{site.baseurl}}components/interfaces/FacetConfig.html)'s array input.
+
 ```html
 <nav class="navbar navbar-expand navbar-light bg-light">
     <sq-facet-filters [results]="results" [facets]="facets" class="mr-auto"></sq-facet-filters>
 </nav>
+```
+
+### Tag Cloud Facet
+The [`sq-facet-tag-cloud`]({{site.baseurl}}components/components/BsFacetTagCloud.html) displays multiple types of metadata in the same facet. It provides a direct access to the most relevant filters, belonging to the supplied metadata.
+
+![Facet Filters]({{site.baseurl}}assets/modules/facet/facet-tag-cloud.png){: .d-block .mx-auto}
+
+The inputs of the component are:
+
+* `results`: The results of the current search.
+* `aggregations`: List of aggregations to be considered in collecting data.
+* `limit`: (**50** by default) Maximum number of data to be displayed.
+* `uniformRepartition`: (**false** by default) Define the way data are collected from given aggregations: equal repartition between them or most relevant among all of them.
+* `showCount`: (**false** by default) show/hide number of occurrences of each item.
+* `proportionalWeight`: (**true** by default) Define the size of each displayed item: common size for all or proportional size based on item's count.
+* `countThreshold`: (**0** by default) Lowest count under which items will not be taken into account.
+* `shuffleData`: (**false** by default) Wether data are rendered sorted according to their count or randomly.
+* `isolateFacetFilters`: (**false** by default) Isolate tag-cloud filters from other facets.
+
+```html
+<sq-facet-card [title]="'Tag cloud'" [icon]="'fas fa-cloud'">
+    <sq-facet-tag-cloud #facet [results]="results" [aggregations]="['Company','Geo','Person','Concepts']"><sq-facet-tag-cloud>
+</sq-facet-card>
 ```
