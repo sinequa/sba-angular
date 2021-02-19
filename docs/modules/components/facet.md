@@ -233,10 +233,16 @@ The inputs of the component are:
 
 * `results`: The results of the current search.
 * `aggregations`: List of aggregations to be considered in collecting data.
-* `limit`: Maximum number of data to be displayed.
-* `uniformRepartition`: Define the way data are collected from given aggregations: equal repartition between them or most relevant among all of them.
-* `showCount`: show/hide number of occurrences of each item.
-* `proportionalWeight`: Define the size of each displayed item: common size for all or proportional size based on item's count.
-* `countThreshold`: Lowest count under which items will not be taken into account.
-* `shuffleData`: Wether data are rendered sorted according to their count or randomly.
-* `isolateFacetFilters`: Isolate tag-cloud filters from other facets.
+* `limit`: (**50** by default) Maximum number of data to be displayed.
+* `uniformRepartition`: (**false** by default) Define the way data are collected from given aggregations: equal repartition between them or most relevant among all of them.
+* `showCount`: (**false** by default) show/hide number of occurrences of each item.
+* `proportionalWeight`: (**true** by default) Define the size of each displayed item: common size for all or proportional size based on item's count.
+* `countThreshold`: (**0** by default) Lowest count under which items will not be taken into account.
+* `shuffleData`: (**false** by default) Wether data are rendered sorted according to their count or randomly.
+* `isolateFacetFilters`: (**false** by default) Isolate tag-cloud filters from other facets.
+
+```html
+<sq-facet-card [title]="'Tag cloud'" [icon]="'fas fa-cloud'">
+    <sq-facet-tag-cloud #facet [results]="results" [aggregations]="['Company','Geo','Person','Concepts']"><sq-facet-tag-cloud>
+</sq-facet-card>
+```
