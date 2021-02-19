@@ -23,8 +23,8 @@
         "simple": "Simple",
         "simpleTitle": "Graphical mode allowing to display selected filters as badges",
         "advancedTitle": "Text mode allowing to write search expressions such as \"geo: Paris OR company: Sinequa\"",
-        "keepFilters": "keep current filters",
-        "notKeepFilters": "Ignore current filters",
+        "keepFilters": "Filters are kept within new queries",
+        "notKeepFilters": "Filters are reset within new queries",
         "clearAll": "Clear all",
         "clear": "Clear"
     },
