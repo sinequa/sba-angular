@@ -41,7 +41,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
 
   /** Specify if already applied filters should be kept or not while chaining searches */
   keepFilters = false;
-  keepFiltersTitle = 'msg#searchForm.keepFilters';
+  keepFiltersTitle = 'msg#searchForm.notKeepFilters';
 
   /** USED ALONG WITH keepFilters context, to optionally reset the advanced-search or not */
   keepAdvancedSearchFilters = true;
@@ -89,7 +89,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
 
       // Check user preferences regarding keeping filters
       this.keepFilters = this.prefs.get('keep-filters-state');
-      this.keepFiltersTitle = this.keepFilters ? 'msg#searchForm.notKeepFilters' : 'msg#searchForm.keepFilters';
+      this.keepFiltersTitle = this.keepFilters ? 'msg#searchForm.keepFilters' : 'msg#searchForm.notKeepFilters';
     });
   }
 
@@ -260,7 +260,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
    */
   toggleKeepFilters(): void {
     this.keepFilters = !this.keepFilters;
-    this.keepFiltersTitle = this.keepFilters ? 'msg#searchForm.notKeepFilters' : 'msg#searchForm.keepFilters';
+    this.keepFiltersTitle = this.keepFilters ? 'msg#searchForm.keepFilters' : 'msg#searchForm.notKeepFilters';
     /** Sets the state of keeping search's filters*/
     this.prefs.set('keep-filters-state', this.keepFilters);
   }
