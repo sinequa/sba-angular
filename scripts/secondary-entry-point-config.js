@@ -37,6 +37,15 @@ module.exports = {
             "ngx-bootstrap/datepicker":         "ngx-bootstrap.datepicker",
             "popper.js":                        "Popper",
             "vis":                              "vis",
+            "@agm/core":                        "core$1",
+            "angular-fusioncharts":             "angularFusioncharts",
+            "fusioncharts":                     "FusionCharts",
+            "fusioncharts/fusioncharts.charts": "charts",
+            "fusioncharts/themes/fusioncharts.theme.fusion":    "FusionTheme",
+            "fusioncharts/themes/fusioncharts.theme.candy":     "CandyTheme",
+            "ngx-vis":                          "ngxVis",
+            "vis-data/peer/esm/vis-data":       "visData",
+            "element-resize-detector":          "elementResizeDetectorMaker"
         }
     }
 };
