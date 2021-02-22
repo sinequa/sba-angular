@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
-import { HighlightValue, PreviewData } from '@sinequa/core/web-services';
+import { CategoryHighlightData, HighlightValue, PreviewData } from '@sinequa/core/web-services';
 import { PreviewDocument } from '../../preview-document';
 
 @Component({
@@ -67,7 +67,7 @@ export class BsPreviewEntityPanelComponent implements OnChanges {
    * Return the data for a specific entity category
    * @param entity
    */
-  data(entity: string) {
+  data(entity: string): CategoryHighlightData {
     return this.previewData.highlightsPerCategory[entity];
   }
 
