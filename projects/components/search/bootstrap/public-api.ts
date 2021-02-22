@@ -8,3 +8,4 @@ export * from "./tabs/tabs";
 export * from "./loading-bar/loading-bar";
 export * from "./scroller/scroller";
 export * from "./load-more/load-more";
+export * from "./breadcrumbs-v2/breadcrumbs-v2";

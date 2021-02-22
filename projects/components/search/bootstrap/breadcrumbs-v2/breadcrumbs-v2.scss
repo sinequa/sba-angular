@@ -1,0 +1,65 @@
+/* Override of Bootstrap breadcrumbs */
+.breadcrumb {
+  margin-bottom: 0;
+  padding: 0.375rem 0;
+  font-size: 0.85rem;
+  background-color: inherit;
+}
+
+.sq-breadcrumbs-remove {
+  cursor: pointer;
+  color: lightgray;
+}
+
+.sq-breadcrumbs-remove:hover {
+  color: darkgray;
+}
+
+.sq-breadcrumb-item {
+  background-color: white;
+  cursor: pointer;
+  border-radius: 20px;
+
+  &:hover {
+    background-color: lightgrey;
+    opacity: 0.8;
+  }
+
+  & .fa-times-circle {
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+  }
+}
+
+.text-decoration-line-through {
+  text-decoration: line-through;
+}
+
+.collapsed-breadcrumb {
+  height: 29px;
+  overflow-y: hidden;
+}
+
+.expanded-breadcrumb {
+  height: unset;
+}
+
+.fa-chevron-circle-down, .fa-chevron-circle-up {
+  color: darkgray;
+  position: relative;
+  top: -5px;
+  left: 49%;
+
+  &:hover {
+    opacity: 0.7;
+    cursor: pointer;
+  }
+}
+
+hr {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  width: 30%;
+}

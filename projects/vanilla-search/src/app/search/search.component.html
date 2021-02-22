@@ -47,6 +47,9 @@
 
 <!-- Main interface -->
 <div class="container-xl main" *ngIf="loginService.complete">
+    <div class="d-flex flex-row align-items-center flex-wrap pb-2" *ngIf="searchService.resultsStream | async; let results">
+      Filtres : <sq-breadcrumbs-v2 [results]="results" [collapsible]="false" [allowDeletion]="true" class="flex-grow-1 flex-basis-0"></sq-breadcrumbs-v2>
+    </div>
     <div class="row" *ngIf="searchService.resultsStream | async; let results">
 
         <!-- Left facet bar -->
@@ -73,8 +76,8 @@
             <sq-tabs [results]="results"></sq-tabs>
 
             <!-- Toolbar -->
-            <div class="d-flex flex-row align-items-center">
-                <sq-breadcrumbs [results]="results" [allowDeletion]="false" class="flex-grow-1 flex-basis-0"></sq-breadcrumbs>
+            <div class="d-flex flex-row align-items-baseline">
+                <sq-breadcrumbs-v2 [results]="results" [allowDeletion]="true" class="flex-grow-1 flex-basis-0"></sq-breadcrumbs-v2>
                 <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
                 <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-sort-selector>
             </div>

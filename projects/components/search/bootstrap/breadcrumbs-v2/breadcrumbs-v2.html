@@ -1,0 +1,23 @@
+<ol class="breadcrumb" [ngClass]="collapsed ? 'collapsed-breadcrumb' : 'expanded-breadcrumb'">
+  <ng-container *ngFor="let item of searchService.breadcrumbs?.items; index as i">
+    <li *ngIf="!item.hidden" class="px-1 ml-1 sq-breadcrumb-item sq-breadcrumb-color-{{getField(item)}}" (click)="selectItem(item)">
+        <span
+          [ngClass]="{'text-decoration-line-through': i > indexActive}"
+          [innerHTML]="item.display | sqExpr:{withFields: displayFieldNames, asHTML: true}"
+          title="{{getField(item)}}">
+        </span>
+        <span
+          *ngIf="allowDeletion"
+          class="far fa-times-circle pl-1"
+          role="button"
+          (click)="removeItem(item)"
+          title="{{'msg#breadcrumbs.itemRemove' | sqMessage}}">
+        </span>
+    </li>
+</ng-container>
+</ol>
+<ng-container *ngIf="collapsible">
+  <hr>
+  <i class="fas fa-chevron-circle-{{collapsed ? 'down' : 'up'}}" (click)="collapsed = !collapsed;"></i>
+</ng-container>
+

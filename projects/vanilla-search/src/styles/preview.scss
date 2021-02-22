@@ -89,6 +89,18 @@ $highlights: map-merge(map-merge($extracts-highlights, $terms-highlights), $meta
     .sq-metadata-color-#{$term} {
         color: $color !important;
     }
+
+    .sq-breadcrumb-color-#{$term} {
+      color: $color !important;
+
+      &:hover {
+        background-color: lighten($color, 55%) !important;
+        @if lighten($color, 55%) == white {
+          background-color: lighten($color, 20%) !important;
+        }
+        opacity: 0.7;
+      }
+  }
 }
 
 // Actually generate highlight rules
