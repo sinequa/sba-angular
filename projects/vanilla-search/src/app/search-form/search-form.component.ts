@@ -1,17 +1,18 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from "@angular/forms";
-import { SearchService } from '@sinequa/components/search';
-import { LoginService } from '@sinequa/core/login';
-import { AppService } from '@sinequa/core/app-utils';
-import { Subscription } from 'rxjs';
-import { FEATURES } from '../../config';
-import { ParseResult } from '@sinequa/components/autocomplete';
-import { AutocompleteExtended } from './autocomplete-extended.directive';
-import { UserPreferences } from '@sinequa/components/user-settings';
-import { FirstPageService } from '@sinequa/components/search';
-import { AdvancedService } from '@sinequa/components/advanced';
-import { take } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, FormControl} from "@angular/forms";
+import {SearchService} from '@sinequa/components/search';
+import {LoginService} from '@sinequa/core/login';
+import {AppService} from '@sinequa/core/app-utils';
+import {Subscription} from 'rxjs';
+import {FEATURES} from '../../config';
+import {ParseResult} from '@sinequa/components/autocomplete';
+import {AutocompleteExtended} from './autocomplete-extended.directive';
+import {UserPreferences} from '@sinequa/components/user-settings';
+import {FirstPageService} from '@sinequa/components/search';
+import {AdvancedService} from '@sinequa/components/advanced';
+import {take} from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
+import {VoiceRecognitionService} from '@sinequa/components/utils';
 
 @Component({
   selector: 'app-search-form',
@@ -48,8 +49,12 @@ export class SearchFormComponent implements OnInit, OnDestroy {
 
   /** Define if should stay on the same tab even after a new search */
   keepTab = true;
+  voiceRecognitionState = false;
+
+  private subscriptions: Subscription[] = [];
 
   constructor(
+    public voiceService: VoiceRecognitionService,
     public searchService: SearchService,
     public loginService: LoginService,
     private formBuilder: FormBuilder,
@@ -58,6 +63,18 @@ export class SearchFormComponent implements OnInit, OnDestroy {
     public firstPageService: FirstPageService,
     public advancedService: AdvancedService,
     public route: ActivatedRoute) {
+
+    this.voiceService.init();
+
+    this.subscriptions.push(...[
+        this.voiceService.started.subscribe(state => {
+        this.voiceRecognitionState = state;
+      }),
+        this.voiceService.text.subscribe(value => {
+        this.searchControl.setValue(value);
+      })
+    ]);
+
   }
 
   /**
@@ -94,10 +111,11 @@ export class SearchFormComponent implements OnInit, OnDestroy {
   }
 
   private _searchSubscription: Subscription;
-  ngOnDestroy(){
-    if(this._searchSubscription){
+  ngOnDestroy() {
+    if (this._searchSubscription) {
       this._searchSubscription.unsubscribe();
     }
+    this.subscriptions.map(item => item.unsubscribe());
   }
 
   /**
@@ -271,6 +289,10 @@ export class SearchFormComponent implements OnInit, OnDestroy {
   toggleAdvancedSearch(): void {
     this.showAdvancedSearch = !this.showAdvancedSearch;
     this._instantiateAdvancedForm();
+  }
+
+  toggleVoice() {
+    this.voiceService.toggleRecognition();
   }
 
   /**

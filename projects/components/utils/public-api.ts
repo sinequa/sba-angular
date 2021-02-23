@@ -18,3 +18,4 @@ export * from "./pipes/time-pipe";
 export * from "./pipes/value-pipe";
 export * from "./utils.module";
 export * from "./ui.service";
+export * from "./voice-recognition/voice-recongnition.service";

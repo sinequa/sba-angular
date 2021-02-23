@@ -26,7 +26,8 @@
         "keepFilters": "Filter werden innerhalb neuer Abfragen gehalten",
         "notKeepFilters": "Filter werden in neuen Abfragen zurückgesetzt",
         "clearAll": "Alles löschen",
-        "clear": "Löschen"
+        "clear": "Löschen",
+        "voiceRecognition": "Sprachsuche"
     },
 
     "facet": {

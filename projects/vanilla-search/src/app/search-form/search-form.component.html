@@ -53,6 +53,15 @@
                     <i class="fas fa-filter" [ngClass]="keepFilters ? 'light-green' : 'text-muted'"></i>
                 </button>
 
+                <!-- Toggle voice recognition -->
+                <button *ngIf="voiceService.available" 
+                    type="button" 
+                    class="btn btn-focus p-0 mr-2" 
+                    [sqTooltip]="'msg#searchForm.voiceRecognition' | sqMessage" 
+                    (click)="toggleVoice()">
+                    <i class="fas fa-microphone"[ngClass]="voiceRecognitionState ? 'light-green' : 'text-muted'"></i>
+                </button>
+
                 <!-- Toggle advanced search -->
                 <button type="button"
                     class="btn p-0"
