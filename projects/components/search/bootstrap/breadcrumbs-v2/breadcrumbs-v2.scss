@@ -33,6 +33,25 @@
   }
 }
 
+.sq-breadcrumb-bordered-item {
+  background-color: white;
+  cursor: pointer;
+  border-radius: 20px;
+  border: 1px solid;
+
+  &:hover {
+    background-color: lightgrey;
+    opacity: 0.8;
+  }
+
+  & .fa-times-circle {
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+  }
+}
+
 .text-decoration-line-through {
   text-decoration: line-through;
 }

@@ -13,6 +13,7 @@ export class BsBreadcrumbsV2 implements OnChanges {
     @Input() allowDeletion: boolean = true;
     @Input() displayFieldNames: boolean = false;
     @Input() collapsible: boolean = true;
+    @Input() bordered: boolean = false;
 
     collapsed = false;
     indexActive: number;
