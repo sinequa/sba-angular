@@ -26,7 +26,8 @@
         "keepFilters": "Les filtres sont conservés dans les nouvelles requêtes",
         "notKeepFilters": "Les filtres sont réinitialisés dans les nouvelles requêtes",
         "clearAll": "Effacer tout",
-        "clear": "Effacer"
+        "clear": "Effacer",
+        "voiceRecognition": "Recherche vocale"
     },
 
     "baskets": {
