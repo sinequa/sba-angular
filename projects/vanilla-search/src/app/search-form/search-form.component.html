@@ -6,7 +6,11 @@
 
         <div class="input-group">
             <!-- Input with autocomplete -->
-            <div class="form-control d-flex" [title]="parseResult?.error || ''" [ngClass]="{'is-invalid': !!parseResult?.error}">
+            <div
+                class="form-control d-flex search-form-control scrollbar-hidden"
+                [title]="parseResult?.error || ''"
+                [ngClass]="{'is-invalid': !!parseResult?.error}"
+                #searchContainer>
 
                 <sq-field-search-items #fieldSearchItemsContainer></sq-field-search-items>
 
@@ -31,7 +35,8 @@
 
                     (submit)="search()"
                     (parse)="onParse($event)"
-                    (mousedown)="onMouseDown()">
+                    (mousedown)="onMouseDown()"
+                    (blur)="onBlurInput()">
 
                 <!-- Clear Button -->
                 <button type="button"
@@ -54,17 +59,17 @@
                 </button>
 
                 <!-- Toggle voice recognition -->
-                <button *ngIf="voiceService.available" 
-                    type="button" 
-                    class="btn btn-focus p-0 mr-2" 
-                    [sqTooltip]="'msg#searchForm.voiceRecognition' | sqMessage" 
+                <button *ngIf="voiceService.available"
+                    type="button"
+                    class="btn btn-focus p-0 mr-2"
+                    [sqTooltip]="'msg#searchForm.voiceRecognition' | sqMessage"
                     (click)="toggleVoice()">
                     <i class="fas fa-microphone"[ngClass]="voiceRecognitionState ? 'light-green' : 'text-muted'"></i>
                 </button>
 
                 <!-- Toggle advanced search -->
                 <button type="button"
-                    class="btn p-0"
+                    class="btn p-0 pr-1"
                     [sqTooltip]="'msg#searchForm.advancedSearch' | sqMessage"
                     [disabled]="!loginService.complete ? '' : null"
                     (click)="toggleAdvancedSearch()">
@@ -75,6 +80,26 @@
                     </i>
                 </button>
             </div>
+
+            <!-- scroll left -->
+            <button type="button"
+                class="btn btn-focus p-0 btn-scroll-left"
+                [sqTooltip]="'msg#searchForm.clear' | sqMessage"
+                [disabled]="!loginService.complete ? '' : null"
+                (mouseup)="endScroll()"
+                (mousedown)="scrollLeft()">
+                <i class="fas fa-chevron-circle-left text-muted"></i>
+            </button>
+
+            <!-- scroll right -->
+            <button type="button"
+                class="btn btn-focus p-0 btn-scroll-right"
+                [sqTooltip]="keepFiltersTitle | sqMessage"
+                [disabled]="!loginService.complete ? '' : null"
+                (mouseup)="endScroll()"
+                (mousedown)="scrollRight()">
+                <i class="fas fa-chevron-circle-right text-muted"></i>
+            </button>
 
             <!-- Search buttons -->
             <div class="input-group-append">

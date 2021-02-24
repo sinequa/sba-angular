@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, ElementRef} from '@angular/core';
 import {FormBuilder, FormGroup, FormControl} from "@angular/forms";
 import {SearchService} from '@sinequa/components/search';
 import {LoginService} from '@sinequa/core/login';
@@ -50,6 +50,9 @@ export class SearchFormComponent implements OnInit, OnDestroy {
   /** Define if should stay on the same tab even after a new search */
   keepTab = true;
   voiceRecognitionState = false;
+
+  @ViewChild('searchContainer') searchContainer: ElementRef;
+  private timeout: any;
 
   private subscriptions: Subscription[] = [];
 
@@ -293,6 +296,36 @@ export class SearchFormComponent implements OnInit, OnDestroy {
 
   toggleVoice() {
     this.voiceService.toggleRecognition();
+  }
+
+  onBlurInput() {
+    this.searchContainer.nativeElement.scrollLeft = this.searchContainer.nativeElement.scrollWidth - this.searchContainer.nativeElement.clientWidth;
+  }
+
+  scrollRight() {
+    this.timeout = setTimeout(() => {
+      this._scrollRight()
+    }, 100);
+  }
+
+  scrollLeft() {
+    this.timeout = setTimeout(() => {
+      this._scrollLeft();
+    }, 100);
+  }
+
+  endScroll() {
+    clearTimeout(this.timeout);
+  }
+
+  private _scrollRight() {
+    this.searchContainer.nativeElement.scrollLeft += 20;
+    this.scrollRight();
+  }
+
+  private _scrollLeft() {
+    this.searchContainer.nativeElement.scrollLeft -= 20;
+    this.scrollLeft();
   }
 
   /**
