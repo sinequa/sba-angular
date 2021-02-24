@@ -84,7 +84,7 @@
             <!-- scroll left -->
             <button type="button"
                 class="btn btn-focus p-0 btn-scroll-left"
-                [sqTooltip]="'msg#searchForm.clear' | sqMessage"
+                [sqTooltip]="'scroll left' | sqMessage"
                 [disabled]="!loginService.complete ? '' : null"
                 (mouseup)="endScroll()"
                 (mousedown)="scrollLeft()">
@@ -94,7 +94,7 @@
             <!-- scroll right -->
             <button type="button"
                 class="btn btn-focus p-0 btn-scroll-right"
-                [sqTooltip]="keepFiltersTitle | sqMessage"
+                [sqTooltip]="'scroll right' | sqMessage"
                 [disabled]="!loginService.complete ? '' : null"
                 (mouseup)="endScroll()"
                 (mousedown)="scrollRight()">
