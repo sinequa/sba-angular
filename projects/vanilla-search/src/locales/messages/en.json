@@ -27,7 +27,9 @@
         "notKeepFilters": "Filters are reset within new queries",
         "clearAll": "Clear all",
         "clear": "Clear",
-        "voiceRecognition": "Vocal search"
+        "voiceRecognition": "Vocal search",
+        "scrollLeft": "Scroll left",
+        "scrollRight": "Scroll right"
     },
 
     "baskets": {

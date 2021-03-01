@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, ViewChild, ElementRef} from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked} from '@angular/core';
 import {FormBuilder, FormGroup, FormControl} from "@angular/forms";
 import {SearchService} from '@sinequa/components/search';
 import {LoginService} from '@sinequa/core/login';
@@ -19,7 +19,7 @@ import {VoiceRecognitionService} from '@sinequa/components/utils';
   templateUrl: './search-form.component.html',
   styleUrls: ['./search-form.component.scss']
 })
-export class SearchFormComponent implements OnInit, OnDestroy {
+export class SearchFormComponent implements OnInit, AfterViewChecked, OnDestroy {
   searchControl: FormControl;
   form: FormGroup;
   autofocus = 0;
@@ -51,8 +51,10 @@ export class SearchFormComponent implements OnInit, OnDestroy {
   keepTab = true;
   voiceRecognitionState = false;
 
+  hasScroll = false;
   @ViewChild('searchContainer') searchContainer: ElementRef;
   private timeout: any;
+  private viewChecked = false;
 
   private subscriptions: Subscription[] = [];
 
@@ -110,7 +112,27 @@ export class SearchFormComponent implements OnInit, OnDestroy {
       // Check user preferences regarding keeping filters
       this.keepFilters = this.prefs.get('keep-filters-state');
       this.keepFiltersTitle = this.keepFilters ? 'msg#searchForm.keepFilters' : 'msg#searchForm.notKeepFilters';
+
+      // Check if the input has a scrollbar, after query changes
+      this.hasScroll = this.searchContainer?.nativeElement.scrollWidth > this.searchContainer?.nativeElement.clientWidth;
     });
+
+    // Check if the input has a scrollbar, after text changes
+    this.searchControl.valueChanges.subscribe(
+      () => {
+        this.hasScroll = this.searchContainer.nativeElement.scrollWidth > this.searchContainer.nativeElement.clientWidth;
+      }
+    )
+  }
+
+  ngAfterViewChecked() {
+    // Initial check of input scroll should goes here
+    if (!this.viewChecked && this.loginService.complete) {
+      setTimeout(() => {
+        this.hasScroll = this.searchContainer.nativeElement.scrollWidth > this.searchContainer.nativeElement.clientWidth;
+        this.viewChecked = true;
+      });
+    }
   }
 
   private _searchSubscription: Subscription;
@@ -298,10 +320,6 @@ export class SearchFormComponent implements OnInit, OnDestroy {
     this.voiceService.toggleRecognition();
   }
 
-  onBlurInput() {
-    this.searchContainer.nativeElement.scrollLeft = this.searchContainer.nativeElement.scrollWidth - this.searchContainer.nativeElement.clientWidth;
-  }
-
   scrollRight() {
     this.timeout = setTimeout(() => {
       this._scrollRight()
@@ -319,12 +337,12 @@ export class SearchFormComponent implements OnInit, OnDestroy {
   }
 
   private _scrollRight() {
-    this.searchContainer.nativeElement.scrollLeft += 20;
+    this.searchContainer!.nativeElement.scrollLeft += 20;
     this.scrollRight();
   }
 
   private _scrollLeft() {
-    this.searchContainer.nativeElement.scrollLeft -= 20;
+    this.searchContainer!.nativeElement.scrollLeft -= 20;
     this.scrollLeft();
   }
 

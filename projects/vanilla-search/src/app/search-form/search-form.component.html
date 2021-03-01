@@ -7,36 +7,60 @@
         <div class="input-group">
             <!-- Input with autocomplete -->
             <div
-                class="form-control d-flex search-form-control scrollbar-hidden"
+                class="form-control d-flex"
                 [title]="parseResult?.error || ''"
-                [ngClass]="{'is-invalid': !!parseResult?.error}"
-                #searchContainer>
+                [ngClass]="{'is-invalid': !!parseResult?.error}">
 
-                <sq-field-search-items #fieldSearchItemsContainer></sq-field-search-items>
+                <!-- scroll left -->
+                <button type="button"
+                    class="btn btn-focus p-0"
+                    *ngIf="hasScroll"
+                    [sqTooltip]="'msg#searchForm.scrollLeft' | sqMessage"
+                    [disabled]="!loginService.complete  ? '' : null"
+                    (mouseup)="endScroll()"
+                    (mousedown)="scrollLeft()">
+                    <i class="fas fa-chevron-circle-left text-muted"></i>
+                </button>
 
-                <!-- Search input -->
-                <input type="text"
-                    class="search-input flex-grow-1"
-                    formControlName="search"
-                    spellcheck="false"
-                    autocomplete="off"
+                <div class="d-flex search-form-control scrollbar-hidden" #searchContainer>
 
-                    [placeholder]="'msg#searchForm.searchFor' | sqMessage"
-                    [sqAutofocus]="autofocus"
-                    [sqAutocompleteExtended]="autocompleteSources"
-                    [dropdown]="dropdown"
-                    [off]="!loginService.complete || !appService.suggestQueries"
-                    [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''"
+                    <!-- Fielded search -->
+                    <sq-field-search-items #fieldSearchItemsContainer></sq-field-search-items>
 
-                    [fieldSearchMode]="getMode()"
-                    [fieldSearchExpression]="fieldSearchExpression"
-                    [fieldSearchItemsContainer]="fieldSearchItemsContainer"
-                    [excludedFields]="['concepts','textlexicon','recent-query','saved-query','basket','recent-document']"
+                    <!-- Search input -->
+                    <input type="text"
+                        class="search-input flex-grow-1"
+                        formControlName="search"
+                        spellcheck="false"
+                        autocomplete="off"
 
-                    (submit)="search()"
-                    (parse)="onParse($event)"
-                    (mousedown)="onMouseDown()"
-                    (blur)="onBlurInput()">
+                        [placeholder]="'msg#searchForm.searchFor' | sqMessage"
+                        [sqAutofocus]="autofocus"
+                        [sqAutocompleteExtended]="autocompleteSources"
+                        [dropdown]="dropdown"
+                        [off]="!loginService.complete || !appService.suggestQueries"
+                        [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''"
+
+                        [fieldSearchMode]="getMode()"
+                        [fieldSearchExpression]="fieldSearchExpression"
+                        [fieldSearchItemsContainer]="fieldSearchItemsContainer"
+                        [excludedFields]="['concepts','textlexicon','recent-query','saved-query','basket','recent-document']"
+
+                        (submit)="search()"
+                        (parse)="onParse($event)"
+                        (mousedown)="onMouseDown()">
+                </div>
+
+                <!-- scroll right -->
+                <button type="button"
+                    class="btn btn-focus p-0 mr-2"
+                    *ngIf="hasScroll"
+                    [sqTooltip]="'msg#searchForm.scrollRight' | sqMessage"
+                    [disabled]="!loginService.complete  ? '' : null"
+                    (mouseup)="endScroll()"
+                    (mousedown)="scrollRight()">
+                    <i class="fas fa-chevron-circle-right text-muted"></i>
+                </button>
 
                 <!-- Clear Button -->
                 <button type="button"
@@ -80,26 +104,6 @@
                     </i>
                 </button>
             </div>
-
-            <!-- scroll left -->
-            <button type="button"
-                class="btn btn-focus p-0 btn-scroll-left"
-                [sqTooltip]="'scroll left' | sqMessage"
-                [disabled]="!loginService.complete ? '' : null"
-                (mouseup)="endScroll()"
-                (mousedown)="scrollLeft()">
-                <i class="fas fa-chevron-circle-left text-muted"></i>
-            </button>
-
-            <!-- scroll right -->
-            <button type="button"
-                class="btn btn-focus p-0 btn-scroll-right"
-                [sqTooltip]="'scroll right' | sqMessage"
-                [disabled]="!loginService.complete ? '' : null"
-                (mouseup)="endScroll()"
-                (mousedown)="scrollRight()">
-                <i class="fas fa-chevron-circle-right text-muted"></i>
-            </button>
 
             <!-- Search buttons -->
             <div class="input-group-append">
