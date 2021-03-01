@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, Optional, Inject, InjectionToken, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Optional, Inject, InjectionToken, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router, NavigationEnd, RouterEvent } from '@angular/router';
@@ -8,7 +8,6 @@ import { Query } from '@sinequa/core/app-utils';
 import { Action } from '@sinequa/components/action';
 import { PreviewService, PreviewDocument } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
-import { SafeResourceUrl } from '@angular/platform-browser';
 import { MODAL_MODEL } from '@sinequa/core/modal';
 import { Subscription } from 'rxjs';
 import { IntlService } from '@sinequa/core/intl';
@@ -54,7 +53,8 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
 
   // Set when the preview service responds
   previewData?: PreviewData;
-  downloadUrl?: SafeResourceUrl;
+  downloadUrl?: string;
+  currentUrl?: string;
 
   // Set when the preview has finished loading and initializing
   previewDocument?: PreviewDocument;
@@ -66,7 +66,6 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   subpanels = ["extracts", "entities"];
   subpanel = 'extracts';
   previewSearchable = true;
-  loadingPreview = false;
 
   // Page management for splitted documents
   pagesResults: Results;
@@ -85,6 +84,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     @Optional() @Inject(PREVIEW_CONFIG) previewConfig: PreviewConfig,
     @Optional() @Inject(MODAL_MODEL) previewInput: PreviewInput,
+    private cdr: ChangeDetectorRef,
     protected router: Router,
     protected route: ActivatedRoute,
     protected titleService: Title,
@@ -218,16 +218,15 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
       this.previewService.getPreviewData(this.id, this.query).subscribe(
         previewData => {
           this.previewData = previewData;
-          let url = previewData?.documentCachedContentUrl;
+          const url = previewData?.documentCachedContentUrl;
           // Manage splitted documents
-          let pageNumber = this.previewService.getPageNumber(previewData.record);
+          const pageNumber = this.previewService.getPageNumber(previewData.record);
           if(pageNumber) {
             this.previewService.fetchPages(previewData.record.containerid!, this.query!)
               .subscribe(results => this.pagesResults = results);
           }
-          this.downloadUrl = url ? this.previewService.makeDownloadUrl(url) : undefined;
+          this.currentUrl = this.downloadUrl = url ? this.previewService.makeDownloadUrl(url) : undefined;
           this.titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle", {title: previewData?.record?.title || ""}));
-          this.loadingPreview = true;
         }
       );
     }
@@ -248,8 +247,13 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
         
       this.previewDocument = previewDocument;
       this.previewDocument.selectHighlight("matchlocations", 0); // Scroll to first match
-      this.loadingPreview = false;
+      this.cdr.detectChanges();
     }
+  }
+  
+  onPreviewUrlChange(url: string) {
+    this.currentUrl = url;
+    this.cdr.detectChanges();
   }
 
   /**
