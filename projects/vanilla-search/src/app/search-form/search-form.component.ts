@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked} from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, ElementRef, DoCheck} from '@angular/core';
 import {FormBuilder, FormGroup, FormControl} from "@angular/forms";
 import {SearchService} from '@sinequa/components/search';
 import {LoginService} from '@sinequa/core/login';
@@ -19,7 +19,7 @@ import {VoiceRecognitionService} from '@sinequa/components/utils';
   templateUrl: './search-form.component.html',
   styleUrls: ['./search-form.component.scss']
 })
-export class SearchFormComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
   searchControl: FormControl;
   form: FormGroup;
   autofocus = 0;
@@ -54,7 +54,6 @@ export class SearchFormComponent implements OnInit, AfterViewChecked, OnDestroy 
   hasScroll = false;
   @ViewChild('searchContainer') searchContainer: ElementRef;
   private timeout: any;
-  private viewChecked = false;
 
   private subscriptions: Subscription[] = [];
 
@@ -112,27 +111,12 @@ export class SearchFormComponent implements OnInit, AfterViewChecked, OnDestroy 
       // Check user preferences regarding keeping filters
       this.keepFilters = this.prefs.get('keep-filters-state');
       this.keepFiltersTitle = this.keepFilters ? 'msg#searchForm.keepFilters' : 'msg#searchForm.notKeepFilters';
-
-      // Check if the input has a scrollbar, after query changes
-      this.hasScroll = this.searchContainer?.nativeElement.scrollWidth > this.searchContainer?.nativeElement.clientWidth;
     });
-
-    // Check if the input has a scrollbar, after text changes
-    this.searchControl.valueChanges.subscribe(
-      () => {
-        this.hasScroll = this.searchContainer.nativeElement.scrollWidth > this.searchContainer.nativeElement.clientWidth;
-      }
-    )
   }
 
-  ngAfterViewChecked() {
-    // Initial check of input scroll should goes here
-    if (!this.viewChecked && this.loginService.complete) {
-      setTimeout(() => {
-        this.hasScroll = this.searchContainer.nativeElement.scrollWidth > this.searchContainer.nativeElement.clientWidth;
-        this.viewChecked = true;
-      });
-    }
+  ngDoCheck() {
+    // Check if the input has a scrollbar
+    this.hasScroll = this.searchContainer?.nativeElement.scrollWidth > this.searchContainer?.nativeElement.clientWidth;
   }
 
   private _searchSubscription: Subscription;
