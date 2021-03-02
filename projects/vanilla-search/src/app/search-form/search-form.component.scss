@@ -2,9 +2,27 @@
 // styled with Bootstrap. The following
 // make the input and wrapper look as if the <div>
 // were the input.
+:host {
+  width: 13em;
+}
+.search-form-control {
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge add Firefox */
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none; /* Firefox */
+}
 .search-input {
     border: none;
     width: 100%;
+    min-width: 100px;
 }
 .search-input:focus {
     outline: none;
@@ -36,9 +54,17 @@
   .btn-focus {
       display: none;
   }
+  & ~ .btn-focus {
+    display: none;
+  }
 }
 .form-control:focus-within, .form-control:hover {
   .btn-focus {
       display: inline;
+  }
+}
+.form-control:focus-within {
+  & ~ .btn-focus {
+    display: inline;
   }
 }
