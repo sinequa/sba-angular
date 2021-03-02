@@ -27,7 +27,9 @@
         "notKeepFilters": "Filter werden in neuen Abfragen zurückgesetzt",
         "clearAll": "Alles löschen",
         "clear": "Löschen",
-        "voiceRecognition": "Sprachsuche"
+        "voiceRecognition": "Sprachsuche",
+        "scrollLeft": "Bildlauf nach links",
+        "scrollRight": "Bildlauf nach rechts"
     },
 
     "facet": {

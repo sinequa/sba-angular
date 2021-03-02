@@ -27,7 +27,9 @@
         "notKeepFilters": "Les filtres sont réinitialisés dans les nouvelles requêtes",
         "clearAll": "Effacer tout",
         "clear": "Effacer",
-        "voiceRecognition": "Recherche vocale"
+        "voiceRecognition": "Recherche vocale",
+        "scrollLeft": "Défiler à gauche",
+        "scrollRight": "Défiler à droite"
     },
 
     "baskets": {

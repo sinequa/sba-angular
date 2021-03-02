@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, ElementRef, DoCheck} from '@angular/core';
 import {FormBuilder, FormGroup, FormControl} from "@angular/forms";
 import {SearchService} from '@sinequa/components/search';
 import {LoginService} from '@sinequa/core/login';
@@ -19,7 +19,7 @@ import {VoiceRecognitionService} from '@sinequa/components/utils';
   templateUrl: './search-form.component.html',
   styleUrls: ['./search-form.component.scss']
 })
-export class SearchFormComponent implements OnInit, OnDestroy {
+export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
   searchControl: FormControl;
   form: FormGroup;
   autofocus = 0;
@@ -50,6 +50,10 @@ export class SearchFormComponent implements OnInit, OnDestroy {
   /** Define if should stay on the same tab even after a new search */
   keepTab = true;
   voiceRecognitionState = false;
+
+  hasScroll = false;
+  @ViewChild('searchContainer') searchContainer: ElementRef;
+  private timeout: any;
 
   private subscriptions: Subscription[] = [];
 
@@ -108,6 +112,11 @@ export class SearchFormComponent implements OnInit, OnDestroy {
       this.keepFilters = this.prefs.get('keep-filters-state');
       this.keepFiltersTitle = this.keepFilters ? 'msg#searchForm.keepFilters' : 'msg#searchForm.notKeepFilters';
     });
+  }
+
+  ngDoCheck() {
+    // Check if the input has a scrollbar
+    this.hasScroll = this.searchContainer?.nativeElement.scrollWidth > this.searchContainer?.nativeElement.clientWidth;
   }
 
   private _searchSubscription: Subscription;
@@ -293,6 +302,32 @@ export class SearchFormComponent implements OnInit, OnDestroy {
 
   toggleVoice() {
     this.voiceService.toggleRecognition();
+  }
+
+  scrollRight() {
+    this.timeout = setTimeout(() => {
+      this._scrollRight()
+    }, 100);
+  }
+
+  scrollLeft() {
+    this.timeout = setTimeout(() => {
+      this._scrollLeft();
+    }, 100);
+  }
+
+  endScroll() {
+    clearTimeout(this.timeout);
+  }
+
+  private _scrollRight() {
+    this.searchContainer!.nativeElement.scrollLeft += 20;
+    this.scrollRight();
+  }
+
+  private _scrollLeft() {
+    this.searchContainer!.nativeElement.scrollLeft -= 20;
+    this.scrollLeft();
   }
 
   /**
