@@ -37,7 +37,6 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   data?: PreviewData;
   document?: PreviewDocument;
   downloadUrl?: SafeResourceUrl;
-  loadingPreview = false;
 
   private readonly scaleFactorThreshold = 0.1;
   private loaded = false;
@@ -108,14 +107,12 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     if (changes["record"]) {
       this.previewService.getPreviewData(this.record.id, this.query).subscribe(
         previewData => {
-          this.loadingPreview = true;
           this.data = previewData;
           this.downloadUrl = this.data ? this.previewService.makeDownloadUrl(this.data.documentCachedContentUrl) : undefined;
         });
       this.downloadUrl = undefined;
       this.data = undefined;
       this.document = undefined;
-      this.loadingPreview = false;
     }
     if(changes["height"] || changes["scalingFactor"]) {
       this._height = this.height;
@@ -131,7 +128,6 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   }
 
   onPreviewReady(document: PreviewDocument) {
-    this.loadingPreview = false;
     this.document = document;
     if (this.document && this.filters) {
       this.document.filterHighlights(this.filters);
