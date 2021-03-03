@@ -1,5 +1,4 @@
 import {Injectable, InjectionToken, Inject, Type} from "@angular/core";
-import {SafeResourceUrl, DomSanitizer} from "@angular/platform-browser";
 import {Router} from "@angular/router";
 import {Observable, Subject} from "rxjs";
 import {AppService, ExprBuilder, Query} from "@sinequa/core/app-utils";
@@ -43,7 +42,6 @@ export class PreviewService {
         private searchService: SearchService,
         private modalService: ModalService,
         private recentDocumentsService: RecentDocumentsService,
-        private sanitizer: DomSanitizer,
         public exprBuilder: ExprBuilder) {
 
         // Subscribe to own events and add documents to the recent documents service
@@ -113,8 +111,8 @@ export class PreviewService {
         return observable;
     }
 
-    public makeDownloadUrl(url: string): SafeResourceUrl | undefined {
-        return url ? this.sanitizer.bypassSecurityTrustResourceUrl(this.appService.updateUrlForCors(url)) : undefined;
+    public makeDownloadUrl(url: string): string | undefined {
+        return url ? this.appService.updateUrlForCors(url) : undefined;
     }
 
     openModal(record: Record, query: Query, model: any) {
