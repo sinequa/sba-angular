@@ -233,7 +233,7 @@ export class Query implements IQuery {
      */
     toStandard(): Query {
         const advancedSelect = this.select?.filter(
-          (select: Select) => select.facet.startsWith(advancedFacetPrefix)
+          (select: Select) => select.facet && select.facet.startsWith(advancedFacetPrefix)
         )
         advancedSelect?.forEach(
           (select) => this.removeSelect(select.facet)
@@ -270,7 +270,7 @@ export class Query implements IQuery {
             }
         }
         const notAdvancedSelect = this.select?.filter(
-          (select: Select) => select.facet.indexOf(advancedFacetPrefix) === -1
+          (select: Select) => select.facet && !select.facet.startsWith(advancedFacetPrefix)
         )
         notAdvancedSelect?.forEach(
           (select) => this.removeSelect(select.facet)
@@ -286,6 +286,13 @@ export class Query implements IQuery {
     copyAdvanced(withText: boolean = false): Query {
         const query = this.copy();
         return query.toAdvanced(withText);
+    }
+
+    /**
+     * Tests whether this query has advanced search selections
+     */
+    hasAdvanced(): boolean {
+        return !!this.select?.find(s => s.facet && s.facet.startsWith(advancedFacetPrefix));
     }
 
     /**
