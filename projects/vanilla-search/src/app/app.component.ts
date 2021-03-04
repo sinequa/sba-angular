@@ -94,13 +94,16 @@ export class AppComponent extends ComponentWithLogin {
         }
     }
 
+    previousRoute: string | undefined;
+
     auditRouteChange() {
         const route = this.router.url.substr(1).split('?')[0]; // Extract route name
-        if(route) {
+        if(route && route !== this.previousRoute) {
             this.auditWebService.notify({
                 type: `Navigation.${route}`
             });
         }
+        this.previousRoute = route;
     }
 
 }
