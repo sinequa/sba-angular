@@ -34,6 +34,8 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   @Input() results: Results;
   @Input() facets: FacetConfig[];
   @Input() showCount: boolean = true;
+  @Input() showProgressBar = false;    // will display or not item count as progress bar
+
   @Output() events = new EventEmitter<FacetConfig>();
   @ViewChild("facet", {static: false}) public facetComponent: AbstractFacet;
 
