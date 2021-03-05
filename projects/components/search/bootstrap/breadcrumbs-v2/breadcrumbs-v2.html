@@ -1,5 +1,5 @@
 <ol class="breadcrumb" [ngClass]="collapsed ? 'collapsed-breadcrumb' : 'expanded-breadcrumb'">
-  <ng-container *ngFor="let item of searchService.breadcrumbs?.items; index as i">
+  <ng-container *ngFor="let item of items; index as i">
     <li *ngIf="!item.hidden"
         class="px-1 ml-1 mb-1 sq-breadcrumb-{{bordered ? 'bordered-' : ''}}item sq-breadcrumb-{{bordered ? 'bordered-' : ''}}color-{{getField(item)}}"
         (click)="selectItem(item)">
