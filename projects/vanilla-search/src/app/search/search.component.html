@@ -55,7 +55,7 @@
                 <sq-facet-tree #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-tree>
             </sq-facet-card>
             <sq-facet-card [title]="multiFacetTitle" [icon]="multiFacetIcon" [collapsible]="false" [buttonsStyle]="isDark()? 'dark' : 'light'" class="d-block mt-3">
-                <sq-facet-multi #facet [results]="results" [facets]="facets" (events)="facetChanged($event)"></sq-facet-multi>
+                <sq-facet-multi #facet [results]="results" [facets]="facets" [showProgressBar]="true" (events)="facetChanged($event)"></sq-facet-multi>
             </sq-facet-card>
         </div>
 

@@ -25,6 +25,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
     @Input() allowAnd: boolean = true; // Allow to search various items in AND mode
     @Input() displayEmptyDistributionIntervals: boolean = false; // If the aggregration is a distribution, then this property controls whether empty distribution intervals will be displayed
     @Input() displayActions = false;
+    @Input() showProgressBar = false;    // Allow to display item count as progress bar
 
     // Aggregation from the Results object
     data$ = new BehaviorSubject<Aggregation | undefined>(undefined)
@@ -41,6 +42,11 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
     suggestDelay = 200;
     noResults = false;
     suggestions$: BehaviorSubject<AggregationItem[]> = new BehaviorSubject<AggregationItem[]>([]);
+    
+    /**
+     * sum of all items count value
+     */
+    sumOfCount: number;
 
     // Select
 
@@ -51,16 +57,28 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
     private find = (item: AggregationItem) => this.hasSuggestions()
                                                     ? this.facetService.findAggregationItemIndex(this.suggestions$.getValue(), item)
                                                     : this.facetService.findAggregationItemIndex(this.items$.getValue() || [], item);
+
+    /**
+     * Sets to keep track of selected items
+     */
     selected: AggregationItem[] = [];
+    
+    /**
+     * Sets to keep track of excluded/filtered items
+     */
+    filtered: AggregationItem[] = [];
 
 
     // Loading more data
-    skip = 0;
-    count = 0;
+    private skip = 0;
+    /**
+     * num of items currently displayed in the facet
+     */
+    private count = 0;
+    /**
+     * Is facet has more items to display ?
+     */
     loadingMore = false;
-
-    // Sets to keep track of selected/excluded/filtered items
-    filtered: AggregationItem[] = [];
 
     // Actions (displayed in facet menu)
     // All actions are built in the constructor
@@ -195,6 +213,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
                 }
             }),
         ).subscribe(items => {
+            this.sumOfCount = items.length > 0 ? items.map(item => item.count).reduce((acc, value) => acc += value) / 100 : 0;
             this.items$.next(items);
         });
     }
@@ -447,5 +466,14 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
     /* AbstractFacet abstract methods */
     isHidden(): boolean {
         return !this.data();
+    }
+    
+    /**
+     * Convert facet item count to percentage width
+     * @param count item count
+     * @returns a % string representation
+     */
+    getPercent(count: number): string {
+        return `${100 - (count / this.sumOfCount)}%`;
     }
 }

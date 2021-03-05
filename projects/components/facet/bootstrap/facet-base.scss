@@ -1,0 +1,33 @@
+// colors list
+$color-blue-300: #00fbff;
+$color-blue-400: #b8daff;
+$color-blue-500: #3498db;
+$color-blue-600: #0275d8;
+$color-bley-700: #3434d6;
+
+$color-red-800: #a33a33;
+$color-yellow-500: #fadc04;
+$color-green-300: #c3e6cb;
+
+$color-gray-200: #f3f3f3;
+$color-gray-400: #cccccc;
+$color-gray-500: #a9a9a9;
+$color-gray-600: #999999;
+$color-gray-700: #7c7c7c;
+$color-gray-800: #505050;
+
+
+// thin scrollbar
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: $color-gray-400;
+}
+::-webkit-scrollbar-track {
+  background-color: $color-gray-200;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
