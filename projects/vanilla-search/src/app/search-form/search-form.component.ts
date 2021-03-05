@@ -1,24 +1,25 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from "@angular/forms";
-import { SearchService } from '@sinequa/components/search';
-import { LoginService } from '@sinequa/core/login';
-import { AppService } from '@sinequa/core/app-utils';
-import { Subscription } from 'rxjs';
-import { FEATURES } from '../../config';
-import { ParseResult } from '@sinequa/components/autocomplete';
-import { AutocompleteExtended } from './autocomplete-extended.directive';
-import { UserPreferences } from '@sinequa/components/user-settings';
-import { FirstPageService } from '@sinequa/components/search';
-import { AdvancedService } from '@sinequa/components/advanced';
-import { take } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import {Component, OnInit, OnDestroy, ViewChild, ElementRef, DoCheck} from '@angular/core';
+import {FormBuilder, FormGroup, FormControl} from "@angular/forms";
+import {SearchService} from '@sinequa/components/search';
+import {LoginService} from '@sinequa/core/login';
+import {AppService} from '@sinequa/core/app-utils';
+import {Subscription} from 'rxjs';
+import {FEATURES} from '../../config';
+import {ParseResult} from '@sinequa/components/autocomplete';
+import {AutocompleteExtended} from './autocomplete-extended.directive';
+import {UserPreferences} from '@sinequa/components/user-settings';
+import {FirstPageService} from '@sinequa/components/search';
+import {AdvancedService} from '@sinequa/components/advanced';
+import {take} from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
+import {VoiceRecognitionService} from '@sinequa/components/utils';
 
 @Component({
   selector: 'app-search-form',
   templateUrl: './search-form.component.html',
   styleUrls: ['./search-form.component.scss']
 })
-export class SearchFormComponent implements OnInit, OnDestroy {
+export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
   searchControl: FormControl;
   form: FormGroup;
   autofocus = 0;
@@ -48,8 +49,16 @@ export class SearchFormComponent implements OnInit, OnDestroy {
 
   /** Define if should stay on the same tab even after a new search */
   keepTab = true;
+  voiceRecognitionState = false;
+
+  hasScroll = false;
+  @ViewChild('searchContainer') searchContainer: ElementRef;
+  private timeout: any;
+
+  private subscriptions: Subscription[] = [];
 
   constructor(
+    public voiceService: VoiceRecognitionService,
     public searchService: SearchService,
     public loginService: LoginService,
     private formBuilder: FormBuilder,
@@ -58,6 +67,18 @@ export class SearchFormComponent implements OnInit, OnDestroy {
     public firstPageService: FirstPageService,
     public advancedService: AdvancedService,
     public route: ActivatedRoute) {
+
+    this.voiceService.init();
+
+    this.subscriptions.push(...[
+        this.voiceService.started.subscribe(state => {
+        this.voiceRecognitionState = state;
+      }),
+        this.voiceService.text.subscribe(value => {
+        this.searchControl.setValue(value);
+      })
+    ]);
+
   }
 
   /**
@@ -93,11 +114,17 @@ export class SearchFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngDoCheck() {
+    // Check if the input has a scrollbar
+    this.hasScroll = this.searchContainer?.nativeElement.scrollWidth > this.searchContainer?.nativeElement.clientWidth;
+  }
+
   private _searchSubscription: Subscription;
-  ngOnDestroy(){
-    if(this._searchSubscription){
+  ngOnDestroy() {
+    if (this._searchSubscription) {
       this._searchSubscription.unsubscribe();
     }
+    this.subscriptions.map(item => item.unsubscribe());
   }
 
   /**
@@ -271,6 +298,36 @@ export class SearchFormComponent implements OnInit, OnDestroy {
   toggleAdvancedSearch(): void {
     this.showAdvancedSearch = !this.showAdvancedSearch;
     this._instantiateAdvancedForm();
+  }
+
+  toggleVoice() {
+    this.voiceService.toggleRecognition();
+  }
+
+  scrollRight() {
+    this.timeout = setTimeout(() => {
+      this._scrollRight()
+    }, 100);
+  }
+
+  scrollLeft() {
+    this.timeout = setTimeout(() => {
+      this._scrollLeft();
+    }, 100);
+  }
+
+  endScroll() {
+    clearTimeout(this.timeout);
+  }
+
+  private _scrollRight() {
+    this.searchContainer!.nativeElement.scrollLeft += 20;
+    this.scrollRight();
+  }
+
+  private _scrollLeft() {
+    this.searchContainer!.nativeElement.scrollLeft -= 20;
+    this.scrollLeft();
   }
 
   /**

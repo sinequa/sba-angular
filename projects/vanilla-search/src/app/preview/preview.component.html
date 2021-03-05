@@ -1,8 +1,7 @@
-<div class="container-fluid p-0 h-100">
-    <div class="d-flex m-0 h-100">
+    <div class="h-100 d-flex flex-row m-0">
 
         <!-- Left panel (navigation, extracts and entities) -->
-        <div class="d-flex flex-column align-items-stretch border-right h-100 p-0" 
+        <div class="d-flex flex-column align-items-stretch border-right p-0" 
             [ngClass]="{'col-sm-5 col-md-4 col-lg-3': !collapsedPanel}"
             *ngIf="ui.screenSizeIsGreater('xs')">
 
@@ -27,7 +26,7 @@
             </div>
 
             <!-- Expanded panel different subpanels available -->
-            <div class="overflow-y-scroll p-2" *ngIf="!collapsedPanel">
+            <div class="flex-grow-1 p-2" *ngIf="!collapsedPanel">
     
                 <!-- Legacy preview highlights -->
                 <sq-preview-highlights *ngIf="subpanel === 'highlights' && !!previewData" class="my-2" 
@@ -36,7 +35,7 @@
 
                 <!-- Extracts/Pages panel -->
                 <sq-preview-extracts-panel *ngIf="subpanel === 'extracts' && !pagesResults"
-                    [previewData]="previewData" [previewDocument]="previewDocument">
+                    [previewData]="previewData" [downloadUrl]="currentUrl" [previewDocument]="previewDocument">
                 </sq-preview-extracts-panel>
                 <sq-preview-pages-panel *ngIf="subpanel === 'extracts' && pagesResults"
                     [previewData]="previewData" [previewDocument]="previewDocument" [pages]="pagesResults"
@@ -54,15 +53,12 @@
 
         <!-- Right panel (iframe with preview HTML) -->
         <div class="flex-grow-1 d-flex flex-column preview-bg">
-            <div *ngIf="loadingPreview" class="d-flex justify-content-center align-items-center h-100">
-                <div class="spinner-grow" role="status"></div>
-            </div>
-            <div *ngIf="!loadingPreview && previewData" class="mb-1 pl-2">
+            <div *ngIf="previewData" class="mb-1 pl-2">
                 <h1>{{ previewData?.record.title }}</h1>
                 <!-- Link to the original document -->
                 <a title="Original document" target="_blank" href="{{previewData?.record.url1}}" (click)="openOriginalDoc()">{{previewData?.record.url1}}</a>
             </div>
-            <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)">
+            <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)" (urlChange)="onPreviewUrlChange($event)">
 
                 <!-- Tooltip injected in the preview -->
                 <sq-preview-tooltip #tooltip [previewDocument]="previewDocument" [previewData]="previewData" 
@@ -73,7 +69,6 @@
         </div>
 
     </div>
-</div>
 
 <ng-template #nav>
     <div class="align-self-stretch d-flex justify-content-between align-items-center p-1" [ngClass]="{'flex-column flex-grow-1': collapsedPanel}">

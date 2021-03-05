@@ -1,6 +1,7 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ScrollingModule} from "@angular/cdk/scrolling";
 
 import {IntlModule} from "@sinequa/core/intl";
 import {WebServicesModule} from "@sinequa/core/web-services";
@@ -35,6 +36,7 @@ import {PREVIEW_MODAL} from '../preview.service';
     imports: [
         CommonModule,
         FormsModule, ReactiveFormsModule,
+        ScrollingModule,
 
         IntlModule,
         WebServicesModule,

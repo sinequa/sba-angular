@@ -1,8 +1,10 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { PreviewData } from '@sinequa/core/web-services';
+import { HighlightValue, PreviewData } from '@sinequa/core/web-services';
 import { PreviewDocument } from '../../preview-document';
 import {Action} from "@sinequa/components/action";
+import {HttpClient} from '@angular/common/http';
+import {distinctUntilChanged} from 'rxjs/operators';
 
 export class Extract {
   text: SafeHtml; // Sanitized HTML text
@@ -19,43 +21,32 @@ export class Extract {
 export class BsPreviewExtractsPanelComponent implements OnChanges {
   @Input() previewData: PreviewData;
   @Input() previewDocument: PreviewDocument;
+  @Input() downloadUrl: string;
 
   sortAction : Action;
-  extracts: Extract[] = [];
+  extracts: Extract[];
   currentExtract = -1;
 
   constructor(
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef,
     private domSanitizer: DomSanitizer) { }
 
   /**
    * Extracts the list of extracts from the preview document
    */
-  ngOnChanges() {
-    if(this.previewData && this.previewDocument){
+  ngOnChanges(changes: SimpleChanges) {
+    if(this.previewData && this.downloadUrl){
       const extracts = this.previewData.highlightsPerCategory["extractslocations"]?.values; //Extract locations Array ordered by "relevance"
       if(!!extracts && extracts.length > 0){
-
-        // Init the extracts Array and storing the relevancy index = i because extractsLocations is already ordered by relevance
-        this.extracts = extracts[0].locations.map((el, i) => {
-          return {
-            text: "",
-            startIndex: el.start,
-            relevanceIndex: i,
-            textIndex: 0
-          }
+        
+        this.fetch(this.downloadUrl)
+          .pipe(distinctUntilChanged())
+          .subscribe((value) => {
+            this.extractAll(extracts, value);
+            this.cdr.detectChanges();
         });
         
-        this.extracts
-          .sort((a,b)=> a.startIndex - b.startIndex) // Sorting by start index (text index)
-          .forEach((el,i) => {
-              el.text = this.sanitize(this.previewDocument.getHighlightText("extractslocations", i)); // Retrieving the text using getHighlightText
-              el.textIndex = i; // Storing the TextIndex to be able to select extracts
-          });
-
-        // Sorting by Relevance to display extract ordered by Relevance
-        this.extracts.sort((a,b) => a.relevanceIndex-b.relevanceIndex);
-
-        this.buildSortAction();
       }
 
       
@@ -64,6 +55,33 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
       this.extracts = [];
     }
     this.currentExtract = -1;
+  }
+  
+  private extractAll(extracts:HighlightValue[], value: string) {          
+          const doc = document.implementation.createHTMLDocument("");
+          doc.open();
+          doc.write(value);
+          doc.close();
+          let previewDocument = new PreviewDocument(doc);
+
+          const count = previewDocument.document.querySelectorAll("[id^='extractslocations']").length;
+          if (count === 0) {
+            // use previous document to retrieve extracts
+            previewDocument = this.previewDocument;
+            console.log("use previewDocument");
+          }
+
+          // Init the extracts Array and storing the relevancy index = i because extractsLocations is already ordered by relevance
+          this.extracts = extracts[0].locations.map((el, i) => ({
+            text: this.sanitize(previewDocument.getHighlightText("extractslocations", i)),
+            startIndex: el.start,
+            relevanceIndex: i,
+            textIndex: i
+          }))
+          .filter(el => el.text !== '')
+          .sort((a,b) => a.relevanceIndex - b.relevanceIndex);
+
+          this.buildSortAction();
   }
 
   /**
@@ -101,7 +119,9 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    * @param i
    */
   scrollExtract(i: number){
-    this.previewDocument.selectHighlight("extractslocations", i);
+    if(this.previewDocument) {
+      this.previewDocument.selectHighlight("extractslocations", i);
+    }
     return false;
   }
 
@@ -109,8 +129,8 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    * Sanitize the text of a HTML formatted extract
    * @param text
    */
-  sanitize(text: string){
-    return this.domSanitizer.bypassSecurityTrustHtml(text.replace(/sq\-current/, ""));
+  sanitize(text: string): SafeHtml | string {
+    return text !== "" ? this.domSanitizer.bypassSecurityTrustHtml(text.replace(/sq\-current/, "")) : "";
   }
 
   /**
@@ -127,5 +147,9 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   nextExtract(){
     this.currentExtract++;
     this.scrollExtract(this.extracts[this.currentExtract].textIndex);
+  }
+  
+  private fetch(url: string) {
+    return this.http.get(url, {responseType: "text"});  
   }
 }

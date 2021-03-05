@@ -42,11 +42,16 @@ export class PreviewDocument {
     private static readonly ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE = "data-entity-display";
 
     private readonly _window: Window;
+    private readonly _document: Document;
 
-    constructor(iframe: ElementRef){
-        this._window = iframe?.nativeElement?.contentWindow;
-        if (this._window?.frames && this._window.frames["frSheet"]) {
-            this._window = this._window.frames["frSheet"];  // aspose xls preview
+    constructor(element: ElementRef | Document){
+        if (element instanceof ElementRef) {
+            this._window = element?.nativeElement?.contentWindow;
+            if (this._window?.frames && this._window.frames["frSheet"]) {
+                this._window = this._window.frames["frSheet"];  // aspose xls preview
+            }
+        } else {
+            this._document = element;
         }
     }
 
@@ -64,7 +69,7 @@ export class PreviewDocument {
      * Returns the root Document element of the HTML Preview
      */
     public get document(): Document {
-        return this._window.document;
+        return this._document || this._window.document;
     }
 
     /**
