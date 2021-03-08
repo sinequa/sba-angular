@@ -1,43 +1,104 @@
-import { Component, Input } from "@angular/core";
-import { AppService } from "@sinequa/core/app-utils";
+import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { Results } from "@sinequa/core/web-services";
 import { SearchService, BreadcrumbsItem } from "@sinequa/components/search";
 import { AbstractFacet } from "../../abstract-facet";
-import { AdvancedService } from "@sinequa/components/advanced";
+import { Action } from "@sinequa/components/action";
 
 @Component({
     selector: "sq-facet-mysearch",
     templateUrl: "./facet-mysearch.html",
-    styles: [
-        `
-            .badge {
-                font-size: 12px;
-            }
-            .clickable {
-                margin: 3px;
-                cursor: pointer;
-            }
-            .clickable:hover {
-                opacity: 85%;
-            }
-        `,
-    ],
+    styleUrls: ["./facet-mysearch.scss"],
 })
-export class BsMySearch extends AbstractFacet {
+export class BsMySearch extends AbstractFacet implements OnChanges{
     @Input() results: Results;
+    /** Display icon to delete items */
     @Input() allowDeletion: boolean = true;
-    @Input() displayFieldNames: boolean = true;
+    /** Display each item's field */
+    @Input() displayFieldNames: boolean = false;
+    /** Make the div collapsible */
+    @Input() collapsible: boolean = false;
+    /** Add a badge likely style to items */
+    @Input() useBadges: boolean = false;
+    /** Ignore text and fielded search */
+    @Input() ignoreText: boolean = true;
 
-    constructor(
-        public appService: AppService,
-        public searchService: SearchService,
-        public advancedService: AdvancedService
-    ) {
+    collapsed = false;
+    indexActive: number;
+    clearAction: Action;
+
+    constructor(public searchService: SearchService) {
         super();
+
+        this.clearAction = new Action({
+            icon: "far fa-minus-square",
+            title: "msg#facet.filters.clear",
+            action: () => this.clear()
+        });
     }
 
-    removeItem(item: BreadcrumbsItem): boolean {
-        this.searchService.removeBreadcrumbsItem(item);
+    ngOnChanges(changes: SimpleChanges) {
+        if (!!changes["results"]) {
+            this.getItems();
+            /** index of active the breadcrumbsItem */
+            this.indexActive =
+                this.searchService.breadcrumbs?.items.findIndex(
+                    (item: BreadcrumbsItem) => !!item.active
+                ) || 0;
+        }
+    }
+
+    getItems() : BreadcrumbsItem[] {
+        if (this.ignoreText) {
+            return this.searchService.breadcrumbs?.items.filter(
+                (item: BreadcrumbsItem) =>
+                    !item.expr || (item.expr.isStructured && item.facet !== "search-form")
+            ) || [];
+        }
+        return this.searchService.breadcrumbs?.items || [];
+    }
+
+    getField(item: BreadcrumbsItem): string {
+        if (item.expr) {
+            if (item.expr.field) {
+                return item.expr.field;
+            }
+            else {
+                if (!item.expr.isStructured) {
+                    return "text";
+                }
+                else {
+                    const fields = item.expr.getFields();
+                    return fields.join("-");
+                }
+            }
+        }
+        return "unknown";
+    }
+
+    selectItem(item: BreadcrumbsItem) {
+        this.searchService.selectBreadcrumbsItem(item);
         return false;
+    }
+
+    removeItem(item: BreadcrumbsItem) {
+        this.searchService.removeBreadcrumbsItem(item);
+    }
+
+    get isEmpty() {
+        return this.getItems().length === 0;
+    }
+
+    get actions(): Action[] {
+        const actions: Action[] = [];
+        if(!this.isEmpty && this.allowDeletion){
+            actions.push(this.clearAction);
+        }
+        return actions;
+    }
+
+    protected clear(){
+        for (const item of this.getItems()) {
+            this.searchService.removeBreadcrumbsItem(item);
+        }
     }
 }

@@ -70,7 +70,7 @@
         <div class="col-lg-5" [ngClass]="{'col-md-7': !showFilters, 'col-md-8': showFilters}" *ngIf="showResults">
 
             <div class="d-flex flex-row align-items-center flex-wrap" *ngIf="searchService.resultsStream | async; let results">
-              <sq-breadcrumbs-v2 [results]="results" [allowDeletion]="true" class="flex-grow-1 flex-basis-0"></sq-breadcrumbs-v2>
+              <sq-facet-mysearch [results]="results" [allowDeletion]="true" class="flex-grow-1 flex-basis-0"></sq-facet-mysearch>
             </div>
             <!-- Tabs -->
             <sq-tabs [results]="results"></sq-tabs>

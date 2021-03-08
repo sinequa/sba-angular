@@ -1,10 +1,24 @@
-<div class="card-body overflow-auto">
-    <ng-container *ngFor="let item of searchService.breadcrumbs?.activeItems">
-        <div *ngIf="!item.hidden" class="badge badge-pill font-weight-normal badge-secondary m-1">
-            <span class="" title="{{item.display | sqExpr:{withFields: displayFieldNames} }}" [innerHTML]="item.display | sqExpr:{withFields: displayFieldNames, asHTML: true}"></span>
-            <i class="fas fa-times-circle clickable" (click)="removeItem(item)" *ngIf="allowDeletion"
-                title="{{'msg#facet.mySearch.itemRemove' | sqMessage}}">
-            </i>
-        </div>
+<ol class="breadcrumb" [ngClass]="collapsed ? 'collapsed-breadcrumb' : 'expanded-breadcrumb'">
+    <ng-container *ngFor="let item of getItems(); index as i">
+        <li *ngIf="!item.hidden"
+            class="px-1 ml-1 mb-1 sq-breadcrumb-{{useBadges ? 'bordered-' : ''}}item sq-breadcrumb-{{useBadges ? 'bordered-' : ''}}color-{{getField(item)}}"
+            (click)="selectItem(item)">
+            <span
+                [ngClass]="{'text-decoration-line-through': i > indexActive}"
+                [innerHTML]="item.display | sqExpr:{withFields: displayFieldNames, asHTML: true}"
+                title="{{getField(item)}}">
+            </span>
+            <span
+                *ngIf="allowDeletion"
+                class="far fa-times-circle pl-1"
+                role="button"
+                (click)="removeItem(item)"
+                title="{{'msg#breadcrumbs.itemRemove' | sqMessage}}">
+            </span>
+        </li>
     </ng-container>
+</ol>
+<div *ngIf="collapsible && !isEmpty">
+    <hr>
+    <i class="fas fa-chevron-circle-{{collapsed ? 'down' : 'up'}}" (click)="collapsed = !collapsed;"></i>
 </div>
