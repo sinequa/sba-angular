@@ -22,7 +22,6 @@ import {BsFacetList} from './facet-list';
 import {RESULTS} from '@sinequa/components/__tests__/mocks/results';
 import {AGGREGATION_CONCEPTS, AGGREGATION_GEO} from '@sinequa/components/__tests__/mocks/aggregations';
 import {NumberPipe, ValuePipe} from '@sinequa/components/utils';
-import {TooltipModule} from 'ngx-bootstrap/tooltip';
 
 describe('BsFacetList', () => {
     let context: BsFacetList;
@@ -34,7 +33,6 @@ describe('BsFacetList', () => {
             imports: [
                 CommonModule,
                 IntlModule.forRoot(AppLocalesConfig),
-                TooltipModule,
                 BsFacetModule.forRoot()
             ],
             providers: [
@@ -78,7 +76,7 @@ describe('BsFacetList', () => {
         context.searchBar = true;
 
         expect(context.data()).toBeUndefined();
-        expect(context.count).toEqual(0);
+        expect(context.resultsLength).toEqual(0);
         expect(context.isHidden()).toBeTrue();
 
         context.ngOnChanges({results: {} as SimpleChange});
@@ -94,13 +92,12 @@ describe('BsFacetList', () => {
         // Components expectations
         expect(context.getName()).toEqual("Geo");
         expect(context.data()?.name).toEqual("Geo");
-        expect(context.count).toEqual(10);
+        expect(context.resultsLength).toEqual(11);
         expect(context.isHidden()).toBeFalse();
 
         expect(context.actions.length).toBeGreaterThan(0);
         expect(context.searchBar).toBeFalse();
         expect(context.filtered.length).toEqual(0);
-        expect(context.skip).toEqual(0);
         expect(context.searchQuery.value).toEqual("");
         expect(context.noResults).toBeFalse();
         expect(context.suggestions$.getValue().length).toEqual(0);

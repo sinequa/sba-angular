@@ -1,6 +1,22 @@
-.facet-row {
-  cursor: pointer;
+@import "../facet-base.scss";
 
+.progress-bar {
+  right:0; 
+  bottom:0; 
+  width: calc(100% - var(--count));
+  height:8px;
+
+  &.radius-left {
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px; 
+  }
+  
+  &.progress-color {
+    background-color: $color-blue-500;     
+  }
+}
+
+.facet-row {
   .icons {
     transition: opacity .3s, transform .3s ease;
     
