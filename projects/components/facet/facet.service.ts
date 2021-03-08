@@ -353,7 +353,9 @@ export class FacetService {
         breadcrumbs = this.searchService.breadcrumbs): Select | undefined {
 
         if (breadcrumbs) {
-            const filterExpr = this.findItemFilter(facetName, aggregation, item, breadcrumbs) || this.appService.parseExpr(this.exprBuilder.makeAggregationExpr(aggregation, item));
+            // if item is excluded, makeAggregation() should returns a NOT expression
+            const stringExpr = item.$excluded ? this.exprBuilder.makeNotExpr(this.exprBuilder.makeAggregationExpr(aggregation, item)) : this.exprBuilder.makeAggregationExpr(aggregation, item);
+            const filterExpr = this.findItemFilter(facetName, aggregation, item, breadcrumbs) || this.appService.parseExpr(stringExpr);
             const expr = breadcrumbs.findSelect(facetName, filterExpr);
             const i = breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === expr || select.expr === expr?.parent));
 
