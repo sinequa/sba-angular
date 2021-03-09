@@ -9,7 +9,7 @@ import { Action } from "@sinequa/components/action";
     templateUrl: "./facet-mysearch.html",
     styleUrls: ["./facet-mysearch.scss"],
 })
-export class BsMySearch extends AbstractFacet implements OnChanges{
+export class BsMySearch extends AbstractFacet implements OnChanges {
     @Input() results: Results;
     /** Display icon to delete items */
     @Input() allowDeletion: boolean = true;
@@ -19,12 +19,13 @@ export class BsMySearch extends AbstractFacet implements OnChanges{
     @Input() collapsible: boolean = false;
     /** Add a badge likely style to items */
     @Input() useBadges: boolean = false;
-    /** Ignore text and fielded search */
+    /** Wether we Ignore text and fielded search */
     @Input() ignoreText: boolean = true;
 
     collapsed = false;
     indexActive: number;
     clearAction: Action;
+    items: BreadcrumbsItem[] = [];
 
     constructor(public searchService: SearchService) {
         super();
@@ -32,13 +33,20 @@ export class BsMySearch extends AbstractFacet implements OnChanges{
         this.clearAction = new Action({
             icon: "far fa-minus-square",
             title: "msg#facet.filters.clear",
-            action: () => this.clear()
+            action: () => this.clear(),
         });
     }
 
     ngOnChanges(changes: SimpleChanges) {
         if (!!changes["results"]) {
-            this.getItems();
+            /** Initialize items based on input values */
+            this.items = this.ignoreText
+                ? this.searchService.breadcrumbs?.items.filter(
+                        (item: BreadcrumbsItem) =>
+                            !item.expr || (item.expr.isStructured && item.facet !== "search-form")
+                    ) || []
+                : this.searchService.breadcrumbs?.items || [];
+
             /** index of active the breadcrumbsItem */
             this.indexActive =
                 this.searchService.breadcrumbs?.items.findIndex(
@@ -47,26 +55,14 @@ export class BsMySearch extends AbstractFacet implements OnChanges{
         }
     }
 
-    getItems() : BreadcrumbsItem[] {
-        if (this.ignoreText) {
-            return this.searchService.breadcrumbs?.items.filter(
-                (item: BreadcrumbsItem) =>
-                    !item.expr || (item.expr.isStructured && item.facet !== "search-form")
-            ) || [];
-        }
-        return this.searchService.breadcrumbs?.items || [];
-    }
-
     getField(item: BreadcrumbsItem): string {
         if (item.expr) {
             if (item.expr.field) {
                 return item.expr.field;
-            }
-            else {
+            } else {
                 if (!item.expr.isStructured) {
                     return "text";
-                }
-                else {
+                } else {
                     const fields = item.expr.getFields();
                     return fields.join("-");
                 }
@@ -85,19 +81,19 @@ export class BsMySearch extends AbstractFacet implements OnChanges{
     }
 
     get isEmpty() {
-        return this.getItems().length === 0;
+        return this.items.length === 0;
     }
 
     get actions(): Action[] {
         const actions: Action[] = [];
-        if(!this.isEmpty && this.allowDeletion){
+        if (!this.isEmpty && this.allowDeletion) {
             actions.push(this.clearAction);
         }
         return actions;
     }
 
-    protected clear(){
-        for (const item of this.getItems()) {
+    protected clear() {
+        for (const item of this.items) {
             this.searchService.removeBreadcrumbsItem(item);
         }
     }

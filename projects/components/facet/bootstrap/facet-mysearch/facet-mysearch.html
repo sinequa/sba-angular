@@ -1,7 +1,8 @@
-<ol class="breadcrumb" [ngClass]="collapsed ? 'collapsed-breadcrumb' : 'expanded-breadcrumb'">
-    <ng-container *ngFor="let item of getItems(); index as i">
+<ol class="my-search" [ngClass]="collapsed ? 'collapsed-view' : 'expanded-view'">
+    <ng-container *ngFor="let item of items; index as i">
         <li *ngIf="!item.hidden"
-            class="px-1 ml-1 mb-1 sq-breadcrumb-{{useBadges ? 'bordered-' : ''}}item sq-breadcrumb-{{useBadges ? 'bordered-' : ''}}color-{{getField(item)}}"
+            class="px-1 ml-1 mb-1 sq-metadata-item sq-metadata-color-{{getField(item)}}"
+            [ngClass]="{'sq-metadata-border': useBadges}"
             (click)="selectItem(item)">
             <span
                 [ngClass]="{'text-decoration-line-through': i > indexActive}"
@@ -13,7 +14,7 @@
                 class="far fa-times-circle pl-1"
                 role="button"
                 (click)="removeItem(item)"
-                title="{{'msg#breadcrumbs.itemRemove' | sqMessage}}">
+                title="{{'msg#facet.mySearch.itemRemove' | sqMessage}}">
             </span>
         </li>
     </ng-container>
