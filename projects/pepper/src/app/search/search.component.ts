@@ -38,7 +38,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   lastClickedId?: string;
 
   showResults = true;
-  hoveredResults;
   toggleResultsTitle = "msg#search.hideResults";
   @ViewChild('gridster') gridster!: GridsterComponent;
 
@@ -236,11 +235,4 @@ export class SearchComponent implements OnInit, OnDestroy {
     }, 500);
   }
 
-  onMouseEnter() {
-    this.hoveredResults = true;
-  }
-
-  onMouseLeave() {
-    this.hoveredResults = false;
-  }
 }
