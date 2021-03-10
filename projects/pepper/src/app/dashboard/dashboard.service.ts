@@ -377,7 +377,7 @@ export class DashboardService {
                 };
                 this.modalService.open(DashboardAddItemComponent, {model}).then(value => {
                     if(value === ModalResult.OK && model.selectedOption) {
-                        this.addWidget(model.selectedOption, this.dashboard, model.width, model.height);
+                        this.addWidget(model.selectedOption, this.dashboard, model.height, model.width);
                     }
                 });
             }
