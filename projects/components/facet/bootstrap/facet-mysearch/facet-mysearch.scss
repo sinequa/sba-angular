@@ -1,0 +1,56 @@
+.my-search {
+    font-size: 0.85rem;
+  }
+
+  .sq-metadata-item {
+    background-color: white;
+    cursor: pointer;
+    border-radius: 20px;
+
+    &:hover {
+      background-color: lightgrey;
+      opacity: 0.8;
+    }
+
+    & .fa-times-circle {
+      &:hover {
+        opacity: 0.8;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .sq-metadata-border {
+    border: 1px solid;
+  }
+
+  .text-decoration-line-through {
+    text-decoration: line-through;
+  }
+
+  .collapsed-view {
+    height: 29px;
+    overflow-y: hidden;
+  }
+
+  .expanded-view {
+    height: unset;
+  }
+
+  .fa-chevron-circle-down, .fa-chevron-circle-up {
+    color: darkgray;
+    position: relative;
+    top: -5px;
+    left: 49%;
+
+    &:hover {
+      opacity: 0.7;
+      cursor: pointer;
+    }
+  }
+
+  hr {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    width: 30%;
+  }
