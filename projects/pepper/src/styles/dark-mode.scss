@@ -268,4 +268,8 @@ body.dark {
         color: $dark-secondary;
     }
 
+    .toggle-results > i {
+        background: $dark-background !important;
+    }
+
 }
