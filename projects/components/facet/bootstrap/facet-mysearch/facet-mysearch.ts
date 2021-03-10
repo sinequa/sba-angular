@@ -23,9 +23,9 @@ export class BsMySearch extends AbstractFacet implements OnChanges {
     @Input() ignoreText: boolean = true;
 
     collapsed = false;
-    indexActive: number;
     clearAction: Action;
     items: BreadcrumbsItem[] = [];
+    fields: string[] = [];
 
     constructor(public searchService: SearchService) {
         super();
@@ -47,15 +47,15 @@ export class BsMySearch extends AbstractFacet implements OnChanges {
                     ) || []
                 : this.searchService.breadcrumbs?.items || [];
 
-            /** index of active the breadcrumbsItem */
-            this.indexActive =
-                this.searchService.breadcrumbs?.items.findIndex(
-                    (item: BreadcrumbsItem) => !!item.active
-                ) || 0;
+            /** Retrieve the field name of each item */
+            for (const item of this.items) {
+                this.fields.push(this.getField(item))
+            }
+
         }
     }
 
-    getField(item: BreadcrumbsItem): string {
+    protected getField(item: BreadcrumbsItem): string {
         if (item.expr) {
             if (item.expr.field) {
                 return item.expr.field;
@@ -69,11 +69,6 @@ export class BsMySearch extends AbstractFacet implements OnChanges {
             }
         }
         return "unknown";
-    }
-
-    selectItem(item: BreadcrumbsItem) {
-        this.searchService.selectBreadcrumbsItem(item);
-        return false;
     }
 
     removeItem(item: BreadcrumbsItem) {

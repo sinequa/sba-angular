@@ -1,13 +1,11 @@
-<ol class="my-search" [ngClass]="collapsed ? 'collapsed-view' : 'expanded-view'">
+<div class="my-search d-flex flex-row align-items-center flex-wrap" [ngClass]="collapsed ? 'collapsed-view' : 'expanded-view'">
     <ng-container *ngFor="let item of items; index as i">
-        <li *ngIf="!item.hidden"
-            class="px-1 ml-1 mb-1 sq-metadata-item sq-metadata-color-{{getField(item)}}"
-            [ngClass]="{'sq-metadata-border': useBadges}"
-            (click)="selectItem(item)">
+        <div *ngIf="!item.hidden"
+            class="px-1 ml-1 mb-1 sq-metadata-item sq-metadata-color-{{fields[i]}}"
+            [ngClass]="{'sq-metadata-border': useBadges}">
             <span
-                [ngClass]="{'text-decoration-line-through': i > indexActive}"
                 [innerHTML]="item.display | sqExpr:{withFields: displayFieldNames, asHTML: true}"
-                title="{{getField(item)}}">
+                title="{{fields[i]}}">
             </span>
             <span
                 *ngIf="allowDeletion"
@@ -16,9 +14,9 @@
                 (click)="removeItem(item)"
                 title="{{'msg#facet.mySearch.itemRemove' | sqMessage}}">
             </span>
-        </li>
+        </div>
     </ng-container>
-</ol>
+</div>
 <div *ngIf="collapsible && !isEmpty">
     <hr>
     <i class="fas fa-chevron-circle-{{collapsed ? 'down' : 'up'}}" (click)="collapsed = !collapsed;"></i>
