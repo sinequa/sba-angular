@@ -50,7 +50,6 @@
 }
 
 .dashboard-container {
-    transition: width .5s;
     width: calc(100% - 33%);
 
     &--expanded {
