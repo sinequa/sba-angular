@@ -184,7 +184,7 @@ The inputs of the component are:
 
 ```html
 <sq-facet-card [title]="'My Search'" [icon]="'fas fa-info'">
-    <sq-mysearch #facet [results]="results"></sq-mysearch>
+    <sq-facet-mysearch #facet [results]="results"></sq-facet-mysearch>
 </sq-facet-card>
 ```
 Or as breadcrumbs, use the following :
