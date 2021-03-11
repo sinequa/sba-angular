@@ -16,8 +16,8 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "noUnusedLocals" : true,
-    "strictFunctionTypes" : true,
+    "noUnusedLocals": true,
+    "strictFunctionTypes": true,
     "strictNullChecks": true,
     "typeRoots": [
       "node_modules/@types",
@@ -35,10 +35,10 @@
         "dist/core/*"
       ],
       "@sinequa/components": [
-        "dist/components"
+        "dist/components", "dist/charts"
       ],
       "@sinequa/components/*": [
-        "dist/components/*"
+        "dist/components/*", "dist/charts/*"
       ]
     }
   },

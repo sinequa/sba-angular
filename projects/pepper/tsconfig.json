@@ -5,8 +5,8 @@
         "paths": {
             "@sinequa/core": ["core/public-api"],
             "@sinequa/core/*": ["core/*"],
-            "@sinequa/components": ["components/public-api"],
-            "@sinequa/components/*": ["components/*"]
+            "@sinequa/components": ["components/public-api", "charts/public-api"],
+            "@sinequa/components/*": ["components/*", "charts/*"]
         }
     },
     "files": [

@@ -10,7 +10,7 @@ import {enAlerts} from "@sinequa/components/alerts";
 import {enBaskets} from "@sinequa/components/baskets";
 import {enFacet} from "@sinequa/components/facet";
 import {enFeedback} from "@sinequa/components/feedback";
-import {enHeatmap} from "@sinequa/components/heatmap";
+// import {enHeatmap} from "@sinequa/components/heatmap";
 import {enLabels} from "@sinequa/components/labels";
 import {enMetadata} from "@sinequa/components/metadata";
 import {enNotification} from "@sinequa/components/notification";
@@ -23,7 +23,7 @@ import {enSearch} from "@sinequa/components/search";
 import {enStatusBar} from "@sinequa/components/status-bar";
 import {enUserSettings} from "@sinequa/components/user-settings";
 
-const messages = Utils.merge({}, enCore, enAdvanced, enAlerts, enBaskets, enFacet, enFeedback, enHeatmap, enLabels, enMetadata,
+const messages = Utils.merge({}, enCore, enAdvanced, enAlerts, enBaskets, enFacet, enFeedback, /*enHeatmap,*/ enLabels, enMetadata,
     enNotification, enPreview, enResult, enResultsView, enSavedQueries, enSelection, enSearch, enStatusBar, enUserSettings, appMessages);
 
 export default <LocaleData>{
