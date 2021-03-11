@@ -125,7 +125,11 @@ export class DashboardService {
             },
             itemResizeCallback: (item, itemComponent) => {
                 if (!document.fullscreenElement) { // Exclude the change detection on switch from/to full-screen mode
-                    item.height = itemComponent.height; // Items must know their own width/height to (re)size their content
+                    /** Items must know their height to (re)size their content BUT maximized widget must skip this resize */
+                    if (!itemComponent.el.classList.contains('widget-maximized-view')) {
+                      item.height = itemComponent.height;
+                    }
+                    /** Items must know their width to (re)size their content */
                     item.width = itemComponent.width;
                     this.notifyItemChange(item as DashboardItem);
                 }
