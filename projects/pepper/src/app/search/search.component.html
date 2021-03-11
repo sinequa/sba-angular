@@ -45,28 +45,21 @@
 
 <!-- Main interface -->
 <ng-container *ngIf="loginService.complete">
-    <div class="flex-grow-1 container-fluid main-content" *ngIf="searchService.resultsStream | async as results">
-        <div class="row h-100">
+    <div class="flex-grow-1 container-fluid position-relative main-content" *ngIf="searchService.resultsStream | async as results">
+
+        <!-- Result sidebar toggle -->
+        <span class="toggle-results btn-link"
+            [ngClass]="{collapsed: !showResults}"
+            [sqTooltip]="toggleResultsTitle | sqMessage"
+            (click)="toggleResults()">
+            <i [ngClass]="showResults ? 'fas fa-chevron-circle-left' : 'fas fa-chevron-circle-right'"></i>
+        </span>
+
+        <div class="row flex-nowrap h-100">
 
             <!-- Results -->
-            <div
-                (mouseenter)="onMouseEnter()"
-                (mouseleave)="onMouseLeave()"
-                class="py-3 px-3 results-list"
+            <div class="results-list pt-2 px-3"
                 [ngClass]="{'results-list--hidden': !showResults}">
-
-                <!-- Result sidebar toggle -->
-                <span
-                    class="toggle-results"
-                    [ngClass]="showResults ? 'toggle-results--hide' : 'toggle-results--show'"
-                    sqTooltip="{{ toggleResultsTitle | sqMessage }}"
-                    *ngIf="!showResults || hoveredResults">
-                    <i
-                        class="toggle-results-icon"
-                        [ngClass]="showResults ? 'fas fa-chevron-circle-left' : 'fas fa-chevron-circle-right'"
-                        (click)="toggleResults()">
-                    </i>
-                </span>
 
                 <!-- Result selection toolbar -->
                 <div *ngIf="showResults" class="card text-white bg-primary position-fixed action-bar">
