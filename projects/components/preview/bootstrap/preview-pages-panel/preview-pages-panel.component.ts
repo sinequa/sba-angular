@@ -11,6 +11,7 @@ export class BsPreviewPagesPanelComponent implements OnChanges {
     @Input() pages: Results;
     @Input() previewData: PreviewData;
     @Input() previewDocument: PreviewDocument;
+    @Input() style: "light"|"dark" = "light";
     @Output() gotopage = new EventEmitter<number>();
 
     @ViewChildren('currentPageEl', {read: ElementRef}) currentPageEl: QueryList<ElementRef>;

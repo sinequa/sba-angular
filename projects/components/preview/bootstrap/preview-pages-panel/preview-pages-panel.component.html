@@ -43,7 +43,7 @@
             <div class="card my-1" #currentPageEl>
                 <div class="card-body m-0">
                     <span class="small font-weight-bold mb-1">{{ 'msg#preview.page' | sqMessage:{values:{page: currentPage} } }} ({{ 'msg#preview.current' | sqMessage }})</span>
-                    <sq-preview-extracts-panel [previewData]="previewData" [previewDocument]="previewDocument" *ngIf="!_pendingPreviewDocument">
+                    <sq-preview-extracts-panel [previewData]="previewData" [previewDocument]="previewDocument" [style]="style" *ngIf="!_pendingPreviewDocument">
                     </sq-preview-extracts-panel>
                 </div>
             </div>

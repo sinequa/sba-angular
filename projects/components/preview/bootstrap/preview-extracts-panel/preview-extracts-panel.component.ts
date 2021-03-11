@@ -22,6 +22,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   @Input() previewData: PreviewData;
   @Input() previewDocument: PreviewDocument;
   @Input() downloadUrl: string;
+  @Input() style: "light"|"dark" = "light";
 
   sortAction : Action;
   extracts: Extract[];

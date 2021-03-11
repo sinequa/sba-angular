@@ -31,6 +31,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     // Graphical settings
     @Input() height = 600; // Height of the SVG viewbox (will adjust to container while preserving aspect ratio)
     @Input() width = 600; // Width of the SVG viewbox (will adjust to container while preserving aspect ratio)
+    @Input() allowResizeOption = true; // The resize option allows to adjust the actual width/height in function of the number of items on each axis. If set to false, the tiles are resized so that the heatmap always matches the input width/height.
     @Input() margin = {top: 100, bottom: 20, left: 100, right: 40};
     @Input() transition = 1000; // Transition time in ms (0 to avoid transitions)
     @Input() buckets = 9; // Color buckets
