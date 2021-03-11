@@ -35,10 +35,10 @@
 
                 <!-- Extracts/Pages panel -->
                 <sq-preview-extracts-panel *ngIf="subpanel === 'extracts' && !pagesResults"
-                    [previewData]="previewData" [downloadUrl]="currentUrl" [previewDocument]="previewDocument">
+                    [previewData]="previewData" [downloadUrl]="currentUrl" [previewDocument]="previewDocument" [style]="isDark()? 'dark' : 'light'">
                 </sq-preview-extracts-panel>
                 <sq-preview-pages-panel *ngIf="subpanel === 'extracts' && pagesResults"
-                    [previewData]="previewData" [previewDocument]="previewDocument" [pages]="pagesResults"
+                    [previewData]="previewData" [previewDocument]="previewDocument" [pages]="pagesResults" [style]="isDark()? 'dark' : 'light'"
                     (gotopage)="gotoPage($event)">
                 </sq-preview-pages-panel>
 
