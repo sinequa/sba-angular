@@ -10,7 +10,9 @@
     </div>
     
     <div class="list-group">
-        <a href="#" class="card my-1 list-group-item-action" *ngFor="let extract of extracts; let i=index" (click)="scrollExtract(extract.textIndex)" [ngClass]="{'bg-light': currentExtract === i}">
+        <a href="#" *ngFor="let extract of extracts; let i=index" (click)="scrollExtract(extract.textIndex)" 
+            class="card my-1 list-group-item-action"
+            [ngClass]="{'bg-light': currentExtract === i && style === 'light', 'bg-dark': currentExtract === i && style === 'dark'}">
             <p class="card-body m-0" [innerHTML]="extract.text"></p>
         </a>
     </div>    
