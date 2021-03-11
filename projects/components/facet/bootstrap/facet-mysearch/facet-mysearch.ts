@@ -48,6 +48,7 @@ export class BsMySearch extends AbstractFacet implements OnChanges {
                 : this.searchService.breadcrumbs?.items || [];
 
             /** Retrieve the field name of each item */
+            this.fields = [];
             for (const item of this.items) {
                 this.fields.push(this.getField(item))
             }

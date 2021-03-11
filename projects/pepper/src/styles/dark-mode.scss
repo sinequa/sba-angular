@@ -263,5 +263,13 @@ body.dark {
             background-color: #aaa;
         }
     }
+    
+    sq-theme-toggle {
+        color: $dark-secondary;
+    }
+
+    .toggle-results > i {
+        background: $dark-background !important;
+    }
 
 }

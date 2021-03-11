@@ -181,6 +181,15 @@ The [`sqAutocompleteExtended`](https://github.com/sinequa/sba-angular/blob/maste
 
 - The `select()` method performs custom actions, depending on the category of suggestion. For example, recent documents are directly opened, via `previewService.openRoute()`, saved queries are searched in the `/search` route, etc.
 
+Furthermore, the search form displays the following options (when focused or hovered), to enrich the search experience :
+
+![Search form]({{site.baseurl}}assets/modules/search-form-options.png){: .d-block .mx-auto }
+
+- The `clear` button allows users to reset the content of the search input (text and/or fielded search items).
+- The `filter` button provides the ability to decide wether the applied search criteria should be kept while searching for new text.
+- The `microphone` button enables the voice recognition and thus a vocal search. Notice that this option is browser-related.
+- The last button on the top right is responsible of displaying the `advanced search form`.
+
 ## Configuration
 
 Vanilla Search can be configured via two methods (as described in [Configuration]({{site.baseurl}}tipstricks/configuration.html)):

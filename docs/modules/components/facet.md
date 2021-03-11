@@ -171,12 +171,28 @@ This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/R
 
 The "My Search" facet [`sq-mysearch`]({{site.baseurl}}components/components/BsMySearch.html) displays the current list of search criteria (similar to the [breadcrumbs component](search.html#breadcrumbs)).
 
-This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/Results.html) input.
+![Facet Filters]({{site.baseurl}}assets/modules/facet/facet-mysearch.png){: .d-block .mx-auto}
+
+The inputs of the component are:
+
+* `results`: The results of the current search.
+* `allowDeletion`: (**true** by default) Display icon to delete items.
+* `displayFieldNames`: (**false** by default) Display each item's field.
+* `collapsible`: (**false** by default) Make the div collapsible. It makes sens if used as breadcrumb.
+* `useBadges`: (**false** by default) Add a badge likely style to items.
+* `ignoreText`: (**true** by default) Ignore the search text and fielded search from being displayed.
 
 ```html
 <sq-facet-card [title]="'My Search'" [icon]="'fas fa-info'">
-    <sq-mysearch #facet [results]="results"></sq-mysearch>
+    <sq-facet-mysearch #facet [results]="results"></sq-facet-mysearch>
 </sq-facet-card>
+```
+Or as breadcrumbs, use the following :
+
+```html
+<div class="d-flex flex-row align-items-center flex-wrap">
+    <sq-facet-mysearch [results]="results" class="flex-grow-1 flex-basis-0"></sq-facet-mysearch>
+</div>
 ```
 
 ### Refine Facet

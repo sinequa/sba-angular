@@ -5,5 +5,4 @@ export * from "./labels.component";
 export * from "./result-labels.component";
 export * from "./labels-autocomplete.directive";
 export * from "./bootstrap/index";
-export * from "./material/index";
 export * from "./messages/index";

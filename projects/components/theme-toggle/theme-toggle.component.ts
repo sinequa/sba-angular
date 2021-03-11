@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'sq-theme-toggle',
@@ -6,8 +6,9 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./theme-toggle.component.scss']
 })
 export class BsThemeToggleComponent implements OnInit {
+  @Input() showLabel = true;
 
-  labels = ['msg#theme.darkMode', 'msg#theme.lightMode'];
+  labels = ['msg#theme.lightMode', 'msg#theme.darkMode'];
   tooltips = ['msg#theme.darkModeTitle', 'msg#theme.lightModeTitle']
   label: string = '';
   tooltip: string;
