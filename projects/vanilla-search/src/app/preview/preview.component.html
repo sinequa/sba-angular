@@ -31,7 +31,7 @@
 
                 <!-- Extracts panel -->
                 <sq-preview-extracts-panel *ngIf="subpanel === 'extracts'"
-                    [previewData]="previewData" [previewDocument]="previewDocument">
+                    [previewData]="previewData" [previewDocument]="previewDocument" [style]="isDark()? 'dark' : 'light'">
                 </sq-preview-extracts-panel>
                         
                 <!-- Entities panel -->
