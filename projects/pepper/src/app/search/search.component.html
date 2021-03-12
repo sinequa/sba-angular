@@ -33,7 +33,7 @@
         <div class="container-fluid justify-content-start px-0" *ngIf="searchService.resultsStream | async as results">
             <span class="text-muted mr-2"><i class="fas fa-filter"></i> {{ 'msg#search.filters' | sqMessage }}: </span>
             <sq-facet-filters [results]="results" [facets]="facets" class="mr-auto"></sq-facet-filters>
-    
+
             <sq-theme-toggle></sq-theme-toggle>
             <div class="btn-group dashboard-actions" [sq-action-buttons]="{items: dashboardActions, style: 'primary', rightAligned: true}"></div>
         </div>
@@ -58,7 +58,7 @@
         <div class="row flex-nowrap h-100">
 
             <!-- Results -->
-            <div class="results-list pt-2 px-3"
+            <div class="results-list py-3 px-3"
                 [ngClass]="{'results-list--hidden': !showResults}">
 
                 <!-- Result selection toolbar -->
@@ -112,7 +112,7 @@
             </div>
 
             <!-- Dashboard -->
-            <div class="h-100 px-0 dashboard-container" [ngClass]="{'dashboard-container--expanded': !showResults}">
+            <div class="h-100 py-3 px-0 dashboard-container" [ngClass]="{'dashboard-container--expanded': !showResults}">
 
                 <!-- Gridster dashboard component -->
                 <gridster #gridster [options]="dashboardService.options">
