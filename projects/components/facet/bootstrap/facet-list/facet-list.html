@@ -72,11 +72,10 @@
             </div>
         </div>
 
+        <a *ngIf="hasMore" class="d-block border-0 px-3 py-1 text-center" (click)="loadMore($event)" href="#">
+            <span *ngIf="loadingMore" class="fas fa-sync fa-fw fa-spin"></span>
+            <small *ngIf="!loadingMore">{{'msg#facet.loadMore' | sqMessage}}</small>
+        </a>
     </div>
-
-    <a *ngIf="hasMore" class="d-block border-0 px-3 py-1 text-center" (click)="loadMore($event)" href="#">
-        <span *ngIf="loadingMore" class="fas fa-sync fa-fw fa-spin"></span>
-        <small *ngIf="!loadingMore">{{'msg#facet.loadMore' | sqMessage}}</small>
-    </a>
 
 </div>
