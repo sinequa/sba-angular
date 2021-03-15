@@ -8,8 +8,8 @@
             "@sinequa/core/*": ["../core/*"],
             "@sinequa/components": ["../components/public-api"],
             "@sinequa/components/*": ["../components/*"],
-            "@sinequa/charts": ["./public-api"],
-            "@sinequa/charts/*": ["./*"]
+            "@sinequa/analytics": ["./public-api"],
+            "@sinequa/analytics/*": ["./*"]
         }
     },
     "include": [

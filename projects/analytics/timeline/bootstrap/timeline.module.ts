@@ -7,7 +7,7 @@ import {IntlModule} from "@sinequa/core/intl";
 import {UtilsModule} from "@sinequa/components/utils";
 import {BsSelectionModule} from "@sinequa/components/selection";
 import {BsActionModule} from "@sinequa/components/action";
-import {BsHeatmapModule} from "@sinequa/charts/heatmap";
+import {BsHeatmapModule} from "@sinequa/analytics/heatmap";
 
 import {BsTimelineComponent} from "./timeline.component";
 import {BsFacetTimelineComponent} from "./facet-timeline.component";

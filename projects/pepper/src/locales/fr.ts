@@ -12,7 +12,7 @@ import {frAlerts} from "@sinequa/components/alerts";
 import {frBaskets} from "@sinequa/components/baskets";
 import {frFacet} from "@sinequa/components/facet";
 import {frFeedback} from "@sinequa/components/feedback";
-import {frHeatmap} from "@sinequa/charts/heatmap";
+import {frHeatmap} from "@sinequa/analytics/heatmap";
 import {frLabels} from "@sinequa/components/labels";
 import {frMetadata} from "@sinequa/components/metadata";
 import {frNotification} from "@sinequa/components/notification";
@@ -24,8 +24,8 @@ import {frSelection} from "@sinequa/components/selection";
 import {frSearch} from "@sinequa/components/search";
 import {frStatusBar} from "@sinequa/components/status-bar";
 import {frUserSettings} from "@sinequa/components/user-settings";
-import {frNetwork} from "@sinequa/charts/network";
-import {frGooglemaps} from "@sinequa/charts/googlemaps";
+import {frNetwork} from "@sinequa/analytics/network";
+import {frGooglemaps} from "@sinequa/analytics/googlemaps";
 import {frTheme} from "@sinequa/components/theme-toggle";
 
 d3Format.thousands = " "; // consistency with intl-number-format

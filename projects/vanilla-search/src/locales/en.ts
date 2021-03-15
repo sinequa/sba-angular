@@ -10,7 +10,7 @@ import {enAlerts} from "@sinequa/components/alerts";
 import {enBaskets} from "@sinequa/components/baskets";
 import {enFacet} from "@sinequa/components/facet";
 import {enFeedback} from "@sinequa/components/feedback";
-import {enHeatmap} from "@sinequa/charts/heatmap";
+import {enHeatmap} from "@sinequa/analytics/heatmap";
 import {enLabels} from "@sinequa/components/labels";
 import {enMetadata} from "@sinequa/components/metadata";
 import {enNotification} from "@sinequa/components/notification";

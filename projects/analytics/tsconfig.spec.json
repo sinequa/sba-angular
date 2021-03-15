@@ -11,8 +11,8 @@
       "@sinequa/core/*": ["projects/core/*"],
       "@sinequa/components": ["projects/components/public-api"],
       "@sinequa/components/*": ["projects/components/*"],
-      "@sinequa/charts": ["./public-api"],
-      "@sinequa/charts/*": ["./*"],
+      "@sinequa/analytics": ["./public-api"],
+      "@sinequa/analytics/*": ["./*"],
     }
   },
   "files": [

@@ -7,8 +7,8 @@
             "@sinequa/core/*": ["core/*"],
             "@sinequa/components": ["components/public-api"],
             "@sinequa/components/*": ["components/*"],
-            "@sinequa/charts": ["charts/public-api"],
-            "@sinequa/charts/*": ["charts/*"]
+            "@sinequa/analytics": ["analytics/public-api"],
+            "@sinequa/analytics/*": ["analytics/*"]
         }
     },
     "files": [

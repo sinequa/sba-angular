@@ -32,8 +32,8 @@
       "@sinequa/core/*": ["dist/core/*"],
       "@sinequa/components": ["dist/components"],
       "@sinequa/components/*": ["dist/components/*"],
-      "@sinequa/charts": ["dist/charts"],
-      "@sinequa/charts/*": ["dist/charts/*"]
+      "@sinequa/analytics": ["dist/analytics"],
+      "@sinequa/analytics/*": ["dist/analytics/*"]
     }
   },
   "angularCompilerOptions": {

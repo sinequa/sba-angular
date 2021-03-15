@@ -8,8 +8,8 @@ import { ExprBuilder, Query } from '@sinequa/core/app-utils'
 import { Action } from '@sinequa/components/action';
 import { SearchService } from '@sinequa/components/search';
 
-import { NetworkProvider, ProviderFactory, oOTBConfig, defaultOptions } from "@sinequa/charts/network";
-import { defaultChart } from '@sinequa/charts/fusioncharts';
+import { NetworkProvider, ProviderFactory, oOTBConfig, defaultOptions } from "@sinequa/analytics/network";
+import { defaultChart } from '@sinequa/analytics/fusioncharts';
 
 import { DashboardItem, DashboardService } from './dashboard.service';
 /**

@@ -1,5 +1,5 @@
 {
-  "name": "@sinequa/charts",
+  "name": "@sinequa/analytics",
   "version": "0.0.1",
   "peerDependencies": {
     "@agm/core": "^3.0.0-beta.0",

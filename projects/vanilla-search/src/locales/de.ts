@@ -12,7 +12,7 @@ import {deAlerts} from "@sinequa/components/alerts";
 import {deBaskets} from "@sinequa/components/baskets";
 import {deFacet} from "@sinequa/components/facet";
 import {deFeedback} from "@sinequa/components/feedback";
-import {deHeatmap} from "@sinequa/charts/heatmap";
+import {deHeatmap} from "@sinequa/analytics/heatmap";
 import {deLabels} from "@sinequa/components/labels";
 import {deMetadata} from "@sinequa/components/metadata";
 import {deNotification} from "@sinequa/components/notification";

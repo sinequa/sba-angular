@@ -12,14 +12,14 @@
     "e2e": "ng e2e",
     "buildcore": "ng build core",
     "buildcomponents": "ng build components",
-    "buildcharts": "ng build charts",
+    "buildanalytics": "ng build analytics",
     "buildhellosearch": "ng build hello-search --prod",
     "buildvanilla": "ng build vanilla-search --prod",
     "buildpepper": "ng build pepper --prod",
-    "buildall": "npm run buildcore && npm run buildhellosearch && npm run buildcomponents && npm run buildcharts && npm run buildvanilla && npm run buildpepper",
+    "buildall": "npm run buildcore && npm run buildhellosearch && npm run buildcomponents && npm run buildanalytics && npm run buildvanilla && npm run buildpepper",
     "makedoc-core": "cd projects/core && node ../../scripts/makedoc.js -d ../../docs/core -p tsconfig.lib.json -n \"Core\"",
     "makedoc-components": "cd projects/components && node ../../scripts/makedoc.js -d ../../docs/components -p tsconfig.lib.json -n \"Components\"",
-    "makedoc-charts": "cd projects/charts && node ../../scripts/makedoc.js -d ../../docs/charts -p tsconfig.lib.json -n \"Charts\""
+    "makedoc-analytics": "cd projects/analytics && node ../../scripts/makedoc.js -d ../../docs/analytics -p tsconfig.lib.json -n \"Analytics\""
   },
   "compodoc": {
     "disablePrivate": true,
