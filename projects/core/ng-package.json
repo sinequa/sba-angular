@@ -4,5 +4,8 @@
   "assets": ["@types/*"],
   "lib": {
     "entryFile": "public-api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": [
+    "."
+  ]
 }

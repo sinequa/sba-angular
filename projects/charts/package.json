@@ -1,4 +1,21 @@
 {
   "name": "@sinequa/charts",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@agm/core": "^3.0.0-beta.0",
+    "@swimlane/ngx-charts": "^14.0.0",
+    "angular-fusioncharts": "^3.0.4",
+    "fusioncharts": "^3.15.1-sr.1",
+    "ngx-vis": "^3.1.0",
+    "vis-data": "^6.5.1",
+    "vis-network": "^7.3.4",
+    "vis-timeline": "^7.3.4",
+    "vis-util": "^4.0.0"
+  },
+  "dependencies": {
+    "@sinequa/components": "^0.0.1"
+  },
+  "devDependencies": {
+    "@types/googlemaps": "^3.39.12"
+  }
 }

@@ -1,14 +1,17 @@
 import { Component, Input, SimpleChanges, Output, EventEmitter, OnChanges } from '@angular/core';
+import { GridsterItemComponent } from 'angular-gridster2';
+
 import { Results, Record } from '@sinequa/core/web-services';
 import { Utils } from '@sinequa/core/base';
 import { ExprBuilder, Query } from '@sinequa/core/app-utils'
+
 import { Action } from '@sinequa/components/action';
 import { SearchService } from '@sinequa/components/search';
-import { NetworkProvider, ProviderFactory, oOTBConfig, defaultOptions } from "@sinequa/components/network";
-import { GridsterItemComponent } from 'angular-gridster2';
-import { DashboardItem, DashboardService } from './dashboard.service';
-import { defaultChart } from '@sinequa/components/fusioncharts';
 
+import { NetworkProvider, ProviderFactory, oOTBConfig, defaultOptions } from "@sinequa/charts/network";
+import { defaultChart } from '@sinequa/charts/fusioncharts';
+
+import { DashboardItem, DashboardService } from './dashboard.service';
 /**
  * A wrapper component for all widgets in the dashboard.
  * The component is in charge of updating inputs going into each widget.
