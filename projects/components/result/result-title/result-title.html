@@ -1,1 +1,2 @@
-<a class="sq-result-title" title="{{this.record.title}}" href="{{href}}" target="{{target}}" [innerHTML]="title" (click)="click()"></a>
+<span *ngIf="!hasUrl" class="sq-result-title" title="{{this.record.title}}" [innerHTML]="title"></span>
+<a *ngIf="hasUrl" class="sq-result-title" title="{{this.record.title}}" href="{{href}}" target="{{target}}" [innerHTML]="title" (click)="click()"></a>
