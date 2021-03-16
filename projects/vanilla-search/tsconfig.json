@@ -6,7 +6,9 @@
             "@sinequa/core": ["core/public-api"],
             "@sinequa/core/*": ["core/*"],
             "@sinequa/components": ["components/public-api"],
-            "@sinequa/components/*": ["components/*"]
+            "@sinequa/components/*": ["components/*"],
+            "@sinequa/analytics": ["analytics/public-api"],
+            "@sinequa/analytics/*": ["analytics/*"]
         }
     },
     "files": [

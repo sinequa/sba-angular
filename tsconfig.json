@@ -16,8 +16,8 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "noUnusedLocals" : true,
-    "strictFunctionTypes" : true,
+    "noUnusedLocals": true,
+    "strictFunctionTypes": true,
     "strictNullChecks": true,
     "typeRoots": [
       "node_modules/@types",
@@ -28,18 +28,12 @@
       "dom"
     ],
     "paths": {
-      "@sinequa/core": [
-        "dist/core"
-      ],
-      "@sinequa/core/*": [
-        "dist/core/*"
-      ],
-      "@sinequa/components": [
-        "dist/components"
-      ],
-      "@sinequa/components/*": [
-        "dist/components/*"
-      ]
+      "@sinequa/core": ["dist/core"],
+      "@sinequa/core/*": ["dist/core/*"],
+      "@sinequa/components": ["dist/components"],
+      "@sinequa/components/*": ["dist/components/*"],
+      "@sinequa/analytics": ["dist/analytics"],
+      "@sinequa/analytics/*": ["dist/analytics/*"]
     }
   },
   "angularCompilerOptions": {

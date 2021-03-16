@@ -502,6 +502,46 @@
           }
         }
       }
+    },
+    "analytics": {
+      "projectType": "library",
+      "root": "projects/analytics",
+      "sourceRoot": "projects/analytics",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/analytics/tsconfig.lib.json",
+            "project": "projects/analytics/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/analytics/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/analytics/src/test.ts",
+            "tsConfig": "projects/analytics/tsconfig.spec.json",
+            "karmaConfig": "projects/analytics/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/analytics/tsconfig.lib.json",
+              "projects/analytics/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "core"

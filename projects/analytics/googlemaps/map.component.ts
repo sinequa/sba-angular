@@ -1,11 +1,14 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { Results, Record } from '@sinequa/core/web-services';
+import { AgmInfoWindow } from '@agm/core'
+;
 import { AbstractFacet, FacetService } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
-import { AgmInfoWindow } from '@agm/core';
 import { SearchService } from '@sinequa/components/search';
-import { darkStyle } from "./dark-style";
+
 import { ExprBuilder } from '@sinequa/core/app-utils';
+import { Results, Record } from '@sinequa/core/web-services';
+
+import { darkStyle } from "./dark-style";
 
 @Component({
     selector: "sq-googlemaps",

@@ -12,7 +12,7 @@ import {frAlerts} from "@sinequa/components/alerts";
 import {frBaskets} from "@sinequa/components/baskets";
 import {frFacet} from "@sinequa/components/facet";
 import {frFeedback} from "@sinequa/components/feedback";
-import {frHeatmap} from "@sinequa/components/heatmap";
+import {frHeatmap} from "@sinequa/analytics/heatmap";
 import {frLabels} from "@sinequa/components/labels";
 import {frMetadata} from "@sinequa/components/metadata";
 import {frNotification} from "@sinequa/components/notification";

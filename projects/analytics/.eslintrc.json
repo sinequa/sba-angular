@@ -10,9 +10,8 @@
       ],
       "parserOptions": {
         "project": [
-          "projects/pepper/tsconfig.json",
-          "projects/pepper/tsconfig.spec.json",
-          "projects/pepper/e2e/tsconfig.json"
+          "projects/analytics/tsconfig.lib.json",
+          "projects/analytics/tsconfig.spec.json"
         ],
         "createDefaultProgram": true
       },
@@ -20,22 +19,31 @@
         "@angular-eslint/component-selector": [
           "error",
           {
-            "type": "element",
-            "prefix": ["app", "sq"],
+            "type": [
+              "element",
+              "attribute"
+            ],
+            "prefix": [
+              "sq",
+              "sqx"
+            ],
             "style": "kebab-case"
           }
         ],
+        "@angular-eslint/component-class-suffix": "off",
+        "@angular-eslint/directive-class-suffix": "off",
         "@angular-eslint/directive-selector": [
           "error",
           {
             "type": "attribute",
-            "prefix": "app",
+            "prefix": "sq",
             "style": "camelCase"
           }
         ],
         "@angular-eslint/no-input-rename": "off",
         "@angular-eslint/no-output-native": "off",
         "@angular-eslint/no-output-rename": "off",
+        "@angular-eslint/use-pipe-transform-interface": "off",
         "@typescript-eslint/ban-types": "off",
         "@typescript-eslint/consistent-type-assertions": "off",
         "@typescript-eslint/dot-notation": "off",
@@ -56,6 +64,7 @@
           "off",
           "always"
         ],
+        "id-blacklist": "off",
         "brace-style": "off",
         "curly": "off",
         "eol-last": "off",

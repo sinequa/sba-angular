@@ -34,15 +34,15 @@ import { BsThemeToggleModule } from "@sinequa/components/theme-toggle";
 
 import { BsSelectionModule, SelectionOptions, SELECTION_OPTIONS } from '@sinequa/components/selection';
 
-import { BsHeatmapModule } from '@sinequa/components/heatmap';
-import { BsTimelineModule } from '@sinequa/components/timeline';
+import { BsHeatmapModule } from '@sinequa/analytics/heatmap';
+import { BsTimelineModule } from '@sinequa/analytics/timeline';
 
-import { NgxChartsModule } from '@sinequa/components/ngx-charts';
-import { FusionChartsModule } from '@sinequa/components/fusioncharts';
+import { NgxChartsModule } from '@sinequa/analytics/ngx-charts';
+import { FusionChartsModule } from '@sinequa/analytics/fusioncharts';
 
-import { VisTimelineModule } from '@sinequa/components/vis-timeline';
-import { NetworkModule } from '@sinequa/components/network';
-import { GoogleMapsModule } from '@sinequa/components/googlemaps';
+import { VisTimelineModule } from '@sinequa/analytics/vis-timeline';
+import { NetworkModule } from '@sinequa/analytics/network';
+import { GoogleMapsModule } from '@sinequa/analytics/googlemaps';
 
 import { GridsterModule } from 'angular-gridster2';
 import { AgmCoreModule } from '@agm/core';

@@ -10,7 +10,7 @@ import { AppService } from '@sinequa/core/app-utils';
 import { FEATURES } from '../config';
 
 @Component({
-    selector: "app",
+    selector: "app-root",
     templateUrl: "./app.component.html"
 })
 export class AppComponent extends ComponentWithLogin {

@@ -12,7 +12,7 @@ import {deAlerts} from "@sinequa/components/alerts";
 import {deBaskets} from "@sinequa/components/baskets";
 import {deFacet} from "@sinequa/components/facet";
 import {deFeedback} from "@sinequa/components/feedback";
-import {deHeatmap} from "@sinequa/components/heatmap";
+import {deHeatmap} from "@sinequa/analytics/heatmap";
 import {deLabels} from "@sinequa/components/labels";
 import {deMetadata} from "@sinequa/components/metadata";
 import {deNotification} from "@sinequa/components/notification";
@@ -24,8 +24,8 @@ import {deSelection} from "@sinequa/components/selection";
 import {deSearch} from "@sinequa/components/search";
 import {deStatusBar} from "@sinequa/components/status-bar";
 import {deUserSettings} from "@sinequa/components/user-settings";
-import {deNetwork} from "@sinequa/components/network";
-import {deGooglemaps} from "@sinequa/components/googlemaps";
+import {deNetwork} from "@sinequa/analytics/network";
+import {deGooglemaps} from "@sinequa/analytics/googlemaps";
 import {deTheme} from "@sinequa/components/theme-toggle";
 
 const messages = Utils.merge({}, deCore, deAdvanced, deAlerts, deBaskets, deFacet, deFeedback, deHeatmap, deLabels, deMetadata,

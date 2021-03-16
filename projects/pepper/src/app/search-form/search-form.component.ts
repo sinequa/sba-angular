@@ -1,14 +1,16 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from "@angular/forms";
-import { SearchService } from '@sinequa/components/search';
+import { Subscription } from 'rxjs';
+
 import { LoginService } from '@sinequa/core/login';
 import { AppService } from '@sinequa/core/app-utils';
-import { Subscription } from 'rxjs';
-import { FEATURES } from '../../config';
+
+import { SearchService } from '@sinequa/components/search';
 import { ParseResult } from '@sinequa/components/autocomplete';
-import { AutocompleteExtended } from './autocomplete-extended.directive';
 import { UserPreferences } from '@sinequa/components/user-settings';
 
+import { AutocompleteExtended } from './autocomplete-extended.directive';
+import { FEATURES } from '../../config';
 @Component({
   selector: 'app-search-form',
   templateUrl: './search-form.component.html',

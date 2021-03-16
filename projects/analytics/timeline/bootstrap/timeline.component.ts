@@ -1,8 +1,9 @@
 import { Component, Input, Output, ElementRef, ViewChild, OnChanges, AfterViewInit, EventEmitter, SimpleChanges, OnDestroy, SimpleChange, ContentChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { IntlService } from '@sinequa/core/intl';
-
 import * as d3 from 'd3';
+
+import { IntlService } from '@sinequa/core/intl';
+import {Record} from '@sinequa/core/web-services';
 
 
 export interface TimelineDate {
@@ -25,6 +26,7 @@ export interface TimelineEvent {
     size?: number;
     sizeOpened?: number;
     styles?: {[key:string]: any};
+    record?: Record;
 }
 
 @Component({
