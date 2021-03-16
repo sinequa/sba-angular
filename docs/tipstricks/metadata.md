@@ -9,9 +9,10 @@ nav_order: 2
 
 You will often be in the following situation:
 
-- You index some content with custom metadata in a dedicated column (eg. a **category** metadata stored in `sourcestr1`).
-- You want to display this value for each result.
-- You want to display the distribution of categories in a *list facet*.
+- You index some content with custom metadata in a dedicated column (let's say a **category** metadata stored in `sourcestr1`).
+- You want to display this "category" metadata for each result.
+- You want to customize the format of that display.
+- You want to display the distribution of these "categories" in a *list facet*.
 - You want to filter the search results for a given category.
 
 Right away, you should notice that the `sourcestr1` value is by default available for each `Record` object in the `Results` object:
@@ -140,6 +141,24 @@ This custom formatter needs to be implemented in your Angular application. This 
         ]
     })
     ```
+
+Your metadata will be automatically formatted in the built-in components, such as `sq-metadata`, `sq-facet-list`, etc. But if you want to format your custom value in your own template, this can be achieve with the [`sqValue`]({{site.baseurl}}components/pipes/ValuePipe.html) pipe:
+
+{% raw %}
+
+```html
+<strong>Category:</strong> {{ record['category'] | sqValue:column}}
+```
+
+{% endraw %}
+
+Notice that the [`sqValue`]({{site.baseurl}}components/pipes/ValuePipe.html) pipe requires a `column` value as a parameter. This object can be retrieved with the following call:
+
+```ts
+this.column = this.appService.getColumn('category');
+```
+
+(Basically `getColumn()` returns the configuration of this index column, which includes the name of its formatter.)
 
 ## Displaying a list facet
 

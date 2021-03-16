@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Action } from '@sinequa/components/action';
 import { FacetConfig } from '@sinequa/components/facet';
-import { PreviewService } from '@sinequa/components/preview';
+import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
 import { UIService } from '@sinequa/components/utils';
@@ -38,36 +38,28 @@ export class SearchComponent implements OnInit, OnDestroy {
   private _searchServiceSubscription: Subscription;
 
   constructor(
-    public searchService: SearchService,
-    public selectionService: SelectionService,
     private previewService: PreviewService,
     private titleService: Title,
     private intlService: IntlService,
     private appService: AppService,
+    public searchService: SearchService,
+    public selectionService: SelectionService,
     public loginService: LoginService,
-    public ui: UIService
+    public ui: UIService,
   ) {
 
     // Initialize the facet preview action (opens the preview route)
-    this.previewCustomActions = [new Action({
-      icon: "far fa-window-maximize",
+    const expandPreviewAction = new Action({
+      icon: "fas fa-expand-alt",
       title: "msg#facet.preview.expandTitle",
       action: () => {
         if (this.openedDoc) {
           this.previewService.openRoute(this.openedDoc, this.searchService.query);
         }
       }
-    })];
-
-    // Subscribe to the search service to update the page title based on the searched text
-    this._searchServiceSubscription = this.searchService.resultsStream.subscribe(results => {
-      this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
-      if(!this.showResults){
-        this.openedDoc = undefined;
-        this._showFilters = false;
-      }
     });
 
+    this.previewCustomActions = [ expandPreviewAction ];
   }
 
   /**
@@ -75,6 +67,15 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   ngOnInit() {
     this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: ""}));
+
+    this._searchServiceSubscription = this.searchService.resultsStream
+      .subscribe(results => {
+        this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
+        if (!this.showResults) {
+          this.openedDoc = undefined;
+          this._showFilters = false;
+        }
+      });
   }
 
   /**
@@ -151,8 +152,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   /**
    * Open the preview when this record has no url1
-   * @param record 
-   * @param isLink 
+   * @param record
+   * @param isLink
    */
   openPreviewIfNoUrl(record: Record, isLink: boolean) {
     if(!isLink){
@@ -172,6 +173,17 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Document is loaded and displayed on screen. It could be manipulated easily.
+   *
+   * eg: scroll to a specific location
+   * document.getContentWindow().scrollTo(0, 3000);
+   * @param document the document currently in preview
+   */
+  previewReady(document: PreviewDocument) {
+    // document.getContentWindow().scrollTo(0, Math.random() * 4000);
+  }
+
   // VERY SPECIFIC TO THIS APP:
   // Make sure the click is not meant to trigger an action (from sq-result-source or sq-result-title)
   private isClickAction(event: Event): boolean {
@@ -183,9 +195,9 @@ export class SearchComponent implements OnInit, OnDestroy {
       return false;
     }
     return event.type !== 'click' ||
-        target.tagName === "A" ||
-        target.tagName === "INPUT" ||
-        target.matches("sq-result-selector *, .sq-result-title, sq-result-source *");
+      target.tagName === "A" ||
+      target.tagName === "INPUT" ||
+      target.matches("sq-result-selector *, .sq-result-title, sq-result-source *, sq-labels *");
   }
 
 

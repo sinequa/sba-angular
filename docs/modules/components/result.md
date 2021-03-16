@@ -14,7 +14,7 @@ Please checkout the [reference documentation]({{site.baseurl}}components/modules
 
 ## Features
 
-This modules provides simple components to easily display the different fields of a document/result/record (object of type [`Record`]({{site.baseurl}}core/interfaces/Record.html)).
+This module provides simple components to easily display the different fields of a document/result/record (object of type [`Record`]({{site.baseurl}}core/interfaces/Record.html)).
 
 These components do **not** depend on a styling framework like Bootstrap, nor on a global stylesheet.
 
@@ -31,6 +31,15 @@ import { ResultModule } from '@sinequa/components/result';
   imports: [
     ...
     ResultModule
+```
+
+This module is internationalized: If not already the case, you need to import its messages for the language(s) of your application. For example, in your app's `src/locales/en.ts`:
+
+```ts
+...
+import {enResult} from "@sinequa/components/result";
+
+const messages = Utils.merge({}, ..., enResult, appMessages);
 ```
 
 ## Components
@@ -119,6 +128,44 @@ The [`sq-sponsored-results`]({{site.baseurl}}components/components/SponsoredResu
 ```html
 <sq-sponsored-results [query]="searchService.query"></sq-sponsored-results>
 ```
+
+Note that, in the background, the [`SponsoredLinksWebService`]({{site.baseurl}}core/injectables/SponsoredLinksWebService.html) makes a call to the `query.links` API endpoint, every time the query text is modified (which does not include clicks on facets for example).
+
+The configuration of the links is done as depicted below in the Sinequa administration. Notice the bottom-right buttons to edit the properties of each link (including their thumbnail). See the general documentation about [Sponsored Links](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.admin-ui-sponsored-links.html).
+
+![Sponso configuration]({{site.baseurl}}assets/modules/result/sponso-config.png){: .d-block .mx-auto }
+
+### User ratings
+
+The [`sq-user-rating`]({{site.baseurl}}components/components/UserRating.html) component displays the rating of a given document in the form of a number of stars. Users can assign a rating to a document by clicking on a star: This stores each user's rating (as a number) in the engine metadata store, and additionally it computes the average rating from all users (which is stored in a different column).
+
+![User ratings]({{site.baseurl}}assets/modules/result/ratings.png){: .d-block .mx-auto }
+
+```html
+<sq-user-rating
+  [record]="record"
+  [count]="5"
+  [ratingsColumn]="'engineusercsv1'"
+  [averageColumn]="'enginecsv1'">
+</sq-user-rating>
+```
+
+Note that the column names are **case sensitive** (should always be lower case), and aliases are **not** supported.
+
+In the background, the component uses the [`UserRatingsWebService`]({{site.baseurl}}core/injectables/UserRatingsWebService.html) to update the engine metadata store. This web service has no configuration on the backend (at the moment). This is why it is required to pass the index column names to the component directly.
+
+As a pre-requisite, an Engine Metadata store must exist on the backend, and the `engine*` columns must have been created. Note that the `ratingsColumn` should normally be an `engineusercsv` column, since it needs to store the rating for each user. Whereas the `averageColumn` should be an `enginecsv` column to store the average for all users (See [Implementing the Engine Metadata](https://doc.sinequa.com/en.sinequa-es.v11/Content/en.sinequa-es.how-to.engine-metadata.html)).
+
+⚠️ Note that inserting user ratings in your SBA has no direct effect on the relevance computed by the engine. To influence the relevance (= the ranking of results), you must configure your Query web service to boost or penalize rated documents:
+
+![Relevance rating]({{site.baseurl}}assets/modules/result/rating-relevance.png){: .d-block .mx-auto }
+
+The [`sq-user-rating`]({{site.baseurl}}components/components/UserRating.html) component supports additional optional parameters:
+
+- `values`: By default, the rating values stored in the index are digits from `1` to `count`, but it is possible to instead store strings provided in this `values` input. For example: `terrible;poor;average;good;perfect`.
+- `titles`: Similar to `values`, this input allows to define the tooltip texts displayed when hovering over the stars.
+- `caption`: A caption for the ratings, displayed before the stars.
+- `showAverage`: A boolean to display or not the average rating from all users (after the stars).
 
 ### Entity summary
 

@@ -1,24 +1,11 @@
-<div *ngIf="showLabels" class="sq-labels">            
-    <a class="sq-label sq-label-add" href="javascript:void(0)" (click)="toggleAdd()" 
-        title="{{(public ? 'msg#labels.addPublicLabelTitle' : 'msg#labels.addPrivateLabelTitle') | sqMessage}}">
-        {{(public ? 'msg#labels.addPublicLabelText' : 'msg#labels.addPrivateLabelText') | sqMessage}}
-    </a>
-    <div class="input-autocomplete">
-        <input *ngIf="adding" type="text" class="sq-label-input" 
-            sqAutofocus (sqClickOutside)="clickOutside()" name="newLabel" [(ngModel)]="newLabelRef.value" 
-            autocomplete="off" spellcheck="off" 
-            sqAutocompleteLabels [public]="public" [dropdown]="dropdown" (submit)="onSubmit()">
-        <sq-autocomplete-list #dropdown>
-            <ng-template #itemTpl let-item>
-                <div class="py-1">{{item.display}}
-                </div>
-            </ng-template>
-        </sq-autocomplete-list>
-    </div>
-    <span *ngFor="let label of labels; let $index = index" class="sq-label-group">
-        <a class="sq-label sq-label-item" href="javascript:void(0)" (click)="select(label)" 
-            title="{{(public ? 'msg#labels.selectPublicLabelTitle' : 'msg#labels.selectPrivateLabelTitle') | sqMessage}}">{{label | sqLabel:public}}</a>
-        <a class="sq-label sq-label-remove" href="javascript:void(0)" (click)="remove($index)" 
-            title="{{(public ? 'msg#labels.removePublicLabelTitle' : 'msg#labels.removePrivateLabelTitle') | sqMessage}}">{{(public ? 'msg#labels.removePublicLabelText' : 'msg#labels.removePrivateLabelText') | sqMessage}}</a>
+<div *ngIf="showLabels" class="d-inline">
+    <span *ngFor="let label of labels; let $index = index" class="d-inline">
+        <div class="badge badge-pill badge-info align-self-center mr-1 d-inline" [ngClass]="{'sq-labels-public': public, 'sq-labels-private': !public}"
+            title="{{(public ? 'msg#labels.selectPublicLabelTitle' : 'msg#labels.selectPrivateLabelTitle') | sqMessage}}">
+            <span (click)="select(label)">{{label | sqLabel:public}}</span>
+            <i class="sq-label-remove fas fa-times-circle clickable" (click)="remove($index)" *ngIf="canRemove()"
+                title="{{(public ? 'msg#labels.removePublicLabelTitle' : 'msg#labels.removePrivateLabelTitle') | sqMessage}}">
+            </i>
+        </div>
     </span>
 </div>

@@ -19,7 +19,6 @@ import {BsPreviewPopup} from "./preview-popup/preview-popup";
 import {BsPreviewPanel} from "./preview-panel/preview-panel";
 import {BsResultLinkPreview} from "./result-link-preview/result-link-preview";
 import {BsFacetPreview} from "./facet-preview/facet-preview";
-import {BsSimilarDocs} from "./similar-docs/similar-docs";
 import {BsSimilarDocuments} from "./similar-documents/similar-documents";
 import {BsFacetPreviewComponent2 } from './facet-preview-2/facet-preview.component';
 import {BsPreviewEntityFacetComponent} from './preview-entity-facet/preview-entity-facet.component';
@@ -50,7 +49,7 @@ import {PREVIEW_MODAL} from '../preview.service';
         BsPreviewHighlights, BsPreviewLinks,
         BsPreviewPopup, BsPreviewPanel, BsResultLinkPreview,
         BsFacetPreview, BsFacetPreviewComponent2,
-        BsSimilarDocs, BsSimilarDocuments,
+        BsSimilarDocuments,
         BsPreviewEntityFacetComponent,
         BsPreviewEntityPanelComponent,
         BsPreviewExtractsPanelComponent,
@@ -61,7 +60,7 @@ import {PREVIEW_MODAL} from '../preview.service';
         BsPreviewHighlights, BsPreviewLinks,
         BsPreviewPopup, BsPreviewPanel, BsResultLinkPreview,
         BsFacetPreview, BsFacetPreviewComponent2,
-        BsSimilarDocs, BsSimilarDocuments,
+        BsSimilarDocuments,
         BsPreviewEntityFacetComponent,
         BsPreviewEntityPanelComponent,
         BsPreviewExtractsPanelComponent,

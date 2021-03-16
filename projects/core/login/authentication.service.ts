@@ -235,8 +235,10 @@ export class AuthenticationService extends HttpService {
      * {@link HttpInterceptor}
      *
      * @param config HttpHeaders and HttpParams to be updated
+     *
+     * @returns new configuration
      */
-    addAuthentication(config: {headers: HttpHeaders, params: HttpParams}) {
+    addAuthentication(config: {headers: HttpHeaders, params: HttpParams}): {headers: HttpHeaders, params: HttpParams} {
         this.doAuthentication();
         if (this.authentication) {
             if (this.authentication.headers) {
@@ -254,6 +256,7 @@ export class AuthenticationService extends HttpService {
                 }
             }
         }
+        return config;
     }
 
     /**
@@ -368,11 +371,13 @@ export class AuthenticationService extends HttpService {
      *
      * @param config An object containing the `HttpHeaders` to update
      */
-    addUserOverride(config: {headers: HttpHeaders}) {
+    addUserOverride(config: {headers: HttpHeaders}): HttpHeaders {
         if (this.userOverride && this.userOverrideActive) {
             config.headers = config.headers.set("sinequa-override-user", this.userOverride.userName);
             config.headers = config.headers.set("sinequa-override-domain", this.userOverride.domain);
         }
+
+        return config.headers;
     }
 
     /**

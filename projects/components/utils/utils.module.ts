@@ -17,13 +17,14 @@ import {ValuePipe} from "./pipes/value-pipe";
 // UI Directives
 import {Autofocus} from "./directives/autofocus";
 import {ClickOutside} from "./directives/click-outside";
-import {Load} from "./directives/load";
 import {MediaIf} from "./directives/media-if";
 import {ScrollIntoView} from "./directives/scroll-into-view";
 import {FocusKeyListDirective} from "./directives/focus-key-list.directive";
 import {FocusKeyListItemDirective} from "./directives/focus-key-list-item.directive";
 import {ResizeEventDirective} from "./directives/resize-event.directive";
 import {StickyComponent} from "./directives/sticky";
+import {TooltipComponent} from "./directives/tooltip/tooltip.component";
+import {TooltipDirective} from "./directives/tooltip/tooltip.directive";
 
 // UI Service
 import {SCREEN_SIZE_RULES} from "./ui.service";
@@ -45,13 +46,13 @@ export const defaultScreenSizeRules = {
     ],
     declarations: [
         DatePipe, ExprPipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
-        Autofocus, ClickOutside, Load, MediaIf, ScrollIntoView, FocusKeyListDirective, FocusKeyListItemDirective, 
-        ResizeEventDirective, StickyComponent
+        Autofocus, ClickOutside, MediaIf, ScrollIntoView, FocusKeyListDirective, FocusKeyListItemDirective, 
+        ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective
     ],
     exports: [
         DatePipe, ExprPipe, MemorySizePipe, MomentPipe, NumberPipe, RelativeTimePipe, TimePipe, ValuePipe,
-        Autofocus, ClickOutside, Load, MediaIf, ScrollIntoView, FocusKeyListDirective, FocusKeyListItemDirective,
-        ResizeEventDirective, StickyComponent
+        Autofocus, ClickOutside, MediaIf, ScrollIntoView, FocusKeyListDirective, FocusKeyListItemDirective,
+        ResizeEventDirective, StickyComponent, TooltipComponent, TooltipDirective
     ],
     providers: [
         {

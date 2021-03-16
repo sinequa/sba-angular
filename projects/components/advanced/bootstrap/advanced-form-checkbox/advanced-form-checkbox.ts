@@ -1,24 +1,21 @@
-import {Component, Input, OnInit} from "@angular/core";
-import {FormGroup} from "@angular/forms";
-import {AppService} from "@sinequa/core/app-utils";
-import {Checkbox} from "../advanced-models";
+import { Component, Input } from "@angular/core";
+import { FormGroup } from "@angular/forms";
+import { AppService } from '@sinequa/core/app-utils';
 
 @Component({
     selector: "sq-advanced-form-checkbox",
-    templateUrl: "./advanced-form-checkbox.html"
+    templateUrl: "./advanced-form-checkbox.html",
 })
-export class BsAdvancedFormCheckbox implements OnInit {
+export class BsAdvancedFormCheckbox {
     @Input() form: FormGroup;
-    @Input() config: Checkbox;
-    name: string;
-    label: string;
+    @Input() field: string;
+    @Input() label: string;
 
-    constructor(
-        private appService: AppService) {
-    }
+    constructor(public appService: AppService) {}
 
-    ngOnInit() {
-        this.name = this.config.field || this.config.name;
-        this.label = this.config.label || this.appService.getSingularLabel(this.config.field);
+    ngOnChanges() {
+        if(this.label === undefined) {
+            this.label = this.appService.getLabel(this.field);
+        }
     }
 }

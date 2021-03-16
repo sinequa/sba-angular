@@ -1,0 +1,14 @@
+<div class="dropdown">
+    <!-- item-list toggle -->
+    <button #button class="btn btn-light {{disabled ? ' disabled' : ''}} dropdown-toggle form-control" data-toggle="dropdown" type="button" role="button" (click)="toggleOpen()" (blur)="blur($event)" (keydown)="keydown($event)" tabindex="0"><span class="sq-button-text">{{buttonTitle | sqMessage:buttonTitleMessageParams}}</span></button>
+    <!-- item-list view -->
+    <div *ngIf="opened" [hidden]="!isOpen" class="dropdown-menu dropdown-menu-left show" [style.max-height]="itemListHeight" role="combobox" (mousedown)="mousedown($event)">
+        <!-- items -->
+        <a *ngFor="let itemName of names; let i = index" class="dropdown-item{{activeItem === i ? ' active' : ''}}"
+            (click)="toggleItemSelected(i)" (keydown)="keydown($event)" tabindex="-1"
+            [sqScrollIntoView]="{active: i === activeItem, first: i === 0}">
+            <span class="fas fa-check {{isItemSelected(i) ? '' : ' invisible'}} left"></span>
+            <span>{{itemName}}</span>
+        </a>
+    </div>
+</div>

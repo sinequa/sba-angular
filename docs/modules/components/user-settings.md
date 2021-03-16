@@ -3,7 +3,7 @@ layout: default
 title: User Settings Modules
 parent: Components
 grand_parent: Modules
-nav_order: 8
+nav_order: 6
 ---
 
 # User Settings Modules
@@ -47,6 +47,17 @@ import { BsBasketsModule } from '@sinequa/components/baskets';
     BsSavedQueriesModule,
     BsAlertsModule,
     BsBasketsModule
+```
+
+These modules are internationalized: If not already the case, you need to import their messages for the language(s) of your application. For example, in your app's `src/locales/en.ts`:
+
+```ts
+...
+import {enAlerts} from "@sinequa/components/alerts";
+import {enBaskets} from "@sinequa/components/baskets";
+import {enSavedQueries} from "@sinequa/components/saved-queries";
+
+const messages = Utils.merge({}, ..., enAlerts, enBaskets, enSavedQueries, appMessages);
 ```
 
 ## Saved Queries

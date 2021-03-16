@@ -5,13 +5,21 @@
     "types": [
       "jasmine",
       "node"
-    ]
+    ],
+    "paths": {
+      "@sinequa/core": ["projects/core/public-api"],
+      "@sinequa/core/*": ["projects/core/*"],
+      "@sinequa/components": ["projects/components/public-api"],
+      "@sinequa/components/*": ["projects/components/*"],
+      "@testing/*": ["projects/components/__tests__/*"]
+    }
   },
   "files": [
     "test.ts"
   ],
   "include": [
     "**/*.spec.ts",
-    "**/*.d.ts"
+    "**/*.d.ts",
+    "../core/**/*.d.ts"
   ]
 }

@@ -435,7 +435,7 @@ export class Expr {
     }
 
     /**
-     * Return `true` if this expression is a leaf node (does not have a value)
+     * Return `true` if this expression is a leaf node (does have a value)
      */
     public get isLeaf(): boolean {
         // if (this.value === null && !this.operands) throw "Expr.isLeaf - bad expression";
@@ -835,7 +835,7 @@ export class Expr {
         if (!!value && !!this.column && (AppServiceHelpers.isString(this.column) || AppServiceHelpers.isCsv(this.column))) {
             return ExprParser.escape(value);
         }
-        return "";
+        return value || "";
     }
 
     private getValueString(): string {
@@ -1317,6 +1317,16 @@ export class Expr {
     }
 
     /**
+     * Return `true` if the exoression has at least one fulltext operand.
+     * The test on `isPositive` filters expressions that only contain
+     * negative fulltext terms which will be ignored on the server. Fulltext
+     * expressions must have at least one positive term.
+     */
+    get hasRelevance(): boolean {
+        return this.some(expr => expr.isLeaf && !expr.isStructured && expr.isPositive);
+    }
+
+    /**
      * Return an array of all fields used in this expression
      */
     getFields(): string[] {
@@ -1489,14 +1499,14 @@ export class Expr {
             if (column && column.parser) {
                 value = this.exprContext.formatService.parseValue(value, column.parser);
             }
-            if (AppService.isNumber(column)) {
+            if (AppServiceHelpers.isNumber(column)) {
                 if (!Utils.isNumber(dataValue)) {
                     dataValue = 0;
                 }
                 const _value = Utils.toNumber(value);
                 return dataValue - _value;
             }
-            if (AppService.isDate(column)) {
+            if (AppServiceHelpers.isDate(column)) {
                 if (Utils.isString(dataValue)){
                     dataValue = Utils.toDate(dataValue);
                 }
@@ -1508,7 +1518,7 @@ export class Expr {
                 }
                 return NaN;
             }
-            if (AppService.isBoolean(column)) {
+            if (AppServiceHelpers.isBoolean(column)) {
                 const _value = Utils.isTrue(value) ? 1 : 0;
                 return (dataValue ? 1 : 0) - _value;
             }

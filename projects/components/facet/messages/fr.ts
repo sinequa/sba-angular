@@ -12,6 +12,8 @@ export default {
         "removeAll": "Supprimer tout",
         "searchPlaceholder": "Rechercher...",
         "itemSelect": "Sélectionner cette valeur",
+        "itemUnselect": "Désélectionner cette valeur",
+        "filterItem": "Garder les documents qui contiennent {terme}",
         "filterItems" : "Garder les documents qui contiennent n'importe lequel de ces termes",
         "filterItemsAnd": "Garder les documents qui contiennent tous ces termes",
         "excludeItems" : "Exclure les documents contenant un de ces termes",

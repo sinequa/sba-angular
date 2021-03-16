@@ -147,23 +147,22 @@ Additionally, a custom [Autocomplete directive](https://github.com/sinequa/sba-a
 
 As in the tutorial, the [controller](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/search-form.component.ts) includes a `search()` method. Additionally, it manages the list of custom features that the autocomplete can search into, like the recent documents, the recent queries, the baskets and the saved queries (this list can be [configured](#configuration)).
 
-The [`sqAutocompleteExtended`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/autocomplete-extended.directive.ts) directive extends the [`sqAutocomplete`]({{site.baseurl}}components/directives/Autocomplete.html) directive and adds the following:
+The [`sqAutocompleteExtended`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/autocomplete-extended.directive.ts) directive extends the [`sqAutocompleteFieldSearch`]({{site.baseurl}}components/directives/AutocompleteFieldSearch.html) directive and adds the following:
 
-- The `getSuggests()` method can search in custom objects, as mentioned above (in addition to the classical "Suggest Queries" configured on the server). Notice that, to merge the different sources of autocomplete, we use the [`forkJoin`](https://www.learnrxjs.io/learn-rxjs/operators/combination/forkjoin) operator from [`rxjs`](https://www.learnrxjs.io/):
+- The `getSuggestsObs()` method can search in custom objects, as mentioned above (in addition to the classical "Suggest Queries" configured on the server). Notice that, to merge the different sources of autocomplete, we use the [`forkJoin`](https://www.learnrxjs.io/learn-rxjs/operators/combination/forkjoin) operator from [`rxjs`](https://www.learnrxjs.io/):
 
     ```ts
-    this.processSuggests(
-        // The forkJoin method allows to merge the suggestions into a single array, so the parent
-        // directive only sees a single source.
-        forkJoin(...dataSources).pipe(
-            map((suggests) => { 
-                return [].concat(...suggests); 
-            }),
-            catchError((err, caught) => {
-                console.error(err);
-                return [];
-            })
-        ), fields);
+    // The forkJoin method allows to merge the suggestions into a single array, so the parent
+    // directive only sees a single source.
+    return forkJoin(...dataSources).pipe(
+        map((suggests) => {
+            return [].concat(...suggests);
+        }),
+        catchError((err, caught) => {
+            console.error(err);
+            return [];
+        })
+    );
     ```
 
     Notice that each data source has a custom search method, leveraging the [`SuggestService`]({{site.baseurl}}components/injectables/SuggestService.html)'s `searchData()` method. For example:
@@ -259,7 +258,7 @@ The styles of Vanilla Search come from various sources:
     @import "~bootstrap/scss/bootstrap"; 
 
     // Fontawesome
-    $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
+    $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
     @import "~@fortawesome/fontawesome-free/scss/fontawesome";
     @import "~@fortawesome/fontawesome-free/scss/brands";
     @import "~@fortawesome/fontawesome-free/scss/regular";

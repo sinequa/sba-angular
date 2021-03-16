@@ -18,12 +18,14 @@ import {BsSelectBasket} from "./select-basket/select-basket";
 import {BsResultBaskets} from "./result-baskets/result-baskets";
 import {BsBasketsMenuComponent} from "./baskets-menu/baskets-menu.component";
 import {BsFacetBasketsComponent} from './facet-baskets/facet-baskets.component';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule, ReactiveFormsModule,
         DragDropModule,
+        RouterModule,
 
         BsModalModule,
         IntlModule,

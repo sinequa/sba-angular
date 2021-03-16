@@ -3,6 +3,7 @@ import { Results } from '@sinequa/core/web-services';
 import { AbstractFacet } from '../../abstract-facet';
 import { Action } from '@sinequa/components/action';
 import { FacetService } from '../../facet.service';
+import { Utils } from '@sinequa/core/base';
 
 export interface FacetConfig {
   name: string;
@@ -45,6 +46,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    * Action to switch back from an opened facet to the facet multi view
    */
   backAction: Action;
+  clearAllFiltersAction: Action;
 
   constructor(
     public facetService: FacetService,
@@ -64,6 +66,15 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
       }
     });
 
+    this.clearAllFiltersAction = new Action({
+      icon: "far fa-minus-square",
+      title: "msg#facet.filters.clear",
+      action: () => {
+        const facetsWithFiltered = this.facets.filter((facet) => facet.$hasFiltered).map(facet => facet.name);
+        this.facetService.clearFiltersSearch(facetsWithFiltered, true);
+      }
+    });
+
   }
 
   /**
@@ -74,6 +85,9 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
     const actions: Action[] = [];
     if(this.openedFacet){
       actions.push(this.backAction);
+    } else {
+      const hasFiltered = this.facets.some(facet => facet.$hasFiltered);
+      if (hasFiltered) actions.push(this.clearAllFiltersAction);
     }
     if(this.facetComponent){
       actions.push(...this.facetActions);
@@ -101,37 +115,25 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
     this.changeDetectorRef.detectChanges();
   }
 
+  clearFacetFilters(facet: FacetConfig, e:Event) {
+    e.stopPropagation();
+    this.facetService.clearFiltersSearch(facet.name, true);
+    return false;
+  }
+
   /**
    * Return the number of items to display for a given facet
    * @param facet
    */
   private getFacetCount(facet: FacetConfig): string {
-    if(facet.type==='tree'){
-      const agg = this.facetService.getTreeAggregation(facet.name, facet.aggregation, this.results);
-      if(!agg || !agg.items) return "";
-      return agg.items.length + "";
-    }
-    const agg = this.facetService.getAggregation(facet.aggregation, this.results);
-    const count = this.facetService.getAggregationCount(facet.aggregation);
-    if (!agg || !agg.items)
+    const agg = this.results.aggregations.find(agg => Utils.eqNC(agg.name, facet.aggregation)); // avoid calling getAggregation() which is costly for trees
+    if (!agg?.items)
       return "";
+    const count = this.facetService.getAggregationCount(facet.aggregation); // configured count (default: 10)
     const aggItemCounter = (!agg.isDistribution || facet.displayEmptyDistributionIntervals)
       ? agg.items.length
       : agg.items.filter(item => item.count > 0).length;
     return aggItemCounter >= count ? `${count}+` : `${aggItemCounter}`;
-  }
-
-  /**
-   * Return whether a given facet has data to show
-   * @param facet
-   */
-  private hasData(facet: FacetConfig): boolean {
-    if(facet.type==='tree'){
-      const agg = this.facetService.getTreeAggregation(facet.name, facet.aggregation, this.results);
-      return !!agg && !!agg.items && agg.items.length > 0;
-    }
-    const agg = this.facetService.getAggregation(facet.aggregation, this.results);
-    return !!agg && !!agg.items && agg.items.length > 0;
   }
 
   /**
@@ -149,7 +151,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   ngOnChanges() {
     this.facets.forEach(facet => {
       facet.$count = this.getFacetCount(facet);
-      facet.$hasData = this.hasData(facet);
+      facet.$hasData = this.facetService.hasData(facet, this.results);
       facet.$hasFiltered = this.hasFiltered(facet);
     });
     this.changeDetectorRef.detectChanges();

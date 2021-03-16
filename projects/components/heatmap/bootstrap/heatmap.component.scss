@@ -33,6 +33,12 @@
     }
 }
 
+.bottom-legend {
+    fill: darkgrey;
+    font-size: 10px;
+    text-anchor: end;
+}
+
 sq-tooltip ::ng-deep {
     .sq-tooltip {
         pointer-events: none;

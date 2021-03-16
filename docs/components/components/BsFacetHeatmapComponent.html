@@ -74,6 +74,7 @@
     </p>
     <p class="comment">
                     <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+                    <code><a href="https://angular.io/api/core/DoCheck" target="_blank" >DoCheck</a></code>
     </p>
 
 
@@ -138,6 +139,11 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#cardComponent">cardComponent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#cdRef">cdRef</a>
                             </li>
                             <li>
@@ -164,6 +170,9 @@
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#prefs">prefs</a>
+                            </li>
+                            <li>
+                                <a href="#ready">ready</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -219,6 +228,9 @@
                                 <a href="#getHeatmapData">getHeatmapData</a>
                             </li>
                             <li>
+                                <a href="#ngDoCheck">ngDoCheck</a>
+                            </li>
+                            <li>
                                 <a href="#ngOnChanges">ngOnChanges</a>
                             </li>
                             <li>
@@ -238,6 +250,12 @@
                             </li>
                             <li>
                                 <a href="#setDefaults">setDefaults</a>
+                            </li>
+                            <li>
+                                <a href="#updateActions">updateActions</a>
+                            </li>
+                            <li>
+                                <a href="#updateData">updateData</a>
                             </li>
                             <li>
                                 <a href="#updateSelectedItems">updateSelectedItems</a>
@@ -402,12 +420,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(appService: AppService, searchService: <a href="../injectables/SearchService.html">SearchService</a>, facetService: <a href="../injectables/FacetService.html">FacetService</a>, selectionService: <a href="../injectables/SelectionService.html">SelectionService</a>, formBuilder: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, cdRef: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>, prefs: <a href="../injectables/UserPreferences.html">UserPreferences</a>)</code>
+<code>constructor(appService: AppService, searchService: <a href="../injectables/SearchService.html">SearchService</a>, facetService: <a href="../injectables/FacetService.html">FacetService</a>, selectionService: <a href="../injectables/SelectionService.html">SelectionService</a>, formBuilder: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, cdRef: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>, prefs: <a href="../injectables/UserPreferences.html">UserPreferences</a>, cardComponent?: <a href="../components/BsFacetCard.html">BsFacetCard</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:59</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:63</a></div>
                             </td>
                         </tr>
 
@@ -505,6 +523,18 @@
                                                   
                                                     <td>
                                                             No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cardComponent</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../components/BsFacetCard.html" target="_self" >BsFacetCard</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
                                                     </td>
                                                     
                                                 </tr>
@@ -880,7 +910,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="260" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:260</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="291" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:291</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -928,7 +958,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="238" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:238</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="269" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:269</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -1067,8 +1097,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="200"
-                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:200</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="231"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:231</a></div>
                 </td>
             </tr>
 
@@ -1077,6 +1107,45 @@
                 <td class="col-md-4">
                     <div class="io-description"><p>Queries the server for the heatmap data via the Search Service</p>
 </div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngDoCheck"></a>
+                    <span class="name">
+                        <b>
+                            ngDoCheck
+                        </b>
+                        <a href="#ngDoCheck"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngDoCheck()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:118</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
@@ -1101,15 +1170,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>ngOnChanges()</code>
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="105"
-                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:105</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="110"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:110</a></div>
                 </td>
             </tr>
 
@@ -1120,8 +1189,39 @@
 </div>
 
                     <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -1149,8 +1249,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="291"
-                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:291</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="322"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:322</a></div>
                 </td>
             </tr>
 
@@ -1221,8 +1321,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="281"
-                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:281</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="312"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:312</a></div>
                 </td>
             </tr>
 
@@ -1293,8 +1393,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="137"
-                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:137</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="168"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:168</a></div>
                 </td>
             </tr>
 
@@ -1372,8 +1472,8 @@ instead of the heatmap.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="223"
-                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:223</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="254"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:254</a></div>
                 </td>
             </tr>
 
@@ -1413,8 +1513,8 @@ instead of the heatmap.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="300"
-                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:300</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="331"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:331</a></div>
                 </td>
             </tr>
 
@@ -1485,8 +1585,8 @@ instead of the heatmap.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="174"
-                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:174</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="205"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:205</a></div>
                 </td>
             </tr>
 
@@ -1495,6 +1595,88 @@ instead of the heatmap.</p>
                 <td class="col-md-4">
                     <div class="io-description"><p>This method resets all the user preferences and rebuilds the settings form,
 so that the values displayed are up-to-date</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateActions"></a>
+                    <span class="name">
+                        <b>
+                            updateActions
+                        </b>
+                        <a href="#updateActions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateActions()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:128</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Update the actions for selecting the X or Y fields</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateData"></a>
+                    <span class="name">
+                        <b>
+                            updateData
+                        </b>
+                        <a href="#updateData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateData()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="147"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:147</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Updates the heatmap data</p>
 </div>
 
                     <div class="io-description">
@@ -1527,8 +1709,8 @@ so that the values displayed are up-to-date</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="329"
-                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:329</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="361"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:361</a></div>
                 </td>
             </tr>
 
@@ -1892,7 +2074,45 @@ property of HeatmapItem)</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:62</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:66</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cardComponent"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                                <span class="modifier">Optional</span>
+                            cardComponent</b>
+                            <a href="#cardComponent"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../components/BsFacetCard.html" target="_self" >BsFacetCard</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Optional()<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:73</a></div>
                             </td>
                         </tr>
 
@@ -1920,7 +2140,7 @@ property of HeatmapItem)</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:67</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:71</a></div>
                             </td>
                         </tr>
 
@@ -2003,7 +2223,7 @@ property of HeatmapItem)</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="166" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:166</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="197" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:197</a></div>
                             </td>
                         </tr>
 
@@ -2031,7 +2251,7 @@ property of HeatmapItem)</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:64</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:68</a></div>
                             </td>
                         </tr>
 
@@ -2086,7 +2306,7 @@ property of HeatmapItem)</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:66</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:70</a></div>
                             </td>
                         </tr>
 
@@ -2114,7 +2334,33 @@ property of HeatmapItem)</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:68</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:72</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ready"></a>
+                        <span class="name">
+                            <b>
+                            ready</b>
+                            <a href="#ready"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:63</a></div>
                             </td>
                         </tr>
 
@@ -2142,7 +2388,7 @@ property of HeatmapItem)</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:63</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:67</a></div>
                             </td>
                         </tr>
 
@@ -2251,7 +2497,7 @@ property of HeatmapItem)</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:65</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:69</a></div>
                             </td>
                         </tr>
 
@@ -2484,7 +2730,7 @@ property of HeatmapItem)</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:98</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:103</a></div>
                                 </td>
                             </tr>
 
@@ -2506,7 +2752,7 @@ property of HeatmapItem)</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="188" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:188</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="219" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:219</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -2539,7 +2785,7 @@ property of HeatmapItem)</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="360" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:360</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="392" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:392</a></div>
                                 </td>
                             </tr>
 
@@ -2561,7 +2807,7 @@ property of HeatmapItem)</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="364" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:364</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="396" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:396</a></div>
                                 </td>
                             </tr>
 
@@ -2583,7 +2829,7 @@ property of HeatmapItem)</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="368" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:368</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="400" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:400</a></div>
                                 </td>
                             </tr>
 
@@ -2605,7 +2851,7 @@ property of HeatmapItem)</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="372" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:372</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="404" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:404</a></div>
                                 </td>
                             </tr>
 
@@ -2627,7 +2873,7 @@ property of HeatmapItem)</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="376" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:376</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="408" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:408</a></div>
                                 </td>
                             </tr>
 
@@ -2649,7 +2895,7 @@ property of HeatmapItem)</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="380" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:380</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="412" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:412</a></div>
                                 </td>
                             </tr>
 
@@ -2671,7 +2917,7 @@ property of HeatmapItem)</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="387" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:387</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="419" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:419</a></div>
                                 </td>
                             </tr>
 
@@ -2682,11 +2928,11 @@ property of HeatmapItem)</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnChanges, ChangeDetectorRef } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, DoCheck, Optional } from &#x27;@angular/core&#x27;;
 import { FormBuilder, FormGroup, FormControl } from &#x27;@angular/forms&#x27;;
 import { Utils } from &#x27;@sinequa/core/base&#x27;;
 import { AppService } from &#x27;@sinequa/core/app-utils&#x27;;
-import { AbstractFacet, FacetService } from &#x27;@sinequa/components/facet&#x27;;
+import { AbstractFacet, BsFacetCard, FacetService } from &#x27;@sinequa/components/facet&#x27;;
 import { Results, ListAggregation, AggregationItem } from &#x27;@sinequa/core/web-services&#x27;;
 import { SearchService } from &#x27;@sinequa/components/search&#x27;;
 import { Action } from &#x27;@sinequa/components/action&#x27;;
@@ -2698,7 +2944,7 @@ import { HeatmapItem } from &#x27;./heatmap.component&#x27;;
     selector: &quot;sq-facet-heatmap&quot;,
     templateUrl: &#x27;./facet-heatmap.component.html&#x27;
 })
-export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges {
+export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges, DoCheck {
     @Input() results: Results;
     @Input() aggregation&#x3D; &quot;Heatmap&quot;;
     @Input() name?: string;
@@ -2742,6 +2988,10 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
     // Selected items
     readonly selectedItems &#x3D; new Set&lt;string&gt;();
 
+    // A flag to wait for the parent component to actually display this child, since creating
+    // the heatmap component without displaying causes strange bugs...
+    ready &#x3D; false;
+
     constructor(
         public appService: AppService,
         public searchService: SearchService,
@@ -2749,7 +2999,8 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
         public selectionService: SelectionService,
         public formBuilder: FormBuilder,
         public cdRef: ChangeDetectorRef,
-        public prefs: UserPreferences
+        public prefs: UserPreferences,
+        @Optional() public cardComponent?: BsFacetCard
     ){
         super();
            
@@ -2786,7 +3037,25 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
     /**
      * On changes triggers when the results change (following a new query)
      */
-    ngOnChanges() {
+    ngOnChanges(changes: SimpleChanges) {
+        this.updateActions();
+        // Create the heatmap data
+        if(changes[&#x27;results&#x27;] || changes[&#x27;aggregation&#x27;]) {
+            this.updateData();
+        }
+    }
+    
+    ngDoCheck(){
+        // We check that the parent component (if any) as been expanded at least once so that the fusioncharts
+        // gets created when it is visible (otherwise, there can be visual bugs...)
+        this.ready &#x3D; !this.cardComponent?._collapsed;
+    }
+
+    
+    /**
+     * Update the actions for selecting the X or Y fields
+     */
+    updateActions() {
         // Create or update the actions to change the X and Y axis
         if(this.fieldsX){
             if(!this.selectFieldX){
@@ -2800,7 +3069,12 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
             }
             this.selectFieldY.update();
         }
-        // Create the heatmap data
+    }
+
+    /**
+     * Updates the heatmap data
+     */
+    updateData() {
         if(this.results) {
             this.aggregationData &#x3D; this.facetService.getAggregation(this.aggregation, this.results);
             if(!this.aggregationData){
@@ -2810,8 +3084,11 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
                 this.data &#x3D; this.processAggregation();
             }
         }
+        else {
+            this.data &#x3D; undefined;
+        }
     }
-    
+
     /**
      * This method is called by the parent sq-facet-card when the settings
      * button is clicked. This has the effect of displaying the settingsTpl template
@@ -2842,7 +3119,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
             });
         }
         else {
-            this.ngOnChanges();
+            this.updateData();
         }
     }
 
@@ -2997,7 +3274,8 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
                             icon: &quot;sq-icon-&quot;+f,
                             action : () &#x3D;&gt; {
                                 this.prefs.set(this._name+&#x27;-field-&#x27;+axis, f);
-                                this.ngOnChanges();
+                                this.updateActions();
+                                this.updateData();
                             }
                         });
                     });
@@ -3078,7 +3356,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;sq-heatmap *ngIf&#x3D;&quot;data&quot;
+        <pre class="line-numbers"><code class="language-html">&lt;sq-heatmap *ngIf&#x3D;&quot;data &amp;&amp; ready&quot;
     [data]&#x3D;&quot;data&quot;
     [height]&#x3D;&quot;heightPref&quot;
     [width]&#x3D;&quot;widthPref&quot;
@@ -3162,9 +3440,9 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges 
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><sq-heatmap *ngIf="data"    [data]="data"    [height]="heightPref"    [width]="widthPref"    [margin]="margin"    [transition]="transition"    [itemsClickable]="itemsClickable"    [axisClickable]="axisClickable"    [buckets]="buckets"    [colorScheme]="colorSchemePref"    [maxX]="maxXPref"    [maxY]="maxYPref"    (itemClicked)="onItemClicked($event)"    (axisClicked)="onAxisClicked($event)"></sq-heatmap><div class="text-center py-5 px-3" *ngIf="!data">    <i>{{\'msg#heatmap.nodata\' | sqMessage}}</i></div><ng-template #settingsTpl>    <div class="card-body">        <form [formGroup]="form">            <div class="form-group">                <label for="maxX">{{\'msg#heatmap.maxX\' | sqMessage}} ({{maxXPref}})</label>                <input type="range" class="form-control-range" id="maxX" min="10" max="40" formControlName="maxX">                <label for="maxY">{{\'msg#heatmap.maxY\' | sqMessage}} ({{maxYPref}})</label>                <input type="range" class="form-control-range" id="maxY" min="10" max="100" formControlName="maxY">                                <div class="custom-control custom-checkbox my-1">                    <input class="custom-control-input" type="checkbox" id="scaleAxes" formControlName="scaleAxes">                    <label class="custom-control-label" for="scaleAxes">{{\'msg#heatmap.rescale\' | sqMessage}}</label>                </div>                <hr>                <label for="colors">{{\'msg#heatmap.colors\' | sqMessage}}</label>                <select id="colors" class="form-control" formControlName="colors">                    <option [ngValue]="\'schemeBlues\'">{{\'msg#heatmap.blue\' | sqMessage}}</option>                    <option [ngValue]="\'schemeReds\'">{{\'msg#heatmap.red\' | sqMessage}}</option>                    <option [ngValue]="\'schemeGreens\'">{{\'msg#heatmap.green\' | sqMessage}}</option>                    <option [ngValue]="\'schemeRdBu\'">{{\'msg#heatmap.diverging\' | sqMessage}}</option>                    <option [ngValue]="\'schemeSpectral\'">{{\'msg#heatmap.diverging\' | sqMessage}}</option>                    <option [ngValue]="\'schemeYlGnBu\'">{{\'msg#heatmap.cool\' | sqMessage}}</option>                </select>                <hr>                <button class="btn btn-light" (click)="setDefaults()">{{\'msg#heatmap.defaults\' | sqMessage}}</button>            </div>        </form>    </div></ng-template></div>'
-    var COMPONENTS = [{'name': 'AbstractFacet', 'selector': ''},{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAdvanced', 'selector': 'sq-advanced'},{'name': 'BsAdvancedForm', 'selector': 'sq-advanced-form'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormEntry', 'selector': 'sq-advanced-form-entry'},{'name': 'BsAdvancedFormMultiEntry', 'selector': 'sq-advanced-form-multi-entry'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEdgeInfoCard', 'selector': 'sq-edge-info-card'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetFilters', 'selector': 'qp-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTimelineComponent', 'selector': 'sq-facet-timeline'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackForm', 'selector': 'sq-feedback-form'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsActionItem', 'selector': 'sq-labels-action-item'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMultiEntryInput', 'selector': 'sq-multi-entry-input'},{'name': 'BsMySearch', 'selector': 'sq-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNodeInfoCard', 'selector': 'sq-node-info-card'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsNumericRangeInput', 'selector': 'sq-numeric-range-input'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsScatterView', 'selector': 'sq-results-scatter-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsViewConfigurator', 'selector': 'sq-results-view-configurator'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSelectionArranger', 'selector': 'sq-selection-arranger'},{'name': 'BsSimilarDocs', 'selector': 'sq-similar-docs'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimelineComponent', 'selector': 'sq-timeline'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'FacetNgxChart', 'selector': 'sq-facet-ngx-chart'},{'name': 'FusionChart', 'selector': 'sq-fusion-chart'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'NetworkComponent', 'selector': 'sq-network'},{'name': 'NgxChart', 'selector': 'sq-ngx-chart'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'StickyComponent', 'selector': '[sqSticky]'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
-    var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sq-advanced-form-autocomplete]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sq-advanced-form-validation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'FocusKeyListDirective', 'selector': '[sqFocusKeyList]'},{'name': 'FocusKeyListItemDirective', 'selector': '[sqFocusKeyListItem]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'Load', 'selector': '[sqLoad]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ResizeEventDirective', 'selector': '[sqResize]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'}];
+        var COMPONENT_TEMPLATE = '<div><sq-heatmap *ngIf="data && ready"    [data]="data"    [height]="heightPref"    [width]="widthPref"    [margin]="margin"    [transition]="transition"    [itemsClickable]="itemsClickable"    [axisClickable]="axisClickable"    [buckets]="buckets"    [colorScheme]="colorSchemePref"    [maxX]="maxXPref"    [maxY]="maxYPref"    (itemClicked)="onItemClicked($event)"    (axisClicked)="onAxisClicked($event)"></sq-heatmap><div class="text-center py-5 px-3" *ngIf="!data">    <i>{{\'msg#heatmap.nodata\' | sqMessage}}</i></div><ng-template #settingsTpl>    <div class="card-body">        <form [formGroup]="form">            <div class="form-group">                <label for="maxX">{{\'msg#heatmap.maxX\' | sqMessage}} ({{maxXPref}})</label>                <input type="range" class="form-control-range" id="maxX" min="10" max="40" formControlName="maxX">                <label for="maxY">{{\'msg#heatmap.maxY\' | sqMessage}} ({{maxYPref}})</label>                <input type="range" class="form-control-range" id="maxY" min="10" max="100" formControlName="maxY">                                <div class="custom-control custom-checkbox my-1">                    <input class="custom-control-input" type="checkbox" id="scaleAxes" formControlName="scaleAxes">                    <label class="custom-control-label" for="scaleAxes">{{\'msg#heatmap.rescale\' | sqMessage}}</label>                </div>                <hr>                <label for="colors">{{\'msg#heatmap.colors\' | sqMessage}}</label>                <select id="colors" class="form-control" formControlName="colors">                    <option [ngValue]="\'schemeBlues\'">{{\'msg#heatmap.blue\' | sqMessage}}</option>                    <option [ngValue]="\'schemeReds\'">{{\'msg#heatmap.red\' | sqMessage}}</option>                    <option [ngValue]="\'schemeGreens\'">{{\'msg#heatmap.green\' | sqMessage}}</option>                    <option [ngValue]="\'schemeRdBu\'">{{\'msg#heatmap.diverging\' | sqMessage}}</option>                    <option [ngValue]="\'schemeSpectral\'">{{\'msg#heatmap.diverging\' | sqMessage}}</option>                    <option [ngValue]="\'schemeYlGnBu\'">{{\'msg#heatmap.cool\' | sqMessage}}</option>                </select>                <hr>                <button class="btn btn-light" (click)="setDefaults()">{{\'msg#heatmap.defaults\' | sqMessage}}</button>            </div>        </form>    </div></ng-template></div>'
+    var COMPONENTS = [{'name': 'AbstractFacet', 'selector': ''},{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAddLabel', 'selector': 'sq-add-label'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormInput', 'selector': 'sq-advanced-form-input'},{'name': 'BsAdvancedFormMultiInput', 'selector': 'sq-advanced-form-multi-input'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDeleteLabel', 'selector': 'sq-delete-label'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEdgeInfoCard', 'selector': 'sq-edge-info-card'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditLabel', 'selector': 'sq-edit-label'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetFilters', 'selector': 'sq-facet-filters'},{'name': 'BsFacetFiltersBackground', 'selector': 'qp-facet-filters-background'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTimelineComponent', 'selector': 'sq-facet-timeline'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFieldSearchItemsComponent', 'selector': 'sq-field-search-items'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsAutocompleteComponent', 'selector': 'sq-labels-autocomplete'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLoadMore', 'selector': 'sq-load-more'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMySearch', 'selector': 'sq-facet-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNodeInfoCard', 'selector': 'sq-node-info-card'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsPrompt', 'selector': 'sq-prompt'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsScroller', 'selector': 'sq-scroller'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSelectionArranger', 'selector': 'sq-selection-arranger'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsTimelineComponent', 'selector': 'sq-timeline'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'FacetNgxChart', 'selector': 'sq-facet-ngx-chart'},{'name': 'FusionChart', 'selector': 'sq-fusion-chart'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'MapComponent', 'selector': 'sq-googlemaps'},{'name': 'MdConfirm', 'selector': 'sq-confirm'},{'name': 'MdLogin', 'selector': 'sq-login'},{'name': 'MdModal', 'selector': 'sq-modal'},{'name': 'MdModalFooter', 'selector': 'sq-modal-footer'},{'name': 'MdModalHeader', 'selector': 'sq-modal-header'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'NetworkComponent', 'selector': 'sq-network'},{'name': 'NgxChart', 'selector': 'sq-ngx-chart'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'StickyComponent', 'selector': '[sqSticky]'},{'name': 'TooltipComponent', 'selector': 'sqx-tooltip'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
+    var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'AutocompleteFieldSearch', 'selector': '[sqAutocompleteFieldSearch]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sqAdvancedFormAutocomplete]'},{'name': 'BsAdvancedFormAutocompleteMultiInput', 'selector': '[sqAdvancedFormAutocompleteMultiInput]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sqAdvancedFormValidation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'FocusKeyListDirective', 'selector': '[sqFocusKeyList]'},{'name': 'FocusKeyListItemDirective', 'selector': '[sqFocusKeyListItem]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ResizeEventDirective', 'selector': '[sqResize]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'},{'name': 'TooltipDirective', 'selector': '[sqTooltip]'}];
     var ACTUAL_COMPONENT = {'name': 'BsFacetHeatmapComponent'};
 </script>
 <script src="../js/tree.js"></script>

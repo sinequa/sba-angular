@@ -9,6 +9,4 @@ export class ResultLabels {
     @Input() record: Record;
     @Input() caption: string;
     @Input() public: boolean;
-    @Input() field: string;
-
 }

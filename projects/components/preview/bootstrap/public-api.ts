@@ -6,7 +6,6 @@ export * from "./preview.module";
 export * from "./preview-panel/preview-panel";
 export * from "./preview-popup/preview-popup";
 export * from "./result-link-preview/result-link-preview";
-export * from "./similar-docs/similar-docs";
 export * from "./similar-documents/similar-documents";
 export * from './preview-entity-facet/preview-entity-facet.component';
 export * from './preview-entity-panel/preview-entity-panel.component';

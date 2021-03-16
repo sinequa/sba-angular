@@ -3,7 +3,7 @@ layout: default
 title: Notification Module
 parent: Components
 grand_parent: Modules
-nav_order: 12
+nav_order: 13
 ---
 
 # Notification Module
@@ -35,6 +35,15 @@ import { BsNotificationModule } from "@sinequa/components/notification";
   ],
   /*....*/
 })
+```
+
+This module is internationalized: If not already the case, you need to import its messages for the language(s) of your application. For example, in your app's `src/locales/en.ts`:
+
+```ts
+...
+import {enNotification} from "@sinequa/components/notification";
+
+const messages = Utils.merge({}, ..., enNotification, appMessages);
 ```
 
 ## API usage

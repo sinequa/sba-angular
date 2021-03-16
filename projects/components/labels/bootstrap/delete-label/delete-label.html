@@ -1,0 +1,24 @@
+<form name="deleteLabel" novalidate>
+    <sq-modal [title]="title" [buttons]="buttons" [isProcessingState]="isProcessing">
+        <div class="form-group sq-form-group">
+            <div class="alert" [ngClass]="{'alert-danger': model.properties.action === 3, 'alert-warning': model.properties.action === 5}" role="alert">
+                {{alert | sqMessage}}
+            </div>
+            <section>
+                <div *ngFor="let item of model.properties.radioButtons" class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="{{item.id}}" name="nature" value="{{item.value}}"
+                        [checked]="item.checked" [disabled]="item.disabled" (click)="updateLabelsNature(item.value)" [ngClass]="{'disabled': item.disabled, 'clickable': !item.disabled}">
+                    <label class="custom-control-label" for="{{item.id}}">{{ item.name | sqMessage }}</label>
+                </div>
+            </section>
+            <b><label for="label">{{'msg#labels.labels' | sqMessage}}</label></b>
+            <sq-labels-autocomplete
+                (labelsUpdate)="onLabelsChanged($event)"
+                [public]="model.properties.public"
+                [disableAutocomplete]="model.properties.disableAutocomplete"
+                [allowNewLabels]="model.properties.allowNewLabels"
+                [allowManagePublicLabels]="model.properties.allowManagePublicLabels">
+            </sq-labels-autocomplete>
+        </div>
+    </sq-modal>
+</form>

@@ -397,6 +397,16 @@ export class Timer {
 }
 
 /**
+ * A generic interface for tree nodes
+ */
+export interface TreeNode {
+    /**
+     * Children elements of this tree node
+     */
+    items?: TreeNode[];
+}
+
+/**
  * A utility class containing a variety of static methods and properties
  */
 // @dynamic
@@ -1037,6 +1047,47 @@ export class Utils {
     static treeCount(s: string): number {
         const count &#x3D; Utils.count(s, &quot;/&quot;);
         return count &gt; 0 ? count - 1 : 0;
+    }
+
+    /**
+     * Traverses a tree structure, executing a callback function at every node
+     * @param nodes the nodes to traverse
+     * @param callback the callback function
+     */
+    public static traverse&lt;T extends TreeNode&gt;(nodes: T[], callback: (lineage: T[] | undefined) &#x3D;&gt; boolean): boolean {
+        if (!nodes || nodes.length &#x3D;&#x3D;&#x3D; 0) {
+            return false;
+        }
+        if (!callback) {
+            return false;
+        }
+        const lineage: T[] &#x3D; [];
+        const stack: (T | undefined)[] &#x3D; [];
+        let _i &#x3D; nodes.length;
+        while (_i--) {
+            stack.push(nodes[_i]);
+        }
+        while (stack.length) {
+            const node &#x3D; stack.pop();
+            if (!node) {
+                lineage.pop();
+                callback(undefined);
+            }
+            else {
+                lineage.push(node);
+                if (callback(lineage)) {
+                    return true;
+                }
+                stack.push(undefined);
+                if (node.items &amp;&amp; node.items.length &gt; 0) {
+                    _i &#x3D; node.items.length;
+                    while (_i--) {
+                        stack.push(node.items[_i] as T);
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**

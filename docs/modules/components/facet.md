@@ -39,6 +39,15 @@ import { BsFacetModule } from '@sinequa/components/facet';
     BsFacetModule
 ```
 
+This module is internationalized: If not already the case, you need to import its messages for the language(s) of your application. For example, in your app's `src/locales/en.ts`:
+
+```ts
+...
+import {enFacet} from "@sinequa/components/facet";
+
+const messages = Utils.merge({}, ..., enFacet, appMessages);
+```
+
 ## Facet Card API
 
 The facet card API is based on a generic **container** component, [`sq-facet-card`]({{site.baseurl}}components/components/BsFacetCard.html), and an **abstract facet** component for the content of the facets ([`AbstractFacet`]({{site.baseurl}}components/classes/AbstractFacet.html)):
@@ -197,4 +206,19 @@ This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/R
     </sq-facet-card>
 
 </sq-facet-card>
+```
+
+### Facet Filters
+
+The [`sq-facet-filters`]({{site.baseurl}}components/components/BsFacetFilters.html) components displays facets as a navigation bar where each item is a facet displayed as a dropdown component. This component act in a similar way as [`sq-facet-bar`]({{site.baseurl}}components/components/BsFacetBar.html) component. Facets can be retrieved from application service or a simple [`FacetConfig`]({{site.baseurl}}components/interfaces/FacetConfig.html) array.
+
+![Facet Filters]({{site.baseurl}}assets/modules/facet/facet-filters.png){: .d-block .mx-auto}
+
+This component requires a: 
+* [`Results`]({{site.baseurl}}core/interfaces/Results.html) input.
+* [`FacetConfig`]({{site.baseurl}}components/interfaces/FacetConfig.html)'s array input.
+```html
+<nav class="navbar navbar-expand navbar-light bg-light">
+    <sq-facet-filters [results]="results" [facets]="facets" class="mr-auto"></sq-facet-filters>
+</nav>
 ```

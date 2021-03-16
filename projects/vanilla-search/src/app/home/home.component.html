@@ -9,16 +9,16 @@
     <!-- Search Form (app/search-form) -->
     <app-search-form></app-search-form>
 
-    <span class="mt-2">
+    <div class="d-flex align-items-center mt-2">
         <!-- Login/Logout link -->    
-        <a href="#" (click)="toggleLogin()">{{ (!!loginService.principal ? 'msg#userMenu.logout' : 'msg#userMenu.login') | sqMessage}}</a>
+        <button class="btn btn-link" (click)="toggleLogin()">{{ (!!loginService.principal ? 'msg#userMenu.logout' : 'msg#userMenu.login') | sqMessage}}</button>
     
         <span> &bull; </span>
     
         <!-- Dark mode -->   
-        <a href="#" (click)="toggleDark()">{{ (isDark()? 'msg#home.lightMode' : 'msg#home.darkMode') | sqMessage}}</a>
+        <button class="btn btn-link" (click)="toggleDark()">{{ (isDark()? 'msg#home.lightMode' : 'msg#home.darkMode') | sqMessage}}</button>
     
-    </span>
+    </div>
 
     <!-- Home facets -->
     <div class="sq-home-facet-bar container mt-5" *ngIf="homeFacets.length">
@@ -30,18 +30,16 @@
                 <!-- Recent documents -->
                 <sq-facet-card *ngSwitchCase="'recent-documents'"
                                 [title]="'msg#recentDocuments.recentDocuments'" 
-                                [tooltip]="'msg#home.recentDocumentsTooltip'"
                                 [collapsible]="false"
                                 [icon]="'fas fa-file-alt'"
                                 [buttonsStyle]="isDark()? 'dark' : 'light'"
                                 class="{{ facetSizing(i, homeFacets.length) }} mb-3">
-                    <sq-facet-recent-documents #facet [maxDocuments]="5" (documentOpened)="openRecentDocument($event)"></sq-facet-recent-documents>
+                    <sq-facet-recent-documents #facet [maxDocuments]="5"></sq-facet-recent-documents>
                 </sq-facet-card>
 
                 <!-- Recent queries -->
                 <sq-facet-card *ngSwitchCase="'recent-queries'"
                                 [title]="'msg#facet.recentQueries.title'" 
-                                [tooltip]="'msg#home.recentQueriesTooltip'"
                                 [collapsible]="false"
                                 [icon]="'fas fa-history'"
                                 [buttonsStyle]="isDark()? 'dark' : 'light'"
@@ -52,7 +50,6 @@
                 <!-- Saved queries -->
                 <sq-facet-card *ngSwitchCase="'saved-queries'"
                                 [title]="'msg#savedQueries.savedQueries'" 
-                                [tooltip]="'msg#home.savedQueriesTooltip'"
                                 [collapsible]="false"
                                 [icon]="'fas fa-save'"
                                 [buttonsStyle]="isDark()? 'dark' : 'light'"
@@ -63,7 +60,6 @@
                 <!-- Collections (baskets) -->
                 <sq-facet-card *ngSwitchCase="'baskets'"
                                 [title]="'msg#baskets.baskets'" 
-                                [tooltip]="'msg#home.basketsTooltip'"
                                 [collapsible]="false"
                                 [icon]="'fas fa-inbox'"
                                 [buttonsStyle]="isDark()? 'dark' : 'light'"

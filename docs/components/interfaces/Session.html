@@ -470,8 +470,8 @@ export module MlAuditService {
         resultsId?: string;
         queryId?: string;
         sessionId?: string;
-        actionType: ActionType;
-        documentIds: string | string[];
+        actionType?: ActionType;
+        documentIds?: string | string[];
     }
 
     export interface ActionInitializer {
@@ -479,7 +479,8 @@ export module MlAuditService {
         documentIds: string | string[];
         [key: string]: any; // Allow arbitrary additions
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
 

@@ -1,5 +1,5 @@
 import {Injectable, Inject, Type, Injector, InjectionToken} from "@angular/core";
-import {FormGroup} from "@angular/forms";
+import {FormGroup, ValidatorFn} from "@angular/forms";
 import {Overlay, OverlayConfig, OverlayRef} from '@angular/cdk/overlay';
 import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
 import {Utils, Keys} from "@sinequa/core/base";
@@ -114,6 +114,26 @@ export interface ConfirmOptions {
      * The buttons to display in the confirm modal.
      */
     buttons: ModalButton[];
+}
+
+/**
+ * Describes the options that can be passed to the [ModalService.prompt]{@link ModalService#prompt}
+ * method.
+ */
+export interface PromptOptions extends ConfirmOptions {
+    /**
+     * text written by the user in the prompt input
+     */
+    output: string;
+    /**
+     * List of validators for the input form control
+     */
+    validators?: ValidatorFn[];
+    /**
+     * If omitted, a single-line input is displayed. If specified, a textarea with the
+     * given number of rows is displayed
+     */    
+    rowCount?: number;
 }
 
 /**
@@ -252,6 +272,12 @@ export class ModalButton implements IModalButton {
 export const MODAL_CONFIRM = new InjectionToken<Type<any>>('MODAL_CONFIRM');
 
 /**
+ * An injection token to set the component to use for the `prompt` modal displayed
+ * by the [ModalService.prompt]{@link ModalService#confirm} method.
+ */
+export const MODAL_PROMPT = new InjectionToken<Type<any>>('MODAL_PROMPT');
+
+/**
  * A service to open modal dialogs.
  */
 @Injectable({
@@ -261,7 +287,8 @@ export class ModalService {
     constructor(
         protected injector: Injector,
         protected overlay: Overlay,
-        @Inject(MODAL_CONFIRM) protected confirmModal: Type<any>
+        @Inject(MODAL_CONFIRM) protected confirmModal: Type<any>,
+        @Inject(MODAL_PROMPT) protected promptModal: Type<any>
     ) {
     }
 
@@ -379,6 +406,15 @@ export class ModalService {
      */
     confirm(options: ConfirmOptions): Promise<ModalResult> {
         return this.open(this.confirmModal, {model: options});
+    }
+
+    /**
+     * Open a prompt modal dialog displaying a message, an input and OK/Cancel buttons.
+     *
+     * @param options The options used to open the prompt modal. These are set as the `MODAL_MODEL`  of the modal.
+     */
+    prompt(options: PromptOptions): Promise<ModalResult> {
+        return this.open(this.promptModal, {model: options});
     }
 
     /**

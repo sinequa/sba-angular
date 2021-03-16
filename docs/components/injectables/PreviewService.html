@@ -144,7 +144,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">preview/preview.service.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">preview/preview.service.ts:35</a></div>
                             </td>
                         </tr>
 
@@ -307,8 +307,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="79"
-                            class="link-to-prism">preview/preview.service.ts:79</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">preview/preview.service.ts:80</a></div>
                 </td>
             </tr>
 
@@ -410,8 +410,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="112"
-                            class="link-to-prism">preview/preview.service.ts:112</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">preview/preview.service.ts:114</a></div>
                 </td>
             </tr>
 
@@ -480,8 +480,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="116"
-                            class="link-to-prism">preview/preview.service.ts:116</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">preview/preview.service.ts:118</a></div>
                 </td>
             </tr>
 
@@ -574,8 +574,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">preview/preview.service.ts:130</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="132"
+                            class="link-to-prism">preview/preview.service.ts:132</a></div>
                 </td>
             </tr>
 
@@ -656,8 +656,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="149"
-                            class="link-to-prism">preview/preview.service.ts:149</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="151"
+                            class="link-to-prism">preview/preview.service.ts:151</a></div>
                 </td>
             </tr>
 
@@ -726,7 +726,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Promise&lt;Boolean&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -772,7 +772,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">preview/preview.service.ts:37</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">preview/preview.service.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -801,7 +801,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">preview/preview.service.ts:58</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">preview/preview.service.ts:59</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -857,6 +857,7 @@ export const PREVIEW_MODAL &#x3D; new InjectionToken&lt;Type&lt;any&gt;&gt;(&quo
 export class PreviewService {
 
     private readonly _events &#x3D; new Subject&lt;PreviewEvent&gt;();
+    private rank: number;
 
     constructor(
         @Inject(PREVIEW_MODAL) public previewModal: Type&lt;any&gt;,
@@ -910,7 +911,7 @@ export class PreviewService {
                 || this.searchService?.query?.questionLanguage
                 || this.appService?.ccquery?.questionLanguage;
             const collection &#x3D; !!record ? record.collection[0] : Utils.split(id, &quot;|&quot;)[0];
-            const rank &#x3D; !!record ? record.rank : 0;
+            const rank &#x3D; !!record ? record.rank : this.rank || 0;
             auditEvent &#x3D; {
                 type: AuditEventType.Doc_Preview,
                 detail: {
@@ -930,7 +931,8 @@ export class PreviewService {
                 previewData.resultId &#x3D; resultId || &quot;&quot;;
                 return previewData;
             });
-        this.events.next({type: PreviewEventType.Data, record: record, query: query});
+        this._events.next({type: PreviewEventType.Data, record, query});
+
         return observable;
     }
 
@@ -942,7 +944,7 @@ export class PreviewService {
         model.record &#x3D; record;
         model.query &#x3D; query;
 
-        this.events.next({type: PreviewEventType.Modal, record: record, query: query});
+        this._events.next({type: PreviewEventType.Modal, record, query});
 
         this.modalService.open(this.previewModal, { model });
     }
@@ -966,14 +968,15 @@ export class PreviewService {
         const httpParams &#x3D; Utils.makeHttpParams(params);
         const url &#x3D; &quot;#/preview?&quot; + httpParams.toString();
 
-        this.events.next({type: PreviewEventType.Window, record: record, query: query});
+        this._events.next({type: PreviewEventType.Window, record, query});
 
         return window.open(url, &quot;_blank&quot;);
     }
 
-    openRoute(record: Record, query: Query, path &#x3D; &quot;preview&quot;) {
+    openRoute(record: Record, query: Query, path &#x3D; &quot;preview&quot;): Promise&lt;Boolean&gt; {
 
-        this.events.next({type: PreviewEventType.Route, record: record, query: query});
+        this._events.next({type:PreviewEventType.Route, record, query});
+        this.rank &#x3D; record.rank;
 
         return this.router.navigate([path], {
             queryParams: {

@@ -430,8 +430,8 @@ Update the data on the server.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="245"
-                            class="link-to-prism">saved-queries/recent-documents.service.ts:245</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="240"
+                            class="link-to-prism">saved-queries/recent-documents.service.ts:240</a></div>
                 </td>
             </tr>
 
@@ -505,8 +505,8 @@ Update the data on the server.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="283"
-                            class="link-to-prism">saved-queries/recent-documents.service.ts:283</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="278"
+                            class="link-to-prism">saved-queries/recent-documents.service.ts:278</a></div>
                 </td>
             </tr>
 
@@ -1033,12 +1033,7 @@ export class RecentDocumentsService implements OnDestroy {
         if(this.maxDocuments &gt;&#x3D;0 )
             this.recentdocuments.splice(this.maxDocuments);
 
-        this.patchRecentDocuments([{
-            type: RecentDocumentEventType.Add,
-            detail: {
-                recentdocument: recentdocument.id
-            }
-        }]);
+        this.patchRecentDocuments(); // No need to emit an &quot;Add&quot; audit event, since it is redundant with the main search API
         return true;
     }
 

@@ -1,16 +1,16 @@
 <!-- dropdown button -->
 <ng-container *ngIf="isDropdownButton">
-    <button *ngIf="hasAction" class="btn {{styleClass}} {{sizeClass}} {{options.item.disabled ? 'disabled' : ''}}" type="button" (click)="click($event)" title="{{itemTitle | sqMessage:itemMessageParams}}" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams">
+    <button *ngIf="hasAction" class="btn {{styleClass}} {{sizeClass}} {{options.item.disabled ? 'disabled' : ''}}" type="button" (click)="click($event)" sqTooltip="{{itemTitle | sqMessage:itemMessageParams}}" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams">
         <sq-action-item-content [item]="options.item" [text]="itemText"></sq-action-item-content>
     </button>
-    <ng-container *ngIf="options.item.flattenable && options.item.children.length === 1; then flattened else unflattened"></ng-container>
+    <ng-container *ngIf="options.item.flattenable && options.item.children?.length === 1; then flattened else unflattened"></ng-container>
     <ng-template #flattened>
         <div *ngIf="!hasAction" class="btn-text {{sizeClass}}">
             <sq-action-item-content *ngIf="!hasAction" [item]="options.item" [text]="itemText"></sq-action-item-content>
         </div>
     </ng-template>
     <ng-template #unflattened>
-        <button class="btn {{styleClass}} dropdown-toggle {{sizeClass}}" type="button" data-toggle="dropdown" title="{{itemTitle | sqMessage:itemMessageParams}}" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams" (touchstart)="touchstart()" (mousedown)="mousedown()" (focusin)="focusin()">
+        <button class="btn {{styleClass}} dropdown-toggle {{sizeClass}}" type="button" data-toggle="dropdown" sqTooltip="{{itemTitle | sqMessage:itemMessageParams}}" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams" (touchstart)="touchstart()" (mousedown)="mousedown()" (focusin)="focusin()">
             <sq-action-item-content *ngIf="!hasAction" [item]="options.item" [text]="itemText"></sq-action-item-content>
         </button>
         <ul *ngIf="showDropdown" [sq-dropdown-menu]="{item: options.item, rightAligned: options.rightAligned, showMenuClass: 'show'}"></ul>

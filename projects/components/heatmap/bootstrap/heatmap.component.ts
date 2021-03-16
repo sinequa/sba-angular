@@ -229,11 +229,13 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
     wrap = (d: string, i: number, nodes: SVGTextElement[] | ArrayLike<SVGTextElement>) => {
         var self = d3.select(nodes[i]),
           textLength = nodes[i].getComputedTextLength(),
-          text = self.text();
+          text = self.text(),
+          fullText = self.text();
         while (textLength > 90 && text.length > 0) {
           text = text.slice(0, -1);
           self.text(text + '...');
           textLength = nodes[i].getComputedTextLength();
         }
+        self.append('svg:title').text(fullText);
     };
 }

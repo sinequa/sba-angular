@@ -37,6 +37,15 @@ import { BsSearchModule } from '@sinequa/components/search';
     })
 ```
 
+This module is internationalized: If not already the case, you need to import its messages for the language(s) of your application. For example, in your app's `src/locales/en.ts`:
+
+```ts
+...
+import {enSearch} from "@sinequa/components/search";
+
+const messages = Utils.merge({}, ..., enSearch, appMessages);
+```
+
 ## Search Service
 
 ### Overview
@@ -214,4 +223,26 @@ The [`sq-loading-bar`]({{site.baseurl}}components/components/BsLoadingBar.html) 
 
 ```html
 <sq-loading-bar></sq-loading-bar>
+```
+
+### Load More Button
+
+The [`sq-load-more`]({{site.baseurl}}components/components/BsLoadMore.html) component display a simple button allowing user to fetch next results.
+
+Results comes from [`SearchService.ResultsStream`]({{site.baseurl}}components/injectables/SearchService.html) and requires no mandatory input.
+
+```html
+<sq-load-more></sq-load-more>
+```
+
+### Lazy-loading results while scrolling down
+
+The [`sq-scroller`]({{site.baseurl}}components/components/BsScroller.html) component allow continuously loading results as the user scrolls down the page.
+
+Results comes from [`SearchService.ResultsStream`]({{site.baseurl}}components/injectables/SearchService.html) and requires no mandatory input.
+
+We are using the [`Observer API`](https://https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) to do this.
+
+```html
+<sq-scroller></sq-scroller>
 ```

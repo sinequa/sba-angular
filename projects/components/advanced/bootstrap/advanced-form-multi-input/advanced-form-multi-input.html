@@ -1,0 +1,36 @@
+<div class="d-inline">
+    <label>{{label | sqMessage}}</label>
+    <section class="sq-dropdown-form">
+        <div class="form-control multi-entry"
+            sqAdvancedFormValidation
+            [field]="field"
+            [validationForm]="form">
+            <span
+                *ngFor="let item of items"
+                class="badge badge-pill badge-secondary align-self-center mr-1">
+                {{ item.display }}
+                <span class="fas fa-times-circle clickable" (click)="removeItem(item)"></span>
+            </span>
+            <input
+                class="input-autocomplete flex-grow-1"
+                type="text"
+                autocomplete="off"
+                spellcheck="off"
+                sqAdvancedFormAutocompleteMultiInput
+                [field]="field"
+                [off]="!suggestQuery"
+                [suggestQuery]="suggestQuery"
+                (itemsUpdate)="onItemsChanged($event)"
+                [items]="items"
+                [dropdown]="dropdown"
+                (keydown)="keydown($event)"
+                (keypress)="keypress($event)">
+        </div>
+        <sq-autocomplete-list #dropdown>
+            <ng-template #itemTpl let-item>
+                <div class="autocomplete-item p-2">{{item.display}}
+                </div>
+            </ng-template>
+        </sq-autocomplete-list>
+    </section>
+</div>

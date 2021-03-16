@@ -1,16 +1,20 @@
 import {Injectable, Inject, InjectionToken, Optional} from "@angular/core";
-import {HttpInterceptor, HttpRequest, HttpResponse, HttpHandler,
-    HttpEvent, HttpErrorResponse, HttpParams} from "@angular/common/http";
-import {Observable, of, from, throwError} from "rxjs";
-import {map, switchMap, catchError} from "rxjs/operators";
+import {
+    HttpInterceptor, HttpRequest, HttpHandler,
+    HttpEvent, HttpErrorResponse, HttpParams, HttpResponse
+} from "@angular/common/http";
+import {from, Observable, throwError} from "rxjs";
+import {catchError, map, switchMap} from "rxjs/operators";
 import {Utils, SqError, SqErrorCode} from "@sinequa/core/base";
 import {START_CONFIG, StartConfig} from "@sinequa/core/web-services";
 import {NotificationsService} from "@sinequa/core/notification";
-import {LoginService, LoginServiceProxy} from "./login.service";
+import {LoginService} from "./login.service";
 import {AuthenticationService} from "./authentication.service";
 
 export type HttpRequestInitializer = (request: HttpRequest<any>) => boolean;
 export const HTTP_REQUEST_INITIALIZERS = new InjectionToken<HttpRequestInitializer[]>("HTTP_REQUEST_INITIALIZERS");
+
+type Options = {noAutoAuthentication: boolean, noUserOverride: boolean, hadCredentials: boolean, userOverrideActive: boolean};
 
 /**
  * An `HttpInterceptor` to handle `HTTP 401 unauthorized` error responses by calling
@@ -22,20 +26,13 @@ export const HTTP_REQUEST_INITIALIZERS = new InjectionToken<HttpRequestInitializ
     providedIn: "root"
 })
 export class LoginInterceptor implements HttpInterceptor {
+
     constructor(
         @Inject(START_CONFIG) private startConfig: StartConfig,
         @Optional() @Inject(HTTP_REQUEST_INITIALIZERS) private requestInitializers: HttpRequestInitializer[],
-        private loginServiceProxy: LoginServiceProxy,
-        private notificationsService: NotificationsService) {
-    }
-
-    private get loginService(): LoginService {
-        return this.loginServiceProxy.loginService;
-    }
-
-    private get authenticationService(): AuthenticationService {
-        return this.loginService.authenticationService;
-    }
+        private notificationsService: NotificationsService,
+        private loginService: LoginService,
+        private authService: AuthenticationService) {}
 
     private processRequestInitializers(request: HttpRequest<any>) {
         if (this.requestInitializers) {
@@ -132,68 +129,91 @@ export class LoginInterceptor implements HttpInterceptor {
         if (!this.shouldIntercept(request.url) || request.params.has("noIntercept")) {
             return next.handle(request);
         }
-        const observableRequest = of(request);
-        let noAutoAuthentication = false;
-        let noUserOverride = false;
-        let noNotify = false;
-        let hadCredentials = false;
-        let userOverrideActive = false;
-        return observableRequest
-            .pipe(switchMap(request1 => {
-                const config = {headers: request1.headers, params: request1.params};
-                noAutoAuthentication = Utils.isTrue(config.params.get("noAutoAuthentication"));
-                config.params = config.params.delete("noAutoAuthentication");
-                noUserOverride = Utils.isTrue(config.params.get("noUserOverride"));
-                config.params = config.params.delete("noUserOverride");
-                noNotify = Utils.isTrue(config.params.get("noNotify"));
-                config.params = config.params.delete("noNotify");
-                hadCredentials = this.authenticationService.haveCredentials;
-                this.authenticationService.addAuthentication(config);
-                if (this.authenticationService.userOverrideActive && !noUserOverride) {
-                    userOverrideActive = true;
-                    this.authenticationService.addUserOverride(config);
-                }
-                else {
-                    userOverrideActive = false;
-                }
-                config.headers = config.headers.set("sinequa-force-camel-case", "true");
-                if (this.isJsonable(request1.body)) {
-                    this.processRequestInitializers(request1);
-                }
-                const updatedRequest = request1.clone({
-                    headers: config.headers,
-                    params: config.params,
-                    body: request1.body,
-                    withCredentials: true
-                });
-                this.notificationsService.enter("network");
-                return next.handle(updatedRequest)
-                    .pipe(map((event, index) => {
-                        if (event instanceof HttpResponse) {
-                            this.notificationsService.leave("network");
-                            this.authenticationService.updateAuthentication(event);
-                        }
-                        return event;
-                    }));
-            }),
+
+        let config = {headers: request.headers, params: request.params};
+
+        const options: Options = {
+            noAutoAuthentication: Utils.isTrue(config.params.get("noAutoAuthentication")) || false,
+            noUserOverride: Utils.isTrue(config.params.get("noUserOverride")) || false,
+            hadCredentials: this.authService.haveCredentials,
+            userOverrideActive: false
+        }
+
+        const noNotify = Utils.isTrue(config.params.get("noNotify")) || false;
+
+        config.params = config.params.delete("noAutoAuthentication");
+        config.params = config.params.delete("noUserOverride");
+        config.params = config.params.delete("noNotify");
+
+        config = this.authService.addAuthentication(config);
+
+        if (this.authService.userOverrideActive && !options.noUserOverride) {
+            options.userOverrideActive = true;
+            config.headers = this.authService.addUserOverride(config);
+        }
+
+        config.headers = config.headers.set("sinequa-force-camel-case", "true");
+
+        if (this.isJsonable(request.body)) {
+            this.processRequestInitializers(request);
+        }
+
+        this.notificationsService.enter("network");
+        
+        const _request = request.clone({
+            headers: config.headers,
+            params: config.params,
+            body: request.body,
+            withCredentials: true
+        });
+
+        return next.handle(_request).pipe(
             catchError((error, caught) => {
                 this.notificationsService.leave("network");
-                if (error.status === 401 && !noAutoAuthentication) {
-                    if (userOverrideActive) {
-                        if (this.authenticationService.userOverrideActive) {
-                            this.authenticationService.deactivateUserOverride();
-                            this.authenticationService.userOverrideFailed = true;
-                            this.notificationsService.error("msg#error.userOverrideFailure");
+                if (error instanceof HttpErrorResponse) {
+                    switch (error.status) {
+                        case 401: {
+                            return this.handle401Error(error, _request, next, options, caught);
                         }
-                        return caught;
                     }
-                    return from(this.getCredentials(error, !hadCredentials))
-                        .pipe(switchMap(value => caught));
                 }
                 if (!noNotify) {
                     this.notifyError(error);
                 }
                 return throwError(error);
-            }));
-   }
+            }),
+            map((event) => {
+                if (event instanceof HttpResponse) {
+                    this.notificationsService.leave("network");
+                    this.authService.updateAuthentication(event);
+                }
+                return event;
+            })
+        );
+    }
+
+    private handle401Error(err: HttpErrorResponse, req: HttpRequest<any>, next: HttpHandler, options: Options, caught: Observable<HttpEvent<any>>): Observable<HttpEvent<any>> {
+        if (!options.noAutoAuthentication) {
+            if (options.userOverrideActive) {
+                if (this.authService.userOverrideActive) {
+                    this.authService.deactivateUserOverride();
+                    this.authService.userOverrideFailed = true;
+                    this.notificationsService.error("msg#error.userOverrideFailure");
+                }
+                return throwError(err);
+            }
+
+            return from(this.getCredentials(err, !options.hadCredentials))
+                .pipe(switchMap(value => {
+                    const {headers} = this.authService.addAuthentication(req);
+                    return next.handle(req.clone({headers}));
+                }),
+                    catchError(() => {
+                        return next.handle(req);
+                    }));
+        }
+
+        return throwError(err);
+
+    }
 }

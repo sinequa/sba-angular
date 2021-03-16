@@ -2,7 +2,7 @@
     "app": {
         "name": "Vanilla Search"
     },
-    
+
     "locale": {
         "en": "English (United States)",
         "en-gb": "English (United Kingdom)",
@@ -17,9 +17,14 @@
         "advancedSearch": "Advanced search",
         "scopeTitle": "Scope: {name}",
         "recentQuery": "Recent query",
-        "recentDocument": "Recent document"
+        "recentDocument": "Recent document",
+        "fieldedSearch": "Fielded Search",
+        "off": "Off",
+        "simple": "Simple",
+        "simpleTitle": "Graphical mode allowing to display selected filters as badges",
+        "advancedTitle": "Text mode allowing to write search expressions such as \"geo: Paris OR company: Sinequa\""
     },
-    
+
     "baskets": {
         "baskets": "Collections",
         "addToBasket": "Add to collection",
@@ -27,7 +32,7 @@
         "removeFromAllBaskets": "Remove from all collections",
         "removeFromAllBasketsConfirmation": "Are you sure you want to remove this result from these collections: {baskets}?",
         "basketAlreadyExists": "A collection with that name already exists. Would you like to replace it?",
-        "noBasket": "You have not yet added a document to a collection...",        
+        "noBasket": "You have not yet added a document to a collection...",
         "createBasket": "Create Collection",
         "manageBaskets": "Manage Collections"
     },
@@ -51,6 +56,9 @@
         },
         "preview": {
             "title": "Preview"
+        },
+        "labels": {
+            "title": "Labels"
         }
     },
 

@@ -1,0 +1,126 @@
+{
+    "app": {
+        "name": "Pepper"
+    },
+
+    "locale": {
+        "en": "English (United States)",
+        "en-gb": "English (United Kingdom)",
+        "fr": "Français",
+        "de": "Deutsch"
+    },
+
+    "searchForm": {
+        "search": "Suche",
+        "searchFor": "Suche nach...",
+        "advanced": "Erweitert",
+        "advancedSearch": "Erweiterte Suche",
+        "scopeTitle": "Suchbereich: {name}",
+        "recentQuery": "Recent query",
+        "recentDocument": "Recent document",
+        "fieldedSearch": "Fielded Search",
+        "off": "Off",
+        "simple": "Einfach",
+        "simpleTitle": "Grafischer Modus, in dem ausgewählte Filter als Ausweise angezeigt werden können",
+        "advancedTitle": "Textmodus zum Schreiben von Suchausdrücken wie \"Geo: Paris OR company: Sinequa\""
+    },
+
+    "facet": {
+        "filters": {
+            "title" : "Filter"
+        },
+        "preview": {
+            "title": "Vorschau"
+        }
+    },
+
+    "results": {
+        "tabPeople": "Personen",
+        "tabBusiness": "Firmen",
+        "tabLocation": "Orte"
+    },
+
+    "home": {
+        "recentDocumentsTooltip": "Recently opened documents",
+        "recentQueriesTooltip": "Letzte Suchanfragen",
+        "savedQueriesTooltip": "Gespeicherte Suchanfragen (einschließlich Filter)",
+        "basketsTooltip": "Ablagekörbe",
+        "darkMode": "Dunkler Modus",
+        "lightMode": "Lichtmodus"
+    },
+
+    "search": {
+        "pageTitle": "Suche - {search}",
+        "darkMode": "Dunkler Modus",
+        "darkModeTitle": "Dunkelmodus umschalten",
+        "filters": "Filter",
+        "hideResults": "Ergebnisse ausblenden",
+        "showResults": "Ergebnisse zeigen"
+    },
+
+    "preview": {
+        "extracts": "Extrakte",
+        "entities": "Entitäten",
+        "searchText": "Suche \"{text}\" im Dokument",
+        "pageTitle": "Dokument-Navigator - {title}"
+    },
+
+    "dashboard": {
+        "map": "Karte",
+        "timeline": "Zeitleiste",
+        "network": "Netzwerk",
+        "chart": "Diagramm",
+        "heatmap": "Heatmap",
+
+        "addWidget": "Widget hinzufügen",
+        "addWidgetTitle": "Fügen Sie dem Dashboard ein Widget hinzu",
+        "addWidgetModalTitle": "Fügen Sie ein Widget hinzu",
+        "addWidgetItemTitle": "Erstellen Sie ein {item} Widget",
+        "addWidgetSize": "Widget-Größe",
+        "addWidgetWidth": "Widgetbreite",
+        "addWidgetHeight": "Widget-Höhe",
+        "share": "Teilen",
+        "shareTitle": "Teilen Sie dieses Dashboard mit einem Kollegen",
+        "shareSuccess": "Freigegebener Link in Ihre Zwischenablage kopiert",
+        "shareError": "Der freigegebene Link konnte nicht in Ihre Zwischenablage kopiert werden: {url}",
+        "manual": "Manuelles Layout",
+        "manualTitle": "Durch das manuelle Layout können Widgets frei im Dashboard positioniert werden",
+        "auto": "Auto Layout",
+        "autoTitle": "Das automatische Layout komprimiert die Ansicht in die obere linke Ecke, wenn Platz verfügbar ist",
+        "fixed": "Festes Layout",
+        "fixedTitle": "Das feste Layout verhindert, dass das Dashboard geändert wird",
+        "new": "Neu",
+        "newTitle": "Erstellen Sie ein neues Dashboard",
+        "open": "Öffnen",
+        "openTitle": "Öffnen Sie ein gespeichertes Dashboard",
+        "openDashboard": "Öffnen Sie das Dashboard \"{dashboard}\"",
+        "delete": "Löschen",
+        "deleteTitle": "Löschen Sie das aktuelle Dashboard",
+        "deleteConfirmTitle": "Löschen Sie das aktuelle Dashboard",
+        "deleteConfirmMessage": "Möchten Sie das Dashboard \"{dashboard}\" wirklich löschen?",
+        "saveAs": "Speichern als...",
+        "saveAsTitle": "Speichern Sie das Dashboard, um es später zu öffnen",
+        "saveAsModalTitle": "Dashboard speichern unter",
+        "saveAsModalMessage": "Geben Sie einen Namen für dieses Dashboard ein",
+        "save": "Speichern",
+        "saveTitle": "Speichern Sie das Dashboard",
+        "saveSuccess": "Dashboard gespeichert",
+        "saveFailure": "Dashboard konnte nicht gespeichert werden!",
+        "autoSave": "Auto speichern",
+        "autoSaveTitle": "Speichern Sie Ihr Dashboard automatisch",
+        "setDefault": "Standard-Dashboard",
+        "setDefaultTitle": "Als Standard-Dashboard festlegen",
+        "setDefaultConfirm": "Möchten Sie \"{dashboard}\" als Standard-Dashboard festlegen?",
+        "setDefaultConfirmTitle": "Standard-Dashboard",
+        "setDefaultSuccess": "\"{dashboard}\" wurde als Standard-Dashboard festgelegt",
+        "settingsTitle": "Dashboard-Einstellungen",
+        "widgetClose": "Schließen",
+        "renameWidget": "Widget umbenennen",
+        "renameWidgetMessage": "Geben Sie einen neuen Namen für dieses Widget ein",
+        "renameWidgetTitle": "Benennen Sie dieses Widget um",
+        "fullScreenTitle": "Vollbild",
+        "exitFullScreenTitle": "Verlassen des Vollbildmodus",
+        "maximizeTitle": "Maximieren",
+        "minimizeTitle": "reduzieren"
+    }
+}

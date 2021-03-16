@@ -1,0 +1,25 @@
+<agm-map
+    [latitude]="35"
+    [longitude]="-30"
+    [zoom]="2"
+    [fitBounds]="fitBounds" 
+    [styles]="mapStyles"
+    [ngStyle]="{'height.px': height}"
+    (mapClick)="onMapClick($event)"
+    (boundsChange)="onBoundsChange($event)">
+
+    <agm-marker *ngFor="let record of geoRecords"
+        [latitude]="record[latitudeField]"
+        [longitude]="record[longitudeField]"
+        [title]="record['title']"
+        [agmFitBounds]="true"
+        [opacity]="record.$selected? 0.7 : 1"
+        (markerClick)="onMarkerClick($event, record, infoWindow)">
+
+        <agm-info-window #infoWindow [disableAutoPan]="true">
+            {{record['title']}}
+        </agm-info-window>
+
+    </agm-marker>
+
+</agm-map>

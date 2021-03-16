@@ -4,9 +4,10 @@
             <a *ngIf="!child.scrollGroup && child.href" class="dropdown-item {{child.disabled ? 'disabled' : ''}}" tabindex="-1" href="{{child.href}}">
                 <sq-action-item-content [item]="child" [text]="child.text" [in-dropdown-menu]="true"></sq-action-item-content>
             </a>
-            <a *ngIf="!child.scrollGroup && !child.href" href="javascript:void(0)" class="dropdown-item {{child.hasChildren ? 'dropdown-toggle': ''}} {{child.disabled ? 'disabled' : ''}}" [attr.data-toggle]="child.hasChildren ? 'dropdown' : ''" tabindex="-1" (click)="click(child, $event)">
+            <a *ngIf="!child.scrollGroup && !child.href && !child.component" href="javascript:void(0)" class="dropdown-item {{child.hasChildren ? 'dropdown-toggle': ''}} {{child.disabled ? 'disabled' : ''}}" [attr.data-toggle]="child.hasChildren ? 'dropdown' : ''" tabindex="-1" (click)="click(child, $event)">
                 <sq-action-item-content [item]="child" [text]="child.text" [in-dropdown-menu]="true"></sq-action-item-content>
             </a>
+            <sq-action-item-content *ngIf="child.component" [item]="child" [text]="child.text" [in-dropdown-menu]="true"></sq-action-item-content>
             <ul *ngIf="child.hasChildren" [sq-dropdown-menu]="{item: child, showMenuClass: options.showMenuClass}"></ul>
         </ng-container>
     </li>

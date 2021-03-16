@@ -1,0 +1,1885 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Core</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Core</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>ExprBuilder</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>app-utils/query/expr-builder.ts</code>
+        </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#concatAndExpr">concatAndExpr</a>
+                            </li>
+                            <li>
+                                <a href="#concatOrExpr">concatOrExpr</a>
+                            </li>
+                            <li>
+                                <a href="#makeAggregationExpr">makeAggregationExpr</a>
+                            </li>
+                            <li>
+                                <a href="#makeAndExpr">makeAndExpr</a>
+                            </li>
+                            <li>
+                                <a href="#makeBooleanExpr">makeBooleanExpr</a>
+                            </li>
+                            <li>
+                                <a href="#makeExpr">makeExpr</a>
+                            </li>
+                            <li>
+                                <a href="#makeFieldExpr">makeFieldExpr</a>
+                            </li>
+                            <li>
+                                <a href="#makeListExpr">makeListExpr</a>
+                            </li>
+                            <li>
+                                <a href="#makeNotExpr">makeNotExpr</a>
+                            </li>
+                            <li>
+                                <a href="#makeNumericalExpr">makeNumericalExpr</a>
+                            </li>
+                            <li>
+                                <a href="#makeOrExpr">makeOrExpr</a>
+                            </li>
+                            <li>
+                                <a href="#makeRangeExpr">makeRangeExpr</a>
+                            </li>
+                            <li>
+                                <a href="#makeRefineExpr">makeRefineExpr</a>
+                            </li>
+                            <li>
+                                <a href="#makeRegexpExpr">makeRegexpExpr</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="concatAndExpr"></a>
+                    <span class="name">
+                        <b>
+                            concatAndExpr
+                        </b>
+                        <a href="#concatAndExpr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>concatAndExpr(exprs: string[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="183"
+                            class="link-to-prism">app-utils/query/expr-builder.ts:183</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns an expression that is the intersection of given expressions
+eg. person:Bill GATES AND company:MICROSOFT</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>exprs</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="concatOrExpr"></a>
+                    <span class="name">
+                        <b>
+                            concatOrExpr
+                        </b>
+                        <a href="#concatOrExpr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>concatOrExpr(exprs: string[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="170"
+                            class="link-to-prism">app-utils/query/expr-builder.ts:170</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns an expression that is the union of given expressions
+eg. person:Bill GATES OR company:MICROSOFT</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>exprs</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="makeAggregationExpr"></a>
+                    <span class="name">
+                        <b>
+                            makeAggregationExpr
+                        </b>
+                        <a href="#makeAggregationExpr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>makeAggregationExpr(aggregation: <a href="../interfaces/Aggregation.html">Aggregation</a>, items: AggregationItem | AggregationItem[], combineWithAnd?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="212"
+                            class="link-to-prism">app-utils/query/expr-builder.ts:212</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Create an expression for the given aggregation item</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>aggregation</td>
+                                    <td>
+                                                <code><a href="../interfaces/Aggregation.html" target="_self" >Aggregation</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The aggregation containing this object</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>items</td>
+                                    <td>
+                                            <code>AggregationItem | AggregationItem[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The AggregationItem(s) to select</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>combineWithAnd</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>If there are multiple values, combine them with AND (instead of OR)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="makeAndExpr"></a>
+                    <span class="name">
+                        <b>
+                            makeAndExpr
+                        </b>
+                        <a href="#makeAndExpr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>makeAndExpr(field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, values: <a href="../interfaces/ValueItem.html">(string | ValueItem)[]</a>, display?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="120"
+                            class="link-to-prism">app-utils/query/expr-builder.ts:120</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Return an expression that selects multiple values for a field
+(All values are ANDed)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>field</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Name of the field to select (eg. &quot;company&quot;)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>values</td>
+                                    <td>
+                                                <code><a href="../interfaces/ValueItem.html" target="_self" >(string | ValueItem)[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Values of the field to select (eg. [&#39;IBM&#39;,&#39;APPLE&#39;])</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>display</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Optional string to display that value (eg. &quot;IBM and Apple&quot;)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="makeBooleanExpr"></a>
+                    <span class="name">
+                        <b>
+                            makeBooleanExpr
+                        </b>
+                        <a href="#makeBooleanExpr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>makeBooleanExpr(field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, display?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">app-utils/query/expr-builder.ts:30</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Make a boolean expression</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>field</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Name of the field to select (eg. &quot;toto&quot;)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Value of the field to select (eg. &quot;true&quot;)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>display</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Optional string to display that value (eg. &quot;True&quot;)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="makeExpr"></a>
+                    <span class="name">
+                        <b>
+                            makeExpr
+                        </b>
+                        <a href="#makeExpr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>makeExpr(field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, display?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">app-utils/query/expr-builder.ts:19</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Make a standard selection expression
+(resulting in a SQL clause like &quot;company contains &#39;BOEING&#39;&quot;)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>field</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Name of the field to select (eg. &quot;company&quot;)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Value of the field to select (eg. &quot;BOEING&quot;)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>display</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Optional string to display that value (eg. &quot;Boeing&quot;)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="makeFieldExpr"></a>
+                    <span class="name">
+                        <b>
+                            makeFieldExpr
+                        </b>
+                        <a href="#makeFieldExpr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>makeFieldExpr(field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, items: <a href="../interfaces/ValueItem.html">ValueItem | ValueItem[]</a>, combineWithAnd?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="196"
+                            class="link-to-prism">app-utils/query/expr-builder.ts:196</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns an expression to select the given item</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>field</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Name of the field to select (eg. &quot;company&quot;)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>items</td>
+                                    <td>
+                                                <code><a href="../interfaces/ValueItem.html" target="_self" >ValueItem | ValueItem[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>A single or list of ValueItem object(s) (eg. content of a record)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>combineWithAnd</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="makeListExpr"></a>
+                    <span class="name">
+                        <b>
+                            makeListExpr
+                        </b>
+                        <a href="#makeListExpr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>makeListExpr(field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, values: string[], display?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">app-utils/query/expr-builder.ts:68</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Make a list expression</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>field</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Name of the field to select (eg. &quot;docformat&quot;)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>values</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Values of the field to select (eg. [&#39;htm&#39;,&#39;pdf&#39;])</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>display</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Optional string to display that value (eg. &quot;htm, pdf&quot;)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="makeNotExpr"></a>
+                    <span class="name">
+                        <b>
+                            makeNotExpr
+                        </b>
+                        <a href="#makeNotExpr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>makeNotExpr(expr: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="161"
+                            class="link-to-prism">app-utils/query/expr-builder.ts:161</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the negative expression of the given expression
+eg. NOT(person:Bill GATES)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>expr</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="makeNumericalExpr"></a>
+                    <span class="name">
+                        <b>
+                            makeNumericalExpr
+                        </b>
+                        <a href="#makeNumericalExpr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>makeNumericalExpr(field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, operator: ">" | ">=" | "<" | "<=" | "=" | "<>", value: number | Date | string, display?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">app-utils/query/expr-builder.ts:43</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Make a numerical expression using a comparison operator (&gt;, &lt;, &lt;=, &gt;=, etc.)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>field</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Name of the field to select (eg. &quot;modified&quot;)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>operator</td>
+                                    <td>
+                                            <code>&quot;&gt;&quot; | &quot;&gt;&#x3D;&quot; | &quot;&lt;&quot; | &quot;&lt;&#x3D;&quot; | &quot;&#x3D;&quot; | &quot;&lt;&gt;&quot;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Comparison operator used for that selection (eg. &quot;&gt;&quot;)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                            <code>number | Date | string</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Value of the field to select (eg. &quot;2020-12-15&quot;)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>display</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Optional string to display that value (eg. &quot;After Dec 15 2020&quot;)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="makeOrExpr"></a>
+                    <span class="name">
+                        <b>
+                            makeOrExpr
+                        </b>
+                        <a href="#makeOrExpr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>makeOrExpr(field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, values: <a href="../interfaces/ValueItem.html">(string | ValueItem)[]</a>, display?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">app-utils/query/expr-builder.ts:134</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Return an expression that selects multiple values for a field
+(All values are ORed)
+This function should be equivalent to using makeListExpr</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>field</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Name of the field to select (eg. &quot;company&quot;)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>values</td>
+                                    <td>
+                                                <code><a href="../interfaces/ValueItem.html" target="_self" >(string | ValueItem)[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Values of the field to select (eg. [&#39;IBM&#39;,&#39;APPLE&#39;])</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>display</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Optional string to display that value (eg. &quot;IBM and Apple&quot;)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="makeRangeExpr"></a>
+                    <span class="name">
+                        <b>
+                            makeRangeExpr
+                        </b>
+                        <a href="#makeRangeExpr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>makeRangeExpr(field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, from: number | Date | string, to: number | Date | string, display?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">app-utils/query/expr-builder.ts:81</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Make a range expression</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>field</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Name of the field to select (eg. &quot;modified&quot;)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>from</td>
+                                    <td>
+                                            <code>number | Date | string</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Begining of the range (eg. 2020-12-15)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>to</td>
+                                    <td>
+                                            <code>number | Date | string</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>End of the range (eg. 2020-12-20)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>display</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Optional string to display that value (eg. &quot;[Dec 15 2020, Dec 20 2020]&quot;)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="makeRefineExpr"></a>
+                    <span class="name">
+                        <b>
+                            makeRefineExpr
+                        </b>
+                        <a href="#makeRefineExpr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>makeRefineExpr(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">app-utils/query/expr-builder.ts:108</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Make a refine expression</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>text</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The text to add to the query</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="makeRegexpExpr"></a>
+                    <span class="name">
+                        <b>
+                            makeRegexpExpr
+                        </b>
+                        <a href="#makeRegexpExpr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>makeRegexpExpr(field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, display?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="98"
+                            class="link-to-prism">app-utils/query/expr-builder.ts:98</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Make a RegExp expression</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>field</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Name of the field to select (eg. &quot;company&quot;)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Value of the regular expression to match (eg. &quot;BOE.*&quot;)</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>display</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Optional string to display that value (eg. &quot;Boe...&quot;)</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Utils } from &#x27;@sinequa/core/base&#x27;;
+import { Aggregation, AggregationItem, TreeAggregationNode } from &#x27;@sinequa/core/web-services&#x27;;
+import { ValueItem } from &#x27;../format.service&#x27;;
+import { ExprParser } from &#x27;./expr-parser&#x27;;
+
+@Injectable({
+    providedIn: &#x27;root&#x27;
+})
+export class ExprBuilder {
+
+    /**
+     * Make a standard selection expression
+     * (resulting in a SQL clause like &quot;company contains &#x27;BOEING&#x27;&quot;)
+     * @param field Name of the field to select (eg. &quot;company&quot;)
+     * @param value Value of the field to select (eg. &quot;BOEING&quot;)
+     * @param display Optional string to display that value (eg. &quot;Boeing&quot;)
+     */
+    makeExpr(field: string, value: string, display?: string): string {
+        field &#x3D; this.formatField(field, display);
+        return &#x60;${field}: ${ExprParser.escape(value)}&#x60;; // company&#x60;Boeing&#x60;: BOEING
+    }
+
+    /**
+     * Make a boolean expression
+     * @param field Name of the field to select (eg. &quot;toto&quot;)
+     * @param value Value of the field to select (eg. &quot;true&quot;)
+     * @param display Optional string to display that value (eg. &quot;True&quot;)
+     */
+    makeBooleanExpr(field: string, value: boolean, display?: string): string {
+        field &#x3D; this.formatField(field, display);
+        return &#x60;${field}: ${ExprParser.escape(Utils.toSqlValue(value))}&#x60;; // toto&#x60;True&#x60;: true
+    }
+
+
+    /**
+     * Make a numerical expression using a comparison operator (&gt;, &lt;, &lt;&#x3D;, &gt;&#x3D;, etc.)
+     * @param field Name of the field to select (eg. &quot;modified&quot;)
+     * @param operator Comparison operator used for that selection (eg. &quot;&gt;&quot;)
+     * @param value Value of the field to select (eg. &quot;2020-12-15&quot;)
+     * @param display Optional string to display that value (eg. &quot;After Dec 15 2020&quot;)
+     */
+    makeNumericalExpr(
+        field: string,
+        operator: &#x27;&gt;&#x27; | &#x27;&gt;&#x3D;&#x27; | &#x27;&lt;&#x27; | &#x27;&lt;&#x3D;&#x27; | &#x27;&#x3D;&#x27; | &#x27;&lt;&gt;&#x27;,
+        value: number | Date | string,
+        display?: string): string {
+
+        field &#x3D; this.formatField(field, display);
+
+        if(Utils.isString(value)) {
+            value &#x3D; ExprParser.escape(value);
+        }
+        if(Utils.isDate(value) || Utils.isNumber(value)) {
+            value &#x3D; Utils.toSqlValue(value);
+        }
+
+        return &#x60;${field}:${operator} ${value}&#x60;; // modified&#x60;After Dec 15 2020&#x60;:&gt; 2020-12-15
+    }
+
+
+    /**
+     * Make a list expression
+     * @param field Name of the field to select (eg. &quot;docformat&quot;)
+     * @param values Values of the field to select (eg. [&#x27;htm&#x27;,&#x27;pdf&#x27;])
+     * @param display Optional string to display that value (eg. &quot;htm, pdf&quot;)
+     */
+    makeListExpr(field: string, values: string[], display?: string): string {
+        field &#x3D; this.formatField(field, display);
+        return &#x60;${field}: [${values.map(v &#x3D;&gt; ExprParser.escape(v)).join(&#x27;,&#x27;)}]&#x60;; // docformat&#x60;htm, pdf&#x60;:[&#x60;htm&#x60;,&#x60;pdf&#x60;]
+    }
+
+
+    /**
+     * Make a range expression
+     * @param field Name of the field to select (eg. &quot;modified&quot;)
+     * @param from Begining of the range (eg. 2020-12-15)
+     * @param to End of the range (eg. 2020-12-20)
+     * @param display Optional string to display that value (eg. &quot;[Dec 15 2020, Dec 20 2020]&quot;)
+     */
+    makeRangeExpr(
+        field: string,
+        from: number | Date | string,
+        to: number | Date | string,
+        display?: string): string {
+
+        field &#x3D; this.formatField(field, display);
+        return &#x60;${field}: [${Utils.toSqlValue(from)}..${Utils.toSqlValue(to)}]&#x60;; // modified&#x60;[Dec 15 2020, Dec 20 2020]&#x60;: [2020-12-15..2020-12-20]
+    }
+
+
+    /**
+     * Make a RegExp expression
+     * @param field Name of the field to select (eg. &quot;company&quot;)
+     * @param value Value of the regular expression to match (eg. &quot;BOE.*&quot;)
+     * @param display Optional string to display that value (eg. &quot;Boe...&quot;)
+     */
+    makeRegexpExpr(field: string, value: string, display?: string): string {
+        field &#x3D; this.formatField(field, display);
+        return &#x60;${field}:~ ${ExprParser.escape(value)}&#x60;; // company&#x60;Boe...&#x60;:~ BOE.*
+    }
+
+
+    /**
+     * Make a refine expression
+     * @param text The text to add to the query
+     */
+    makeRefineExpr(text: string): string {
+        return &#x60;refine: ${ExprParser.escape(text)}&#x60;;
+    }
+
+
+    /**
+     * Return an expression that selects multiple values for a field
+     * (All values are ANDed)
+     * @param field Name of the field to select (eg. &quot;company&quot;)
+     * @param values Values of the field to select (eg. [&#x27;IBM&#x27;,&#x27;APPLE&#x27;])
+     * @param display Optional string to display that value (eg. &quot;IBM and Apple&quot;)
+     */
+    makeAndExpr(field: string, values: (string | ValueItem)[], display?: string): string {
+        field &#x3D; this.formatField(field, display);
+        return &#x60;${field}: (${this.concatWithOperator(values, &#x27;AND&#x27;)})&#x60;; // company: (IBM AND APPLE AND GOOGLE)
+    }
+
+
+    /**
+     * Return an expression that selects multiple values for a field
+     * (All values are ORed)
+     * This function should be equivalent to using makeListExpr
+     * @param field Name of the field to select (eg. &quot;company&quot;)
+     * @param values Values of the field to select (eg. [&#x27;IBM&#x27;,&#x27;APPLE&#x27;])
+     * @param display Optional string to display that value (eg. &quot;IBM and Apple&quot;)
+     */
+    makeOrExpr(field: string, values: (string | ValueItem)[], display?: string): string {
+        field &#x3D; this.formatField(field, display);
+        return &#x60;${field}: (${this.concatWithOperator(values, &#x27;OR&#x27;)})&#x60;; // company: (IBM OR APPLE OR GOOGLE)
+    }
+
+    /**
+     * Combine a list of values with AND or OR operators
+     * @param values the list of values
+     * @param operator the operator
+     */
+    private concatWithOperator(values: (string | ValueItem)[], operator: &#x27;AND&#x27; | &#x27;OR&#x27;) {
+        return values.map(v &#x3D;&gt; {
+            if (Utils.isString(v)){
+                return ExprParser.escape(v);
+            }
+            if (v.display) {
+                return &#x60;${ExprParser.escape(v.display)}:${ExprParser.escape(Utils.toSqlValue(v.value))}&#x60;;
+            }
+            return ExprParser.escape(Utils.toSqlValue(v.value));
+        }).join(&#x27; &#x27;+operator+&#x27; &#x27;);
+    }
+
+    /**
+     * Returns the negative expression of the given expression
+     * eg. NOT(person:Bill GATES)
+     * @param expr
+     */
+    makeNotExpr(expr: string): string {
+        return &#x60;NOT (${expr})&#x60;;
+    }
+
+    /**
+     * Returns an expression that is the union of given expressions
+     * eg. person:Bill GATES OR company:MICROSOFT
+     * @param exprs
+     */
+    concatOrExpr(exprs: string[]): string {
+        if (exprs.length &lt;&#x3D; 1) {
+            return exprs[0] || &#x27;&#x27;;
+        }
+        return &#x60;(${exprs.join(&#x27;) OR (&#x27;)})&#x60;;
+    }
+
+
+    /**
+     * Returns an expression that is the intersection of given expressions
+     * eg. person:Bill GATES AND company:MICROSOFT
+     * @param exprs
+     */
+    concatAndExpr(exprs: string[]): string {
+        if (exprs.length &lt;&#x3D; 1) {
+            return exprs[0] || &#x27;&#x27;;
+        }
+        return &#x60;(${exprs.join(&#x27;) AND (&#x27;)})&#x60;;
+    }
+
+
+    /**
+     * Returns an expression to select the given item
+     * @param field Name of the field to select (eg. &quot;company&quot;)
+     * @param items A single or list of ValueItem object(s) (eg. content of a record)
+     */
+    makeFieldExpr(field: string, items: ValueItem | ValueItem[], combineWithAnd?: boolean): string {
+        if(!Utils.isArray(items)) {
+            items &#x3D; [items];
+        }
+        if(items.length &#x3D;&#x3D;&#x3D; 0) {
+            return &quot;&quot;; // Return a falsy string instead of &quot;()&quot; or &quot;&#x60;&#x60;&quot; which would be truthy
+        }
+        return combineWithAnd? this.makeAndExpr(field, items) : this.makeOrExpr(field, items);
+    }
+
+    /**
+     * Create an expression for the given aggregation item
+     * @param aggregation The aggregation containing this object
+     * @param items The AggregationItem(s) to select
+     * @param combineWithAnd If there are multiple values, combine them with AND (instead of OR)
+     */
+    makeAggregationExpr(aggregation: Aggregation, items: AggregationItem | AggregationItem[], combineWithAnd?: boolean): string {
+        if(!Utils.isArray(items)) {
+            items &#x3D; [items];
+        }
+        if(aggregation.valuesAreExpressions) {
+            const exprs &#x3D; items.map(i &#x3D;&gt; i.value.toString()); // .toString() is to avoid typing issues. With valuesAreExpressions &#x3D; true, item.value is expected to be a string
+            return combineWithAnd? this.concatAndExpr(exprs) : this.concatOrExpr(exprs);
+        }
+        else {
+            const _items &#x3D; this.asValueItems(items, aggregation.isTree);
+            return this.makeFieldExpr(aggregation.column, _items, combineWithAnd);
+        }
+    }
+
+
+    /**
+     * Combines the field with the optional display value(s)
+     * @param field
+     * @param display
+     */
+    private formatField(field: string, display?: string): string {
+        if(display) {
+            field &#x3D; &#x60;${field}${ExprParser.escape(display)}&#x60;;
+        }
+        return field;
+    }
+
+
+    /**
+     * Return the AggregationItem list as a ValueItem list
+     * @param items
+     * @param isTree
+     */
+    private asValueItems(items: AggregationItem[], isTree?: boolean): ValueItem[] {
+        if(isTree) {
+            return items.map(i &#x3D;&gt; {
+                return {
+                    value: (i as TreeAggregationNode).$path + &quot;*&quot;,
+                    display: i.display || i.value as string
+                };
+            });
+        }
+        return items; // This works because ValueItem and AggregationItem share the value and display properties
+    }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'ExprBuilder.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

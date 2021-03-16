@@ -26,7 +26,7 @@ export class TokenService extends HttpService {
      * @param notify `true` if any errors should be notified using the {@NotificationService}
      */
     getCsrfToken(notify = false): Observable<string> {
-        const observable = this.httpClient.get<{csrfToken: string}>(this.makeUrl("challenge"), {
+        return this.httpClient.get<{csrfToken: string}>(this.makeUrl("challenge"), {
             params: this.makeParams({
                 action: "getCsrfToken",
                 suppressErrors: !notify,
@@ -34,8 +34,7 @@ export class TokenService extends HttpService {
                 noAutoAuthentication: true,
                 noNotify: !notify
             })
-        });
-        return observable.pipe(
+        }).pipe(
             map((value) => {
                 return value.csrfToken;
             }));

@@ -3,7 +3,7 @@ layout: default
 title: Metadata Module
 parent: Components
 grand_parent: Modules
-nav_order: 11
+nav_order: 8
 ---
 
 # Metadata Module
@@ -34,6 +34,15 @@ import { MetadataModule } from '@sinequa/components/metadata';
   ],
   /*....*/
 })
+```
+
+This module is internationalized: If not already the case, you need to import its messages for the language(s) of your application. For example, in your app's `src/locales/en.ts`:
+
+```ts
+...
+import {enMetadata} from "@sinequa/components/metadata";
+
+const messages = Utils.merge({}, ..., enMetadata, appMessages);
 ```
 
 ## API usage

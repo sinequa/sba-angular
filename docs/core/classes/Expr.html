@@ -235,6 +235,9 @@ combines sub-expressions using boolean operators</p>
                                 <li>
                                     <a href="#isPositive">isPositive</a>
                                 </li>
+                                <li>
+                                    <a href="#hasRelevance">hasRelevance</a>
+                                </li>
                             </ul>
                         </td>
                     </tr>
@@ -912,8 +915,8 @@ to which both expressions are added as operands.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1539"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:1539</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1549"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:1549</a></div>
                 </td>
             </tr>
 
@@ -1329,8 +1332,8 @@ before matching within them</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1322"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:1322</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1332"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:1332</a></div>
                 </td>
             </tr>
 
@@ -1445,8 +1448,8 @@ whitespace is excluded</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1342"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:1342</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1352"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:1352</a></div>
                 </td>
             </tr>
 
@@ -2262,7 +2265,7 @@ if the display object on this node is empty</p>
                             </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-description"><p>Return <code>true</code> if this expression is a leaf node (does not have a value)</p>
+                                <div class="io-description"><p>Return <code>true</code> if this expression is a leaf node (does have a value)</p>
 </div>
 
                                 <div class="io-description">
@@ -2395,6 +2398,42 @@ if the display object on this node is empty</p>
                     <tr>
                         <td class="col-md-4">
                                 <div class="io-description"><p>Return <code>true</code> if the expression and its ancestors do not have <code>not</code> set to <code>true</code></p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="hasRelevance"></a>
+                        <span class="name"><b>hasRelevance</b><a href="#hasRelevance"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>hasRelevance()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="1325" class="link-to-prism">app-utils/query/expr-parser.ts:1325</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Return <code>true</code> if the exoression has at least one fulltext operand.
+The test on <code>isPositive</code> filters expressions that only contain
+negative fulltext terms which will be ignored on the server. Fulltext
+expressions must have at least one positive term.</p>
 </div>
 
                                 <div class="io-description">
@@ -2848,7 +2887,7 @@ export class Expr {
     }
 
     /**
-     * Return &#x60;true&#x60; if this expression is a leaf node (does not have a value)
+     * Return &#x60;true&#x60; if this expression is a leaf node (does have a value)
      */
     public get isLeaf(): boolean {
         // if (this.value &#x3D;&#x3D;&#x3D; null &amp;&amp; !this.operands) throw &quot;Expr.isLeaf - bad expression&quot;;
@@ -3248,7 +3287,7 @@ export class Expr {
         if (!!value &amp;&amp; !!this.column &amp;&amp; (AppServiceHelpers.isString(this.column) || AppServiceHelpers.isCsv(this.column))) {
             return ExprParser.escape(value);
         }
-        return &quot;&quot;;
+        return value || &quot;&quot;;
     }
 
     private getValueString(): string {
@@ -3730,6 +3769,16 @@ export class Expr {
     }
 
     /**
+     * Return &#x60;true&#x60; if the exoression has at least one fulltext operand.
+     * The test on &#x60;isPositive&#x60; filters expressions that only contain
+     * negative fulltext terms which will be ignored on the server. Fulltext
+     * expressions must have at least one positive term.
+     */
+    get hasRelevance(): boolean {
+        return this.some(expr &#x3D;&gt; expr.isLeaf &amp;&amp; !expr.isStructured &amp;&amp; expr.isPositive);
+    }
+
+    /**
      * Return an array of all fields used in this expression
      */
     getFields(): string[] {
@@ -3902,14 +3951,14 @@ export class Expr {
             if (column &amp;&amp; column.parser) {
                 value &#x3D; this.exprContext.formatService.parseValue(value, column.parser);
             }
-            if (AppService.isNumber(column)) {
+            if (AppServiceHelpers.isNumber(column)) {
                 if (!Utils.isNumber(dataValue)) {
                     dataValue &#x3D; 0;
                 }
                 const _value &#x3D; Utils.toNumber(value);
                 return dataValue - _value;
             }
-            if (AppService.isDate(column)) {
+            if (AppServiceHelpers.isDate(column)) {
                 if (Utils.isString(dataValue)){
                     dataValue &#x3D; Utils.toDate(dataValue);
                 }
@@ -3921,7 +3970,7 @@ export class Expr {
                 }
                 return NaN;
             }
-            if (AppService.isBoolean(column)) {
+            if (AppServiceHelpers.isBoolean(column)) {
                 const _value &#x3D; Utils.isTrue(value) ? 1 : 0;
                 return (dataValue ? 1 : 0) - _value;
             }
