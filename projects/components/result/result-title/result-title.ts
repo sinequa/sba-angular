@@ -55,6 +55,10 @@ export class ResultTitle implements OnChanges {
     public get target(): string {
         return (this.hasLinkBehaviour && this.documentUrl) ? "_blank" : "_self";
     }
+    
+    public get hasUrl(): boolean {
+        return !!this.documentUrl;
+    }
 
     private getTitle(): string {
         let title;
