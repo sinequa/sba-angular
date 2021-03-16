@@ -35,6 +35,9 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
     if(this.previewData && this.previewDocument){
       const extracts = this.previewData.highlightsPerCategory["extractslocations"]?.values; //Extract locations Array ordered by "relevance"
       if(!!extracts && extracts.length > 0){
+        
+        // Restore highlight state of match locations when switching (back) to this panel
+        this.previewDocument.toggleHighlight('matchlocations', true);
 
         // Init the extracts Array and storing the relevancy index = i because extractsLocations is already ordered by relevance
         this.extracts = extracts[0].locations.map((el, i) => {
