@@ -60,8 +60,6 @@ export class DashboardItemComponent implements OnChanges {
     // Properties specific to certain types of dashboard items
     innerwidth = 600;
     innerheight = 200;
-    initialHeight: number | undefined;
-    initialWidth: number | undefined;
 
     // Network
     networkProviders: NetworkProvider[] = [];
@@ -231,22 +229,15 @@ export class DashboardItemComponent implements OnChanges {
     toggleMaximizedView(): void {
         const elem = this.gridsterItemComponent.el;
 
-        if (!this.initialHeight) { // save original height before maximizing
-            this.initialHeight = this.innerheight + 43;
-        }
-        if (!this.initialWidth) { // save original width before maximizing
-            this.initialWidth = this.innerwidth;
-        }
-
         elem.classList.toggle('widget-maximized-view'); // allow container of gridsterItem to full-fill its direct parent dimensions
-        this.gridsterItemComponent.el.parentElement?.classList.toggle('no-scroll'); // disable the direct parent scroll
+        elem.parentElement?.classList.toggle('no-scroll'); // disable the direct parent scroll
 
         if (elem.classList.contains('widget-maximized-view')) { // update component defined in gridsterItem to full-fill its maximized space
-            this.config.height = this.gridsterItemComponent.el.parentElement?.clientHeight!;
-            this.config.width = this.gridsterItemComponent.el.parentElement?.clientWidth!;
-        } else { // restore original dashboard view
-            this.config.height = this.initialHeight;
-            this.config.width = this.initialWidth;
+            this.config.height = elem.parentElement?.clientHeight!;
+            this.config.width = elem.parentElement?.clientWidth!;
+        } else { // update height/width to the dimensions of the gridsterItemComponent
+            this.config.height = this.gridsterItemComponent.height;
+            this.config.width = this.gridsterItemComponent.width;
         }
 
         // update related full-screen actions since they can not be performed in maximized mode

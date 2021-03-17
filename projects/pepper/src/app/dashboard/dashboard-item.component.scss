@@ -2,3 +2,7 @@
 ::ng-deep sq-facet-card > .card {
     height: 100%;
 }
+
+::ng-deep sq-facet-card > .card .card-body {
+    overflow-y: auto;
+}
