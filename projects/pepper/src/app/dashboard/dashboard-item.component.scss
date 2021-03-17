@@ -3,6 +3,7 @@
     height: 100%;
 }
 
+// Force the settings form of the Network and HeatMap facets to scroll rather than overflowing the widget frame
 ::ng-deep sq-facet-card > .card .card-body {
     overflow-y: auto;
 }
