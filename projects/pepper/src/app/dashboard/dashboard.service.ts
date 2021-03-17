@@ -125,8 +125,14 @@ export class DashboardService {
             },
             itemResizeCallback: (item, itemComponent) => {
                 if (!document.fullscreenElement) { // Exclude the change detection on switch from/to full-screen mode
-                    item.height = itemComponent.height; // Items must know their own width/height to (re)size their content
-                    item.width = itemComponent.width;
+                    /** Items must know their height/width to (re)size their content*/
+                    if (!itemComponent.el.classList.contains('widget-maximized-view')) {
+                        item.height = itemComponent.height;
+                        item.width = itemComponent.width;
+                    } else {
+                        item.height = itemComponent.gridster.curHeight;
+                        item.width = itemComponent.gridster.curWidth;
+                    }
                     this.notifyItemChange(item as DashboardItem);
                 }
             },
