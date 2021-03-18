@@ -119,7 +119,10 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    * Scroll to a specific extract
    * @param i
    */
-  scrollExtract(i: number){
+  scrollExtract(i: number, index?: number) {
+    if(index !== undefined) {
+      this.currentExtract = index;
+    }
     if(this.previewDocument) {
       this.previewDocument.selectHighlight("extractslocations", i);
     }
