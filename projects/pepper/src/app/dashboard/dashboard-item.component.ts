@@ -282,5 +282,8 @@ export class DashboardItemComponent implements OnChanges {
      */
     close() {
         this.dashboardService.removeItem(this.config);
+        if (this.gridsterItemComponent.el.parentElement?.classList.contains('no-scroll')) {
+            this.gridsterItemComponent.el.parentElement.classList.remove('no-scroll')
+        }
     }
 }
