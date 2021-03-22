@@ -15,7 +15,7 @@
     
     <div class="list-group pt-1" style="height: calc(100vh - 226px);">
         <cdk-virtual-scroll-viewport [itemSize]="64" class="flex-grow-1">
-            <div *cdkVirtualFor="let extract of extracts; let i = index">
+            <div *cdkVirtualFor="let extract of extracts; let i = index" class="pl-2 pr-2">
                 <a href="#" class="card my-1 list-group-item-action" (click)="scrollExtract(extract.textIndex, i)"
                     [ngClass]="{'bg-light': currentExtract === i && style === 'light', 'bg-dark': currentExtract === i && style === 'dark'}">
                     <p class="card-body m-0" [innerHTML]="extract.text"></p>

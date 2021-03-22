@@ -26,7 +26,7 @@
             </div>
 
             <!-- Expanded panel different subpanels available -->
-            <div class="flex-grow-1" *ngIf="!collapsedPanel">
+            <div [ngStyle]="{'overflow': subpanel === 'extracts' ? 'hidden': 'auto'}" *ngIf="!collapsedPanel">
     
                 <!-- Legacy preview highlights -->
                 <sq-preview-highlights *ngIf="subpanel === 'highlights' && !!previewData" class="my-2" 
@@ -43,7 +43,7 @@
                 </sq-preview-pages-panel>
 
                 <!-- Entities panel -->
-                <div class="p-2" style="max-height: calc(100vh - 172px); overflow-y: auto;">
+                <div class="p-2">
                     <sq-preview-entity-panel *ngIf="subpanel === 'entities'"
                         [previewData]="previewData" [previewDocument]="previewDocument" [style]="isDark()? 'dark' : 'light'" [startUnchecked]="entitiesStartUnchecked" (facetChecked)="entitiesChecked($event)">
                     </sq-preview-entity-panel>
@@ -53,21 +53,21 @@
         </div>
 
         <!-- Right panel (iframe with preview HTML) -->
-        <div class="flex-grow-1 d-flex flex-column preview-bg">
+        <div class="d-flex flex-column preview-bg" style="flex:1; height: 100vh;">
             <div *ngIf="previewData" class="mb-1 pl-2">
                 <h1>{{ previewData?.record.title }}</h1>
                 <!-- Link to the original document -->
                 <a title="Original document" target="_blank" href="{{previewData?.record.url1}}" (click)="openOriginalDoc()">{{previewData?.record.url1}}</a>
             </div>
-            <div style="flex:1; min-height: calc(100vh - 84px); max-height: calc(100vh - 84px);">
-            <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)" (urlChange)="onPreviewUrlChange($event)">
+            <div style="flex:1;">
+                <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)" (urlChange)="onPreviewUrlChange($event)">
 
-                <!-- Tooltip injected in the preview -->
-                <sq-preview-tooltip #tooltip [previewDocument]="previewDocument" [previewData]="previewData" 
-                    [entityActions]="tooltipEntityActions" [selectedTextActions]="tooltipTextActions">
-                </sq-preview-tooltip>
+                    <!-- Tooltip injected in the preview -->
+                    <sq-preview-tooltip #tooltip [previewDocument]="previewDocument" [previewData]="previewData" 
+                        [entityActions]="tooltipEntityActions" [selectedTextActions]="tooltipTextActions">
+                    </sq-preview-tooltip>
 
-            </sq-preview-document-iframe>
+                </sq-preview-document-iframe>
             </div>
         </div>
 
