@@ -1,5 +1,5 @@
 <ng-container *ngIf="previewData">
-    <div class="d-flex justify-content-between" *ngIf="extracts?.length > 0">
+    <div class="d-flex justify-content-between p-2" *ngIf="extracts?.length > 0">
         <button class="btn btn-light" (click)="previousExtract()" [disabled]="currentExtract < 1">
             <i class="fas fa-arrow-left"></i>&nbsp;{{ 'msg#preview.previousDocument' | sqMessage}}
         </button>
@@ -13,7 +13,7 @@
         <span>{{ 'msg#preview.noextract' | sqMessage}}</span>
     </div>
     
-    <div class="list-group pt-1" style="min-height: calc(100% - 30px);">
+    <div class="list-group pt-1" style="height: calc(100vh - 226px);">
         <cdk-virtual-scroll-viewport [itemSize]="64" class="flex-grow-1">
             <div *cdkVirtualFor="let extract of extracts; let i = index">
                 <a href="#" class="card my-1 list-group-item-action" (click)="scrollExtract(extract.textIndex, i)"

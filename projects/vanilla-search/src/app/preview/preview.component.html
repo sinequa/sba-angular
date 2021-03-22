@@ -1,4 +1,4 @@
-    <div class="h-100 d-flex flex-row m-0">
+    <div class="d-flex flex-row m-0 overflow-hidden" style="max-height: 100%">
 
         <!-- Left panel (navigation, extracts and entities) -->
         <div class="d-flex flex-column align-items-stretch border-right p-0" 
@@ -26,7 +26,7 @@
             </div>
 
             <!-- Expanded panel different subpanels available -->
-            <div class="flex-grow-1 p-2" *ngIf="!collapsedPanel">
+            <div class="flex-grow-1" *ngIf="!collapsedPanel">
     
                 <!-- Legacy preview highlights -->
                 <sq-preview-highlights *ngIf="subpanel === 'highlights' && !!previewData" class="my-2" 
@@ -43,10 +43,11 @@
                 </sq-preview-pages-panel>
 
                 <!-- Entities panel -->
-                <sq-preview-entity-panel *ngIf="subpanel === 'entities'"
-                    [previewData]="previewData" [previewDocument]="previewDocument" [style]="isDark()? 'dark' : 'light'" [startUnchecked]="entitiesStartUnchecked" (facetChecked)="entitiesChecked($event)">
-                </sq-preview-entity-panel>
-
+                <div class="p-2" style="max-height: calc(100vh - 172px); overflow-y: auto;">
+                    <sq-preview-entity-panel *ngIf="subpanel === 'entities'"
+                        [previewData]="previewData" [previewDocument]="previewDocument" [style]="isDark()? 'dark' : 'light'" [startUnchecked]="entitiesStartUnchecked" (facetChecked)="entitiesChecked($event)">
+                    </sq-preview-entity-panel>
+                </div>
             </div>
 
         </div>
@@ -58,6 +59,7 @@
                 <!-- Link to the original document -->
                 <a title="Original document" target="_blank" href="{{previewData?.record.url1}}" (click)="openOriginalDoc()">{{previewData?.record.url1}}</a>
             </div>
+            <div style="flex:1; min-height: calc(100vh - 84px); max-height: calc(100vh - 84px);">
             <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)" (urlChange)="onPreviewUrlChange($event)">
 
                 <!-- Tooltip injected in the preview -->
@@ -66,6 +68,7 @@
                 </sq-preview-tooltip>
 
             </sq-preview-document-iframe>
+            </div>
         </div>
 
     </div>
