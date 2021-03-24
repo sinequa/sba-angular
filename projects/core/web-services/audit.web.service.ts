@@ -213,9 +213,6 @@ export class AuditWebService extends HttpService {
         if (results) {
             detail["result-count"] = results.totalRowCount;
         }
-        if (doc.text) {
-            detail["text"] = doc.text;
-        }
         if (parameters) {
             Object.keys(parameters).forEach(key => detail[key] = parameters[key]);
         }

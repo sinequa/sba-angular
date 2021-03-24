@@ -19,7 +19,7 @@ export class BsTabs implements OnChanges {
      * If the custom action updates the results, the tab selection
      * will revert to previous state unless the query is updated.
      */
-    @Input() customtabs: Tab[] = [];
+    @Input() customtabs: Tab[];
 
     /**
      * Associate icon to a tab name ({tab1 : 'icon class 1', tab2 : ...})
