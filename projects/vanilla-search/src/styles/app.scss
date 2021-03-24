@@ -111,11 +111,11 @@ sq-tabs {
 sq-results-counter {
     color: $secondary-color;
     font-size: 0.85em;
-    padding: 0.375rem 0;
 }
 
 sq-sort-selector button.btn {
-    padding: 1px 3px;
+    padding: 3px 5px;
+    margin: -3px 0;
     color: $secondary-color;
     background-color: inherit;
     font-size: 0.85em;
