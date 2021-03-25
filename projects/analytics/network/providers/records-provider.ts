@@ -185,8 +185,13 @@ export class RecordsProvider extends BaseProvider {
         // Sets its visibility
         node.visible = type.trigger === "oninsert" && this.isEdgeVisible(type, node, recordNode, index);
         if(recordNode.id !== node.id){ // Special case of hybrid nodes, where the recordNode might contain itself...!
-            dataset.addNodes(node);
-            dataset.addEdges(this.createEdge(type, recordNode, node, value, node.visible, {record: recordNode.record}));
+            if(!dataset.hasNode(node.id)) { // Duplicate nodes/edges are possible when the same node type is present in multiple fields of a record (eg. "email" in msgfrom and msgto)
+                dataset.addNodes(node);
+            }
+            const edge = this.createEdge(type, recordNode, node, value, node.visible, {record: recordNode.record});
+            if(!dataset.hasEdge(edge.id)) {
+                dataset.addEdges(edge);
+            }
         }
     }
 

@@ -35,9 +35,9 @@
 
             <!-- Search button -->
             <div class="input-group-append">
-                <button class="btn btn-primary" type="button" (click)="search()" 
-                    title="{{ 'msg#searchForm.search' | sqMessage }}"
-                    [attr.disabled]="!loginService.complete ? '' : null">
+                <button class="btn btn-primary" type="button" (click)="search()"
+                    [sqTooltip]="'msg#searchForm.search' | sqMessage"
+                    [attr.disabled]="!loginService.complete || !form.valid? '' : null">
                     <i class="fas fa-search"></i>
                 </button>
             </div>

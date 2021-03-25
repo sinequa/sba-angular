@@ -1,4 +1,4 @@
-<ul *ngIf="!!searchtabs || !!customtabs" class="nav nav-tabs mb-0">
+<ul *ngIf="!!searchtabs || !!customtabs" class="nav nav-tabs mb-1">
     <ng-container *ngIf="!!searchtabs">
         <li *ngFor="let tab of searchtabs" class="nav-item">
             <a href="#" class="nav-link" [ngClass]="{'active' : tab == currentTab, 'disabled': tab.count == 0}" (click)="selectTab(tab)">

@@ -422,7 +422,7 @@ export class SavedQueriesService implements OnDestroy {
      */
     createSavedQueryModal(query: Query = this.searchService.query) : Promise<boolean> {
         const savedQuery: SavedQuery = {
-            name: "",
+            name: query.text || "",
             query: Query.copy(query)
         };
         return this.modalService.open(this.savedQueryComponents.editSavedQueryModal, {model: savedQuery})
