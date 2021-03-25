@@ -40,7 +40,9 @@ export default {
             "closeTitle": "Fermer",
             "expandTitle": "Maximiser",
             "minimize": "Réduire",
-            "maximize": "Agrandir"
+            "maximize": "Agrandir",
+            "toggleExtracts": "Surlignage des extraits pertinents",
+            "toggleEntities": "Surlignage des entités"
         }
     }
 };

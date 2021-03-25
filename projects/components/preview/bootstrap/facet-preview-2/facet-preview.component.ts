@@ -18,11 +18,12 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Input() query: Query;
   @Input() iframeClass: string;
   @Input() sandbox : string | null;
-  @Input() height: number = 500;
-  @Input() scalingFactor: number = 0.6;
+  @Input() height = 500;
+  @Input() scalingFactor = 0.6;
   @Input() metadata: string[] = [];
-  @Input() expandModal: boolean = true;
-  @Input() closable: boolean = true;
+  @Input() expandModal = true;
+  @Input() closable = true;
+  @Input() highlightActions = true;
   @Input() customActions: Action[];
   @Input() filters: HighlightFilters;
   @Output() recordClosed = new EventEmitter<void>();
@@ -31,6 +32,8 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
 
   private closeAction: Action;
   private expandModalAction: Action;
+  private toggleEntitiesAction: Action;
+  private toggleExtractsAction: Action;
   private minimizeAction: Action;
   private maximizeAction: Action;
 
@@ -65,13 +68,40 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       }
     });
 
+    this.toggleEntitiesAction = new Action({
+      icon: "fas fa-lightbulb",
+      title: "msg#facet.preview.toggleEntities",
+      selected: true,
+      action: (action) => {
+        action.selected = !action.selected;
+        if(this.data?.highlightsPerCategory) {
+          Object.keys(this.data.highlightsPerCategory)
+            .filter(value => value !== "extractslocations" && value !== "matchlocations")
+            .forEach(cat =>
+              this.document?.toggleHighlight(cat, action.selected!)
+            );
+        }
+      }
+    });
+
+    this.toggleExtractsAction = new Action({
+        icon: "fas fa-highlighter",
+        title: "msg#facet.preview.toggleExtracts",
+        selected: true,
+        action: (action) => {
+            action.selected = !action.selected;
+            this.document?.toggleHighlight("matchlocations", action.selected);
+            this.document?.toggleHighlight("extractslocations", action.selected);
+        }
+    });
+
     this.maximizeAction = new Action({
       icon: "fas fa-search-plus",
       title: "msg#facet.preview.maximize",
       action: () => {
         this.scalingFactor = this.scalingFactor + this.scaleFactorThreshold;
       }
-    })
+    });
 
     this.minimizeAction = new Action({
       icon: "fas fa-search-minus",
@@ -83,7 +113,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       updater: (action) => {
         action.disabled = this.scalingFactor === 0.1;
       }
-    })
+    });
 
   }
 
@@ -91,6 +121,9 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
     const actions: Action[] = [];
     if(this.customActions){
       actions.push(...this.customActions);
+    }
+    if(this.highlightActions) {
+      actions.push(this.toggleExtractsAction, this.toggleEntitiesAction);
     }
     this.minimizeAction.update();
     actions.push(this.minimizeAction, this.maximizeAction);

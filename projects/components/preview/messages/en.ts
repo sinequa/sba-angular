@@ -40,7 +40,9 @@ export default {
             "closeTitle": "Close",
             "expandTitle": "Maximize",
             "minimize": "Zoom out",
-            "maximize": "Zoom in"
+            "maximize": "Zoom in",
+            "toggleExtracts": "Toggle relevant extracts highlighting",
+            "toggleEntities": "Toggle entities highlighting"
         }
     }
 };

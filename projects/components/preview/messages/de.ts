@@ -38,7 +38,9 @@ export default {
             "closeTitle": "Schließen",
             "expandTitle": "Maximieren",
             "minimize": "Rauszoomen",
-            "maximize": "hineinzoomen"
+            "maximize": "hineinzoomen",
+            "toggleExtracts": "Schalten Sie die Hervorhebung relevanter Auszüge um",
+            "toggleEntities": "Schalten Sie die Hervorhebung von Objekten"
         }
     }
 };
