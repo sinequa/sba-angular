@@ -69,6 +69,7 @@
         "network": "Netzwerk",
         "chart": "Diagramm",
         "heatmap": "Heatmap",
+        "tagcloud": "Tag Cloud",
 
         "addWidget": "Widget hinzufügen",
         "addWidgetTitle": "Fügen Sie dem Dashboard ein Widget hinzu",

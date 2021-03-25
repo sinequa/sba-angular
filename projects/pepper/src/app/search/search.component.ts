@@ -12,7 +12,7 @@ import { UIService } from '@sinequa/components/utils';
 import { PreviewService } from '@sinequa/components/preview';
 import { Action } from '@sinequa/components/action';
 import { FACETS, METADATA, FEATURES } from '../../config';
-import { DashboardService, MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, PREVIEW_WIDGET, HEATMAP_WIDGET } from '../dashboard/dashboard.service';
+import { DashboardService, MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, PREVIEW_WIDGET, HEATMAP_WIDGET, TAGCLOUD_WIDGET } from '../dashboard/dashboard.service';
 import { GridsterComponent } from 'angular-gridster2';
 
 @Component({
@@ -70,7 +70,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       if (event.type === "session-start") {
         // Note: the default dashboard must be set post-login so that it can be overriden by a default dashboard set by the user
         this.dashboardService.setDefaultDashboard([MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET]);
-        this.dashboardActions = this.dashboardService.createDashboardActions([MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, HEATMAP_WIDGET]);
+        this.dashboardActions = this.dashboardService.createDashboardActions([MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, HEATMAP_WIDGET, TAGCLOUD_WIDGET]);
       }
     });
 
