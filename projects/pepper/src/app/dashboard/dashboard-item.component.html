@@ -31,14 +31,14 @@
         [results]="results"
         [providers]="networkProviders"
         [options]="networkOptions">
-        <!-- Info cards -->
-        <ng-template #nodeTpl let-node>
+        <!-- Info cards (deactivated by default to save space) -->
+        <!-- <ng-template #nodeTpl let-node>
             <sq-node-info-card [node]="node"></sq-node-info-card>
         </ng-template>
 
         <ng-template #edgeTpl let-edge>
             <sq-edge-info-card [edge]="edge"></sq-edge-info-card>
-        </ng-template>
+        </ng-template> -->
 
     </sq-network>
 
@@ -70,6 +70,14 @@
         [height]="innerheight"
         [allowResizeOption]="false">
     </sq-facet-heatmap>
+
+    <sq-facet-tag-cloud *ngSwitchCase="'tagcloud'"
+        #facet
+        class="d-block overflow-auto"
+        [ngStyle]="{'height.px':innerheight}"
+        [results]="results"
+        [aggregations]="['Concepts','Geo','Company','Person']">
+    </sq-facet-tag-cloud>
 
     <!-- Preview -->
     <ng-container *ngSwitchCase="'preview'">
