@@ -94,6 +94,7 @@
         "network": "Réseau",
         "chart": "Graphique",
         "heatmap": "Carte de chaleur",
+        "tagcloud": "Nuage de mots",
 
         "addWidget": "Nouveau Widget",
         "addWidgetTitle": "Ajouter un Widget au tableau de bord",

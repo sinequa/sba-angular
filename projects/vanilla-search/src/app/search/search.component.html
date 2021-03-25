@@ -69,14 +69,12 @@
         <!-- Results -->
         <div class="col-lg-5" [ngClass]="{'col-md-7': !showFilters, 'col-md-8': showFilters}" *ngIf="showResults">
 
-            <div class="d-flex flex-row align-items-center flex-wrap" *ngIf="searchService.resultsStream | async; let results">
-              <sq-facet-mysearch [results]="results" [allowDeletion]="true" class="flex-grow-1 flex-basis-0"></sq-facet-mysearch>
-            </div>
             <!-- Tabs -->
             <sq-tabs [results]="results"></sq-tabs>
 
             <!-- Toolbar -->
-            <div class="d-flex flex-row align-items-baseline justify-content-end">
+            <div class="d-flex">
+                <sq-facet-mysearch [results]="results" [allowDeletion]="true" class="flex-grow-1 flex-basis-0"></sq-facet-mysearch>
                 <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
                 <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-sort-selector>
             </div>

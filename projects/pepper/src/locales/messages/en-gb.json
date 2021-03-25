@@ -94,6 +94,7 @@
         "network": "Network",
         "chart": "Chart",
         "heatmap": "Heatmap",
+        "tagcloud": "Tag Cloud",
 
         "addWidget": "Add Widget",
         "addWidgetTitle": "Add a widget to the dashboard",
