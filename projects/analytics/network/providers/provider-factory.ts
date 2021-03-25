@@ -161,11 +161,13 @@ export class ProviderFactory {
     /**
      * Create dynamic node options to display nodes with circular images.
      * @param getImageUrl A function that takes as input the node and returns the image URL
+     * @param size (optional) A number (or function returning a number) to size the node (default to the node.count property)
      */
-    createDynamicImageNodeOptions(getImageUrl: (node: Node) => string): ((node: Node, type: NodeType) => {[key: string]: any}) {
+    createDynamicImageNodeOptions(getImageUrl: (node: Node) => string, size?: number | ((node: Node) => number)): ((node: Node, type: NodeType) => {[key: string]: any}) {
         return (node: Node, type: NodeType) => {
             const image = getImageUrl(node);
-            return this.createImageNodeOptions(image, node.count);
+            const _size = Utils.isNumber(size)? size : Utils.isFunction(size)? size(node) : node.count;
+            return this.createImageNodeOptions(image, _size);
         }
     }
 

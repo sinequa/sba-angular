@@ -206,7 +206,7 @@ export class AggregationProvider extends BaseProvider {
             this.fetchAggregations(types);
         }
         else {            
-            this.provider.next();
+            this.provider.next(this.dataset); // avoid undefined dataset when edge trigger !== source
         }
     }
 
