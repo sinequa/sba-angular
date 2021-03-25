@@ -58,7 +58,7 @@
         <div class="row flex-nowrap h-100">
 
             <!-- Results -->
-            <div class="results-list py-3 px-3"
+            <div class="results-list py-2 px-3"
                 [ngClass]="{'results-list--hidden': !showResults}">
 
                 <!-- Result selection toolbar -->
@@ -72,8 +72,8 @@
                 <sq-tabs [results]="results"></sq-tabs>
 
                 <!-- Toolbar -->
-                <div class="d-flex flex-row align-items-center">
-                    <sq-breadcrumbs [results]="results" [allowDeletion]="false" class="flex-grow-1 flex-basis-0"></sq-breadcrumbs>
+                <div class="d-flex flex-row">
+                    <sq-facet-mysearch [results]="results" [allowDeletion]="true" class="flex-grow-1 flex-basis-0"></sq-facet-mysearch>
                     <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
                     <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-sort-selector>
                 </div>

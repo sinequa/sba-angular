@@ -11,7 +11,7 @@
 
 .results-list {
     max-height: 100%;
-    overflow-y: auto;
+    overflow-y: scroll;
     width: 33%;
     
     margin-left: 0px;
@@ -28,7 +28,7 @@
     font-size: 1.15rem;
     position: absolute;
     opacity: 0.5;
-    top: 5px;
+    top: 3px;
 
     left: calc(33% - 32px);
     transition: left .5s,  opacity .5s;
