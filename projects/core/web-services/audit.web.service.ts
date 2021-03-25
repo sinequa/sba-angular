@@ -60,6 +60,8 @@ export const enum AuditEventType {
     Search_Select_AnalyticsItem = "Search_Select_AnalyticsItem",
     Search_Sort = "Search_Sort",
     Search_Exit_Logout = "Search_Exit_Logout",
+    Search_Timeline_Usage = "Search_Timeline_Usage",
+    Search_AutoComplete = "Search_Autocomplete",
 
     SavedQuery_Add = "SavedQuery_Add",
     SavedQuery_Delete = "SavedQuery_Delete",

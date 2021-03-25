@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { Observable, of, combineLatest, ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Results, AggregationItem, Aggregation, CCAggregation, Record } from '@sinequa/core/web-services';
+import { Results, AggregationItem, Aggregation, CCAggregation, Record, AuditWebService, AuditEventType } from '@sinequa/core/web-services';
 import { AppService, Expr, ExprBuilder } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { AbstractFacet, FacetService } from '@sinequa/components/facet';
@@ -106,7 +106,8 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         public appService: AppService,
         public selectionService: SelectionService,
         public exprBuilder: ExprBuilder,
-        public cdRef: ChangeDetectorRef
+        public cdRef: ChangeDetectorRef,
+        public audit: AuditWebService
     ){
         super();
 
@@ -422,8 +423,8 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
             if(exprs.length > 0) {
                 const expr = this.exprBuilder.concatOrExpr(exprs);
                 this.searchService.query.addSelect(expr, this.name);
-                this.searchService.search();
-            }
+                this.searchService.search(undefined, {type:AuditEventType.Search_Timeline_Usage, detail: { from, to }});
+            }            
         }
 
         else if(this.searchService.query.findSelect(this.name)) {

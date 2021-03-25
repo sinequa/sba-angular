@@ -9,6 +9,7 @@ import { BasketsService } from '@sinequa/components/baskets';
 import { Observable, forkJoin, from, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Basket } from '@sinequa/components/baskets';
+import { AuditEventType, AuditWebService } from '@sinequa/core/web-services';
 
 
 /**
@@ -37,7 +38,8 @@ export class AutocompleteExtended extends AutocompleteFieldSearch {
         protected savedQueriesService: SavedQueriesService,
         protected basketsService: BasketsService,
         protected previewService: PreviewService,
-        protected searchService: SearchService){
+        protected searchService: SearchService,
+        protected audit: AuditWebService){
         super(elementRef, suggestService, appService, uiService, exprBuilder);
 
     }
@@ -93,15 +95,17 @@ export class AutocompleteExtended extends AutocompleteFieldSearch {
      * @param submit
      */
     protected select(item: AutocompleteItem, submit?: boolean) {
-        if(item.category === "recent-document"){
+        this.audit.notify({type: AuditEventType.Search_AutoComplete, detail:{display: item.display, category: item.category }})
+        
+        if (item.category === "recent-document") {
             this.previewService.openRoute(item['data'], this.searchService.makeQuery());
         }
-        else if (item.category === "saved-query"){
+        else if (item.category === "saved-query") {
             this.savedQueriesService.searchSavedQuery(item['data'], "/search");
             this.setState(AutocompleteState.SELECTED);
             this.dropdown.update(false);    // Close dropdown
         }
-        else if (item.category === "basket"){
+        else if (item.category === "basket") {
             this.basketsService.searchBasket(item['data'], "/search");
             this.setState(AutocompleteState.SELECTED);
             this.dropdown.update(false);    // Close dropdown
