@@ -82,12 +82,34 @@ $highlights: map-merge(map-merge($extracts-highlights, $terms-highlights), $meta
     }
 }
 
+@mixin simpleHighlight($term) {
+    $tag-cloud: map-get($highlights, $term);
+    $color: map-get($tag-cloud, "main-color");
+
+    .sq-metadata-color-#{$term} {
+        color: $color !important;
+
+        &:hover {
+            background-color: lighten($color, 55%) !important;
+            @if lighten($color, 55%) == white {
+              background-color: lighten($color, 20%) !important;
+            }
+            opacity: 0.7 !important;
+          }
+    }
+
+    .sq-metadata-color-#{$term}.sq-metadata-border {
+      border: 1px solid $color !important;
+    }
+}
+
 
 // Actually generate highlight rules
 
 @each $name in map-keys($highlights) {
     @include highlight($name);
     @include svgHighlight($name);
+    @include simpleHighlight($name);
 }
 
 
