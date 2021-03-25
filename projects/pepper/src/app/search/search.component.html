@@ -72,7 +72,7 @@
                 <sq-tabs [results]="results"></sq-tabs>
 
                 <!-- Toolbar -->
-                <div class="d-flex flex-row">
+                <div class="d-flex flex-row" [ngClass]="{'mr-2': !results.tabs}"> <!-- margin right when no tab, due to results toggle button -->
                     <sq-facet-mysearch [results]="results" [allowDeletion]="true" class="flex-grow-1 flex-basis-0"></sq-facet-mysearch>
                     <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
                     <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-sort-selector>
