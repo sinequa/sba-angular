@@ -1,4 +1,4 @@
-import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild, OnChanges, SimpleChanges, AfterViewInit } from "@angular/core";
+import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild, OnChanges, SimpleChanges, AfterViewInit, NgZone } from "@angular/core";
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Utils } from "@sinequa/core/base";
 import { PreviewDocument } from "./preview-document";
@@ -33,7 +33,6 @@ import { PreviewDocument } from "./preview-document";
                     [hidden]="loading"
                     [attr.sandbox]="_sandbox"
                     [src]="sanitizedUrlSrc"
-                    (load)="onPreviewDocLoad()"
                     [style.--factor]="scalingFactor"
                     [ngStyle]="{'-ms-zoom': scalingFactor, '-moz-transform': 'scale(var(--factor))', '-o-transform': 'scale(var(--factor))', '-webkit-transform': 'scale(var(--factor))'}">
                 </iframe>`,
@@ -67,31 +66,29 @@ iframe {
     `]
 })
 export class PreviewDocumentIframe implements OnChanges, AfterViewInit {
-    defaultSandbox : string = "allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts";
-    @Input() sandbox : string | null;
+    defaultSandbox: string = "allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts";
+    @Input() sandbox: string | null;
     @Input() downloadUrl: string;
     @Input() scalingFactor: number = 1.0;
     @Output() onPreviewReady = new EventEmitter<PreviewDocument>();
     @Output() urlChange = new EventEmitter<string>();
     @ViewChild('documentFrame', {static: false}) documentFrame: ElementRef;  // Reference to the preview HTML in the iframe
-    @ContentChild('tooltip', { read: ElementRef, static: false }) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
+    @ContentChild('tooltip', {read: ElementRef, static: false}) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
     public sanitizedUrlSrc: SafeResourceUrl;
     public loading = true;
     public _sandbox: string | null = this.defaultSandbox;
-    
+
     constructor(
+        private zone: NgZone,
         private sanitizer: DomSanitizer) {
-        // when donwloadUrl is undefined, a sanitizer error occurs, code below prevents this.
-        // setting a default safe url
-        this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
     }
 
     public onPreviewDocLoad() {
-        
+
         if (this.documentFrame === undefined) return;
-        if  (this.downloadUrl === undefined) return;
-        
+        if (this.downloadUrl === undefined) return;
+
         const previewDocument = new PreviewDocument(this.documentFrame);
 
         // SVG highlight:
@@ -100,39 +97,45 @@ export class PreviewDocumentIframe implements OnChanges, AfterViewInit {
         //   background. That needs to be done now that the iFrame is loaded.
         previewDocument.setSvgBackgroundPositionAndSize();
 
-        if(this.tooltip)
+        if (this.tooltip)
             this.addTooltip(previewDocument);
 
         // Let upstream component know
         this.onPreviewReady.next(previewDocument);
-        
+
         setTimeout(() => {
             this.loading = false;
         }, 500);
     }
 
-    addTooltip(previewDocument: PreviewDocument){
+    addTooltip(previewDocument: PreviewDocument) {
         previewDocument.insertComponent(this.tooltip.nativeElement);
     }
 
     ngOnChanges(simpleChanges: SimpleChanges) {
-        if(simpleChanges.sandbox) {
-            this._sandbox = (Utils.isString(this.sandbox) || this.sandbox === null) ? 
-            this.sandbox : this.defaultSandbox;
+        if (simpleChanges.sandbox) {
+            this._sandbox = (Utils.isString(this.sandbox) || this.sandbox === null) ?
+                this.sandbox : this.defaultSandbox;
         }
-        if(simpleChanges.scalingFactor && !simpleChanges.scalingFactor.firstChange) {
+        if (simpleChanges.scalingFactor && !simpleChanges.scalingFactor.firstChange) {
             return;
         }
-        if(this.downloadUrl && this.downloadUrl !== "about:blank") {
+        
+        this.resetContent();
+        if (this.downloadUrl && this.downloadUrl !== "about:blank") {
             this.loading = true;
-            this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.downloadUrl);
-            this.onPreviewDocLoad();
+            this.zone.run(() => {
+                this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.downloadUrl);
+                this.onPreviewDocLoad();
+            });
         }
     }
-    
 
     ngAfterViewInit() {
-        this.iframeURLChange(this.documentFrame.nativeElement, (newURL: string) => this.urlChange.next(newURL));
+        this.resetContent();
+        this.iframeURLChange(this.documentFrame.nativeElement, (newURL: string) => {
+            this.urlChange.next(newURL)
+        });
     }
 
     iframeURLChange(iframe, callback) {
@@ -140,8 +143,8 @@ export class PreviewDocumentIframe implements OnChanges, AfterViewInit {
 
         const dispatchChange = function () {
             if (iframe.contentWindow) {
-                const newHref = iframe.contentWindow.location.href;
-                if(newHref === "about:blank") return;
+                const newHref = iframe.contentWindow.location.pathname;
+                if (newHref === "about:blank") return;
                 if (newHref !== lastDispatched) {
                     callback(newHref);
                     lastDispatched = newHref;
@@ -156,8 +159,10 @@ export class PreviewDocumentIframe implements OnChanges, AfterViewInit {
         function attachUnload() {
             // Remove the unloadHandler in case it was already attached.
             // Otherwise, there will be two handlers, which is unnecessary.
-            iframe.contentWindow.removeEventListener("unload", unloadHandler);
-            iframe.contentWindow.addEventListener("unload", unloadHandler);
+            if (iframe.contentWindow) {
+                iframe.contentWindow.removeEventListener("unload", unloadHandler);
+                iframe.contentWindow.addEventListener("unload", unloadHandler);
+            }
         }
 
         iframe.addEventListener("load", function () {
@@ -169,5 +174,9 @@ export class PreviewDocumentIframe implements OnChanges, AfterViewInit {
         });
 
         attachUnload();
+    }
+    
+    resetContent() {
+        this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
     }
 }

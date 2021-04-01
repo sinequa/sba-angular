@@ -9,10 +9,14 @@
         </button>
     </div>
 
-    <div class="text-center text-muted" *ngIf="extracts?.length === 0">
+    <div *ngIf="loading" class="d-flex justify-content-center align-items-center h-100">
+        <div class="spinner-grow" role="status"></div>
+    </div>
+    <div class="text-center text-muted" *ngIf="!loading && extracts?.length === 0; else extractsTpl">
         <span>{{ 'msg#preview.noextract' | sqMessage}}</span>
     </div>
     
+    <ng-template #extractsTpl>
     <div class="list-group pt-1" style="height: calc(100vh - 226px);">
         <cdk-virtual-scroll-viewport [itemSize]="64" class="flex-grow-1">
             <div *cdkVirtualFor="let extract of extracts; let i = index" class="pl-2 pr-2">
@@ -23,6 +27,7 @@
             </div>
         </cdk-virtual-scroll-viewport>
     </div>
+    </ng-template>
 </ng-container>
 
 <div class="text-center" *ngIf="!previewData">
