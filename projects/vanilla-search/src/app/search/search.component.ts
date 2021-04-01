@@ -9,7 +9,7 @@ import { UIService } from '@sinequa/components/utils';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { Record } from '@sinequa/core/web-services';
+import { AuditWebService, Record } from '@sinequa/core/web-services';
 import { Subscription } from 'rxjs';
 import { FACETS, FEATURES, METADATA } from '../../config';
 
@@ -45,6 +45,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     public searchService: SearchService,
     public selectionService: SelectionService,
     public loginService: LoginService,
+    public auditService: AuditWebService,
     public ui: UIService,
   ) {
 
@@ -166,6 +167,10 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   closeDocument(){
     if(this.openedDoc){
+      this.auditService.notify({
+        type: "Preview.close",
+        detail: this.previewService.getAuditPreviewDetail(this.openedDoc.id, this.searchService.query, this.openedDoc, this.searchService.results?.id)
+      });
       this.openedDoc = undefined;
       if(this.ui.screenSizeIsEqual('md')){
         this._showFilters = true; // Show filters on medium screen when document is closed

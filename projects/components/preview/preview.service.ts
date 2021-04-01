@@ -4,7 +4,7 @@ import {Observable, Subject} from "rxjs";
 import {AppService, ExprBuilder, Query} from "@sinequa/core/app-utils";
 import {AuthenticationService} from "@sinequa/core/login";
 import {PreviewWebService, PreviewData, AuditEventType, Record, AuditEvent, Results} from "@sinequa/core/web-services";
-import {Utils} from "@sinequa/core/base";
+import {JsonObject, Utils} from "@sinequa/core/base";
 import {ModalService} from "@sinequa/core/modal";
 import {SearchService} from "@sinequa/components/search";
 import {RecentDocumentsService} from '@sinequa/components/saved-queries';
@@ -79,24 +79,11 @@ export class PreviewService {
     public getPreviewData(id: string, query: Query, audit = true): Observable<PreviewData> {
         let auditEvent: AuditEvent | undefined;
         const record = this.searchService.getRecordFromId(id);
-        const resultId = !!record ? this.searchService.results && this.searchService.results.id : undefined;
+        const resultId = record ? this.searchService.results?.id : undefined;
         if (audit) {
-            const queryLanguage = this.searchService.results?.queryAnalysis?.queryLanguage
-                || this.searchService?.query?.questionLanguage
-                || this.appService?.ccquery?.questionLanguage;
-            const collectionColumn = record?.collection;
-            const collection = !!collectionColumn ? collectionColumn[0] : Utils.split(id, "|")[0];
-            const rank = !!record ? record.rank : this.rank || 0;
             auditEvent = {
                 type: AuditEventType.Doc_Preview,
-                detail: {
-                    "doc-id": id,
-                    rank: rank,
-                    collection: collection,
-                    source: Utils.treeFirstNode(collection),
-                    "resultid": resultId,
-                    "querylang": queryLanguage
-                }
+                detail: this.getAuditPreviewDetail(id, query, record, resultId)
             };
         }
         query = this.makeQuery(query);
@@ -191,5 +178,25 @@ export class PreviewService {
         query.groupBy = ""; // If the query web service uses GROUP BY containerid
         query.addSelect(this.exprBuilder.makeExpr("containerid", containerid));
         return this.searchService.getResults(query);
+    }
+
+    getAuditPreviewDetail(id: string, query: Query, record?: Record, resultId?: string): JsonObject {
+        const queryLanguage = this.searchService.results?.queryAnalysis?.queryLanguage
+            || this.searchService?.query?.questionLanguage
+            || this.appService?.ccquery?.questionLanguage;
+        const collectionColumn = record?.collection;
+        const collection = !!collectionColumn ? collectionColumn[0] : Utils.split(id, "|")[0];
+        const rank = !!record ? record.rank : this.rank || 0;
+        return {
+            "doc-id": id,
+            rank: rank,
+            collection: collection,
+            source: Utils.treeFirstNode(collection),
+            resultid: resultId,
+            querylang: queryLanguage,
+            querytext: query.text,
+            filename: record?.filename,
+            fileext: record?.fileext,
+        }
     }
 }
