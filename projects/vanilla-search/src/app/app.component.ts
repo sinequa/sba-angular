@@ -91,6 +91,19 @@ export class AppComponent extends ComponentWithLogin {
                 }
             });
 
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') {
+                    this.auditWebService.notify({
+                        type: `Navigation.exit`
+                    });
+                }
+                if (document.visibilityState === 'visible') {
+                    this.auditWebService.notify({
+                        type: `Navigation.return`
+                    });
+                }
+            });
+
         }
     }
 
