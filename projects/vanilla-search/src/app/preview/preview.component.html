@@ -26,17 +26,18 @@
             </div>
 
             <!-- Expanded panel different subpanels available -->
-            <div [ngStyle]="{'overflow':(subpanel === 'extracts' && !pagesResults) ? 'hidden': 'auto'}" *ngIf="!collapsedPanel">
+            <!-- Extracts/Pages panel -->
+            <sq-preview-extracts-panel *ngIf="subpanel === 'extracts' && !pagesResults && !collapsedPanel" class="d-flex flex-column"
+                style="flex-grow:1;" [previewData]="previewData" [downloadUrl]="currentUrl" [previewDocument]="previewDocument"
+                [style]="isDark()? 'dark' : 'light'">
+            </sq-preview-extracts-panel>
+            
+            <div style="overflow: auto;" *ngIf="subpanel !== 'extracts' && !collapsedPanel">
     
                 <!-- Legacy preview highlights -->
                 <sq-preview-highlights *ngIf="subpanel === 'highlights' && !!previewData" class="my-2" 
                     [previewData]="previewData" [previewDocument]="previewDocument">
                 </sq-preview-highlights>
-
-                <!-- Extracts/Pages panel -->
-                <sq-preview-extracts-panel *ngIf="subpanel === 'extracts' && !pagesResults"
-                    [previewData]="previewData" [downloadUrl]="currentUrl" [previewDocument]="previewDocument" [style]="isDark()? 'dark' : 'light'">
-                </sq-preview-extracts-panel>
                 
                 <sq-preview-pages-panel *ngIf="subpanel === 'extracts' && pagesResults"
                     [previewData]="previewData" [previewDocument]="previewDocument" [pages]="pagesResults" [style]="isDark()? 'dark' : 'light'"
@@ -44,8 +45,8 @@
                 </sq-preview-pages-panel>
 
                 <!-- Entities panel -->
-                <div class="p-2">
-                    <sq-preview-entity-panel *ngIf="subpanel === 'entities'"
+                <div *ngIf="subpanel === 'entities'" class="p-2">
+                    <sq-preview-entity-panel
                         [previewData]="previewData" [previewDocument]="previewDocument" [style]="isDark()? 'dark' : 'light'" [startUnchecked]="entitiesStartUnchecked" (facetChecked)="entitiesChecked($event)">
                     </sq-preview-entity-panel>
                 </div>
