@@ -154,31 +154,6 @@ line.sq-svg {
 
 
 // Tooltip injected in the iframe
-.bottom-tooltip {
-    &::after {
-      bottom: 100%; /* At the top of the tooltip */
-      left: 50%;
-      content: " ";
-      position: absolute;
-      margin-left: -5px;
-      border-width: 5px;
-      border-style: solid;
-      border-color: transparent transparent #4c4c4c transparent;
-  }
-}
-
-.top-tooltip {
-    &::after {
-      content: " ";
-      position: absolute;
-      top: 100%; /* At the bottom of the tooltip */
-      left: 50%;
-      margin-left: -5px;
-      border-width: 5px;
-      border-style: solid;
-      border-color: #4c4c4c transparent transparent transparent;
-  }
-}
 
 .sq-selection-tooltip {
 
@@ -192,7 +167,7 @@ line.sq-svg {
     background-color: #4c4c4c;
     color: #eee;
     padding: 0.5em;
-    border-radius: 12px;
+    border-radius: 3px;
     z-index: 100000000000;
 
     .display {
@@ -226,9 +201,10 @@ line.sq-svg {
         border: 1px solid #eee;
         height: 25px;
         cursor: pointer;
-        border-radius: 12px;
+        border-radius: 3px;
         font-size: 16px;
         line-height: 20px;
+        white-space: nowrap;
 
         &:hover {
             background-color: #eee;
@@ -239,4 +215,28 @@ line.sq-svg {
     .sq-preview-search-icon:after {
         content: '🔍';
     }
+
+    --left: 50%;
+    
+    &::after {
+        content: " ";
+        position: absolute;
+        left: var(--left);
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+    }
+
+    &.sq-bottom-tooltip::after {
+        bottom: 100%; /* At the top of the tooltip */
+        border-color: transparent transparent #4c4c4c transparent;
+    }
+    
+    &.sq-top-tooltip::after {
+        top: 100%; /* At the bottom of the tooltip */
+        border-color: #4c4c4c transparent transparent transparent;
+    }
+
+    --factor: 1.0;
+    zoom: var(--factor);
 }

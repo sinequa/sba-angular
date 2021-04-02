@@ -1,4 +1,7 @@
-<div class="sq-selection-tooltip" [ngClass]="isBottom ? 'bottom-tooltip' : 'top-tooltip'" [ngStyle]="{'visibility' : visibility, 'bottom' : bottom, 'left' : left}" #tooltip>
+<div #tooltip
+    class="sq-selection-tooltip" [ngClass]="isBottom ? 'sq-bottom-tooltip' : 'sq-top-tooltip'"
+    [style.--left]="leftPin" [ngStyle]="{'visibility' : visibility, 'bottom' : bottom, 'left' : left}"
+    [style.--factor]="1.0/scalingFactor">
 
     <ng-container *ngIf="entityType && !selectedText">
         <span class="display">{{ entityDisplay }} </span> <span class="label">({{ entityLabel | sqMessage }}) </span>
