@@ -26,7 +26,7 @@
             </div>
 
             <!-- Expanded panel different subpanels available -->
-            <div [ngStyle]="{'overflow': subpanel === 'extracts' ? 'hidden': 'auto'}" *ngIf="!collapsedPanel">
+            <div [ngStyle]="{'overflow':(subpanel === 'extracts' && !pagesResults) ? 'hidden': 'auto'}" *ngIf="!collapsedPanel">
     
                 <!-- Legacy preview highlights -->
                 <sq-preview-highlights *ngIf="subpanel === 'highlights' && !!previewData" class="my-2" 
@@ -37,6 +37,7 @@
                 <sq-preview-extracts-panel *ngIf="subpanel === 'extracts' && !pagesResults"
                     [previewData]="previewData" [downloadUrl]="currentUrl" [previewDocument]="previewDocument" [style]="isDark()? 'dark' : 'light'">
                 </sq-preview-extracts-panel>
+                
                 <sq-preview-pages-panel *ngIf="subpanel === 'extracts' && pagesResults"
                     [previewData]="previewData" [previewDocument]="previewDocument" [pages]="pagesResults" [style]="isDark()? 'dark' : 'light'"
                     (gotopage)="gotoPage($event)">
