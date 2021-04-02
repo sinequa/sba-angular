@@ -1,4 +1,5 @@
 import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, NgZone, ViewChild, ElementRef} from "@angular/core";
+import {DomSanitizer} from "@angular/platform-browser";
 import {PreviewData} from "@sinequa/core/web-services";
 import {PreviewDocument} from "./preview-document";
 import {Action} from "@sinequa/components/action";
@@ -14,6 +15,7 @@ export class PreviewTooltip implements OnChanges {
     @Input() entityActions: Action[] = [];
     @Input() entityNavActions: boolean = true;
     @Input() selectedTextActions: Action[] = [];
+    @Input() scalingFactor = 1.0;
     @ViewChild('tooltip', {static: false}) tooltip : ElementRef;
 
     // Selected text mode
@@ -30,11 +32,13 @@ export class PreviewTooltip implements OnChanges {
     // Tooltip fixed positioning
     bottom: string = "0px";
     left: string = "0px";
+    leftPin; // position of the tooltip pin relative to left
     isBottom: boolean = false;
 
     constructor(
         private zone: NgZone,
-        private changeDetectorRef: ChangeDetectorRef){
+        private changeDetectorRef: ChangeDetectorRef,
+        private sanitizer: DomSanitizer){
 
         }
 
@@ -53,6 +57,10 @@ export class PreviewTooltip implements OnChanges {
                 this.window.addEventListener("scroll", this.handleScroll, false);
             }
 
+        }
+
+        if(changes["scalingFactor"] && this.previewDocument) {
+            setTimeout(() => this.handleMouseUp());
         }
     }
 
@@ -84,7 +92,12 @@ export class PreviewTooltip implements OnChanges {
         this.zone.run(() => {   // Necessary to compute the right size of the tooltip when updating the text
             const tooltipWidth = this.tooltip.nativeElement.getBoundingClientRect().width;
             const tooltipHeight = this.tooltip.nativeElement.getBoundingClientRect().height;
-            this.left = Math.round(box.left + 0.5*box.width - 0.5*tooltipWidth)+"px";
+            let left = this.scalingFactor*(box.left + 0.5*box.width) - 0.5*tooltipWidth
+            left = Math.min(Math.max(left, 0), this.scalingFactor*this.document.body.clientWidth - tooltipWidth); // Avoid tooltip overflow
+            this.left = Math.round(left)+"px";
+
+            const leftPin = Math.round(100 * (this.scalingFactor*(box.left + 0.5*box.width) - left) / tooltipWidth);
+            this.leftPin = this.sanitizer.bypassSecurityTrustStyle(`${leftPin}%`);
             //absolute top positioning
             //this.bottom = Math.round(box.top-tooltipHeight-5+this.window.scrollY)+"px";
             //absolute bottom positioning
@@ -92,10 +105,10 @@ export class PreviewTooltip implements OnChanges {
             //fixed bottom positioning
             if (Math.round(box.top - 5 - tooltipHeight) > 0) {
               this.isBottom = false;
-              this.bottom = Math.round(this.window.innerHeight - box.top + 5)+"px";
+              this.bottom = Math.round(this.scalingFactor* (this.window.innerHeight - box.top) + 5)+"px";
             } else {
               this.isBottom = true;
-              this.bottom = Math.round(this.window.innerHeight - box.top - box.height - tooltipHeight - 5)+"px";
+              this.bottom = Math.round(this.scalingFactor* (this.window.innerHeight - box.top - box.height) - tooltipHeight - 5)+"px";
             }
             this.changeDetectorRef.detectChanges();
         });
