@@ -225,7 +225,8 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
             this.previewService.fetchPages(previewData.record.containerid!, this.query!)
               .subscribe(results => this.pagesResults = results);
           }
-          this.currentUrl = this.downloadUrl = url ? this.previewService.makeDownloadUrl(url) : undefined;
+          this.currentUrl = url;
+          this.downloadUrl = url ? this.previewService.makeDownloadUrl(url) : undefined;
           this.titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle", {title: previewData?.record?.title || ""}));
         }
       );
@@ -247,7 +248,6 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
         
       this.previewDocument = previewDocument;
       this.previewDocument.selectHighlight("matchlocations", 0); // Scroll to first match
-      this.cdr.detectChanges();
     }
   }
   

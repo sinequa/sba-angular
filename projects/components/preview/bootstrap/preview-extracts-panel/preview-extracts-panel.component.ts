@@ -1,10 +1,11 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, NgZone, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { HighlightValue, PreviewData } from '@sinequa/core/web-services';
 import { PreviewDocument } from '../../preview-document';
 import {Action} from "@sinequa/components/action";
 import {HttpClient} from '@angular/common/http';
 import {distinctUntilChanged} from 'rxjs/operators';
+import {DOCUMENT} from '@angular/common';
 
 export class Extract {
   text: SafeHtml; // Sanitized HTML text
@@ -16,7 +17,8 @@ export class Extract {
 @Component({
   selector: 'sq-preview-extracts-panel',
   templateUrl: './preview-extracts-panel.component.html',
-  styleUrls: ['./preview-extracts-panel.component.scss']
+  styleUrls: ['./preview-extracts-panel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsPreviewExtractsPanelComponent implements OnChanges {
   @Input() previewData: PreviewData;
@@ -25,10 +27,13 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   @Input() style: "light"|"dark" = "light";
 
   sortAction : Action;
-  extracts: Extract[];
+  extracts: Extract[] = [];
   currentExtract = -1;
+  loading = false;
 
   constructor(
+    @Inject(DOCUMENT) document: Document,
+    private zone: NgZone,
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
     private domSanitizer: DomSanitizer) { }
@@ -37,52 +42,55 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    * Extracts the list of extracts from the preview document
    */
   ngOnChanges(changes: SimpleChanges) {
+
     if(this.previewData && this.downloadUrl){
       const extracts = this.previewData.highlightsPerCategory["extractslocations"]?.values; //Extract locations Array ordered by "relevance"
       if(!!extracts && extracts.length > 0){
+        this.loading = true;
         
-        this.fetch(this.downloadUrl)
-          .pipe(distinctUntilChanged())
-          .subscribe((value) => {
-            this.extractAll(extracts, value);
-            this.cdr.detectChanges();
+        this.zone.run(() => {
+          this.fetch(this.downloadUrl)
+            .pipe(distinctUntilChanged())
+            .subscribe((value) => {
+              const previewDocument = this.createDocument(value);
+              this.extractAll(extracts, previewDocument);
+            });
         });
-        
       }
-
-      
     }
-    else {
-      this.extracts = [];
-    }
-    this.currentExtract = -1;
   }
   
-  private extractAll(extracts:HighlightValue[], value: string) {          
-          const doc = document.implementation.createHTMLDocument("");
-          doc.open();
-          doc.write(value);
-          doc.close();
-          let previewDocument = new PreviewDocument(doc);
+  private createDocument(value: string): PreviewDocument {
+    const doc = document.implementation.createHTMLDocument("");
+    doc.write(value);
+    doc.close();
+    let previewDocument = new PreviewDocument(doc);
 
-          const count = previewDocument.document.querySelectorAll("[id^='extractslocations']").length;
-          if (count === 0) {
-            // use previous document to retrieve extracts
-            previewDocument = this.previewDocument;
-            console.log("use previewDocument");
-          }
+    const count = previewDocument.document.querySelectorAll("[id^='extractslocations']").length;
+    if (count === 0) {
+      // use previous document to retrieve extracts
+      previewDocument = this.previewDocument;
+    }
+    
+    return previewDocument;
+  }
+  
+  private extractAll(extracts:HighlightValue[], previewDocument: PreviewDocument) {
+    // Init the extracts Array and storing the relevancy index = i because extractsLocations is already ordered by relevance
+    this.extracts = extracts[0].locations.map((el, i) => ({
+      text: this.sanitize(previewDocument.getHighlightText("extractslocations", i)),
+      startIndex: el.start,
+      relevanceIndex: i,
+      textIndex: i
+    }))
+    .filter(el => el.text !== '')
+    .sort((a,b) => a.relevanceIndex - b.relevanceIndex);
 
-          // Init the extracts Array and storing the relevancy index = i because extractsLocations is already ordered by relevance
-          this.extracts = extracts[0].locations.map((el, i) => ({
-            text: this.sanitize(previewDocument.getHighlightText("extractslocations", i)),
-            startIndex: el.start,
-            relevanceIndex: i,
-            textIndex: i
-          }))
-          .filter(el => el.text !== '')
-          .sort((a,b) => a.relevanceIndex - b.relevanceIndex);
-
-          this.buildSortAction();
+    this.buildSortAction();
+          
+    this.loading = false;
+    this.currentExtract = -1;
+    this.cdr.markForCheck();
   }
 
   /**
