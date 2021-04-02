@@ -9,6 +9,8 @@ import { FacetService } from '@sinequa/components/facet';
 import { SelectionService } from '@sinequa/components/selection';
 import { FormBuilder } from '@angular/forms';
 import { UserPreferences } from '@sinequa/components/user-settings';
+import { NotificationsService } from '@sinequa/core/notification';
+import { MessagePipe } from '@sinequa/core/intl';
 
 
 @Component({
@@ -29,9 +31,11 @@ export class BsResultsHeatmapView extends BsFacetHeatmapComponent {
         public formBuilder: FormBuilder,
         public cdRef: ChangeDetectorRef,
         public prefs: UserPreferences,
-        public resultsViewService : ResultsViewService
+        public resultsViewService : ResultsViewService,
+        public notificationService: NotificationsService,
+        public messagePipe: MessagePipe,
     ) {
-        super(appService, searchService, facetService, selectionService, formBuilder, cdRef, prefs, undefined);
+        super(appService, searchService, facetService, selectionService, formBuilder, cdRef, prefs, notificationService, messagePipe, undefined);
     
         this.height = 1200;
         this.width = 1200;

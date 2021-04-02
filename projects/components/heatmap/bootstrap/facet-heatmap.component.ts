@@ -79,8 +79,8 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     public formBuilder: FormBuilder,
     public cdRef: ChangeDetectorRef,
     public prefs: UserPreferences,
-    private notificationService: NotificationsService,
-    private messagePipe: MessagePipe,
+    public notificationService: NotificationsService,
+    public messagePipe: MessagePipe,
     @Optional() public cardComponent?: BsFacetCard
   ) {
     super();
