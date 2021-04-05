@@ -332,6 +332,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     selectField(axis: 'x' | 'y'): Action {
         return new Action({
             title: "Select field",
+            scrollable: true,
             updater: (action) => {
                 action.name = axis === 'x'? this.fieldXPref : this.fieldYPref;
                 action.text = this.appService.getPluralLabel(axis === 'x'? this.fieldXPref : this.fieldYPref);
