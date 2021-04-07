@@ -52,8 +52,8 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
     /** General Vis options passed to the network (https://visjs.github.io/vis-network/docs/network/) */
     @Input() options: Options = defaultOptions;
 
-    /** Timeout (milliseconds) before programmatically refresh the network display after resize */
-    @Input() timeoutSlot = 1000;
+    /** Delay (milliseconds) before programmatically fitting the network to its content */
+    @Input() fitDelay = 1000;
 
     optionsPrefs: Options;
 
@@ -198,12 +198,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
 
         // Fit the nodes and edges
         if(this._networkInitialized) {
-            this.networkService.fit(this.name, {
-                animation: {             // animation object, can also be Boolean
-                    duration: 1000,                 // animation duration in milliseconds (Number)
-                    easingFunction: "easeInOutQuad" // Animation easing function, available are:
-                }
-            });
+            this.fitNetwork();
         }
 
         // Notify providers that nodes were inserted (which could trigger an update of the data)
@@ -263,6 +258,21 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         // Action to refresh the network
         this._actions.push(this.refreshAction);
 
+    }
+
+    /**
+     * Fit the network view (zoom and position) to its content, with a delay
+     * to avoid some elusive bugs in the Vis library
+     */
+    fitNetwork() {
+        setTimeout(() => {
+            this.networkService.fit(this.name, {
+                animation: {             // animation object, can also be Boolean
+                    duration: 1000,                 // animation duration in milliseconds (Number)
+                    easingFunction: "easeInOutQuad" // Animation easing function, available are:
+                }
+            });
+        }, this.fitDelay);
     }
 
 
@@ -366,14 +376,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
 
         if(this._networkInitialized) {
             this.networkService.setOptions(this.name, this.optionsPrefs);
-            setTimeout(() => {
-                this.networkService.fit(this.name, {
-                    animation: {
-                        duration: 1000,
-                        easingFunction: "easeInOutQuad"
-                    }
-                });
-            }, this.timeoutSlot);
+            this.fitNetwork();
         }
     }
 
