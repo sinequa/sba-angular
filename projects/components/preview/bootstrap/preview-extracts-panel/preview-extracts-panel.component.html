@@ -17,10 +17,13 @@
     </div>
     
     <ng-template #extractsTpl>
-        <cdk-virtual-scroll-viewport [itemSize]="64" style="height: 100%;">
+        <cdk-virtual-scroll-viewport #scrollViewport [itemSize]="64" style="height: 100%;">
             <div *cdkVirtualFor="let extract of extracts; let i = index" class="pl-2 pr-2">
-                <a href="#" class="card my-1 list-group-item-action" (click)="scrollExtract(extract.textIndex, i)"
-                    [ngClass]="{'bg-light': currentExtract === i && style === 'light', 'bg-dark': currentExtract === i && style === 'dark'}">
+                <a  href="#" 
+                    class="card my-1 list-group-item-action"
+                    [ngClass]="{'active': i === this.currentExtract}"
+                    (click)="scrollExtract(extract.textIndex, i)"
+                    [attr.data-index]="i" [attr.data-current]="currentExtract">
                     <p class="card-body m-0" [innerHTML]="extract.text"></p>
                 </a>
             </div>
