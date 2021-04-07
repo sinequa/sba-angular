@@ -1,0 +1,30 @@
+:host {
+    display: block;
+    position: relative;
+}
+
+.datum {
+    opacity: 0.7;
+}
+
+.axis ::ng-deep {
+
+    line, .domain {
+        stroke: darkgrey;
+    }
+
+    text {
+        fill: darkgrey;
+    }
+}
+
+.tooltip-line {
+    stroke: darkgrey;
+    stroke-dasharray: 4;
+}
+
+.tooltip-text {
+    font-size: 10px;
+    fill: darkgrey;
+}
+
