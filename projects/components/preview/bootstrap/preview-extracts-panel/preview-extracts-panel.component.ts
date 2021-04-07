@@ -1,11 +1,14 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, NgZone, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, NgZone, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import {DOCUMENT} from '@angular/common';
+import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
+import {distinctUntilChanged} from 'rxjs/operators';
+
 import { HighlightValue, PreviewData } from '@sinequa/core/web-services';
-import { PreviewDocument } from '../../preview-document';
 import {Action} from "@sinequa/components/action";
 import {HttpClient} from '@angular/common/http';
-import {distinctUntilChanged} from 'rxjs/operators';
-import {DOCUMENT} from '@angular/common';
+
+import { PreviewDocument } from '../../preview-document';
 
 export class Extract {
   text: SafeHtml; // Sanitized HTML text
@@ -25,6 +28,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   @Input() previewDocument: PreviewDocument;
   @Input() downloadUrl: string;
   @Input() style: "light"|"dark" = "light";
+  @ViewChild("scrollViewport") cdkScrollViewport: CdkVirtualScrollViewport;
 
   sortAction : Action;
   extracts: Extract[] = [];
@@ -150,6 +154,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    */
   previousExtract(){
     this.currentExtract--;
+    this.cdkScrollViewport.scrollToIndex(this.currentExtract);
     this.scrollExtract(this.extracts[this.currentExtract].textIndex);
   }
 
@@ -158,6 +163,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    */
   nextExtract(){
     this.currentExtract++;
+    this.cdkScrollViewport.scrollToIndex(this.currentExtract);
     this.scrollExtract(this.extracts[this.currentExtract].textIndex);
   }
   
