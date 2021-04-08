@@ -31,19 +31,19 @@ import { BsFeedbackModule } from '@sinequa/components/feedback';
 import { BsPreviewModule } from '@sinequa/components/preview';
 import { MetadataModule } from '@sinequa/components/metadata';
 import { BsThemeToggleModule } from "@sinequa/components/theme-toggle";
-
 import { BsSelectionModule, SelectionOptions, SELECTION_OPTIONS } from '@sinequa/components/selection';
 
+// @sinequa/analytics library
 import { BsHeatmapModule } from '@sinequa/analytics/heatmap';
 import { BsTimelineModule } from '@sinequa/analytics/timeline';
-
 import { NgxChartsModule } from '@sinequa/analytics/ngx-charts';
 import { FusionChartsModule } from '@sinequa/analytics/fusioncharts';
-
 import { VisTimelineModule } from '@sinequa/analytics/vis-timeline';
 import { NetworkModule } from '@sinequa/analytics/network';
 import { GoogleMapsModule } from '@sinequa/analytics/googlemaps';
+import { FinanceModule } from '@sinequa/analytics/finance';
 
+// Third-party libs
 import { GridsterModule } from 'angular-gridster2';
 import { AgmCoreModule } from '@agm/core';
 
@@ -165,6 +165,7 @@ export const selectionOptions: SelectionOptions = {
         AgmCoreModule.forRoot({
             apiKey: "" // Replace with your own Google Maps API key
         }),
+        FinanceModule,
         GridsterModule
     ],
     declarations: [

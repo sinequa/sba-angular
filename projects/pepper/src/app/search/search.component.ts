@@ -12,7 +12,7 @@ import { UIService } from '@sinequa/components/utils';
 import { PreviewService } from '@sinequa/components/preview';
 import { Action } from '@sinequa/components/action';
 import { FACETS, METADATA, FEATURES } from '../../config';
-import { DashboardService, MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, PREVIEW_WIDGET, HEATMAP_WIDGET, TAGCLOUD_WIDGET } from '../dashboard/dashboard.service';
+import { DashboardService, MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, PREVIEW_WIDGET, HEATMAP_WIDGET, TAGCLOUD_WIDGET, MONEY_WIDGET } from '../dashboard/dashboard.service';
 import { GridsterComponent } from 'angular-gridster2';
 
 @Component({
@@ -68,9 +68,26 @@ export class SearchComponent implements OnInit, OnDestroy {
     // Upon login (ie access to user settings) initialize the dashboard widgets and actions
     this._loginSubscription = this.loginService.events.subscribe(event => {
       if (event.type === "session-start") {
+
+        // Create the dashboard displayed "by default", prior to any user interaction
         // Note: the default dashboard must be set post-login so that it can be overriden by a default dashboard set by the user
-        this.dashboardService.setDefaultDashboard([MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET]);
-        this.dashboardActions = this.dashboardService.createDashboardActions([MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, HEATMAP_WIDGET, TAGCLOUD_WIDGET]);
+        this.dashboardService.setDefaultDashboard([
+          MAP_WIDGET,
+          TIMELINE_WIDGET,
+          NETWORK_WIDGET,
+          CHART_WIDGET
+        ]);
+
+        // Create the ashboard settings menu (the list of widgets below are the ones that can be added via the "Add Widget" modal)
+        this.dashboardActions = this.dashboardService.createDashboardActions([
+          MAP_WIDGET,
+          TIMELINE_WIDGET,
+          NETWORK_WIDGET,
+          CHART_WIDGET,
+          HEATMAP_WIDGET,
+          TAGCLOUD_WIDGET,
+          MONEY_WIDGET
+        ]);
       }
     });
 

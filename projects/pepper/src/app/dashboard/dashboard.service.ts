@@ -69,6 +69,7 @@ export const NETWORK_WIDGET: DashboardItemOption = {type: 'network', icon: 'fas 
 export const CHART_WIDGET: DashboardItemOption = {type: 'chart', icon: 'fas fa-chart-bar fa-fw', text: 'msg#dashboard.chart', unique: false};
 export const HEATMAP_WIDGET: DashboardItemOption = {type: 'heatmap', icon: 'fas fa-th fa-fw', text: 'msg#dashboard.heatmap', unique: false};
 export const TAGCLOUD_WIDGET: DashboardItemOption = {type: 'tagcloud', icon: 'fas fa-comments', text: 'msg#dashboard.tagcloud', unique: true}
+export const MONEY_WIDGET: DashboardItemOption = {type: 'money-timeline', icon: 'fas fa-search-dollar', text: 'Amounts of money', unique: true}
 export const PREVIEW_WIDGET: DashboardItemOption = {type: 'preview', icon: 'far fa-file-alt', text: '', unique: false}
 
 
