@@ -53,7 +53,7 @@ export class ResultTitle implements OnChanges {
     }
 
     public get target(): string {
-        return (this.hasLinkBehaviour && this.documentUrl) ? "_blank" : "_self";
+        return (this.hasLinkBehaviour && this.documentUrl) ? this.record.collection[0] || "_blank" : "_self";
     }
 
     private getTitle(): string {
