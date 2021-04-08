@@ -79,6 +79,14 @@
         [aggregations]="['Concepts','Geo','Company','Person']">
     </sq-facet-tag-cloud>
 
+    <sq-money-timeline *ngSwitchCase="'money-timeline'"
+        #facet
+        [results]="results"
+        [width]="innerwidth"
+        [height]="innerheight"
+        (recordClicked)="onRecordClicked($event)">
+    </sq-money-timeline>
+
     <!-- Preview -->
     <ng-container *ngSwitchCase="'preview'">
         <sq-facet-preview-2 *ngIf="record"
