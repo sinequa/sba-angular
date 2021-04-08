@@ -64,11 +64,11 @@
             <div style="flex:1;">
                 <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)" (urlChange)="onPreviewUrlChange($event)">
 
-                <!-- Tooltip injected in the preview -->
-                <sq-preview-tooltip #tooltip [previewDocument]="previewDocument" [previewData]="previewData" 
-                    [entityActions]="tooltipEntityActions" [selectedTextActions]="tooltipTextActions"
-                    [scalingFactor]="scaleFactor">
-                </sq-preview-tooltip>
+                    <!-- Tooltip injected in the preview -->
+                    <sq-preview-tooltip #tooltip [previewDocument]="previewDocument" [previewData]="previewData" 
+                        [entityActions]="tooltipEntityActions" [selectedTextActions]="tooltipTextActions"
+                        [scalingFactor]="scaleFactor">
+                    </sq-preview-tooltip>
 
                 </sq-preview-document-iframe>
             </div>
