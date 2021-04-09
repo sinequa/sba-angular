@@ -1,2 +1,4 @@
-<span *ngIf="!hasUrl" class="sq-result-title" title="{{this.record.title}}" [innerHTML]="title"></span>
-<a *ngIf="hasUrl" class="sq-result-title" title="{{this.record.title}}" href="{{href}}" target="{{target}}" [innerHTML]="title" (click)="click()"></a>
+<!-- Display a regular SPAN if the component is supposed to have a link behavior but has no URL -->
+<span *ngIf="hasSpanBehaviour" class="sq-result-title" title="{{this.record.title}}" [innerHTML]="title"></span>
+<!-- Display a link if a URL exists or the component is used to trigger an action -->
+<a *ngIf="!hasSpanBehaviour" class="sq-result-title" title="{{this.record.title}}" href="{{href}}" target="{{target}}" [innerHTML]="title" (click)="click()"></a>
