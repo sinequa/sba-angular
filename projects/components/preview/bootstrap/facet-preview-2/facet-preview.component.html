@@ -1,22 +1,22 @@
 <div class="d-flex flex-column {{iframeClass}}" [ngStyle]="{'height.%': 100}">
     <sq-preview-document-iframe 
                                 [sandbox]="sandbox"
-                                [downloadUrl]="downloadUrl" 
-                                [scalingFactor]="scalingFactor" 
+                                [downloadUrl]="downloadUrl"
+                                [scalingFactor]="scalingFactor"
                                 (onPreviewReady)="onPreviewReady($event)">
     </sq-preview-document-iframe>
 </div>
 
 <ng-template #headerTpl>
-    <sq-result-title class="flex-grow-1 flex-basis-0" [record]="record"></sq-result-title>
+    <sq-result-title class="flex-grow-1 flex-basis-0" [record]="record" [originalDocTarget]="originalDocTarget"></sq-result-title>
 </ng-template>
 
 <ng-template #subHeaderTpl>
     <sq-metadata *ngIf="metadata && metadata.length > 0"
-        [record]="record" 
+        [record]="record"
         [items]="metadata"
-        [showTitles]="true" 
-        [showIcons]="true" 
+        [showTitles]="true"
+        [showIcons]="true"
         [clickable]="false"
         [spacing]="'compact'">
     </sq-metadata>
