@@ -26,6 +26,7 @@ export class ResultTitle implements OnChanges {
     @Input() record: Record;
     @Input() titleLinkBehavior: "open" | "action" = "open";
     @Input() field: string = "";
+    @Input() originalDocTarget: string | undefined;
     @Output() titleClicked = new EventEmitter<boolean>();   // TODO: Custom options to get title & URL (replace pluginservice)
     public title: string;
     private titleField: string;
@@ -53,7 +54,7 @@ export class ResultTitle implements OnChanges {
     }
 
     public get target(): string {
-        return (this.hasLinkBehaviour && this.documentUrl) ? "_blank" : "_self";
+        return (this.hasLinkBehaviour && this.documentUrl) ? this.originalDocTarget || '_blank' : "_self";
     }
 
     private getTitle(): string {

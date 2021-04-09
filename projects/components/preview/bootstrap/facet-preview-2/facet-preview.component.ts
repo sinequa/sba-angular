@@ -25,6 +25,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   @Input() closable: boolean = true;
   @Input() customActions: Action[];
   @Input() filters: HighlightFilters;
+  @Input() originalDocTarget: string | undefined;
   @Output() recordClosed = new EventEmitter<void>();
   @Output() previewLoaded = new EventEmitter<PreviewDocument>();
   @HostBinding('style.height.px') _height: number = this.height;
