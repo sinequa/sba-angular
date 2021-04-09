@@ -9,7 +9,7 @@ export default {
         "noBasket": "Sie haben noch kein Dokument zu einem Ablagekorb hinzugefügt...",
         "createBasket": "Ablagekorb erstellen",
         "manageBaskets": "Ablagekörbe verwalten",
-        "delete": "Lagerkorb löschen"
+        "delete": "Ablagekorb löschen"
     },
 
     "editBasket": {
