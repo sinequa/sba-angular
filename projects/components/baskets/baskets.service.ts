@@ -1,5 +1,5 @@
 import {Injectable, Inject, InjectionToken, Type, OnDestroy} from "@angular/core";
-import {Subject} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {UserSettingsWebService, AuditEvent, AuditEvents} from "@sinequa/core/web-services";
 import {ModalService, ModalResult} from "@sinequa/core/modal";
 import {Utils} from "@sinequa/core/base";
@@ -242,7 +242,7 @@ export class BasketsService implements OnDestroy {
                         basket: basket.name
                     }
                 }
-            ]);
+            ], true);
             return true;
 
         }
@@ -259,7 +259,7 @@ export class BasketsService implements OnDestroy {
     public updateBaskets(baskets: Basket[], auditEvents?: AuditEvents) : boolean {
         Utils.arraySet(this.baskets, baskets);
         this._events.next({type : BasketEventType.Update});
-        this.patchBaskets(auditEvents);
+        this.patchBaskets(auditEvents, true);
         return true;
     }
 
@@ -286,7 +286,7 @@ export class BasketsService implements OnDestroy {
                     savedquery: basket.name
                 }
             }
-        ]);
+        ], true);
         return true;
     }
 
@@ -371,7 +371,7 @@ export class BasketsService implements OnDestroy {
                     basket: name,
                     "doc-id": basket.ids[0]
                 }
-            });
+            }, true);
         }
         return true;
     }
@@ -393,9 +393,12 @@ export class BasketsService implements OnDestroy {
                 });
             }
         }
-        this._events.next({type : BasketEventType.RemoveDoc});
-        this.patchBaskets(auditEvents);
-        return true;
+        if(auditEvents.length > 0) {
+            this._events.next({type : BasketEventType.RemoveDoc});
+            this.patchBaskets(auditEvents, true);
+            return true;
+        }
+        return false;
     }
 
 
@@ -404,15 +407,19 @@ export class BasketsService implements OnDestroy {
      * @param auditEvents : Audit Events to be triggered
      * @returns an Observable which can be used to trigger further events
      */
-    private patchBaskets(auditEvents?: AuditEvents) {
-        return this.userSettingsService.patch({baskets: this.baskets}, auditEvents)
-            .subscribe(
-                next => {
-                    this._events.next({type: BasketEventType.Patched});
-                },
-                error => {
-                    console.error("Could not patch Baskets!", error);
-            });
+    private patchBaskets(auditEvents?: AuditEvents, updateSearch?: boolean): Observable<void> {
+        const obs = this.userSettingsService.patch({baskets: this.baskets}, auditEvents);
+        obs.subscribe(
+            next => {
+                this._events.next({type: BasketEventType.Patched});
+                if(updateSearch && this.searchService.query.basket) {
+                    this.searchService.search(); // Update search results to reflect the new basket content
+                }
+            },
+            error => {
+                console.error("Could not patch Baskets!", error);
+        });
+        return obs;
     }
 
 
