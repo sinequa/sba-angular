@@ -41,7 +41,8 @@
         "basketAlreadyExists": "A collection with that name already exists. Would you like to replace it?",
         "noBasket": "You have not yet added a document to a collection...",
         "createBasket": "Create Collection",
-        "manageBaskets": "Manage Collections"
+        "manageBaskets": "Manage Collections",
+        "delete": "Delete this collection"
     },
 
     "editBasket": {

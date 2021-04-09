@@ -4,16 +4,20 @@ export default {
         "saveCurrentQuery": "Save Current Query",
         "manageSavedQueries": "Manage Saved Queries",
         "savedQueryAlreadyExists": "A saved query with that name already exists. Would you like to replace it?",
-        "noSavedQuery": "You have not yet saved a search query..."
+        "noSavedQuery": "You have not yet saved a search query...",
+        "delete": "Delete this saved query"
     },
 
     "recentQueries": {
-        "noRecentQuery": "You have not yet searched for something..."
+        "noRecentQuery": "You have not yet searched for something...",
+        "delete": "Delete this recent query",
+        "save": "Save this query"
     },
 
     "recentDocuments": {
         "recentDocuments": "Recent documents",
-        "noRecentDocument": "You have not yet opened a document..."
+        "noRecentDocument": "You have not yet opened a document...",
+        "delete": "Delete this recent document"
     },
 
     "editSavedQuery": {

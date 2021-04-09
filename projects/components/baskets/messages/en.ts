@@ -8,7 +8,8 @@ export default {
         "basketAlreadyExists": "A basket with that name already exists. Would you like to replace it?",
         "noBasket": "You have not yet added a document to a basket...",
         "createBasket": "Create Basket",
-        "manageBaskets": "Manage Baskets"
+        "manageBaskets": "Manage Baskets",
+        "delete": "Delete this basket"
     },
 
     "editBasket": {

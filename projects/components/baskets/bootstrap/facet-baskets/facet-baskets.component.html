@@ -5,7 +5,7 @@
         (click)="openBasket(basket)">
         <span class="basket-name text-truncate mr-auto">{{ basket.name }}</span>
         <span *ngIf="basket.ids" class="basket-count ml-2 text-muted small">{{ basket.ids.length }}</span>
-        <i *ngIf="enableDelete" class="basket-delete ml-2 fas fa-times fa-fw" (click)="deleteBasket(basket, $event)"></i>
+        <i *ngIf="enableDelete" class="basket-delete ml-2 fas fa-times" [title]="'msg#baskets.delete' | sqMessage" (click)="deleteBasket(basket, $event)"></i>
     </a>
     <div *ngIf="basketsService.baskets.length == 0" class="list-group-item text-center text-muted font-italic small py-5">
         {{ 'msg#baskets.noBasket' | sqMessage }}
