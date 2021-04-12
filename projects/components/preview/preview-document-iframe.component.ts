@@ -1,5 +1,5 @@
-import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild, OnChanges, SimpleChanges } from "@angular/core";
-import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild, OnChanges, SimpleChanges, ChangeDetectorRef, OnInit, OnDestroy } from "@angular/core";
+import { SafeResourceUrl} from '@angular/platform-browser';
 import { PreviewDocument } from "./preview-document";
 
 
@@ -24,11 +24,10 @@ import { PreviewDocument } from "./preview-document";
  */
 @Component({
     selector: "sq-preview-document-iframe",
-    template: `<iframe #documentFrame
-                    [hidden]="loading"
+    template: `
+                <iframe #documentFrame
                     [sandbox]="sandbox || defaultSandbox"
-                    [src]="sanitizedUrlSrc"
-                    (load)="onPreviewDocLoad($event)"
+                    [src]="downloadUrl"
                     [style.--factor]="scalingFactor"
                     [ngStyle]="{'-ms-zoom': scalingFactor, '-moz-transform': 'scale(var(--factor))', '-o-transform': 'scale(var(--factor))', '-webkit-transform': 'scale(var(--factor))'}">
                 </iframe>`,
@@ -56,56 +55,59 @@ iframe {
 }
     `]
 })
-export class PreviewDocumentIframe implements OnChanges {
+export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy {
     defaultSandbox : string = "allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts";
     @Input() sandbox : string;
-    @Input() downloadUrl: string | SafeResourceUrl;
+    @Input()  downloadUrl: string | SafeResourceUrl;
     @Input() scalingFactor: number = 1.0;
     @Output() onPreviewReady = new EventEmitter<PreviewDocument>();
-    @ViewChild('documentFrame', {static: false}) documentFrame: ElementRef;  // Reference to the preview HTML in the iframe
+    @ViewChild('documentFrame', {static: true}) documentFrame: ElementRef;  // Reference to the preview HTML in the iframe
     @ContentChild('tooltip', { read: ElementRef, static: false }) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
-    public loading = false;
-    public sanitizedUrlSrc: SafeResourceUrl;
+    previewDocument: PreviewDocument;
 
-    constructor(private sanitizer: DomSanitizer) {
-        // when donwloadUrl is undefined, a sanitizer error occurs, code below prevents this
-        // setting a default safe url
-        this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+    constructor(
+        private cdr: ChangeDetectorRef) {
     }
 
-    public onPreviewDocLoad(event: Event) {
-        // unfortunately, initializing "sanitizedUrlSrc" property in constructor() trigges load() callback;
-        // so, while not "loading", just exit the method
-        if (!this.loading) return;
-        const previewDocument = new PreviewDocument(this.documentFrame);
+    public onPreviewDocLoad() {
+        // const previewDocument = new PreviewDocument(this.documentFrame);
 
         // SVG highlight:
         //   background rectangle (highlight) were added to the SVG by the HTML generator (C#), but html generation is
         //   not able to know the geometry of the text. It is up to the browser to compute the position and size of the
         //   background. That needs to be done now that the iFrame is loaded.
-        previewDocument.setSvgBackgroundPositionAndSize();
+        this.previewDocument.setSvgBackgroundPositionAndSize();
 
         if(this.tooltip)
-            this.addTooltip(previewDocument);
+            this.addTooltip(this.previewDocument);
 
         // Let upstream component know
-        this.onPreviewReady.next(previewDocument);
+        this.onPreviewReady.next(this.previewDocument);
 
-        this.loading = false;
+        this.cdr.markForCheck();
     }
 
     addTooltip(previewDocument: PreviewDocument){
         previewDocument.insertComponent(this.tooltip.nativeElement);
+    }
+    
+    ngOnInit() {
+        this.documentFrame.nativeElement.addEventListener("load", () => this.onPreviewDocLoad(), true);
+        this.previewDocument = new PreviewDocument(this.documentFrame);
+    }
+    
+    ngOnDestroy() {
+        this.documentFrame.nativeElement.removeEventListener("load", () => this.onPreviewDocLoad());
     }
 
     ngOnChanges(simpleChanges: SimpleChanges) {
         if(simpleChanges.scalingFactor && !simpleChanges.scalingFactor.firstChange) {
             return;
         }
-        if(this.downloadUrl) {
-            this.loading = true;
-            this.sanitizedUrlSrc = this.downloadUrl;
+        
+        if(simpleChanges.downloadUrl) {
+            this.cdr.markForCheck();
         }
     }
 }

@@ -45,10 +45,7 @@
 
         <!-- Right panel (iframe with preview HTML) -->
         <div class="flex-grow-1 d-flex flex-column preview-bg">
-            <div *ngIf="loadingPreview" class="d-flex justify-content-center align-items-center h-100">
-                <div class="spinner-grow" role="status"></div>
-            </div>
-            <div *ngIf="!loadingPreview && previewData" class="mb-1 pl-2">
+            <div *ngIf="previewData" class="mb-1 pl-2">
                 <h1>{{ previewData?.record.title }}</h1>
                 <!-- Link to the original document -->
                 <a title="Original document" target="_blank" href="{{previewData?.record.url1}}" (click)="openOriginalDoc()">{{previewData?.record.url1}}</a>
