@@ -8,7 +8,8 @@ export default {
         "basketAlreadyExists": "Es existiert bereits ein Ablagekorb mit diesem Namen. Möchten Sie ihn ersetzen?",
         "noBasket": "Sie haben noch kein Dokument zu einem Ablagekorb hinzugefügt...",
         "createBasket": "Ablagekorb erstellen",
-        "manageBaskets": "Ablagekörbe verwalten"
+        "manageBaskets": "Ablagekörbe verwalten",
+        "delete": "Diesen Ablagekorb löschen"
     },
 
     "editBasket": {

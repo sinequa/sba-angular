@@ -5,8 +5,8 @@
         (click)="openRecentQuery(query)">
         <span class="query-text mr-auto text-truncate" title="{{ query.query.text }}">{{ query.query.text }}</span>
         <span *ngIf="query.date" class="query-date ml-2 text-muted small text-right">{{ query.date | sqDate }}</span>
-        <i *ngIf="enableSave" class="query-save ml-2 far fa-save fa-fw" (click)="saveQuery(query, $event)"></i>
-        <i *ngIf="enableDelete"class="query-delete ml-2 fas fa-times fa-fw" (click)="deleteQuery(query, $event)"></i>
+        <i *ngIf="enableSave" class="query-save ml-2 far fa-save" [title]="'msg#recentQueries.save' | sqMessage" (click)="saveQuery(query, $event)"></i>
+        <i *ngIf="enableDelete"class="query-delete ml-2 fas fa-times" [title]="'msg#recentQueries.delete' | sqMessage" (click)="deleteQuery(query, $event)"></i>
     </a>
     <div *ngIf="recentQueriesService.recentqueries.length == 0" class="list-group-item text-center text-muted font-italic small py-5">
         {{ 'msg#recentQueries.noRecentQuery' | sqMessage }}
