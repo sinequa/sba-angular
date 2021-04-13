@@ -8,7 +8,8 @@ export default {
         "basketAlreadyExists": "Un panier avec ce nom existe déjà. Voulez-vous le remplacer ?",
         "noBasket": "Vous n'avez pas encore ajouté de document à un panier...",
         "createBasket": "Créer un panier",
-        "manageBaskets": "Gérer les paniers"
+        "manageBaskets": "Gérer les paniers",
+        "delete": "Supprimer ce panier"
     },
 
     "editBasket": {

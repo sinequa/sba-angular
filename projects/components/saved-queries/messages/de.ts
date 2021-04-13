@@ -4,16 +4,20 @@ export default {
         "saveCurrentQuery": "Aktuelle Suchanfrage speichern",
         "manageSavedQueries": "Aktuelle Suchanfragen verwalten",
         "savedQueryAlreadyExists": "Es existiert bereits eine Suchanfrage mit diesem Namen. Möchten Sie sie ersetzen?",
-        "noSavedQuery": "Sie haben noch keine Suchanfrage gespeichert..."
+        "noSavedQuery": "Sie haben noch keine Suchanfrage gespeichert...",
+        "delete": "Löschen Sie diese gespeicherte Suche"
     },
 
     "recentQueries": {
-        "noRecentQuery": "Sie haben noch keine Suche durchgeführt..."
+        "noRecentQuery": "Sie haben noch keine Suche durchgeführt...",
+        "delete": "Löschen Sie diese letzte Suche",
+        "save": "Speichern Sie diese letzte Suche"
     },
 
     "recentDocuments": {
-        "recentDocuments": "Recent documents",
-        "noRecentDocument": "You have not yet opened a document..."
+        "recentDocuments": "Kürzlich angesehenes Dokument",
+        "noRecentDocument": "Sie haben kein Dokument angezeigt",
+        "delete": "Löschen Sie dieses kürzlich angezeigte Dokument"
     },
 
     "editSavedQuery": {

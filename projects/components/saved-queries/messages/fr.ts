@@ -4,16 +4,20 @@ export default {
         "saveCurrentQuery": "Enregistrer la requête courante",
         "manageSavedQueries": "Gérer les requêtes sauvegardées",
         "savedQueryAlreadyExists": "Une requête sauvegardée avec ce nom existe déjà. Voulez-vous la remplacer ?",
-        "noSavedQuery": "Vous n'avez pas encore enregistré de requête de recherche..."
+        "noSavedQuery": "Vous n'avez pas encore enregistré de requête de recherche...",
+        "delete": "Supprimer cette requête enregistrée"
     },
 
     "recentQueries": {
-        "noRecentQuery": "Vous n'avez pas encore effectué de recherche..."
+        "noRecentQuery": "Vous n'avez pas encore effectué de recherche...",
+        "delete": "Supprimer cette requête",
+        "save": "Enregistrer cette requête"
     },
 
     "recentDocuments": {
         "recentDocuments": "Documents récents",
-        "noRecentDocument": "Vous n'avez pas encore ouvert de document..."
+        "noRecentDocument": "Vous n'avez pas encore ouvert de document...",
+        "delete": "Supprimer ce document récent"
     },
 
     "editSavedQuery": {

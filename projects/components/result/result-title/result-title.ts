@@ -23,11 +23,22 @@ sq-result-title {
     encapsulation: ViewEncapsulation.None   // Currently necessary for the match-highlight
 })
 export class ResultTitle implements OnChanges {
+    /** The record which title we want to display */
     @Input() record: Record;
-    @Input() titleLinkBehavior: "open" | "action" = "open";
+    /**
+     * "open" mode: Display a link which opens the original document (url1) if available, or emits a titleClicked event to perform an action otherwise
+     * "action" mode: Display a link which emits a titleClicked event to perform an action
+     * "open-if-url" mode: Display a link which opens the original document (url1) if available, or displays a SPAN with the title otherwise
+     * "display" mode: Only display a SPAN element (no link)
+     */
+    @Input() titleLinkBehavior: "open" | "action" | "open-if-url" | "display" = "open";
+    /** Optional field name containing the title. Otherwise displayTitle or title are used */
     @Input() field: string = "";
+    /** Optional custom target used in the link */
     @Input() originalDocTarget: string | undefined;
+    /** Event emitter to perform actions at the parent level */
     @Output() titleClicked = new EventEmitter<boolean>();   // TODO: Custom options to get title & URL (replace pluginservice)
+
     public title: string;
     private titleField: string;
     private documentUrl: string;
@@ -46,7 +57,15 @@ export class ResultTitle implements OnChanges {
     }
 
     get hasLinkBehaviour(): boolean {
-        return this.titleLinkBehavior === "open";
+        return this.titleLinkBehavior === "open" || (this.titleLinkBehavior === "open-if-url" && this.hasUrl);
+    }
+
+    /**
+     * A span is shown in "display" mode or "open-if-url" mode when no url is present
+     * A link is shown in all other cases (even in "open" mode with no url, which is equivalent to "action" mode)
+     */
+    get hasSpanBehaviour(): boolean {
+        return this.titleLinkBehavior === "display" || (this.titleLinkBehavior === "open-if-url" && !this.hasUrl);
     }
 
     public get href(): string {
