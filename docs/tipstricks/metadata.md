@@ -121,7 +121,7 @@ This custom formatter needs to be implemented in your Angular application. This 
 
     ```ts
     // Add support for a custom formatter
-    formatValue: (valueItem: ValueItem | FieldValue, column?: CCColumn): string {
+    formatValue(valueItem: ValueItem | FieldValue, column?: CCColumn): string {
         if (column && column.formatter === 'prettifyCategory') {
             ...
             return "The formatter category"
@@ -137,7 +137,7 @@ This custom formatter needs to be implemented in your Angular application. This 
         ...,
         providers: [
             ...,
-            { provider: FormatService, useClass: MyFormatService }
+            { provide: FormatService, useClass: MyFormatService }
         ]
     })
     ```
