@@ -1,7 +1,7 @@
 
 <!-- Wrapper div to ensure the autocomplete dropdown is aligned with the search input and button -->
 <div class="d-flex flex-column flex-grow-1 position-relative">
-    
+
     <form novalidate [formGroup]="form">
 
         <div class="input-group">
@@ -30,12 +30,13 @@
                     [excludedFields]="['concepts','textlexicon','recent-query','saved-query','basket','recent-document']"
 
                     (submit)="search()"
-                    (parse)="onParse($event)">
+                    (parse)="onParse($event)"
+                    #searchInput>
             </div>
 
             <!-- Search button -->
             <div class="input-group-append">
-                <button class="btn btn-primary" type="button" (click)="search()" 
+                <button class="btn btn-primary" type="button" (click)="search()"
                     title="{{ 'msg#searchForm.search' | sqMessage }}"
                     [attr.disabled]="!loginService.complete ? '' : null">
                     <i class="fas fa-search"></i>
