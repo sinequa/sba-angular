@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from "@angular/forms";
 import { SearchService } from '@sinequa/components/search';
 import { LoginService } from '@sinequa/core/login';
@@ -27,6 +27,8 @@ export class SearchFormComponent implements OnInit, OnDestroy {
   parseResult?: ParseResult;
 
   @ViewChild(AutocompleteExtended) autocompleteDirective: AutocompleteExtended;
+  @ViewChild('searchInput') searchInput: ElementRef;
+
   showAdvancedSearch: boolean;
   initAdvanced: boolean;
 
@@ -78,6 +80,9 @@ export class SearchFormComponent implements OnInit, OnDestroy {
    */
   search() {
     if(this.loginService.complete && this.form.valid) {
+
+      /** Hide autocomplete suggestions */
+      this.searchInput.nativeElement.blur();
 
       /** Close the advanced form */
       this.showAdvancedSearch = false;
