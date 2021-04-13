@@ -66,7 +66,6 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   subpanels = ["extracts", "entities"];
   subpanel = 'extracts';
   previewSearchable = true;
-  loadingPreview = false;
 
   // Subscriptions
   private loginSubscription: Subscription;
@@ -216,7 +215,6 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
           this.previewData = previewData;
           this.downloadUrl = this.previewData ? this.previewService.makeDownloadUrl(this.previewData.documentCachedContentUrl) : undefined;
           this.titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle", {title: previewData.record.title || ""}));
-          this.loadingPreview = true;
         }
       );
     }
@@ -237,7 +235,6 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
         
       this.previewDocument = previewDocument;
       this.previewDocument.selectHighlight("matchlocations", 0); // Scroll to first match
-      this.loadingPreview = false;
     }
 }
 

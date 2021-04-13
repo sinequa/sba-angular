@@ -1,7 +1,4 @@
 <div class="d-flex flex-column {{iframeClass}}" [ngStyle]="{'height.%': 100}">
-    <div *ngIf="loadingPreview" class="d-flex justify-content-center align-items-center h-100">
-        <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status"></div>
-    </div>
     <sq-preview-document-iframe
                                 [sandbox]="sandbox"
                                 [downloadUrl]="downloadUrl"
