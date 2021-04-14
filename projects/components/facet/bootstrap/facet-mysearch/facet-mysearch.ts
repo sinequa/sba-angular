@@ -43,7 +43,7 @@ export class BsMySearch extends AbstractFacet implements OnChanges {
             this.items = this.ignoreText
                 ? this.searchService.breadcrumbs?.items.filter(
                         (item: BreadcrumbsItem) =>
-                            item.expr && item.facet !== "search-form"
+                            item.expr && !(item.expr && !item.expr.field && !item.expr.isStructured) && item.facet !== "search-form"
                     ) || []
                 : this.searchService.breadcrumbs?.items || [];
 
