@@ -22,6 +22,7 @@
         [results]="results"
         [width]="innerwidth"
         [height]="innerheight"
+        [theme]="buttonsStyle"
         (eventClicked)="onRecordClicked($event.record)">
     </sq-facet-timeline>
 
@@ -69,7 +70,8 @@
         [fieldsY]="['geo', 'company', 'person']"
         [width]="innerwidth"
         [height]="innerheight"
-        [allowResizeOption]="false">
+        [allowResizeOption]="false"
+        [theme]="buttonsStyle">
     </sq-facet-heatmap>
 
     <sq-facet-tag-cloud *ngSwitchCase="'tagcloud'"
@@ -85,8 +87,17 @@
         [results]="results"
         [width]="innerwidth"
         [height]="innerheight"
+        [theme]="buttonsStyle"
         (recordClicked)="onRecordClicked($event)">
     </sq-money-timeline>
+
+    <sq-money-cloud *ngSwitchCase="'money-cloud'"
+        #facet
+        [results]="results"
+        [width]="innerwidth"
+        [height]="innerheight"
+        [theme]="buttonsStyle">
+    </sq-money-cloud>
 
     <!-- Preview -->
     <ng-container *ngSwitchCase="'preview'">

@@ -56,6 +56,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     @Input() curveType = "curveMonotoneX";
 
     @Input() showTooltip = true;
+    @Input() theme: "light" | "dark" = "light";
 
     @Output() selectionChange = new EventEmitter<Date[]>();
     @Output() rangeChange = new EventEmitter<Date[]>();

@@ -37,6 +37,7 @@ export class BsHeatmapComponent implements OnChanges, AfterViewInit {
     @Input() colorScheme = "schemeBlues"; // Color scheme from D3
     @Input() maxX = 20; // Max items on X
     @Input() maxY = 20; // Max items on Y
+    @Input() theme: "light" | "dark" = "light";
     
     // Events from user interactions
     @Output() itemClicked = new EventEmitter<HeatmapItem>();
