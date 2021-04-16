@@ -17,6 +17,7 @@ import { UserPreferences } from '@sinequa/components/user-settings';
 })
 export class BsResultsHeatmapView extends BsFacetHeatmapComponent {
     @Input() selectView?: string;
+    @Input() theme: "light" | "dark" = "light";
 
     settingsAction: Action;
     showSettings: boolean;

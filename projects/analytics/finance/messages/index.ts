@@ -1,11 +1,11 @@
 import {Utils} from "@sinequa/core/base";
 import {enFacet, frFacet, deFacet} from "@sinequa/components/facet";
-import _enMoney from "./en";
-import _frMoney from "./fr";
-import _deMoney from "./de";
+import _enFinance from "./en";
+import _frFinance from "./fr";
+import _deFinance from "./de";
 
-const enMoney = Utils.merge({}, _enMoney, enFacet);
-const frMoney = Utils.merge({}, _frMoney, frFacet);
-const deMoney = Utils.merge({}, _deMoney, deFacet);
+const enFinance = Utils.merge({}, _enFinance, enFacet);
+const frFinance = Utils.merge({}, _frFinance, frFacet);
+const deFinance = Utils.merge({}, _deFinance, deFacet);
 
-export { enMoney, frMoney, deMoney };
+export { enFinance, frFinance, deFinance };

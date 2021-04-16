@@ -52,9 +52,6 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
     /** General Vis options passed to the network (https://visjs.github.io/vis-network/docs/network/) */
     @Input() options: Options = defaultOptions;
 
-    /** Delay (milliseconds) before programmatically fitting the network to its content */
-    @Input() fitDelay = 1000;
-
     optionsPrefs: Options;
 
     @Output() nodeClicked = new EventEmitter<Node>();
@@ -265,14 +262,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
      * to avoid some elusive bugs in the Vis library
      */
     fitNetwork() {
-        setTimeout(() => {
-            this.networkService.fit(this.name, {
-                animation: {             // animation object, can also be Boolean
-                    duration: 1000,                 // animation duration in milliseconds (Number)
-                    easingFunction: "easeInOutQuad" // Animation easing function, available are:
-                }
-            });
-        }, this.fitDelay);
+        this.networkService.fit(this.name);
     }
 
 

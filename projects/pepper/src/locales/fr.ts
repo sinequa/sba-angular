@@ -27,12 +27,12 @@ import {frUserSettings} from "@sinequa/components/user-settings";
 import {frNetwork} from "@sinequa/analytics/network";
 import {frGooglemaps} from "@sinequa/analytics/googlemaps";
 import {frTheme} from "@sinequa/components/theme-toggle";
-import { frMoney } from "@sinequa/analytics/finance";
+import {frFinance} from "@sinequa/analytics/finance";
 
 d3Format.thousands = " "; // consistency with intl-number-format
 
 const messages = Utils.merge({}, frCore, frAdvanced, frAlerts, frBaskets, frFacet, frFeedback, frHeatmap, frLabels, frMetadata,
-    frNotification, frPreview, frResult, frResultsView, frSavedQueries, frSelection, frSearch, frStatusBar, frUserSettings, frNetwork, frGooglemaps, frMoney, appMessages,
+    frNotification, frPreview, frResult, frResultsView, frSavedQueries, frSelection, frSearch, frStatusBar, frUserSettings, frNetwork, frGooglemaps, frFinance, appMessages,
     frTheme);
 
 export default <LocaleData>{

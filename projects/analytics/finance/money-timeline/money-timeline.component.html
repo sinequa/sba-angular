@@ -35,13 +35,13 @@
 
 <!-- Tooltip -->
 <sq-tooltip *ngIf="tooltipItem" class="text-center"
-    [orientation]="tooltipOrientation" [left]="tooltipLeft" [right]="tooltipRight" [top]="tooltipTop">
+    [orientation]="tooltipOrientation" [left]="tooltipLeft" [right]="tooltipRight" [top]="tooltipTop" [theme]="theme">
     <strong>{{tooltipItem.record.title}}</strong>
     <button (click)="onRecordClicked(tooltipItem)" class="btn btn-sm btn-link" [sqTooltip]="'msg#money.inspect' | sqMessage">
         <i class="fas fa-search"></i>
     </button>
     <div>
-        "{{tooltipItem.currency}} {{yFormatter(tooltipItem.value)}}"
+        "{{tooltipItem.currency}} {{formatService.moneyFormatter(tooltipItem.value)}}"
         <small>({{tooltipItem.count}} mentions)</small>
         <button (click)="filterDatum(tooltipItem)" class="btn btn-sm btn-link" [sqTooltip]="'msg#money.filter' | sqMessage">
             <i class="fas fa-filter"></i>

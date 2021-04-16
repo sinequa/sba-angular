@@ -12,7 +12,7 @@ import { UIService } from '@sinequa/components/utils';
 import { PreviewService } from '@sinequa/components/preview';
 import { Action } from '@sinequa/components/action';
 import { FACETS, METADATA, FEATURES } from '../../config';
-import { DashboardService, MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, PREVIEW_WIDGET, HEATMAP_WIDGET, TAGCLOUD_WIDGET, MONEY_WIDGET } from '../dashboard/dashboard.service';
+import { DashboardService, MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, PREVIEW_WIDGET, HEATMAP_WIDGET, TAGCLOUD_WIDGET, MONEYTIMELINE_WIDGET, MONEYCLOUD_WIDGET } from '../dashboard/dashboard.service';
 import { GridsterComponent } from 'angular-gridster2';
 
 @Component({
@@ -86,7 +86,8 @@ export class SearchComponent implements OnInit, OnDestroy {
           CHART_WIDGET,
           HEATMAP_WIDGET,
           TAGCLOUD_WIDGET,
-          MONEY_WIDGET
+          MONEYTIMELINE_WIDGET,
+          MONEYCLOUD_WIDGET
         ]);
       }
     });
