@@ -6,6 +6,7 @@ import { UtilsModule } from "@sinequa/components/utils";
 import { MoneyTimelineComponent } from "./money-timeline/money-timeline.component";
 import { BsHeatmapModule } from "@sinequa/analytics/heatmap";
 import { BsActionModule } from "@sinequa/components/action";
+import { MoneyCloudComponent } from "./money-cloud/money-cloud.component";
 
 
 @NgModule({
@@ -18,10 +19,12 @@ import { BsActionModule } from "@sinequa/components/action";
         BsActionModule
     ],
     declarations: [
-        MoneyTimelineComponent
+        MoneyTimelineComponent,
+        MoneyCloudComponent
     ],
     exports: [
-        MoneyTimelineComponent
+        MoneyTimelineComponent,
+        MoneyCloudComponent
     ],
 })
 export class FinanceModule {}

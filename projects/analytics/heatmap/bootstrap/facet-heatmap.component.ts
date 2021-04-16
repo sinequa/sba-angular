@@ -38,6 +38,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     @Input() colorScheme = "schemeBlues"; // Color scheme from D3
     @Input() maxX = 20; // Max items on X
     @Input() maxY = 20; // Max items on Y
+    @Input() theme: "light" | "dark" = "light";
 
     // Interaction settings
     @Input() itemsClickable = true;

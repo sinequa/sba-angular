@@ -63,7 +63,7 @@
 
 <!-- Tooltip -->
 <sq-tooltip *ngIf="tooltipItem"
-            [orientation]="tooltipOrientation" [left]="tooltipLeft" [right]="tooltipRight" [top]="tooltipTop">
+            [orientation]="tooltipOrientation" [left]="tooltipLeft" [right]="tooltipRight" [top]="tooltipTop" [theme]="theme">
     <div class="list-group list-group-flush">
         <ng-container *ngFor="let event of tooltipItem">
             <ng-container *ngIf="tooltipTpl">

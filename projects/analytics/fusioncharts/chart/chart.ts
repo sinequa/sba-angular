@@ -31,6 +31,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
     @Input() type: string = 'Column2D';
     @Input() types?: {type: string, display: string}[];
     @Input() chart: any = defaultChart;
+    @Input() autohide = true;
 
     /** Leave the default color undefined to use the color scheme of FusionCharts */
     @Input() defaultColor?: string;
@@ -212,7 +213,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
     }
 
     isHidden(): boolean {
-        return !this.dataSource.data || this.dataSource.data.length === 0;
+        return this.autohide && !this.dataSource.data?.length;
     }
     
     /**

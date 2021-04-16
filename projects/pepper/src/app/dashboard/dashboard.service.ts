@@ -68,8 +68,9 @@ export const TIMELINE_WIDGET: DashboardItemOption = {type: 'timeline', icon: 'fa
 export const NETWORK_WIDGET: DashboardItemOption = {type: 'network', icon: 'fas fa-project-diagram fa-fw', text: 'msg#dashboard.network', unique: true};
 export const CHART_WIDGET: DashboardItemOption = {type: 'chart', icon: 'fas fa-chart-bar fa-fw', text: 'msg#dashboard.chart', unique: false};
 export const HEATMAP_WIDGET: DashboardItemOption = {type: 'heatmap', icon: 'fas fa-th fa-fw', text: 'msg#dashboard.heatmap', unique: false};
-export const TAGCLOUD_WIDGET: DashboardItemOption = {type: 'tagcloud', icon: 'fas fa-comments', text: 'msg#dashboard.tagcloud', unique: true}
-export const MONEY_WIDGET: DashboardItemOption = {type: 'money-timeline', icon: 'fas fa-search-dollar', text: 'Amounts of money', unique: true}
+export const TAGCLOUD_WIDGET: DashboardItemOption = {type: 'tagcloud', icon: 'fas fa-comments fa-fw', text: 'msg#dashboard.tagcloud', unique: true}
+export const MONEYTIMELINE_WIDGET: DashboardItemOption = {type: 'money-timeline', icon: 'fas fa-search-dollar fa-fw', text: 'msg#money.timeline', unique: true}
+export const MONEYCLOUD_WIDGET: DashboardItemOption = {type: 'money-cloud', icon: 'fas fa-comment-dollar fa-fw', text: 'msg#money.cloud', unique: true}
 export const PREVIEW_WIDGET: DashboardItemOption = {type: 'preview', icon: 'far fa-file-alt', text: '', unique: false}
 
 

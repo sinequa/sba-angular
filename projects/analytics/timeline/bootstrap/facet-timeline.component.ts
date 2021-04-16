@@ -77,6 +77,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
     @Input() curveType = "curveMonotoneX";
 
     @Input() showTooltip = true;
+    @Input() theme: "light" | "dark" = "light";
 
     @Output() eventClicked = new EventEmitter<TimelineEvent>();
 

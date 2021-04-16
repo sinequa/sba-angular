@@ -39,7 +39,7 @@
 
 <!-- Tooltip -->
 <sq-tooltip *ngIf="tooltipItem" class="text-center"
-    [orientation]="tooltipOrientation" [left]="tooltipLeft" [right]="tooltipRight" [top]="tooltipTop">
+    [orientation]="tooltipOrientation" [left]="tooltipLeft" [right]="tooltipRight" [top]="tooltipTop" [theme]="theme">
     <strong>{{tooltipItem.display || tooltipItem.value}}</strong>
     <div>{{'msg#heatmap.tooltip' | sqMessage:{values: {count: tooltipItem.count} } }}</div>
 </sq-tooltip>
