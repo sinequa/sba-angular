@@ -4,7 +4,7 @@ import {Component, Input} from '@angular/core';
     selector: "sq-tooltip",
     template: `
 <div [ngStyle]="style" [ngClass]="orientation" class="sq-tooltip position-absolute card">
-    <div class="card-body bg-light p-2">
+    <div class="card-body bg-{{theme}} p-2">
         <ng-content></ng-content>
     </div>
 </div>
@@ -38,6 +38,7 @@ export class BsTooltipComponent {
     @Input() left = 0;
     @Input() right = 0;
     @Input() top = 0;
+    @Input() theme: "light" | "dark" = "light";
 
     get style() {
         if(this.orientation === "right") {

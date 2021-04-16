@@ -1,0 +1,32 @@
+:host {
+    display: block;
+    position: relative;
+}
+
+.datum {
+    opacity: 0.7;
+}
+
+.axis ::ng-deep {
+
+    line, .domain {
+        stroke: darkgrey;
+    }
+
+    text {
+        fill: darkgrey;
+    }
+
+    .tick>line {
+        stroke: lightgrey;
+    }
+}
+
+rect.category {
+    fill: rgb(0,0,0,0);
+    stroke: lightgray;
+    &:hover {
+        fill: rgba(255, 255, 224, 0.5);
+    }
+}
+

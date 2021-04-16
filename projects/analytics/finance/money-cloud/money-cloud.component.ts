@@ -1,54 +1,55 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from "@angular/core";
 import { Action } from "@sinequa/components/action";
 import { AbstractFacet } from "@sinequa/components/facet";
 import { SearchService } from "@sinequa/components/search";
-import { ExprBuilder } from "@sinequa/core/app-utils";
-import { Utils } from "@sinequa/core/base";
-import { Results, Record } from "@sinequa/core/web-services";
-import { FormatService } from "@sinequa/core/app-utils";
+import { SelectionService } from "@sinequa/components/selection";
+import { ExprBuilder, FormatService, ValueItem } from "@sinequa/core/app-utils";
+import { AggregationItem, Results } from "@sinequa/core/web-services";
 
 import * as d3 from 'd3';
 
-export interface MoneyDatum {
+
+export interface MoneyCloudDatum {
     value: number;
     currency: string;
     count: number;
-    date: Date;
+    category: string;
+    i: number;
     rawvalue: string;
-    record: Record;
 }
 
 @Component({
-    selector: 'sq-money-timeline',
-    templateUrl: './money-timeline.component.html',
-    styleUrls: ['./money-timeline.component.scss']
+    selector: 'sq-money-cloud',
+    templateUrl: './money-cloud.component.html',
+    styleUrls: ['./money-cloud.component.scss']
 })
-export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,AfterViewInit {
-    @Input() name = "money-timeline"
+export class MoneyCloudComponent extends AbstractFacet implements OnChanges,AfterViewInit {
+    @Input() name = "money-cloud"
 
     @Input() results: Results;
-    /** The "money" column stores an entity in the form "<CURRENCY> <NUMERAL>", for example "USD 69420" */
-    @Input() moneyColumn = "money";
-    /** The "Money" aggregation must be computed over the money column */
-    @Input() moneyAggregation = "Money";
+    /** The "money-value" column stores an entity in the form "(KEYWORD)#(<CURRENCY> <NUMERAL>)", for example "(DEAL)#(USD 69420)" */
+    @Input() moneyValueColumn = "value_amount";
+    /** The "Money-Value" aggregation must be computed over the money-value column */
+    @Input() moneyAggregation = "ValueAmounts";
 
     @Input() width = 600;
     @Input() height = 200;
     @Input() margin = {top: 15, bottom: 30, left: 40, right: 15};
 
-    /** Displays a tooltip showing the current date */
     @Input() showTooltip = true;
     @Input() theme: "light" | "dark" = "light";
 
-    @Output() recordClicked = new EventEmitter<Record>();
+    data: MoneyCloudDatum[];
+    categories: string[];
 
-    data: MoneyDatum[];
+    selectedItems: Set<string>;
 
     // Scales
-    x: d3.ScaleTime<number, number>; // Read/Write
+    x: d3.ScaleBand<string>; // Read/Write
+    x_inner: d3.ScaleLinear<number, number>; // Read/Write
     y: d3.ScaleLogarithmic<number, number>; // Read-only / domain updated
-    r: d3.ScaleLogarithmic<number,number>;
-    c: d3.ScaleOrdinal<string, string>;
+    r: d3.ScaleLogarithmic<number,number>; // Radius (function of counts)
+    c: d3.ScaleOrdinal<string, string>; // Color
 
     // Elements
     @ViewChild("overlay") overlay: ElementRef;
@@ -56,12 +57,11 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     @ViewChild("yAxis") gy: ElementRef;
 
     // Selections
-    xAxis$: d3.Selection<SVGGElement, Date, null, undefined>;
+    xAxis$: d3.Selection<SVGGElement, string, null, undefined>;
     yAxis$: d3.Selection<SVGGElement, number, null, undefined>;
     
     // Tooltips
-    tooltipX: number | undefined;
-    tooltipItem: MoneyDatum | undefined;
+    tooltipItem: MoneyCloudDatum | undefined;
     tooltipOrientation: "left" | "right";
     tooltipTop: number;
     tooltipRight: number;
@@ -76,6 +76,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         protected cdRef: ChangeDetectorRef,
         public searchService: SearchService,
         public exprBuilder: ExprBuilder,
+        public selectionService: SelectionService,
         public formatService: FormatService
     ){
         super();
@@ -89,6 +90,8 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
                 this.searchService.search();
             }
         });
+
+        this.selectionService.events.subscribe(e => this.updateSelectedItems());
     }
 
     get actions(): Action[] {
@@ -112,8 +115,10 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         if(!this.x) {
             
             // Scales
-            this.x = d3.scaleUtc()
+            this.x = d3.scaleBand<string>()
                 .range([0, this.innerWidth]);
+                
+            this.x_inner = d3.scaleLinear<number, number>();
 
             this.y = d3.scaleLog()
                 .range([this.innerHeight, 0]);
@@ -154,8 +159,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         this.yAxis$ = d3.select(this.gy.nativeElement);
 
         d3.select(this.overlay.nativeElement)        
-            .on("mousemove", () => this.onMousemove())
-            .on("mouseout", () => this.onMouseout());
+            .on("mousemove", () => this.onMousemove());
         
         this.viewInit = true;
 
@@ -168,9 +172,6 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         this.cdRef.detectChanges();
     }
 
-    /**
-     * Recomputes the data to display and update the chart's primitives
-     */
     updateChart() {
 
         this.turnoffTooltip();
@@ -188,70 +189,83 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         }
     }
 
-    /**
-     * Computes the data displayed in the chart in function of the raw data provided as input
-     */
     updateData() {
+
+        this.updateSelectedItems();
         
-        // Extract number of occurrences from the aggregation
-        const counts = new Map<string,number>();
-        this.results.aggregations
-            ?.find(a => Utils.eqNC(a.name, this.moneyAggregation))
-            ?.items
-            ?.forEach(item => counts.set(item.value.toString(), item.count));
+        const counts = new Map<string, number>();
 
         this.data = [];
-        this.results.records?.forEach(record =>
-            record?.[this.moneyColumn]?.forEach(money => {
-                const datum = this.parseEntity(money.value, record, counts.get(money.value) || 1);
+        // Extract number of occurrences from the aggregation
+        this.results.aggregations
+            ?.find(a => a.name === this.moneyAggregation)
+            ?.items
+            ?.forEach(item => {
+                const datum = this.parseEntity(item, counts);
                 if(datum) {
                     this.data.push(datum);
                 }
-            })
-        );
+            });
+
+        this.data.forEach(d => d.i = (d.i-0.5) / counts.get(d.category)!); // Normalize i between 0 and 1
 
     }
 
     /**
-     * Parse the entity stored in the "money" column and returns a datum (incl. numerical value and currency)
+     * Parse the entity stored in the "money-value" column and returns a datum (incl. numerical value and currency)
      */
     @Input()
-    parseEntity = (rawvalue: string, record: Record, count): MoneyDatum | undefined => {
-        const val = rawvalue.split(" "); // Split "USD 1000"
+    parseEntity = (item: AggregationItem, counts: Map<string, number>): MoneyCloudDatum | undefined => {
+        const rawvalue = item.value as string;
+        const [category, amount] = item.display!.substr(1, item.display!.length-2).split(")#(");
+        const [currency, valuestr] = amount.split(" ");
+        const value = parseFloat(valuestr);
         // Check the data is valid
-        if(!record.modified || isNaN(val[1] as any) || parseFloat(val[1]) <= 0) {
+        if(isNaN(value) || value <= 0) {
             return undefined;
-        }
+        }        
+        counts.set(category, (counts.get(category) || 0) + 1);
         return {
-            value: parseFloat(val[1]),
-            currency: val[0],
-            date: new Date(record.modified),
-            count,
+            value,
+            count: item.count,
+            category,
+            currency,
             rawvalue,
-            record
+            i: counts.get(category)!
         };
     }
 
-    /**
-     * Update the axis domains in function of the data
-     */
     updateScales() {
 
         if(this.data.length) {
-            const xExtent = d3.extent<MoneyDatum, Date>(this.data, d => d.date);
-            const yExtent = d3.extent<MoneyDatum, number>(this.data, d => d.value);
-            const rExtent = d3.extent<MoneyDatum, number>(this.data, d => d.count);
+            const yExtent = d3.extent<MoneyCloudDatum, number>(this.data, d => d.value);
+            const rExtent = d3.extent<MoneyCloudDatum, number>(this.data, d => d.count);
 
-            if(!xExtent[0] || !xExtent[1] || !yExtent[0] || !yExtent[1] || !rExtent[0] || !rExtent[1]) {
+            if(!yExtent[0] || !yExtent[1] || !rExtent[0] || !rExtent[1]) {
                 return;
             }
 
-            this.x.domain(xExtent);
+            this.x.domain(this.data.map(d => d.category));
+            this.x_inner
+                .domain([0, 1])
+                .range([0, this.x.bandwidth()]);
             this.y.domain(yExtent);
             this.r.domain(rExtent);
-            this.c.domain(this.data.map(d => d.record.id));
+            this.c.domain(this.data.map(d => d.currency));
+
+            this.categories = this.x.domain();
+
         }
 
+    }
+
+    public updateSelectedItems() {
+        this.selectedItems = new Set<string>();
+        this.selectionService.getSelectedItems().forEach(r => {
+            r[this.moneyValueColumn]?.forEach((item: ValueItem) => {
+                this.selectedItems.add(item.value as string);
+            });
+        });
     }
     
     /**
@@ -266,8 +280,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
      * Draws the X axis
      */
      protected drawXAxis() {
-        const xAxis = d3.axisBottom(this.x)
-            .ticks(5);
+        const xAxis = d3.axisBottom(this.x);
         this.xAxis$.call(xAxis);
         //this.xAxis$.selectAll(".domain").remove(); // Remove the axis line
     }
@@ -280,6 +293,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
             .filter(tick => Number.isInteger(tick)); // Keep only integer ticks https://stackoverflow.com/questions/13576906/d3-tick-marks-on-integers-only/56821215
 
         const yAxis = d3.axisLeft<number>(this.y)
+            .tickSizeInner(-this.innerWidth)
             .tickValues(yAxisTicks)
             .tickFormat(this.formatService.moneyFormatter); //https://github.com/d3/d3-format
         this.yAxis$.call(yAxis);
@@ -291,52 +305,20 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
      * Redraw the simple tooltip (vertical line)
      */
     onMousemove() {
-        if(!this.tooltipItem && this.showTooltip) {
-            this.tooltipX = d3.mouse(this.overlay.nativeElement)[0];
-        }
         this.tooltipItem = undefined;
     }
 
-    /**
-     * Notify parent component that a record was clicked
-     * @param datum
-     */
-    onRecordClicked(datum: MoneyDatum) {
-        this.recordClicked.next(datum.record);
-    }
-
-    /**
-     * Filter the search results with the clicked amount of money
-     * @param datum 
-     */
-    filterDatum(datum: MoneyDatum) {
-        const expr = this.exprBuilder.makeExpr(this.moneyColumn, datum.rawvalue, `${datum.currency} ${this.formatService.moneyFormatter(datum.value)}`)
+    filterDatum(datum: MoneyCloudDatum) {
+        const expr = this.exprBuilder.makeExpr(this.moneyValueColumn, datum.rawvalue)
         this.searchService.query.addSelect(expr, this.name);
         this.searchService.search();
     }
 
-    /**
-     * Remove the simple tooltip (vertical line)
-     */
-    onMouseout() {
-        if(!this.tooltipItem) {
-            this.tooltipX = undefined;
-        }
-    }
-
-    /**
-     * Compute the tooltip position when an amount of money is hovered
-     * @param datum 
-     */
-    onMouseEnterDatum(datum: MoneyDatum) {
-
-        if(!this.showTooltip) {
-            return;
-        }
+    onMouseEnterDatum(datum: MoneyCloudDatum) {
 
         this.tooltipItem = datum;
 
-        const x = this.x(datum.date);
+        const x = this.x(datum.category)! + this.x_inner(datum.i)!;
         const y = this.y(datum.value);
         const r = this.r(datum.count);
 
@@ -344,17 +326,17 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         // convert from the SVG coordinate system to the HTML coordinate system
         const actualWidth = (this.el.nativeElement as HTMLElement).offsetWidth;
         const scale = actualWidth / this.width;
-        const relativeX = x / this.width;
+        const relativeX = x! / this.width;
 
         // Tooltip to the right
         if(relativeX < 0.5) {
             this.tooltipOrientation = "right";
-            this.tooltipLeft = scale * (this.margin.left + x + r);
+            this.tooltipLeft = scale * (this.margin.left + x! + r);
         }
         // Tooltip to the left
         else {
             this.tooltipOrientation = "left";
-            this.tooltipRight = actualWidth - scale * (this.margin.left + x - r);
+            this.tooltipRight = actualWidth - scale * (this.margin.left + x! - r);
         }
         this.tooltipTop = scale * (this.margin.top + y); // Align tooltip arrow
     }
@@ -365,7 +347,6 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
     turnoffTooltip = () => {
         if(this.tooltipItem) {
             this.tooltipItem = undefined;
-            this.tooltipX = undefined;
         }
     }
 }
