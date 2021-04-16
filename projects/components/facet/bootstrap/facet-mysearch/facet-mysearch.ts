@@ -21,6 +21,9 @@ export class BsMySearch extends AbstractFacet implements OnChanges {
     @Input() useBadges: boolean = false;
     /** Wether we Ignore text and fielded search */
     @Input() ignoreText: boolean = true;
+    /** Items of those facets will be excluded  */
+    @Input() excludedFacets: (string | undefined)[] = ["search-form"];
+
 
     collapsed = false;
     clearAction: Action;
@@ -43,7 +46,7 @@ export class BsMySearch extends AbstractFacet implements OnChanges {
             this.items = this.ignoreText
                 ? this.searchService.breadcrumbs?.items.filter(
                         (item: BreadcrumbsItem) =>
-                            item.expr && item.facet !== "search-form"
+                            item.expr && !(item.expr && !item.expr.field && !item.expr.isStructured) && !this.excludedFacets.includes(item.facet)
                     ) || []
                 : this.searchService.breadcrumbs?.items || [];
 
