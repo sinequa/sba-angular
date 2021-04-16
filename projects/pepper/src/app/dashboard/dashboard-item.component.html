@@ -52,6 +52,7 @@
             [aggregations]="['Company','Geo','Person','Concepts']"
             [type]="config.chartType || 'Column2D'"
             [types]="[{type: 'Column2D', display: 'Columns 2D'}, {type: 'Bar2D', display: 'Bars 2D'}, {type: 'Pie2D', display: 'Pie 2D'}, {type: 'Column3D', display: 'Columns 3D'}, {type: 'Bar3D', display: 'Bars 3D'}, {type: 'Pie3D', display: 'Pie 3D'}]"
+            [autohide]="false"
             (initialized)="onChartInitialized($event)"
             (typeChange)="onChartTypeChange($event)"
             (aggregationChange)="onChartAggregationChange($event)">
