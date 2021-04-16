@@ -1,0 +1,44 @@
+<svg [attr.viewBox]="'0 0 '+width+' '+height">
+
+    <g [attr.transform]="'translate('+margin.left+','+ margin.top +')'">
+
+        <g #overlay>
+            <rect *ngFor="let category of categories"
+                class="category"
+                [attr.x]="x(category)"
+                [attr.width]="x.bandwidth()"
+                [attr.height]="innerHeight">
+                <title>{{category}}</title>
+            </rect>
+        </g>
+
+        <!-- X Axis (built in the controler) -->
+        <g #xAxis class="x axis" [attr.transform]="'translate(0,'+ innerHeight +')'"></g>
+
+        <!-- Y Axis (built in the controler) -->
+        <g #yAxis class="y axis"></g>
+
+        <circle *ngFor="let datum of data"
+            class="datum"
+            [attr.cx]="x(datum.category)! + x_inner(datum.i)!"
+            [attr.cy]="y(datum.value)"
+            [attr.r]="r(datum.count)"
+            [attr.fill]="selectedItems.has(datum.rawvalue)? 'red' : c(datum.currency)"
+            (mouseenter)="onMouseEnterDatum(datum)">
+        </circle>
+
+    </g>
+
+</svg>
+
+<!-- Tooltip -->
+<sq-tooltip *ngIf="tooltipItem" class="text-center"
+    [orientation]="tooltipOrientation" [left]="tooltipLeft" [right]="tooltipRight" [top]="tooltipTop" [theme]="theme">
+    <div>
+        "{{tooltipItem.category}} {{tooltipItem.currency}} {{formatService.moneyFormatter(tooltipItem.value)}}"
+        <small>({{tooltipItem.count}} mentions)</small>
+        <button (click)="filterDatum(tooltipItem)" class="btn btn-sm btn-link" [sqTooltip]="'msg#money.filter' | sqMessage">
+            <i class="fas fa-filter"></i>
+        </button>
+    </div>
+</sq-tooltip>
