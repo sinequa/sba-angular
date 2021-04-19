@@ -1,4 +1,4 @@
-import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild, OnChanges, SimpleChanges, AfterViewInit, NgZone } from "@angular/core";
+import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild, OnChanges, SimpleChanges, AfterViewInit, NgZone, ChangeDetectorRef, OnInit, OnDestroy } from "@angular/core";
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Utils } from "@sinequa/core/base";
 import { PreviewDocument } from "./preview-document";
@@ -26,11 +26,7 @@ import { PreviewDocument } from "./preview-document";
 @Component({
     selector: "sq-preview-document-iframe",
     template: `
-                <div *ngIf="loading" class="d-flex justify-content-center align-items-center h-100">
-                    <div class="spinner-grow" role="status"></div>
-                </div>
                 <iframe #documentFrame
-                    [hidden]="loading"
                     [attr.sandbox]="_sandbox"
                     [src]="sanitizedUrlSrc"
                     [style.--factor]="scalingFactor"
@@ -65,22 +61,25 @@ iframe {
 }
     `]
 })
-export class PreviewDocumentIframe implements OnChanges, AfterViewInit {
+export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, AfterViewInit {
     defaultSandbox: string = "allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts";
     @Input() sandbox: string | null;
     @Input() downloadUrl: string;
     @Input() scalingFactor: number = 1.0;
     @Output() onPreviewReady = new EventEmitter<PreviewDocument>();
     @Output() urlChange = new EventEmitter<string>();
-    @ViewChild('documentFrame', {static: false}) documentFrame: ElementRef;  // Reference to the preview HTML in the iframe
+    @ViewChild('documentFrame', {static: true}) documentFrame: ElementRef;  // Reference to the preview HTML in the iframe
     @ContentChild('tooltip', {read: ElementRef, static: false}) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
     public sanitizedUrlSrc: SafeResourceUrl;
     public loading = true;
     public _sandbox: string | null = this.defaultSandbox;
 
+    previewDocument: PreviewDocument;
+
     constructor(
         private zone: NgZone,
+        private cdr: ChangeDetectorRef,
         private sanitizer: DomSanitizer) {
     }
 
@@ -89,27 +88,33 @@ export class PreviewDocumentIframe implements OnChanges, AfterViewInit {
         if (this.documentFrame === undefined) return;
         if (this.downloadUrl === undefined) return;
 
-        const previewDocument = new PreviewDocument(this.documentFrame);
 
         // SVG highlight:
         //   background rectangle (highlight) were added to the SVG by the HTML generator (C#), but html generation is
         //   not able to know the geometry of the text. It is up to the browser to compute the position and size of the
         //   background. That needs to be done now that the iFrame is loaded.
-        previewDocument.setSvgBackgroundPositionAndSize();
+        this.previewDocument.setSvgBackgroundPositionAndSize();
 
-        if (this.tooltip)
-            this.addTooltip(previewDocument);
+        if(this.tooltip)
+            this.addTooltip(this.previewDocument);
 
         // Let upstream component know
-        this.onPreviewReady.next(previewDocument);
+        this.onPreviewReady.next(this.previewDocument);
 
-        setTimeout(() => {
-            this.loading = false;
-        }, 500);
+        this.cdr.markForCheck();
     }
 
     addTooltip(previewDocument: PreviewDocument) {
         previewDocument.insertComponent(this.tooltip.nativeElement);
+    }
+    
+    ngOnInit() {
+        this.documentFrame.nativeElement.addEventListener("load", () => this.onPreviewDocLoad(), true);
+        this.previewDocument = new PreviewDocument(this.documentFrame);
+    }
+    
+    ngOnDestroy() {
+        this.documentFrame.nativeElement.removeEventListener("load", () => this.onPreviewDocLoad());
     }
 
     ngOnChanges(simpleChanges: SimpleChanges) {

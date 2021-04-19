@@ -34,6 +34,8 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
   @ViewChild(AutocompleteExtended) autocompleteDirective: AutocompleteExtended;
 
   // Advanced search flags
+  @ViewChild('searchInput') searchInput: ElementRef;
+
   showAdvancedSearch: boolean;
   initAdvanced: boolean;
 
@@ -132,6 +134,9 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
    */
   search() {
     if(this.loginService.complete && this.form.valid) {
+
+      /** Hide autocomplete suggestions */
+      this.searchInput.nativeElement.blur();
 
       /** Close the advanced form */
       this.showAdvancedSearch = false;
