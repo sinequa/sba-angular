@@ -46,7 +46,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    * Extracts the list of extracts from the preview document
    */
   ngOnChanges(changes: SimpleChanges) {
-
+    this.extracts = [];
     if(this.previewData && this.downloadUrl){
       const extracts = this.previewData.highlightsPerCategory["extractslocations"]?.values; //Extract locations Array ordered by "relevance"
       if(!!extracts && extracts.length > 0){

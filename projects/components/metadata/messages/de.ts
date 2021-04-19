@@ -59,7 +59,9 @@ export default {
             separator: " | ",
             treeSeparator: " ; ",
             treeNodeSeparator: "/",
-            listSeparator: ", "
+            listSeparator: ", ",
+            empty_boolean: 'false',
+            empty_number: '0'
         }
     }
 };
