@@ -2,12 +2,16 @@
 layout: default
 title: Pepper
 parent: Modules
-nav_order: 5
+nav_order: 6
 ---
 
 # Pepper
 
-*Pepper* is a search & analytics app based on a modular, interactive and dashboard-based user interface.
+*Pepper* is a search & analytics app designed around a modular, interactive and collaborative dashboard.
+
+<iframe src="https://player.vimeo.com/video/534455071" width="100%" height="400px" frameborder="0" title="Pepper" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+*The Pepper SBA sample*
+{: .text-center }
 
 Pepper has a single "search" route (which can easily replace the "search" route of Vanilla-Search, if the "home" and "preview" routes are required).
 

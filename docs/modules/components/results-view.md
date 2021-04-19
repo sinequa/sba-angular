@@ -3,7 +3,7 @@ layout: default
 title: Results Views Module
 parent: Components
 grand_parent: Modules
-nav_order: 15
+nav_order: 16
 ---
 
 # Results Views Module

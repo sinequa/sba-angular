@@ -3,7 +3,7 @@ layout: default
 title: Notification Module
 parent: Components
 grand_parent: Modules
-nav_order: 13
+nav_order: 14
 ---
 
 # Notification Module

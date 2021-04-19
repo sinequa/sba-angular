@@ -29,7 +29,6 @@ At this point your Sinequa server can be used to develop an SBA and you can go t
 
 In order to work, an SBA needs a named **App** configuration to exist on the Sinequa server.
 This configuration is the entry point which references all the [**Web Services**](#web-services) that the SBA will use.
-It is also where the (optional) **authentication providers** are specified.
 The App can also contain **configuration** (in JSON format) which may be passed to the Angular application.
 Finally, the App can be restricted to specific **Users and Groups**, rather than being open to all.
 
@@ -92,13 +91,14 @@ The list of Web Services can be found in the administration interface under *Sea
 
 ### Query web service (default: *_query*)
 
-By far the most complex API, and by extension the most complex Web Service configuration, is the **Query** web service.
-This is the service that lets you build complex search queries to retrieve data from the Sinequa indexes.
+The **Query** web service is one of the most integrated and sophisticated web service of Sinequa.
+It is at the heart of our application samples, [Vanilla Search]({{site.baseurl}}modules/vanilla-search/vanilla-search.html) and [Pepper]({{site.baseurl}}modules/pepper/pepper.html).
+This service allows to build complex search queries (incl. tabs, facet selection, advanced search, etc.) to retrieve data from the Sinequa indexes.
 
 The **General** tab of the Query web service configuration allows the configuration of these key parameters:
 
 - **Index list**: The list of indexes which this web service may query.
-- **QueryPlugin**: A server-side plugin (written in C#), which lets you customize the search queries, or post-process the responses.
+- **QueryPlugin**: A [server-side plugin]({{site.baseurl}}tipstricks/plugins.html) (written in C#), which lets you customize the search queries, or post-process the responses.
 - **Aggregations**: A list of *Aggregations*. An aggregation is a short-list of metadata computed for the given query.
 For example, if you search for "automobile manufacturer", the *Company* aggregation could contain entries like "Volkswagen", "BMW", "Tesla", etc.
 
@@ -263,7 +263,7 @@ You can follow its progress either by looking at the banner on the top of Worksp
 
 ### Upload your Angular workspace to Sinequa ES
 
-**IMPORTANT:**
+**⚠️ IMPORTANT:**
 
 Please verify with the administrator of your Sinequa server that the size of your zip does not exceed the upload size limit of the server.
 If it is the case, the server will refuse the upload request with HTTP 413 (Request Entity Too Large).
@@ -280,7 +280,6 @@ This size limit is controlled in IIS by the option `maxAllowedContentLength`:
 
 {% endraw %}
 
-<br/>
 To import your workspace, click **New > Import Angular workspace**
 
 ![Import Angular workspace]({{site.baseurl}}assets/gettingstarted/admin-import-angular-workspace.png)
@@ -385,4 +384,4 @@ The **REST API** of Sinequa can be used by a remote application (which is the ca
 - *Distributed Architecture > Webapp > Stateless Mode > Permitted origins for Cross-Origin Resource Sharing (CORS) requests* set to the URL you will use to test your app locally. For example, `http://localhost:4200` (or just `*`).
 - *Distributed Architecture > Webapp > Stateless Mode > Return HTTP error codes* enabled (default).
 
-As some authentication methods need to store a [CSRF](https://en.wikipedia.org/wiki/Cross-site_request_forgery) token on the client, a cookie must be stored with the `SameSite=None` and `Secure` options. This means that **the Sinequa API must necessarily be served over HTTPS** for these authentication methods to work.
+As some [authentication methods]({{site.baseurl}}tipstricks/login-methods.html) need to store a JSON Web Token (JWT) on the client-side, a cookie must be stored with the `SameSite=None` and `Secure` options. This means that **the Sinequa API must necessarily be served over HTTPS** for these authentication methods to work.

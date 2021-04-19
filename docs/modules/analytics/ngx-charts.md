@@ -1,16 +1,16 @@
 ---
 layout: default
 title: Ngx Charts Module
-parent: Components
+parent: Analytics
 grand_parent: Modules
-nav_order: 19
+nav_order: 2
 ---
 
 # Ngx Charts Module
 
 ## Reference documentation
 
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/NgxChartsModule.html) auto-generated from source code.
+Please checkout the [reference documentation]({{site.baseurl}}analytics/modules/NgxChartsModule.html) auto-generated from source code.
 
 Also checkout the official documentation of the [ngx-charts](https://swimlane.github.io/ngx-charts/) library.
 
@@ -21,7 +21,7 @@ This module is a wrapper of the open-source [ngx-charts](https://swimlane.github
 The module includes two components:
 
 - A chart component displaying given input data, unaware of Sinequa's API and data structures. It supports different chart types from the [ngx-charts](https://swimlane.github.io/ngx-charts/) library.
-- A "facet" component taking care of pre-processing the aggregation data available in the results, and passing it to the chart component. Its API is similar to that of the [List Facet component](facet.html#list-facet).
+- A "facet" component taking care of pre-processing the aggregation data available in the results, and passing it to the chart component. Its API is similar to that of the [List Facet component]({{site.baseurl}}/modules/components/facet.html#list-facet).
 
 ![Chart]({{site.baseurl}}assets/modules/ngx-charts/chart.png){: .d-block .mx-auto }
 
@@ -30,7 +30,7 @@ The module includes two components:
 Import this module in your `app.module.ts`.
 
 ```ts
-import { NgxChartsModule } from '@sinequa/components/ngx-charts';
+import { NgxChartsModule } from '@sinequa/analytics/ngx-charts';
 
 @NgModule({
   imports: [
@@ -52,7 +52,7 @@ import { BarChartModule, PieChartModule } from "@swimlane/ngx-charts";
 
 ## Chart Component
 
-The [`sq-ngx-chart`]({{site.baseurl}}components/components/NgxChart.html) component displays a chart (multiple types are supported), given some data as input, regardless of the data source (the component is unaware of Sinequa APIs and data structures).
+The [`sq-ngx-chart`]({{site.baseurl}}analytics/components/NgxChart.html) component displays a chart (multiple types are supported), given some data as input, regardless of the data source (the component is unaware of Sinequa APIs and data structures).
 
 Its basic usage is as follow:
 
@@ -64,7 +64,7 @@ Its basic usage is as follow:
 </sq-ngx-chart>
 ```
 
-The `data` input is a list of [`ChartDataPoint`]({{site.baseurl}}components/interfaces/ChartDataPoint.html) objects, a simple interface requiring only `name` and `value` properties:
+The `data` input is a list of [`ChartDataPoint`]({{site.baseurl}}analytics/interfaces/ChartDataPoint.html) objects, a simple interface requiring only `name` and `value` properties:
 
 ```ts
 this.data = [
@@ -75,7 +75,7 @@ this.data = [
 ]
 ```
 
-The `options` input is an object of type [`ChartOptions`]({{site.baseurl}}components/interfaces/ChartOptions.html), an interface requiring the following properties:
+The `options` input is an object of type [`ChartOptions`]({{site.baseurl}}analytics/interfaces/ChartOptions.html), an interface requiring the following properties:
 
 - `type` (`undefined` defaults to a vertical bar chart): Defines the type of chart to display. Available options: `'horizontalbar'`, `'pie'`, `'advancedpie'`, `'piegrid'`, `'treemap'`, `'numbercard'`, `'gauge'`.
 - `colorScheme` (optional): Name of a color scheme used to plot the data (among the options: `vivid`, `natural`, `cool`, `fire`, `solar`, `air`,... see the [source code](https://github.com/swimlane/ngx-charts/blob/master/projects/swimlane/ngx-charts/src/lib/utils/color-sets.ts))
@@ -84,7 +84,7 @@ The `options` input is an object of type [`ChartOptions`]({{site.baseurl}}compon
 
 ## Facet Chart Component
 
-The [`sq-facet-ngx-chart`]({{site.baseurl}}components/components/FacetNgxChart.html) component displays an aggregation from the results as a chart. The user can click on items in the chart to filter the results.
+The [`sq-facet-ngx-chart`]({{site.baseurl}}analytics/components/FacetNgxChart.html) component displays an aggregation from the results as a chart. The user can click on items in the chart to filter the results.
 
 ![Chart facet]({{site.baseurl}}assets/modules/facet/facet-chart.png){: .d-block .mx-auto}
 
@@ -98,7 +98,7 @@ This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/R
 
 ### List of inputs
 
-The [`sq-facet-ngx-chart`]({{site.baseurl}}components/components/FacetNgxChart.html) component accepts the following inputs:
+The [`sq-facet-ngx-chart`]({{site.baseurl}}analytics/components/FacetNgxChart.html) component accepts the following inputs:
 
 - `results` (required): The [`Results`]({{site.baseurl}}core/interfaces/Results.html) object containing the aggregation that must be displayed.
 - `aggregation` (required): A `string`, containing the name of the aggregation (as defined in the query web service configuration) to plot in the chart.
@@ -106,4 +106,4 @@ The [`sq-facet-ngx-chart`]({{site.baseurl}}components/components/FacetNgxChart.h
 - `chartType` (`undefined` defaults to a vertical bar chart): Defines the type of chart to display. Available options: `'horizontalbar'`, `'pie'`, `'advancedpie'`, `'piegrid'`, `'treemap'`, `'numbercard'`, `'gauge'`.
 - `colorScheme` **or** `colors`: By default a list of `colors` is provided, containing a single color, resulting in all the chart items being drawn with the same color. It is possible to provide a custom list of `colors` with multiple values instead. It is also possible to set `colors` to `null` or `undefined` and instead provide a `colorScheme` (among the options: `vivid`, `natural`, `cool`, `fire`, `solar`, `air`,... see the [source code](https://github.com/swimlane/ngx-charts/blob/master/projects/swimlane/ngx-charts/src/lib/utils/color-sets.ts)).
 - `filteredColor` (default: `#C3E6CB`): If the `colors` input is provided, items which are *filtered* (have been clicked on to filter the results) will be displayed with this color.
-- `selectedColor` (default: `#7acce5`): If the `colors` input is provided, items belonging to a *selected* document (managed by the [`SelectionService`]({{site.baseurl}}components/injectables/SelectionService.html) - see [Selection Module](selection.html)) will be displayed with this color.
+- `selectedColor` (default: `#7acce5`): If the `colors` input is provided, items belonging to a *selected* document (managed by the [`SelectionService`]({{site.baseurl}}components/injectables/SelectionService.html) - see [Selection Module]({{site.baseurl}}/modules/components/selection.html)) will be displayed with this color.
