@@ -328,7 +328,6 @@ export class AuthenticationOauthService extends OauthService {
     authenticate&lt;T extends object | string&gt;(name: string, userData: any): Observable&lt;T&gt; {
         const options &#x3D; this.configService.options.providers[name];
         if (options.sqInitState) {
-            /*tslint:disable-next-line*/
             return this.httpClient.get&lt;{state: string}&gt;(Utils.addUrl(this.startConfig.apiPath!, &quot;oauth&quot;), {
                 params: Utils.makeHttpParams({
                     action: &quot;initstate&quot;,

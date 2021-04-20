@@ -239,6 +239,9 @@
                                 <a href="#fromJson">fromJson</a>
                             </li>
                             <li>
+                                <a href="#hasAdvanced">hasAdvanced</a>
+                            </li>
+                            <li>
                                 <a href="#hash">hash</a>
                             </li>
                             <li>
@@ -1764,8 +1767,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="296"
-                            class="link-to-prism">app-utils/query/query.ts:296</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="303"
+                            class="link-to-prism">app-utils/query/query.ts:303</a></div>
                 </td>
             </tr>
 
@@ -1823,6 +1826,47 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="hasAdvanced"></a>
+                    <span class="name">
+                        <b>
+                            hasAdvanced
+                        </b>
+                        <a href="#hasAdvanced"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>hasAdvanced()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="294"
+                            class="link-to-prism">app-utils/query/query.ts:294</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tests whether this query has advanced search selections</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="hash"></a>
                     <span class="name">
                         <b>
@@ -1841,8 +1885,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="356"
-                            class="link-to-prism">app-utils/query/query.ts:356</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="363"
+                            class="link-to-prism">app-utils/query/query.ts:363</a></div>
                 </td>
             </tr>
 
@@ -2308,8 +2352,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="335"
-                            class="link-to-prism">app-utils/query/query.ts:335</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="342"
+                            class="link-to-prism">app-utils/query/query.ts:342</a></div>
                 </td>
             </tr>
 
@@ -2684,10 +2728,10 @@ export class Query implements IQuery {
      */
     toStandard(): Query {
         const advancedSelect &#x3D; this.select?.filter(
-          (select: Select) &#x3D;&gt; select.facet.startsWith(advancedFacetPrefix)
+          (select: Select) &#x3D;&gt; select.facet &amp;&amp; select.facet.startsWith(advancedFacetPrefix)
         )
         advancedSelect?.forEach(
-          (select) &#x3D;&gt; this.removeSelect(select.facet)
+          (select) &#x3D;&gt; this.removeSelect(select.facet, true)
         )
         return this;
     }
@@ -2721,7 +2765,7 @@ export class Query implements IQuery {
             }
         }
         const notAdvancedSelect &#x3D; this.select?.filter(
-          (select: Select) &#x3D;&gt; select.facet.indexOf(advancedFacetPrefix) &#x3D;&#x3D;&#x3D; -1
+          (select: Select) &#x3D;&gt; select.facet &amp;&amp; !select.facet.startsWith(advancedFacetPrefix)
         )
         notAdvancedSelect?.forEach(
           (select) &#x3D;&gt; this.removeSelect(select.facet)
@@ -2737,6 +2781,13 @@ export class Query implements IQuery {
     copyAdvanced(withText: boolean &#x3D; false): Query {
         const query &#x3D; this.copy();
         return query.toAdvanced(withText);
+    }
+
+    /**
+     * Tests whether this query has advanced search selections
+     */
+    hasAdvanced(): boolean {
+        return !!this.select?.find(s &#x3D;&gt; s.facet &amp;&amp; s.facet.startsWith(advancedFacetPrefix));
     }
 
     /**

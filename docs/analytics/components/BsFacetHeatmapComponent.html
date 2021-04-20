@@ -1,0 +1,2990 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Analytics</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Analytics</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>BsFacetHeatmapComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>heatmap/bootstrap/facet-heatmap.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+            <code>AbstractFacet</code>
+    </p>
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+                    <code><a href="https://angular.io/api/core/DoCheck" target="_blank" >DoCheck</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>sq-facet-heatmap</code></td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./facet-heatmap.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Optional</span>
+                                <a href="#aggregationData">aggregationData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#appService">appService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#cardComponent">cardComponent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cdRef">cdRef</a>
+                            </li>
+                            <li>
+                                <a href="#clearFilters">clearFilters</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Optional</span>
+                                <a href="#data">data</a>
+                            </li>
+                            <li>
+                                <a href="#debounceSync">debounceSync</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#facetService">facetService</a>
+                            </li>
+                            <li>
+                                <a href="#form">form</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#formBuilder">formBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#prefs">prefs</a>
+                            </li>
+                            <li>
+                                <a href="#ready">ready</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#searchService">searchService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#selectedItems">selectedItems</a>
+                            </li>
+                            <li>
+                                <a href="#selectFieldX">selectFieldX</a>
+                            </li>
+                            <li>
+                                <a href="#selectFieldY">selectFieldY</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#selectionService">selectionService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#getHeatmapData">getHeatmapData</a>
+                            </li>
+                            <li>
+                                <a href="#ngDoCheck">ngDoCheck</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges">ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#onAxisClicked">onAxisClicked</a>
+                            </li>
+                            <li>
+                                <a href="#onItemClicked">onItemClicked</a>
+                            </li>
+                            <li>
+                                <a href="#onOpenSettings">onOpenSettings</a>
+                            </li>
+                            <li>
+                                <a href="#processAggregation">processAggregation</a>
+                            </li>
+                            <li>
+                                <a href="#selectField">selectField</a>
+                            </li>
+                            <li>
+                                <a href="#setDefaults">setDefaults</a>
+                            </li>
+                            <li>
+                                <a href="#updateActions">updateActions</a>
+                            </li>
+                            <li>
+                                <a href="#updateData">updateData</a>
+                            </li>
+                            <li>
+                                <a href="#updateSelectedItems">updateSelectedItems</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#aggregation">aggregation</a>
+                            </li>
+                            <li>
+                                <a href="#allowResizeOption">allowResizeOption</a>
+                            </li>
+                            <li>
+                                <a href="#axisClickable">axisClickable</a>
+                            </li>
+                            <li>
+                                <a href="#buckets">buckets</a>
+                            </li>
+                            <li>
+                                <a href="#colorScheme">colorScheme</a>
+                            </li>
+                            <li>
+                                <a href="#fieldCooc">fieldCooc</a>
+                            </li>
+                            <li>
+                                <a href="#fieldsX">fieldsX</a>
+                            </li>
+                            <li>
+                                <a href="#fieldsY">fieldsY</a>
+                            </li>
+                            <li>
+                                <a href="#fieldX">fieldX</a>
+                            </li>
+                            <li>
+                                <a href="#fieldY">fieldY</a>
+                            </li>
+                            <li>
+                                <a href="#height">height</a>
+                            </li>
+                            <li>
+                                <a href="#highlightSelected">highlightSelected</a>
+                            </li>
+                            <li>
+                                <a href="#itemsClickable">itemsClickable</a>
+                            </li>
+                            <li>
+                                <a href="#margin">margin</a>
+                            </li>
+                            <li>
+                                <a href="#maxX">maxX</a>
+                            </li>
+                            <li>
+                                <a href="#maxY">maxY</a>
+                            </li>
+                            <li>
+                                <a href="#name">name</a>
+                            </li>
+                            <li>
+                                <a href="#parseCooccurrenceItem">parseCooccurrenceItem</a>
+                            </li>
+                            <li>
+                                <a href="#parseCrossDistributionItem">parseCrossDistributionItem</a>
+                            </li>
+                            <li>
+                                <a href="#results">results</a>
+                            </li>
+                            <li>
+                                <a href="#theme">theme</a>
+                            </li>
+                            <li>
+                                <a href="#transition">transition</a>
+                            </li>
+                            <li>
+                                <a href="#width">width</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#_name">_name</a>
+                                </li>
+                                <li>
+                                    <a href="#actions">actions</a>
+                                </li>
+                                <li>
+                                    <a href="#fieldXPref">fieldXPref</a>
+                                </li>
+                                <li>
+                                    <a href="#fieldYPref">fieldYPref</a>
+                                </li>
+                                <li>
+                                    <a href="#maxXPref">maxXPref</a>
+                                </li>
+                                <li>
+                                    <a href="#maxYPref">maxYPref</a>
+                                </li>
+                                <li>
+                                    <a href="#colorSchemePref">colorSchemePref</a>
+                                </li>
+                                <li>
+                                    <a href="#widthPref">widthPref</a>
+                                </li>
+                                <li>
+                                    <a href="#heightPref">heightPref</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(appService: AppService, searchService: SearchService, facetService: FacetService, selectionService: SelectionService, formBuilder: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, cdRef: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>, prefs: UserPreferences, cardComponent?: BsFacetCard)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:65</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>appService</td>
+                                                  
+                                                        <td>
+                                                                    <code>AppService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>searchService</td>
+                                                  
+                                                        <td>
+                                                                    <code>SearchService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>facetService</td>
+                                                  
+                                                        <td>
+                                                                    <code>FacetService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>selectionService</td>
+                                                  
+                                                        <td>
+                                                                    <code>SelectionService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>formBuilder</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cdRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>prefs</td>
+                                                  
+                                                        <td>
+                                                                    <code>UserPreferences</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cardComponent</td>
+                                                  
+                                                        <td>
+                                                                    <code>BsFacetCard</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="aggregation"></a>
+                        <b>aggregation</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;Heatmap&quot;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:19</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="allowResizeOption"></a>
+                        <b>allowResizeOption</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:34</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="axisClickable"></a>
+                        <b>axisClickable</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:45</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="buckets"></a>
+                        <b>buckets</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>9</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:37</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="colorScheme"></a>
+                        <b>colorScheme</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;schemeBlues&quot;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:38</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="fieldCooc"></a>
+                        <b>fieldCooc</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:29</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="fieldsX"></a>
+                        <b>fieldsX</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:25</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="fieldsY"></a>
+                        <b>fieldsY</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:26</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="fieldX"></a>
+                        <b>fieldX</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:23</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="fieldY"></a>
+                        <b>fieldY</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:24</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="height"></a>
+                        <b>height</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>600</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:32</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="highlightSelected"></a>
+                        <b>highlightSelected</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:46</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="itemsClickable"></a>
+                        <b>itemsClickable</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:44</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="margin"></a>
+                        <b>margin</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{top: 100, bottom: 20, left: 100, right: 40}</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:35</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="maxX"></a>
+                        <b>maxX</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>20</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:39</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="maxY"></a>
+                        <b>maxY</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>20</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:40</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="name"></a>
+                        <b>name</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:20</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="parseCooccurrenceItem"></a>
+                        <b>parseCooccurrenceItem</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>value &#x3D;&gt; {
+        const val &#x3D; value.display || value.value.toString();
+        const parts &#x3D; val.substr(1, val.length-2).split(&quot;)#(&quot;);
+        if(parts.length &lt; 2){
+            throw new Error(&#x60;&#x27;${val}&#x27; is not formatted as a co-occurrence: (value 1)#(value 2)&#x60;);
+        }
+        return {
+            x: parts[0],
+            y: parts[1],
+            count: value.count,
+            display: &#x60;${parts[0]} - ${parts[1]}&#x60;,
+            value: value.value.toString(),
+            selected: this.selectedItems.has(value.value.toString())
+        };
+    }</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="293" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:293</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Default parsing method for cooccurrence aggregation data</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="parseCrossDistributionItem"></a>
+                        <b>parseCrossDistributionItem</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>value &#x3D;&gt; {
+        if(!value.display){
+            throw new Error(&#x60;Aggregation Item &#x27;${value.value}&#x27; has no display value&#x60;);
+        }
+        const parts &#x3D; value.display.split(&quot;/&quot;);
+        if(parts.length &lt; 2){
+            throw new Error(&#x60;&#x27;${value.display}&#x27; does not contain the &#x27;/&#x27; cross-distribution separator&#x60;);
+        }
+        return {
+            x: parts[0],
+            y: parts[1],
+            count: value.count,
+            display: value.display,
+            value: value.value as string,
+            selected: this.selectedItems.has(value.display)
+        };
+    }</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="271" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:271</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Default parsing method for cross-distribution aggregation data</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="results"></a>
+                        <b>results</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Results</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:18</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="theme"></a>
+                        <b>theme</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;light&quot; | &quot;dark&quot;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;light&quot;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:41</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="transition"></a>
+                        <b>transition</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>1000</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:36</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="width"></a>
+                        <b>width</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>600</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:33</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getHeatmapData"></a>
+                    <span class="name">
+                        <b>
+                            getHeatmapData
+                        </b>
+                        <a href="#getHeatmapData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getHeatmapData()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="233"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:233</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Queries the server for the heatmap data via the Search Service</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngDoCheck"></a>
+                    <span class="name">
+                        <b>
+                            ngDoCheck
+                        </b>
+                        <a href="#ngDoCheck"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngDoCheck()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="120"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:120</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <b>
+                            ngOnChanges
+                        </b>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:112</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>On changes triggers when the results change (following a new query)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onAxisClicked"></a>
+                    <span class="name">
+                        <b>
+                            onAxisClicked
+                        </b>
+                        <a href="#onAxisClicked"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onAxisClicked(item: literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="324"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:324</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Callback when a value of an axis is clicked</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>item</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onItemClicked"></a>
+                    <span class="name">
+                        <b>
+                            onItemClicked
+                        </b>
+                        <a href="#onItemClicked"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onItemClicked(item: <a href="../interfaces/HeatmapItem.html">HeatmapItem</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="314"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:314</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Callback when a heatmap time is clicked</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>item</td>
+                                    <td>
+                                                <code><a href="../interfaces/HeatmapItem.html" target="_self" >HeatmapItem</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onOpenSettings"></a>
+                    <span class="name">
+                        <b>
+                            onOpenSettings
+                        </b>
+                        <a href="#onOpenSettings"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onOpenSettings(opened: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="170"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:170</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>This method is called by the parent sq-facet-card when the settings
+button is clicked. This has the effect of displaying the settingsTpl template
+instead of the heatmap.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>opened</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>if true settings are opened, if false they are closed</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="processAggregation"></a>
+                    <span class="name">
+                        <b>
+                            processAggregation
+                        </b>
+                        <a href="#processAggregation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>processAggregation()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="256"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:256</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Transform an aggregation into a list of HeatmapItem objects</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>[] | undefined</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectField"></a>
+                    <span class="name">
+                        <b>
+                            selectField
+                        </b>
+                        <a href="#selectField"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>selectField(axis: "x" | "y")</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="333"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:333</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Helper method to build the actions for selecting each dimension</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>axis</td>
+                                    <td>
+                                            <code>&quot;x&quot; | &quot;y&quot;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Action</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setDefaults"></a>
+                    <span class="name">
+                        <b>
+                            setDefaults
+                        </b>
+                        <a href="#setDefaults"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setDefaults()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="207"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:207</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>This method resets all the user preferences and rebuilds the settings form,
+so that the values displayed are up-to-date</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateActions"></a>
+                    <span class="name">
+                        <b>
+                            updateActions
+                        </b>
+                        <a href="#updateActions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateActions()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:130</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Update the actions for selecting the X or Y fields</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateData"></a>
+                    <span class="name">
+                        <b>
+                            updateData
+                        </b>
+                        <a href="#updateData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateData()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="149"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:149</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Updates the heatmap data</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateSelectedItems"></a>
+                    <span class="name">
+                        <b>
+                            updateSelectedItems
+                        </b>
+                        <a href="#updateSelectedItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateSelectedItems()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="364"
+                            class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:364</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>When the list of selected record changes we need to refresh the
+selectedItems Set (which can then be used to set the &#39;selected&#39;
+property of HeatmapItem)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="aggregationData"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Optional</span>
+                            aggregationData</b>
+                            <a href="#aggregationData"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ListAggregation</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:49</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="appService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            appService</b>
+                            <a href="#appService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>AppService</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:68</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cardComponent"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                                <span class="modifier">Optional</span>
+                            cardComponent</b>
+                            <a href="#cardComponent"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>BsFacetCard</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @Optional()<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:75</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cdRef"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            cdRef</b>
+                            <a href="#cdRef"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:73</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="clearFilters"></a>
+                        <span class="name">
+                            <b>
+                            clearFilters</b>
+                            <a href="#clearFilters"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Action</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:55</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="data"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Optional</span>
+                            data</b>
+                            <a href="#data"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/HeatmapItem.html" target="_self" >HeatmapItem[]</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:50</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="debounceSync"></a>
+                        <span class="name">
+                            <b>
+                            debounceSync</b>
+                            <a href="#debounceSync"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>Utils.debounce(() &#x3D;&gt; {
+        this.prefs.sync();
+    }, 1000)</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="199" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:199</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="facetService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            facetService</b>
+                            <a href="#facetService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>FacetService</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:70</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="form"></a>
+                        <span class="name">
+                            <b>
+                            form</b>
+                            <a href="#form"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:58</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="formBuilder"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            formBuilder</b>
+                            <a href="#formBuilder"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:72</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="prefs"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            prefs</b>
+                            <a href="#prefs"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>UserPreferences</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:74</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ready"></a>
+                        <span class="name">
+                            <b>
+                            ready</b>
+                            <a href="#ready"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:65</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="searchService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            searchService</b>
+                            <a href="#searchService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>SearchService</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:69</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedItems"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Readonly</span>
+                            selectedItems</b>
+                            <a href="#selectedItems"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Set&lt;string&gt;()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:61</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectFieldX"></a>
+                        <span class="name">
+                            <b>
+                            selectFieldX</b>
+                            <a href="#selectFieldX"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Action</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:53</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectFieldY"></a>
+                        <span class="name">
+                            <b>
+                            selectFieldY</b>
+                            <a href="#selectFieldY"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Action</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:54</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectionService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            selectionService</b>
+                            <a href="#selectionService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>SelectionService</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:71</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_name"></a>
+                        <span class="name"><b>_name</b><a href="#_name"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>_name()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:105</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="actions"></a>
+                        <span class="name"><b>actions</b><a href="#actions"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>actions()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="221" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:221</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Returns the list of actions to display for this facet component</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>Action[]</code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="fieldXPref"></a>
+                        <span class="name"><b>fieldXPref</b><a href="#fieldXPref"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>fieldXPref()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="395" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:395</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="fieldYPref"></a>
+                        <span class="name"><b>fieldYPref</b><a href="#fieldYPref"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>fieldYPref()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="399" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:399</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="maxXPref"></a>
+                        <span class="name"><b>maxXPref</b><a href="#maxXPref"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>maxXPref()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="403" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:403</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="maxYPref"></a>
+                        <span class="name"><b>maxYPref</b><a href="#maxYPref"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>maxYPref()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="407" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:407</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="colorSchemePref"></a>
+                        <span class="name"><b>colorSchemePref</b><a href="#colorSchemePref"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>colorSchemePref()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="411" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:411</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="widthPref"></a>
+                        <span class="name"><b>widthPref</b><a href="#widthPref"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>widthPref()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="415" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:415</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="heightPref"></a>
+                        <span class="name"><b>heightPref</b><a href="#heightPref"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>heightPref()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="422" class="link-to-prism">heatmap/bootstrap/facet-heatmap.component.ts:422</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, DoCheck, Optional } from &#x27;@angular/core&#x27;;
+import { FormBuilder, FormGroup, FormControl } from &#x27;@angular/forms&#x27;;
+import { Utils } from &#x27;@sinequa/core/base&#x27;;
+import { AppService } from &#x27;@sinequa/core/app-utils&#x27;;
+import { AbstractFacet, BsFacetCard, FacetService } from &#x27;@sinequa/components/facet&#x27;;
+import { Results, ListAggregation, AggregationItem } from &#x27;@sinequa/core/web-services&#x27;;
+import { SearchService } from &#x27;@sinequa/components/search&#x27;;
+import { Action } from &#x27;@sinequa/components/action&#x27;;
+import { UserPreferences } from &#x27;@sinequa/components/user-settings&#x27;;
+import { SelectionService } from &#x27;@sinequa/components/selection&#x27;;
+import { HeatmapItem } from &#x27;./heatmap.component&#x27;;
+
+@Component({
+    selector: &quot;sq-facet-heatmap&quot;,
+    templateUrl: &#x27;./facet-heatmap.component.html&#x27;
+})
+export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges, DoCheck {
+    @Input() results: Results;
+    @Input() aggregation&#x3D; &quot;Heatmap&quot;;
+    @Input() name?: string;
+
+    // Fields primarily used for a cross-distribution heatmap
+    @Input() fieldX?: string;
+    @Input() fieldY?: string;
+    @Input() fieldsX?: string[];
+    @Input() fieldsY?: string[];
+
+    // Field used for a cooccurrence heatmap (optionally fieldX and fieldY can be used for filtering based on axes)
+    @Input() fieldCooc?: string; 
+    
+    // Graphical settings
+    @Input() height &#x3D; 600; // Height of the SVG viewbox (will adjust to container while preserving aspect ratio)
+    @Input() width &#x3D; 600; // Width of the SVG viewbox (will adjust to container while preserving aspect ratio)
+    @Input() allowResizeOption &#x3D; true; // The resize option allows to adjust the actual width/height in function of the number of items on each axis. If set to false, the tiles are resized so that the heatmap always matches the input width/height.
+    @Input() margin &#x3D; {top: 100, bottom: 20, left: 100, right: 40};
+    @Input() transition &#x3D; 1000; // Transition time in ms (0 to avoid transitions)
+    @Input() buckets &#x3D; 9; // Color buckets
+    @Input() colorScheme &#x3D; &quot;schemeBlues&quot;; // Color scheme from D3
+    @Input() maxX &#x3D; 20; // Max items on X
+    @Input() maxY &#x3D; 20; // Max items on Y
+    @Input() theme: &quot;light&quot; | &quot;dark&quot; &#x3D; &quot;light&quot;;
+
+    // Interaction settings
+    @Input() itemsClickable &#x3D; true;
+    @Input() axisClickable &#x3D; true;
+    @Input() highlightSelected &#x3D; true;
+
+    // Data
+    aggregationData?: ListAggregation;
+    data?: HeatmapItem[];
+
+    // Actions
+    selectFieldX: Action;
+    selectFieldY: Action;
+    clearFilters: Action;
+
+    // Settings form
+    form: FormGroup;
+
+    // Selected items
+    readonly selectedItems &#x3D; new Set&lt;string&gt;();
+
+    // A flag to wait for the parent component to actually display this child, since creating
+    // the heatmap component without displaying causes strange bugs...
+    ready &#x3D; false;
+
+    constructor(
+        public appService: AppService,
+        public searchService: SearchService,
+        public facetService: FacetService,
+        public selectionService: SelectionService,
+        public formBuilder: FormBuilder,
+        public cdRef: ChangeDetectorRef,
+        public prefs: UserPreferences,
+        @Optional() public cardComponent?: BsFacetCard
+    ){
+        super();
+           
+        // Clear the current filters
+        this.clearFilters &#x3D; new Action({
+            icon: &quot;far fa-minus-square&quot;,
+            title: &quot;msg#facet.clearSelects&quot;,
+            action: () &#x3D;&gt; {
+                this.searchService.query.removeSelect(this._name);
+                this.searchService.search();
+            }
+        });
+
+        // Listen to selection changes &amp; update the heatmap items accordingly
+        this.selectionService.events.subscribe(() &#x3D;&gt; {
+            if(this.highlightSelected) {
+                // Update the selectedItems set
+                this.updateSelectedItems();
+    
+                // Update the data
+                if(this.data){
+                    this.data.forEach(item &#x3D;&gt; item.selected &#x3D; this.selectedItems.has(this.fieldCooc ? item.value : item.display));
+                    this.cdRef.markForCheck();
+                }
+            }
+        });
+    }
+
+    // The name of the heatmap is used to identify it in the list of breadcrumbs and the user preferences
+    get _name(): string{
+        return this.name || &#x27;heatmap-&#x27;+this.aggregation.toLowerCase();
+    }
+
+    /**
+     * On changes triggers when the results change (following a new query)
+     */
+    ngOnChanges(changes: SimpleChanges) {
+        this.updateActions();
+        // Create the heatmap data
+        if(changes[&#x27;results&#x27;] || changes[&#x27;aggregation&#x27;]) {
+            this.updateData();
+        }
+    }
+    
+    ngDoCheck(){
+        // We check that the parent component (if any) as been expanded at least once so that the fusioncharts
+        // gets created when it is visible (otherwise, there can be visual bugs...)
+        this.ready &#x3D; !this.cardComponent?._collapsed;
+    }
+
+    
+    /**
+     * Update the actions for selecting the X or Y fields
+     */
+    updateActions() {
+        // Create or update the actions to change the X and Y axis
+        if(this.fieldsX){
+            if(!this.selectFieldX){
+                this.selectFieldX &#x3D; this.selectField(&#x27;x&#x27;);
+            }
+            this.selectFieldX.update();
+        }
+        if(this.fieldsY){
+            if(!this.selectFieldY){
+                this.selectFieldY &#x3D; this.selectField(&#x27;y&#x27;);
+            }
+            this.selectFieldY.update();
+        }
+    }
+
+    /**
+     * Updates the heatmap data
+     */
+    updateData() {
+        if(this.results) {
+            this.aggregationData &#x3D; this.facetService.getAggregation(this.aggregation, this.results);
+            if(!this.aggregationData){
+                this.getHeatmapData();
+            }
+            else {
+                this.data &#x3D; this.processAggregation();
+            }
+        }
+        else {
+            this.data &#x3D; undefined;
+        }
+    }
+
+    /**
+     * This method is called by the parent sq-facet-card when the settings
+     * button is clicked. This has the effect of displaying the settingsTpl template
+     * instead of the heatmap.
+     * @param opened if true settings are opened, if false they are closed
+     */
+    onOpenSettings(opened: boolean){
+        if(opened) {
+
+            const maxXControl &#x3D; new FormControl(this.maxXPref);
+            const maxYControl &#x3D; new FormControl(this.maxYPref);
+            const rescaleControl &#x3D; new FormControl(!!this.prefs.get(this._name+&#x27;-rescale&#x27;));
+            const colorControl &#x3D; new FormControl(this.colorSchemePref);
+
+            this.form &#x3D; this.formBuilder.group({
+                maxX: maxXControl,
+                maxY: maxYControl,
+                scaleAxes: rescaleControl,
+                colors: colorControl
+            });
+
+            this.form.valueChanges.subscribe(_ &#x3D;&gt; {
+                this.prefs.set(this._name+&#x27;-max-x&#x27;, maxXControl.value, true);
+                this.prefs.set(this._name+&#x27;-max-y&#x27;, maxYControl.value, true);
+                this.prefs.set(this._name+&#x27;-rescale&#x27;, rescaleControl.value, true);
+                this.prefs.set(this._name+&#x27;-color-scheme&#x27;, colorControl.value, true);
+                this.debounceSync();
+            });
+        }
+        else {
+            this.updateData();
+        }
+    }
+
+    // Debounce syncing to avoid many calls to the user settings web service
+    debounceSync &#x3D; Utils.debounce(() &#x3D;&gt; {
+        this.prefs.sync();
+    }, 1000);
+
+    /**
+     * This method resets all the user preferences and rebuilds the settings form,
+     * so that the values displayed are up-to-date
+     */
+    setDefaults() {
+        this.prefs.delete(this._name+&#x27;-field-x&#x27;, true);
+        this.prefs.delete(this._name+&#x27;-field-y&#x27;, true);
+        this.prefs.delete(this._name+&#x27;-max-x&#x27;, true);
+        this.prefs.delete(this._name+&#x27;-max-y&#x27;, true);
+        this.prefs.delete(this._name+&#x27;-rescale&#x27;, true);
+        this.prefs.delete(this._name+&#x27;-color-scheme&#x27;, true);
+        this.prefs.sync();
+        this.onOpenSettings(true);
+    }
+
+    /**
+     * Returns the list of actions to display for this facet component
+     */
+    get actions(): Action[] {
+        const actions: Action[] &#x3D; [];
+        if(this.facetService.hasFiltered(this._name)){
+            actions.push(this.clearFilters);
+        }
+        actions.push(this.selectFieldY, this.selectFieldX);
+        return actions;
+    }
+
+    /**
+     * Queries the server for the heatmap data via the Search Service
+     */
+    getHeatmapData() {
+        if(!this.appService.getCCAggregation(this.aggregation)) {
+            throw new Error(&#x60;Aggregation ${this.aggregation} does not exist in the Query web service configuration&#x60;);
+        }
+        const query &#x3D; Utils.copy(this.searchService.query);
+        query.action &#x3D; &quot;aggregate&quot;;
+        query.aggregations &#x3D; [this.aggregation];
+        if(!this.fieldCooc) {
+            query[&quot;heatmapField1&quot;] &#x3D; this.fieldXPref;
+            query[&quot;heatmapField2&quot;] &#x3D; this.fieldYPref;
+        }
+
+        this.searchService.getResults(query).subscribe(
+            results &#x3D;&gt; {
+                this.aggregationData &#x3D; results.aggregations[0] as ListAggregation;
+                this.data &#x3D; this.processAggregation();
+            }
+        );
+    }
+
+    /**
+     * Transform an aggregation into a list of HeatmapItem objects
+     */
+    processAggregation(): HeatmapItem[] | undefined {
+        if (!this.aggregationData || !this.aggregationData.items) {
+            return undefined;
+        }
+        if(this.fieldCooc) {
+            return this.aggregationData.items.map(this.parseCooccurrenceItem);
+        }
+        else {
+            return this.aggregationData.items.map(this.parseCrossDistributionItem);
+        }
+    }
+
+    /**
+     * Default parsing method for cross-distribution aggregation data
+     */
+    @Input() parseCrossDistributionItem: (i:AggregationItem) &#x3D;&gt; HeatmapItem 
+    &#x3D; value &#x3D;&gt; {
+        if(!value.display){
+            throw new Error(&#x60;Aggregation Item &#x27;${value.value}&#x27; has no display value&#x60;);
+        }
+        const parts &#x3D; value.display.split(&quot;/&quot;);
+        if(parts.length &lt; 2){
+            throw new Error(&#x60;&#x27;${value.display}&#x27; does not contain the &#x27;/&#x27; cross-distribution separator&#x60;);
+        }
+        return {
+            x: parts[0],
+            y: parts[1],
+            count: value.count,
+            display: value.display,
+            value: value.value as string,
+            selected: this.selectedItems.has(value.display)
+        };
+    }
+    
+    /**
+     * Default parsing method for cooccurrence aggregation data
+     */
+    @Input() parseCooccurrenceItem: (i:AggregationItem) &#x3D;&gt; HeatmapItem 
+    &#x3D; value &#x3D;&gt; {
+        const val &#x3D; value.display || value.value.toString();
+        const parts &#x3D; val.substr(1, val.length-2).split(&quot;)#(&quot;);
+        if(parts.length &lt; 2){
+            throw new Error(&#x60;&#x27;${val}&#x27; is not formatted as a co-occurrence: (value 1)#(value 2)&#x60;);
+        }
+        return {
+            x: parts[0],
+            y: parts[1],
+            count: value.count,
+            display: &#x60;${parts[0]} - ${parts[1]}&#x60;,
+            value: value.value.toString(),
+            selected: this.selectedItems.has(value.value.toString())
+        };
+    }
+
+    /**
+     * Callback when a heatmap time is clicked
+     * @param item 
+     */
+    onItemClicked(item: HeatmapItem){
+        if(this.aggregationData){
+            this.facetService.addFilterSearch(this._name, this.aggregationData, item);
+        }
+    }
+
+    /**
+     * Callback when a value of an axis is clicked
+     * @param item 
+     */
+    onAxisClicked(item: {value: string, axis: &#x27;x&#x27; | &#x27;y&#x27;}){
+        this.searchService.addFieldSelect(item.axis &#x3D;&#x3D;&#x3D; &#x27;x&#x27;? this.fieldXPref : this.fieldYPref, item);
+        this.searchService.search();
+    }
+
+    /**
+     * Helper method to build the actions for selecting each dimension
+     * @param axis 
+     */
+    selectField(axis: &#x27;x&#x27; | &#x27;y&#x27;): Action {
+        return new Action({
+            title: &quot;Select field&quot;,
+            scrollable: true,
+            updater: (action) &#x3D;&gt; {
+                action.name &#x3D; axis &#x3D;&#x3D;&#x3D; &#x27;x&#x27;? this.fieldXPref : this.fieldYPref;
+                action.text &#x3D; this.appService.getPluralLabel(axis &#x3D;&#x3D;&#x3D; &#x27;x&#x27;? this.fieldXPref : this.fieldYPref);
+                action.icon &#x3D; &quot;sq-icon-&quot;+(axis &#x3D;&#x3D;&#x3D; &#x27;x&#x27;? this.fieldXPref : this.fieldYPref);
+                action.children &#x3D; ((axis &#x3D;&#x3D;&#x3D; &#x27;x&#x27;? this.fieldsX : this.fieldsY) || [])
+                    .filter(f &#x3D;&gt; f !&#x3D;&#x3D; (axis &#x3D;&#x3D;&#x3D; &#x27;x&#x27;? this.fieldXPref : this.fieldYPref))
+                    .map(f &#x3D;&gt; {
+                        return new Action({
+                            name: f,
+                            text: this.appService.getPluralLabel(f),
+                            icon: &quot;sq-icon-&quot;+f,
+                            action : () &#x3D;&gt; {
+                                this.prefs.set(this._name+&#x27;-field-&#x27;+axis, f);
+                                this.updateActions();
+                                this.updateData();
+                            }
+                        });
+                    });
+            }
+        });
+    }
+
+    /**
+     * When the list of selected record changes we need to refresh the
+     * selectedItems Set (which can then be used to set the &#x27;selected&#x27;
+     * property of HeatmapItem)
+     */
+    updateSelectedItems() {
+
+        this.selectedItems.clear();
+
+        if(this.results){
+
+            this.results.records
+                .filter(r &#x3D;&gt; r.$selected)
+                .forEach(r &#x3D;&gt; {
+
+                    if(this.fieldCooc) {                
+                        if(r[this.fieldCooc]){
+                            r[this.fieldCooc].forEach(v &#x3D;&gt; this.selectedItems.add(v.value));                                
+                        }
+                    }
+
+                    else {
+                        if(r[this.fieldXPref] &amp;&amp; r[this.fieldYPref]){
+                            r[this.fieldXPref].forEach(x &#x3D;&gt; {
+                                r[this.fieldYPref].forEach(y &#x3D;&gt; {
+                                    this.selectedItems.add(x.display+&quot;/&quot;+y.display);
+                                });
+                            });
+                        }
+                    }
+            });
+        }
+    }
+
+    // Accessor methods to get the preferred or default values of the heatmap parameters
+
+    get fieldXPref(): string {
+        return this.prefs.get(this._name+&#x27;-field-x&#x27;) || this.fieldX;
+    }
+    
+    get fieldYPref(): string {
+        return this.prefs.get(this._name+&#x27;-field-y&#x27;) || this.fieldY;
+    }
+
+    get maxXPref(): number {
+        return this.prefs.get(this._name+&#x27;-max-x&#x27;) || this.maxX;
+    }
+    
+    get maxYPref(): number {
+        return this.prefs.get(this._name+&#x27;-max-y&#x27;) || this.maxY;
+    }
+
+    get colorSchemePref(): string {
+        return this.prefs.get(this._name+&#x27;-color-scheme&#x27;) || this.colorScheme;
+    }
+    
+    get widthPref(): number {
+        if(this.prefs.get(this._name+&#x27;-rescale&#x27;)){
+            return ((this.width - this.margin.left - this.margin.right) * this.maxXPref / this.maxX) + this.margin.left + this.margin.right
+        }
+        return this.width;
+    }
+    
+    get heightPref(): number {
+        if(this.prefs.get(this._name+&#x27;-rescale&#x27;)){
+            return ((this.height - this.margin.top - this.margin.bottom) * this.maxYPref / this.maxY) + this.margin.top + this.margin.bottom
+        }
+        return this.height;
+    }
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;sq-heatmap *ngIf&#x3D;&quot;data &amp;&amp; ready&quot;
+    [data]&#x3D;&quot;data&quot;
+    [height]&#x3D;&quot;heightPref&quot;
+    [width]&#x3D;&quot;widthPref&quot;
+    [margin]&#x3D;&quot;margin&quot;
+    [transition]&#x3D;&quot;transition&quot;
+    [itemsClickable]&#x3D;&quot;itemsClickable&quot;
+    [axisClickable]&#x3D;&quot;axisClickable&quot;
+    [buckets]&#x3D;&quot;buckets&quot;
+    [colorScheme]&#x3D;&quot;colorSchemePref&quot;
+    [maxX]&#x3D;&quot;maxXPref&quot;
+    [maxY]&#x3D;&quot;maxYPref&quot;
+    [theme]&#x3D;&quot;theme&quot;
+
+    (itemClicked)&#x3D;&quot;onItemClicked($event)&quot;
+    (axisClicked)&#x3D;&quot;onAxisClicked($event)&quot;
+&gt;
+&lt;/sq-heatmap&gt;
+
+&lt;div class&#x3D;&quot;text-center py-5 px-3&quot; *ngIf&#x3D;&quot;!data&quot;&gt;
+    &lt;i&gt;{{&#x27;msg#heatmap.nodata&#x27; | sqMessage}}&lt;/i&gt;
+&lt;/div&gt;
+
+&lt;ng-template #settingsTpl&gt;
+    &lt;div class&#x3D;&quot;card-body&quot;&gt;
+        &lt;form [formGroup]&#x3D;&quot;form&quot;&gt;
+            &lt;div class&#x3D;&quot;form-group&quot;&gt;
+                &lt;label for&#x3D;&quot;maxX&quot;&gt;{{&#x27;msg#heatmap.maxX&#x27; | sqMessage}} ({{maxXPref}})&lt;/label&gt;
+                &lt;input type&#x3D;&quot;range&quot; class&#x3D;&quot;form-control-range&quot; id&#x3D;&quot;maxX&quot; min&#x3D;&quot;10&quot; max&#x3D;&quot;40&quot; formControlName&#x3D;&quot;maxX&quot;&gt;
+
+                &lt;label for&#x3D;&quot;maxY&quot;&gt;{{&#x27;msg#heatmap.maxY&#x27; | sqMessage}} ({{maxYPref}})&lt;/label&gt;
+                &lt;input type&#x3D;&quot;range&quot; class&#x3D;&quot;form-control-range&quot; id&#x3D;&quot;maxY&quot; min&#x3D;&quot;10&quot; max&#x3D;&quot;100&quot; formControlName&#x3D;&quot;maxY&quot;&gt;
+                
+                &lt;div class&#x3D;&quot;custom-control custom-checkbox my-1&quot; *ngIf&#x3D;&quot;allowResizeOption&quot;&gt;
+                    &lt;input class&#x3D;&quot;custom-control-input&quot; type&#x3D;&quot;checkbox&quot; id&#x3D;&quot;scaleAxes&quot; formControlName&#x3D;&quot;scaleAxes&quot;&gt;
+                    &lt;label class&#x3D;&quot;custom-control-label&quot; for&#x3D;&quot;scaleAxes&quot;&gt;{{&#x27;msg#heatmap.rescale&#x27; | sqMessage}}&lt;/label&gt;
+                &lt;/div&gt;
+
+                &lt;hr&gt;
+
+                &lt;label for&#x3D;&quot;colors&quot;&gt;{{&#x27;msg#heatmap.colors&#x27; | sqMessage}}&lt;/label&gt;
+                &lt;select id&#x3D;&quot;colors&quot; class&#x3D;&quot;form-control&quot; formControlName&#x3D;&quot;colors&quot;&gt;
+                    &lt;option [ngValue]&#x3D;&quot;&#x27;schemeBlues&#x27;&quot;&gt;{{&#x27;msg#heatmap.blue&#x27; | sqMessage}}&lt;/option&gt;
+                    &lt;option [ngValue]&#x3D;&quot;&#x27;schemeReds&#x27;&quot;&gt;{{&#x27;msg#heatmap.red&#x27; | sqMessage}}&lt;/option&gt;
+                    &lt;option [ngValue]&#x3D;&quot;&#x27;schemeGreens&#x27;&quot;&gt;{{&#x27;msg#heatmap.green&#x27; | sqMessage}}&lt;/option&gt;
+                    &lt;option [ngValue]&#x3D;&quot;&#x27;schemeRdBu&#x27;&quot;&gt;{{&#x27;msg#heatmap.diverging&#x27; | sqMessage}}&lt;/option&gt;
+                    &lt;option [ngValue]&#x3D;&quot;&#x27;schemeSpectral&#x27;&quot;&gt;{{&#x27;msg#heatmap.diverging&#x27; | sqMessage}}&lt;/option&gt;
+                    &lt;option [ngValue]&#x3D;&quot;&#x27;schemeYlGnBu&#x27;&quot;&gt;{{&#x27;msg#heatmap.cool&#x27; | sqMessage}}&lt;/option&gt;
+                &lt;/select&gt;
+
+                &lt;hr&gt;
+
+                &lt;button class&#x3D;&quot;btn btn-light&quot; (click)&#x3D;&quot;setDefaults()&quot;&gt;{{&#x27;msg#heatmap.defaults&#x27; | sqMessage}}&lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/form&gt;
+    &lt;/div&gt;
+&lt;/ng-template&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><sq-heatmap *ngIf="data && ready"    [data]="data"    [height]="heightPref"    [width]="widthPref"    [margin]="margin"    [transition]="transition"    [itemsClickable]="itemsClickable"    [axisClickable]="axisClickable"    [buckets]="buckets"    [colorScheme]="colorSchemePref"    [maxX]="maxXPref"    [maxY]="maxYPref"    [theme]="theme"    (itemClicked)="onItemClicked($event)"    (axisClicked)="onAxisClicked($event)"></sq-heatmap><div class="text-center py-5 px-3" *ngIf="!data">    <i>{{\'msg#heatmap.nodata\' | sqMessage}}</i></div><ng-template #settingsTpl>    <div class="card-body">        <form [formGroup]="form">            <div class="form-group">                <label for="maxX">{{\'msg#heatmap.maxX\' | sqMessage}} ({{maxXPref}})</label>                <input type="range" class="form-control-range" id="maxX" min="10" max="40" formControlName="maxX">                <label for="maxY">{{\'msg#heatmap.maxY\' | sqMessage}} ({{maxYPref}})</label>                <input type="range" class="form-control-range" id="maxY" min="10" max="100" formControlName="maxY">                                <div class="custom-control custom-checkbox my-1" *ngIf="allowResizeOption">                    <input class="custom-control-input" type="checkbox" id="scaleAxes" formControlName="scaleAxes">                    <label class="custom-control-label" for="scaleAxes">{{\'msg#heatmap.rescale\' | sqMessage}}</label>                </div>                <hr>                <label for="colors">{{\'msg#heatmap.colors\' | sqMessage}}</label>                <select id="colors" class="form-control" formControlName="colors">                    <option [ngValue]="\'schemeBlues\'">{{\'msg#heatmap.blue\' | sqMessage}}</option>                    <option [ngValue]="\'schemeReds\'">{{\'msg#heatmap.red\' | sqMessage}}</option>                    <option [ngValue]="\'schemeGreens\'">{{\'msg#heatmap.green\' | sqMessage}}</option>                    <option [ngValue]="\'schemeRdBu\'">{{\'msg#heatmap.diverging\' | sqMessage}}</option>                    <option [ngValue]="\'schemeSpectral\'">{{\'msg#heatmap.diverging\' | sqMessage}}</option>                    <option [ngValue]="\'schemeYlGnBu\'">{{\'msg#heatmap.cool\' | sqMessage}}</option>                </select>                <hr>                <button class="btn btn-light" (click)="setDefaults()">{{\'msg#heatmap.defaults\' | sqMessage}}</button>            </div>        </form>    </div></ng-template></div>'
+    var COMPONENTS = [{'name': 'BsEdgeInfoCard', 'selector': 'sq-edge-info-card'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetTimelineComponent', 'selector': 'sq-facet-timeline'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsNodeInfoCard', 'selector': 'sq-node-info-card'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsTimelineComponent', 'selector': 'sq-timeline'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'FacetNgxChart', 'selector': 'sq-facet-ngx-chart'},{'name': 'FusionChart', 'selector': 'sq-fusion-chart'},{'name': 'MapComponent', 'selector': 'sq-googlemaps'},{'name': 'MoneyCloudComponent', 'selector': 'sq-money-cloud'},{'name': 'MoneyTimelineComponent', 'selector': 'sq-money-timeline'},{'name': 'NetworkComponent', 'selector': 'sq-network'},{'name': 'NgxChart', 'selector': 'sq-ngx-chart'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'BsFacetHeatmapComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'BsFacetHeatmapComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

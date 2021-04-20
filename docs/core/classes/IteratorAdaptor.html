@@ -284,8 +284,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">base/iterator-adaptor.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="10"
+                            class="link-to-prism">base/iterator-adaptor.ts:10</a></div>
                 </td>
             </tr>
 
@@ -375,8 +375,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">base/iterator-adaptor.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">base/iterator-adaptor.ts:35</a></div>
                 </td>
             </tr>
 
@@ -445,8 +445,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">base/iterator-adaptor.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">base/iterator-adaptor.ts:37</a></div>
                 </td>
             </tr>
 
@@ -477,9 +477,7 @@
     readonly throw?: (error?: any) &#x3D;&gt; IteratorResult&lt;T&gt;;
 
     constructor(private base: Iterator&lt;B&gt;, private adaptor: (b: B) &#x3D;&gt; T) {
-        /*tslint:disable-next-line*/
         this.return &#x3D; (base.return) ? (v) &#x3D;&gt; this.translate(this.base.return!(v)) : undefined;
-        /*tslint:disable-next-line*/
         this.throw  &#x3D; (base.throw)  ? (e) &#x3D;&gt; this.translate(this.base.throw!(e))  : undefined;
     }
 

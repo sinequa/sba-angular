@@ -172,10 +172,10 @@ export class MetadataItem implements OnChanges {
     ensureScalarValue(value: any): any {
         if (Utils.isEmpty(value) &amp;&amp; this.column) {
             if (AppService.isBoolean(this.column)) {
-                value &#x3D; false;
+                value &#x3D; &#x27;msg#metadata.item.empty_boolean&#x27;;
             }
             else if (AppService.isNumber(this.column)) {
-                value &#x3D; 0;
+                value &#x3D; &#x27;msg#metadata.item.empty_number&#x27;;
             }
         }
         return value;

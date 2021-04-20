@@ -270,6 +270,9 @@ export const enum AuditEventType {
     Search_AlertQuery &#x3D; &quot;Search_AlertQuery&quot;,
     Search_Select_AnalyticsItem &#x3D; &quot;Search_Select_AnalyticsItem&quot;,
     Search_Sort &#x3D; &quot;Search_Sort&quot;,
+    Search_Exit_Logout &#x3D; &quot;Search_Exit_Logout&quot;,
+    Search_Timeline_Usage &#x3D; &quot;Search_Timeline_Usage&quot;,
+    Search_AutoComplete &#x3D; &quot;Search_Autocomplete&quot;,
 
     SavedQuery_Add &#x3D; &quot;SavedQuery_Add&quot;,
     SavedQuery_Delete &#x3D; &quot;SavedQuery_Delete&quot;,
@@ -423,10 +426,6 @@ export class AuditWebService extends HttpService {
         if (results) {
             detail[&quot;result-count&quot;] &#x3D; results.totalRowCount;
         }
-        if (doc.text) {
-            /*tslint:disable-next-line*/
-            detail[&quot;text&quot;] &#x3D; doc.text;
-        }
         if (parameters) {
             Object.keys(parameters).forEach(key &#x3D;&gt; detail[key] &#x3D; parameters[key]);
         }
@@ -474,6 +473,22 @@ export class AuditWebService extends HttpService {
             Object.keys(rfmParameters).forEach(key &#x3D;&gt; rfmDetail[key] &#x3D; rfmParameters[key]);
             data.rfmDetail &#x3D; rfmDetail;
         }
+        return this.notify(data);
+    }
+
+    /**
+     * Notify logout
+     */
+    notifyLogout() : Observable&lt;void&gt; {
+        const detail: JsonObject &#x3D; {
+            app: this.appName,
+        };
+
+        const data: AuditEvent &#x3D; {
+            type: AuditEventType.Search_Exit_Logout,
+            detail
+        };
+
         return this.notify(data);
     }
 

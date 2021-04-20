@@ -25,12 +25,6 @@ Notice that this `startConfig` object gets passed to the `WebServiceModule` from
 At this point, you can build and serve your app (from the root of the workspace) with:
 
 ```bash
-ng serve hello-search --ssl=true --proxyConfig=./projects/hello-search/src/proxy.conf.json
-```
-
-(If Angular CLI is not installed globally, rather try with:)
-
-```bash
 npm run ng serve hello-search -- --ssl=true --proxyConfig=./projects/hello-search/src/proxy.conf.json
 ```
 
@@ -42,8 +36,11 @@ If the build is successful, you can navigate to `https://locahost:4200` in your 
 
 Note: the searchable content is composed of a few wikipedia pages and the Sinequa documentation.
 
+Before going to the [next step](search-module.html), take some time to analyze the source code of [Hello Search]({{site.baseurl}}modules/hello-search/hello-search.html) and more specifically the `src/app/` subfolder, to fully understand its internal logic.
+
 ---
 
-Before going to the [next step](search-module.html), take some time to analyze the source code of [Hello Search]({{site.baseurl}}modules/hello-search/hello-search.html) and more specifically the `src/app/` subfolder, to fully understand its internal logic.
+Next: [Search Module](search-module.html)
+{: style="float: right;" }
 
 Previous: [Introduction](intro.html)

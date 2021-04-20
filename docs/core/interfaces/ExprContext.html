@@ -294,7 +294,7 @@ export interface ExprMessage {
      * Any values referenced by &#x60;message&#x60;
      */
     values?: {
-        [key: string]: FieldValue;
+        [key: string]: FieldValue
     };
 }
 
@@ -875,9 +875,7 @@ export class Expr {
                 values.value &#x3D; [];
                 locations.value &#x3D; [];
                 vls.forEach(vl1 &#x3D;&gt; {
-                    /*tslint:disable-next-line*/
                     values.value!.push(vl1.value);
-                    /*tslint:disable-next-line*/
                     locations.value!.push({start: 1 + vl1.start, length: vl1.length});
                 });
                 operator.value &#x3D; ExprOperator.in;
@@ -979,9 +977,9 @@ export class Expr {
             if (start &gt;&#x3D; this.start &amp;&amp; start &lt;&#x3D; this.start + this.length) {
                 if (!this.isStructured) {
                     return {
-                        /*tslint:disable-next-line*/
+                        /* eslint-disable-next-line */
                         value: this.value!,
-                        /*tslint:disable-next-line*/
+                        /* eslint-disable-next-line */
                         field: this.field!,
                         start: this.start,
                         length: this.length
@@ -994,7 +992,7 @@ export class Expr {
                         if (start &gt;&#x3D; this.start + location.start &amp;&amp; start &lt;&#x3D; this.start + location.start + location.length) {
                             return {
                                 value,
-                                /*tslint:disable-next-line*/
+                                /* eslint-disable-next-line */
                                 field: this.field!,
                                 start: this.start + location.start,
                                 length: location.length

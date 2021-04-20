@@ -491,7 +491,6 @@ export class StartConfigWebService {
         const initialStartConfig &#x3D; Utils.copy(this.startConfig);
         Utils.extend(this.startConfig, defaultStartConfig, initialStartConfig);
         const browserUrl &#x3D; Utils.makeURL(window.location.href);
-        /*tslint:disable-next-line*/
         const url &#x3D; Utils.makeURL(this.startConfig.url!);
         let apiPath &#x3D; Utils.addUrl(url.pathname, StartConfigWebService.API_PATH);
         let applicationPath &#x3D; url.pathname;
@@ -515,7 +514,6 @@ export class StartConfigWebService {
      */
     fetchPreLoginAppConfig(): Observable&lt;StartConfig&gt; {
         return Observable.create(observer &#x3D;&gt; {
-            /*tslint:disable-next-line*/
             let _url &#x3D; Utils.addUrl(this.startConfig.apiPath!, &quot;app&quot;);
             _url &#x3D; Utils.addSearchParams(_url, {
                 app: this.startConfig.app,

@@ -86,6 +86,10 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#$page">$page</a>
+                                </li>
+                                <li>
                                         <a href="#$selected">$selected</a>
                                 </li>
                                 <li>
@@ -96,6 +100,10 @@
                                 </li>
                                 <li>
                                         <a href="#collection">collection</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#containerid">containerid</a>
                                 </li>
                                 <li>
                                         <a href="#databasealias">databasealias</a>
@@ -198,6 +206,46 @@
 
             <section>
                 <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="$page"></a>
+                                        <span class="name"><b>$page</b><a href="#$page"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>$page:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Page number of this document (for splitted documents). Added by the front-end</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <table class="table table-sm table-bordered">
                         <tbody>
                                 <tr>
@@ -333,6 +381,46 @@
                             <tr>
                                 <td class="col-md-4">
                                     <div class="io-description"><p>The collection that produced the document (only one element will exist)</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="containerid"></a>
+                                        <span class="name"><b>containerid</b><a href="#containerid"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>containerid:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>id of the container of this document (for splitted documents, attachments, etc.)</p>
 </div>
                                 </td>
                             </tr>
@@ -1613,8 +1701,8 @@ export interface QueryIntentAction {
  */
 export interface QueryIntentDatasets {
     [name: string] : {
-        attributes : [any];
-        rows : [any];
+        attributes : [any],
+        rows : [any]
     };
 }
 
@@ -2005,11 +2093,18 @@ export interface Record {
      * Information about the search terms and whether they exist in the document or not
      */
     termspresence: TermPresence[];
-
     /**
      * A client-side field that indicates whether this document is currrently selected
      */
     $selected: boolean;
+    /**
+     * id of the container of this document (for splitted documents, attachments, etc.)
+     */
+    containerid?: string;
+    /**
+     * Page number of this document (for splitted documents). Added by the front-end
+     */
+    $page?: number;
 }
 
 /**
@@ -2126,12 +2221,12 @@ export class QueryWebService extends HttpService {
         }
         const data: {
             methods: {
-                method: string;
-                app: string;
+                method: string,
+                app: string,
                 query: IQuery
-            }[];
-            propagateErrors: true;
-            $auditRecord?: AuditEvents;
+            }[],
+            propagateErrors: true,
+            $auditRecord?: AuditEvents
         } &#x3D; {
             methods: [],
             propagateErrors: true,

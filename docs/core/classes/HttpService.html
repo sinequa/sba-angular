@@ -203,8 +203,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">web-services/http.service.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">web-services/http.service.ts:40</a></div>
                 </td>
             </tr>
 
@@ -280,8 +280,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">web-services/http.service.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">web-services/http.service.ts:31</a></div>
                 </td>
             </tr>
 
@@ -405,7 +405,6 @@ export abstract class HttpService {
      * The name of the application
      */
     get appName(): string {
-        /*tslint:disable-next-line*/
         return this.startConfig.app!;
     }
 
@@ -416,7 +415,6 @@ export abstract class HttpService {
      * @param api An API name
      */
     makeUrl(api: string): string {
-        /*tslint:disable-next-line*/
         return Utils.addUrl(this.startConfig.apiPath!, api);
     }
 

@@ -2,7 +2,7 @@
 layout: default
 title: Vanilla Search
 parent: Modules
-nav_order: 4
+nav_order: 5
 ---
 
 # Vanilla Search

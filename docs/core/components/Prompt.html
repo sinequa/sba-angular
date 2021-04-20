@@ -60,6 +60,13 @@
 
 
 
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
 
 
 <section>
@@ -658,7 +665,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Inject } from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Inject, OnDestroy, OnInit } from &quot;@angular/core&quot;;
 import { FormControl, FormBuilder, Validators, FormGroup } from &#x27;@angular/forms&#x27;;
 import { Subscription } from &#x27;rxjs&#x27;;
 import { MODAL_MODEL, PromptOptions, ModalResult} from &quot;./modal.service&quot;;
@@ -684,7 +691,7 @@ import { Utils } from &#x27;@sinequa/core/base&#x27;;
         &lt;/form&gt;
     &#x60;
 })
-export class Prompt {
+export class Prompt implements OnInit, OnDestroy {
     inputControl: FormControl;
     form: FormGroup;
     formChanges: Subscription;

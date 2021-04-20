@@ -87,7 +87,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="632" class="link-to-prism">web-services/query.web.service.ts:632</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="639" class="link-to-prism">web-services/query.web.service.ts:639</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -324,8 +324,8 @@ export interface QueryIntentAction {
  */
 export interface QueryIntentDatasets {
     [name: string] : {
-        attributes : [any];
-        rows : [any];
+        attributes : [any],
+        rows : [any]
     };
 }
 
@@ -716,11 +716,18 @@ export interface Record {
      * Information about the search terms and whether they exist in the document or not
      */
     termspresence: TermPresence[];
-
     /**
      * A client-side field that indicates whether this document is currrently selected
      */
     $selected: boolean;
+    /**
+     * id of the container of this document (for splitted documents, attachments, etc.)
+     */
+    containerid?: string;
+    /**
+     * Page number of this document (for splitted documents). Added by the front-end
+     */
+    $page?: number;
 }
 
 /**
@@ -837,12 +844,12 @@ export class QueryWebService extends HttpService {
         }
         const data: {
             methods: {
-                method: string;
-                app: string;
+                method: string,
+                app: string,
                 query: IQuery
-            }[];
-            propagateErrors: true;
-            $auditRecord?: AuditEvents;
+            }[],
+            propagateErrors: true,
+            $auditRecord?: AuditEvents
         } &#x3D; {
             methods: [],
             propagateErrors: true,

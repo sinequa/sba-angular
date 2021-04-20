@@ -181,7 +181,7 @@ For example: <code>football (age:&gt;=7 AND (name:smith OR name:jones))</code></
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="1737" class="link-to-prism">app-utils/query/expr-parser.ts:1737</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="1735" class="link-to-prism">app-utils/query/expr-parser.ts:1735</a></div>
                             </td>
                         </tr>
 
@@ -219,8 +219,8 @@ For example: <code>football (age:&gt;=7 AND (name:smith OR name:jones))</code></
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1791"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:1791</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1789"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:1789</a></div>
                 </td>
             </tr>
 
@@ -296,8 +296,8 @@ are prefixed by a backslash. Finally, the string is enclosed in backquotes.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="2339"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:2339</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="2337"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:2337</a></div>
                 </td>
             </tr>
 
@@ -395,8 +395,8 @@ are prefixed by a backslash. Finally, the string is enclosed in backquotes.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1821"
-                            class="link-to-prism">app-utils/query/expr-parser.ts:1821</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1819"
+                            class="link-to-prism">app-utils/query/expr-parser.ts:1819</a></div>
                 </td>
             </tr>
 
@@ -514,7 +514,7 @@ export interface ExprMessage {
      * Any values referenced by &#x60;message&#x60;
      */
     values?: {
-        [key: string]: FieldValue;
+        [key: string]: FieldValue
     };
 }
 
@@ -1095,9 +1095,7 @@ export class Expr {
                 values.value &#x3D; [];
                 locations.value &#x3D; [];
                 vls.forEach(vl1 &#x3D;&gt; {
-                    /*tslint:disable-next-line*/
                     values.value!.push(vl1.value);
-                    /*tslint:disable-next-line*/
                     locations.value!.push({start: 1 + vl1.start, length: vl1.length});
                 });
                 operator.value &#x3D; ExprOperator.in;
@@ -1199,9 +1197,9 @@ export class Expr {
             if (start &gt;&#x3D; this.start &amp;&amp; start &lt;&#x3D; this.start + this.length) {
                 if (!this.isStructured) {
                     return {
-                        /*tslint:disable-next-line*/
+                        /* eslint-disable-next-line */
                         value: this.value!,
-                        /*tslint:disable-next-line*/
+                        /* eslint-disable-next-line */
                         field: this.field!,
                         start: this.start,
                         length: this.length
@@ -1214,7 +1212,7 @@ export class Expr {
                         if (start &gt;&#x3D; this.start + location.start &amp;&amp; start &lt;&#x3D; this.start + location.start + location.length) {
                             return {
                                 value,
-                                /*tslint:disable-next-line*/
+                                /* eslint-disable-next-line */
                                 field: this.field!,
                                 start: this.start + location.start,
                                 length: location.length
