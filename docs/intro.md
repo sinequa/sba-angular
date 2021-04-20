@@ -16,15 +16,17 @@ Specifically in this framework, SBA are built on top of **Sinequa's REST API** (
 
 The purpose of this framework is to provide **all the building blocks required to quickly develop and deploy a rich and customized Search-Based Application**, that perfectly matches the requirements of a large and complex organization.
 
-Additionally, the framework includes sample applications (like [Hello-Search](modules/hello-search/hello-search.html) and [Vanilla-Search](modules/vanilla-search/vanilla-search.html)) which may be used as a starting point for a project.
+Additionally, the framework includes sample applications (like [Hello-Search](modules/hello-search/hello-search.html), [Vanilla-Search](modules/vanilla-search/vanilla-search.html) and [Pepper](modules/pepper/pepper.html)) which may be used as a starting point for a project.
 
 ![Bricks](/assets/intro/bricks.png)
 *An application is decomposed into small building blocks*
 {: .text-center }
 
-The framework allows to create applications that are much richer and more complex than an Enterprise Search like Vanilla-Search. The project below took about three weeks to complete, using the framework as well as other third-party libraries.
+The framework allows to create applications that are much richer and more complex than an Enterprise Search like Vanilla-Search. For example, Pepper is a Search & Analytics sample application for advanced use-cases.
 
-<iframe src="https://player.vimeo.com/video/375472589" width="100%" height="400px" frameborder="0" title="Intelligence demo" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<iframe src="https://player.vimeo.com/video/534455071" width="100%" height="400px" frameborder="0" title="Pepper" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+*The Pepper SBA sample*
+{: .text-center }
 
 ## Design Principles
 
@@ -38,7 +40,7 @@ This contrasts strongly with the former User Interface framework embarked in Sin
 {: .text-center }
 ![SPA](/assets/intro/spa.png)
 
-Note that customization which used to be done on the server (e.g. with a *SearchPlugin*) can now be done on the client side in Angular. In some cases, it is required to modify the behaviour of a REST API or create a new custom API. In these cases, it is still possible to use server-side plugins (*QueryPlugin*, or *JsonMethodPlugin*).
+Note that customization which used to be done on the server (e.g. with a *SearchPlugin*) can now be done on the client side in Angular. In some cases, it is required to modify the behaviour of a REST API or create a new custom API. In these cases, it is still possible to use [server-side plugins](tipstricks/plugins.html) (*QueryPlugin*, or *JsonMethodPlugin*).
 
 ### Modular Architecture
 
@@ -48,7 +50,8 @@ We release a complete workspace which includes:
 
 - [**Core**](modules/core/core.html) (aka `@sinequa/core`): A low-level Angular library containing a wrapper of the Sinequa REST API, as well as dependencies to log in to the platform with various authentication protocols.
 - [**Components**](modules/components/components.html) (aka `@sinequa/components`): A high-level library containing a set of Angular *modules*, each packaging an independant functionality. These modules are meant to be independant from each other (with exceptions, as a functionality can enable other functionalities). These modules bundle together Angular *components*, *directives* and *services*, which are the small modular building blocks that applications are made of.
-- **Sample Applications**: Currently two applications are included. [**Hello Search**](modules/hello-search/hello-search.html) is a minimalistic application (the "Hello world" of search) used essentially for trainings and [tutorials]({{site.baseurl}}tutorial/tutorial.html). [**Vanilla Search**](modules/vanilla-search/vanilla-search.html) is a full-fledged Enterprise Search application which can be used as is, or as the starting point of an Enterprise Search project.
+- [**Analytics**](modules/components/analytics.html) (aka `@sinequa/analytics`): Similar to the Components library, but only includes advanced visualization components (charts, network, map, etc.).
+- **Sample Applications**: Currently three applications are included. [**Hello Search**](modules/hello-search/hello-search.html) is a minimalistic application (the "Hello world" of search) used essentially for trainings and [tutorials]({{site.baseurl}}tutorial/tutorial.html). [**Vanilla Search**](modules/vanilla-search/vanilla-search.html) is a full-fledged Enterprise Search application which can be used as is, or as the starting point of an Enterprise Search project. [**Pepper**](modules/pepper/pepper.html) is a Search & Analytics application designed as an interactive & collaborative dashboard.
 
 ![SBA architecture](/assets/intro/architecture.png)
 *Content of the Angular workspace*
@@ -56,7 +59,7 @@ We release a complete workspace which includes:
 
 In the [Getting Started](gettingstarted/gettingstarted.html) section, you will see how to build each library and application in the workspace.
 
-The SBA framework is built in a modular way, to maximize the reusability of functionalities and components. We package small, generic, and configurable components in the [**Components library**](modules/components/components.html). In contrast, our **applications** contain a small number of large, specific and hard-wired components, which are meant to be taken as examples of how to assemble together the small components packaged in the libraries.
+The SBA framework is built in a modular way, to maximize the reusability of functionalities and components. We package small, generic, and configurable components in the [**Components library**](modules/components/components.html). In contrast, our application samples (Vanilla, Pepper) contain a small number of large, specific and hard-wired components, which are meant to be taken as examples of how to assemble together the small components packaged in the libraries.
 
 Developer are encouraged to embrace this pattern and develop their own reusable component libraries, which may eventually be used in multiple Search-Based Applications.
 
@@ -68,7 +71,7 @@ This approach allows developers to work fairly independently from the Sinequa ba
 
 ### Open Source
 
-We choose to release this framework as open source, to give more power to our customers and foster a worldwide community of developers. A consequence of this choice is that developers may fully modify the source code, and adapt it to their needs. When updates are delivered via Sinequa releases or via this repository, these updates may therefore cause breaking changes and require adaptations of the applications source code (which typically happens when we upgrade the version of Angular or another 3rd party libraries). For this reason, updates should be performed knowingly and selectively, rather than systematically.
+We release this framework as open source, to give our customers more flexibility and foster a worldwide community of developers. Developers can fully modify the source code, and adapt it to their needs. When updates are delivered via Sinequa releases or via this Github repository, developers can simply pull the new version into their repository. This update process can occasionaly cause merge conflicts (disagreement between Sinequa code and custom code) which require manual adaptations in the source code (which typically happens when we migrate to a new version of Angular or another 3rd party libraries). For this reason, updates should be performed knowingly and selectively, rather than systematically.
 
 Note that the process of update may be performed via our [Github repository](https://github.com/sinequa/sba-angular). Fork or clone our repository in your own environment, and use `git pull` to retrieve new versions of our libraries and apps. One benefit of this approach is that you can naturally leverage Git to understand changes and resolve potential conflicts with your project.
 

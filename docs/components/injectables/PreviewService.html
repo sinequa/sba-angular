@@ -76,6 +76,10 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#exprBuilder">exprBuilder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#previewModal">previewModal</a>
                             </li>
                         </ul>
@@ -90,6 +94,15 @@
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
+                            <li>
+                                <a href="#fetchPages">fetchPages</a>
+                            </li>
+                            <li>
+                                <a href="#getAuditPreviewDetail">getAuditPreviewDetail</a>
+                            </li>
+                            <li>
+                                <a href="#getPageNumber">getPageNumber</a>
+                            </li>
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#getPreviewData">getPreviewData</a>
@@ -139,12 +152,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(previewModal: Type<any>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, previewWebService: PreviewWebService, appService: AppService, authenticationService: AuthenticationService, searchService: <a href="../injectables/SearchService.html">SearchService</a>, modalService: ModalService, recentDocumentsService: <a href="../injectables/RecentDocumentsService.html">RecentDocumentsService</a>, sanitizer: <a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank">DomSanitizer</a>)</code>
+<code>constructor(previewModal: Type<any>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, previewWebService: PreviewWebService, appService: AppService, authenticationService: AuthenticationService, searchService: <a href="../injectables/SearchService.html">SearchService</a>, modalService: ModalService, recentDocumentsService: <a href="../injectables/RecentDocumentsService.html">RecentDocumentsService</a>, exprBuilder: ExprBuilder)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">preview/preview.service.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">preview/preview.service.ts:34</a></div>
                             </td>
                         </tr>
 
@@ -258,10 +271,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>sanitizer</td>
+                                                        <td>exprBuilder</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank" >DomSanitizer</a></code>
+                                                                    <code>ExprBuilder</code>
                                                         </td>
                                                   
                                                     <td>
@@ -287,6 +300,269 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="fetchPages"></a>
+                    <span class="name">
+                        <b>
+                            fetchPages
+                        </b>
+                        <a href="#fetchPages"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fetchPages(containerid: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query: <a href="../interfaces/Query.html">Query</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="176"
+                            class="link-to-prism">preview/preview.service.ts:176</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the pages of a given record id</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>containerid</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>query</td>
+                                    <td>
+                                                <code><a href="../interfaces/Query.html" target="_self" >Query</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Results.html" target="_self" >Observable&lt;Results&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAuditPreviewDetail"></a>
+                    <span class="name">
+                        <b>
+                            getAuditPreviewDetail
+                        </b>
+                        <a href="#getAuditPreviewDetail"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAuditPreviewDetail(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, query: <a href="../interfaces/Query.html">Query</a>, record?: Record, resultId?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="183"
+                            class="link-to-prism">preview/preview.service.ts:183</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>id</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>query</td>
+                                    <td>
+                                                <code><a href="../interfaces/Query.html" target="_self" >Query</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>record</td>
+                                    <td>
+                                            <code>Record</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>resultId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>JsonObject</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPageNumber"></a>
+                    <span class="name">
+                        <b>
+                            getPageNumber
+                        </b>
+                        <a href="#getPageNumber"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getPageNumber(record: Record)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="156"
+                            class="link-to-prism">preview/preview.service.ts:156</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the page number of a splitted document&#39;s record or undefined if
+it is not in fact splitted. Stores the page number in the record itself ($page property)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>record</td>
+                                    <td>
+                                            <code>Record</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>number | undefined</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getPreviewData"></a>
                     <span class="name">
                         <b>
@@ -307,8 +583,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="80"
-                            class="link-to-prism">preview/preview.service.ts:80</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">preview/preview.service.ts:79</a></div>
                 </td>
             </tr>
 
@@ -410,8 +686,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="114"
-                            class="link-to-prism">preview/preview.service.ts:114</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">preview/preview.service.ts:101</a></div>
                 </td>
             </tr>
 
@@ -448,7 +724,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>SafeResourceUrl | undefined</code>
+                        <b>Returns : </b>    <code>string | undefined</code>
 
                     </div>
                     <div class="io-description">
@@ -480,8 +756,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">preview/preview.service.ts:118</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="105"
+                            class="link-to-prism">preview/preview.service.ts:105</a></div>
                 </td>
             </tr>
 
@@ -574,8 +850,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="132"
-                            class="link-to-prism">preview/preview.service.ts:132</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="119"
+                            class="link-to-prism">preview/preview.service.ts:119</a></div>
                 </td>
             </tr>
 
@@ -656,8 +932,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="151"
-                            class="link-to-prism">preview/preview.service.ts:151</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="138"
+                            class="link-to-prism">preview/preview.service.ts:138</a></div>
                 </td>
             </tr>
 
@@ -746,6 +1022,34 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="exprBuilder"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            exprBuilder</b>
+                            <a href="#exprBuilder"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ExprBuilder</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">preview/preview.service.ts:45</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="previewModal"></a>
                         <span class="name">
                             <b>
@@ -772,7 +1076,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">preview/preview.service.ts:38</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">preview/preview.service.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -801,7 +1105,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">preview/preview.service.ts:59</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">preview/preview.service.ts:58</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -824,13 +1128,12 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, InjectionToken, Inject, Type} from &quot;@angular/core&quot;;
-import {SafeResourceUrl, DomSanitizer} from &quot;@angular/platform-browser&quot;;
 import {Router} from &quot;@angular/router&quot;;
 import {Observable, Subject} from &quot;rxjs&quot;;
-import {AppService, Query} from &quot;@sinequa/core/app-utils&quot;;
+import {AppService, ExprBuilder, Query} from &quot;@sinequa/core/app-utils&quot;;
 import {AuthenticationService} from &quot;@sinequa/core/login&quot;;
-import {PreviewWebService, PreviewData, AuditEventType, Record, AuditEvent} from &quot;@sinequa/core/web-services&quot;;
-import {Utils} from &quot;@sinequa/core/base&quot;;
+import {PreviewWebService, PreviewData, AuditEventType, Record, AuditEvent, Results} from &quot;@sinequa/core/web-services&quot;;
+import {JsonObject, Utils} from &quot;@sinequa/core/base&quot;;
 import {ModalService} from &quot;@sinequa/core/modal&quot;;
 import {SearchService} from &quot;@sinequa/components/search&quot;;
 import {RecentDocumentsService} from &#x27;@sinequa/components/saved-queries&#x27;;
@@ -868,7 +1171,7 @@ export class PreviewService {
         private searchService: SearchService,
         private modalService: ModalService,
         private recentDocumentsService: RecentDocumentsService,
-        private sanitizer: DomSanitizer) {
+        public exprBuilder: ExprBuilder) {
 
         // Subscribe to own events and add documents to the recent documents service
         this.events.subscribe(event &#x3D;&gt; {
@@ -905,23 +1208,11 @@ export class PreviewService {
     public getPreviewData(id: string, query: Query, audit &#x3D; true): Observable&lt;PreviewData&gt; {
         let auditEvent: AuditEvent | undefined;
         const record &#x3D; this.searchService.getRecordFromId(id);
-        const resultId &#x3D; !!record ? this.searchService.results &amp;&amp; this.searchService.results.id : undefined;
+        const resultId &#x3D; record ? this.searchService.results?.id : undefined;
         if (audit) {
-            const queryLanguage &#x3D; this.searchService.results?.queryAnalysis?.queryLanguage
-                || this.searchService?.query?.questionLanguage
-                || this.appService?.ccquery?.questionLanguage;
-            const collection &#x3D; !!record ? record.collection[0] : Utils.split(id, &quot;|&quot;)[0];
-            const rank &#x3D; !!record ? record.rank : this.rank || 0;
             auditEvent &#x3D; {
                 type: AuditEventType.Doc_Preview,
-                detail: {
-                    &quot;doc-id&quot;: id,
-                    rank: rank,
-                    collection: collection,
-                    source: Utils.treeFirstNode(collection),
-                    &quot;resultid&quot;: resultId,
-                    &quot;querylang&quot;: queryLanguage
-                }
+                detail: this.getAuditPreviewDetail(id, query, record, resultId)
             };
         }
         query &#x3D; this.makeQuery(query);
@@ -936,8 +1227,8 @@ export class PreviewService {
         return observable;
     }
 
-    public makeDownloadUrl(url: string): SafeResourceUrl | undefined {
-        return url ? this.sanitizer.bypassSecurityTrustResourceUrl(this.appService.updateUrlForCors(url)) : undefined;
+    public makeDownloadUrl(url: string): string | undefined {
+        return url ? this.appService.updateUrlForCors(url) : undefined;
     }
 
     openModal(record: Record, query: Query, model: any) {
@@ -984,6 +1275,58 @@ export class PreviewService {
                 query: this.getQueryStr(query)
             }
         });
+    }
+
+    /**
+     * Get the page number of a splitted document&#x27;s record or undefined if
+     * it is not in fact splitted. Stores the page number in the record itself ($page property)
+     * @param record 
+     */
+    getPageNumber(record: Record): number | undefined {
+        const containerid: string | undefined &#x3D; record.containerid;
+        if(containerid &amp;&amp; record.id.startsWith(containerid)) {
+            const pageNumberStr &#x3D; record.id.slice(containerid.length+1);
+            if(/#\d+#/g.test(pageNumberStr)) {
+                const pageNumber &#x3D; parseInt(pageNumberStr.slice(1, pageNumberStr.length-1), 10);
+                if(!isNaN(pageNumber)) {
+                    record.$page &#x3D; pageNumber;
+                    return pageNumber;
+                }
+            }
+        }
+        return undefined;
+    }
+
+    /**
+     * Returns the pages of a given record id
+     * @param containerid
+     * @param query
+     */
+    fetchPages(containerid: string, query: Query): Observable&lt;Results&gt; {
+        query &#x3D; this.makeQuery(query);
+        query.groupBy &#x3D; &quot;&quot;; // If the query web service uses GROUP BY containerid
+        query.addSelect(this.exprBuilder.makeExpr(&quot;containerid&quot;, containerid));
+        return this.searchService.getResults(query);
+    }
+
+    getAuditPreviewDetail(id: string, query: Query, record?: Record, resultId?: string): JsonObject {
+        const queryLanguage &#x3D; this.searchService.results?.queryAnalysis?.queryLanguage
+            || this.searchService?.query?.questionLanguage
+            || this.appService?.ccquery?.questionLanguage;
+        const collectionColumn &#x3D; record?.collection;
+        const collection &#x3D; !!collectionColumn ? collectionColumn[0] : Utils.split(id, &quot;|&quot;)[0];
+        const rank &#x3D; !!record ? record.rank : this.rank || 0;
+        return {
+            &quot;doc-id&quot;: id,
+            rank: rank,
+            collection: collection,
+            source: Utils.treeFirstNode(collection),
+            resultid: resultId,
+            querylang: queryLanguage,
+            querytext: query.text,
+            filename: record?.filename,
+            fileext: record?.fileext,
+        }
     }
 }</code></pre>
     </div>

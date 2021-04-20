@@ -181,7 +181,7 @@ be picked up in other browser tabs.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(startConfig: <a href="../interfaces/StartConfig.html">StartConfig</a>, httpClient: <a href="../injectables/SqHttpClient.html">SqHttpClient</a>, tokenService: <a href="../injectables/TokenService.html">TokenService</a>, jWTService: <a href="../injectables/JWTService.html">JWTService</a>, authService: AuthService)</code>
+<code>constructor(startConfig: <a href="../interfaces/StartConfig.html">StartConfig</a>, httpClient: <a href="../injectables/SqHttpClient.html">SqHttpClient</a>, tokenService: <a href="../injectables/TokenService.html">TokenService</a>, auditService: <a href="../injectables/AuditWebService.html">AuditWebService</a>, jWTService: <a href="../injectables/JWTService.html">JWTService</a>, authService: AuthService)</code>
                     </td>
                 </tr>
                         <tr>
@@ -232,6 +232,18 @@ be picked up in other browser tabs.</p>
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/TokenService.html" target="_self" >TokenService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>auditService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuditWebService.html" target="_self" >AuditWebService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -299,8 +311,8 @@ be picked up in other browser tabs.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="241"
-                            class="link-to-prism">login/authentication.service.ts:241</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="242"
+                            class="link-to-prism">login/authentication.service.ts:242</a></div>
                 </td>
             </tr>
 
@@ -379,8 +391,8 @@ Currently, this adds the <code>sinequa-csrf-token</code> value to the HTTP heade
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="374"
-                            class="link-to-prism">login/authentication.service.ts:374</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="379"
+                            class="link-to-prism">login/authentication.service.ts:379</a></div>
                 </td>
             </tr>
 
@@ -456,8 +468,8 @@ Currently, this adds the <code>sinequa-csrf-token</code> value to the HTTP heade
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="332"
-                            class="link-to-prism">login/authentication.service.ts:332</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="333"
+                            class="link-to-prism">login/authentication.service.ts:333</a></div>
                 </td>
             </tr>
 
@@ -551,8 +563,8 @@ in clear text. Prior to the authentication the passed <code>response</code> is c
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="390"
-                            class="link-to-prism">login/authentication.service.ts:390</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="395"
+                            class="link-to-prism">login/authentication.service.ts:395</a></div>
                 </td>
             </tr>
 
@@ -630,8 +642,8 @@ console</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="488"
-                            class="link-to-prism">login/authentication.service.ts:488</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="493"
+                            class="link-to-prism">login/authentication.service.ts:493</a></div>
                 </td>
             </tr>
 
@@ -685,8 +697,8 @@ written via, for example, a login to the admin console.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="189"
-                            class="link-to-prism">login/authentication.service.ts:189</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="190"
+                            class="link-to-prism">login/authentication.service.ts:190</a></div>
                 </td>
             </tr>
 
@@ -726,8 +738,8 @@ written via, for example, a login to the admin console.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="363"
-                            class="link-to-prism">login/authentication.service.ts:363</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="364"
+                            class="link-to-prism">login/authentication.service.ts:364</a></div>
                 </td>
             </tr>
 
@@ -768,8 +780,8 @@ is removed</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="269"
-                            class="link-to-prism">login/authentication.service.ts:269</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="270"
+                            class="link-to-prism">login/authentication.service.ts:270</a></div>
                 </td>
             </tr>
 
@@ -853,7 +865,7 @@ to correspond to the new JWT cookie. Called from <a href="HttpInterceptor">HttpI
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/HttpService.html#source" target="_self" >HttpService:42</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/HttpService.html#source" target="_self" >HttpService:40</a></code>
 </div>
                 </td>
             </tr>
@@ -936,7 +948,7 @@ to correspond to the new JWT cookie. Called from <a href="HttpInterceptor">HttpI
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/HttpService.html#source" target="_self" >HttpService:32</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/HttpService.html#source" target="_self" >HttpService:31</a></code>
 </div>
                 </td>
             </tr>
@@ -1054,7 +1066,7 @@ only set by the <a href="HttpInterceptor">HttpInterceptor</a> and tested and res
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">login/authentication.service.ts:121</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">login/authentication.service.ts:122</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1076,7 +1088,7 @@ only set by the <a href="HttpInterceptor">HttpInterceptor</a> and tested and res
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="129" class="link-to-prism">login/authentication.service.ts:129</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">login/authentication.service.ts:130</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1133,7 +1145,7 @@ is set accordingly</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="144" class="link-to-prism">login/authentication.service.ts:144</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">login/authentication.service.ts:145</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1166,7 +1178,7 @@ is set accordingly</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="154" class="link-to-prism">login/authentication.service.ts:154</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="155" class="link-to-prism">login/authentication.service.ts:155</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1188,7 +1200,7 @@ is set accordingly</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="162" class="link-to-prism">login/authentication.service.ts:162</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="163" class="link-to-prism">login/authentication.service.ts:163</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1245,7 +1257,7 @@ is stored in either local or session storage</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="182" class="link-to-prism">login/authentication.service.ts:182</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="183" class="link-to-prism">login/authentication.service.ts:183</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1278,7 +1290,7 @@ is stored in either local or session storage</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="228" class="link-to-prism">login/authentication.service.ts:228</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="229" class="link-to-prism">login/authentication.service.ts:229</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1305,7 +1317,7 @@ import {HttpHeaders, HttpParams, HttpResponse, HttpErrorResponse} from &quot;@an
 import {Observable, timer, of, throwError} from &quot;rxjs&quot;;
 import {share, flatMap, map, catchError} from &quot;rxjs/operators&quot;;
 import {AuthService} from &quot;ng2-ui-auth&quot;;
-import {HttpService, START_CONFIG, StartConfig} from &quot;@sinequa/core/web-services&quot;;
+import {HttpService, START_CONFIG, StartConfig, AuditWebService} from &quot;@sinequa/core/web-services&quot;;
 import {Utils, IRef, MapOf} from &quot;@sinequa/core/base&quot;;
 import {SqHttpClient} from &quot;@sinequa/core/web-services&quot;;
 import {TokenService} from &quot;./token.service&quot;;
@@ -1348,8 +1360,8 @@ export interface ProcessedCredentials {
      * OAuth and SAML authentication
      */
     data: {
-        csrfToken: string; // the web token itself is stored in the sinequa-web-token cookie
-        provider: string;
+        csrfToken: string, // the web token itself is stored in the sinequa-web-token cookie
+        provider: string
     };
 }
 
@@ -1372,15 +1384,15 @@ export interface UserOverride {
  */
 export interface JsonWebToken {
     header: {
-        typ: string;
-        alg: string;
+        typ: string,
+        alg: string
     };
     payload: {
-        iss: string;
-        iat: string;
-        exp: string;
-        sub: string;
-        hash: string;
+        iss: string,
+        iat: string,
+        exp: string,
+        sub: string,
+        hash: string
     };
     signature: string;
 }
@@ -1410,6 +1422,7 @@ export class AuthenticationService extends HttpService {
         @Inject(START_CONFIG) startConfig: StartConfig,
         private httpClient: SqHttpClient,
         private tokenService: TokenService,
+        private auditService: AuditWebService,
         private jWTService: JWTService,
         private authService: AuthService) {
         super(startConfig);
@@ -1663,9 +1676,13 @@ export class AuthenticationService extends HttpService {
      * is removed
      */
     logout() {
-        this.tokenService.deleteWebTokenCookie().subscribe();
-        this.authentication &#x3D; undefined;
-        this.processedCredentials &#x3D; undefined;
+        this.auditService.notifyLogout().subscribe(
+            _ &#x3D;&gt; {
+                this.tokenService.deleteWebTokenCookie().subscribe()
+                this.authentication &#x3D; undefined;
+                this.processedCredentials &#x3D; undefined;
+            }
+        );
     }
 
     /**

@@ -177,6 +177,7 @@ import {IntlService} from &quot;@sinequa/core/intl&quot;;
 import {Utils, FieldValue} from &quot;@sinequa/core/base&quot;;
 import {AppServiceHelpers} from &quot;./app-service-helpers&quot;;
 import {CCColumn} from &quot;@sinequa/core/web-services&quot;;
+import {format} from &quot;d3-format&quot;;
 
 /**
  * Describes a value item object that includes a {@link FieldValue} and an optional display value
@@ -275,6 +276,23 @@ export class FormatService {
         return this.intlService.formatMessage(messageKey, params);
     }
 
+    /** D3 formatter for large number: 42096 &#x3D;&gt; 42K */
+    bigNumberFormatter &#x3D; format(&quot;~s&quot;);
+
+    /** Similar to bigNumberFormatter, but replaces &quot;G&quot; by &quot;B&quot; (as in &quot;$42B&quot;) */
+    moneyFormatter &#x3D; s &#x3D;&gt; this.bigNumberFormatter(s).replace(/G/, &quot;B&quot;);
+    
+    /**
+     * Format an amount of money (typically extracted by a Sinequa Text-mining agent)
+     * USD 42069 &#x3D;&gt; USD 42K
+     * @param value 
+     * @returns 
+     */
+    formatMoney(value: string): string {
+        let [currency, val] &#x3D; value.split(&quot; &quot;);
+        return &#x60;${currency} ${this.moneyFormatter(+val)}&#x60;;
+    }
+
     /**
      * Format a value for display according to the passed &#x60;column&#x60;. Formatters
      * can be defined in the column&#x27;s configuration to provide domain-specific
@@ -291,6 +309,11 @@ export class FormatService {
                 case &quot;memorysize&quot;:
                     if (Utils.isNumber(value)) {
                         return this.formatMemorySize(value);
+                    }
+                    break;
+                case &quot;money&quot;:
+                    if(Utils.isString(value)) {
+                        return this.formatMoney(value);
                     }
                     break;
             }

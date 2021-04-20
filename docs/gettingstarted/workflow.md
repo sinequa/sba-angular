@@ -14,6 +14,7 @@ There is not a single way of working with the SBA Framework, but there are diffe
 Traditionally, any development done in a Sinequa project has to be implemented and tested on a Sinequa server. The Sinequa server may occasionally be on the local computer of a developer, but this is unpractical in a complex project, as the divergence between the state of the server(s) and that of the developer(s) is difficult to manage.
 
 With the SBA framework, the development can take place anywhere, as long as the REST API of the Sinequa server is accessible. This means you can work:
+
 - **Locally**: ie, directly on the Sinequa server (whether it's a physical or virtual server, or just your own computer with Sinequa installed on it). 
 - **Remotely**: ie, on any regular workstation that knows nothing of Sinequa, but can access its remote REST API (This is generally the recommended approach).
 
@@ -86,7 +87,7 @@ The third step means by definition that the app is not served from the same URL 
     Then modify your `ng serve` command to use your proxy:
 
     ```
-    ng serve <your-app> --ssl=true --proxyConfig=<path-to-proxy.json>
+    npm run ng serve <your-app> -- --ssl=true --proxyConfig=<path-to-proxy.json>
     ```
 
     The proxy file can have various other options. Read the [online documentation]((https://angular.io/guide/build#proxying-to-a-backend-server)).
@@ -122,9 +123,10 @@ In this process, the project repository contains the reference, and every develo
 When a new version of the workspace is *cloned* or *pulled* on a computer or server, it is generally necessary to run the following commands:
 
 - `npm install`, which updates the dependencies from the Internet. This step is required when a developer updates the list of dependencies in the `package.json` file. If the server does not have access to the Internet, the `node_modules/` folder needs to be updated manually, via file transfer.
-- `npm run buildcore`, which builds [`@sinequa/core`]({{site.baseurl}}core). This step is required in case the code of this library was modified (by a developer, of after an update of the library).
-- `npm run buildcomponents`, which builds [`@sinequa/components`]({{site.baseurl}}components). This step is required in case the code of this library was modified (by a developer, of after an update of the library).
-- On the server: `ng build <name-of-your-app> --prod`, which builds your app for release, which allows Sinequa to serve it.
+- `npm run buildcore`, which builds [`@sinequa/core`]({{site.baseurl}}modules/core/core.html). This step is required in case the code of this library was modified (by a developer, of after an update of the library).
+- `npm run buildcomponents`, which builds [`@sinequa/components`]({{site.baseurl}}modules/components/components.html). This step is required in case the code of this library was modified (by a developer, of after an update of the library).
+- `npm run buildanalytics`, which builds [`@sinequa/analytics`]({{site.baseurl}}modules/analytics/analytics.html). This step is required in case the code of this library was modified (by a developer, of after an update of the library).
+- On the server: `npm run ng build <name-of-your-app> -- --prod`, which builds your app for release, which allows Sinequa to serve it.
 
 Note that all the commands above can be run directly from the administration user interface.
 
@@ -136,7 +138,7 @@ Note that all the commands above can be run directly from the administration use
 **Cons:**
 
 - Requires hosting a Git repository on a server.
-- Still difficult to update the code.
+- Updating the code can occasionally require to resolve Git merge conflicts.
 
 ## Github-based Workflow
 

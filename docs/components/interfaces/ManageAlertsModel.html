@@ -85,6 +85,10 @@
                                             <span class="modifier">Optional</span>
                                         <a href="#auditEvents">auditEvents</a>
                                 </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#searchRoute">searchRoute</a>
+                                </li>
                             </ul>
                         </td>
                     </tr>
@@ -144,6 +148,40 @@
                                     <tr>
                                         <td class="col-md-4">
                                             <i>Type : </i>    <code>AuditEvent[]</code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="searchRoute"></a>
+                                        <span class="name"><b>searchRoute</b><a href="#searchRoute"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>searchRoute:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                                         </td>
                                     </tr>
@@ -246,6 +284,7 @@ export interface AlertChangeEvent {
 export interface ManageAlertsModel {
     alerts: Alert[];
     auditEvents?: AuditEvent[];
+    searchRoute?: string;
 }
 
 /**
@@ -501,10 +540,10 @@ export class AlertsService implements OnDestroy {
      * @param alert
      * @returns the search service promise
      */
-    public searchAlert(alert: Alert) : Promise&lt;boolean&gt; {
+    public searchAlert(alert: Alert, path?: string) : Promise&lt;boolean&gt; {
         this.searchService.setQuery(Utils.extend(this.searchService.makeQuery(), Utils.copy(alert.query)));
         this.events.next({type: AlertEventType.Search_AlertQuery, alert: alert});
-        return this.searchService.search(undefined, {
+        return this.searchService.search( {path: path}, {
             type: AlertEventType.Search_AlertQuery,
             detail: {
                 alert: alert.name
@@ -533,7 +572,7 @@ export class AlertsService implements OnDestroy {
             respectTabSelection: false
         };
         const queryUrl &#x3D; this.window.location.href;
-        return this.modalService.open(this.alertComponents.editAlertModal, {model: alert})
+        return this.modalService.open(this.alertComponents.editAlertModal, {model: { alert: alert }})
             .then((result) &#x3D;&gt; {
                 if (result &#x3D;&#x3D;&#x3D; ModalResult.OK) {
 
@@ -562,14 +601,16 @@ export class AlertsService implements OnDestroy {
      * Opens a dialog allowing a user to edit an existing alert.
      * @param alert: The alert to edit
      * @param noUpdate: if true, will not update the server after the edit
+     * @param searchRoute: the route to use when replaying the alert&#x27;s query
      * @returns a boolean promise resolved when the user closes the dialog
      * the result is true if the alert was updated.
      */
-    public editAlertModal(alert: Alert, noUpdate?: boolean) : Promise&lt;boolean&gt; {
+    public editAlertModal(alert: Alert, noUpdate?: boolean, searchRoute?: string) : Promise&lt;boolean&gt; {
 
         const prevName &#x3D; alert.name;
+
         const queryUrl &#x3D; this.window.location.href;
-        return this.modalService.open(this.alertComponents.editAlertModal, {model: alert})
+        return this.modalService.open(this.alertComponents.editAlertModal,  {model: { alert: alert, searchRoute: searchRoute }})
             .then((result) &#x3D;&gt; {
 
                 if (result &#x3D;&#x3D;&#x3D; ModalResult.OK) {
@@ -613,9 +654,9 @@ export class AlertsService implements OnDestroy {
      * @returns a boolean promise resolved when the user closes the dialog
      * the result is true is the list was updated.
      */
-    public manageAlertsModal() : Promise&lt;boolean&gt; {
+    public manageAlertsModal(searchRoute?: string) : Promise&lt;boolean&gt; {
 
-        const model: ManageAlertsModel &#x3D; { alerts: Utils.copy(this.alerts) };
+        const model: ManageAlertsModel &#x3D;  { alerts: Utils.copy(this.alerts), searchRoute: searchRoute };
 
         return this.modalService.open(this.alertComponents.manageAlertsModal, {model})
             .then((result) &#x3D;&gt; {

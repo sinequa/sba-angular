@@ -421,7 +421,7 @@ import {Router} from &quot;@angular/router&quot;;
 import {SearchService} from &quot;./search.service&quot;;
 import {Subscription, Observable, of} from &#x27;rxjs&#x27;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
-import {Results} from &quot;@sinequa/core/web-services&quot;;
+import {AuditEventType, Results} from &quot;@sinequa/core/web-services&quot;;
 
 export interface FirstPageOptions {
     displayOnHomePage?: boolean;
@@ -498,7 +498,11 @@ export class FirstPageService implements OnDestroy {
         }
         const query &#x3D; this.searchService.makeQuery();
         query.isFirstPage &#x3D; true;
-        const observable &#x3D; this.searchService.getResults(query, undefined, {searchInactive: true});
+        const observable &#x3D; this.searchService.getResults(query, {
+            type: AuditEventType.Search_FirstPage
+        }, {
+            searchInactive: true
+        });
         Utils.subscribe(observable,
             (results) &#x3D;&gt; {
                 this.firstPage &#x3D; results;

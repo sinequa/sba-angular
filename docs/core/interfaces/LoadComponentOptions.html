@@ -348,7 +348,6 @@ export class LoadComponentService {
             Object.keys(options.inputs).forEach(name &#x3D;&gt; {
                 if (makeSimpleChanges) {
                     const previousValue &#x3D; initialLoad ? undefined : loadedComponent.componentRef.instance[name];
-                    /*tslint:disable-next-line*/
                     const currentValue &#x3D; options.inputs![name];
                     if (initialLoad || currentValue !&#x3D;&#x3D; previousValue) {
                         if (!simpleChanges) {
@@ -357,7 +356,6 @@ export class LoadComponentService {
                         simpleChanges[name] &#x3D; new SimpleChange(previousValue, currentValue, initialLoad);
                     }
                 }
-                /*tslint:disable-next-line*/
                 loadedComponent.componentRef.instance[name] &#x3D; options.inputs![name];
             });
         }
@@ -365,7 +363,6 @@ export class LoadComponentService {
             Object.keys(options.outputs).forEach(name &#x3D;&gt; {
                 const eventEmitter: EventEmitter&lt;any&gt; &#x3D; loadedComponent.componentRef.instance[name];
                 if (eventEmitter) {
-                    /*tslint:disable-next-line*/
                     const subscription &#x3D; eventEmitter.subscribe(options.outputs![name]);
                     if (!loadedComponent.subscriptions) {
                         loadedComponent.subscriptions &#x3D; subscription;

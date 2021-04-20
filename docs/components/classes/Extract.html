@@ -130,7 +130,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">preview/bootstrap/preview-extracts-panel/preview-extracts-panel.component.ts:10</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">preview/bootstrap/preview-extracts-panel/preview-extracts-panel.component.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -157,7 +157,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">preview/bootstrap/preview-extracts-panel/preview-extracts-panel.component.ts:9</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">preview/bootstrap/preview-extracts-panel/preview-extracts-panel.component.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -184,7 +184,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">preview/bootstrap/preview-extracts-panel/preview-extracts-panel.component.ts:8</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">preview/bootstrap/preview-extracts-panel/preview-extracts-panel.component.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -211,7 +211,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">preview/bootstrap/preview-extracts-panel/preview-extracts-panel.component.ts:11</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">preview/bootstrap/preview-extracts-panel/preview-extracts-panel.component.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -230,11 +230,17 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnChanges } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, NgZone, OnChanges, SimpleChanges, ViewChild } from &#x27;@angular/core&#x27;;
 import { DomSanitizer, SafeHtml } from &#x27;@angular/platform-browser&#x27;;
-import { PreviewData } from &#x27;@sinequa/core/web-services&#x27;;
-import { PreviewDocument } from &#x27;../../preview-document&#x27;;
+import {DOCUMENT} from &#x27;@angular/common&#x27;;
+import {CdkVirtualScrollViewport} from &#x27;@angular/cdk/scrolling&#x27;;
+import {distinctUntilChanged} from &#x27;rxjs/operators&#x27;;
+
+import { HighlightValue, PreviewData } from &#x27;@sinequa/core/web-services&#x27;;
 import {Action} from &quot;@sinequa/components/action&quot;;
+import {HttpClient} from &#x27;@angular/common/http&#x27;;
+
+import { PreviewDocument } from &#x27;../../preview-document&#x27;;
 
 export class Extract {
   text: SafeHtml; // Sanitized HTML text
@@ -246,56 +252,81 @@ export class Extract {
 @Component({
   selector: &#x27;sq-preview-extracts-panel&#x27;,
   templateUrl: &#x27;./preview-extracts-panel.component.html&#x27;,
-  styleUrls: [&#x27;./preview-extracts-panel.component.scss&#x27;]
+  styleUrls: [&#x27;./preview-extracts-panel.component.scss&#x27;],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsPreviewExtractsPanelComponent implements OnChanges {
   @Input() previewData: PreviewData;
   @Input() previewDocument: PreviewDocument;
+  @Input() downloadUrl: string;
+  @Input() style: &quot;light&quot;|&quot;dark&quot; &#x3D; &quot;light&quot;;
+  @ViewChild(&quot;scrollViewport&quot;) cdkScrollViewport: CdkVirtualScrollViewport;
 
   sortAction : Action;
   extracts: Extract[] &#x3D; [];
   currentExtract &#x3D; -1;
+  loading &#x3D; false;
 
   constructor(
+    @Inject(DOCUMENT) document: Document,
+    private zone: NgZone,
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef,
     private domSanitizer: DomSanitizer) { }
 
   /**
    * Extracts the list of extracts from the preview document
    */
-  ngOnChanges() {
-    if(this.previewData &amp;&amp; this.previewDocument){
+  ngOnChanges(changes: SimpleChanges) {
+    this.extracts &#x3D; [];
+    if(this.previewData &amp;&amp; this.downloadUrl){
       const extracts &#x3D; this.previewData.highlightsPerCategory[&quot;extractslocations&quot;]?.values; //Extract locations Array ordered by &quot;relevance&quot;
       if(!!extracts &amp;&amp; extracts.length &gt; 0){
-
-        // Init the extracts Array and storing the relevancy index &#x3D; i because extractsLocations is already ordered by relevance
-        this.extracts &#x3D; extracts[0].locations.map((el, i) &#x3D;&gt; {
-          return {
-            text: &quot;&quot;,
-            startIndex: el.start,
-            relevanceIndex: i,
-            textIndex: 0
-          }
-        });
+        this.loading &#x3D; true;
         
-        this.extracts
-          .sort((a,b)&#x3D;&gt; a.startIndex - b.startIndex) // Sorting by start index (text index)
-          .forEach((el,i) &#x3D;&gt; {
-              el.text &#x3D; this.sanitize(this.previewDocument.getHighlightText(&quot;extractslocations&quot;, i)); // Retrieving the text using getHighlightText
-              el.textIndex &#x3D; i; // Storing the TextIndex to be able to select extracts
-          });
-
-        // Sorting by Relevance to display extract ordered by Relevance
-        this.extracts.sort((a,b) &#x3D;&gt; a.relevanceIndex-b.relevanceIndex);
-
-        this.buildSortAction();
+        this.zone.run(() &#x3D;&gt; {
+          this.fetch(this.downloadUrl)
+            .pipe(distinctUntilChanged())
+            .subscribe((value) &#x3D;&gt; {
+              const previewDocument &#x3D; this.createDocument(value);
+              this.extractAll(extracts, previewDocument);
+            });
+        });
       }
+    }
+  }
+  
+  private createDocument(value: string): PreviewDocument {
+    const doc &#x3D; document.implementation.createHTMLDocument(&quot;&quot;);
+    doc.write(value);
+    doc.close();
+    let previewDocument &#x3D; new PreviewDocument(doc);
 
-      
+    const count &#x3D; previewDocument.document.querySelectorAll(&quot;[id^&#x3D;&#x27;extractslocations&#x27;]&quot;).length;
+    if (count &#x3D;&#x3D;&#x3D; 0) {
+      // use previous document to retrieve extracts
+      previewDocument &#x3D; this.previewDocument;
     }
-    else {
-      this.extracts &#x3D; [];
-    }
+    
+    return previewDocument;
+  }
+  
+  private extractAll(extracts:HighlightValue[], previewDocument: PreviewDocument) {
+    // Init the extracts Array and storing the relevancy index &#x3D; i because extractsLocations is already ordered by relevance
+    this.extracts &#x3D; extracts[0].locations.map((el, i) &#x3D;&gt; ({
+      text: this.sanitize(previewDocument.getHighlightText(&quot;extractslocations&quot;, i)),
+      startIndex: el.start,
+      relevanceIndex: i,
+      textIndex: i
+    }))
+    .filter(el &#x3D;&gt; el.text !&#x3D;&#x3D; &#x27;&#x27;)
+    .sort((a,b) &#x3D;&gt; a.relevanceIndex - b.relevanceIndex);
+
+    this.buildSortAction();
+          
+    this.loading &#x3D; false;
     this.currentExtract &#x3D; -1;
+    this.cdr.markForCheck();
   }
 
   /**
@@ -332,8 +363,13 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    * Scroll to a specific extract
    * @param i
    */
-  scrollExtract(i: number){
-    this.previewDocument.selectHighlight(&quot;extractslocations&quot;, i);
+  scrollExtract(i: number, index?: number) {
+    if(index !&#x3D;&#x3D; undefined) {
+      this.currentExtract &#x3D; index;
+    }
+    if(this.previewDocument) {
+      this.previewDocument.selectHighlight(&quot;extractslocations&quot;, i);
+    }
     return false;
   }
 
@@ -341,8 +377,8 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    * Sanitize the text of a HTML formatted extract
    * @param text
    */
-  sanitize(text: string){
-    return this.domSanitizer.bypassSecurityTrustHtml(text.replace(/sq\-current/, &quot;&quot;));
+  sanitize(text: string): SafeHtml | string {
+    return text !&#x3D;&#x3D; &quot;&quot; ? this.domSanitizer.bypassSecurityTrustHtml(text.replace(/sq\-current/, &quot;&quot;)) : &quot;&quot;;
   }
 
   /**
@@ -350,6 +386,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    */
   previousExtract(){
     this.currentExtract--;
+    this.cdkScrollViewport.scrollToIndex(this.currentExtract);
     this.scrollExtract(this.extracts[this.currentExtract].textIndex);
   }
 
@@ -358,7 +395,12 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    */
   nextExtract(){
     this.currentExtract++;
+    this.cdkScrollViewport.scrollToIndex(this.currentExtract);
     this.scrollExtract(this.extracts[this.currentExtract].textIndex);
+  }
+  
+  private fetch(url: string) {
+    return this.http.get(url, {responseType: &quot;text&quot;});  
   }
 }
 </code></pre>

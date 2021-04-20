@@ -446,8 +446,8 @@ Update the data on the server.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="451"
-                            class="link-to-prism">baskets/baskets.service.ts:451</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="458"
+                            class="link-to-prism">baskets/baskets.service.ts:458</a></div>
                 </td>
             </tr>
 
@@ -699,8 +699,8 @@ Update the data on the server.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="498"
-                            class="link-to-prism">baskets/baskets.service.ts:498</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="505"
+                            class="link-to-prism">baskets/baskets.service.ts:505</a></div>
                 </td>
             </tr>
 
@@ -859,8 +859,8 @@ Update the data on the server.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="576"
-                            class="link-to-prism">baskets/baskets.service.ts:576</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="583"
+                            class="link-to-prism">baskets/baskets.service.ts:583</a></div>
                 </td>
             </tr>
 
@@ -931,8 +931,8 @@ Update the data on the server.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="536"
-                            class="link-to-prism">baskets/baskets.service.ts:536</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="543"
+                            class="link-to-prism">baskets/baskets.service.ts:543</a></div>
                 </td>
             </tr>
 
@@ -980,8 +980,8 @@ the result is true is the list was updated.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="586"
-                            class="link-to-prism">baskets/baskets.service.ts:586</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="593"
+                            class="link-to-prism">baskets/baskets.service.ts:593</a></div>
                 </td>
             </tr>
 
@@ -1019,8 +1019,8 @@ the result is true is the list was updated.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="582"
-                            class="link-to-prism">baskets/baskets.service.ts:582</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="589"
+                            class="link-to-prism">baskets/baskets.service.ts:589</a></div>
                 </td>
             </tr>
 
@@ -1284,8 +1284,8 @@ Update the data on the server.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="476"
-                            class="link-to-prism">baskets/baskets.service.ts:476</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="483"
+                            class="link-to-prism">baskets/baskets.service.ts:483</a></div>
                 </td>
             </tr>
 
@@ -1382,8 +1382,8 @@ the result is true if the document was removed from a basket</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="430"
-                            class="link-to-prism">baskets/baskets.service.ts:430</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="437"
+                            class="link-to-prism">baskets/baskets.service.ts:437</a></div>
                 </td>
             </tr>
 
@@ -1974,7 +1974,7 @@ Cf. CHANGE_EVENTS list</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, InjectionToken, Type, OnDestroy} from &quot;@angular/core&quot;;
-import {Subject} from &quot;rxjs&quot;;
+import {Observable, Subject} from &quot;rxjs&quot;;
 import {UserSettingsWebService, AuditEvent, AuditEvents} from &quot;@sinequa/core/web-services&quot;;
 import {ModalService, ModalResult} from &quot;@sinequa/core/modal&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
@@ -2217,7 +2217,7 @@ export class BasketsService implements OnDestroy {
                         basket: basket.name
                     }
                 }
-            ]);
+            ], true);
             return true;
 
         }
@@ -2234,7 +2234,7 @@ export class BasketsService implements OnDestroy {
     public updateBaskets(baskets: Basket[], auditEvents?: AuditEvents) : boolean {
         Utils.arraySet(this.baskets, baskets);
         this._events.next({type : BasketEventType.Update});
-        this.patchBaskets(auditEvents);
+        this.patchBaskets(auditEvents, true);
         return true;
     }
 
@@ -2261,7 +2261,7 @@ export class BasketsService implements OnDestroy {
                     savedquery: basket.name
                 }
             }
-        ]);
+        ], true);
         return true;
     }
 
@@ -2346,7 +2346,7 @@ export class BasketsService implements OnDestroy {
                     basket: name,
                     &quot;doc-id&quot;: basket.ids[0]
                 }
-            });
+            }, true);
         }
         return true;
     }
@@ -2368,9 +2368,12 @@ export class BasketsService implements OnDestroy {
                 });
             }
         }
-        this._events.next({type : BasketEventType.RemoveDoc});
-        this.patchBaskets(auditEvents);
-        return true;
+        if(auditEvents.length &gt; 0) {
+            this._events.next({type : BasketEventType.RemoveDoc});
+            this.patchBaskets(auditEvents, true);
+            return true;
+        }
+        return false;
     }
 
 
@@ -2379,15 +2382,19 @@ export class BasketsService implements OnDestroy {
      * @param auditEvents : Audit Events to be triggered
      * @returns an Observable which can be used to trigger further events
      */
-    private patchBaskets(auditEvents?: AuditEvents) {
-        return this.userSettingsService.patch({baskets: this.baskets}, auditEvents)
-            .subscribe(
-                next &#x3D;&gt; {
-                    this._events.next({type: BasketEventType.Patched});
-                },
-                error &#x3D;&gt; {
-                    console.error(&quot;Could not patch Baskets!&quot;, error);
-            });
+    private patchBaskets(auditEvents?: AuditEvents, updateSearch?: boolean): Observable&lt;void&gt; {
+        const obs &#x3D; this.userSettingsService.patch({baskets: this.baskets}, auditEvents);
+        obs.subscribe(
+            next &#x3D;&gt; {
+                this._events.next({type: BasketEventType.Patched});
+                if(updateSearch &amp;&amp; this.searchService.query.basket) {
+                    this.searchService.search(); // Update search results to reflect the new basket content
+                }
+            },
+            error &#x3D;&gt; {
+                console.error(&quot;Could not patch Baskets!&quot;, error);
+        });
+        return obs;
     }
 
 

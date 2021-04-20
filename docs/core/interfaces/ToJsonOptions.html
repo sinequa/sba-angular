@@ -952,11 +952,9 @@ export class Utils {
         let d &#x3D; Date.now();
         const guid &#x3D; (withHyphens ?
             &#x27;xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx&#x27; : &#x27;xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx&#x27;).replace(/[xy]/g, (c) &#x3D;&gt; {
-                /* tslint:disable:no-bitwise */
                 const r &#x3D; (d + Math.random() * 16) % 16 | 0;
                 d &#x3D; Math.floor(d / 16);
                 return (c &#x3D;&#x3D;&#x3D; &#x27;x&#x27; ? r : (r &amp; 0x3 | 0x8)).toString(16);
-                /* tslint:enable:no-bitwise */
             });
         return guid;
     }

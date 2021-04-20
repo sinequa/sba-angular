@@ -59,6 +59,12 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Implements</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+            </p>
 
 
         <section>
@@ -159,7 +165,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -251,7 +257,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:13</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:12</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -275,7 +281,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:12</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:11</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -310,8 +316,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="94"
-                            class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:94</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:93</a></div>
                 </td>
             </tr>
 
@@ -352,8 +358,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="115"
-                            class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:115</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:114</a></div>
                 </td>
             </tr>
 
@@ -395,8 +401,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">advanced/bootstrap/advanced-form-autocomplete.directive.ts:28</a></div>
                 </td>
             </tr>
 
@@ -423,17 +429,16 @@ selection events</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, Input, ElementRef, HostListener, Output, EventEmitter } from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, Input, ElementRef, HostListener, Output, EventEmitter, OnInit } from &quot;@angular/core&quot;;
 import { Autocomplete, SuggestService, AutocompleteItem, AutocompleteState } from &quot;@sinequa/components/autocomplete&quot;;
 import { UIService } from &quot;@sinequa/components/utils&quot;;
 import { AppService } from &quot;@sinequa/core/app-utils&quot;;
 import { Observable } from &#x27;rxjs&#x27;;
 
 @Directive({
-    // tslint:disable-next-line: directive-selector
     selector: &quot;[sqAdvancedFormAutocomplete]&quot;,
 })
-export class BsAdvancedFormAutocomplete extends Autocomplete {
+export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
     @Output() UpdateItem &#x3D; new EventEmitter&lt;AutocompleteItem | undefined&gt;();
     @Input() field : string;
 

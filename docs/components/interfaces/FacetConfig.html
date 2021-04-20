@@ -637,6 +637,9 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 
   @Input() results: Results;
   @Input() facets: FacetConfig[];
+  @Input() showCount: boolean &#x3D; true;
+  @Input() showProgressBar &#x3D; false;    // will display or not item count as progress bar
+
   @Output() events &#x3D; new EventEmitter&lt;FacetConfig&gt;();
   @ViewChild(&quot;facet&quot;, {static: false}) public facetComponent: AbstractFacet;
 
@@ -754,7 +757,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   ngOnChanges() {
     this.facets.forEach(facet &#x3D;&gt; {
       facet.$count &#x3D; this.getFacetCount(facet);
-      facet.$hasData &#x3D; this.facetService.hasData(facet, this.results);
+      facet.$hasData &#x3D; this.facetService.hasData(facet.aggregation, this.results);
       facet.$hasFiltered &#x3D; this.hasFiltered(facet);
     });
     this.changeDetectorRef.detectChanges();

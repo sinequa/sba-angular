@@ -261,7 +261,7 @@ export class SelectionService implements OnDestroy {
             if(!this.selectionOptions.resetOnNewResults &amp;&amp; event.type &#x3D;&#x3D;&#x3D; &quot;new-results&quot; &amp;&amp; this.searchService.haveRecords){
 
                 const newSelectedRecords: Record[] &#x3D; [];
-                if (this.searchService.results &amp;&amp; this.searchService.results.records) {
+                if (this.searchService.results?.records) {
                     for (const record of this.searchService.results.records) {
                         const index &#x3D; this.selectedRecords.findIndex(item &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; record.id);
                         if (index !&#x3D;&#x3D; -1 &amp;&amp; !record.$selected) {
@@ -272,16 +272,16 @@ export class SelectionService implements OnDestroy {
                     }
                 }
                 if(newSelectedRecords.length &gt; 0)   // Menus might need to be refreshed
-                    this._events.next({type: SelectionEventType.SELECT, records: newSelectedRecords});
+                    this._events.next({type: SelectionEventType.SELECT, records: newSelectedRecords, source: event.type});
 
             }
 
             if(this.selectionOptions.resetOnNewResults &amp;&amp; event.type &#x3D;&#x3D;&#x3D; &quot;new-results&quot;) {
-                this.clearSelectedRecords();
+                this.clearSelectedRecords(event.type);
             }
             
             if(this.selectionOptions.resetOnNewQuery &amp;&amp; event.type &#x3D;&#x3D;&#x3D; &quot;new-query&quot;) {
-                this.clearSelectedRecords();
+                this.clearSelectedRecords(event.type);
             }
 
         });
@@ -358,7 +358,7 @@ export class SelectionService implements OnDestroy {
         return true;
     }
 
-    private selectCurrentRecords() {
+    private selectCurrentRecords(source?: string) {
         const newSelectedRecords: Record[] &#x3D; [];
         if (this.searchService.results &amp;&amp; this.searchService.results.records) {
             for (const record of this.searchService.results.records) {
@@ -370,7 +370,7 @@ export class SelectionService implements OnDestroy {
             }
         }
         if(newSelectedRecords.length &gt; 0)
-            this._events.next({type: SelectionEventType.SELECT, records: newSelectedRecords});
+            this._events.next({type: SelectionEventType.SELECT, records: newSelectedRecords, source});
     }
 
 
@@ -382,33 +382,27 @@ export class SelectionService implements OnDestroy {
     public toggleSelectedRecords(record?: Record, source?: string) {
         if (!!record) {
             const index &#x3D; this.selectedRecords.findIndex(item &#x3D;&gt; item.id &#x3D;&#x3D;&#x3D; record.id);
-            let event : SelectionEvent;
             if (index &gt; -1) {
                 this.selectedRecords.splice(index, 1);
                 record.$selected &#x3D; false;
-                event &#x3D; {type: SelectionEventType.UNSELECT, records: [record]};
             }
             else {
                 this.selectedRecords.push(this.getItem(record));
                 record.$selected &#x3D; true;
-                event &#x3D; {type: SelectionEventType.SELECT, records: [record]};
             }
             // record might not be the one in the search service results (if passing a SelectionItem)
             const ssRecord &#x3D; this.searchService.getRecordFromId(record.id);
             if(ssRecord) {
                 ssRecord.$selected &#x3D; record.$selected;
             }
-            if(source){
-                event.source &#x3D; source;
-            }
-            this._events.next(event);
+            this._events.next({type: record.$selected? SelectionEventType.UNSELECT : SelectionEventType.SELECT, records: [record], source});
         }
         else {
             if (this.allRecordsSelected) {
-                this.clearSelectedRecords();
+                this.clearSelectedRecords(source);
             }
             else {
-                this.selectCurrentRecords();
+                this.selectCurrentRecords(source);
             }
         }
     }
@@ -418,21 +412,21 @@ export class SelectionService implements OnDestroy {
      * @param record 
      * @param newIndex 
      */
-    public moveSelectedRecord(record: Record, newIndex: number) {
+    public moveSelectedRecord(record: Record, newIndex: number, source?: string) {
         const i &#x3D; this.selectedRecords.findIndex(r &#x3D;&gt; r.id &#x3D;&#x3D;&#x3D; record.id);
         if(i &#x3D;&#x3D;&#x3D; -1) {
             throw new Error(&#x60;Record ${record.id} is not in the selected records&#x60;);
         }
         this.selectedRecords.splice(i, 1);
         this.selectedRecords.splice(newIndex, 0, this.getItem(record));
-        this.events.next({type: SelectionEventType.MOVE, records: [record]});
+        this.events.next({type: SelectionEventType.MOVE, records: [record], source});
     }
 
     /**
      * Unselect all selected records
      * Emits a SelectionEvent
      */
-    public clearSelectedRecords() {
+    public clearSelectedRecords(source?: string) {
         this.selectedRecords.splice(0);
         const newUnselectedRecords: Record[] &#x3D; [];
         if (this.searchService.results &amp;&amp; this.searchService.results.records) {
@@ -444,7 +438,7 @@ export class SelectionService implements OnDestroy {
             }
         }
         if(newUnselectedRecords.length &gt; 0)
-            this._events.next({type: SelectionEventType.UNSELECT, records: newUnselectedRecords});
+            this._events.next({type: SelectionEventType.UNSELECT, records: newUnselectedRecords, source});
     }
 
     private buildSelectRecordsAction(): Action {

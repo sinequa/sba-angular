@@ -202,17 +202,17 @@ export class PreviewDocument {
     private static readonly ADVANCED_ENTITY_DISPLAY_ELEMENT_ATTRIBUTE &#x3D; &quot;data-entity-display&quot;;
 
     private readonly _window: Window;
+    private readonly _document: Document;
 
-    constructor(iframe: ElementRef){
-        const frame &#x3D; iframe.nativeElement;
-        if (frame &amp;&amp; frame.contentWindow &amp;&amp; frame.contentWindow.frames) {
-            const sheet &#x3D; frame.contentWindow.frames[&quot;frSheet&quot;]; // aspose xls preview
-            if (sheet) {
-                this._window &#x3D; sheet;
-                return;
+    constructor(element: ElementRef | Document){
+        if (element instanceof ElementRef) {
+            this._window &#x3D; element?.nativeElement?.contentWindow;
+            if (this._window?.frames &amp;&amp; this._window.frames[&quot;frSheet&quot;]) {
+                this._window &#x3D; this._window.frames[&quot;frSheet&quot;];  // aspose xls preview
             }
+        } else {
+            this._document &#x3D; element;
         }
-        this._window &#x3D; frame.contentWindow;
     }
 
 
@@ -229,7 +229,7 @@ export class PreviewDocument {
      * Returns the root Document element of the HTML Preview
      */
     public get document(): Document {
-        return this._window.document;
+        return this._document || this._window.document;
     }
 
     /**

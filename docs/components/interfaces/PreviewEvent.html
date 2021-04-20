@@ -197,13 +197,12 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, InjectionToken, Inject, Type} from &quot;@angular/core&quot;;
-import {SafeResourceUrl, DomSanitizer} from &quot;@angular/platform-browser&quot;;
 import {Router} from &quot;@angular/router&quot;;
 import {Observable, Subject} from &quot;rxjs&quot;;
-import {AppService, Query} from &quot;@sinequa/core/app-utils&quot;;
+import {AppService, ExprBuilder, Query} from &quot;@sinequa/core/app-utils&quot;;
 import {AuthenticationService} from &quot;@sinequa/core/login&quot;;
-import {PreviewWebService, PreviewData, AuditEventType, Record, AuditEvent} from &quot;@sinequa/core/web-services&quot;;
-import {Utils} from &quot;@sinequa/core/base&quot;;
+import {PreviewWebService, PreviewData, AuditEventType, Record, AuditEvent, Results} from &quot;@sinequa/core/web-services&quot;;
+import {JsonObject, Utils} from &quot;@sinequa/core/base&quot;;
 import {ModalService} from &quot;@sinequa/core/modal&quot;;
 import {SearchService} from &quot;@sinequa/components/search&quot;;
 import {RecentDocumentsService} from &#x27;@sinequa/components/saved-queries&#x27;;
@@ -241,7 +240,7 @@ export class PreviewService {
         private searchService: SearchService,
         private modalService: ModalService,
         private recentDocumentsService: RecentDocumentsService,
-        private sanitizer: DomSanitizer) {
+        public exprBuilder: ExprBuilder) {
 
         // Subscribe to own events and add documents to the recent documents service
         this.events.subscribe(event &#x3D;&gt; {
@@ -278,23 +277,11 @@ export class PreviewService {
     public getPreviewData(id: string, query: Query, audit &#x3D; true): Observable&lt;PreviewData&gt; {
         let auditEvent: AuditEvent | undefined;
         const record &#x3D; this.searchService.getRecordFromId(id);
-        const resultId &#x3D; !!record ? this.searchService.results &amp;&amp; this.searchService.results.id : undefined;
+        const resultId &#x3D; record ? this.searchService.results?.id : undefined;
         if (audit) {
-            const queryLanguage &#x3D; this.searchService.results?.queryAnalysis?.queryLanguage
-                || this.searchService?.query?.questionLanguage
-                || this.appService?.ccquery?.questionLanguage;
-            const collection &#x3D; !!record ? record.collection[0] : Utils.split(id, &quot;|&quot;)[0];
-            const rank &#x3D; !!record ? record.rank : this.rank || 0;
             auditEvent &#x3D; {
                 type: AuditEventType.Doc_Preview,
-                detail: {
-                    &quot;doc-id&quot;: id,
-                    rank: rank,
-                    collection: collection,
-                    source: Utils.treeFirstNode(collection),
-                    &quot;resultid&quot;: resultId,
-                    &quot;querylang&quot;: queryLanguage
-                }
+                detail: this.getAuditPreviewDetail(id, query, record, resultId)
             };
         }
         query &#x3D; this.makeQuery(query);
@@ -309,8 +296,8 @@ export class PreviewService {
         return observable;
     }
 
-    public makeDownloadUrl(url: string): SafeResourceUrl | undefined {
-        return url ? this.sanitizer.bypassSecurityTrustResourceUrl(this.appService.updateUrlForCors(url)) : undefined;
+    public makeDownloadUrl(url: string): string | undefined {
+        return url ? this.appService.updateUrlForCors(url) : undefined;
     }
 
     openModal(record: Record, query: Query, model: any) {
@@ -357,6 +344,58 @@ export class PreviewService {
                 query: this.getQueryStr(query)
             }
         });
+    }
+
+    /**
+     * Get the page number of a splitted document&#x27;s record or undefined if
+     * it is not in fact splitted. Stores the page number in the record itself ($page property)
+     * @param record 
+     */
+    getPageNumber(record: Record): number | undefined {
+        const containerid: string | undefined &#x3D; record.containerid;
+        if(containerid &amp;&amp; record.id.startsWith(containerid)) {
+            const pageNumberStr &#x3D; record.id.slice(containerid.length+1);
+            if(/#\d+#/g.test(pageNumberStr)) {
+                const pageNumber &#x3D; parseInt(pageNumberStr.slice(1, pageNumberStr.length-1), 10);
+                if(!isNaN(pageNumber)) {
+                    record.$page &#x3D; pageNumber;
+                    return pageNumber;
+                }
+            }
+        }
+        return undefined;
+    }
+
+    /**
+     * Returns the pages of a given record id
+     * @param containerid
+     * @param query
+     */
+    fetchPages(containerid: string, query: Query): Observable&lt;Results&gt; {
+        query &#x3D; this.makeQuery(query);
+        query.groupBy &#x3D; &quot;&quot;; // If the query web service uses GROUP BY containerid
+        query.addSelect(this.exprBuilder.makeExpr(&quot;containerid&quot;, containerid));
+        return this.searchService.getResults(query);
+    }
+
+    getAuditPreviewDetail(id: string, query: Query, record?: Record, resultId?: string): JsonObject {
+        const queryLanguage &#x3D; this.searchService.results?.queryAnalysis?.queryLanguage
+            || this.searchService?.query?.questionLanguage
+            || this.appService?.ccquery?.questionLanguage;
+        const collectionColumn &#x3D; record?.collection;
+        const collection &#x3D; !!collectionColumn ? collectionColumn[0] : Utils.split(id, &quot;|&quot;)[0];
+        const rank &#x3D; !!record ? record.rank : this.rank || 0;
+        return {
+            &quot;doc-id&quot;: id,
+            rank: rank,
+            collection: collection,
+            source: Utils.treeFirstNode(collection),
+            resultid: resultId,
+            querylang: queryLanguage,
+            querytext: query.text,
+            filename: record?.filename,
+            fileext: record?.fileext,
+        }
     }
 }</code></pre>
     </div>

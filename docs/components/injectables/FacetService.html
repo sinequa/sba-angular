@@ -66,6 +66,21 @@
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#findAggregationItemIndex">findAggregationItemIndex</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -101,6 +116,9 @@
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#facet">facet</a>
+                            </li>
+                            <li>
+                                <a href="#filteredIndex">filteredIndex</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -215,7 +233,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">facet/facet.service.ts:73</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">facet/facet.service.ts:72</a></div>
                             </td>
                         </tr>
 
@@ -378,8 +396,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="175"
-                            class="link-to-prism">facet/facet.service.ts:175</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="174"
+                            class="link-to-prism">facet/facet.service.ts:174</a></div>
                 </td>
             </tr>
 
@@ -450,8 +468,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="258"
-                            class="link-to-prism">facet/facet.service.ts:258</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="257"
+                            class="link-to-prism">facet/facet.service.ts:257</a></div>
                 </td>
             </tr>
 
@@ -615,8 +633,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="225"
-                            class="link-to-prism">facet/facet.service.ts:225</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="224"
+                            class="link-to-prism">facet/facet.service.ts:224</a></div>
                 </td>
             </tr>
 
@@ -736,8 +754,8 @@ Triggers an internal event and an Audit Event</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="316"
-                            class="link-to-prism">facet/facet.service.ts:316</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="315"
+                            class="link-to-prism">facet/facet.service.ts:315</a></div>
                 </td>
             </tr>
 
@@ -850,8 +868,8 @@ Triggers an internal event and an Audit Event</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="325"
-                            class="link-to-prism">facet/facet.service.ts:325</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="324"
+                            class="link-to-prism">facet/facet.service.ts:324</a></div>
                 </td>
             </tr>
 
@@ -934,8 +952,8 @@ Triggers an internal event and an Audit Event</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="765"
-                            class="link-to-prism">facet/facet.service.ts:765</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="766"
+                            class="link-to-prism">facet/facet.service.ts:766</a></div>
                 </td>
             </tr>
 
@@ -1036,8 +1054,8 @@ Triggers an internal event and an Audit Event</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="124"
-                            class="link-to-prism">facet/facet.service.ts:124</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="123"
+                            class="link-to-prism">facet/facet.service.ts:123</a></div>
                 </td>
             </tr>
 
@@ -1089,6 +1107,113 @@ Triggers an internal event and an Audit Event</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="filteredIndex"></a>
+                    <span class="name">
+                        <b>
+                            filteredIndex
+                        </b>
+                        <a href="#filteredIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>filteredIndex(data: Aggregation | undefined, arr: <a href="../classes/Item.html">Array<AggregationItem></a>, item: <a href="../classes/Item.html">AggregationItem</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="854"
+                            class="link-to-prism">facet/facet.service.ts:854</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the index of the first element in the supplied array
+corresponding to <code>item.value</code> or -1 when not found.
+A fallback to <code>item.display</code> is done before returning -1</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>data</td>
+                                    <td>
+                                            <code>Aggregation | undefined</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>arr</td>
+                                    <td>
+                                                <code><a href="../classes/Item.html" target="_self" >Array&lt;AggregationItem&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>item</td>
+                                    <td>
+                                                <code><a href="../classes/Item.html" target="_self" >AggregationItem</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>item to find</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="findFilter"></a>
                     <span class="name">
                         <b>
@@ -1109,8 +1234,8 @@ Triggers an internal event and an Audit Event</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="479"
-                            class="link-to-prism">facet/facet.service.ts:479</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="480"
+                            class="link-to-prism">facet/facet.service.ts:480</a></div>
                 </td>
             </tr>
 
@@ -1206,8 +1331,8 @@ Returns it as an expression</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="458"
-                            class="link-to-prism">facet/facet.service.ts:458</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="459"
+                            class="link-to-prism">facet/facet.service.ts:459</a></div>
                 </td>
             </tr>
 
@@ -1278,8 +1403,8 @@ Returns it as an expression</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="489"
-                            class="link-to-prism">facet/facet.service.ts:489</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="490"
+                            class="link-to-prism">facet/facet.service.ts:490</a></div>
                 </td>
             </tr>
 
@@ -1391,8 +1516,8 @@ Takes care of initializing the aggregation items to insert their $column propert
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="547"
-                            class="link-to-prism">facet/facet.service.ts:547</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="548"
+                            class="link-to-prism">facet/facet.service.ts:548</a></div>
                 </td>
             </tr>
 
@@ -1463,8 +1588,8 @@ Takes care of initializing the aggregation items to insert their $column propert
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="798"
-                            class="link-to-prism">facet/facet.service.ts:798</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="799"
+                            class="link-to-prism">facet/facet.service.ts:799</a></div>
                 </td>
             </tr>
 
@@ -1580,8 +1705,8 @@ Takes care of initializing the aggregation items to insert their $column propert
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="787"
-                            class="link-to-prism">facet/facet.service.ts:787</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="788"
+                            class="link-to-prism">facet/facet.service.ts:788</a></div>
                 </td>
             </tr>
 
@@ -1675,8 +1800,8 @@ Takes care of initializing the aggregation items to insert their $column propert
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="133"
-                            class="link-to-prism">facet/facet.service.ts:133</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="132"
+                            class="link-to-prism">facet/facet.service.ts:132</a></div>
                 </td>
             </tr>
 
@@ -1749,15 +1874,15 @@ Takes care of initializing the aggregation items to insert their $column propert
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getTreeAggregation(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, aggregationName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, results, levelCallback?: (nodes?: <a href="../interfaces/Node.html">TreeAggregationNode[]</a>,level?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>,node?: <a href="../interfaces/Node.html">TreeAggregationNode</a>) => void)</code>
+<code>getTreeAggregation(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, aggregationName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, results, levelCallback?: (nodes?: TreeAggregationNode[],level?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>,node?: TreeAggregationNode) => void)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="525"
-                            class="link-to-prism">facet/facet.service.ts:525</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="526"
+                            class="link-to-prism">facet/facet.service.ts:526</a></div>
                 </td>
             </tr>
 
@@ -1881,15 +2006,15 @@ Can be used to read or alter the properties of the nodes (opening, closing), or 
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>hasData(facet: <a href="../interfaces/FacetConfig.html">FacetConfig</a>, results: <a href="../interfaces/Results.html">Results</a>)</code>
+<code>hasData(aggregation: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, results: <a href="../interfaces/Results.html">Results</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="842"
-                            class="link-to-prism">facet/facet.service.ts:842</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="843"
+                            class="link-to-prism">facet/facet.service.ts:843</a></div>
                 </td>
             </tr>
 
@@ -1912,9 +2037,9 @@ Can be used to read or alter the properties of the nodes (opening, closing), or 
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>facet</td>
+                                    <td>aggregation</td>
                                     <td>
-                                                <code><a href="../interfaces/FacetConfig.html" target="_self" >FacetConfig</a></code>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
 
                                     <td>
@@ -1923,7 +2048,7 @@ Can be used to read or alter the properties of the nodes (opening, closing), or 
 
 
                                     <td>
-                                        <p>facet to check</p>
+                                        <p>aggregation name</p>
 
                                     </td>
                                 </tr>
@@ -1984,8 +2109,8 @@ Can be used to read or alter the properties of the nodes (opening, closing), or 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="469"
-                            class="link-to-prism">facet/facet.service.ts:469</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="470"
+                            class="link-to-prism">facet/facet.service.ts:470</a></div>
                 </td>
             </tr>
 
@@ -2083,8 +2208,8 @@ filtering the search</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="145"
-                            class="link-to-prism">facet/facet.service.ts:145</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">facet/facet.service.ts:144</a></div>
                 </td>
             </tr>
 
@@ -2151,8 +2276,8 @@ filtering the search</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="600"
-                            class="link-to-prism">facet/facet.service.ts:600</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="601"
+                            class="link-to-prism">facet/facet.service.ts:601</a></div>
                 </td>
             </tr>
 
@@ -2281,8 +2406,8 @@ filtering the search</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="422"
-                            class="link-to-prism">facet/facet.service.ts:422</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="423"
+                            class="link-to-prism">facet/facet.service.ts:423</a></div>
                 </td>
             </tr>
 
@@ -2420,15 +2545,15 @@ filtering the search</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>open(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, aggregation: TreeAggregation, item: <a href="../interfaces/Node.html">TreeAggregationNode</a>, levelCallback?: (nodes?: <a href="../interfaces/Node.html">TreeAggregationNode[]</a>,level?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>,node?: <a href="../interfaces/Node.html">TreeAggregationNode</a>) => void, query, searchInactive)</code>
+<code>open(facetName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, aggregation: TreeAggregation, item: TreeAggregationNode, levelCallback?: (nodes?: TreeAggregationNode[],level?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>,node?: TreeAggregationNode) => void, query, searchInactive)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="560"
-                            class="link-to-prism">facet/facet.service.ts:560</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="561"
+                            class="link-to-prism">facet/facet.service.ts:561</a></div>
                 </td>
             </tr>
 
@@ -2487,7 +2612,7 @@ Takes care of initializing the Node aggregation items to insert their properties
                                 <tr>
                                     <td>item</td>
                                     <td>
-                                                <code><a href="../interfaces/Node.html" target="_self" >TreeAggregationNode</a></code>
+                                            <code>TreeAggregationNode</code>
                                     </td>
 
                                     <td>
@@ -2591,8 +2716,8 @@ Can be used to read or alter the properties of the nodes (opening, closing), or 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="186"
-                            class="link-to-prism">facet/facet.service.ts:186</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="185"
+                            class="link-to-prism">facet/facet.service.ts:185</a></div>
                 </td>
             </tr>
 
@@ -2663,8 +2788,8 @@ Can be used to read or alter the properties of the nodes (opening, closing), or 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="348"
-                            class="link-to-prism">facet/facet.service.ts:348</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="347"
+                            class="link-to-prism">facet/facet.service.ts:347</a></div>
                 </td>
             </tr>
 
@@ -2817,8 +2942,8 @@ Can be used to read or alter the properties of the nodes (opening, closing), or 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="397"
-                            class="link-to-prism">facet/facet.service.ts:397</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="398"
+                            class="link-to-prism">facet/facet.service.ts:398</a></div>
                 </td>
             </tr>
 
@@ -2915,8 +3040,8 @@ Can be used to read or alter the properties of the nodes (opening, closing), or 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="450"
-                            class="link-to-prism">facet/facet.service.ts:450</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="451"
+                            class="link-to-prism">facet/facet.service.ts:451</a></div>
                 </td>
             </tr>
 
@@ -3018,8 +3143,8 @@ Can be used to read or alter the properties of the nodes (opening, closing), or 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="822"
-                            class="link-to-prism">facet/facet.service.ts:822</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="823"
+                            class="link-to-prism">facet/facet.service.ts:823</a></div>
                 </td>
             </tr>
 
@@ -3099,8 +3224,8 @@ On boolean type, convert <code>value</code> property to boolean</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="721"
-                            class="link-to-prism">facet/facet.service.ts:721</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="722"
+                            class="link-to-prism">facet/facet.service.ts:722</a></div>
                 </td>
             </tr>
 
@@ -3148,6 +3273,77 @@ On boolean type, convert <code>value</code> property to boolean</p>
         </tbody>
     </table>
 </section>
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="findAggregationItemIndex"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            findAggregationItemIndex</b>
+                            <a href="#findAggregationItemIndex"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="874" class="link-to-prism">facet/facet.service.ts:874</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Utility function to returns aggregation item&#39;s index in supplied array with fallback to <code>display</code> comparison.
+Otherwise -1, indicating that no element passed the test.</p>
+</div>
+                    </td>
+                </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                          <div class="io-description">
+                                  <b>Parameters :</b>
+                                  <table class="params">
+                                      <thead>
+                                          <tr>
+                                                <td>Name</td>
+                                                    <td>Description</td>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                                <tr>
+                                                        <td>arr</td>
+                                                        <td>
+                                                                <code><p>The array findIndex() was called upon</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>value</td>
+                                                        <td>
+                                                                <code><p>The value to be test</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                      </tbody>
+                                  </table>
+                          </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+</section>
 
             <section>
     <h3 id="accessors">
@@ -3169,7 +3365,7 @@ On boolean type, convert <code>value</code> property to boolean</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="107" class="link-to-prism">facet/facet.service.ts:107</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">facet/facet.service.ts:106</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -3204,7 +3400,7 @@ Using this service creates the list of facets if it does not already exist.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="162" class="link-to-prism">facet/facet.service.ts:162</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="161" class="link-to-prism">facet/facet.service.ts:161</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -3237,7 +3433,7 @@ Using this service creates the list of facets if it does not already exist.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="170" class="link-to-prism">facet/facet.service.ts:170</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="169" class="link-to-prism">facet/facet.service.ts:169</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -3272,7 +3468,6 @@ import {Subject, Observable} from &quot;rxjs&quot;;
 import {map} from &quot;rxjs/operators&quot;;
 import {SearchService, BreadcrumbsItem, Breadcrumbs} from &quot;@sinequa/components/search&quot;;
 import {SuggestService} from &quot;@sinequa/components/autocomplete&quot;;
-import {FacetConfig} from &#x27;./bootstrap&#x27;;
 
 // Facet interface (from models/UserSettings)
 export interface FacetState {
@@ -3615,7 +3810,9 @@ export class FacetService {
         breadcrumbs &#x3D; this.searchService.breadcrumbs): Select | undefined {
 
         if (breadcrumbs) {
-            const filterExpr &#x3D; this.findItemFilter(facetName, aggregation, item, breadcrumbs) || this.appService.parseExpr(this.exprBuilder.makeAggregationExpr(aggregation, item));
+            // if item is excluded, makeAggregation() should returns a NOT expression
+            const stringExpr &#x3D; item.$excluded ? this.exprBuilder.makeNotExpr(this.exprBuilder.makeAggregationExpr(aggregation, item)) : this.exprBuilder.makeAggregationExpr(aggregation, item);
+            const filterExpr &#x3D; this.findItemFilter(facetName, aggregation, item, breadcrumbs) || this.appService.parseExpr(stringExpr);
             const expr &#x3D; breadcrumbs.findSelect(facetName, filterExpr);
             const i &#x3D; breadcrumbs.activeSelects.findIndex(select &#x3D;&gt; select.facet &#x3D;&#x3D;&#x3D; facetName &amp;&amp; (select.expr &#x3D;&#x3D;&#x3D; expr || select.expr &#x3D;&#x3D;&#x3D; expr?.parent));
 
@@ -3652,9 +3849,9 @@ export class FacetService {
 
     /**
      * Removes the aggregation from the search service query and refresh the search
-     * @param facetName 
-     * @param aggregation 
-     * @param item 
+     * @param facetName
+     * @param aggregation
+     * @param item
      */
     public removeFilterSearch(facetName: string, aggregation: Aggregation, item: AggregationItem): Promise&lt;boolean&gt;{
         const select &#x3D; this.removeFilter(facetName, aggregation, item);
@@ -3687,7 +3884,7 @@ export class FacetService {
         count: number &#x3D; 10,
         query &#x3D; this.searchService.query,
         searchInactive &#x3D; true): Observable&lt;Aggregation | undefined&gt; {
-            
+
         query &#x3D; Utils.copy(query);
         query.action &#x3D; &quot;aggregate&quot;;
         query.aggregations &#x3D; {};
@@ -3756,7 +3953,7 @@ export class FacetService {
             levelCallback?: (nodes: TreeAggregationNode[], level: number, node: TreeAggregationNode) &#x3D;&gt; void
         }
     ): Aggregation | TreeAggregation | undefined {
-        
+
         if (results?.aggregations) {
             const aggregation &#x3D; results.aggregations.find(agg &#x3D;&gt; Utils.eqNC(agg.name, aggregationName))
             if (aggregation) {
@@ -4096,15 +4293,59 @@ export class FacetService {
 
     /**
      * Check if a facet contains items
-     * @param facet facet to check
+     * @param aggregation aggregation name
      * @param results search results
      *
      * @returns true if the facet contains a least one item otherwise false
      */
-    hasData(facet: FacetConfig, results: Results): boolean {
+    hasData(aggregation: string, results: Results): boolean {
         // Avoid calling getAggregation() which is costly
-        return !!results.aggregations.find(agg &#x3D;&gt; Utils.eqNC(agg.name, facet.aggregation))?.items?.length;
+        return !!results.aggregations.find(agg &#x3D;&gt; Utils.eqNC(agg.name, aggregation))?.items?.length;
     }
+
+    /**
+     * Returns the index of the first element in the supplied array
+     * corresponding to &#x60;item.value&#x60; or -1 when not found.
+     * A fallback to &#x60;item.display&#x60; is done before returning -1
+     * @param item item to find
+     */
+    filteredIndex(data: Aggregation | undefined, arr: Array&lt;AggregationItem&gt;, item: AggregationItem): number {
+        let indx &#x3D; -1;
+        // specific to Values Are Expressions where expression are not well formatted by Expression Parser
+        // eg: when values is : &quot;&gt; 0&quot;, Expression Parser returns : &quot;&gt;0&quot; without space between operator and value
+        if (data?.valuesAreExpressions) {
+            const value &#x3D; this.trimAllWhitespace(item.value);
+            const normalizedArr &#x3D; arr.map(item &#x3D;&gt; ({...item, value: this.trimAllWhitespace(item.value)})) || [];
+            indx &#x3D; normalizedArr.findIndex(it &#x3D;&gt; it.value &#x3D;&#x3D;&#x3D; value);
+        } else {
+            indx &#x3D; this.findAggregationItemIndex(arr, item);
+        }
+        return indx;
+    }
+
+    /**
+     * Utility function to returns aggregation item&#x27;s index in supplied array with fallback to &#x60;display&#x60; comparison.
+     * Otherwise -1, indicating that no element passed the test.
+     * @param arr The array findIndex() was called upon
+     * @param value The value to be test
+     */
+    public findAggregationItemIndex &#x3D; (arr: Array&lt;AggregationItem&gt;, item: AggregationItem) &#x3D;&gt; {
+        let index &#x3D; arr.findIndex(it &#x3D;&gt; it.value &#x3D;&#x3D;&#x3D; item.value);
+        if (index &#x3D;&#x3D;&#x3D; -1 &amp;&amp; item.display) {
+            // fallback to display comparison
+            index &#x3D; arr.findIndex(it &#x3D;&gt; it.display &#x3D;&#x3D;&#x3D; item.display);
+        }
+        return index;
+    };
+
+    private trimAllWhitespace &#x3D; (value: FieldValue | undefined): FieldValue | undefined &#x3D;&gt; {
+        switch (typeof value) {
+            case &quot;string&quot;:
+                return value.replace(/\s/g, &#x27;&#x27;);
+            default:
+                return value;
+        }
+    };
 }
 </code></pre>
     </div>
