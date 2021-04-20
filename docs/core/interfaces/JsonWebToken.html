@@ -202,7 +202,7 @@ import {HttpHeaders, HttpParams, HttpResponse, HttpErrorResponse} from &quot;@an
 import {Observable, timer, of, throwError} from &quot;rxjs&quot;;
 import {share, flatMap, map, catchError} from &quot;rxjs/operators&quot;;
 import {AuthService} from &quot;ng2-ui-auth&quot;;
-import {HttpService, START_CONFIG, StartConfig} from &quot;@sinequa/core/web-services&quot;;
+import {HttpService, START_CONFIG, StartConfig, AuditWebService} from &quot;@sinequa/core/web-services&quot;;
 import {Utils, IRef, MapOf} from &quot;@sinequa/core/base&quot;;
 import {SqHttpClient} from &quot;@sinequa/core/web-services&quot;;
 import {TokenService} from &quot;./token.service&quot;;
@@ -245,8 +245,8 @@ export interface ProcessedCredentials {
      * OAuth and SAML authentication
      */
     data: {
-        csrfToken: string; // the web token itself is stored in the sinequa-web-token cookie
-        provider: string;
+        csrfToken: string, // the web token itself is stored in the sinequa-web-token cookie
+        provider: string
     };
 }
 
@@ -269,15 +269,15 @@ export interface UserOverride {
  */
 export interface JsonWebToken {
     header: {
-        typ: string;
-        alg: string;
+        typ: string,
+        alg: string
     };
     payload: {
-        iss: string;
-        iat: string;
-        exp: string;
-        sub: string;
-        hash: string;
+        iss: string,
+        iat: string,
+        exp: string,
+        sub: string,
+        hash: string
     };
     signature: string;
 }
@@ -307,6 +307,7 @@ export class AuthenticationService extends HttpService {
         @Inject(START_CONFIG) startConfig: StartConfig,
         private httpClient: SqHttpClient,
         private tokenService: TokenService,
+        private auditService: AuditWebService,
         private jWTService: JWTService,
         private authService: AuthService) {
         super(startConfig);
@@ -560,9 +561,13 @@ export class AuthenticationService extends HttpService {
      * is removed
      */
     logout() {
-        this.tokenService.deleteWebTokenCookie().subscribe();
-        this.authentication &#x3D; undefined;
-        this.processedCredentials &#x3D; undefined;
+        this.auditService.notifyLogout().subscribe(
+            _ &#x3D;&gt; {
+                this.tokenService.deleteWebTokenCookie().subscribe()
+                this.authentication &#x3D; undefined;
+                this.processedCredentials &#x3D; undefined;
+            }
+        );
     }
 
     /**

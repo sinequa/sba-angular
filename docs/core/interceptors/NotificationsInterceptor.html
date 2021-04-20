@@ -186,8 +186,8 @@ in the <code>$notifications</code> member.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">notification/notifications.interceptor.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">notification/notifications.interceptor.ts:47</a></div>
                 </td>
             </tr>
 
@@ -274,7 +274,6 @@ export class NotificationsInterceptor implements HttpInterceptor {
     }
 
     protected shouldIntercept(url: string): boolean {
-        /*tslint:disable-next-line*/
         return Utils.startsWith(url, this.startConfig.apiPath!);
     }
 

@@ -186,8 +186,8 @@ console if no instance is injected.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="192"
-                            class="link-to-prism">web-services/start-config.web.service.ts:192</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="191"
+                            class="link-to-prism">web-services/start-config.web.service.ts:191</a></div>
                 </td>
             </tr>
 
@@ -234,8 +234,8 @@ into the start config instance</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="229"
-                            class="link-to-prism">web-services/start-config.web.service.ts:229</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="227"
+                            class="link-to-prism">web-services/start-config.web.service.ts:227</a></div>
                 </td>
             </tr>
 
@@ -465,7 +465,6 @@ export class StartConfigWebService {
         const initialStartConfig &#x3D; Utils.copy(this.startConfig);
         Utils.extend(this.startConfig, defaultStartConfig, initialStartConfig);
         const browserUrl &#x3D; Utils.makeURL(window.location.href);
-        /*tslint:disable-next-line*/
         const url &#x3D; Utils.makeURL(this.startConfig.url!);
         let apiPath &#x3D; Utils.addUrl(url.pathname, StartConfigWebService.API_PATH);
         let applicationPath &#x3D; url.pathname;
@@ -489,7 +488,6 @@ export class StartConfigWebService {
      */
     fetchPreLoginAppConfig(): Observable&lt;StartConfig&gt; {
         return Observable.create(observer &#x3D;&gt; {
-            /*tslint:disable-next-line*/
             let _url &#x3D; Utils.addUrl(this.startConfig.apiPath!, &quot;app&quot;);
             _url &#x3D; Utils.addSearchParams(_url, {
                 app: this.startConfig.app,

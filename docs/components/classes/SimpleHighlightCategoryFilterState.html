@@ -142,7 +142,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="394" class="link-to-prism">preview/bootstrap/preview-highlights/preview-highlights.ts:394</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="388" class="link-to-prism">preview/bootstrap/preview-highlights/preview-highlights.ts:388</a></div>
                             </td>
                         </tr>
 
@@ -249,8 +249,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="415"
-                            class="link-to-prism">preview/bootstrap/preview-highlights/preview-highlights.ts:415</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="409"
+                            class="link-to-prism">preview/bootstrap/preview-highlights/preview-highlights.ts:409</a></div>
                 </td>
             </tr>
 
@@ -335,7 +335,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="408" class="link-to-prism">preview/bootstrap/preview-highlights/preview-highlights.ts:408</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="402" class="link-to-prism">preview/bootstrap/preview-highlights/preview-highlights.ts:402</a></div>
                                 </td>
                             </tr>
 
@@ -735,12 +735,6 @@ class SimpleHighlightCategoryFilterState implements HighlightCategoryFilterState
     readonly choice: HighlightCategoryFilterChoice &#x3D; HighlightCategoryFilterChoice.All;
     private _filterValue: string &#x3D; &quot;&quot;;
 
-    constructor();
-
-    constructor(value: string);
-
-    constructor(choice: HighlightCategoryFilterChoice);
-
     constructor(param?: string | HighlightCategoryFilterChoice) {
         if (param &#x3D;&#x3D; null) {
             return;
@@ -776,11 +770,11 @@ class SimpleHighlightCategoryFilterState implements HighlightCategoryFilterState
 class FilteredHighlightDataPerLocation implements HighlightDataPerLocation {
 
     [index: number]: {
-        start: number;
-        length: number;
-        values: string[];
-        displayValue: string;
-        positionInCategories: { [category: string]: number };
+        start: number,
+        length: number,
+        values: string[],
+        displayValue: string,
+        positionInCategories: { [category: string]: number }
     };
 
     public constructor(baseData: HighlightDataPerLocation, filters: { [key: string] : HighlightCategoryFilterState }) {

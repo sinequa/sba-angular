@@ -201,8 +201,8 @@ the component&#39;s <code>ngOnChanges</code> method again</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">load-component/load-component.service.ts:118</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="115"
+                            class="link-to-prism">load-component/load-component.service.ts:115</a></div>
                 </td>
             </tr>
 
@@ -297,8 +297,8 @@ which will unsubscribe the component&#39;s outputs</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="145"
-                            class="link-to-prism">load-component/load-component.service.ts:145</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="142"
+                            class="link-to-prism">load-component/load-component.service.ts:142</a></div>
                 </td>
             </tr>
 
@@ -417,8 +417,8 @@ the injector held on the <code>viewContainerRef</code></p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="128"
-                            class="link-to-prism">load-component/load-component.service.ts:128</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="125"
+                            class="link-to-prism">load-component/load-component.service.ts:125</a></div>
                 </td>
             </tr>
 
@@ -495,8 +495,8 @@ outputs are unsubscribed</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="180"
-                            class="link-to-prism">load-component/load-component.service.ts:180</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="177"
+                            class="link-to-prism">load-component/load-component.service.ts:177</a></div>
                 </td>
             </tr>
 
@@ -631,7 +631,6 @@ export class LoadComponentService {
             Object.keys(options.inputs).forEach(name &#x3D;&gt; {
                 if (makeSimpleChanges) {
                     const previousValue &#x3D; initialLoad ? undefined : loadedComponent.componentRef.instance[name];
-                    /*tslint:disable-next-line*/
                     const currentValue &#x3D; options.inputs![name];
                     if (initialLoad || currentValue !&#x3D;&#x3D; previousValue) {
                         if (!simpleChanges) {
@@ -640,7 +639,6 @@ export class LoadComponentService {
                         simpleChanges[name] &#x3D; new SimpleChange(previousValue, currentValue, initialLoad);
                     }
                 }
-                /*tslint:disable-next-line*/
                 loadedComponent.componentRef.instance[name] &#x3D; options.inputs![name];
             });
         }
@@ -648,7 +646,6 @@ export class LoadComponentService {
             Object.keys(options.outputs).forEach(name &#x3D;&gt; {
                 const eventEmitter: EventEmitter&lt;any&gt; &#x3D; loadedComponent.componentRef.instance[name];
                 if (eventEmitter) {
-                    /*tslint:disable-next-line*/
                     const subscription &#x3D; eventEmitter.subscribe(options.outputs![name]);
                     if (!loadedComponent.subscriptions) {
                         loadedComponent.subscriptions &#x3D; subscription;

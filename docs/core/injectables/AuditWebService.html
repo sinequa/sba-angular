@@ -98,6 +98,9 @@
                                 <a href="#notifyDocumentById">notifyDocumentById</a>
                             </li>
                             <li>
+                                <a href="#notifyLogout">notifyLogout</a>
+                            </li>
+                            <li>
                                 <a href="#notifySponsoredLink">notifySponsoredLink</a>
                             </li>
                             <li>
@@ -129,7 +132,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">web-services/audit.web.service.ts:142</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">web-services/audit.web.service.ts:145</a></div>
                             </td>
                         </tr>
 
@@ -206,8 +209,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="274"
-                            class="link-to-prism">web-services/audit.web.service.ts:274</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="289"
+                            class="link-to-prism">web-services/audit.web.service.ts:289</a></div>
                 </td>
             </tr>
 
@@ -283,8 +286,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="187"
-                            class="link-to-prism">web-services/audit.web.service.ts:187</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="190"
+                            class="link-to-prism">web-services/audit.web.service.ts:190</a></div>
                 </td>
             </tr>
 
@@ -424,8 +427,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="242"
-                            class="link-to-prism">web-services/audit.web.service.ts:242</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="241"
+                            class="link-to-prism">web-services/audit.web.service.ts:241</a></div>
                 </td>
             </tr>
 
@@ -531,6 +534,47 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="notifyLogout"></a>
+                    <span class="name">
+                        <b>
+                            notifyLogout
+                        </b>
+                        <a href="#notifyLogout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>notifyLogout()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="271"
+                            class="link-to-prism">web-services/audit.web.service.ts:271</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Notify logout</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;void&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="notifySponsoredLink"></a>
                     <span class="name">
                         <b>
@@ -549,8 +593,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="158"
-                            class="link-to-prism">web-services/audit.web.service.ts:158</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="161"
+                            class="link-to-prism">web-services/audit.web.service.ts:161</a></div>
                 </td>
             </tr>
 
@@ -680,7 +724,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/HttpService.html#source" target="_self" >HttpService:42</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/HttpService.html#source" target="_self" >HttpService:40</a></code>
 </div>
                 </td>
             </tr>
@@ -763,7 +807,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/HttpService.html#source" target="_self" >HttpService:32</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/HttpService.html#source" target="_self" >HttpService:31</a></code>
 </div>
                 </td>
             </tr>
@@ -886,6 +930,9 @@ export const enum AuditEventType {
     Search_AlertQuery &#x3D; &quot;Search_AlertQuery&quot;,
     Search_Select_AnalyticsItem &#x3D; &quot;Search_Select_AnalyticsItem&quot;,
     Search_Sort &#x3D; &quot;Search_Sort&quot;,
+    Search_Exit_Logout &#x3D; &quot;Search_Exit_Logout&quot;,
+    Search_Timeline_Usage &#x3D; &quot;Search_Timeline_Usage&quot;,
+    Search_AutoComplete &#x3D; &quot;Search_Autocomplete&quot;,
 
     SavedQuery_Add &#x3D; &quot;SavedQuery_Add&quot;,
     SavedQuery_Delete &#x3D; &quot;SavedQuery_Delete&quot;,
@@ -1039,10 +1086,6 @@ export class AuditWebService extends HttpService {
         if (results) {
             detail[&quot;result-count&quot;] &#x3D; results.totalRowCount;
         }
-        if (doc.text) {
-            /*tslint:disable-next-line*/
-            detail[&quot;text&quot;] &#x3D; doc.text;
-        }
         if (parameters) {
             Object.keys(parameters).forEach(key &#x3D;&gt; detail[key] &#x3D; parameters[key]);
         }
@@ -1090,6 +1133,22 @@ export class AuditWebService extends HttpService {
             Object.keys(rfmParameters).forEach(key &#x3D;&gt; rfmDetail[key] &#x3D; rfmParameters[key]);
             data.rfmDetail &#x3D; rfmDetail;
         }
+        return this.notify(data);
+    }
+
+    /**
+     * Notify logout
+     */
+    notifyLogout() : Observable&lt;void&gt; {
+        const detail: JsonObject &#x3D; {
+            app: this.appName,
+        };
+
+        const data: AuditEvent &#x3D; {
+            type: AuditEventType.Search_Exit_Logout,
+            detail
+        };
+
         return this.notify(data);
     }
 

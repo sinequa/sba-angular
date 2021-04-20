@@ -1,0 +1,795 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>VoiceRecognitionService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>utils/voice-recognition/voice-recongnition.service.ts</code>
+        </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#available">available</a>
+                            </li>
+                            <li>
+                                <a href="#ignore_onend">ignore_onend</a>
+                            </li>
+                            <li>
+                                <a href="#recognition">recognition</a>
+                            </li>
+                            <li>
+                                <a href="#recognizing">recognizing</a>
+                            </li>
+                            <li>
+                                <a href="#start_timestamp">start_timestamp</a>
+                            </li>
+                            <li>
+                                <a href="#started">started</a>
+                            </li>
+                            <li>
+                                <a href="#text">text</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#init">init</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#start">start</a>
+                            </li>
+                            <li>
+                                <a href="#stop">stop</a>
+                            </li>
+                            <li>
+                                <a href="#toggleRecognition">toggleRecognition</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(intlService: IntlService, notify: NotificationsService)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">utils/voice-recognition/voice-recongnition.service.ts:20</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>intlService</td>
+                                                  
+                                                        <td>
+                                                                    <code>IntlService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>notify</td>
+                                                  
+                                                        <td>
+                                                                    <code>NotificationsService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="init"></a>
+                    <span class="name">
+                        <b>
+                            init
+                        </b>
+                        <a href="#init"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>init()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">utils/voice-recognition/voice-recongnition.service.ts:27</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <b>
+                            ngOnDestroy
+                        </b>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">utils/voice-recognition/voice-recongnition.service.ts:49</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="start"></a>
+                    <span class="name">
+                        <b>
+                            start
+                        </b>
+                        <a href="#start"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>start()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">utils/voice-recognition/voice-recongnition.service.ts:56</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="stop"></a>
+                    <span class="name">
+                        <b>
+                            stop
+                        </b>
+                        <a href="#stop"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>stop()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">utils/voice-recognition/voice-recongnition.service.ts:67</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleRecognition"></a>
+                    <span class="name">
+                        <b>
+                            toggleRecognition
+                        </b>
+                        <a href="#toggleRecognition"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleRecognition()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">utils/voice-recognition/voice-recongnition.service.ts:72</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="available"></a>
+                        <span class="name">
+                            <b>
+                            available</b>
+                            <a href="#available"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">utils/voice-recognition/voice-recongnition.service.ts:20</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ignore_onend"></a>
+                        <span class="name">
+                            <b>
+                            ignore_onend</b>
+                            <a href="#ignore_onend"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">utils/voice-recognition/voice-recongnition.service.ts:15</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="recognition"></a>
+                        <span class="name">
+                            <b>
+                            recognition</b>
+                            <a href="#recognition"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">utils/voice-recognition/voice-recongnition.service.ts:13</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="recognizing"></a>
+                        <span class="name">
+                            <b>
+                            recognizing</b>
+                            <a href="#recognizing"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">utils/voice-recognition/voice-recongnition.service.ts:14</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="start_timestamp"></a>
+                        <span class="name">
+                            <b>
+                            start_timestamp</b>
+                            <a href="#start_timestamp"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">utils/voice-recognition/voice-recongnition.service.ts:16</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="started"></a>
+                        <span class="name">
+                            <b>
+                            started</b>
+                            <a href="#started"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Subject&lt;boolean&gt;()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">utils/voice-recognition/voice-recongnition.service.ts:19</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="text"></a>
+                        <span class="name">
+                            <b>
+                            text</b>
+                            <a href="#text"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Subject&lt;string&gt;()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">utils/voice-recognition/voice-recongnition.service.ts:18</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, OnDestroy} from &quot;@angular/core&quot;;
+import {IntlService} from &quot;@sinequa/core/intl&quot;;
+import {NotificationsService} from &quot;@sinequa/core/notification&quot;;
+import {Subject} from &quot;rxjs&quot;;
+
+// eslint-disable-next-line no-var
+declare var webkitSpeechRecognition: any;
+
+@Injectable({
+  providedIn: &quot;root&quot;
+})
+export class VoiceRecognitionService implements OnDestroy {
+  recognition;
+  recognizing &#x3D; false;
+  ignore_onend &#x3D; false;
+  start_timestamp;
+
+  text &#x3D; new Subject&lt;string&gt;();
+  started &#x3D; new Subject&lt;boolean&gt;();
+  available &#x3D; false;
+
+  constructor(
+    private intlService: IntlService,
+    private notify: NotificationsService
+  ) {}
+
+  init() {
+    this.intlService.events.subscribe(() &#x3D;&gt; {
+      this.recognition.lang &#x3D; this.intlService.currentLocale.data?.intl.locale;
+    }
+    );
+
+    try {
+      this.recognition &#x3D; new webkitSpeechRecognition();
+      this.recognition.continuous &#x3D; false;
+      this.recognition.interimResults &#x3D; true;
+      this.recognition.lang &#x3D; this.intlService.currentLocale.data?.intl.locale;
+
+      this.recognition.addEventListener(&quot;error&quot;, this.onError);
+      this.recognition.addEventListener(&quot;result&quot;, this.onResult);
+      this.recognition.addEventListener(&quot;start&quot;, this.onStart);
+      this.recognition.addEventListener(&quot;end&quot;, this.onEnd);
+      this.available &#x3D; true;
+    } catch (error) {
+      this.available &#x3D; false;
+    }
+  }
+
+  ngOnDestroy() {
+    this.recognition.removeEventListener(&quot;error&quot;, this.onError);
+    this.recognition.removeEventListener(&quot;result&quot;, this.onResult);
+    this.recognition.removeEventListener(&quot;start&quot;, this.onStart);
+    this.recognition.removeEventListener(&quot;end&quot;, this.onEnd);
+  }
+
+  start() {
+    if (this.recognizing) {
+      this.stop();
+      return;
+    }
+
+    this.text.next(&quot;&quot;);
+    this.started.next(true);
+    this.recognition.start();
+  }
+
+  stop() {
+    this.recognition.stop();
+    this.started.next(false);
+  }
+
+  toggleRecognition() {
+    if (this.recognizing) {
+      this.stop();
+    } else {
+      this.start();
+    }
+  }
+
+  private onResult &#x3D; e &#x3D;&gt; {
+    const transcript &#x3D; Array.from(e.results)
+      .map((result: any) &#x3D;&gt; result[0])
+      .map(result &#x3D;&gt; result.transcript)
+      .join(&quot;&quot;);
+
+    this.text.next(transcript);
+  };
+
+  private onStart &#x3D; event &#x3D;&gt; {
+    this.recognizing &#x3D; true;
+    this.start_timestamp &#x3D; event.timeStamp;
+  };
+
+  private onEnd &#x3D; () &#x3D;&gt; {
+    if (this.ignore_onend) {
+      return;
+    }
+    this.recognizing &#x3D; false;
+    this.started.next(false);
+  };
+
+  private onError &#x3D; event &#x3D;&gt; {
+    let message: string &#x3D; event.error;
+    switch (event.error) {
+      case &quot;no-speech&quot;: {
+        message &#x3D; &quot;No speech was detected.&quot;;
+        break;
+      }
+      case &quot;audio-capture&quot;: {
+        message &#x3D; &quot;Audio capture failed.&quot;;
+        break;
+      }
+      case &quot;not-allowed&quot;: {
+        if (event.timeStamp - this.start_timestamp &lt; 100) {
+          message &#x3D; &quot;info_blocked&quot;;
+        } else {
+          message &#x3D; &quot;The user agent is not allowing any speech input to occur for reasons of security, privacy or user preference.&quot;;
+        }
+        break;
+      }
+      case &quot;aborted&quot;: {
+        message &#x3D; &quot;Speech input was aborted somehow, maybe by some user-agent-specific behavior such as UI that lets the user cancel speech input.&quot;
+        break;
+      };
+      case &quot;network&quot;: {
+        message &#x3D; &quot;Some network communication that was required to complete the recognition failed.&quot;;
+        break;
+      }
+      case &quot;service-not-allowed&quot;: {
+        message &#x3D; &quot;The user agent is not allowing the web application requested speech service, but would allow some speech service, to be used either because the user agent doesn’t support the selected one or because of reasons of security, privacy or user preference.&quot;;
+        break;
+      }
+      case &quot;bad-grammar&quot;: {
+        message &#x3D; &quot;There was an error in the speech recognition grammar or semantic tags, or the grammar format or semantic tag format is unsupported.&quot;;
+        break;
+      }
+      case &quot;language-not-supported&quot;: {
+        message &#x3D; &#x60;The language [${this.recognition.lang}] was not supported.&#x60;;
+        this.recognition.lang &#x3D; &quot;en-US&quot;;
+        break;
+      }
+    }
+    this.notify.warning(message);
+    this.ignore_onend &#x3D; true;
+    this.started.next(false);
+  };
+}
+
+export module VoiceRecognitionService {}</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'VoiceRecognitionService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

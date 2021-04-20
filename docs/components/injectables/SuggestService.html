@@ -215,8 +215,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">autocomplete/suggest.service.ts:118</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="116"
+                            class="link-to-prism">autocomplete/suggest.service.ts:116</a></div>
                 </td>
             </tr>
 
@@ -723,10 +723,8 @@ export class SuggestService {
             .map(obj &#x3D;&gt; SuggestService.findMatch(primaryText(obj), query,
                 !!secondaryText ? secondaryText(obj) : [], obj)) // Look for matches in all saved queries
             .filter(item &#x3D;&gt; !!item) // Keep only the matches
-            /*tslint:disable-next-line*/
             .sort((a,b) &#x3D;&gt; b!.score - a!.score) // Sort by decreasing score
             .map(item &#x3D;&gt; {
-                /*tslint:disable-next-line*/
                 item &#x3D; item!;
                 return {    // Make an autocomplete item
                     display: item.display,
@@ -789,10 +787,8 @@ export class SuggestService {
             secondaryText
                 .map(t &#x3D;&gt; this.findMatch(t, query)) // Search each secondary text for matches
                 .filter(item &#x3D;&gt; !!item) // Keep only the matches
-                /*tslint:disable-next-line*/
                 .sort((a,b) &#x3D;&gt; b!.score - a!.score) // Sort by decreasing score
                 .forEach(match &#x3D;&gt; {
-                    /*tslint:disable-next-line*/
                     match &#x3D; match!;
                     score +&#x3D; match.score / 2;  // Secondary matches added to the score, but count half
                     html +&#x3D; &quot; &lt;small&gt;&quot; + match.displayHtml + &quot;&lt;/small&gt;&quot;; // Concatenate secondary match html to the main html

@@ -230,7 +230,6 @@ import {Subject, Observable} from &quot;rxjs&quot;;
 import {map} from &quot;rxjs/operators&quot;;
 import {SearchService, BreadcrumbsItem, Breadcrumbs} from &quot;@sinequa/components/search&quot;;
 import {SuggestService} from &quot;@sinequa/components/autocomplete&quot;;
-import {FacetConfig} from &#x27;./bootstrap&#x27;;
 
 // Facet interface (from models/UserSettings)
 export interface FacetState {
@@ -573,7 +572,9 @@ export class FacetService {
         breadcrumbs &#x3D; this.searchService.breadcrumbs): Select | undefined {
 
         if (breadcrumbs) {
-            const filterExpr &#x3D; this.findItemFilter(facetName, aggregation, item, breadcrumbs) || this.appService.parseExpr(this.exprBuilder.makeAggregationExpr(aggregation, item));
+            // if item is excluded, makeAggregation() should returns a NOT expression
+            const stringExpr &#x3D; item.$excluded ? this.exprBuilder.makeNotExpr(this.exprBuilder.makeAggregationExpr(aggregation, item)) : this.exprBuilder.makeAggregationExpr(aggregation, item);
+            const filterExpr &#x3D; this.findItemFilter(facetName, aggregation, item, breadcrumbs) || this.appService.parseExpr(stringExpr);
             const expr &#x3D; breadcrumbs.findSelect(facetName, filterExpr);
             const i &#x3D; breadcrumbs.activeSelects.findIndex(select &#x3D;&gt; select.facet &#x3D;&#x3D;&#x3D; facetName &amp;&amp; (select.expr &#x3D;&#x3D;&#x3D; expr || select.expr &#x3D;&#x3D;&#x3D; expr?.parent));
 
@@ -610,9 +611,9 @@ export class FacetService {
 
     /**
      * Removes the aggregation from the search service query and refresh the search
-     * @param facetName 
-     * @param aggregation 
-     * @param item 
+     * @param facetName
+     * @param aggregation
+     * @param item
      */
     public removeFilterSearch(facetName: string, aggregation: Aggregation, item: AggregationItem): Promise&lt;boolean&gt;{
         const select &#x3D; this.removeFilter(facetName, aggregation, item);
@@ -645,7 +646,7 @@ export class FacetService {
         count: number &#x3D; 10,
         query &#x3D; this.searchService.query,
         searchInactive &#x3D; true): Observable&lt;Aggregation | undefined&gt; {
-            
+
         query &#x3D; Utils.copy(query);
         query.action &#x3D; &quot;aggregate&quot;;
         query.aggregations &#x3D; {};
@@ -714,7 +715,7 @@ export class FacetService {
             levelCallback?: (nodes: TreeAggregationNode[], level: number, node: TreeAggregationNode) &#x3D;&gt; void
         }
     ): Aggregation | TreeAggregation | undefined {
-        
+
         if (results?.aggregations) {
             const aggregation &#x3D; results.aggregations.find(agg &#x3D;&gt; Utils.eqNC(agg.name, aggregationName))
             if (aggregation) {
@@ -1054,15 +1055,59 @@ export class FacetService {
 
     /**
      * Check if a facet contains items
-     * @param facet facet to check
+     * @param aggregation aggregation name
      * @param results search results
      *
      * @returns true if the facet contains a least one item otherwise false
      */
-    hasData(facet: FacetConfig, results: Results): boolean {
+    hasData(aggregation: string, results: Results): boolean {
         // Avoid calling getAggregation() which is costly
-        return !!results.aggregations.find(agg &#x3D;&gt; Utils.eqNC(agg.name, facet.aggregation))?.items?.length;
+        return !!results.aggregations.find(agg &#x3D;&gt; Utils.eqNC(agg.name, aggregation))?.items?.length;
     }
+
+    /**
+     * Returns the index of the first element in the supplied array
+     * corresponding to &#x60;item.value&#x60; or -1 when not found.
+     * A fallback to &#x60;item.display&#x60; is done before returning -1
+     * @param item item to find
+     */
+    filteredIndex(data: Aggregation | undefined, arr: Array&lt;AggregationItem&gt;, item: AggregationItem): number {
+        let indx &#x3D; -1;
+        // specific to Values Are Expressions where expression are not well formatted by Expression Parser
+        // eg: when values is : &quot;&gt; 0&quot;, Expression Parser returns : &quot;&gt;0&quot; without space between operator and value
+        if (data?.valuesAreExpressions) {
+            const value &#x3D; this.trimAllWhitespace(item.value);
+            const normalizedArr &#x3D; arr.map(item &#x3D;&gt; ({...item, value: this.trimAllWhitespace(item.value)})) || [];
+            indx &#x3D; normalizedArr.findIndex(it &#x3D;&gt; it.value &#x3D;&#x3D;&#x3D; value);
+        } else {
+            indx &#x3D; this.findAggregationItemIndex(arr, item);
+        }
+        return indx;
+    }
+
+    /**
+     * Utility function to returns aggregation item&#x27;s index in supplied array with fallback to &#x60;display&#x60; comparison.
+     * Otherwise -1, indicating that no element passed the test.
+     * @param arr The array findIndex() was called upon
+     * @param value The value to be test
+     */
+    public findAggregationItemIndex &#x3D; (arr: Array&lt;AggregationItem&gt;, item: AggregationItem) &#x3D;&gt; {
+        let index &#x3D; arr.findIndex(it &#x3D;&gt; it.value &#x3D;&#x3D;&#x3D; item.value);
+        if (index &#x3D;&#x3D;&#x3D; -1 &amp;&amp; item.display) {
+            // fallback to display comparison
+            index &#x3D; arr.findIndex(it &#x3D;&gt; it.display &#x3D;&#x3D;&#x3D; item.display);
+        }
+        return index;
+    };
+
+    private trimAllWhitespace &#x3D; (value: FieldValue | undefined): FieldValue | undefined &#x3D;&gt; {
+        switch (typeof value) {
+            case &quot;string&quot;:
+                return value.replace(/\s/g, &#x27;&#x27;);
+            default:
+                return value;
+        }
+    };
 }
 </code></pre>
     </div>

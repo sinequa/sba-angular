@@ -224,8 +224,8 @@ the Sinequa administration console.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="128"
-                            class="link-to-prism">login/login.interceptor.ts:128</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="127"
+                            class="link-to-prism">login/login.interceptor.ts:127</a></div>
                 </td>
             </tr>
 
@@ -356,7 +356,6 @@ export class LoginInterceptor implements HttpInterceptor {
     }
 
     private shouldIntercept(url: string): boolean {
-        /*tslint:disable-next-line*/
         return Utils.startsWith(url, this.startConfig.apiPath!);
     }
 
