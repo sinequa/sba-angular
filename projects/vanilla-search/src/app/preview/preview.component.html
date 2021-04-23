@@ -1,7 +1,7 @@
     <div class="d-flex flex-row m-0 overflow-hidden" style="max-height: 100%">
 
         <!-- Left panel (navigation, extracts and entities) -->
-        <div class="d-flex flex-column align-items-stretch border-right p-0" 
+        <div class="d-flex flex-column align-items-stretch border-right p-0"
             [ngClass]="{'col-sm-5 col-md-4 col-lg-3': !collapsedPanel}"
             *ngIf="ui.screenSizeIsGreater('xs')">
 
@@ -11,10 +11,10 @@
             <div class="border-top border-bottom p-2" *ngIf="!collapsedPanel">
                 <!-- Search form allowing the search preview -->
                 <sq-preview-search-form *ngIf="previewSearchable" [query]="query" (searchText)="searchText($event)"></sq-preview-search-form>
-    
+
                 <!-- Page form allowing to go to an arbitrary page number (when the document is splitted)-->
                 <sq-preview-page-form [pageNumber]="previewData?.record?.$page" (gotopage)="gotoPage($event)"></sq-preview-page-form>
-    
+
                 <!-- Navigation between the active sub panels -->
                 <ul class="nav nav-pills justify-content-center mb-1">
                     <li class="nav-item" *ngFor="let panel of subpanels">
@@ -31,14 +31,14 @@
                 style="flex-grow:1;" [previewData]="previewData" [downloadUrl]="currentUrl" [previewDocument]="previewDocument"
                 [style]="isDark()? 'dark' : 'light'">
             </sq-preview-extracts-panel>
-            
+
             <div style="overflow: auto;" *ngIf="subpanel !== 'extracts' && !collapsedPanel">
-    
+
                 <!-- Legacy preview highlights -->
-                <sq-preview-highlights *ngIf="subpanel === 'highlights' && !!previewData" class="my-2" 
+                <sq-preview-highlights *ngIf="subpanel === 'highlights' && !!previewData" class="my-2"
                     [previewData]="previewData" [previewDocument]="previewDocument">
                 </sq-preview-highlights>
-                
+
                 <sq-preview-pages-panel *ngIf="subpanel === 'extracts' && pagesResults"
                     [previewData]="previewData" [previewDocument]="previewDocument" [pages]="pagesResults" [style]="isDark()? 'dark' : 'light'"
                     (gotopage)="gotoPage($event)">
@@ -65,7 +65,7 @@
                 <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)" (urlChange)="onPreviewUrlChange($event)">
 
                 <!-- Tooltip injected in the preview -->
-                <sq-preview-tooltip #tooltip [previewDocument]="previewDocument" [previewData]="previewData" 
+                <sq-preview-tooltip #tooltip [previewDocument]="previewDocument" [previewData]="previewData"
                     [entityActions]="tooltipEntityActions" [selectedTextActions]="tooltipTextActions"
                     [scalingFactor]="scaleFactor">
                 </sq-preview-tooltip>
@@ -79,7 +79,7 @@
 <ng-template #nav>
     <div class="align-self-stretch d-flex justify-content-between align-items-center p-1" [ngClass]="{'flex-column flex-grow-1': collapsedPanel}">
         <div [ngClass]="{'btn-group': !collapsedPanel, 'btn-group-vertical':collapsedPanel}">
-            
+
             <!-- Toggles the left panel collapsed/expanded state -->
             <button class="btn btn-lg btn-primary" [placement]="leftPanelTooltipPlacement()" sqTooltip="Expand" (click)="collapsedPanel = !collapsedPanel">
                 <i class="fas fa-bars"></i>
