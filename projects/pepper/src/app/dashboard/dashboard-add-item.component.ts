@@ -22,10 +22,14 @@ export class DashboardAddItemComponent {
     actions: Action[];
     buttons: ModalButton[];
     validation = {valid: false};
+    theme: string;
 
     constructor(
         @Inject(MODAL_MODEL) public model: DashboardAddItemModel
     ) {
+
+        this.theme = document.body.classList.contains("dark")? "dark" : "light";
+
         this.actions = model.options.map(option => new Action({
             icon: option.icon,
             text: option.text,
