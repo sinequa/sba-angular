@@ -411,7 +411,7 @@ In the Sinequa administration, the configuration of the OAuth2 protocol involves
 
     ![OAuth identity provider]({{site.baseurl}}assets/tipstricks/oauth.png){: .d-block .mx-auto }
 
-- In the configuration of your OAuth identity provider (eg. Google SSO), include the URL of the Sinequa server (`https://my-sinequa-server.com/oauth/redirect`) as a redirection URL.
+- In the configuration of your OAuth identity provider (eg. Google SSO), include the URL of the Sinequa server (`https://my-sinequa-server.com/auth/redirect`) as a redirection URL.
 - Add the name of the provider to your `app.module.ts`:
 
     ```ts
