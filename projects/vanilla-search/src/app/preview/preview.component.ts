@@ -245,12 +245,12 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
         .map(key => ({entity: key, value: uncheckedEntities[key]}))
         .filter(item => item.value === true)
         .map(item => previewDocument.toggleHighlight(item.entity, false));
-        
+
       this.previewDocument = previewDocument;
       this.previewDocument.selectHighlight("matchlocations", 0); // Scroll to first match
     }
   }
-  
+
   onPreviewUrlChange(url: string) {
     this.currentUrl = url;
     this.cdr.detectChanges();
@@ -283,7 +283,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
 
   /**
    * Navigate to another page of this document
-   * @param id 
+   * @param id
    */
   gotoPage(page: number) {
     const containerid = this.previewData?.record.containerid;

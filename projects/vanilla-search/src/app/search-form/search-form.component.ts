@@ -33,9 +33,9 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
   /** A reference to the AutocompleteExtended directive, needed to get the field search selections, if any */
   @ViewChild(AutocompleteExtended) autocompleteDirective: AutocompleteExtended;
 
-  // Advanced search flags
   @ViewChild('searchInput') searchInput: ElementRef;
 
+  // Advanced search flags
   showAdvancedSearch: boolean;
   initAdvanced: boolean;
 
