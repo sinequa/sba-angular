@@ -88,7 +88,6 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
         if (this.documentFrame === undefined) return;
         if (this.downloadUrl === undefined) return;
 
-
         // SVG highlight:
         //   background rectangle (highlight) were added to the SVG by the HTML generator (C#), but html generation is
         //   not able to know the geometry of the text. It is up to the browser to compute the position and size of the
@@ -107,12 +106,12 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     addTooltip(previewDocument: PreviewDocument) {
         previewDocument.insertComponent(this.tooltip.nativeElement);
     }
-    
+
     ngOnInit() {
         this.documentFrame.nativeElement.addEventListener("load", () => this.onPreviewDocLoad(), true);
         this.previewDocument = new PreviewDocument(this.documentFrame);
     }
-    
+
     ngOnDestroy() {
         this.documentFrame.nativeElement.removeEventListener("load", () => this.onPreviewDocLoad());
     }
@@ -125,7 +124,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
         if (simpleChanges.scalingFactor && !simpleChanges.scalingFactor.firstChange) {
             return;
         }
-        
+
         this.resetContent();
         if (this.downloadUrl && this.downloadUrl !== "about:blank") {
             this.loading = true;
@@ -180,7 +179,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
 
         attachUnload();
     }
-    
+
     resetContent() {
         this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
     }
