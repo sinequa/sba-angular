@@ -5,17 +5,17 @@
         </div>
     </div>
 
-    <div *ngIf="searchBar" class="border-0 p-1" [formGroup]="myGroup">
+    <div *ngIf="searchItems.selected" class="border-0 p-1" [formGroup]="myGroup">
         <input class="form-control" sqAutofocus
             formControlName="searchQuery"
-            placeholder="{{'msg#facet.searchPlaceholder' | sqMessage}}">
+            [placeholder]="'msg#facet.searchPlaceholder' | sqMessage">
     </div>
 
     <!-- filtered items -->
     <div  *ngFor="let item of filtered"
         class="d-flex flex-row align-items-center list-group-item list-group-item-action list-group-item-success text-truncate border-0 px-3 py-1 facet-row cursor-pointer"
-        [ngClass]="{'list-group-item-success': (item.$filtered && !item.$excluded), 'list-group-item-secondary': item.$excluded}"
-        title="{{ 'msg#facet.selectedValue' | sqMessage}}"
+        [ngClass]="{'list-group-item-success': !item.$excluded, 'list-group-item-secondary': item.$excluded}"
+        [title]="'msg#facet.selectedValue' | sqMessage"
         (click)="filterItem(item, $event)">
 
         <a href="#" class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
@@ -31,11 +31,11 @@
     <!-- hidden selected items -->
     <div  *ngFor="let item of hiddenSelected"
         class="d-flex flex-row align-items-center list-group-item-primary text-truncate border-0 px-3 py-1 facet-row cursor-pointer"
-        title="{{ 'msg#facet.itemUnselect' | sqMessage}}"
+        [title]="'msg#facet.itemUnselect' | sqMessage"
         (click)="selectItem(item, $event)">
 
         <a  href="#" (click)="filterItem(item, $event)"
-            title="{{ 'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)} }}"
+            [title]="'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)}"
             class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
         
         <span *ngIf="showCount && item.count" class="ml-2 text-muted small">{{item.count | sqNumber}}</span>
@@ -51,6 +51,9 @@
             role="button" 
             title="{{ 'msg#facet.filterItem' | sqMessage:{'terme':(suggest | sqValue:suggest.$column)} }}"
             class="text-truncate mr-auto">{{suggest | sqValue:suggest.$column}}</a>                
+
+        <span *ngIf="showCount && suggest.count" class="ml-2 text-muted small" style="z-index: 1;">{{suggest.count | sqNumber}}</span>
+    
     </div>
     <span *ngIf="noResults" class="d-block text-center text-muted small py-1"><i>{{'msg#facet.searchNoResult' | sqMessage}}</i></span>
 
@@ -59,13 +62,13 @@
         <div *ngFor="let item of items$ | async"
             class="position-relative list-group-item list-group-item-action border-0 px-3 py-1 facet-row cursor-pointer"
             [ngClass]="{ 'list-group-item-primary': isSelected(item) }"
-            title="{{ (isSelected(item) ? 'msg#facet.itemUnselect' : 'msg#facet.itemSelect') | sqMessage}}"
+            [title]="(isSelected(item) ? 'msg#facet.itemUnselect' : 'msg#facet.itemSelect') | sqMessage"
             (click)="selectItem(item, $event)">
 
             <div *ngIf="showProgressBar && resultsLength > 1" class="position-absolute progress-bar progress-color" [style.--count]="getPercent(item.count)"></div>
             <div class="d-flex justify-content-between align-items-baseline">
                 <a  href="#" (click)="filterItem(item, $event)" style="z-index: 1;"
-                    title="{{ 'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)} }}"
+                    [title]="'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)}"
                     class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
 
                 <span *ngIf="showCount && item.count" class="ml-2 text-muted small" style="z-index: 1;">{{item.count | sqNumber}}</span>

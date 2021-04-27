@@ -824,13 +824,27 @@ export class FacetService {
         const item: AggregationItem = {
             value: suggest.normalized || suggest.display,
             display: suggest.display,
-            count: 0,
+            count: +(suggest.frequency || 0),
             $column: this.appService.getColumn(suggest.category)
         };
         if (item.$column?.eType === EngineType.bool) {
             item.value = Utils.isTrue(item.value);
         }
         return item;
+    }
+
+    suggestionToTreeAggregationItem(suggest: Suggestion): TreeAggregationNode {
+        const path = suggest.display.split('/');
+        return {
+            value: suggest.display.substr(1, suggest.display.length-2), // displayed in facet
+            display: path[path.length-2], // displayed in breadcrumb
+            count: +(suggest.frequency || 0),
+            items: [],
+            hasChildren: false,
+            $level: 1,
+            $column: this.appService.getColumn(suggest.category),
+            $path: suggest.display // actually used for filtering
+        };
     }
 
     /**
