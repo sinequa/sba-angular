@@ -12,13 +12,13 @@
     </div>
     
     <!-- hidden selected items -->
-    <div  *ngFor="let item of hiddenSelected"
-        class="d-flex flex-row align-items-center list-group-item-primary text-truncate border-0 px-3 py-1 facet-row cursor-pointer"
+    <div *ngFor="let item of hiddenSelected"
+        class="d-flex flex-row align-items-center list-group-item list-group-item-primary border-0 px-3 py-1 facet-row cursor-pointer"
         [title]="'msg#facet.itemUnselect' | sqMessage"
         (click)="selectItem(item)">
 
         <a  href="#" (click)="filterItem(item, $event)"
-            [title]="'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)}"
+            [title]="'msg#facet.filterItem' | sqMessage:{'terme':(item.$path | slice:1:-1)}"
             class="text-truncate mr-auto">{{item.$path | slice:1:-1}}</a>
         
         <span *ngIf="showCount && item.count" class="ml-2 text-muted small">{{item.count | sqNumber}}</span>
@@ -26,13 +26,13 @@
 
     <!--- suggestions items -->
     <div *ngFor="let suggest of suggestions$ | async"
-        class="d-flex flex-row align-items-center text-truncate border-0 px-3 py-1 facet-row cursor-pointer"
+        class="d-flex flex-row align-items-center list-group-item border-0 px-3 py-1 facet-row cursor-pointer"
         [ngClass]="{'list-group-item-primary': isSelected(suggest)}"
         (click)="selectItem(suggest)">
         
         <a  href="#" (click)="filterItem(suggest, $event)"
-            role="button" 
-            [title]="'msg#facet.filterItem' | sqMessage:{'terme':(suggest | sqValue:suggest.$column)}"
+            role="button"
+            [title]="'msg#facet.filterItem' | sqMessage:{'terme':(suggest.$path | slice:1:-1)}"
             class="text-truncate mr-auto">{{suggest.$path | slice:1:-1}}</a>                
 
         <span *ngIf="showCount && suggest.count" class="ml-2 text-muted small" style="z-index: 1;">{{suggest.count | sqNumber}}</span>
@@ -48,7 +48,7 @@
 <ng-template #itemsTpl let-items="items">
     <ng-container *ngFor="let item of items">
 
-        <a  class="d-flex flex-row align-items-center list-group-item border-0 pl-1 pr-3 py-1" 
+        <a  class="d-flex flex-row align-items-center list-group-item border-0 pl-1 pr-3 py-1"
             [ngClass]="{'list-group-item-primary':isSelected(item),'list-group-item-success':isFiltered(item),'list-group-item-action':!isFiltered(item), 'filtered':isFiltered(item) }" 
             [title]="(isFiltered(item)? 'msg#facet.selectedValue' : 'msg#facet.itemSelect') | sqMessage" 
             (click)="selectItem(item)" href="#">

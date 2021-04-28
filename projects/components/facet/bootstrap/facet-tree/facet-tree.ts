@@ -356,7 +356,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
                 map(items => {
                     const suggestions = items.slice(0, this.count)
                         .map(item => this.facetService.suggestionToTreeAggregationItem(item))
-                        .filter(item => !this.isFiltered(item));
+                        .filter(item => !this.isFiltered(item) && item.$path!.length > 1);
 
                     this.noResults = suggestions.length === 0 && term.trim() !== "";
                     return suggestions;
