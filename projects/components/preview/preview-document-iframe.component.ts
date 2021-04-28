@@ -72,34 +72,33 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     @ContentChild('tooltip', {read: ElementRef, static: false}) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
     public sanitizedUrlSrc: SafeResourceUrl;
-    public loading = true;
     public _sandbox: string | null = this.defaultSandbox;
-
-    previewDocument: PreviewDocument;
+    
+    private previewDocument: PreviewDocument;
 
     constructor(
-        private zone: NgZone,
         private cdr: ChangeDetectorRef,
+        private zone: NgZone,
         private sanitizer: DomSanitizer) {
     }
 
     public onPreviewDocLoad() {
-
-        if (this.documentFrame === undefined) return;
-        if (this.downloadUrl === undefined) return;
-
         // SVG highlight:
         //   background rectangle (highlight) were added to the SVG by the HTML generator (C#), but html generation is
         //   not able to know the geometry of the text. It is up to the browser to compute the position and size of the
         //   background. That needs to be done now that the iFrame is loaded.
         this.previewDocument.setSvgBackgroundPositionAndSize();
+        this.previewDocument.loadComplete = true;
 
-        if(this.tooltip)
+        this.onPreviewDoc();
+    }
+    
+    onPreviewDoc() {
+        if (this.tooltip)
             this.addTooltip(this.previewDocument);
 
         // Let upstream component know
         this.onPreviewReady.next(this.previewDocument);
-
         this.cdr.markForCheck();
     }
 
@@ -126,11 +125,11 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
         }
 
         this.resetContent();
-        if (this.downloadUrl && this.downloadUrl !== "about:blank") {
-            this.loading = true;
+        if (simpleChanges.downloadUrl && simpleChanges.downloadUrl.currentValue !== undefined) {
             this.zone.run(() => {
                 this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.downloadUrl);
-                this.onPreviewDocLoad();
+                this.previewDocument.loadComplete = false;
+                this.onPreviewDoc();
             });
         }
     }
@@ -138,6 +137,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     ngAfterViewInit() {
         this.resetContent();
         this.iframeURLChange(this.documentFrame.nativeElement, (newURL: string) => {
+            this.previewDocument.loadComplete = false;
             this.urlChange.next(newURL)
         });
     }

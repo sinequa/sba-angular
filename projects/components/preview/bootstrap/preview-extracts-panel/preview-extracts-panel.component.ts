@@ -1,14 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, NgZone, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {DOCUMENT} from '@angular/common';
 import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
-import {distinctUntilChanged} from 'rxjs/operators';
 
 import { HighlightValue, PreviewData } from '@sinequa/core/web-services';
 import {Action} from "@sinequa/components/action";
-import {HttpClient} from '@angular/common/http';
 
 import { PreviewDocument } from '../../preview-document';
+import {PreviewService} from '../../preview.service';
 
 export class Extract {
   text: SafeHtml; // Sanitized HTML text
@@ -37,8 +36,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
 
   constructor(
     @Inject(DOCUMENT) document: Document,
-    private zone: NgZone,
-    private http: HttpClient,
+    private previewService: PreviewService,
     private cdr: ChangeDetectorRef,
     private domSanitizer: DomSanitizer) { }
 
@@ -51,15 +49,16 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
       const extracts = this.previewData.highlightsPerCategory["extractslocations"]?.values; //Extract locations Array ordered by "relevance"
       if(!!extracts && extracts.length > 0){
         this.loading = true;
-        
-        this.zone.run(() => {
-          this.fetch(this.downloadUrl)
-            .pipe(distinctUntilChanged())
-            .subscribe((value) => {
-              const previewDocument = this.createDocument(value);
-              this.extractAll(extracts, previewDocument);
-            });
-        });
+
+        if(this.previewDocument.loadComplete) {
+          this.extractAll(extracts, this.previewDocument)
+        } else {
+            this.previewService.getHtmlPreview(this.downloadUrl)
+              .subscribe((value) => {
+                const previewDocument = this.createDocument(value);
+                this.extractAll(extracts, previewDocument);
+              });
+        }
       }
     }
   }
@@ -94,7 +93,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
           
     this.loading = false;
     this.currentExtract = -1;
-    this.cdr.markForCheck();
+    this.cdr.detectChanges();
   }
 
   /**
@@ -165,9 +164,5 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
     this.currentExtract++;
     this.cdkScrollViewport.scrollToIndex(this.currentExtract);
     this.scrollExtract(this.extracts[this.currentExtract].textIndex);
-  }
-  
-  private fetch(url: string) {
-    return this.http.get(url, {responseType: "text"});  
   }
 }

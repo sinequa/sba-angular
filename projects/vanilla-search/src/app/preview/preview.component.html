@@ -1,4 +1,4 @@
-    <div class="d-flex flex-row m-0 overflow-hidden" style="max-height: 100%">
+    <div class="d-flex flex-row align-items-stretch m-0 h-100">
 
         <!-- Left panel (navigation, extracts and entities) -->
         <div class="d-flex flex-column align-items-stretch border-right p-0" 
@@ -55,13 +55,13 @@
         </div>
 
         <!-- Right panel (iframe with preview HTML) -->
-        <div class="d-flex flex-column preview-bg" style="flex:1; height: 100vh;">
-            <div *ngIf="previewData" class="mb-1 pl-2">
+        <div class="d-flex flex-shrink-1 flex-grow-1 flex-column preview-bg">
+            <div *ngIf="previewData" class="p-2">
                 <h1>{{ previewData?.record.title }}</h1>
                 <!-- Link to the original document -->
                 <a title="Original document" target="_blank" href="{{previewData?.record.url1}}" (click)="openOriginalDoc()">{{previewData?.record.url1}}</a>
             </div>
-            <div style="flex:1;">
+            <div class="flex-grow-1 flex-shrink-1 overflow-hidden">
                 <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)" (urlChange)="onPreviewUrlChange($event)">
 
                     <!-- Tooltip injected in the preview -->
