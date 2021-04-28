@@ -40,6 +40,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
     searchQuery: FormControl; // ngModel for textarea
     suggestDelay = 200;
     noResults = false;
+    searchActive = false;
     suggestions$: BehaviorSubject<AggregationItem[]> = new BehaviorSubject<AggregationItem[]>([]);
     
     /** Sum of all items count value */
@@ -85,6 +86,8 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
                 this.suggestions$.next(values);
                 // Refresh hiddenSelected list when the list of items is updated
                 this.refreshHiddenSelected();
+                this.searchActive = false;
+                this.changeDetectorRef.markForCheck();
             });
 
         // Keep documents with ANY of the selected items
@@ -415,6 +418,8 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
                 this.noResults = false;
                 return of([]);
             }
+            this.searchActive = true;
+            this.changeDetectorRef.markForCheck();
             return this.facetService.suggest(term, this.data()?.column || '').pipe(
                 catchError(err => {
                     console.log(err);
@@ -426,8 +431,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
                         .map(item => this.facetService.suggestionToAggregationItem(item))
                         .filter(item => !this.isFiltered(this.data(), item));
 
-                    const hasSuggestions = (suggestions.length > 0);
-                    this.noResults = !hasSuggestions && term.trim() !== "";
+                    this.noResults = suggestions.length === 0 && term.trim() !== "";
                     return suggestions;
                 })
             )

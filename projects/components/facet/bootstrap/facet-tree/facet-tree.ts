@@ -1,17 +1,18 @@
-import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef} from "@angular/core";
+import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy} from "@angular/core";
 import {Results, TreeAggregation, AggregationItem, TreeAggregationNode} from "@sinequa/core/web-services";
 import {Utils} from "@sinequa/core/base";
 import {FacetService} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
 import {AbstractFacet} from "../../abstract-facet";
 import { FormControl, FormGroup } from "@angular/forms";
-import { BehaviorSubject, Observable, of, Subscription } from "rxjs";
+import { Observable, of, Subscription } from "rxjs";
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from "rxjs/operators";
 
 @Component({
     selector: "sq-facet-tree",
     templateUrl: "./facet-tree.html",
-    styleUrls: ["./facet-tree.scss"]
+    styleUrls: ["./facet-tree.scss"],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsFacetTree extends AbstractFacet implements OnChanges {
     @Input() name: string; // If ommited, the aggregation name is used
@@ -27,9 +28,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
 
     // Aggregation from the Results object
     data: TreeAggregation | undefined;
-    
-    //num of items currently displayed in the facet
-    private count = 0;
+    originalItems: AggregationItem[] | undefined;
     
     private readonly subscriptions: Subscription[] = [];
 
@@ -46,8 +45,8 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
     myGroup: FormGroup;
     searchQuery: FormControl; // ngModel for textarea
     suggestDelay = 200;
+    searchActive = false;
     noResults = false;
-    suggestions$: BehaviorSubject<TreeAggregationNode[]> = new BehaviorSubject<TreeAggregationNode[]>([]);
     
     // Actions (displayed in facet menu)
     // All actions are built in the constructor
@@ -69,9 +68,19 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
             this.searchQuery = this.myGroup.get("searchQuery") as FormControl;
             this.subscriptions["suggest"] = this.suggest$(this.searchQuery.valueChanges)
                 .subscribe(values => {
-                    this.suggestions$.next(values);
-                    // Refresh hiddenSelected list when the list of items is updated
-                    this.refreshHiddenSelected();
+                    if(this.data) {
+                        let items = this.searchQuery.value? values : this.originalItems;
+                        this.data = {
+                            column: this.data.column,
+                            name: this.data.name,
+                            isTree: true,
+                            items
+                        }
+                        // Refresh hiddenSelected list when the list of items is updated
+                        this.refreshHiddenSelected();
+                        this.searchActive = false;
+                        this.changeDetectorRef.markForCheck();
+                    }
                 });
     
             // Keep documents with ANY of the selected items
@@ -140,9 +149,6 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
         if (this.allowOr === undefined) this.allowOr = true;
 
         if (!!changes["results"]) {     // New data from the search service
-            if(!this.count){
-                this.count = this.facetService.getAggregationCount(this.aggregation);
-            }
             this.filtered.clear();
             this.selected.clear();
             this.hiddenSelected.length = 0;
@@ -150,6 +156,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
                 facetName: this.getName(),
                 levelCallback: this.initNodes
             });
+            this.originalItems = this.data?.items;
             this.searchItems.selected = false;
             this.clearSearch();
         }
@@ -268,20 +275,13 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
 
     refreshHiddenSelected() {
         this.hiddenSelected = this.getSelectedItems()
-            .filter(item => {
-                if(this.hasSuggestions()) {
-                    return !this.find(this.suggestions$.getValue(), item);
-                }
-                else {
-                    return !this.find(this.data?.items as TreeAggregationNode[], item);
-                }
-            });
+            .filter(item => !this.find(this.data?.items as TreeAggregationNode[], item));
     }
 
     find(items: TreeAggregationNode[] | undefined, item: TreeAggregationNode) {
         if(items) {
             for(let i of items) {
-                if(i.$path === item.$path || this.find(i.items, item)) {
+                if(i.$path === item.$path || (i.$opened && this.find(i.items, item))) {
                     return true;
                 }
             }
@@ -307,6 +307,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
                         });
                 }
             }
+            this.refreshHiddenSelected();
         }
         event.preventDefault();
         event.stopPropagation();
@@ -324,16 +325,8 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
     clearSearch() {
         this.searchQuery.setValue(""); // Remove suggestions if some remain
         this.noResults = false;
-        this.suggestions$.next([]);
     }
     
-    /**
-     * Returns true if the search mode is active (ie. there are suggestions to display in place of the aggregation)
-     */
-     hasSuggestions(): boolean {
-        return this.suggestions$.getValue().length > 0 || this.noResults;
-    }
-
     /**
      * Called on NgModel change (searchQuery)
      * Uses the suggestfield API to retrieve suggestions from the server
@@ -347,19 +340,18 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
                 this.noResults = false;
                 return of([]);
             }
+            this.changeDetectorRef.markForCheck();
+            this.searchActive = true;
             return this.facetService.suggest(term, this.data?.column || '').pipe(
                 catchError(err => {
                     console.log(err);
                     this.noResults = false;
                     return of([]);
                 }),
-                map(items => {
-                    const suggestions = items.slice(0, this.count)
-                        .map(item => this.facetService.suggestionToTreeAggregationItem(item))
-                        .filter(item => !this.isFiltered(item) && item.$path!.length > 1);
-
-                    this.noResults = suggestions.length === 0 && term.trim() !== "";
-                    return suggestions;
+                map(suggests => {
+                    const items = this.facetService.suggestionsToTreeAggregationNodes(suggests, term, this.data);
+                    this.noResults = items.length === 0 && term.trim() !== "";
+                    return items;
                 })
             )
         })

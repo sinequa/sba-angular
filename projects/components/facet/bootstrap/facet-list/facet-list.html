@@ -5,10 +5,13 @@
         </div>
     </div>
 
-    <div *ngIf="searchItems.selected" class="border-0 p-1" [formGroup]="myGroup">
-        <input class="form-control" sqAutofocus
-            formControlName="searchQuery"
-            [placeholder]="'msg#facet.searchPlaceholder' | sqMessage">
+    <div *ngIf="searchItems.selected" class="position-relative" [formGroup]="myGroup">
+        <div class="p-1">
+            <input class="form-control" sqAutofocus
+                formControlName="searchQuery"
+                [placeholder]="'msg#facet.searchPlaceholder' | sqMessage">
+        </div>
+        <sq-loading-bar [active]="searchActive"></sq-loading-bar>
     </div>
 
     <!-- filtered items -->
