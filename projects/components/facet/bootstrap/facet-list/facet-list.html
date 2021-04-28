@@ -30,7 +30,7 @@
 
     <!-- hidden selected items -->
     <div  *ngFor="let item of hiddenSelected"
-        class="d-flex flex-row align-items-center list-group-item-primary text-truncate border-0 px-3 py-1 facet-row cursor-pointer"
+        class="d-flex flex-row align-items-center list-group-item list-group-item-primary text-truncate border-0 px-3 py-1 facet-row cursor-pointer"
         [title]="'msg#facet.itemUnselect' | sqMessage"
         (click)="selectItem(item, $event)">
 
@@ -43,7 +43,7 @@
 
     <!--- suggestions items -->
     <div *ngFor="let suggest of suggestions$ | async"
-        class="d-flex flex-row align-items-center text-truncate border-0 px-3 py-1 facet-row cursor-pointer"
+        class="d-flex flex-row align-items-center list-group-item list-group-item-action text-truncate border-0 px-3 py-1 facet-row cursor-pointer"
         [ngClass]="{'list-group-item-primary': isSelected(suggest)}"
         (click)="selectItem(suggest, $event)">
         
