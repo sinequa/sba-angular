@@ -1,4 +1,6 @@
 import { ElementRef } from "@angular/core";
+import {BehaviorSubject} from "rxjs";
+
 import { Utils } from "@sinequa/core/base";
 
 export enum HighlightCategoryFilterChoice {
@@ -46,7 +48,7 @@ export class PreviewDocument {
     
     private previousElement: HTMLElement | null;
     
-    public loadComplete: boolean = true;
+    public loadComplete$ = new BehaviorSubject<boolean>(true);
 
     constructor(element: ElementRef | Document){
         if (element instanceof ElementRef) {

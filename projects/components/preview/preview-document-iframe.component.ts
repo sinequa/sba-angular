@@ -88,7 +88,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
         //   not able to know the geometry of the text. It is up to the browser to compute the position and size of the
         //   background. That needs to be done now that the iFrame is loaded.
         this.previewDocument.setSvgBackgroundPositionAndSize();
-        this.previewDocument.loadComplete = true;
+        this.previewDocument.loadComplete$.next(true);
 
         this.onPreviewDoc();
     }
@@ -128,7 +128,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
         if (simpleChanges.downloadUrl && simpleChanges.downloadUrl.currentValue !== undefined) {
             this.zone.run(() => {
                 this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.downloadUrl);
-                this.previewDocument.loadComplete = false;
+                this.previewDocument.loadComplete$.next(false);
                 this.onPreviewDoc();
             });
         }
@@ -137,7 +137,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     ngAfterViewInit() {
         this.resetContent();
         this.iframeURLChange(this.documentFrame.nativeElement, (newURL: string) => {
-            this.previewDocument.loadComplete = false;
+            this.previewDocument.loadComplete$.next(false);
             this.urlChange.next(newURL)
         });
     }

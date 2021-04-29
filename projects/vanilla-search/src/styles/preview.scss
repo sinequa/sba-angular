@@ -113,20 +113,41 @@ $highlights: map-merge(map-merge($extracts-highlights, $terms-highlights), $meta
 
 // overrides preview's legacy css
 
+// pdfAdvanced
+.stl_ {
+    content-visibility: auto;
+    display: inline-block;
+    background-color: white;
+    border: solid 1px lightgrey;
+    margin: 24px;
+}
+
+// sinequePdfToHtml
 // add a shadow on page navigator
 .ph {
     box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
 }
 
 // allow to display multiples pages
-// experimental: don't works really well with 
-// content-visibility: auto (only available on new xpdf converter)
 .bd {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     margin: 0;
     background-color: #eee;
+    
+    div[style="position:relative;border:0px;"] {
+        margin: 24px;
+        content-visibility: visible;
+        
+        > img {
+            background-color: white;
+            border: 1px solid lightgrey;
+            box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+            margin-bottom: 16px;
+            margin-right: 16px;
+        }
+    }
 }
 
 .pg {
@@ -136,42 +157,6 @@ $highlights: map-merge(map-merge($extracts-highlights, $terms-highlights), $meta
 }
 
 // Currently selected highlights
-
-// .pages and .section are new is xpdf converter
-.pages {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.section {
-    display: flex;
-    margin-top: 24px;
-    content-visibility: visible;
-    // contain-intrinsic-size: 2000px 2000px;
-
-    > img {
-        background-color: white;
-        border: 1px solid lightgrey;
-        box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
-        margin-bottom: 16px;
-        margin-right: 16px;
-    }
-    
-    .pg{
-        padding: 0px;
-        color: white;
-        font-size: 18px;
-        align-self: flex-end;
-        position: relative;
-        top: -24px;
-        left: -56px;
-        height: 32px;
-        line-height: 32px;
-        width: 56px;
-        background-color: grey;
-    }
-}
-
 .sq-current {
     border: 2px dashed rgb(5,5,5) !important;
     animation: 0.3s linear shadowfocus;

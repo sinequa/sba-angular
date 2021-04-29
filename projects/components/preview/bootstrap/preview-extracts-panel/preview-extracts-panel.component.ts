@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {DOCUMENT} from '@angular/common';
 import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
+import {Subscription} from 'rxjs';
 
 import { HighlightValue, PreviewData } from '@sinequa/core/web-services';
 import {Action} from "@sinequa/components/action";
@@ -22,7 +23,7 @@ export class Extract {
   styleUrls: ['./preview-extracts-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BsPreviewExtractsPanelComponent implements OnChanges {
+export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
   @Input() previewData: PreviewData;
   @Input() previewDocument: PreviewDocument;
   @Input() downloadUrl: string;
@@ -33,6 +34,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   extracts: Extract[] = [];
   currentExtract = -1;
   loading = false;
+  loadCompleteSubscription: Subscription;
 
   constructor(
     @Inject(DOCUMENT) document: Document,
@@ -40,24 +42,47 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
     private cdr: ChangeDetectorRef,
     private domSanitizer: DomSanitizer) { }
 
+  ngOnDestroy() {
+    if(this.loadCompleteSubscription) {
+      this.loadCompleteSubscription.unsubscribe();
+    }
+  }
+    
   /**
    * Extracts the list of extracts from the preview document
    */
   ngOnChanges(changes: SimpleChanges) {
     this.extracts = [];
+    if (this.previewData && changes['previewDocument'] && changes['previewDocument'].firstChange) {
+      if (!this.loadCompleteSubscription){
+        this.loadCompleteSubscription = this.previewDocument.loadComplete$.subscribe(value => {
+          if(this.previewData) {
+            const extracts = this.previewData.highlightsPerCategory["extractslocations"]?.values; //Extract locations Array ordered by "relevance"
+            if (!!extracts && extracts.length > 0) {
+              this.loading = false;
+
+              if (value) {
+                this.extractAll(extracts, this.previewDocument)
+              }
+            }
+          }
+        });
+      }
+    }
+    
     if(this.previewData && this.downloadUrl){
       const extracts = this.previewData.highlightsPerCategory["extractslocations"]?.values; //Extract locations Array ordered by "relevance"
       if(!!extracts && extracts.length > 0){
         this.loading = true;
 
-        if(this.previewDocument.loadComplete) {
+        if (this.previewDocument.loadComplete$.value) {
           this.extractAll(extracts, this.previewDocument)
         } else {
-            this.previewService.getHtmlPreview(this.downloadUrl)
-              .subscribe((value) => {
-                const previewDocument = this.createDocument(value);
-                this.extractAll(extracts, previewDocument);
-              });
+          this.previewService.getHtmlPreview(this.downloadUrl)
+            .subscribe((value) => {
+              const previewDocument = this.createDocument(value);
+              this.extractAll(extracts, previewDocument);
+            });
         }
       }
     }
