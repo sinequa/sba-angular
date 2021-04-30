@@ -18,7 +18,7 @@ import {SearchService} from "../../search.service";
   position:absolute;
   width:100%;
   height:3px;
-  overflow-x: hidden;
+  overflow: hidden;
   z-index: 3;
 }
 

@@ -1,7 +1,7 @@
 import {Injectable, Inject, Optional, InjectionToken} from "@angular/core";
 import {UserSettingsWebService, UserSettings, Suggestion,
     Results, Aggregation, AggregationItem, TreeAggregation, TreeAggregationNode,
-    AuditEvents, EngineType, Select
+    AuditEvents, EngineType, Select, CCColumn
 } from "@sinequa/core/web-services";
 import {IntlService} from "@sinequa/core/intl";
 import {Query, AppService, FormatService, ExprBuilder, Expr} from "@sinequa/core/app-utils";
@@ -824,7 +824,7 @@ export class FacetService {
         const item: AggregationItem = {
             value: suggest.normalized || suggest.display,
             display: suggest.display,
-            count: 0,
+            count: +(suggest.frequency || 0),
             $column: this.appService.getColumn(suggest.category)
         };
         if (item.$column?.eType === EngineType.bool) {
@@ -832,6 +832,68 @@ export class FacetService {
         }
         return item;
     }
+
+    /**
+     * Converts a list of suggestions into a structure of TreeAggregationNodes
+     * @param suggests Suggestions to convert
+     * @param searchTerm The searched term in the suggestions
+     * @param aggregation The tree aggregations
+     */
+    suggestionsToTreeAggregationNodes(suggests: Suggestion[], searchTerm: string, aggregation: Aggregation | undefined): TreeAggregationNode[] {
+        const suggestions: TreeAggregationNode[] = [];
+        if(suggests.length > 0) {
+            const path2node = new Map<string,TreeAggregationNode>();
+            const searchPattern = new RegExp(`\b${searchTerm}`).compile();
+            const column = this.appService.getColumn(aggregation?.column);
+            suggests.forEach(suggest => {
+                if(suggest.display.length > 1) {
+                    const match = searchPattern.exec(suggest.display);
+                    this.addNode(suggestions, path2node, "/", suggest.display, +(suggest.frequency || 0), 1, (match?.index || 0)+searchTerm.length, column);
+                }
+            });
+        }
+        return suggestions;
+    }
+
+    /**
+     * Utility recursive function to generate a tree aggregation structure from
+     * a list of suggestions
+     */
+    protected addNode(items: TreeAggregationNode[],
+            path2node: Map<string,TreeAggregationNode>,
+            parentPath: string,
+            path: string,
+            count: number,
+            level: number,
+            matchend: number,
+            column: CCColumn | undefined) {
+
+        const nextChild = path.indexOf("/", parentPath.length); // path = /Cities/Paris/17e/   parentPath = /Cities/
+        const currentPath = path.substring(0, nextChild+1); // => currentPath = /Cities/Paris/
+        let node = path2node.get(currentPath);
+
+        if(!node) {
+            const value = path.substring(parentPath.length, nextChild);
+            node = {
+                value,
+                count,
+                items: [],
+                hasChildren: false,
+                $column: column,
+                $level: level,
+                $opened: matchend >= currentPath.length,
+                $path: currentPath
+            };
+            path2node.set(currentPath, node);
+            items.push(node);
+        }
+
+        if(currentPath.length < path.length) {
+            node.hasChildren = true;
+            this.addNode(node.items, path2node, currentPath, path, count, level+1, matchend, column);
+        }
+    }
+
 
     /**
      * Check if a facet contains items

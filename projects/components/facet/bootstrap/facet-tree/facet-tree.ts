@@ -1,14 +1,18 @@
-import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef} from "@angular/core";
+import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy} from "@angular/core";
 import {Results, TreeAggregation, AggregationItem, TreeAggregationNode} from "@sinequa/core/web-services";
 import {Utils} from "@sinequa/core/base";
 import {FacetService} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
 import {AbstractFacet} from "../../abstract-facet";
+import { FormControl, FormGroup } from "@angular/forms";
+import { Observable, of, Subscription } from "rxjs";
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from "rxjs/operators";
 
 @Component({
     selector: "sq-facet-tree",
     templateUrl: "./facet-tree.html",
-    styleUrls: ["./facet-tree.scss"]
+    styleUrls: ["./facet-tree.scss"],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsFacetTree extends AbstractFacet implements OnChanges {
     @Input() name: string; // If ommited, the aggregation name is used
@@ -17,23 +21,39 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
     @Input() showCount: boolean = true; // Show the number of occurrences
     @Input() allowExclude: boolean = true; // Allow to exclude selected items
     @Input() allowOr: boolean = true; // Allow to search various items in OR mode
+    @Input() searchable: boolean = true; // Allow to search for items in the facet
     @Input() expandedLevel: number = 2;
     @Input() forceMaxHeight: boolean = true; // Allow to display a scrollbar automatically on long list items
     @Input() displayActions = false;
 
     // Aggregation from the Results object
     data: TreeAggregation | undefined;
+    originalItems: AggregationItem[] | undefined;
+    
+    private readonly subscriptions: Subscription[] = [];
 
     // Sets to keep track of selected/excluded/filtered items
     private readonly filtered = new Set<AggregationItem>();
+    
+    readonly selected = new Map<string,TreeAggregationNode>();
+
+    hiddenSelected: TreeAggregationNode[] = [];
     // TODO keep track of excluded terms and display them with specific color private
     // readonly filtered = new Set<AggregationItem>();
 
+    // Search
+    myGroup: FormGroup;
+    searchQuery: FormControl; // ngModel for textarea
+    suggestDelay = 200;
+    searchActive = false;
+    noResults = false;
+    
     // Actions (displayed in facet menu)
     // All actions are built in the constructor
     private readonly filterItemsOr: Action;
     private readonly excludeItems: Action;
     private readonly clearFilters: Action;
+    public readonly searchItems: Action;
 
 
     constructor(
@@ -41,6 +61,28 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
         private changeDetectorRef: ChangeDetectorRef){
             super();
 
+            this.myGroup = new FormGroup({
+                searchQuery: new FormControl()
+            });
+    
+            this.searchQuery = this.myGroup.get("searchQuery") as FormControl;
+            this.subscriptions["suggest"] = this.suggest$(this.searchQuery.valueChanges)
+                .subscribe(values => {
+                    if(this.data) {
+                        let items = this.searchQuery.value? values : this.originalItems;
+                        this.data = {
+                            column: this.data.column,
+                            name: this.data.name,
+                            isTree: true,
+                            items
+                        }
+                        // Refresh hiddenSelected list when the list of items is updated
+                        this.refreshHiddenSelected();
+                        this.searchActive = false;
+                        this.changeDetectorRef.markForCheck();
+                    }
+                });
+    
             // Keep documents with ANY of the selected items
             this.filterItemsOr = new Action({
                 icon: "fas fa-filter",
@@ -72,6 +114,19 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
                 }
             });
 
+            // Search for a value in this list
+            this.searchItems = new Action({
+                icon: "fas fa-search",
+                title: "msg#facet.searchItems",
+                action: (item, event) => {
+                    item.selected = !item.selected;
+                    if(!item.selected){
+                        this.clearSearch();
+                    }
+                    event.stopPropagation();
+                    this.changeDetectorRef.markForCheck();
+                }
+            });
     }
 
     /**
@@ -89,15 +144,21 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
      */
     ngOnChanges(changes: SimpleChanges) {
         if (this.showCount === undefined) this.showCount = true;
+        if (this.searchable === undefined) this.searchable = true;
         if (this.allowExclude === undefined) this.allowExclude = true;
         if (this.allowOr === undefined) this.allowOr = true;
 
         if (!!changes["results"]) {     // New data from the search service
             this.filtered.clear();
+            this.selected.clear();
+            this.hiddenSelected.length = 0;
             this.data = this.facetService.getAggregation(this.aggregation, this.results, {
                 facetName: this.getName(),
                 levelCallback: this.initNodes
             });
+            this.originalItems = this.data?.items;
+            this.searchItems.selected = false;
+            this.clearSearch();
         }
     }
 
@@ -120,9 +181,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
 
         const actions: Action[] = [];
 
-        const selected = this.getSelectedItems();
-
-        if(selected.length > 0) {
+        if(this.selected.size > 0) {
             if(this.allowOr){
                 actions.push(this.filterItemsOr);
             }
@@ -133,6 +192,10 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
 
         if(this.hasFiltered()) {
             actions.push(this.clearFilters);
+        }
+        
+        if(this.searchable){
+            actions.push(this.searchItems);
         }
 
         return actions;
@@ -182,45 +245,49 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
      * Returns true if the given AggregationItem is selected
      * @param item
      */
-    isSelected(item: AggregationItem) : boolean {
-        return !!item.$selected;
+    isSelected(item: TreeAggregationNode) : boolean {
+        return this.selected.has(item.$path!);
     }
 
     /**
      * Returns all the selected items
      */
     getSelectedItems(): TreeAggregationNode[] {
-        if (this.data) {
-            return this._getSelectedItems(<TreeAggregationNode[]> this.data.items, []);
-        }
-        return [];
-    }
-
-    // Recursive helper function
-    private _getSelectedItems(items: TreeAggregationNode[], selected: TreeAggregationNode[]){
-        if(items){
-            items.forEach(item => {
-                if(this.isSelected(item))
-                    selected.push(item);
-                if(item.items){
-                    this._getSelectedItems(item.items, selected);
-                }
-            });
-        }
-        return selected;
+        return Array.from(this.selected.values());
     }
 
     /**
      * Called when selecting/unselecting an item in the facet
      * @param item
      */
-    selectItem(item: AggregationItem) : boolean {
+    selectItem(item: TreeAggregationNode) : boolean {
         if(!this.isFiltered(item)){
-            item.$selected = !item.$selected;
+            if(this.selected.has(item.$path!)) {
+                this.selected.delete(item.$path!);
+            }
+            else {
+                this.selected.set(item.$path!, item);
+            }
+            this.refreshHiddenSelected();
         }
         return false;
     }
 
+    refreshHiddenSelected() {
+        this.hiddenSelected = this.getSelectedItems()
+            .filter(item => !this.find(this.data?.items as TreeAggregationNode[], item));
+    }
+
+    find(items: TreeAggregationNode[] | undefined, item: TreeAggregationNode) {
+        if(items) {
+            for(let i of items) {
+                if(i.$path === item.$path || (i.$opened && this.find(i.items, item))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     /**
      * Expand/Collapse a Tree node (the data may need to downloaded from the server)
@@ -235,10 +302,12 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
                     Utils.subscribe(this.facetService.open(this.getName(), this.data, item, this.initNodes),
                         (results) => {
                             item['$opening']= false;
+                            this.refreshHiddenSelected();
                             this.changeDetectorRef.markForCheck();
                         });
                 }
             }
+            this.refreshHiddenSelected();
         }
         event.preventDefault();
         event.stopPropagation();
@@ -248,6 +317,48 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
     /* AbstractFacet abstract methods */
     isHidden(): boolean {
         return !this.data;
+    }
+
+
+    // Search    
+
+    clearSearch() {
+        this.searchQuery.setValue(""); // Remove suggestions if some remain
+        this.noResults = false;
+    }
+    
+    /**
+     * Called on NgModel change (searchQuery)
+     * Uses the suggestfield API to retrieve suggestions from the server
+     * The suggestions "override" the data from the distribution (until search results are cleared)
+     */
+    suggest$ = (text$: Observable<string>) => text$.pipe(
+        debounceTime(this.suggestDelay),
+        distinctUntilChanged(),
+        switchMap(term => {
+            if (term.trim() === "") {
+                this.noResults = false;
+                return of([]);
+            }
+            this.changeDetectorRef.markForCheck();
+            this.searchActive = true;
+            return this.facetService.suggest(term, this.data?.column || '').pipe(
+                catchError(err => {
+                    console.log(err);
+                    this.noResults = false;
+                    return of([]);
+                }),
+                map(suggests => {
+                    const items = this.facetService.suggestionsToTreeAggregationNodes(suggests, term, this.data);
+                    this.noResults = items.length === 0 && term.trim() !== "";
+                    return items;
+                })
+            )
+        })
+    )
+
+    ngOnDestroy() {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 
 }

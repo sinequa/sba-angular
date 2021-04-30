@@ -73,7 +73,7 @@ describe('BsFacetList', () => {
         // @Input()
         context.name = "Geo";
         context.results = RESULTS as any;
-        context.searchBar = true;
+        context.searchItems.selected = true;
 
         expect(context.data()).toBeUndefined();
         expect(context.resultsLength).toEqual(0);
@@ -96,7 +96,7 @@ describe('BsFacetList', () => {
         expect(context.isHidden()).toBeFalse();
 
         expect(context.actions.length).toBeGreaterThan(0);
-        expect(context.searchBar).toBeFalse();
+        expect(context.searchItems.selected).toBeFalse();
         expect(context.filtered.length).toEqual(0);
         expect(context.searchQuery.value).toEqual("");
         expect(context.noResults).toBeFalse();
@@ -116,7 +116,7 @@ describe('BsFacetList', () => {
         // @Input()
         context.name = 'Geo';
         context.results = RESULTS as any;
-        context.searchBar = true;
+        context.searchItems.selected = true;
 
         // trigger manually an ngOnChanges's event
         context.ngOnChanges({results: {} as SimpleChange});
@@ -139,7 +139,7 @@ describe('BsFacetList', () => {
         expect(el?.title).toEqual("msg#facet.itemUnselect");
 
         // Component expectations
-        expect(context.items$.getValue()[4].$selected).toBeTrue();
+        expect(context.isSelected(context.items$.getValue()[4])).toBeTrue();
         expect(context.selected.length).toEqual(1);
 
         expect(context.selectItem).toHaveBeenCalledTimes(1);
