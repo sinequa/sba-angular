@@ -124,22 +124,18 @@ $highlights: map-merge(map-merge($extracts-highlights, $terms-highlights), $meta
 
 // sinequePdfToHtml
 // add a shadow on page navigator
-.ph {
-    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
-}
-
-// allow to display multiples pages
-.bd {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 0;
+body.bd {
     background-color: #eee;
+
+    > div.ph {
+        box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+    }
     
+    // as style is inline, this selector is very specific to overrides it
     div[style="position:relative;border:0px;"] {
         margin: 24px;
         content-visibility: visible;
-        
+
         > img {
             background-color: white;
             border: 1px solid lightgrey;
@@ -147,14 +143,10 @@ $highlights: map-merge(map-merge($extracts-highlights, $terms-highlights), $meta
             margin-bottom: 16px;
             margin-right: 16px;
         }
+    
     }
 }
 
-.pg {
-    display: none;
-    margin-top: -24px; // to cancel section padding
-    align-self: flex-end;
-}
 
 // Currently selected highlights
 .sq-current {
