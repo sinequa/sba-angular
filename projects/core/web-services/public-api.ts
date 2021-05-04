@@ -5,6 +5,7 @@ export * from "./suggest/suggestion";
 
 export * from "./app.web.service";
 export * from "./audit.web.service";
+export * from "./dataset.web.service";
 export * from "./download.web.service";
 export * from "./http-client";
 export * from "./http.service";
