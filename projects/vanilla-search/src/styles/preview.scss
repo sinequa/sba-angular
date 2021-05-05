@@ -111,14 +111,49 @@ $highlights: map-merge(map-merge($extracts-highlights, $terms-highlights), $meta
     @include simpleHighlight($name);
 }
 
+// overrides preview's legacy css
+
+// pdfAdvanced
+.stl_ {
+    content-visibility: auto;
+    display: inline-block;
+    background-color: white;
+    border: solid 1px lightgrey;
+    margin: 24px;
+}
+
+// sinequePdfToHtml
+// add a shadow on page navigator
+body.bd {
+    background-color: #eee;
+
+    > div.ph {
+        box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+    }
+    
+    // as style is inline, this selector is very specific to overrides it
+    div[style="position:relative;border:0px;"] {
+        margin: 24px;
+        content-visibility: visible;
+
+        > img {
+            background-color: white;
+            border: 1px solid lightgrey;
+            box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+            margin-bottom: 16px;
+            margin-right: 16px;
+        }
+    
+    }
+}
+
 
 // Currently selected highlights
-
 .sq-current {
     border: 2px dashed rgb(5,5,5) !important;
     animation: 0.3s linear shadowfocus;
-    // raise above other spans so the border is not overlapped
-    position: relative;
+    // raise above other span   s so the border is not overlapped
+    // position: relative;
     z-index: 1;
 }
 

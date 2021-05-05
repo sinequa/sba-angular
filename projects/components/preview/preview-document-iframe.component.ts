@@ -72,34 +72,42 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     @ContentChild('tooltip', {read: ElementRef, static: false}) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
     public sanitizedUrlSrc: SafeResourceUrl;
-    public loading = true;
     public _sandbox: string | null = this.defaultSandbox;
-
-    previewDocument: PreviewDocument;
+    
+    private previewDocument: PreviewDocument;
+    readonly previewDocLoadHandler;
 
     constructor(
-        private zone: NgZone,
         private cdr: ChangeDetectorRef,
+        private zone: NgZone,
         private sanitizer: DomSanitizer) {
+            this.previewDocLoadHandler = this.onPreviewDocLoad.bind(this);
     }
 
     public onPreviewDocLoad() {
-
-        if (this.documentFrame === undefined) return;
-        if (this.downloadUrl === undefined) return;
-
+        
+        if(this.downloadUrl === undefined) return;
+        
         // SVG highlight:
         //   background rectangle (highlight) were added to the SVG by the HTML generator (C#), but html generation is
         //   not able to know the geometry of the text. It is up to the browser to compute the position and size of the
         //   background. That needs to be done now that the iFrame is loaded.
-        this.previewDocument.setSvgBackgroundPositionAndSize();
+        try {
+            this.previewDocument.setSvgBackgroundPositionAndSize();
+        } catch (error) {
+            console.error(error);
+        }
+        this.previewDocument.loadComplete$.next(true);
 
-        if(this.tooltip)
+        this.onPreviewDoc();
+    }
+    
+    onPreviewDoc() {
+        if (this.tooltip)
             this.addTooltip(this.previewDocument);
 
         // Let upstream component know
         this.onPreviewReady.next(this.previewDocument);
-
         this.cdr.markForCheck();
     }
 
@@ -108,12 +116,11 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     }
 
     ngOnInit() {
-        this.documentFrame.nativeElement.addEventListener("load", () => this.onPreviewDocLoad(), true);
-        this.previewDocument = new PreviewDocument(this.documentFrame);
+        this.documentFrame.nativeElement.addEventListener("load", this.previewDocLoadHandler, true);
     }
 
     ngOnDestroy() {
-        this.documentFrame.nativeElement.removeEventListener("load", () => this.onPreviewDocLoad());
+        this.documentFrame.nativeElement.removeEventListener("load", this.previewDocLoadHandler);
     }
 
     ngOnChanges(simpleChanges: SimpleChanges) {
@@ -126,11 +133,12 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
         }
 
         this.resetContent();
-        if (this.downloadUrl && this.downloadUrl !== "about:blank") {
-            this.loading = true;
+        if (simpleChanges.downloadUrl && simpleChanges.downloadUrl.currentValue !== undefined) {
             this.zone.run(() => {
                 this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.downloadUrl);
-                this.onPreviewDocLoad();
+                this.previewDocument = new PreviewDocument(this.documentFrame);
+                this.previewDocument.loadComplete$.next(false);
+                this.onPreviewDoc();
             });
         }
     }
@@ -138,6 +146,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     ngAfterViewInit() {
         this.resetContent();
         this.iframeURLChange(this.documentFrame.nativeElement, (newURL: string) => {
+            this.previewDocument.loadComplete$.next(false);
             this.urlChange.next(newURL)
         });
     }
@@ -147,7 +156,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
 
         const dispatchChange = function () {
             if (iframe.contentWindow) {
-                const newHref = iframe.contentWindow.location.pathname;
+                const newHref = iframe.contentWindow.location.href;
                 if (newHref === "about:blank") return;
                 if (newHref !== lastDispatched) {
                     callback(newHref);

@@ -78,7 +78,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   tooltipEntityActions: Action[] = [];
   tooltipTextActions: Action[] = [];
 
-  private readonly scaleFactorThreshold = 0.1;
+  private readonly scaleFactorThreshold = 0.05;
   scaleFactor = 1.0;
 
   constructor(

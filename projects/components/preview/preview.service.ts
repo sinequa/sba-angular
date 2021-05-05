@@ -199,4 +199,13 @@ export class PreviewService {
             fileext: record?.fileext,
         }
     }
+    
+    /**
+     * returns document's preview HTML
+     * @param url 
+     * @returns document's preview HTML
+     */
+    public getHtmlPreview(url:string) {
+        return this.previewWebService.getHtmlPreview(url);
+    }
 }
