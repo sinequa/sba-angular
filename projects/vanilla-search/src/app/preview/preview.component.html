@@ -1,68 +1,77 @@
-    <div class="d-flex flex-row m-0 overflow-hidden" style="max-height: 100%">
+<div class="d-flex flex-row align-items-stretch m-0 h-100">
 
-        <!-- Left panel (navigation, extracts and entities) -->
-        <div class="d-flex flex-column align-items-stretch border-right p-0"
-            [ngClass]="{'col-sm-5 col-md-4 col-lg-3': !collapsedPanel}"
-            *ngIf="ui.screenSizeIsGreater('xs')">
+    <!-- Left panel (navigation, extracts and entities) -->
+    <div class="d-flex flex-column align-items-stretch border-right p-0"
+        [ngClass]="{'col-sm-5 col-md-4 col-lg-3': !collapsedPanel}"
+        *ngIf="ui.screenSizeIsGreater('xs')">
 
-            <!-- Navigation buttons/links (template below) -->
-            <ng-container *ngTemplateOutlet="nav"></ng-container>
+        <!-- Navigation buttons/links (template below) -->
+        <ng-container *ngTemplateOutlet="nav"></ng-container>
 
-            <div class="border-top border-bottom p-2" *ngIf="!collapsedPanel">
-                <!-- Search form allowing the search preview -->
-                <sq-preview-search-form *ngIf="previewSearchable" [query]="query" (searchText)="searchText($event)"></sq-preview-search-form>
+        <div class="border-top border-bottom p-2" *ngIf="!collapsedPanel">
+            <!-- Search form allowing the search preview -->
+            <sq-preview-search-form *ngIf="previewSearchable" [query]="query" (searchText)="searchText($event)"></sq-preview-search-form>
 
-                <!-- Page form allowing to go to an arbitrary page number (when the document is splitted)-->
-                <sq-preview-page-form [pageNumber]="previewData?.record?.$page" (gotopage)="gotoPage($event)"></sq-preview-page-form>
+            <!-- Page form allowing to go to an arbitrary page number (when the document is splitted)-->
+            <sq-preview-page-form [pageNumber]="previewData?.record?.$page" (gotopage)="gotoPage($event)"></sq-preview-page-form>
 
-                <!-- Navigation between the active sub panels -->
-                <ul class="nav nav-pills justify-content-center mb-1">
-                    <li class="nav-item" *ngFor="let panel of subpanels">
-                        <a class="nav-link" href="#" [ngClass]="{active: subpanel === panel}" (click)="subpanel = panel; false">
-                            {{ ('msg#preview.'+panel) | sqMessage }}
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Expanded panel different subpanels available -->
-            <!-- Extracts/Pages panel -->
-            <sq-preview-extracts-panel *ngIf="subpanel === 'extracts' && !pagesResults && !collapsedPanel" class="d-flex flex-column"
-                style="flex-grow:1;" [previewData]="previewData" [downloadUrl]="currentUrl" [previewDocument]="previewDocument"
-                [style]="isDark()? 'dark' : 'light'">
-            </sq-preview-extracts-panel>
-
-            <div style="overflow: auto;" *ngIf="subpanel !== 'extracts' && !collapsedPanel">
-
-                <!-- Legacy preview highlights -->
-                <sq-preview-highlights *ngIf="subpanel === 'highlights' && !!previewData" class="my-2"
-                    [previewData]="previewData" [previewDocument]="previewDocument">
-                </sq-preview-highlights>
-
-                <sq-preview-pages-panel *ngIf="subpanel === 'extracts' && pagesResults"
-                    [previewData]="previewData" [previewDocument]="previewDocument" [pages]="pagesResults" [style]="isDark()? 'dark' : 'light'"
-                    (gotopage)="gotoPage($event)">
-                </sq-preview-pages-panel>
-
-                <!-- Entities panel -->
-                <div *ngIf="subpanel === 'entities'" class="p-2">
-                    <sq-preview-entity-panel
-                        [previewData]="previewData" [previewDocument]="previewDocument" [style]="isDark()? 'dark' : 'light'" [startUnchecked]="entitiesStartUnchecked" (facetChecked)="entitiesChecked($event)">
-                    </sq-preview-entity-panel>
-                </div>
-            </div>
-
+            <!-- Navigation between the active sub panels -->
+            <ul class="nav nav-pills justify-content-center mb-1">
+                <li class="nav-item" *ngFor="let panel of subpanels">
+                    <a class="nav-link" href="#" [ngClass]="{active: subpanel === panel}" (click)="subpanel = panel; false">
+                        {{ ('msg#preview.'+panel) | sqMessage }}
+                    </a>
+                </li>
+            </ul>
         </div>
 
-        <!-- Right panel (iframe with preview HTML) -->
-        <div class="d-flex flex-column preview-bg" style="flex:1; height: 100vh;">
-            <div *ngIf="previewData" class="mb-1 pl-2">
-                <h1>{{ previewData?.record.title }}</h1>
-                <!-- Link to the original document -->
-                <a title="Original document" target="_blank" href="{{previewData?.record.url1}}" (click)="openOriginalDoc()">{{previewData?.record.url1}}</a>
+        <!-- Expanded panel different subpanels available -->
+        <!-- Extracts/Pages panel -->
+        <sq-preview-extracts-panel *ngIf="subpanel === 'extracts' && !pagesResults && !collapsedPanel"
+            class="d-flex flex-column flex-grow-1" [previewData]="previewData" [downloadUrl]="currentUrl"
+            [previewDocument]="previewDocument" [style]="isDark()? 'dark' : 'light'">
+        </sq-preview-extracts-panel>
+
+        <div *ngIf="subpanel === 'extracts' && !collapsedPanel" class="overflow-auto">
+            <sq-preview-pages-panel 
+                [previewData]="previewData"
+                [previewDocument]="previewDocument"
+                [pages]="pagesResults"
+                [style]="isDark()? 'dark' : 'light'"
+                (gotopage)="gotoPage($event)">
+            </sq-preview-pages-panel>
+        </div>
+
+        <div *ngIf="subpanel !== 'extracts' && !collapsedPanel" class="overflow-auto">
+
+            <!-- Legacy preview highlights -->
+            <sq-preview-highlights *ngIf="subpanel === 'highlights' && !!previewData" class="my-2"
+                [previewData]="previewData" [previewDocument]="previewDocument">
+            </sq-preview-highlights>
+
+            <!-- Entities panel -->
+            <div *ngIf="subpanel === 'entities'" class="p-2">
+                <sq-preview-entity-panel
+                    [previewData]="previewData"
+                    [previewDocument]="previewDocument"
+                    [style]="isDark()? 'dark' : 'light'"
+                    [startUnchecked]="entitiesStartUnchecked"
+                    (facetChecked)="entitiesChecked($event)">
+                </sq-preview-entity-panel>
             </div>
-            <div style="flex:1;">
-                <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)" (urlChange)="onPreviewUrlChange($event)">
+        </div>
+
+    </div>
+
+    <!-- Right panel (iframe with preview HTML) -->
+    <div class="d-flex flex-shrink-1 flex-grow-1 flex-column preview-bg">
+        <div *ngIf="previewData" class="p-2">
+            <h1>{{ previewData?.record.title }}</h1>
+            <!-- Link to the original document -->
+            <a title="Original document" target="_blank" href="{{previewData?.record.url1}}" (click)="openOriginalDoc()">{{previewData?.record.url1}}</a>
+        </div>
+        <div class="flex-grow-1 flex-shrink-1 overflow-hidden">
+            <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)" (urlChange)="onPreviewUrlChange($event)">
 
                 <!-- Tooltip injected in the preview -->
                 <sq-preview-tooltip #tooltip [previewDocument]="previewDocument" [previewData]="previewData"
@@ -70,11 +79,11 @@
                     [scalingFactor]="scaleFactor">
                 </sq-preview-tooltip>
 
-                </sq-preview-document-iframe>
-            </div>
+            </sq-preview-document-iframe>
         </div>
-
     </div>
+
+</div>
 
 <ng-template #nav>
     <div class="align-self-stretch d-flex justify-content-between align-items-center p-1" [ngClass]="{'flex-column flex-grow-1': collapsedPanel}">
