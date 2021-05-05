@@ -1,5 +1,5 @@
 <div class="list-group" *ngIf="sortedPages">
-    
+
     <!-- First page link if needed-->
     <a href="#" class="card my-1 list-group-item-action"
         (click)="selectPage(1)"
@@ -43,7 +43,13 @@
             <div class="card my-1" #currentPageEl>
                 <div class="card-body m-0">
                     <span class="small font-weight-bold mb-1">{{ 'msg#preview.page' | sqMessage:{values:{page: currentPage} } }} ({{ 'msg#preview.current' | sqMessage }})</span>
-                    <sq-preview-extracts-panel [previewData]="previewData" [previewDocument]="previewDocument" [style]="style" *ngIf="!_pendingPreviewDocument">
+                    <sq-preview-extracts-panel 
+                        *ngIf="!_pendingPreviewDocument" 
+                        class="d-flex flex-column"
+                        style="height: 300px;"
+                        [previewData]="previewData"
+                        [previewDocument]="previewDocument"
+                        [style]="style">
                     </sq-preview-extracts-panel>
                 </div>
             </div>
@@ -56,8 +62,8 @@
                         <div class="spinner-grow" role="status"></div>
                     </div>
                 </div>
-            </a>   
+            </a>
         </ng-container>
 
     </ng-container>
-</div>    
+</div>
