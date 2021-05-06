@@ -75,8 +75,6 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     public loading = true;
     public _sandbox: string | null = this.defaultSandbox;
 
-    previewDocument: PreviewDocument;
-
     constructor(
         private zone: NgZone,
         private cdr: ChangeDetectorRef,
@@ -84,21 +82,21 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     }
 
     public onPreviewDocLoad() {
-
         if (this.documentFrame === undefined) return;
         if (this.downloadUrl === undefined) return;
-
+        
+        const previewDocument = new PreviewDocument(this.documentFrame);
         // SVG highlight:
         //   background rectangle (highlight) were added to the SVG by the HTML generator (C#), but html generation is
         //   not able to know the geometry of the text. It is up to the browser to compute the position and size of the
         //   background. That needs to be done now that the iFrame is loaded.
-        this.previewDocument.setSvgBackgroundPositionAndSize();
+        previewDocument.setSvgBackgroundPositionAndSize();
 
         if(this.tooltip)
-            this.addTooltip(this.previewDocument);
+            this.addTooltip(previewDocument);
 
         // Let upstream component know
-        this.onPreviewReady.next(this.previewDocument);
+        this.onPreviewReady.next(previewDocument);
 
         this.cdr.markForCheck();
     }
@@ -109,7 +107,6 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
 
     ngOnInit() {
         this.documentFrame.nativeElement.addEventListener("load", () => this.onPreviewDocLoad(), true);
-        this.previewDocument = new PreviewDocument(this.documentFrame);
     }
 
     ngOnDestroy() {
@@ -130,7 +127,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
             this.loading = true;
             this.zone.run(() => {
                 this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.downloadUrl);
-                this.onPreviewDocLoad();
+                this.cdr.markForCheck();
             });
         }
     }
@@ -147,7 +144,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
 
         const dispatchChange = function () {
             if (iframe.contentWindow) {
-                const newHref = iframe.contentWindow.location.pathname;
+                const newHref = iframe.contentWindow.location.href;
                 if (newHref === "about:blank") return;
                 if (newHref !== lastDispatched) {
                     callback(newHref);
