@@ -24,8 +24,8 @@
 
     <ng-container *ngFor="let comment of comments">
 
-        <div class="message pl-2 py-1 pr-2" (click)="comment.$collapsed = !comment.$collapsed">
-            <div class="mt-2 d-flex" [ngClass]="{'text-muted':comment.deleted}">
+        <div class="message pl-2 py-1 pr-2">
+            <div class="mt-2 d-flex" [ngClass]="{'text-muted':comment.deleted}" (click)="comment.$collapsed = !comment.$collapsed">
                 <i class="fas fa-user-circle mr-1"></i>
                 <span class="text-truncate small font-weight-bold mr-2" *ngIf="!comment.deleted">{{comment.username}}</span>
                 <span class="text-truncate small font-weight-bold mr-2" *ngIf="comment.deleted">{{ 'msg#comments.deleted' | sqMessage }}</span>
