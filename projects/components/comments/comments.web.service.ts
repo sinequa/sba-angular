@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@angular/core";
 import { HttpService, SqHttpClient, StartConfig, START_CONFIG } from "@sinequa/core/web-services";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { pluck } from "rxjs/operators";
 
 declare interface CoreComment {
     commentid: string;
@@ -42,25 +42,19 @@ export class CommentsWebService extends HttpService {
     getComments(docid: string): Observable<Comment[]> {
         return this.httpClient.get<{comments: Comment[]}>(
             this.makeUrl(this.endpoint), {params: {docid, action: 'read'}}
-        ).pipe(
-            map(res => res.comments)
-        );
+        ).pipe(pluck('comments'));
     }
 
     createComment(docid: string, message: string, replyto?: string): Observable<NormalComment> {
         return this.httpClient.post<{comment: NormalComment}>(
             this.makeUrl(this.endpoint), {docid, message, replyto, action: 'create'}
-        ).pipe(
-            map(res => res.comment)
-        );
+        ).pipe(pluck('comment'));
     }
 
     updateComment(docid: string, commentid: string, message: string) {
         return this.httpClient.post<{comment: NormalComment}>(
             this.makeUrl(this.endpoint), {docid, commentid, message, action: 'update'}
-        ).pipe(
-            map(res => res.comment)
-        );
+        ).pipe(pluck('comment'));
     }
 
     deleteComment(docid: string, commentid: string, markAsDeleted: boolean): Observable<void> {
@@ -72,8 +66,6 @@ export class CommentsWebService extends HttpService {
     likeComment(docid: string, commentid: string): Observable<NormalComment> {
         return this.httpClient.post<{comment: NormalComment}>(
             this.makeUrl(this.endpoint), {docid, commentid, action: 'like'}
-        ).pipe(
-            map(res => res.comment)
-        );
+        ).pipe(pluck('comment'));
     }
 }

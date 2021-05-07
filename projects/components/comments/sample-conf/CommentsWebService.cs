@@ -101,7 +101,25 @@ namespace Sinequa.Plugin
         public string ToUpdateSQL(string indexname)
         {
             string strlikes = Str.SqlValue(Str.Join(";",likes));
-            return $"UPDATE {indexname} SET message={Str.SqlValue(message)},modified={Str.SqlValue(modified)},likes={strlikes} WHERE id={Str.SqlValue(commentid)}";
+            return $"UPDATE {indexname} SET message={Str.SqlValue(message)},modified={Str.SqlValue(modified)},likes={strlikes} WHERE id={Str.SqlValue(commentid)} AND docid={Str.SqlValue(docid)}";
+        }
+
+        /// <summary>
+        /// Generate an UPDATE SQL clause to remove the like of the current user from the index
+        /// </summary>
+        public string ToUpdateDeleteLikeSQL(string indexname, string userid)
+        {
+            string strlikes = Str.SqlValue(Str.Join(";", likes));
+            return $"UPDATE {indexname} MODE 'delete' SET likes={Str.SqlValue(userid)} WHERE id={Str.SqlValue(commentid)} AND docid={Str.SqlValue(docid)}";
+        }
+
+        /// <summary>
+        /// Generate an UPDATE SQL clause to append the like of the current user to the index
+        /// </summary>
+        public string ToUpdateAppendLikeSQL(string indexname, string userid)
+        {
+            string strlikes = Str.SqlValue(Str.Join(";", likes));
+            return $"UPDATE {indexname} MODE 'append' SET likes={Str.SqlValue(userid)} WHERE id={Str.SqlValue(commentid)} AND docid={Str.SqlValue(docid)}";
         }
 
         /// <summary>
@@ -182,13 +200,16 @@ namespace Sinequa.Plugin
 
             //Sys.Log("Comments Web Service Plugin Start");
 
-            string action = Method.JsonRequest.ValueStr("action");
-            if (action == null)
+            string action = ensureStrInput("action");
+            string docid = ensureStrInput("docid");
+            if (docid == null || action == null) return;
+
+            if (!Method.Session.HasAccessToDocId(docid))
             {
-                SetError(400, "Missing \"action\" input. Possible actions: 'create','read','update','delete','like'");
+                SetError(403, "You do not have access to this document");
                 return;
             }
-            
+
             CCIndex index = CC.Current.Indexes[indexname];
             EngineClient client = null;
 
@@ -200,23 +221,23 @@ namespace Sinequa.Plugin
                 switch (action.ToLower())
                 {
                     case "create":
-                        Create(client);
+                        Create(client, docid);
                         break;
 
                     case "read":
-                        Read(client);
+                        Read(client, docid);
                         break;
 
                     case "update":
-                        Update(client);
+                        Update(client, docid);
                         break;
 
                     case "delete":
-                        Delete(client);
+                        Delete(client, docid);
                         break;
 
                     case "like":
-                        Like(client);
+                        Like(client, docid);
                         break;
 
                     default:
@@ -243,11 +264,9 @@ namespace Sinequa.Plugin
         /// </summary>
         /// <param name="client"></param>
         /// <param name="docid"></param>
-        private void Create(EngineClient client)
+        private void Create(EngineClient client, string docid)
         {
             // Get required inputs
-            string docid = ensureStrInput("docid");
-            if (docid == null) return;
             string message = ensureStrInput("message");
             if (message == null) return;
             string replyto = Method.JsonRequest.ValueStr("replyto", "");
@@ -274,12 +293,8 @@ namespace Sinequa.Plugin
         /// </summary>
         /// <param name="client"></param>
         /// <param name="docid"></param>
-        private void Read(EngineClient client)
+        private void Read(EngineClient client, string docid)
         {
-            // Get required inputs
-            string docid = ensureStrInput("docid");
-            if (docid == null) return;
-
             // Extract comments from index
             var comments = ReadComments(client, docid);
 
@@ -316,7 +331,7 @@ namespace Sinequa.Plugin
         /// </summary>
         /// <param name="client"></param>
         /// <param name="docid"></param>
-        private void Update(EngineClient client)
+        private void Update(EngineClient client, string docid)
         {
             // Get required inputs
             string commentid = ensureStrInput("commentid");
@@ -326,7 +341,7 @@ namespace Sinequa.Plugin
             if (message == null) return;
 
             // Read the comment from the engine
-            var comment = ReadComment(client, commentid);
+            var comment = ReadComment(client, commentid, docid);
             if (comment == null) return;
 
             // Prevent updating a deleted comment
@@ -374,7 +389,7 @@ namespace Sinequa.Plugin
         /// Delete a comment (hard or soft delete supported)
         /// </summary>
         /// <param name="client"></param>
-        private void Delete(EngineClient client)
+        private void Delete(EngineClient client, string docid)
         {
             // Get required inputs
             string commentid = ensureStrInput("commentid");
@@ -386,7 +401,7 @@ namespace Sinequa.Plugin
             if (markAsDeleted)
             {
                 // Only mark the comment as deleted (can still have replies)
-                sql = $"UPDATE {indexname} SET message='',userid='',username='',likes='',deleted='true' WHERE id={Str.SqlValue(commentid)}";
+                sql = $"UPDATE {indexname} SET message='',userid='',username='',likes='',deleted='true' WHERE id={Str.SqlValue(commentid)} AND docid={Str.SqlValue(docid)}";
             }
             else
             {
@@ -423,14 +438,14 @@ namespace Sinequa.Plugin
         /// Like or Unlike a comment
         /// </summary>
         /// <param name="client"></param>
-        private void Like(EngineClient client)
+        private void Like(EngineClient client, string docid)
         {
             // Get required inputs
             string commentid = ensureStrInput("commentid");
             if (commentid == null) return;
 
             // Read the comment from the engine
-            var comment = ReadComment(client, commentid);
+            var comment = ReadComment(client, commentid, docid);
             if (comment == null) return;
 
             // Prevent liking a deleted comment
@@ -441,19 +456,19 @@ namespace Sinequa.Plugin
             }
 
             // Update the comment
+            string sql;
             if (comment.likes.Contains(Method.Session.UserId))
             {
                 comment.likes.Remove(Method.Session.UserId);
                 comment.likedByUser = false;
+                sql = comment.ToUpdateDeleteLikeSQL(indexname, Method.Session.UserId);
             }
             else
             {
                 comment.likes.Add(Method.Session.UserId);
                 comment.likedByUser = true;
+                sql = comment.ToUpdateAppendLikeSQL(indexname, Method.Session.UserId);
             }
-
-            // Update the comment in the index
-            string sql = comment.ToUpdateSQL(indexname);
 
             int res = client.Exec(sql);
             if (client.HasError())
@@ -483,7 +498,7 @@ namespace Sinequa.Plugin
         private Dictionary<string, Comment> ReadComments(EngineClient client, string docid)
         {
             var comments = new Dictionary<string, Comment>();
-            var sql = $"SELECT * FROM {indexname} WHERE docid = '{docid}' ORDER BY modified LIMIT 10000"; // Hard limit of 10000 comments for extreme cases
+            var sql = $"SELECT * FROM {indexname} WHERE docid={Str.SqlValue(docid)} ORDER BY modified LIMIT 10000"; // Hard limit of 10000 comments for extreme cases
 
             Cursor cursor = client.ExecCursor(sql);
             if (cursor != null)
@@ -509,10 +524,10 @@ namespace Sinequa.Plugin
         /// <param name="client">Engine client to make the request</param>
         /// <param name="commentid">id of the comment to retrieve</param>
         /// <returns>a Comment object (or null if the comment was not found)</returns>
-        private Comment ReadComment(EngineClient client, string commentid)
+        private Comment ReadComment(EngineClient client, string commentid, string docid)
         {
             // Get the current comment
-            string sql = $"SELECT * FROM {indexname} WHERE id={Str.SqlValue(commentid)} LIMIT 1";
+            string sql = $"SELECT * FROM {indexname} WHERE id={Str.SqlValue(commentid)} AND docid={Str.SqlValue(docid)} LIMIT 1";
 
             Cursor cursor = client.ExecCursor(sql);
             if (cursor != null && !client.HasError())
