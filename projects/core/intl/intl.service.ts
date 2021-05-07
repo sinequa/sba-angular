@@ -818,11 +818,14 @@ export class IntlService implements OnDestroy {
      * @param options The options can include a custom format
      */
     formatRelativeTime(
-        value: number | Date | undefined, unit?: Intl.RelativeTimeUnit,
+        value: string | number | Date | undefined, unit?: Intl.RelativeTimeUnit,
         options: Intl.RelativeTimeFormatOptions & { format?: string } = {}
     ): string {
         if (value === undefined) {
             return "";
+        }
+        if (Utils.isString(value)) {
+            value = new Date(value);
         }
         if (Utils.isDate(value)) {
             const params =  this.makeRelativeTimeParams(value);
