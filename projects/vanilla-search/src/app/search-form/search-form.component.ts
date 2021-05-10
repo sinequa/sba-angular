@@ -38,6 +38,7 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
   // Advanced search flags
   showAdvancedSearch: boolean;
   initAdvanced: boolean;
+  enableAdvancedForm = false; // Show the advanced form button or not
 
   /** Define if a filter, NOT belonging to fielded & advanced search, is currently applied to the searchService.query */
   isFiltering = false;
@@ -45,13 +46,17 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
   /** Specify if already applied filters should be kept or not while chaining searches */
   keepFilters = false;
   keepFiltersTitle = 'msg#searchForm.notKeepFilters';
+  enableKeepFilters = false; // Show the "keep filters" button or not
 
   /** USED ALONG WITH keepFilters context, to optionally reset the advanced-search or not */
-  keepAdvancedSearchFilters = true;
+  keepAdvancedSearchFilters = false;
 
   /** Define if should stay on the same tab even after a new search */
-  keepTab = true;
+  keepTab = false;
+
+  /** Voice recognition */
   voiceRecognitionState = false;
+  enableVoiceRecognition = false; // Show the voice recognition button or not
 
   hasScroll = false;
   @ViewChild('searchContainer') searchContainer: ElementRef;
@@ -93,7 +98,7 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
     });
 
     // Every time the query changes, we want to update the search form
-    this._searchSubscription = this.searchService.queryStream.subscribe(query => {
+    this.subscriptions.push(this.searchService.queryStream.subscribe(query => {
       // Update main search bar
       this.searchControl.setValue(this.searchService.query?.text || '');
       this.fieldSearchExpression = query?.findSelect("search-form")?.expression;
@@ -111,9 +116,23 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
       this._updateFilteringStatus();
 
       // Check user preferences regarding keeping filters
-      this.keepFilters = this.prefs.get('keep-filters-state');
-      this.keepFiltersTitle = this.keepFilters ? 'msg#searchForm.keepFilters' : 'msg#searchForm.notKeepFilters';
-    });
+      if(typeof this.prefs.get('keep-filters-state') !== 'undefined') {
+        this.keepFilters = this.prefs.get('keep-filters-state');
+        this.keepFiltersTitle = this.keepFilters ? 'msg#searchForm.keepFilters' : 'msg#searchForm.notKeepFilters';
+      }
+    }));
+
+    // Initialize the search form options (either now, or when login is complete)
+    if(this.appService.app) {
+      this.setOptions();
+    }
+    else {
+      this.subscriptions.push(this.loginService.events.subscribe(event => {
+        if(this.appService.app) {
+          this.setOptions();
+        }
+      }));
+    }
   }
 
   ngDoCheck() {
@@ -121,12 +140,28 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
     this.hasScroll = this.searchContainer?.nativeElement.scrollWidth > this.searchContainer?.nativeElement.clientWidth;
   }
 
-  private _searchSubscription: Subscription;
   ngOnDestroy() {
-    if (this._searchSubscription) {
-      this._searchSubscription.unsubscribe();
-    }
     this.subscriptions.map(item => item.unsubscribe());
+  }
+
+  setOptions() {
+    const features = this.appService.app?.data?.features as string[] || FEATURES;
+    features.forEach(feature =>{
+      switch(feature){
+        case "advanced-form": this.enableAdvancedForm = true; break;
+        case "keep-advanced-form-filters": this.keepAdvancedSearchFilters = true; break;
+        case "keep-tab": this.keepTab = true; break;
+        case "keep-filters": {
+          // Initialize keep filter flag, if not already in preferences
+          if(typeof this.prefs.get('keep-filters-state') === 'undefined') {
+            this.keepFilters = true;
+          }
+          break;
+        }
+        case "toggle-keep-filters": this.enableKeepFilters = true; break;
+        case "voice-recognition": this.enableVoiceRecognition = true; break;
+      }
+    });
   }
 
   /**
@@ -138,9 +173,6 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
       /** Hide autocomplete suggestions */
       this.searchInput.nativeElement.blur();
 
-      /** Close the advanced form */
-      this.showAdvancedSearch = false;
-
       /** Store relevant filters (tab ...)*/
       const queryTab = this.searchService.query.tab;
 
@@ -149,10 +181,13 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
         this.searchService.clearQuery();
 
         /** MUST explicitly reset the advanced form if this.keepAdvancedSearchFilters = false */
-        if (!this.keepAdvancedSearchFilters) {
+        if (!this.keepAdvancedSearchFilters && !this.showAdvancedSearch) {
           this.clearAdvancedForm();
         }
       }
+      
+      /** Close the advanced form */
+      this.showAdvancedSearch = false;
 
       /** Update the new query with entered text */
       this.searchService.query.text = this.searchControl?.value || "";
@@ -263,10 +298,7 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
    * Retrieve autocomplete sources, which include the standard
    */
   get autocompleteSources(): string[] {
-    if(this.appService.app && this.appService.app.data && this.appService.app.data.features){
-      return <string[]> this.appService.app.data.features;
-    }
-    return FEATURES;
+    return this.appService.app?.data?.features as string[] || FEATURES;
   }
 
   /**
