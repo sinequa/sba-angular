@@ -10,6 +10,7 @@ nav_order: 8
 It is a good practice to centralize some high-level parameters of your application in a place where you can easily modify them (rather than if they were hard-coded everywhere in the source code). For example, you could specify the list of facets or the metadata you want to display.
 
 There are essentially two ways of doing this in the SBA framework:
+
 1. Centralize configuration in the source code of your app.
 2. Centralize configuration on the server and download it in your app via the `AppWebService`.
 
@@ -74,11 +75,8 @@ import { AppService } from '@sinequa/core/app-utils';
     ...
     private appService: AppService) { }
 
-  public get features() {
-    if(this.appService.app && this.appService.app.data && this.appService.app.data.facets){
-      return this.appService.app.data.facets;
-    }
-    return [];
+  public get facets() {
+    return this.appService.app?.data?.facets || [];
   }
 ```
 
@@ -100,9 +98,6 @@ import { FEATURES } from '../../config';
 
   ...
   public get features(): string[] {
-    if(this.appService.app && this.appService.app.data && this.appService.app.data.features){
-      return <string[]> <any> this.appService.app.data.features;
-    }
-    return FEATURES;
+    return this.appService.app?.data?.features as string[] || FEATURES;
   }
 ```
