@@ -3,7 +3,7 @@ import {Observable} from "rxjs";
 import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
 import {START_CONFIG, StartConfig} from "./start-config.web.service";
-import { Query } from "../app-utils";
+import {IQuery} from "./query/query";
 
 export interface QueryIntentResponse {
     query: string;
@@ -59,7 +59,7 @@ export class QueryIntentWebService extends HttpService {
         super(startConfig);
     }
 
-    getQueryIntent(query: Query): Observable<QueryIntentResponse> {
+    getQueryIntent(query: IQuery): Observable<QueryIntentResponse> {
         const data = {
             query,
             app: this.appName
