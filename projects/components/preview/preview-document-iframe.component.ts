@@ -146,6 +146,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     ngAfterViewInit() {
         this.resetContent();
         this.iframeURLChange(this.documentFrame.nativeElement, (newURL: string) => {
+            this.previewDocument = new PreviewDocument(this.documentFrame);
             this.previewDocument.loadComplete$.next(false);
             this.urlChange.next(newURL)
         });
