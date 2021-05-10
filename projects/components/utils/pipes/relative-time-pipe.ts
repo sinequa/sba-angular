@@ -9,7 +9,7 @@ export class RelativeTimePipe extends AbstractIntlPipe {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(key: number | Date | undefined, params: {unit: Intl.RelativeTimeUnit} & Intl.RelativeTimeFormatOptions & { format?: string }): void {
+    updateValue(key: string |number | Date | undefined, params: {unit: Intl.RelativeTimeUnit} & Intl.RelativeTimeFormatOptions & { format?: string }): void {
         super.updateValue(key, params);
         this.value = this.intlService.formatRelativeTime(key, params ? params.unit : undefined, params);
     }

@@ -785,6 +785,43 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     </li>
                             </li>
                             <li class="link">
+                                <a href="modules/CommentsModule.html" data-type="entity-link">CommentsModule</a>
+                                    <li class="chapter inner">
+                                        <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
+                                            'data-target="#components-links-module-CommentsModule-f55833ab5e6572c3d0c02bd0a94e118c"' : 'data-target="#xs-components-links-module-CommentsModule-f55833ab5e6572c3d0c02bd0a94e118c"' }>
+                                            <span class="icon ion-md-cog"></span>
+                                            <span>Components</span>
+                                            <span class="icon ion-ios-arrow-down"></span>
+                                        </div>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-CommentsModule-f55833ab5e6572c3d0c02bd0a94e118c"' :
+                                            'id="xs-components-links-module-CommentsModule-f55833ab5e6572c3d0c02bd0a94e118c"' }>
+                                            <li class="link">
+                                                <a href="components/CommentsComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">CommentsComponent</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="chapter inner">
+                                        <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
+                                            'data-target="#pipes-links-module-CommentsModule-f55833ab5e6572c3d0c02bd0a94e118c"' : 'data-target="#xs-pipes-links-module-CommentsModule-f55833ab5e6572c3d0c02bd0a94e118c"' }>
+                                            <span class="icon ion-md-add"></span>
+                                            <span>Pipes</span>
+                                            <span class="icon ion-ios-arrow-down"></span>
+                                        </div>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="pipes-links-module-CommentsModule-f55833ab5e6572c3d0c02bd0a94e118c"' :
+                                            'id="xs-pipes-links-module-CommentsModule-f55833ab5e6572c3d0c02bd0a94e118c"' }>
+                                            <li class="link">
+                                                <a href="pipes/CreationDatePipe.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">CreationDatePipe</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="pipes/MarkdownPipe.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">MarkdownPipe</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                            </li>
+                            <li class="link">
                                 <a href="modules/LabelsModule.html" data-type="entity-link">LabelsModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
@@ -1151,6 +1188,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <a href="injectables/BsDropdownService.html" data-type="entity-link">BsDropdownService</a>
                                 </li>
                                 <li class="link">
+                                    <a href="injectables/CommentsWebService.html" data-type="entity-link">CommentsWebService</a>
+                                </li>
+                                <li class="link">
                                     <a href="injectables/FacetService.html" data-type="entity-link">FacetService</a>
                                 </li>
                                 <li class="link">
@@ -1296,10 +1336,16 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/ColumnData.html" data-type="entity-link">ColumnData</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/CoreComment.html" data-type="entity-link">CoreComment</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/DatePickerOptions.html" data-type="entity-link">DatePickerOptions</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/DateRangePickerOptions.html" data-type="entity-link">DateRangePickerOptions</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/DeletedComment.html" data-type="entity-link">DeletedComment</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/DropdownClearEvent.html" data-type="entity-link">DropdownClearEvent</a>
@@ -1405,6 +1451,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/NewResultsEvent.html" data-type="entity-link">NewResultsEvent</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/NormalComment.html" data-type="entity-link">NormalComment</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/OpenOriginalDocument.html" data-type="entity-link">OpenOriginalDocument</a>

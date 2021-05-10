@@ -884,7 +884,8 @@ export class SearchService implements OnDestroy {
                 type: AuditEventType.Search_Text,
                 detail: {
                     text: this.query.text,
-                    scope: this.query.scope
+                    scope: this.query.scope,
+                    language: this.intlService.currentLocale.name
                 }
             }));
     }

@@ -24,7 +24,7 @@ One of the usages of this module is the collapse/expand functionality of the fac
 
 ## Import
 
-Add [`CollapseModule`]({{site.baseurl}}components/modules/CollapseModule.html) to you Angular imports in `app.module.ts`:
+Add [`CollapseModule`]({{site.baseurl}}components/modules/CollapseModule.html) to your Angular imports in `app.module.ts`:
 
 ```ts
 import { CollapseModule } from "@sinequa/components/collapse";

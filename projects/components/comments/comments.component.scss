@@ -1,0 +1,41 @@
+.subcomments {
+    border-left: 2px solid lightgrey;
+}
+
+.btn-sm {
+    font-size: 0.8rem;
+    line-height: 1.1;
+}
+
+.message {
+    &:hover {
+        background: rgb(0, 0, 0, 0.05);
+    }
+
+    // Remove extra margin below paragraphs or lists
+    .message-body > ::ng-deep *:last-child {
+        margin-bottom: 0.25rem;
+    }
+
+    // Manage image styling in markdown
+    .message-body ::ng-deep img {
+        max-width: 100%;
+        padding: 5px;
+        border-radius: 8px;
+    }
+}
+
+.comments.dark {
+    .btn-outline-secondary:not(:hover) {
+        color: #aab2b9;
+        border-color: #aab2b9;
+    }
+    
+    .message:hover {
+        background: rgb(255, 255, 255, 0.10);
+    }
+}
+
+sq-collapse-button {
+    cursor: pointer;
+}

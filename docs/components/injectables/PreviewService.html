@@ -101,6 +101,10 @@
                                 <a href="#getAuditPreviewDetail">getAuditPreviewDetail</a>
                             </li>
                             <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getHtmlPreview">getHtmlPreview</a>
+                            </li>
+                            <li>
                                 <a href="#getPageNumber">getPageNumber</a>
                             </li>
                             <li>
@@ -481,6 +485,81 @@
                     </div>
                     <div class="io-description">
                         
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getHtmlPreview"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            getHtmlPreview
+                        </b>
+                        <a href="#getHtmlPreview"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getHtmlPreview(url: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="208"
+                            class="link-to-prism">preview/preview.service.ts:208</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>returns document&#39;s preview HTML</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>url</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>document&#39;s preview HTML</p>
+
                     </div>
                 </td>
             </tr>
@@ -1327,6 +1406,15 @@ export class PreviewService {
             filename: record?.filename,
             fileext: record?.fileext,
         }
+    }
+    
+    /**
+     * returns document&#x27;s preview HTML
+     * @param url 
+     * @returns document&#x27;s preview HTML
+     */
+    public getHtmlPreview(url:string) {
+        return this.previewWebService.getHtmlPreview(url);
     }
 }</code></pre>
     </div>
