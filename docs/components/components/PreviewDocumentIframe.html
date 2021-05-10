@@ -193,11 +193,8 @@ iframe {
                                 <a href="#documentFrame">documentFrame</a>
                             </li>
                             <li>
-                                    <span class="modifier">Public</span>
-                                <a href="#loading">loading</a>
-                            </li>
-                            <li>
-                                <a href="#previewDocument">previewDocument</a>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#previewDocLoadHandler">previewDocLoadHandler</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -235,6 +232,9 @@ iframe {
                             </li>
                             <li>
                                 <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onPreviewDoc">onPreviewDoc</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -298,7 +298,7 @@ iframe {
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(zone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>, cdr: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>, sanitizer: <a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank">DomSanitizer</a>)</code>
+<code>constructor(cdr: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>, zone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>, sanitizer: <a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank">DomSanitizer</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -321,10 +321,10 @@ iframe {
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>zone</td>
+                                                        <td>cdr</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
+                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -333,10 +333,10 @@ iframe {
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>cdr</td>
+                                                        <td>zone</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                                        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -510,8 +510,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:114</a></div>
                 </td>
             </tr>
 
@@ -580,8 +580,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="146"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:146</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="154"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:154</a></div>
                 </td>
             </tr>
 
@@ -655,8 +655,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="139"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:139</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="146"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:146</a></div>
                 </td>
             </tr>
 
@@ -694,8 +694,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="120"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:120</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:126</a></div>
                 </td>
             </tr>
 
@@ -764,8 +764,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="116"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:116</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="122"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:122</a></div>
                 </td>
             </tr>
 
@@ -803,8 +803,47 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="111"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:111</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:118</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onPreviewDoc"></a>
+                    <span class="name">
+                        <b>
+                            onPreviewDoc
+                        </b>
+                        <a href="#onPreviewDoc"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onPreviewDoc()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="105"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:105</a></div>
                 </td>
             </tr>
 
@@ -844,8 +883,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:87</a></div>
                 </td>
             </tr>
 
@@ -883,8 +922,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="184"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:184</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="192"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:192</a></div>
                 </td>
             </tr>
 
@@ -932,7 +971,7 @@ iframe {
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">preview/preview-document-iframe.component.ts:76</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">preview/preview-document-iframe.component.ts:75</a></div>
                             </td>
                         </tr>
 
@@ -1011,47 +1050,15 @@ iframe {
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="loading"></a>
+                        <a name="previewDocLoadHandler"></a>
                         <span class="name">
                             <b>
-                                <span class="modifier">Public</span>
-                            loading</b>
-                            <a href="#loading"><span class="icon ion-ios-link"></span></a>
+                                <span class="modifier">Readonly</span>
+                            previewDocLoadHandler</b>
+                            <a href="#previewDocLoadHandler"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>true</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">preview/preview-document-iframe.component.ts:75</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="previewDocument"></a>
-                        <span class="name">
-                            <b>
-                            previewDocument</b>
-                            <a href="#previewDocument"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../classes/PreviewDocument.html" target="_self" >PreviewDocument</a></code>
-
-                        </td>
-                    </tr>
                         <tr>
                             <td class="col-md-4">
                                     <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">preview/preview-document-iframe.component.ts:78</a></div>
@@ -1205,49 +1212,55 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     @ContentChild(&#x27;tooltip&#x27;, {read: ElementRef, static: false}) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
     public sanitizedUrlSrc: SafeResourceUrl;
-    public loading &#x3D; true;
     public _sandbox: string | null &#x3D; this.defaultSandbox;
-
-    previewDocument: PreviewDocument;
+    
+    private previewDocument: PreviewDocument;
+    readonly previewDocLoadHandler;
 
     constructor(
-        private zone: NgZone,
         private cdr: ChangeDetectorRef,
+        private zone: NgZone,
         private sanitizer: DomSanitizer) {
+            this.previewDocLoadHandler &#x3D; this.onPreviewDocLoad.bind(this);
     }
 
     public onPreviewDocLoad() {
-
-        if (this.documentFrame &#x3D;&#x3D;&#x3D; undefined) return;
-        if (this.downloadUrl &#x3D;&#x3D;&#x3D; undefined) return;
-
-
+        
+        if(this.downloadUrl &#x3D;&#x3D;&#x3D; undefined) return;
+        
         // SVG highlight:
         //   background rectangle (highlight) were added to the SVG by the HTML generator (C#), but html generation is
         //   not able to know the geometry of the text. It is up to the browser to compute the position and size of the
         //   background. That needs to be done now that the iFrame is loaded.
-        this.previewDocument.setSvgBackgroundPositionAndSize();
+        try {
+            this.previewDocument.setSvgBackgroundPositionAndSize();
+        } catch (error) {
+            console.error(error);
+        }
+        this.previewDocument.loadComplete$.next(true);
 
-        if(this.tooltip)
+        this.onPreviewDoc();
+    }
+    
+    onPreviewDoc() {
+        if (this.tooltip)
             this.addTooltip(this.previewDocument);
 
         // Let upstream component know
         this.onPreviewReady.next(this.previewDocument);
-
         this.cdr.markForCheck();
     }
 
     addTooltip(previewDocument: PreviewDocument) {
         previewDocument.insertComponent(this.tooltip.nativeElement);
     }
-    
+
     ngOnInit() {
-        this.documentFrame.nativeElement.addEventListener(&quot;load&quot;, () &#x3D;&gt; this.onPreviewDocLoad(), true);
-        this.previewDocument &#x3D; new PreviewDocument(this.documentFrame);
+        this.documentFrame.nativeElement.addEventListener(&quot;load&quot;, this.previewDocLoadHandler, true);
     }
-    
+
     ngOnDestroy() {
-        this.documentFrame.nativeElement.removeEventListener(&quot;load&quot;, () &#x3D;&gt; this.onPreviewDocLoad());
+        this.documentFrame.nativeElement.removeEventListener(&quot;load&quot;, this.previewDocLoadHandler);
     }
 
     ngOnChanges(simpleChanges: SimpleChanges) {
@@ -1258,13 +1271,14 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
         if (simpleChanges.scalingFactor &amp;&amp; !simpleChanges.scalingFactor.firstChange) {
             return;
         }
-        
+
         this.resetContent();
-        if (this.downloadUrl &amp;&amp; this.downloadUrl !&#x3D;&#x3D; &quot;about:blank&quot;) {
-            this.loading &#x3D; true;
+        if (simpleChanges.downloadUrl &amp;&amp; simpleChanges.downloadUrl.currentValue !&#x3D;&#x3D; undefined) {
             this.zone.run(() &#x3D;&gt; {
                 this.sanitizedUrlSrc &#x3D; this.sanitizer.bypassSecurityTrustResourceUrl(this.downloadUrl);
-                this.onPreviewDocLoad();
+                this.previewDocument &#x3D; new PreviewDocument(this.documentFrame);
+                this.previewDocument.loadComplete$.next(false);
+                this.onPreviewDoc();
             });
         }
     }
@@ -1272,6 +1286,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     ngAfterViewInit() {
         this.resetContent();
         this.iframeURLChange(this.documentFrame.nativeElement, (newURL: string) &#x3D;&gt; {
+            this.previewDocument.loadComplete$.next(false);
             this.urlChange.next(newURL)
         });
     }
@@ -1281,7 +1296,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
 
         const dispatchChange &#x3D; function () {
             if (iframe.contentWindow) {
-                const newHref &#x3D; iframe.contentWindow.location.pathname;
+                const newHref &#x3D; iframe.contentWindow.location.href;
                 if (newHref &#x3D;&#x3D;&#x3D; &quot;about:blank&quot;) return;
                 if (newHref !&#x3D;&#x3D; lastDispatched) {
                     callback(newHref);
@@ -1313,11 +1328,12 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
 
         attachUnload();
     }
-    
+
     resetContent() {
         this.sanitizedUrlSrc &#x3D; this.sanitizer.bypassSecurityTrustResourceUrl(&#x27;about:blank&#x27;);
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 
 
@@ -1379,7 +1395,7 @@ iframe {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><iframe #documentFrame    [attr.sandbox]="_sandbox"    [src]="sanitizedUrlSrc"    [style.--factor]="scalingFactor"    [ngStyle]="{\'-ms-zoom\': scalingFactor, \'-moz-transform\': \'scale(var(--factor))\', \'-o-transform\': \'scale(var(--factor))\', \'-webkit-transform\': \'scale(var(--factor))\'}"></iframe></div>'
-    var COMPONENTS = [{'name': 'AbstractFacet', 'selector': ''},{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAddLabel', 'selector': 'sq-add-label'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormInput', 'selector': 'sq-advanced-form-input'},{'name': 'BsAdvancedFormMultiInput', 'selector': 'sq-advanced-form-multi-input'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDeleteLabel', 'selector': 'sq-delete-label'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditLabel', 'selector': 'sq-edit-label'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetFilters', 'selector': 'sq-facet-filters'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTagCloud', 'selector': 'sq-facet-tag-cloud'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFieldSearchItemsComponent', 'selector': 'sq-field-search-items'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsAutocompleteComponent', 'selector': 'sq-labels-autocomplete'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLoadMore', 'selector': 'sq-load-more'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMySearch', 'selector': 'sq-facet-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPageFormComponent', 'selector': 'sq-preview-page-form'},{'name': 'BsPreviewPagesPanelComponent', 'selector': 'sq-preview-pages-panel'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsPrompt', 'selector': 'sq-prompt'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsScroller', 'selector': 'sq-scroller'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSelectionArranger', 'selector': 'sq-selection-arranger'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsThemeToggleComponent', 'selector': 'sq-theme-toggle'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'StickyComponent', 'selector': '[sqSticky]'},{'name': 'TooltipComponent', 'selector': 'sqx-tooltip'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
+    var COMPONENTS = [{'name': 'AbstractFacet', 'selector': ''},{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAddLabel', 'selector': 'sq-add-label'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormInput', 'selector': 'sq-advanced-form-input'},{'name': 'BsAdvancedFormMultiInput', 'selector': 'sq-advanced-form-multi-input'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDeleteLabel', 'selector': 'sq-delete-label'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditLabel', 'selector': 'sq-edit-label'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetFilters', 'selector': 'sq-facet-filters'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTagCloud', 'selector': 'sq-facet-tag-cloud'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFieldSearchItemsComponent', 'selector': 'sq-field-search-items'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsAutocompleteComponent', 'selector': 'sq-labels-autocomplete'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLoadMore', 'selector': 'sq-load-more'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMySearch', 'selector': 'sq-facet-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPageFormComponent', 'selector': 'sq-preview-page-form'},{'name': 'BsPreviewPagesPanelComponent', 'selector': 'sq-preview-pages-panel'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsPrompt', 'selector': 'sq-prompt'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsScroller', 'selector': 'sq-scroller'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSelectionArranger', 'selector': 'sq-selection-arranger'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsThemeToggleComponent', 'selector': 'sq-theme-toggle'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'CommentsComponent', 'selector': 'sq-comments'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'StickyComponent', 'selector': '[sqSticky]'},{'name': 'TooltipComponent', 'selector': 'sqx-tooltip'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
     var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'AutocompleteFieldSearch', 'selector': '[sqAutocompleteFieldSearch]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sqAdvancedFormAutocomplete]'},{'name': 'BsAdvancedFormAutocompleteMultiInput', 'selector': '[sqAdvancedFormAutocompleteMultiInput]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sqAdvancedFormValidation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'FocusKeyListDirective', 'selector': '[sqFocusKeyList]'},{'name': 'FocusKeyListItemDirective', 'selector': '[sqFocusKeyListItem]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ResizeEventDirective', 'selector': '[sqResize]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'},{'name': 'TooltipDirective', 'selector': '[sqTooltip]'}];
     var ACTUAL_COMPONENT = {'name': 'PreviewDocumentIframe'};
 </script>

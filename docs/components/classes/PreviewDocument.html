@@ -84,6 +84,21 @@
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#loadComplete$">loadComplete$</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -166,7 +181,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">preview/preview-document.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">preview/preview-document.ts:51</a></div>
                             </td>
                         </tr>
 
@@ -204,6 +219,39 @@
         </table>
 </section>
 
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="loadComplete$"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            loadComplete$</b>
+                            <a href="#loadComplete$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new BehaviorSubject&lt;boolean&gt;(true)</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">preview/preview-document.ts:51</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
 
             <section>
     
@@ -234,8 +282,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="157"
-                            class="link-to-prism">preview/preview-document.ts:157</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="156"
+                            class="link-to-prism">preview/preview-document.ts:156</a></div>
                 </td>
             </tr>
 
@@ -356,8 +404,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">preview/preview-document.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">preview/preview-document.ts:70</a></div>
                 </td>
             </tr>
 
@@ -399,8 +447,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="88"
-                            class="link-to-prism">preview/preview-document.ts:88</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">preview/preview-document.ts:94</a></div>
                 </td>
             </tr>
 
@@ -494,8 +542,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="79"
-                            class="link-to-prism">preview/preview-document.ts:79</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">preview/preview-document.ts:85</a></div>
                 </td>
             </tr>
 
@@ -564,8 +612,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="134"
-                            class="link-to-prism">preview/preview-document.ts:134</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="140"
+                            class="link-to-prism">preview/preview-document.ts:140</a></div>
                 </td>
             </tr>
 
@@ -660,8 +708,8 @@ to the DOM elements and scrolling the view to center around them.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="104"
-                            class="link-to-prism">preview/preview-document.ts:104</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="110"
+                            class="link-to-prism">preview/preview-document.ts:110</a></div>
                 </td>
             </tr>
 
@@ -896,7 +944,7 @@ If the filters object is an array then only the specified categories are highlig
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">preview/preview-document.ts:71</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">preview/preview-document.ts:77</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -919,6 +967,8 @@ If the filters object is an array then only the specified categories are highlig
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ElementRef } from &quot;@angular/core&quot;;
+import {BehaviorSubject} from &quot;rxjs&quot;;
+
 import { Utils } from &quot;@sinequa/core/base&quot;;
 
 export enum HighlightCategoryFilterChoice {
@@ -963,6 +1013,10 @@ export class PreviewDocument {
 
     private readonly _window: Window;
     private readonly _document: Document;
+    
+    private previousElement: HTMLElement | null;
+    
+    public loadComplete$ &#x3D; new BehaviorSubject&lt;boolean&gt;(true);
 
     constructor(element: ElementRef | Document){
         if (element instanceof ElementRef) {
@@ -1052,23 +1106,16 @@ export class PreviewDocument {
      * @param index Index of the entity in that category
      */
     public selectHighlight(categoryId: string, index: number) : void {
-
-        // Move selection
-        const targetElements &#x3D; this.getDocElements(categoryId + &quot;_&quot; + index);
-        if (!targetElements || targetElements.length &#x3D;&#x3D;&#x3D; 0) {
-            return;
-        }
-
+        
         this.clearHighlightSelection();
-
-        for (let i &#x3D; 0; i&lt; targetElements.length; i++) {
-            this.setHighlightSelection(targetElements[i], i &#x3D;&#x3D;&#x3D; 0, i &#x3D;&#x3D;&#x3D; targetElements.length - 1);
+        // current element becomes previous element
+        this.previousElement &#x3D; this.document.getElementById(categoryId + &#x27;_&#x27; + index);
+        
+        if (this.previousElement) {
+            // highlight new selected element
+            this.setHighlightSelection(this.previousElement,true, true);
+            this.previousElement.scrollIntoView({block: &#x27;center&#x27;});
         }
-
-        // Scroll
-        const scrollContainer: Element &#x3D; this.getScrollingContainer();
-        const [x, y]: [number,  number] &#x3D; PreviewDocument.computeTargetScroll(targetElements, scrollContainer);
-        this._window.scrollBy(x, y);
     }
 
     /**
@@ -1076,8 +1123,9 @@ export class PreviewDocument {
      */
     public clearHighlightSelection(): void {
         // Clear HTML elements borders
-        Array.from(this.document.getElementsByClassName(PreviewDocument.SELECTED_HIGHLIGHT_CLASS))
-            .forEach(element &#x3D;&gt; element.classList.remove(PreviewDocument.SELECTED_HIGHLIGHT_CLASS));
+        if (this.previousElement) {
+            this.previousElement.classList.remove(PreviewDocument.SELECTED_HIGHLIGHT_CLASS);
+        }
         // Clear SVG elements borders
         const elements: NodeListOf&lt;Element&gt; &#x3D; this.document.querySelectorAll(&quot;line.sq-svg&quot;);
         for (let i &#x3D; 0; i &lt; elements.length; i++) {
@@ -1160,14 +1208,6 @@ export class PreviewDocument {
         else {
             this.setHighlightSelectionHTML(elt, isFirst, isLast);
         }
-    }
-
-    // NB https://miketaylr.com/posts/2014/11/document-body-scrollTop.html
-    private getScrollingContainer(): Element {
-        return this.document.scrollingElement ||
-            this.document.documentElement ||
-            /*contentDocument.body.parentElement ||*/ //TODO - check desirability of this (especially in Safari)
-            this.document.body;
     }
 
     private setHighlightSelectionHTML(elt: Element, isFirst: boolean, isLast: boolean): void {
@@ -1306,49 +1346,6 @@ export class PreviewDocument {
             }
         }
         return &quot;&quot;;
-    }
-
-    private static computeTargetScroll(elementsToCenter: Array&lt;Element&gt;, container: Element): [number, number] {
-        // Check for scrollability on the container
-        const computedStyle &#x3D; getComputedStyle(container);
-        if (computedStyle.overflow &#x3D;&#x3D;&#x3D; &quot;hidden&quot;) {
-            return [0, 0];
-        }
-        const elementRectangles &#x3D; elementsToCenter.map(element &#x3D;&gt; element.getBoundingClientRect());
-        const targetRectangle &#x3D; this.computeBoundingRectangle(elementRectangles);
-        if (!targetRectangle) {
-            return [0, 0];
-        }
-        const availableWidth: number &#x3D; container.clientWidth;
-        const availableHeight: number &#x3D; container.clientHeight;
-        const x &#x3D; computedStyle.overflowX &#x3D;&#x3D;&#x3D; &quot;hidden&quot; ? 0 : targetRectangle.left - ((availableWidth - targetRectangle.width)/2);
-        const y &#x3D; computedStyle.overflowY &#x3D;&#x3D;&#x3D; &quot;hidden&quot; ? 0 : targetRectangle.top - ((availableHeight - targetRectangle.height)/2);
-        return [x, y];
-    }
-
-    private static computeBoundingRectangle(rectangles: (DOMRect | ClientRect)[]): DOMRect | ClientRect | undefined {
-        if (!rectangles || rectangles.length &#x3D;&#x3D;&#x3D; 0) {
-            return undefined;
-        }
-        let result: DOMRect | ClientRect | undefined;
-        for (let i &#x3D; 0; i &lt; rectangles.length; i++) {
-            result &#x3D; this.computeRectangleUnion(result, rectangles[i]);
-        }
-        return result;
-    }
-
-    private static computeRectangleUnion(rectangle1: DOMRect | ClientRect | undefined, rectangle2: DOMRect | ClientRect) {
-        if (rectangle1 &#x3D;&#x3D; null) {
-            return rectangle2;
-        }
-        if (rectangle2 &#x3D;&#x3D; null) {
-            return rectangle1;
-        }
-        const left &#x3D; Math.min(rectangle1.left, rectangle2.left);
-        const right &#x3D; Math.max(rectangle1.right, rectangle2.right);
-        const top &#x3D; Math.min(rectangle1.top, rectangle2.top);
-        const bottom &#x3D; Math.max(rectangle1.bottom, rectangle2.bottom);
-        return new DOMRect(left, top, right - left, bottom - top);
     }
 }
 </code></pre>

@@ -184,6 +184,9 @@
                                 <a href="#suggest">suggest</a>
                             </li>
                             <li>
+                                <a href="#suggestionsToTreeAggregationNodes">suggestionsToTreeAggregationNodes</a>
+                            </li>
+                            <li>
                                 <a href="#suggestionToAggregationItem">suggestionToAggregationItem</a>
                             </li>
                             <li>
@@ -1125,8 +1128,8 @@ Triggers an internal event and an Audit Event</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="854"
-                            class="link-to-prism">facet/facet.service.ts:854</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="916"
+                            class="link-to-prism">facet/facet.service.ts:916</a></div>
                 </td>
             </tr>
 
@@ -2013,8 +2016,8 @@ Can be used to read or alter the properties of the nodes (opening, closing), or 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="843"
-                            class="link-to-prism">facet/facet.service.ts:843</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="905"
+                            class="link-to-prism">facet/facet.service.ts:905</a></div>
                 </td>
             </tr>
 
@@ -3125,6 +3128,115 @@ Can be used to read or alter the properties of the nodes (opening, closing), or 
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="suggestionsToTreeAggregationNodes"></a>
+                    <span class="name">
+                        <b>
+                            suggestionsToTreeAggregationNodes
+                        </b>
+                        <a href="#suggestionsToTreeAggregationNodes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>suggestionsToTreeAggregationNodes(suggests: Suggestion[], searchTerm: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, aggregation: Aggregation | undefined)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="842"
+                            class="link-to-prism">facet/facet.service.ts:842</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Converts a list of suggestions into a structure of TreeAggregationNodes</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>suggests</td>
+                                    <td>
+                                            <code>Suggestion[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Suggestions to convert</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>searchTerm</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The searched term in the suggestions</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>aggregation</td>
+                                    <td>
+                                            <code>Aggregation | undefined</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The tree aggregations</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>TreeAggregationNode[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="suggestionToAggregationItem"></a>
                     <span class="name">
                         <b>
@@ -3298,7 +3410,7 @@ On boolean type, convert <code>value</code> property to boolean</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="874" class="link-to-prism">facet/facet.service.ts:874</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="936" class="link-to-prism">facet/facet.service.ts:936</a></div>
                             </td>
                         </tr>
 
@@ -3459,7 +3571,7 @@ Cf. CHANGE_EVENTS list</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, Optional, InjectionToken} from &quot;@angular/core&quot;;
 import {UserSettingsWebService, UserSettings, Suggestion,
     Results, Aggregation, AggregationItem, TreeAggregation, TreeAggregationNode,
-    AuditEvents, EngineType, Select
+    AuditEvents, EngineType, Select, CCColumn
 } from &quot;@sinequa/core/web-services&quot;;
 import {IntlService} from &quot;@sinequa/core/intl&quot;;
 import {Query, AppService, FormatService, ExprBuilder, Expr} from &quot;@sinequa/core/app-utils&quot;;
@@ -4282,7 +4394,7 @@ export class FacetService {
         const item: AggregationItem &#x3D; {
             value: suggest.normalized || suggest.display,
             display: suggest.display,
-            count: 0,
+            count: +(suggest.frequency || 0),
             $column: this.appService.getColumn(suggest.category)
         };
         if (item.$column?.eType &#x3D;&#x3D;&#x3D; EngineType.bool) {
@@ -4290,6 +4402,68 @@ export class FacetService {
         }
         return item;
     }
+
+    /**
+     * Converts a list of suggestions into a structure of TreeAggregationNodes
+     * @param suggests Suggestions to convert
+     * @param searchTerm The searched term in the suggestions
+     * @param aggregation The tree aggregations
+     */
+    suggestionsToTreeAggregationNodes(suggests: Suggestion[], searchTerm: string, aggregation: Aggregation | undefined): TreeAggregationNode[] {
+        const suggestions: TreeAggregationNode[] &#x3D; [];
+        if(suggests.length &gt; 0) {
+            const path2node &#x3D; new Map&lt;string,TreeAggregationNode&gt;();
+            const searchPattern &#x3D; new RegExp(&#x60;\\b${searchTerm}&#x60;, &#x27;i&#x27;);
+            const column &#x3D; this.appService.getColumn(aggregation?.column);
+            suggests.forEach(suggest &#x3D;&gt; {
+                if(suggest.display.length &gt; 1) {
+                    const match &#x3D; searchPattern.exec(suggest.display);
+                    this.addNode(suggestions, path2node, &quot;/&quot;, suggest.display, +(suggest.frequency || 0), 1, (match?.index || 0)+searchTerm.length, column);
+                }
+            });
+        }
+        return suggestions;
+    }
+
+    /**
+     * Utility recursive function to generate a tree aggregation structure from
+     * a list of suggestions
+     */
+    protected addNode(items: TreeAggregationNode[],
+            path2node: Map&lt;string,TreeAggregationNode&gt;,
+            parentPath: string,
+            path: string,
+            count: number,
+            level: number,
+            matchend: number,
+            column: CCColumn | undefined) {
+
+        const nextChild &#x3D; path.indexOf(&quot;/&quot;, parentPath.length); // path &#x3D; /Cities/Paris/17e/   parentPath &#x3D; /Cities/
+        const currentPath &#x3D; path.substring(0, nextChild+1); // &#x3D;&gt; currentPath &#x3D; /Cities/Paris/
+        let node &#x3D; path2node.get(currentPath);
+
+        if(!node) {
+            const value &#x3D; path.substring(parentPath.length, nextChild);
+            node &#x3D; {
+                value,
+                count,
+                items: [],
+                hasChildren: false,
+                $column: column,
+                $level: level,
+                $opened: matchend &gt;&#x3D; currentPath.length,
+                $path: currentPath
+            };
+            path2node.set(currentPath, node);
+            items.push(node);
+        }
+
+        if(currentPath.length &lt; path.length) {
+            node.hasChildren &#x3D; true;
+            this.addNode(node.items, path2node, currentPath, path, count, level+1, matchend, column);
+        }
+    }
+
 
     /**
      * Check if a facet contains items

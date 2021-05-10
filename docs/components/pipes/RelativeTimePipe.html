@@ -97,7 +97,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateValue(key: number | Date | undefined, params)</code>
+<code>updateValue(key: string | number | Date | undefined, params)</code>
                 </td>
             </tr>
 
@@ -127,7 +127,7 @@
                                 <tr>
                                     <td>key</td>
                                     <td>
-                                            <code>number | Date | undefined</code>
+                                            <code>string | number | Date | undefined</code>
                                     </td>
 
                                     <td>
@@ -180,7 +180,7 @@ export class RelativeTimePipe extends AbstractIntlPipe {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(key: number | Date | undefined, params: {unit: Intl.RelativeTimeUnit} &amp; Intl.RelativeTimeFormatOptions &amp; { format?: string }): void {
+    updateValue(key: string |number | Date | undefined, params: {unit: Intl.RelativeTimeUnit} &amp; Intl.RelativeTimeFormatOptions &amp; { format?: string }): void {
         super.updateValue(key, params);
         this.value &#x3D; this.intlService.formatRelativeTime(key, params ? params.unit : undefined, params);
     }

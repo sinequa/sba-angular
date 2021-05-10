@@ -230,17 +230,17 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, NgZone, OnChanges, SimpleChanges, ViewChild } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from &#x27;@angular/core&#x27;;
 import { DomSanitizer, SafeHtml } from &#x27;@angular/platform-browser&#x27;;
 import {DOCUMENT} from &#x27;@angular/common&#x27;;
 import {CdkVirtualScrollViewport} from &#x27;@angular/cdk/scrolling&#x27;;
-import {distinctUntilChanged} from &#x27;rxjs/operators&#x27;;
+import {Subscription} from &#x27;rxjs&#x27;;
 
 import { HighlightValue, PreviewData } from &#x27;@sinequa/core/web-services&#x27;;
 import {Action} from &quot;@sinequa/components/action&quot;;
-import {HttpClient} from &#x27;@angular/common/http&#x27;;
 
 import { PreviewDocument } from &#x27;../../preview-document&#x27;;
+import {PreviewService} from &#x27;../../preview.service&#x27;;
 
 export class Extract {
   text: SafeHtml; // Sanitized HTML text
@@ -255,7 +255,7 @@ export class Extract {
   styleUrls: [&#x27;./preview-extracts-panel.component.scss&#x27;],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BsPreviewExtractsPanelComponent implements OnChanges {
+export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
   @Input() previewData: PreviewData;
   @Input() previewDocument: PreviewDocument;
   @Input() downloadUrl: string;
@@ -266,32 +266,56 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
   extracts: Extract[] &#x3D; [];
   currentExtract &#x3D; -1;
   loading &#x3D; false;
+  loadCompleteSubscription: Subscription;
 
   constructor(
     @Inject(DOCUMENT) document: Document,
-    private zone: NgZone,
-    private http: HttpClient,
+    private previewService: PreviewService,
     private cdr: ChangeDetectorRef,
     private domSanitizer: DomSanitizer) { }
 
+  ngOnDestroy() {
+    if(this.loadCompleteSubscription) {
+      this.loadCompleteSubscription.unsubscribe();
+    }
+  }
+    
   /**
    * Extracts the list of extracts from the preview document
    */
   ngOnChanges(changes: SimpleChanges) {
     this.extracts &#x3D; [];
+    if (this.previewData &amp;&amp; changes[&#x27;previewDocument&#x27;] &amp;&amp; changes[&#x27;previewDocument&#x27;].firstChange) {
+      if (!this.loadCompleteSubscription){
+        this.loadCompleteSubscription &#x3D; this.previewDocument.loadComplete$.subscribe(value &#x3D;&gt; {
+          if(this.previewData) {
+            const extracts &#x3D; this.previewData.highlightsPerCategory[&quot;extractslocations&quot;]?.values; //Extract locations Array ordered by &quot;relevance&quot;
+            if (!!extracts &amp;&amp; extracts.length &gt; 0) {
+              this.loading &#x3D; false;
+
+              if (value) {
+                this.extractAll(extracts, this.previewDocument)
+              }
+            }
+          }
+        });
+      }
+    }
+    
     if(this.previewData &amp;&amp; this.downloadUrl){
       const extracts &#x3D; this.previewData.highlightsPerCategory[&quot;extractslocations&quot;]?.values; //Extract locations Array ordered by &quot;relevance&quot;
       if(!!extracts &amp;&amp; extracts.length &gt; 0){
         this.loading &#x3D; true;
-        
-        this.zone.run(() &#x3D;&gt; {
-          this.fetch(this.downloadUrl)
-            .pipe(distinctUntilChanged())
+
+        if (this.previewDocument.loadComplete$.value) {
+          this.extractAll(extracts, this.previewDocument)
+        } else {
+          this.previewService.getHtmlPreview(this.downloadUrl)
             .subscribe((value) &#x3D;&gt; {
               const previewDocument &#x3D; this.createDocument(value);
               this.extractAll(extracts, previewDocument);
             });
-        });
+        }
       }
     }
   }
@@ -326,7 +350,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
           
     this.loading &#x3D; false;
     this.currentExtract &#x3D; -1;
-    this.cdr.markForCheck();
+    this.cdr.detectChanges();
   }
 
   /**
@@ -397,10 +421,6 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
     this.currentExtract++;
     this.cdkScrollViewport.scrollToIndex(this.currentExtract);
     this.scrollExtract(this.extracts[this.currentExtract].textIndex);
-  }
-  
-  private fetch(url: string) {
-    return this.http.get(url, {responseType: &quot;text&quot;});  
   }
 }
 </code></pre>
