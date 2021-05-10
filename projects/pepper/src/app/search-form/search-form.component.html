@@ -6,44 +6,146 @@
 
         <div class="input-group">
             <!-- Input with autocomplete -->
-            <div class="form-control d-flex" [title]="parseResult?.error || ''" [ngClass]="{'is-invalid': !!parseResult?.error}">
+            <div
+                class="form-control d-flex pr-1"
+                [title]="parseResult?.error || ''"
+                [ngClass]="{'is-invalid': !!parseResult?.error}">
 
-                <sq-field-search-items #fieldSearchItemsContainer></sq-field-search-items>
+                <!-- scroll left -->
+                <button type="button"
+                    class="btn btn-focus p-0"
+                    *ngIf="hasScroll"
+                    [sqTooltip]="'msg#searchForm.scrollLeft' | sqMessage"
+                    [disabled]="!loginService.complete  ? '' : null"
+                    (mouseup)="endScroll()"
+                    (mousedown)="scrollLeft()">
+                    <i class="fas fa-chevron-circle-left text-muted"></i>
+                </button>
 
-                <!-- Search input -->
-                <input type="text"
-                    class="search-input flex-grow-1"
-                    formControlName="search"
-                    spellcheck="false"
-                    autocomplete="off"
+                <div class="d-flex search-form-control scrollbar-hidden" #searchContainer>
 
-                    [placeholder]="'msg#searchForm.searchFor' | sqMessage"
-                    [sqAutofocus]="autofocus"
-                    [sqAutocompleteExtended]="autocompleteSources"
-                    [dropdown]="dropdown"
-                    [off]="!loginService.complete || !appService.suggestQueries"
-                    [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''"
+                    <!-- Fielded search -->
+                    <sq-field-search-items #fieldSearchItemsContainer></sq-field-search-items>
 
-                    [fieldSearchMode]="getMode()"
-                    [fieldSearchExpression]="fieldSearchExpression"
-                    [fieldSearchItemsContainer]="fieldSearchItemsContainer"
-                    [excludedFields]="['concepts','textlexicon','recent-query','saved-query','basket','recent-document']"
+                    <!-- Search input -->
+                    <input type="text"
+                        class="search-input flex-grow-1"
+                        formControlName="search"
+                        spellcheck="false"
+                        autocomplete="off"
 
-                    (submit)="search()"
-                    (parse)="onParse($event)"
-                    #searchInput>
+                        [placeholder]="'msg#searchForm.searchFor' | sqMessage"
+                        [sqAutofocus]="autofocus"
+                        [sqAutocompleteExtended]="autocompleteSources"
+                        [dropdown]="dropdown"
+                        [off]="!loginService.complete || !appService.suggestQueries"
+                        [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''"
+
+                        [fieldSearchMode]="getMode()"
+                        [fieldSearchExpression]="fieldSearchExpression"
+                        [fieldSearchItemsContainer]="fieldSearchItemsContainer"
+                        [excludedFields]="['concepts','textlexicon','recent-query','saved-query','basket','recent-document']"
+
+                        (submit)="search()"
+                        (parse)="onParse($event)"
+                        (mousedown)="onMouseDown()"
+                        #searchInput>
+                </div>
+
+                <!-- scroll right -->
+                <button type="button"
+                    class="btn btn-focus p-0 mr-2"
+                    *ngIf="hasScroll"
+                    [sqTooltip]="'msg#searchForm.scrollRight' | sqMessage"
+                    [disabled]="!loginService.complete  ? '' : null"
+                    (mouseup)="endScroll()"
+                    (mousedown)="scrollRight()">
+                    <i class="fas fa-chevron-circle-right text-muted"></i>
+                </button>
+
+                <!-- Clear Button -->
+                <button type="button"
+                    *ngIf="hasContent()"
+                    class="btn btn-focus p-0 mr-2"
+                    [sqTooltip]="'msg#searchForm.clear' | sqMessage"
+                    [disabled]="!loginService.complete ? '' : null"
+                    (click)="clearForm()">
+                    <i class="fas fa-times-circle text-muted"></i>
+                </button>
+
+                <!-- Keep Filters Button -->
+                <button type="button"
+                    *ngIf="isFiltering && enableKeepFilters"
+                    class="btn btn-focus p-0 mr-2"
+                    [sqTooltip]="keepFiltersTitle | sqMessage"
+                    [disabled]="!loginService.complete ? '' : null"
+                    (click)="toggleKeepFilters()">
+                    <i class="fas fa-filter" [ngClass]="keepFilters ? 'light-green' : 'text-muted'"></i>
+                </button>
+
+                <!-- Toggle voice recognition -->
+                <button *ngIf="voiceService.available && enableVoiceRecognition"
+                    type="button"
+                    class="btn btn-focus p-0 mr-2"
+                    [sqTooltip]="'msg#searchForm.voiceRecognition' | sqMessage"
+                    (click)="toggleVoice()">
+                    <i class="fas fa-microphone"[ngClass]="voiceRecognitionState ? 'light-green' : 'text-muted'"></i>
+                </button>
+
+                <!-- Toggle advanced search -->
+                <button type="button"
+                    *ngIf="enableAdvancedForm"
+                    class="btn p-0 pr-1"
+                    [sqTooltip]="'msg#searchForm.advancedSearch' | sqMessage"
+                    [disabled]="!loginService.complete ? '' : null"
+                    (click)="toggleAdvancedSearch()">
+                    <i class="fas fa-chevron-circle-{{showAdvancedSearch ? 'up' : 'down'}}"
+                        [ngClass]="{'text-muted': !hasAdvancedContent() && !isAdvancedSearchActive(),
+                                    'light-green': isAdvancedSearchActive(),
+                                    'light-blue': hasAdvancedContent() && !isAdvancedSearchActive()}">
+                    </i>
+                </button>
             </div>
 
-            <!-- Search button -->
+            <!-- Search buttons -->
             <div class="input-group-append">
                 <button class="btn btn-primary" type="button" (click)="search()"
                     [sqTooltip]="'msg#searchForm.search' | sqMessage"
-                    [attr.disabled]="!loginService.complete || !form.valid? '' : null">
+                    [disabled]="!loginService.complete || !form.valid ? '' : null">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
         </div>
 
+        <!-- Card displaying advanced-search -->
+        <div class="card advanced-search" *ngIf="showAdvancedSearch">
+            <div class="card-header pl-3 pr-2 py-1">
+              <div class="d-flex justify-content-between">
+                <span class=" mb-0 py-1">
+                    <i class="fab fa-searchengin mr-2"></i>
+                    {{'msg#searchForm.advancedSearch' | sqMessage}}
+                </span>
+                <button
+                    type="button" class="btn btn-light btn-sm"
+                    *ngIf="isAdvancedSearchActive()"
+                    [sqTooltip]="'msg#facet.clearSelects' | sqMessage"
+                    (click)="clearAdvancedSearch()">
+                    <i class="far fa-minus-square"></i>
+                </button>
+              </div>
+            </div>
+            <div *ngIf="!firstPageService.firstPage" class="d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
+                <span class="fas fa-sync fa-spin fa-fw"></span>
+            </div>
+            <div *ngIf="firstPageService.firstPage" class="d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
+                <sq-advanced-form-select [form]="form" [field]="'treepath'" [multiple]="true"></sq-advanced-form-select>
+                <sq-advanced-form-select [form]="form" [field]="'authors'" [multiple]="true"></sq-advanced-form-select>
+                <sq-advanced-form-range [form]="form" [field]="'size'"></sq-advanced-form-range>
+                <sq-advanced-form-range [form]="form" [field]="'modified'"></sq-advanced-form-range>
+                <sq-advanced-form-multi-input [form]="form" [field]="'person'" [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''"></sq-advanced-form-multi-input>
+                <sq-advanced-form-input [form]="form" [field]="'docformat'" [suggestQuery]="appService.suggestQueries? appService.suggestQueries[0] : ''"></sq-advanced-form-input>
+            </div>
+        </div>
     </form>
 
     <!-- Autocomplete dropdown panel displaying suggestions -->

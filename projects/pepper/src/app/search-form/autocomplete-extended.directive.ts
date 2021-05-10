@@ -11,7 +11,6 @@ import { map, catchError } from 'rxjs/operators';
 import { Basket } from '@sinequa/components/baskets';
 import { AuditEventType, AuditWebService } from '@sinequa/core/web-services';
 
-
 /**
  * This directive extends the autocomplete directive to provide autocomplete on
  * additional objects, such as recent queries, documents and baskets
@@ -97,6 +96,7 @@ export class AutocompleteExtended extends AutocompleteFieldSearch {
     protected select(item: AutocompleteItem, submit?: boolean) {
         this.audit.notify({type: AuditEventType.Search_AutoComplete, detail:{display: item.display, category: item.category }})
         
+        // TODO: in Pepper add recent document to dashboard(?)
         if (item.category === "recent-document") {
             this.previewService.openRoute(item['data'], this.searchService.makeQuery());
         }

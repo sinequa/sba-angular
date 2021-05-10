@@ -121,11 +121,8 @@ export class SearchComponent implements OnInit, OnDestroy {
    * The configuration from the config.ts file can be overriden by configuration from
    * the app configuration on the server
    */
-  public get facets(): FacetConfig[] {
-    if(this.appService.app && this.appService.app.data && this.appService.app.data.facets){
-      return <FacetConfig[]> <any> this.appService.app.data.facets;
-    }
-    return FACETS;
+   public get facets(): FacetConfig[] {
+    return this.appService.app?.data?.facets as any as FacetConfig[] || FACETS;
   }
 
   /**
@@ -134,10 +131,7 @@ export class SearchComponent implements OnInit, OnDestroy {
    * the app configuration on the server
    */
   public get features(): string[] {
-    if(this.appService.app && this.appService.app.data && this.appService.app.data.features){
-      return <string[]> <any> this.appService.app.data.features;
-    }
-    return FEATURES;
+    return this.appService.app?.data?.features as string[] || FEATURES;
   }
 
   /**
@@ -146,10 +140,7 @@ export class SearchComponent implements OnInit, OnDestroy {
    * the app configuration on the server
    */
   public get metadata(): string[] {
-    if(this.appService.app && this.appService.app.data && this.appService.app.data.metadata){
-      return <string[]> <any> this.appService.app.data.metadata;
-    }
-    return METADATA;
+    return this.appService.app?.data?.metadata as string[] || METADATA;
   }
 
   /**
