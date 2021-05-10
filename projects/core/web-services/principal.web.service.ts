@@ -21,6 +21,7 @@ export interface Principal {
     userId: string;
     fullName: string;
     isAdministrator: boolean;
+    isDelegatedAdmin: boolean;
     param1: string;
     param2: string;
     param3: string;

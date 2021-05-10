@@ -168,6 +168,8 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
     }
     if (this.principalService.principal && this.principalService.principal.isAdministrator) {
       userActions.push(this.overrideAction);
+    }
+    if (this.principalService.principal && (this.principalService.principal.isAdministrator || this.principalService.principal.isDelegatedAdmin)) {
       userActions.push(this.adminAction);
     }
     if (this.intlService.locales.length > 1) {
