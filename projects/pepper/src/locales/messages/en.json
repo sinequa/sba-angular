@@ -22,7 +22,14 @@
         "off": "Off",
         "simple": "Simple",
         "simpleTitle": "Graphical mode allowing to display selected filters as badges",
-        "advancedTitle": "Text mode allowing to write search expressions such as \"geo: Paris OR company: Sinequa\""
+        "advancedTitle": "Text mode allowing to write search expressions such as \"geo: Paris OR company: Sinequa\"",
+        "keepFilters": "Filters are kept within new queries",
+        "notKeepFilters": "Filters are reset within new queries",
+        "clearAll": "Clear all",
+        "clear": "Clear",
+        "voiceRecognition": "Vocal search",
+        "scrollLeft": "Scroll left",
+        "scrollRight": "Scroll right"
     },
 
     "baskets": {
@@ -34,7 +41,8 @@
         "basketAlreadyExists": "A collection with that name already exists. Would you like to replace it?",
         "noBasket": "You have not yet added a document to a collection...",
         "createBasket": "Create Collection",
-        "manageBaskets": "Manage Collections"
+        "manageBaskets": "Manage Collections",
+        "delete": "Delete this collection"
     },
 
     "editBasket": {
@@ -56,6 +64,9 @@
         },
         "preview": {
             "title": "Preview"
+        },
+        "labels": {
+            "title": "Labels"
         }
     },
 

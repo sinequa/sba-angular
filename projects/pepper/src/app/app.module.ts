@@ -32,6 +32,7 @@ import { BsPreviewModule } from '@sinequa/components/preview';
 import { MetadataModule } from '@sinequa/components/metadata';
 import { BsThemeToggleModule } from "@sinequa/components/theme-toggle";
 import { BsSelectionModule, SelectionOptions, SELECTION_OPTIONS } from '@sinequa/components/selection';
+import { BsAdvancedModule } from "@sinequa/components/advanced";
 
 // @sinequa/analytics library
 import { BsHeatmapModule } from '@sinequa/analytics/heatmap';
@@ -154,6 +155,7 @@ export const selectionOptions: SelectionOptions = {
         MetadataModule,
         BsSelectionModule,
         BsThemeToggleModule,
+        BsAdvancedModule,
 
         BsHeatmapModule,
         BsTimelineModule,

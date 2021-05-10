@@ -22,7 +22,14 @@
         "off": "Off",
         "simple": "Einfach",
         "simpleTitle": "Grafischer Modus, in dem ausgewählte Filter als Ausweise angezeigt werden können",
-        "advancedTitle": "Textmodus zum Schreiben von Suchausdrücken wie \"Geo: Paris OR company: Sinequa\""
+        "advancedTitle": "Textmodus zum Schreiben von Suchausdrücken wie \"Geo: Paris OR company: Sinequa\"",
+        "keepFilters": "Filter werden innerhalb neuer Abfragen gehalten",
+        "notKeepFilters": "Filter werden in neuen Abfragen zurückgesetzt",
+        "clearAll": "Alles löschen",
+        "clear": "Löschen",
+        "voiceRecognition": "Sprachsuche",
+        "scrollLeft": "Bildlauf nach links",
+        "scrollRight": "Bildlauf nach rechts"
     },
 
     "facet": {
