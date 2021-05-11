@@ -267,12 +267,14 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
    * Clear only the advanced form
    */
   clearAdvancedForm() {
-    this.advancedService.resetControl(this.form.get("treepath")!);
-    this.advancedService.resetControl(this.form.get("authors")!);
-    this.advancedService.resetRangeControl(this.form.get("size")!);
-    this.advancedService.resetRangeControl(this.form.get("modified")!);
-    this.advancedService.resetControl(this.form.get("person")!);
-    this.advancedService.resetControl(this.form.get("docformat")!);
+    if(this.initAdvanced) {
+      this.advancedService.resetControl(this.form.get("treepath")!);
+      this.advancedService.resetControl(this.form.get("authors")!);
+      this.advancedService.resetRangeControl(this.form.get("size")!);
+      this.advancedService.resetRangeControl(this.form.get("modified")!);
+      this.advancedService.resetControl(this.form.get("person")!);
+      this.advancedService.resetControl(this.form.get("docformat")!);
+    }
   }
 
   onParse(parseResult: ParseResult) {
