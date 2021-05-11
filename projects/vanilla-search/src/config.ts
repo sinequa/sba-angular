@@ -5,13 +5,19 @@ import { FacetConfig } from '@sinequa/components/facet';
  * The order below determines the order of menus, buttons, facets, etc.
  */
 export const FEATURES: string[] = [
-    "recent-documents",
-    "recent-queries",
-    "saved-queries",
-    "baskets",
-    "labels",
-    "alerts",
-    "suggests"
+    "recent-documents",             // Keep track of recently opened documents and suggest them in the autocomplete
+    "recent-queries",               // Keep track of recent queries and suggest them in the autocomplete
+    "saved-queries",                // Allow users to save queries to easily replay them ang suggest them in the autocomplete
+    "baskets",                      // Allow users to bookmark documents in "baskets" (aka "collections") and suggest them in the autocomplete
+    "labels",                       // Allow users to tag documents with labels
+    "alerts",                       // Allow users to subscribe to a regular alert for a particular query
+    "suggests",                     // Display general text suggestions in the autocomplete
+    "advanced-form",                // Display an advanced search form
+    "keep-advanced-form-filters",   // When the user makes a new search query, do not reset the content of the autocomplete form
+    "keep-tab",                     // When the user makes a new search query, stay on the same tab
+    //"keep-filters",                 // When the user makes a new search query, do not reset the filters that are active (eg. from facets)
+    "toggle-keep-filters",          // Display a button to toggle the "keep-filter" option
+    //"voice-recognition",            // Display a button to trigger voice recognition (supported only on Chrome-based browsers and uses Google servers for processing)
 ];
 
 export const FACETS: FacetConfig[] = [

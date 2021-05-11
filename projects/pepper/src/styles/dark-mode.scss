@@ -13,8 +13,8 @@ body.dark {
     background-color: $dark-background;
     color: $dark-color;
 
-    // Bootstrap components dark mode 
-    
+    // Bootstrap components dark mode
+
     a:not(.btn) {
         color: #9bccff;
     }
@@ -37,7 +37,7 @@ body.dark {
             border-color: $dark-borders;
         }
     }
-    
+
     .navbar-dark .navbar-nav .nav-link {
         color: $dark-color;
     }
@@ -78,7 +78,7 @@ body.dark {
                 color: #fbfdff;
             }
         }
-        
+
         .list-group-item-primary {
             color: #004085 !important;
             background-color: #b8daff !important;
@@ -95,7 +95,7 @@ body.dark {
         .list-group-item-success {
             color: #155724 !important;
             background-color: #c3e6cb  !important;
-            
+
             a {
                 color: inherit;
             }
@@ -105,7 +105,7 @@ body.dark {
             }
         }
     }
-    
+
     .text-muted {
         color: #c1cad2 !important;
     }
@@ -114,7 +114,7 @@ body.dark {
         background: #1c1e21;
         border-color: $dark-borders;
 
-        a {            
+        a {
             color: #f8f9fa;
         }
 
@@ -123,7 +123,7 @@ body.dark {
             color: #fbfdff;
         }
     }
-    
+
     @include media-breakpoint-up(sm) {
         .navbar-right, .dropdown-menu-right {
             .dropdown-submenu > a:before {
@@ -142,7 +142,7 @@ body.dark {
         .modal-header {
             border-color:$dark-borders;
         }
-        
+
         .modal-footer {
             border-color:$dark-borders;
         }
@@ -163,16 +163,16 @@ body.dark {
             }
         }
     }
-    
+
     app-search nav {
         box-shadow: 1px 3px 4px 0px $dark-background-highlight;
     }
 
-        
+
     sq-tabs {
         .nav-tabs {
             border-bottom: 1px solid $dark-borders;
-            
+
             .nav-item .count, .nav-link.disabled {
                 color: $dark-secondary;
             }
@@ -209,34 +209,34 @@ body.dark {
     }
 
     .record {
-        
+
         &:hover {
             background-color: $dark-background-hover;
         }
-    
+
         &.selected {
             background-color: $dark-background-highlight;
         }
-    
+
         sq-result-source {
             span, a {
                 color: #a9c7b4;
             }
         }
-    
+
         sq-result-extracts {
             p {
                 color: $dark-secondary;
             }
         }
-    
+
         sq-result-missing-terms {
             color: #b8b2b2;
         }
     }
 
     sq-facet-card.facet-preview {
-        .card-header {    
+        .card-header {
             sq-metadata {
                 color: $dark-secondary;
             }
@@ -263,6 +263,17 @@ body.dark {
     app-preview {
         .border-top, .border-right {
             border-color: $dark-borders;
+        }
+    }
+    
+    sq-facet-mysearch {
+        .sq-metadata-item {
+            background-color: $dark-background;
+    
+            &:hover {
+                background-color: $dark-background;
+                opacity: 0.8;
+            }
         }
     }
     

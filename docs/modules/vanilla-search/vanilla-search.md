@@ -139,7 +139,7 @@ The [controller](https://github.com/sinequa/sba-angular/blob/master/projects/van
 
 ## Search form
 
-The [Search Form component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/search-form) is similar to the one you build in the [tutorial]({{site.baseurl}}tutorial/completed-app.html#search-form-component).
+The [Search Form component](https://github.com/sinequa/sba-angular/tree/master/projects/vanilla-search/src/app/search-form) is more advanced than the one developed in the [tutorial]({{site.baseurl}}tutorial/completed-app.html#search-form-component). It includes an advanced search form, and options to control the lifecycle of the query (for example: should the facet selections be reset when the user searches for new text?).
 
 Additionally, a custom [Autocomplete directive](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/search-form/autocomplete-extended.directive.ts) allows to search into User Settings objects, such as the recent queries, documents, baskets, etc.
 
@@ -190,6 +190,8 @@ Furthermore, the search form displays the following options (when focused or hov
 - The `microphone` button enables the voice recognition and thus a vocal search. Notice that this option is browser-related.
 - The last button on the top right is responsible of displaying the `advanced search form`.
 
+These functionalities can be turned on or off, using the configuration file (`config.ts`).
+
 ## Configuration
 
 Vanilla Search can be configured via two methods (as described in [Configuration]({{site.baseurl}}tipstricks/configuration.html)):
@@ -199,7 +201,7 @@ Vanilla Search can be configured via two methods (as described in [Configuration
 
 The components of Vanilla Search described above use three configuration objects:
 
-- `FEATURES`: a list of `string` that controls which features are activated in the app. This list is used to determine which facets are displayed in the homepage, which menus are displayed in the search page and which objects are searched by the autocomplete.
+- `FEATURES`: a list of `string` that controls which features are activated in the app. This list is used to determine which facets are displayed in the homepage, which menus are displayed in the search page, which objects are searched by the autocomplete, and which options are available in the search form, such as the advanced search form or the voice recognition button.
 - `FACETS`: a list of [`FacetConfig`]({{site.baseurl}}components/interfaces/FacetConfig.html) objects that determines the facets displayed within the [`sq-facet-multi`]({{site.baseurl}}components/components/BsFacetMultiComponent.html) component. Each object contains a number of options that are passed to the corresponding facet components.
 
     For example:
@@ -249,10 +251,7 @@ import { METADATA } from '../../config'; // src/config.ts
 
 ...
 public get metadata(): string[] {
-    if(this.appService.app && this.appService.app.data && this.appService.app.data.metadata){
-        return <string[]> <any> this.appService.app.data.metadata;
-    }
-    return METADATA;
+    return this.appService.app?.data?.metadata as string[] || METADATA;
 }
 ```
 
