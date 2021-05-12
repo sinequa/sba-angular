@@ -11,7 +11,7 @@
 
     <div class="d-flex align-items-center mt-2">
         <!-- Login/Logout link -->    
-        <button class="btn btn-link" (click)="toggleLogin()">{{ (!!loginService.principal ? 'msg#userMenu.logout' : 'msg#userMenu.login') | sqMessage}}</button>
+        <button class="btn btn-link" (click)="toggleLogin()">{{ (loginService.complete ? 'msg#userMenu.logout' : 'msg#userMenu.login') | sqMessage}}</button>
     
         <span> &bull; </span>
     

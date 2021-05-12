@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
    * Manage login and logout
    */
   toggleLogin(){
-    if (!!this.loginService.principal) {
+    if (!!this.loginService.complete) {
       this.loginService.logout();
     }
     else {
