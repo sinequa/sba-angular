@@ -243,6 +243,8 @@ export class LoginService implements OnDestroy {
             },
             (error) => {
                 console.log("loginService.login failed: ", error);
+                // proceed to logout to clean process
+                this.logout();
                 return throwError(error);
             });
         return observable;
