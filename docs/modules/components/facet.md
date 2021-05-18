@@ -171,7 +171,7 @@ This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/R
 
 The "My Search" facet [`sq-mysearch`]({{site.baseurl}}components/components/BsMySearch.html) displays the current list of search criteria (similar to the [breadcrumbs component](search.html#breadcrumbs)).
 
-![Facet Filters]({{site.baseurl}}assets/modules/facet/facet-mysearch.png){: .d-block .mx-auto}
+![My search facet]({{site.baseurl}}assets/modules/facet/facet-mysearch.PNG){: .d-block .mx-auto}
 
 The inputs of the component are:
 
@@ -243,7 +243,7 @@ This component requires a:
 ### Tag Cloud Facet
 The [`sq-facet-tag-cloud`]({{site.baseurl}}components/components/BsFacetTagCloud.html) displays multiple types of metadata in the same facet. It provides a direct access to the most relevant filters, belonging to the supplied metadata.
 
-![Facet Filters]({{site.baseurl}}assets/modules/facet/facet-tag-cloud.png){: .d-block .mx-auto}
+![Tag cloud]({{site.baseurl}}assets/modules/facet/facet-tag-cloud.PNG){: .d-block .mx-auto}
 
 The inputs of the component are:
 
