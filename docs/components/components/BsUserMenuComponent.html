@@ -1216,6 +1216,8 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
     }
     if (this.principalService.principal &amp;&amp; this.principalService.principal.isAdministrator) {
       userActions.push(this.overrideAction);
+    }
+    if (this.principalService.principal &amp;&amp; (this.principalService.principal.isAdministrator || this.principalService.principal.isDelegatedAdmin)) {
       userActions.push(this.adminAction);
     }
     if (this.intlService.locales.length &gt; 1) {
@@ -1224,7 +1226,7 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
 
     this.menu &#x3D; new Action({
         icon: this.icon,
-        text: this.principalService.principal ? this.principalService.principal.name || &quot;msg#userMenu.user&quot; : &quot;msg#userMenu.user&quot;,
+        text: this.loginService.complete &amp;&amp; this.principalService.principal ? this.principalService.principal.name || &quot;msg#userMenu.user&quot; : &quot;msg#userMenu.user&quot;,
         children: userActions
     });
   }

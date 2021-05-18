@@ -295,7 +295,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable } from &quot;@angular/core&quot;;
 import { HttpService, SqHttpClient, StartConfig, START_CONFIG } from &quot;@sinequa/core/web-services&quot;;
 import { Observable } from &quot;rxjs&quot;;
-import { map } from &quot;rxjs/operators&quot;;
+import { pluck } from &quot;rxjs/operators&quot;;
 
 declare interface CoreComment {
     commentid: string;
@@ -336,25 +336,19 @@ export class CommentsWebService extends HttpService {
     getComments(docid: string): Observable&lt;Comment[]&gt; {
         return this.httpClient.get&lt;{comments: Comment[]}&gt;(
             this.makeUrl(this.endpoint), {params: {docid, action: &#x27;read&#x27;}}
-        ).pipe(
-            map(res &#x3D;&gt; res.comments)
-        );
+        ).pipe(pluck(&#x27;comments&#x27;));
     }
 
     createComment(docid: string, message: string, replyto?: string): Observable&lt;NormalComment&gt; {
         return this.httpClient.post&lt;{comment: NormalComment}&gt;(
             this.makeUrl(this.endpoint), {docid, message, replyto, action: &#x27;create&#x27;}
-        ).pipe(
-            map(res &#x3D;&gt; res.comment)
-        );
+        ).pipe(pluck(&#x27;comment&#x27;));
     }
 
     updateComment(docid: string, commentid: string, message: string) {
         return this.httpClient.post&lt;{comment: NormalComment}&gt;(
             this.makeUrl(this.endpoint), {docid, commentid, message, action: &#x27;update&#x27;}
-        ).pipe(
-            map(res &#x3D;&gt; res.comment)
-        );
+        ).pipe(pluck(&#x27;comment&#x27;));
     }
 
     deleteComment(docid: string, commentid: string, markAsDeleted: boolean): Observable&lt;void&gt; {
@@ -366,9 +360,7 @@ export class CommentsWebService extends HttpService {
     likeComment(docid: string, commentid: string): Observable&lt;NormalComment&gt; {
         return this.httpClient.post&lt;{comment: NormalComment}&gt;(
             this.makeUrl(this.endpoint), {docid, commentid, action: &#x27;like&#x27;}
-        ).pipe(
-            map(res &#x3D;&gt; res.comment)
-        );
+        ).pipe(pluck(&#x27;comment&#x27;));
     }
 }</code></pre>
     </div>

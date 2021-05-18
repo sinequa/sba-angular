@@ -959,11 +959,14 @@ export class IntlService implements OnDestroy {
      * @param options The options can include a custom format
      */
     formatRelativeTime(
-        value: number | Date | undefined, unit?: Intl.RelativeTimeUnit,
+        value: string | number | Date | undefined, unit?: Intl.RelativeTimeUnit,
         options: Intl.RelativeTimeFormatOptions &amp; { format?: string } &#x3D; {}
     ): string {
         if (value &#x3D;&#x3D;&#x3D; undefined) {
             return &quot;&quot;;
+        }
+        if (Utils.isString(value)) {
+            value &#x3D; new Date(value);
         }
         if (Utils.isDate(value)) {
             const params &#x3D;  this.makeRelativeTimeParams(value);

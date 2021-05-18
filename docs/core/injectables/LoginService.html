@@ -312,8 +312,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="273"
-                            class="link-to-prism">login/login.service.ts:273</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="275"
+                            class="link-to-prism">login/login.service.ts:275</a></div>
                 </td>
             </tr>
 
@@ -961,6 +961,8 @@ export class LoginService implements OnDestroy {
             },
             (error) &#x3D;&gt; {
                 console.log(&quot;loginService.login failed: &quot;, error);
+                // proceed to logout to clean process
+                this.logout();
                 return throwError(error);
             });
         return observable;

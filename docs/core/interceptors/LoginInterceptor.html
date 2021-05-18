@@ -509,17 +509,18 @@ export class LoginInterceptor implements HttpInterceptor {
             }
 
             return from(this.getCredentials(err, !options.hadCredentials))
-                .pipe(switchMap(value &#x3D;&gt; {
-                    const {headers} &#x3D; this.authService.addAuthentication(req);
-                    return next.handle(req.clone({headers}));
-                }),
-                    catchError(() &#x3D;&gt; {
-                        return next.handle(req);
-                    }));
+                .pipe(
+                    switchMap(value &#x3D;&gt; {
+                        const {headers} &#x3D; this.authService.addAuthentication(req);
+                        return next.handle(req.clone({headers}));
+                    }),
+                    catchError(err &#x3D;&gt; 
+                        // in case of an Http error, &#x27;caught&#x27; must be returned to be catched by the interceptor
+                        err instanceof HttpErrorResponse ? caught : throwError(err)
+                    ));
         }
 
         return throwError(err);
-
     }
 }
 </code></pre>

@@ -580,8 +580,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="154"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:154</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:155</a></div>
                 </td>
             </tr>
 
@@ -922,8 +922,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="192"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:192</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="193"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:193</a></div>
                 </td>
             </tr>
 
@@ -1286,6 +1286,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     ngAfterViewInit() {
         this.resetContent();
         this.iframeURLChange(this.documentFrame.nativeElement, (newURL: string) &#x3D;&gt; {
+            this.previewDocument &#x3D; new PreviewDocument(this.documentFrame);
             this.previewDocument.loadComplete$.next(false);
             this.urlChange.next(newURL)
         });

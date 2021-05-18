@@ -518,6 +518,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <a href="injectables/AuthenticationService.html" data-type="entity-link">AuthenticationService</a>
                                 </li>
                                 <li class="link">
+                                    <a href="injectables/DatasetWebService.html" data-type="entity-link">DatasetWebService</a>
+                                </li>
+                                <li class="link">
                                     <a href="injectables/DownloadWebService.html" data-type="entity-link">DownloadWebService</a>
                                 </li>
                                 <li class="link">
@@ -558,6 +561,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 </li>
                                 <li class="link">
                                     <a href="injectables/QueryExportWebService.html" data-type="entity-link">QueryExportWebService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="injectables/QueryIntentWebService.html" data-type="entity-link">QueryIntentWebService</a>
                                 </li>
                                 <li class="link">
                                     <a href="injectables/QueryWebService.html" data-type="entity-link">QueryWebService</a>
@@ -734,6 +740,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/Credentials.html" data-type="entity-link">Credentials</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/DatasetDescription.html" data-type="entity-link">DatasetDescription</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/DatasetError.html" data-type="entity-link">DatasetError</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/DataUpdatedEvent.html" data-type="entity-link">DataUpdatedEvent</a>
@@ -947,6 +959,15 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/QueryIntentEntity.html" data-type="entity-link">QueryIntentEntity</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/QueryIntentEntity2.html" data-type="entity-link">QueryIntentEntity2</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/QueryIntentMatch.html" data-type="entity-link">QueryIntentMatch</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/QueryIntentResponse.html" data-type="entity-link">QueryIntentResponse</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/QueryIntentWord.html" data-type="entity-link">QueryIntentWord</a>

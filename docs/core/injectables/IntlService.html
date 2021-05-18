@@ -469,8 +469,8 @@ locale:  <code>msg#path1.path2.path3</code></li>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="853"
-                            class="link-to-prism">intl/intl.service.ts:853</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="856"
+                            class="link-to-prism">intl/intl.service.ts:856</a></div>
                 </td>
             </tr>
 
@@ -560,7 +560,7 @@ locale:  <code>msg#path1.path2.path3</code></li>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>formatRelativeTime(value: number | Date | undefined, unit?: Intl.RelativeTimeUnit, options)</code>
+<code>formatRelativeTime(value: string | number | Date | undefined, unit?: Intl.RelativeTimeUnit, options)</code>
                 </td>
             </tr>
 
@@ -594,7 +594,7 @@ locale:  <code>msg#path1.path2.path3</code></li>
                                 <tr>
                                     <td>value</td>
                                     <td>
-                                            <code>number | Date | undefined</code>
+                                            <code>string | number | Date | undefined</code>
                                     </td>
 
                                     <td>
@@ -2248,11 +2248,14 @@ export class IntlService implements OnDestroy {
      * @param options The options can include a custom format
      */
     formatRelativeTime(
-        value: number | Date | undefined, unit?: Intl.RelativeTimeUnit,
+        value: string | number | Date | undefined, unit?: Intl.RelativeTimeUnit,
         options: Intl.RelativeTimeFormatOptions &amp; { format?: string } &#x3D; {}
     ): string {
         if (value &#x3D;&#x3D;&#x3D; undefined) {
             return &quot;&quot;;
+        }
+        if (Utils.isString(value)) {
+            value &#x3D; new Date(value);
         }
         if (Utils.isDate(value)) {
             const params &#x3D;  this.makeRelativeTimeParams(value);
