@@ -178,7 +178,7 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
 
     this.menu = new Action({
         icon: this.icon,
-        text: this.principalService.principal ? this.principalService.principal.name || "msg#userMenu.user" : "msg#userMenu.user",
+        text: this.loginService.complete && this.principalService.principal ? this.principalService.principal.name || "msg#userMenu.user" : "msg#userMenu.user",
         children: userActions
     });
   }

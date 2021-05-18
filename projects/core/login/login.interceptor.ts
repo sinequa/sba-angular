@@ -174,10 +174,6 @@ export class LoginInterceptor implements HttpInterceptor {
                         case 401: {
                             return this.handle401Error(error, _request, next, options, caught);
                         }
-                        case 403: {
-                            // call logout() is needed to clean process
-                            this.loginService.logout();
-                        }
                     }
                 }
                 if (!noNotify) {
@@ -212,10 +208,10 @@ export class LoginInterceptor implements HttpInterceptor {
                         const {headers} = this.authService.addAuthentication(req);
                         return next.handle(req.clone({headers}));
                     }),
-                    catchError(err => {
+                    catchError(err => 
                         // in case of an Http error, 'caught' must be returned to be catched by the interceptor
-                        return err instanceof HttpErrorResponse ? caught : throwError(err);
-                    }));
+                        err instanceof HttpErrorResponse ? caught : throwError(err)
+                    ));
         }
 
         return throwError(err);
