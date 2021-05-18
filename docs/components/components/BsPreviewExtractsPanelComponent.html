@@ -432,8 +432,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="104"
-                            class="link-to-prism">preview/bootstrap/preview-extracts-panel/preview-extracts-panel.component.ts:104</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">preview/bootstrap/preview-extracts-panel/preview-extracts-panel.component.ts:114</a></div>
                 </td>
             </tr>
 
@@ -473,8 +473,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="164"
-                            class="link-to-prism">preview/bootstrap/preview-extracts-panel/preview-extracts-panel.component.ts:164</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="174"
+                            class="link-to-prism">preview/bootstrap/preview-extracts-panel/preview-extracts-panel.component.ts:174</a></div>
                 </td>
             </tr>
 
@@ -586,8 +586,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="155"
-                            class="link-to-prism">preview/bootstrap/preview-extracts-panel/preview-extracts-panel.component.ts:155</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="165"
+                            class="link-to-prism">preview/bootstrap/preview-extracts-panel/preview-extracts-panel.component.ts:165</a></div>
                 </td>
             </tr>
 
@@ -627,8 +627,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="148"
-                            class="link-to-prism">preview/bootstrap/preview-extracts-panel/preview-extracts-panel.component.ts:148</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="158"
+                            class="link-to-prism">preview/bootstrap/preview-extracts-panel/preview-extracts-panel.component.ts:158</a></div>
                 </td>
             </tr>
 
@@ -699,8 +699,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="134"
-                            class="link-to-prism">preview/bootstrap/preview-extracts-panel/preview-extracts-panel.component.ts:134</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">preview/bootstrap/preview-extracts-panel/preview-extracts-panel.component.ts:144</a></div>
                 </td>
             </tr>
 
@@ -969,6 +969,16 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    */
   ngOnChanges(changes: SimpleChanges) {
     this.extracts &#x3D; [];
+    if (this.previewData &amp;&amp; changes[&#x27;previewDocument&#x27;]) {
+      const extracts &#x3D; this.previewData.highlightsPerCategory[&quot;extractslocations&quot;]?.values; //Extract locations Array ordered by &quot;relevance&quot;
+      if (!!extracts &amp;&amp; extracts.length &gt; 0) {
+        this.loading &#x3D; false;
+        setTimeout(() &#x3D;&gt; {
+          this.extractAll(extracts, this.previewDocument);
+        }, 200);
+      }
+    }
+    
     if(this.previewData &amp;&amp; this.downloadUrl){
       const extracts &#x3D; this.previewData.highlightsPerCategory[&quot;extractslocations&quot;]?.values; //Extract locations Array ordered by &quot;relevance&quot;
       if(!!extracts &amp;&amp; extracts.length &gt; 0){

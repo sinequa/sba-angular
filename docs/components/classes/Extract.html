@@ -279,6 +279,16 @@ export class BsPreviewExtractsPanelComponent implements OnChanges {
    */
   ngOnChanges(changes: SimpleChanges) {
     this.extracts &#x3D; [];
+    if (this.previewData &amp;&amp; changes[&#x27;previewDocument&#x27;]) {
+      const extracts &#x3D; this.previewData.highlightsPerCategory[&quot;extractslocations&quot;]?.values; //Extract locations Array ordered by &quot;relevance&quot;
+      if (!!extracts &amp;&amp; extracts.length &gt; 0) {
+        this.loading &#x3D; false;
+        setTimeout(() &#x3D;&gt; {
+          this.extractAll(extracts, this.previewDocument);
+        }, 200);
+      }
+    }
+    
     if(this.previewData &amp;&amp; this.downloadUrl){
       const extracts &#x3D; this.previewData.highlightsPerCategory[&quot;extractslocations&quot;]?.values; //Extract locations Array ordered by &quot;relevance&quot;
       if(!!extracts &amp;&amp; extracts.length &gt; 0){
