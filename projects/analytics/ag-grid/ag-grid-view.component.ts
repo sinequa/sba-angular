@@ -279,13 +279,18 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     // User actions
 
     /**
-     * Reset filtering, sorting and column width
+     * Reset filtering, sorting, column width and order
      */
-     resetState() {
+    resetState() {
         this.gridApi?.setFilterModel({});
-        this.gridColumnApi?.applyColumnState({defaultState:{
-            sort: null, width: this.defaultColumnWidth
-        }});
+        this.gridColumnApi?.applyColumnState({
+            defaultState:{
+                sort: null,
+                width: this.defaultColumnWidth
+            },
+            state: this.columns.map(c => {return {colId: c.field};}),
+            applyOrder: true
+        });
     }
 
     /**

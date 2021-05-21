@@ -3,7 +3,7 @@ export default {
         "formatData": "Formater les données",
         "columns": "Colonnes",
         "reset": "Réinitialiser",
-        "resetTitle": "Réinitialiser les filtres actifs, le tri et la largeur automatique",
+        "resetTitle": "Réinitialiser les filtres, le tri, l'ordre des colonnes et leur largeur",
         "autosize": "Largeur auto",
         "autosizeTitle": "Redimensionner les colonnes automatiquement",
         "copy": "Copier",
