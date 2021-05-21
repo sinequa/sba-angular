@@ -3,7 +3,7 @@ export default {
         "formatData": "Daten formatieren",
         "columns": "Spalten",
         "reset": "Reset",
-        "resetTitle": "Filter, Sortierung, Spaltenreihenfolge und Spaltenbreite zurücksetzen",
+        "resetTitle": "Reset Filtern, Sortieren und Spaltensichtbarkeit, Bestellung und Schlichte",
         "autosize": "Auto-size",
         "autosizeTitle": "Um die Größe des Rasters an die Daten anzupassen",
         "copy": "Copy",

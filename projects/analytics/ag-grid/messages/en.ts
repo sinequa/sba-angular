@@ -3,7 +3,7 @@ export default {
         "formatData": "Format data",
         "columns": "Columns",
         "reset": "Reset",
-        "resetTitle": "Reset active filters, sorting, column ordering and auto-sizing",
+        "resetTitle": "Reset filters, sorting and column visibility, ordering and sizing",
         "autosize": "Auto-size",
         "autosizeTitle": "Resize the grid to fit the data",
         "copy": "Copy",
