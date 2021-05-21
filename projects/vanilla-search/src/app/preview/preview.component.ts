@@ -55,6 +55,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   previewData?: PreviewData;
   downloadUrl?: string;
   currentUrl?: string;
+  sandbox?: string | null;
 
   // Set when the preview has finished loading and initializing
   previewDocument?: PreviewDocument;
@@ -227,6 +228,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
           }
           this.currentUrl = url;
           this.downloadUrl = url ? this.previewService.makeDownloadUrl(url) : undefined;
+          this.sandbox = ["xlsx","xls"].includes(previewData.record.docformat) ? null : undefined;
           this.titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle", {title: previewData?.record?.title || ""}));
         }
       );
@@ -251,8 +253,13 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  onPreviewUrlChange(url: string) {
-    this.currentUrl = url;
+  onPreviewPageChange(event: string | PreviewDocument) {
+    if (event instanceof PreviewDocument) {
+      this.previewDocument = event;
+    } else {
+      this.currentUrl = event;
+      this.previewDocument = undefined;
+    }
     this.cdr.detectChanges();
   }
 

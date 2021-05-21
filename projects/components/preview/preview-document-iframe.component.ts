@@ -67,7 +67,10 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     @Input() downloadUrl: string;
     @Input() scalingFactor: number = 1.0;
     @Output() onPreviewReady = new EventEmitter<PreviewDocument>();
-    @Output() urlChange = new EventEmitter<string>();
+    
+    // page could change when location.href change or when user click on a tab (sheet case)
+    // when URL a string is sent otherwise a PreviewDocument
+    @Output() pageChange = new EventEmitter<string | PreviewDocument>();
     @ViewChild('documentFrame', {static: true}) documentFrame: ElementRef;  // Reference to the preview HTML in the iframe
     @ContentChild('tooltip', {read: ElementRef, static: false}) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
@@ -87,6 +90,9 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     public onPreviewDocLoad() {
         
         if(this.downloadUrl === undefined) return;
+        // previewDocument must be created here when document is fully loaded
+        // because in case of sheet, PreviewDocument constructor change.
+        this.previewDocument = new PreviewDocument(this.documentFrame);
         
         // SVG highlight:
         //   background rectangle (highlight) were added to the SVG by the HTML generator (C#), but html generation is
@@ -97,16 +103,33 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
         } catch (error) {
             console.error(error);
         }
-        this.previewDocument.loadComplete$.next(true);
 
-        this.onPreviewDoc();
-    }
-    
-    onPreviewDoc() {
+        /* To catch tab's sheet changes
+         * Sheet structure:
+         * <iframe #preview>
+         *      #document
+         *          ...
+         *          <frameset>
+         *              <iframe name="frSheet"> // current sheet displayed
+         *              <iframe name="frTabs">  // contains all sheet's tabs
+         *          </frameset>
+         *          ...
+         * </iframe>
+         */ 
+        const sheetFrame = this.documentFrame.nativeElement.contentDocument.getElementsByName("frSheet");
+        if(sheetFrame.length > 0) {
+            sheetFrame[0].removeEventListener("load", () => {});
+            sheetFrame[0].addEventListener("load", () => {
+                this.previewDocument = new PreviewDocument(this.documentFrame);
+                this.pageChange.next(this.previewDocument);
+                this.cdr.markForCheck();
+            }, true);
+        }
+
         if (this.tooltip)
             this.addTooltip(this.previewDocument);
 
-        // Let upstream component know
+        // Let upstream component know document is now ready
         this.onPreviewReady.next(this.previewDocument);
         this.cdr.markForCheck();
     }
@@ -136,9 +159,6 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
         if (simpleChanges.downloadUrl && simpleChanges.downloadUrl.currentValue !== undefined) {
             this.zone.run(() => {
                 this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.downloadUrl);
-                this.previewDocument = new PreviewDocument(this.documentFrame);
-                this.previewDocument.loadComplete$.next(false);
-                this.onPreviewDoc();
             });
         }
     }
@@ -147,8 +167,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
         this.resetContent();
         this.iframeURLChange(this.documentFrame.nativeElement, (newURL: string) => {
             this.previewDocument = new PreviewDocument(this.documentFrame);
-            this.previewDocument.loadComplete$.next(false);
-            this.urlChange.next(newURL)
+            this.pageChange.next(newURL);
         });
     }
 
