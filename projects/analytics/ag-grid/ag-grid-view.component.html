@@ -1,0 +1,33 @@
+<div class="d-flex flex-wrap align-items-center mb-1" *ngIf="showToolbar">
+    <div class="btn-group" [sq-action-buttons]="{items: gridActions, style: 'primary', rightAligned: false}"></div>
+    
+    <div class="custom-control custom-checkbox ml-2">
+        <input type="checkbox" class="custom-control-input" id="format" [(ngModel)]="formatContent" (ngModelChange)="onFormatContentChanged()">
+        <label class="custom-control-label" for="format">{{'msg#grid.formatData' | sqMessage}}</label>
+    </div>
+
+    <sq-results-counter [rowCount]="datasource?.rowCount" class="ml-3"></sq-results-counter>
+</div>
+
+<!-- Data Table -->
+<ag-grid-angular
+    [ngClass]="theme"
+    [ngStyle]="{width: width, height: height}"
+
+    [columnDefs]="colDefs"
+    [defaultColDef]="defaultColDef"
+    [enableBrowserTooltips]="true"
+    [suppressPropertyNamesCheck]="true"
+    
+    [rowSelection]="rowSelection"
+
+    [rowModelType]="'infinite'"
+    [cacheBlockSize]="appService.ccquery?.pageSize || 20"
+    [blockLoadDebounceMillis]="300"
+    
+    (gridReady)="onGridReady($event)"
+    (rowDataChanged)="onRowDataChanged($event)"
+    (cellDoubleClicked)="onCellDoubleClicked($event)"
+    (selectionChanged)="onSelectionChanged($event)"
+>
+</ag-grid-angular>

@@ -2,6 +2,8 @@ import {Injectable, Inject, InjectionToken, OnDestroy, ComponentFactory, Compone
 import {Subject, Observable} from "rxjs";
 import {Utils, MapOf} from "@sinequa/core/base";
 import elementResizeDetectorMaker from "element-resize-detector";
+import {NotificationsService} from "@sinequa/core/notification";
+import {Clipboard} from '@angular/cdk/clipboard';
 
 export interface CaretPosition {
     start: number;
@@ -22,7 +24,10 @@ export class UIService implements OnDestroy {
     factories = new Map<Type<any>, ComponentFactory<any>>();
 
     constructor(
-        @Inject(SCREEN_SIZE_RULES) public screenSizeRules: MapOf<string>) {
+        @Inject(SCREEN_SIZE_RULES) public screenSizeRules: MapOf<string>,
+        public notificationsService: NotificationsService,
+        public clipboard: Clipboard
+    ) {
 
         this.screenSizes = ["xs", "sm", "md", "lg", "xl", "xxl"]; // in ascending size order
         this.setScreenSize();
@@ -395,6 +400,42 @@ export class UIService implements OnDestroy {
 
     removeElementResizeListener(element: HTMLElement, listener: (this: HTMLElement) => void) {
         this.elementResizeDetector.removeListener(element, listener);
+    }
+    
+    copyToClipboard(data: string, maxLength = 30) {
+        if (!navigator?.clipboard) {
+            // Note: CDK seems to struggle with large chunks of text
+            this.copyToClipboardCdk(data, maxLength);
+        }
+        else {
+            // Navigator built-in clipboard management
+            navigator.clipboard.writeText(data).then(() => {
+                this.notificationsService.success("msg#clipboard.success", {data: "\""+(data.length>maxLength? (data.slice(0,maxLength) + "...") : data)+"\""});
+            }, err => {
+                this.notificationsService.warning("msg#clipboard.error");
+            });
+        }
+    }
+
+    copyToClipboardCdk(data: string, maxLength = 30) {
+        const pending = this.clipboard.beginCopy(data);
+        let remainingAttempts = 3;
+        const attempt = () => {
+            const result = pending.copy();
+            if (!result && --remainingAttempts) {
+                setTimeout(attempt);
+            } else {
+                // Remember to destroy when you're done!
+                pending.destroy();
+                if(result) {
+                    this.notificationsService.success("msg#clipboard.success", {data: "\""+(data.length>maxLength? (data.slice(0,maxLength) + "...") : data)+"\""});
+                }
+                else {
+                    this.notificationsService.warning("msg#clipboard.error");
+                }
+            }
+        };
+        attempt();
     }
 }
 
