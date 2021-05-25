@@ -74,6 +74,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     @Output() pageChange = new EventEmitter<string | PreviewDocument>();
     @ViewChild('documentFrame', {static: true}) documentFrame: ElementRef;  // Reference to the preview HTML in the iframe
     @ContentChild('tooltip', {read: ElementRef, static: false}) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
+    @ContentChild('minimap', {read: ElementRef, static: false}) minimap: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
     public sanitizedUrlSrc: SafeResourceUrl;
     // Must be undefined by default, because if a default value is set, 
@@ -131,6 +132,10 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
 
         if (this.tooltip)
             this.addTooltip(this.previewDocument);
+
+        if (this.minimap) {
+            this.previewDocument.insertComponent(this.minimap.nativeElement);
+        }
 
         // Let upstream component know document is now ready
         this.onPreviewReady.next(this.previewDocument);

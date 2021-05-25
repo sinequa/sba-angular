@@ -154,6 +154,24 @@ this.tooltipTextActions = [new Action({
 })];
 ```
 
+### Preview Mini Map
+
+The component [`sq-preview-minimap`]({{site.baseurl}}components/components/BsPreviewMinimapComponent.html) could be inserted within the HTML Preview to display a highlights's minimap.
+
+![minimap]({{site.baseurl}}assets/modules/preview/preview-minimap.png){: .d-block .mx-auto}*highlights mini map*{: text-center}
+
+The minimap is inserted by transclusion:
+
+```html
+<sq-preview-document-iframe>
+
+    <!-- minimap injected in the preview -->
+    <sq-preview-minimap #minimap [previewDocument]="previewDocument" [previewData]="previewData">
+    </sq-preview-minimap>
+
+</sq-preview-document-iframe>
+```
+
 ## Preview Components
 
 ### Preview Facet
