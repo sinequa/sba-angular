@@ -55,7 +55,7 @@ export class UserPreferences {
      * @param skipSync whether we should skyp syncing (to update multiple properties for example)
      */
     public delete(property: string, skipSync?: boolean) {
-        if(this.prefs.hasOwnProperty(property.toLowerCase())) {
+        if(Object.prototype.hasOwnProperty.call(this.prefs, property.toLowerCase())) {
             this.prefs[property.toLowerCase()] = null;
             if(!skipSync){
                 this.sync();
