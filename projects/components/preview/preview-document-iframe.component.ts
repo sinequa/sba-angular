@@ -1,4 +1,4 @@
-import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild, OnChanges, SimpleChanges, AfterViewInit, NgZone, ChangeDetectorRef, OnInit, OnDestroy } from "@angular/core";
+import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild, OnChanges, SimpleChanges, AfterViewInit, ChangeDetectorRef, OnInit, OnDestroy, ChangeDetectionStrategy } from "@angular/core";
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Utils } from "@sinequa/core/base";
 import { PreviewDocument } from "./preview-document";
@@ -32,6 +32,7 @@ import { PreviewDocument } from "./preview-document";
                     [style.--factor]="scalingFactor"
                     [ngStyle]="{'-ms-zoom': scalingFactor, '-moz-transform': 'scale(var(--factor))', '-o-transform': 'scale(var(--factor))', '-webkit-transform': 'scale(var(--factor))'}">
                 </iframe>`,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styles: [`
 :host{
     flex: 1;
@@ -82,7 +83,6 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
 
     constructor(
         private cdr: ChangeDetectorRef,
-        private zone: NgZone,
         private sanitizer: DomSanitizer) {
             this.previewDocLoadHandler = this.onPreviewDocLoad.bind(this);
     }
@@ -157,9 +157,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
 
         this.resetContent();
         if (simpleChanges.downloadUrl && simpleChanges.downloadUrl.currentValue !== undefined) {
-            this.zone.run(() => {
-                this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.downloadUrl);
-            });
+            this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.downloadUrl);
         }
     }
 
