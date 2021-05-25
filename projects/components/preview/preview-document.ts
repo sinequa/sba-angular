@@ -1,5 +1,4 @@
 import { ElementRef } from "@angular/core";
-import {BehaviorSubject} from "rxjs";
 
 import { Utils } from "@sinequa/core/base";
 
@@ -48,8 +47,6 @@ export class PreviewDocument {
     
     private previousElement: HTMLElement | null;
     
-    public loadComplete$ = new BehaviorSubject<boolean>(true);
-
     constructor(element: ElementRef | Document){
         if (element instanceof ElementRef) {
             this._window = element?.nativeElement?.contentWindow;

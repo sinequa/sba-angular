@@ -53,20 +53,11 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
    */
   ngOnChanges(changes: SimpleChanges) {
     this.extracts = [];
-    if (this.previewData && changes['previewDocument'] && changes['previewDocument'].firstChange) {
-      if (!this.loadCompleteSubscription){
-        this.loadCompleteSubscription = this.previewDocument.loadComplete$.subscribe(value => {
-          if(this.previewData) {
-            const extracts = this.previewData.highlightsPerCategory["extractslocations"]?.values; //Extract locations Array ordered by "relevance"
-            if (!!extracts && extracts.length > 0) {
-              this.loading = false;
-
-              if (value) {
-                this.extractAll(extracts, this.previewDocument)
-              }
-            }
-          }
-        });
+    if (this.previewData && this.previewDocument) {
+      const extracts = this.previewData.highlightsPerCategory["extractslocations"]?.values; //Extract locations Array ordered by "relevance"
+      if (!!extracts && extracts.length > 0) {
+        this.extractAll(extracts, this.previewDocument);
+        return;
       }
     }
     
@@ -75,7 +66,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
       if(!!extracts && extracts.length > 0){
         this.loading = true;
 
-        if (this.previewDocument.loadComplete$.value) {
+        if (this.previewDocument) {
           this.extractAll(extracts, this.previewDocument)
         } else {
           this.previewService.getHtmlPreview(this.downloadUrl)
@@ -95,7 +86,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
     let previewDocument = new PreviewDocument(doc);
 
     const count = previewDocument.document.querySelectorAll("[id^='extractslocations']").length;
-    if (count === 0) {
+    if (count === 0 && this.previewDocument) {
       // use previous document to retrieve extracts
       previewDocument = this.previewDocument;
     }

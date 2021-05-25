@@ -70,7 +70,12 @@
             <a title="Original document" target="_blank" href="{{previewData?.record.url1}}" (click)="openOriginalDoc()">{{previewData?.record.url1}}</a>
         </div>
         <div class="flex-grow-1 flex-shrink-1 overflow-hidden">
-            <sq-preview-document-iframe [scalingFactor]="scaleFactor" [downloadUrl]="downloadUrl" (onPreviewReady)="onPreviewReady($event)" (urlChange)="onPreviewUrlChange($event)">
+            <sq-preview-document-iframe 
+                [scalingFactor]="scaleFactor"
+                [downloadUrl]="downloadUrl"
+                [sandbox]="sandbox"
+                (onPreviewReady)="onPreviewReady($event)"
+                (pageChange)="onPreviewPageChange($event)">
 
                 <!-- Tooltip injected in the preview -->
                 <sq-preview-tooltip #tooltip [previewDocument]="previewDocument" [previewData]="previewData" 
