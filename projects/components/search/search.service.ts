@@ -865,7 +865,7 @@ export class SearchService implements OnDestroy {
             record,
             results || resultId || "",
             {
-                querytext: this.query.text,
+                text: this.query.text,
                 querylang,
             },
             {
