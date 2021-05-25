@@ -47,6 +47,28 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         </a>
                         <ul class="links collapse " ${ isNormalMode ? 'id="modules-links"' : 'id="xs-modules-links"' }>
                             <li class="link">
+                                <a href="modules/AgGridModule.html" data-type="entity-link">AgGridModule</a>
+                                    <li class="chapter inner">
+                                        <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
+                                            'data-target="#components-links-module-AgGridModule-3d532ca29cf4eabd711f6bd426ebf677"' : 'data-target="#xs-components-links-module-AgGridModule-3d532ca29cf4eabd711f6bd426ebf677"' }>
+                                            <span class="icon ion-md-cog"></span>
+                                            <span>Components</span>
+                                            <span class="icon ion-ios-arrow-down"></span>
+                                        </div>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AgGridModule-3d532ca29cf4eabd711f6bd426ebf677"' :
+                                            'id="xs-components-links-module-AgGridModule-3d532ca29cf4eabd711f6bd426ebf677"' }>
+                                            <li class="link">
+                                                <a href="components/AgGridViewComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">AgGridViewComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/DataModalComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">DataModalComponent</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                            </li>
+                            <li class="link">
                                 <a href="modules/BsHeatmapModule.html" data-type="entity-link">BsHeatmapModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
@@ -256,6 +278,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             <li class="link">
                                 <a href="classes/SelectedRecordsProvider.html" data-type="entity-link">SelectedRecordsProvider</a>
                             </li>
+                            <li class="link">
+                                <a href="classes/SqDatasource.html" data-type="entity-link">SqDatasource</a>
+                            </li>
                         </ul>
                     </li>
                         <li class="chapter">
@@ -293,6 +318,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/ChartOptions.html" data-type="entity-link">ChartOptions</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/Column.html" data-type="entity-link">Column</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/CustomData.html" data-type="entity-link">CustomData</a>

@@ -5,6 +5,7 @@ import {enCore} from "@sinequa/core";
 import appMessages from "./messages/en.json";
 import "intl/locale-data/jsonp/en-US"; // Safari
 import {Utils} from "@sinequa/core/base";
+import {enUtils} from "@sinequa/components/utils";
 import {enAdvanced} from "@sinequa/components/advanced";
 import {enAlerts} from "@sinequa/components/alerts";
 import {enBaskets} from "@sinequa/components/baskets";
@@ -27,7 +28,7 @@ import {enGooglemaps} from "@sinequa/analytics/googlemaps";
 import {enTheme} from "@sinequa/components/theme-toggle";
 import {enFinance} from "@sinequa/analytics/finance";
 
-const messages = Utils.merge({}, enCore, enAdvanced, enAlerts, enBaskets, enFacet, enFeedback, enHeatmap, enLabels, enMetadata,
+const messages = Utils.merge({}, enCore, enUtils, enAdvanced, enAlerts, enBaskets, enFacet, enFeedback, enHeatmap, enLabels, enMetadata,
     enNotification, enPreview, enResult, enResultsView, enSavedQueries, enSelection, enSearch, enStatusBar, enUserSettings, enNetwork, enGooglemaps, enFinance, appMessages,
     enTheme);
 

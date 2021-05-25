@@ -141,6 +141,11 @@ export class FormatService {
                     if(Utils.isString(value)) {
                         return this.formatMoney(value);
                     }
+                    else if(Utils.isArray(value)) {
+                        return value.map(v => 
+                            this.formatMoney(Utils.isString(v)? v : v.value)
+                        ).join(', ');
+                    }
                     break;
             }
         }
@@ -290,5 +295,19 @@ export class FormatService {
      */
     parseMemorySize(str: string, _default = 0): number {
         return Utils.toSize(str, _default);
+    }
+
+    /**
+     * Display a raw value without applying any formatting
+     * (besides the native toString() method for non-string values)
+     * @param value 
+     * @returns 
+     */
+    formatRaw(value: ValueItem | FieldValue): string {
+        let [val] = this.getValueAndDisplay(value);
+        if(Utils.isArray(val)) {
+            return val.map(v => Utils.isString(v)? v : v.value).join(';');
+        }
+        return val?.toString();
     }
 }

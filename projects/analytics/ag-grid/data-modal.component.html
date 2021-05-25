@@ -1,0 +1,16 @@
+<sq-modal [title]="model.column" [buttons]="buttons">
+    <div class="custom-control custom-checkbox mb-2">
+        <input type="checkbox" class="custom-control-input" id="format-popup" [(ngModel)]="formatContent" (ngModelChange)="updateData()">
+        <label class="custom-control-label" for="format-popup">{{'msg#grid.formatData' | sqMessage}}</label>
+    </div>
+
+    <pre class="border mb-0 p-1">{{data}}</pre>
+
+    <div footer class="btn-group"
+        [sq-action-buttons]="{
+            items: [copyAction],
+            rightAligned: true,
+            style: 'primary'
+        }">
+    </div>
+</sq-modal>

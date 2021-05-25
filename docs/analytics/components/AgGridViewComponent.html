@@ -1,0 +1,2707 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Analytics</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Analytics</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>AgGridViewComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>ag-grid/ag-grid-view.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>sq-ag-grid-view</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./ag-grid-view.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./ag-grid-view.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#appService">appService</a>
+                            </li>
+                            <li>
+                                <a href="#colDefs">colDefs</a>
+                            </li>
+                            <li>
+                                <a href="#columnsAction">columnsAction</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Optional</span>
+                                <a href="#datasource">datasource</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#formatService">formatService</a>
+                            </li>
+                            <li>
+                                <a href="#gridActions">gridActions</a>
+                            </li>
+                            <li>
+                                <a href="#gridApi">gridApi</a>
+                            </li>
+                            <li>
+                                <a href="#gridColumnApi">gridColumnApi</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#intlService">intlService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#modalService">modalService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#prefs">prefs</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#searchService">searchService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#selectionService">selectionService</a>
+                            </li>
+                            <li>
+                                <a href="#subscriptions">subscriptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#uiService">uiService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#autoResize">autoResize</a>
+                            </li>
+                            <li>
+                                <a href="#copyToClipboard">copyToClipboard</a>
+                            </li>
+                            <li>
+                                <a href="#createColumns">createColumns</a>
+                            </li>
+                            <li>
+                                <a href="#createRows">createRows</a>
+                            </li>
+                            <li>
+                                <a href="#downloadCsv">downloadCsv</a>
+                            </li>
+                            <li>
+                                <a href="#getExportParams">getExportParams</a>
+                            </li>
+                            <li>
+                                <a href="#makeDatasource">makeDatasource</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges">ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onCellDoubleClicked">onCellDoubleClicked</a>
+                            </li>
+                            <li>
+                                <a href="#onFormatContentChanged">onFormatContentChanged</a>
+                            </li>
+                            <li>
+                                <a href="#onGridReady">onGridReady</a>
+                            </li>
+                            <li>
+                                <a href="#onRowDataChanged">onRowDataChanged</a>
+                            </li>
+                            <li>
+                                <a href="#onSelectionChanged">onSelectionChanged</a>
+                            </li>
+                            <li>
+                                <a href="#resetState">resetState</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#columns">columns</a>
+                            </li>
+                            <li>
+                                <a href="#defaultColDef">defaultColDef</a>
+                            </li>
+                            <li>
+                                <a href="#defaultColumnWidth">defaultColumnWidth</a>
+                            </li>
+                            <li>
+                                <a href="#displayCheckbox">displayCheckbox</a>
+                            </li>
+                            <li>
+                                <a href="#exportValueGetter">exportValueGetter</a>
+                            </li>
+                            <li>
+                                <a href="#formatContent">formatContent</a>
+                            </li>
+                            <li>
+                                <a href="#height">height</a>
+                            </li>
+                            <li>
+                                <a href="#query">query</a>
+                            </li>
+                            <li>
+                                <a href="#renderCell">renderCell</a>
+                            </li>
+                            <li>
+                                <a href="#results">results</a>
+                            </li>
+                            <li>
+                                <a href="#rowSelection">rowSelection</a>
+                            </li>
+                            <li>
+                                <a href="#showToolbar">showToolbar</a>
+                            </li>
+                            <li>
+                                <a href="#theme">theme</a>
+                            </li>
+                            <li>
+                                <a href="#tooltipValueGetter">tooltipValueGetter</a>
+                            </li>
+                            <li>
+                                <a href="#width">width</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(appService: AppService, searchService: SearchService, intlService: IntlService, formatService: FormatService, selectionService: SelectionService, uiService: UIService, modalService: ModalService, prefs: UserPreferences)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">ag-grid/ag-grid-view.component.ts:76</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>appService</td>
+                                                  
+                                                        <td>
+                                                                    <code>AppService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>searchService</td>
+                                                  
+                                                        <td>
+                                                                    <code>SearchService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>intlService</td>
+                                                  
+                                                        <td>
+                                                                    <code>IntlService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>formatService</td>
+                                                  
+                                                        <td>
+                                                                    <code>FormatService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>selectionService</td>
+                                                  
+                                                        <td>
+                                                                    <code>SelectionService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>uiService</td>
+                                                  
+                                                        <td>
+                                                                    <code>UIService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>modalService</td>
+                                                  
+                                                        <td>
+                                                                    <code>ModalService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>prefs</td>
+                                                  
+                                                        <td>
+                                                                    <code>UserPreferences</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="columns"></a>
+                        <b>columns</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Column.html" target="_self" >Column[]</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">ag-grid/ag-grid-view.component.ts:33</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>List of column definitions for each column displayed in the grid </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="defaultColDef"></a>
+                        <b>defaultColDef</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ColDef</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+        resizable: true
+    }</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">ag-grid/ag-grid-view.component.ts:56</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Default column definition </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="defaultColumnWidth"></a>
+                        <b>defaultColumnWidth</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>200</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">ag-grid/ag-grid-view.component.ts:52</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Default column grid (possibly overriden by column definitions) </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="displayCheckbox"></a>
+                        <b>displayCheckbox</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">ag-grid/ag-grid-view.component.ts:48</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Whether or not to display checkboxes in the first column of the grid to select rows </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="exportValueGetter"></a>
+                        <b>exportValueGetter</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(params: ProcessCellForExportParams) &#x3D;&gt; {
+        return this.formatService.formatRaw(params.value);
+    }</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="263" class="link-to-prism">ag-grid/ag-grid-view.component.ts:263</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>A function that returns a string formatted for export for each cell&#39;s value</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="formatContent"></a>
+                        <b>formatContent</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">ag-grid/ag-grid-view.component.ts:44</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Whether or not to format the data in the grid, using the FormatService </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="height"></a>
+                        <b>height</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;600px&quot;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">ag-grid/ag-grid-view.component.ts:40</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Height of the grid </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="query"></a>
+                        <b>query</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/Query" target="_blank" >Query</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">ag-grid/ag-grid-view.component.ts:35</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Optional query to fetch more data from the server (defaults to searchService.query) </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="renderCell"></a>
+                        <b>renderCell</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ICellRendererFunc</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(params: any): HTMLElement |string &#x3D;&gt; {
+        if(this.formatContent) {
+            return this.formatService.formatValue(params.value, params.colDef.$column);
+        }
+        else {
+            return this.formatService.formatRaw(params.value);
+        }
+    }</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="242" class="link-to-prism">ag-grid/ag-grid-view.component.ts:242</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>A function that returns a HTML string for each cell.
+The value in the cell is params.value and the column definition
+is params.colDef.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="results"></a>
+                        <b>results</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Results</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">ag-grid/ag-grid-view.component.ts:31</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Results containing the record objects displayed in this grid </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="rowSelection"></a>
+                        <b>rowSelection</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;single&quot; | &quot;multiple&quot;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;multiple&#x27;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">ag-grid/ag-grid-view.component.ts:46</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Row selection mode (forwarded to ag-grid) </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showToolbar"></a>
+                        <b>showToolbar</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">ag-grid/ag-grid-view.component.ts:42</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Whether or not to show a toolbar above the grid </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="theme"></a>
+                        <b>theme</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;ag-theme-balham&quot; | &quot;ag-theme-alpine&quot; | &quot;ag-theme-balham-dark&quot; | &quot;ag-theme-alpine-dark&quot;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;ag-theme-alpine&quot;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">ag-grid/ag-grid-view.component.ts:50</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Choice of ag-grid theme (balham is denser) </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="tooltipValueGetter"></a>
+                        <b>tooltipValueGetter</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(params: ITooltipParams) &#x3D;&gt; {
+        return this.formatService.formatRaw(params.value);
+    }</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="255" class="link-to-prism">ag-grid/ag-grid-view.component.ts:255</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>A function that returns a tooltip string for each cell&#39;s value</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="width"></a>
+                        <b>width</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;100%&quot;</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">ag-grid/ag-grid-view.component.ts:38</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Width of the grid </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="autoResize"></a>
+                    <span class="name">
+                        <b>
+                            autoResize
+                        </b>
+                        <a href="#autoResize"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>autoResize()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="323"
+                            class="link-to-prism">ag-grid/ag-grid-view.component.ts:323</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Auto-resize the columns</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="copyToClipboard"></a>
+                    <span class="name">
+                        <b>
+                            copyToClipboard
+                        </b>
+                        <a href="#copyToClipboard"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>copyToClipboard()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="308"
+                            class="link-to-prism">ag-grid/ag-grid-view.component.ts:308</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Copy the data to the clipboard</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createColumns"></a>
+                    <span class="name">
+                        <b>
+                            createColumns
+                        </b>
+                        <a href="#createColumns"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createColumns()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="163"
+                            class="link-to-prism">ag-grid/ag-grid-view.component.ts:163</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Create the list of column definitions by deriving the input
+<code>columns</code> list. Since record objects do not necessarily contain
+clean string data, we add a custom cellRenderer and tooltipValueGetter.
+Sinequa provides header names and tells us if a column can be sorted on,
+or filtered.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createRows"></a>
+                    <span class="name">
+                        <b>
+                            createRows
+                        </b>
+                        <a href="#createRows"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createRows()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="222"
+                            class="link-to-prism">ag-grid/ag-grid-view.component.ts:222</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Create the rows&#39; datasource</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="downloadCsv"></a>
+                    <span class="name">
+                        <b>
+                            downloadCsv
+                        </b>
+                        <a href="#downloadCsv"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>downloadCsv()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="316"
+                            class="link-to-prism">ag-grid/ag-grid-view.component.ts:316</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Download the data as a CSV file </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getExportParams"></a>
+                    <span class="name">
+                        <b>
+                            getExportParams
+                        </b>
+                        <a href="#getExportParams"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getExportParams()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="294"
+                            class="link-to-prism">ag-grid/ag-grid-view.component.ts:294</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns a configuration for exporting the data as CSV.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>CsvExportParams</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="makeDatasource"></a>
+                    <span class="name">
+                        <b>
+                            makeDatasource
+                        </b>
+                        <a href="#makeDatasource"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>makeDatasource()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="271"
+                            class="link-to-prism">ag-grid/ag-grid-view.component.ts:271</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Create a datasource object from the given results and query</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>IDatasource</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <b>
+                            ngOnChanges
+                        </b>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="142"
+                            class="link-to-prism">ag-grid/ag-grid-view.component.ts:142</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <b>
+                            ngOnDestroy
+                        </b>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="151"
+                            class="link-to-prism">ag-grid/ag-grid-view.component.ts:151</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="123"
+                            class="link-to-prism">ag-grid/ag-grid-view.component.ts:123</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onCellDoubleClicked"></a>
+                    <span class="name">
+                        <b>
+                            onCellDoubleClicked
+                        </b>
+                        <a href="#onCellDoubleClicked"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onCellDoubleClicked(event: CellDoubleClickedEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="357"
+                            class="link-to-prism">ag-grid/ag-grid-view.component.ts:357</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Callback function called when users double click on a cell</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>CellDoubleClickedEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onFormatContentChanged"></a>
+                    <span class="name">
+                        <b>
+                            onFormatContentChanged
+                        </b>
+                        <a href="#onFormatContentChanged"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onFormatContentChanged()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="330"
+                            class="link-to-prism">ag-grid/ag-grid-view.component.ts:330</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Called when the user toggles the &quot;format content&quot; checkbox</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onGridReady"></a>
+                    <span class="name">
+                        <b>
+                            onGridReady
+                        </b>
+                        <a href="#onGridReady"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onGridReady(event: GridReadyEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="340"
+                            class="link-to-prism">ag-grid/ag-grid-view.component.ts:340</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Callback function called when the grid is initialized</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>GridReadyEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onRowDataChanged"></a>
+                    <span class="name">
+                        <b>
+                            onRowDataChanged
+                        </b>
+                        <a href="#onRowDataChanged"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onRowDataChanged(event: RowDataChangedEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="350"
+                            class="link-to-prism">ag-grid/ag-grid-view.component.ts:350</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Callback function called when data in the grid changes</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>RowDataChangedEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSelectionChanged"></a>
+                    <span class="name">
+                        <b>
+                            onSelectionChanged
+                        </b>
+                        <a href="#onSelectionChanged"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSelectionChanged(event: SelectionChangedEvent)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="372"
+                            class="link-to-prism">ag-grid/ag-grid-view.component.ts:372</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Callback function called when users select data in the grid</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>SelectionChangedEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resetState"></a>
+                    <span class="name">
+                        <b>
+                            resetState
+                        </b>
+                        <a href="#resetState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resetState()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="284"
+                            class="link-to-prism">ag-grid/ag-grid-view.component.ts:284</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Reset filtering, sorting and column width</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="appService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            appService</b>
+                            <a href="#appService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>AppService</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">ag-grid/ag-grid-view.component.ts:79</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="colDefs"></a>
+                        <span class="name">
+                            <b>
+                            colDefs</b>
+                            <a href="#colDefs"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ColDef[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">ag-grid/ag-grid-view.component.ts:61</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Actual column definitions (derived from this.columns) </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="columnsAction"></a>
+                        <span class="name">
+                            <b>
+                            columnsAction</b>
+                            <a href="#columnsAction"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Action</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">ag-grid/ag-grid-view.component.ts:73</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Action button allowing to toggle each column&#39;s visibility </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="datasource"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Optional</span>
+                            datasource</b>
+                            <a href="#datasource"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>IDatasource</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">ag-grid/ag-grid-view.component.ts:68</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Datasource implementation for infinite scrolling row model </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="formatService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            formatService</b>
+                            <a href="#formatService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>FormatService</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">ag-grid/ag-grid-view.component.ts:82</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="gridActions"></a>
+                        <span class="name">
+                            <b>
+                            gridActions</b>
+                            <a href="#gridActions"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Action[]</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">ag-grid/ag-grid-view.component.ts:71</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>List of action buttons displayed in the toolbar </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="gridApi"></a>
+                        <span class="name">
+                            <b>
+                            gridApi</b>
+                            <a href="#gridApi"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>GridApi | null | undefined</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">ag-grid/ag-grid-view.component.ts:64</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>ag-grid API for the grid and the column model </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="gridColumnApi"></a>
+                        <span class="name">
+                            <b>
+                            gridColumnApi</b>
+                            <a href="#gridColumnApi"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../interfaces/Column.html" target="_self" >ColumnApi | null | undefined</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">ag-grid/ag-grid-view.component.ts:65</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="intlService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            intlService</b>
+                            <a href="#intlService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>IntlService</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">ag-grid/ag-grid-view.component.ts:81</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="modalService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            modalService</b>
+                            <a href="#modalService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>ModalService</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">ag-grid/ag-grid-view.component.ts:85</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="prefs"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            prefs</b>
+                            <a href="#prefs"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>UserPreferences</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">ag-grid/ag-grid-view.component.ts:86</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="searchService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            searchService</b>
+                            <a href="#searchService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>SearchService</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">ag-grid/ag-grid-view.component.ts:80</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectionService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            selectionService</b>
+                            <a href="#selectionService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>SelectionService</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">ag-grid/ag-grid-view.component.ts:83</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="subscriptions"></a>
+                        <span class="name">
+                            <b>
+                            subscriptions</b>
+                            <a href="#subscriptions"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Subscription[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">ag-grid/ag-grid-view.component.ts:76</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>List of subscriptions to clean up on destroy </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="uiService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            uiService</b>
+                            <a href="#uiService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>UIService</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">ag-grid/ag-grid-view.component.ts:84</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from &quot;@angular/core&quot;;
+import { Action } from &quot;@sinequa/components/action&quot;;
+import { SearchService } from &quot;@sinequa/components/search&quot;;
+import { SelectionEventType, SelectionService } from &quot;@sinequa/components/selection&quot;;
+import { UserPreferences } from &quot;@sinequa/components/user-settings&quot;;
+import { UIService } from &quot;@sinequa/components/utils&quot;;
+import { AppService, FormatService, Query } from &quot;@sinequa/core/app-utils&quot;;
+import { IntlService } from &quot;@sinequa/core/intl&quot;;
+import { ModalService } from &quot;@sinequa/core/modal&quot;;
+import { Results, Record, CCColumn, EngineType } from &quot;@sinequa/core/web-services&quot;;
+import { ICellRendererFunc, ITooltipParams, ColDef, GridApi, ColumnApi, GridReadyEvent, RowDataChangedEvent, CellDoubleClickedEvent, SelectionChangedEvent, IDatasource, CsvExportParams, ProcessCellForExportParams } from &#x27;ag-grid-community&#x27;;
+import { Subscription } from &quot;rxjs&quot;;
+import { DataModalComponent } from &quot;./data-modal.component&quot;;
+import { SqDatasource } from &quot;./datasource&quot;;
+
+
+export interface Column extends ColDef {
+    field: string;
+    $column?: CCColumn;
+}
+
+
+@Component({
+    selector: &#x27;sq-ag-grid-view&#x27;,
+    templateUrl: &#x27;./ag-grid-view.component.html&#x27;,
+    styleUrls: [&#x27;./ag-grid-view.component.scss&#x27;]
+})
+export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
+
+    /** Results containing the record objects displayed in this grid */
+    @Input() results?: Results;
+    /** List of column definitions for each column displayed in the grid */
+    @Input() columns: Column[];
+    /** Optional query to fetch more data from the server (defaults to searchService.query) */
+    @Input() query?: Query;
+
+    /** Width of the grid */
+    @Input() width &#x3D; &quot;100%&quot;;
+    /** Height of the grid */
+    @Input() height &#x3D; &quot;600px&quot;;
+    /** Whether or not to show a toolbar above the grid */
+    @Input() showToolbar &#x3D; true;
+    /** Whether or not to format the data in the grid, using the FormatService */
+    @Input() formatContent &#x3D; true;
+    /** Row selection mode (forwarded to ag-grid) */
+    @Input() rowSelection: &#x27;single&#x27; | &#x27;multiple&#x27; &#x3D; &#x27;multiple&#x27;;
+    /** Whether or not to display checkboxes in the first column of the grid to select rows */
+    @Input() displayCheckbox &#x3D; false;
+    /** Choice of ag-grid theme (balham is denser) */
+    @Input() theme: &quot;ag-theme-balham&quot; | &quot;ag-theme-alpine&quot; | &quot;ag-theme-balham-dark&quot; | &quot;ag-theme-alpine-dark&quot; &#x3D; &quot;ag-theme-alpine&quot;;
+    /** Default column grid (possibly overriden by column definitions) */
+    @Input() defaultColumnWidth &#x3D; 200;
+
+    /** Default column definition */
+    @Input()
+    defaultColDef: ColDef &#x3D; {
+        resizable: true
+    }
+    
+    /** Actual column definitions (derived from this.columns) */
+    colDefs: ColDef[] &#x3D; [];
+    
+    /** ag-grid API for the grid and the column model */
+    gridApi: GridApi | null | undefined;
+    gridColumnApi: ColumnApi | null | undefined;
+
+    /** Datasource implementation for infinite scrolling row model */
+    datasource?: IDatasource;
+
+    /** List of action buttons displayed in the toolbar */
+    gridActions: Action[];
+    /** Action button allowing to toggle each column&#x27;s visibility */
+    columnsAction: Action;
+
+    /** List of subscriptions to clean up on destroy */
+    subscriptions: Subscription[] &#x3D; [];
+
+    constructor(
+        public appService: AppService,
+        public searchService: SearchService,
+        public intlService: IntlService,
+        public formatService: FormatService,
+        public selectionService: SelectionService,
+        public uiService: UIService,
+        public modalService: ModalService,
+        public prefs: UserPreferences
+    ) {
+        // Initialization of button actions
+        this.gridActions &#x3D; [];
+        this.columnsAction &#x3D; new Action({
+            icon: &quot;fas fa-columns fa-fw&quot;,
+            text: &quot;msg#grid.columns&quot;,
+            scrollable: true,
+            children: []
+        });
+        this.gridActions.push(this.columnsAction);
+        this.gridActions.push(new Action({
+            icon: &quot;fas fa-sync-alt fa-fw&quot;,
+            text: &quot;msg#grid.reset&quot;,
+            title: &quot;msg#grid.resetTitle&quot;,
+            action: () &#x3D;&gt; this.resetState()
+        }));
+        this.gridActions.push(new Action({
+            icon: &quot;fas fa-arrows-alt-h fa-fw&quot;,
+            text: &quot;msg#grid.autosize&quot;,
+            title: &quot;msg#grid.autosizeTitle&quot;,
+            action: () &#x3D;&gt; this.autoResize()
+        }));
+        this.gridActions.push(new Action({
+            icon: &quot;fas fa-copy fa-fw&quot;,
+            text: &quot;msg#grid.copy&quot;,
+            title: &quot;msg#grid.copyTitle&quot;,
+            action: () &#x3D;&gt; this.copyToClipboard()
+        }));
+        this.gridActions.push(new Action({
+            icon: &quot;fas fa-download fa-fw&quot;,
+            text: &quot;msg#grid.download&quot;,
+            title: &quot;msg#grid.downloadTitle&quot;,
+            action: () &#x3D;&gt; this.downloadCsv()
+        }));
+    }
+
+    ngOnInit() {
+        // Subscribe to the selection service to reflect external row selection into the grid
+        this.subscriptions.push(this.selectionService.events.subscribe(event &#x3D;&gt; {
+            if(event.source !&#x3D;&#x3D; &quot;ag-grid&quot; &amp;&amp; (event.type &#x3D;&#x3D;&#x3D; SelectionEventType.SELECT || event.type &#x3D;&#x3D;&#x3D; SelectionEventType.UNSELECT)) {
+                this.gridApi?.forEachNode(node &#x3D;&gt; {
+                    if(event.records.find(r &#x3D;&gt; r.id &#x3D;&#x3D;&#x3D; node.data.id)) {
+                        node.setSelected(event.type &#x3D;&#x3D;&#x3D; SelectionEventType.SELECT, undefined, true);
+                    }
+                });
+            }
+        }));
+
+        // Override the &quot;formatContent&quot; property if it exists in the user preferences
+        const formatContent &#x3D; this.prefs.get(&quot;ag-grid-format-content&quot;);
+        if(formatContent !&#x3D;&#x3D; undefined) {
+            this.formatContent &#x3D; formatContent;
+        }
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if(changes.columns) {
+            this.createColumns();
+        }
+        if(changes.results) {
+            this.createRows();
+        }
+    }
+
+    ngOnDestroy() {
+        // Unsubscribe from any subscription
+        this.subscriptions.forEach(s &#x3D;&gt; s.unsubscribe());
+    }
+
+    /**
+     * Create the list of column definitions by deriving the input
+     * &#x60;columns&#x60; list. Since record objects do not necessarily contain
+     * clean string data, we add a custom cellRenderer and tooltipValueGetter.
+     * Sinequa provides header names and tells us if a column can be sorted on,
+     * or filtered.
+     */
+    createColumns() {
+        this.colDefs &#x3D; this.columns?.map((col,i) &#x3D;&gt; {
+
+            col.$column &#x3D; this.appService.getColumn(col.field);
+
+            col.tooltipValueGetter &#x3D; col.tooltipValueGetter || this.tooltipValueGetter;
+            col.headerName &#x3D; col.headerName || (col.$column?.label? this.intlService.formatMessage(col.$column?.label) : col.field);
+            col.headerTooltip &#x3D; col.headerTooltip || col.headerName;
+            col.cellRenderer &#x3D; col.cellRenderer || this.renderCell;
+            col.sortable &#x3D; col.sortable || this.appService.isSortable(col.field);
+            const hidePref &#x3D; this.prefs.get(&quot;ag-grid-hide-&quot;+col.field);
+            col.hide &#x3D; hidePref &#x3D;&#x3D;&#x3D; undefined? col.hide : hidePref;
+            col.width &#x3D; col.width || this.defaultColumnWidth;
+
+            // How to filter the column
+            switch(col.$column?.eType) {
+                case EngineType.double:
+                case EngineType.float:
+                case EngineType.integer:
+                    col.filter &#x3D; &#x27;agNumberColumnFilter&#x27;; break;
+                case EngineType.date:
+                case EngineType.dates:
+                case EngineType.dateTime:
+                case EngineType.dateTimes:
+                    col.filter &#x3D; &#x27;agDateColumnFilter&#x27;; break;
+                case EngineType.string:
+                case EngineType.csv:
+                    col.filter &#x3D; true; break;
+            }
+
+            if(i &#x3D;&#x3D;&#x3D; 0 &amp;&amp; this.displayCheckbox) {
+                // Note that header selection checkbox doesn&#x27;t work with the infinite row model
+                col.checkboxSelection &#x3D; true;
+            }
+
+            return col;
+        }) || [];
+
+        // Populate the columnsAction: for each column we toggle the &quot;hide&quot; property and persist that preference
+        this.columnsAction.children &#x3D; this.colDefs.map(col &#x3D;&gt; new Action({
+            text: col.headerName,
+            selected: !col.hide,
+            action: (action, event) &#x3D;&gt; {
+                action.selected &#x3D; !action.selected;
+                this.gridColumnApi?.setColumnVisible(col.field!, action.selected);
+                if(action.selected) {
+                    this.prefs.delete(&quot;ag-grid-hide-&quot;+col.field);
+                }
+                else {
+                    this.prefs.set(&quot;ag-grid-hide-&quot;+col.field, true);
+                }
+                event.stopPropagation();
+            }
+        }));
+    }
+
+    /**
+     * Create the rows&#x27; datasource
+     */
+    createRows() {
+        if(this.gridApi &amp;&amp; this.gridColumnApi) {
+            // Reset sorting &amp; filtering
+            this.resetState();
+            // Create a new datasource
+            this.datasource &#x3D; this.makeDatasource();
+            // Apply to the grid
+            this.gridApi.setDatasource(this.datasource);
+        }
+    }
+
+
+    // Custom rendering functions
+
+    /**
+     * A function that returns a HTML string for each cell.
+     * The value in the cell is params.value and the column definition
+     * is params.colDef.
+     */
+    @Input()
+    renderCell: ICellRendererFunc &#x3D; (params: any): HTMLElement |string &#x3D;&gt; {
+        if(this.formatContent) {
+            return this.formatService.formatValue(params.value, params.colDef.$column);
+        }
+        else {
+            return this.formatService.formatRaw(params.value);
+        }
+    }
+
+    /**
+     * A function that returns a tooltip string for each cell&#x27;s value
+     */
+    @Input()
+    tooltipValueGetter &#x3D; (params: ITooltipParams) &#x3D;&gt; {
+        return this.formatService.formatRaw(params.value);
+    }
+
+    /**
+     * A function that returns a string formatted for export for each cell&#x27;s value
+     */
+    @Input()
+    exportValueGetter &#x3D; (params: ProcessCellForExportParams) &#x3D;&gt; {
+        return this.formatService.formatRaw(params.value);
+    }
+
+
+    /**
+     * Create a datasource object from the given results and query
+     */
+    makeDatasource() : IDatasource {
+        if(this.results) {
+            return new SqDatasource(this.results, this.query, this.searchService, this.appService);
+        }
+        return {getRows: () &#x3D;&gt; []}
+    }
+
+
+    // User actions
+
+    /**
+     * Reset filtering, sorting and column width
+     */
+     resetState() {
+        this.gridApi?.setFilterModel({});
+        this.gridColumnApi?.applyColumnState({defaultState:{
+            sort: null, width: this.defaultColumnWidth
+        }});
+    }
+
+    /**
+     * Returns a configuration for exporting the data as CSV.
+     */
+    getExportParams(): CsvExportParams {
+        const params: CsvExportParams &#x3D; {
+            allColumns: true,
+            processCellCallback: this.exportValueGetter
+        };
+        if(this.gridApi?.getSelectedRows().length) {
+            params.onlySelected &#x3D; true;
+        }
+        return params;
+    }
+
+    /**
+     * Copy the data to the clipboard
+     */
+    copyToClipboard() {
+        const data &#x3D; this.gridApi?.getDataAsCsv(this.getExportParams());
+        if(data) {
+            this.uiService.copyToClipboard(data);
+        }
+    }
+    
+    /** Download the data as a CSV file */
+    downloadCsv() {
+        this.gridApi?.exportDataAsCsv(this.getExportParams());
+    }
+
+    /**
+     * Auto-resize the columns
+     */
+    autoResize() {
+        this.gridColumnApi?.autoSizeAllColumns();
+    }
+    
+    /**
+     * Called when the user toggles the &quot;format content&quot; checkbox
+     */
+    onFormatContentChanged() {
+        this.prefs.set(&quot;ag-grid-format-content&quot;, this.formatContent);
+        this.gridApi?.refreshCells({force: true})
+    }
+
+    // AG-GRID events
+
+    /**
+     * Callback function called when the grid is initialized
+     */
+    onGridReady(event: GridReadyEvent) {
+        this.gridApi &#x3D; event.api;
+        this.gridColumnApi &#x3D; event.columnApi;
+        // Create the rows in case there are already results available
+        this.createRows();
+    }
+
+    /**
+     * Callback function called when data in the grid changes
+     */
+    onRowDataChanged(event: RowDataChangedEvent) {
+        
+    }
+
+    /**
+     * Callback function called when users double click on a cell
+     */
+    onCellDoubleClicked(event: CellDoubleClickedEvent) {
+        this.modalService.open(DataModalComponent, {
+            model: {
+                row: event.data,
+                column: event.colDef.headerName || event.colDef.field,
+                cell: event.value,
+                cccolumn: (event.colDef as Column).$column,
+                formatContent: this.formatContent
+            }
+        })
+    }
+
+    /**
+     * Callback function called when users select data in the grid
+     */
+    onSelectionChanged(event: SelectionChangedEvent) {
+        const newRows &#x3D; this.gridApi?.getSelectedRows() as Record[] | undefined;
+        const oldRows &#x3D; this.selectionService.getSelectedIds();
+        oldRows.forEach(id &#x3D;&gt; {
+            const foundRow &#x3D; newRows?.find(row &#x3D;&gt; row.id &#x3D;&#x3D;&#x3D; id);
+            if(!foundRow) {
+                this.selectionService.toggleSelectedRecords({id} as Record, &quot;ag-grid&quot;);
+            }
+        });
+        newRows?.forEach(row &#x3D;&gt; {
+            const foundId &#x3D; oldRows.find(id &#x3D;&gt; row.id &#x3D;&#x3D;&#x3D; id);
+            if(!foundId) {
+                this.selectionService.toggleSelectedRecords(row, &quot;ag-grid&quot;);
+            }
+        });
+    }
+
+
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;d-flex flex-wrap align-items-center mb-1&quot; *ngIf&#x3D;&quot;showToolbar&quot;&gt;
+    &lt;div class&#x3D;&quot;btn-group&quot; [sq-action-buttons]&#x3D;&quot;{items: gridActions, style: &#x27;primary&#x27;, rightAligned: false}&quot;&gt;&lt;/div&gt;
+    
+    &lt;div class&#x3D;&quot;custom-control custom-checkbox ml-2&quot;&gt;
+        &lt;input type&#x3D;&quot;checkbox&quot; class&#x3D;&quot;custom-control-input&quot; id&#x3D;&quot;format&quot; [(ngModel)]&#x3D;&quot;formatContent&quot; (ngModelChange)&#x3D;&quot;onFormatContentChanged()&quot;&gt;
+        &lt;label class&#x3D;&quot;custom-control-label&quot; for&#x3D;&quot;format&quot;&gt;{{&#x27;msg#grid.formatData&#x27; | sqMessage}}&lt;/label&gt;
+    &lt;/div&gt;
+
+    &lt;sq-results-counter [rowCount]&#x3D;&quot;datasource?.rowCount&quot; class&#x3D;&quot;ml-3&quot;&gt;&lt;/sq-results-counter&gt;
+&lt;/div&gt;
+
+&lt;!-- Data Table --&gt;
+&lt;ag-grid-angular
+    [ngClass]&#x3D;&quot;theme&quot;
+    [ngStyle]&#x3D;&quot;{width: width, height: height}&quot;
+
+    [columnDefs]&#x3D;&quot;colDefs&quot;
+    [defaultColDef]&#x3D;&quot;defaultColDef&quot;
+    [enableBrowserTooltips]&#x3D;&quot;true&quot;
+    [suppressPropertyNamesCheck]&#x3D;&quot;true&quot;
+    
+    [rowSelection]&#x3D;&quot;rowSelection&quot;
+
+    [rowModelType]&#x3D;&quot;&#x27;infinite&#x27;&quot;
+    [cacheBlockSize]&#x3D;&quot;appService.ccquery?.pageSize || 20&quot;
+    [blockLoadDebounceMillis]&#x3D;&quot;300&quot;
+    
+    (gridReady)&#x3D;&quot;onGridReady($event)&quot;
+    (rowDataChanged)&#x3D;&quot;onRowDataChanged($event)&quot;
+    (cellDoubleClicked)&#x3D;&quot;onCellDoubleClicked($event)&quot;
+    (selectionChanged)&#x3D;&quot;onSelectionChanged($event)&quot;
+&gt;
+&lt;/ag-grid-angular&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./ag-grid-view.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">ag-grid-angular ::ng-deep .match-highlight {
+    font-weight: bold;
+    font-style: italic;
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="d-flex flex-wrap align-items-center mb-1" *ngIf="showToolbar">    <div class="btn-group" [sq-action-buttons]="{items: gridActions, style: \'primary\', rightAligned: false}"></div>        <div class="custom-control custom-checkbox ml-2">        <input type="checkbox" class="custom-control-input" id="format" [(ngModel)]="formatContent" (ngModelChange)="onFormatContentChanged()">        <label class="custom-control-label" for="format">{{\'msg#grid.formatData\' | sqMessage}}</label>    </div>    <sq-results-counter [rowCount]="datasource?.rowCount" class="ml-3"></sq-results-counter></div><!-- Data Table --><ag-grid-angular    [ngClass]="theme"    [ngStyle]="{width: width, height: height}"    [columnDefs]="colDefs"    [defaultColDef]="defaultColDef"    [enableBrowserTooltips]="true"    [suppressPropertyNamesCheck]="true"        [rowSelection]="rowSelection"    [rowModelType]="\'infinite\'"    [cacheBlockSize]="appService.ccquery?.pageSize || 20"    [blockLoadDebounceMillis]="300"        (gridReady)="onGridReady($event)"    (rowDataChanged)="onRowDataChanged($event)"    (cellDoubleClicked)="onCellDoubleClicked($event)"    (selectionChanged)="onSelectionChanged($event)"></ag-grid-angular></div>'
+    var COMPONENTS = [{'name': 'AgGridViewComponent', 'selector': 'sq-ag-grid-view'},{'name': 'BsEdgeInfoCard', 'selector': 'sq-edge-info-card'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetTimelineComponent', 'selector': 'sq-facet-timeline'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsNodeInfoCard', 'selector': 'sq-node-info-card'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsTimelineComponent', 'selector': 'sq-timeline'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'DataModalComponent', 'selector': 'sq-data-modal'},{'name': 'FacetNgxChart', 'selector': 'sq-facet-ngx-chart'},{'name': 'FusionChart', 'selector': 'sq-fusion-chart'},{'name': 'MapComponent', 'selector': 'sq-googlemaps'},{'name': 'MoneyCloudComponent', 'selector': 'sq-money-cloud'},{'name': 'MoneyTimelineComponent', 'selector': 'sq-money-timeline'},{'name': 'NetworkComponent', 'selector': 'sq-network'},{'name': 'NgxChart', 'selector': 'sq-ngx-chart'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'AgGridViewComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'AgGridViewComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

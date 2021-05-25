@@ -7,6 +7,7 @@ import appMessages from "./messages/de.json";
 import "intl/locale-data/jsonp/de-DE"; // Safari
 import "@formatjs/intl-relativetimeformat/dist/locale-data/de";
 import {Utils} from "@sinequa/core/base";
+import {deUtils} from "@sinequa/components/utils";
 import {deAdvanced} from "@sinequa/components/advanced";
 import {deAlerts} from "@sinequa/components/alerts";
 import {deBaskets} from "@sinequa/components/baskets";
@@ -29,7 +30,7 @@ import {deGooglemaps} from "@sinequa/analytics/googlemaps";
 import {deTheme} from "@sinequa/components/theme-toggle";
 import {deFinance} from "@sinequa/analytics/finance";
 
-const messages = Utils.merge({}, deCore, deAdvanced, deAlerts, deBaskets, deFacet, deFeedback, deHeatmap, deLabels, deMetadata,
+const messages = Utils.merge({}, deCore, deUtils, deAdvanced, deAlerts, deBaskets, deFacet, deFeedback, deHeatmap, deLabels, deMetadata,
     deNotification, dePreview, deResult, deResultsView, deSavedQueries, deSelection, deSearch, deStatusBar, deUserSettings, deNetwork, deGooglemaps, deFinance, appMessages,
     deTheme);
 

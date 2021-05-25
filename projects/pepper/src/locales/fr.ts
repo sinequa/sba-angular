@@ -7,6 +7,7 @@ import appMessages from "./messages/fr.json";
 import "intl/locale-data/jsonp/fr-FR"; // Safari
 import "@formatjs/intl-relativetimeformat/dist/locale-data/fr";
 import {Utils} from "@sinequa/core/base";
+import {frUtils} from "@sinequa/components/utils";
 import {frAdvanced} from "@sinequa/components/advanced";
 import {frAlerts} from "@sinequa/components/alerts";
 import {frBaskets} from "@sinequa/components/baskets";
@@ -31,7 +32,7 @@ import {frFinance} from "@sinequa/analytics/finance";
 
 d3Format.thousands = " "; // consistency with intl-number-format
 
-const messages = Utils.merge({}, frCore, frAdvanced, frAlerts, frBaskets, frFacet, frFeedback, frHeatmap, frLabels, frMetadata,
+const messages = Utils.merge({}, frCore, frUtils, frAdvanced, frAlerts, frBaskets, frFacet, frFeedback, frHeatmap, frLabels, frMetadata,
     frNotification, frPreview, frResult, frResultsView, frSavedQueries, frSelection, frSearch, frStatusBar, frUserSettings, frNetwork, frGooglemaps, frFinance, appMessages,
     frTheme);
 
