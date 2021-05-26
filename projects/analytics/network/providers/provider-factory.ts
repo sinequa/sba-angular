@@ -227,8 +227,9 @@ export class ProviderFactory {
      * @param trigger (default: oninsert) Determines when this edge should be created (oninsert: when the record node is created, onclick: when the record node is cliked, manual: via a click on a button or link)
      * @param display (default: existingnodes) Determines which edges should be visible (all: all the edges are visible; paginate: only a limited number are visible, but more can be shown, using an action; existingnodes: edges will only be created for nodes that already exist in the network; a function take the node as input can also be used to determine visibility dynamically)
      * @param edgeOptions (default: standard edge options as returned by createEdgeOptions()) Edge options for displaying the edge with Vis.js
+     * @param count (default: 10): when display=paginate, this setting limits the number of edges displayed
      */
-    createStructuralEdgeTypes(recordType: NodeType, fieldTypes: NodeType[], trigger: StructuralTriggerType = "oninsert", display: StructuralDisplayType = "existingnodes", edgeOptions?: any): StructuralEdgeType[] {
+    createStructuralEdgeTypes(recordType: NodeType, fieldTypes: NodeType[], trigger: StructuralTriggerType = "oninsert", display: StructuralDisplayType = "existingnodes", edgeOptions?: any, count?: number): StructuralEdgeType[] {
         return fieldTypes.map(type => {
             if(!type.field){
                 throw new Error("Structural Edges require node types with a field");
@@ -238,7 +239,8 @@ export class ProviderFactory {
                 field: type.field,
                 trigger,
                 display,
-                edgeOptions: edgeOptions || this.createEdgeOptions()
+                edgeOptions: edgeOptions || this.createEdgeOptions(),
+                count
             };
         });
     }
@@ -252,15 +254,17 @@ export class ProviderFactory {
      * @param trigger (default: oninsert) Determines when this edge should be created (oninsert: when the record node is created, onclick: when the record node is cliked, manual: via a click on a button or link)
      * @param display (default: existingnodes) Determines which edges should be visible (all: all the edges are visible; paginate: only a limited number are visible, but more can be shown, using an action; existingnodes: edges will only be created for nodes that already exist in the network; a function take the node as input can also be used to determine visibility dynamically)
      * @param edgeOptions (default: standard edge options as returned by createEdgeOptions()) Edge options for displaying the edge with Vis.js
+     * @param count (default: 10): when display=paginate, this setting limits the number of edges displayed
      * @param parse Custom function to parse the record[field] data and generate nodes and edges
      */
-    createCustomStructuralEdgeTypes(recordType: NodeType, nodeTypes: NodeType[], field: string, trigger: StructuralTriggerType = "oninsert", display: StructuralDisplayType = "existingnodes", edgeOptions?: any, parse?: (value: any, record: Record, type: StructuralEdgeType) => CustomData): StructuralEdgeType {
+    createCustomStructuralEdgeTypes(recordType: NodeType, nodeTypes: NodeType[], field: string, trigger: StructuralTriggerType = "oninsert", display: StructuralDisplayType = "existingnodes", edgeOptions?: any, count?: number, parse?: (value: any, record: Record, type: StructuralEdgeType) => CustomData): StructuralEdgeType {
         return {
             nodeTypes: [recordType, ...nodeTypes],
             field,
             trigger,
             display,
             edgeOptions: edgeOptions || this.createEdgeOptions(),
+            count,
             parse
         };
     }
@@ -273,9 +277,10 @@ export class ProviderFactory {
      * @param trigger (default: oninsert) Determines when this edge should be created (oninsert: when the record node is created, onclick: when the record node is cliked, manual: via a click on a button or link)
      * @param display (default: existingnodes) Determines which edges should be visible (all: all the edges are visible; paginate: only a limited number are visible, but more can be shown, using an action; existingnodes: edges will only be created for nodes that already exist in the network; a function take the node as input can also be used to determine visibility dynamically)
      * @param edgeOptions (default: standard edge options as returned by createEdgeOptions()) Edge options for displaying the edge with Vis.js 
+     * @param count (default: 10): when display=paginate, this setting limits the number of edges displayed
      */
-    createCoocStructuralEdgeTypes(recordType: NodeType, nodeTypes: NodeType[], field: string, trigger: StructuralTriggerType = "oninsert", display: StructuralDisplayType = "existingnodes", edgeOptions?: any): StructuralEdgeType {
-        return this.createCustomStructuralEdgeTypes(recordType, nodeTypes, field, trigger, display, edgeOptions,
+    createCoocStructuralEdgeTypes(recordType: NodeType, nodeTypes: NodeType[], field: string, trigger: StructuralTriggerType = "oninsert", display: StructuralDisplayType = "existingnodes", edgeOptions?: any, count?: number): StructuralEdgeType {
+        return this.createCustomStructuralEdgeTypes(recordType, nodeTypes, field, trigger, display, edgeOptions, count,
             (value: any, record: Record, type: StructuralEdgeType) => {
                 const values = value.value.substr(1, value.value.length-2).split(")#(");
                 const displays = value.display.substr(1, value.display.length-2).split(")#(");
@@ -293,9 +298,10 @@ export class ProviderFactory {
      * @param trigger (default: oninsert) Determines when this edge should be created (oninsert: when the record node is created, onclick: when the record node is cliked, manual: via a click on a button or link)
      * @param display (default: existingnodes) Determines which edges should be visible (all: all the edges are visible; paginate: only a limited number are visible, but more can be shown, using an action; existingnodes: edges will only be created for nodes that already exist in the network; a function take the node as input can also be used to determine visibility dynamically)
      * @param edgeOptions (default: standard edge options as returned by createEdgeOptions()) Edge options for displaying the edge with Vis.js 
+     * @param count (default: 10): when display=paginate, this setting limits the number of edges displayed
      */
-    createTypedCoocStructuralEdgeTypes(recordType: NodeType, nodeTypes: NodeType[], field: string, trigger: StructuralTriggerType = "oninsert", display: StructuralDisplayType = "existingnodes", edgeOptions?: any): StructuralEdgeType {
-        return this.createCustomStructuralEdgeTypes(recordType, nodeTypes, field, trigger, display, edgeOptions,
+    createTypedCoocStructuralEdgeTypes(recordType: NodeType, nodeTypes: NodeType[], field: string, trigger: StructuralTriggerType = "oninsert", display: StructuralDisplayType = "existingnodes", edgeOptions?: any, count?: number): StructuralEdgeType {
+        return this.createCustomStructuralEdgeTypes(recordType, nodeTypes, field, trigger, display, edgeOptions, count,
             (value: any, record: Record, type: StructuralEdgeType) => {
                 const valuesSplit = value.value.substr(1, value.value.length-2).split(")#(");
                 const displaysSplit = value.display.substr(1, value.display.length-2).split(")#(");
