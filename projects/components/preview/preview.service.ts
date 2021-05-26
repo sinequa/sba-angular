@@ -194,7 +194,7 @@ export class PreviewService {
             source: Utils.treeFirstNode(collection),
             resultid: resultId,
             querylang: queryLanguage,
-            querytext: query.text,
+            text: query.text,
             filename: record?.filename,
             fileext: record?.fileext,
         }
