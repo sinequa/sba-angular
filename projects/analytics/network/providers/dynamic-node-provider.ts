@@ -197,6 +197,7 @@ export class DynamicNodeProvider extends RecordsProvider {
      * @param node The clicked node
      */
     onNodeClicked(node?: RecordNode) {
+        super.onNodeClicked(node);
         if(this.active && this.nodeType.trigger === "onclick" && node && node.type === this.nodeType && this.processedNodes.indexOf(node.id) === -1) {
             this.processNode(node);
         }

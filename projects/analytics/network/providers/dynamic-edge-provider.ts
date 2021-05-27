@@ -188,6 +188,7 @@ export class DynamicEdgeProvider extends RecordsProvider {
      * @param node The clicked node
      */
     onNodeClicked(node?: Node) {
+        super.onNodeClicked(node);
         if(this.active && this.edgeType.trigger === "onclick" && node && node.type === this.edgeType.nodeTypes[0] && !this.dataset.hasNode(node.id)) {
             this.processNode(node);
         }
