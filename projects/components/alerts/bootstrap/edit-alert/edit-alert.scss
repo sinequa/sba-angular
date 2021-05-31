@@ -1,0 +1,13 @@
+.custom-control-label {
+  &.user-select-none {
+    user-select: none;
+  }
+  &.cursor-pointer {
+    cursor: pointer;
+  }
+}
+
+.weekdays-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+}

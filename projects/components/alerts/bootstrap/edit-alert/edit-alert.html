@@ -12,16 +12,11 @@
         </div>
         <div class="form-group">
             <label>{{'msg#editAlert.days' | sqMessage}}</label>
-            <div>
-                <label class="custom-control custom-control-inline custom-checkbox"><input class="custom-control-input" type="checkbox" [checked]="dayChecked(days.Monday)" (change)="dayChange($event, days.Monday)"><span class="custom-control-label">{{'msg#editAlert.monday' | sqMessage}}</span></label>
-                <label class="custom-control custom-control-inline custom-checkbox"><input class="custom-control-input" type="checkbox" [checked]="dayChecked(days.Tuesday)" (change)="dayChange($event, days.Tuesday)"><span class="custom-control-label">{{'msg#editAlert.tuesday' | sqMessage}}</span></label>
-                <label class="custom-control custom-control-inline custom-checkbox"><input class="custom-control-input" type="checkbox" [checked]="dayChecked(days.Wednesday)" (change)="dayChange($event, days.Wednesday)"><span class="custom-control-label">{{'msg#editAlert.wednesday' | sqMessage}}</span></label>
-                <label class="custom-control custom-control-inline custom-checkbox"><input class="custom-control-input" type="checkbox" [checked]="dayChecked(days.Thursday)" (change)="dayChange($event, days.Thursday)"><span class="custom-control-label">{{'msg#editAlert.thursday' | sqMessage}}</span></label>
-                <label class="custom-control custom-control-inline custom-checkbox"><input class="custom-control-input" type="checkbox" [checked]="dayChecked(days.Friday)" (change)="dayChange($event, days.Friday)"><span class="custom-control-label">{{'msg#editAlert.friday' | sqMessage}}</span></label>
-            </div>
-            <div>
-                <label class="custom-control custom-control-inline custom-checkbox"><input class="custom-control-input" type="checkbox" [checked]="dayChecked(days.Saturday)" (change)="dayChange($event, days.Saturday)"><span class="custom-control-label">{{'msg#editAlert.saturday' | sqMessage}}</span></label>
-                <label class="custom-control custom-control-inline custom-checkbox"><input class="custom-control-input" type="checkbox" [checked]="dayChecked(days.Sunday)" (change)="dayChange($event, days.Sunday)"><span class="custom-control-label">{{'msg#editAlert.sunday' | sqMessage}}</span></label>
+            <div class="weekdays-grid">
+                <label *ngFor="let day of weekdays | keyvalue: originalOrder" class="custom-control custom-control-inline custom-checkbox">
+                    <input class="custom-control-input" type="checkbox" [checked]="dayChecked(day.value)" (change)="dayChange($event, day.value)">
+                    <span class="custom-control-label user-select-none cursor-pointer">{{ 'msg#editAlert.'+day.key | sqMessage}}</span>
+                </label>
             </div>
         </div>
         <div class="form-group">
@@ -29,8 +24,15 @@
             <input type="text" class="form-control" id="alertTimes" formControlName="alertTimes" autocomplete="off" spellcheck="off">
         </div>
         <div class="form-group">
-            <label class="custom-control custom-control-inline custom-checkbox"><input class="custom-control-input" type="checkbox" id="alertActive" formControlName="alertActive"><span class="custom-control-label">{{'msg#editAlert.active' | sqMessage}}</span></label>
-            <label *ngIf="canUpdateQuery" class="custom-control custom-control-inline custom-checkbox"><input class="custom-control-input" type="checkbox" id="updateQuery" formControlName="updateQuery"><span class="custom-control-label">{{'msg#editAlert.updateQuery' | sqMessage}}</span></label>
+            <label class="custom-control custom-control-inline custom-checkbox">
+                <input class="custom-control-input" type="checkbox" id="alertActive" formControlName="alertActive">
+                <span class="custom-control-label user-select-none cursor-pointer">{{'msg#editAlert.active' | sqMessage}}</span>
+            </label>
+            <label *ngIf="canUpdateQuery" class="custom-control custom-control-inline custom-checkbox">
+                <input class="custom-control-input" type="checkbox" id="updateQuery" formControlName="updateQuery">
+                <span class="custom-control-label user-select-none cursor-pointer">{{'msg#editAlert.updateQuery' | sqMessage}}</span>
+            </label>
         </div>
+        <sq-alert-message footer [message]="'msg#editAlert.lossDataMessage' | sqMessage" *ngIf="showDirtyMessage"></sq-alert-message>
     </sq-modal>
 </form>

@@ -21,7 +21,8 @@ export default {
         "times": "Uhrzeitangaben",
         "active": "Aktiv",
         "updateQuery": "Aktualisiere Suchanfrage",
-        "runQuery": "Führe Suchanfrage aus"
+        "runQuery": "Führe Suchanfrage aus",
+        "lossDataMessage": "Möchten Sie gehen, ohne Ihre Änderungen zu speichern?"
     },
 
     "manageAlerts": {

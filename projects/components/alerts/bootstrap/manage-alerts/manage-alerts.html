@@ -17,5 +17,6 @@
                 </a>
             </div>
         </div>
+        <sq-alert-message footer [message]="'msg#editAlert.lossDataMessage' | sqMessage" *ngIf="showDirtyMessage"></sq-alert-message>
     </sq-modal>
 </form>

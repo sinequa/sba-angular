@@ -5,10 +5,12 @@ import {ModalRef, MODAL_MODEL, ModalButton, ModalResult} from "@sinequa/core/mod
 import {Utils} from "@sinequa/core/base";
 import {AlertsService, Alert} from "../../alerts.service";
 import {SearchService} from "@sinequa/components/search";
+import {KeyValue} from "@angular/common";
 
 @Component({
     selector: "sq-edit-alert",
-    templateUrl: "./edit-alert.html"
+    templateUrl: "./edit-alert.html",
+    styleUrls: ["./edit-alert.scss"]
 })
 export class BsEditAlert implements OnInit, OnDestroy {
     form: FormGroup;
@@ -16,9 +18,24 @@ export class BsEditAlert implements OnInit, OnDestroy {
     buttons: ModalButton[];
     frequencies: Alert.Frequency[];
     frequency: typeof Alert.Frequency;
-    days: typeof Alert.Days;
     canUpdateQuery: boolean;
     updateQuery: boolean;
+    weekdays = {
+        'monday': Alert.Days.Monday, 
+        'tuesday': Alert.Days.Tuesday,
+        'wednesday': Alert.Days.Wednesday,
+        'thursday': Alert.Days.Thursday,
+        'friday': Alert.Days.Friday,
+        'saturday': Alert.Days.Saturday,
+        'sunday': Alert.Days.Sunday
+    };
+    
+    showDirtyMessage = false;
+    
+    // Preserve original property order
+    originalOrder = (a: KeyValue<string, Alert.Days>, b: KeyValue<string, Alert.Days>): number => 0
+    
+    private alertDaysControl: FormControl;
     private alertNameControl: FormControl;
     private alertFrequencyControl: FormControl;
     private alertTimesControl: FormControl;
@@ -37,7 +54,6 @@ export class BsEditAlert implements OnInit, OnDestroy {
             Alert.Frequency.Immediate,
         ];
         this.frequency = Alert.Frequency;
-        this.days = Alert.Days;
     }
 
     get alert() {
@@ -46,11 +62,12 @@ export class BsEditAlert implements OnInit, OnDestroy {
 
     ngOnInit() {
         if (!this.alert.days) {
-            this.alert.days = this.days.None;
+            this.alert.days = Alert.Days.None;
         }
         this.canUpdateQuery = (!!this.alertsService.alert(this.alert.name)) &&
             !!this.searchService.results && !!this.searchService.results.records;
 
+        this.alertDaysControl = new FormControl(this.alert.days);
         this.alertNameControl = new FormControl(this.alert.name, Validators.required);
         this.alertFrequencyControl = new FormControl(this.alert.frequency);
         this.alertTimesControl = new FormControl(this.alert.times); // TODO validator
@@ -69,10 +86,15 @@ export class BsEditAlert implements OnInit, OnDestroy {
                 this.alert.frequency = this.alertFrequencyControl.value;
                 this.alert.times = this.alertTimesControl.value;
                 this.alert.active = this.alertActiveControl.value;
+                this.alert.days = this.alertDaysControl.value;
                 this.updateQuery = this.updateQueryControl.value;
             }
         );
+        
+        this.createButtons();
+    }
 
+    private createButtons() {
         this.buttons = [
             new ModalButton({
                 text: "msg#editAlert.runQuery",
@@ -94,11 +116,33 @@ export class BsEditAlert implements OnInit, OnDestroy {
                 }
             }),
             new ModalButton({
-                result: ModalResult.Cancel
+                result: ModalResult.Cancel,
+                action: (button) => {
+                    if (this.form.dirty) {
+                        button.result = ModalResult.Custom;
+                        this.showDirtyMessage = true;
+                        this.createYesNoButtons();
+                    }
+                }
             })
         ];
     }
-
+    private createYesNoButtons() {
+        this.buttons = [
+            new ModalButton({
+                result: ModalResult.Yes,
+                primary: true,
+            }),
+            new ModalButton({
+                result: ModalResult.No,
+                action: (button) => {
+                    button.result = ModalResult.Custom;
+                    this.showDirtyMessage = false;
+                    this.createButtons();
+                }
+            })
+        ];
+    }
     ngOnDestroy() {
         this.formChanges.unsubscribe();
     }
@@ -110,11 +154,14 @@ export class BsEditAlert implements OnInit, OnDestroy {
     dayChange(event: UIEvent, day: Alert.Days) {
         const input = event.target as HTMLInputElement;
         if (input.checked) {
-            this.alert.days |= day;
+            this.alertDaysControl.setValue(this.alert.days |= day);
+            // this.alert.days |= day;
         }
         else {
-            this.alert.days &= ~day;
+            this.alertDaysControl.setValue(this.alert.days &= ~day);
+            // this.alert.days &= ~day;
         }
+        this.form.markAsDirty();
     }
 
     runQuery() {

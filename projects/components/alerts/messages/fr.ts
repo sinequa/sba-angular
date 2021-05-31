@@ -21,7 +21,8 @@ export default {
         "times": "Horaires",
         "active": "Active",
         "updateQuery": "Mettre à jour la requête",
-        "runQuery": "Exécuter la requête"
+        "runQuery": "Exécuter la requête",
+        "lossDataMessage": "Voulez-vous quitter sans sauvegarder vos modifications ?"
     },
 
     "manageAlerts": {
