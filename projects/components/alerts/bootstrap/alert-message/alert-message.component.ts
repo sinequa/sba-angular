@@ -1,16 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'sq-alert-message',
-  templateUrl: './alert-message.component.html',
-  styleUrls: ['./alert-message.component.css']
+  templateUrl: './alert-message.component.html'
 })
-export class BsAlertMessageComponent implements OnInit {
+export class BsAlertMessageComponent {
   @Input() message: string;
-  
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }
