@@ -6,7 +6,6 @@
                 href="#"
                 class="btn {{button.primary ? 'btn-primary' : button.result < 0 ? 'sq-anchor-btn' : 'btn-secondary'}}"
                 (click)="buttonClick(button)">{{button.getText() | sqMessage}}</a>
-            <ng-content></ng-content>
         </section>
     </ng-container>
     <ng-container *ngIf="isProcessingState">
@@ -14,5 +13,6 @@
         <button type="button" class="btn" (click)="close()">{{ 'msg#btnClose.text' | sqMessage }}</button>
     </ng-container>
 </div>
+<ng-content></ng-content>
 
 

@@ -21,7 +21,8 @@ export default {
         "times": "Times",
         "active": "Active",
         "updateQuery": "Update Query",
-        "runQuery": "Run Query"
+        "runQuery": "Run Query",
+        "lossDataMessage": "Do you want to leave without saving your modifications?"
     },
 
     "manageAlerts": {

@@ -1,7 +1,7 @@
 import {Injectable, Inject, Type, Injector, InjectionToken} from "@angular/core";
 import {FormGroup, ValidatorFn} from "@angular/forms";
 import {Overlay, OverlayConfig, OverlayRef} from '@angular/cdk/overlay';
-import {ComponentPortal, PortalInjector} from '@angular/cdk/portal';
+import {ComponentPortal} from '@angular/cdk/portal';
 import {Utils, Keys} from "@sinequa/core/base";
 import {MessageParams} from "@sinequa/core/intl"; // Dependency to INTL !
 import {ModalRef, IModalRef} from "./modal-ref";
@@ -364,21 +364,18 @@ export class ModalService {
     }
 
     private attachDialogContainer(component: Type<any>, overlayRef: OverlayRef, config: ModalConfig, modalRef: ModalRef) {
-        const injector = this.createInjector(config, modalRef);
-
+        // PortalInjector() is deprecated
+        const injector = Injector.create({
+            providers:[
+                {provide: ModalRef, useValue: modalRef},
+                {provide: MODAL_MODEL, useValue: config.model}
+            ], 
+            parent:this.injector
+        });
         const containerPortal = new ComponentPortal(component, null, injector);
         const containerRef = overlayRef.attach<Type<any>>(containerPortal);
 
         return containerRef.instance;
-    }
-
-    private createInjector(config: ModalConfig, modalRef: ModalRef): PortalInjector {
-        const injectionTokens = new WeakMap();
-
-        injectionTokens.set(ModalRef, modalRef);
-        injectionTokens.set(MODAL_MODEL, config.model);
-
-        return new PortalInjector(this.injector, injectionTokens);
     }
 
     private getOverlayConfig(config: ModalConfig): OverlayConfig {

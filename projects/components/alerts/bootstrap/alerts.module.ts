@@ -14,6 +14,7 @@ import {ALERT_COMPONENTS, WINDOW} from "../alerts.service";
 import {BsEditAlert} from "./edit-alert/edit-alert";
 import {BsManageAlerts} from "./manage-alerts/manage-alerts";
 import {BsAlertsMenuComponent} from "./alerts-menu/alerts-menu.component";
+import {BsAlertMessageComponent} from "./alert-message/alert-message.component";
 
 function windowFactory() {
     return window;
@@ -34,7 +35,7 @@ function windowFactory() {
         BsActionModule
     ],
     declarations: [
-        BsEditAlert, BsManageAlerts, BsAlertsMenuComponent
+        BsEditAlert, BsManageAlerts, BsAlertsMenuComponent, BsAlertMessageComponent
     ],
     exports: [
         BsEditAlert, BsManageAlerts, BsAlertsMenuComponent

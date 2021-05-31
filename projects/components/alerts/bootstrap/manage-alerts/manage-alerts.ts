@@ -16,6 +16,7 @@ export class BsManageAlerts implements OnInit {
     buttons: ModalButton[];
     removeAllButton: ModalButton;
     nameValidators: ValidatorFn[];
+    showDirtyMessage = false;
 
     constructor(
         @Inject(MODAL_MODEL) public model: ManageAlertsModel,
@@ -24,27 +25,7 @@ export class BsManageAlerts implements OnInit {
     }
 
     ngOnInit() {
-        this.buttons = [
-            this.removeAllButton = new ModalButton({
-                text: "msg#manageAlerts.removeAll",
-                result: ModalResult.Custom,
-                action: (button) => {
-                    this.model.alerts.splice(0);
-                    button.visible = false;
-                    this.addAuditEvent({
-                        type: AlertEventType.DeleteAll
-                    });
-                },
-                visible: this.model.alerts.length > 0
-            }),
-            new ModalButton({
-                result: ModalResult.OK,
-                primary: true
-            }),
-            new ModalButton({
-                result: ModalResult.Cancel
-            })
-        ];
+        this.createButtons();
     }
 
     addAuditEvent(auditEvent: AuditEvent) {
@@ -91,5 +72,53 @@ export class BsManageAlerts implements OnInit {
 
     dropped(drop: CdkDragDrop<Alert[]>) {
         Utils.arrayMove(this.model.alerts, drop.previousIndex, drop.currentIndex);
+    }
+    
+    private createButtons() {
+        this.buttons = [
+            this.removeAllButton = new ModalButton({
+                text: "msg#manageAlerts.removeAll",
+                result: ModalResult.Custom,
+                action: (button) => {
+                    this.model.alerts.splice(0);
+                    button.visible = false;
+                    this.addAuditEvent({
+                        type: AlertEventType.DeleteAll
+                    });
+                },
+                visible: this.model.alerts.length > 0
+            }),
+            new ModalButton({
+                result: ModalResult.OK,
+                primary: true
+            }),
+            new ModalButton({
+                result: ModalResult.Cancel,
+                action: (button) => {
+                    if (this.model.auditEvents && this.model.auditEvents?.length > 0) {
+                        button.result = ModalResult.Custom;
+                        this.showDirtyMessage = true;
+                        this.createYesNoButtons();
+                    }
+                }
+            })
+        ];
+    }
+    
+    private createYesNoButtons() {
+        this.buttons = [
+            new ModalButton({
+                result: ModalResult.Yes,
+                primary: true,
+            }),
+            new ModalButton({
+                result: ModalResult.No,
+                action: (button) => {
+                    button.result = ModalResult.Custom;
+                    this.showDirtyMessage = false;
+                    this.createButtons();
+                }
+            })
+        ];
     }
 }
