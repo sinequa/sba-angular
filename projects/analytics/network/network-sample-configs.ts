@@ -58,7 +58,7 @@ export function asyncRecordsProviderDemo(providerFactory: ProviderFactory, searc
   const query = searchService.makeQuery();
   query.text = "google";
   query.addSelect("treepath:=/Web/Wiki/");
-  query.addSelect("sourcestr4:=human");
+  query.addSelect("category:=human");
   query.pageSize = 5;
 
   const provider = providerFactory.createAsyncRecordsProvider(doc, [], query);
@@ -284,7 +284,7 @@ export function wikiDynEdgeConfig(providerFactory: ProviderFactory, searchServic
       const query = searchService.makeQuery();
       query.text = node.label;
       query.addSelect("treepath:=/Web/Wiki/");
-      query.addSelect("sourcestr4:=human");
+      query.addSelect("category:=human");
       query.pageSize = 5;
       return query;
     });
@@ -321,7 +321,7 @@ export function wikiDynConfig(providerFactory: ProviderFactory, searchService: S
       const query = searchService.makeQuery();
       query.text = node.label;
       query.addSelect("treepath:=/Web/Wiki/");
-      query.addSelect("sourcestr4:=human");
+      query.addSelect("category:=human");
       query.pageSize = 1;
       return query
     },
@@ -372,7 +372,7 @@ export function wikiMultiDynConfig(providerFactory: ProviderFactory, searchServi
       const query = searchService.makeQuery();
       query.text = node.label;
       query.addSelect("treepath:=/Web/Wiki/");
-      query.addSelect("sourcestr4:=human");
+      query.addSelect("category:=human");
       query.pageSize = 1;
       return query
     },

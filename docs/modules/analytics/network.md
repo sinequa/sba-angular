@@ -310,7 +310,7 @@ const doc = providerFactory.createNodeType("doc",
 const query = searchService.makeQuery();
 query.text = "google";
 query.addSelect("treepath:=/Web/Wiki/");
-query.addSelect("sourcestr4:=human");
+query.addSelect("category:=human"); // Special column from the wikipedia index
 query.pageSize = 5;
 
 // Create a provider that provides document nodes obtained from a query
@@ -469,7 +469,7 @@ const dynamicEdgeType = providerFactory.createDynamicEdgeType([doc, people], "on
     const query = searchService.makeQuery();
     query.text = node.label;
     query.addSelect("treepath:=/Web/Wiki/");
-    query.addSelect("sourcestr4:=human");
+    query.addSelect("category:=human"); // Special column from the wikipedia index
     query.pageSize = 5;
     return query;
   });
@@ -507,7 +507,7 @@ const person = providerFactory.makeNodeTypeDynamic(
     let query = searchService.makeQuery();
     query.text = node.label;
     query.addSelect("treepath:=/Web/Wiki/");
-    query.addSelect("sourcestr4:=human");
+    query.addSelect("category:=human"); // Special column from the wikipedia index
     query.pageSize = 1;
     return query
   },

@@ -16,6 +16,15 @@ export interface RecordNode extends Node {
 /**
  * An extension of the EdgeType interface to include properties specific to
  * structural edges (edge between a record and its metadata).
+ * 
+ * About trigger/display: At the moment, the Record provider always adds ALL nodes and edges
+ * to the dataset, but potentially with a visibility set to false. Some of the settings are
+ * not compatible with each other, and some take precedence over the others:
+ * - display=existingnodes takes precedence over other settings, as it is implemented as
+ * a post-processing of the dataset (in onDatasetsMerged)
+ * - trigger=onclick or manual take precedence over the other settings, as they set the
+ * visibility to false by false, until the user performs an action
+ * - trigger=oninsert is compatible with the other display settings
  */
 export interface StructuralEdgeType extends EdgeType {
     /** Name of the field in the record */
