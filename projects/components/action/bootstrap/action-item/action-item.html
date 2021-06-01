@@ -13,16 +13,19 @@
         <button class="btn {{styleClass}} dropdown-toggle {{sizeClass}}" type="button" data-toggle="dropdown" sqTooltip="{{itemTitle | sqMessage:itemMessageParams}}" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams" (touchstart)="touchstart()" (mousedown)="mousedown()" (focusin)="focusin()">
             <sq-action-item-content *ngIf="!hasAction" [item]="options.item" [text]="itemText"></sq-action-item-content>
         </button>
-        <ul *ngIf="showDropdown" [sq-dropdown-menu]="{item: options.item, rightAligned: options.rightAligned, showMenuClass: 'show'}"></ul>
+        <ul *ngIf="showDropdown" [sq-dropdown-menu]="dropdownMenuOptions"></ul>
     </ng-template>
 </ng-container>
 <!-- button -->
 <sq-action-item-content *ngIf="isButton" [item]="options.item" [text]="itemText"></sq-action-item-content>
 <!-- dropdown list item -->
-<a *ngIf="isDropdownListItem" href="javascript:void(0)" (click)="click($event)" class="{{options.inMenu ? 'nav-link' : 'dropdown-item'}} dropdown-toggle {{options.item.disabled ? 'disabled' : ''}}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" title="{{itemTitle | sqMessage:itemMessageParams}}" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams">
-    <sq-action-item-content [item]="options.item" [text]="itemText"></sq-action-item-content>
-</a>
-<ul *ngIf="isDropdownListItem" [sq-dropdown-menu]="{item: options.item, rightAligned: options.rightAligned, showMenuClass: 'show'}"></ul>
+<ng-container *ngIf="isDropdownListItem">
+    <a href="javascript:void(0)" (click)="click($event)" class="{{options.inMenu ? 'nav-link' : 'dropdown-item'}} dropdown-toggle {{options.item.disabled ? 'disabled' : ''}}" data-toggle="dropdown" role="button" title="{{itemTitle | sqMessage:itemMessageParams}}" aria-haspopup="true" aria-expanded="false" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams">
+        <sq-action-item-content [item]="options.item" [text]="itemText"></sq-action-item-content>
+    </a>
+    <ul [sq-dropdown-menu]="dropdownMenuOptions"></ul>   
+</ng-container>
+
 <!-- list item -->
 <a *ngIf="isListItem" href="javascript:void(0)" class="{{options.inMenu ? 'nav-link' : 'dropdown-item'}} {{options.item.disabled ? 'disabled' : ''}}" role="button" (click)="click($event)" title="{{itemTitle | sqMessage:itemMessageParams}}" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams">
     <sq-action-item-content [item]="options.item" [text]="itemText"></sq-action-item-content>

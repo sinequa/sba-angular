@@ -1,10 +1,11 @@
-import {Component, Input, OnInit, ElementRef, HostBinding} from "@angular/core";
+import {Component, Input, OnInit, ElementRef, HostBinding, ChangeDetectionStrategy} from "@angular/core";
 import {Action} from "../../action";
 
 export interface DropdownMenuOptions {
     item: Action;
-    rightAligned: boolean;
+    rightAligned?: boolean;
     showMenuClass: string;
+    header?: string;
 }
 
 @Component({
@@ -13,10 +14,23 @@ export interface DropdownMenuOptions {
         "class": "dropdown-menu",
         "role": "menu"
     },
-    templateUrl: "./dropdown-menu.html"
+    templateUrl: "./dropdown-menu.html",
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsDropdownMenu implements OnInit {
-    @Input("sq-dropdown-menu") options: DropdownMenuOptions;
+    children: Action[];
+    
+    private _options: DropdownMenuOptions;
+    
+    @Input("sq-dropdown-menu")
+    set options(opts: DropdownMenuOptions) {
+        this._options = {...opts};
+        this.children = opts.item.children?.filter(child => !child.hidden) || [];
+    }
+    get options(): DropdownMenuOptions {
+        return this._options;
+    }
+    
     @HostBinding("class.dropdown-menu-right") rightAligned;
 
     constructor(

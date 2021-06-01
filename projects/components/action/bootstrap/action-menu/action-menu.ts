@@ -1,13 +1,14 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, Component, Input, OnInit} from "@angular/core";
 import {Utils} from "@sinequa/core/base";
 import {Action} from "../../action";
 
 @Component({
     selector: "sq-action-menu",
-    templateUrl: "./action-menu.html"
+    templateUrl: "./action-menu.html",
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsActionMenu implements OnInit{
-    @Input() items: Action[] | Action;
+    @Input() items: Action[];
     @Input() size: string;
     @Input() autoAdjust: boolean;
     @Input() autoAdjustBreakpoint: string;
