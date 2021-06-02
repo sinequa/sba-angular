@@ -110,7 +110,7 @@ export class UIService implements OnDestroy {
         return this.screenSize === screenSize;
     }
 
-    screenSizeIsGreater(screenSize: string): boolean {
+    screenSizeIsGreater(screenSize: string | undefined): boolean {
         const index1 = this.screenSizes.findIndex((value) => value === this.screenSize);
         const index2 = this.screenSizes.findIndex((value) => value === screenSize);
         return index1 > index2;
@@ -122,7 +122,7 @@ export class UIService implements OnDestroy {
         return index1 < index2;
     }
 
-    screenSizeIsGreaterOrEqual(screenSize: string): boolean {
+    screenSizeIsGreaterOrEqual(screenSize: string | undefined): boolean {
         if (screenSize === this.screenSize) {
             return true;
         }

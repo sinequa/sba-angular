@@ -1,4 +1,5 @@
-﻿import {Utils} from "@sinequa/core/base";
+﻿import {Type} from "@angular/core";
+import {Utils} from "@sinequa/core/base";
 import {MessageParams} from "@sinequa/core/intl";
 
 export abstract class IAction {
@@ -11,10 +12,10 @@ export abstract class IAction {
     separator?: boolean;
     scrollable?: boolean; // The children are scrollable
     scrollGroup?: boolean; // A separate item whose children are scrollable "in place"
-    component?: Function;
+    component?: Type<any>;
     componentInputs?: any;
     data?: any;
-    title?: string;
+    title?: string; // display as a tooltip
     selected?: boolean;
     disabled?: boolean;
     hidden?: boolean;

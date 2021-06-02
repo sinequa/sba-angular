@@ -1,21 +1,23 @@
-import {Component, Input, OnInit, OnDestroy, AfterViewInit, OnChanges, SimpleChanges, ElementRef} from "@angular/core";
+import {Component, Input, OnInit, OnDestroy, AfterViewInit, OnChanges, SimpleChanges, ElementRef, ChangeDetectionStrategy} from "@angular/core";
 import {Action} from "../../action";
 import {UIService} from "@sinequa/components/utils";
+import {DropdownMenuOptions} from "../dropdown-menu/dropdown-menu";
 
 
 export interface ActionItemOptions {
     item: Action;
-    size: string;
-    style: string;
-    autoAdjust: boolean;
-    autoAdjustBreakpoint: string;
+    size?: string;
+    style?: string;
+    autoAdjust?: boolean;
+    autoAdjustBreakpoint?: string;
     inMenu: boolean;
-    rightAligned: boolean;
+    rightAligned?: boolean;
 }
 
 @Component({
     selector: "[sq-action-item]",
-    templateUrl: "./action-item.html"
+    templateUrl: "./action-item.html",
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges {
     @Input("sq-action-item") options: ActionItemOptions;
@@ -23,7 +25,7 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
     inListItem: boolean;
     dropdownButton: Element;
     dropdownListItem: Element;
-    autoAdjustBreakpoint: string;
+    autoAdjustBreakpoint?: string;
     showDropdown: boolean;
 
     constructor(
@@ -113,6 +115,10 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
 
     get styleClass(): string {
         return this.options.style ? `btn-${this.options.style}` : "btn-light";
+    }
+    
+    get dropdownMenuOptions(): DropdownMenuOptions {
+        return ({...this.options, showMenuClass: 'show'});
     }
 
     ngAfterViewInit() {

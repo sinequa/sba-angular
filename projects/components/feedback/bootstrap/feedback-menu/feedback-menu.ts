@@ -1,10 +1,11 @@
-import {Component, OnInit, Input} from "@angular/core";
-import {Action} from "@sinequa/components/action";
+import {Component, OnInit, Input, ChangeDetectionStrategy} from "@angular/core";
+import {Action, ActionButtonsOptions} from "@sinequa/components/action";
 import {FeedbackService} from "../../feedback.service";
 
 @Component({
     selector: "sq-feedback-menu",
-    templateUrl: "./feedback-menu.html"
+    templateUrl: "./feedback-menu.html",
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsFeedbackMenu implements OnInit {
 
@@ -13,6 +14,7 @@ export class BsFeedbackMenu implements OnInit {
     @Input() rightAligned: boolean;
 
     items: Action[];
+    options: ActionButtonsOptions;
 
     constructor(
         public feedbackService: FeedbackService) {
@@ -20,6 +22,13 @@ export class BsFeedbackMenu implements OnInit {
 
     ngOnInit() {
         this.items = this.feedbackService.buildFeedbackAction();
+        this.options = {
+            items: this.items, 
+            autoAdjust: true, 
+            rightAligned: this.rightAligned, 
+            size: this.size, 
+            style: this.style
+        };
     }
 
 
