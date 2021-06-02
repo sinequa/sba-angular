@@ -43,6 +43,7 @@ export class FeedbackService {
             text: "msg#feedback.text",
             title: "msg#feedback.title",
             icon: "fas fa-comment",
+            headerGroup: true,
             children: [
                 this.createAction("content", "msg#feedback.content.text", "msg#feedback.content.title", "far fa-file-alt fa-fw"),
                 this.createAction("ui", "msg#feedback.ui.text", "msg#feedback.ui.title", "fas fa-desktop fa-fw"),

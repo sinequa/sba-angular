@@ -21,6 +21,7 @@ export abstract class IAction {
     hidden?: boolean;
     flattenable?: boolean; // A dropdown with only one child is flattened to show only the child at the top level
     messageParams?: MessageParams; // i18n - passed to sqMessage in (eg) action-item-content
+    headerGroup?: boolean; // display 'title' property as dropdown header before children
 
     action?: (item: Action, event: UIEvent) => void;
     toggle?: (item: Action, open: boolean) => void;
