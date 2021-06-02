@@ -77,8 +77,8 @@ $action-menu-breakpoint: md !default;
     }
 
     @mixin menu-right() {
-        top: 0;
-        left: auto;
+        top: 1rem;
+        left: 1rem;
         right: auto;
         transform: translate(-100%, 0);
         margin-top: 0;
