@@ -17,7 +17,7 @@
     </ng-template>
 </ng-container>
 <!-- button -->
-<sq-action-item-content *ngIf="isButton" [item]="options.item" [text]="itemText"></sq-action-item-content>
+<sq-action-item-content *ngIf="isButton" [item]="options.item" [text]="itemText" (click)="click($event)"></sq-action-item-content>
 <!-- dropdown list item -->
 <ng-container *ngIf="isDropdownListItem">
     <a href="javascript:void(0)" (click)="click($event)" class="{{options.inMenu ? 'nav-link' : 'dropdown-item'}} dropdown-toggle {{options.item.disabled ? 'disabled' : ''}}" data-toggle="dropdown" role="button" title="{{itemTitle | sqMessage:itemMessageParams}}" aria-haspopup="true" aria-expanded="false" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams">
