@@ -61,7 +61,9 @@ Here are the list of commonly used properties of the `Action` class:
 * `disabled`: if true, the `Action` is grayed out when it is displayed.
 * `hidden`: if true, the `Action` is not shown.
 * `action`: A function to execute when the button is clicked,
-* `updater`: A function to execution *before* the button display is refreshed,
+* `updater`: A function to execute *before* the button display is refreshed,
+* `update`: When this method is called, `updater` function is called first.
+* `headerGroup`: if true, the `title` property of the `Action` is used as a dropdown header displayed before children actions.
 
 #### How to create a menu action or a button
 
@@ -92,7 +94,9 @@ const hiddenAction = new Action({
     text: "msg#action.name",    // The text to display on the action button
     title: "msg#action.tooltip",// The tooltip of the action
     hidden: true,
-    action: () => doSomething(), // The logout procedure to execute when the action is clicked
+    action: (action) => {
+        doSomething(); // The logout procedure to execute when the action is clicked,
+        action.update(); // needed to call the `updater` callback
     updater: (action: Action) => {
         action.hidden = someConditionToCheck;
     }
@@ -116,15 +120,40 @@ const action = new Action({
 
 /*
  *Some functions that may change the value of someCounter
-*/
+ */
+ ...
+ action.update(); // needed to call the `updater` callback
 ```
 
-Example 5: A separactor for the parent dropdown menu
+Example 5: A separator for the parent dropdown menu
 
 ```typescript
 const menu = new Action({
     icon: 'some-icon-class',
     title: 'msg#menu.tooltip',
+    children: [
+        new Action({
+            text: 'msg#menu.action1.text',
+            title: 'msg#menu.action1.tooltip',
+            action: () => fn1()
+        }),
+        new Action({ separator: true }),
+        new Action({
+            text: 'msg#menu.action2.text',
+            title: 'msg#menu.action2.tooltip',
+            action: () => fn2()
+        }),
+    ]
+});
+```
+
+Example 5: A dropdown header for the children dropdown menu items
+
+```typescript
+const menu = new Action({
+    icon: 'some-icon-class',
+    title: 'msg#menu.tooltip',
+    headerGroup: true, // `title` will be used as dropdown header
     children: [
         new Action({
             text: 'msg#menu.action1.text',
@@ -188,21 +217,22 @@ Its input is an [`ActionButtonsOptions` object]({{site.baseurl}}components/inter
 
 * `items`: the children `Action` elements of the menu,
 * `size`: the size of the menu, the valid values are (in ascending order): `"xs", "sm", "md", "lg", "xl", "xxl"`,
+* `style`: extra css classes to apply.
 * `autoAdjust`: whether to automatically change the visualisation of the menu and its children when resizing the browser window,
 * `autoAdjustBreakpoint`: if `autoAdjust` is activated, this property defines the size of the browser window,
 at which the menu size can be adjusted instead of always adjusting the menu each time a resizing happens,
-* `right`: whether the menu elements are right-aligned.
+* `rightAligned`: whether the menu elements are right-aligned.
 
 Example:
 
 ```html
-<div class="btn-group"
+<sq-action-buttons
     [sq-action-buttons]="{
         items: [action1, action2],
         autoAdjust: true,
         rightAligned: rightAligned
     }"
-></div>
+></sq-action-buttons>
 ```
 
 Alternatively, you can use the [`sq-action-item` component]({{site.baseurl}}components/components/BsActionItem.html).
