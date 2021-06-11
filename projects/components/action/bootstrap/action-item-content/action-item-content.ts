@@ -1,10 +1,9 @@
-import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
+import {Component, Input} from "@angular/core";
 import {Action} from "../../action";
 
 @Component({
     selector: "sq-action-item-content",
     templateUrl: "./action-item-content.html",
-    changeDetection: ChangeDetectionStrategy.OnPush,
     styles: [`
 .sq-action-item-content-container > div:not(:last-child) {
     margin-right: 0.25rem;
