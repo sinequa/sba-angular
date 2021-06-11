@@ -1,7 +1,5 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {BrowserModule} from '@angular/platform-browser';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BsNotification} from "./notification/notification";
 import {BsNotifications} from "./notifications/notifications";
 import {BsNotificationsManager} from "./notifications-manager/notifications-manager";
@@ -14,8 +12,6 @@ import {BsActionModule} from "@sinequa/components/action";
         CommonModule,
         IntlModule,
         BsActionModule,
-        BrowserModule,
-        BrowserAnimationsModule
     ],
     declarations: [
         BsNotification, BsNotifications, BsNotificationsManager
