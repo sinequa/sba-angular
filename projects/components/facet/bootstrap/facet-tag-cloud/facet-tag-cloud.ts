@@ -7,6 +7,7 @@ import {
 } from "@sinequa/core/web-services";
 import { Action } from "@sinequa/components/action";
 import { FacetService } from "../../facet.service";
+import { Utils } from "@sinequa/core/base";
 
 export interface TagCloudItem {
     aggregation: Aggregation;
@@ -58,8 +59,10 @@ export class BsFacetTagCloud extends AbstractFacet implements OnChanges {
             icon: "far fa-minus-square",
             title: "msg#facet.clearSelects",
             action: () => {
-                for (const aggregation of this.aggregations) {
-                    this.facetService.clearFiltersSearch(this.getName(aggregation), true);
+                if (Utils.isArray(this.aggregations)) {
+                    for (const aggregation of this.aggregations) this.facetService.clearFiltersSearch(this.getName(aggregation), true);
+                } else { 
+                    this.facetService.clearFiltersSearch(this.getName(this.aggregations), true);
                 }
             },
         });
