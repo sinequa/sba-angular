@@ -1,5 +1,6 @@
 import { NgModule/*, APP_INITIALIZER*/ } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule, Routes } from '@angular/router';
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
@@ -15,7 +16,6 @@ import { AuditInterceptor } from "@sinequa/core/app-utils";
 
 // @sinequa/components library
 import { BsSearchModule, SearchOptions } from "@sinequa/components/search";
-import { BsAutocompleteModule } from "@sinequa/components/autocomplete";
 import { BsNotificationModule } from "@sinequa/components/notification";
 import { BsFacetModule } from "@sinequa/components/facet";
 import { BsActionModule } from "@sinequa/components/action";
@@ -26,24 +26,18 @@ import { BsSavedQueriesModule } from '@sinequa/components/saved-queries';
 import { UtilsModule, SCREEN_SIZE_RULES } from '@sinequa/components/utils';
 import { BsLabelsModule } from '@sinequa/components/labels';
 import { BsUserSettingsModule } from '@sinequa/components/user-settings';
-import { ResultModule } from '@sinequa/components/result';
-import { BsFeedbackModule } from '@sinequa/components/feedback';
 import { BsPreviewModule } from '@sinequa/components/preview';
-import { MetadataModule } from '@sinequa/components/metadata';
-import { BsSelectionModule } from '@sinequa/components/selection';
-import { BsAdvancedModule } from '@sinequa/components/advanced';
 
 // Components
 import { AppComponent } from "./app.component";
 import { HomeComponent } from './home/home.component';
-import { SearchComponent } from './search/search.component';
-import { PreviewComponent } from './preview/preview.component';
-import { SearchFormComponent } from './search-form/search-form.component';
-import { AutocompleteExtended } from './search-form/autocomplete-extended.directive';
+
 
 // Environment
 import { environment } from "../environments/environment";
 
+// shared components
+import {SharedModule} from "./shared.module";
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
@@ -63,8 +57,8 @@ export function StartConfigInitializer(startConfigWebService: StartConfigWebServ
 // Application routes (see https://angular.io/guide/router)
 export const routes: Routes = [
     {path: "home", component: HomeComponent},
-    {path: "search", component: SearchComponent},
-    {path: "preview", component: PreviewComponent},
+    {path: "search", loadChildren: () => import('./search/search.module').then(m => m.SearchModule)},
+    {path: "preview", loadChildren: () => import('./preview/preview.module').then(m => m.PreviewModule)},
     {path: "**", redirectTo: "home"}
 ];
 
@@ -109,6 +103,7 @@ export const breakpoints = {
 @NgModule({
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         RouterModule.forRoot(routes),
         FormsModule,
         ReactiveFormsModule,
@@ -117,9 +112,10 @@ export const breakpoints = {
         IntlModule.forRoot(AppLocalesConfig),
         LoginModule,
         ModalModule,
+        
+        SharedModule,
 
         BsSearchModule.forRoot(searchOptions),
-        BsAutocompleteModule,
         BsNotificationModule,
         BsFacetModule,
         BsActionModule,
@@ -130,20 +126,11 @@ export const breakpoints = {
         UtilsModule,
         BsLabelsModule,
         BsUserSettingsModule,
-        ResultModule,
-        BsFeedbackModule,
         BsPreviewModule,
-        MetadataModule,
-        BsSelectionModule,
-        BsAdvancedModule
     ],
     declarations: [
         AppComponent,
         HomeComponent,
-        SearchComponent,
-        PreviewComponent,
-        SearchFormComponent,
-        AutocompleteExtended
     ],
     providers: [
         // Provides an APP_INITIALIZER which will fetch application configuration information from the Sinequa
