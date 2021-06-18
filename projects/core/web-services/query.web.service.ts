@@ -97,6 +97,10 @@ export interface Results {
      * The name of the {@link IQuery} that produced these results
      */
     queryName: string;
+    /**
+     * SQL statements executed by the query web service
+     */
+    statements: string[];
 }
 
 /**

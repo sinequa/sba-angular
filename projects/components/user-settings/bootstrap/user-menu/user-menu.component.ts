@@ -5,9 +5,10 @@ import { AuthenticationService, LoginService, UserOverride } from '@sinequa/core
 import { IntlService, Locale } from '@sinequa/core/intl';
 import { Utils } from '@sinequa/core/base';
 import { BsOverrideUser } from '@sinequa/components/modal';
-import { ModalService, ModalResult } from '@sinequa/core/modal';
+import { ModalService, ModalResult, ConfirmType } from '@sinequa/core/modal';
 import { AppService } from '@sinequa/core/app-utils';
 import { Subscription } from 'rxjs';
+import { NotificationsService, NotificationType } from '@sinequa/core/notification';
 
 @Component({
   selector: 'sq-user-menu',
@@ -30,6 +31,7 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
   revertOverrideAction: Action;
   adminAction: Action;
   languageAction: Action;
+  resetUserSettings: Action;
 
 
   constructor(
@@ -40,6 +42,7 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
     public modalService: ModalService,
     public appService: AppService,
     public userSettingsService: UserSettingsWebService,
+    public notificationsService: NotificationsService,
 
     public changeDetectorRef: ChangeDetectorRef) {
 
@@ -129,6 +132,26 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
       )
     });
 
+    this.resetUserSettings = new Action({
+      text: "msg#userMenu.resetUserSettings",
+      title: "msg#userMenu.resetUserSettings",
+      action: () => {
+        this.modalService.confirm({
+          title: "msg#userMenu.titleResetUserSettings",
+          message: "msg#userMenu.confirmResetUserSettings", 
+          buttons: [],
+          confirmType: ConfirmType.Warning
+        }).then(res => {
+          if(res === ModalResult.OK) {
+            this.userSettingsService.reset().subscribe({
+              next: () => this.notificationsService.notify(NotificationType.Warning, "msg#userMenu.successResetUserSettings"),
+              error: () => this.notificationsService.notify(NotificationType.Error, "msg#userMenu.errorResetUserSettings")
+            });
+          }
+        });
+      }
+    });
+
   }
 
   ngOnInit() {
@@ -174,6 +197,9 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
     }
     if (this.intlService.locales.length > 1) {
       userActions.push(this.languageAction);
+    }
+    if(this.loginService.complete) {
+      userActions.push(this.resetUserSettings);
     }
 
     this.menu = new Action({

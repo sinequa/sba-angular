@@ -19,7 +19,7 @@ export interface CCConfig {
  * Describes the fields available in all web service configuration objects
  */
 export interface CCWebService extends CCConfig {
-    webServiceType: "Query" | "sponsoredlinks" | "queryexport" | "Preview" | "Labels" | "Autocomplete";
+    webServiceType: "Query" | "sponsoredlinks" | "queryexport" | "Preview" | "Labels" | "Autocomplete" | "DataSet";
 }
 
 /**
