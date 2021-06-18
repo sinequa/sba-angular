@@ -474,7 +474,7 @@ export class SearchService implements OnDestroy {
     protected getHistoryState(): SearchService.HistoryState {
         const navigation = this.router.getCurrentNavigation();
         if (navigation) {
-            return navigation.extras.state || {};
+            return navigation.extras && navigation.extras.state || {};
         }
         return window.history.state || {};
     }
