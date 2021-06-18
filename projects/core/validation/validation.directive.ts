@@ -67,6 +67,7 @@ export class ValidationDirective implements OnInit, DoCheck {
     private valid: boolean;
     private dirty: boolean;
     private error?: string;
+    private errorInfo?: string;
 
     constructor(
         @Inject(VALIDATION_MESSAGE_COMPONENT) private validationMessageComponent: Type<any>,
@@ -203,10 +204,12 @@ export class ValidationDirective implements OnInit, DoCheck {
         }
         if (this.valid === this.control.valid && this.dirty === this.control.dirty) {
             const firstError = this.getFirstError();
-            if (firstError === this.error) {
+            const errorInfo = this.getErrorInfo(firstError);
+            if (firstError === this.error && errorInfo === this.errorInfo) {
                 return;
             }
             this.error = firstError;
+            this.errorInfo = errorInfo;
         }
         this.valid = this.control.valid;
         this.dirty = this.control.dirty;

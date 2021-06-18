@@ -1,5 +1,6 @@
 import {Injectable, Inject, OnDestroy} from "@angular/core";
 import {Subject, Observable} from "rxjs";
+import {pluck} from "rxjs/operators";
 import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
 import {START_CONFIG, StartConfig} from "./start-config.web.service";
@@ -32,6 +33,32 @@ export interface Principal {
     param8: string;
     param9: string;
     param10: string;
+}
+
+export interface PrincipalUserInfo {
+    id: string;
+    userId: string;
+    name: string;
+    fullName: string;
+    longName: string;
+    email: string;
+    isUser: string;
+    isGroup: string;
+}
+
+export interface PrincipalParams {
+    offset?: number;    // 0
+    limit?: number;     // 10
+    isUser?: boolean;   // true
+    isGroup?: boolean;  // true
+    search?: string;    // search by name, fullname or email
+
+}
+
+export interface PrincipalUserIdsParams {
+    offset?: number;    // 0
+    limit?: number;     // 10
+    userIds: string[];
 }
 
 /**
@@ -89,6 +116,28 @@ export class PrincipalWebService extends HttpService implements OnDestroy {
     set principal(value: Principal | undefined) {
         this._principal = value;
         this._events.next({type: "changed"});
+    }
+
+    /**
+     * Gets the list of user info (user or group)
+     *
+     * @param params query params to specify the search
+     * @returns list of user info
+     */
+    list(params?: PrincipalParams): Observable<(PrincipalUserInfo | undefined)[]> {
+        return this.httpClient.get<(PrincipalUserInfo | undefined)[]>(this.makeUrl("principal/list"), {
+            params: this.makeParams({...params})
+        });
+    }
+
+    userId(userId: string): Observable<Partial<PrincipalUserInfo>> {
+        return this.httpClient.get<Partial<PrincipalUserInfo>>(this.makeUrl(`principal/userId/${userId}`));
+    }
+
+    userIds(params?: PrincipalUserIdsParams): Observable<Partial<PrincipalUserInfo[]>> {
+        return this.httpClient.post<Partial<PrincipalUserInfo>>(this.makeUrl("principal/userids"), params).pipe(
+            pluck("principals")
+        );
     }
 
     /**
