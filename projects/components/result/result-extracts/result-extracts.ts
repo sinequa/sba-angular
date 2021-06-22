@@ -35,9 +35,11 @@ export class ResultExtracts implements OnChanges {
             this.extractsClass = "sq-text-extracts";
         }
         else {
-            if (this.showLongExtracts && this.record["extracts"]) {
+            if (this.showLongExtracts && (this.record["extracts"] || this.record["extractsperpartname"] )) {
                 this.longExtracts = [];
-                let recordExtracts = this.record["extracts"];
+                // extractsperpartname is a complex structure where extracts are stored in an object: "highlight.data"
+                // in a csv field (';' separator)
+                let recordExtracts = this.record["extracts"] || this.record["extractsperpartname"].highlight[0].data.split(";");
                 if (this.maxLongExtracts) {
                     recordExtracts = recordExtracts.slice(0, this.maxLongExtracts * 3);
                 }
