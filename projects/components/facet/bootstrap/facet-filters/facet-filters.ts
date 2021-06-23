@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges} from "@angular/core";
-import {Results, UserSettingsWebService} from "@sinequa/core/web-services";
-import {FacetService, FacetState} from "../../facet.service";
+import {Results} from "@sinequa/core/web-services";
+import {FacetService} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
 import {FacetConfig} from '../facet-multi/facet-multi.component';
 import {BsFacetList} from '../facet-list/facet-list';
@@ -14,7 +14,7 @@ import {BsFacetTree} from '../facet-tree/facet-tree';
 export class BsFacetFilters implements OnChanges {
     @Input() results: Results;
     @Input() facets: FacetConfig[];
-    @Input() enableAddFacet = false;
+    @Input() enableCustomization = false;
 
     @Input() autoAdjust: boolean = true;
     @Input() autoAdjustBreakpoint: string = 'xl';
@@ -36,15 +36,10 @@ export class BsFacetFilters implements OnChanges {
     };
 
     constructor(
-        private facetService: FacetService,
-        private userSettingsService: UserSettingsWebService
+        private facetService: FacetService
     ) {
         this.hidden = false;
         this.filters = [];
-    }
-
-    ngOnInit() {
-        if (!this.userFacets || this.userFacets.length === 0) this.initUserFacets();
     }
 
     ngOnChanges() {
@@ -70,23 +65,6 @@ export class BsFacetFilters implements OnChanges {
                 })
             ];
 
-            if (this.enableAddFacet) {
-                const isOpened = this.facetService.isFacetOpened(facet.name);
-
-                children.push(...[
-                    new Action({separator: true}),
-                    new Action({
-                    name: "toggle-facet",
-                    icon: isOpened ? this.facetStatus.remove.icon : this.facetStatus.add.icon,
-                    text: isOpened ? this.facetStatus.remove.title : this.facetStatus.add.title,
-                    title: isOpened ? this.facetStatus.remove.title : this.facetStatus.add.title,
-                    data: facet,
-                    action: (ActionItem: Action, $event: UIEvent) => {
-                        this.onClickToggleFacet(ActionItem, $event);
-                    }
-                })]);
-            }
-
             return new Action({
                 name: facet.name,
                 text: facet.title,
@@ -98,24 +76,7 @@ export class BsFacetFilters implements OnChanges {
             });
         });
 
-        this.addFacetMenu();
-    }
-
-    onClickToggleFacet(item: Action, $event: UIEvent) {
-
-        const facet = item.data as any;
-
-        if (item.title === this.facetStatus.add.title) {
-            item.text = item.title = this.facetStatus.remove.title;
-            item.icon = this.facetStatus.remove.icon;
-            this.facetService.addFacet({name: facet.name, position: 0, hidden: false, expanded: true, view: ""});
-        }
-        else {
-            item.text = item.title = this.facetStatus.add.title;
-            item.icon = this.facetStatus.add.icon;
-            this.facetService.removeFacet({name: facet.name, position: 0, hidden: false, expanded: true, view: ""});
-            this.buildFilters()
-        }
+        if (this.enableCustomization) this.addFacetMenu();
     }
 
     /**
@@ -139,42 +100,44 @@ export class BsFacetFilters implements OnChanges {
     }
 
     private addFacetMenu() {
-        if (!this.userFacets || this.userFacets?.length < this.facets.length) { 
-            let outFacets: Action[] = [];
+        let outFacets: Action[] = [];
 
+        outFacets.push(new Action({
+            name: `add_remove_all`,
+            text: this.userFacets.length < this.facets.length ? "Add all" : "Remove all",
+            icon: this.hasFacetSelected ? 
+                    (this.userFacets.length < this.facets.length ? "far fa-minus-square mr-1" : "far fa-check-square mr-1")
+                    : "far fa-square mr-1",
+            title: this.userFacets.length < this.facets.length ? "Add all facets" : "Remove all facets",
+            action: () => {
+                if (this.hasFacetSelected && this.userFacets.length === this.facets.length) this.facetService.removeAllFacet();
+                else this.facetService.addAllFacet();
+                this.buildFilters();
+            }
+        }));
+
+        for (let facet of this.facets) {
             outFacets.push(new Action({
-                name: `add_all`,
-                text: "All",
-                title: `Add all facets`,
+                name: `add_${facet.name}`,
+                text: facet.title,
+                icon: facet.icon,
+                selected: !!this.userFacets?.find(userFacet => userFacet.name === facet.name),
+                title: `Add ${facet.title}`,
                 action: () => {
-                    if (this.userSettingsService.userSettings) this.userSettingsService.userSettings["facets"] = undefined;
-                    this.userSettingsService.save();
-                    this.initUserFacets();
+                    if (this.userFacets?.find(userFacet => userFacet.name === facet.name)) this.facetService.removeFacet({name: facet.name, position: 0, hidden: false, expanded: true, view: ""})
+                    else this.facetService.addFacet({name: facet.name, position: 0, hidden: false, expanded: true, view: ""});
                     this.buildFilters();
                 }
             }));
+        }
 
-            for (let facet of this.facets) {
-                if (!this.userFacets?.find(userFacet => userFacet.name === facet.name)) outFacets.push(new Action({
-                    name: `add_${facet.name}`,
-                    text: facet.title,
-                    icon: facet.icon,
-                    title: `Add ${facet.title}`,
-                    action: () => {
-                        this.facetService.addFacet({name: facet.name, position: 0, hidden: false, expanded: true, view: ""});
-                        this.buildFilters();
-                    }
-                }));
-            }
-
-            let add_action = new Action({
-                name: "add_facet",
-                text: "Add",
-                icon: "fas fa-plus",
-                children: outFacets
-            });
-            this.filters = [add_action, ...this.filters]; 
-       }
+        let add_action = new Action({
+            name: "facets_config",
+            icon: "fas fa-cog",
+            title: "Facets customization",
+            children: outFacets
+        });
+        this.filters = [add_action, ...this.filters]; 
     }
 
     get filteredFacets() {
@@ -189,15 +152,15 @@ export class BsFacetFilters implements OnChanges {
         return new_facets;
     }
 
-    private initUserFacets() {
-        for (let facet of this.facets) { 
-            if (!this.userFacets?.find(userFacet => userFacet.name === facet.name))
-                this.facetService.addFacet({name: facet.name, position: 0, hidden: false, expanded: true, view: ""});
-        }
+    get userFacets() {
+        return this.facetService.facets;
     }
 
-    get userFacets() {
-        if (!this.userSettingsService.userSettings || !this.userSettingsService.userSettings["facets"] || this.userSettingsService.userSettings["facets"].length === 0) return;
-        return <FacetState[]>this.userSettingsService.userSettings["facets"];
+    get hasFacetSelected() {
+        if (this.userFacets.length === 0) return false;
+        for (let facet of this.facets) {
+            if (this.userFacets.find(userFacet => userFacet.name === facet.name)) return true;
+        }
+        return false;
     }
 }

@@ -37,7 +37,9 @@ export interface AddFilterOptions {
 export const enum FacetEventType {
     Loaded = "Facet_Loaded",
     Add = "Facet_Added",
+    AddAll = "Facets_Added",
     Remove = "Facet_Removed",
+    RemoveAll = "Facets_Removed",
 
     Patched = "Facet_Patched",
     ClearFilters = "Facet_ClearFilters",
@@ -116,6 +118,14 @@ export class FacetService {
         return this.userSettingsService.userSettings["facets"];
     }
 
+    public setAllFacets(facets: FacetState[]) {
+        this.allFacets = facets;
+    }
+
+    public setDefaultFacets(facets: FacetState[]) {
+        this.defaultFacets = facets;
+    }
+
     /**
      * @returns a facet with the given name or undefined if it does not exist
      * @param name
@@ -188,7 +198,7 @@ export class FacetService {
             this.facets.splice(i,1);
             this.events.next({type : FacetEventType.Remove, facet: facet});
             this.patchFacets([{
-                type: FacetEventType.Add,
+                type: FacetEventType.Remove,
                 detail: {
                     facet: facet.name
                 }
@@ -196,6 +206,22 @@ export class FacetService {
         }
     }
 
+    public addAllFacet() {
+        this.facets.splice(0,this.facets.length);
+        if(!!this.defaultFacets) this.facets.push(...this.defaultFacets);
+        this.events.next({type : FacetEventType.AddAll});
+        this.patchFacets([{
+            type: FacetEventType.AddAll
+        }]);
+    }
+
+    public removeAllFacet() {
+        this.facets.splice(0,this.facets.length);
+        this.events.next({type : FacetEventType.RemoveAll});
+        this.patchFacets([{
+            type: FacetEventType.RemoveAll
+        }]);
+    }
 
     /**
      * Updates facets in User settings.
