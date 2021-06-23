@@ -146,8 +146,6 @@ In the constructor of your `Preview` component, add the following asynchronous c
 ```ts
 import { PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
-import { SafeResourceUrl, DomSanitizer } from "@angular/platform-browser";
-import { AppService } from '@sinequa/core/app-utils';
 
 ...
 export class Preview {
