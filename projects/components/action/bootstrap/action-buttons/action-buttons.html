@@ -2,6 +2,6 @@
     <a *ngIf="item.href" class="btn-text" [attr.href]="!item.disabled ? item.href : null" (click)="itemClick(item, $event)" [sq-action-item]="getActionItemOptions(item)"></a>
     <ng-container *ngIf="!item.href">
         <div *ngIf="item.hasChildren" class="btn-group dropdown" [sq-action-item]="getActionItemOptions(item)"></div>
-        <button *ngIf="!item.hasChildren" type="button" class="btn {{styleClass}} {{sizeClass}} {{item.selected ? 'active' : ''}} {{item.disabled ? 'disabled' : ''}}" [sq-action-item]="getActionItemOptions(item)" (click)="itemClick(item, $event)" title="{{item.title | sqMessage:item.messageParams}}" [attr.aria-label]="item.title | sqMessage:item.messageParams"></button>
+        <button *ngIf="!item.hasChildren" type="button" class="btn {{styleClass}} {{sizeClass}} {{item.selected ? 'active' : ''}} {{item.disabled ? 'disabled' : ''}}" [sq-action-item]="getActionItemOptions(item)" (click)="itemClick(item, $event)" sqTooltip="{{item.title | sqMessage:item.messageParams}}" [attr.aria-label]="item.title | sqMessage:item.messageParams"></button>
     </ng-container>
 </ng-container>
