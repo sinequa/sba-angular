@@ -141,6 +141,7 @@ export class BsFacetFilters implements OnChanges {
     }
 
     get filteredFacets() {
+        if (!this.enableCustomization) return this.facets;
         let new_facets: FacetConfig[] = [];
 
         if (this.userFacets) {
