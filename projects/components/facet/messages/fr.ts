@@ -106,14 +106,18 @@ export default {
 
         "filters":{
             "add":"Ajouter la facette",
+            "addAll": "Ajouter toutes les facettes",
             "remove":"Retirer la facette",
+            "removeAll": "Retirer toutes les facettes",
             "clear":"Réinitialiser",
             "moreFilters":"",
             "showFilters":"Montrer les filtres",
             "hideFilters":"Cacher les filtres",
 
             "back": "Retour aux filtres",
-            "selectedFilters": "Ce filtre est utilisé dans la recherche actuelle"
+            "selectedFilters": "Ce filtre est utilisé dans la recherche actuelle",
+
+            "customizeFacets": "Sélectionnez les facettes à montrer ou cacher"
         },
 
         "selectedValue": "Cette valeur est sélectionnée dans la recherche actuelle",
