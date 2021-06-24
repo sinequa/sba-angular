@@ -104,11 +104,11 @@ export class BsFacetFilters implements OnChanges {
 
         outFacets.push(new Action({
             name: `add_remove_all`,
-            text: this.userFacets.length < this.facets.length ? "Add all" : "Remove all",
+            text: this.userFacets.length < this.facets.length ? "msg#facet.filters.addAll" : "msg#facet.filters.removeAll",
             icon: this.hasFacetSelected ? 
                     (this.userFacets.length < this.facets.length ? "far fa-minus-square mr-1" : "far fa-check-square mr-1")
                     : "far fa-square mr-1",
-            title: this.userFacets.length < this.facets.length ? "Add all facets" : "Remove all facets",
+            title: this.userFacets.length < this.facets.length ? "msg#facet.filters.addAll" : "msg#facet.filters.removeAll",
             action: () => {
                 if (this.hasFacetSelected && this.userFacets.length === this.facets.length) this.facetService.removeAllFacet();
                 else this.facetService.addAllFacet();
@@ -118,11 +118,11 @@ export class BsFacetFilters implements OnChanges {
 
         for (let facet of this.facets) {
             outFacets.push(new Action({
-                name: `add_${facet.name}`,
+                name: `add_remove_${facet.name}`,
                 text: facet.title,
                 icon: facet.icon,
                 selected: !!this.userFacets?.find(userFacet => userFacet.name === facet.name),
-                title: `Add ${facet.title}`,
+                title: !!this.userFacets?.find(userFacet => userFacet.name === facet.name) ? "msg#facet.filters.add" : "msg#facet.filters.remove",
                 action: () => {
                     if (this.userFacets?.find(userFacet => userFacet.name === facet.name)) this.facetService.removeFacet({name: facet.name, position: 0, hidden: false, expanded: true, view: ""})
                     else this.facetService.addFacet({name: facet.name, position: 0, hidden: false, expanded: true, view: ""});
@@ -134,7 +134,7 @@ export class BsFacetFilters implements OnChanges {
         let add_action = new Action({
             name: "facets_config",
             icon: "fas fa-cog",
-            title: "Facets customization",
+            title: "msg#facet.filters.customizeFacets",
             children: outFacets
         });
         this.filters = [add_action, ...this.filters]; 
