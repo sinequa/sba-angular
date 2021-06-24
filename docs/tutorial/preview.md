@@ -146,25 +146,20 @@ In the constructor of your `Preview` component, add the following asynchronous c
 ```ts
 import { PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
-import { SafeResourceUrl, DomSanitizer } from "@angular/platform-browser";
-import { AppService } from '@sinequa/core/app-utils';
 
 ...
 export class Preview {
 
-    url: SafeResourceUrl; // URL of the HTML preview
+    url?: string; // URL of the HTML preview
 
     constructor(
         ...
         previewService: PreviewService,
-        searchService: SearchService,
-        sanitizer: DomSanitizer,
-        appService: AppService){
+        searchService: SearchService){
 
         previewService.getPreviewData(record.id, searchService.query).subscribe({
             next: (data) => {
-                this.url = sanitizer.bypassSecurityTrustResourceUrl(
-                    appService.updateUrlForCors(data.documentCachedContentUrl));
+                this.url = previewService.makeDownloadUrl(data.documentCachedContentUrl);
             }
         });
 ```
@@ -179,7 +174,7 @@ We can modify the HTML template of our `Preview` component:
 
 ```html
 <sq-modal [title]="record.title" [showFooter]="false">
-    <sq-preview-document-iframe *ngIf="url" [downloadUrl]="url"></sq-preview-document-iframe>
+    <sq-preview-document-iframe [downloadUrl]="url"></sq-preview-document-iframe>
 </sq-modal>
 ```
 
