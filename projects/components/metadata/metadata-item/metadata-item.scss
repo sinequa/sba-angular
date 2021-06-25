@@ -1,0 +1,54 @@
+.sq-metadata-item-label {
+    width: 1px;
+    white-space: nowrap;
+}
+
+.sq-metadata-item-values {
+    & .breadcrumb {
+        padding: 0;
+        background-color: inherit;
+        display: inline;
+
+        > li {
+            display: inline;
+        }
+
+        &:after {
+            display: inline;
+        }
+    }
+
+    .counter {
+        font-size: 83%; // grow the counter font size a bit, since it's a badge withing a badge
+    }
+
+    // Collapsed behavior
+    max-height: 15rem;
+    overflow: hidden;
+    transition: max-height 0.2s ease-in-out;
+
+    &.collapsed {
+        display: block;
+        max-height: 1.5rem;
+    }
+    
+    .collapse-button {
+        font-size: .9rem;
+    }
+}
+
+.sq-metadata-item.sq-tabular {
+    display: table-row;
+
+    .sq-metadata-item-icon, .sq-metadata-item-label {
+        display: table-cell;
+    }
+}
+
+.sq-metadata-item:not(.sq-tabular) {
+    display: inline;
+
+    .sq-metadata-item-label, .sq-metadata-item-values {
+        display: inline;
+    }
+}

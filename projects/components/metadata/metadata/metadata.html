@@ -1,6 +1,12 @@
-<ng-container *ngFor="let item of items; let $index = index">
-    <sq-metadata-item [record]="record" [item]="item" (select)="select($event.item, $event.valueItem)"
-        [showTitle]="showTitles" [showIcon]="showIcons" [clickable]="clickable" [spacing]="spacing">
-        <span *ngIf="!tabular && $index < items.length - 1" class="sq-metadata-item-separator">{{'msg#metadata.item.separator' | sqMessage}}</span>
-    </sq-metadata-item>
-</ng-container>
+<sq-metadata-item *ngFor="let item of items; let $index = index"
+    [record]="record"
+    [item]="item"
+    (select)="select($event.item, $event.valueItem)"
+    [showTitle]="showTitles"
+    [showIcon]="showIcons"
+    [showCounts]="showCounts"
+    [clickable]="clickable"
+    [tabular]="tabular"
+    [collapseRows]="collapseRows">
+    <span *ngIf="!tabular && $index < items.length - 1" class="ml-1 mr-2">{{'msg#metadata.item.separator' | sqMessage}}</span>
+</sq-metadata-item>

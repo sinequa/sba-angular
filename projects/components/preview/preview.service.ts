@@ -1,4 +1,4 @@
-import {Injectable, InjectionToken, Inject, Type} from "@angular/core";
+import {Injectable, InjectionToken, Inject, Type, Optional} from "@angular/core";
 import {Router} from "@angular/router";
 import {Observable, Subject} from "rxjs";
 import {AppService, ExprBuilder, Query} from "@sinequa/core/app-utils";
@@ -34,7 +34,7 @@ export class PreviewService {
     private rank: number;
 
     constructor(
-        @Inject(PREVIEW_MODAL) public previewModal: Type<any>,
+        @Optional() @Inject(PREVIEW_MODAL) public previewModal: Type<any>,
         private router: Router,
         private previewWebService: PreviewWebService,
         private appService: AppService,

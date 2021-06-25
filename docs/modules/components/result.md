@@ -109,16 +109,6 @@ The [`sq-missing-terms`]({{site.baseurl}}components/components/ResultMissingTerm
 <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
 ```
 
-### Metadata
-
-The [`sq-result-metadata`]({{site.baseurl}}components/components/ResultMetadata.html) component displays the metadata of a document, offering various options (See [Metadata]({{site.baseurl}}tipstricks/metadata.html)). It is essentially a wrapper of the [`sq-metadata`]({{site.baseurl}}components/components/Metadata.html) document.
-
-![Metadata]({{site.baseurl}}assets/modules/result/metadata.png){: .d-block .mx-auto }
-
-```html
-<sq-result-metadata [record]="record" [items]="['filename', 'size', 'authors']"></sq-result-metadata>
-```
-
 ### Sponsored Results
 
 The [`sq-sponsored-results`]({{site.baseurl}}components/components/SponsoredResults.html) component displays the sponsored links relevant for a user query (using the [`SponsoredLinksWebService`]({{site.baseurl}}core/injectables/SponsoredLinksWebService.html)). The configuration of these links must be done in the Sinequa administration.
@@ -166,13 +156,3 @@ The [`sq-user-rating`]({{site.baseurl}}components/components/UserRating.html) co
 - `titles`: Similar to `values`, this input allows to define the tooltip texts displayed when hovering over the stars.
 - `caption`: A caption for the ratings, displayed before the stars.
 - `showAverage`: A boolean to display or not the average rating from all users (after the stars).
-
-### Entity summary
-
-The [`sq-result-entity-summary`]({{site.baseurl}}components/components/ResultEntitySummary.html) component displays a summary of the entities found in the document. The entities should normally be styled as they are in the document preview (if you import your preview stylesheet in your main stylesheet).
-
-![Entity summary]({{site.baseurl}}assets/modules/result/entity-summary.png){: .d-block .mx-auto }
-
-```html
-<sq-result-entity-summary [record]="record" [highlightedEntities]="['person', 'geo', 'company']"></sq-result-entity-summary>
-```
