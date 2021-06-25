@@ -52,8 +52,8 @@ import { AgmCoreModule } from '@agm/core';
 // Components
 import { AppComponent } from "./app.component";
 import { SearchComponent } from './search/search.component';
-import { SearchFormComponent } from './search-form/search-form.component';
-import { AutocompleteExtended } from './search-form/autocomplete-extended.directive';
+import { SearchFormComponent } from '../../../vanilla-search/src/app/search-form/search-form.component';
+import { AutocompleteExtended } from '../../../vanilla-search/src/app/search-form/autocomplete-extended.directive';
 import { DashboardItemComponent } from './dashboard/dashboard-item.component';
 import { DashboardAddItemComponent } from './dashboard/dashboard-add-item.component';
 
