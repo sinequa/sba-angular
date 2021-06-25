@@ -16,8 +16,7 @@ Please checkout the [reference documentation]({{site.baseurl}}components/modules
 
 This module introduces the UI component that displays the metadata of a document in the search result page.
 
-![Document metadata]({{site.baseurl}}assets/modules/metadata/metadata-example.png)
-{: .d-block .mx-auto }
+![Document metadata]({{site.baseurl}}assets/modules/metadata/metadata-example.png){: .d-block .mx-auto }
 *Document metadata*
 {: .text-center }
 
@@ -45,12 +44,17 @@ import {enMetadata} from "@sinequa/components/metadata";
 const messages = Utils.merge({}, ..., enMetadata, appMessages);
 ```
 
+To work properly, you should also import the module's stylesheet in your own application's stylesheet (this stylesheet uses Bootstrap functions to generate colors for the metadata badges):
+
+```scss
+@import "../../../components/metadata/metadata.scss";
+```
+
 ## API usage
 
-This module exports the [`Metadata` component]({{site.baseurl}}components/components/Metadata.html) that is responsible
-for displaying metadata of a document.
+This module exports the [`Metadata` component]({{site.baseurl}}components/components/Metadata.html) that is responsible for displaying the metadata of a document.
 
-An entry of metadata is simply a value of an index column of the considered document.
+An entry of metadata is simply a value of an index column of the considered document. Documents have many different types of metadata (mono-valued, multiple-valued, entities, tree-structured, text, numbers, dates, booleans...)
 
 For example, some of the metadata displayed by `vanilla-search` are:
 
@@ -64,56 +68,66 @@ For example, some of the metadata displayed by `vanilla-search` are:
 
 The selector for the component is `sq-metadata` and it expects a number of inputs:
 
+**Required parameters:**
+
 * `record`: The document whose metadata is being displayed,
-* `items`: The metadata entries of the document to be displayed, these are simply the names of index columns,
-* `showTitles`: Whether to display the title of the metadata entry, these titles are defined in the configuration of
-the query webservice, in `Advanced` tab > `Column Aliases` grid,
-* `showIcons`: Whether to display the icon of the metadata entry, these icons are defined in the `icons.scss` files,
-with the name of the icon entry being the same as the name of the index column.
-* `clickable`: Whether the metadata entries are clickable, in which case,
-clicking a metadata entry produces a filter in the current query.
-* `spacing`: The spacing format when displaying the metadata. The valid values are:
-  * `'default'`: the default spacing,
-  * `'compact'`: add the class `sq-compact` to all metadata entries, the expected effect is that the spacing is narrower than `'default'`,
-  * `'comfortable'`: add the class `sq-comfortable` to all metadata entries, the expected effect is that the spacing is broader than `'default'`,
+* `items` (`string[]`): The metadata entries of the document to be displayed, these are simply the names of index columns,
 
-Example: the effect of different spacing values
+**Optional parameters:**
 
-!['default' spacing]({{site.baseurl}}assets/modules/metadata/metadata-default-spacing.png)
-{: .d-block .mx-auto }
-*'default' spacing*
-{: .text-center }
-
-!['compact' spacing]({{site.baseurl}}assets/modules/metadata/metadata-compact-spacing.png)
-{: .d-block .mx-auto }
-*'compact' spacing*
-{: .text-center }
-
-!['comfortable' spacing]({{site.baseurl}}assets/modules/metadata/metadata-comfortable-spacing.png)
-{: .d-block .mx-auto }
-*'comfortable' spacing*
-{: .text-center }
+* `showTitles` (default: `true`): Whether to display the title of the metadata entry, these titles are defined in the configuration of the query web service, in **Advanced** tab > **Column Aliases** grid,
+* `showIcons` (default: `false`): Whether to display the icon of the metadata entry, these icons are defined in the `icons.scss` files, with the name of the icon entry being the same as the name of the index column.
+* `showCounts` (default: `true`): When the metadata is a list of entities (extracted from the text of the document), this option allows to display the number of occurrences of these entities in that document.
+* `clickable` (default: `true`): Whether the metadata entries are clickable (in which case they are displayed as "badges" instead of plain text).
+* `searchOnClick` (default: `true`): When `true`, clicking on a metadata item produces a filter in the current query.
+* `tabular` (default: `true`): When `true`, the metadata is displayed as a table (1 row = 1 column), and when `false` all the metadata is displayed inline.
+* `collapseRows` (default: `true`): In tabular mode, when the data is multivalued (for entities and CSV columns), only display one line of data with a button to expand/collapse this line.
 
 The component also emits an event when an element of the metadata is selected / clicked on.
 
+### Examples
+
+The following metadata is displayed with all the default options:
+
+```ts
+this.metadata = ["authors", "docformat", "modified", "size", "treepath", "filename", "geo", "company"]
+```
+
+```html
+<sq-result-metadata
+  [record]="record" 
+  [items]="metadata">
+</sq-result-metadata>
+```
+
+![Default metadata settings]({{site.baseurl}}assets/modules/metadata/metadata-default.png){: .d-block .mx-auto }
+
+In this other example, the same metadata is displayed with the following options:
+
+```html
+<sq-result-metadata 
+  [record]="record"
+  [items]="metadata"
+  [showIcons]="true"
+  [showTitles]="false"
+  [showCounts]="false"
+  [clickable]="false"
+  [tabular]="false"
+  [collapseRows]="false">
+</sq-result-metadata>
+```
+
+![Inline metadata settings]({{site.baseurl}}assets/modules/metadata/metadata-inline.png){: .d-block .mx-auto }
+
+### Metadata Item
+
 This module also exports the [`MetadataItem` component]({{site.baseurl}}components/components/MetadataItem.html) which is used by
-the `Metadata` component and displays a single metadata item. Using the `MetadaItem` component directly provides more layout flexibility,
+the `Metadata` component and displays a **single** metadata item. Using the `MetadaItem` component directly provides more layout flexibility,
 allowing other content to interspersed in the layout and different input properties to be specified for individual items. The component's
-selector is `sq-metadata-item` and it expects a number of inputs which are similar to those of the `Metadata` component:
+selector is `sq-metadata-item` and it expects a number of inputs which are similar to those of the `Metadata` component.
 
-* `record`: The document whose metadata is being displayed,
-* `item`: The metadata entry of the document to be displayed,
-* `showTitle`: Whether to display the title of the metadata item, these titles are defined in the configuration of
-the query webservice, in `Advanced` tab > `Column Aliases` grid,
-* `showIcon`: Whether to display the icon of the metadata entry, these icons are defined in the `icons.scss` files,
-with the name of the icon entry being the same as the name of the index column.
-* `clickable`: Whether the metadata entry is clickable, in which case,
-clicking a metadata entry produces a filter in the current query.
-* `spacing`: The spacing format when displaying the metadata. The valid values are:
-  * `'default'`: the default spacing,
-  * `'compact'`: add the class `sq-compact` to all metadata entries, the expected effect is that the spacing is narrower than `'default'`,
-  * `'comfortable'`: add the class `sq-comfortable` to all metadata entries, the expected effect is that the spacing is broader than `'default'`,
+```html
+<sq-metadata-item [record]="record" [item]="'geo'"></sq-metadata-item>
+```
 
-To use this component independently of the `Metadata` component particular classes should be used on the container element of the `sq-metadata-item`
-elements. The `sq-metadata` class should always be present on the container. Additionally, if a `tabular` layout is required then the `sq-tabular`
-class should be added.
+![Single metadata item]({{site.baseurl}}assets/modules/metadata/metadata-item.png){: .d-block .mx-auto }

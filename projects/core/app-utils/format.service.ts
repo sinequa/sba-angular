@@ -12,6 +12,7 @@ import {format} from "d3-format";
 export interface ValueItem {
     value: FieldValue;
     display?: string;
+    count?: number; // Following ES-11166, the number of occurrence for an entity can be included
 }
 
 /**

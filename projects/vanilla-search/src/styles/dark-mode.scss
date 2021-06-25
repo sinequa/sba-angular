@@ -15,7 +15,7 @@ body.dark {
 
     // Bootstrap components dark mode
 
-    a:not(.btn) {
+    a:not(.btn):not(.badge) {
         color: #9bccff;
     }
 

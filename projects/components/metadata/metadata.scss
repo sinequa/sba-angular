@@ -1,119 +1,23 @@
-.sq-metadata {
-    &.sq-tabular {
-        display: table;
-        width: 100%;
+sq-metadata-item .sq-metadata-item {
 
-        sq-metadata-item {
-            display: table-row-group;
-        }
-    
-        .sq-metadata-item {
-            display: table-row;
-        }
-    
-        .sq-metadata-icon, .sq-metadata-item-label, .sq-metadata-item-values {
-            // Stack on small screens
-            @include media-breakpoint-up(sm) {
-                display: table-cell;
-            }
-        }
+    a.badge {
+        background-color: lightgrey;
+        color: lighten(black, 10%);
 
-        sq-metadata-item:not(:first-of-type) {
-            .sq-metadata-item-values {
-                padding-top: 0.25rem;
-            }
-            .sq-compact .sq-metadata-item-values {
-                padding-top: 0;
-            }
-            .sq-comfortable .sq-metadata-item-values {
-                padding-top: 0.5rem;
-            }
-        }
-    }
-
-    &:not(.sq-tabular) {
-        display: block;
-
-        sq-metadata-item, .sq-metadata-item {
-            display: inline-block;
-        }
-
-        .sq-metadata-item-label, .sq-metadata-item-values {
-            display: inline;
-        }
-
-        .sq-metadata-item-label {
-            padding-right: 0;
-        }
-    }
-
-    .sq-metadata-item-icon {
-        margin-right: 0.5rem;
-
-        @each $meta, $info in $metadata {
-            &.sq-icon-metadata-#{$meta} {
-                color: get-metadata-color($meta) !important;
-            }
-        }
-    }
-
-    .sq-metadata-item-label {
-        width: 1px;
-        white-space: nowrap;
-        padding-right: $spacer / 2;
-    }
-
-    .sq-metadata-item.sq-clickable {
-        .sq-metadata-item-value {
-            @extend .badge;
-            @include badge-variant($gray-300);
+        @include hover-focus {
+            background-color: darken(lightgrey, 10%);
             color: black;
-            &[href] {
-                @include hover-focus {
-                    color: black;
-                }
-            }
-            @extend .badge-pill;
-        }
-
-        // Generate rules for each metadata item declared in _preview.scss
-        @each $meta, $info in $metadata {
-            .sq-metadata-item-#{$meta} {  
-                @extend .badge;
-                @include badge-variant(get-metadata-color($meta));
-                color: black;
-                &[href] {
-                    @include hover-focus {
-                        color: black;
-                    }
-                }
-            }
         }
     }
-
-    .sq-metadata-item:not(.sq-clickable) {
-        @each $meta, $info in $metadata {
-            .sq-metadata-item-#{$meta} {
-                color: get-metadata-color($meta);
-            }
+    
+    // Generate rules for each metadata item declared in _preview.scss
+    @each $meta, $info in $metadata {
+        .sq-metadata-item-#{$meta}, .sq-icon-#{$meta} {
+            color: get-metadata-color($meta);
         }
-    }
 
-    .sq-metadata-item-values {
-        width: 100%;
-
-        & .breadcrumb {
-            padding: 0;
-            background-color: inherit;
-            display: inline;
-
-            > li {
-                display: inline;
-            }
-
-            &:after {
-                display: inline;
-            }
+        a.badge.sq-metadata-item-#{$meta} {
+            @include generate-metadata-color($meta, true);
         }
     }
 }

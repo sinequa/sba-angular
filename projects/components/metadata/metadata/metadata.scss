@@ -1,0 +1,15 @@
+:host.sq-tabular {
+    display: table;
+
+    sq-metadata-item {
+        display: table-row-group;
+    }
+}
+
+:host:not(.sq-tabular) {
+    display: block;
+
+    sq-metadata-item {
+        display: inline;
+    }
+}
