@@ -56,7 +56,7 @@ export default {
         },
         item: {
             label: "{label}:",
-            separator: " | ",
+            separator: "|",
             treeSeparator: " ; ",
             treeNodeSeparator: "/",
             listSeparator: ", ",

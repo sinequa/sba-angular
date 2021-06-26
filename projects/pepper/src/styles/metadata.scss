@@ -58,8 +58,13 @@ $metadata : (
 }
 
 // Inserts the color and background of an entity
-@mixin generate-metadata-color($name) {
+@mixin generate-metadata-color($name, $link: false) {
     $item: map-get($metadata, $name);
     color: map-get($item, "color");
     background-color: map-get($item, "background-color");
+    @if ($link) {
+        @include hover-focus {
+            background-color: darken(map-get($item, "background-color"), 10%);
+        }
+    }
 }

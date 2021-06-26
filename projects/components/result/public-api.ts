@@ -1,7 +1,5 @@
-export * from "./result-entity-summary/result-entity-summary";
 export * from "./result-extracts/result-extracts";
 export * from "./result-icon/result-icon";
-export * from "./result-metadata/result-metadata";
 export * from "./result-missing-terms/result-missing-terms";
 export * from "./result-module";
 export * from "./result-source/result-source";

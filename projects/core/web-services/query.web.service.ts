@@ -428,11 +428,15 @@ export interface EntityItem {
     /**
      * The locations of this item in the document text in the form `row1,col1;row2,col2;...`
      */
-    locations: string;
+    locations?: string;
     /**
      * The remapped locations of this item in the original document in the form `row1,col1;row2,col2;...`
      */
-    originalLocations: string;
+    originalLocations?: string;
+    /**
+     * Following ES-11166, the number of occurrence of this entity in the document can be included
+     */
+    count?: number;
 }
 
 /**
