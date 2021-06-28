@@ -318,6 +318,10 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         this.x.domain(xExtent);
         this.xt = this.x;
         this.y.domain([0, yMax*1.1]);
+        
+        // Fire an initial rangeChange event so that the parent can initialize the currentRange property
+        // The setTimeout prevents "expressionChangedAfterCheck" error (since the parent then updates the min/max dates)
+        setTimeout(() => this.rangeChange.next(this.xt.domain()));
     }
 
     /**
@@ -415,8 +419,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     /**
      * Draws the X axis
      */
-    protected drawXAxis() {        
-        this.xAxis$.call(d3.axisBottom(this.xt));
+    protected drawXAxis() {
+        const nTicks = Math.round(this.width / 100);
+        this.xAxis$.call(d3.axisBottom(this.xt).ticks(nTicks));
         this.xAxis$.selectAll(".domain").remove(); // Remove the axis line
     }
 
@@ -424,7 +429,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Draws the Y axis
      */
     protected drawYAxis() {
-        const yAxisTicks = this.y.ticks()
+        const nTicks = Math.round(this.height / 40);
+
+        const yAxisTicks = this.y.ticks(nTicks)
             .filter(tick => Number.isInteger(tick)); // Keep only integer ticks https://stackoverflow.com/questions/13576906/d3-tick-marks-on-integers-only/56821215
 
         const yAxis = d3.axisLeft<number>(this.y)
