@@ -51,7 +51,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
     @Input() width = 600;
     @Input() height = 200;
-    @Input() margin = {top: 15, bottom: 30, left: 40, right: 15};
+    @Input() margin = {top: 15, bottom: 20, left: 40, right: 15};
 
     @Input() curveType = "curveMonotoneX";
 

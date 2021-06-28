@@ -11,6 +11,7 @@ import {BsHeatmapModule} from "@sinequa/analytics/heatmap";
 
 import {BsTimelineComponent} from "./timeline.component";
 import {BsFacetTimelineComponent} from "./facet-timeline.component";
+import { TimelineLegendComponent } from "./timeline-legend.component";
 
 @NgModule({
     imports: [
@@ -25,11 +26,13 @@ import {BsFacetTimelineComponent} from "./facet-timeline.component";
     ],
     declarations: [
         BsTimelineComponent,
-        BsFacetTimelineComponent
+        BsFacetTimelineComponent,
+        TimelineLegendComponent
     ],
     exports: [
         BsTimelineComponent,
-        BsFacetTimelineComponent
+        BsFacetTimelineComponent,
+        TimelineLegendComponent
     ]
 })
 export class BsTimelineModule {

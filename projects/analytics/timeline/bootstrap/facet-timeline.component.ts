@@ -11,6 +11,7 @@ import { Action } from '@sinequa/components/action';
 import { TimelineSeries, TimelineDate, TimelineEvent } from './timeline.component';
 import moment from 'moment';
 import * as d3 from 'd3';
+import { TimelineEventType } from './timeline-legend.component';
 
 export interface TimelineAggregation {
     name?: string;
@@ -72,12 +73,18 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
     @Input() width = 600;
     @Input() height = 200;
-    @Input() margin = {top: 15, bottom: 30, left: 40, right: 15};
+    @Input() margin = {top: 15, bottom: 20, left: 40, right: 15};
 
     @Input() curveType = "curveMonotoneX";
 
     @Input() showTooltip = true;
     @Input() theme: "light" | "dark" = "light";
+
+    @Input() showLegend = false;
+    @Input() legendStyles?: {[key:string]: any} = {'justify-content' : 'center'};
+    @Input() legendEvents?: TimelineEventType[];
+    @Input() legendOrientation?: "row"|"column" = "row";
+    @Input() legendYOffset?: number = 3;
 
     @Output() eventClicked = new EventEmitter<TimelineEvent>();
 
