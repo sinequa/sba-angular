@@ -391,6 +391,38 @@ The [`TimelineRecords`]({{site.baseurl}}analytics/interfaces/TimelineRecords.htm
 
 The [`TimelineEventAggregation`]({{site.baseurl}}analytics/interfaces/TimelineEventAggregation.html) requires the name of the aggregation configured on the server (`aggregation`), as well as two methods, `getDate` and `getDisplay`, which respectively extract a `Date` and display (`string`) from each `AggregationItem` object. In the example above, the events from this aggregation are supposed to be formatted as `(2020-02-14)#(VALENTINES DAY)` (hence the use of `.split()` and `.replace()`). Additionally, the `size` and `styles` parameters are also optionally available and work in the same way as above, with the difference that for the dynamic values the input argument is an `AggregationItem` instead of a `Record`.
 
+### Legend
+
+The [`sq-facet-timeline`]({{site.baseurl}}analytics/components/BsFacetTimelineComponent.html) component can display a legend sub-component. The legend's content, position and styles can be customized with the following parameters:
+
+- `showLegend` (default: `false`): Whether or not to display the legend
+- `legendOrientation` (default: `'row'`): Whether to display the legend in a `row` or a `column`
+- `legendYOffset` (default: `3`): An offset to position the legend markers vertically relative to the text
+- `legendStyles`: A list of styles applied to the legend container (can be useful to position the legend in the right position, add a border, background, etc.)
+- `legendEvents`: By default the legend automatically displays the timeseries but no the timeline events. To display the events, add a list of "event types" (incl. name and styling).
+
+```html
+<sq-facet-timeline
+    [results]="results"
+    [showLegend]="true"
+    [legendEvents]="[{name: 'Events', styles: {fill: 'green'}}]"
+    [legendYOffset]="3"
+    [legendOrientation]="'column'"
+    [legendStyles]="{position: 'absolute', 'top.px': 30, 'right.px': 20, 'padding-left.px':8, border: '1px solid lightgrey'}"
+></sq-facet-timeline>
+```
+
+![legend]({{site.baseurl}}assets/modules/timeline/timeline-legend.png){: .d-block .mx-auto }
+
+Note that the legend is available as a standalone component ([`sq-timeline-legend`]({{site.baseurl}}analytics/components/TimelineLegendComponent.html)):
+
+```html
+<sq-timeline-legend [data]="timeseries" [events]="eventTypes" [legendStyles]="{'justify-content': 'center'}">
+</sq-timeline-legend>
+```
+
+![legend]({{site.baseurl}}assets/modules/timeline/legend.png){: .d-block .mx-auto }
+
 ### Other parameters and events
 
 We have seen the two most important inputs of [`sq-facet-timeline`]({{site.baseurl}}analytics/components/BsFacetTimelineComponent.html): `timeseries` and `events`. Other parameters are available. In fact, the following parameters (described before) are "forwarded" to the [`sq-timeline`]({{site.baseurl}}analytics/components/BsTimelineComponent.html) (using the same default values):
