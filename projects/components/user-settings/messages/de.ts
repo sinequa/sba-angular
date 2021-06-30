@@ -9,7 +9,16 @@ export default {
         "administration": "Administration",
         "logout": "Abmeldung",
 
-        "language": "Sprache"
+        "language": "Sprache",
+        
+        "resetUserSettings": {
+            "menu": "Benutzereinstellungen zurücksetzen",
+            "modalTitle": "Benutzereinstellungen zurücksetzen",
+            "modalMessage": "Sie sind dabei, Ihre Benutzereinstellungen zurückzusetzen. Bist du sicher?",
+            "modalConfirmButton": "Bestätigen",
+            "successMessage": "Benutzereinstellungen erfolgreich zurücksetzen",
+            "errorMessage": "Benutzereinstellungen zurücksetzen fehlgeschlagen"
+        }
     },
 
     "editUserSettings": {

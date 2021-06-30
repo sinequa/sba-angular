@@ -9,7 +9,16 @@ export default {
         "administration": "Administration",
         "logout": "Se déconnecter",
 
-        "language": "Langue"
+        "language": "Langue",
+        
+        "resetUserSettings": {
+            "menu": "Réinitialiser les paramètres utilisateur",
+            "modalTitle": "Réinitialiser Paramètres Utilisateur",
+            "modalMessage": "Vous êtes sur le point de réinitialiser vos paramètres utilisateur. Etes-vous sûr ?",
+            "modalConfirmButton": "Confirmer",
+            "successMessage": "Réinitialisation des paramètres utilisateur réussie",
+            "errorMessage": "Echec de la réinitialisation des paramètres utilisateur"
+        }
     },
 
     "editUserSettings": {
