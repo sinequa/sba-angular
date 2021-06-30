@@ -59,6 +59,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     @Input() theme: "light" | "dark" = "light";
 
     @Output() selectionChange = new EventEmitter<Date[]>();
+    @Output() rangeInit = new EventEmitter<Date[]>();
     @Output() rangeChange = new EventEmitter<Date[]>();
 
     @ContentChild("tooltipTpl", {static: false}) tooltipTpl: TemplateRef<any>;
@@ -319,9 +320,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         this.xt = this.x;
         this.y.domain([0, yMax*1.1]);
         
-        // Fire an initial rangeChange event so that the parent can initialize the currentRange property
+        // Fire an initial rangeInit event so that the parent can initialize the currentRange property
         // The setTimeout prevents "expressionChangedAfterCheck" error (since the parent then updates the min/max dates)
-        setTimeout(() => this.rangeChange.next(this.xt.domain()));
+        setTimeout(() => this.rangeInit.next(this.xt.domain()));
     }
 
     /**
