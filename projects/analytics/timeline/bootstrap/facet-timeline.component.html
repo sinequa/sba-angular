@@ -15,6 +15,7 @@
     [theme]="theme"
 
     (selectionChange)="onSelectionChange($event)"
+    (rangeInit)="onRangeChange($event)"
     (rangeChange)="onRangeChange($event)">
 
     <ng-template #tooltipTpl let-event let-close="close">
