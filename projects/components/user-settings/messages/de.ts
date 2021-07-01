@@ -14,7 +14,7 @@ export default {
         "resetUserSettings": {
             "menu": "Benutzereinstellungen zurücksetzen",
             "modalTitle": "Benutzereinstellungen zurücksetzen",
-            "modalMessage": "Sie sind dabei, Ihre Benutzereinstellungen zurückzusetzen. Bist du sicher?",
+            "modalMessage": "Sie sind dabei, ALLE Ihre Benutzerdaten zurückzusetzen (letzte Abfragen, Sammlungen, Warnungen, Einstellungen usw.). Möchtest du fortfahren?",
             "modalConfirmButton": "Bestätigen",
             "successMessage": "Benutzereinstellungen erfolgreich zurücksetzen",
             "errorMessage": "Benutzereinstellungen zurücksetzen fehlgeschlagen"

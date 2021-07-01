@@ -14,7 +14,7 @@ export default {
         "resetUserSettings": {
             "menu": "Réinitialiser les paramètres utilisateur",
             "modalTitle": "Réinitialiser Paramètres Utilisateur",
-            "modalMessage": "Vous êtes sur le point de réinitialiser vos paramètres utilisateur. Etes-vous sûr ?",
+            "modalMessage": "Vous êtes sur le point de réinitialiser TOUTES vos données utilisateur (requêtes récentes, collectes, alertes, préférences, etc.). Voulez-vous continuer ?",
             "modalConfirmButton": "Confirmer",
             "successMessage": "Réinitialisation des paramètres utilisateur réussie",
             "errorMessage": "Echec de la réinitialisation des paramètres utilisateur"

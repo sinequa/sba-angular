@@ -14,7 +14,7 @@ export default {
         "resetUserSettings": {
             "menu": "Reset user settings",
             "modalTitle": "Reset user settings",
-            "modalMessage": "You are about to reset your user settings. Are you sure?",
+            "modalMessage": "You are about to reset ALL your user data (recent queries, collections, alerts, preferences, etc.). Do you want to continue?",
             "modalConfirmButton": "Confirm",
             "successMessage": "Reset user settings succefully",
             "errorMessage": "Reset user settings failed"
