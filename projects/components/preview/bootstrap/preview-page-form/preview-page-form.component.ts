@@ -30,6 +30,10 @@ export class BsPreviewPageFormComponent implements OnChanges{
     submit() {
         const page = parseInt(this.pageControl.value, 10);
         if(!isNaN(page) && page !== this.pageNumber) {
+            // remember the page number submitted
+            // this allow us to submit again the previous page 
+            // when page not exists and/or an error is triggered
+            this.pageNumber = page;
             this.gotopage.next(page);
         }
     }
