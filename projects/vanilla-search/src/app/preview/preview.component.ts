@@ -1,7 +1,10 @@
-import { Component, OnInit, OnChanges, Input, Optional, Inject, InjectionToken, OnDestroy, ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Optional, Inject, InjectionToken, OnDestroy, ChangeDetectorRef, NgZone} from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router, NavigationEnd, RouterEvent } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { filter} from 'rxjs/operators';
+
 import { LoginService } from '@sinequa/core/login';
 import { PreviewData, Results } from '@sinequa/core/web-services';
 import { Query } from '@sinequa/core/app-utils';
@@ -9,11 +12,9 @@ import { Action } from '@sinequa/components/action';
 import { PreviewService, PreviewDocument } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { MODAL_MODEL } from '@sinequa/core/modal';
-import { Subscription } from 'rxjs';
 import { IntlService } from '@sinequa/core/intl';
 import { UIService } from '@sinequa/components/utils';
 import { UserPreferences } from '@sinequa/components/user-settings';
-import {filter} from 'rxjs/operators';
 
 export interface PreviewConfig {
   initialCollapsedPanel?: boolean;
@@ -96,7 +97,9 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     protected searchService: SearchService,
     public prefs: UserPreferences,
     public ui: UIService,
-    protected activatedRoute: ActivatedRoute) {
+    protected activatedRoute: ActivatedRoute,
+    private zone: NgZone
+    ) {
 
     // If the page is refreshed login needs to happen again, then we can get the preview data
     this.loginSubscription = this.loginService.events.subscribe({
@@ -114,7 +117,6 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
       ).subscribe({
       next: (event) => {
         if (event instanceof NavigationEnd) {
-          this.clear();
           this.getPreviewDataFromUrl();
         }
       }
@@ -271,15 +273,6 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   /**
-   * Resets the state of the page
-   */
-  clear(){
-    this.previewData = undefined;
-    this.previewDocument = undefined;
-    this.downloadUrl = undefined;
-  }
-
-  /**
    * Notification for the audit service
    */
   openOriginalDoc(){
@@ -296,11 +289,16 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     const containerid = this.previewData?.record.containerid;
     if(containerid) {
       const id = `${containerid}/#${page}#`;
-      this.router.navigate([], {
-        relativeTo: this.activatedRoute,
-        queryParams: { id }, // Assumes that we can keep the same query(!)
-        queryParamsHandling: 'merge'
-      });
+      
+      // we needs surround router.navigate() as we navigate outside Angular
+      // if an error occurs, this allow page navigation, broken otherwise
+      this.zone.run(() => {
+        this.router.navigate([], {
+          relativeTo: this.activatedRoute,
+          queryParams: { id }, // Assumes that we can keep the same query(!)
+          queryParamsHandling: 'merge'
+        });
+      })
     }
   }
 
