@@ -299,6 +299,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         const yMax = d3.max<TimelineSeries, number>(data, 
             s => d3.max<TimelineDate, number>(s.dates, d => d.value));
 
+        // Check validity of data
         if(!xExtent[0] || !xExtent[1] || !yMax) {
             if (allPrimaryDates.length !== 0) {
                 console.error('Invalid timeseries', primarySeries);
@@ -308,12 +309,23 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             return;
         }
 
+        // Enforce minimum date
         if(this.minDate) {
             xExtent[0] = this.minDate;
         }
 
+        // Enforce maximum date
         if(this.maxDate) {
             xExtent[1] = this.maxDate;
+        }
+
+        // Enforce minimum scale (especially when the timeseries contains a single datapoint)
+        const diff = xExtent[1].getTime() - xExtent[0].getTime();
+        const minDiff = this.minZoomDays * 24 * 60 * 60 * 1000;
+        if(diff < minDiff) {
+            const delta = 0.5 * (minDiff - diff); // Delta is the amount of time missing before and after
+            xExtent[0] = new Date(xExtent[0].getTime() - delta);
+            xExtent[1] = new Date(xExtent[0].getTime() + delta);
         }
 
         this.x.domain(xExtent);
