@@ -85,6 +85,10 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
     }
 
     //TODO remove
+    /**
+     * @deprecated use "userSettings" get property to retrieve the user settings
+     * @returns User settings object or undefined
+     */
     public getUserSettings(): UserSettings | undefined{
         return this.userSettings;
     }
@@ -128,9 +132,7 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
             $auditRecord: auditEvents
         });
         Utils.subscribe(observable,
-            (response) => {
-                return response;
-            },
+            (response) => response,
             (error) => {
                 console.log("userSettingsService.save failure - error: ", error);
             });
@@ -152,12 +154,28 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
             $auditRecord: auditEvents
         });
         Utils.subscribe(observable,
-            (response) => {
-                return response;
-            },
+            (response) => response,
             (error) => {
                 console.log("userSettingsService.patch failure - error: ", error);
             });
+        return observable;
+    }
+
+    /**
+     * Resets User Settings (emits a change event and audit events).
+     */
+    public reset() {
+        // Save current state
+        const currentState = this.userSettings;
+        // Reset User settings (and emit an event!)
+        this.userSettings = {};
+        const observable = this.save({
+            type: 'UserSettings_Reset'
+        });
+        observable.subscribe({
+            next: () => {},
+            error: () => this.userSettings = currentState // Restore previous state
+        })
         return observable;
     }
 

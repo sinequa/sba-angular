@@ -1,13 +1,14 @@
 import { Component, OnInit, ChangeDetectorRef, Input, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Action } from '@sinequa/components/action';
 import { PrincipalWebService, UserSettingsWebService } from '@sinequa/core/web-services';
 import { AuthenticationService, LoginService, UserOverride } from '@sinequa/core/login';
 import { IntlService, Locale } from '@sinequa/core/intl';
 import { Utils } from '@sinequa/core/base';
 import { BsOverrideUser } from '@sinequa/components/modal';
-import { ModalService, ModalResult } from '@sinequa/core/modal';
+import { ModalService, ModalResult, ConfirmType, ModalButton } from '@sinequa/core/modal';
 import { AppService } from '@sinequa/core/app-utils';
-import { Subscription } from 'rxjs';
+import {NotificationsService, NotificationType} from '@sinequa/core/notification';
 
 @Component({
   selector: 'sq-user-menu',
@@ -30,7 +31,7 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
   revertOverrideAction: Action;
   adminAction: Action;
   languageAction: Action;
-
+  resetUserSettings: Action;
 
   constructor(
     public principalService: PrincipalWebService,
@@ -40,7 +41,7 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
     public modalService: ModalService,
     public appService: AppService,
     public userSettingsService: UserSettingsWebService,
-
+    public notificationsService: NotificationsService,
     public changeDetectorRef: ChangeDetectorRef) {
 
 
@@ -129,6 +130,29 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
       )
     });
 
+    this.resetUserSettings = new Action({
+      text: "msg#userMenu.resetUserSettings.menu",
+      title: "msg#userMenu.resetUserSettings.menu",
+      action: () => {
+        this.modalService.confirm({
+          title: "msg#userMenu.resetUserSettings.modalTitle",
+          message: "msg#userMenu.resetUserSettings.modalMessage", 
+          buttons: [
+            new ModalButton({result: ModalResult.OK, text: "msg#userMenu.resetUserSettings.modalConfirmButton"}),
+            new ModalButton({result: ModalResult.Cancel, primary: true})
+          ],
+          confirmType: ConfirmType.Warning
+        }).then(res => {
+          if(res === ModalResult.OK) {
+            this.userSettingsService.reset().subscribe({
+              next: () => this.notificationsService.notify(NotificationType.Success, "msg#userMenu.resetUserSettings.successMessage"),
+              error: () => this.notificationsService.notify(NotificationType.Error, "msg#userMenu.resetUserSettings.errorMessage")
+            });
+          }
+        });
+      }
+    });
+
   }
 
   ngOnInit() {
@@ -172,6 +196,10 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
     if (this.principalService.principal && (this.principalService.principal.isAdministrator || this.principalService.principal.isDelegatedAdmin)) {
       userActions.push(this.adminAction);
     }
+    if(this.loginService.complete) {
+      userActions.push(this.resetUserSettings);
+    }
+    userActions.push(new Action({separator: true}));
     if (this.intlService.locales.length > 1) {
       userActions.push(this.languageAction);
     }
