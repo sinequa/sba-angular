@@ -1,5 +1,6 @@
 import { NgModule/*, APP_INITIALIZER*/ } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule, Routes } from '@angular/router';
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
@@ -128,6 +129,7 @@ export const selectionOptions: SelectionOptions = {
 @NgModule({
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         RouterModule.forRoot(routes),
         FormsModule,
         ReactiveFormsModule,
