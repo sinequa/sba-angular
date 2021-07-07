@@ -158,6 +158,11 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
     ngOnChanges(changes: SimpleChanges) {
 
+        // Skip simple changes (width, height, etc.) that don't require modifying the timeline data
+        if(!changes.timeseries && !changes.events && !changes.results) {
+            return;
+        }
+
         // Retrieve the current active selection for this timeline (if any)
         const select = this.searchService.query.findSelect(this.name);
 
@@ -464,7 +469,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
         // Note: updateCombinedAggregation() compares currentRange and range
         // So this update must be kept after the forEach
-        this.currentRange = range;        
+        this.currentRange = range;
     }
 
     /**
