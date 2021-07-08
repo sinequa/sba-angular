@@ -126,7 +126,7 @@
                             [height]="item.height"
                             [buttonsStyle]="isDark()? 'dark' : 'light'"
                             (recordClicked)="onDocumentClickedFromView($event)"
-                            (actionClicked)="setFocus(i, $event)"
+                            (click)="setFocus(i, $event)"
                             [sqScrollIntoView]="{active: item.recordId && item.recordId === lastClickedId, first: i === 0}">
                         </sq-dashboard-item>
                     </gridster-item>
