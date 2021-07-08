@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, SimpleChanges, Output, EventEmitter, OnChanges, HostListener } from '@angular/core';
 import { GridsterItemComponent } from 'angular-gridster2';
 
 import { Results, Record } from '@sinequa/core/web-services';
@@ -49,6 +49,12 @@ export class DashboardItemComponent implements OnChanges {
 
     // Emit an event when the user clicks on a record displayed within a widget
     @Output() recordClicked = new EventEmitter<Record>();
+
+    // Emit an event when any facet's Action is clicked within a widget
+    @Output() actionClicked = new EventEmitter<MouseEvent>();
+    @HostListener('click', ['$event']) onClick(event: MouseEvent) {
+        this.actionClicked.next(event);
+    }
 
     // Custom actions for this widget
     actions: Action[] = [];
