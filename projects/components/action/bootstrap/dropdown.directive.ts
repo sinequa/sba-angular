@@ -64,6 +64,12 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
 
     @HostListener("click", ["$event"])
     clickHandler(event: Event) {
+        // before event.stopPropagation() 
+        // needed to avoid dropdown menu list to stay opened,
+        // bubble event to his root parent first and once
+        const isActive = this.dropdownMenu && this.dropdownMenu.classList.contains(gClassName.SHOW);
+        if (!isActive) this.dropdown.dispatchEvent(new Event('click', {bubbles: true, cancelable: false}));
+        
         event.preventDefault();
         event.stopPropagation();
         this.toggle(this.dropdownToggle);

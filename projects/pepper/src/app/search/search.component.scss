@@ -104,8 +104,6 @@ nav {
     z-index: 2;
 }
 
-// Dashboard (Gridster)
-
 gridster {
     background: transparent !important;
     z-index: 1;
@@ -133,4 +131,14 @@ gridster-item.gridster-item-moving {
 
 gridster-item.gridster-item-resizing {
     overflow: hidden;
+}
+
+// Dashboard (Gridster)
+// always display gridster-item buttons while
+// focused
+gridster-item[focus] {
+    z-index: 105 !important;
+    button {
+        visibility: visible;
+    }
 }
