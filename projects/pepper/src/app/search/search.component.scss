@@ -137,7 +137,7 @@ gridster-item.gridster-item-resizing {
 // always display gridster-item buttons while
 // focused
 gridster-item[focus="true"] {
-    z-index: 105 !important;
+    z-index: 90 !important;
     button {
         visibility: visible;
     }
