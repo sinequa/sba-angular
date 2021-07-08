@@ -136,7 +136,7 @@ gridster-item.gridster-item-resizing {
 // Dashboard (Gridster)
 // always display gridster-item buttons while
 // focused
-gridster-item[focus] {
+gridster-item[focus="true"] {
     z-index: 105 !important;
     button {
         visibility: visible;

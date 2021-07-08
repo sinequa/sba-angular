@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ChangeDetectorRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { AppService } from '@sinequa/core/app-utils';
@@ -13,7 +13,7 @@ import { PreviewService } from '@sinequa/components/preview';
 import { Action } from '@sinequa/components/action';
 import { FACETS, METADATA, FEATURES } from '../../config';
 import { DashboardService, MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, PREVIEW_WIDGET, HEATMAP_WIDGET, TAGCLOUD_WIDGET, MONEYTIMELINE_WIDGET, MONEYCLOUD_WIDGET } from '../dashboard/dashboard.service';
-import { GridsterComponent, GridsterItemComponent } from 'angular-gridster2';
+import { GridsterComponent } from 'angular-gridster2';
 
 @Component({
   selector: 'app-search',
@@ -29,7 +29,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   private _searchServiceSubscription: Subscription;
   private _loginSubscription: Subscription;
 
-  previousFocusedElement:GridsterItemComponent;
+  focusElementIndex:number;
 
   darkAction: Action;
   dashboardActions: Action[] = [];
@@ -42,7 +42,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   showResults = true;
   toggleResultsTitle = "msg#search.hideResults";
   @ViewChild('gridster') gridster!: GridsterComponent;
-  @ViewChildren(GridsterItemComponent) gridsterItems: QueryList<GridsterItemComponent>;
 
   constructor(
     public searchService: SearchService,
@@ -248,12 +247,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   setFocus(index: number, event: MouseEvent) {
-    const item = this.gridsterItems.toArray()[index];
-    if(item && item !== this.previousFocusedElement) {
-      this.previousFocusedElement?.el.toggleAttribute("focus");
-      item.el.toggleAttribute("focus");
-      this.previousFocusedElement = item;
-    }
+    this.focusElementIndex = index;
   }
 
 }
