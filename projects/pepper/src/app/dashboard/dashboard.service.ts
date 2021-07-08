@@ -123,7 +123,6 @@ export class DashboardService {
             },
             resizable: {enabled: true},
             itemChangeCallback: (item, itemComponent) => {
-                item.layerIndex = itemComponent.gridster.rows - item.y; // Hack to give items at the top of the page a higher z-index than at the bottom, so their dropdown menus do not get hidden by the cards below
                 this.notifyItemChange(item as DashboardItem);
             },
             itemResizeCallback: (item, itemComponent) => {

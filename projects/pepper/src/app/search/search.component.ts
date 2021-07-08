@@ -29,6 +29,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   private _searchServiceSubscription: Subscription;
   private _loginSubscription: Subscription;
 
+  focusElementIndex:number;
+
   darkAction: Action;
   dashboardActions: Action[] = [];
 
@@ -242,6 +244,10 @@ export class SearchComponent implements OnInit, OnDestroy {
     setTimeout(() => {
         this.gridster.resize();
     }, 500);
+  }
+
+  setFocus(index: number, event: MouseEvent) {
+    this.focusElementIndex = index;
   }
 
 }
