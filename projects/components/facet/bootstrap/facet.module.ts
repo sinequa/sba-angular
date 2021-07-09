@@ -58,7 +58,7 @@ import { BsFacetTagCloud } from './facet-tag-cloud/facet-tag-cloud';
     ],
 })
 export class BsFacetModule {
-    public static forRoot(allFacets: any[], defaultFacets: FacetState[]): ModuleWithProviders<BsFacetModule> {
+    public static forRoot(allFacets: any[]|undefined = undefined, defaultFacets: FacetState[]|undefined = undefined): ModuleWithProviders<BsFacetModule> {
         return {
             ngModule: BsFacetModule,
             providers: [
