@@ -1,8 +1,9 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { HighlightValue, PreviewData } from '@sinequa/core/web-services';
+import { HighlightValue, PreviewData, CCColumn } from '@sinequa/core/web-services';
 import { PreviewDocument } from '../../preview-document';
 import { AbstractFacet } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
+import { AppService } from '@sinequa/core/app-utils';
 
 @Component({
   selector: 'sq-preview-entity-facet',
@@ -21,12 +22,15 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
   sortFreq: boolean = true;
   hidden = new Map<string, boolean>();
   nav = new Map<string, number>();
+  column: CCColumn | undefined;
 
   checkAction: Action;
   sortFreqAction: Action;
   sortAlphaAction: Action;
 
-  constructor() {
+  constructor(
+    private appService:AppService
+  ) {
     super();
 
     this.checkAction = new Action({
@@ -90,6 +94,7 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
       this.unselectAll();
       this.checkAction.update();
     }
+    this.column = this.appService.getColumn(this.entity);
   }
 
   /**
