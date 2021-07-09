@@ -62,9 +62,6 @@ export interface FacetChangeEvent {
     facet?: FacetState;
 }
 
-export const ALL_FACETS = new InjectionToken<any[]>('ALL_FACETS');
-export const DEFAULT_FACETS = new InjectionToken<FacetState[]>('DEFAULT_FACETS');
-
 @Injectable({
     providedIn: 'root',
 })
@@ -73,6 +70,9 @@ export class FacetService {
     protected readonly _events = new Subject<FacetChangeEvent>();
     protected readonly _changes = new Subject<FacetChangeEvent>();
 
+    private _allFacets: any[];
+    private _defaultFacets: FacetState[];
+
     constructor(
         protected userSettingsService: UserSettingsWebService,
         protected searchService: SearchService,
@@ -80,9 +80,7 @@ export class FacetService {
         protected appService: AppService,
         protected intlService: IntlService,
         protected formatService: FormatService,
-        protected exprBuilder: ExprBuilder,
-        @Optional() @Inject(ALL_FACETS) protected allFacets: any[],
-        @Optional() @Inject(DEFAULT_FACETS) protected defaultFacets: FacetState[]){
+        protected exprBuilder: ExprBuilder){
 
         // Listen to the user settings
         this.userSettingsService.events.subscribe(event => {
@@ -118,12 +116,20 @@ export class FacetService {
         return this.userSettingsService.userSettings["facets"];
     }
 
-    public setAllFacets(facets: FacetState[]) {
-        this.allFacets = facets;
+    public get allFacets() {
+        return this._allFacets;
     }
 
-    public setDefaultFacets(facets: FacetState[]) {
-        this.defaultFacets = facets;
+    public set allFacets(facets: any[]) {
+        this._allFacets = facets;
+    }
+
+    public get defaultFacets() {
+        return this._defaultFacets
+    }
+
+    public set defaultFacets(facets: FacetState[]) {
+        this._defaultFacets = facets;
     }
 
     /**

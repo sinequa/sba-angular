@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from "@angular/core";
+import {Component, Input, OnChanges, OnInit} from "@angular/core";
 import {Results} from "@sinequa/core/web-services";
 import {FacetService} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
@@ -11,7 +11,7 @@ import {BsFacetTree} from '../facet-tree/facet-tree';
     templateUrl: "./facet-filters.html",
     styleUrls: ["./facet-filters.css"]
 })
-export class BsFacetFilters implements OnChanges {
+export class BsFacetFilters implements OnInit, OnChanges {
     @Input() results: Results;
     @Input() facets: FacetConfig[];
     @Input() enableCustomization = false;
@@ -40,6 +40,17 @@ export class BsFacetFilters implements OnChanges {
     ) {
         this.hidden = false;
         this.filters = [];
+    }
+
+    ngOnInit() {
+        if (!this.enableCustomization) return;
+
+        if (!this.facetService.defaultFacets) {
+            this.facetService.defaultFacets = [];
+            for (let facet of this.facets) this.facetService.defaultFacets.push({name: facet.name, position: 0, hidden: false, expanded: true, view: ""});
+        }
+
+        if (!this.facetService.allFacets) this.facetService.allFacets = this.facets;
     }
 
     ngOnChanges() {
