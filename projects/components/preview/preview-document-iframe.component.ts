@@ -64,7 +64,7 @@ iframe {
 })
 export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, AfterViewInit {
     defaultSandbox: string = "allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts";
-    @Input() sandbox: string | null;
+    @Input() sandbox: string | null | undefined;
     @Input() downloadUrl: string;
     @Input() scalingFactor: number = 1.0;
     @Output() onPreviewReady = new EventEmitter<PreviewDocument>();
@@ -76,7 +76,10 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     @ContentChild('tooltip', {read: ElementRef, static: false}) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
     public sanitizedUrlSrc: SafeResourceUrl;
-    public _sandbox: string | null = this.defaultSandbox;
+    // Must be undefined by default, because if a default value is set, 
+    // if we set it to undefined in the future, this new (undefined) value 
+    // is not used by the iFrame as if it used the previous value
+    public _sandbox: string | null | undefined;
     
     private previewDocument: PreviewDocument;
     readonly previewDocLoadHandler;
@@ -147,16 +150,16 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     }
 
     ngOnChanges(simpleChanges: SimpleChanges) {
-        if (simpleChanges.sandbox) {
-            this._sandbox = (Utils.isString(this.sandbox) || this.sandbox === null) ?
-                this.sandbox : this.defaultSandbox;
-        }
         if (simpleChanges.scalingFactor && !simpleChanges.scalingFactor.firstChange) {
             return;
         }
 
         this.resetContent();
         if (simpleChanges.downloadUrl && simpleChanges.downloadUrl.currentValue !== undefined) {
+            // set sandbox attribute only when downloadUrl is defined, so iframe is created without sandbox attribute
+            // if sandbox is null, keep sandbox attribute to undefined
+            // otherwise put sanbox value in the sanbox attribute or default sandbox value
+            this._sandbox = (this.sandbox === null) ? undefined : Utils.isString(this.sandbox) ? this.sandbox : this.defaultSandbox;
             this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.downloadUrl);
         }
     }
