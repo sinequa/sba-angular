@@ -104,14 +104,18 @@ export default {
 
         "filters":{
             "add":"Filter hinzufügen",
+            "addAll": "Alle Facetten hinzufügen",
             "remove":"Filter entfernen",
+            "removeAll": "Alle Facetten entfernen",
             "clear":"Filter löschen",
             "moreFilters":"",
             "showFilters":"Filter einblenden",
             "hideFilters":"Filter ausblenden",
 
             "back": "Zurück zu den Filtern",
-            "selectedFilters": "Dieser Filter ist in der aktuellen Suchanfrage aktiv"
+            "selectedFilters": "Dieser Filter ist in der aktuellen Suchanfrage aktiv",
+
+            "customizeFacets": "Facetten zum Anzeigen oder Ausblenden auswählen"
         },
 
         "selectedValue": "Dieser Wert ist in der aktuellen Anfrage ausgewählt.",

@@ -106,14 +106,18 @@ export default {
 
         "filters":{
             "add":"Add facet",
+            "addAll": "Add all facets",
             "remove":"Remove facet",
+            "removeAll": "Remove all facets",
             "clear":"Clear filter",
             "moreFilters":"",
             "showFilters":"Show filters",
             "hideFilters":"Hide filters",
 
             "back": "Back to filters",
-            "selectedFilters": "This filter is active in the current query"
+            "selectedFilters": "This filter is active in the current query",
+
+            "customizeFacets": "Select facets to display or hide"
         },
 
         "selectedValue": "This value is selected in the current query",
