@@ -3,7 +3,7 @@
         <span class="text-muted px-1 cursor-pointer" (click)="toggleEntity(value)">
             <i class="far" [ngClass]="{'fa-check-square': !entityHidden(value), 'fa-square': entityHidden(value)}"></i>
         </span>
-        <span class="mr-auto mx-1">{{ value.displayValue }}</span>
+        <span class="mr-auto mx-1">{{ value.displayValue | sqValue:column }}</span>
         <span class="text-muted small mx-1">{{ entityCount(value) }}</span>
         <span *ngIf="previewDocument" class="text-muted px-1 cursor-pointer" (click)="prevEntity(value)" title="{{ 'msg#preview.previousHighlightButtonAltText' | sqMessage }}"><i class="fas fa-chevron-left"></i></span>
         <span *ngIf="previewDocument" class="text-muted px-1 cursor-pointer" (click)="nextEntity(value)" title="{{ 'msg#preview.nextHighlightButtonAltText' | sqMessage }}"><i class="fas fa-chevron-right"></i></span>
