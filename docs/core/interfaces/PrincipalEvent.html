@@ -129,6 +129,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, OnDestroy} from &quot;@angular/core&quot;;
 import {Subject, Observable} from &quot;rxjs&quot;;
+import {pluck} from &quot;rxjs/operators&quot;;
 import {SqHttpClient} from &quot;./http-client&quot;;
 import {HttpService} from &quot;./http.service&quot;;
 import {START_CONFIG, StartConfig} from &quot;./start-config.web.service&quot;;
@@ -161,6 +162,32 @@ export interface Principal {
     param8: string;
     param9: string;
     param10: string;
+}
+
+export interface PrincipalUserInfo {
+    id: string;
+    userId: string;
+    name: string;
+    fullName: string;
+    longName: string;
+    email: string;
+    isUser: string;
+    isGroup: string;
+}
+
+export interface PrincipalParams {
+    offset?: number;    // 0
+    limit?: number;     // 10
+    isUser?: boolean;   // true
+    isGroup?: boolean;  // true
+    search?: string;    // search by name, fullname or email
+
+}
+
+export interface PrincipalUserIdsParams {
+    offset?: number;    // 0
+    limit?: number;     // 10
+    userIds: string[];
 }
 
 /**
@@ -218,6 +245,28 @@ export class PrincipalWebService extends HttpService implements OnDestroy {
     set principal(value: Principal | undefined) {
         this._principal &#x3D; value;
         this._events.next({type: &quot;changed&quot;});
+    }
+
+    /**
+     * Gets the list of user info (user or group)
+     *
+     * @param params query params to specify the search
+     * @returns list of user info
+     */
+    list(params?: PrincipalParams): Observable&lt;(PrincipalUserInfo | undefined)[]&gt; {
+        return this.httpClient.get&lt;(PrincipalUserInfo | undefined)[]&gt;(this.makeUrl(&quot;principal/list&quot;), {
+            params: this.makeParams({...params})
+        });
+    }
+
+    userId(userId: string): Observable&lt;Partial&lt;PrincipalUserInfo&gt;&gt; {
+        return this.httpClient.get&lt;Partial&lt;PrincipalUserInfo&gt;&gt;(this.makeUrl(&#x60;principal/userId/${userId}&#x60;));
+    }
+
+    userIds(params?: PrincipalUserIdsParams): Observable&lt;Partial&lt;PrincipalUserInfo[]&gt;&gt; {
+        return this.httpClient.post&lt;Partial&lt;PrincipalUserInfo&gt;&gt;(this.makeUrl(&quot;principal/userids&quot;), params).pipe(
+            pluck(&quot;principals&quot;)
+        );
     }
 
     /**

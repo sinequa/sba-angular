@@ -137,7 +137,6 @@ import {Utils} from &quot;@sinequa/core/base&quot;;
 import {AppService, FormatService, ValueItem} from &quot;@sinequa/core/app-utils&quot;;
 import {Record, EntityItem, DocumentAccessLists, CCColumn} from &quot;@sinequa/core/web-services&quot;;
 import {FacetService} from &quot;@sinequa/components/facet&quot;;
-import {Spacing} from &quot;../metadata/metadata&quot;;
 
 export interface TreeValueItem extends ValueItem {
     parts: ValueItem[];
@@ -145,15 +144,18 @@ export interface TreeValueItem extends ValueItem {
 
 @Component({
     selector: &quot;sq-metadata-item&quot;,
-    templateUrl: &quot;./metadata-item.html&quot;
+    templateUrl: &quot;./metadata-item.html&quot;,
+    styleUrls: [&#x27;./metadata-item.scss&#x27;]
 })
 export class MetadataItem implements OnChanges {
     @Input() record: Record;
     @Input() item: string;
     @Input() showTitle &#x3D; true;
     @Input() showIcon: boolean &#x3D; false;
+    @Input() showCounts: boolean &#x3D; true;
     @Input() clickable: boolean &#x3D; true;
-    @Input() spacing: Spacing &#x3D; &quot;default&quot;;
+    @Input() tabular: boolean &#x3D; true;
+    @Input() collapseRows: boolean &#x3D; true;
     @Output(&quot;select&quot;) _select &#x3D; new EventEmitter&lt;{item: string, valueItem: ValueItem}&gt;();
     @HostBinding(&#x27;hidden&#x27;) get hidden(): boolean { return this.isEmpty; }
     valueItems: (ValueItem | TreeValueItem)[];
@@ -162,6 +164,8 @@ export class MetadataItem implements OnChanges {
     isEntity: boolean;
     isCsv: boolean;
     itemLabelMessageParams: any;
+    collapsed: boolean;
+    needsCollapse: boolean &#x3D; false;
 
     constructor(
         public appService: AppService,
@@ -227,6 +231,12 @@ export class MetadataItem implements OnChanges {
                 this.valueItems.push({value: value});
             }
         }
+        
+        const collapsable &#x3D; (this.isEntity || this.isCsv) &amp;&amp; !this.isTree; // Tree columns are multivalues, and therefore isCsv&#x3D;true
+        if (changes.collapseRows || this.collapsed &#x3D;&#x3D;&#x3D; undefined) {
+            this.collapsed &#x3D; collapsable &amp;&amp; this.collapseRows;
+        }
+        this.needsCollapse &#x3D; collapsable &amp;&amp; this.collapseRows &amp;&amp; this.tabular &amp;&amp; this.valueItems.length &gt; 1; // We display the collapse button as soon as the number of values is &gt;1 which does not take into account the actualy width of each value...
     }
 
     public get isEmpty(): boolean {
@@ -249,16 +259,11 @@ export class MetadataItem implements OnChanges {
 
     public get itemClasses(): string {
         let classes &#x3D; &quot;sq-text&quot;;
-        switch (Utils.toLowerCase(this.spacing)) {
-            case &quot;compact&quot;:
-                classes +&#x3D; &quot; sq-compact&quot;;
-                break;
-            case &quot;comfortable&quot;:
-                classes +&#x3D; &quot; sq-comfortable&quot;;
-                break;
-        }
         if (this.clickable) {
             classes +&#x3D; &quot; sq-clickable&quot;;
+        }
+        if (this.tabular) {
+            classes +&#x3D; &quot; sq-tabular&quot;;
         }
         return classes;
     }
@@ -300,6 +305,12 @@ export class MetadataItem implements OnChanges {
         else {
             this._select.emit({item: this.item, valueItem: this.valueItems[index]});
         }
+        return false; // prevent default
+    }
+
+    toggleCollapse() {
+        this.collapsed &#x3D; !this.collapsed;
+        return false;
     }
 }
 </code></pre>

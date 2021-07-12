@@ -431,6 +431,7 @@ export class ValidationDirective implements OnInit, DoCheck {
     private valid: boolean;
     private dirty: boolean;
     private error?: string;
+    private errorInfo?: string;
 
     constructor(
         @Inject(VALIDATION_MESSAGE_COMPONENT) private validationMessageComponent: Type&lt;any&gt;,
@@ -567,10 +568,12 @@ export class ValidationDirective implements OnInit, DoCheck {
         }
         if (this.valid &#x3D;&#x3D;&#x3D; this.control.valid &amp;&amp; this.dirty &#x3D;&#x3D;&#x3D; this.control.dirty) {
             const firstError &#x3D; this.getFirstError();
-            if (firstError &#x3D;&#x3D;&#x3D; this.error) {
+            const errorInfo &#x3D; this.getErrorInfo(firstError);
+            if (firstError &#x3D;&#x3D;&#x3D; this.error &amp;&amp; errorInfo &#x3D;&#x3D;&#x3D; this.errorInfo) {
                 return;
             }
             this.error &#x3D; firstError;
+            this.errorInfo &#x3D; errorInfo;
         }
         this.valid &#x3D; this.control.valid;
         this.dirty &#x3D; this.control.dirty;

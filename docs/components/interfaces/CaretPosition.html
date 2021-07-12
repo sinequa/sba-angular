@@ -162,6 +162,8 @@
 import {Subject, Observable} from &quot;rxjs&quot;;
 import {Utils, MapOf} from &quot;@sinequa/core/base&quot;;
 import elementResizeDetectorMaker from &quot;element-resize-detector&quot;;
+import {NotificationsService} from &quot;@sinequa/core/notification&quot;;
+import {Clipboard} from &#x27;@angular/cdk/clipboard&#x27;;
 
 export interface CaretPosition {
     start: number;
@@ -182,7 +184,10 @@ export class UIService implements OnDestroy {
     factories &#x3D; new Map&lt;Type&lt;any&gt;, ComponentFactory&lt;any&gt;&gt;();
 
     constructor(
-        @Inject(SCREEN_SIZE_RULES) public screenSizeRules: MapOf&lt;string&gt;) {
+        @Inject(SCREEN_SIZE_RULES) public screenSizeRules: MapOf&lt;string&gt;,
+        public notificationsService: NotificationsService,
+        public clipboard: Clipboard
+    ) {
 
         this.screenSizes &#x3D; [&quot;xs&quot;, &quot;sm&quot;, &quot;md&quot;, &quot;lg&quot;, &quot;xl&quot;, &quot;xxl&quot;]; // in ascending size order
         this.setScreenSize();
@@ -265,7 +270,7 @@ export class UIService implements OnDestroy {
         return this.screenSize &#x3D;&#x3D;&#x3D; screenSize;
     }
 
-    screenSizeIsGreater(screenSize: string): boolean {
+    screenSizeIsGreater(screenSize: string | undefined): boolean {
         const index1 &#x3D; this.screenSizes.findIndex((value) &#x3D;&gt; value &#x3D;&#x3D;&#x3D; this.screenSize);
         const index2 &#x3D; this.screenSizes.findIndex((value) &#x3D;&gt; value &#x3D;&#x3D;&#x3D; screenSize);
         return index1 &gt; index2;
@@ -277,7 +282,7 @@ export class UIService implements OnDestroy {
         return index1 &lt; index2;
     }
 
-    screenSizeIsGreaterOrEqual(screenSize: string): boolean {
+    screenSizeIsGreaterOrEqual(screenSize: string | undefined): boolean {
         if (screenSize &#x3D;&#x3D;&#x3D; this.screenSize) {
             return true;
         }
@@ -555,6 +560,42 @@ export class UIService implements OnDestroy {
 
     removeElementResizeListener(element: HTMLElement, listener: (this: HTMLElement) &#x3D;&gt; void) {
         this.elementResizeDetector.removeListener(element, listener);
+    }
+    
+    copyToClipboard(data: string, maxLength &#x3D; 30) {
+        if (!navigator?.clipboard) {
+            // Note: CDK seems to struggle with large chunks of text
+            this.copyToClipboardCdk(data, maxLength);
+        }
+        else {
+            // Navigator built-in clipboard management
+            navigator.clipboard.writeText(data).then(() &#x3D;&gt; {
+                this.notificationsService.success(&quot;msg#clipboard.success&quot;, {data: &quot;\&quot;&quot;+(data.length&gt;maxLength? (data.slice(0,maxLength) + &quot;...&quot;) : data)+&quot;\&quot;&quot;});
+            }, err &#x3D;&gt; {
+                this.notificationsService.warning(&quot;msg#clipboard.error&quot;);
+            });
+        }
+    }
+
+    copyToClipboardCdk(data: string, maxLength &#x3D; 30) {
+        const pending &#x3D; this.clipboard.beginCopy(data);
+        let remainingAttempts &#x3D; 3;
+        const attempt &#x3D; () &#x3D;&gt; {
+            const result &#x3D; pending.copy();
+            if (!result &amp;&amp; --remainingAttempts) {
+                setTimeout(attempt);
+            } else {
+                // Remember to destroy when you&#x27;re done!
+                pending.destroy();
+                if(result) {
+                    this.notificationsService.success(&quot;msg#clipboard.success&quot;, {data: &quot;\&quot;&quot;+(data.length&gt;maxLength? (data.slice(0,maxLength) + &quot;...&quot;) : data)+&quot;\&quot;&quot;});
+                }
+                else {
+                    this.notificationsService.warning(&quot;msg#clipboard.error&quot;);
+                }
+            }
+        };
+        attempt();
     }
 }
 

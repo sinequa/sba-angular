@@ -142,6 +142,7 @@ import {Breadcrumbs, BreadcrumbsItem} from &#x27;./breadcrumbs&#x27;;
 
 export interface SearchOptions {
     routes?: string[];
+    skipSearchRoutes?: string[];
     homeRoute?: string;
     deactivateRouting?: boolean;
     preventQueryNameChanges?: boolean;
@@ -287,7 +288,7 @@ export class SearchService implements OnDestroy {
         this.setQuery(undefined);
     }
 
-    private updateBreadcrumbs(results: Results | undefined, options: SearchService.SetResultsOptions) {
+    public updateBreadcrumbs(results: Results | undefined, options: SearchService.SetResultsOptions) {
         if (!results) {
             this.breadcrumbs &#x3D; undefined;
             return;
@@ -602,7 +603,7 @@ export class SearchService implements OnDestroy {
     protected getHistoryState(): SearchService.HistoryState {
         const navigation &#x3D; this.router.getCurrentNavigation();
         if (navigation) {
-            return navigation.extras.state || {};
+            return navigation.extras &amp;&amp; navigation.extras.state || {};
         }
         return window.history.state || {};
     }
@@ -612,9 +613,17 @@ export class SearchService implements OnDestroy {
         return this.isSearchRoute(url.pathname);
     }
 
-    protected isSearchRoute(pathname): boolean {
-        if (this.options.routes) {
-            for (const route of this.options.routes) {
+    protected isSearchRoute(pathname: string): boolean {
+        return this.checkSearchRoute(pathname, this.options.routes);
+    }
+
+    protected isSkipSearchRoute(pathname: string): boolean {
+        return this.checkSearchRoute(pathname, this.options.skipSearchRoutes);
+    }
+
+    private checkSearchRoute(pathname: string, routes: string[] | undefined): boolean {
+        if (routes) {
+            for (const route of routes) {
                 if (Utils.endsWith(pathname, Utils.addUrl(&quot;/&quot;, route))) {
                     return true;
                 }
@@ -749,7 +758,8 @@ export class SearchService implements OnDestroy {
             navigationOptions &#x3D; state.navigationOptions;
         }
         navigationOptions &#x3D; navigationOptions || {};
-        if(navigationOptions.skipSearch) {
+        const pathName &#x3D; navigationOptions.path ? navigationOptions.path : Utils.makeURL(this.router.url).pathname;
+        if(navigationOptions.skipSearch || this.isSkipSearchRoute(pathName)) {
             return Promise.resolve(true);
         }
         if (!audit) {
@@ -993,7 +1003,7 @@ export class SearchService implements OnDestroy {
             record,
             results || resultId || &quot;&quot;,
             {
-                querytext: this.query.text,
+                text: this.query.text,
                 querylang,
             },
             {

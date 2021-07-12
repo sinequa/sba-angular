@@ -393,8 +393,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="144"
-                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:144</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="150"
+                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:150</a></div>
                 </td>
             </tr>
 
@@ -541,6 +541,12 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
 
     @HostListener(&quot;click&quot;, [&quot;$event&quot;])
     clickHandler(event: Event) {
+        // before event.stopPropagation() 
+        // needed to avoid dropdown menu list to stay opened,
+        // bubble event to his root parent first and once
+        const isActive &#x3D; this.dropdownMenu &amp;&amp; this.dropdownMenu.classList.contains(gClassName.SHOW);
+        if (!isActive) this.dropdown.dispatchEvent(new Event(&#x27;click&#x27;, {bubbles: true, cancelable: false}));
+        
         event.preventDefault();
         event.stopPropagation();
         this.toggle(this.dropdownToggle);

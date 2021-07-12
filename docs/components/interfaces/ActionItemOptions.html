@@ -79,9 +79,11 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#autoAdjust">autoAdjust</a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#autoAdjustBreakpoint">autoAdjustBreakpoint</a>
                                 </li>
                                 <li>
@@ -91,12 +93,15 @@
                                         <a href="#item">item</a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#rightAligned">rightAligned</a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#size">size</a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#style">style</a>
                                 </li>
                             </ul>
@@ -133,6 +138,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -162,6 +172,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -249,6 +264,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -278,6 +298,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -307,6 +332,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -318,24 +348,26 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input, OnInit, OnDestroy, AfterViewInit, OnChanges, SimpleChanges, ElementRef} from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input, OnInit, OnDestroy, AfterViewInit, OnChanges, SimpleChanges, ElementRef, ChangeDetectionStrategy} from &quot;@angular/core&quot;;
 import {Action} from &quot;../../action&quot;;
 import {UIService} from &quot;@sinequa/components/utils&quot;;
+import {DropdownMenuOptions} from &quot;../dropdown-menu/dropdown-menu&quot;;
 
 
 export interface ActionItemOptions {
     item: Action;
-    size: string;
-    style: string;
-    autoAdjust: boolean;
-    autoAdjustBreakpoint: string;
+    size?: string;
+    style?: string;
+    autoAdjust?: boolean;
+    autoAdjustBreakpoint?: string;
     inMenu: boolean;
-    rightAligned: boolean;
+    rightAligned?: boolean;
 }
 
 @Component({
     selector: &quot;[sq-action-item]&quot;,
-    templateUrl: &quot;./action-item.html&quot;
+    templateUrl: &quot;./action-item.html&quot;,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges {
     @Input(&quot;sq-action-item&quot;) options: ActionItemOptions;
@@ -343,7 +375,7 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
     inListItem: boolean;
     dropdownButton: Element;
     dropdownListItem: Element;
-    autoAdjustBreakpoint: string;
+    autoAdjustBreakpoint?: string;
     showDropdown: boolean;
 
     constructor(
@@ -433,6 +465,10 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
 
     get styleClass(): string {
         return this.options.style ? &#x60;btn-${this.options.style}&#x60; : &quot;btn-light&quot;;
+    }
+    
+    get dropdownMenuOptions(): DropdownMenuOptions {
+        return ({...this.options, showMenuClass: &#x27;show&#x27;});
     }
 
     ngAfterViewInit() {

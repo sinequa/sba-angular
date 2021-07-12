@@ -395,7 +395,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
     @Input() width &#x3D; 600;
     @Input() height &#x3D; 200;
-    @Input() margin &#x3D; {top: 15, bottom: 30, left: 40, right: 15};
+    @Input() margin &#x3D; {top: 15, bottom: 20, left: 40, right: 15};
 
     @Input() curveType &#x3D; &quot;curveMonotoneX&quot;;
 
@@ -403,6 +403,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     @Input() theme: &quot;light&quot; | &quot;dark&quot; &#x3D; &quot;light&quot;;
 
     @Output() selectionChange &#x3D; new EventEmitter&lt;Date[]&gt;();
+    @Output() rangeInit &#x3D; new EventEmitter&lt;Date[]&gt;();
     @Output() rangeChange &#x3D; new EventEmitter&lt;Date[]&gt;();
 
     @ContentChild(&quot;tooltipTpl&quot;, {static: false}) tooltipTpl: TemplateRef&lt;any&gt;;
@@ -642,6 +643,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         const yMax &#x3D; d3.max&lt;TimelineSeries, number&gt;(data, 
             s &#x3D;&gt; d3.max&lt;TimelineDate, number&gt;(s.dates, d &#x3D;&gt; d.value));
 
+        // Check validity of data
         if(!xExtent[0] || !xExtent[1] || !yMax) {
             if (allPrimaryDates.length !&#x3D;&#x3D; 0) {
                 console.error(&#x27;Invalid timeseries&#x27;, primarySeries);
@@ -651,17 +653,32 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             return;
         }
 
+        // Enforce minimum date
         if(this.minDate) {
             xExtent[0] &#x3D; this.minDate;
         }
 
+        // Enforce maximum date
         if(this.maxDate) {
             xExtent[1] &#x3D; this.maxDate;
+        }
+
+        // Enforce minimum scale (especially when the timeseries contains a single datapoint)
+        const diff &#x3D; xExtent[1].getTime() - xExtent[0].getTime();
+        const minDiff &#x3D; this.minZoomDays * 24 * 60 * 60 * 1000;
+        if(diff &lt; minDiff) {
+            const delta &#x3D; 0.5 * (minDiff - diff); // Delta is the amount of time missing before and after
+            xExtent[0] &#x3D; new Date(xExtent[0].getTime() - delta);
+            xExtent[1] &#x3D; new Date(xExtent[0].getTime() + delta);
         }
 
         this.x.domain(xExtent);
         this.xt &#x3D; this.x;
         this.y.domain([0, yMax*1.1]);
+        
+        // Fire an initial rangeInit event so that the parent can initialize the currentRange property
+        // The setTimeout prevents &quot;expressionChangedAfterCheck&quot; error (since the parent then updates the min/max dates)
+        setTimeout(() &#x3D;&gt; this.rangeInit.next(this.xt.domain()));
     }
 
     /**
@@ -759,8 +776,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     /**
      * Draws the X axis
      */
-    protected drawXAxis() {        
-        this.xAxis$.call(d3.axisBottom(this.xt));
+    protected drawXAxis() {
+        const nTicks &#x3D; Math.round(this.width / 100);
+        this.xAxis$.call(d3.axisBottom(this.xt).ticks(nTicks));
         this.xAxis$.selectAll(&quot;.domain&quot;).remove(); // Remove the axis line
     }
 
@@ -768,7 +786,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Draws the Y axis
      */
     protected drawYAxis() {
-        const yAxisTicks &#x3D; this.y.ticks()
+        const nTicks &#x3D; Math.round(this.height / 40);
+
+        const yAxisTicks &#x3D; this.y.ticks(nTicks)
             .filter(tick &#x3D;&gt; Number.isInteger(tick)); // Keep only integer ticks https://stackoverflow.com/questions/13576906/d3-tick-marks-on-integers-only/56821215
 
         const yAxis &#x3D; d3.axisLeft&lt;number&gt;(this.y)

@@ -228,8 +228,6 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {NgModule} from &quot;@angular/core&quot;;
-import {BrowserModule} from &#x27;@angular/platform-browser&#x27;;
-import {BrowserAnimationsModule} from &quot;@angular/platform-browser/animations&quot;;
 import {Collapse} from &quot;./collapse.component&quot;;
 import {CollapseButton} from &quot;./collapse-button.component&quot;;
 import {CollapseLink} from &quot;./collapse-link.component&quot;;
@@ -239,9 +237,7 @@ import {IntlModule} from &quot;@sinequa/core/intl&quot;;
 @NgModule({
     imports: [
         CommonModule,
-        IntlModule,
-        BrowserModule,
-        BrowserAnimationsModule
+        IntlModule
     ],
     declarations: [
         Collapse, CollapseButton, CollapseLink

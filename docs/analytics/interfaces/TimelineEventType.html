@@ -1,0 +1,285 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Analytics</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Analytics</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>TimelineEventType</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>timeline/bootstrap/timeline-legend.component.ts</code>
+        </p>
+
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#name">name</a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#styles">styles</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="name"></a>
+                                        <span class="name"><b>name</b><a href="#name"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>name:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="styles"></a>
+                                        <span class="name"><b>styles</b><a href="#styles"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>styles:     <code>literal type</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>literal type</code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input } from &quot;@angular/core&quot;;
+import { TimelineSeries } from &quot;./timeline.component&quot;;
+
+export interface TimelineEventType {
+    name: string;
+    styles?: {[key:string]: any};
+}
+
+@Component({
+    selector: &#x27;sq-timeline-legend&#x27;,
+    template: &#x60;
+&lt;div class&#x3D;&quot;legend d-flex flex-{{orientation}}&quot; [ngStyle]&#x3D;&quot;legendStyles&quot;&gt;
+
+    &lt;div *ngFor&#x3D;&quot;let timeline of data&quot; class&#x3D;&quot;series mr-2&quot;&gt;
+        &lt;svg width&#x3D;&quot;20&quot; height&#x3D;&quot;15&quot;&gt;
+            &lt;rect class&#x3D;&quot;area&quot; x&#x3D;&quot;0&quot; [attr.y]&#x3D;&quot;yOffset&quot; width&#x3D;&quot;20&quot; [attr.height]&#x3D;&quot;13-yOffset&quot; [ngStyle]&#x3D;&quot;timeline.areaStyles&quot;&gt;&lt;/rect&gt;
+            &lt;line class&#x3D;&quot;line&quot; x1&#x3D;&quot;0&quot; [attr.y1]&#x3D;&quot;yOffset&quot; x2&#x3D;&quot;20&quot; [attr.y2]&#x3D;&quot;yOffset&quot; [ngStyle]&#x3D;&quot;timeline.lineStyles&quot;&gt;&lt;/line&gt;
+        &lt;/svg&gt;
+        &lt;span class&#x3D;&quot;name ml-1&quot;&gt;{{ timeline.name }}&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div *ngFor&#x3D;&quot;let event of events&quot; class&#x3D;&quot;event mr-2&quot;&gt;
+        &lt;svg width&#x3D;&quot;20&quot; height&#x3D;&quot;15&quot;&gt;
+            &lt;path class&#x3D;&quot;event&quot; [attr.d]&#x3D;&quot;&#x27;M 10 1 l -7 11 l 14 0 z&#x27;&quot; [ngStyle]&#x3D;&quot;event.styles&quot;&gt;&lt;/path&gt;
+        &lt;/svg&gt;
+        &lt;span class&#x3D;&quot;name ml-1&quot;&gt;{{ event.name }}&lt;/span&gt;
+    &lt;/div&gt;
+
+&lt;/div&gt;
+    &#x60;,
+    styles: [&#x60;
+.series .area {
+    fill: lightblue;
+    opacity: 0.5;
+}
+
+.series .line {
+    stroke: rgb(132, 187, 206);
+    stroke-width: 2;
+    fill: none;
+}
+
+.event {
+    fill: #7c7c7c;
+}
+
+.name {
+    font-size: 12px;
+    color: darkgrey;
+}
+    &#x60;]
+})
+export class TimelineLegendComponent {
+    @Input() data?: TimelineSeries[];
+    @Input() events?: TimelineEventType[];
+    @Input() orientation: &quot;row&quot;|&quot;column&quot; &#x3D; &quot;row&quot;;
+    @Input() yOffset: number &#x3D; 3;
+    @Input() legendStyles?: {[key:string]: any};
+
+}</code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'TimelineEventType.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

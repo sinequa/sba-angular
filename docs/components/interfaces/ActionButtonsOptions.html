@@ -79,6 +79,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#autoAdjust">autoAdjust</a>
                                 </li>
                                 <li>
@@ -89,6 +90,7 @@
                                         <a href="#items">items</a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#rightAligned">rightAligned</a>
                                 </li>
                                 <li>
@@ -133,6 +135,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -225,6 +232,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -304,24 +316,37 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input} from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {ChangeDetectionStrategy, Component, Input} from &quot;@angular/core&quot;;
+import {ActionItemOptions} from &quot;..&quot;;
 import {Action} from &quot;../../action&quot;;
 
 export interface ActionButtonsOptions {
     items: Action[] | Action;
     size?: string;
     style?: string;
-    autoAdjust: boolean;
+    autoAdjust?: boolean;
     autoAdjustBreakpoint?: string;
-    rightAligned: boolean;
+    rightAligned?: boolean;
 }
 
 @Component({
     selector: &quot;[sq-action-buttons]&quot;,
-    templateUrl: &quot;./action-buttons.html&quot;
+    templateUrl: &quot;./action-buttons.html&quot;,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BsActionButtons {
-    @Input(&quot;sq-action-buttons&quot;) options: ActionButtonsOptions;
+    itemsVisible: Action[];
+    private _options: ActionButtonsOptions;
+    
+    @Input(&quot;sq-action-buttons&quot;)
+    set options (opts: ActionButtonsOptions) {
+        this._options &#x3D; opts;
+        // hidden items are not displayed
+        this.itemsVisible &#x3D; (Array.isArray(opts.items)) ? opts.items.filter(item &#x3D;&gt; !item.hidden) : opts.items.hidden ? [] : [opts.items];
+    }
+    get options(): ActionButtonsOptions {
+        return this._options;
+    }
 
     get sizeClass(): string {
         return this.options.size ? &#x60;btn-${this.options.size}&#x60; : &quot;&quot;;
@@ -329,6 +354,10 @@ export class BsActionButtons {
 
     get styleClass(): string {
         return this.options.style ? &#x60;btn-${this.options.style}&#x60; : &quot;btn-light&quot;;
+    }
+    
+    getActionItemOptions(item: Action): ActionItemOptions {
+        return ({...this._options, item, inMenu: false});
     }
 
     itemClick(item: Action, event: UIEvent) {

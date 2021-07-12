@@ -1149,7 +1149,7 @@ it is not in fact splitted. Stores the page number in the record itself ($page p
                             <b>Decorators : </b>
                             <br />
                             <code>
-                                @Inject(PREVIEW_MODAL)<br />
+                                @Optional()<br />@Inject(PREVIEW_MODAL)<br />
                             </code>
                         </td>
                     </tr>
@@ -1206,7 +1206,7 @@ it is not in fact splitted. Stores the page number in the record itself ($page p
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, InjectionToken, Inject, Type} from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, InjectionToken, Inject, Type, Optional} from &quot;@angular/core&quot;;
 import {Router} from &quot;@angular/router&quot;;
 import {Observable, Subject} from &quot;rxjs&quot;;
 import {AppService, ExprBuilder, Query} from &quot;@sinequa/core/app-utils&quot;;
@@ -1242,7 +1242,7 @@ export class PreviewService {
     private rank: number;
 
     constructor(
-        @Inject(PREVIEW_MODAL) public previewModal: Type&lt;any&gt;,
+        @Optional() @Inject(PREVIEW_MODAL) public previewModal: Type&lt;any&gt;,
         private router: Router,
         private previewWebService: PreviewWebService,
         private appService: AppService,
@@ -1402,7 +1402,7 @@ export class PreviewService {
             source: Utils.treeFirstNode(collection),
             resultid: resultId,
             querylang: queryLanguage,
-            querytext: query.text,
+            text: query.text,
             filename: record?.filename,
             fileext: record?.fileext,
         }

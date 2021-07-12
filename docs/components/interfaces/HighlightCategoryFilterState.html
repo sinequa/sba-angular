@@ -159,7 +159,6 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ElementRef } from &quot;@angular/core&quot;;
-import {BehaviorSubject} from &quot;rxjs&quot;;
 
 import { Utils } from &quot;@sinequa/core/base&quot;;
 
@@ -208,8 +207,6 @@ export class PreviewDocument {
     
     private previousElement: HTMLElement | null;
     
-    public loadComplete$ &#x3D; new BehaviorSubject&lt;boolean&gt;(true);
-
     constructor(element: ElementRef | Document){
         if (element instanceof ElementRef) {
             this._window &#x3D; element?.nativeElement?.contentWindow;

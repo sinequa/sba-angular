@@ -100,6 +100,10 @@ Example:
     <table class="table table-sm table-hover">
         <tbody>
 
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
 
 
 
@@ -234,9 +238,6 @@ iframe {
                                 <a href="#ngOnInit">ngOnInit</a>
                             </li>
                             <li>
-                                <a href="#onPreviewDoc">onPreviewDoc</a>
-                            </li>
-                            <li>
                                     <span class="modifier">Public</span>
                                 <a href="#onPreviewDocLoad">onPreviewDocLoad</a>
                             </li>
@@ -280,7 +281,7 @@ iframe {
                                 <a href="#onPreviewReady">onPreviewReady</a>
                             </li>
                             <li>
-                                <a href="#urlChange">urlChange</a>
+                                <a href="#pageChange">pageChange</a>
                             </li>
                         </ul>
                     </td>
@@ -298,12 +299,12 @@ iframe {
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(cdr: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>, zone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>, sanitizer: <a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank">DomSanitizer</a>)</code>
+<code>constructor(cdr: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>, sanitizer: <a href="https://angular.io/api/platform-browser/DomSanitizer" target="_blank">DomSanitizer</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">preview/preview-document-iframe.component.ts:78</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">preview/preview-document-iframe.component.ts:85</a></div>
                             </td>
                         </tr>
 
@@ -325,18 +326,6 @@ iframe {
                                                   
                                                         <td>
                                                                         <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>zone</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -383,7 +372,7 @@ iframe {
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">preview/preview-document-iframe.component.ts:67</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">preview/preview-document-iframe.component.ts:68</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -398,13 +387,13 @@ iframe {
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>string | null</code>
+                        <i>Type : </i>    <code>string | null | undefined</code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">preview/preview-document-iframe.component.ts:66</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">preview/preview-document-iframe.component.ts:67</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -430,7 +419,7 @@ iframe {
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">preview/preview-document-iframe.component.ts:68</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">preview/preview-document-iframe.component.ts:69</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -454,7 +443,7 @@ iframe {
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">preview/preview-document-iframe.component.ts:69</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">preview/preview-document-iframe.component.ts:70</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -463,8 +452,8 @@ iframe {
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="urlChange"></a>
-                        <b>urlChange</b>
+                        <a name="pageChange"></a>
+                        <b>pageChange</b>
                     </td>
                 </tr>
                 <tr>
@@ -475,7 +464,7 @@ iframe {
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">preview/preview-document-iframe.component.ts:70</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">preview/preview-document-iframe.component.ts:74</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -510,8 +499,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="114"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:114</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="140"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:140</a></div>
                 </td>
             </tr>
 
@@ -580,8 +569,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="155"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:155</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="175"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:175</a></div>
                 </td>
             </tr>
 
@@ -655,8 +644,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="146"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:146</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="167"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:167</a></div>
                 </td>
             </tr>
 
@@ -694,8 +683,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:126</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="152"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:152</a></div>
                 </td>
             </tr>
 
@@ -764,8 +753,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="122"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:122</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:148</a></div>
                 </td>
             </tr>
 
@@ -803,47 +792,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:118</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="onPreviewDoc"></a>
-                    <span class="name">
-                        <b>
-                            onPreviewDoc
-                        </b>
-                        <a href="#onPreviewDoc"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>onPreviewDoc()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="105"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:105</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:144</a></div>
                 </td>
             </tr>
 
@@ -883,8 +833,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:93</a></div>
                 </td>
             </tr>
 
@@ -922,8 +872,8 @@ iframe {
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="193"
-                            class="link-to-prism">preview/preview-document-iframe.component.ts:193</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="213"
+                            class="link-to-prism">preview/preview-document-iframe.component.ts:213</a></div>
                 </td>
             </tr>
 
@@ -960,18 +910,13 @@ iframe {
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>string | null</code>
+                            <i>Type : </i>    <code>string | null | undefined</code>
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>this.defaultSandbox</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">preview/preview-document-iframe.component.ts:75</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">preview/preview-document-iframe.component.ts:82</a></div>
                             </td>
                         </tr>
 
@@ -1003,7 +948,7 @@ iframe {
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">preview/preview-document-iframe.component.ts:65</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">preview/preview-document-iframe.component.ts:66</a></div>
                             </td>
                         </tr>
 
@@ -1039,7 +984,7 @@ iframe {
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">preview/preview-document-iframe.component.ts:71</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">preview/preview-document-iframe.component.ts:75</a></div>
                             </td>
                         </tr>
 
@@ -1061,7 +1006,7 @@ iframe {
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">preview/preview-document-iframe.component.ts:78</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">preview/preview-document-iframe.component.ts:85</a></div>
                             </td>
                         </tr>
 
@@ -1089,7 +1034,7 @@ iframe {
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">preview/preview-document-iframe.component.ts:74</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">preview/preview-document-iframe.component.ts:78</a></div>
                             </td>
                         </tr>
 
@@ -1125,7 +1070,7 @@ iframe {
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">preview/preview-document-iframe.component.ts:72</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">preview/preview-document-iframe.component.ts:76</a></div>
                             </td>
                         </tr>
 
@@ -1138,7 +1083,7 @@ iframe {
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild, OnChanges, SimpleChanges, AfterViewInit, NgZone, ChangeDetectorRef, OnInit, OnDestroy } from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild, OnChanges, SimpleChanges, AfterViewInit, ChangeDetectorRef, OnInit, OnDestroy, ChangeDetectionStrategy } from &quot;@angular/core&quot;;
 import { DomSanitizer, SafeResourceUrl } from &#x27;@angular/platform-browser&#x27;;
 import { Utils } from &quot;@sinequa/core/base&quot;;
 import { PreviewDocument } from &quot;./preview-document&quot;;
@@ -1172,6 +1117,7 @@ import { PreviewDocument } from &quot;./preview-document&quot;;
                     [style.--factor]&#x3D;&quot;scalingFactor&quot;
                     [ngStyle]&#x3D;&quot;{&#x27;-ms-zoom&#x27;: scalingFactor, &#x27;-moz-transform&#x27;: &#x27;scale(var(--factor))&#x27;, &#x27;-o-transform&#x27;: &#x27;scale(var(--factor))&#x27;, &#x27;-webkit-transform&#x27;: &#x27;scale(var(--factor))&#x27;}&quot;&gt;
                 &lt;/iframe&gt;&#x60;,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styles: [&#x60;
 :host{
     flex: 1;
@@ -1203,23 +1149,28 @@ iframe {
 })
 export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, AfterViewInit {
     defaultSandbox: string &#x3D; &quot;allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts&quot;;
-    @Input() sandbox: string | null;
+    @Input() sandbox: string | null | undefined;
     @Input() downloadUrl: string;
     @Input() scalingFactor: number &#x3D; 1.0;
     @Output() onPreviewReady &#x3D; new EventEmitter&lt;PreviewDocument&gt;();
-    @Output() urlChange &#x3D; new EventEmitter&lt;string&gt;();
+    
+    // page could change when location.href change or when user click on a tab (sheet case)
+    // when URL a string is sent otherwise a PreviewDocument
+    @Output() pageChange &#x3D; new EventEmitter&lt;string | PreviewDocument&gt;();
     @ViewChild(&#x27;documentFrame&#x27;, {static: true}) documentFrame: ElementRef;  // Reference to the preview HTML in the iframe
     @ContentChild(&#x27;tooltip&#x27;, {read: ElementRef, static: false}) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
     public sanitizedUrlSrc: SafeResourceUrl;
-    public _sandbox: string | null &#x3D; this.defaultSandbox;
+    // Must be undefined by default, because if a default value is set, 
+    // if we set it to undefined in the future, this new (undefined) value 
+    // is not used by the iFrame as if it used the previous value
+    public _sandbox: string | null | undefined;
     
     private previewDocument: PreviewDocument;
     readonly previewDocLoadHandler;
 
     constructor(
         private cdr: ChangeDetectorRef,
-        private zone: NgZone,
         private sanitizer: DomSanitizer) {
             this.previewDocLoadHandler &#x3D; this.onPreviewDocLoad.bind(this);
     }
@@ -1227,6 +1178,9 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     public onPreviewDocLoad() {
         
         if(this.downloadUrl &#x3D;&#x3D;&#x3D; undefined) return;
+        // previewDocument must be created here when document is fully loaded
+        // because in case of sheet, PreviewDocument constructor change.
+        this.previewDocument &#x3D; new PreviewDocument(this.documentFrame);
         
         // SVG highlight:
         //   background rectangle (highlight) were added to the SVG by the HTML generator (C#), but html generation is
@@ -1237,16 +1191,33 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
         } catch (error) {
             console.error(error);
         }
-        this.previewDocument.loadComplete$.next(true);
 
-        this.onPreviewDoc();
-    }
-    
-    onPreviewDoc() {
+        /* To catch tab&#x27;s sheet changes
+         * Sheet structure:
+         * &lt;iframe #preview&gt;
+         *      #document
+         *          ...
+         *          &lt;frameset&gt;
+         *              &lt;iframe name&#x3D;&quot;frSheet&quot;&gt; // current sheet displayed
+         *              &lt;iframe name&#x3D;&quot;frTabs&quot;&gt;  // contains all sheet&#x27;s tabs
+         *          &lt;/frameset&gt;
+         *          ...
+         * &lt;/iframe&gt;
+         */ 
+        const sheetFrame &#x3D; this.documentFrame.nativeElement.contentDocument.getElementsByName(&quot;frSheet&quot;);
+        if(sheetFrame.length &gt; 0) {
+            sheetFrame[0].removeEventListener(&quot;load&quot;, () &#x3D;&gt; {});
+            sheetFrame[0].addEventListener(&quot;load&quot;, () &#x3D;&gt; {
+                this.previewDocument &#x3D; new PreviewDocument(this.documentFrame);
+                this.pageChange.next(this.previewDocument);
+                this.cdr.markForCheck();
+            }, true);
+        }
+
         if (this.tooltip)
             this.addTooltip(this.previewDocument);
 
-        // Let upstream component know
+        // Let upstream component know document is now ready
         this.onPreviewReady.next(this.previewDocument);
         this.cdr.markForCheck();
     }
@@ -1264,22 +1235,17 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     }
 
     ngOnChanges(simpleChanges: SimpleChanges) {
-        if (simpleChanges.sandbox) {
-            this._sandbox &#x3D; (Utils.isString(this.sandbox) || this.sandbox &#x3D;&#x3D;&#x3D; null) ?
-                this.sandbox : this.defaultSandbox;
-        }
         if (simpleChanges.scalingFactor &amp;&amp; !simpleChanges.scalingFactor.firstChange) {
             return;
         }
 
         this.resetContent();
         if (simpleChanges.downloadUrl &amp;&amp; simpleChanges.downloadUrl.currentValue !&#x3D;&#x3D; undefined) {
-            this.zone.run(() &#x3D;&gt; {
-                this.sanitizedUrlSrc &#x3D; this.sanitizer.bypassSecurityTrustResourceUrl(this.downloadUrl);
-                this.previewDocument &#x3D; new PreviewDocument(this.documentFrame);
-                this.previewDocument.loadComplete$.next(false);
-                this.onPreviewDoc();
-            });
+            // set sandbox attribute only when downloadUrl is defined, so iframe is created without sandbox attribute
+            // if sandbox is null, keep sandbox attribute to undefined
+            // otherwise put sanbox value in the sanbox attribute or default sandbox value
+            this._sandbox &#x3D; (this.sandbox &#x3D;&#x3D;&#x3D; null) ? undefined : Utils.isString(this.sandbox) ? this.sandbox : this.defaultSandbox;
+            this.sanitizedUrlSrc &#x3D; this.sanitizer.bypassSecurityTrustResourceUrl(this.downloadUrl);
         }
     }
 
@@ -1287,8 +1253,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
         this.resetContent();
         this.iframeURLChange(this.documentFrame.nativeElement, (newURL: string) &#x3D;&gt; {
             this.previewDocument &#x3D; new PreviewDocument(this.documentFrame);
-            this.previewDocument.loadComplete$.next(false);
-            this.urlChange.next(newURL)
+            this.pageChange.next(newURL);
         });
     }
 
@@ -1396,7 +1361,7 @@ iframe {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><iframe #documentFrame    [attr.sandbox]="_sandbox"    [src]="sanitizedUrlSrc"    [style.--factor]="scalingFactor"    [ngStyle]="{\'-ms-zoom\': scalingFactor, \'-moz-transform\': \'scale(var(--factor))\', \'-o-transform\': \'scale(var(--factor))\', \'-webkit-transform\': \'scale(var(--factor))\'}"></iframe></div>'
-    var COMPONENTS = [{'name': 'AbstractFacet', 'selector': ''},{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAddLabel', 'selector': 'sq-add-label'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormInput', 'selector': 'sq-advanced-form-input'},{'name': 'BsAdvancedFormMultiInput', 'selector': 'sq-advanced-form-multi-input'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDeleteLabel', 'selector': 'sq-delete-label'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditLabel', 'selector': 'sq-edit-label'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetFilters', 'selector': 'sq-facet-filters'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTagCloud', 'selector': 'sq-facet-tag-cloud'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFieldSearchItemsComponent', 'selector': 'sq-field-search-items'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsAutocompleteComponent', 'selector': 'sq-labels-autocomplete'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLoadMore', 'selector': 'sq-load-more'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMySearch', 'selector': 'sq-facet-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPageFormComponent', 'selector': 'sq-preview-page-form'},{'name': 'BsPreviewPagesPanelComponent', 'selector': 'sq-preview-pages-panel'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsPrompt', 'selector': 'sq-prompt'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsScroller', 'selector': 'sq-scroller'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSelectionArranger', 'selector': 'sq-selection-arranger'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsThemeToggleComponent', 'selector': 'sq-theme-toggle'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'CommentsComponent', 'selector': 'sq-comments'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultEntitySummary', 'selector': 'sq-result-entity-summary'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMetadata', 'selector': 'sq-result-metadata'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'StickyComponent', 'selector': '[sqSticky]'},{'name': 'TooltipComponent', 'selector': 'sqx-tooltip'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
+    var COMPONENTS = [{'name': 'AbstractFacet', 'selector': ''},{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAddLabel', 'selector': 'sq-add-label'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormInput', 'selector': 'sq-advanced-form-input'},{'name': 'BsAdvancedFormMultiInput', 'selector': 'sq-advanced-form-multi-input'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertMessageComponent', 'selector': 'sq-alert-message'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDeleteLabel', 'selector': 'sq-delete-label'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditLabel', 'selector': 'sq-edit-label'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetFilters', 'selector': 'sq-facet-filters'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTagCloud', 'selector': 'sq-facet-tag-cloud'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFieldSearchItemsComponent', 'selector': 'sq-field-search-items'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsAutocompleteComponent', 'selector': 'sq-labels-autocomplete'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLoadMore', 'selector': 'sq-load-more'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMySearch', 'selector': 'sq-facet-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewPageFormComponent', 'selector': 'sq-preview-page-form'},{'name': 'BsPreviewPagesPanelComponent', 'selector': 'sq-preview-pages-panel'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsPrompt', 'selector': 'sq-prompt'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsScroller', 'selector': 'sq-scroller'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSelectionArranger', 'selector': 'sq-selection-arranger'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsThemeToggleComponent', 'selector': 'sq-theme-toggle'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'CommentsComponent', 'selector': 'sq-comments'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'StickyComponent', 'selector': '[sqSticky]'},{'name': 'TooltipComponent', 'selector': 'sqx-tooltip'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
     var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'AutocompleteFieldSearch', 'selector': '[sqAutocompleteFieldSearch]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sqAdvancedFormAutocomplete]'},{'name': 'BsAdvancedFormAutocompleteMultiInput', 'selector': '[sqAdvancedFormAutocompleteMultiInput]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sqAdvancedFormValidation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'FocusKeyListDirective', 'selector': '[sqFocusKeyList]'},{'name': 'FocusKeyListItemDirective', 'selector': '[sqFocusKeyListItem]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'MediaIf', 'selector': '[sqMediaIf]'},{'name': 'ResizeEventDirective', 'selector': '[sqResize]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'},{'name': 'TooltipDirective', 'selector': '[sqTooltip]'}];
     var ACTUAL_COMPONENT = {'name': 'PreviewDocumentIframe'};
 </script>
