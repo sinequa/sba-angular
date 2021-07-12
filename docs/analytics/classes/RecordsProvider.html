@@ -211,7 +211,7 @@ contains the fields &quot;Microsoft&quot; and &quot;Bill Gates&quot;).</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">network/providers/records-provider.ts:65</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">network/providers/records-provider.ts:74</a></div>
                             </td>
                         </tr>
 
@@ -327,7 +327,7 @@ contains the fields &quot;Microsoft&quot; and &quot;Bill Gates&quot;).</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">network/providers/records-provider.ts:68</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">network/providers/records-provider.ts:77</a></div>
                             </td>
                         </tr>
 
@@ -626,8 +626,8 @@ contains the fields &quot;Microsoft&quot; and &quot;Bill Gates&quot;).</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="256"
-                            class="link-to-prism">network/providers/records-provider.ts:256</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="265"
+                            class="link-to-prism">network/providers/records-provider.ts:265</a></div>
                 </td>
             </tr>
 
@@ -696,8 +696,8 @@ contains the fields &quot;Microsoft&quot; and &quot;Bill Gates&quot;).</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="331"
-                            class="link-to-prism">network/providers/records-provider.ts:331</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="340"
+                            class="link-to-prism">network/providers/records-provider.ts:340</a></div>
                 </td>
             </tr>
 
@@ -772,8 +772,8 @@ state.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="319"
-                            class="link-to-prism">network/providers/records-provider.ts:319</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="328"
+                            class="link-to-prism">network/providers/records-provider.ts:328</a></div>
                 </td>
             </tr>
 
@@ -811,8 +811,8 @@ state.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="269"
-                            class="link-to-prism">network/providers/records-provider.ts:269</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="278"
+                            class="link-to-prism">network/providers/records-provider.ts:278</a></div>
                 </td>
             </tr>
 
@@ -890,8 +890,8 @@ are collapsed.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="296"
-                            class="link-to-prism">network/providers/records-provider.ts:296</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="305"
+                            class="link-to-prism">network/providers/records-provider.ts:305</a></div>
                 </td>
             </tr>
 
@@ -1663,6 +1663,15 @@ export interface RecordNode extends Node {
 /**
  * An extension of the EdgeType interface to include properties specific to
  * structural edges (edge between a record and its metadata).
+ * 
+ * About trigger/display: At the moment, the Record provider always adds ALL nodes and edges
+ * to the dataset, but potentially with a visibility set to false. Some of the settings are
+ * not compatible with each other, and some take precedence over the others:
+ * - display&#x3D;existingnodes takes precedence over other settings, as it is implemented as
+ * a post-processing of the dataset (in onDatasetsMerged)
+ * - trigger&#x3D;onclick or manual take precedence over the other settings, as they set the
+ * visibility to false by false, until the user performs an action
+ * - trigger&#x3D;oninsert is compatible with the other display settings
  */
 export interface StructuralEdgeType extends EdgeType {
     /** Name of the field in the record */

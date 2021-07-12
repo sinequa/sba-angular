@@ -221,6 +221,10 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
     }
 
     //TODO remove
+    /**
+     * @deprecated use &quot;userSettings&quot; get property to retrieve the user settings
+     * @returns User settings object or undefined
+     */
     public getUserSettings(): UserSettings | undefined{
         return this.userSettings;
     }
@@ -264,9 +268,7 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
             $auditRecord: auditEvents
         });
         Utils.subscribe(observable,
-            (response) &#x3D;&gt; {
-                return response;
-            },
+            (response) &#x3D;&gt; response,
             (error) &#x3D;&gt; {
                 console.log(&quot;userSettingsService.save failure - error: &quot;, error);
             });
@@ -288,12 +290,28 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
             $auditRecord: auditEvents
         });
         Utils.subscribe(observable,
-            (response) &#x3D;&gt; {
-                return response;
-            },
+            (response) &#x3D;&gt; response,
             (error) &#x3D;&gt; {
                 console.log(&quot;userSettingsService.patch failure - error: &quot;, error);
             });
+        return observable;
+    }
+
+    /**
+     * Resets User Settings (emits a change event and audit events).
+     */
+    public reset() {
+        // Save current state
+        const currentState &#x3D; this.userSettings;
+        // Reset User settings (and emit an event!)
+        this.userSettings &#x3D; {};
+        const observable &#x3D; this.save({
+            type: &#x27;UserSettings_Reset&#x27;
+        });
+        observable.subscribe({
+            next: () &#x3D;&gt; {},
+            error: () &#x3D;&gt; this.userSettings &#x3D; currentState // Restore previous state
+        })
         return observable;
     }
 

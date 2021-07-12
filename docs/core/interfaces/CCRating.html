@@ -236,8 +236,6 @@ import {SqHttpClient} from &quot;./http-client&quot;;
 import {HttpService} from &quot;./http.service&quot;;
 import {START_CONFIG, StartConfig} from &quot;./start-config.web.service&quot;;
 import {Record} from &quot;./query.web.service&quot;;
-import {PrincipalWebService} from &quot;./principal.web.service&quot;;
-import {Utils} from &quot;@sinequa/core/base&quot;;
 import {AuditEventType} from &quot;./audit.web.service&quot;;
 
 /**
@@ -269,8 +267,7 @@ export interface UserRatingResponse {
 export class UserRatingsWebService extends HttpService {
     constructor(
         @Inject(START_CONFIG) startConfig: StartConfig,
-        private httpClient: SqHttpClient,
-        private principalWebService: PrincipalWebService) {
+        private httpClient: SqHttpClient) {
         super(startConfig);
     }
 
@@ -390,7 +387,7 @@ export class UserRatingsWebService extends HttpService {
      */
     getRecordRating(record: Record, config: CCRating): UserRatingResponse {
         return {
-            rating: this.parseUserRatingList(record[config.ratingsColumn], config),
+            rating: this.parseUserRating(record[config.ratingsColumn], config),
             averagerating: this.parseAverageRating(record[config.averageColumn], config)
         };
     }
@@ -404,37 +401,12 @@ export class UserRatingsWebService extends HttpService {
         }
     }
 
-    private parseUserRatingList(columnEntries: string[], config: CCRating): number {
-        const principal &#x3D; this.principalWebService.principal;
-        if (!principal) {
-            return -1;
-        }
-        const userid &#x3D; principal.userId;
-        if (!userid) {
-            return -1;
-        }
-        if (columnEntries &amp;&amp; userid) {
-            for (const entry of columnEntries) {
-                // Rating Entry is of the form: userid|ratingvalue
-                // Get the rating value
-                const i &#x3D; entry.lastIndexOf(&quot;|&quot;);
-
-                if (i &gt; -1) {
-                    // If first part matches userid
-                    if (Utils.eqNC(userid, entry.slice(0, i))) {
-                        const value &#x3D; entry.slice(i + 1);
-
-                        if (config.ratingsDistribution) {
-                            return config.ratingsDistribution.indexOf(value);
-                        }
-                        else {
-                            return -1;
-                        }
-                    }
-                }
+    private parseUserRating(ratingValues: string[], config: CCRating): number {
+        if(ratingValues) {
+            if (config.ratingsDistribution) {
+                return config.ratingsDistribution.indexOf(ratingValues[0]);
             }
         }
-
         return -1;
     }
 }

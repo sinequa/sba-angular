@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Components</title>
+        <title>Core</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,7 +13,7 @@
     <body>
 
         <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">Components</a>
+            <a href="../" class="navbar-brand">Core</a>
             <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
         </div>
 
@@ -43,7 +43,7 @@
 
 <ol class="breadcrumb">
   <li>Interfaces</li>
-  <li>EntityStats</li>
+  <li>PrincipalUserIdsParams</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>result/result-entity-summary/result-entity-summary.ts</code>
+            <code>web-services/principal.web.service.ts</code>
         </p>
 
 
@@ -80,16 +80,14 @@
                             <ul class="index-list">
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#column">column</a>
+                                        <a href="#limit">limit</a>
                                 </li>
                                 <li>
-                                        <a href="#expanded">expanded</a>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#offset">offset</a>
                                 </li>
                                 <li>
-                                        <a href="#highlight">highlight</a>
-                                </li>
-                                <li>
-                                        <a href="#values">values</a>
+                                        <a href="#userIds">userIds</a>
                                 </li>
                             </ul>
                         </td>
@@ -106,13 +104,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="column"></a>
-                                        <span class="name"><b>column</b><a href="#column"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="limit"></a>
+                                        <span class="name"><b>limit</b><a href="#limit"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>column:         <code><a href="../interfaces/Column.html" target="_self" >CCColumn</a></code>
+                                        <code>limit:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -120,7 +118,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../interfaces/Column.html" target="_self" >CCColumn</a></code>
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 
                                         </td>
                                     </tr>
@@ -140,13 +138,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="expanded"></a>
-                                        <span class="name"><b>expanded</b><a href="#expanded"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="offset"></a>
+                                        <span class="name"><b>offset</b><a href="#offset"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>expanded:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                        <code>offset:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -154,11 +152,16 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -169,13 +172,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="highlight"></a>
-                                        <span class="name"><b>highlight</b><a href="#highlight"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="userIds"></a>
+                                        <span class="name"><b>userIds</b><a href="#userIds"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>highlight:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                        <code>userIds:     <code>string[]</code>
 </code>
                                     </td>
                                 </tr>
@@ -183,36 +186,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                                        </td>
-                                    </tr>
-
-
-
-
-
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="values"></a>
-                                        <span class="name"><b>values</b><a href="#values"><span class="icon ion-ios-link"></span></a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>values:         <code><a href="../interfaces/EntityValue.html" target="_self" >EntityValue[]</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../interfaces/EntityValue.html" target="_self" >EntityValue[]</a></code>
+                                            <i>Type : </i>    <code>string[]</code>
 
                                         </td>
                                     </tr>
@@ -228,83 +202,179 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input, OnChanges} from &quot;@angular/core&quot;;
-import {Record, CCColumn} from &quot;@sinequa/core/web-services&quot;;
-import {AppService, ValueItem} from &quot;@sinequa/core/app-utils&quot;;
-import {SearchService} from &quot;@sinequa/components/search&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, OnDestroy} from &quot;@angular/core&quot;;
+import {Subject, Observable} from &quot;rxjs&quot;;
+import {pluck} from &quot;rxjs/operators&quot;;
+import {SqHttpClient} from &quot;./http-client&quot;;
+import {HttpService} from &quot;./http.service&quot;;
+import {START_CONFIG, StartConfig} from &quot;./start-config.web.service&quot;;
+import {Utils} from &quot;@sinequa/core/base&quot;;
 
-export interface EntityValue extends ValueItem {
-    display: string;
-    value: string;
-    locations?: Number[];
-    lengths?: Number[];
-    originalLocations?: Number[];
-    originalLengths?: Number[];
+/**
+ * Describes a Sinequa princpal
+ */
+export interface Principal {
+    id: string;
+    id2: string;
+    id3: string;
+    id4: string;
+    id5: string;
+    name: string;
+    email: string;
+    description: string;
+    longName: string;
+    userId: string;
+    fullName: string;
+    isAdministrator: boolean;
+    isDelegatedAdmin: boolean;
+    param1: string;
+    param2: string;
+    param3: string;
+    param4: string;
+    param5: string;
+    param6: string;
+    param7: string;
+    param8: string;
+    param9: string;
+    param10: string;
 }
 
-export interface EntityStats {
-    highlight: string;
-    column?: CCColumn;
-    values: EntityValue[];
-    expanded: boolean;
+export interface PrincipalUserInfo {
+    id: string;
+    userId: string;
+    name: string;
+    fullName: string;
+    longName: string;
+    email: string;
+    isUser: string;
+    isGroup: string;
 }
 
-@Component({
-    selector: &quot;sq-result-entity-summary&quot;,
-    templateUrl: &quot;./result-entity-summary.html&quot;,
-    styleUrls: [&quot;./result-entity-summary.css&quot;]
+export interface PrincipalParams {
+    offset?: number;    // 0
+    limit?: number;     // 10
+    isUser?: boolean;   // true
+    isGroup?: boolean;  // true
+    search?: string;    // search by name, fullname or email
+
+}
+
+export interface PrincipalUserIdsParams {
+    offset?: number;    // 0
+    limit?: number;     // 10
+    userIds: string[];
+}
+
+/**
+ * A base event from which all events that can be issued by the {@link PrincipalWebService} are derived
+ */
+export interface PrincipalEvent {
+    type: &quot;changed&quot;;
+}
+
+/**
+ * This event is fired each time the [principal]{@link PrincipalWebService#principal} member is modified.
+ * Typically this will be at login / logoff and also if the &quot;override user&quot; admin feature is used.
+ */
+export interface PrincipalChangedEvent extends PrincipalEvent {
+    type: &quot;changed&quot;;
+}
+
+/**
+ * A service for calling the principal web service
+ */
+@Injectable({
+    providedIn: &quot;root&quot;
 })
-export class ResultEntitySummary implements OnChanges {
-    @Input() record: Record;
-    @Input() highlightedEntities: string[];
-
-    entity_stats : EntityStats[];
+export class PrincipalWebService extends HttpService implements OnDestroy {
+    private _principal: Principal | undefined;
+    private _events &#x3D; new Subject&lt;PrincipalChangedEvent&gt;();
 
     constructor(
-        public searchService: SearchService,
-        public appService: AppService) {
+        @Inject(START_CONFIG) startConfig: StartConfig,
+        private httpClient: SqHttpClient) {
+        super(startConfig);
     }
 
-    ngOnChanges(){
+    ngOnDestroy() {
+        this._events.complete();
+    }
 
-        this.entity_stats &#x3D; [];
+    /**
+     * The observable events emitted by this service
+     */
+    get events(): Observable&lt;PrincipalChangedEvent&gt; {
+        return this._events;
+    }
 
-        this.highlightedEntities.forEach(highlight &#x3D;&gt; {
-            if(this.record[highlight]){
-                this.entity_stats.push({
-                    highlight: highlight,
-                    column : this.appService.getColumn(highlight),
-                    values : this.entityStats(this.record[highlight]),
-                    expanded : false
-                });
-            }
+    /**
+     * Gets the current {@link Principal}
+     */
+    get principal(): Principal | undefined {
+        return this._principal;
+    }
+
+    /**
+     * Sets the current {@link Principal} and issues the &quot;changed&quot; event
+     */
+    set principal(value: Principal | undefined) {
+        this._principal &#x3D; value;
+        this._events.next({type: &quot;changed&quot;});
+    }
+
+    /**
+     * Gets the list of user info (user or group)
+     *
+     * @param params query params to specify the search
+     * @returns list of user info
+     */
+    list(params?: PrincipalParams): Observable&lt;(PrincipalUserInfo | undefined)[]&gt; {
+        return this.httpClient.get&lt;(PrincipalUserInfo | undefined)[]&gt;(this.makeUrl(&quot;principal/list&quot;), {
+            params: this.makeParams({...params})
         });
-
     }
 
-    entityStats(raw_values : any[]) : EntityValue[]{
-        return raw_values.map( value &#x3D;&gt; {
-            if(!!value[&#x27;locations&#x27;] &amp;&amp; !!value[&quot;originalLocations&quot;]){
-                const locations &#x3D; value[&quot;locations&quot;].split(&#x27;,&#x27;).map(l &#x3D;&gt; +l);
-                const originalLocations &#x3D; value[&quot;originalLocations&quot;].split(&#x27;,&#x27;).map(l &#x3D;&gt; +l);
-                return {
-                    display : value[&quot;display&quot;],
-                    value : value[&quot;value&quot;],
-                    locations : locations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D;&#x3D; 0),
-                    lengths : locations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D;&#x3D; 1),
-                    originalLocations : originalLocations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D;&#x3D; 0),
-                    originalLengths: originalLocations.filter((v,i) &#x3D;&gt; i % 2 &#x3D;&#x3D;&#x3D; 1),
-                };
-            }
-            return value;
+    userId(userId: string): Observable&lt;Partial&lt;PrincipalUserInfo&gt;&gt; {
+        return this.httpClient.get&lt;Partial&lt;PrincipalUserInfo&gt;&gt;(this.makeUrl(&#x60;principal/userId/${userId}&#x60;));
+    }
+
+    userIds(params?: PrincipalUserIdsParams): Observable&lt;Partial&lt;PrincipalUserInfo[]&gt;&gt; {
+        return this.httpClient.post&lt;Partial&lt;PrincipalUserInfo&gt;&gt;(this.makeUrl(&quot;principal/userids&quot;), params).pipe(
+            pluck(&quot;principals&quot;)
+        );
+    }
+
+    /**
+     * Gets the principal from the server based on the current login credentials
+     *
+     * @param autoAuthenticate Determines whether the {@link HttpInterceptor} should perform HTTP 401 handling
+     * for this request
+     */
+    get(autoAuthenticate &#x3D; true): Observable&lt;Principal&gt; {
+        return this.httpClient.get&lt;Principal&gt;(this.makeUrl(&quot;principal&quot;), {
+            params: this.makeParams({
+                action: &quot;get&quot;,
+                noAutoAuthentication: !autoAuthenticate
+            })
         });
     }
 
-    entityClick(value : EntityValue, stat: EntityStats){
-        this.searchService.addFieldSelect(stat.highlight, value);
-        this.searchService.search();
+    /**
+     * Gets the principal from the server based on the current login credentials and sets the
+     * principal member
+     */
+    load(): Observable&lt;Principal&gt; {
+        const observable &#x3D; this.get();
+        Utils.subscribe(observable,
+            (response) &#x3D;&gt; {
+                this.principal &#x3D; response;
+                return response;
+            },
+            (error) &#x3D;&gt; {
+                console.log(&quot;principalService.get failure - error: &quot;, error);
+            });
+        return observable;
     }
-
 }
 </code></pre>
     </div>
@@ -333,7 +403,7 @@ export class ResultEntitySummary implements OnChanges {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
-            var COMPODOC_CURRENT_PAGE_URL = 'EntityStats.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'PrincipalUserIdsParams.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

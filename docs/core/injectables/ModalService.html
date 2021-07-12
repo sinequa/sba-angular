@@ -227,8 +227,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="407"
-                            class="link-to-prism">modal/modal.service.ts:407</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="404"
+                            class="link-to-prism">modal/modal.service.ts:404</a></div>
                 </td>
             </tr>
 
@@ -305,8 +305,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="428"
-                            class="link-to-prism">modal/modal.service.ts:428</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="425"
+                            class="link-to-prism">modal/modal.service.ts:425</a></div>
                 </td>
             </tr>
 
@@ -439,8 +439,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="453"
-                            class="link-to-prism">modal/modal.service.ts:453</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="450"
+                            class="link-to-prism">modal/modal.service.ts:450</a></div>
                 </td>
             </tr>
 
@@ -790,8 +790,8 @@ with the <code>ModalResult</code> when the modal is closed.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="416"
-                            class="link-to-prism">modal/modal.service.ts:416</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="413"
+                            class="link-to-prism">modal/modal.service.ts:413</a></div>
                 </td>
             </tr>
 
@@ -867,8 +867,8 @@ with the <code>ModalResult</code> when the modal is closed.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="480"
-                            class="link-to-prism">modal/modal.service.ts:480</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="477"
+                            class="link-to-prism">modal/modal.service.ts:477</a></div>
                 </td>
             </tr>
 
@@ -1006,7 +1006,7 @@ with the <code>ModalResult</code> when the modal is closed.</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, Inject, Type, Injector, InjectionToken} from &quot;@angular/core&quot;;
 import {FormGroup, ValidatorFn} from &quot;@angular/forms&quot;;
 import {Overlay, OverlayConfig, OverlayRef} from &#x27;@angular/cdk/overlay&#x27;;
-import {ComponentPortal, PortalInjector} from &#x27;@angular/cdk/portal&#x27;;
+import {ComponentPortal} from &#x27;@angular/cdk/portal&#x27;;
 import {Utils, Keys} from &quot;@sinequa/core/base&quot;;
 import {MessageParams} from &quot;@sinequa/core/intl&quot;; // Dependency to INTL !
 import {ModalRef, IModalRef} from &quot;./modal-ref&quot;;
@@ -1369,21 +1369,18 @@ export class ModalService {
     }
 
     private attachDialogContainer(component: Type&lt;any&gt;, overlayRef: OverlayRef, config: ModalConfig, modalRef: ModalRef) {
-        const injector &#x3D; this.createInjector(config, modalRef);
-
+        // PortalInjector() is deprecated
+        const injector &#x3D; Injector.create({
+            providers:[
+                {provide: ModalRef, useValue: modalRef},
+                {provide: MODAL_MODEL, useValue: config.model}
+            ], 
+            parent:this.injector
+        });
         const containerPortal &#x3D; new ComponentPortal(component, null, injector);
         const containerRef &#x3D; overlayRef.attach&lt;Type&lt;any&gt;&gt;(containerPortal);
 
         return containerRef.instance;
-    }
-
-    private createInjector(config: ModalConfig, modalRef: ModalRef): PortalInjector {
-        const injectionTokens &#x3D; new WeakMap();
-
-        injectionTokens.set(ModalRef, modalRef);
-        injectionTokens.set(MODAL_MODEL, config.model);
-
-        return new PortalInjector(this.injector, injectionTokens);
     }
 
     private getOverlayConfig(config: ModalConfig): OverlayConfig {

@@ -149,7 +149,7 @@ By default, the <a href="../components/ValidationMessageComponent.html">Validati
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">validation/validation.directive.ts:69</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">validation/validation.directive.ts:70</a></div>
                             </td>
                         </tr>
 
@@ -277,8 +277,8 @@ By default, the <a href="../components/ValidationMessageComponent.html">Validati
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="200"
-                            class="link-to-prism">validation/validation.directive.ts:200</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="201"
+                            class="link-to-prism">validation/validation.directive.ts:201</a></div>
                 </td>
             </tr>
 
@@ -320,8 +320,8 @@ is loaded to display an error message.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="79"
-                            class="link-to-prism">validation/validation.directive.ts:79</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">validation/validation.directive.ts:80</a></div>
                 </td>
             </tr>
 
@@ -413,6 +413,7 @@ export class ValidationDirective implements OnInit, DoCheck {
     private valid: boolean;
     private dirty: boolean;
     private error?: string;
+    private errorInfo?: string;
 
     constructor(
         @Inject(VALIDATION_MESSAGE_COMPONENT) private validationMessageComponent: Type&lt;any&gt;,
@@ -549,10 +550,12 @@ export class ValidationDirective implements OnInit, DoCheck {
         }
         if (this.valid &#x3D;&#x3D;&#x3D; this.control.valid &amp;&amp; this.dirty &#x3D;&#x3D;&#x3D; this.control.dirty) {
             const firstError &#x3D; this.getFirstError();
-            if (firstError &#x3D;&#x3D;&#x3D; this.error) {
+            const errorInfo &#x3D; this.getErrorInfo(firstError);
+            if (firstError &#x3D;&#x3D;&#x3D; this.error &amp;&amp; errorInfo &#x3D;&#x3D;&#x3D; this.errorInfo) {
                 return;
             }
             this.error &#x3D; firstError;
+            this.errorInfo &#x3D; errorInfo;
         }
         this.valid &#x3D; this.control.valid;
         this.dirty &#x3D; this.control.dirty;

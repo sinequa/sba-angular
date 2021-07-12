@@ -102,13 +102,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/BsTimelineModule.html" data-type="entity-link">BsTimelineModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-BsTimelineModule-df9d346c7069edd16616acc44160d1f2"' : 'data-target="#xs-components-links-module-BsTimelineModule-df9d346c7069edd16616acc44160d1f2"' }>
+                                            'data-target="#components-links-module-BsTimelineModule-f0de74bdb3f00a7854c093c21600615d"' : 'data-target="#xs-components-links-module-BsTimelineModule-f0de74bdb3f00a7854c093c21600615d"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsTimelineModule-df9d346c7069edd16616acc44160d1f2"' :
-                                            'id="xs-components-links-module-BsTimelineModule-df9d346c7069edd16616acc44160d1f2"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsTimelineModule-f0de74bdb3f00a7854c093c21600615d"' :
+                                            'id="xs-components-links-module-BsTimelineModule-f0de74bdb3f00a7854c093c21600615d"' }>
                                             <li class="link">
                                                 <a href="components/BsFacetTimelineComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsFacetTimelineComponent</a>
@@ -116,6 +116,10 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                             <li class="link">
                                                 <a href="components/BsTimelineComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsTimelineComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TimelineLegendComponent.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">TimelineLegendComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -387,6 +391,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/TimelineEventAggregation.html" data-type="entity-link">TimelineEventAggregation</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/TimelineEventType.html" data-type="entity-link">TimelineEventType</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/TimelineRecords.html" data-type="entity-link">TimelineRecords</a>

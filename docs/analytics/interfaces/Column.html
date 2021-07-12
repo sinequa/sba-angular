@@ -177,6 +177,7 @@ import { SelectionEventType, SelectionService } from &quot;@sinequa/components/s
 import { UserPreferences } from &quot;@sinequa/components/user-settings&quot;;
 import { UIService } from &quot;@sinequa/components/utils&quot;;
 import { AppService, FormatService, Query } from &quot;@sinequa/core/app-utils&quot;;
+import { Utils } from &quot;@sinequa/core/base&quot;;
 import { IntlService } from &quot;@sinequa/core/intl&quot;;
 import { ModalService } from &quot;@sinequa/core/modal&quot;;
 import { Results, Record, CCColumn, EngineType } from &quot;@sinequa/core/web-services&quot;;
@@ -335,6 +336,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     createColumns() {
         this.colDefs &#x3D; this.columns?.map((col,i) &#x3D;&gt; {
 
+            col &#x3D; Utils.extend({}, col);
             col.$column &#x3D; this.appService.getColumn(col.field);
 
             col.tooltipValueGetter &#x3D; col.tooltipValueGetter || this.tooltipValueGetter;
@@ -372,6 +374,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
 
         // Populate the columnsAction: for each column we toggle the &quot;hide&quot; property and persist that preference
         this.columnsAction.children &#x3D; this.colDefs.map(col &#x3D;&gt; new Action({
+            name: col.field,
             text: col.headerName,
             selected: !col.hide,
             action: (action, event) &#x3D;&gt; {
@@ -394,7 +397,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     createRows() {
         if(this.gridApi &amp;&amp; this.gridColumnApi) {
             // Reset sorting &amp; filtering
-            this.resetState();
+            this.resetVolatileState();
             // Create a new datasource
             this.datasource &#x3D; this.makeDatasource();
             // Apply to the grid
@@ -451,13 +454,45 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     // User actions
 
     /**
-     * Reset filtering, sorting and column width
+     * Reset filtering, sorting, column width and order
      */
-     resetState() {
+    resetState() {
+        // clear filters
         this.gridApi?.setFilterModel({});
-        this.gridColumnApi?.applyColumnState({defaultState:{
-            sort: null, width: this.defaultColumnWidth
-        }});
+        // clear sort, width, visiblity, order
+        this.gridColumnApi?.applyColumnState({
+            defaultState:{
+                sort: null,
+                width: this.defaultColumnWidth
+            },
+            state: this.columns.map(c &#x3D;&gt; {
+                // Delete the visibility preference
+                this.prefs.delete(&quot;ag-grid-hide-&quot;+c.field, true);
+                // Update the visibility action
+                const visibilityAction &#x3D; this.columnsAction.children?.find(a &#x3D;&gt; a.name &#x3D;&#x3D;&#x3D; c.field);
+                if(visibilityAction) {
+                    visibilityAction.selected &#x3D; !c.hide;
+                }
+                return {
+                    colId: c.field, // Resets the ordering
+                    hide: !!c.hide // Resets the visibility
+                };
+            }),
+            applyOrder: true
+        });
+        // Sync to apply the new visibility preference
+        this.prefs.sync();
+    }
+
+    /**
+     * Reset only the &quot;volatile&quot; state (filtering and sorting),
+     * But keep the columns width, order and visibility
+     */
+    resetVolatileState() {
+        this.gridApi?.setFilterModel({});
+        this.gridColumnApi?.applyColumnState({
+            defaultState:{ sort: null }
+        });
     }
 
     /**

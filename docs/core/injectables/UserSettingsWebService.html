@@ -126,6 +126,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#reset">reset</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#save">save</a>
                             </li>
                             <li>
@@ -253,8 +257,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="88"
-                            class="link-to-prism">web-services/user-settings.web.service.ts:88</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="92"
+                            class="link-to-prism">web-services/user-settings.web.service.ts:92</a></div>
                 </td>
             </tr>
 
@@ -262,8 +266,14 @@
             <tr>
                 <td class="col-md-4">
 
+                    <div>
+                    </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="../interfaces/UserSettings.html" target="_self" >UserSettings | undefined</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>User settings object or undefined</p>
 
                     </div>
                 </td>
@@ -294,8 +304,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="96"
-                            class="link-to-prism">web-services/user-settings.web.service.ts:96</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">web-services/user-settings.web.service.ts:100</a></div>
                 </td>
             </tr>
 
@@ -377,8 +387,8 @@ Sets the userSettings member and issues the &quot;changed&quot; event</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="147"
-                            class="link-to-prism">web-services/user-settings.web.service.ts:147</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="149"
+                            class="link-to-prism">web-services/user-settings.web.service.ts:149</a></div>
                 </td>
             </tr>
 
@@ -473,8 +483,8 @@ object is used to update the user settings on the server according to <a href="h
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="169"
-                            class="link-to-prism">web-services/user-settings.web.service.ts:169</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="187"
+                            class="link-to-prism">web-services/user-settings.web.service.ts:187</a></div>
                 </td>
             </tr>
 
@@ -532,6 +542,49 @@ object is used to update the user settings on the server according to <a href="h
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="reset"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Public</span>
+                            reset
+                        </b>
+                        <a href="#reset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>reset()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="167"
+                            class="link-to-prism">web-services/user-settings.web.service.ts:167</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Resets User Settings (emits a change event and audit events).</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="save"></a>
                     <span class="name">
                         <b>
@@ -552,8 +605,8 @@ object is used to update the user settings on the server according to <a href="h
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="123"
-                            class="link-to-prism">web-services/user-settings.web.service.ts:123</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="127"
+                            class="link-to-prism">web-services/user-settings.web.service.ts:127</a></div>
                 </td>
             </tr>
 
@@ -1050,6 +1103,10 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
     }
 
     //TODO remove
+    /**
+     * @deprecated use &quot;userSettings&quot; get property to retrieve the user settings
+     * @returns User settings object or undefined
+     */
     public getUserSettings(): UserSettings | undefined{
         return this.userSettings;
     }
@@ -1093,9 +1150,7 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
             $auditRecord: auditEvents
         });
         Utils.subscribe(observable,
-            (response) &#x3D;&gt; {
-                return response;
-            },
+            (response) &#x3D;&gt; response,
             (error) &#x3D;&gt; {
                 console.log(&quot;userSettingsService.save failure - error: &quot;, error);
             });
@@ -1117,12 +1172,28 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
             $auditRecord: auditEvents
         });
         Utils.subscribe(observable,
-            (response) &#x3D;&gt; {
-                return response;
-            },
+            (response) &#x3D;&gt; response,
             (error) &#x3D;&gt; {
                 console.log(&quot;userSettingsService.patch failure - error: &quot;, error);
             });
+        return observable;
+    }
+
+    /**
+     * Resets User Settings (emits a change event and audit events).
+     */
+    public reset() {
+        // Save current state
+        const currentState &#x3D; this.userSettings;
+        // Reset User settings (and emit an event!)
+        this.userSettings &#x3D; {};
+        const observable &#x3D; this.save({
+            type: &#x27;UserSettings_Reset&#x27;
+        });
+        observable.subscribe({
+            next: () &#x3D;&gt; {},
+            error: () &#x3D;&gt; this.userSettings &#x3D; currentState // Restore previous state
+        })
         return observable;
     }
 

@@ -931,6 +931,15 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/PrincipalEvent.html" data-type="entity-link">PrincipalEvent</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/PrincipalParams.html" data-type="entity-link">PrincipalParams</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/PrincipalUserIdsParams.html" data-type="entity-link">PrincipalUserIdsParams</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/PrincipalUserInfo.html" data-type="entity-link">PrincipalUserInfo</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/ProcessedCredentials.html" data-type="entity-link">ProcessedCredentials</a>
                             </li>
                             <li class="link">

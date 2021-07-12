@@ -478,8 +478,8 @@ this.userPreferences.sync()</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">user-settings/user-preferences.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">user-settings/user-preferences.ts:69</a></div>
                 </td>
             </tr>
 
@@ -560,9 +560,11 @@ export class UserPreferences {
      * @param skipSync whether we should skyp syncing (to update multiple properties for example)
      */
     public delete(property: string, skipSync?: boolean) {
-        this.prefs[property.toLowerCase()] &#x3D; null;
-        if(!skipSync){
-            this.sync();
+        if(Object.prototype.hasOwnProperty.call(this.prefs, property.toLowerCase())) {
+            this.prefs[property.toLowerCase()] &#x3D; null;
+            if(!skipSync){
+                this.sync();
+            }
         }
     }
 

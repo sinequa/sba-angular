@@ -140,7 +140,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="692" class="link-to-prism">web-services/query.web.service.ts:692</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="700" class="link-to-prism">web-services/query.web.service.ts:700</a></div>
                             </td>
                         </tr>
 
@@ -219,8 +219,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="735"
-                            class="link-to-prism">web-services/query.web.service.ts:735</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="743"
+                            class="link-to-prism">web-services/query.web.service.ts:743</a></div>
                 </td>
             </tr>
 
@@ -314,8 +314,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="708"
-                            class="link-to-prism">web-services/query.web.service.ts:708</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="716"
+                            class="link-to-prism">web-services/query.web.service.ts:716</a></div>
                 </td>
             </tr>
 
@@ -595,7 +595,7 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="695" class="link-to-prism">web-services/query.web.service.ts:695</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="703" class="link-to-prism">web-services/query.web.service.ts:703</a></div>
                             </td>
                         </tr>
 
@@ -707,6 +707,10 @@ export interface Results {
      * The name of the {@link IQuery} that produced these results
      */
     queryName: string;
+    /**
+     * SQL statements executed by the query web service
+     */
+    statements: string[];
 }
 
 /**
@@ -1034,11 +1038,15 @@ export interface EntityItem {
     /**
      * The locations of this item in the document text in the form &#x60;row1,col1;row2,col2;...&#x60;
      */
-    locations: string;
+    locations?: string;
     /**
      * The remapped locations of this item in the original document in the form &#x60;row1,col1;row2,col2;...&#x60;
      */
-    originalLocations: string;
+    originalLocations?: string;
+    /**
+     * Following ES-11166, the number of occurrence of this entity in the document can be included
+     */
+    count?: number;
 }
 
 /**

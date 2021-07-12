@@ -87,7 +87,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="639" class="link-to-prism">web-services/query.web.service.ts:639</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="647" class="link-to-prism">web-services/query.web.service.ts:647</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -203,6 +203,10 @@ export interface Results {
      * The name of the {@link IQuery} that produced these results
      */
     queryName: string;
+    /**
+     * SQL statements executed by the query web service
+     */
+    statements: string[];
 }
 
 /**
@@ -530,11 +534,15 @@ export interface EntityItem {
     /**
      * The locations of this item in the document text in the form &#x60;row1,col1;row2,col2;...&#x60;
      */
-    locations: string;
+    locations?: string;
     /**
      * The remapped locations of this item in the original document in the form &#x60;row1,col1;row2,col2;...&#x60;
      */
-    originalLocations: string;
+    originalLocations?: string;
+    /**
+     * Following ES-11166, the number of occurrence of this entity in the document can be included
+     */
+    count?: number;
 }
 
 /**

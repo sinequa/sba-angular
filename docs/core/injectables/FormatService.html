@@ -117,6 +117,9 @@ Sinequa search results.</p>
                                 <a href="#formatMoney">formatMoney</a>
                             </li>
                             <li>
+                                <a href="#formatRaw">formatRaw</a>
+                            </li>
+                            <li>
                                 <a href="#formatValue">formatValue</a>
                             </li>
                             <li>
@@ -151,7 +154,7 @@ Sinequa search results.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">app-utils/format.service.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">app-utils/format.service.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -216,8 +219,8 @@ Sinequa search results.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="257"
-                            class="link-to-prism">app-utils/format.service.ts:257</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="263"
+                            class="link-to-prism">app-utils/format.service.ts:263</a></div>
                 </td>
             </tr>
 
@@ -310,8 +313,8 @@ By default, this method calls <a href="#formatValue">formatValue</a> and <a href
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">app-utils/format.service.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">app-utils/format.service.ts:64</a></div>
                 </td>
             </tr>
 
@@ -388,8 +391,8 @@ The display values are defined in the <a href="../modules/IntlModule.html">IntlM
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">app-utils/format.service.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">app-utils/format.service.ts:74</a></div>
                 </td>
             </tr>
 
@@ -466,8 +469,8 @@ in the <a href="../modules/IntlModule.html">IntlModule</a> message files</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="117"
-                            class="link-to-prism">app-utils/format.service.ts:117</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">app-utils/format.service.ts:118</a></div>
                 </td>
             </tr>
 
@@ -521,6 +524,79 @@ USD 42069 =&gt; USD 42K</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="formatRaw"></a>
+                    <span class="name">
+                        <b>
+                            formatRaw
+                        </b>
+                        <a href="#formatRaw"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>formatRaw(value: <a href="../interfaces/ValueItem.html">ValueItem | FieldValue</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="307"
+                            class="link-to-prism">app-utils/format.service.ts:307</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Display a raw value without applying any formatting
+(besides the native toString() method for non-string values)</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                                <code><a href="../interfaces/ValueItem.html" target="_self" >ValueItem | FieldValue</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="formatValue"></a>
                     <span class="name">
                         <b>
@@ -539,8 +615,8 @@ USD 42069 =&gt; USD 42K</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">app-utils/format.service.ts:130</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="131"
+                            class="link-to-prism">app-utils/format.service.ts:131</a></div>
                 </td>
             </tr>
 
@@ -634,8 +710,8 @@ formatting. The standard formatters are <code>language</code> and <code>memorysi
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="291"
-                            class="link-to-prism">app-utils/format.service.ts:291</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="297"
+                            class="link-to-prism">app-utils/format.service.ts:297</a></div>
                 </td>
             </tr>
 
@@ -734,8 +810,8 @@ formatting. The standard formatters are <code>language</code> and <code>memorysi
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="271"
-                            class="link-to-prism">app-utils/format.service.ts:271</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="277"
+                            class="link-to-prism">app-utils/format.service.ts:277</a></div>
                 </td>
             </tr>
 
@@ -829,8 +905,8 @@ processing by the <a href="../modules/ValidationModule.html">ValidationModule</a
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="229"
-                            class="link-to-prism">app-utils/format.service.ts:229</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="235"
+                            class="link-to-prism">app-utils/format.service.ts:235</a></div>
                 </td>
             </tr>
 
@@ -927,7 +1003,7 @@ The standard formatters are <code>uppercase</code>, <code>upperfirst</code>, <co
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">app-utils/format.service.ts:106</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="107" class="link-to-prism">app-utils/format.service.ts:107</a></div>
                             </td>
                         </tr>
 
@@ -961,7 +1037,7 @@ The standard formatters are <code>uppercase</code>, <code>upperfirst</code>, <co
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">app-utils/format.service.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">app-utils/format.service.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -987,7 +1063,7 @@ The standard formatters are <code>uppercase</code>, <code>upperfirst</code>, <co
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">app-utils/format.service.ts:109</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">app-utils/format.service.ts:110</a></div>
                             </td>
                         </tr>
 
@@ -1020,6 +1096,7 @@ import {format} from &quot;d3-format&quot;;
 export interface ValueItem {
     value: FieldValue;
     display?: string;
+    count?: number; // Following ES-11166, the number of occurrence for an entity can be included
 }
 
 /**
@@ -1148,6 +1225,11 @@ export class FormatService {
                 case &quot;money&quot;:
                     if(Utils.isString(value)) {
                         return this.formatMoney(value);
+                    }
+                    else if(Utils.isArray(value)) {
+                        return value.map(v &#x3D;&gt; 
+                            this.formatMoney(Utils.isString(v)? v : v.value)
+                        ).join(&#x27;, &#x27;);
                     }
                     break;
             }
@@ -1298,6 +1380,20 @@ export class FormatService {
      */
     parseMemorySize(str: string, _default &#x3D; 0): number {
         return Utils.toSize(str, _default);
+    }
+
+    /**
+     * Display a raw value without applying any formatting
+     * (besides the native toString() method for non-string values)
+     * @param value 
+     * @returns 
+     */
+    formatRaw(value: ValueItem | FieldValue): string {
+        let [val] &#x3D; this.getValueAndDisplay(value);
+        if(Utils.isArray(val)) {
+            return val.map(v &#x3D;&gt; Utils.isString(v)? v : v.value).join(&#x27;;&#x27;);
+        }
+        return val?.toString();
     }
 }
 </code></pre>

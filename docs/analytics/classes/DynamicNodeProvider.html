@@ -378,7 +378,7 @@ provider accordingly.</p>
                             </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:68</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:77</a></code>
 </div>
                             </td>
                         </tr>
@@ -678,8 +678,8 @@ provider accordingly.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="210"
-                            class="link-to-prism">network/providers/dynamic-node-provider.ts:210</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="211"
+                            class="link-to-prism">network/providers/dynamic-node-provider.ts:211</a></div>
                 </td>
             </tr>
 
@@ -839,7 +839,7 @@ with a &quot;manual&quot; trigger.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:256</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:265</a></code>
 </div>
                 </td>
             </tr>
@@ -915,7 +915,7 @@ with a &quot;manual&quot; trigger.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:331</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:340</a></code>
 </div>
                 </td>
             </tr>
@@ -997,7 +997,7 @@ state.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:319</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:328</a></code>
 </div>
                 </td>
             </tr>
@@ -1042,7 +1042,7 @@ state.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:269</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:278</a></code>
 </div>
                 </td>
             </tr>
@@ -1127,7 +1127,7 @@ are collapsed.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:296</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:305</a></code>
 </div>
                 </td>
             </tr>
@@ -2081,6 +2081,7 @@ export class DynamicNodeProvider extends RecordsProvider {
      * @param node The clicked node
      */
     onNodeClicked(node?: RecordNode) {
+        super.onNodeClicked(node);
         if(this.active &amp;&amp; this.nodeType.trigger &#x3D;&#x3D;&#x3D; &quot;onclick&quot; &amp;&amp; node &amp;&amp; node.type &#x3D;&#x3D;&#x3D; this.nodeType &amp;&amp; this.processedNodes.indexOf(node.id) &#x3D;&#x3D;&#x3D; -1) {
             this.processNode(node);
         }

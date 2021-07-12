@@ -285,20 +285,11 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
    */
   ngOnChanges(changes: SimpleChanges) {
     this.extracts &#x3D; [];
-    if (this.previewData &amp;&amp; changes[&#x27;previewDocument&#x27;] &amp;&amp; changes[&#x27;previewDocument&#x27;].firstChange) {
-      if (!this.loadCompleteSubscription){
-        this.loadCompleteSubscription &#x3D; this.previewDocument.loadComplete$.subscribe(value &#x3D;&gt; {
-          if(this.previewData) {
-            const extracts &#x3D; this.previewData.highlightsPerCategory[&quot;extractslocations&quot;]?.values; //Extract locations Array ordered by &quot;relevance&quot;
-            if (!!extracts &amp;&amp; extracts.length &gt; 0) {
-              this.loading &#x3D; false;
-
-              if (value) {
-                this.extractAll(extracts, this.previewDocument)
-              }
-            }
-          }
-        });
+    if (this.previewData &amp;&amp; this.previewDocument) {
+      const extracts &#x3D; this.previewData.highlightsPerCategory[&quot;extractslocations&quot;]?.values; //Extract locations Array ordered by &quot;relevance&quot;
+      if (!!extracts &amp;&amp; extracts.length &gt; 0) {
+        this.extractAll(extracts, this.previewDocument);
+        return;
       }
     }
     
@@ -307,7 +298,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
       if(!!extracts &amp;&amp; extracts.length &gt; 0){
         this.loading &#x3D; true;
 
-        if (this.previewDocument.loadComplete$.value) {
+        if (this.previewDocument) {
           this.extractAll(extracts, this.previewDocument)
         } else {
           this.previewService.getHtmlPreview(this.downloadUrl)
@@ -327,7 +318,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
     let previewDocument &#x3D; new PreviewDocument(doc);
 
     const count &#x3D; previewDocument.document.querySelectorAll(&quot;[id^&#x3D;&#x27;extractslocations&#x27;]&quot;).length;
-    if (count &#x3D;&#x3D;&#x3D; 0) {
+    if (count &#x3D;&#x3D;&#x3D; 0 &amp;&amp; this.previewDocument) {
       // use previous document to retrieve extracts
       previewDocument &#x3D; this.previewDocument;
     }

@@ -379,7 +379,7 @@ provider accordingly.</p>
                             </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:68</a></code>
+                                    <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:77</a></code>
 </div>
                             </td>
                         </tr>
@@ -679,8 +679,8 @@ provider accordingly.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="201"
-                            class="link-to-prism">network/providers/dynamic-edge-provider.ts:201</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="202"
+                            class="link-to-prism">network/providers/dynamic-edge-provider.ts:202</a></div>
                 </td>
             </tr>
 
@@ -840,7 +840,7 @@ is &quot;manual&quot;.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:256</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:265</a></code>
 </div>
                 </td>
             </tr>
@@ -916,7 +916,7 @@ is &quot;manual&quot;.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:331</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:340</a></code>
 </div>
                 </td>
             </tr>
@@ -998,7 +998,7 @@ state.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:319</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:328</a></code>
 </div>
                 </td>
             </tr>
@@ -1043,7 +1043,7 @@ state.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:269</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:278</a></code>
 </div>
                 </td>
             </tr>
@@ -1128,7 +1128,7 @@ are collapsed.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:296</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/RecordsProvider.html#source" target="_self" >RecordsProvider:305</a></code>
 </div>
                 </td>
             </tr>
@@ -2073,6 +2073,7 @@ export class DynamicEdgeProvider extends RecordsProvider {
      * @param node The clicked node
      */
     onNodeClicked(node?: Node) {
+        super.onNodeClicked(node);
         if(this.active &amp;&amp; this.edgeType.trigger &#x3D;&#x3D;&#x3D; &quot;onclick&quot; &amp;&amp; node &amp;&amp; node.type &#x3D;&#x3D;&#x3D; this.edgeType.nodeTypes[0] &amp;&amp; !this.dataset.hasNode(node.id)) {
             this.processNode(node);
         }

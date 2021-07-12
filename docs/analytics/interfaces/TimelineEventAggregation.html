@@ -267,6 +267,7 @@ import { Action } from &#x27;@sinequa/components/action&#x27;;
 import { TimelineSeries, TimelineDate, TimelineEvent } from &#x27;./timeline.component&#x27;;
 import moment from &#x27;moment&#x27;;
 import * as d3 from &#x27;d3&#x27;;
+import { TimelineEventType } from &#x27;./timeline-legend.component&#x27;;
 
 export interface TimelineAggregation {
     name?: string;
@@ -328,12 +329,18 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
     @Input() width &#x3D; 600;
     @Input() height &#x3D; 200;
-    @Input() margin &#x3D; {top: 15, bottom: 30, left: 40, right: 15};
+    @Input() margin &#x3D; {top: 15, bottom: 20, left: 40, right: 15};
 
     @Input() curveType &#x3D; &quot;curveMonotoneX&quot;;
 
     @Input() showTooltip &#x3D; true;
     @Input() theme: &quot;light&quot; | &quot;dark&quot; &#x3D; &quot;light&quot;;
+
+    @Input() showLegend &#x3D; false;
+    @Input() legendStyles?: {[key:string]: any} &#x3D; {&#x27;justify-content&#x27; : &#x27;center&#x27;};
+    @Input() legendEvents?: TimelineEventType[];
+    @Input() legendOrientation?: &quot;row&quot;|&quot;column&quot; &#x3D; &quot;row&quot;;
+    @Input() legendYOffset?: number &#x3D; 3;
 
     @Output() eventClicked &#x3D; new EventEmitter&lt;TimelineEvent&gt;();
 
@@ -407,6 +414,11 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
     ngOnChanges(changes: SimpleChanges) {
 
+        // Skip simple changes (width, height, etc.) that don&#x27;t require modifying the timeline data
+        if(!changes.timeseries &amp;&amp; !changes.events &amp;&amp; !changes.results) {
+            return;
+        }
+
         // Retrieve the current active selection for this timeline (if any)
         const select &#x3D; this.searchService.query.findSelect(this.name);
 
@@ -419,6 +431,14 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
                 }
                 if(parsedexpr.values){
                     this.selection &#x3D; [new Date(parsedexpr.values[0]), new Date(parsedexpr.values[1])];
+                    // Guess a current range based on the selection
+                    if(!this.currentRange) {
+                        const interval &#x3D; this.selection[1].getTime() - this.selection[0].getTime();
+                        this.currentRange &#x3D; [ // Selected Interval +10% on each side
+                            new Date(this.selection[0].getTime()-interval*0.1),
+                            new Date(this.selection[1].getTime()+interval*0.1)
+                        ];
+                    }
                 }
             }
         }
@@ -705,7 +725,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
 
         // Note: updateCombinedAggregation() compares currentRange and range
         // So this update must be kept after the forEach
-        this.currentRange &#x3D; range;        
+        this.currentRange &#x3D; range;
     }
 
     /**
