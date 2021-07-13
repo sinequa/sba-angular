@@ -1,14 +1,15 @@
 {
     "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "baseUrl": "..",
+        "baseUrl": ".",
+        "rootDir": "..",
         "paths": {
-            "@sinequa/core": ["core/public-api"],
-            "@sinequa/core/*": ["core/*"],
-            "@sinequa/components": ["components/public-api"],
-            "@sinequa/components/*": ["components/*"],
-            "@sinequa/analytics": ["analytics/public-api"],
-            "@sinequa/analytics/*": ["analytics/*"]
+            "@sinequa/core": ["../core/public-api"],
+            "@sinequa/core/*": ["../core/*"],
+            "@sinequa/components": ["../components/public-api"],
+            "@sinequa/components/*": ["../components/*"],
+            "@sinequa/analytics": ["../analytics/public-api"],
+            "@sinequa/analytics/*": ["../analytics/*"]
         }
     },
     "files": [
@@ -16,13 +17,13 @@
         "src/polyfills.ts"
     ],
     "include": [
-        "./**/*.ts",
-        "./src/environments/environment.ts"
+        "**/*.ts",
+        "src/environments/environment.ts"
     ],
     "exclude": [
-        "./test.ts",
-        "./e2e/**/*",
-        "./src/environments/*",
-        "./**/*.spec.ts"
+        "e2e",
+        "src/environments/*",
+        "**/*.spec.ts",
+        "test.ts"
     ]
 }
