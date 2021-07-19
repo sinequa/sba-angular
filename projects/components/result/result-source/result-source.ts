@@ -6,7 +6,7 @@ import {SearchService} from "@sinequa/components/search";
 @Component({
     selector: "sq-result-source",
     templateUrl: "./result-source.html",
-    styleUrls: ["./result-source.css"]
+    styleUrls: ["./result-source.scss"]
 })
 export class ResultSource implements OnInit {
     @Input() record: Record;
@@ -28,12 +28,10 @@ export class ResultSource implements OnInit {
             if(!!treepath && treepath.length >= 2){
                 this.source = treepath.substr(1, treepath.length-2).split('/')
                     .slice(this.displayTreepathMinLevel, this.displayTreepathMaxLevel)
-                    .map((path,i,array) => {
-                        return {
+                    .map((path,i,array) => ({
                             display: path,
                             value: '/'+array.slice(0,i+1).join('/')+'/*'
-                        };
-                    });
+                        }));
             }
         }
         if(this.displayUrl){
