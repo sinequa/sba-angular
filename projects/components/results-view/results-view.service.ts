@@ -179,6 +179,8 @@ export class ResultsViewService {
         if(view && view !== this.resultsView) {
             this.searchService.queryStringParams.view = view.name; // Needed when refreshing the page
             this.setResultsView(view);
+        } else {
+            this.setResultsView(this.defaultView);
         }
     }
 
