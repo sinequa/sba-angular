@@ -8,6 +8,7 @@ import {
 import { Action } from "@sinequa/components/action";
 import { FacetService } from "../../facet.service";
 import { Utils } from "@sinequa/core/base";
+import {AppService} from "@sinequa/core/app-utils";
 
 export interface TagCloudItem {
     aggregation: Aggregation;
@@ -51,7 +52,9 @@ export class BsFacetTagCloud extends AbstractFacet implements OnChanges {
     // Prefix for tag-cloud facet name to be used if isolateFacetFilters = true
     private readonly tagCloudFacetPrefix = "tag-cloud_";
 
-    constructor(private facetService: FacetService) {
+    constructor(
+        private facetService: FacetService,
+        private app: AppService) {
         super();
 
         // Clear the current filters
@@ -203,6 +206,15 @@ export class BsFacetTagCloud extends AbstractFacet implements OnChanges {
             this.facetService.removeFilterSearch(name, aggregation, item);
         }
         event.preventDefault();
+    }
+    
+    /**
+     * Get a column's alias
+     * @param column column name
+     * @returns column's alias or column's name if no alias is found
+     */
+    getColumnAlias(column: string): string {
+        return this.app.resolveColumnAlias(column);
     }
 
     /**
