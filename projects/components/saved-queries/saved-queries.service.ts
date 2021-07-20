@@ -2,7 +2,7 @@ import {Injectable, InjectionToken, Inject, Type, OnDestroy} from "@angular/core
 import { HttpResponse } from '@angular/common/http';
 import {Subject, Observable, throwError} from "rxjs";
 import {UserSettingsWebService, QueryExportWebService, ExportSourceType, ExportOutputFormat,
-    DownloadWebService, AuditEvents, AuditEvent} from "@sinequa/core/web-services";
+    DownloadWebService, AuditEvents, AuditEvent, AuditWebService, AuditEventType} from "@sinequa/core/web-services";
 import {ModalService, ModalResult} from "@sinequa/core/modal";
 import {AppService, Query} from "@sinequa/core/app-utils";
 import {Utils} from "@sinequa/core/base";
@@ -117,6 +117,7 @@ export class SavedQueriesService implements OnDestroy {
         public queryExportService: QueryExportWebService,
         public downloadService: DownloadWebService,
         public selectionService: SelectionService,
+        private auditService: AuditWebService,
         @Inject(SAVEDQUERY_COMPONENTS) public savedQueryComponents: SavedQueryComponents
     ){
         // Listen to the user settings
@@ -359,6 +360,12 @@ export class SavedQueriesService implements OnDestroy {
     private requestExport(model: ExportQueryModel): Observable<HttpResponse<Blob>> {
         switch (model.export) {
             case ExportSourceType.Result:
+                this.auditService.notify({
+                    type: AuditEventType.Search_ExportCSV,
+                    detail: {
+                        "result-id": !!this.searchService.results ? this.searchService.results.id : undefined,
+                    }
+                });
                 return this.queryExportService.exportResult(
                     model.webService,
                     this.searchService.query,
@@ -368,6 +375,12 @@ export class SavedQueriesService implements OnDestroy {
                     model.exportedColumns,
                 );
             case ExportSourceType.Selection:
+                this.auditService.notify({
+                    type: AuditEventType.Search_Selection_ExportCSV,
+                    detail: {
+                        "result-id": !!this.searchService.results ? this.searchService.results.id : undefined,
+                    }
+                });
                 return this.queryExportService.exportSelection(
                     model.webService,
                     this.searchService.query,
@@ -378,6 +391,12 @@ export class SavedQueriesService implements OnDestroy {
                     model.exportedColumns,
                 );
             case ExportSourceType.SavedQuery:
+                this.auditService.notify({
+                    type: AuditEventType.Search_SavedQuery_ExportCSV,
+                    detail: {
+                        "result-id": !!this.searchService.results ? this.searchService.results.id : undefined,
+                    }
+                });
                 return this.queryExportService.exportSavedQuery(
                     model.webService,
                     model.queryName || "",
