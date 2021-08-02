@@ -63,17 +63,22 @@ export class BsResultsHeatmapView extends BsFacetHeatmapComponent {
     }
 
     onItemClicked(item: HeatmapItem){
-        super.onItemClicked(item);
-        if(this.selectView){
-            this.resultsViewService.selectResultsViewName(this.selectView);
+        if(this.aggregationData){
+            this.facetService.addFilterSearch(this._name, this.aggregationData, item).then(_ => {
+                if(this.selectView){
+                    this.resultsViewService.selectResultsViewName(this.selectView);
+                }
+            });
         }
     }
 
     onAxisClicked(item: {value: string, axis: 'x' | 'y'}){
-        super.onAxisClicked(item);
-        if(this.selectView){
-            this.resultsViewService.selectResultsViewName(this.selectView);
-        }
+        this.searchService.addFieldSelect(item.axis === 'x'? this.fieldXPref : this.fieldYPref, item);
+        this.searchService.search().then(_ => {
+            if(this.selectView){
+                this.resultsViewService.selectResultsViewName(this.selectView);
+            }
+        });
     }
 }
 
