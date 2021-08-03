@@ -228,6 +228,10 @@ namespace Sinequa.Plugin
                         Read(client, docid);
                         break;
 
+                    case "count":
+                        Count(client, docid);
+                        break;
+
                     case "update":
                         Update(client, docid);
                         break;
@@ -323,6 +327,28 @@ namespace Sinequa.Plugin
 
             // Write JSON
             JsonResponse.Set("comments", Comment.ToJson(rootComments));
+        }
+
+
+        /// <summary>
+        /// Get the number of comments for a given document
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="docid"></param>
+        private void Count(EngineClient client, string docid)
+        {
+            var sql = $"SELECT id FROM {indexname} WHERE docid={Str.SqlValue(docid)} ORDER BY modified LIMIT 1";
+
+            Cursor cursor = client.ExecCursor(sql);
+            if (cursor != null)
+            {
+                // Write JSON
+                JsonResponse.Set("count", cursor.TotalRowCount);
+            }
+            else
+            {
+                throw new Exception("Cursor is null!");
+            }
         }
 
 

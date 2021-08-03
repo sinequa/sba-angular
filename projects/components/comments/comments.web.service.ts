@@ -45,6 +45,12 @@ export class CommentsWebService extends HttpService {
         ).pipe(pluck('comments'));
     }
 
+    getCommentCount(docid: string): Observable<number> {
+        return this.httpClient.post<{count: number}>(
+            this.makeUrl(this.endpoint), {docid, action: 'count'}
+        ).pipe(pluck('count'));
+    }
+
     createComment(docid: string, message: string, replyto?: string): Observable<NormalComment> {
         return this.httpClient.post<{comment: NormalComment}>(
             this.makeUrl(this.endpoint), {docid, message, replyto, action: 'create'}
