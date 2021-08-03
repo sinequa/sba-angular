@@ -322,6 +322,7 @@ export class LabelsService implements OnDestroy {
         const action = new Action({
             icon: "fas fa-tags",
             title: "msg#labels.labels",
+            name: "labels",
             action: () => {
                 this.editLabelModal();
             },

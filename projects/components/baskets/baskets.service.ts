@@ -559,6 +559,7 @@ export class BasketsService implements OnDestroy {
         return new Action({
             icon: "fas fa-shopping-basket",
             title: "msg#baskets.baskets",
+            name: "baskets",
             hidden: true,
             children: [
                 new Action({
