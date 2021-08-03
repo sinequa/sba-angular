@@ -1,10 +1,10 @@
 <ng-container *ngIf="previewData">
     <div class="d-flex justify-content-between p-2" *ngIf="extracts?.length > 0">
-        <button class="btn btn-light" (click)="previousExtract()" [disabled]="currentExtract < 1">
+        <button class="btn btn-light" (click)="previousExtract()" [disabled]="currentIndex < 1">
             <i class="fas fa-arrow-left"></i>&nbsp;{{ 'msg#preview.previousDocument' | sqMessage}}
         </button>
         <div class="btn-group" [sq-action-buttons]="{items: [sortAction], autoAdjust: true}" ></div>
-        <button class="btn btn-light float-right" (click)="nextExtract()" [disabled]="currentExtract >= extracts.length-1">
+        <button class="btn btn-light float-right" (click)="nextExtract()" [disabled]="currentIndex >= extracts.length-1">
             {{ 'msg#preview.nextDocument' | sqMessage}}&nbsp;<i class="fas fa-arrow-right"></i>
         </button>
     </div>
@@ -21,9 +21,8 @@
             <div *cdkVirtualFor="let extract of extracts; let i = index" class="pl-2 pr-2">
                 <a  href="#" 
                     class="card my-1 list-group-item-action"
-                    [ngClass]="{'active': i === this.currentExtract}"
-                    (click)="scrollExtract(extract.textIndex, i)"
-                    [attr.data-index]="i" [attr.data-current]="currentExtract">
+                    [ngClass]="{'active': i === currentIndex}"
+                    (click)="scrollExtract(extract, i)">
                     <p class="card-body m-0" [innerHTML]="extract.text"></p>
                 </a>
             </div>
