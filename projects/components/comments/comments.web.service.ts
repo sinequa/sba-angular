@@ -40,8 +40,8 @@ export class CommentsWebService extends HttpService {
     }
 
     getComments(docid: string): Observable<Comment[]> {
-        return this.httpClient.get<{comments: Comment[]}>(
-            this.makeUrl(this.endpoint), {params: {docid, action: 'read'}}
+        return this.httpClient.post<{comments: Comment[]}>(
+            this.makeUrl(this.endpoint), {docid, action: 'read'}
         ).pipe(pluck('comments'));
     }
 
