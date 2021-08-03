@@ -1,10 +1,8 @@
 <span class="sq-result-source">
-    <span>
-        <span *ngFor="let s of source" 
-            (click)="select(s)" 
-            class="link"
-            [attr.data-url]="!!url ? ' - ': '' "
-            title="Select this source">{{s.display}}</span>
-    </span>
+    <span *ngFor="let s of source" 
+        (click)="select(s)" 
+        class="link"
+        [attr.data-url]="!!url ? ' - ': '' "
+        title="Select this source">{{s.display}}</span>
     <a *ngIf="url" href="{{url}}" target="_blank">{{url}}</a>
 </span>

@@ -15,14 +15,14 @@
     .link {
         cursor: pointer;
 
-        &:not(:last-child)::after{
+        &::after{
             content: " > ";
             display: inline-block;
             text-decoration: none;
             white-space: pre;
         }
 
-        &:last-child::after {
+        &:last-of-type::after {
             content: attr(data-url);
             display: inline-block;
             text-decoration: none;
