@@ -1,6 +1,6 @@
-<div class="sq-preview-minimap">
+<div class="minimap">
   <a *ngFor="let location of locations"
-    class="sq-preview-minimap-section"
+    class="minimap-section"
     (click)=jumpTo(location.index)
     [style.top.%]="location.top">
   </a>
