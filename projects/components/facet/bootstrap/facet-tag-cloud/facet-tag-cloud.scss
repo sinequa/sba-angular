@@ -9,16 +9,9 @@ ul.cloud {
 }
 
 /* Fonts size */
-ul.cloud a[data-weight="1"] { --size: 1; }
-ul.cloud a[data-weight="2"] { --size: 2; }
-ul.cloud a[data-weight="3"] { --size: 3; }
-ul.cloud a[data-weight="4"] { --size: 4; }
-ul.cloud a[data-weight="5"] { --size: 5; }
-ul.cloud a[data-weight="6"] { --size: 6; }
-ul.cloud a[data-weight="7"] { --size: 7; }
-ul.cloud a[data-weight="8"] { --size: 8; }
-ul.cloud a[data-weight="9"] { --size: 9; }
-ul.cloud a[data-weight="10"] { --size: 10; }
+@for $i from 1 through 10 {
+  ul.cloud a[data-weight="#{$i}"] { --size: #{$i}; }
+}
 
 ul.cloud a {
   --size: 2;

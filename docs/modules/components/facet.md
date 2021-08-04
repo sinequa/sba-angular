@@ -259,6 +259,6 @@ The inputs of the component are:
 
 ```html
 <sq-facet-card [title]="'Tag cloud'" [icon]="'fas fa-cloud'">
-    <sq-facet-tag-cloud #facet [results]="results" [aggregations]="['Company','Geo','Person','Concepts']"><sq-facet-tag-cloud>
+    <sq-facet-tag-cloud #facet [results]="results" [aggregations]="['Company','Geo','Person','Concepts']"></sq-facet-tag-cloud>
 </sq-facet-card>
 ```
