@@ -249,6 +249,7 @@ export class SelectionService implements OnDestroy {
             text: "msg#resultsSelector.selectDocuments",
             title: this.allRecordsSelected ? "msg#resultsSelector.unselectDocumentsTitle" : "msg#resultsSelector.selectDocumentsTitle",
             name: "selectDocuments",
+            titlePlacement: "top",
             messageParams: {values: {count: this.selectedRecords.length}},
             action: (item, $event) => {
                 this.toggleSelectedRecords(undefined, "multiple-selector");
