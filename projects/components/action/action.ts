@@ -16,6 +16,7 @@ export abstract class IAction {
     componentInputs?: any;
     data?: any;
     title?: string; // display as a tooltip
+    titlePlacement?: "top" | "bottom" | "right" | "left";  // tooltip placement, when undefined default is"bottom"
     selected?: boolean;
     disabled?: boolean;
     hidden?: boolean;
