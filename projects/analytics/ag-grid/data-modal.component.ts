@@ -3,7 +3,7 @@ import { Action } from "@sinequa/components/action";
 import { UIService } from "@sinequa/components/utils";
 import { FormatService, ValueItem } from "@sinequa/core/app-utils";
 import { FieldValue } from "@sinequa/core/base";
-import { ModalButton, ModalResult, MODAL_MODEL } from "@sinequa/core/modal";
+import { MODAL_MODEL } from "@sinequa/core/modal";
 import { CCColumn } from "@sinequa/core/web-services";
 
 declare type DataModel = {
@@ -27,7 +27,6 @@ pre {
 })
 export class DataModalComponent {
 
-    buttons: ModalButton[];
     copyAction: Action;
     formatContent = true;
     data: string;
@@ -41,13 +40,6 @@ export class DataModalComponent {
     }
 
     ngOnInit() {
-        // A "fake" button is needed to display the custom footer
-        this.buttons = [
-            new ModalButton({
-                result: ModalResult.Ignore,
-                visible: false
-            })
-        ];
 
         this.copyAction = new Action({
             icon: "far fa-copy",

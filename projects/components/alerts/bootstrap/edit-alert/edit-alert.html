@@ -33,6 +33,6 @@
                 <span class="custom-control-label user-select-none cursor-pointer">{{'msg#editAlert.updateQuery' | sqMessage}}</span>
             </label>
         </div>
-        <sq-alert-message footer [message]="'msg#editAlert.lossDataMessage' | sqMessage" *ngIf="showDirtyMessage"></sq-alert-message>
+        <sq-alert-message footer [message]="'msg#editAlert.lossDataMessage' | sqMessage" style="flex: 0 1 100%" *ngIf="showDirtyMessage"></sq-alert-message>
     </sq-modal>
 </form>
