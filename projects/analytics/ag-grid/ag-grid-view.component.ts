@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
 import { Action } from "@sinequa/components/action";
+import { FacetService } from "@sinequa/components/facet";
 import { SearchService } from "@sinequa/components/search";
 import { SelectionEventType, SelectionService } from "@sinequa/components/selection";
 import { UserPreferences } from "@sinequa/components/user-settings";
@@ -9,10 +10,12 @@ import { Utils } from "@sinequa/core/base";
 import { IntlService } from "@sinequa/core/intl";
 import { ModalService } from "@sinequa/core/modal";
 import { Results, Record, CCColumn, EngineType } from "@sinequa/core/web-services";
-import { ICellRendererFunc, ITooltipParams, ColDef, GridApi, ColumnApi, GridReadyEvent, RowDataChangedEvent, CellDoubleClickedEvent, SelectionChangedEvent, IDatasource, CsvExportParams, ProcessCellForExportParams } from 'ag-grid-community';
+import { ICellRendererFunc, ITooltipParams, ColDef, GridApi, ColumnApi, GridReadyEvent, RowDataChangedEvent, CellDoubleClickedEvent, SelectionChangedEvent, IDatasource, CsvExportParams, ProcessCellForExportParams, SortChangedEvent, FilterChangedEvent, FilterModifiedEvent } from 'ag-grid-community';
+import { ApplyColumnStateParams } from "ag-grid-community/dist/lib/columnController/columnApi";
 import { Subscription } from "rxjs";
 import { DataModalComponent } from "./data-modal.component";
 import { SqDatasource } from "./datasource";
+import { FacetWrapperComponent } from "./facet-wrapper.component";
 
 
 export interface Column extends ColDef {
@@ -39,12 +42,14 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     @Input() width = "100%";
     /** Height of the grid */
     @Input() height = "600px";
-    /** Whether or not to show a toolbar above the grid */
-    @Input() showToolbar = true;
+    /** Which actions to show above the grid, if any */
+    @Input() toolbarActions: (string | Action)[] = ["columnVisibility", "gridReset", "autosize", "copySelection", "downloadSelection", "formatContent"];
+    /** Whether or not to show the results counter in the toolbar */
+    @Input() showCounter = true;
     /** Whether or not to format the data in the grid, using the FormatService */
     @Input() formatContent = true;
     /** Row selection mode (forwarded to ag-grid) */
-    @Input() rowSelection: 'single' | 'multiple' = 'multiple';
+    @Input() rowSelection: 'single' | 'multiple' | undefined = 'multiple';
     /** Whether or not to display checkboxes in the first column of the grid to select rows */
     @Input() displayCheckbox = false;
     /** Choice of ag-grid theme (balham is denser) */
@@ -68,6 +73,14 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     /** Datasource implementation for infinite scrolling row model */
     datasource?: IDatasource;
 
+    // Flags to manage the state of filters and sorts
+    _filterInput = false;
+    
+    /** Custom components */
+    frameworkComponents = {
+        facet: FacetWrapperComponent
+    };
+    
     /** List of action buttons displayed in the toolbar */
     gridActions: Action[];
     /** Action button allowing to toggle each column's visibility */
@@ -79,6 +92,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     constructor(
         public appService: AppService,
         public searchService: SearchService,
+        public facetService: FacetService,
         public intlService: IntlService,
         public formatService: FormatService,
         public selectionService: SelectionService,
@@ -86,39 +100,12 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
         public modalService: ModalService,
         public prefs: UserPreferences
     ) {
-        // Initialization of button actions
-        this.gridActions = [];
         this.columnsAction = new Action({
             icon: "fas fa-columns fa-fw",
             text: "msg#grid.columns",
             scrollable: true,
             children: []
         });
-        this.gridActions.push(this.columnsAction);
-        this.gridActions.push(new Action({
-            icon: "fas fa-sync-alt fa-fw",
-            text: "msg#grid.reset",
-            title: "msg#grid.resetTitle",
-            action: () => this.resetState()
-        }));
-        this.gridActions.push(new Action({
-            icon: "fas fa-arrows-alt-h fa-fw",
-            text: "msg#grid.autosize",
-            title: "msg#grid.autosizeTitle",
-            action: () => this.autoResize()
-        }));
-        this.gridActions.push(new Action({
-            icon: "fas fa-copy fa-fw",
-            text: "msg#grid.copy",
-            title: "msg#grid.copyTitle",
-            action: () => this.copyToClipboard()
-        }));
-        this.gridActions.push(new Action({
-            icon: "fas fa-download fa-fw",
-            text: "msg#grid.download",
-            title: "msg#grid.downloadTitle",
-            action: () => this.downloadCsv()
-        }));
     }
 
     ngOnInit() {
@@ -132,12 +119,6 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
                 });
             }
         }));
-
-        // Override the "formatContent" property if it exists in the user preferences
-        const formatContent = this.prefs.get("ag-grid-format-content");
-        if(formatContent !== undefined) {
-            this.formatContent = formatContent;
-        }
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -146,6 +127,14 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
         }
         if(changes.results) {
             this.createRows();
+        }
+        if(!this.gridActions || changes.toolbarActions) {
+            // Override the "formatContent" property if it exists in the user preferences
+            const formatContent = this.prefs.get("ag-grid-format-content");
+            if(formatContent !== undefined) {
+                this.formatContent = formatContent;
+            }
+            this.createActions();
         }
     }
 
@@ -177,19 +166,21 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             col.width = col.width || this.defaultColumnWidth;
 
             // How to filter the column
-            switch(col.$column?.eType) {
-                case EngineType.double:
-                case EngineType.float:
-                case EngineType.integer:
-                    col.filter = 'agNumberColumnFilter'; break;
-                case EngineType.date:
-                case EngineType.dates:
-                case EngineType.dateTime:
-                case EngineType.dateTimes:
-                    col.filter = 'agDateColumnFilter'; break;
-                case EngineType.string:
-                case EngineType.csv:
-                    col.filter = true; break;
+            if(col.filter === undefined) {
+                switch(col.$column?.eType) {
+                    case EngineType.double:
+                    case EngineType.float:
+                    case EngineType.integer:
+                        col.filter = 'agNumberColumnFilter'; break;
+                    case EngineType.date:
+                    case EngineType.dates:
+                    case EngineType.dateTime:
+                    case EngineType.dateTimes:
+                        col.filter = 'agDateColumnFilter'; break;
+                    case EngineType.string:
+                    case EngineType.csv:
+                        col.filter = true; break;
+                }
             }
 
             if(i === 0 && this.displayCheckbox) {
@@ -224,15 +215,113 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      */
     createRows() {
         if(this.gridApi && this.gridColumnApi) {
-            // Reset sorting & filtering
-            this.resetVolatileState();
             // Create a new datasource
             this.datasource = this.makeDatasource();
             // Apply to the grid
             this.gridApi.setDatasource(this.datasource);
+            // The query that yielded this data may have active filters & sort: we want the grid to reflect this
+            this.updateFilterState(this.query || this.searchService.query);
+            this.updateSortState(this.query || this.searchService.query);
         }
     }
 
+    /**
+     * For each column of the grid, look for an active filter in the query
+     * and create a filter model that the grid can understand.
+     * Finally, set the filter model via the grid API.
+     * @param query 
+     */
+    updateFilterState(query: Query) {
+        let model = {};
+        for(let col of this.colDefs) {
+            const select = query.findSelect("grid-filter-"+col.field);
+            if(col.field && select) {
+                if(col.filter === "facet") { // Sinequa facets
+                    model[col.field] = {facetActive: true}; // Lets us tell ag-grid that a custom filter is active this column
+                }
+                else { // AG Grid filters
+                    const filterType = col.filter ==="agNumberColumnFilter"? "number" : col.filter ==="agDateColumnFilter"? "date" : "text";
+                    model[col.field] = SqDatasource.exprToModel(filterType, col.field, select.expression);
+                }
+            }
+        }
+        this.gridApi?.setFilterModel(model);
+    }
+
+    /**
+     * If the query has a custom orderby clause, create
+     * a sort model that the grid can understand and apply
+     * that model via the grid column API.
+     * @param query 
+     */
+    updateSortState(query: Query) {
+        const model: ApplyColumnStateParams = {};
+        if(query.orderBy) {
+            let [colId, sort] = query.orderBy.split(" ");
+            colId = this.appService.getColumnAlias(this.appService.getColumn(colId));
+            model.state = [{colId, sort}];
+        }
+        else {
+            model.defaultState = {sort: null};
+        }
+        this.gridColumnApi?.applyColumnState(model);
+    }
+
+    /**
+     * Create the actions displayed in the toolbar
+     */
+    createActions() {
+        // Initialization of button actions
+        this.gridActions = [];
+        for(let action of this.toolbarActions) {
+            if(!Utils.isString(action)) {
+                this.gridActions.push(action);
+            }
+            else if(action === "columnVisibility") {
+                this.gridActions.push(this.columnsAction);
+            }
+            else if(action === "gridReset") {
+                this.gridActions.push(new Action({
+                    icon: "fas fa-sync-alt fa-fw",
+                    text: "msg#grid.reset",
+                    title: "msg#grid.resetTitle",
+                    action: () => this.resetState()
+                }));
+            }
+            else if(action === "autosize") {
+                this.gridActions.push(new Action({
+                    icon: "fas fa-arrows-alt-h fa-fw",
+                    text: "msg#grid.autosize",
+                    title: "msg#grid.autosizeTitle",
+                    action: () => this.autoResize()
+                }));
+            }
+            else if(action === "copySelection") {
+                this.gridActions.push(new Action({
+                    icon: "fas fa-copy fa-fw",
+                    text: "msg#grid.copy",
+                    title: "msg#grid.copyTitle",
+                    action: () => this.copyToClipboard()
+                }));
+            }
+            else if(action === "downloadSelection") {
+                this.gridActions.push(new Action({
+                    icon: "fas fa-download fa-fw",
+                    text: "msg#grid.download",
+                    title: "msg#grid.downloadTitle",
+                    action: () => this.downloadCsv()
+                }));
+            }
+            else if(action === "formatContent") {
+                this.gridActions.push(new Action({
+                    icon: this.formatContent? "far fa-fw fa-check-square" : "far fa-fw fa-square",
+                    text: "msg#grid.formatData",
+                    title: "msg#grid.formatDataTitle",
+                    action: action => this.toggleFormatContent(action)
+                }));
+            }
+        }
+    }
 
     // Custom rendering functions
 
@@ -273,9 +362,9 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      */
     makeDatasource() : IDatasource {
         if(this.results) {
-            return new SqDatasource(this.results, this.query, this.searchService, this.appService);
+            return new SqDatasource(this.results, this.query, this.colDefs, this.searchService, this.appService, this.facetService);
         }
-        return {getRows: () => []}
+        return {getRows: () => []};
     }
 
 
@@ -285,12 +374,32 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      * Reset filtering, sorting, column width and order
      */
     resetState() {
-        // clear filters
-        this.gridApi?.setFilterModel({});
-        // clear sort, width, visiblity, order
+        if(!this.query) {
+            // In global search mode, the new query & results will update the filter model
+            this.datasource?.destroy?.();
+            delete this.searchService.query.orderBy;
+            if(this.searchService.query.select?.length) {
+                for(let i=this.searchService.query.select.length; i--; i>=0) {
+                    if(this.searchService.query.select[i].facet.startsWith("grid-filter-")) {
+                        this.searchService.query.removeSelect(i);
+                    }
+                }
+            }
+            this.searchService.search();
+        }
+        else {
+            // clear filters
+            this.gridApi?.setFilterModel({});
+            // clear sort
+            this.gridColumnApi?.applyColumnState({
+                defaultState:{
+                    sort: null
+                }
+            })
+        }
+        // clear width, visiblity, order
         this.gridColumnApi?.applyColumnState({
             defaultState:{
-                sort: null,
                 width: this.defaultColumnWidth
             },
             state: this.columns.map(c => {
@@ -310,17 +419,6 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
         });
         // Sync to apply the new visibility preference
         this.prefs.sync();
-    }
-
-    /**
-     * Reset only the "volatile" state (filtering and sorting),
-     * But keep the columns width, order and visibility
-     */
-    resetVolatileState() {
-        this.gridApi?.setFilterModel({});
-        this.gridColumnApi?.applyColumnState({
-            defaultState:{ sort: null }
-        });
     }
 
     /**
@@ -362,7 +460,9 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     /**
      * Called when the user toggles the "format content" checkbox
      */
-    onFormatContentChanged() {
+    toggleFormatContent(action: Action) {
+        this.formatContent = !this.formatContent;
+        action.icon = this.formatContent? "far fa-fw fa-check-square" : "far fa-fw fa-square";
         this.prefs.set("ag-grid-format-content", this.formatContent);
         this.gridApi?.refreshCells({force: true})
     }
@@ -419,6 +519,41 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
                 this.selectionService.toggleSelectedRecords(row, "ag-grid");
             }
         });
+    }
+
+    /**
+     * Callback triggered on every user key input. It is useful to capture
+     * the fact that onFilterChanged is about to be called after some
+     * user input.
+     * @param event 
+     */
+     onFilterModified(event: FilterModifiedEvent) {
+        if(!this._filterInput) {
+            // Check that the model has actually changed, as the method can be called event it hasn't changed!
+            const oldModel = event.filterInstance.getModel();
+            const newModel = (event.filterInstance as any).getModelFromUi?.();
+            this._filterInput = !Utils.equals(oldModel, newModel);
+        }
+    }
+
+    /**
+     * Notify the datasource that filter have changed
+     * @param event 
+     */
+    onFilterChanged(event: FilterChangedEvent) {
+        // The _filterInput flag allows us to only respond to actual user input and ignore programmatic changes
+        if(this._filterInput) {
+            this._filterInput = false;
+            (this.datasource as SqDatasource)?.filterChanged?.();
+        }
+    }
+
+    /**
+     * Notify the datasource that sort has changed
+     * @param event
+     */
+    onSortChanged(event: SortChangedEvent) {
+        (this.datasource as SqDatasource)?.sortChanged?.();
     }
 
 

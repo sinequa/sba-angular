@@ -1,12 +1,7 @@
-<div class="d-flex flex-wrap align-items-center mb-1" *ngIf="showToolbar">
+<div class="d-flex flex-wrap align-items-center mb-1" *ngIf="gridActions.length > 0 || showCounter">
     <div class="btn-group" [sq-action-buttons]="{items: gridActions, style: 'primary', rightAligned: false}"></div>
     
-    <div class="custom-control custom-checkbox ml-2">
-        <input type="checkbox" class="custom-control-input" id="format" [(ngModel)]="formatContent" (ngModelChange)="onFormatContentChanged()">
-        <label class="custom-control-label" for="format">{{'msg#grid.formatData' | sqMessage}}</label>
-    </div>
-
-    <sq-results-counter [rowCount]="datasource?.rowCount" class="ml-3"></sq-results-counter>
+    <sq-results-counter [rowCount]="datasource?.rowCount" class="ml-3" *ngIf="showCounter"></sq-results-counter>
 </div>
 
 <!-- Data Table -->
@@ -25,9 +20,14 @@
     [cacheBlockSize]="appService.ccquery?.pageSize || 20"
     [blockLoadDebounceMillis]="300"
     
+    [frameworkComponents]="frameworkComponents"
+
     (gridReady)="onGridReady($event)"
     (rowDataChanged)="onRowDataChanged($event)"
     (cellDoubleClicked)="onCellDoubleClicked($event)"
     (selectionChanged)="onSelectionChanged($event)"
+    (sortChanged)="onSortChanged($event)"
+    (filterChanged)="onFilterChanged($event)"
+    (filterModified)="onFilterModified($event)"
 >
 </ag-grid-angular>
