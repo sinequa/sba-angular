@@ -176,18 +176,23 @@ export class LoginService implements OnDestroy {
         }
         let appNeeded: boolean;
         if (this.router) {
-            const queryParams = Utils.copy(this.router.routerState.snapshot.root.queryParams);
+            const hash = window.location.hash.replace("#", "");
+            const href = hash.split("?")[0];
+            const params = new URLSearchParams(hash.split("?")[1]);
+            const queryParams = {}
+            params.forEach((v, k) => queryParams[k] = v);
+
             // Pick up any user override from the query string
-            const overrideUser = queryParams.overrideUser;
-            const overrideDomain = queryParams.overrideDomain;
+            const overrideUser = queryParams["overrideUser"];
+            const overrideDomain = queryParams["overrideDomain"];
             if (overrideUser) {
                 this.authenticationService.userOverride = {
                     userName: overrideUser,
                     domain: overrideDomain
                 };
-                delete queryParams.overrideUser;
-                delete queryParams.overrideDomain;
-                const url = Utils.makeURL(this.router.url);
+                delete queryParams["overrideUser"];
+                delete queryParams["overrideDomain"];
+                const url = Utils.makeURL(href);
                 this.router.navigate([url.pathname], {queryParams});
             }
         }
