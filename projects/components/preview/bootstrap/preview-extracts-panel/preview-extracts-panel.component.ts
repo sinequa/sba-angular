@@ -27,7 +27,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
   @Input() previewData: PreviewData;
   @Input() previewDocument: PreviewDocument;
   @Input() downloadUrl: string;
-  @Input() style: "light"|"dark" = "light";
+  @Input() style: "light" | "dark" = "light";
   @ViewChild("scrollViewport") cdkScrollViewport: CdkVirtualScrollViewport;
 
   sortAction : Action;

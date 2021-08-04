@@ -100,6 +100,12 @@ export class PreviewDocument {
         forEach(nodes, n => text += (n['innerHTML'] || n.textContent));
         return text;
     }
+    
+    public getHighlightPos(categoryId: string, index: number): DOMRect | null{
+        const nodes = this.document.querySelectorAll("#"+categoryId+"_"+index);
+        if(!nodes || nodes.length === 0) return null;
+        return nodes[0].getBoundingClientRect();
+    }
 
     /**
      * Update the location of the entities' SVG background (for some converters)

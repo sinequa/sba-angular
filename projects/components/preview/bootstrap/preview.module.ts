@@ -29,6 +29,7 @@ import {BsPreviewExtractsPanelComponent} from './preview-extracts-panel/preview-
 import {BsPreviewSearchFormComponent} from './preview-search-form/preview-search-form.component';
 import {BsPreviewPagesPanelComponent} from './preview-pages-panel/preview-pages-panel.component';
 import {BsPreviewPageFormComponent} from './preview-page-form/preview-page-form.component';
+import {BsPreviewMinimapComponent} from "./preview-minimap/preview-minimap.component";
 
 import {PREVIEW_MODAL} from '../preview.service';
 
@@ -61,7 +62,8 @@ import {PREVIEW_MODAL} from '../preview.service';
         BsPreviewExtractsPanelComponent,
         BsPreviewSearchFormComponent,
         BsPreviewPagesPanelComponent,
-        BsPreviewPageFormComponent
+        BsPreviewPageFormComponent,
+        BsPreviewMinimapComponent
     ],
     exports: [
         PreviewModule,
@@ -74,7 +76,8 @@ import {PREVIEW_MODAL} from '../preview.service';
         BsPreviewExtractsPanelComponent,
         BsPreviewSearchFormComponent,
         BsPreviewPagesPanelComponent,
-        BsPreviewPageFormComponent
+        BsPreviewPageFormComponent,
+        BsPreviewMinimapComponent
     ],
     providers: [
         {provide: PREVIEW_MODAL, useValue: BsPreviewPopup}
