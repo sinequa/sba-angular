@@ -65,7 +65,13 @@ The [`sq-ag-grid-view`]({{site.baseurl}}analytics/components/AgGridViewComponent
 In the snippet above,
 
 - `results` is a [`Results`]({{site.baseurl}}core/interfaces/Results.html) object containing the data to be displayed. A change in the results triggers a new rendering of the component.
-- `columns` is the list of columns to be displayed by the Grid. Each column definition is a `ColDef` object (see [AG Grid Documentation](https://www.ag-grid.com/angular-grid/column-definitions/)). Only the `field` property is actualy required, and must correspond to a column (or alias) name existing in the record objects. The component creates automatically other properties of the `ColDef` object, namely: `headerName`, `headerTooltip`, `sortable`, `hide`, `width`, `cellRenderer` and `tooltipValueGetter`.
+- `columns` is the list of columns to be displayed by the Grid. Each column definition is a `ColDef` object (see [AG Grid Documentation](https://www.ag-grid.com/angular-grid/column-definitions/)). Only the `field` property is actualy required, and must correspond to a column (or alias) name existing in the record objects. The component creates automatically other properties of the `ColDef` object, namely: `headerName`, `headerTooltip`, `filter`, `sortable`, `hide`, `width`, `cellRenderer` and `tooltipValueGetter`.
+
+If the `filter` property is not provided for a given column, it is automatically guessed in function of the type of the column (eg. a "double" column will be set to use the built-in `agNumberColumnFilter` filter). Additionally, it is possible to:
+
+- disable filtering for that column (`filter: false`)
+- specify the built-in filter you wish to use (`filter: "agNumberColumnFilter"`)
+- use a Sinequa facet in place of the built-in filters (`filter: "facet"`). Note that you need to configure an aggregation in the query web service for this to work. Facets are designed to work with the `SearchService`, so they will work best in the "Global Query" mode (see [below](#global-query-mode-and-local-query-mode)).
 
 A sample configuration for the `columns` input could be:
 
@@ -76,19 +82,20 @@ columns: Column[] = [
     {field: "modified"},
     {field: "sourcestr4"},
     {field: "sourcedouble1"},
-    {field: "geo"},
+    {field: "geo", filter: "facet"},
     {field: "docformat"}
 ]
 ```
 
 Additionally the component can be configured with the following optional inputs:
 
-- `query`: A [`Query`]({{site.baseurl}}core/classes/Query.html) object to fetch data from the server (when scrolling down the list of results). This defaults to `SearchService.query`.
+- `query`: A [`Query`]({{site.baseurl}}core/classes/Query.html) object to fetch data from the server (when scrolling down the list of results). ⚠️ If the query is provided, the grid works in the "Local Query" mode, and when omitted, the grid works in the "Global Query" mode using the search service query instead (see [below](#global-query-mode-and-local-query-mode)).
 - `width` (default: `'100%'`): The width of grid.
 - `height` (default: `'600px'`): The height of grid.
-- `showToolbar` (default: `true`): Whether or not to show the toolbar on top of the grid.
+- `toolbarActions` (default: `["columnVisibility", "gridReset", "autosize", "copySelection", "downloadSelection", "formatContent"]`): This parameter is a list of `string` and/or `Action` objects that are displayed as a toolbar above the grid. The strings correspond to predefined actions supported by the component. It is possible to provide a custom combination of `string` and `Action` to fully customize this toolbar.
+- `showCounter` (default: `true`): Whether or not to show the number of results next to the toolbar.
 - `formatContent` (default: `true`): Whether or not to format the data (using the [`FormatService`]({{site.baseurl}}core/injectables/FormatService.html)). This property is overriden by the user's preference once they make a choice.
-- `rowSelection` (default: `'multiple'`): Whether the user can select one (`'single'`) or multiple (`'multiple'`) rows.
+- `rowSelection` (default: `'multiple'`): Whether the user can select one (`'single'`) or multiple (`'multiple'`) or no (`undefined`) row(s).
 - `displayCheckbox` (default: `false`): Display checkboxes in the first column of the grid, to make row selection more intuitive.
 - `theme` (default: `'ag-theme-alpine'`): Choice of the theme. Note that the corresponding stylesheet must be imported in your global `stylesheet` (see above). The library provides a regular theme (`'ag-theme-alpine'`) and a dense theme (`'ag-theme-balham'`) when there is a lot of data to display. On top of this, each of these themes has a dark mode (append `-dark` to the above theme names).
 - `defaultColumnWidth` (default: `200`): Default column width in pixels.
@@ -133,3 +140,19 @@ This configuration involves various steps:
     At the moment, most of the complexity comes from the management of the wide range of filter types supported by AG Grid (`contains`, `equals`, `startsWith`, etc.), which is translated into fielded search syntax (including regular expression for some of these filters).
 
     This class can be overriden or replaced to implement a different logic of data handling.
+
+## Global Query mode and Local Query mode
+
+You can configure the component in 2 different modes, depending on whether you the `[query]` input parameter:
+
+1. Local Query mode: If you pass a `Query` to the component, that query will be used by the grid to fetch more data. When the users uses the grid's filters and sorts, this query is modified (in `SqDatasource`) to fetch more results, but the state of the application is not modified (if you refresh the page, the filters and sorts will be lost).
+
+    ![Local query process]({{site.baseurl}}assets/modules/ag-grid/local-query.png){: .d-block .mx-auto }
+    *1) The user acts on the grid (eg. by adding a filter) 2) The grid calls the `getRows()` method to get data 3) The server responds and the grid displays the results*
+    {: .text-center }
+
+2. Global Query mode: If you **do not** pass a `Query` to the component, it will use `SearchService.query` and modify that query globally. This means that the filters and sorts defined in the grid are persisted in the URL, and therefore the state of the grid is preserved when the page is reloaded (as well as when using the back button). However, the pagination state is not persisted (or else it wouldn't really make sense to use the infinite row model).
+
+    ![Global query process]({{site.baseurl}}assets/modules/ag-grid/global-query.png){: .d-block .mx-auto }
+    *1) The user acts on the grid (eg. by adding a filter) 2) The grid calls the `getRows()` method to get data 3) The global query is modified by the search service, the grid gets new results and a new datasource is created 4) The pagination is managed like in the local query mode*
+    {: .text-center }
