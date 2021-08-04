@@ -135,6 +135,7 @@ export class SavedQueriesService implements OnDestroy {
         this.selectedRecordsAction = new Action({
             icon: 'fas fa-download',
             title: 'msg#exportQuery.btnTitle',
+            name: "exportQuery",
             action: (_item: Action, _event: Event) => {
                 this.exportModal(this.selectionService.haveSelectedRecords
                     ? ExportSourceType.Selection
