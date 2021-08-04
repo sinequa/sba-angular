@@ -32,9 +32,8 @@ export class TooltipDirective implements OnDestroy {
   ) {}
 
   ngOnDestroy() {
-    if(this.overlayRef){
-      this.overlayRef.detach();
-    }
+    // do not forget to clear timeout function
+    this.clearTimer();
   }
 
   @HostListener("mouseenter", ['$event'])
@@ -44,7 +43,7 @@ export class TooltipDirective implements OnDestroy {
 
     this.clearTimer();
 
-    this.timeoutId = setTimeout(() => {          
+    this.timeoutId = setTimeout(() => {
       if(this.overlayRef) {
           this.overlayRef.detach();
       }
@@ -114,6 +113,9 @@ export class TooltipDirective implements OnDestroy {
     }
   }
 
+  /**
+   * Clear timeout function and detach overlayRef
+   */
   private clearTimer() {
     if(this.timeoutId) {
       clearTimeout(this.timeoutId);
