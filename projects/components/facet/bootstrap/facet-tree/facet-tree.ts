@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy} from "@angular/core";
+import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy} from "@angular/core";
 import {Results, TreeAggregation, AggregationItem, TreeAggregationNode} from "@sinequa/core/web-services";
 import {Utils} from "@sinequa/core/base";
 import {FacetService} from "../../facet.service";
@@ -14,7 +14,7 @@ import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from "
     styleUrls: ["./facet-tree.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BsFacetTree extends AbstractFacet implements OnChanges {
+export class BsFacetTree extends AbstractFacet implements OnChanges, OnDestroy {
     @Input() name: string; // If ommited, the aggregation name is used
     @Input() results: Results;
     @Input() aggregation: string;
@@ -69,7 +69,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
             this.subscriptions["suggest"] = this.suggest$(this.searchQuery.valueChanges)
                 .subscribe(values => {
                     if(this.data) {
-                        let items = this.searchQuery.value? values : this.originalItems;
+                        const items = this.searchQuery.value? values : this.originalItems;
                         this.data = {
                             column: this.data.column,
                             name: this.data.name,
@@ -260,7 +260,8 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
      * Called when selecting/unselecting an item in the facet
      * @param item
      */
-    selectItem(item: TreeAggregationNode) : boolean {
+    selectItem(item: TreeAggregationNode, event: Event): boolean {
+        event.stopImmediatePropagation();
         if(!this.isFiltered(item)){
             if(this.selected.has(item.$path!)) {
                 this.selected.delete(item.$path!);
@@ -280,7 +281,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges {
 
     find(items: TreeAggregationNode[] | undefined, item: TreeAggregationNode) {
         if(items) {
-            for(let i of items) {
+            for(const i of items) {
                 if(i.$path === item.$path || (i.$opened && this.find(i.items, item))) {
                     return true;
                 }
