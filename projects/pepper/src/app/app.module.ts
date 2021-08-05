@@ -52,10 +52,14 @@ import { AgmCoreModule } from '@agm/core';
 // Components
 import { AppComponent } from "./app.component";
 import { SearchComponent } from './search/search.component';
-import { SearchFormComponent } from '../../../vanilla-search/src/app/search-form/search-form.component';
-import { AutocompleteExtended } from '../../../vanilla-search/src/app/search-form/autocomplete-extended.directive';
 import { DashboardItemComponent } from './dashboard/dashboard-item.component';
 import { DashboardAddItemComponent } from './dashboard/dashboard-add-item.component';
+
+// Components imported from Vanilla Search
+// ⚠️ Starting from v11.7, these components are referenced from the Vanilla Search project to avoid duplicating the code
+// Feel free to copy the source code into the Pepper app to avoid modifying the source code of Vanilla.
+import { SearchFormComponent } from '@sinequa/vanilla/app/search-form/search-form.component';
+import { AutocompleteExtended } from '@sinequa/vanilla/app/search-form/autocomplete-extended.directive';
 
 // Environment
 import { environment } from "../environments/environment";
