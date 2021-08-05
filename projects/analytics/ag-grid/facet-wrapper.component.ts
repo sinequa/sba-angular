@@ -18,7 +18,7 @@ sq-facet-list, sq-facet-tree {
     width: 200px;
 }
 
-sq-facet-list ::ng-deep .list-group > div.pb-2, sq-facet-tree ::ng-deep .list-group > div.pb-2 {
+:is(sq-facet-list, sq-facet-tree) ::ng-deep .list-group > div.pb-2 {
     padding-bottom: 0.25rem!important;
     padding-top: 0.25rem!important;
 }
