@@ -143,15 +143,15 @@ This configuration involves various steps:
 
 ## Global Query mode and Local Query mode
 
-You can configure the component in 2 different modes, depending on whether you the `[query]` input parameter:
+You can configure the component in 2 different modes, depending on whether or not you provide the `query` input parameter to the component (see [above](#configuration)):
 
-1. Local Query mode: If you pass a `Query` to the component, that query will be used by the grid to fetch more data. When the users uses the grid's filters and sorts, this query is modified (in `SqDatasource`) to fetch more results, but the state of the application is not modified (if you refresh the page, the filters and sorts will be lost).
+1. **Local Query mode**: If you pass a [`Query`]({{site.baseurl}}core/classes/Query.html) to the component, that query will be used by the grid to fetch more data. When the users scrolls down, or uses the grid's filters and sorts, this query is modified (in [`SqDatasource`]({{site.baseurl}}analytics/classes/SqDatasource.html)) to fetch more results, but the state of the application is not modified (if you refresh the page, your filters and sorts will be lost).
 
     ![Local query process]({{site.baseurl}}assets/modules/ag-grid/local-query.png){: .d-block .mx-auto }
     *1) The user acts on the grid (eg. by adding a filter) 2) The grid calls the `getRows()` method to get data 3) The server responds and the grid displays the results*
     {: .text-center }
 
-2. Global Query mode: If you **do not** pass a `Query` to the component, it will use `SearchService.query` and modify that query globally. This means that the filters and sorts defined in the grid are persisted in the URL, and therefore the state of the grid is preserved when the page is reloaded (as well as when using the back button). However, the pagination state is not persisted (or else it wouldn't really make sense to use the infinite row model).
+2. **Global Query mode**: If you **do not** pass a [`Query`]({{site.baseurl}}core/classes/Query.html) to the component, it will use `SearchService.query` and modify that query globally. This means that the filters and sorts defined in the grid are persisted in the URL, and therefore the state of the grid is preserved when the page is reloaded (as well as when using the back button). However, the pagination state is not persisted (or else it wouldn't really make sense to use the infinite row model).
 
     ![Global query process]({{site.baseurl}}assets/modules/ag-grid/global-query.png){: .d-block .mx-auto }
     *1) The user acts on the grid (eg. by adding a filter) 2) The grid calls the `getRows()` method to get data 3) The global query is modified by the search service, the grid gets new results and a new datasource is created 4) The pagination is managed like in the local query mode*
