@@ -1,6 +1,7 @@
 export default {
     "grid": {
-        "formatData": "Format data",
+        "formatData": "Format",
+        "formatDataTitle": "Format data",
         "columns": "Columns",
         "reset": "Reset",
         "resetTitle": "Reset filters, sorting and column visibility, ordering and sizing",
