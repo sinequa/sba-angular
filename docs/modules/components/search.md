@@ -51,7 +51,7 @@ const messages = Utils.merge({}, ..., enSearch, appMessages);
 ### Overview
 
 The [SearchService]({{site.baseurl}}/components/injectables/SearchService.html) provides an opinionated way to manage the lifecycle of Sinequa
-search queries and their results. It has a `query` property which determines the [Query]({{site.baseurl}}/core/classes/Query.html) that will be
+search queries and their results. It has a `query` property which determines the [`Query`]({{site.baseurl}}/core/classes/Query.html) that will be
 used when executing any of the service's `search` methods. When you access the `query` property a new `Query` is created if one does not already
 exist. The query name used is taken from the current `ccquery` held on the [AppService]({{site.baseurl}}/core/injectables/AppService.html). This
 determines the query web service used on the server when executing the query.
