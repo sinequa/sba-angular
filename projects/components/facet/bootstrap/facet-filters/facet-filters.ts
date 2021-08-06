@@ -9,7 +9,7 @@ import {BsFacetTree} from '../facet-tree/facet-tree';
 @Component({
     selector: "sq-facet-filters",
     templateUrl: "./facet-filters.html",
-    styleUrls: ["./facet-filters.css"]
+    styleUrls: ["./facet-filters.scss"]
 })
 export class BsFacetFilters implements OnInit, OnChanges {
     @Input() results: Results;
