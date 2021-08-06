@@ -568,6 +568,18 @@ export class FacetService {
     }
 
     /**
+     * Returns the label associated to an aggregation, if any
+     * @param aggregationName 
+     */
+    getAggregationLabel(aggregationName: string) : string {
+        const ccagg = this.appService.getCCAggregation(aggregationName);
+        if(ccagg) {
+            return this.appService.getPluralLabel(ccagg.column);
+        }
+        return aggregationName;
+    }
+
+    /**
      * Opens a Tree node of the given tree facet by querying data from the server
      * Takes care of initializing the Node aggregation items to insert their properties ($column, $path, $opened, $level)
      * @param facetName

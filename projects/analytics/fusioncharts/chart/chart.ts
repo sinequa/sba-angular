@@ -88,13 +88,13 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
             title: "Select field",
             updater: (action) => {
                 if(this.aggregations){
-                    action.text = this.aggregation;
+                    action.text = this.facetService.getAggregationLabel(this.aggregation);
                     action.children = this.aggregations
                         .filter(v => v!==this.aggregation)
                         .map(agg => {
                             return new Action({
-                                text: agg,
-                                action : (item, event) => {
+                                text: this.facetService.getAggregationLabel(agg),
+                                action : () => {
                                     this.aggregation = agg;
                                     this.aggregationChange.next(agg);
                                     this.selectField.update();
