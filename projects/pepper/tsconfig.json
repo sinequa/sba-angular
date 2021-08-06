@@ -9,7 +9,8 @@
             "@sinequa/components": ["../components/public-api"],
             "@sinequa/components/*": ["../components/*"],
             "@sinequa/analytics": ["../analytics/public-api"],
-            "@sinequa/analytics/*": ["../analytics/*"]
+            "@sinequa/analytics/*": ["../analytics/*"],
+            "@sinequa/vanilla/*": ["../vanilla-search/src/*"]
         }
     },
     "files": [

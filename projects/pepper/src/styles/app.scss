@@ -44,8 +44,11 @@ sq-validation-message {
     }
 }
 
-// File formats & metadata icons
-@import "icons";
+// By default we now reference the Vanilla Search icons.scss stylesheet,
+// to avoid duplicating the same code.
+// Feel free to copy the stylesheet into this project, to avoid having
+// to modifying it in the Vanilla Search project.
+@import "../../../vanilla-search/src/styles/icons";
 
 // Preview stylings (incl. entity highlights & metadata)
 @import "preview";
