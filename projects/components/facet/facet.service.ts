@@ -574,7 +574,7 @@ export class FacetService {
     getAggregationLabel(aggregationName: string) : string {
         const ccagg = this.appService.getCCAggregation(aggregationName);
         if(ccagg) {
-            return this.appService.getPluralLabel(ccagg.column);
+            return this.appService.getPluralLabel(ccagg.column, aggregationName);
         }
         return aggregationName;
     }
