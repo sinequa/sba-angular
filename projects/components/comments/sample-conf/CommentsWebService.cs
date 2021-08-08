@@ -228,6 +228,10 @@ namespace Sinequa.Plugin
                         Read(client, docid);
                         break;
 
+                    case "count":
+                        Count(client, docid);
+                        break;
+
                     case "update":
                         Update(client, docid);
                         break;
@@ -325,6 +329,57 @@ namespace Sinequa.Plugin
             JsonResponse.Set("comments", Comment.ToJson(rootComments));
         }
 
+
+        /// <summary>
+        /// Get the number of comments for a given document or multiple documents
+        /// at once if a list of ids is provided
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="docid"></param>
+        private void Count(EngineClient client, string docid)
+        {
+            ListStr docids = Method.JsonRequest.ValueListStr("docids");
+
+            if(docids != null && docids.Count > 0)
+            {
+                var sep = dynamicSeparator("=", docids.ToStr(' ')); // Since document ids potentially contains ';', we have to look for a custom separator dynamically
+                var sql = $"SELECT DISTRIBUTION('docid,SEPARATOR=\"{sep}\"') AS ids FROM {indexname} WHERE {Sql.In("docid", docids)} LIMIT 1";
+
+                Cursor cursor = client.ExecCursor(sql);
+                if (cursor != null)
+                {
+                    // Write JSON
+                    var counts = Json.NewObject();
+                    var pairs = cursor.GetAttribute("ids").Split(new [] {sep}, StringSplitOptions.None);
+                    foreach(var pair in pairs)
+                    {
+                        int i = pair.LastIndexOf(';');
+                        counts.Set(pair.Substring(0,i), int.Parse(pair.Substring(i+1)));
+                    }
+                    JsonResponse.Set("counts", counts);
+                }
+                else
+                {
+                    throw new Exception("Cursor is null!");
+                }
+            }
+            else
+            {
+                var sql = $"SELECT id FROM {indexname} WHERE docid={Str.SqlValue(docid)} ORDER BY modified LIMIT 1";
+
+                Cursor cursor = client.ExecCursor(sql);
+                if (cursor != null)
+                {
+                    // Write JSON
+                    JsonResponse.Set("count", cursor.TotalRowCount);
+                }
+                else
+                {
+                    throw new Exception("Cursor is null!");
+                }
+            }
+        }
+        
 
         /// <summary>
         /// Update the content of a comment
@@ -573,6 +628,20 @@ namespace Sinequa.Plugin
             return data;
         }
 
+        /// <summary>
+        /// Helper method to create a dynamic separator which is not found in the data
+        /// </summary>
+        /// <param name="sep"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        private string dynamicSeparator(string sep, string data)
+        {
+            while(data.IndexOf(sep)>0)
+            {
+                sep += sep;
+            }
+            return sep;
+        }
     }
 
 
