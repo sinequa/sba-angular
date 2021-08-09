@@ -807,8 +807,10 @@ export class FacetService {
                 }
                 if (item.column?.eType === EngineType.csv) {
                     value = item.display || item.value || "";
+                    const path = item.value?.slice(0, -1);
+                    return ({count: 0, value, display: item.display, $column: item.column, $path: path, $excluded: (item?.not || item?.parent?.not)} as TreeAggregationNode);
                 }
-                return ({count: 0, value, display: item.display, $column: item.column, $path: item.value?.slice(0,-1), $excluded: (item?.not || item?.parent?.not)} as AggregationItem | TreeAggregationNode);
+                return ({count: 0, value, display: item.display, $column: item.column, $excluded: (item?.not || item?.parent?.not)} as AggregationItem);
             },
             (item: Expr) => ({count: 0, value: item.toString((item.value) ? true : false), display: item.display, $column: item.column, $excluded: (item?.not || item?.parent?.not)} as AggregationItem)
         ];
