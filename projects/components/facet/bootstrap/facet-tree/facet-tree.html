@@ -36,9 +36,9 @@
 <ng-template #itemsTpl let-items="items">
     <ng-container *ngFor="let item of items">
 
-        <a  class="d-flex flex-row align-items-center list-group-item border-0 pl-1 pr-3 py-1"
-            [ngClass]="{'list-group-item-primary':isSelected(item),'list-group-item-success':isFiltered(item),'list-group-item-action':!isFiltered(item), 'filtered':isFiltered(item) }" 
-            [title]="(isFiltered(item)? 'msg#facet.selectedValue' : 'msg#facet.itemSelect') | sqMessage" 
+        <a  class="d-flex flex-row align-items-center list-group-item border-0 pl-1 pr-3 py-1 sq-facet-row"
+            [ngClass]="{'list-group-item-primary':isSelected(item),'list-group-item-success':item.$filtered,'list-group-item-action':!item.$filtered, 'filtered':item.$filtered }" 
+            [title]="(item.$filtered ? 'msg#facet.selectedValue' : 'msg#facet.itemSelect') | sqMessage" 
             (click)="selectItem(item, $event)" href="#">
     
             <span class="mr-auto text-truncate" [ngStyle]="{'margin-left.rem' : item['$level'] - 1}">
@@ -56,9 +56,11 @@
 
             </span>
             
-            <i class="ml-2 far fa-check-square" *ngIf="isFiltered(item)"></i>
-
             <span *ngIf="showCount && item.count" class="ml-2 text-muted small">{{item.count | sqNumber}}</span>
+            <span *ngIf="item.$filtered" class="fa-stack cursor-pointer" (click)="filterItem(item, $event)">
+                <i class="ml-2 far fa-minus-square fa-stack-1x icons icon-hover rotate"></i>
+                <i class="ml-2 far fa-check-square fa-stack-1x icons icon-default rotate"></i>
+            </span>
     
         </a>
 

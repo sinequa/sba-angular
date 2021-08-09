@@ -30,3 +30,28 @@ $color-gray-800: #505050;
 .cursor-pointer {
   cursor: pointer;
 }
+
+.sq-facet-row {
+  .icons {
+    transition: opacity .3s, transform .3s ease;
+    
+    &.icon-hover {
+      opacity: 0;
+    }
+  }
+
+  &:hover {
+    .icon-default {
+      opacity: 0;  
+    }
+
+    .icon-hover {
+      opacity: 1;  
+    }
+  }
+  
+  .fa-stack {
+    height: 1.5em;
+    line-height: 1.5em;
+  }
+}
