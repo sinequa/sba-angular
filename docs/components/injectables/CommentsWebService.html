@@ -88,6 +88,12 @@
                                 <a href="#deleteComment">deleteComment</a>
                             </li>
                             <li>
+                                <a href="#getCommentCount">getCommentCount</a>
+                            </li>
+                            <li>
+                                <a href="#getCommentCounts">getCommentCounts</a>
+                            </li>
+                            <li>
                                 <a href="#getComments">getComments</a>
                             </li>
                             <li>
@@ -196,14 +202,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">comments/comments.web.service.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">comments/comments.web.service.ts:85</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Create a comment with given message for a given document</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -290,14 +298,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">comments/comments.web.service.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">comments/comments.web.service.ts:111</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Delete a specific comment</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -366,6 +376,150 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getCommentCount"></a>
+                    <span class="name">
+                        <b>
+                            getCommentCount
+                        </b>
+                        <a href="#getCommentCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getCommentCount(docid: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">comments/comments.web.service.ts:58</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Return the number of comments for a given document</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>docid</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;number&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCommentCounts"></a>
+                    <span class="name">
+                        <b>
+                            getCommentCounts
+                        </b>
+                        <a href="#getCommentCounts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getCommentCounts(docids: string[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">comments/comments.web.service.ts:69</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Return the number of comments for a list of documents</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>docids</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getComments"></a>
                     <span class="name">
                         <b>
@@ -384,14 +538,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">comments/comments.web.service.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">comments/comments.web.service.ts:47</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Return the list of comments for a given document</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -454,14 +610,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">comments/comments.web.service.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="123"
+                            class="link-to-prism">comments/comments.web.service.ts:123</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Add a like to a comment</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -536,14 +694,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">comments/comments.web.service.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="98"
+                            class="link-to-prism">comments/comments.web.service.ts:98</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Modify the content of a comment</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -616,7 +776,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable } from &quot;@angular/core&quot;;
 import { HttpService, SqHttpClient, StartConfig, START_CONFIG } from &quot;@sinequa/core/web-services&quot;;
-import { Observable } from &quot;rxjs&quot;;
+import { Observable, of } from &quot;rxjs&quot;;
 import { pluck } from &quot;rxjs/operators&quot;;
 
 declare interface CoreComment {
@@ -655,30 +815,87 @@ export class CommentsWebService extends HttpService {
         super(startConfig);
     }
 
+    /**
+     * Return the list of comments for a given document
+     * @param docid 
+     * @returns 
+     */
     getComments(docid: string): Observable&lt;Comment[]&gt; {
-        return this.httpClient.get&lt;{comments: Comment[]}&gt;(
-            this.makeUrl(this.endpoint), {params: {docid, action: &#x27;read&#x27;}}
+        return this.httpClient.post&lt;{comments: Comment[]}&gt;(
+            this.makeUrl(this.endpoint), {docid, action: &#x27;read&#x27;}
         ).pipe(pluck(&#x27;comments&#x27;));
     }
 
+    /**
+     * Return the number of comments for a given document
+     * @param docid 
+     * @returns 
+     */
+    getCommentCount(docid: string): Observable&lt;number&gt; {
+        return this.httpClient.post&lt;{count: number}&gt;(
+            this.makeUrl(this.endpoint), {docid, action: &#x27;count&#x27;}
+        ).pipe(pluck(&#x27;count&#x27;));
+    }
+
+    /**
+     * Return the number of comments for a list of documents
+     * @param docids 
+     * @returns 
+     */
+    getCommentCounts(docids: string[]): Observable&lt;{[id: string]: number}&gt; {
+        if(docids.length &#x3D;&#x3D;&#x3D; 0) {
+            return of({});
+        }
+        return this.httpClient.post&lt;{counts: {[id: string]: number}}&gt;(
+            this.makeUrl(this.endpoint), {docid: docids[0], docids, action: &#x27;count&#x27;}
+        ).pipe(pluck(&#x27;counts&#x27;));
+    }
+
+    /**
+     * Create a comment with given message for a given document
+     * @param docid 
+     * @param message 
+     * @param replyto 
+     * @returns 
+     */
     createComment(docid: string, message: string, replyto?: string): Observable&lt;NormalComment&gt; {
         return this.httpClient.post&lt;{comment: NormalComment}&gt;(
             this.makeUrl(this.endpoint), {docid, message, replyto, action: &#x27;create&#x27;}
         ).pipe(pluck(&#x27;comment&#x27;));
     }
 
+    /**
+     * Modify the content of a comment
+     * @param docid 
+     * @param commentid 
+     * @param message 
+     * @returns 
+     */
     updateComment(docid: string, commentid: string, message: string) {
         return this.httpClient.post&lt;{comment: NormalComment}&gt;(
             this.makeUrl(this.endpoint), {docid, commentid, message, action: &#x27;update&#x27;}
         ).pipe(pluck(&#x27;comment&#x27;));
     }
 
+    /**
+     * Delete a specific comment
+     * @param docid 
+     * @param commentid 
+     * @param markAsDeleted 
+     * @returns 
+     */
     deleteComment(docid: string, commentid: string, markAsDeleted: boolean): Observable&lt;void&gt; {
         return this.httpClient.post&lt;void&gt;(
             this.makeUrl(this.endpoint), {docid, commentid, markAsDeleted, action: &#x27;delete&#x27;}
         );
     }
 
+    /**
+     * Add a like to a comment
+     * @param docid 
+     * @param commentid 
+     * @returns 
+     */
     likeComment(docid: string, commentid: string): Observable&lt;NormalComment&gt; {
         return this.httpClient.post&lt;{comment: NormalComment}&gt;(
             this.makeUrl(this.endpoint), {docid, commentid, action: &#x27;like&#x27;}

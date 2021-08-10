@@ -539,7 +539,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>forRoot(allFacets: any[], defaultFacets: <a href="../interfaces/FacetState.html">FacetState[]</a>)</code>
+                    <code>forRoot(allFacets: any[] | undefined, defaultFacets: <a href="../interfaces/FacetState.html">FacetState[] | undefined</a>)</code>
                 </td>
             </tr>
 
@@ -570,7 +570,7 @@
                                 <tr>
                                     <td>allFacets</td>
                                     <td>
-                                            <code>any[]</code>
+                                            <code>any[] | undefined</code>
                                     </td>
 
                                     <td>
@@ -578,14 +578,14 @@
                                     </td>
 
                                     <td>
-                                        <code>[]</code>
+                                        <code>undefined</code>
                                     </td>
 
                                 </tr>
                                 <tr>
                                     <td>defaultFacets</td>
                                     <td>
-                                                <code><a href="../interfaces/FacetState.html" target="_self" >FacetState[]</a></code>
+                                                <code><a href="../interfaces/FacetState.html" target="_self" >FacetState[] | undefined</a></code>
                                     </td>
 
                                     <td>
@@ -593,7 +593,7 @@
                                     </td>
 
                                     <td>
-                                        <code>[]</code>
+                                        <code>undefined</code>
                                     </td>
 
                                 </tr>
@@ -678,7 +678,7 @@ import { BsFacetTagCloud } from &#x27;./facet-tag-cloud/facet-tag-cloud&#x27;;
     ],
 })
 export class BsFacetModule {
-    public static forRoot(allFacets: any[] &#x3D; [], defaultFacets: FacetState[] &#x3D; []): ModuleWithProviders&lt;BsFacetModule&gt; {
+    public static forRoot(allFacets: any[]|undefined &#x3D; undefined, defaultFacets: FacetState[]|undefined &#x3D; undefined): ModuleWithProviders&lt;BsFacetModule&gt; {
         return {
             ngModule: BsFacetModule,
             providers: [

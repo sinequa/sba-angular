@@ -70,6 +70,7 @@
         <h3>Implements</h3>
     </p>
     <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
                     <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
     </p>
 
@@ -154,7 +155,7 @@
                                 <a href="#ngOnChanges">ngOnChanges</a>
                             </li>
                             <li>
-                                <a href="#onClickToggleFacet">onClickToggleFacet</a>
+                                <a href="#ngOnInit">ngOnInit</a>
                             </li>
                         </ul>
                     </td>
@@ -175,7 +176,7 @@
                                 <a href="#autoAdjustBreakpoint">autoAdjustBreakpoint</a>
                             </li>
                             <li>
-                                <a href="#enableAddFacet">enableAddFacet</a>
+                                <a href="#enableCustomization">enableCustomization</a>
                             </li>
                             <li>
                                 <a href="#facets">facets</a>
@@ -196,6 +197,26 @@
 
 
 
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#filteredFacets">filteredFacets</a>
+                                </li>
+                                <li>
+                                    <a href="#userFacets">userFacets</a>
+                                </li>
+                                <li>
+                                    <a href="#hasFacetSelected">hasFacetSelected</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
         </tbody>
     </table>
 </section>
@@ -307,8 +328,8 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="enableAddFacet"></a>
-                        <b>enableAddFacet</b>
+                        <a name="enableCustomization"></a>
+                        <b>enableCustomization</b>
                     </td>
                 </tr>
                 <tr>
@@ -443,8 +464,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">facet/bootstrap/facet-filters/facet-filters.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">facet/bootstrap/facet-filters/facet-filters.ts:56</a></div>
                 </td>
             </tr>
 
@@ -464,26 +485,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="onClickToggleFacet"></a>
+                    <a name="ngOnInit"></a>
                     <span class="name">
                         <b>
-                            onClickToggleFacet
+                            ngOnInit
                         </b>
-                        <a href="#onClickToggleFacet"><span class="icon ion-ios-link"></span></a>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onClickToggleFacet(item: <a href="../interfaces/Action.html">Action</a>, $event: UIEvent)</code>
+<code>ngOnInit()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="97"
-                            class="link-to-prism">facet/bootstrap/facet-filters/facet-filters.ts:97</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">facet/bootstrap/facet-filters/facet-filters.ts:45</a></div>
                 </td>
             </tr>
 
@@ -491,52 +512,9 @@
             <tr>
                 <td class="col-md-4">
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>item</td>
-                                    <td>
-                                                <code><a href="../interfaces/Action.html" target="_self" >Action</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>$event</td>
-                                    <td>
-                                            <code>UIEvent</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -655,11 +633,82 @@
         </table>
 </section>
 
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="filteredFacets"></a>
+                        <span class="name"><b>filteredFacets</b><a href="#filteredFacets"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>filteredFacets()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="154" class="link-to-prism">facet/bootstrap/facet-filters/facet-filters.ts:154</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="userFacets"></a>
+                        <span class="name"><b>userFacets</b><a href="#userFacets"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>userFacets()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="167" class="link-to-prism">facet/bootstrap/facet-filters/facet-filters.ts:167</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="hasFacetSelected"></a>
+                        <span class="name"><b>hasFacetSelected</b><a href="#hasFacetSelected"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>hasFacetSelected()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="171" class="link-to-prism">facet/bootstrap/facet-filters/facet-filters.ts:171</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
 </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input, OnChanges} from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input, OnChanges, OnInit} from &quot;@angular/core&quot;;
 import {Results} from &quot;@sinequa/core/web-services&quot;;
 import {FacetService} from &quot;../../facet.service&quot;;
 import {Action} from &quot;@sinequa/components/action&quot;;
@@ -672,10 +721,10 @@ import {BsFacetTree} from &#x27;../facet-tree/facet-tree&#x27;;
     templateUrl: &quot;./facet-filters.html&quot;,
     styleUrls: [&quot;./facet-filters.css&quot;]
 })
-export class BsFacetFilters implements OnChanges {
+export class BsFacetFilters implements OnInit, OnChanges {
     @Input() results: Results;
     @Input() facets: FacetConfig[];
-    @Input() enableAddFacet &#x3D; false;
+    @Input() enableCustomization &#x3D; false;
 
     @Input() autoAdjust: boolean &#x3D; true;
     @Input() autoAdjustBreakpoint: string &#x3D; &#x27;xl&#x27;;
@@ -703,6 +752,17 @@ export class BsFacetFilters implements OnChanges {
         this.filters &#x3D; [];
     }
 
+    ngOnInit() {
+        if (!this.enableCustomization) return;
+
+        if (!this.facetService.defaultFacets) {
+            this.facetService.defaultFacets &#x3D; [];
+            for (let facet of this.facets) this.facetService.defaultFacets.push({name: facet.name, position: 0, hidden: false, expanded: true, view: &quot;&quot;});
+        }
+
+        if (!this.facetService.allFacets) this.facetService.allFacets &#x3D; this.facets;
+    }
+
     ngOnChanges() {
         if(!!this.results)
             this.buildFilters();
@@ -717,7 +777,7 @@ export class BsFacetFilters implements OnChanges {
     private buildFilters() {
 
         // For each facet
-        this.filters &#x3D; this.facets.map((facet: FacetConfig) &#x3D;&gt; {
+        this.filters &#x3D; this.filteredFacets.map((facet: FacetConfig) &#x3D;&gt; {
 
             const children &#x3D; [
                 new Action({
@@ -725,23 +785,6 @@ export class BsFacetFilters implements OnChanges {
                     componentInputs: {results: this.results, name: facet.name, aggregation: facet.aggregation, searchable: facet.searchable, displayActions: true}
                 })
             ];
-
-            if (this.enableAddFacet) {
-                const isOpened &#x3D; this.facetService.isFacetOpened(facet.name);
-
-                children.push(...[
-                    new Action({separator: true}),
-                    new Action({
-                    name: &quot;toggle-facet&quot;,
-                    icon: isOpened ? this.facetStatus.remove.icon : this.facetStatus.add.icon,
-                    text: isOpened ? this.facetStatus.remove.title : this.facetStatus.add.title,
-                    title: isOpened ? this.facetStatus.remove.title : this.facetStatus.add.title,
-                    data: facet,
-                    action: (ActionItem: Action, $event: UIEvent) &#x3D;&gt; {
-                        this.onClickToggleFacet(ActionItem, $event);
-                    }
-                })]);
-            }
 
             return new Action({
                 name: facet.name,
@@ -753,22 +796,8 @@ export class BsFacetFilters implements OnChanges {
                 children: children
             });
         });
-    }
 
-    onClickToggleFacet(item: Action, $event: UIEvent) {
-
-        const facet &#x3D; item.data as any;
-
-        if (item.title &#x3D;&#x3D;&#x3D; this.facetStatus.add.title) {
-            item.text &#x3D; item.title &#x3D; this.facetStatus.remove.title;
-            item.icon &#x3D; this.facetStatus.remove.icon;
-            this.facetService.addFacet({name: facet.name, position: 0, hidden: false, expanded: true, view: &quot;&quot;});
-        }
-        else {
-            item.text &#x3D; item.title &#x3D; this.facetStatus.add.title;
-            item.icon &#x3D; this.facetStatus.add.icon;
-            this.facetService.removeFacet({name: facet.name, position: 0, hidden: false, expanded: true, view: &quot;&quot;});
-        }
+        if (this.enableCustomization) this.addFacetMenu();
     }
 
     /**
@@ -791,6 +820,71 @@ export class BsFacetFilters implements OnChanges {
         return this.facetService.hasData(facet.aggregation, this.results);
     }
 
+    private addFacetMenu() {
+        let outFacets: Action[] &#x3D; [];
+
+        outFacets.push(new Action({
+            name: &#x60;add_remove_all&#x60;,
+            text: this.userFacets.length &lt; this.facets.length ? &quot;msg#facet.filters.addAll&quot; : &quot;msg#facet.filters.removeAll&quot;,
+            icon: this.hasFacetSelected ? 
+                    (this.userFacets.length &lt; this.facets.length ? &quot;far fa-minus-square mr-1&quot; : &quot;far fa-check-square mr-1&quot;)
+                    : &quot;far fa-square mr-1&quot;,
+            title: this.userFacets.length &lt; this.facets.length ? &quot;msg#facet.filters.addAll&quot; : &quot;msg#facet.filters.removeAll&quot;,
+            action: () &#x3D;&gt; {
+                if (this.hasFacetSelected &amp;&amp; this.userFacets.length &#x3D;&#x3D;&#x3D; this.facets.length) this.facetService.removeAllFacet();
+                else this.facetService.addAllFacet();
+                this.buildFilters();
+            }
+        }));
+
+        for (let facet of this.facets) {
+            outFacets.push(new Action({
+                name: &#x60;add_remove_${facet.name}&#x60;,
+                text: facet.title,
+                icon: facet.icon,
+                selected: !!this.userFacets?.find(userFacet &#x3D;&gt; userFacet.name &#x3D;&#x3D;&#x3D; facet.name),
+                title: !!this.userFacets?.find(userFacet &#x3D;&gt; userFacet.name &#x3D;&#x3D;&#x3D; facet.name) ? &quot;msg#facet.filters.add&quot; : &quot;msg#facet.filters.remove&quot;,
+                action: () &#x3D;&gt; {
+                    if (this.userFacets?.find(userFacet &#x3D;&gt; userFacet.name &#x3D;&#x3D;&#x3D; facet.name)) this.facetService.removeFacet({name: facet.name, position: 0, hidden: false, expanded: true, view: &quot;&quot;})
+                    else this.facetService.addFacet({name: facet.name, position: 0, hidden: false, expanded: true, view: &quot;&quot;});
+                    this.buildFilters();
+                }
+            }));
+        }
+
+        let add_action &#x3D; new Action({
+            name: &quot;facets_config&quot;,
+            icon: &quot;fas fa-cog&quot;,
+            title: &quot;msg#facet.filters.customizeFacets&quot;,
+            children: outFacets
+        });
+        this.filters &#x3D; [add_action, ...this.filters]; 
+    }
+
+    get filteredFacets() {
+        if (!this.enableCustomization) return this.facets;
+        let new_facets: FacetConfig[] &#x3D; [];
+
+        if (this.userFacets) {
+            for (let facet of this.facets) {
+                let pos &#x3D; this.userFacets.findIndex((userFacet) &#x3D;&gt; userFacet.name &#x3D;&#x3D;&#x3D; facet.name);
+                if (pos &gt;&#x3D; 0) new_facets.push(facet);
+            }
+        }
+        return new_facets;
+    }
+
+    get userFacets() {
+        return this.facetService.facets;
+    }
+
+    get hasFacetSelected() {
+        if (this.userFacets.length &#x3D;&#x3D;&#x3D; 0) return false;
+        for (let facet of this.facets) {
+            if (this.userFacets.find(userFacet &#x3D;&gt; userFacet.name &#x3D;&#x3D;&#x3D; facet.name)) return true;
+        }
+        return false;
+    }
 }
 </code></pre>
     </div>

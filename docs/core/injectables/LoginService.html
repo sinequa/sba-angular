@@ -312,8 +312,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="275"
-                            class="link-to-prism">login/login.service.ts:275</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="280"
+                            class="link-to-prism">login/login.service.ts:280</a></div>
                 </td>
             </tr>
 
@@ -894,18 +894,23 @@ export class LoginService implements OnDestroy {
         }
         let appNeeded: boolean;
         if (this.router) {
-            const queryParams &#x3D; Utils.copy(this.router.routerState.snapshot.root.queryParams);
+            const hash &#x3D; window.location.hash.replace(&quot;#&quot;, &quot;&quot;);
+            const href &#x3D; hash.split(&quot;?&quot;)[0];
+            const params &#x3D; new URLSearchParams(hash.split(&quot;?&quot;)[1]);
+            const queryParams &#x3D; {}
+            params.forEach((v, k) &#x3D;&gt; queryParams[k] &#x3D; v);
+
             // Pick up any user override from the query string
-            const overrideUser &#x3D; queryParams.overrideUser;
-            const overrideDomain &#x3D; queryParams.overrideDomain;
+            const overrideUser &#x3D; queryParams[&quot;overrideUser&quot;];
+            const overrideDomain &#x3D; queryParams[&quot;overrideDomain&quot;];
             if (overrideUser) {
                 this.authenticationService.userOverride &#x3D; {
                     userName: overrideUser,
                     domain: overrideDomain
                 };
-                delete queryParams.overrideUser;
-                delete queryParams.overrideDomain;
-                const url &#x3D; Utils.makeURL(this.router.url);
+                delete queryParams[&quot;overrideUser&quot;];
+                delete queryParams[&quot;overrideDomain&quot;];
+                const url &#x3D; Utils.makeURL(href);
                 this.router.navigate([url.pathname], {queryParams});
             }
         }

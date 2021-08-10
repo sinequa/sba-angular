@@ -264,7 +264,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
 
   sortAction : Action;
   extracts: Extract[] &#x3D; [];
-  currentExtract &#x3D; -1;
+  currentIndex &#x3D; -1;
   loading &#x3D; false;
   loadCompleteSubscription: Subscription;
 
@@ -325,22 +325,35 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
     
     return previewDocument;
   }
-  
+
   private extractAll(extracts:HighlightValue[], previewDocument: PreviewDocument) {
     // Init the extracts Array and storing the relevancy index &#x3D; i because extractsLocations is already ordered by relevance
+    // but extract&#x27;s text is sort by &quot;start&quot;, that why text is set to empty here
     this.extracts &#x3D; extracts[0].locations.map((el, i) &#x3D;&gt; ({
-      text: this.sanitize(previewDocument.getHighlightText(&quot;extractslocations&quot;, i)),
+      text: &quot;&quot;,
       startIndex: el.start,
-      relevanceIndex: i,
-      textIndex: i
-    }))
-    .filter(el &#x3D;&gt; el.text !&#x3D;&#x3D; &#x27;&#x27;)
-    .sort((a,b) &#x3D;&gt; a.relevanceIndex - b.relevanceIndex);
+      relevanceIndex: i,  // used to sort by relevance index
+      textIndex: 0
+    }));
 
+    // next sort the array by startIndex to extract the correct extract&#x27;s text
+    // and set the textIndex
+    this.extracts.sort((a, b) &#x3D;&gt; a.startIndex - b.startIndex) // Sorting by start index (text index)
+    .forEach((el, i) &#x3D;&gt; {
+      el.text &#x3D; this.sanitize(previewDocument.getHighlightText(&quot;extractslocations&quot;, i)); // get the text
+      el.textIndex &#x3D; i // Storing the TextIndex to be able to select extracts
+    });
+
+    // do not take item without text
+    this.extracts &#x3D; this.extracts.filter(el &#x3D;&gt; el.text !&#x3D;&#x3D; &#x27;&#x27;);
+    
+    // finally sort extracts by relevance
+    this.extracts.sort((a,b) &#x3D;&gt; a.relevanceIndex - b.relevanceIndex);
+    
     this.buildSortAction();
           
     this.loading &#x3D; false;
-    this.currentExtract &#x3D; -1;
+    this.currentIndex &#x3D; -1;
     this.cdr.detectChanges();
   }
 
@@ -357,16 +370,20 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
           icon: &#x27;fas fa-sort-amount-down&#x27;,
           text: &quot;msg#preview.relevanceSortHighlightButtonText&quot;,
           action: (item: Action, event: Event) &#x3D;&gt; {
-              this.extracts.sort((a,b) &#x3D;&gt; a.relevanceIndex-b.relevanceIndex);
-              this.sortAction.text &#x3D; item.text;
-          }
+            // return a new map to re-render the collection
+            this.extracts &#x3D; this.extracts.map(el &#x3D;&gt; el).sort((a, b) &#x3D;&gt; a.relevanceIndex - b.relevanceIndex);
+            this.sortAction.text &#x3D; item.text;
+            this.currentIndex &#x3D; -1;
+            }
         }),
         new Action({
           icon: &#x27;fas fa-sort-amount-down&#x27;,
           text: &quot;msg#preview.textOrderSortHighlightButtonText&quot;,
           action: (item: Action, event: Event) &#x3D;&gt; {
-              this.extracts.sort((a,b) &#x3D;&gt; a.textIndex-b.textIndex);
-              this.sortAction.text &#x3D; item.text;
+            // return a new map to re-render the collection
+            this.extracts &#x3D; this.extracts.map(el &#x3D;&gt; el).sort((a,b) &#x3D;&gt; a.textIndex-b.textIndex);
+            this.sortAction.text &#x3D; item.text;
+            this.currentIndex &#x3D; -1;
           }
         })
       ]
@@ -378,12 +395,14 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
    * Scroll to a specific extract
    * @param i
    */
-  scrollExtract(i: number, index?: number) {
-    if(index !&#x3D;&#x3D; undefined) {
-      this.currentExtract &#x3D; index;
+  scrollExtract(extract: Extract, index?: number) {
+    if (index !&#x3D;&#x3D; undefined) {
+      this.currentIndex &#x3D; index;
     }
-    if(this.previewDocument) {
-      this.previewDocument.selectHighlight(&quot;extractslocations&quot;, i);
+
+    if (this.previewDocument) {
+      // extracts are always at textIndex position whatever the sort
+      this.previewDocument.selectHighlight(&quot;extractslocations&quot;, extract.textIndex);
     }
     return false;
   }
@@ -400,18 +419,22 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
    * Select the previous extract in the list
    */
   previousExtract(){
-    this.currentExtract--;
-    this.cdkScrollViewport.scrollToIndex(this.currentExtract);
-    this.scrollExtract(this.extracts[this.currentExtract].textIndex);
+    this.currentIndex--;
+    this.scrollTo();
   }
 
   /**
    * Select the next extract in the list
    */
   nextExtract(){
-    this.currentExtract++;
-    this.cdkScrollViewport.scrollToIndex(this.currentExtract);
-    this.scrollExtract(this.extracts[this.currentExtract].textIndex);
+    this.currentIndex++;
+    this.scrollTo();
+  }
+  
+  private scrollTo() {
+    this.cdkScrollViewport.scrollToIndex(this.currentIndex);
+    const extract &#x3D; this.extracts[this.currentIndex];
+    this.scrollExtract(extract);
   }
 }
 </code></pre>

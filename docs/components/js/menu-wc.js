@@ -55,13 +55,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/BsActionModule.html" data-type="entity-link">BsActionModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-BsActionModule-8638910d9817aa61ec9fd2cfd7c4b102"' : 'data-target="#xs-components-links-module-BsActionModule-8638910d9817aa61ec9fd2cfd7c4b102"' }>
+                                            'data-target="#components-links-module-BsActionModule-1db4542e3ffd42243b0e85d090271b7b"' : 'data-target="#xs-components-links-module-BsActionModule-1db4542e3ffd42243b0e85d090271b7b"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsActionModule-8638910d9817aa61ec9fd2cfd7c4b102"' :
-                                            'id="xs-components-links-module-BsActionModule-8638910d9817aa61ec9fd2cfd7c4b102"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsActionModule-1db4542e3ffd42243b0e85d090271b7b"' :
+                                            'id="xs-components-links-module-BsActionModule-1db4542e3ffd42243b0e85d090271b7b"' }>
                                             <li class="link">
                                                 <a href="components/BsActionButtons.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsActionButtons</a>
@@ -86,13 +86,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     </li>
                                 <li class="chapter inner">
                                     <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                        'data-target="#directives-links-module-BsActionModule-8638910d9817aa61ec9fd2cfd7c4b102"' : 'data-target="#xs-directives-links-module-BsActionModule-8638910d9817aa61ec9fd2cfd7c4b102"' }>
+                                        'data-target="#directives-links-module-BsActionModule-1db4542e3ffd42243b0e85d090271b7b"' : 'data-target="#xs-directives-links-module-BsActionModule-1db4542e3ffd42243b0e85d090271b7b"' }>
                                         <span class="icon ion-md-code-working"></span>
                                         <span>Directives</span>
                                         <span class="icon ion-ios-arrow-down"></span>
                                     </div>
-                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-BsActionModule-8638910d9817aa61ec9fd2cfd7c4b102"' :
-                                        'id="xs-directives-links-module-BsActionModule-8638910d9817aa61ec9fd2cfd7c4b102"' }>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-BsActionModule-1db4542e3ffd42243b0e85d090271b7b"' :
+                                        'id="xs-directives-links-module-BsActionModule-1db4542e3ffd42243b0e85d090271b7b"' }>
                                         <li class="link">
                                             <a href="directives/BsDropdownDirective.html"
                                                 data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsDropdownDirective</a>
@@ -104,13 +104,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/BsAdvancedModule.html" data-type="entity-link">BsAdvancedModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-BsAdvancedModule-27216eba9451b119ca69caa40d070761"' : 'data-target="#xs-components-links-module-BsAdvancedModule-27216eba9451b119ca69caa40d070761"' }>
+                                            'data-target="#components-links-module-BsAdvancedModule-d936da353081b6d0ab79942776768d49"' : 'data-target="#xs-components-links-module-BsAdvancedModule-d936da353081b6d0ab79942776768d49"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsAdvancedModule-27216eba9451b119ca69caa40d070761"' :
-                                            'id="xs-components-links-module-BsAdvancedModule-27216eba9451b119ca69caa40d070761"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsAdvancedModule-d936da353081b6d0ab79942776768d49"' :
+                                            'id="xs-components-links-module-BsAdvancedModule-d936da353081b6d0ab79942776768d49"' }>
                                             <li class="link">
                                                 <a href="components/BsAdvancedFormCheckbox.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsAdvancedFormCheckbox</a>
@@ -147,13 +147,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     </li>
                                 <li class="chapter inner">
                                     <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                        'data-target="#directives-links-module-BsAdvancedModule-27216eba9451b119ca69caa40d070761"' : 'data-target="#xs-directives-links-module-BsAdvancedModule-27216eba9451b119ca69caa40d070761"' }>
+                                        'data-target="#directives-links-module-BsAdvancedModule-d936da353081b6d0ab79942776768d49"' : 'data-target="#xs-directives-links-module-BsAdvancedModule-d936da353081b6d0ab79942776768d49"' }>
                                         <span class="icon ion-md-code-working"></span>
                                         <span>Directives</span>
                                         <span class="icon ion-ios-arrow-down"></span>
                                     </div>
-                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-BsAdvancedModule-27216eba9451b119ca69caa40d070761"' :
-                                        'id="xs-directives-links-module-BsAdvancedModule-27216eba9451b119ca69caa40d070761"' }>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-BsAdvancedModule-d936da353081b6d0ab79942776768d49"' :
+                                        'id="xs-directives-links-module-BsAdvancedModule-d936da353081b6d0ab79942776768d49"' }>
                                         <li class="link">
                                             <a href="directives/BsAdvancedFormAutocomplete.html"
                                                 data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsAdvancedFormAutocomplete</a>
@@ -173,13 +173,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/BsAlertsModule.html" data-type="entity-link">BsAlertsModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-BsAlertsModule-f66c359a9046ae303c74e30e7c9d5b59"' : 'data-target="#xs-components-links-module-BsAlertsModule-f66c359a9046ae303c74e30e7c9d5b59"' }>
+                                            'data-target="#components-links-module-BsAlertsModule-c1378a7ddd45d2ba8e1f7a2273fff3e6"' : 'data-target="#xs-components-links-module-BsAlertsModule-c1378a7ddd45d2ba8e1f7a2273fff3e6"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsAlertsModule-f66c359a9046ae303c74e30e7c9d5b59"' :
-                                            'id="xs-components-links-module-BsAlertsModule-f66c359a9046ae303c74e30e7c9d5b59"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsAlertsModule-c1378a7ddd45d2ba8e1f7a2273fff3e6"' :
+                                            'id="xs-components-links-module-BsAlertsModule-c1378a7ddd45d2ba8e1f7a2273fff3e6"' }>
                                             <li class="link">
                                                 <a href="components/BsAlertMessageComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsAlertMessageComponent</a>
@@ -244,13 +244,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/BsBasketsModule.html" data-type="entity-link">BsBasketsModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-BsBasketsModule-b16341aaaf4b8d335b45b9c952876460"' : 'data-target="#xs-components-links-module-BsBasketsModule-b16341aaaf4b8d335b45b9c952876460"' }>
+                                            'data-target="#components-links-module-BsBasketsModule-9ba85a25aaa44b2e368749483a641b20"' : 'data-target="#xs-components-links-module-BsBasketsModule-9ba85a25aaa44b2e368749483a641b20"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsBasketsModule-b16341aaaf4b8d335b45b9c952876460"' :
-                                            'id="xs-components-links-module-BsBasketsModule-b16341aaaf4b8d335b45b9c952876460"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsBasketsModule-9ba85a25aaa44b2e368749483a641b20"' :
+                                            'id="xs-components-links-module-BsBasketsModule-9ba85a25aaa44b2e368749483a641b20"' }>
                                             <li class="link">
                                                 <a href="components/BsBasketsMenuComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsBasketsMenuComponent</a>
@@ -282,13 +282,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/BsFacetModule.html" data-type="entity-link">BsFacetModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-BsFacetModule-46e11bd6cdba20ade6c2cfc1ad3bdff7"' : 'data-target="#xs-components-links-module-BsFacetModule-46e11bd6cdba20ade6c2cfc1ad3bdff7"' }>
+                                            'data-target="#components-links-module-BsFacetModule-999bd4b63ddf49169113eba85c9d1353"' : 'data-target="#xs-components-links-module-BsFacetModule-999bd4b63ddf49169113eba85c9d1353"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsFacetModule-46e11bd6cdba20ade6c2cfc1ad3bdff7"' :
-                                            'id="xs-components-links-module-BsFacetModule-46e11bd6cdba20ade6c2cfc1ad3bdff7"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsFacetModule-999bd4b63ddf49169113eba85c9d1353"' :
+                                            'id="xs-components-links-module-BsFacetModule-999bd4b63ddf49169113eba85c9d1353"' }>
                                             <li class="link">
                                                 <a href="components/BsFacetBar.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsFacetBar</a>
@@ -442,13 +442,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/BsNotificationModule.html" data-type="entity-link">BsNotificationModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-BsNotificationModule-b4363fb049171fed3992bbe3d695cc83"' : 'data-target="#xs-components-links-module-BsNotificationModule-b4363fb049171fed3992bbe3d695cc83"' }>
+                                            'data-target="#components-links-module-BsNotificationModule-caa2bd266662bc51314ee3c219de3da2"' : 'data-target="#xs-components-links-module-BsNotificationModule-caa2bd266662bc51314ee3c219de3da2"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsNotificationModule-b4363fb049171fed3992bbe3d695cc83"' :
-                                            'id="xs-components-links-module-BsNotificationModule-b4363fb049171fed3992bbe3d695cc83"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsNotificationModule-caa2bd266662bc51314ee3c219de3da2"' :
+                                            'id="xs-components-links-module-BsNotificationModule-caa2bd266662bc51314ee3c219de3da2"' }>
                                             <li class="link">
                                                 <a href="components/BsNotification.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsNotification</a>
@@ -468,13 +468,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/BsPreviewModule.html" data-type="entity-link">BsPreviewModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-BsPreviewModule-800d775b3a3cedeeb52bca6d07941575"' : 'data-target="#xs-components-links-module-BsPreviewModule-800d775b3a3cedeeb52bca6d07941575"' }>
+                                            'data-target="#components-links-module-BsPreviewModule-22157fe2a773cd4cd45561756c34101b"' : 'data-target="#xs-components-links-module-BsPreviewModule-22157fe2a773cd4cd45561756c34101b"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsPreviewModule-800d775b3a3cedeeb52bca6d07941575"' :
-                                            'id="xs-components-links-module-BsPreviewModule-800d775b3a3cedeeb52bca6d07941575"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsPreviewModule-22157fe2a773cd4cd45561756c34101b"' :
+                                            'id="xs-components-links-module-BsPreviewModule-22157fe2a773cd4cd45561756c34101b"' }>
                                             <li class="link">
                                                 <a href="components/BsFacetPreview.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsFacetPreview</a>
@@ -578,13 +578,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/BsSavedQueriesModule.html" data-type="entity-link">BsSavedQueriesModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-BsSavedQueriesModule-6c72f336c2cf6973d1860ca3680aafec"' : 'data-target="#xs-components-links-module-BsSavedQueriesModule-6c72f336c2cf6973d1860ca3680aafec"' }>
+                                            'data-target="#components-links-module-BsSavedQueriesModule-e4f98a36493a8c4da1c10bcd180569fd"' : 'data-target="#xs-components-links-module-BsSavedQueriesModule-e4f98a36493a8c4da1c10bcd180569fd"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsSavedQueriesModule-6c72f336c2cf6973d1860ca3680aafec"' :
-                                            'id="xs-components-links-module-BsSavedQueriesModule-6c72f336c2cf6973d1860ca3680aafec"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsSavedQueriesModule-e4f98a36493a8c4da1c10bcd180569fd"' :
+                                            'id="xs-components-links-module-BsSavedQueriesModule-e4f98a36493a8c4da1c10bcd180569fd"' }>
                                             <li class="link">
                                                 <a href="components/BsEditSavedQuery.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsEditSavedQuery</a>
@@ -624,13 +624,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/BsSearchModule.html" data-type="entity-link">BsSearchModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-BsSearchModule-018364c8928a5a8cb1dcb5ce2e5a24c4"' : 'data-target="#xs-components-links-module-BsSearchModule-018364c8928a5a8cb1dcb5ce2e5a24c4"' }>
+                                            'data-target="#components-links-module-BsSearchModule-e3e1736526a9e95a14d41a8d717e24c4"' : 'data-target="#xs-components-links-module-BsSearchModule-e3e1736526a9e95a14d41a8d717e24c4"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsSearchModule-018364c8928a5a8cb1dcb5ce2e5a24c4"' :
-                                            'id="xs-components-links-module-BsSearchModule-018364c8928a5a8cb1dcb5ce2e5a24c4"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsSearchModule-e3e1736526a9e95a14d41a8d717e24c4"' :
+                                            'id="xs-components-links-module-BsSearchModule-e3e1736526a9e95a14d41a8d717e24c4"' }>
                                             <li class="link">
                                                 <a href="components/BsBreadcrumbs.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsBreadcrumbs</a>
@@ -722,13 +722,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/BsThemeToggleModule.html" data-type="entity-link">BsThemeToggleModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-BsThemeToggleModule-db7bbcee3fb83fdf085967cd992cced4"' : 'data-target="#xs-components-links-module-BsThemeToggleModule-db7bbcee3fb83fdf085967cd992cced4"' }>
+                                            'data-target="#components-links-module-BsThemeToggleModule-066ca2061c10e4759995b62795962e12"' : 'data-target="#xs-components-links-module-BsThemeToggleModule-066ca2061c10e4759995b62795962e12"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsThemeToggleModule-db7bbcee3fb83fdf085967cd992cced4"' :
-                                            'id="xs-components-links-module-BsThemeToggleModule-db7bbcee3fb83fdf085967cd992cced4"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsThemeToggleModule-066ca2061c10e4759995b62795962e12"' :
+                                            'id="xs-components-links-module-BsThemeToggleModule-066ca2061c10e4759995b62795962e12"' }>
                                             <li class="link">
                                                 <a href="components/BsThemeToggleComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">BsThemeToggleComponent</a>
@@ -766,13 +766,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/CollapseModule.html" data-type="entity-link">CollapseModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-CollapseModule-9697b33cf345a8acfa70d595a02851dc"' : 'data-target="#xs-components-links-module-CollapseModule-9697b33cf345a8acfa70d595a02851dc"' }>
+                                            'data-target="#components-links-module-CollapseModule-1868c621e04bcaeec162ea08f2d09597"' : 'data-target="#xs-components-links-module-CollapseModule-1868c621e04bcaeec162ea08f2d09597"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-CollapseModule-9697b33cf345a8acfa70d595a02851dc"' :
-                                            'id="xs-components-links-module-CollapseModule-9697b33cf345a8acfa70d595a02851dc"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-CollapseModule-1868c621e04bcaeec162ea08f2d09597"' :
+                                            'id="xs-components-links-module-CollapseModule-1868c621e04bcaeec162ea08f2d09597"' }>
                                             <li class="link">
                                                 <a href="components/Collapse.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">Collapse</a>
@@ -951,13 +951,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/ResultModule.html" data-type="entity-link">ResultModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-ResultModule-2bf9b819e8674e98d3105d5776ce9d79"' : 'data-target="#xs-components-links-module-ResultModule-2bf9b819e8674e98d3105d5776ce9d79"' }>
+                                            'data-target="#components-links-module-ResultModule-1bbcaf00d6458338470813bc39ebf84c"' : 'data-target="#xs-components-links-module-ResultModule-1bbcaf00d6458338470813bc39ebf84c"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ResultModule-2bf9b819e8674e98d3105d5776ce9d79"' :
-                                            'id="xs-components-links-module-ResultModule-2bf9b819e8674e98d3105d5776ce9d79"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ResultModule-1bbcaf00d6458338470813bc39ebf84c"' :
+                                            'id="xs-components-links-module-ResultModule-1bbcaf00d6458338470813bc39ebf84c"' }>
                                             <li class="link">
                                                 <a href="components/ResultExtracts.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">ResultExtracts</a>
@@ -1001,13 +1001,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/UtilsModule.html" data-type="entity-link">UtilsModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-UtilsModule-80fe1d504a3d03541a6d35ac9110eb74"' : 'data-target="#xs-components-links-module-UtilsModule-80fe1d504a3d03541a6d35ac9110eb74"' }>
+                                            'data-target="#components-links-module-UtilsModule-317d3876afb97274d2845ea38108bcde"' : 'data-target="#xs-components-links-module-UtilsModule-317d3876afb97274d2845ea38108bcde"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-UtilsModule-80fe1d504a3d03541a6d35ac9110eb74"' :
-                                            'id="xs-components-links-module-UtilsModule-80fe1d504a3d03541a6d35ac9110eb74"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-UtilsModule-317d3876afb97274d2845ea38108bcde"' :
+                                            'id="xs-components-links-module-UtilsModule-317d3876afb97274d2845ea38108bcde"' }>
                                             <li class="link">
                                                 <a href="components/StickyComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">StickyComponent</a>
@@ -1020,13 +1020,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     </li>
                                 <li class="chapter inner">
                                     <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                        'data-target="#directives-links-module-UtilsModule-80fe1d504a3d03541a6d35ac9110eb74"' : 'data-target="#xs-directives-links-module-UtilsModule-80fe1d504a3d03541a6d35ac9110eb74"' }>
+                                        'data-target="#directives-links-module-UtilsModule-317d3876afb97274d2845ea38108bcde"' : 'data-target="#xs-directives-links-module-UtilsModule-317d3876afb97274d2845ea38108bcde"' }>
                                         <span class="icon ion-md-code-working"></span>
                                         <span>Directives</span>
                                         <span class="icon ion-ios-arrow-down"></span>
                                     </div>
-                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-UtilsModule-80fe1d504a3d03541a6d35ac9110eb74"' :
-                                        'id="xs-directives-links-module-UtilsModule-80fe1d504a3d03541a6d35ac9110eb74"' }>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-UtilsModule-317d3876afb97274d2845ea38108bcde"' :
+                                        'id="xs-directives-links-module-UtilsModule-317d3876afb97274d2845ea38108bcde"' }>
                                         <li class="link">
                                             <a href="directives/Autofocus.html"
                                                 data-type="entity-link" data-context="sub-entity" data-context-id="modules">Autofocus</a>
@@ -1063,13 +1063,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 </li>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#pipes-links-module-UtilsModule-80fe1d504a3d03541a6d35ac9110eb74"' : 'data-target="#xs-pipes-links-module-UtilsModule-80fe1d504a3d03541a6d35ac9110eb74"' }>
+                                            'data-target="#pipes-links-module-UtilsModule-317d3876afb97274d2845ea38108bcde"' : 'data-target="#xs-pipes-links-module-UtilsModule-317d3876afb97274d2845ea38108bcde"' }>
                                             <span class="icon ion-md-add"></span>
                                             <span>Pipes</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="pipes-links-module-UtilsModule-80fe1d504a3d03541a6d35ac9110eb74"' :
-                                            'id="xs-pipes-links-module-UtilsModule-80fe1d504a3d03541a6d35ac9110eb74"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="pipes-links-module-UtilsModule-317d3876afb97274d2845ea38108bcde"' :
+                                            'id="xs-pipes-links-module-UtilsModule-317d3876afb97274d2845ea38108bcde"' }>
                                             <li class="link">
                                                 <a href="pipes/DatePipe.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">DatePipe</a>

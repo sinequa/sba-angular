@@ -316,7 +316,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {ChangeDetectionStrategy, Component, Input} from &quot;@angular/core&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input} from &quot;@angular/core&quot;;
 import {ActionItemOptions} from &quot;..&quot;;
 import {Action} from &quot;../../action&quot;;
 
@@ -331,29 +331,30 @@ export interface ActionButtonsOptions {
 
 @Component({
     selector: &quot;[sq-action-buttons]&quot;,
-    templateUrl: &quot;./action-buttons.html&quot;,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: &quot;./action-buttons.html&quot;
 })
 export class BsActionButtons {
-    itemsVisible: Action[];
     private _options: ActionButtonsOptions;
     
     @Input(&quot;sq-action-buttons&quot;)
     set options (opts: ActionButtonsOptions) {
         this._options &#x3D; opts;
-        // hidden items are not displayed
-        this.itemsVisible &#x3D; (Array.isArray(opts.items)) ? opts.items.filter(item &#x3D;&gt; !item.hidden) : opts.items.hidden ? [] : [opts.items];
     }
     get options(): ActionButtonsOptions {
         return this._options;
     }
 
     get sizeClass(): string {
-        return this.options.size ? &#x60;btn-${this.options.size}&#x60; : &quot;&quot;;
+        return this._options.size ? &#x60;btn-${this._options.size}&#x60; : &quot;&quot;;
     }
 
     get styleClass(): string {
-        return this.options.style ? &#x60;btn-${this.options.style}&#x60; : &quot;btn-light&quot;;
+        return this._options.style ? &#x60;btn-${this._options.style}&#x60; : &quot;btn-light&quot;;
+    }
+    
+    get itemsVisible(): Action[] {
+        // hidden items are not displayed
+        return (Array.isArray(this._options.items)) ? this._options.items.filter(item &#x3D;&gt; !item.hidden) : this._options.items.hidden ? [] : [this._options.items];
     }
     
     getActionItemOptions(item: Action): ActionItemOptions {
