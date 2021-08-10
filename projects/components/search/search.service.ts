@@ -342,7 +342,7 @@ export class SearchService implements OnDestroy {
                 return false;
             }
             // Test empty text
-            if (query.text && Utils.trim(query.text)) {
+            if ((query.text && Utils.trim(query.text)) || query.findSelect("search-form")) {
                 return false;
             }
             // Test basket
@@ -677,7 +677,7 @@ export class SearchService implements OnDestroy {
         // Check for empty search preemptively to avoid clearing the current results in the most
         // common case of the user entering empty search text in the search box
         // The lower level check in getResults will handle less obvious cases (url editing etc)
-        if (this.appService.ccquery && !this.appService.ccquery.allowEmptySearch && !Utils.trim(this.query.text || "")) {
+        if (this.appService.ccquery && !this.appService.ccquery.allowEmptySearch && !Utils.trim(this.query.text || "") && !this.query.findSelect("search-form")) {
             this.notificationsService.info("msg#search.emptySearchNotification");
             return Promise.resolve(false);
         }
