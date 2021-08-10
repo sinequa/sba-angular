@@ -16,7 +16,7 @@
 
     <!-- filtered items -->
     <div  *ngFor="let item of filtered"
-        class="d-flex flex-row align-items-center list-group-item list-group-item-action list-group-item-success text-truncate border-0 px-3 py-1 facet-row cursor-pointer"
+        class="d-flex flex-row align-items-center list-group-item list-group-item-action list-group-item-success text-truncate border-0 px-3 py-1 sq-facet-row cursor-pointer"
         [ngClass]="{'list-group-item-success': !item.$excluded, 'list-group-item-secondary': item.$excluded}"
         [title]="'msg#facet.selectedValue' | sqMessage"
         (click)="filterItem(item, $event)">
