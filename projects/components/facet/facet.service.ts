@@ -287,7 +287,7 @@ export class FacetService {
             query.removeSelect(facetName);
         }
 
-        if (!aggregation.isTree && breadcrumbs?.activeSelects.length && !options.replaceCurrent) {
+        if (breadcrumbs?.activeSelects.length && !options.replaceCurrent) {
             const expr = breadcrumbs.findSelect(facetName);
             const index = breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === expr || select.expr === expr?.parent));
             const same = (!Array.isArray(items)) ? true : (options.and ? "AND" : "OR") === (expr?.and ? "AND" : "OR") && (options.not ? "YES" : "NO") === (expr?.not ? "YES" : "NO");
@@ -371,21 +371,26 @@ export class FacetService {
 
         if (breadcrumbs) {
             // if item is excluded, makeAggregation() should returns a NOT expression
+            
+            // the expr to remove
             const stringExpr = item.$excluded ? this.exprBuilder.makeNotExpr(this.exprBuilder.makeAggregationExpr(aggregation, item)) : this.exprBuilder.makeAggregationExpr(aggregation, item);
             const filterExpr = this.findItemFilter(facetName, aggregation, item, breadcrumbs) || this.appService.parseExpr(stringExpr);
             const expr = breadcrumbs.findSelect(facetName, filterExpr);
             const i = breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === expr || select.expr === expr?.parent));
 
-            // 'Select' can't be created when aggregation is a tree map, so, avoid aggregation tree
-            // and remove whole breadcrumbs
-            if (!aggregation.isTree && expr && expr.parent && expr.parent.operands.length > 1) {
+            if (expr && expr.parent && expr.parent.operands.length > 1) {
                 // create a new Expr from parent and replaces Select by this new one
                 // so, breadcrumbs stay ordered
                 const filterByValuesAreExpression = (it: AggregationItem) => it.value.toString().replace(/ /g, "") !== item.value.toString().replace(/ /g, "");
                 const filterByValue = (it: AggregationItem) => it.value !== item.value
                 const filter = (aggregation.valuesAreExpressions) ? filterByValuesAreExpression : filterByValue;
 
-                const items: AggregationItem[] = this.exprToAggregationItem(expr.parent.operands, aggregation.valuesAreExpressions).filter(filter);
+                // transform expression to aggregation items
+                let items: AggregationItem[] = this.exprToAggregationItem(expr.parent.operands, aggregation.valuesAreExpressions);
+                // excludes 'item' object (from parameters) from aggregation items previously created
+                // only not removed filters stay on the array
+                items = items.filter(filter);
+                
                 // MUST reset $excluded property otherwise expression is misunderstood (mainly NOT expressions)
                 items.forEach(item => item.$excluded = undefined);
                 const {not, and} = breadcrumbs.selects[i].expr || {};
@@ -799,6 +804,11 @@ export class FacetService {
                 let value: FieldValue = item.value as string;
                 if (item.column?.eType === EngineType.bool) {
                     value = Utils.isTrue(item.value);
+                }
+                if (item.column?.eType === EngineType.csv) {
+                    value = item.display || item.value || "";
+                    const path = item.value?.slice(0, -1);
+                    return ({count: 0, value, display: item.display, $column: item.column, $path: path, $excluded: (item?.not || item?.parent?.not)} as TreeAggregationNode);
                 }
                 return ({count: 0, value, display: item.display, $column: item.column, $excluded: (item?.not || item?.parent?.not)} as AggregationItem);
             },

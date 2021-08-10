@@ -12,40 +12,6 @@
   }
 }
 
-.facet-row {
-  .icons {
-    transition: opacity .3s, transform .3s ease;
-    
-    &.icon-hover {
-      &.rotate {
-        transform: rotate(-180deg);
-      }
-      opacity: 0;
-    }
-  }
-
-  &:hover {
-    .icon-default {
-      &.rotate {
-        transform: rotate(180deg);
-      }
-      opacity: 0;  
-    }
-
-    .icon-hover {
-      &.rotate {
-        transform: rotate(0deg);
-      }
-      opacity: 1;  
-    }
-  }
-  
-  .fa-stack {
-    height: 1.5em;
-    line-height: 1.5em;
-  }
-}
-
 .facet-results-scrollable {
   max-height: 385px;
   overflow-y: auto;

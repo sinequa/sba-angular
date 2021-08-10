@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy} from "@angular/core";
-import {Results, TreeAggregation, AggregationItem, TreeAggregationNode} from "@sinequa/core/web-services";
+import {Results, TreeAggregation, AggregationItem, TreeAggregationNode, Aggregation} from "@sinequa/core/web-services";
 import {Utils} from "@sinequa/core/base";
 import {FacetService} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
@@ -208,8 +208,9 @@ export class BsFacetTree extends AbstractFacet implements OnChanges, OnDestroy {
      * Returns true if the given AggregationItem is filtered
      * @param item
      */
-    isFiltered(item: AggregationItem) : boolean {
-        return this.filtered.has(item);
+    isFiltered(data: Aggregation | undefined, item: AggregationItem): boolean {
+        const agg = Array.from(this.filtered);
+        return this.facetService.filteredIndex(data, agg, item) !== -1
     }
 
     /**
@@ -226,7 +227,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges, OnDestroy {
      */
     filterItem(item: AggregationItem, event) : boolean {
         if (this.data) {
-            if(!this.isFiltered(item)) {
+            if(!this.isFiltered(this.data, item)) {
                 this.facetService.addFilterSearch(this.getName(), this.data, item);
             }
             else {
@@ -262,7 +263,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges, OnDestroy {
      */
     selectItem(item: TreeAggregationNode, event: Event): boolean {
         event.stopImmediatePropagation();
-        if(!this.isFiltered(item)){
+        if(!this.isFiltered(this.data, item)){
             if(this.selected.has(item.$path!)) {
                 this.selected.delete(item.$path!);
             }
