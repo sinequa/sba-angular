@@ -40,6 +40,10 @@ body.dark {
 
     .navbar-dark .navbar-nav .nav-link {
         color: $dark-color;
+
+        &.disabled {
+            color: $dark-secondary;
+        }
     }
 
     .btn-dark:not(:hover) {

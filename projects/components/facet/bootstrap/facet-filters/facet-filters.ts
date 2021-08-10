@@ -76,13 +76,16 @@ export class BsFacetFilters implements OnInit, OnChanges {
                 })
             ];
 
+            const disabled = !this.hasData(facet);
+            const filtered = this.hasFiltered(facet.name);
+
             return new Action({
                 name: facet.name,
                 text: facet.title,
                 title: facet.title,
                 icon: facet.icon,
-                disabled: !this.hasData(facet),
-                styles: this.hasFiltered(facet.name) ? "ml-2 font-weight-bold" : "ml-2",
+                disabled,
+                styles: filtered? "filtered" : disabled? "disabled" : undefined,
                 children: children
             });
         });

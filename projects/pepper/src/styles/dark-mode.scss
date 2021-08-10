@@ -29,4 +29,10 @@ body.dark {
         background: $dark-background !important;
     }
 
+    sq-facet-filters {
+        sq-action-item-content > .filtered {
+            color: $dark-color !important;
+        }
+    }
+
 }
