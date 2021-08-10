@@ -1,0 +1,26 @@
+.facet-filters-bar ::ng-deep {
+
+    // Min and max width for the facets
+    .dropdown-menu.show {
+        min-width: 250px;
+        max-width: 400px;
+    }
+
+    .navbar-nav > li.dropdown:not(:first-child) {
+        margin-left: 0.5em;
+    }
+
+    sq-action-item-content {
+        /** facets with no values */
+        & > .disabled {
+            opacity: 0.85;
+        }
+
+        /** facets with filtered values */
+        & > .filtered {
+            font-weight: bold;
+            color: rgba(0, 0, 0, 0.7);
+        }
+    }
+
+}

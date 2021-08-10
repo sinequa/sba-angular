@@ -22,6 +22,19 @@ export const FEATURES: string[] = [
 
 export const FACETS: FacetConfig[] = [
     {
+        name: "treepath",
+        title: "msg#facet.treepath.title",
+        type: "tree",
+        aggregation: "Treepath",
+        icon: "fas fa-sitemap",
+        showCount: true,
+        searchable: true,
+        allowExclude: true,
+        allowOr: true,
+        allowAnd: false,
+        displayEmptyDistributionIntervals: false,
+    },
+    {
         name: "geo",
         title: "msg#facet.geo.title",
         type: "list",
