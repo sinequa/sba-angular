@@ -65,17 +65,15 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
         this.selectField = new Action({
             title: "Select field",
             updater: (action) => {
-                if(this.aggregations){
-                    action.name = this.aggregation;
-                    action.text = this.aggregation;
+                if(this.aggregations) {                 
+                    action.text = this.facetService.getAggregationLabel(this.aggregation);
                     action.children = this.aggregations
                         .filter(v => v!==this.aggregation)
-                        .map(a => {
+                        .map(agg => {
                             return new Action({
-                                name: a,
-                                text: a,
-                                action : (item, event) => {
-                                    this.aggregation = a;
+                                text: this.facetService.getAggregationLabel(agg),
+                                action : () => {
+                                    this.aggregation = agg;
                                     this.ngOnChanges(<SimpleChanges> <any> {results: true});
                                 }
                             });
@@ -102,7 +100,7 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
         if(this.hasFiltered()) {
             actions.push(this.clearFilters);
         }
-        if(!!this.selectField.name) {
+        if(!!this.selectField.text) {
             actions.push(this.selectField);
         }
         return actions;
@@ -217,7 +215,7 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
     ngOnChanges(changes: SimpleChanges) {
         this.selectField.update();
 
-        if (!!changes["results"]) {
+        if (changes.results) {
             // may be null if no data
             this.data = this.facetService.getAggregation(this.aggregation, this.results, {facetName: this.getName()});
 

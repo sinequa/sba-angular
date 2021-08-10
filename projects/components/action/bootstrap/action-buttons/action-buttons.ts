@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
+import {Component, Input} from "@angular/core";
 import {ActionItemOptions} from "..";
 import {Action} from "../../action";
 
@@ -13,29 +13,30 @@ export interface ActionButtonsOptions {
 
 @Component({
     selector: "[sq-action-buttons]",
-    templateUrl: "./action-buttons.html",
-    changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: "./action-buttons.html"
 })
 export class BsActionButtons {
-    itemsVisible: Action[];
     private _options: ActionButtonsOptions;
     
     @Input("sq-action-buttons")
     set options (opts: ActionButtonsOptions) {
         this._options = opts;
-        // hidden items are not displayed
-        this.itemsVisible = (Array.isArray(opts.items)) ? opts.items.filter(item => !item.hidden) : opts.items.hidden ? [] : [opts.items];
     }
     get options(): ActionButtonsOptions {
         return this._options;
     }
 
     get sizeClass(): string {
-        return this.options.size ? `btn-${this.options.size}` : "";
+        return this._options.size ? `btn-${this._options.size}` : "";
     }
 
     get styleClass(): string {
-        return this.options.style ? `btn-${this.options.style}` : "btn-light";
+        return this._options.style ? `btn-${this._options.style}` : "btn-light";
+    }
+    
+    get itemsVisible(): Action[] {
+        // hidden items are not displayed
+        return (Array.isArray(this._options.items)) ? this._options.items.filter(item => !item.hidden) : this._options.items.hidden ? [] : [this._options.items];
     }
     
     getActionItemOptions(item: Action): ActionItemOptions {

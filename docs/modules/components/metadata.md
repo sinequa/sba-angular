@@ -94,10 +94,10 @@ this.metadata = ["authors", "docformat", "modified", "size", "treepath", "filena
 ```
 
 ```html
-<sq-result-metadata
+<sq-metadata
   [record]="record" 
   [items]="metadata">
-</sq-result-metadata>
+</sq-metadata>
 ```
 
 ![Default metadata settings]({{site.baseurl}}assets/modules/metadata/metadata-default.png){: .d-block .mx-auto }
@@ -105,7 +105,7 @@ this.metadata = ["authors", "docformat", "modified", "size", "treepath", "filena
 In this other example, the same metadata is displayed with the following options:
 
 ```html
-<sq-result-metadata 
+<sq-metadata 
   [record]="record"
   [items]="metadata"
   [showIcons]="true"
@@ -114,7 +114,7 @@ In this other example, the same metadata is displayed with the following options
   [clickable]="false"
   [tabular]="false"
   [collapseRows]="false">
-</sq-result-metadata>
+</sq-metadata>
 ```
 
 ![Inline metadata settings]({{site.baseurl}}assets/modules/metadata/metadata-inline.png){: .d-block .mx-auto }

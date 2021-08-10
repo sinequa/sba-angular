@@ -697,7 +697,8 @@ export class SearchService implements OnDestroy {
     }
 
     searchRefine(text: string): Promise<boolean> {
-        this.query.addSelect(this.exprBuilder.makeRefineExpr(text));
+        // add "refine" name to facet value is mandatory as it's used in preview's query
+        this.query.addSelect(this.exprBuilder.makeRefineExpr(text), "refine");
         return this.search(undefined,
             this.makeAuditEvent({
                 type: AuditEventType.Search_Refine,
