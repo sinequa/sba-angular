@@ -128,7 +128,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable } from &quot;@angular/core&quot;;
 import { HttpService, SqHttpClient, StartConfig, START_CONFIG } from &quot;@sinequa/core/web-services&quot;;
-import { Observable } from &quot;rxjs&quot;;
+import { Observable, of } from &quot;rxjs&quot;;
 import { pluck } from &quot;rxjs/operators&quot;;
 
 declare interface CoreComment {
@@ -167,30 +167,87 @@ export class CommentsWebService extends HttpService {
         super(startConfig);
     }
 
+    /**
+     * Return the list of comments for a given document
+     * @param docid 
+     * @returns 
+     */
     getComments(docid: string): Observable&lt;Comment[]&gt; {
-        return this.httpClient.get&lt;{comments: Comment[]}&gt;(
-            this.makeUrl(this.endpoint), {params: {docid, action: &#x27;read&#x27;}}
+        return this.httpClient.post&lt;{comments: Comment[]}&gt;(
+            this.makeUrl(this.endpoint), {docid, action: &#x27;read&#x27;}
         ).pipe(pluck(&#x27;comments&#x27;));
     }
 
+    /**
+     * Return the number of comments for a given document
+     * @param docid 
+     * @returns 
+     */
+    getCommentCount(docid: string): Observable&lt;number&gt; {
+        return this.httpClient.post&lt;{count: number}&gt;(
+            this.makeUrl(this.endpoint), {docid, action: &#x27;count&#x27;}
+        ).pipe(pluck(&#x27;count&#x27;));
+    }
+
+    /**
+     * Return the number of comments for a list of documents
+     * @param docids 
+     * @returns 
+     */
+    getCommentCounts(docids: string[]): Observable&lt;{[id: string]: number}&gt; {
+        if(docids.length &#x3D;&#x3D;&#x3D; 0) {
+            return of({});
+        }
+        return this.httpClient.post&lt;{counts: {[id: string]: number}}&gt;(
+            this.makeUrl(this.endpoint), {docid: docids[0], docids, action: &#x27;count&#x27;}
+        ).pipe(pluck(&#x27;counts&#x27;));
+    }
+
+    /**
+     * Create a comment with given message for a given document
+     * @param docid 
+     * @param message 
+     * @param replyto 
+     * @returns 
+     */
     createComment(docid: string, message: string, replyto?: string): Observable&lt;NormalComment&gt; {
         return this.httpClient.post&lt;{comment: NormalComment}&gt;(
             this.makeUrl(this.endpoint), {docid, message, replyto, action: &#x27;create&#x27;}
         ).pipe(pluck(&#x27;comment&#x27;));
     }
 
+    /**
+     * Modify the content of a comment
+     * @param docid 
+     * @param commentid 
+     * @param message 
+     * @returns 
+     */
     updateComment(docid: string, commentid: string, message: string) {
         return this.httpClient.post&lt;{comment: NormalComment}&gt;(
             this.makeUrl(this.endpoint), {docid, commentid, message, action: &#x27;update&#x27;}
         ).pipe(pluck(&#x27;comment&#x27;));
     }
 
+    /**
+     * Delete a specific comment
+     * @param docid 
+     * @param commentid 
+     * @param markAsDeleted 
+     * @returns 
+     */
     deleteComment(docid: string, commentid: string, markAsDeleted: boolean): Observable&lt;void&gt; {
         return this.httpClient.post&lt;void&gt;(
             this.makeUrl(this.endpoint), {docid, commentid, markAsDeleted, action: &#x27;delete&#x27;}
         );
     }
 
+    /**
+     * Add a like to a comment
+     * @param docid 
+     * @param commentid 
+     * @returns 
+     */
     likeComment(docid: string, commentid: string): Observable&lt;NormalComment&gt; {
         return this.httpClient.post&lt;{comment: NormalComment}&gt;(
             this.makeUrl(this.endpoint), {docid, commentid, action: &#x27;like&#x27;}
