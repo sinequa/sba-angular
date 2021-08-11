@@ -9,9 +9,15 @@ import {AGGREGATION_GEO, FACETS, AGGREGATION_SIZE, AGGREGATION_BOOLEAN} from '@t
 import {FacetService, DEFAULT_FACETS, FacetEventType} from '../facet';
 import {SearchService, Breadcrumbs, BreadcrumbsItem} from '../search';
 import {SuggestService} from '../autocomplete';
+import {AGGREGATION_INTEGER} from "./mocks/aggregations";
 
 describe("FacetService", () => {
-	const aggregation = {geo: AGGREGATION_GEO as Aggregation, size: AGGREGATION_SIZE as unknown as Aggregation, bool: AGGREGATION_BOOLEAN as Aggregation};
+	const aggregation = {
+		geo: AGGREGATION_GEO as Aggregation,
+		size: AGGREGATION_SIZE as unknown as Aggregation,
+		bool: AGGREGATION_BOOLEAN as Aggregation,
+		integer: AGGREGATION_INTEGER as Aggregation
+	};
 	let service: FacetService;
 	let searchService: SearchService;
 	let appService: AppService;
@@ -976,6 +982,43 @@ describe("FacetService", () => {
 			expect(aggItems.length).toEqual(2);
 			expect(aggItems[0]).toEqual({count: 0, value: false, display: undefined, $column: jasmine.anything(), $excluded: undefined});
 			expect(aggItems[1]).toEqual({count: 0, value: true, display: undefined, $column: jasmine.anything(), $excluded: undefined});
+		})
+		
+		it("should returns aggregationItems as integer value", () => {
+			// Given
+			const facetName = "integer";
+			const query = new Query("training_query");
+			query.text = "obama";
+			query.tab = "all";
+			query.addSelect("sourceint1:(`344091`)", "integer");
+
+			spyOn(query, 'copy').and.returnValue(query);
+			spyOn(query, 'copyAdvanced').and.returnValue(query);
+
+			const breadcrumbs = Breadcrumbs.create(appService, searchService, query);
+			searchService.breadcrumbs = breadcrumbs;
+
+			// When
+			const items = service.getBreadcrumbsItems(facetName, breadcrumbs);
+			expect(items.length).toEqual(1);
+			expect(items[0].expr?.operands).toBeUndefined(); 		// (true) no operands
+
+			// as no resolve columns are done to find column type, we fake this value here
+			spyOnProperty<any>(items[0].expr, 'column', 'get').and.returnValue({eType: EngineType.integer});
+
+			// aggregation items are constructed from nested expressions
+			const r = [] as Expr[][];
+			for (const item of items) {
+				const value = (item.expr?.display === undefined) ? item.expr?.operands as Expr[] || item.expr : item.expr;
+				r.push(value as Expr[]);
+			}
+			// faltten results
+			const result = [].concat.apply([], r);
+
+			// When
+			const aggItems = service.exprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
+			expect(aggItems.length).toEqual(1);
+			expect(aggItems[0]).toEqual({count: 0, value: 344091, display: undefined, $column: jasmine.anything(), $excluded: undefined});
 		})
 
 	})

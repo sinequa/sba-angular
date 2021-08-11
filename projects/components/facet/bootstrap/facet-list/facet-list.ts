@@ -256,7 +256,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
         data?.items?.forEach(item => {
             const indx = this.facetService.filteredIndex(data, this.filtered, item);
             if (this.facetService.itemFiltered(this.getName(), data, item)) {
-                if (!this.isFiltered(data, item)) {
+                if (indx === -1) {
                     this.filtered.push(item);
                 } else {
                     this.filtered[indx].count = item.count;
@@ -311,6 +311,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
             }
             else {
                 this.facetService.removeFilterSearch(this.getName(), data, item);
+                this.filtering = false;
             }
         }
         event.preventDefault();
