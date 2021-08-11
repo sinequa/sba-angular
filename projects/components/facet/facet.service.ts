@@ -991,11 +991,6 @@ export class FacetService {
         // first check value as is
         let index = arr.findIndex(it => it.value === item.value);
 
-        // specific check on sourceint columns if first check fails
-        if (index === -1 && item.$column?.eType === EngineType.integer) {
-            index = arr.findIndex(it => parseInt(it.value as string, 10) === item.value);
-        }
-
         // fallback to display comparison
         if (index === -1 && item.display) {
             index = arr.findIndex(it => it.display === item.display);
