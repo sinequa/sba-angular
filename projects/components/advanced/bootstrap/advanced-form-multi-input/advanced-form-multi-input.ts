@@ -40,13 +40,11 @@ export class BsAdvancedFormMultiInput implements OnChanges, OnDestroy {
                 ? (Utils.isArray(this.control.value)
                         ? this.control.value
                         : [this.control.value]
-                    ).map((item: ValueItem) => {
-                        return {
+                    ).map((item: ValueItem) => ({
                             display: item.display ? item.display : item.value.toString(),
                             normalized: item.value.toString(),
-                            category: "",
-                        };
-                    })
+                            category: this.field,
+                        }))
                 : [];
 
             this._valueChangesSubscription = Utils.subscribe(
@@ -56,13 +54,11 @@ export class BsAdvancedFormMultiInput implements OnChanges, OnDestroy {
                         value = [value];
                     }
                     this.items = value
-                        ? value.map((item: ValueItem) => {
-                                return {
+                        ? value.map((item: ValueItem) => ({
                                     display: item.display ? item.display : item.value.toString(),
                                     normalized: item.value.toString(),
-                                    category: "",
-                                };
-                            })
+                                    category: this.field,
+                                }))
                         : [];
                 }
             );

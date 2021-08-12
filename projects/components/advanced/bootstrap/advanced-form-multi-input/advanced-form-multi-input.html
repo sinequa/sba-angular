@@ -7,7 +7,7 @@
             [validationForm]="form">
             <span
                 *ngFor="let item of items"
-                class="badge badge-pill badge-secondary align-self-center mr-1">
+                class="badge badge-pill badge-secondary align-self-center mr-1" [ngClass]="item.category">
                 {{ item.display }}
                 <span class="fas fa-times-circle clickable" (click)="removeItem(item)"></span>
             </span>
