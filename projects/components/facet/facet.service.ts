@@ -373,9 +373,15 @@ export class FacetService {
             // if item is excluded, makeAggregation() should returns a NOT expression
             
             // the expr to remove
+            // from aggregation and item, create a expression string
             const stringExpr = item.$excluded ? this.exprBuilder.makeNotExpr(this.exprBuilder.makeAggregationExpr(aggregation, item)) : this.exprBuilder.makeAggregationExpr(aggregation, item);
+
+            // find filter expression or just parse the string expression
             const filterExpr = this.findItemFilter(facetName, aggregation, item, breadcrumbs) || this.appService.parseExpr(stringExpr);
+
+            // find expression from breadcrumbs selects
             const expr = breadcrumbs.findSelect(facetName, filterExpr);
+            // once found, retrieve it's index
             const i = breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === expr || select.expr === expr?.parent));
 
             if (expr && expr.parent && expr.parent.operands.length > 1) {
@@ -810,6 +816,9 @@ export class FacetService {
                     const path = item.value?.slice(0, -1);
                     return ({count: 0, value, display: item.display, $column: item.column, $path: path, $excluded: (item?.not || item?.parent?.not)} as TreeAggregationNode);
                 }
+                if (item.column?.eType === EngineType.integer) {
+                    value = parseInt(item.value as string, 10);
+                }
                 return ({count: 0, value, display: item.display, $column: item.column, $excluded: (item?.not || item?.parent?.not)} as AggregationItem);
             },
             (item: Expr) => ({count: 0, value: item.toString((item.value) ? true : false), display: item.display, $column: item.column, $excluded: (item?.not || item?.parent?.not)} as AggregationItem)
@@ -961,6 +970,11 @@ export class FacetService {
             const value = this.trimAllWhitespace(item.value);
             const normalizedArr = arr.map(item => ({...item, value: this.trimAllWhitespace(item.value)})) || [];
             indx = normalizedArr.findIndex(it => it.value === value);
+            
+            // fallback to display
+            if (indx === -1 && item.display) {
+                indx= normalizedArr.findIndex(it => it.display === item.display);
+            }
         } else {
             indx = this.findAggregationItemIndex(arr, item);
         }
@@ -974,9 +988,11 @@ export class FacetService {
      * @param value The value to be test
      */
     public findAggregationItemIndex = (arr: Array<AggregationItem>, item: AggregationItem) => {
+        // first check value as is
         let index = arr.findIndex(it => it.value === item.value);
+
+        // fallback to display comparison
         if (index === -1 && item.display) {
-            // fallback to display comparison
             index = arr.findIndex(it => it.display === item.display);
         }
         return index;

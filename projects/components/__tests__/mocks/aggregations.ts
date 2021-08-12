@@ -476,3 +476,18 @@ export const AGGREGATION_BOOLEAN = {
     }
   ]
 }
+
+export const AGGREGATION_INTEGER = {
+  "name": "integer",
+  "column": "sourceint1",
+  "items": [
+    {
+      "value": 344091,
+      "count": 3
+    },
+    {
+      "value": 516616,
+      "count": 12
+    }
+  ]
+}
