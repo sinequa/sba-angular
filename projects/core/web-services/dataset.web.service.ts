@@ -57,6 +57,18 @@ export class DatasetWebService extends HttpService {
     }
 
     /**
+     * Queries a specific datasets of the given web service.
+     * @param webServiceName name of the web service
+     * @param params parameters of the queries
+     * @param datasets precise list of queries, defined in the web service, to be executed
+     */
+    getBulk(webServiceName: string, parameters = {}, datasets: string[]): Observable<Dataset> {
+        let url = `${this.makeUrl(DatasetWebService.endpoint)}/${webServiceName}`;
+        return this.httpClient.post<{datasets: Dataset}>(url, {parameters, datasets})
+            .pipe(map(d => d.datasets));
+    }
+
+    /**
      * Queries the given web service.
      * @param webServiceName name of the web service
      * @param params parameters of the queries
