@@ -148,7 +148,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges, OnDestroy {
         if (this.allowExclude === undefined) this.allowExclude = true;
         if (this.allowOr === undefined) this.allowOr = true;
 
-        if (!!changes["results"]) {     // New data from the search service
+        if (changes.results || changes.aggregation) {     // New data from the search service
             this.filtered.clear();
             this.selected.clear();
             this.hiddenSelected.length = 0;
