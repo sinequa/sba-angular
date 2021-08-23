@@ -173,7 +173,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
         if (this.allowOr === undefined) this.allowOr = true;
         if (this.allowAnd === undefined) this.allowAnd = true;
 
-        if (!!changes["results"]) {     // New data from the search service
+        if (changes.results || changes.aggregation) {     // New data from the search service
             if(!this.count){
                 this.count = this.facetService.getAggregationCount(this.aggregation);
             }
