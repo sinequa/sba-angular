@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import "~ngx-bootstrap/datepicker/bs-datepicker";
 
 $sq-select-default-width: 26.5ch !default;
@@ -27,6 +28,6 @@ sq-select {
     .dropdown-item {
         position: relative;
         cursor: pointer;
-        padding-left: $dropdown-item-padding-x/2;
+        padding-left: math.div($dropdown-item-padding-x, 2);
     }
 }

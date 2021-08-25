@@ -146,14 +146,14 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             // Shapes
             this.area = d3.area<TimelineDate>()
                 .curve(d3[this.curveType])
-                .x(d => this.xt(d.date))
-                .y0(this.y(0))
-                .y1(d => this.y(d.value));
+                .x(d => this.xt(d.date)!)
+                .y0(this.y(0)!)
+                .y1(d => this.y(d.value)!);
                 
             this.line = d3.line<TimelineDate>()
                 .curve(d3[this.curveType])
-                .x(d => this.xt(d.date))
-                .y(d => this.y(d.value));
+                .x(d => this.xt(d.date)!)
+                .y(d => this.y(d.value)!);
                 
             // Behaviors
             this.brushBehavior = d3.brushX()
@@ -167,7 +167,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
         if(changes["height"]) {
             this.y.range([this.innerHeight, 0]);
-            this.area.y0(this.y(0));
+            this.area.y0(this.y(0)!);
             this.brushBehavior.extent([[0, 0], [this.innerWidth, this.innerHeight]]);
             if(this.viewInit) {
                 this.drawYAxis();
@@ -396,7 +396,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      */
     protected updateBrush() {
         if(this.currentSelection) {
-            const selection: [number, number] = [this.xt(this.currentSelection[0]), this.xt(this.currentSelection[1])];
+            const selection: [number, number] = [this.xt(this.currentSelection[0])!, this.xt(this.currentSelection[1])!];
             this.brush$.call(this.brushBehavior.move, selection);
         }
         else {
@@ -505,7 +505,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             
         // Update the brush position
         if(this.currentSelection){
-            const selection: [number, number] = [this.xt(this.currentSelection[0]), this.xt(this.currentSelection[1])];
+            const selection: [number, number] = [this.xt(this.currentSelection[0])!, this.xt(this.currentSelection[1])!];
             this.brushBehavior.move(this.brush$, selection);
         }
 
@@ -560,7 +560,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
             // Since we use viewBox to auto-adjust the SVG to the container size, we have to
             // convert from the SVG coordinate system to the HTML coordinate system
-            const x = this.margin.left + this.tooltipX;
+            const x = this.margin.left + this.tooltipX!;
             const actualWidth = (this.el.nativeElement as HTMLElement).offsetWidth;
             const scale = actualWidth / this.width;
             const relativeX = x / this.width;
