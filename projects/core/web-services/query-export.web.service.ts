@@ -92,7 +92,7 @@ export class QueryExportWebService extends HttpService {
             format: ExportOutputFormat[format],
             maxCount: maxCount ? maxCount.toString() : undefined,
             exportedColumns: exportedColumns,
-            auditEvents: {
+            $auditRecord: {
                 type: AuditEventType.Search_ExportCSV,
                 detail: {
                     "result-id": !!results ? results.id : undefined
@@ -150,7 +150,7 @@ export class QueryExportWebService extends HttpService {
             format: ExportOutputFormat[format],
             maxCount: maxCount ? maxCount.toString() : undefined,
             exportedColumns: exportedColumns,
-            auditEvents: {
+            $auditRecord: {
                 type: AuditEventType.Search_Selection_ExportCSV,
                 detail: {
                     "result-id": !!results ? results.id : undefined
@@ -198,7 +198,7 @@ export class QueryExportWebService extends HttpService {
             name: queryName,
             maxCount: maxCount ? maxCount.toString() : undefined,
             exportedColumns: exportedColumns,
-            auditEvents: {
+            $auditRecord: {
                 type: AuditEventType.Search_SavedQuery_ExportCSV,
                 detail: {
                     query: queryName
