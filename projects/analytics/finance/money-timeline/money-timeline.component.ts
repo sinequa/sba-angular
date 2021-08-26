@@ -330,15 +330,13 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
      */
     onMouseEnterDatum(datum: MoneyDatum) {
 
-        if(!this.showTooltip) {
-            return;
-        }
-
-        this.tooltipItem = datum;
-
         const x = this.x(datum.date);
         const y = this.y(datum.value);
         const r = this.r(datum.count);
+
+        if(!this.showTooltip || Utils.isUndefined(x) || Utils.isUndefined(r) || Utils.isUndefined(y)) return;
+
+        this.tooltipItem = datum;
 
         // Since we use viewBox to auto-adjust the SVG to the container size, we have to
         // convert from the SVG coordinate system to the HTML coordinate system

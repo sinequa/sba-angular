@@ -96,7 +96,6 @@
             "main": "projects/hello-search/src/main.ts",
             "polyfills": "projects/hello-search/src/polyfills.ts",
             "tsConfig": "projects/hello-search/tsconfig.json",
-            "aot": true,
             "preserveSymlinks": true,
             "assets": [
               "projects/hello-search/src/favicon.ico",
@@ -119,7 +118,13 @@
               "intl-pluralrules",
               "jstz",
               "atomicjs"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -136,7 +141,6 @@
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -150,7 +154,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -221,12 +226,8 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "forkTypeChecker": false,
-            "customWebpackConfig": {
-              "path": "projects/vanilla-search/webpack.config.js"
-            },
             "outputPath": "dist-debug/vanilla-search",
             "index": "projects/vanilla-search/src/index.html",
             "main": "projects/vanilla-search/src/main.ts",
@@ -238,7 +239,6 @@
               "projects/vanilla-search/src/favicon.ico",
               "projects/vanilla-search/src/assets"
             ],
-            "extractCss": true,
             "styles": [
               {
                 "input": "projects/vanilla-search/src/styles/app.scss",
@@ -367,12 +367,8 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "forkTypeChecker": false,
-            "customWebpackConfig": {
-              "path": "projects/pepper/webpack.config.js"
-            },
             "outputPath": "dist-debug/pepper",
             "index": "projects/pepper/src/index.html",
             "main": "projects/pepper/src/main.ts",
@@ -384,7 +380,6 @@
               "projects/pepper/src/favicon.ico",
               "projects/pepper/src/assets"
             ],
-            "extractCss": true,
             "styles": [
               {
                 "input": "projects/pepper/src/styles/app.scss",

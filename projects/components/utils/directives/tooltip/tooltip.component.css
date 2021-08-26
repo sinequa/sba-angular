@@ -2,7 +2,6 @@
   display: block;
 }
 
-:host-context()
 .sq-tooltip {
   background-color: #494949;
   color: white;

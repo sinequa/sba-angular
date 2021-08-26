@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 $action-menu-breakpoint: md !default;
 
 // menu animation
@@ -196,7 +198,7 @@ li.sq-scroll-menu-item:last-child {
 }
 
 @function sq-px2rem($size) {
-    @return (($size / 16px ) * 1rem);
+    @return (math.div($size, 16px) * 1rem);
 }
 
 @function scroll-menu-max-height($items) {

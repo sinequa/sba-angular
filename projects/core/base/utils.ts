@@ -382,36 +382,6 @@ export class Utils {
         }
     }
 
-    // Not currently used
-    private static copyWithoutNullOrEmpty(dst: MapOf<any>, src: MapOf<any>): MapOf<any> {
-        const keys = Object.keys(src);
-        for (let j = 0, jj = keys.length; j < jj; j++) {
-            const key = keys[j];
-            const value = src[key];
-            if (value === null || Utils.isEmpty(null)) {
-                continue;
-            }
-            else if (Utils.isObject(value)) {
-                if (Utils.isDate(value)) {
-                    dst[key] = new Date(value.valueOf());
-                }
-                else if (Utils.isRegExp(value)) {
-                    dst[key] = new RegExp(value);
-                }
-                else {
-                    if (!Utils.isObject(dst[key])) {
-                        dst[key] = Utils.isArray(value) ? [] : {};
-                    }
-                    dst[key] = Utils.copyWithoutNullOrEmpty(dst[key], value);
-                }
-            }
-            else {
-                dst[key] = value;
-            }
-        }
-        return dst;
-    }
-
     /**
      * Makes a shallow copy of the passed object. Empty string values are removed from the copied object.
      * A string value containing `""` is copied as an empty string.

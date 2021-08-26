@@ -4,6 +4,7 @@ import { AbstractFacet } from "@sinequa/components/facet";
 import { SearchService } from "@sinequa/components/search";
 import { SelectionService } from "@sinequa/components/selection";
 import { ExprBuilder, FormatService, ValueItem } from "@sinequa/core/app-utils";
+import { Utils } from "@sinequa/core/base";
 import { AggregationItem, Results } from "@sinequa/core/web-services";
 
 import * as d3 from 'd3';
@@ -316,27 +317,32 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
 
     onMouseEnterDatum(datum: MoneyCloudDatum) {
 
-        this.tooltipItem = datum;
-
-        const x = this.x(datum.category)! + this.x_inner(datum.i)!;
+        let x = this.x(datum.category);
+        const x_inner = this.x_inner(datum.i);
         const y = this.y(datum.value);
         const r = this.r(datum.count);
+
+        if(Utils.isUndefined(x) || Utils.isUndefined(x_inner) || Utils.isUndefined(r) || Utils.isUndefined(y)) return;
+
+        this.tooltipItem = datum;
+
+        x += x_inner;
 
         // Since we use viewBox to auto-adjust the SVG to the container size, we have to
         // convert from the SVG coordinate system to the HTML coordinate system
         const actualWidth = (this.el.nativeElement as HTMLElement).offsetWidth;
         const scale = actualWidth / this.width;
-        const relativeX = x! / this.width;
+        const relativeX = x / this.width;
 
         // Tooltip to the right
         if(relativeX < 0.5) {
             this.tooltipOrientation = "right";
-            this.tooltipLeft = scale * (this.margin.left + x! + r);
+            this.tooltipLeft = scale * (this.margin.left + x + r);
         }
         // Tooltip to the left
         else {
             this.tooltipOrientation = "left";
-            this.tooltipRight = actualWidth - scale * (this.margin.left + x! - r);
+            this.tooltipRight = actualWidth - scale * (this.margin.left + x - r);
         }
         this.tooltipTop = scale * (this.margin.top + y); // Align tooltip arrow
     }

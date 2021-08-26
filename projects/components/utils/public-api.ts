@@ -1,6 +1,5 @@
 export * from "./directives/autofocus";
 export * from "./directives/click-outside";
-export * from "./directives/media-if";
 export * from "./directives/scroll-into-view";
 export * from "./directives/focus-key-list.directive";
 export * from "./directives/focus-key-list-item.directive";
