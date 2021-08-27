@@ -22,6 +22,7 @@ import { AppService } from '@sinequa/core/app-utils';
 export class BsExportQuery implements OnInit, OnDestroy {
 
     public readonly supportedFormats: ExportOutputFormat[] = [
+        ExportOutputFormat.Csv,
         ExportOutputFormat.Xlsx,
         ExportOutputFormat.Json
     ];
