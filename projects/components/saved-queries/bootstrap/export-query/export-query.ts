@@ -22,7 +22,6 @@ import { AppService } from '@sinequa/core/app-utils';
 export class BsExportQuery implements OnInit, OnDestroy {
 
     public readonly supportedFormats: ExportOutputFormat[] = [
-        ExportOutputFormat.Csv,
         ExportOutputFormat.Xlsx,
         ExportOutputFormat.Json
     ];
@@ -66,8 +65,10 @@ export class BsExportQuery implements OnInit, OnDestroy {
             }
         }
 
+        this.model.format = this.supportedFormats[0];
+
         this.form = this.formBuilder.group({
-            'format': [this.supportedFormats[0]],
+            'format': [this.model.format],
             'exportedColumns': [this.model.exportedColumns],
             'export': [this.model.export, Validators.required],
             'maxCount': [this.model.maxCount, Validators.compose([
@@ -75,8 +76,6 @@ export class BsExportQuery implements OnInit, OnDestroy {
                 this.validationService.minValidator(1)
             ])],
         });
-
-        this.model.format = this.supportedFormats[0];
 
         this.buttons = [
             new ModalButton({
