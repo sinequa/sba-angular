@@ -228,13 +228,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist-debug/vanilla-search",
+            "outputPath": "dist/vanilla-search",
             "index": "projects/vanilla-search/src/index.html",
             "main": "projects/vanilla-search/src/main.ts",
             "polyfills": "projects/vanilla-search/src/polyfills.ts",
             "tsConfig": "projects/vanilla-search/tsconfig.json",
-            "aot": true,
             "preserveSymlinks": true,
+            "inlineStyleLanguage": "scss",
             "assets": [
               "projects/vanilla-search/src/favicon.ico",
               "projects/vanilla-search/src/assets"
@@ -274,15 +274,7 @@
                   "with": "projects/vanilla-search/src/environments/environment.prod.ts"
                 }
               ],
-              "outputPath": "dist/vanilla-search",
-              "optimization": true,
               "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -295,13 +287,23 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "development" : {
+              "outputPath": "dist-debug/vanilla-search",
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "vanilla-search:build"
+            "browserTarget": "vanilla-search:build:development"
           },
           "configurations": {
             "production": {
@@ -322,6 +324,7 @@
             "polyfills": "projects/vanilla-search/src/polyfills.ts",
             "tsConfig": "projects/vanilla-search/tsconfig.spec.json",
             "karmaConfig": "projects/vanilla-search/karma.conf.js",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "projects/vanilla-search/src/favicon.ico",
               "projects/vanilla-search/src/assets"
@@ -369,12 +372,12 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist-debug/pepper",
+            "outputPath": "dist/pepper",
             "index": "projects/pepper/src/index.html",
             "main": "projects/pepper/src/main.ts",
             "polyfills": "projects/pepper/src/polyfills.ts",
             "tsConfig": "projects/pepper/tsconfig.json",
-            "aot": true,
+            "inlineStyleLanguage": "scss",
             "preserveSymlinks": true,
             "assets": [
               "projects/pepper/src/favicon.ico",
@@ -417,15 +420,7 @@
                   "with": "projects/pepper/src/environments/environment.prod.ts"
                 }
               ],
-              "outputPath": "dist/pepper",
-              "optimization": true,
               "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -438,13 +433,23 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "development": {
+              "outputPath": "dist-debug/pepper",
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "pepper:build"
+            "browserTarget": "pepper:build:development"
           },
           "configurations": {
             "production": {
@@ -465,6 +470,7 @@
             "polyfills": "projects/pepper/src/polyfills.ts",
             "tsConfig": "projects/pepper/tsconfig.spec.json",
             "karmaConfig": "projects/pepper/karma.conf.js",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "projects/pepper/src/favicon.ico",
               "projects/pepper/src/assets"
