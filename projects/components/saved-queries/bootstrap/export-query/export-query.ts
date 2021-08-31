@@ -30,10 +30,10 @@ export class BsExportQuery implements OnInit, OnDestroy {
     public readonly sourceTypes: typeof ExportSourceType = ExportSourceType;
 
     public form: FormGroup;
-    public savedQueries: string[];
-    public buttons: ModalButton[];
-    public isDownloading: boolean;
-    public exportableColumns: string[];
+    public savedQueries: string[] = [];
+    public buttons: ModalButton[] = [];
+    public isDownloading = false;
+    public exportableColumns: string[] = [];
 
     private formChanges: Subscription;
 
@@ -51,12 +51,9 @@ export class BsExportQuery implements OnInit, OnDestroy {
         public modalRef: ModalRef) { }
 
     ngOnInit(): void {
-        this.savedQueries = [];
         for (const query of this.savedQueriesService.savedqueries) {
             this.savedQueries.push(query.name);
         }
-
-        this.exportableColumns = [];
 
         if (this.appService.app) {
             const queryExportConfig = this.getDefaultQueryExportConfig(this.appService.app);
@@ -69,8 +66,10 @@ export class BsExportQuery implements OnInit, OnDestroy {
             }
         }
 
+        this.model.format = this.supportedFormats[0];
+
         this.form = this.formBuilder.group({
-            'format': [this.supportedFormats[0]],
+            'format': [this.model.format],
             'exportedColumns': [this.model.exportedColumns],
             'export': [this.model.export, Validators.required],
             'maxCount': [this.model.maxCount, Validators.compose([
@@ -78,8 +77,6 @@ export class BsExportQuery implements OnInit, OnDestroy {
                 this.validationService.minValidator(1)
             ])],
         });
-
-        this.isDownloading = false;
 
         this.buttons = [
             new ModalButton({
