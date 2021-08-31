@@ -677,8 +677,7 @@ export class SearchService implements OnDestroy {
         // Check for empty search preemptively to avoid clearing the current results in the most
         // common case of the user entering empty search text in the search box
         // The lower level check in getResults will handle less obvious cases (url editing etc)
-        if (this.checkEmptySearch(this.query)) {
-            this.notificationsService.info("msg#search.emptySearchNotification");
+        if (!this.checkEmptySearch(this.query)) {
             return Promise.resolve(false);
         }
         return this.search(
