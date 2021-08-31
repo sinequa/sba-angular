@@ -94,7 +94,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
     return previewDocument;
   }
 
-  private extractAll(extracts:HighlightValue[], previewDocument: PreviewDocument) {
+  private extractAll(extracts: HighlightValue[], previewDocument: PreviewDocument) {
     // Init the extracts Array and storing the relevancy index = i because extractsLocations is already ordered by relevance
     // but extract's text is sort by "start", that why text is set to empty here
     this.extracts = extracts[0].locations.map((el, i) => ({
@@ -132,6 +132,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
   buildSortAction(){
     this.sortAction = new Action({
       title: "msg#sortSelector.sortByTitle",
+      messageParams: {values: {text: "msg#preview.relevanceSortHighlightButtonText"}},
       text:  "msg#preview.relevanceSortHighlightButtonText",
       children: [
         new Action({
@@ -141,6 +142,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
             // return a new map to re-render the collection
             this.extracts = this.extracts.map(el => el).sort((a, b) => a.relevanceIndex - b.relevanceIndex);
             this.sortAction.text = item.text;
+            this.sortAction.messageParams = {values: {text: item.text} };
             this.currentIndex = -1;
             }
         }),
@@ -151,6 +153,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
             // return a new map to re-render the collection
             this.extracts = this.extracts.map(el => el).sort((a,b) => a.textIndex-b.textIndex);
             this.sortAction.text = item.text;
+            this.sortAction.messageParams = {values: {text: item.text} };
             this.currentIndex = -1;
           }
         })
