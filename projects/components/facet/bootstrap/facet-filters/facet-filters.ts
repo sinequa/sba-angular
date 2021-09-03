@@ -18,6 +18,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
 
     @Input() autoAdjust: boolean = true;
     @Input() autoAdjustBreakpoint: string = 'xl';
+    @Input() collapseBreakpoint: string = 'sm';
     @Input() rightAligned: boolean = false;
     @Input() size: string;
 
