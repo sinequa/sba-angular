@@ -12,6 +12,7 @@ export class BsActionMenu implements OnInit{
     @Input() size: string;
     @Input() autoAdjust: boolean;
     @Input() autoAdjustBreakpoint: string;
+    @Input() collapseBreakpoint: string;
     @Input() right: boolean;
 
     ngOnInit() {

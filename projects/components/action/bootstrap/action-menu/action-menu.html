@@ -1,5 +1,7 @@
 <ul class="navbar-nav {{right ? 'navbar-right' : ''}}">
     <ng-container *ngFor="let item of items; trackBy(identify)">
-        <li *ngIf="!item.hidden" class="nav-item {{item.hasChildren ? 'dropdown' : ''}}" [sq-action-item]="{item: item, size: size, autoAdjust: autoAdjust, autoAdjustBreakpoint: autoAdjustBreakpoint, inMenu: true}"></li>
+        <li *ngIf="!item.hidden" class="nav-item {{item.hasChildren ? 'dropdown' : ''}}"
+            [sq-action-item]="{item: item, size: size, autoAdjust: autoAdjust, autoAdjustBreakpoint: autoAdjustBreakpoint, inMenu: true}"
+            [collapseBreakpoint]="collapseBreakpoint"></li>
     </ng-container>
 </ul>

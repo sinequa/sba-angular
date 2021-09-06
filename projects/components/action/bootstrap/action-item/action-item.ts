@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnDestroy, AfterViewInit, OnChanges, SimpleChanges, ElementRef, ChangeDetectionStrategy} from "@angular/core";
+import {Component, Input, OnInit, AfterViewInit, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef} from "@angular/core";
 import {Action} from "../../action";
 import {UIService} from "@sinequa/components/utils";
 import {DropdownMenuOptions} from "../dropdown-menu/dropdown-menu";
@@ -19,7 +19,7 @@ export interface ActionItemOptions {
     templateUrl: "./action-item.html",
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges {
+export class BsActionItem implements OnInit, AfterViewInit {
     @Input("sq-action-item") options: ActionItemOptions;
     @Input() collapseBreakpoint: string = "md";
     inListItem: boolean;
@@ -30,7 +30,8 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
 
     constructor(
         private uiService: UIService,
-        private elementRef: ElementRef) {
+        private elementRef: ElementRef,
+        private cdRef: ChangeDetectorRef) {
     }
 
     get haveItem(): boolean {
@@ -127,29 +128,18 @@ export class BsActionItem implements OnInit, OnDestroy, AfterViewInit, OnChanges
     }
 
     ngOnInit() {
+        this.inListItem = (this.elementRef.nativeElement.nodeName === "LI");
         if (this.options.item.init) {
             this.options.item.init(this.options.item);
         }
         this.autoAdjustBreakpoint = this.options.autoAdjustBreakpoint;
+        this.uiService.resizeEvent.subscribe(e => this.cdRef.detectChanges());
     }
 
     ngOnDestroy() {
         if (this.options.item.destroy) {
             this.options.item.destroy(this.options.item);
         }
-        this.unbind();
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-        this.unbind();
-        this.bind();
-    }
-
-    bind() {
-        this.inListItem = (this.elementRef.nativeElement.nodeName === "LI");
-    }
-
-    unbind() {
     }
 
     click(event: UIEvent) {
