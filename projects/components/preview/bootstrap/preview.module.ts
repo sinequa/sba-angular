@@ -14,6 +14,8 @@ import {BsModalModule} from "@sinequa/components/modal";
 import {BsFacetModule} from "@sinequa/components/facet";
 import {ResultModule} from "@sinequa/components/result";
 import {BsActionModule} from "@sinequa/components/action";
+import {BsSearchModule} from "@sinequa/components/search";
+
 import {PreviewModule} from "../preview.module";
 import {BsPreviewHighlights} from "./preview-highlights/preview-highlights";
 import {BsPreviewLinks} from "./preview-links/preview-links";
@@ -50,6 +52,7 @@ import {PREVIEW_MODAL} from '../preview.service';
         BsFacetModule,
         ResultModule,
         BsActionModule,
+        BsSearchModule,
         PreviewModule
     ],
     declarations: [

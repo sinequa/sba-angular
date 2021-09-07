@@ -69,8 +69,9 @@
             <!-- Link to the original document -->
             <a title="Original document" target="_blank" href="{{previewData?.record.url1}}" (click)="openOriginalDoc()">{{previewData?.record.url1}}</a>
         </div>
+        <sq-loading-bar [active]="loading"></sq-loading-bar>
         <div class="flex-grow-1 flex-shrink-1 overflow-hidden">
-            <sq-preview-document-iframe 
+            <sq-preview-document-iframe
                 [scalingFactor]="scaleFactor"
                 [downloadUrl]="downloadUrl"
                 [sandbox]="sandbox"

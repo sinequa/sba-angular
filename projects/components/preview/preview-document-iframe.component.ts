@@ -27,6 +27,7 @@ import { PreviewDocument } from "./preview-document";
     selector: "sq-preview-document-iframe",
     template: `
                 <iframe #documentFrame
+                    loading="lazy"
                     [attr.sandbox]="_sandbox"
                     [src]="sanitizedUrlSrc"
                     [style.--factor]="scalingFactor"
@@ -104,37 +105,37 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
         //   background. That needs to be done now that the iFrame is loaded.
         try {
             this.previewDocument.setSvgBackgroundPositionAndSize();
-        } catch (error) {
-            console.error(error);
-        }
+            /* To catch tab's sheet changes
+            * Sheet structure:
+            * <iframe #preview>
+            *      #document
+            *          ...
+            *          <frameset>
+            *              <iframe name="frSheet"> // current sheet displayed
+            *              <iframe name="frTabs">  // contains all sheet's tabs
+            *          </frameset>
+            *          ...
+            * </iframe>
+            */ 
+            const sheetFrame = this.documentFrame.nativeElement.contentDocument.getElementsByName("frSheet");
+            if(sheetFrame.length > 0) {
+                sheetFrame[0].removeEventListener("load", () => {});
+                sheetFrame[0].addEventListener("load", () => {
+                    this.previewDocument = new PreviewDocument(this.documentFrame);
+                    this.pageChange.next(this.previewDocument);
+                    this.cdr.markForCheck();
+                }, true);
+            }
 
-        /* To catch tab's sheet changes
-         * Sheet structure:
-         * <iframe #preview>
-         *      #document
-         *          ...
-         *          <frameset>
-         *              <iframe name="frSheet"> // current sheet displayed
-         *              <iframe name="frTabs">  // contains all sheet's tabs
-         *          </frameset>
-         *          ...
-         * </iframe>
-         */ 
-        const sheetFrame = this.documentFrame.nativeElement.contentDocument.getElementsByName("frSheet");
-        if(sheetFrame.length > 0) {
-            sheetFrame[0].removeEventListener("load", () => {});
-            sheetFrame[0].addEventListener("load", () => {
-                this.previewDocument = new PreviewDocument(this.documentFrame);
-                this.pageChange.next(this.previewDocument);
-                this.cdr.markForCheck();
-            }, true);
-        }
-
-        if (this.tooltip)
+            if (this.tooltip)
             this.addTooltip(this.previewDocument);
 
-        if (this.minimap) {
-            this.previewDocument.insertComponent(this.minimap.nativeElement);
+            if (this.minimap) {
+                this.previewDocument.insertComponent(this.minimap.nativeElement);
+            }
+
+        } catch (error) {
+            console.warn(error);
         }
 
         // Let upstream component know document is now ready

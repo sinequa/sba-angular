@@ -50,8 +50,13 @@ export class PreviewDocument {
     constructor(element: ElementRef | Document){
         if (element instanceof ElementRef) {
             this._window = element?.nativeElement?.contentWindow;
-            if (this._window?.frames && this._window.frames["frSheet"]) {
-                this._window = this._window.frames["frSheet"];  // aspose xls preview
+            try {
+                // prevents Ungaught DOMException: Blocked a frame with origin ... from accessing a cross-origin frame.
+                if (this._window?.frames && this._window.frames["frSheet"]) {
+                    this._window = this._window.frames["frSheet"];  // aspose xls preview
+                }
+            } catch (error) {
+                console.warn(error);
             }
         } else {
             this._document = element;
