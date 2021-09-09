@@ -19,7 +19,9 @@ module.exports = {
             "@sinequa/components/search":       "sinequa.components.search",
             "@sinequa/components/user-settings":"sinequa.components.user-settings",
             "@sinequa/components/collapse":     "sinequa.components.collapse",
+            "@sinequa/components/result":       "sinequa.components.result",
             "@sinequa/components/results-view": "sinequa.components.results-view",
+            "@sinequa/components/modal":        "sinequa.components.modal",
             "@swimlane/ngx-charts":             "swimlane.ngx-charts",
             "atomicjs":                         "atomic",
             "d3":                               "d3",
@@ -53,7 +55,9 @@ module.exports = {
             "fusioncharts/themes/fusioncharts.theme.candy":     "CandyTheme",
             "ngx-vis":                          "ngxVis",
             "vis-data/peer/esm/vis-data":       "visData",
-            "element-resize-detector":          "elementResizeDetectorMaker"
+            "element-resize-detector":          "elementResizeDetectorMaker",
+            "ag-grid-angular":                  "ag-grid-angular",
+            "marked":                           "marked"
         }
     }
 };
