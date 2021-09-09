@@ -3,50 +3,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ModalButton, ModalResult } from "@sinequa/core/modal";
 import { UserSettingsWebService } from "@sinequa/core/web-services";
 import { MapOf, Utils } from "@sinequa/core/base";
-import { IntlService } from "@sinequa/core/intl";
-import { Validator } from "@sinequa/core/validation";
+import {IntlService} from "@sinequa/core/intl";
 
-export module JsonInfo {
-    export interface Entry {
-        type: string;
-        path: string;
-        valueType: string;
-        label: string;
-        list?: string;
-        pattern?: string;
-        min?: number | Date;
-        max?: number | Date;
-        validators?: Validator[];
-    }
-
-    export enum InputType {
-        Entry = 'JsonEntryInput',
-        Range = 'JsonRangeInput',
-        MultiEntry = 'JsonMultiEntryInput',
-    }
-
-    export enum ValueType {
-        String = 'String',
-        Int = 'Int',
-        Number = 'Number',
-        Date = 'Date',
-        Bool = 'Bool',
-    }
-
-    export interface EntryInput extends Entry {
-        type: InputType.Entry;
-    }
-
-    export interface RangeInput extends Entry {
-        type: InputType.Range;
-    }
-
-    export interface MultiEntryInput extends Entry {
-        type: InputType.MultiEntry;
-        distinct?: boolean;
-        nbVisibleLines?: number;
-    }
-}
+import {JsonInfo} from '../user-settings-editor/jsonInfo.model';
 
 /**
  * Opens a dialog to modify the user settings.

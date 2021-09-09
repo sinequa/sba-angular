@@ -2,9 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AppService } from "@sinequa/core/app-utils";
 import { Locale, IntlService } from "@sinequa/core/intl";
-import { MapOf } from "@sinequa/core/base";
+import {MapOf} from "@sinequa/core/base";
 
-import { JsonInfo } from "../edit-user-settings/edit-user-settings";
+import {JsonInfo} from './jsonInfo.model';
 
 
 /**
