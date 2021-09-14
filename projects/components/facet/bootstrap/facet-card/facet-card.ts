@@ -1,4 +1,4 @@
-import {Component, Input, Output, OnInit, OnDestroy, EventEmitter, ContentChild, HostBinding, AfterContentInit, ChangeDetectorRef} from "@angular/core";
+import {Component, Input, Output, OnInit, OnDestroy, EventEmitter, ContentChild, HostBinding, AfterContentInit, ChangeDetectorRef, HostListener} from "@angular/core";
 import {Subscription} from "rxjs";
 import {Action} from "@sinequa/components/action";
 import {AbstractFacet} from "../../abstract-facet";
@@ -72,6 +72,11 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
      * Whether the facet starts expanded (if expandable / default: false)
      */
     @Input() startExpanded: boolean = false;
+
+    /**
+     * Facet will collapse automatically once clicking outside of it
+     */
+    @Input() collapseOnClickOutside: boolean = true;
 
     /**
      * Whether the facet starts with opened settings (default: false)
@@ -210,5 +215,15 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
 
     public get hasSettings(){
         return !!this.facetComponent && !!this.facetComponent.settingsTpl;
+    }
+
+    @HostListener('window:click', ['$event'])
+    clickOut() {
+        if (this.collapseOnClickOutside) {
+            this._collapsed = true;
+            this.collapseAction.update();
+            this.expandAction.update();
+            this.settingsAction.update();
+        }
     }
 }
