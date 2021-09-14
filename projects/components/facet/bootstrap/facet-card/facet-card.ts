@@ -76,7 +76,7 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
     /**
      * Facet will collapse automatically once clicking outside of it
      */
-    @Input() collapseOnClickOutside: boolean = true;
+    @Input() collapseOnClickOutside: boolean = false;
 
     /**
      * Whether the facet starts with opened settings (default: false)
