@@ -7,7 +7,7 @@
                 </a>
             </div>
             <div class="sq-sponsored-link-view-info">
-                <a href="{{link.url}}" (click)="click(link)" target="_blank" title="{{link.title | sqMessage}}">{{link.title | sqMessage}}</a>
+                <a href="{{link.url}}" (click)="click(link)" target="_blank" title="{{(link.tooltip || link.title) | sqMessage}}">{{link.title | sqMessage}}</a>
                 <div *ngIf="link.summary" class="sq-sponsored-link-view-summary">{{link.summary | sqMessage}}</div>
             </div>
         </div>
