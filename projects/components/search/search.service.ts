@@ -1,10 +1,10 @@
 import {Injectable, InjectionToken, Inject, Optional, OnDestroy} from "@angular/core";
 import {Router, NavigationStart, NavigationEnd, Params} from "@angular/router";
 import {Subject, BehaviorSubject, Observable, Subscription, of, throwError} from "rxjs";
-import {map, catchError  } from "rxjs/operators";
+import {map, switchMap} from "rxjs/operators";
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
-    AuditEvents, AuditEventType, AuditEvent} from "@sinequa/core/web-services";
+    AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch} from "@sinequa/core/web-services";
 import {AppService, FormatService, ValueItem, Query, ExprParser, Expr, ExprBuilder} from "@sinequa/core/app-utils";
 import {NotificationsService} from "@sinequa/core/notification";
 import {LoginService} from "@sinequa/core/login";
@@ -13,11 +13,18 @@ import {Utils} from "@sinequa/core/base";
 import {Breadcrumbs, BreadcrumbsItem} from './breadcrumbs';
 
 export interface SearchOptions {
+    /** Name of routes for which we want the search service to work (incl. storing the query in the URL) */
     routes?: string[];
+    /** Name of routes for which we want the search service to work, but no actual search query to be performed. This can be used to perform custom actions on certain routes */
     skipSearchRoutes?: string[];
+    /** Name of the home route, if any */
     homeRoute?: string;
+    /** Deactivate the storing of the query in the URL (calling search() then directly triggers a search and causes no URL modification or routing event) */
     deactivateRouting?: boolean;
+    /** Force the global query to always be appService.ccquery */
     preventQueryNameChanges?: boolean;
+    /** Whether to detect query intents synchronously (blocking the execution of the query until we know the intent). By default, query intents are detected asynchronously. */
+    queryIntentsSync?: boolean;
 }
 
 export const SEARCH_OPTIONS = new InjectionToken<SearchOptions>("SEARCH_OPTIONS");
@@ -50,7 +57,8 @@ export class SearchService implements OnDestroy {
         protected formatService: FormatService,
         protected auditService: AuditWebService,
         protected notificationsService: NotificationsService,
-        protected exprBuilder: ExprBuilder) {
+        protected exprBuilder: ExprBuilder,
+        protected queryIntentWebService: QueryIntentWebService) {
 
         if (!this.options) {
             this.options = {
@@ -421,6 +429,7 @@ export class SearchService implements OnDestroy {
         if (!options) {
             options = {};
         }
+        // We reuse the query intent analysis from previous results
         if (!options.analyzeQueryText && this.results) {
             options.queryIntents = this.results.queryIntents;
             options.queryAnalysis = this.results.queryAnalysis;
@@ -607,12 +616,12 @@ export class SearchService implements OnDestroy {
         return undefined;
     }
 
-    protected handleNavigation(navigationOptions?: SearchService.NavigationOptions, audit?: AuditEvents): Promise<boolean> {
+    protected handleNavigation(navigationOptions?: SearchService.NavigationOptions, audit?: AuditEvents) {
         if (!this.loginService.complete) {
-            return Promise.resolve(false);
+            return
         }
         if (!this.appService.ccquery) {
-            return Promise.resolve(false);
+            return
         }
         let query = this._query;
         if (this.routingActive) {
@@ -621,7 +630,7 @@ export class SearchService implements OnDestroy {
         this._events.next({type: "update-query", query});
         this._queryStream.next(query);
         if (!query) {
-            return Promise.resolve(true);
+            return
         }
         if (this.routingActive) {
             const state = this.getHistoryState();
@@ -632,28 +641,44 @@ export class SearchService implements OnDestroy {
         navigationOptions = navigationOptions || {};
         const pathName = navigationOptions.path ? navigationOptions.path : Utils.makeURL(this.router.url).pathname;
         if(navigationOptions.skipSearch || this.isSkipSearchRoute(pathName)) {
-            return Promise.resolve(true);
+            return
         }
+
         if (!audit) {
+            // Note: typically called on application startup when there's no history state (ie. we don't know where the search comes from)
             audit = this.makeAuditEventFromCurrentQuery();
-            if (audit && audit.type === AuditEventType.Search_Text) {
+            if (audit?.type === AuditEventType.Search_Text) {
                 delete navigationOptions.queryIntents;
                 delete navigationOptions.queryAnalysis;
             }
         }
-        let observable = this.getResults(this.query, audit,
-            {
-                queryIntents: navigationOptions.queryIntents,
-                queryAnalysis: navigationOptions.queryAnalysis
-            });
-        Utils.subscribe(observable,
-            (results) => {
-                navigationOptions = navigationOptions || {};
-                this._setResults(results, {
-                    resuseBreadcrumbs: navigationOptions.reuseBreadcrumbs,
+
+        let obs = of(false);
+
+        // Insert a call to the query intent web service (if any)
+        if(this.appService.ccquery?.queryIntentSet) {
+            // In synchronous mode, the query intents are executed before search
+            if(this.options.queryIntentsSync) {
+                obs = this.pipeQueryIntent(obs);
+            }
+            // In asynchronous mode, the query intents are executed in parallel
+            else {
+                this.pipeQueryIntent(obs).subscribe();
+            }
+        }
+        
+        // Get results (except if the search query is cancelled)
+        let observable = obs.pipe(
+            switchMap(cancel => {
+                if(cancel) return of(undefined);
+                return this.getResults(this.query, audit, {
+                    queryIntents: navigationOptions?.queryIntents,
+                    queryAnalysis: navigationOptions?.queryAnalysis
                 });
-                return results;
-            });
+            })
+        );
+
+        // This event allows customization of behavior when switching tabs (the observable property can be modified to get other results)
         if (navigationOptions.selectTab) {
             const afterSelectTabEvent: SearchService.AfterSelectTabEvent = {
                 type: "after-select-tab",
@@ -662,9 +687,32 @@ export class SearchService implements OnDestroy {
             this._events.next(afterSelectTabEvent);
             observable = afterSelectTabEvent.observable;
         }
-        return observable.pipe(
-            map(() => true),
-            catchError(() => of(false))).toPromise();
+
+        // Set results if any
+        observable.subscribe(results => {
+            if(results) {
+                navigationOptions = navigationOptions || {};
+                this._setResults(results, {
+                    resuseBreadcrumbs: navigationOptions.reuseBreadcrumbs,
+                });
+            }
+        });
+    }
+
+    pipeQueryIntent(obs: Observable<boolean>): Observable<boolean> {
+        return obs.pipe(
+            switchMap(() => this.queryIntentWebService.getQueryIntent(this.query)),
+            map(intents => {
+                const event: SearchService.NewQueryIntentsEvent = {
+                    type: "new-query-intents",
+                    query: this.query,
+                    intents,
+                    cancelSearch: false
+                };
+                this._events.next(event);
+                return event.cancelSearch;
+            })
+        );
     }
 
     search(navigationOptions?: SearchService.NavigationOptions, audit?: AuditEvents): Promise<boolean> {
@@ -932,7 +980,7 @@ export module SearchService {
 
     export interface Event {
         type: "new-query" | "update-query" | "make-query" | "before-new-results" | "new-results" | "make-query-intent-data" |
-            "process-query-intent-action" | "make-audit-event" |
+            "process-query-intent-action" | "make-audit-event" | "new-query-intents" |
             "before-select-tab" | "after-select-tab" | "clear" | "open-original-document" | "before-search";
     }
 
@@ -986,7 +1034,7 @@ export module SearchService {
 
     export interface AfterSelectTabEvent extends Event {
         type: "after-select-tab";
-        observable: Observable<Results>;
+        observable: Observable<Results|undefined>;
     }
 
     export interface ClearEvent extends Event {
@@ -1004,6 +1052,13 @@ export module SearchService {
         cancel?: boolean;
         cancelReasons?: string[];
     }
+    
+    export interface NewQueryIntentsEvent extends Event {
+        type: "new-query-intents";
+        query: Query;
+        intents: QueryIntentMatch[];
+        cancelSearch: boolean;
+    }
 
     export type Events =
         NewQueryEvent |
@@ -1018,7 +1073,8 @@ export module SearchService {
         AfterSelectTabEvent |
         ClearEvent |
         OpenOriginalDocument |
-        BeforeSearchEvent;
+        BeforeSearchEvent |
+        NewQueryIntentsEvent;
 
     export const DefaultPageSize = 20;
 }

@@ -1,9 +1,10 @@
 import {Injectable, Inject} from "@angular/core";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {SqHttpClient} from "./http-client";
 import {HttpService} from "./http.service";
 import {START_CONFIG, StartConfig} from "./start-config.web.service";
 import {IQuery} from "./query/query";
+import {pluck, tap} from "rxjs/operators";
 
 export interface QueryIntentResponse {
     query: string;
@@ -53,18 +54,34 @@ export interface QueryIntentEntity2 {
 export class QueryIntentWebService extends HttpService {
     private readonly endpoint = "queryintent";
 
+    // The cache prevents analyzing the same query multiple times
+    cache = new Map<string,QueryIntentMatch[]>();
+
     constructor(
         @Inject(START_CONFIG) startConfig: StartConfig,
         private httpClient: SqHttpClient) {
         super(startConfig);
     }
 
-    getQueryIntent(query: IQuery): Observable<QueryIntentResponse> {
+    getQueryIntent(query: IQuery): Observable<QueryIntentMatch[]> {
+        if(!query.text){
+            return of([]);
+        }
+        const text = query.text.toLowerCase();
+        if(this.cache.has(text)){
+            return of(this.cache.get(text)!);
+        }
         const data = {
             query,
             app: this.appName
         };
         return this.httpClient.post<QueryIntentResponse>(
-            this.makeUrl(this.endpoint), data);
+            this.makeUrl(this.endpoint), data)
+                .pipe(
+                    pluck("intents"),
+                    tap(intents => {
+                        this.cache.set(text, intents);
+                    })
+                );
     }
 }

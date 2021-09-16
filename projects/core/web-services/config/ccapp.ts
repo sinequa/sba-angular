@@ -421,6 +421,14 @@ export interface CCQuery extends CCWebService {
      */
     partnameFieldsExcluded: string[];
     /**
+     * Query intent configured for this query
+     */
+    queryIntent: string;
+    /**
+     * Query intent set configured for this query
+     */
+    queryIntentSet: string;
+    /**
      * The `PatternMatcher` instance created on the client using the `partnameFieldsIncluded` and `partnameFieldsExcluded` values.
      */
     $partnameFieldsPattern: PatternMatcher;
