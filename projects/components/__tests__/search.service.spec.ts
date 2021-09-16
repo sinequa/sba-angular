@@ -1,7 +1,7 @@
 import {TestBed} from "@angular/core/testing";
 import {Router} from "@angular/router";
 
-import {AuditWebService, QueryWebService, Results, Tab} from "@sinequa/core/web-services";
+import {AuditWebService, QueryIntentWebService, QueryWebService, Results, Tab} from "@sinequa/core/web-services";
 import {AppService, FormatService, Query} from "@sinequa/core/app-utils";
 import {NotificationsService} from "@sinequa/core/notification";
 import {LoginService} from "@sinequa/core/login";
@@ -12,6 +12,7 @@ import {RouterStub} from '@testing/stubs';
 
 import {BreadcrumbsItem, Breadcrumbs} from "../search/breadcrumbs";
 import {SearchService} from "../search/search.service";
+import { QueryIntentWebServiceFactory } from "./factories/queryIntentWebServiceFactory";
 
 describe("SearchService", () => {
   let service: SearchService;
@@ -39,7 +40,8 @@ describe("SearchService", () => {
         {provide: FormatService, useValue: {}},
         {provide: NotificationsService, useFactory: NotificationsServiceFactory},
         {provide: LoginService, useFactory: LoginServiceFactory},
-        {provide: IntlService, useValue: {}}
+        {provide: IntlService, useValue: {}},
+        {provide: QueryIntentWebService, useFactory: QueryIntentWebServiceFactory}
       ]
     });
 
