@@ -57,6 +57,8 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   downloadUrl?: string;
   currentUrl?: string;
   sandbox?: string | null;
+  
+  loading = false;
 
   // Set when the preview has finished loading and initializing
   previewDocument?: PreviewDocument;
@@ -80,7 +82,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   tooltipEntityActions: Action[] = [];
   tooltipTextActions: Action[] = [];
 
-  private readonly scaleFactorThreshold = 0.05;
+  private readonly scaleFactorThreshold = 0.2;
   scaleFactor = 1.0;
 
   constructor(
@@ -232,6 +234,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
           this.downloadUrl = url ? this.previewService.makeDownloadUrl(url) : undefined;
           this.sandbox = ["xlsx","xls"].includes(previewData.record.docformat) ? null : undefined;
           this.titleService.setTitle(this.intlService.formatMessage("msg#preview.pageTitle", {title: previewData?.record?.title || ""}));
+          this.loading = true;
         }
       );
     }
@@ -242,7 +245,8 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
    * @param previewDocument
    */
   onPreviewReady(previewDocument: PreviewDocument){
-    if(this.previewData) {
+    if (this.previewData) {
+      this.loading = false;
       // uses preferences to uncheck highlighted entities
       const uncheckedEntities = this.entitiesStartUnchecked;
       Object.keys(uncheckedEntities)
@@ -258,9 +262,11 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   onPreviewPageChange(event: string | PreviewDocument) {
     if (event instanceof PreviewDocument) {
       this.previewDocument = event;
+      this.loading = false;
     } else {
       this.currentUrl = event;
       this.previewDocument = undefined;
+      this.loading = true;
     }
     this.cdr.detectChanges();
   }

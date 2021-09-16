@@ -41,9 +41,9 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   data?: PreviewData;
   document?: PreviewDocument;
   downloadUrl?: SafeResourceUrl;
+  loading = false;
 
   private readonly scaleFactorThreshold = 0.1;
-  private loaded = false;
 
   constructor(
       private previewService: PreviewService) {
@@ -147,6 +147,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       this.downloadUrl = undefined;
       this.data = undefined;
       this.document = undefined;
+      this.loading = true;
     }
     if(changes["height"] || changes["scalingFactor"]) {
       this._height = this.height;
@@ -154,8 +155,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   }
 
   ngAfterViewChecked() {
-    if (this.document && this.loaded) {
-      this.loaded = false;
+    if (this.document && !this.loading) {
       // as now view is checked, emit event
       this.previewLoaded.emit(this.document);
     }
@@ -167,6 +167,6 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       this.document.filterHighlights(this.filters);
     }
 
-    this.loaded = true;
+    this.loading = false;
   }
 }
