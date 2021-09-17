@@ -181,7 +181,7 @@ Let's say we have configured an intent named "format" that detects a file format
 ```ts
 export const searchOptions: SearchOptions = {
     ...,
-    queryIntentsSync: false
+    queryIntentsSync: true
 };
 ```
 
