@@ -666,7 +666,7 @@ export class SearchService implements OnDestroy {
                 this.pipeQueryIntent(obs).subscribe();
             }
         }
-        
+
         // Get results (except if the search query is cancelled)
         let observable = obs.pipe(
             switchMap(cancel => {
@@ -710,6 +710,17 @@ export class SearchService implements OnDestroy {
                     cancelSearch: false
                 };
                 this._events.next(event);
+                if(intents.length > 0) {
+                    const events = intents.map(intent => ({
+                        type: "Search_QueryIntent_Detected",
+                        detail: {
+                            querytext: this.query.text,
+                            item: intent.name,
+                            detail: intent.globalEntities?.map(e => e.value).join(";")
+                        }
+                    }));
+                    this.auditService.notify(events);
+                }
                 return event.cancelSearch;
             })
         );
