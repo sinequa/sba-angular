@@ -1,0 +1,110 @@
+---
+layout: default
+title: Slide Builder Module
+parent: Components
+grand_parent: Modules
+nav_order: 19
+---
+
+# Slide Builder Module
+
+## Reference documentation
+
+Please checkout the [reference documentation]({{site.baseurl}}components/modules/SlideBuilderModule.html) auto-generated from source code.
+
+## Features
+
+This module provides components for displaying, rearranging and exporting Powerpoint slides.
+
+![Slide Builder]({{site.baseurl}}assets/modules/slide-builder/slide-builder.png){: .d-block .mx-auto }
+{: .text-center }
+
+Users can select slides from the results list to add them to their presentation. Rearranging the slide order is simply done by drag and drop. Finally, a button allows to produce a Powerpoint file from the list of slides.
+
+## Prerequisites
+
+⚠️ This module requires a web service available as of Sinequa 11.7.0.
+
+TODO: Server-side configuration
+
+## Import
+
+Add [`SlideBuilderModule`]({{site.baseurl}}components/modules/SlideBuilderModule.html) to your Angular imports in `app.module.ts`:
+
+```ts
+import { SlideBuilderModule } from "@sinequa/components/slide-builder";
+/*....*/
+
+@NgModule({
+    imports: [
+        /*....*/
+        SlideBuilderModule,
+        /*....*/
+    ],
+    /*....*/
+})
+```
+
+This module is internationalized: If not already the case, you need to import its messages for the language(s) of your application. For example, in your app's `src/locales/en.ts`:
+
+```ts
+...
+import {enSlideBuilder} from "@sinequa/components/slide-builder";
+
+const messages = Utils.merge({}, ..., enSlideBuilder, appMessages);
+```
+
+## Slide Builder component
+
+The [`sq-slide-builder`]({{site.baseurl}}components/modules/SlideBuilderComponent.html) component displays a list of selected slides. The component actually uses the `SelectionService` from the [Selection Module](selection.html) as a data model for the selected slides. The Drag & Drop capability is actually directly based on the [`sq-selection-arranger`](selection.html#selection-arranger) component.
+
+![Slide arranger]({{site.baseurl}}assets/modules/slide-builder/slide-arranger.png)
+
+This component is designed to be embedded in a facet card:
+
+```html
+<sq-facet-card *ngIf="results.tab === 'slides'"
+    [collapsible]="false"
+    icon="far fa-file-powerpoint"
+    title="Slide Deck Builder"
+    tooltip="Click on a slide from the search results to add it to the Slide Deck Builder."
+    class="d-block mb-3 facet-preview">
+    <sq-slide-builder #facet></sq-slide-builder>
+</sq-facet-card>
+```
+
+When at least one slide is selected, the action buttons are displayed in the facet header. They let users export the presentation as a Powerpoint file, save it as a basket (or collection), or clear the current selection.
+
+It is possible to deactivate the option to save as a basket by passing the input `enableSaveAsBasket` as `false`.
+
+It is also possible to customize the display by passing a template by transclusion:
+
+{% raw %}
+```html
+<sq-slide-builder #facet>
+    <ng-template let-record>
+        <div>This is the record: {{record.id}}</div>
+    <ng-template>
+</sq-slide-builder>
+```
+{% endraw %}
+
+## Slide List component
+
+The [`sq-slide-list`]({{site.baseurl}}components/modules/SlideListComponent.html) component displays a tiled view of PowerPoint slides:
+
+![Slide list]({{site.baseurl}}assets/modules/slide-builder/slide-list.png)
+
+The component requires a `Results` object as an input, and, of course, the component should be displayed only in a context where the records are individual slides. A good way to create such a context is to use tab, as shown below:
+
+```html
+<sq-slide-list [results]="results" *ngIf="results.tab === 'slides'">
+</sq-slide-list>
+```
+
+The component has various optional inputs and outputs:
+
+- `colClass` (default: `'col-6'`): A [Bootstrap column class](https://getbootstrap.com/docs/4.0/layout/grid/) to determine the width of the slides. By default, `'col-6'` gives 50% of the available width to each slide. `'col-12'` would give 100% of the width, `'col-4'`, one-third, and so one. This parameter can be used to easily balance the density of the view and legibility of the slides.
+- `selectedRecord`: A single `Record` that is considered "selected" by the user (for example, to display the preview). This affects only the display of that record and the keyboard-based navigation.
+- `recordSelect` (output): An event triggered when the user uses keyboard-based navigation to go through the list of results.
+- `recordKeydown` (output): An event triggered when the user uses a key while a record is selected via keyboard-based navigation.
