@@ -17,5 +17,5 @@
 <div class="d-flex mt-1 align-items-center">
     <sq-result-title class="slide-title mr-auto" [record]="record"></sq-result-title>
     <span class="badge badge-light mr-2 ml-1" [title]="'msg#slideCollection.slideNumber' | sqMessage">{{record.id.split('#')[1]}}</span>
-    <span class="fas fa-filter ml-2" title="'msg#slideCollection.filterSlideDeck' | sqMessage" (click)="onSlideFilterClick(record,$event)"></span>
+    <span class="fas fa-filter ml-2" [title]="'msg#slideCollection.filterSlideDeck' | sqMessage" (click)="onSlideFilterClick(record,$event)"></span>
 </div>

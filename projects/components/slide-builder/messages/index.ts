@@ -1,12 +1,11 @@
 import {Utils} from "@sinequa/core/base";
-import {enSearch, frSearch, deSearch} from "@sinequa/components/search";
 
-import _enSelection from "./en";
-import _frSelection from "./fr";
-import _deSelection from "./de";
+import _enSlideBuilder from "./en";
+import _frSlideBuilder from "./fr";
+import _deSlideBuilder from "./de";
 
-const enSelection = Utils.merge({}, _enSelection, enSearch);
-const frSelection = Utils.merge({}, _frSelection, frSearch);
-const deSelection = Utils.merge({}, _deSelection, deSearch);
+const enSlideBuilder = Utils.merge({}, _enSlideBuilder);
+const frSlideBuilder = Utils.merge({}, _frSlideBuilder);
+const deSlideBuilder = Utils.merge({}, _deSlideBuilder);
 
-export { enSelection, frSelection, deSelection };
+export { enSlideBuilder, frSlideBuilder, deSlideBuilder };
