@@ -1,0 +1,31 @@
+<sq-loading-bar [active]="exportInProgress"></sq-loading-bar>
+<sq-selection-arranger>                    
+    <ng-template let-record>
+        <!-- Use a template passed by transclusion -->
+        <ng-container *ngTemplateOutlet="recordTpl; context: {$implicit: record}">
+        </ng-container>
+
+        <!-- Or use the default template below -->
+        <div class="slide-builder d-flex justify-content-around my-3" *ngIf="!recordTpl">
+            <div class="col-6 slide-thumbnail text-center">
+                <img *ngIf="!record['thumbnailImgError']" 
+                    class="rounded shadow bg-white"
+                    src="{{startConfig.url}}{{record.thumbnailUrl}}" 
+                    (error)="record['thumbnailImgError'] = true"/>
+                <span *ngIf="record['thumbnailImgError']" 
+                    class="fas fa-file fa-2x" 
+                    title="{{record.title}}">
+                </span>
+            </div>
+
+            <div class="col-6 slide-metadata">
+                <div class="slide-date">{{record.modified|date}}</div>
+                <div class="slide-title d-flex flex-nowrap align-items-center mt-2">
+                    <sq-result-title class="slide-title mr-auto" [record]="record"></sq-result-title>
+                    <span class="badge badge-light ml-1" title="Slide Number">{{record.id.split('#')[1]}}</span>
+                </div>
+                <div *ngIf="ui.screenSizeIsGreater('md')" class="slide-treepath mt-2">{{record.treepath}}</div>
+            </div>
+        </div>
+    </ng-template>
+</sq-selection-arranger>

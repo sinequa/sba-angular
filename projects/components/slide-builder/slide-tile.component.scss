@@ -1,0 +1,22 @@
+
+:host ::ng-deep .result-slide-thumbnail {
+    img {
+        max-width: 100%;
+        max-height: 100%;
+        //width: 320px; // Needed to get a nice population of images when building the page
+        // Otherwise the images populate in a kind of snaky way, pushing one another to the right and down
+        border-radius: 5px;
+        transition: transform .4s ease-in-out;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    img:hover {
+        transform:scale(1.5);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        z-index: 1;
+        position: relative;
+    }
+}
+
+sq-result-title {
+    font-size: inherit;
+}

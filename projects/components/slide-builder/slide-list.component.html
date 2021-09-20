@@ -1,0 +1,15 @@
+
+<div class="sq-slide-list row justify-content-around"
+    sqFocusKeyList
+    [activeItem]="selectedIndex"
+    (itemSelect)="onRecordSelect($event)">
+    <sq-slide-tile *ngFor="let record of results.records"
+        class="record py-2 {{colClass}}"
+        sqFocusKeyListItem
+        [ngClass]="{'selected': record.$selected || record === selectedRecord}"
+        [record]="record"
+        [thumbnailColumn]="thumbnailColumn"
+        (click)="onSlideClick(record)"
+        (keydown)="onRecordKeydown(record, $event)">
+    </sq-slide-tile>
+</div>
