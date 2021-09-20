@@ -10,7 +10,6 @@ import { Record } from "@sinequa/core/web-services";
 export class SlideTileComponent {
     @Input() record: Record;
     @Input() dateFormat: Intl.DateTimeFormatOptions = {year: 'numeric', month: 'short', day: 'numeric'};
-    @Input() thumbnailColumn: string;
     
     constructor(
         public searchService: SearchService

@@ -8,7 +8,6 @@
         sqFocusKeyListItem
         [ngClass]="{'selected': record.$selected || record === selectedRecord}"
         [record]="record"
-        [thumbnailColumn]="thumbnailColumn"
         (click)="onSlideClick(record)"
         (keydown)="onRecordKeydown(record, $event)">
     </sq-slide-tile>

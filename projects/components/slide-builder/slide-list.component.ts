@@ -10,7 +10,6 @@ import { SelectionService } from '@sinequa/components/selection';
 export class SlideListComponent {
     @Input() results: Results;
     @Input() selectedRecord: Record;
-    @Input() thumbnailColumn: string;
     @Input() colClass = "col-6";
 
     /** Event emitters for keyboard navigation in the results list */
