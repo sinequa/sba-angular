@@ -1,0 +1,46 @@
+.load-more-indicator {
+  position: fixed;
+  bottom: 2px;
+  z-index: 100;
+  
+  // floating positons
+  &.float-right {
+    right: 2px;
+  }
+  &.float-left-15 {
+    left: 15%;
+  }  
+  &.float-left-35 {
+    left: 35%;
+  }
+  &.float-middle {
+    left: 50%;
+  }
+
+  .arrow {
+    text-align: center;
+    margin: 8% 0;
+    
+    &-color {
+      color: #7c7c7d;    
+    }
+  }
+}
+
+// bouncing animations
+.bounce {
+  -moz-animation: bounce 2s infinite;
+  -webkit-animation: bounce 2s infinite;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(10px);
+  }
+}
