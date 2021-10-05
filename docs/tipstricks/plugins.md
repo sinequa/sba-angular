@@ -2,7 +2,7 @@
 layout: default
 title: Server-side Plugins
 parent: Tips and Tricks
-nav_order: 15
+nav_order: 16
 ---
 
 # Server-side Plugins
