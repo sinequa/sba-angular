@@ -5,8 +5,7 @@ import { AbstractFacet } from "@sinequa/components/facet";
 import { SelectionService } from "@sinequa/components/selection";
 import { UIService } from "@sinequa/components/utils";
 import { NotificationsService } from "@sinequa/core/notification";
-import { DownloadWebService, StartConfig, START_CONFIG } from "@sinequa/core/web-services";
-import { SlideWebService } from "./slide.web.service";
+import { DownloadWebService, DocBuilderWebService, StartConfig, START_CONFIG } from "@sinequa/core/web-services";
 
 @Component({
     selector: 'sq-slide-builder',
@@ -28,7 +27,7 @@ export class SlideBuilderComponent extends AbstractFacet implements OnInit, OnDe
         public selectionService: SelectionService,
         public notificationsService: NotificationsService,
         public downloadWebService: DownloadWebService,
-        public slideWebService: SlideWebService,
+        public docBuilderWebService: DocBuilderWebService,
         public basketService: BasketsService,
         public ui: UIService
     ){
@@ -90,7 +89,7 @@ export class SlideBuilderComponent extends AbstractFacet implements OnInit, OnDe
             }
         }
 
-        this.slideWebService.downloadSlides(ids, auditEvent).subscribe(() => {
+        this.docBuilderWebService.downloadSlides(ids, auditEvent).subscribe(() => {
             this.notificationsService.info("msg#slideCollection.exportSucceeded");
             this.selectionService.clearSelectedRecords("presentation-builder");
             this.exportInProgress = false;

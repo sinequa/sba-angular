@@ -29,89 +29,68 @@ Users can select slides from the results list to add them to their presentation.
 
 Before slide builder can be implemented on the front-end, the server-side configuration requires the following:
 
-- [ ] [`Conversion Plan & Converter:`](#conversion-plan--converter) integral part to splitting the individual PowerPoint slides. 
-- [ ] [`Collection:`](#collection) requires included extensions and the appropriate conversion plan.
-- [ ] [`Plugin:`](#plugin) allows the functionality of exporting new presentation decks.
-- [ ] [`Web Services - Queries:`](#web-services---queries) requires a specific tab configuration that displays the slide builder module.
+- [Conversion Plan & Converter](#conversion-plan--converter): integral part to splitting the individual PowerPoint slides. 
+- [Collection](#collection): requires included extensions and the appropriate conversion plan.
+- [Query Web Service](#query-web-service): requires a specific tab configuration that displays the slide builder.
 
-Once the server-side configuration is completed, implementing the slide builder module starts [`here`](#import).
+### Conversion Plan & Converter 
 
-
-## Conversion Plan & Converter 
-
-In order to implement slide builder, a collection requires only PowerPoint documents storing locally.
+In order to implement slide builder, a collection requires storing PowerPoint documents locally.
 Thus, we must ensure the conversion plan satisfies the following criteria:
 
-- [ ] Conversion Plan:  ***Store Original*** --enabled for PowerPoint extensions.
-- [ ] Converter:  Converters splitting the documents
+1. Conversion Plan: ***Store Original*** --enabled for PowerPoint extensions.
 
+    ![Slide Builder]({{site.baseurl}}assets/modules/slide-builder/slide-conversionplan.png){: .d-block .mx-auto }
+    {: .text-center }
 
-###  1. Conversion Plan 
+2. Converter: Converters splitting the documents
 
-![Slide Builder]({{site.baseurl}}assets/modules/slide-builder/slide-conversionplan.png){: .d-block .mx-auto }
-{: .text-center }
+    ![Slide Builder]({{site.baseurl}}assets/modules/slide-builder/slide-converter1.png){: .d-block .mx-auto }
+    {: .text-center }
+    ---
+    ![Slide Builder]({{site.baseurl}}assets/modules/slide-builder/slide-converter2.png){: .d-block .mx-auto }
+    {: .text-center }
 
+### Collection
 
-###  2. Converter 
+All slide builder collections should be stored in a centralized **source** and **index**. No other type of records should be stored. 
 
-![Slide Builder]({{site.baseurl}}assets/modules/slide-builder/slide-converter1.png){: .d-block .mx-auto }
-{: .text-center }
----
-![Slide Builder]({{site.baseurl}}assets/modules/slide-builder/slide-converter2.png){: .d-block .mx-auto }
-{: .text-center }
-[`Back to Server-side configuration`](#server-side-configuration)
+There are two ways to configure a collection to index slides:
 
-## Collection
+1. Creating a collection only indexing PowerPoint documents
 
-There are two scenarios in which the slide builder can adapt upon:
+    When creating a collection **specifically** for the slide builder module, the collection should only index PowerPoint extensions.
 
- 1. A collection only indexing PowerPoint documents
- 2. A HyperIndex collection on an exisiting collection containing other extensions
+    ![Slide Builder]({{site.baseurl}}assets/modules/slide-builder/slide-extensions.png){: .d-block .mx-auto }
+    {: .text-center }
 
-**Note**: All slide builder collections should be stored in a centralized **source** and **index** for this module. 
-- No other type of records should be stored. 
+    ⚠️ The conversion plan previously configured should be attached to this collection.
 
-### 1. A Collection from Scratch
+2. Creating a HyperIndex collection targetting an exisiting index containing other extensions
 
-- When creating a collection **specifically** for the slide builder module, the collection should only index PowerPoint extensions.
- ![Slide Builder]({{site.baseurl}}assets/modules/slide-builder/slide-extensions.png){: .d-block .mx-auto }
-{: .text-center }
+    Some collections may already contain preexisting data. To avoid repetition creating a collection from scratch and reindexing data on a seperate collection, 
+    ensure that the preexisting collections satisfies the conversion plan configuration. 
 
-⚠️ The conversion plan previously configured should be attached to this collection.
+    - It is required to reindex the preexisting data if the conversion plan was not configured previously.
+    - By creating a **HyperIndex connector**, the targeted index (that contains various types of documents) will be filtered to index only PowerPoint extensions. 
 
-### 2. Preexisting Collections 
-Some collections may already contain preexisting data. To avoid repetition creating a collection from scratch and reindexing data on a seperate collection, 
-ensure that the preexisting collections satisfies the conversion plan configuration. 
+### Query Web Service
 
-- It is required to reindex the preexisting data if the conversion plan was not configured previously.
-- By creating a **HyperIndex connector**, the targeted index that contains various types of documents will only filter only for PowerPoint extensions. 
+The query web service must be configured to provide the slides in a context where we want to display the slide builder. One way to achieve this is to create a dedicated **tab**.
 
+For example, we can configure tab search based on the **docformat** or **treepath** column and use index inclusions/exclusions to return the right content in our dedicated "slides" tab.
 
-Please see [`appendix`](#appendix) for further configuration details.
-
-[`Back to Server-side configuration`](#server-side-configuration)
-## Plugin
-
-The slide builder module requires a plugin that allows the creation of the new PowerPoint presentation.
-- The plugin can be found inside of the Slide Builder module folder under the name **DeckBuilderJsonMethodPlugin.cs**
-
-[`Back to Server-side configuration`](#server-side-configuration)
-## Web Services - Queries
-Configuring the web service query allows the functionality of slide builder displayed properly with the module.
-
-- **[Alternative approach]**: Treepaths are commonly used as a way to search for Tabs. 
-**Treepath method** needs to ensure that the front-end **config.ts** file pertains the treepath mapping. 
 ![Slide Builder]({{site.baseurl}}assets/modules/slide-builder/slide-queryservice-tabs1.png){: .d-block .mx-auto }
 {: .text-center }
-
-- It is required that tab is excluding all indexes that do not pertain to slide builder module.
 
 ![Slide Builder]({{site.baseurl}}assets/modules/slide-builder/slide-queryservice-tabs2.png){: .d-block .mx-auto }
 {: .text-center }
 
-[`Back to Server-side configuration`](#server-side-configuration)
+Note that the slides index is excluded from the "all" tab, to avoid displaying individual slides in that context.
 
-## Import
+## SBA integration
+
+### Import
 
 Add [`SlideBuilderModule`]({{site.baseurl}}components/modules/SlideBuilderModule.html) to your Angular imports in `app.module.ts`:
 
@@ -138,7 +117,7 @@ import {enSlideBuilder} from "@sinequa/components/slide-builder";
 const messages = Utils.merge({}, ..., enSlideBuilder, appMessages);
 ```
 
-## Slide Builder component
+### Slide Builder component
 
 The [`sq-slide-builder`]({{site.baseurl}}components/modules/SlideBuilderComponent.html) component displays a list of selected slides. The component actually uses the `SelectionService` from the [Selection Module](selection.html) as a data model for the selected slides. The Drag & Drop capability is actually directly based on the [`sq-selection-arranger`](selection.html#selection-arranger) component.
 
@@ -173,7 +152,7 @@ It is also possible to customize the display by passing a template by transclusi
 ```
 {% endraw %}
 
-## Slide List component
+### Slide List component
 
 The [`sq-slide-list`]({{site.baseurl}}components/modules/SlideListComponent.html) component displays a tiled view of PowerPoint slides:
 
@@ -192,6 +171,3 @@ The component has various optional inputs and outputs:
 - `selectedRecord`: A single `Record` that is considered "selected" by the user (for example, to display the preview). This affects only the display of that record and the keyboard-based navigation.
 - `recordSelect` (output): An event triggered when the user uses keyboard-based navigation to go through the list of results.
 - `recordKeydown` (output): An event triggered when the user uses a key while a record is selected via keyboard-based navigation.
-
-
-## Appendix
