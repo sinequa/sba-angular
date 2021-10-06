@@ -2,7 +2,7 @@
 layout: default
 title: Query Intent Detection
 parent: Tips and Tricks
-nav_order: 17
+nav_order: 18
 ---
 
 # Query Intent Detection
