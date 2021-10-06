@@ -175,6 +175,8 @@ Once starting both applications side by side (`ng serve shell` and `ng serve mfe
 
 ### Dynamic federation
 
+In the previous section, we assumed that micro front-ends, used in the shell, are already known by the developer. However, there might be situations where you don’t even know the list of micro front-ends upfront. This information can be hold by an external system and fetched on runtime via HTTP request.
+
 To dynamically load a micro-frontend at runtime, you need to remove the registration of the micro front-end upfront within shell configuration :
 
 ```ts
@@ -200,7 +202,7 @@ const routes: Routes = [
 ];
 ```
 
-Also, there might be situations where you don’t even know the number of micro front-ends upfront. With *Module Federation*, you can always use more dynamic situation to handle it. In such cases, this information can be provided **at runtime** via a lookup service :
+To showcase the use of external systems, remotes information can be provided **at runtime** via a lookup service :
 
 ```ts
 @Injectable({ providedIn: 'root' })
@@ -210,7 +212,7 @@ export class LookupService {
     }
 }
 ```
-After receiving the *Microfrontend* array from the *LookupService*, you can build your dynamic routes as follows :
+Then, after receiving the *Microfrontend* array from the *LookupService*, you can build your dynamic routes as follows :
 
 ```ts
 export function buildRoutes(options: Microfrontend[]): Routes {
