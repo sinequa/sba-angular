@@ -138,7 +138,7 @@ To solve this problem, we can configure a **proxy** to redirect the requests fro
     },
 
     "/xdownload": {
-        "target": "http://locahost",
+        "target": "http://localhost",
         "secure": false
     }
 }
