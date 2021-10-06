@@ -161,7 +161,7 @@ const routes: Routes = [
 ];
 ```
 
-However, the path `mfe/Module` which is imported here, **does not exist** within the shell. It’s just a virtual path pointing to another project.
+However, the path `mfe/Module` which is imported here, **does not exist** within the shell. It is just a virtual path pointing to another project.
 
 To ease the TypeScript compiler, you need a typing for it by adding the following line to the file `.../projects/shell/src/decl.d.ts` :
 
@@ -169,7 +169,7 @@ To ease the TypeScript compiler, you need a typing for it by adding the followin
 declare module 'mfe/Module';
 ```
 
-Once starting both applications side by side (`ng serve shell` and `ng serve mfe`), you should notice, **on runtime**, that shell loads the mfe from its own URL
+Once starting both applications side by side (`ng serve shell` and `ng serve mfe`), you should notice, **at runtime**, that shell loads the mfe from its own URL
 
 ![Loading remotes]({{site.baseurl}}assets/tipstricks/loading-remote.png){: .d-block .mx-auto }
 
@@ -177,7 +177,7 @@ Once starting both applications side by side (`ng serve shell` and `ng serve mfe
 
 In the previous section, we assumed that micro front-ends, used in the shell, are already known by the developer.
 
-However, there might be situations where you don’t even know the list of micro front-ends upfront. For example, an application with different dynamic views based on user privileges. This information can be hold by an external system and fetched on runtime via HTTP request. 
+However, there might be situations where you don’t even know the list of micro front-ends upfront. For example, an application with different dynamic views based on user privileges. This information can be hold by an external system and fetched at runtime via HTTP request. 
 
 To dynamically load a micro-frontend at runtime, you need to remove the registration of the micro front-end upfront within shell configuration :
 
