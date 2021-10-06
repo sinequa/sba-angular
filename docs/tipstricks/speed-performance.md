@@ -175,7 +175,9 @@ Once starting both applications side by side (`ng serve shell` and `ng serve mfe
 
 ### Dynamic federation
 
-In the previous section, we assumed that micro front-ends, used in the shell, are already known by the developer. However, there might be situations where you don’t even know the list of micro front-ends upfront. This information can be hold by an external system and fetched on runtime via HTTP request.
+In the previous section, we assumed that micro front-ends, used in the shell, are already known by the developer.
+
+However, there might be situations where you don’t even know the list of micro front-ends upfront. For example, an application with different dynamic views based on user privileges. This information can be hold by an external system and fetched on runtime via HTTP request. 
 
 To dynamically load a micro-frontend at runtime, you need to remove the registration of the micro front-end upfront within shell configuration :
 
