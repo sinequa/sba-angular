@@ -18,7 +18,11 @@ export default {
             "modalConfirmButton": "Confirm",
             "successMessage": "Reset user settings succefully",
             "errorMessage": "Reset user settings failed"
-        }
+        },
+
+        "darkMode": "Dark mode",
+        "darkModeOn": "Switch to light mode",
+        "darkModeOff": "Switch to dark mode"
     },
 
     "editUserSettings": {
