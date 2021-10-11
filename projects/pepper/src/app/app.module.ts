@@ -31,7 +31,6 @@ import { ResultModule } from '@sinequa/components/result';
 import { BsFeedbackModule } from '@sinequa/components/feedback';
 import { BsPreviewModule } from '@sinequa/components/preview';
 import { MetadataModule } from '@sinequa/components/metadata';
-import { BsThemeToggleModule } from "@sinequa/components/theme-toggle";
 import { BsSelectionModule, SelectionOptions, SELECTION_OPTIONS } from '@sinequa/components/selection';
 import { BsAdvancedModule } from "@sinequa/components/advanced";
 
@@ -160,7 +159,6 @@ export const selectionOptions: SelectionOptions = {
         BsPreviewModule,
         MetadataModule,
         BsSelectionModule,
-        BsThemeToggleModule,
         BsAdvancedModule,
 
         BsHeatmapModule,

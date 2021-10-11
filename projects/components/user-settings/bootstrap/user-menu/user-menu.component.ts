@@ -21,6 +21,7 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
   @Input() autoAdjustBreakpoint: string = 'xl';
   @Input() collapseBreakpoint: string = 'sm';
   @Input() size: string;
+  @Input() enableDarkMode = true;
 
   menu: Action;
 
@@ -32,6 +33,7 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
   adminAction: Action;
   languageAction: Action;
   resetUserSettings: Action;
+  darkModeAction: Action;
 
   constructor(
     public principalService: PrincipalWebService,
@@ -153,6 +155,19 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.darkModeAction = new Action({
+      text: "msg#userMenu.darkMode",
+      action: action => {
+        document.body.classList.toggle("dark");
+        localStorage.setItem('sinequa-theme', this.isDark()? 'dark' : 'normal');
+        action.update();
+      },
+      updater: action => {
+        action.icon = this.isDark()? "fas fa-toggle-on" : "fas fa-toggle-off";
+        action.title = this.isDark()? "msg#userMenu.darkModeOn" : "msg#userMenu.darkModeOff";
+      }
+    });
+
   }
 
   ngOnInit() {
@@ -203,6 +218,10 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
     if (this.intlService.locales.length > 1) {
       userActions.push(this.languageAction);
     }
+    if(this.enableDarkMode) {
+      this.darkModeAction.update();
+      userActions.push(this.darkModeAction);
+    }
 
     this.menu = new Action({
         icon: this.icon,
@@ -211,5 +230,11 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Whether the UI is in dark or light mode
+   */
+  isDark(): boolean {
+    return document.body.classList.contains("dark");
+  }
 
 }

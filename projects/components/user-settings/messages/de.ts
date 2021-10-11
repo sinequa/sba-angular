@@ -18,7 +18,11 @@ export default {
             "modalConfirmButton": "Bestätigen",
             "successMessage": "Benutzereinstellungen erfolgreich zurücksetzen",
             "errorMessage": "Benutzereinstellungen zurücksetzen fehlgeschlagen"
-        }
+        },
+
+        "darkMode": "Dunkelmodus",
+        "darkModeOn": "Dunkelmodus deaktivieren",
+        "darkModeOff": "Dunkelmodus einschalten"
     },
 
     "editUserSettings": {

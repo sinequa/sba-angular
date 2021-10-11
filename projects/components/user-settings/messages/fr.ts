@@ -18,7 +18,11 @@ export default {
             "modalConfirmButton": "Confirmer",
             "successMessage": "Réinitialisation des paramètres utilisateur réussie",
             "errorMessage": "Echec de la réinitialisation des paramètres utilisateur"
-        }
+        },
+
+        "darkMode": "Mode sombre",
+        "darkModeOn": "Passer en mode clair",
+        "darkModeOff": "Passer en mode sombre"
     },
 
     "editUserSettings": {
