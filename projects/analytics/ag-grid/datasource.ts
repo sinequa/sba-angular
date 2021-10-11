@@ -1,5 +1,6 @@
 import { FacetService } from '@sinequa/components/facet';
 import { SearchService } from '@sinequa/components/search';
+import { SelectionService } from '@sinequa/components/selection';
 import { AppService, ExprParser, Query } from '@sinequa/core/app-utils';
 import { Utils } from '@sinequa/core/base';
 import { Results } from '@sinequa/core/web-services';
@@ -34,7 +35,8 @@ export class SqDatasource implements IDatasource {
         public colDefs: ColDef[],
         public searchService: SearchService,
         public appService: AppService,
-        public facetService: FacetService
+        public facetService: FacetService,
+        public selectionService: SelectionService
     ){
         this.latestResults = results;
     }
@@ -85,6 +87,8 @@ export class SqDatasource implements IDatasource {
                 // Query the server for data
                 this.searchService.getResults(query).subscribe(results => {
                     this.latestResults = results;
+                    const selected = new Set(this.selectionService.getSelectedIds());
+                    results.records.forEach(r => r.$selected = selected.has(r.id));
                     params.successCallback(results.records || [], this.rowCount);
                 },
                 err => {

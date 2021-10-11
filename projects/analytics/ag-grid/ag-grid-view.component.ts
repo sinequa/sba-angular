@@ -10,7 +10,7 @@ import { Utils } from "@sinequa/core/base";
 import { IntlService } from "@sinequa/core/intl";
 import { ModalService } from "@sinequa/core/modal";
 import { Results, Record, CCColumn, EngineType } from "@sinequa/core/web-services";
-import { ICellRendererFunc, ITooltipParams, ColDef, GridApi, ColumnApi, GridReadyEvent, RowDataChangedEvent, CellDoubleClickedEvent, SelectionChangedEvent, IDatasource, CsvExportParams, ProcessCellForExportParams, SortChangedEvent, FilterChangedEvent, FilterModifiedEvent } from 'ag-grid-community';
+import { ICellRendererFunc, ITooltipParams, ColDef, GridApi, ColumnApi, GridReadyEvent, RowDataChangedEvent, CellDoubleClickedEvent, SelectionChangedEvent, IDatasource, CsvExportParams, ProcessCellForExportParams, SortChangedEvent, FilterChangedEvent, FilterModifiedEvent, ModelUpdatedEvent } from 'ag-grid-community';
 import { ApplyColumnStateParams } from "ag-grid-community/dist/lib/columnController/columnApi";
 import { Subscription } from "rxjs";
 import { DataModalComponent } from "./data-modal.component";
@@ -362,7 +362,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      */
     makeDatasource() : IDatasource {
         if(this.results) {
-            return new SqDatasource(this.results, this.query, this.colDefs, this.searchService, this.appService, this.facetService);
+            return new SqDatasource(this.results, this.query, this.colDefs, this.searchService, this.appService, this.facetService, this.selectionService);
         }
         return {getRows: () => []};
     }
@@ -556,5 +556,16 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
         (this.datasource as SqDatasource)?.sortChanged?.();
     }
 
+    /**
+     * Update selection when new rows are inserted in the table
+     * @param event 
+     */
+    onModelUpdated(event: ModelUpdatedEvent) {
+        this.gridApi?.forEachNode(node => {
+            if(node.data?.$selected && !node.isSelected()) {
+                node.setSelected(true, undefined, true);
+            }
+        });
+    }
 
 }
