@@ -6,6 +6,7 @@ export abstract class IAction {
     name?: string;
     text?: string;
     href?: string;
+    target?: string;
     icon?: string;
     styles?: string | string[] | Set<string> | {[klass: string]: any};
     iconAfter?: string;

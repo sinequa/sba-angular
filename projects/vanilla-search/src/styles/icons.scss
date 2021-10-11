@@ -155,3 +155,7 @@ $sq-icon-families: ("s", "b", "r", "l") !default;
 .sq-flag-de:before {
     content: url('../resources/flags/flag-de.jpg');
 }
+
+.sq-logo:before {
+    content: url('../assets/favicon.png');
+}

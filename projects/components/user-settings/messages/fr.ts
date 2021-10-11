@@ -22,7 +22,9 @@ export default {
 
         "darkMode": "Mode sombre",
         "darkModeOn": "Passer en mode clair",
-        "darkModeOff": "Passer en mode sombre"
+        "darkModeOff": "Passer en mode sombre",
+
+        "credit": "A propos de Sinequa"
     },
 
     "editUserSettings": {

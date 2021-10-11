@@ -22,7 +22,9 @@ export default {
 
         "darkMode": "Dark mode",
         "darkModeOn": "Switch to light mode",
-        "darkModeOff": "Switch to dark mode"
+        "darkModeOff": "Switch to dark mode",
+
+        "credit": "About Sinequa"
     },
 
     "editUserSettings": {

@@ -22,8 +22,11 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
   @Input() collapseBreakpoint: string = 'sm';
   @Input() size: string;
   @Input() enableDarkMode = true;
+  @Input() showCredits = true;
 
   menu: Action;
+
+  sep = new Action({separator: true});
 
   // User actions
   loginAction: Action;
@@ -34,6 +37,7 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
   languageAction: Action;
   resetUserSettings: Action;
   darkModeAction: Action;
+  creditAction: Action;
 
   constructor(
     public principalService: PrincipalWebService,
@@ -168,6 +172,13 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.creditAction = new Action({
+      href: "https://www.sinequa.com",
+      target: "_blank",
+      text: "msg#userMenu.credit",
+      icon: "sq-logo"
+    });
+
   }
 
   ngOnInit() {
@@ -194,42 +205,73 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
   }
 
   updateMenu() {
-    const userActions: Action[] = [];
-
-    if (!this.principalService.principal && !this.authenticationService.userOverrideActive) {
-      userActions.push(this.loginAction);
-    }
-    if (this.principalService.principal) {
-      userActions.push(this.logoutAction);
-    }
-    if (this.authenticationService.userOverrideActive) {
-      userActions.push(this.revertOverrideAction);
-    }
-    if (this.principalService.principal && this.principalService.principal.isAdministrator) {
-      userActions.push(this.overrideAction);
-    }
-    if (this.principalService.principal && (this.principalService.principal.isAdministrator || this.principalService.principal.isDelegatedAdmin)) {
-      userActions.push(this.adminAction);
-    }
-    if(this.loginService.complete) {
-      userActions.push(this.resetUserSettings);
-    }
-    userActions.push(new Action({separator: true}));
-    if (this.intlService.locales.length > 1) {
-      userActions.push(this.languageAction);
-    }
-    if(this.enableDarkMode) {
-      this.darkModeAction.update();
-      userActions.push(this.darkModeAction);
-    }
-
     this.menu = new Action({
         icon: this.icon,
         text: this.loginService.complete && this.principalService.principal ? this.principalService.principal.name || "msg#userMenu.user" : "msg#userMenu.user",
-        children: userActions
+        children: this.concatMenus([
+          this.getLoginActions(),
+          this.getUIActions(),
+          this.getCreditActions()
+        ])
     });
   }
 
+  concatMenus(menus: Action[][]): Action[] {
+    const menu = [] as Action[];
+    for(let i=0; i<menus.length; i++) {
+      if(menus[i].length > 0) {
+        if(menu.length > 0) {
+          menu.push(this.sep);
+        }
+        menu.push(...menus[i]);
+      }
+    }
+    return menu;
+  }
+
+  getLoginActions(): Action[] {
+    const actions: Action[] = [];
+
+    if (!this.principalService.principal && !this.authenticationService.userOverrideActive) {
+      actions.push(this.loginAction);
+    }
+    if (this.principalService.principal) {
+      actions.push(this.logoutAction);
+    }
+    if (this.authenticationService.userOverrideActive) {
+      actions.push(this.revertOverrideAction);
+    }
+    if (this.principalService.principal && this.principalService.principal.isAdministrator) {
+      actions.push(this.overrideAction);
+    }
+    if (this.principalService.principal && (this.principalService.principal.isAdministrator || this.principalService.principal.isDelegatedAdmin)) {
+      actions.push(this.adminAction);
+    }
+    if(this.loginService.complete) {
+      actions.push(this.resetUserSettings);
+    }
+    return actions;
+  }
+
+  getUIActions(): Action[] {
+    const actions: Action[] = [];
+    if (this.intlService.locales.length > 1) {
+      actions.push(this.languageAction);
+    }
+    if(this.enableDarkMode) {
+      this.darkModeAction.update();
+      actions.push(this.darkModeAction);
+    }
+    return actions;
+  }
+
+  getCreditActions(): Action[] {
+    const actions = [] as Action[];
+    if(this.showCredits) {
+      actions.push(this.creditAction);
+    }
+    return actions;
+  }
   /**
    * Whether the UI is in dark or light mode
    */

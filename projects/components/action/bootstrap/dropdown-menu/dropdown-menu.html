@@ -2,7 +2,7 @@
 <ng-container *ngFor="let child of options.item.children">
     <li *ngIf="!child.hidden" class="{{child.separator ? 'dropdown-divider' : child.scrollGroup ? 'sq-scroll-menu-item open' : child.hasChildren ? 'dropdown-submenu' : ''}}" title="{{child.title | sqMessage:child.messageParams}}" [attr.aria-label]="child.title | sqMessage:child.messageParams">
         <ng-container *ngIf="!child.separator">
-            <a *ngIf="!child.scrollGroup && child.href" class="dropdown-item {{child.disabled ? 'disabled' : ''}}" tabindex="-1" href="{{child.href}}">
+            <a *ngIf="!child.scrollGroup && child.href" class="dropdown-item {{child.disabled ? 'disabled' : ''}}" tabindex="-1" [href]="child.href" [attr.target]="child.target">
                 <sq-action-item-content [item]="child" [text]="child.text" [in-dropdown-menu]="true"></sq-action-item-content>
             </a>
             <a *ngIf="!child.scrollGroup && !child.href && !child.component" href="javascript:void(0)" class="dropdown-item {{child.hasChildren ? 'dropdown-toggle': ''}} {{child.disabled ? 'disabled' : ''}}" [attr.data-toggle]="child.hasChildren ? 'dropdown' : ''" tabindex="-1" (click)="click(child, $event)">

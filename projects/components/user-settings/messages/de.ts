@@ -22,7 +22,9 @@ export default {
 
         "darkMode": "Dunkelmodus",
         "darkModeOn": "Dunkelmodus deaktivieren",
-        "darkModeOff": "Dunkelmodus einschalten"
+        "darkModeOff": "Dunkelmodus einschalten",
+
+        "credit": "Über Sinequa"
     },
 
     "editUserSettings": {
