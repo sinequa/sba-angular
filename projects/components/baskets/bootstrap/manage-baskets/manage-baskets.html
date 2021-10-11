@@ -11,6 +11,9 @@
                     <sq-editable *ngIf="!reordering" [value]="basket.name" (valueChange)="setName(basket, $event)" name="msg#manageBaskets.name"
                         [model]="basket" [validators]="nameValidators"></sq-editable>
                     <div class="ml-auto">
+                        <a *ngIf="!reordering && appService.app?.queryExport" class="ml-2" href="#" (click)="export(basket)" title="Export this basket">
+                            <span class="fas fa-download sq-export"></span>
+                        </a>
                         <a *ngIf="!reordering" class="ml-2" href="#" (click)="remove(basket, $index)" title="{{'msg#manageBaskets.remove' | sqMessage}}">
                             <span class="fas fa-times sq-remove"></span>
                         </a>
