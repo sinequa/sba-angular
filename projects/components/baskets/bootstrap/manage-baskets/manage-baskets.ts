@@ -4,8 +4,11 @@ import {ValidatorFn} from "@angular/forms";
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
 import {MODAL_MODEL, ModalButton, ModalResult} from "@sinequa/core/modal";
 import {Utils} from "@sinequa/core/base";
-import {AuditEvent} from "@sinequa/core/web-services";
+import {AuditEvent, ExportSourceType} from "@sinequa/core/web-services";
 import {Basket, BasketEventType, ManageBasketsModel} from "../../baskets.service";
+import { AppService } from "@sinequa/core/app-utils";
+import { SavedQueriesService } from "@sinequa/components/saved-queries";
+import { BasketsService } from "../..";
 
 @Component({
     selector: "sq-manage-baskets",
@@ -19,7 +22,11 @@ export class BsManageBaskets implements OnInit {
     nameValidators: ValidatorFn[];
 
     constructor(
-        @Inject(MODAL_MODEL) public model: ManageBasketsModel) {
+        @Inject(MODAL_MODEL) public model: ManageBasketsModel,
+        public savedQueryService: SavedQueriesService,
+        public basketsService: BasketsService,
+        public appService: AppService
+    ) {
         this.reordering = false;
 
         this.nameValidators = [
@@ -105,5 +112,12 @@ export class BsManageBaskets implements OnInit {
 
     dropped(drop: CdkDragDrop<Basket[]>) {
         Utils.arrayMove(this.model.baskets, drop.previousIndex, drop.currentIndex);
+    }
+
+    export(basket: Basket) {
+        this.basketsService.searchBasket(basket).then(_ =>
+            this.savedQueryService.exportModal(ExportSourceType.Result)
+        );
+        return false;
     }
 }
