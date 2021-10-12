@@ -55,6 +55,8 @@ export interface DashboardItemOption {
     icon: string;
     text: string;
     unique: boolean;
+    defaultRows: number;
+    defaultCols: number;
 }
 
 // Name of the "default dashboard" (displayed prior to any user customization)
@@ -63,15 +65,15 @@ export const defaultDashboardName = "<default>";
 // List of widgets supported in this dashboard. They can be used:
 // - to define the "default dashboard" (by calling setDefaultDashboard())
 // - to create the "dashboard actions" (which include the possibility of adding new widgets to the dashboard)
-export const MAP_WIDGET: DashboardItemOption = {type: 'map', icon: 'fas fa-globe-americas fa-fw', text: 'msg#dashboard.map', unique: true};
-export const TIMELINE_WIDGET: DashboardItemOption = {type: 'timeline', icon: 'fas fa-chart-line fa-fw', text: 'msg#dashboard.timeline', unique: true};
-export const NETWORK_WIDGET: DashboardItemOption = {type: 'network', icon: 'fas fa-project-diagram fa-fw', text: 'msg#dashboard.network', unique: true};
-export const CHART_WIDGET: DashboardItemOption = {type: 'chart', icon: 'fas fa-chart-bar fa-fw', text: 'msg#dashboard.chart', unique: false};
-export const HEATMAP_WIDGET: DashboardItemOption = {type: 'heatmap', icon: 'fas fa-th fa-fw', text: 'msg#dashboard.heatmap', unique: false};
-export const TAGCLOUD_WIDGET: DashboardItemOption = {type: 'tagcloud', icon: 'fas fa-comments fa-fw', text: 'msg#dashboard.tagcloud', unique: true}
-export const MONEYTIMELINE_WIDGET: DashboardItemOption = {type: 'money-timeline', icon: 'fas fa-search-dollar fa-fw', text: 'msg#money.timeline', unique: true}
-export const MONEYCLOUD_WIDGET: DashboardItemOption = {type: 'money-cloud', icon: 'fas fa-comment-dollar fa-fw', text: 'msg#money.cloud', unique: true}
-export const PREVIEW_WIDGET: DashboardItemOption = {type: 'preview', icon: 'far fa-file-alt', text: '', unique: false}
+export const MAP_WIDGET: DashboardItemOption = {type: 'map', icon: 'fas fa-globe-americas fa-fw', text: 'msg#dashboard.map', defaultRows: 2, defaultCols: 2, unique: true};
+export const TIMELINE_WIDGET: DashboardItemOption = {type: 'timeline', icon: 'fas fa-chart-line fa-fw', text: 'msg#dashboard.timeline', defaultRows: 2, defaultCols: 2, unique: true};
+export const NETWORK_WIDGET: DashboardItemOption = {type: 'network', icon: 'fas fa-project-diagram fa-fw', text: 'msg#dashboard.network', defaultRows: 2, defaultCols: 2, unique: true};
+export const CHART_WIDGET: DashboardItemOption = {type: 'chart', icon: 'fas fa-chart-bar fa-fw', text: 'msg#dashboard.chart', defaultRows: 2, defaultCols: 2, unique: false};
+export const HEATMAP_WIDGET: DashboardItemOption = {type: 'heatmap', icon: 'fas fa-th fa-fw', text: 'msg#dashboard.heatmap', defaultRows: 3, defaultCols: 2, unique: false};
+export const TAGCLOUD_WIDGET: DashboardItemOption = {type: 'tagcloud', icon: 'fas fa-comments fa-fw', text: 'msg#dashboard.tagcloud', defaultRows: 2, defaultCols: 2, unique: true}
+export const MONEYTIMELINE_WIDGET: DashboardItemOption = {type: 'money-timeline', icon: 'fas fa-search-dollar fa-fw', text: 'msg#money.timeline', defaultRows: 2, defaultCols: 2, unique: true}
+export const MONEYCLOUD_WIDGET: DashboardItemOption = {type: 'money-cloud', icon: 'fas fa-comment-dollar fa-fw', text: 'msg#money.cloud', defaultRows: 2, defaultCols: 2, unique: true}
+export const PREVIEW_WIDGET: DashboardItemOption = {type: 'preview', icon: 'far fa-file-alt', text: '', defaultRows: 3, defaultCols: 2, unique: false}
 
 
 @Injectable({
@@ -299,9 +301,8 @@ export class DashboardService {
      * @param dashboard a Dashboard object (default to the currently active widget)
      * @param rows the number of rows that this widget should take in the dashboard (default to 2)
      * @param cols the number of columns that this widget should take in the dashboard (default to 2)
-     * @param closable whether this widget is closable (default to true)
      */
-    public addWidget(option: DashboardItemOption, dashboard: Dashboard = this.dashboard, rows = 2, cols = 2): DashboardItem {
+    public addWidget(option: DashboardItemOption, dashboard: Dashboard = this.dashboard, rows = option.defaultRows, cols = option.defaultCols): DashboardItem {
         dashboard.items.push({
             x: 0,
             y: 0,
@@ -385,7 +386,7 @@ export class DashboardService {
                 };
                 this.modalService.open(DashboardAddItemComponent, {model}).then(value => {
                     if(value === ModalResult.OK && model.selectedOption) {
-                        this.addWidget(model.selectedOption, this.dashboard, model.height, model.width);
+                        this.addWidget(model.selectedOption, this.dashboard, model.rows, model.cols);
                     }
                 });
             }
