@@ -6,10 +6,15 @@ import { FormGroup } from '@angular/forms';
 import { DashboardItemOption } from './dashboard.service';
 
 export interface DashboardAddItemModel {
-    options: DashboardItemOption[]; // Input of the modal
-    selectedOption?: DashboardItemOption; // Output of the modal
-    width?: number;
-    height?: number;
+    // Input of the modal
+    options: DashboardItemOption[];
+    maxCols?: number;
+    maxRows?: number;
+
+    // Output of the modal
+    selectedOption?: DashboardItemOption;
+    cols?: number;
+    rows?: number;
 }
 
 @Component({
@@ -18,6 +23,9 @@ export interface DashboardAddItemModel {
     styleUrls: ['./dashboard-add-item.component.scss']
 })
 export class DashboardAddItemComponent {
+
+    rowsOptions: number[];
+    colsOptions: number[];
 
     actions: Action[];
     buttons: ModalButton[];
@@ -53,13 +61,16 @@ export class DashboardAddItemComponent {
                 result: ModalResult.Cancel
             })
         ];
+
+        this.rowsOptions = Array(model.maxRows || 4).fill(0).map((_,i) => i+1);
+        this.colsOptions = Array(model.maxCols || 4).fill(0).map((_,i) => i+1);
     }
 
     updateWidth(event: Event) {
-        this.model.width = +event.target!['value'];
+        this.model.cols = +event.target!['value'];
     }
     
     updateHeight(event: Event) {
-        this.model.height = +event.target!['value'];
+        this.model.rows = +event.target!['value'];
     }
 }

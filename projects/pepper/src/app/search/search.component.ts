@@ -170,7 +170,6 @@ export class SearchComponent implements OnInit, OnDestroy {
       if(!this.isOpened(record)) {
         const item = this.dashboardService.addWidget(PREVIEW_WIDGET);
         item.closable = false; // closable = false, as the underlying component already exposes a "close" action
-        item.rows = 3; // Increase default height from 2 rows to 3
         item.recordId = record.id;
         item.queryStr = this.searchService.query.toJsonForQueryString();
       }
