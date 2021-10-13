@@ -5,59 +5,32 @@
 </div>
 
 <!-- Data Table -->
-<ng-container *ngIf="rowModelType === 'infinite'">
-    <ag-grid-angular
-        [ngClass]="theme"
-        [ngStyle]="{width: width, height: height}"
-    
-        [columnDefs]="colDefs"
-        [defaultColDef]="defaultColDef"
-        [enableBrowserTooltips]="true"
-        [suppressPropertyNamesCheck]="true"
-        
-        [rowSelection]="rowSelection"
-    
-        [rowModelType]="'infinite'"
-        [cacheBlockSize]="appService.ccquery?.pageSize || 20"
-        [blockLoadDebounceMillis]="300"
-        
-        [frameworkComponents]="frameworkComponents"
-    
-        (gridReady)="onGridReady($event)"
-        (rowDataChanged)="onRowDataChanged($event)"
-        (cellDoubleClicked)="onCellDoubleClicked($event)"
-        (selectionChanged)="onSelectionChanged($event)"
-        (sortChanged)="onSortChanged($event)"
-        (filterChanged)="onFilterChanged($event)"
-        (filterModified)="onFilterModified($event)"
-        (modelUpdated)="onModelUpdated($event)"
-    >
-    </ag-grid-angular>
-</ng-container>
+<ag-grid-angular
+    [ngClass]="theme"
+    [ngStyle]="{width: width, height: height}"
 
-<ng-container *ngIf="rowModelType === 'clientSide'">
-    <ag-grid-angular
-        [ngClass]="theme"
-        [ngStyle]="{width: width, height: height}"
-    
-        [columnDefs]="colDefs"
-        [defaultColDef]="defaultColDef"
-        [enableBrowserTooltips]="true"
-        [suppressPropertyNamesCheck]="true"
-        
-        [rowSelection]="rowSelection"
-    
-        [rowData]="rowData"
-        [frameworkComponents]="frameworkComponents"
-    
-        (gridReady)="onGridReady($event)"
-        (rowDataChanged)="onRowDataChanged($event)"
-        (cellDoubleClicked)="onCellDoubleClicked($event)"
-        (selectionChanged)="onSelectionChanged($event)"
-        (sortChanged)="onSortChanged($event)"
-        (filterChanged)="onFilterChanged($event)"
-        (filterModified)="onFilterModified($event)"
-        (modelUpdated)="onModelUpdated($event)"
-    >
-    </ag-grid-angular>
-</ng-container>
+    [columnDefs]="colDefs"
+    [defaultColDef]="defaultColDef"
+    [enableBrowserTooltips]="true"
+    [suppressPropertyNamesCheck]="true"
+
+    [rowSelection]="rowSelection"
+
+    [rowModelType]="rowModelType"
+    [cacheBlockSize]="appService.ccquery?.pageSize || 20"
+    [blockLoadDebounceMillis]="300"
+
+    [rowData]="rowData"
+
+    [frameworkComponents]="frameworkComponents"
+
+    (gridReady)="onGridReady($event)"
+    (rowDataChanged)="onRowDataChanged($event)"
+    (cellDoubleClicked)="onCellDoubleClicked($event)"
+    (selectionChanged)="onSelectionChanged($event)"
+    (sortChanged)="onSortChanged($event)"
+    (filterChanged)="onFilterChanged($event)"
+    (filterModified)="onFilterModified($event)"
+    (modelUpdated)="onModelUpdated($event)"
+>
+</ag-grid-angular>
