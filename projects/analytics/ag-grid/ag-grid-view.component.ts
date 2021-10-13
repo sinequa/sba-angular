@@ -229,6 +229,8 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             this.updateSortState(this.query || this.searchService.query);
         } else if (this.rowModelType === 'clientSide' && this.results) {
             this.rowData = this.results.records;
+        } else {
+            this.rowData = [];
         }
     }
 
