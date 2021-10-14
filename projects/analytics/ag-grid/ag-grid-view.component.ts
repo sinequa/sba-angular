@@ -227,10 +227,8 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             // The query that yielded this data may have active filters & sort: we want the grid to reflect this
             this.updateFilterState(this.query || this.searchService.query);
             this.updateSortState(this.query || this.searchService.query);
-        } else if (this.rowModelType === 'clientSide' && this.results) {
-            this.rowData = this.results.records;
-        } else {
-            this.rowData = [];
+        } else if (this.rowModelType === 'clientSide') {
+            this.rowData = this.results?.records || [];
         }
     }
 
