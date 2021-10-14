@@ -111,7 +111,7 @@ export class SqDatasource implements IDatasource {
 
             else {
                 const query = this.query.copy();
-                const pageSize = this.appService.ccquery?.pageSize || 20;
+                const pageSize = this.query.pageSize || this.appService.ccquery?.pageSize || 20;
                 query.page = 1 + (params.startRow / pageSize);
     
                 // Apply sorting (order by clause)

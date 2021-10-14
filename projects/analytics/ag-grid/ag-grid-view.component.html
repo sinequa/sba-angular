@@ -1,7 +1,7 @@
 <div class="d-flex flex-wrap align-items-center mb-1" *ngIf="gridActions.length > 0 || showCounter">
     <div class="btn-group" [sq-action-buttons]="{items: gridActions, style: 'primary', rightAligned: false}"></div>
     
-    <sq-results-counter [rowCount]="datasource?.rowCount" class="ml-3" *ngIf="showCounter"></sq-results-counter>
+    <sq-results-counter [rowCount]="datasource?.rowCount || rowData.length" class="ml-3" *ngIf="showCounter"></sq-results-counter>
 </div>
 
 <!-- Data Table -->
@@ -13,13 +13,15 @@
     [defaultColDef]="defaultColDef"
     [enableBrowserTooltips]="true"
     [suppressPropertyNamesCheck]="true"
-    
+
     [rowSelection]="rowSelection"
 
-    [rowModelType]="'infinite'"
+    [rowModelType]="rowModelType"
     [cacheBlockSize]="appService.ccquery?.pageSize || 20"
     [blockLoadDebounceMillis]="300"
-    
+
+    [rowData]="rowData"
+
     [frameworkComponents]="frameworkComponents"
 
     (gridReady)="onGridReady($event)"

@@ -56,6 +56,8 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     @Input() theme: "ag-theme-balham" | "ag-theme-alpine" | "ag-theme-balham-dark" | "ag-theme-alpine-dark" = "ag-theme-alpine";
     /** Default column grid (possibly overriden by column definitions) */
     @Input() defaultColumnWidth = 200;
+    /** Configure scrolling functionality */
+    @Input() rowModelType: string = 'infinite';
 
     /** Default column definition */
     @Input()
@@ -85,6 +87,9 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     gridActions: Action[];
     /** Action button allowing to toggle each column's visibility */
     columnsAction: Action;
+
+    /** If rowModelType is 'clientSide', set rowData directly */
+    rowData: Record[] = [];
 
     /** List of subscriptions to clean up on destroy */
     subscriptions: Subscription[] = [];
@@ -214,7 +219,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      * Create the rows' datasource
      */
     createRows() {
-        if(this.gridApi && this.gridColumnApi) {
+        if(this.gridApi && this.gridColumnApi && this.rowModelType === 'infinite') {
             // Create a new datasource
             this.datasource = this.makeDatasource();
             // Apply to the grid
@@ -222,6 +227,8 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             // The query that yielded this data may have active filters & sort: we want the grid to reflect this
             this.updateFilterState(this.query || this.searchService.query);
             this.updateSortState(this.query || this.searchService.query);
+        } else if (this.rowModelType === 'clientSide') {
+            this.rowData = this.results?.records || [];
         }
     }
 
