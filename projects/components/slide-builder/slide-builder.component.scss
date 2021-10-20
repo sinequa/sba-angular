@@ -1,0 +1,31 @@
+:host ::ng-deep {
+
+    .record-placeholder {
+        height: 11rem !important;
+    }
+    
+    .card:hover  {
+        cursor: move;
+        background-color: #F1F1F1;
+        .record-close {
+            visibility:visible;
+        }
+    }
+    
+    .record-close {
+        visibility:hidden;
+    }
+}
+
+.slide-title {
+    word-break: break-word;
+    font-size: inherit;
+}
+
+.slide-treepath {
+    font-size: small;
+}
+
+.slide-thumbnail > img {
+    max-height: 8rem;
+}

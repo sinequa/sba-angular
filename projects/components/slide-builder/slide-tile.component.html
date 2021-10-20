@@ -1,0 +1,20 @@
+<div class="mt-2 text-center">
+    <sq-result-thumbnail
+        class="result-slide-thumbnail"
+        [ngClass]="{'selected': record.$selected}"
+        [record]="record"
+        [linkBehavior]="'action'"
+        title="{{record?.treepath[0]}}"
+    >
+    </sq-result-thumbnail>
+</div>
+
+<div class="mt-2">
+    <span>{{record.modified | sqDate:dateFormat}}</span>
+</div>
+
+<div class="d-flex mt-1 align-items-center">
+    <sq-result-title class="slide-title mr-auto" [record]="record"></sq-result-title>
+    <span class="badge badge-light mr-2 ml-1" [title]="'msg#slideCollection.slideNumber' | sqMessage">{{record.id.split('#')[1]}}</span>
+    <span class="fas fa-filter ml-2" [title]="'msg#slideCollection.filterSlideDeck' | sqMessage" (click)="onSlideFilterClick(record,$event)"></span>
+</div>
