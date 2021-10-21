@@ -30,7 +30,7 @@ npm run ng serve hello-search -- --ssl=true --proxyConfig=./projects/hello-searc
 
 Please read the [Getting Started]({{site.baseurl}}gettingstarted/dev-setup.html#building-an-app) section if you wonder about the `proxyConfig` argument.
 
-If the build is successful, you can navigate to `https://locahost:4200` in your favorite web browser. You should be greeted by a login page (this is where your need your Sinequa account). Put in your credentials and you should be redirected to the simplest of search pages. Type some keywords and search!
+If the build is successful, you can navigate to `https://localhost:4200` in your favorite web browser. You should be greeted by a login page (this is where your need your Sinequa account). Put in your credentials and you should be redirected to the simplest of search pages. Type some keywords and search!
 
 ![Hello Search]({{site.baseurl}}assets/tutorial/hello-search.png)
 
