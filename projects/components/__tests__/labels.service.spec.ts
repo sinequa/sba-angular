@@ -491,19 +491,16 @@ describe("LabelsService", () => {
   });
 
   describe("should trigger a search on labels selection", () => {
-    let spyAddPrivatePrefix;
     let spyAddFieldSelect;
     let spySearch;
 
     beforeEach(() => {
       spyAddFieldSelect = spyOn(searchService, 'addFieldSelect').and.callThrough();
-      spyAddPrivatePrefix = spyOn(service, 'addPrivatePrefix').and.returnValue('prefix');
       spySearch = spyOn(searchService, 'search').and.callThrough();
       spyOn<any>(service, 'getSelectedLabels').and.returnValue([]);
     });
 
     afterEach(() => {
-      spyAddPrivatePrefix.calls.reset();
       spyAddFieldSelect.calls.reset();
       spySearch.calls.reset();
     })
@@ -522,7 +519,6 @@ describe("LabelsService", () => {
       service.selectLabels(labels, true);
 
       expect(spyAddFieldSelect).toHaveBeenCalledWith("test", items);
-      expect(spyAddPrivatePrefix).not.toHaveBeenCalled();
       expect(spySearch).toHaveBeenCalledOnceWith(undefined, {
           type: AuditEventType.Label_Open,
           detail: {
@@ -539,14 +535,13 @@ describe("LabelsService", () => {
       } as CCLabels;
       const labels = ["toto", "foo"];
       const items = [
-        {value: "prefix", display: "toto"},
-        {value: "prefix", display: "foo"}
+        {value: "toto", display: "toto"},
+        {value: "foo", display: "foo"}
       ]
 
       service.selectLabels(labels, false);
 
       expect(spyAddFieldSelect).toHaveBeenCalledWith("testing", items);
-      expect(spyAddPrivatePrefix).toHaveBeenCalledTimes(2);
       expect(spySearch).toHaveBeenCalledOnceWith(undefined, {
           type: AuditEventType.Label_Open,
           detail: {
