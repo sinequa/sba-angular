@@ -68,18 +68,12 @@ export class Labels implements OnChanges {
     }
 
     select(label: string) {
-        if (!this.public) {
-            label = <string>this.labelsService.removePrivatePrefix(label);
-        }
         this.labelsService.selectLabels([label], this.public);
     }
 
     remove(index: number) {
         if (this.canRemove()) {
-            let label = this.labels[index];
-            if (!this.public) {
-                label = <string>this.labelsService.removePrivatePrefix(label);
-            }
+            const label = this.labels[index];
             this.labelsService.removeLabels(
                 [label],
                 [this.record.id],

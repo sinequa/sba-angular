@@ -57,7 +57,6 @@ export const LABELS_COMPONENTS = new InjectionToken<LabelsComponents>(
     providedIn: "root",
 })
 export class LabelsService implements OnDestroy {
-    private _privateLabelsPrefix: string | undefined;
     private static readonly defaultLabelsRights: LabelsRights = {
         canManagePublicLabels: true,
         canEditPublicLabels: true,
@@ -79,7 +78,6 @@ export class LabelsService implements OnDestroy {
         this.principalWebService.events.subscribe((event) => {
             switch (event.type) {
                 case "changed":
-                    this._privateLabelsPrefix = undefined;
                     this.labelsRights = undefined;
                     this.labelsRightsSubscription = undefined;
                     break;
@@ -384,11 +382,8 @@ export class LabelsService implements OnDestroy {
         }
         const items: ValueItem[] = [];
         const selectedLabels: string[] = this.getSelectedLabels(field);
-        for (let label of labels) {
+        for (const label of labels) {
             const display = label;
-            if (!_public) {
-                label = <string>this.addPrivatePrefix(label);
-            }
             if (selectedLabels.indexOf(label) === -1) {
                 items.push({
                     value: label,
@@ -534,42 +529,11 @@ export class LabelsService implements OnDestroy {
         return observable;
     }
 
-    get privateLabelsPrefix(): string {
-        if (!this.principalWebService.principal) {
-            return "";
-        }
-        if (!this._privateLabelsPrefix && this.appService.cclabels) {
-            if (
-                this.appService.isTree(
-                    this.appService.cclabels.privateLabelsField
-                )
-            ) {
-                this._privateLabelsPrefix = Utils.addUrl(
-                    "/",
-                    Utils.replace(
-                        this.principalWebService.principal.userId,
-                        "|",
-                        "/"
-                    ),
-                    "/"
-                );
-            } else {
-                this._privateLabelsPrefix =
-                    this.principalWebService.principal.userId + "|";
-            }
-        }
-        return this._privateLabelsPrefix || "";
-    }
-
     sort(labels: string[], _public: boolean): string[] {
         if (!labels) return labels;
         return labels.sort((a, b) => {
             if (!a) return -1;
             if (!b) return 1;
-            if (!_public) {
-                a = <string>this.removePrivatePrefix(a);
-                b = <string>this.removePrivatePrefix(b);
-            }
             a = this.intlService.formatMessage(a);
             b = this.intlService.formatMessage(b);
             return a.localeCompare(b);
@@ -586,54 +550,5 @@ export class LabelsService implements OnDestroy {
             .filter((value) => {
                 return value !== "";
             });
-    }
-
-    private _addPrivatePrefix(label: string): string {
-        if (
-            this.appService.cclabels &&
-            this.appService.isTree(this.appService.cclabels.privateLabelsField)
-        ) {
-            return Utils.addUrl(this.privateLabelsPrefix, label);
-        } else {
-            return this.privateLabelsPrefix + label;
-        }
-    }
-
-    addPrivatePrefix(labels: string | string[]): string | string[] {
-        if (typeof labels === "string") {
-            return this._addPrivatePrefix(labels);
-        } else {
-            for (let i = 0, ic = labels.length; i < ic; i++) {
-                labels[i] = this._addPrivatePrefix(labels[i]);
-            }
-            return labels;
-        }
-    }
-
-    private _removePrivatePrefix(label: string): string {
-        if (label.indexOf(this.privateLabelsPrefix) === 0) {
-            if (
-                this.appService.cclabels &&
-                this.appService.isTree(
-                    this.appService.cclabels.privateLabelsField
-                )
-            ) {
-                return label.slice(this.privateLabelsPrefix.length - 1);
-            } else {
-                return label.slice(this.privateLabelsPrefix.length);
-            }
-        }
-        return label;
-    }
-
-    removePrivatePrefix(labels: string | string[]): string | string[] {
-        if (typeof labels === "string") {
-            return this._removePrivatePrefix(labels);
-        } else {
-            for (let i = 0, ic = labels.length; i < ic; i++) {
-                labels[i] = this._removePrivatePrefix(labels[i]);
-            }
-            return labels;
-        }
     }
 }

@@ -14,9 +14,6 @@ export class LabelPipe extends AbstractIntlPipe {
     updateValue(value: string, _public?: boolean): void {
         super.updateValue(value, _public);
         this.value = value;
-        if (!_public) {
-            this.value = <string>this.labelsService.removePrivatePrefix(this.value);
-        }
         this.value = this.intlService.formatMessage(this.value);
     }
 }
