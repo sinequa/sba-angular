@@ -14,6 +14,7 @@ export class Metadata {
     @Input() showTitles: boolean = true;
     @Input() showIcons: boolean = false;
     @Input() showCounts: boolean = true;
+    @Input() showEntityTooltip: boolean = false;
     @Input() clickable: boolean = true;
     @HostBinding("class.sq-tabular") @Input() tabular: boolean = true;
     @Input() collapseRows: boolean = true;

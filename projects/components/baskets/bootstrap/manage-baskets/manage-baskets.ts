@@ -5,10 +5,9 @@ import {CdkDragDrop} from "@angular/cdk/drag-drop";
 import {MODAL_MODEL, ModalButton, ModalResult} from "@sinequa/core/modal";
 import {Utils} from "@sinequa/core/base";
 import {AuditEvent, ExportSourceType} from "@sinequa/core/web-services";
-import {Basket, BasketEventType, ManageBasketsModel} from "../../baskets.service";
+import {BasketsService, Basket, BasketEventType, ManageBasketsModel} from "../../baskets.service";
 import { AppService } from "@sinequa/core/app-utils";
 import { SavedQueriesService } from "@sinequa/components/saved-queries";
-import { BasketsService } from "../..";
 
 @Component({
     selector: "sq-manage-baskets",
