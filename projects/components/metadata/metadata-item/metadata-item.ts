@@ -1,8 +1,10 @@
 import {Component, Input, Output, HostBinding, OnChanges, SimpleChanges, EventEmitter} from "@angular/core";
 import {Utils} from "@sinequa/core/base";
 import {AppService, FormatService, ValueItem} from "@sinequa/core/app-utils";
-import {Record, EntityItem, DocumentAccessLists, CCColumn} from "@sinequa/core/web-services";
+import {Record, EntityItem, DocumentAccessLists, CCColumn, TextChunksWebService, TextLocation} from "@sinequa/core/web-services";
 import {FacetService} from "@sinequa/components/facet";
+import {Observable, of} from "rxjs";
+import {map} from "rxjs/operators";
 
 export interface TreeValueItem extends ValueItem {
     parts: ValueItem[];
@@ -19,6 +21,7 @@ export class MetadataItem implements OnChanges {
     @Input() showTitle = true;
     @Input() showIcon: boolean = false;
     @Input() showCounts: boolean = true;
+    @Input() showEntityTooltip: boolean = false;
     @Input() clickable: boolean = true;
     @Input() tabular: boolean = true;
     @Input() collapseRows: boolean = true;
@@ -32,10 +35,12 @@ export class MetadataItem implements OnChanges {
     itemLabelMessageParams: any;
     collapsed: boolean;
     needsCollapse: boolean = false;
+    entityTooltip?: (entity: EntityItem) => Observable<string|undefined>;
 
     constructor(
         public appService: AppService,
-        public formatService: FormatService) {
+        public formatService: FormatService,
+        public textChunkWebService: TextChunksWebService) {
         this.valueItems = [];
     }
 
@@ -81,6 +86,9 @@ export class MetadataItem implements OnChanges {
             const entityItems: EntityItem[] = values;
             if (entityItems) {
                 this.valueItems.push(...entityItems);
+                if(this.showEntityTooltip && entityItems[0]?.locations) {
+                    this.entityTooltip = this.getEntitySentence
+                }
             }
         }
         else if (this.isCsv) {
@@ -177,5 +185,33 @@ export class MetadataItem implements OnChanges {
     toggleCollapse() {
         this.collapsed = !this.collapsed;
         return false;
+    }
+
+    getEntitySentence = (entity: EntityItem) => {
+        // Get entity location
+        const location = this.getEntityLocation(entity);
+        if(!location) return of(undefined);
+        // Get list of highlights
+        const highlights = this.getHighlights();
+        // Get the text at the location of the entity
+        return this.textChunkWebService.getTextChunks(
+            this.record.id, [location], highlights, undefined, 1, 1)
+            .pipe(map(chunks => chunks?.[0]?.text));
+    }
+
+    getHighlights(): string[] {
+        let preview = this.appService.app?.preview?.split(',')?.[0];
+        if(preview) {
+            return this.appService.getWebService<any>(preview)?.highlights?.split(",") || [];
+        }
+        return [];
+    }
+
+    getEntityLocation(entity: EntityItem): TextLocation | undefined {
+        const locations = entity.locations?.split(";")?.[0]?.split(",");
+        if(!locations?.length) return;
+        const offset = parseInt(locations[0]);
+        const length = parseInt(locations[1]);
+        return {offset, length};
     }
 }
