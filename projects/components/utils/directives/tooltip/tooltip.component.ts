@@ -1,10 +1,10 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {animate, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'sqx-tooltip',
   styleUrls: ['./tooltip.component.css'],
-  template: `<div class="sq-tooltip" @tooltip>{{ text }}</div>`,
+  template: `<div class="sq-tooltip" @tooltip [innerHTML]="text"></div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('tooltip', [
@@ -19,6 +19,5 @@ import {animate, style, transition, trigger} from '@angular/animations';
   ],
 })
 export class TooltipComponent {
-
-  @Input() text = '';
+  text = '';
 }
