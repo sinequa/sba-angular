@@ -78,6 +78,7 @@ The selector for the component is `sq-metadata` and it expects a number of input
 * `showTitles` (default: `true`): Whether to display the title of the metadata entry, these titles are defined in the configuration of the query web service, in **Advanced** tab > **Column Aliases** grid,
 * `showIcons` (default: `false`): Whether to display the icon of the metadata entry, these icons are defined in the `icons.scss` files, with the name of the icon entry being the same as the name of the index column.
 * `showCounts` (default: `true`): When the metadata is a list of entities (extracted from the text of the document), this option allows to display the number of occurrences of these entities in that document.
+* `showEntityTooltip` (default: `false`): For entities, when their location in the document is known, display a tooltip containing the first sentence of the document including this entity (See example below). For, this option to work, it is required to use Sinequa 11.7.0 or above (availability of the Text Chunks web service), and the entity locations must be returned by the Query web service (option available in the advanced tab of the query configuration).
 * `clickable` (default: `true`): Whether the metadata entries are clickable (in which case they are displayed as "badges" instead of plain text).
 * `searchOnClick` (default: `true`): When `true`, clicking on a metadata item produces a filter in the current query.
 * `tabular` (default: `true`): When `true`, the metadata is displayed as a table (1 row = 1 column), and when `false` all the metadata is displayed inline.
@@ -118,6 +119,18 @@ In this other example, the same metadata is displayed with the following options
 ```
 
 ![Inline metadata settings]({{site.baseurl}}assets/modules/metadata/metadata-inline.png){: .d-block .mx-auto }
+
+Here we activate the entity tooltip:
+
+```html
+<sq-metadata
+  [record]="record"
+  [items]="['geo','company','person']"
+  [showEntityTooltip]="true">
+</sq-metadata>
+```
+
+![Entity tooltip]({{site.baseurl}}assets/modules/metadata/entity-tooltip.png){: .d-block .mx-auto }
 
 ### Metadata Item
 
