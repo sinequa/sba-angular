@@ -1,5 +1,4 @@
 import {
-  ComponentRef,
   Directive,
   ElementRef,
   HostListener,
@@ -12,18 +11,21 @@ import {
   OverlayPositionBuilder,
   OverlayRef
 } from "@angular/cdk/overlay";
-import {ComponentPortal} from "@angular/cdk/portal";
-
-import {TooltipComponent} from "./tooltip.component";
+import { ComponentPortal } from "@angular/cdk/portal";
+import { TooltipComponent } from "./tooltip.component";
+import { Utils } from "@sinequa/core/base";
+import { Observable, of, Subscription } from "rxjs";
+import { delay } from "rxjs/operators";
 
 @Directive({selector: "[sqTooltip]"})
-export class TooltipDirective implements OnDestroy {
-  @Input("sqTooltip") text = "";
+export class TooltipDirective<T> implements OnDestroy {
+  @Input("sqTooltip") text?: string | ((data?: T) => Observable<string|undefined>) = "";
+  @Input("sqTooltipData") data?: T;
   @Input() placement: "top" | "bottom" | "right" | "left" = "bottom";
   @Input() delay = 300;
 
   private overlayRef: OverlayRef;
-  private timeoutId;
+  private subscription?: Subscription;
 
   constructor(
     private overlay: Overlay,
@@ -33,7 +35,7 @@ export class TooltipDirective implements OnDestroy {
 
   ngOnDestroy() {
     // do not forget to clear timeout function
-    this.clearTimer();
+    this.clearSubscription();
   }
 
   @HostListener("mouseenter", ['$event'])
@@ -41,17 +43,25 @@ export class TooltipDirective implements OnDestroy {
     event.preventDefault();
     event.stopPropagation();
 
-    this.clearTimer();
+    this.clearSubscription();
 
-    this.timeoutId = setTimeout(() => {
-      if(this.overlayRef) {
-          this.overlayRef.detach();
-      }
+    if(!this.text) return;
 
-      if (this.text.trim().length === 0) {
-        return;
-      }
+    let obs: Observable<string|undefined>;
 
+    if(Utils.isFunction(this.text)) {
+      obs = this.text(this.data);
+    }
+    else {
+      obs = of(this.text)
+        .pipe(delay(this.delay))
+    }
+
+    this.subscription = obs.subscribe(text => {
+      this.overlayRef?.detach();
+
+      if(!text?.trim().length) return;
+  
       const positionStrategy = this.overlayPositionBuilder
       .flexibleConnectedTo(this.elementRef)
       .withPositions([this.position()]);
@@ -59,21 +69,21 @@ export class TooltipDirective implements OnDestroy {
       const scrollStrategy = this.overlay.scrollStrategies.close();
       this.overlayRef = this.overlay.create({positionStrategy, scrollStrategy});
       
-      const tooltipRef: ComponentRef<TooltipComponent> = this.overlayRef.attach(new ComponentPortal(TooltipComponent));
-      tooltipRef.instance.text = this.text;
-    }, this.delay);
+      const tooltipRef = this.overlayRef.attach(new ComponentPortal(TooltipComponent));
+      tooltipRef.instance.text = text;
+    });
   }
 
   @HostListener("mousedown", ['$event'])
   mouseClick(event: MouseEvent) {
     event.preventDefault()
     event.stopPropagation();
-    this.clearTimer();
+    this.clearSubscription();
   }
 
   @HostListener("mouseleave")
   hide() {
-    this.clearTimer();
+    this.clearSubscription();
   }
 
   position(): ConnectedPosition {
@@ -116,13 +126,8 @@ export class TooltipDirective implements OnDestroy {
   /**
    * Clear timeout function and detach overlayRef
    */
-  private clearTimer() {
-    if(this.timeoutId) {
-      clearTimeout(this.timeoutId);
-    }
-
-    if (this.overlayRef) {
-      this.overlayRef.detach();
-    }
+  private clearSubscription() {
+    this.subscription?.unsubscribe();
+    this.overlayRef?.detach();
   }
 }

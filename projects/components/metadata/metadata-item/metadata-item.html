@@ -41,7 +41,9 @@
                         class="badge badge-pill {{'sq-metadata-item-' + item}} mr-1"
                         href="#"
                         (click)="select($index)"
-                        [attr.title]="showTitle? null : (label | sqMessage)">{{valueItem | sqValue:column}}
+                        [attr.title]="(showTitle || entityTooltip)? null : (label | sqMessage)"
+                        [sqTooltip]="entityTooltip"
+                        [sqTooltipData]="valueItem">{{valueItem | sqValue:column}}
                         <span *ngIf="showCounts && valueItem.count"
                             class="counter badge badge-light ml-1"
                             [title]="valueItem.count + ' occurrences in document'">{{valueItem.count}}</span>
@@ -51,7 +53,9 @@
                     <!-- Not clickable-->
                     <ng-container *ngFor="let valueItem of valueItems; let $index = index">
                         <span class="{{'sq-metadata-item-' + item}}"
-                            [attr.title]="showTitle? null : (label | sqMessage)">{{valueItem | sqValue:column}}
+                            [attr.title]="(showTitle || entityTooltip)? null : (label | sqMessage)"
+                            [sqTooltip]="entityTooltip"
+                            [sqTooltipData]="valueItem">{{valueItem | sqValue:column}}
                             <span *ngIf="showCounts && valueItem.count"
                                 class="small"
                                 [title]="valueItem.count + ' occurrences in document'">({{valueItem.count}})</span>
