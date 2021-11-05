@@ -275,18 +275,14 @@ export interface MatchLocationsPerPartname {
 }
 
 /**
- * Describes the locations of relevant extracts for a partname
+ * Relevant Extract computed by the engine for a particular query
  */
-export interface PartnameExtracts {
-    partname: string;
-    data: string;
-}
-
-/**
- * Describes a set of partname relevant extracts locations
- */
-export interface ExtractsPerPartname {
-    highlight: PartnameExtracts[];
+export interface RelevantExtract {
+    partname?: string;
+    value: string;
+    locations: string;
+    originalLocations: string;
+    score: number;
 }
 
 /**
@@ -515,10 +511,6 @@ export interface Record {
      */
     matchlocationsperpartname: MatchLocationsPerPartname;
     /**
-     * The relevant extracts in the document grouped by partname
-     */
-    extractsperpartname: ExtractsPerPartname;
-    /**
      * The languages in the document
      */
     documentlanguages: string[];
@@ -589,7 +581,11 @@ export interface Record {
     /**
      * The relevant extracts from the document. This can contain HTML highlighting of the search terms
      */
-    relevantExtracts: string;
+    relevantExtracts?: string;
+    /**
+     * Relevant extracts as a raw list, inclusing HTML highlighting
+     */
+    extracts?: RelevantExtract[];
     /**
      * The text of the document
      */

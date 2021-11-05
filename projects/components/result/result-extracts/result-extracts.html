@@ -1,5 +1,5 @@
 <ng-container *ngIf="text || longExtracts">
-    <p *ngIf="!longExtracts" class="{{extractsClass}} sq-text">
+    <p *ngIf="text" class="{{extractsClass}} sq-text">
         <span *ngIf="record.modified && !hideDate" class="extracts-date">{{record.modified | sqDate:dateFormat}}{{!!text ? ' - ' : ''}}</span>
         <span class="extracts-text" [innerHTML]="text"></span>
     </p>

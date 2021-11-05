@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
+import {Component, Input, OnChanges} from "@angular/core";
 import {Utils} from "@sinequa/core/base";
 import {Record} from "@sinequa/core/web-services";
 
@@ -35,17 +35,10 @@ export class ResultExtracts implements OnChanges {
             this.extractsClass = "sq-text-extracts";
         }
         else {
-            if (this.showLongExtracts && (this.record["extracts"] || this.record["extractsperpartname"] )) {
-                this.longExtracts = [];
-                // extractsperpartname is a complex structure where extracts are stored in an object: "highlight.data"
-                // in a csv field (';' separator)
-                let recordExtracts = this.record["extracts"] || this.record["extractsperpartname"].highlight[0].data.split(";");
-                if (this.maxLongExtracts) {
-                    recordExtracts = recordExtracts.slice(0, this.maxLongExtracts * 3);
-                }
-                for (let i = 0; i < recordExtracts.length; i += 3) {
-                    this.longExtracts.push(recordExtracts[i].replace(/\{b\}/g, "<strong>").replace(/\{nb\}/g, "</strong>"));
-                }
+            if (this.showLongExtracts && this.record.extracts) {
+                this.longExtracts = this.record.extracts
+                    .filter((extract,i) => (!this.maxLongExtracts || i < this.maxLongExtracts) && !!extract.value) // Note: keep only extracts with 11.7 format - older format not supported
+                    .map(extract => extract.value.replace(/\{b\}/g, "<strong>").replace(/\{nb\}/g, "</strong>"));
                 this.extractsClass = "sq-long-extracts";
             }
             else if (this.record.relevantExtracts) {
@@ -63,7 +56,7 @@ export class ResultExtracts implements OnChanges {
         }
     }
 
-    ngOnChanges(changes: SimpleChanges) {
+    ngOnChanges() {
         this.setup();
     }
 
