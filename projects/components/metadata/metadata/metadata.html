@@ -8,6 +8,7 @@
     [showEntityTooltip]="showEntityTooltip"
     [clickable]="clickable"
     [tabular]="tabular"
-    [collapseRows]="collapseRows">
+    [collapseRows]="collapseRows"
+    [query]="query || searchService.query">
     <span *ngIf="!tabular && $index < items.length - 1" class="ml-1 mr-2">{{'msg#metadata.item.separator' | sqMessage}}</span>
 </sq-metadata-item>
