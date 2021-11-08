@@ -1,6 +1,6 @@
 import {Component, Input, Output, EventEmitter, HostBinding} from "@angular/core";
 import {SearchService} from "@sinequa/components/search";
-import {AppService, ValueItem} from "@sinequa/core/app-utils";
+import {AppService, Query, ValueItem} from "@sinequa/core/app-utils";
 import {Record} from "@sinequa/core/web-services";
 
 @Component({
@@ -19,6 +19,7 @@ export class Metadata {
     @HostBinding("class.sq-tabular") @Input() tabular: boolean = true;
     @Input() collapseRows: boolean = true;
     @Input() searchOnClick: boolean = true;
+    @Input() query?: Query;
     
     @Output("select") _select = new EventEmitter<{item: string, valueItem: ValueItem}>();
 
