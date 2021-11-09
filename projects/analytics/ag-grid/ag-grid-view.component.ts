@@ -164,11 +164,13 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             col.tooltipValueGetter = col.tooltipValueGetter || this.tooltipValueGetter;
             col.headerName = col.headerName || (col.$column?.label? this.intlService.formatMessage(col.$column?.label) : col.field);
             col.headerTooltip = col.headerTooltip || col.headerName;
-            col.cellRenderer = col.cellRenderer || this.renderCell;
+            col.cellRenderer = col.cellRendererFramework ? undefined : col.cellRenderer || this.renderCell;
             col.sortable = col.sortable || this.appService.isSortable(col.field);
             const hidePref = this.prefs.get("ag-grid-hide-"+col.field);
             col.hide = hidePref === undefined? col.hide : hidePref;
             col.width = col.width || this.defaultColumnWidth;
+            col.cellRendererFramework = col.cellRendererFramework;
+            col.cellRendererParams = col.cellRendererParams;
 
             // How to filter the column
             if(col.filter === undefined) {
