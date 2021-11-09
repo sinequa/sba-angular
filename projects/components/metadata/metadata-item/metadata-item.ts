@@ -1,6 +1,6 @@
 import {Component, Input, Output, HostBinding, OnChanges, SimpleChanges, EventEmitter} from "@angular/core";
 import {Utils} from "@sinequa/core/base";
-import {AppService, FormatService, ValueItem} from "@sinequa/core/app-utils";
+import {AppService, FormatService, Query, ValueItem} from "@sinequa/core/app-utils";
 import {Record, EntityItem, DocumentAccessLists, CCColumn, TextChunksWebService, TextLocation} from "@sinequa/core/web-services";
 import {FacetService} from "@sinequa/components/facet";
 import {Observable, of} from "rxjs";
@@ -25,6 +25,7 @@ export class MetadataItem implements OnChanges {
     @Input() clickable: boolean = true;
     @Input() tabular: boolean = true;
     @Input() collapseRows: boolean = true;
+    @Input() query?: Query;
     @Output("select") _select = new EventEmitter<{item: string, valueItem: ValueItem}>();
     @HostBinding('hidden') get hidden(): boolean { return this.isEmpty; }
     valueItems: (ValueItem | TreeValueItem)[];
@@ -194,8 +195,9 @@ export class MetadataItem implements OnChanges {
         // Get list of highlights
         const highlights = this.getHighlights();
         // Get the text at the location of the entity
+        // The query is optional, but can be useful to resolve aliases and relevant extracts/matches
         return this.textChunkWebService.getTextChunks(
-            this.record.id, [location], highlights, undefined, 1, 1)
+            this.record.id, [location], highlights, this.query, 1, 1)
             .pipe(map(chunks => chunks?.[0]?.text));
     }
 
