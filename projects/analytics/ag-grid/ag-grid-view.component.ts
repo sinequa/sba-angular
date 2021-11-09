@@ -169,8 +169,6 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             const hidePref = this.prefs.get("ag-grid-hide-"+col.field);
             col.hide = hidePref === undefined? col.hide : hidePref;
             col.width = col.width || this.defaultColumnWidth;
-            col.cellRendererFramework = col.cellRendererFramework;
-            col.cellRendererParams = col.cellRendererParams;
 
             // How to filter the column
             if(col.filter === undefined) {
