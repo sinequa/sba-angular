@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Action } from '@sinequa/components/action';
 import { FacetConfig } from '@sinequa/components/facet';
 import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
@@ -36,7 +36,7 @@ export class SearchComponent implements OnInit {
   // Whether the menu is shown on small screens
   public _showMenu = false;
 
-  public resultsStream$: Observable<Results>;
+  public resultsStream$: Observable<Results | undefined>;
 
   constructor(
     private previewService: PreviewService,
@@ -81,7 +81,7 @@ export class SearchComponent implements OnInit {
             this._showFilters = false;
           }
 
-          return results as Results;
+          return results;
         })
       );
   }
