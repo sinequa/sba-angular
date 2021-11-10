@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Action } from '@sinequa/components/action';
 import { FacetConfig } from '@sinequa/components/facet';
@@ -9,8 +9,9 @@ import { UIService } from '@sinequa/components/utils';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { AuditWebService, Record } from '@sinequa/core/web-services';
-import { Subscription } from 'rxjs';
+import { AuditWebService, Record, Results } from '@sinequa/core/web-services';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { FACETS, FEATURES, METADATA } from '../../config';
 
 @Component({
@@ -18,7 +19,7 @@ import { FACETS, FEATURES, METADATA } from '../../config';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class SearchComponent implements OnInit {
 
   // Dynamic display of facets titles/icons in the multi-facet component
   public multiFacetIcon? = "fas fa-filter fa-fw";
@@ -35,7 +36,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   // Whether the menu is shown on small screens
   public _showMenu = false;
 
-  private _searchServiceSubscription: Subscription;
+  public $resultsStream: Observable<Results>;
 
   constructor(
     private previewService: PreviewService,
@@ -69,21 +70,21 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: ""}));
 
-    this._searchServiceSubscription = this.searchService.resultsStream
-      .subscribe(results => {
-        this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
-        if (!this.showResults) {
-          this.openedDoc = undefined;
-          this._showFilters = false;
-        }
-      });
-  }
+    // mutate results/records if desired, convert to switchMap or mergeMap if additional calls need to be chained
+    // consult RxJS documentation for additional functionality like combineLatest, etc.
+    this.$resultsStream = this.searchService.resultsStream
+      .pipe(
+        filter(results => !!results),
+        map(results => {
+          this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
+          if (!this.showResults) {
+            this.openedDoc = undefined;
+            this._showFilters = false;
+          }
 
-  /**
-   * Unsubscribe from the search service
-   */
-  ngOnDestroy(){
-    this._searchServiceSubscription.unsubscribe();
+          return results as Results;
+        })
+      );
   }
 
   /**
