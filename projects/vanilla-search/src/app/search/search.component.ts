@@ -36,7 +36,7 @@ export class SearchComponent implements OnInit {
   // Whether the menu is shown on small screens
   public _showMenu = false;
 
-  public $resultsStream: Observable<Results>;
+  public resultsStream$: Observable<Results>;
 
   constructor(
     private previewService: PreviewService,
@@ -72,9 +72,8 @@ export class SearchComponent implements OnInit {
 
     // mutate results/records if desired, convert to switchMap or mergeMap if additional calls need to be chained
     // consult RxJS documentation for additional functionality like combineLatest, etc.
-    this.$resultsStream = this.searchService.resultsStream
+    this.resultsStream$ = this.searchService.resultsStream
       .pipe(
-        filter(results => !!results),
         map(results => {
           this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
           if (!this.showResults) {

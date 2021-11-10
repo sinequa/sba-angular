@@ -47,7 +47,7 @@
 
 <!-- Main interface -->
 <div class="container-xl main" *ngIf="loginService.complete">
-    <div class="row" *ngIf="$resultsStream | async; let results">
+    <div class="row" *ngIf="resultsStream$ | async; let results">
 
         <!-- Left facet bar -->
         <div class="col-md-4 col-lg-3 col-xl-2" *ngIf="showFilters" [sqSticky]="{top: 70, bottom: 80}">
