@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { Record } from '@sinequa/core/web-services';
+import { Record, Results } from '@sinequa/core/web-services';
 import { SelectionService } from '@sinequa/components/selection';
 import { SearchService } from '@sinequa/components/search';
 import { FacetConfig, FacetService } from '@sinequa/components/facet';
@@ -14,6 +14,7 @@ import { Action } from '@sinequa/components/action';
 import { FACETS, METADATA, FEATURES } from '../../config';
 import { DashboardService, MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, PREVIEW_WIDGET, HEATMAP_WIDGET, TAGCLOUD_WIDGET, MONEYTIMELINE_WIDGET, MONEYCLOUD_WIDGET } from '../dashboard/dashboard.service';
 import { GridsterComponent } from 'angular-gridster2';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search',
@@ -26,7 +27,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   public multiFacetIcon? = "fas fa-filter fa-fw";
   public multiFacetTitle = "msg#facet.filters.title";
 
-  private _searchServiceSubscription: Subscription;
+  public resultsStream$: Observable<Results | undefined>;
   private _loginSubscription: Subscription;
 
   focusElementIndex:number;
@@ -58,14 +59,19 @@ export class SearchComponent implements OnInit, OnDestroy {
   ) {
 
     // Subscribe to the search service to update the page title based on the searched text
-    this._searchServiceSubscription = this.searchService.resultsStream.subscribe(results => {
-      this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
+    this.resultsStream$ = this.searchService.resultsStream
+      .pipe(
+        map(results => {
+          this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
 
-      // Hack to fix an issue with change detection...
-      setTimeout(() => {
-        this.cdRef.detectChanges();
-      }, 0);
-    });
+          // Hack to fix an issue with change detection...
+          setTimeout(() => {
+            this.cdRef.detectChanges();
+          }, 0);
+
+          return results;
+        })
+      );
 
     // Upon login (ie access to user settings) initialize the dashboard widgets and actions
     this._loginSubscription = this.loginService.events.subscribe(event => {
@@ -114,7 +120,6 @@ export class SearchComponent implements OnInit, OnDestroy {
    * Unsubscribe from the search service
    */
   ngOnDestroy(){
-    this._searchServiceSubscription.unsubscribe();
     this._loginSubscription.unsubscribe();
   }
 

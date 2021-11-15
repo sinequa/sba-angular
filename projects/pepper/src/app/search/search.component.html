@@ -19,7 +19,7 @@
                 <sq-baskets-menu *ngSwitchCase="'baskets'" [icon]="'fas fa-inbox'"></sq-baskets-menu>
                 <sq-saved-queries-menu *ngSwitchCase="'saved-queries'"></sq-saved-queries-menu>
                 <sq-alerts-menu *ngSwitchCase="'alerts'"></sq-alerts-menu>
-                <sq-labels-menu *ngSwitchCase="'labels'" [results]="searchService.resultsStream | async"></sq-labels-menu>
+                <sq-labels-menu *ngSwitchCase="'labels'" [results]="resultsStream$ | async"></sq-labels-menu>
             </ng-container>
             <sq-user-menu></sq-user-menu>
         </ul>
@@ -30,7 +30,7 @@
     </div>
 
     <ng-container *ngIf="loginService.complete">
-        <div class="container-fluid justify-content-start px-0" *ngIf="searchService.resultsStream | async as results">
+        <div class="container-fluid justify-content-start px-0" *ngIf="resultsStream$ | async as results">
             <span class="text-muted mr-2"><i class="fas fa-filter"></i> {{ 'msg#search.filters' | sqMessage }}: </span>
             <sq-facet-filters [results]="results" [facets]="facets" class="mr-auto"></sq-facet-filters>
 
@@ -44,7 +44,7 @@
 
 <!-- Main interface -->
 <ng-container *ngIf="loginService.complete">
-    <div class="flex-grow-1 container-fluid position-relative main-content" *ngIf="searchService.resultsStream | async as results">
+    <div class="flex-grow-1 container-fluid position-relative main-content" *ngIf="resultsStream$ | async as results">
 
         <!-- Result sidebar toggle -->
         <span class="toggle-results btn-link"
@@ -139,7 +139,6 @@
     </div>
 </ng-container>
 
-<div class="align-self-center my-auto text-center"
-    *ngIf="!(searchService.resultsStream | async)">
+<div *ngIf="!(resultsStream$ | async)" class="align-self-center my-auto text-center">
     <img src="assets/pepper-lg.png" height="350px">
 </div>
