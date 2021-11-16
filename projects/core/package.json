@@ -1,6 +1,7 @@
 {
   "name": "@sinequa/core",
   "version": "0.0.1",
+  "author": "Sinequa",
   "peerDependencies": {
     "@formatjs/intl-relativetimeformat": "^4.5.12",
     "atomicjs": "^4.4.1",

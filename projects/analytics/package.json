@@ -1,6 +1,7 @@
 {
   "name": "@sinequa/analytics",
   "version": "0.0.1",
+  "author": "Sinequa",
   "peerDependencies": {
     "@agm/core": "^3.0.0-beta.0",
     "@swimlane/ngx-charts": "^14.0.0",
