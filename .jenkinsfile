@@ -222,7 +222,7 @@ node ('Sun') {
 			bat "xcopy ${fnpmrc} .\\projects\\components\\ /Y"
 			bat "xcopy ${fnpmrc} .\\projects\\analytics\\ /Y"
 		}
-		stage('NPM Clean Install') {
+		stage('NPM Install') {
 			bat "npm ci"
 		}
 		
