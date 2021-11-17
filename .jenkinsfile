@@ -10,12 +10,12 @@ properties([
 url           = "${env.NPM_SERVER_URL}"
 npm_user      = "${env.NPM_USER}"
 npm_pass      = "${env.NPM_PASS}"
-npm_mail      = "${env.NPM_MAIL}" 
+npm_mail      = "${env.NPM_MAIL}"
 mailto        = "${env.NPM_MAILING_LIST}"
 developNumber = "${env.NPM_DEVELOP_NUMBER}"
 
-sba_version   = "${param.SBA_VERSION}"
-sba_app_list  = "${param.SBA_APP_LIST}"
+sba_version   = "${params.SBA_VERSION}"
+sba_app_list  = "${params.SBA_APP_LIST}"
 
 scope  = "@sinequa"
 fnpmrc = '.npmrc'
