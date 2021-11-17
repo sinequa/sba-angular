@@ -1,14 +1,14 @@
 /*### Environment ###*/
 properties([
 	parameters([
-		string(name:"SBA_VERSION",    defaultValue: "", description: "version of sba", trim: true),
-		string(name:"SBA_APP_LIST",   defaultValue: "sba-sinequa-analytics-internal,sba-sesame", description: "app list to rebuild (comma separated)", trim: true),
-		string(name:"DEVELOP_NUMBER", defaultValue: "", description: "develop version", trim: true),
-		string(name:"MAILING_LIST",   defaultValue: "", description: "mails (comma separated)", trim: true),
-		string(name:"NPM_SERVER_URL", defaultValue: "", description: "url of local npm server", trim: true),
-		string(name:"NPM_USER",       defaultValue: "", description: "user of npm server", trim: true),
-		string(name:"NPM_PASS",       defaultValue: "", description: "pass of npm server", trim: true),
-		string(name:"NPM_MAIL",       defaultValue: "", description: "mail of npm server", trim: true)
+		string(name:"SBA_VERSION",        defaultValue: "", description: "version of sba", trim: true),
+		string(name:"SBA_APP_LIST",       defaultValue: "sba-sinequa-analytics-internal,sba-sesame", description: "app list to rebuild (comma separated)", trim: true),
+		string(name:"NPM_DEVELOP_NUMBER", defaultValue: "", description: "develop version", trim: true),
+		string(name:"NPM_MAILING_LIST",   defaultValue: "", description: "mails (comma separated)", trim: true),
+		string(name:"NPM_SERVER_URL",     defaultValue: "", description: "url of local npm server", trim: true),
+		string(name:"NPM_USER",           defaultValue: "", description: "user of npm server", trim: true),
+		string(name:"NPM_PASS",           defaultValue: "", description: "pass of npm server", trim: true),
+		string(name:"NPM_MAIL",           defaultValue: "", description: "mail of npm server", trim: true)
 	]),
 	disableConcurrentBuilds()
 ])
@@ -19,8 +19,8 @@ npm_pass      = "${params.NPM_PASS}"
 npm_mail      = "${params.NPM_MAIL}" 
 sba_version   = "${params.SBA_VERSION}"
 sba_app_list  = "${params.SBA_APP_LIST}"
-mailto        = "${params.MAILING_LIST}"
-developNumber = "${params.DEVELOP_NUMBER}"
+mailto        = "${params.NPM_MAILING_LIST}"
+developNumber = "${params.NPM_DEVELOP_NUMBER}"
 
 scope  = "@sinequa"
 fnpmrc = '.npmrc'
