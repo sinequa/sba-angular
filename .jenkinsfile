@@ -1,47 +1,245 @@
-pipeline {
-    agent { label 'Sun' }
-	options { disableConcurrentBuilds() }
-	stages {
-		stage('NPM Install') {
-			steps {
-				bat "npm ci"	
+/*### Environment ###*/
+properties([
+	parameters([
+		string(name:"SBA_VERSION",    defaultValue: "", description: "version of sba", trim: true),
+		string(name:"SBA_APP_LIST",   defaultValue: "sba-sinequa-analytics-internal,sba-sesame", description: "app list to rebuild (comma separated)", trim: true),
+		string(name:"DEVELOP_NUMBER", defaultValue: "", description: "develop version", trim: true),
+		string(name:"MAILING_LIST",   defaultValue: "", description: "mails (comma separated)", trim: true),
+		string(name:"NPM_SERVER_URL", defaultValue: "", description: "url of local npm server", trim: true),
+		string(name:"NPM_USER",       defaultValue: "", description: "user of npm server", trim: true),
+		string(name:"NPM_PASS",       defaultValue: "", description: "pass of npm server", trim: true),
+		string(name:"NPM_MAIL",       defaultValue: "", description: "mail of npm server", trim: true)
+	]),
+	disableConcurrentBuilds()
+])
+
+url           = "${params.NPM_SERVER_URL}"
+npm_user      = "${params.NPM_USER}"
+npm_pass      = "${params.NPM_PASS}"
+npm_mail      = "${params.NPM_MAIL}" 
+sba_version   = "${params.SBA_VERSION}"
+sba_app_list  = "${params.SBA_APP_LIST}"
+mailto        = "${params.MAILING_LIST}"
+developNumber = "${params.DEVELOP_NUMBER}"
+
+scope  = "@sinequa"
+fnpmrc = '.npmrc'
+anpmrc = ["always-auth=true", "registry=${url}/", "scope=${scope}"]
+
+
+// build a app
+def build_app(sba_version, jobToBuild, branch) {
+	stage("Build app ${jobToBuild}") {
+		try {
+			def enabled = Jenkins.instance.getItemByFullName(jobToBuild).isBuildable();
+			def jobnamebranch = "${jobToBuild}/${branch}"
+			echo "build app ${jobToBuild} in branch ${branch} with sba-internal version ${sba_version} ${jobnamebranch}"
+			if (enabled) {
+				def res = build job: jobnamebranch, wait : true, propagate : true, parameters: [string(name: 'SBA_VERSION', value: sba_version)]
 			}
-		}
-		stage('Build Core') {
-			steps {
-				bat "npm run buildcore --if-present"
-			}
-		}
-		stage('Build Components') {
-			steps {
-				bat "npm run buildcomponents --if-present"
-			}
-		}
-		stage('Test Components') {
-			steps {
-				bat "npm run test components -- --watch=false"
-			}
-		}
-		stage('Build Analytics') {
-			steps {
-				bat "npm run buildanalytics --if-present"
-			}
-		}
-		stage('Build HelloSearch') {
-			steps {
-				bat "npm run buildhellosearch --if-present"
-			}
-		}
-		stage('Build Vanilla') {
-			steps {
-				bat "npm run buildvanilla --if-present"	
-			}
-		}
-		stage('Build Pepper') {
-			steps {
-				bat "npm run buildpepper --if-present"	
-			}
+		} catch (err) {
+			currentBuild.result = "FAILURE"
+			sendMessage("#CC0000", "Build failed when building ${jobToBuild} in branch ${branch} with sba-internal version ${sba_version}")
+			throw err
 		}
 	}
 }
 
+def set_sba_version(curBranch) {
+	if (sba_version.length() < 1) {
+		if ( env.BRANCH_NAME.contains("release") ) {
+			sba_version = curBranch.split("%2F")[1].trim()
+		} else {
+			sba_version = developNumber
+		}
+	}
+	echo "sba_version: ${sba_version}"
+}
+
+def findBranchNumber(){
+	def tmpBranch=""
+	def theBranch=""
+	// PR : 
+	//   BRANCH_NAME: PR-8208
+	//   CHANGE_TARGET: release/11.7.0
+	// BRANCH
+	//   BRANCH_NAME: develop
+	//   BRANCH_NAME: release/11.7.0
+	// return: 11.7.0
+
+	echo "Triggering job for branch ${env.BRANCH_NAME}"
+	if (env.BRANCH_NAME.contains("PR-")) {
+		tmpBranch = env.CHANGE_TARGET
+	} else {
+		tmpBranch = env.BRANCH_NAME
+	}
+	echo "tmpBranch: ${tmpBranch}"
+
+	theBranch = tmpBranch.replace("/", "%2F")
+	echo "Branch returned: ${theBranch}"
+	return theBranch
+}
+
+
+def sendMessage(color, specificMessage, logfile="") {
+	echo "Message is: ${specificMessage}"
+	if (!binding.hasVariable("AUTHOR_NAME")) {
+		AUTHOR_NAME = ""
+	}
+	// https://jenkins.sinequa.com/env-vars.html/
+
+	to = ""
+	pbranch = env.BRANCH_NAME
+	branch_link = pbranch
+	if (pbranch.startsWith("PR-")) {
+		branch_link += " https://github.sinequa.com/Product/ice/pull/" + pbranch.replace("PR-", "")
+	}
+	if ("${color}" == "#26cc00") {
+		status = "OK"
+	} else {
+		status = "Failed"
+		to = mailto
+	}
+	if ("${AUTHOR_NAME}" != "") {
+		to = "${AUTHOR_NAME}" + ", " + to
+	}
+	// println("mailTo: ${to}")
+	
+	subject = "[${pbranch}] ${BUILD_TAG} ${status}"
+	echo "Send email ${subject} to ${to}"
+	
+	header = "Commit on branch ${branch_link} from ${AUTHOR_NAME}\nJob ${BUILD_URL}/\n"
+	message = "${header}\n${specificMessage}"
+	
+	if ("${status}" == "Failed" && logfile?.trim()) {
+		log = bat (script: "type ${WORKSPACE}\\${logfile}",returnStdout: true)
+		emailext(from: "build@sinequa.com",  to: "${to}", attachLog:true, subject: "${subject}", body: "${message}\n\n${log}")
+	} else {
+		emailext(from: "build@sinequa.com",  to: "${to}", attachLog:false, subject: "${subject}", body: "${message}\n\n")
+	}
+}
+
+def simple_build() {
+	try {
+		stage('Build Core')        {
+			echo "npm run buildcore        --if-present"
+			// bat "npm run buildcore        --if-present"
+		}
+		stage('Build Components')  {
+			echo "npm run buildcomponents  --if-present"
+			// bat "npm run buildcomponents  --if-present"
+		}
+		stage('Test Components')   {
+			echo "npm run test components -- --watch=false"
+			// bat "npm run test components -- --watch=false"
+		}
+		stage('Build Analytics')   {
+			echo "npm run buildanalytics   --if-present"
+			// bat "npm run buildanalytics   --if-present"
+		}
+		stage('Build HelloSearch') {
+			echo "npm run buildhellosearch   --if-present"
+			// bat "npm run buildhellosearch   --if-present"
+		}
+		stage('Build Vanilla')     {
+			echo "npm run buildvanilla       --if-present"
+			// bat "npm run buildvanilla       --if-present"
+		}
+		stage('Build Pepper')      {
+			echo "npm run buildpepper        --if-present"
+			// bat "npm run buildpepper        --if-present"
+		}
+	} catch (err) {
+		currentBuild.result = "FAILURE"
+		throw err
+	}
+}
+
+def validation() {
+	try {
+		stage('Build Core')       {
+			echo "npm run buildsqcore --sq_version=${sba_version}       --if-present"
+			// bat "npm run buildsqcore --sq_version=${sba_version}       --if-present"
+		}
+		stage('Build Components') {
+			echo "npm run buildsqcomponents --sq_version=${sba_version} --if-present"
+			// bat "npm run buildsqcomponents --sq_version=${sba_version} --if-present"
+		}
+		stage('Build Analytics')  {
+			echo "npm run buildsqanalytics --sq_version=${sba_version}  --if-present"
+			// bat "npm run buildsqanalytics --sq_version=${sba_version}  --if-present"
+		}
+		
+		echo "Build apps ${sba_app_list}"
+		def applist = sba_app_list.split(',')
+		// echo "applist: ${applist}"
+		def nbapp = applist.size()
+		def j = 0
+		for (int i=0; i < nbapp ; i++) {
+			j = i + 1
+			echo "  app ${j}/${nbapp}: ${applist[i]}"
+			// build_app(sba_version, applist[i], currentBranch)
+		}
+	} catch (err) {
+		currentBuild.result = "FAILURE"
+		throw err
+	}
+}
+
+def build_or_merge() {
+	def typeAction = ""
+	if (env.BRANCH_NAME.contains("PR-")) {
+		typeAction = "build"
+	} else {
+		typeAction = "merge"
+	}
+	return typeAction
+}
+
+
+node ('Sun') {
+	currentBuild.result = "SUCCESS"
+	try {
+		def currentBranch = findBranchNumber()
+		set_sba_version(currentBranch)
+
+		stage('Checkout'){
+			checkout scm
+		}
+		stage('Create user') {
+			bat "npm-cli-login -u ${npm_user} -p ${npm_pass} -e ${npm_mail} -r ${url} -s ${scope} --config-path ${fnpmrc}"
+			sleep(2)
+			def content = ""
+			def txt = ""
+			if (fileExists(fnpmrc)) {
+				content = readFile fnpmrc
+				anpmrc.each {
+					txt += it + "\n"
+				}
+				content += txt
+				//echo "npmrc: ${content}"
+				writeFile file: fnpmrc, text: content
+			}
+			bat "npm whoami"
+		}
+		stage('copyNpmrc') {
+			bat "xcopy ${fnpmrc} .\\projects\\core\\ /Y"
+			bat "xcopy ${fnpmrc} .\\projects\\components\\ /Y"
+			bat "xcopy ${fnpmrc} .\\projects\\analytics\\ /Y"
+		}
+		stage('NPM Clean Install') {
+			bat "npm ci"
+		}
+		
+		def action = build_or_merge()
+		if ("${action}" == "build") {
+			simple_build()
+		} else {
+			validation()
+		}
+
+	} catch (err) {
+		currentBuild.result = "FAILURE"
+		throw err
+	}
+}
