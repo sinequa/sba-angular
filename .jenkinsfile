@@ -247,7 +247,7 @@ node ('Sun') {
 		}
 		
 		stage('NPM Install') {
-			bat "npm ci"
+			bat "npm i"
 		}
 		
 		def action = build_or_merge()
