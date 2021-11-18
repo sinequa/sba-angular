@@ -117,32 +117,32 @@ def sendMessage(color, specificMessage, logfile="") {
 def simple_build() {
 	try {
 		stage('Build Core')        {
-			echo "npm run buildcore        --if-present"
-			// bat "npm run buildcore        --if-present"
+			echo "npm run buildcore --if-present"
+			bat  "npm run buildcore --if-present"
 		}
 		stage('Build Components')  {
-			echo "npm run buildcomponents  --if-present"
-			// bat "npm run buildcomponents  --if-present"
+			echo "npm run buildcomponents --if-present"
+			bat  "npm run buildcomponents --if-present"
 		}
 		stage('Test Components')   {
 			echo "npm run test components -- --watch=false"
-			// bat "npm run test components -- --watch=false"
+			bat  "npm run test components -- --watch=false"
 		}
 		stage('Build Analytics')   {
-			echo "npm run buildanalytics   --if-present"
-			// bat "npm run buildanalytics   --if-present"
+			echo "npm run buildanalytics --if-present"
+			bat  "npm run buildanalytics --if-present"
 		}
 		stage('Build HelloSearch') {
-			echo "npm run buildhellosearch   --if-present"
-			// bat "npm run buildhellosearch   --if-present"
+			echo "npm run buildhellosearch --if-present"
+			bat  "npm run buildhellosearch --if-present"
 		}
 		stage('Build Vanilla')     {
-			echo "npm run buildvanilla       --if-present"
-			// bat "npm run buildvanilla       --if-present"
+			echo "npm run buildvanilla --if-present"
+			bat  "npm run buildvanilla --if-present"
 		}
 		stage('Build Pepper')      {
-			echo "npm run buildpepper        --if-present"
-			// bat "npm run buildpepper        --if-present"
+			echo "npm run buildpepper --if-present"
+			bat  "npm run buildpepper --if-present"
 		}
 	} catch (err) {
 		currentBuild.result = "FAILURE"
@@ -153,16 +153,16 @@ def simple_build() {
 def validation() {
 	try {
 		stage('Build Core')       {
-			echo "npm run buildsqcore --sq_version=${sba_version}       --if-present"
-			// bat "npm run buildsqcore --sq_version=${sba_version}       --if-present"
+			echo "npm run buildsqcore --sq_version=${sba_version} --if-present"
+			bat  "npm run buildsqcore --sq_version=${sba_version} --if-present"
 		}
 		stage('Build Components') {
 			echo "npm run buildsqcomponents --sq_version=${sba_version} --if-present"
-			// bat "npm run buildsqcomponents --sq_version=${sba_version} --if-present"
+			bat  "npm run buildsqcomponents --sq_version=${sba_version} --if-present"
 		}
 		stage('Build Analytics')  {
 			echo "npm run buildsqanalytics --sq_version=${sba_version}  --if-present"
-			// bat "npm run buildsqanalytics --sq_version=${sba_version}  --if-present"
+			bat  "npm run buildsqanalytics --sq_version=${sba_version}  --if-present"
 		}
 		
 		echo "Build apps ${sba_app_list}"
@@ -191,6 +191,24 @@ def build_or_merge() {
 	return typeAction
 }
 
+def appendFile(afile, what) {
+	def content = ""
+	def txt = ""
+	try {
+		if (fileExists(afile)) {
+			content = readFile afile
+			what.each {
+				txt += it + "\n"
+			}
+			content += txt
+			//echo "content: ${content}"
+			writeFile file: afile, text: content
+		}
+	} catch (err) {
+		currentBuild.result = "FAILURE"
+		throw err
+	}
+}
 
 node ('Sun') {
 	currentBuild.result = "SUCCESS"
@@ -201,27 +219,33 @@ node ('Sun') {
 		stage('Checkout'){
 			checkout scm
 		}
+		
+		stage('Clean') {
+			def pkg_lck = "package-lock.json"
+			echo ".Delete ${pkg_lck}"
+			bat "if exist ${pkg_lck} ( del /f ${pkg_lck} )"
+			
+			def nmfolder = "node_modules"
+			echo ".Rmdir /s /q ${nmfolder}"
+			bat "if exist ${nmfolder} ( rmdir /s /q ${nmfolder} )"
+			
+			echo ".Cache clean force"
+			bat "npm cache clean --force"
+		}
+		
 		stage('Create user') {
 			bat "npm-cli-login -u ${npm_user} -p ${npm_pass} -e ${npm_mail} -r ${url} -s ${scope} --config-path ${fnpmrc}"
 			sleep(2)
-			def content = ""
-			def txt = ""
-			if (fileExists(fnpmrc)) {
-				content = readFile fnpmrc
-				anpmrc.each {
-					txt += it + "\n"
-				}
-				content += txt
-				//echo "npmrc: ${content}"
-				writeFile file: fnpmrc, text: content
-			}
+			appendFile(fnpmrc, anpmrc)
 			bat "npm whoami"
 		}
+		
 		stage('copyNpmrc') {
 			bat "xcopy ${fnpmrc} .\\projects\\core\\ /Y"
 			bat "xcopy ${fnpmrc} .\\projects\\components\\ /Y"
 			bat "xcopy ${fnpmrc} .\\projects\\analytics\\ /Y"
 		}
+		
 		stage('NPM Install') {
 			bat "npm ci"
 		}
