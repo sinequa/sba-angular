@@ -50,10 +50,10 @@ export class DatasetWebService extends HttpService {
      * @param query name of the query
      * @param params parameters of the queries
      */
-    get(webServiceName: string, query: string, parameters = {}): Observable<Results|DatasetError> {
-        let url = `${this.makeUrl(DatasetWebService.endpoint)}/${webServiceName}/${query}`;
+    get(webServiceName: string, query: string, parameters = {}): Observable<Dataset> {
+        const url = `${this.makeUrl(DatasetWebService.endpoint)}/${webServiceName}/${query}`;
         return this.httpClient.post<{datasets: Dataset}>(url, {parameters})
-            .pipe(map(d => d.datasets[query]));
+            .pipe(map(d => {const obj = new Object(); obj[query]= d.datasets[query]; return obj as Dataset}));
     }
 
     /**
@@ -63,7 +63,7 @@ export class DatasetWebService extends HttpService {
      * @param datasets precise list of queries, defined in the web service, to be executed
      */
     getBulk(webServiceName: string, parameters = {}, datasets: string[]): Observable<Dataset> {
-        let url = `${this.makeUrl(DatasetWebService.endpoint)}/${webServiceName}`;
+        const url = `${this.makeUrl(DatasetWebService.endpoint)}/${webServiceName}`;
         return this.httpClient.post<{datasets: Dataset}>(url, {parameters, datasets})
             .pipe(map(d => d.datasets));
     }
@@ -74,7 +74,7 @@ export class DatasetWebService extends HttpService {
      * @param params parameters of the queries
      */
     getAll(webServiceName: string, parameters = {}): Observable<Dataset> {
-        let url = `${this.makeUrl(DatasetWebService.endpoint)}/${webServiceName}`;
+        const url = `${this.makeUrl(DatasetWebService.endpoint)}/${webServiceName}`;
         return this.httpClient.post<{datasets: Dataset}>(url, {parameters})
             .pipe(map(d => d.datasets));
     }
