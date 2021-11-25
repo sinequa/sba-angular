@@ -2,7 +2,8 @@
 properties([
 	parameters([
 		string(name:"SBA_VERSION",  defaultValue: "", description: "version of sba", trim: true),
-		string(name:"SBA_APP_LIST", defaultValue: "sba-sinequa-analytics-internal,sba-sesame", description: "app list to rebuild (comma separated)", trim: true)
+		string(name:"SBA_APP_LIST", defaultValue: "sba-sinequa-analytics-internal,sba-sesame", description: "app list to rebuild (comma separated)", trim: true),
+		string(name:"SBA_NODE",    defaultValue: "${env.SBA_NODE}", description: "execution node name", trim: true)
 	]),
 	disableConcurrentBuilds()
 ])
@@ -41,7 +42,7 @@ def build_app(sba_version, jobToBuild, branch) {
 }
 
 def set_sba_version(curBranch) {
-	if (sba_version.length() < 1) {
+	if (sba_version.length() == 0) {
 		if ( env.BRANCH_NAME.contains("release") ) {
 			sba_version = curBranch.split("%2F")[1].trim()
 		} else {
@@ -173,7 +174,7 @@ def validation() {
 		for (int i=0; i < nbapp ; i++) {
 			j = i + 1
 			echo "  app ${j}/${nbapp}: ${applist[i]}"
-			// build_app(sba_version, applist[i], currentBranch)
+			build_app(sba_version, applist[i], currentBranch)
 		}
 	} catch (err) {
 		currentBuild.result = "FAILURE"
@@ -181,7 +182,7 @@ def validation() {
 	}
 }
 
-def build_or_merge() {
+def buildOrMerge() {
 	def typeAction = ""
 	if (env.BRANCH_NAME.contains("PR-")) {
 		typeAction = "build"
@@ -210,7 +211,7 @@ def appendFile(afile, what) {
 	}
 }
 
-node ('Sun') {
+node (params.SBA_NODE) {
 	currentBuild.result = "SUCCESS"
 	try {
 		def currentBranch = findBranchNumber()
@@ -235,7 +236,6 @@ node ('Sun') {
 		
 		stage('Create user') {
 			bat "npm-cli-login -u ${npm_user} -p ${npm_pass} -e ${npm_mail} -r ${url} -s ${scope} --config-path ${fnpmrc}"
-			sleep(2)
 			appendFile(fnpmrc, anpmrc)
 			bat "npm whoami"
 		}
@@ -250,7 +250,7 @@ node ('Sun') {
 			bat "npm i"
 		}
 		
-		def action = build_or_merge()
+		def action = buildOrMerge()
 		if ("${action}" == "build") {
 			simple_build()
 		} else {
