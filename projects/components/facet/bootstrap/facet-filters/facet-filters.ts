@@ -156,11 +156,14 @@ export class BsFacetFilters implements OnInit, OnChanges {
     }
 
     get filteredFacets() {
-        if (!this.enableCustomization) return this.facets;
+        const filtered = this.facets.filter(facet => (!facet.includedTabs || facet.includedTabs.includes(this.results.tab)) && !facet.excludedTabs?.includes(this.results.tab))
+        
+        if (!this.enableCustomization) return filtered;
+        
         let new_facets: FacetConfig[] = [];
 
         if (this.userFacets) {
-            for (let facet of this.facets) {
+            for (let facet of filtered) {
                 let pos = this.userFacets.findIndex((userFacet) => userFacet.name === facet.name);
                 if (pos >= 0) new_facets.push(facet);
             }
