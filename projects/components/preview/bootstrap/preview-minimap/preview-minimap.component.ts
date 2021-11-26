@@ -10,7 +10,7 @@ import {PreviewDocument} from '../../preview-document';
   styleUrls: ['./preview-minimap.component.css']
 })
 export class BsPreviewMinimapComponent {
-  locations: {top: number, index: number}[];
+  locations?: {top: number, index: number}[];
   
   private _previewDocument: PreviewDocument;
   private _previewData:PreviewData;
@@ -43,7 +43,7 @@ export class BsPreviewMinimapComponent {
       const max = this.previewDocument.document.body.scrollHeight || 1;
 
       // Init the extracts Array and storing the relevancy index = i because extractsLocations is already ordered by relevance
-      this.locations = this._extracts[0].locations.map((el, index) => {
+      this.locations = this._extracts[0]?.locations.map((el, index) => {
         let value = this.previewDocument.getHighlightPos("extractslocations", index)?.top || -1;
         value = value - (this.previewDocument.document.body.getBoundingClientRect()?.top || 1);
         const top = ((value / max) * 99);

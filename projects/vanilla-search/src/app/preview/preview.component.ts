@@ -255,7 +255,9 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
         .map(item => previewDocument.toggleHighlight(item.entity, false));
 
       this.previewDocument = previewDocument;
-      this.previewDocument.selectHighlight("matchlocations", 0); // Scroll to first match
+      const extracts = this.previewService.getExtracts(this.previewData);
+      const mostRelevantExtract = extracts[0]?.textIndex || 0;
+      this.previewDocument.selectHighlight("extractslocations", mostRelevantExtract); // Scroll to most relevant extract
     }
   }
 
