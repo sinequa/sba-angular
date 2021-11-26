@@ -8,6 +8,8 @@ import {JsonObject, Utils} from "@sinequa/core/base";
 import {ModalService} from "@sinequa/core/modal";
 import {SearchService} from "@sinequa/components/search";
 import {RecentDocumentsService} from '@sinequa/components/saved-queries';
+import { PreviewDocument } from "./preview-document";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
 export const enum PreviewEventType {
     Data = "Preview_Data",
@@ -24,6 +26,12 @@ export interface PreviewEvent {
 
 export const PREVIEW_MODAL = new InjectionToken<Type<any>>("PREVIEW_MODAL");
 
+export class Extract {
+    text: SafeHtml; // Sanitized HTML text
+    startIndex : number; // this is the start index of the extracts within the Document Text  
+    relevanceIndex : number; // 0 the most relevant to N the less relevant
+    textIndex : number; // index of the extract in the text. e.g 0 is the first extract displayed in the document
+}
 
 @Injectable({
     providedIn: "root"
@@ -42,7 +50,8 @@ export class PreviewService {
         private searchService: SearchService,
         private modalService: ModalService,
         private recentDocumentsService: RecentDocumentsService,
-        public exprBuilder: ExprBuilder) {
+        public exprBuilder: ExprBuilder,
+        private domSanitizer: DomSanitizer) {
 
         // Subscribe to own events and add documents to the recent documents service
         this.events.subscribe(event => {
@@ -207,5 +216,44 @@ export class PreviewService {
      */
     public getHtmlPreview(url:string) {
         return this.previewWebService.getHtmlPreview(url);
+    }
+
+    /**
+     * Returns the list of relevant extracts enriched with their index in the document
+     * and the actual text of the extract
+     * @param extracts 
+     * @param previewDocument 
+     * @returns 
+     */
+    public getExtracts(previewData: PreviewData, previewDocument?: PreviewDocument): Extract[] {
+        //Extract locations Array ordered by "relevance"
+        const extracts = previewData.highlightsPerCategory["extractslocations"]?.values?.[0]?.locations || [];
+        
+        return extracts.map((el,i) => ({start: el.start, i}))
+            // Sorting by start index (text position)
+            .sort((a, b) => a.start - b.start)
+    
+            // next sort the array by startIndex to extract the correct extract's text
+            // and set the textIndex
+            .map((el,i) => ({
+                startIndex: el.start,
+                textIndex: i,
+                relevanceIndex: el.i,
+                text: this.sanitize(previewDocument?.getHighlightText("extractslocations", i))
+            }))
+            
+            // do not take item without text (only when the preview doc actually exists)
+            .filter(el => previewDocument? el.text !== '' : true)
+    
+            // finally sort extracts by relevance
+            .sort((a,b) => a.relevanceIndex - b.relevanceIndex);
+    }
+    
+    /**
+     * Sanitize the text of a HTML formatted extract
+     * @param text
+     */
+    private sanitize(text?: string): SafeHtml | string {
+        return text? this.domSanitizer.bypassSecurityTrustHtml(text.replace(/sq\-current/, "")) : "";
     }
 }
