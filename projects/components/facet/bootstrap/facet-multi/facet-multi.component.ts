@@ -17,11 +17,14 @@ export interface FacetConfig {
   allowOr?: boolean;
   allowAnd?: boolean;
   displayEmptyDistributionIntervals?: boolean;
+  includedTabs?: string[];
+  excludedTabs?: string[];
 
   // Parameters set by the component
   $count?: string;
   $hasData?: boolean;
   $hasFiltered?: boolean;
+  $hidden?: boolean;
 }
 
 @Component({
@@ -155,6 +158,9 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
       facet.$count = this.getFacetCount(facet);
       facet.$hasData = this.facetService.hasData(facet.aggregation, this.results);
       facet.$hasFiltered = this.hasFiltered(facet);
+      // The facet is hidden if there are included tabs and the current tab is not in it
+      // OR if there are excluded tabs and the current tab is in it.
+      facet.$hidden = (facet.includedTabs && !facet.includedTabs.includes(this.results.tab)) || facet.excludedTabs?.includes(this.results.tab);
     });
     this.changeDetectorRef.detectChanges();
   }
