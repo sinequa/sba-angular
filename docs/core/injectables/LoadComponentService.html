@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -38,7 +39,7 @@
 
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li>LoadComponentService</li>
+  <li >LoadComponentService</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -58,6 +59,7 @@
         <p class="comment">
             <code>load-component/load-component.service.ts</code>
         </p>
+
 
             <p class="comment">
                 <h3>Description</h3>
@@ -88,16 +90,16 @@ the component&#39;s <code>ngOnChanges</code> method again</p>
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#bindComponent">bindComponent</a>
+                                <a href="#bindComponent" >bindComponent</a>
                             </li>
                             <li>
-                                <a href="#loadComponent">loadComponent</a>
+                                <a href="#loadComponent" >loadComponent</a>
                             </li>
                             <li>
-                                <a href="#unbindComponent">unbindComponent</a>
+                                <a href="#unbindComponent" >unbindComponent</a>
                             </li>
                             <li>
-                                <a href="#unloadComponent">unloadComponent</a>
+                                <a href="#unloadComponent" >unloadComponent</a>
                             </li>
                         </ul>
                     </td>
@@ -183,10 +185,8 @@ the component&#39;s <code>ngOnChanges</code> method again</p>
                 <td class="col-md-4">
                     <a name="bindComponent"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            bindComponent
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>bindComponent</b></span>
                         <a href="#bindComponent"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -194,7 +194,7 @@ the component&#39;s <code>ngOnChanges</code> method again</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>bindComponent(options: <a href="../interfaces/LoadComponentOptions.html">LoadComponentOptions</a>, loadedComponent: <a href="../interfaces/LoadedComponent.html">LoadedComponent</a>)</code>
+                    <code>bindComponent(options: <a href="../interfaces/LoadComponentOptions.html" target="_self">LoadComponentOptions</a>, loadedComponent: <a href="../interfaces/LoadedComponent.html" target="_self">LoadedComponent</a>)</code>
                 </td>
             </tr>
 
@@ -217,6 +217,7 @@ which will unsubscribe the component&#39;s outputs</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -255,7 +256,7 @@ which will unsubscribe the component&#39;s outputs</p>
 
 
                                     <td>
-                                        <p>A component loaded by {</p>
+                                        <p>A component loaded by </p>
 
                                     </td>
                                 </tr>
@@ -281,16 +282,14 @@ which will unsubscribe the component&#39;s outputs</p>
                 <td class="col-md-4">
                     <a name="loadComponent"></a>
                     <span class="name">
-                        <b>
-                            loadComponent
-                        </b>
+                        <span ><b>loadComponent</b></span>
                         <a href="#loadComponent"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadComponent(options: <a href="../interfaces/LoadComponentOptions.html">LoadComponentOptions</a>, viewContainerRef?: <a href="https://angular.io/api/core/ViewContainerRef" target="_blank">ViewContainerRef</a>, injector?: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>)</code>
+<code>loadComponent(options: <a href="../interfaces/LoadComponentOptions.html" target="_self">LoadComponentOptions</a>, viewContainerRef?: <a href="https://angular.io/api/core/ViewContainerRef" target="_blank">ViewContainerRef</a>, injector?: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>)</code>
                 </td>
             </tr>
 
@@ -315,10 +314,13 @@ which will unsubscribe the component&#39;s outputs</p>
                 <td class="col-md-4">
                     <div class="io-description"><p>Dynamically load a component from its type. The component&#39;s inputs and outputs will be initialized
 by calling <a href="#bindComponent">#bindComponent</a>.</p>
+<p>loaded component is inserted before the application component
+the injector held on the <code>viewContainerRef</code></p>
 </div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -401,16 +403,14 @@ the injector held on the <code>viewContainerRef</code></p>
                 <td class="col-md-4">
                     <a name="unbindComponent"></a>
                     <span class="name">
-                        <b>
-                            unbindComponent
-                        </b>
+                        <span ><b>unbindComponent</b></span>
                         <a href="#unbindComponent"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>unbindComponent(loadedComponent: <a href="../interfaces/LoadedComponent.html">LoadedComponent</a>)</code>
+<code>unbindComponent(loadedComponent: <a href="../interfaces/LoadedComponent.html" target="_self">LoadedComponent</a>)</code>
                 </td>
             </tr>
 
@@ -431,6 +431,7 @@ outputs are unsubscribed</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -453,7 +454,7 @@ outputs are unsubscribed</p>
 
 
                                     <td>
-                                        <p>A component loaded by {</p>
+                                        <p>A component loaded by </p>
 
                                     </td>
                                 </tr>
@@ -479,16 +480,14 @@ outputs are unsubscribed</p>
                 <td class="col-md-4">
                     <a name="unloadComponent"></a>
                     <span class="name">
-                        <b>
-                            unloadComponent
-                        </b>
+                        <span ><b>unloadComponent</b></span>
                         <a href="#unloadComponent"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>unloadComponent(component: <a href="../interfaces/LoadedComponent.html">LoadedComponent</a>)</code>
+<code>unloadComponent(component: <a href="../interfaces/LoadedComponent.html" target="_self">LoadedComponent</a>)</code>
                 </td>
             </tr>
 
@@ -508,6 +507,7 @@ outputs are unsubscribed</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -750,14 +750,14 @@ export class LoadComponentService {
 
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -769,6 +769,15 @@ export class LoadComponentService {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
@@ -778,9 +787,9 @@ export class LoadComponentService {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

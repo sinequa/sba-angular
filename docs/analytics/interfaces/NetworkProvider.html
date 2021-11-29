@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -43,7 +44,9 @@
 
 <ol class="breadcrumb">
   <li>Interfaces</li>
-  <li>NetworkProvider</li>
+  <li
+  >
+  NetworkProvider</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -66,6 +69,7 @@
 
 
 
+
         <section>
             <h3 id="index">Index</h3>
             <table class="table table-sm table-bordered index-table">
@@ -79,16 +83,28 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#active">active</a>
+                                        <a href="#active" 
+>
+                                            active
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#context">context</a>
+                                        <a href="#context" 
+>
+                                            context
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#dataset">dataset</a>
+                                        <a href="#dataset" 
+>
+                                            dataset
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#name">name</a>
+                                        <a href="#name" 
+>
+                                            name
+                                        </a>
                                 </li>
                             </ul>
                         </td>
@@ -102,34 +118,64 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                    <a href="#getData">getData</a>
+                                    <a href="#getData" 
+>
+                                        getData
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="#getEdgeActions">getEdgeActions</a>
+                                    <a href="#getEdgeActions" 
+>
+                                        getEdgeActions
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="#getNodeActions">getNodeActions</a>
+                                    <a href="#getNodeActions" 
+>
+                                        getNodeActions
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="#getProvider">getProvider</a>
+                                    <a href="#getProvider" 
+>
+                                        getProvider
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="#getProviderActions">getProviderActions</a>
+                                    <a href="#getProviderActions" 
+>
+                                        getProviderActions
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="#onDatasetsMerged">onDatasetsMerged</a>
+                                    <a href="#onDatasetsMerged" 
+>
+                                        onDatasetsMerged
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="#onDestroy">onDestroy</a>
+                                    <a href="#onDestroy" 
+>
+                                        onDestroy
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="#onEdgeClicked">onEdgeClicked</a>
+                                    <a href="#onEdgeClicked" 
+>
+                                        onEdgeClicked
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="#onNodeClicked">onNodeClicked</a>
+                                    <a href="#onNodeClicked" 
+>
+                                        onNodeClicked
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="#onNodesInserted">onNodesInserted</a>
+                                    <a href="#onNodesInserted" 
+>
+                                        onNodesInserted
+                                    </a>
                                 </li>
                             </ul>
                         </td>
@@ -149,16 +195,14 @@
                 <td class="col-md-4">
                     <a name="getData"></a>
                     <span class="name">
-                        <b>
-                            getData
-                        </b>
+                        <span ><b>getData</b></span>
                         <a href="#getData"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getData(context: <a href="../interfaces/NetworkContext.html">NetworkContext</a>)</code>
+<code>getData(context: <a href="../interfaces/NetworkContext.html" target="_self">NetworkContext</a>)</code>
                 </td>
             </tr>
 
@@ -173,11 +217,12 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Asynchronously provide data via it&#39;s provider Subject </p>
+                    <div class="io-description"><p>Asynchronously provide data via it&#39;s provider Subject</p>
 </div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -221,16 +266,14 @@
                 <td class="col-md-4">
                     <a name="getEdgeActions"></a>
                     <span class="name">
-                        <b>
-                            getEdgeActions
-                        </b>
+                        <span ><b>getEdgeActions</b></span>
                         <a href="#getEdgeActions"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getEdgeActions(edge: <a href="../interfaces/Edge.html">Edge</a>)</code>
+<code>getEdgeActions(edge: <a href="../interfaces/Edge.html" target="_self">Edge</a>)</code>
                 </td>
             </tr>
 
@@ -245,11 +288,12 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Retrieve the list of action for a given edge, and this provider. </p>
+                    <div class="io-description"><p>Retrieve the list of action for a given edge, and this provider.</p>
 </div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -293,16 +337,14 @@
                 <td class="col-md-4">
                     <a name="getNodeActions"></a>
                     <span class="name">
-                        <b>
-                            getNodeActions
-                        </b>
+                        <span ><b>getNodeActions</b></span>
                         <a href="#getNodeActions"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getNodeActions(node: <a href="../interfaces/Node.html">Node</a>)</code>
+<code>getNodeActions(node: <a href="../interfaces/Node.html" target="_self">Node</a>)</code>
                 </td>
             </tr>
 
@@ -317,11 +359,12 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Retrieve the list of action for a given node, and this provider. </p>
+                    <div class="io-description"><p>Retrieve the list of action for a given node, and this provider.</p>
 </div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -365,9 +408,7 @@
                 <td class="col-md-4">
                     <a name="getProvider"></a>
                     <span class="name">
-                        <b>
-                            getProvider
-                        </b>
+                        <span ><b>getProvider</b></span>
                         <a href="#getProvider"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -389,7 +430,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns the Subject of this provider </p>
+                    <div class="io-description"><p>Returns the Subject of this provider</p>
 </div>
 
                     <div class="io-description">
@@ -406,9 +447,7 @@
                 <td class="col-md-4">
                     <a name="getProviderActions"></a>
                     <span class="name">
-                        <b>
-                            getProviderActions
-                        </b>
+                        <span ><b>getProviderActions</b></span>
                         <a href="#getProviderActions"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -430,7 +469,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Retrieve the list of action for this provider. </p>
+                    <div class="io-description"><p>Retrieve the list of action for this provider.</p>
 </div>
 
                     <div class="io-description">
@@ -447,16 +486,14 @@
                 <td class="col-md-4">
                     <a name="onDatasetsMerged"></a>
                     <span class="name">
-                        <b>
-                            onDatasetsMerged
-                        </b>
+                        <span ><b>onDatasetsMerged</b></span>
                         <a href="#onDatasetsMerged"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onDatasetsMerged(dataset: <a href="../classes/NetworkDataset.html">NetworkDataset</a>)</code>
+<code>onDatasetsMerged(dataset: <a href="../classes/NetworkDataset.html" target="_self">NetworkDataset</a>)</code>
                 </td>
             </tr>
 
@@ -471,11 +508,12 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Called after the datasets provided by all providers have been merged into a single dataset </p>
+                    <div class="io-description"><p>Called after the datasets provided by all providers have been merged into a single dataset</p>
 </div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -519,9 +557,7 @@
                 <td class="col-md-4">
                     <a name="onDestroy"></a>
                     <span class="name">
-                        <b>
-                            onDestroy
-                        </b>
+                        <span ><b>onDestroy</b></span>
                         <a href="#onDestroy"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -543,7 +579,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Called when the providers are discarded. Can be use to cancel subscriptions </p>
+                    <div class="io-description"><p>Called when the providers are discarded. Can be use to cancel subscriptions</p>
 </div>
 
                     <div class="io-description">
@@ -560,16 +596,14 @@
                 <td class="col-md-4">
                     <a name="onEdgeClicked"></a>
                     <span class="name">
-                        <b>
-                            onEdgeClicked
-                        </b>
+                        <span ><b>onEdgeClicked</b></span>
                         <a href="#onEdgeClicked"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onEdgeClicked(edge: <a href="../interfaces/Edge.html">Edge | undefined</a>)</code>
+<code>onEdgeClicked(edge: <a href="../interfaces/Edge.html" target="_self">Edge | undefined</a>)</code>
                 </td>
             </tr>
 
@@ -584,11 +618,12 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Called when ANY edge is clicked in the rendered view of the network </p>
+                    <div class="io-description"><p>Called when ANY edge is clicked in the rendered view of the network</p>
 </div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -632,16 +667,14 @@
                 <td class="col-md-4">
                     <a name="onNodeClicked"></a>
                     <span class="name">
-                        <b>
-                            onNodeClicked
-                        </b>
+                        <span ><b>onNodeClicked</b></span>
                         <a href="#onNodeClicked"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onNodeClicked(node: <a href="../interfaces/Node.html">Node | undefined</a>)</code>
+<code>onNodeClicked(node: <a href="../interfaces/Node.html" target="_self">Node | undefined</a>)</code>
                 </td>
             </tr>
 
@@ -656,11 +689,12 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Called when ANY node is clicked in the rendered view of the network </p>
+                    <div class="io-description"><p>Called when ANY node is clicked in the rendered view of the network</p>
 </div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -704,16 +738,14 @@
                 <td class="col-md-4">
                     <a name="onNodesInserted"></a>
                     <span class="name">
-                        <b>
-                            onNodesInserted
-                        </b>
+                        <span ><b>onNodesInserted</b></span>
                         <a href="#onNodesInserted"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onNodesInserted(nodes: <a href="../interfaces/Node.html">Node[]</a>)</code>
+<code>onNodesInserted(nodes: <a href="../interfaces/Node.html" target="_self">Node[]</a>)</code>
                 </td>
             </tr>
 
@@ -728,11 +760,12 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Called after the dataset is filtered and passed to Vis for rendering </p>
+                    <div class="io-description"><p>Called after the dataset is filtered and passed to Vis for rendering</p>
 </div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -779,7 +812,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="active"></a>
-                                        <span class="name"><b>active</b><a href="#active"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>active</b>
+                                            <a href="#active">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -803,7 +840,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Whether or not the provider is active (if inactive, it will not provide empty datasets of nodes and edges) </p>
+                                    <div class="io-description"><p>Whether or not the provider is active (if inactive, it will not provide empty datasets of nodes and edges)</p>
 </div>
                                 </td>
                             </tr>
@@ -814,7 +851,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="context"></a>
-                                        <span class="name"><b>context</b><a href="#context"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>context</b>
+                                            <a href="#context">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -838,7 +879,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Context (wrapper for general data about the network and services) </p>
+                                    <div class="io-description"><p>Context (wrapper for general data about the network and services)</p>
 </div>
                                 </td>
                             </tr>
@@ -849,7 +890,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="dataset"></a>
-                                        <span class="name"><b>dataset</b><a href="#dataset"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>dataset</b>
+                                            <a href="#dataset">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -873,7 +918,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Dataset of this provider </p>
+                                    <div class="io-description"><p>Dataset of this provider</p>
 </div>
                                 </td>
                             </tr>
@@ -884,7 +929,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="name"></a>
-                                        <span class="name"><b>name</b><a href="#name"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>name</b>
+                                            <a href="#name">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -908,7 +957,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Readable name of this provider </p>
+                                    <div class="io-description"><p>Readable name of this provider</p>
 </div>
                                 </td>
                             </tr>
@@ -1273,14 +1322,14 @@ export class NetworkDataset {
 </div>
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -1292,6 +1341,15 @@ export class NetworkDataset {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
@@ -1301,9 +1359,9 @@ export class NetworkDataset {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

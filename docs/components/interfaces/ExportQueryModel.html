@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -43,7 +44,9 @@
 
 <ol class="breadcrumb">
   <li>Interfaces</li>
-  <li>ExportQueryModel</li>
+  <li
+  >
+  ExportQueryModel</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -66,6 +69,7 @@
 
 
 
+
         <section>
             <h3 id="index">Index</h3>
             <table class="table table-sm table-bordered index-table">
@@ -79,25 +83,43 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#export">export</a>
+                                        <a href="#export" 
+>
+                                            export
+                                        </a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#exportedColumns">exportedColumns</a>
+                                        <a href="#exportedColumns" 
+>
+                                            exportedColumns
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#format">format</a>
+                                        <a href="#format" 
+>
+                                            format
+                                        </a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#maxCount">maxCount</a>
+                                        <a href="#maxCount" 
+>
+                                            maxCount
+                                        </a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#queryName">queryName</a>
+                                        <a href="#queryName" 
+>
+                                            queryName
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#webService">webService</a>
+                                        <a href="#webService" 
+>
+                                            webService
+                                        </a>
                                 </li>
                             </ul>
                         </td>
@@ -115,7 +137,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="export"></a>
-                                        <span class="name"><b>export</b><a href="#export"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>export</b>
+                                            <a href="#export">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -144,7 +170,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="exportedColumns"></a>
-                                        <span class="name"><b>exportedColumns</b><a href="#exportedColumns"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>exportedColumns</b>
+                                            <a href="#exportedColumns">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -178,7 +208,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="format"></a>
-                                        <span class="name"><b>format</b><a href="#format"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>format</b>
+                                            <a href="#format">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -207,7 +241,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="maxCount"></a>
-                                        <span class="name"><b>maxCount</b><a href="#maxCount"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>maxCount</b>
+                                            <a href="#maxCount">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -241,7 +279,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="queryName"></a>
-                                        <span class="name"><b>queryName</b><a href="#queryName"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>queryName</b>
+                                            <a href="#queryName">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -275,7 +317,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="webService"></a>
-                                        <span class="name"><b>webService</b><a href="#webService"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>webService</b>
+                                            <a href="#webService">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -441,6 +487,7 @@ export class SavedQueriesService implements OnDestroy {
         this.selectedRecordsAction &#x3D; new Action({
             icon: &#x27;fas fa-download&#x27;,
             title: &#x27;msg#exportQuery.btnTitle&#x27;,
+            name: &quot;exportQuery&quot;,
             action: (_item: Action, _event: Event) &#x3D;&gt; {
                 this.exportModal(this.selectionService.haveSelectedRecords
                     ? ExportSourceType.Selection
@@ -814,14 +861,14 @@ export class SavedQueriesService implements OnDestroy {
 </div>
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -833,6 +880,15 @@ export class SavedQueriesService implements OnDestroy {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
@@ -842,9 +898,9 @@ export class SavedQueriesService implements OnDestroy {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

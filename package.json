@@ -91,7 +91,7 @@
     "@angular/cli": "12.2.2",
     "@angular/compiler-cli": "12.2.2",
     "@angular/language-service": "12.2.2",
-    "@compodoc/compodoc": "^1.1.11",
+    "@compodoc/compodoc": "^1.1.16",
     "@types/d3": "^5.7.2",
     "@types/googlemaps": "3.39.8",
     "@types/jasmine": "~3.6.0",

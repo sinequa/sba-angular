@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -37,7 +38,7 @@
 
 <ol class="breadcrumb">
   <li>Directives</li>
-  <li>TooltipDirective</li>
+  <li >TooltipDirective</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -59,6 +60,7 @@
         </p>
 
 
+
             <p class="comment">
                 <h3>Implements</h3>
             </p>
@@ -69,7 +71,7 @@
 
         <section>
             <h3>Metadata</h3>
-            <table class="table table-sm table-hover">
+            <table class="table table-sm table-hover metadata">
                 <tbody>
 
                     <tr>
@@ -95,10 +97,19 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                                <a href="#hide" >hide</a>
                             </li>
                             <li>
-                                <a href="#position">position</a>
+                                <a href="#mouseClick" >mouseClick</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#position" >position</a>
+                            </li>
+                            <li>
+                                <a href="#show" >show</a>
                             </li>
                         </ul>
                     </td>
@@ -113,13 +124,16 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#delay">delay</a>
+                                <a href="#delay" >delay</a>
                             </li>
                             <li>
-                                <a href="#placement">placement</a>
+                                <a href="#placement" >placement</a>
                             </li>
                             <li>
-                                <a href="#sqTooltip">sqTooltip</a>
+                                <a href="#sqTooltip" >sqTooltip</a>
+                            </li>
+                            <li>
+                                <a href="#sqTooltipData" >sqTooltipData</a>
                             </li>
                         </ul>
                     </td>
@@ -136,13 +150,13 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#mousedown">mousedown</a>
+                                <a href="#mousedown" >mousedown</a>
                             </li>
                             <li>
-                                <a href="#mouseenter">mouseenter</a>
+                                <a href="#mouseenter" >mouseenter</a>
                             </li>
                             <li>
-                                <a href="#mouseleave">mouseleave</a>
+                                <a href="#mouseleave" >mouseleave</a>
                             </li>
                         </ul>
                     </td>
@@ -163,7 +177,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -237,12 +251,18 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
                         <i>Default value : </i><code>300</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:23</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:25</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -268,7 +288,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:22</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:24</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -283,12 +303,39 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
+                        <i>Type : </i>    <code>string | </code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
                         <i>Default value : </i><code>&quot;&quot;</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:21</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:22</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sqTooltipData"></a>
+                        <b>sqTooltipData</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>T</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:23</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -315,17 +362,12 @@
                     <i>Arguments : </i><code>'$event' </code>
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-4">
-<code>mousedown(event: MouseEvent)</code>
-                </td>
-            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:78</a></div>
                 </td>
             </tr>
 
@@ -350,17 +392,12 @@
                     <i>Arguments : </i><code>'$event' </code>
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-4">
-<code>mouseenter(event: MouseEvent)</code>
-                </td>
-            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:42</a></div>
                 </td>
             </tr>
 
@@ -380,17 +417,12 @@
                     </span>
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-4">
-<code>mouseleave()</code>
-                </td>
-            </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:76</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:85</a></div>
                 </td>
             </tr>
 
@@ -407,11 +439,129 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="hide"></a>
+                    <span class="name">
+                        <span ><b>hide</b></span>
+                        <a href="#hide"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>hide()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;mouseleave&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:85</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mouseClick"></a>
+                    <span class="name">
+                        <span ><b>mouseClick</b></span>
+                        <a href="#mouseClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>mouseClick(event: MouseEvent)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;mousedown&#x27;, [&#x27;$event&#x27;])<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:78</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>MouseEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="ngOnDestroy"></a>
                     <span class="name">
-                        <b>
-                            ngOnDestroy
-                        </b>
+                        <span ><b>ngOnDestroy</b></span>
                         <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -425,8 +575,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:36</a></div>
                 </td>
             </tr>
 
@@ -448,9 +598,7 @@
                 <td class="col-md-4">
                     <a name="position"></a>
                     <span class="name">
-                        <b>
-                            position
-                        </b>
+                        <span ><b>position</b></span>
                         <a href="#position"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -464,8 +612,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="80"
-                            class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:80</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:89</a></div>
                 </td>
             </tr>
 
@@ -481,6 +629,82 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="show"></a>
+                    <span class="name">
+                        <span ><b>show</b></span>
+                        <a href="#show"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>show(event: MouseEvent)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;mouseenter&#x27;, [&#x27;$event&#x27;])<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">utils/directives/tooltip/tooltip.directive.ts:42</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>MouseEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
 
@@ -489,7 +713,6 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  ComponentRef,
   Directive,
   ElementRef,
   HostListener,
@@ -502,18 +725,21 @@ import {
   OverlayPositionBuilder,
   OverlayRef
 } from &quot;@angular/cdk/overlay&quot;;
-import {ComponentPortal} from &quot;@angular/cdk/portal&quot;;
-
-import {TooltipComponent} from &quot;./tooltip.component&quot;;
+import { ComponentPortal } from &quot;@angular/cdk/portal&quot;;
+import { TooltipComponent } from &quot;./tooltip.component&quot;;
+import { Utils } from &quot;@sinequa/core/base&quot;;
+import { Observable, of, Subscription } from &quot;rxjs&quot;;
+import { delay } from &quot;rxjs/operators&quot;;
 
 @Directive({selector: &quot;[sqTooltip]&quot;})
-export class TooltipDirective implements OnDestroy {
-  @Input(&quot;sqTooltip&quot;) text &#x3D; &quot;&quot;;
+export class TooltipDirective&lt;T&gt; implements OnDestroy {
+  @Input(&quot;sqTooltip&quot;) text?: string | ((data?: T) &#x3D;&gt; Observable&lt;string|undefined&gt;) &#x3D; &quot;&quot;;
+  @Input(&quot;sqTooltipData&quot;) data?: T;
   @Input() placement: &quot;top&quot; | &quot;bottom&quot; | &quot;right&quot; | &quot;left&quot; &#x3D; &quot;bottom&quot;;
   @Input() delay &#x3D; 300;
 
   private overlayRef: OverlayRef;
-  private timeoutId;
+  private subscription?: Subscription;
 
   constructor(
     private overlay: Overlay,
@@ -522,9 +748,8 @@ export class TooltipDirective implements OnDestroy {
   ) {}
 
   ngOnDestroy() {
-    if(this.overlayRef){
-      this.overlayRef.detach();
-    }
+    // do not forget to clear timeout function
+    this.clearSubscription();
   }
 
   @HostListener(&quot;mouseenter&quot;, [&#x27;$event&#x27;])
@@ -532,17 +757,25 @@ export class TooltipDirective implements OnDestroy {
     event.preventDefault();
     event.stopPropagation();
 
-    this.clearTimer();
+    this.clearSubscription();
 
-    this.timeoutId &#x3D; setTimeout(() &#x3D;&gt; {          
-      if(this.overlayRef) {
-          this.overlayRef.detach();
-      }
+    if(!this.text) return;
 
-      if (this.text.trim().length &#x3D;&#x3D;&#x3D; 0) {
-        return;
-      }
+    let obs: Observable&lt;string|undefined&gt;;
 
+    if(Utils.isFunction(this.text)) {
+      obs &#x3D; this.text(this.data);
+    }
+    else {
+      obs &#x3D; of(this.text)
+        .pipe(delay(this.delay))
+    }
+
+    this.subscription &#x3D; obs.subscribe(text &#x3D;&gt; {
+      this.overlayRef?.detach();
+
+      if(!text?.trim().length) return;
+  
       const positionStrategy &#x3D; this.overlayPositionBuilder
       .flexibleConnectedTo(this.elementRef)
       .withPositions([this.position()]);
@@ -550,21 +783,21 @@ export class TooltipDirective implements OnDestroy {
       const scrollStrategy &#x3D; this.overlay.scrollStrategies.close();
       this.overlayRef &#x3D; this.overlay.create({positionStrategy, scrollStrategy});
       
-      const tooltipRef: ComponentRef&lt;TooltipComponent&gt; &#x3D; this.overlayRef.attach(new ComponentPortal(TooltipComponent));
-      tooltipRef.instance.text &#x3D; this.text;
-    }, this.delay);
+      const tooltipRef &#x3D; this.overlayRef.attach(new ComponentPortal(TooltipComponent));
+      tooltipRef.instance.text &#x3D; text;
+    });
   }
 
   @HostListener(&quot;mousedown&quot;, [&#x27;$event&#x27;])
   mouseClick(event: MouseEvent) {
     event.preventDefault()
     event.stopPropagation();
-    this.clearTimer();
+    this.clearSubscription();
   }
 
   @HostListener(&quot;mouseleave&quot;)
   hide() {
-    this.clearTimer();
+    this.clearSubscription();
   }
 
   position(): ConnectedPosition {
@@ -604,14 +837,12 @@ export class TooltipDirective implements OnDestroy {
     }
   }
 
-  private clearTimer() {
-    if(this.timeoutId) {
-      clearTimeout(this.timeoutId);
-    }
-
-    if (this.overlayRef) {
-      this.overlayRef.detach();
-    }
+  /**
+   * Clear timeout function and detach overlayRef
+   */
+  private clearSubscription() {
+    this.subscription?.unsubscribe();
+    this.overlayRef?.detach();
   }
 }</code></pre>
     </div>
@@ -625,14 +856,14 @@ export class TooltipDirective implements OnDestroy {
 
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -644,6 +875,15 @@ export class TooltipDirective implements OnDestroy {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'directive';
@@ -653,9 +893,9 @@ export class TooltipDirective implements OnDestroy {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

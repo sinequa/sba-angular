@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -39,7 +40,7 @@
 
 <ol class="breadcrumb">
   <li>Interceptors</li>
-  <li>LoginInterceptor</li>
+  <li >LoginInterceptor</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -59,6 +60,7 @@
         <p class="comment">
             <code>login/login.interceptor.ts</code>
         </p>
+
 
             <p class="comment">
                 <h3>Description</h3>
@@ -86,7 +88,7 @@ the Sinequa administration console.</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#intercept">intercept</a>
+                                <a href="#intercept" >intercept</a>
                             </li>
                         </ul>
                     </td>
@@ -106,7 +108,7 @@ the Sinequa administration console.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(startConfig: <a href="../interfaces/StartConfig.html">StartConfig</a>, requestInitializers: <a href="../undefineds/HttpRequestInitializer.html">HttpRequestInitializer[]</a>, notificationsService: <a href="../injectables/NotificationsService.html">NotificationsService</a>, loginService: <a href="../injectables/LoginService.html">LoginService</a>, authService: <a href="../injectables/AuthenticationService.html">AuthenticationService</a>)</code>
+<code>constructor(startConfig: <a href="../interfaces/StartConfig.html" target="_self">StartConfig</a>, requestInitializers: <a href="../undefineds/HttpRequestInitializer.html" target="_self">HttpRequestInitializer[]</a>, notificationsService: <a href="../injectables/NotificationsService.html" target="_self">NotificationsService</a>, loginService: <a href="../injectables/LoginService.html" target="_self">LoginService</a>, authService: <a href="../injectables/AuthenticationService.html" target="_self">AuthenticationService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -208,9 +210,7 @@ the Sinequa administration console.</p>
                 <td class="col-md-4">
                     <a name="intercept"></a>
                     <span class="name">
-                        <b>
-                            intercept
-                        </b>
+                        <span ><b>intercept</b></span>
                         <a href="#intercept"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -232,29 +232,26 @@ the Sinequa administration console.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Handles <code>HTTP 401 unauthorized errors responses by calling
-     * <a href="../injectables/LoginService.html#getCredentials">LoginService.getCredentials</a>. It also handles auto
-     * refreshing of JWT by processing the</code>sinequa-jwt-refresh<code>header. The JWT cookie itself
-     * is updated by a</code>Set-Cookie<code>header in the response. There are a number of flags that
-     * can be set in the request parameters which will be removed before the request is actually
-     * sent:
-     * *</code>noAutoAuthentication<code>- set to bypass the</code>HTTP 401<code>handling
-     * *</code>noUserOverride<code>- set to not add the current user override to the request
-     * *</code>noNotify` - set to not notify errors using the <a href="NotificationService">NotificationService</a>
-     *
-     * @param request The intercepted request
-     * @param next The next interceptor in the chain
-     *</p>
+                    <div class="io-description"><p>Handles <code>HTTP 401 unauthorized errors responses by calling <a href="../injectables/LoginService.html#getCredentials">LoginService.getCredentials</a>. It also handles auto refreshing of JWT by processing the </code>sinequa-jwt-refresh<code>header. The JWT cookie itself is updated by a</code>Set-Cookie` header in the response. There are a number of flags that
+can be set in the request parameters which will be removed before the request is actually
+sent:</p>
+<ul>
+<li><code>noAutoAuthentication</code> - set to bypass the <code>HTTP 401</code> handling</li>
+<li><code>noUserOverride</code> - set to not add the current user override to the request</li>
+<li><code>noNotify</code> - set to not notify errors using the <a href="NotificationService">NotificationService</a></li>
+</ul>
 </div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -269,6 +266,10 @@ the Sinequa administration console.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>The intercepted request</p>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>next</td>
@@ -281,6 +282,10 @@ the Sinequa administration console.</p>
                                     </td>
 
 
+                                    <td>
+                                        <p>The next interceptor in the chain</p>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -532,14 +537,14 @@ export class LoginInterceptor implements HttpInterceptor {
 
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -551,6 +556,15 @@ export class LoginInterceptor implements HttpInterceptor {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interceptor';
@@ -560,9 +574,9 @@ export class LoginInterceptor implements HttpInterceptor {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

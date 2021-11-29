@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -43,7 +44,9 @@
 
 <ol class="breadcrumb">
   <li>Interfaces</li>
-  <li>LabelsComponents</li>
+  <li
+  >
+  LabelsComponents</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -66,6 +69,7 @@
 
 
 
+
         <section>
             <h3 id="index">Index</h3>
             <table class="table table-sm table-bordered index-table">
@@ -79,19 +83,34 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#addModal">addModal</a>
+                                        <a href="#addModal" 
+>
+                                            addModal
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#deleteModal">deleteModal</a>
+                                        <a href="#deleteModal" 
+>
+                                            deleteModal
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#editModal">editModal</a>
+                                        <a href="#editModal" 
+>
+                                            editModal
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#labelsAutocompleteComponent">labelsAutocompleteComponent</a>
+                                        <a href="#labelsAutocompleteComponent" 
+>
+                                            labelsAutocompleteComponent
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#renameModal">renameModal</a>
+                                        <a href="#renameModal" 
+>
+                                            renameModal
+                                        </a>
                                 </li>
                             </ul>
                         </td>
@@ -109,7 +128,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="addModal"></a>
-                                        <span class="name"><b>addModal</b><a href="#addModal"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>addModal</b>
+                                            <a href="#addModal">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -138,7 +161,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="deleteModal"></a>
-                                        <span class="name"><b>deleteModal</b><a href="#deleteModal"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>deleteModal</b>
+                                            <a href="#deleteModal">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -167,7 +194,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="editModal"></a>
-                                        <span class="name"><b>editModal</b><a href="#editModal"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>editModal</b>
+                                            <a href="#editModal">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -196,7 +227,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="labelsAutocompleteComponent"></a>
-                                        <span class="name"><b>labelsAutocompleteComponent</b><a href="#labelsAutocompleteComponent"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>labelsAutocompleteComponent</b>
+                                            <a href="#labelsAutocompleteComponent">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -225,7 +260,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="renameModal"></a>
-                                        <span class="name"><b>renameModal</b><a href="#renameModal"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>renameModal</b>
+                                            <a href="#renameModal">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -313,7 +352,6 @@ export const LABELS_COMPONENTS &#x3D; new InjectionToken&lt;LabelsComponents&gt;
     providedIn: &quot;root&quot;,
 })
 export class LabelsService implements OnDestroy {
-    private _privateLabelsPrefix: string | undefined;
     private static readonly defaultLabelsRights: LabelsRights &#x3D; {
         canManagePublicLabels: true,
         canEditPublicLabels: true,
@@ -335,7 +373,6 @@ export class LabelsService implements OnDestroy {
         this.principalWebService.events.subscribe((event) &#x3D;&gt; {
             switch (event.type) {
                 case &quot;changed&quot;:
-                    this._privateLabelsPrefix &#x3D; undefined;
                     this.labelsRights &#x3D; undefined;
                     this.labelsRightsSubscription &#x3D; undefined;
                     break;
@@ -578,6 +615,7 @@ export class LabelsService implements OnDestroy {
         const action &#x3D; new Action({
             icon: &quot;fas fa-tags&quot;,
             title: &quot;msg#labels.labels&quot;,
+            name: &quot;labels&quot;,
             action: () &#x3D;&gt; {
                 this.editLabelModal();
             },
@@ -639,11 +677,8 @@ export class LabelsService implements OnDestroy {
         }
         const items: ValueItem[] &#x3D; [];
         const selectedLabels: string[] &#x3D; this.getSelectedLabels(field);
-        for (let label of labels) {
+        for (const label of labels) {
             const display &#x3D; label;
-            if (!_public) {
-                label &#x3D; &lt;string&gt;this.addPrivatePrefix(label);
-            }
             if (selectedLabels.indexOf(label) &#x3D;&#x3D;&#x3D; -1) {
                 items.push({
                     value: label,
@@ -789,42 +824,11 @@ export class LabelsService implements OnDestroy {
         return observable;
     }
 
-    get privateLabelsPrefix(): string {
-        if (!this.principalWebService.principal) {
-            return &quot;&quot;;
-        }
-        if (!this._privateLabelsPrefix &amp;&amp; this.appService.cclabels) {
-            if (
-                this.appService.isTree(
-                    this.appService.cclabels.privateLabelsField
-                )
-            ) {
-                this._privateLabelsPrefix &#x3D; Utils.addUrl(
-                    &quot;/&quot;,
-                    Utils.replace(
-                        this.principalWebService.principal.userId,
-                        &quot;|&quot;,
-                        &quot;/&quot;
-                    ),
-                    &quot;/&quot;
-                );
-            } else {
-                this._privateLabelsPrefix &#x3D;
-                    this.principalWebService.principal.userId + &quot;|&quot;;
-            }
-        }
-        return this._privateLabelsPrefix || &quot;&quot;;
-    }
-
     sort(labels: string[], _public: boolean): string[] {
         if (!labels) return labels;
         return labels.sort((a, b) &#x3D;&gt; {
             if (!a) return -1;
             if (!b) return 1;
-            if (!_public) {
-                a &#x3D; &lt;string&gt;this.removePrivatePrefix(a);
-                b &#x3D; &lt;string&gt;this.removePrivatePrefix(b);
-            }
             a &#x3D; this.intlService.formatMessage(a);
             b &#x3D; this.intlService.formatMessage(b);
             return a.localeCompare(b);
@@ -842,69 +846,20 @@ export class LabelsService implements OnDestroy {
                 return value !&#x3D;&#x3D; &quot;&quot;;
             });
     }
-
-    private _addPrivatePrefix(label: string): string {
-        if (
-            this.appService.cclabels &amp;&amp;
-            this.appService.isTree(this.appService.cclabels.privateLabelsField)
-        ) {
-            return Utils.addUrl(this.privateLabelsPrefix, label);
-        } else {
-            return this.privateLabelsPrefix + label;
-        }
-    }
-
-    addPrivatePrefix(labels: string | string[]): string | string[] {
-        if (typeof labels &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
-            return this._addPrivatePrefix(labels);
-        } else {
-            for (let i &#x3D; 0, ic &#x3D; labels.length; i &lt; ic; i++) {
-                labels[i] &#x3D; this._addPrivatePrefix(labels[i]);
-            }
-            return labels;
-        }
-    }
-
-    private _removePrivatePrefix(label: string): string {
-        if (label.indexOf(this.privateLabelsPrefix) &#x3D;&#x3D;&#x3D; 0) {
-            if (
-                this.appService.cclabels &amp;&amp;
-                this.appService.isTree(
-                    this.appService.cclabels.privateLabelsField
-                )
-            ) {
-                return label.slice(this.privateLabelsPrefix.length - 1);
-            } else {
-                return label.slice(this.privateLabelsPrefix.length);
-            }
-        }
-        return label;
-    }
-
-    removePrivatePrefix(labels: string | string[]): string | string[] {
-        if (typeof labels &#x3D;&#x3D;&#x3D; &quot;string&quot;) {
-            return this._removePrivatePrefix(labels);
-        } else {
-            for (let i &#x3D; 0, ic &#x3D; labels.length; i &lt; ic; i++) {
-                labels[i] &#x3D; this._removePrivatePrefix(labels[i]);
-            }
-            return labels;
-        }
-    }
 }
 </code></pre>
     </div>
 </div>
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -916,6 +871,15 @@ export class LabelsService implements OnDestroy {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
@@ -925,9 +889,9 @@ export class LabelsService implements OnDestroy {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

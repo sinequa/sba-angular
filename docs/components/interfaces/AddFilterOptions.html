@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -43,7 +44,9 @@
 
 <ol class="breadcrumb">
   <li>Interfaces</li>
-  <li>AddFilterOptions</li>
+  <li
+  >
+  AddFilterOptions</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -63,6 +66,7 @@
         <p class="comment">
             <code>facet/facet.service.ts</code>
         </p>
+
 
             <p class="comment">
                 <h3>Description</h3>
@@ -90,15 +94,24 @@ replaceCurrent: if true, the current filter is replaced</p>
                             <ul class="index-list">
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#and">and</a>
+                                        <a href="#and" 
+>
+                                            and
+                                        </a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#not">not</a>
+                                        <a href="#not" 
+>
+                                            not
+                                        </a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#replaceCurrent">replaceCurrent</a>
+                                        <a href="#replaceCurrent" 
+>
+                                            replaceCurrent
+                                        </a>
                                 </li>
                             </ul>
                         </td>
@@ -116,7 +129,11 @@ replaceCurrent: if true, the current filter is replaced</p>
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="and"></a>
-                                        <span class="name"><b>and</b><a href="#and"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>and</b>
+                                            <a href="#and">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -150,7 +167,11 @@ replaceCurrent: if true, the current filter is replaced</p>
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="not"></a>
-                                        <span class="name"><b>not</b><a href="#not"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>not</b>
+                                            <a href="#not">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -184,7 +205,11 @@ replaceCurrent: if true, the current filter is replaced</p>
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="replaceCurrent"></a>
-                                        <span class="name"><b>replaceCurrent</b><a href="#replaceCurrent"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>replaceCurrent</b>
+                                            <a href="#replaceCurrent">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -507,7 +532,7 @@ export class FacetService {
             query.removeSelect(facetName);
         }
 
-        if (!aggregation.isTree &amp;&amp; breadcrumbs?.activeSelects.length &amp;&amp; !options.replaceCurrent) {
+        if (breadcrumbs?.activeSelects.length &amp;&amp; !options.replaceCurrent) {
             const expr &#x3D; breadcrumbs.findSelect(facetName);
             const index &#x3D; breadcrumbs.activeSelects.findIndex(select &#x3D;&gt; select.facet &#x3D;&#x3D;&#x3D; facetName &amp;&amp; (select.expr &#x3D;&#x3D;&#x3D; expr || select.expr &#x3D;&#x3D;&#x3D; expr?.parent));
             const same &#x3D; (!Array.isArray(items)) ? true : (options.and ? &quot;AND&quot; : &quot;OR&quot;) &#x3D;&#x3D;&#x3D; (expr?.and ? &quot;AND&quot; : &quot;OR&quot;) &amp;&amp; (options.not ? &quot;YES&quot; : &quot;NO&quot;) &#x3D;&#x3D;&#x3D; (expr?.not ? &quot;YES&quot; : &quot;NO&quot;);
@@ -591,21 +616,32 @@ export class FacetService {
 
         if (breadcrumbs) {
             // if item is excluded, makeAggregation() should returns a NOT expression
+            
+            // the expr to remove
+            // from aggregation and item, create a expression string
             const stringExpr &#x3D; item.$excluded ? this.exprBuilder.makeNotExpr(this.exprBuilder.makeAggregationExpr(aggregation, item)) : this.exprBuilder.makeAggregationExpr(aggregation, item);
+
+            // find filter expression or just parse the string expression
             const filterExpr &#x3D; this.findItemFilter(facetName, aggregation, item, breadcrumbs) || this.appService.parseExpr(stringExpr);
+
+            // find expression from breadcrumbs selects
             const expr &#x3D; breadcrumbs.findSelect(facetName, filterExpr);
+            // once found, retrieve it&#x27;s index
             const i &#x3D; breadcrumbs.activeSelects.findIndex(select &#x3D;&gt; select.facet &#x3D;&#x3D;&#x3D; facetName &amp;&amp; (select.expr &#x3D;&#x3D;&#x3D; expr || select.expr &#x3D;&#x3D;&#x3D; expr?.parent));
 
-            // &#x27;Select&#x27; can&#x27;t be created when aggregation is a tree map, so, avoid aggregation tree
-            // and remove whole breadcrumbs
-            if (!aggregation.isTree &amp;&amp; expr &amp;&amp; expr.parent &amp;&amp; expr.parent.operands.length &gt; 1) {
+            if (expr &amp;&amp; expr.parent &amp;&amp; expr.parent.operands.length &gt; 1) {
                 // create a new Expr from parent and replaces Select by this new one
                 // so, breadcrumbs stay ordered
                 const filterByValuesAreExpression &#x3D; (it: AggregationItem) &#x3D;&gt; it.value.toString().replace(/ /g, &quot;&quot;) !&#x3D;&#x3D; item.value.toString().replace(/ /g, &quot;&quot;);
                 const filterByValue &#x3D; (it: AggregationItem) &#x3D;&gt; it.value !&#x3D;&#x3D; item.value
                 const filter &#x3D; (aggregation.valuesAreExpressions) ? filterByValuesAreExpression : filterByValue;
 
-                const items: AggregationItem[] &#x3D; this.exprToAggregationItem(expr.parent.operands, aggregation.valuesAreExpressions).filter(filter);
+                // transform expression to aggregation items
+                let items: AggregationItem[] &#x3D; this.exprToAggregationItem(expr.parent.operands, aggregation.valuesAreExpressions);
+                // excludes &#x27;item&#x27; object (from parameters) from aggregation items previously created
+                // only not removed filters stay on the array
+                items &#x3D; items.filter(filter);
+                
                 // MUST reset $excluded property otherwise expression is misunderstood (mainly NOT expressions)
                 items.forEach(item &#x3D;&gt; item.$excluded &#x3D; undefined);
                 const {not, and} &#x3D; breadcrumbs.selects[i].expr || {};
@@ -785,6 +821,18 @@ export class FacetService {
      */
     getAggregationCount(aggregationName: string) : number {
         return this.appService.getCCAggregation(aggregationName)?.count || 10;
+    }
+
+    /**
+     * Returns the label associated to an aggregation, if any
+     * @param aggregationName 
+     */
+    getAggregationLabel(aggregationName: string) : string {
+        const ccagg &#x3D; this.appService.getCCAggregation(aggregationName);
+        if(ccagg) {
+            return this.appService.getPluralLabel(ccagg.column, aggregationName);
+        }
+        return aggregationName;
     }
 
     /**
@@ -1008,6 +1056,14 @@ export class FacetService {
                 if (item.column?.eType &#x3D;&#x3D;&#x3D; EngineType.bool) {
                     value &#x3D; Utils.isTrue(item.value);
                 }
+                if (item.column?.eType &#x3D;&#x3D;&#x3D; EngineType.csv) {
+                    value &#x3D; item.display || item.value || &quot;&quot;;
+                    const path &#x3D; item.value?.slice(0, -1);
+                    return ({count: 0, value, display: item.display, $column: item.column, $path: path, $excluded: (item?.not || item?.parent?.not)} as TreeAggregationNode);
+                }
+                if (item.column?.eType &#x3D;&#x3D;&#x3D; EngineType.integer) {
+                    value &#x3D; parseInt(item.value as string, 10);
+                }
                 return ({count: 0, value, display: item.display, $column: item.column, $excluded: (item?.not || item?.parent?.not)} as AggregationItem);
             },
             (item: Expr) &#x3D;&gt; ({count: 0, value: item.toString((item.value) ? true : false), display: item.display, $column: item.column, $excluded: (item?.not || item?.parent?.not)} as AggregationItem)
@@ -1159,6 +1215,11 @@ export class FacetService {
             const value &#x3D; this.trimAllWhitespace(item.value);
             const normalizedArr &#x3D; arr.map(item &#x3D;&gt; ({...item, value: this.trimAllWhitespace(item.value)})) || [];
             indx &#x3D; normalizedArr.findIndex(it &#x3D;&gt; it.value &#x3D;&#x3D;&#x3D; value);
+            
+            // fallback to display
+            if (indx &#x3D;&#x3D;&#x3D; -1 &amp;&amp; item.display) {
+                indx&#x3D; normalizedArr.findIndex(it &#x3D;&gt; it.display &#x3D;&#x3D;&#x3D; item.display);
+            }
         } else {
             indx &#x3D; this.findAggregationItemIndex(arr, item);
         }
@@ -1172,9 +1233,11 @@ export class FacetService {
      * @param value The value to be test
      */
     public findAggregationItemIndex &#x3D; (arr: Array&lt;AggregationItem&gt;, item: AggregationItem) &#x3D;&gt; {
+        // first check value as is
         let index &#x3D; arr.findIndex(it &#x3D;&gt; it.value &#x3D;&#x3D;&#x3D; item.value);
+
+        // fallback to display comparison
         if (index &#x3D;&#x3D;&#x3D; -1 &amp;&amp; item.display) {
-            // fallback to display comparison
             index &#x3D; arr.findIndex(it &#x3D;&gt; it.display &#x3D;&#x3D;&#x3D; item.display);
         }
         return index;
@@ -1194,14 +1257,14 @@ export class FacetService {
 </div>
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -1213,6 +1276,15 @@ export class FacetService {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
@@ -1222,9 +1294,9 @@ export class FacetService {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

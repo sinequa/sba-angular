@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -38,7 +39,7 @@
 
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li>IntlService</li>
+  <li >IntlService</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -59,6 +60,7 @@
             <code>intl/intl.service.ts</code>
         </p>
 
+
             <p class="comment">
                 <h3>Description</h3>
             </p>
@@ -67,10 +69,10 @@
 <a href="https://formatjs.io/guides/message-syntax/">ICU Message syntax</a>. <a href="../interfaces/LocaleData.html#messages">Messages</a> stored
 in a locale&#39;s data are referenced using a key in the following form: <code>msg#&lt;JSONPath&gt;</code>. Given the following messages:</p>
 <div><pre class="line-numbers"><code class="language-json">{
-    &quot;myComponent&quot;: {
-        &quot;title&quot;: &quot;Component: {name}&quot;,
-        &quot;footer&quot;: &quot;Created on {created, date, medium} by {author}&quot;
-    }
+&quot;myComponent&quot;: {
+&quot;title&quot;: &quot;Component: {name}&quot;,
+&quot;footer&quot;: &quot;Created on {created, date, medium} by {author}&quot;
+}
 }</code></pre></div><p>this key: <code>msg#myComponent.footer</code> references myComponent&#39;s footer message. The message itself uses
 ICU Message syntax.</p>
 <p>This service registers a number of <a href="../miscellaneous/variables.html#DEFAULT_FORMATS">default custom ICU formats</a>. These can be overridden or
@@ -93,21 +95,21 @@ extended by providing the <a href="../miscellaneous/variables.html#INTL_CONFIG">
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#currentLocale">currentLocale</a>
+                                <a href="#currentLocale" >currentLocale</a>
                             </li>
                             <li>
-                                <a href="#direction">direction</a>
+                                <a href="#direction" >direction</a>
                             </li>
                             <li>
-                                <a href="#locales">locales</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Readonly</span>
-                                <a href="#messagePrefix">messagePrefix</a>
+                                <a href="#locales" >locales</a>
                             </li>
                             <li>
                                     <span class="modifier">Readonly</span>
-                                <a href="#textPrefix">textPrefix</a>
+                                <a href="#messagePrefix" >messagePrefix</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#textPrefix" >textPrefix</a>
                             </li>
                         </ul>
                     </td>
@@ -122,37 +124,37 @@ extended by providing the <a href="../miscellaneous/variables.html#INTL_CONFIG">
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#formatDate">formatDate</a>
+                                <a href="#formatDate" >formatDate</a>
                             </li>
                             <li>
-                                <a href="#formatMessage">formatMessage</a>
+                                <a href="#formatMessage" >formatMessage</a>
                             </li>
                             <li>
-                                <a href="#formatNumber">formatNumber</a>
+                                <a href="#formatNumber" >formatNumber</a>
                             </li>
                             <li>
-                                <a href="#formatRelativeTime">formatRelativeTime</a>
+                                <a href="#formatRelativeTime" >formatRelativeTime</a>
                             </li>
                             <li>
-                                <a href="#formatText">formatText</a>
+                                <a href="#formatText" >formatText</a>
                             </li>
                             <li>
-                                <a href="#formatTime">formatTime</a>
+                                <a href="#formatTime" >formatTime</a>
                             </li>
                             <li>
-                                <a href="#getMessage">getMessage</a>
+                                <a href="#getMessage" >getMessage</a>
                             </li>
                             <li>
-                                <a href="#init">init</a>
+                                <a href="#init" >init</a>
                             </li>
                             <li>
-                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
                             </li>
                             <li>
-                                <a href="#parseDate">parseDate</a>
+                                <a href="#parseDate" >parseDate</a>
                             </li>
                             <li>
-                                <a href="#use">use</a>
+                                <a href="#use" >use</a>
                             </li>
                         </ul>
                     </td>
@@ -171,7 +173,7 @@ extended by providing the <a href="../miscellaneous/variables.html#INTL_CONFIG">
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                    <a href="#events">events</a>
+                                    <a href="#events" >events</a>
                                 </li>
                             </ul>
                         </td>
@@ -186,7 +188,7 @@ extended by providing the <a href="../miscellaneous/variables.html#INTL_CONFIG">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(intlConfig: <a href="../interfaces/IntlConfig.html">IntlConfig</a>, localesConfig: <a href="../interfaces/LocalesConfig.html">LocalesConfig</a>)</code>
+<code>constructor(intlConfig: <a href="../interfaces/IntlConfig.html" target="_self">IntlConfig</a>, localesConfig: <a href="../interfaces/LocalesConfig.html" target="_self">LocalesConfig</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -252,9 +254,7 @@ extended by providing the <a href="../miscellaneous/variables.html#INTL_CONFIG">
                 <td class="col-md-4">
                     <a name="formatDate"></a>
                     <span class="name">
-                        <b>
-                            formatDate
-                        </b>
+                        <span ><b>formatDate</b></span>
                         <a href="#formatDate"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -282,6 +282,7 @@ then one is constructed from it.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -351,16 +352,14 @@ then one is constructed from it.</p>
                 <td class="col-md-4">
                     <a name="formatMessage"></a>
                     <span class="name">
-                        <b>
-                            formatMessage
-                        </b>
+                        <span ><b>formatMessage</b></span>
                         <a href="#formatMessage"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>formatMessage(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, values?: <a href="../interfaces/MapOf.html">MapOf<any></a>)</code>
+<code>formatMessage(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, values?: <a href="../interfaces/MapOf.html" target="_self">MapOf&lt;any&gt;</a>)</code>
                 </td>
             </tr>
 
@@ -388,6 +387,7 @@ locale:  <code>msg#path1.path2.path3</code></li>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -453,9 +453,7 @@ locale:  <code>msg#path1.path2.path3</code></li>
                 <td class="col-md-4">
                     <a name="formatNumber"></a>
                     <span class="name">
-                        <b>
-                            formatNumber
-                        </b>
+                        <span ><b>formatNumber</b></span>
                         <a href="#formatNumber"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -482,6 +480,7 @@ locale:  <code>msg#path1.path2.path3</code></li>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -551,9 +550,7 @@ locale:  <code>msg#path1.path2.path3</code></li>
                 <td class="col-md-4">
                     <a name="formatRelativeTime"></a>
                     <span class="name">
-                        <b>
-                            formatRelativeTime
-                        </b>
+                        <span ><b>formatRelativeTime</b></span>
                         <a href="#formatRelativeTime"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -576,10 +573,14 @@ locale:  <code>msg#path1.path2.path3</code></li>
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>Format a relative time in the current locale according to the passed options</p>
+<p>If a Date value is passed then a number value and unit are deduced automatically based on
+the current date and time.
+is a number.</p>
 </div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -670,9 +671,7 @@ is a number.</p>
                 <td class="col-md-4">
                     <a name="formatText"></a>
                     <span class="name">
-                        <b>
-                            formatText
-                        </b>
+                        <span ><b>formatText</b></span>
                         <a href="#formatText"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -699,6 +698,7 @@ is a number.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -763,9 +763,7 @@ is a number.</p>
                 <td class="col-md-4">
                     <a name="formatTime"></a>
                     <span class="name">
-                        <b>
-                            formatTime
-                        </b>
+                        <span ><b>formatTime</b></span>
                         <a href="#formatTime"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -793,6 +791,7 @@ constructed from it.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -862,9 +861,7 @@ constructed from it.</p>
                 <td class="col-md-4">
                     <a name="getMessage"></a>
                     <span class="name">
-                        <b>
-                            getMessage
-                        </b>
+                        <span ><b>getMessage</b></span>
                         <a href="#getMessage"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -892,6 +889,7 @@ If the is not prefixed by <a href="messagePrefix">messagePrefix</a> then <code>n
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -940,9 +938,7 @@ If the is not prefixed by <a href="messagePrefix">messagePrefix</a> then <code>n
                 <td class="col-md-4">
                     <a name="init"></a>
                     <span class="name">
-                        <b>
-                            init
-                        </b>
+                        <span ><b>init</b></span>
                         <a href="#init"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -989,9 +985,7 @@ storage value, the browser language or the default locale.</p>
                 <td class="col-md-4">
                     <a name="ngOnDestroy"></a>
                     <span class="name">
-                        <b>
-                            ngOnDestroy
-                        </b>
+                        <span ><b>ngOnDestroy</b></span>
                         <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1028,9 +1022,7 @@ storage value, the browser language or the default locale.</p>
                 <td class="col-md-4">
                     <a name="parseDate"></a>
                     <span class="name">
-                        <b>
-                            parseDate
-                        </b>
+                        <span ><b>parseDate</b></span>
                         <a href="#parseDate"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1057,6 +1049,7 @@ storage value, the browser language or the default locale.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -1106,9 +1099,7 @@ storage value, the browser language or the default locale.</p>
                 <td class="col-md-4">
                     <a name="use"></a>
                     <span class="name">
-                        <b>
-                            use
-                        </b>
+                        <span ><b>use</b></span>
                         <a href="#use"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1137,6 +1128,7 @@ to be picked up the next time the service is initialized</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -1203,187 +1195,182 @@ to be picked up the next time the service is initialized</p>
 </section>
             <section>
     
-        <h3 id="inputs">
-            Properties
-        </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentLocale"></a>
+                    <span class="name">
+                        <span ><b>currentLocale</b></span>
+                        <a href="#currentLocale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="currentLocale"></a>
-                        <span class="name">
-                            <b>
-                            currentLocale</b>
-                            <a href="#currentLocale"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>        <code><a href="../interfaces/Locale.html" target="_self" >Locale</a></code>
+
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../interfaces/Locale.html" target="_self" >Locale</a></code>
-
+                                <div class="io-line">Defined in <a href="" data-line="315" class="link-to-prism">intl/intl.service.ts:315</a></div>
                         </td>
                     </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="315" class="link-to-prism">intl/intl.service.ts:315</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>The current locale </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The current locale</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="direction"></a>
+                    <span class="name">
+                        <span ><b>direction</b></span>
+                        <a href="#direction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="direction"></a>
-                        <span class="name">
-                            <b>
-                            direction</b>
-                            <a href="#direction"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>    <code>&quot;ltr&quot; | &quot;rtl&quot;</code>
+
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>&quot;ltr&quot; | &quot;rtl&quot;</code>
-
+                                <div class="io-line">Defined in <a href="" data-line="318" class="link-to-prism">intl/intl.service.ts:318</a></div>
                         </td>
                     </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="318" class="link-to-prism">intl/intl.service.ts:318</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>The current direction </p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The current direction</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="locales"></a>
+                    <span class="name">
+                        <span ><b>locales</b></span>
+                        <a href="#locales"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="locales"></a>
-                        <span class="name">
-                            <b>
-                            locales</b>
-                            <a href="#locales"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>        <code><a href="../interfaces/Locale.html" target="_self" >Locale[]</a></code>
+
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../interfaces/Locale.html" target="_self" >Locale[]</a></code>
-
+                                <div class="io-line">Defined in <a href="" data-line="313" class="link-to-prism">intl/intl.service.ts:313</a></div>
                         </td>
                     </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="313" class="link-to-prism">intl/intl.service.ts:313</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>The available locales</p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The available locales</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="messagePrefix"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>messagePrefix</b></span>
+                        <a href="#messagePrefix"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="messagePrefix"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Readonly</span>
-                            messagePrefix</b>
-                            <a href="#messagePrefix"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;msg#&quot;</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
+                                <div class="io-line">Defined in <a href="" data-line="305" class="link-to-prism">intl/intl.service.ts:305</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>&quot;msg#&quot;</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="305" class="link-to-prism">intl/intl.service.ts:305</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>The prefix for ICU messages to be retrieved from <a href="../interfaces/LocaleData.html#messages">LocaleData.messages</a>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The prefix for ICU messages to be retrieved from <a href="../interfaces/LocaleData.html#messages">LocaleData.messages</a>
 by <a href="formatMessage">formatMessage</a></p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="textPrefix"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>textPrefix</b></span>
+                        <a href="#textPrefix"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="textPrefix"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Readonly</span>
-                            textPrefix</b>
-                            <a href="#textPrefix"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;txt#&quot;</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
+                                <div class="io-line">Defined in <a href="" data-line="309" class="link-to-prism">intl/intl.service.ts:309</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>&quot;txt#&quot;</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="309" class="link-to-prism">intl/intl.service.ts:309</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>An alternative prefix for inline ICU messages processed by <a href="formatMessage">formatMessage</a></p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>An alternative prefix for inline ICU messages processed by <a href="formatMessage">formatMessage</a></p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 </section>
 
             <section>
@@ -2307,14 +2294,14 @@ export class IntlService implements OnDestroy {
 
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -2326,6 +2313,15 @@ export class IntlService implements OnDestroy {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
@@ -2335,9 +2331,9 @@ export class IntlService implements OnDestroy {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

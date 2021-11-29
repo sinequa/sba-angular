@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -38,7 +39,7 @@
 
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li>NotificationsService</li>
+  <li >NotificationsService</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -58,6 +59,7 @@
         <p class="comment">
             <code>notification/notifications.service.ts</code>
         </p>
+
 
             <p class="comment">
                 <h3>Description</h3>
@@ -84,7 +86,7 @@ when the notifications and data store are updated.</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#notifications">notifications</a>
+                                <a href="#notifications" >notifications</a>
                             </li>
                         </ul>
                     </td>
@@ -99,49 +101,49 @@ when the notifications and data store are updated.</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#closeNotification">closeNotification</a>
+                                <a href="#closeNotification" >closeNotification</a>
                             </li>
                             <li>
-                                <a href="#deleteAllNotifications">deleteAllNotifications</a>
+                                <a href="#deleteAllNotifications" >deleteAllNotifications</a>
                             </li>
                             <li>
-                                <a href="#deleteNotification">deleteNotification</a>
+                                <a href="#deleteNotification" >deleteNotification</a>
                             </li>
                             <li>
-                                <a href="#enter">enter</a>
+                                <a href="#enter" >enter</a>
                             </li>
                             <li>
-                                <a href="#error">error</a>
+                                <a href="#error" >error</a>
                             </li>
                             <li>
-                                <a href="#get">get</a>
+                                <a href="#get" >get</a>
                             </li>
                             <li>
-                                <a href="#hideNotifications">hideNotifications</a>
+                                <a href="#hideNotifications" >hideNotifications</a>
                             </li>
                             <li>
-                                <a href="#info">info</a>
+                                <a href="#info" >info</a>
                             </li>
                             <li>
-                                <a href="#leave">leave</a>
+                                <a href="#leave" >leave</a>
                             </li>
                             <li>
-                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
                             </li>
                             <li>
-                                <a href="#notify">notify</a>
+                                <a href="#notify" >notify</a>
                             </li>
                             <li>
-                                <a href="#set">set</a>
+                                <a href="#set" >set</a>
                             </li>
                             <li>
-                                <a href="#showNotifications">showNotifications</a>
+                                <a href="#showNotifications" >showNotifications</a>
                             </li>
                             <li>
-                                <a href="#success">success</a>
+                                <a href="#success" >success</a>
                             </li>
                             <li>
-                                <a href="#warning">warning</a>
+                                <a href="#warning" >warning</a>
                             </li>
                         </ul>
                     </td>
@@ -160,22 +162,22 @@ when the notifications and data store are updated.</p>
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                    <a href="#events">events</a>
+                                    <a href="#events" >events</a>
                                 </li>
                                 <li>
-                                    <a href="#notificationsStream">notificationsStream</a>
+                                    <a href="#notificationsStream" >notificationsStream</a>
                                 </li>
                                 <li>
-                                    <a href="#haveNotifications">haveNotifications</a>
+                                    <a href="#haveNotifications" >haveNotifications</a>
                                 </li>
                                 <li>
-                                    <a href="#allNotificationsShowing">allNotificationsShowing</a>
+                                    <a href="#allNotificationsShowing" >allNotificationsShowing</a>
                                 </li>
                                 <li>
-                                    <a href="#allNotificationsHidden">allNotificationsHidden</a>
+                                    <a href="#allNotificationsHidden" >allNotificationsHidden</a>
                                 </li>
                                 <li>
-                                    <a href="#lastNotification">lastNotification</a>
+                                    <a href="#lastNotification" >lastNotification</a>
                                 </li>
                             </ul>
                         </td>
@@ -214,16 +216,14 @@ when the notifications and data store are updated.</p>
                 <td class="col-md-4">
                     <a name="closeNotification"></a>
                     <span class="name">
-                        <b>
-                            closeNotification
-                        </b>
+                        <span ><b>closeNotification</b></span>
                         <a href="#closeNotification"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>closeNotification(notification: <a href="../interfaces/Notification.html">Notification</a>)</code>
+<code>closeNotification(notification: <a href="../interfaces/Notification.html" target="_self">Notification</a>)</code>
                 </td>
             </tr>
 
@@ -245,6 +245,7 @@ notification is deleted. The <code>updated</code> event is emitted.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -293,9 +294,7 @@ notification is deleted. The <code>updated</code> event is emitted.</p>
                 <td class="col-md-4">
                     <a name="deleteAllNotifications"></a>
                     <span class="name">
-                        <b>
-                            deleteAllNotifications
-                        </b>
+                        <span ><b>deleteAllNotifications</b></span>
                         <a href="#deleteAllNotifications"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -335,16 +334,14 @@ emitted. <code>null</code> is emitted on the notifications stream.</p>
                 <td class="col-md-4">
                     <a name="deleteNotification"></a>
                     <span class="name">
-                        <b>
-                            deleteNotification
-                        </b>
+                        <span ><b>deleteNotification</b></span>
                         <a href="#deleteNotification"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>deleteNotification(notification: <a href="../interfaces/Notification.html">Notification</a>)</code>
+<code>deleteNotification(notification: <a href="../interfaces/Notification.html" target="_self">Notification</a>)</code>
                 </td>
             </tr>
 
@@ -366,6 +363,7 @@ remain.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -414,9 +412,7 @@ remain.</p>
                 <td class="col-md-4">
                     <a name="enter"></a>
                     <span class="name">
-                        <b>
-                            enter
-                        </b>
+                        <span ><b>enter</b></span>
                         <a href="#enter"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -444,6 +440,7 @@ The intial value is 0.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -492,16 +489,14 @@ The intial value is 0.</p>
                 <td class="col-md-4">
                     <a name="error"></a>
                     <span class="name">
-                        <b>
-                            error
-                        </b>
+                        <span ><b>error</b></span>
                         <a href="#error"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>error(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../interfaces/MapOf.html">MapOf<any></a>, title?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>error(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../interfaces/MapOf.html" target="_self">MapOf&lt;any&gt;</a>, title?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -521,6 +516,7 @@ The intial value is 0.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -601,9 +597,7 @@ The intial value is 0.</p>
                 <td class="col-md-4">
                     <a name="get"></a>
                     <span class="name">
-                        <b>
-                            get
-                        </b>
+                        <span ><b>get</b></span>
                         <a href="#get"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -630,6 +624,7 @@ The intial value is 0.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -678,9 +673,7 @@ The intial value is 0.</p>
                 <td class="col-md-4">
                     <a name="hideNotifications"></a>
                     <span class="name">
-                        <b>
-                            hideNotifications
-                        </b>
+                        <span ><b>hideNotifications</b></span>
                         <a href="#hideNotifications"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -720,16 +713,14 @@ emitted.</p>
                 <td class="col-md-4">
                     <a name="info"></a>
                     <span class="name">
-                        <b>
-                            info
-                        </b>
+                        <span ><b>info</b></span>
                         <a href="#info"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>info(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../interfaces/MapOf.html">MapOf<any></a>, title?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>info(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../interfaces/MapOf.html" target="_self">MapOf&lt;any&gt;</a>, title?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -749,6 +740,7 @@ emitted.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -829,9 +821,7 @@ emitted.</p>
                 <td class="col-md-4">
                     <a name="leave"></a>
                     <span class="name">
-                        <b>
-                            leave
-                        </b>
+                        <span ><b>leave</b></span>
                         <a href="#leave"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -860,6 +850,7 @@ an &quot;underflow&quot; warning is emitted to the console and the counter set t
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -908,9 +899,7 @@ an &quot;underflow&quot; warning is emitted to the console and the counter set t
                 <td class="col-md-4">
                     <a name="ngOnDestroy"></a>
                     <span class="name">
-                        <b>
-                            ngOnDestroy
-                        </b>
+                        <span ><b>ngOnDestroy</b></span>
                         <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -947,16 +936,14 @@ an &quot;underflow&quot; warning is emitted to the console and the counter set t
                 <td class="col-md-4">
                     <a name="notify"></a>
                     <span class="name">
-                        <b>
-                            notify
-                        </b>
+                        <span ><b>notify</b></span>
                         <a href="#notify"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>notify(type: <a href="../interfaces/Notification.html">NotificationType</a>, text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../interfaces/MapOf.html">MapOf<any></a>, title?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, autoClose?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+<code>notify(type: <a href="../interfaces/Notification.html" target="_self">NotificationType</a>, text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../interfaces/MapOf.html" target="_self">MapOf&lt;any&gt;</a>, title?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, autoClose?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
@@ -977,6 +964,7 @@ is emitted on the notifications stream.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -1089,9 +1077,7 @@ is emitted on the notifications stream.</p>
                 <td class="col-md-4">
                     <a name="set"></a>
                     <span class="name">
-                        <b>
-                            set
-                        </b>
+                        <span ><b>set</b></span>
                         <a href="#set"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1119,6 +1105,7 @@ is emitted.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -1183,9 +1170,7 @@ is emitted.</p>
                 <td class="col-md-4">
                     <a name="showNotifications"></a>
                     <span class="name">
-                        <b>
-                            showNotifications
-                        </b>
+                        <span ><b>showNotifications</b></span>
                         <a href="#showNotifications"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1225,16 +1210,14 @@ emitted.</p>
                 <td class="col-md-4">
                     <a name="success"></a>
                     <span class="name">
-                        <b>
-                            success
-                        </b>
+                        <span ><b>success</b></span>
                         <a href="#success"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>success(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../interfaces/MapOf.html">MapOf<any></a>, title?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>success(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../interfaces/MapOf.html" target="_self">MapOf&lt;any&gt;</a>, title?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -1254,6 +1237,7 @@ emitted.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -1334,16 +1318,14 @@ emitted.</p>
                 <td class="col-md-4">
                     <a name="warning"></a>
                     <span class="name">
-                        <b>
-                            warning
-                        </b>
+                        <span ><b>warning</b></span>
                         <a href="#warning"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>warning(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../interfaces/MapOf.html">MapOf<any></a>, title?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>warning(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../interfaces/MapOf.html" target="_self">MapOf&lt;any&gt;</a>, title?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -1363,6 +1345,7 @@ emitted.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -1440,42 +1423,41 @@ emitted.</p>
 </section>
             <section>
     
-        <h3 id="inputs">
-            Properties
-        </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="notifications"></a>
+                    <span class="name">
+                        <span ><b>notifications</b></span>
+                        <a href="#notifications"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="notifications"></a>
-                        <span class="name">
-                            <b>
-                            notifications</b>
-                            <a href="#notifications"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>        <code><a href="../interfaces/Notification.html" target="_self" >Notification[]</a></code>
+
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../interfaces/Notification.html" target="_self" >Notification[]</a></code>
-
+                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">notification/notifications.service.ts:96</a></div>
                         </td>
                     </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">notification/notifications.service.ts:96</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>The current notifications.</p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The current notifications.</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 </section>
 
             <section>
@@ -2064,14 +2046,14 @@ export class NotificationsService implements OnDestroy {
 
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -2083,6 +2065,15 @@ export class NotificationsService implements OnDestroy {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
@@ -2092,9 +2083,9 @@ export class NotificationsService implements OnDestroy {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 
