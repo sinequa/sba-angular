@@ -17,6 +17,9 @@ export interface FieldSearchItemsContainer {
 
     /** Event triggered when the user removes an item from the container */
     itemRemoved: EventEmitter<AutocompleteItem>;
+
+    /** Function showing if the component has items or not */
+    hasItems(): boolean;
 }
 
 export interface ParseResult {

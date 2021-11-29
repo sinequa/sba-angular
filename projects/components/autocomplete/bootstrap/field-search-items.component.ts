@@ -29,6 +29,10 @@ export class BsFieldSearchItemsComponent implements FieldSearchItemsContainer {
     constructor(protected changeDetectorRef: ChangeDetectorRef) {
     }
 
+    hasItems(): boolean {
+        return !!this.items && this.items.length > 0;
+    }
+
     update(items: AutocompleteItem[]): void {
         this.items = items;
         this.changeDetectorRef.markForCheck();
