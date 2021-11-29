@@ -1,6 +1,6 @@
 // Hook Ast.ts.createSourceFile to replace contents of module.providers.ts files with adjoining 
 // module.providers.doc.ts files 
-const Ast = require('ts-simple-ast'); // compodoc uses typescript via this module
+const Ast = require('ts-morph'); // compodoc uses typescript via this module
 const path = require('path');
 const fs = require('fs');
 const process = require('process');

@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -42,7 +43,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>ExprParser</li>
+  <li >ExprParser</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -63,6 +64,7 @@
             <code>app-utils/query/expr-parser.ts</code>
         </p>
 
+
             <p class="comment">
                 <h3>Description</h3>
             </p>
@@ -82,7 +84,7 @@ The brackets can be mixed. For example: <code>age:{5..13]</code> expresses <code
 <p>For multi-value csv fields an <code>IN</code> condition can be expressed using a comma-separated list of values enclosed in square brackets.
 For example: <code>authors:[Proust, Orwell, Dickens]</code></p>
 <p>If a value contains reserved characters then it can be enclosed in backquote characters to prevent the parser interpreting them
-incorrectly. For example: <code>code: `a:b:c`</code></p>
+incorrectly. For example: <code>code: `a:b:c` </code></p>
 <p>The parser also supports a NEAR operator to allow searching for terms close to each other. There are two forms suppported:</p>
 <ul>
 <li>infix - <code>term1 NEAR[/n] term2</code> where <code>n</code> is the maximum number of words between the two terms for them to match</li>
@@ -111,7 +113,7 @@ For example: <code>football (age:&gt;=7 AND (name:smith OR name:jones))</code></
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Static</span>
-                                <a href="#fieldPartnamePrefix">fieldPartnamePrefix</a>
+                                <a href="#fieldPartnamePrefix" >fieldPartnamePrefix</a>
                             </li>
                         </ul>
                     </td>
@@ -127,15 +129,15 @@ For example: <code>football (age:&gt;=7 AND (name:smith OR name:jones))</code></
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Static</span>
-                                <a href="#escape">escape</a>
+                                <a href="#escape" >escape</a>
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
-                                <a href="#parse">parse</a>
+                                <a href="#parse" >parse</a>
                             </li>
                             <li>
                                     <span class="modifier">Static</span>
-                                <a href="#unescape">unescape</a>
+                                <a href="#unescape" >unescape</a>
                             </li>
                         </ul>
                     </td>
@@ -152,42 +154,41 @@ For example: <code>football (age:&gt;=7 AND (name:smith OR name:jones))</code></
 
             <section>
     
-        <h3 id="inputs">
-            Properties
-        </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fieldPartnamePrefix"></a>
+                    <span class="name">
+                            <span class="modifier">Static</span>
+                        <span ><b>fieldPartnamePrefix</b></span>
+                        <a href="#fieldPartnamePrefix"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="fieldPartnamePrefix"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Static</span>
-                            fieldPartnamePrefix</b>
-                            <a href="#fieldPartnamePrefix"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&quot;@&quot;</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
+                                <div class="io-line">Defined in <a href="" data-line="1735" class="link-to-prism">app-utils/query/expr-parser.ts:1735</a></div>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>&quot;@&quot;</code>
-                        </td>
-                    </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="1735" class="link-to-prism">app-utils/query/expr-parser.ts:1735</a></div>
-                            </td>
-                        </tr>
 
 
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 </section>
 
             <section>
@@ -201,10 +202,8 @@ For example: <code>football (age:&gt;=7 AND (name:smith OR name:jones))</code></
                 <td class="col-md-4">
                     <a name="escape"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Static</span>
-                            escape
-                        </b>
+                        <span class="modifier">Static</span>
+                        <span ><b>escape</b></span>
                         <a href="#escape"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -235,6 +234,7 @@ are prefixed by a backslash. Finally, the string is enclosed in backquotes.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -278,10 +278,8 @@ are prefixed by a backslash. Finally, the string is enclosed in backquotes.</p>
                 <td class="col-md-4">
                     <a name="parse"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Static</span>
-                            parse
-                        </b>
+                        <span class="modifier">Static</span>
+                        <span ><b>parse</b></span>
                         <a href="#parse"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -289,7 +287,7 @@ are prefixed by a backslash. Finally, the string is enclosed in backquotes.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>parse(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, context: <a href="../interfaces/ExprContext.html">ExprContext</a>, options?: <a href="../interfaces/ExprParserOptions.html">ExprParserOptions</a>)</code>
+                    <code>parse(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, context: <a href="../interfaces/ExprContext.html" target="_self">ExprContext</a>, options?: <a href="../interfaces/ExprParserOptions.html" target="_self">ExprParserOptions</a>)</code>
                 </td>
             </tr>
 
@@ -309,6 +307,7 @@ are prefixed by a backslash. Finally, the string is enclosed in backquotes.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -377,10 +376,8 @@ are prefixed by a backslash. Finally, the string is enclosed in backquotes.</p>
                 <td class="col-md-4">
                     <a name="unescape"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Static</span>
-                            unescape
-                        </b>
+                        <span class="modifier">Static</span>
+                        <span ><b>unescape</b></span>
                         <a href="#unescape"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -403,11 +400,12 @@ are prefixed by a backslash. Finally, the string is enclosed in backquotes.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Perform the reverse operation to <a href="../classes/ExprParser.html#escape">ExprParser.escpae</a></p>
+                    <div class="io-description"><p>Perform the reverse operation to <a href="../classess/ExprParser.html#escape">ExprParser.escpae</a></p>
 </div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -3087,14 +3085,14 @@ export class ExprParser {
 
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -3106,6 +3104,15 @@ export class ExprParser {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
@@ -3115,9 +3122,9 @@ export class ExprParser {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -43,7 +44,9 @@
 
 <ol class="breadcrumb">
   <li>Interfaces</li>
-  <li>CCRFM</li>
+  <li
+  >
+  CCRFM</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -63,6 +66,7 @@
         <p class="comment">
             <code>web-services/config/ccapp.ts</code>
         </p>
+
 
             <p class="comment">
                 <h3>Description</h3>
@@ -86,16 +90,28 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#click">click</a>
+                                        <a href="#click" 
+>
+                                            click
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#important">important</a>
+                                        <a href="#important" 
+>
+                                            important
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#like">like</a>
+                                        <a href="#like" 
+>
+                                            like
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#name">name</a>
+                                        <a href="#name" 
+>
+                                            name
+                                        </a>
                                 </li>
                             </ul>
                         </td>
@@ -113,7 +129,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="click"></a>
-                                        <span class="name"><b>click</b><a href="#click"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>click</b>
+                                            <a href="#click">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -142,7 +162,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="important"></a>
-                                        <span class="name"><b>important</b><a href="#important"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>important</b>
+                                            <a href="#important">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -171,7 +195,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="like"></a>
-                                        <span class="name"><b>like</b><a href="#like"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>like</b>
+                                            <a href="#like">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -200,7 +228,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="name"></a>
-                                        <span class="name"><b>name</b><a href="#name"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>name</b>
+                                            <a href="#name">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -652,6 +684,14 @@ export interface CCQuery extends CCWebService {
      */
     partnameFieldsExcluded: string[];
     /**
+     * Query intent configured for this query
+     */
+    queryIntent: string;
+    /**
+     * Query intent set configured for this query
+     */
+    queryIntentSet: string;
+    /**
      * The &#x60;PatternMatcher&#x60; instance created on the client using the &#x60;partnameFieldsIncluded&#x60; and &#x60;partnameFieldsExcluded&#x60; values.
      */
     $partnameFieldsPattern: PatternMatcher;
@@ -977,14 +1017,14 @@ export const MINIMUM_COMPATIBLE_SERVER_API_VERSION &#x3D; &#x27;1.0&#x27;;
 </div>
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -996,6 +1036,15 @@ export const MINIMUM_COMPATIBLE_SERVER_API_VERSION &#x3D; &#x27;1.0&#x27;;
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
@@ -1005,9 +1054,9 @@ export const MINIMUM_COMPATIBLE_SERVER_API_VERSION &#x3D; &#x27;1.0&#x27;;
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

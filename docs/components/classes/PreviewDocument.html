@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -42,7 +43,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>PreviewDocument</li>
+  <li >PreviewDocument</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -62,6 +63,7 @@
         <p class="comment">
             <code>preview/preview-document.ts</code>
         </p>
+
 
             <p class="comment">
                 <h3>Description</h3>
@@ -95,39 +97,43 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#clearHighlightSelection">clearHighlightSelection</a>
+                                <a href="#clearHighlightSelection" >clearHighlightSelection</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#filterHighlights">filterHighlights</a>
+                                <a href="#filterHighlights" >filterHighlights</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#getContentWindow">getContentWindow</a>
+                                <a href="#getContentWindow" >getContentWindow</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#getHighlightText">getHighlightText</a>
+                                <a href="#getHighlightPos" >getHighlightPos</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#insertComponent">insertComponent</a>
+                                <a href="#getHighlightText" >getHighlightText</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#selectHighlight">selectHighlight</a>
+                                <a href="#insertComponent" >insertComponent</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#setSvgBackgroundPositionAndSize">setSvgBackgroundPositionAndSize</a>
+                                <a href="#selectHighlight" >selectHighlight</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#toggleHighlight">toggleHighlight</a>
+                                <a href="#setSvgBackgroundPositionAndSize" >setSvgBackgroundPositionAndSize</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#updateHighlightFilterState">updateHighlightFilterState</a>
+                                <a href="#toggleHighlight" >toggleHighlight</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#updateHighlightFilterState" >updateHighlightFilterState</a>
                             </li>
                         </ul>
                     </td>
@@ -146,7 +152,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                    <a href="#document">document</a>
+                                    <a href="#document" >document</a>
                                 </li>
                             </ul>
                         </td>
@@ -216,10 +222,8 @@
                 <td class="col-md-4">
                     <a name="clearHighlightSelection"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            clearHighlightSelection
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>clearHighlightSelection</b></span>
                         <a href="#clearHighlightSelection"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -234,8 +238,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="153"
-                            class="link-to-prism">preview/preview-document.ts:153</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="164"
+                            class="link-to-prism">preview/preview-document.ts:164</a></div>
                 </td>
             </tr>
 
@@ -259,10 +263,8 @@
                 <td class="col-md-4">
                     <a name="filterHighlights"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            filterHighlights
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>filterHighlights</b></span>
                         <a href="#filterHighlights"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -270,15 +272,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>filterHighlights(filters: <a href="../undefineds/HighlightFilters.html">HighlightFilters</a>)</code>
+                    <code>filterHighlights(filters: <a href="../undefineds/HighlightFilters.html" target="_self">HighlightFilters</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="172"
-                            class="link-to-prism">preview/preview-document.ts:172</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="183"
+                            class="link-to-prism">preview/preview-document.ts:183</a></div>
                 </td>
             </tr>
 
@@ -290,6 +292,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -338,10 +341,8 @@
                 <td class="col-md-4">
                     <a name="getContentWindow"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            getContentWindow
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>getContentWindow</b></span>
                         <a href="#getContentWindow"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -356,8 +357,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">preview/preview-document.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">preview/preview-document.ts:72</a></div>
                 </td>
             </tr>
 
@@ -379,12 +380,93 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getHighlightPos"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>getHighlightPos</b></span>
+                        <a href="#getHighlightPos"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getHighlightPos(categoryId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="109"
+                            class="link-to-prism">preview/preview-document.ts:109</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>categoryId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>index</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>DOMRect | null</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getHighlightText"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            getHighlightText
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>getHighlightText</b></span>
                         <a href="#getHighlightText"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -399,8 +481,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="91"
-                            class="link-to-prism">preview/preview-document.ts:91</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="96"
+                            class="link-to-prism">preview/preview-document.ts:96</a></div>
                 </td>
             </tr>
 
@@ -412,6 +494,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -476,10 +559,8 @@
                 <td class="col-md-4">
                     <a name="insertComponent"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            insertComponent
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>insertComponent</b></span>
                         <a href="#insertComponent"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -494,8 +575,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">preview/preview-document.ts:82</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">preview/preview-document.ts:87</a></div>
                 </td>
             </tr>
 
@@ -507,6 +588,7 @@
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -546,10 +628,8 @@
                 <td class="col-md-4">
                     <a name="selectHighlight"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            selectHighlight
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>selectHighlight</b></span>
                         <a href="#selectHighlight"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -564,8 +644,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="137"
-                            class="link-to-prism">preview/preview-document.ts:137</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">preview/preview-document.ts:148</a></div>
                 </td>
             </tr>
 
@@ -578,6 +658,7 @@ to the DOM elements and scrolling the view to center around them.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -642,10 +723,8 @@ to the DOM elements and scrolling the view to center around them.</p>
                 <td class="col-md-4">
                     <a name="setSvgBackgroundPositionAndSize"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            setSvgBackgroundPositionAndSize
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>setSvgBackgroundPositionAndSize</b></span>
                         <a href="#setSvgBackgroundPositionAndSize"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -660,8 +739,8 @@ to the DOM elements and scrolling the view to center around them.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">preview/preview-document.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">preview/preview-document.ts:118</a></div>
                 </td>
             </tr>
 
@@ -685,10 +764,8 @@ to the DOM elements and scrolling the view to center around them.</p>
                 <td class="col-md-4">
                     <a name="toggleHighlight"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            toggleHighlight
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>toggleHighlight</b></span>
                         <a href="#toggleHighlight"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -703,8 +780,8 @@ to the DOM elements and scrolling the view to center around them.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="214"
-                            class="link-to-prism">preview/preview-document.ts:214</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="225"
+                            class="link-to-prism">preview/preview-document.ts:225</a></div>
                 </td>
             </tr>
 
@@ -716,6 +793,7 @@ to the DOM elements and scrolling the view to center around them.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -796,10 +874,8 @@ to the DOM elements and scrolling the view to center around them.</p>
                 <td class="col-md-4">
                     <a name="updateHighlightFilterState"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            updateHighlightFilterState
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>updateHighlightFilterState</b></span>
                         <a href="#updateHighlightFilterState"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -807,15 +883,15 @@ to the DOM elements and scrolling the view to center around them.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateHighlightFilterState(filters: <a href="../undefineds/HighlightFilters.html">HighlightFilters</a>)</code>
+                    <code>updateHighlightFilterState(filters: <a href="../undefineds/HighlightFilters.html" target="_self">HighlightFilters</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="183"
-                            class="link-to-prism">preview/preview-document.ts:183</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="194"
+                            class="link-to-prism">preview/preview-document.ts:194</a></div>
                 </td>
             </tr>
 
@@ -828,6 +904,7 @@ If the filters object is an array then only the specified categories are highlig
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -896,7 +973,7 @@ If the filters object is an array then only the specified categories are highlig
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">preview/preview-document.ts:74</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">preview/preview-document.ts:79</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -970,8 +1047,13 @@ export class PreviewDocument {
     constructor(element: ElementRef | Document){
         if (element instanceof ElementRef) {
             this._window &#x3D; element?.nativeElement?.contentWindow;
-            if (this._window?.frames &amp;&amp; this._window.frames[&quot;frSheet&quot;]) {
-                this._window &#x3D; this._window.frames[&quot;frSheet&quot;];  // aspose xls preview
+            try {
+                // prevents Ungaught DOMException: Blocked a frame with origin ... from accessing a cross-origin frame.
+                if (this._window?.frames &amp;&amp; this._window.frames[&quot;frSheet&quot;]) {
+                    this._window &#x3D; this._window.frames[&quot;frSheet&quot;];  // aspose xls preview
+                }
+            } catch (error) {
+                console.warn(error);
             }
         } else {
             this._document &#x3D; element;
@@ -1019,6 +1101,12 @@ export class PreviewDocument {
         let text &#x3D; &quot;&quot;;
         forEach(nodes, n &#x3D;&gt; text +&#x3D; (n[&#x27;innerHTML&#x27;] || n.textContent));
         return text;
+    }
+    
+    public getHighlightPos(categoryId: string, index: number): DOMRect | null{
+        const nodes &#x3D; this.document.querySelectorAll(&quot;#&quot;+categoryId+&quot;_&quot;+index);
+        if(!nodes || nodes.length &#x3D;&#x3D;&#x3D; 0) return null;
+        return nodes[0].getBoundingClientRect();
     }
 
     /**
@@ -1303,14 +1391,14 @@ export class PreviewDocument {
 
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -1322,6 +1410,15 @@ export class PreviewDocument {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
@@ -1331,9 +1428,9 @@ export class PreviewDocument {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

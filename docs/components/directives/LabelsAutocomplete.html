@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -37,7 +38,7 @@
 
 <ol class="breadcrumb">
   <li>Directives</li>
-  <li>LabelsAutocomplete</li>
+  <li >LabelsAutocomplete</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -59,6 +60,7 @@
         </p>
 
 
+
             <p class="comment">
                 <h3>Implements</h3>
             </p>
@@ -70,7 +72,7 @@
 
         <section>
             <h3>Metadata</h3>
-            <table class="table table-sm table-hover">
+            <table class="table table-sm table-hover metadata">
                 <tbody>
 
                     <tr>
@@ -96,16 +98,25 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#keydown">keydown</a>
+                                <a href="#blur" >blur</a>
                             </li>
                             <li>
-                                <a href="#ngOnChanges">ngOnChanges</a>
+                                <a href="#focus" >focus</a>
                             </li>
                             <li>
-                                <a href="#ngOnInit">ngOnInit</a>
+                                <a href="#inputChanged" >inputChanged</a>
                             </li>
                             <li>
-                                <a href="#updatePlaceholder">updatePlaceholder</a>
+                                <a href="#keydown" >keydown</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#updatePlaceholder" >updatePlaceholder</a>
                             </li>
                         </ul>
                     </td>
@@ -120,16 +131,16 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#allowManagePublicLabels">allowManagePublicLabels</a>
+                                <a href="#allowManagePublicLabels" >allowManagePublicLabels</a>
                             </li>
                             <li>
-                                <a href="#allowNewLabels">allowNewLabels</a>
+                                <a href="#allowNewLabels" >allowNewLabels</a>
                             </li>
                             <li>
-                                <a href="#labelsItems">labelsItems</a>
+                                <a href="#labelsItems" >labelsItems</a>
                             </li>
                             <li>
-                                <a href="#public">public</a>
+                                <a href="#public" >public</a>
                             </li>
                         </ul>
                     </td>
@@ -144,7 +155,7 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#itemsUpdate">itemsUpdate</a>
+                                <a href="#itemsUpdate" >itemsUpdate</a>
                             </li>
                         </ul>
                     </td>
@@ -160,13 +171,13 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#blur">blur</a>
+                                <a href="#blur" >blur</a>
                             </li>
                             <li>
-                                <a href="#focus">focus</a>
+                                <a href="#focus" >focus</a>
                             </li>
                             <li>
-                                <a href="#input">input</a>
+                                <a href="#input" >input</a>
                             </li>
                         </ul>
                     </td>
@@ -182,7 +193,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(elementRef: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, suggestService: <a href="../injectables/SuggestService.html">SuggestService</a>, appService: AppService, uiService: <a href="../injectables/UIService.html">UIService</a>, labelsWebService: <a href="../components/Labels.html">LabelsWebService</a>, labelsService: <a href="../injectables/LabelsService.html">LabelsService</a>)</code>
+<code>constructor(elementRef: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, suggestService: <a href="../injectables/SuggestService.html" target="_self">SuggestService</a>, appService: AppService, uiService: <a href="../injectables/UIService.html" target="_self">UIService</a>, labelsWebService: <a href="../components/Labels.html" target="_self">LabelsWebService</a>, labelsService: <a href="../injectables/LabelsService.html" target="_self">LabelsService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -313,7 +324,7 @@
                         </tr>
                 <tr>
                     <td class="col-md-4">
-                        <div class="io-description"><p>Define the right of adding new labels in labelsItems or not </p>
+                        <div class="io-description"><p>Define the right of adding new labels in labelsItems or not</p>
 </div>
                     </td>
                 </tr>
@@ -345,7 +356,7 @@
                         </tr>
                 <tr>
                     <td class="col-md-4">
-                        <div class="io-description"><p>Enable adding new labels in labelsItems or not </p>
+                        <div class="io-description"><p>Enable adding new labels in labelsItems or not</p>
 </div>
                     </td>
                 </tr>
@@ -377,7 +388,7 @@
                         </tr>
                 <tr>
                     <td class="col-md-4">
-                        <div class="io-description"><p>Stores the selected labels items selected via Tab </p>
+                        <div class="io-description"><p>Stores the selected labels items selected via Tab</p>
 </div>
                     </td>
                 </tr>
@@ -404,7 +415,7 @@
                         </tr>
                 <tr>
                     <td class="col-md-4">
-                        <div class="io-description"><p>Whether the labels are public or not </p>
+                        <div class="io-description"><p>Whether the labels are public or not</p>
 </div>
                     </td>
                 </tr>
@@ -434,7 +445,7 @@
                         </tr>
                 <tr>
                     <td class="col-md-4">
-                        <div class="io-description"><p>Event synchronizing the list of selected labels in the parent component </p>
+                        <div class="io-description"><p>Event synchronizing the list of selected labels in the parent component</p>
 </div>
                     </td>
                 </tr>
@@ -459,11 +470,6 @@
             <tr>
                 <td class="col-md-4">
                     <i>Arguments : </i><code>'$event' </code>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>blur(event: FocusEvent)</code>
                 </td>
             </tr>
 
@@ -496,11 +502,6 @@
                         </b>
                         <a href="#focus"><span class="icon ion-ios-link"></span></a>
                     </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>focus()</code>
                 </td>
             </tr>
 
@@ -547,11 +548,6 @@ retrieve suggestions based on this input text</li>
                     <i>Arguments : </i><code>'$event' </code>
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-4">
-<code>input(event: <a href="../interfaces/Event.html">Event</a>)</code>
-                </td>
-            </tr>
 
 
             <tr>
@@ -567,6 +563,30 @@ retrieve suggestions based on this input text</li>
                     <div class="io-description"><p>Overrides the parent inputChanged method, so that it is possible to reinitialize the autocomplete</p>
 </div>
 
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -581,11 +601,218 @@ retrieve suggestions based on this input text</li>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="blur"></a>
+                    <span class="name">
+                        <span ><b>blur</b></span>
+                        <a href="#blur"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>blur(event: FocusEvent)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;blur&#x27;, [&#x27;$event&#x27;])<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="266"
+                            class="link-to-prism">labels/labels-autocomplete.directive.ts:266</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Listens to blur events (out of focus) on the <input> host and overrides the parent blur events</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>FocusEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="focus"></a>
+                    <span class="name">
+                        <span ><b>focus</b></span>
+                        <a href="#focus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>focus()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;focus&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="258"
+                            class="link-to-prism">labels/labels-autocomplete.directive.ts:258</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Listens to focus events on the <input> host and overrides the parent focus events in order to launch the autocomplete
+If empty input :</p>
+<ul>
+<li>display top relevent labels if the auto-suggest wildcard is configured</li>
+<li>restart the autocomplete if no auto-suggest wildcard is found
+If not empty input :
+retrieve suggestions based on this input text</li>
+</ul>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="inputChanged"></a>
+                    <span class="name">
+                        <span ><b>inputChanged</b></span>
+                        <a href="#inputChanged"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>inputChanged(event: <a href="../interfaces/Event.html" target="_self">Event</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;input&#x27;, [&#x27;$event&#x27;])<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="275"
+                            class="link-to-prism">labels/labels-autocomplete.directive.ts:275</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Overrides the parent inputChanged method, so that it is possible to reinitialize the autocomplete</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="../interfaces/Event.html" target="_self" >Event</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="keydown"></a>
                     <span class="name">
-                        <b>
-                            keydown
-                        </b>
+                        <span ><b>keydown</b></span>
                         <a href="#keydown"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -615,6 +842,7 @@ to remove labels items, enhance the enter key to support adding new labels.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -663,9 +891,7 @@ to remove labels items, enhance the enter key to support adding new labels.</p>
                 <td class="col-md-4">
                     <a name="ngOnChanges"></a>
                     <span class="name">
-                        <b>
-                            ngOnChanges
-                        </b>
+                        <span ><b>ngOnChanges</b></span>
                         <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -692,6 +918,7 @@ to remove labels items, enhance the enter key to support adding new labels.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -735,9 +962,7 @@ to remove labels items, enhance the enter key to support adding new labels.</p>
                 <td class="col-md-4">
                     <a name="ngOnInit"></a>
                     <span class="name">
-                        <b>
-                            ngOnInit
-                        </b>
+                        <span ><b>ngOnInit</b></span>
                         <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -778,9 +1003,7 @@ selection events</p>
                 <td class="col-md-4">
                     <a name="updatePlaceholder"></a>
                     <span class="name">
-                        <b>
-                            updatePlaceholder
-                        </b>
+                        <span ><b>updatePlaceholder</b></span>
                         <a href="#updatePlaceholder"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -1159,14 +1382,14 @@ export class LabelsAutocomplete extends Autocomplete implements OnInit, OnChange
 
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -1178,6 +1401,15 @@ export class LabelsAutocomplete extends Autocomplete implements OnInit, OnChange
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'directive';
@@ -1187,9 +1419,9 @@ export class LabelsAutocomplete extends Autocomplete implements OnInit, OnChange
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

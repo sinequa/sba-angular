@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -37,7 +38,7 @@
 
 <ol class="breadcrumb">
   <li>Directives</li>
-  <li>Autocomplete</li>
+  <li >Autocomplete</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -59,6 +60,7 @@
         </p>
 
 
+
             <p class="comment">
                 <h3>Implements</h3>
             </p>
@@ -71,7 +73,7 @@
 
         <section>
             <h3>Metadata</h3>
-            <table class="table table-sm table-hover">
+            <table class="table table-sm table-hover metadata">
                 <tbody>
 
                     <tr>
@@ -87,6 +89,20 @@
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#_placeholder" >_placeholder</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -97,17 +113,35 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#blur" >blur</a>
+                            </li>
+                            <li>
+                                <a href="#click" >click</a>
+                            </li>
+                            <li>
+                                <a href="#focus" >focus</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Public</span>
-                                <a href="#getState">getState</a>
+                                <a href="#getState" >getState</a>
                             </li>
                             <li>
-                                <a href="#ngOnChanges">ngOnChanges</a>
+                                <a href="#inputChanged" >inputChanged</a>
                             </li>
                             <li>
-                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                                <a href="#keydown" >keydown</a>
                             </li>
                             <li>
-                                <a href="#ngOnInit">ngOnInit</a>
+                                <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#touchstart" >touchstart</a>
                             </li>
                         </ul>
                     </td>
@@ -122,19 +156,19 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#dropdown">dropdown</a>
+                                <a href="#dropdown" >dropdown</a>
                             </li>
                             <li>
-                                <a href="#off">off</a>
+                                <a href="#off" >off</a>
                             </li>
                             <li>
-                                <a href="#placeholder">placeholder</a>
+                                <a href="#placeholder" >placeholder</a>
                             </li>
                             <li>
-                                <a href="#suggestDelay">suggestDelay</a>
+                                <a href="#suggestDelay" >suggestDelay</a>
                             </li>
                             <li>
-                                <a href="#suggestQuery">suggestQuery</a>
+                                <a href="#suggestQuery" >suggestQuery</a>
                             </li>
                         </ul>
                     </td>
@@ -149,10 +183,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#stateChange">stateChange</a>
+                                <a href="#stateChange" >stateChange</a>
                             </li>
                             <li>
-                                <a href="#submit">submit</a>
+                                <a href="#submit" >submit</a>
                             </li>
                         </ul>
                     </td>
@@ -167,7 +201,7 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#attr.placeholder">attr.placeholder</a>
+                                <a href="#attr.placeholder" >attr.placeholder</a>
                             </li>
                         </ul>
                     </td>
@@ -182,22 +216,22 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#blur">blur</a>
+                                <a href="#blur" >blur</a>
                             </li>
                             <li>
-                                <a href="#click">click</a>
+                                <a href="#click" >click</a>
                             </li>
                             <li>
-                                <a href="#focus">focus</a>
+                                <a href="#focus" >focus</a>
                             </li>
                             <li>
-                                <a href="#input">input</a>
+                                <a href="#input" >input</a>
                             </li>
                             <li>
-                                <a href="#keydown">keydown</a>
+                                <a href="#keydown" >keydown</a>
                             </li>
                             <li>
-                                <a href="#touchstart">touchstart</a>
+                                <a href="#touchstart" >touchstart</a>
                             </li>
                         </ul>
                     </td>
@@ -213,7 +247,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(elementRef: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, suggestService: <a href="../injectables/SuggestService.html">SuggestService</a>, appService: AppService, uiService: <a href="../injectables/UIService.html">UIService</a>)</code>
+<code>constructor(elementRef: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>, suggestService: <a href="../injectables/SuggestService.html" target="_self">SuggestService</a>, appService: AppService, uiService: <a href="../injectables/UIService.html" target="_self">UIService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -315,7 +349,7 @@
                         </tr>
                 <tr>
                     <td class="col-md-4">
-                        <div class="io-description"><p>Reference to the AutocompleteComponent that displays the autocomplete items </p>
+                        <div class="io-description"><p>Reference to the AutocompleteComponent that displays the autocomplete items</p>
 </div>
                     </td>
                 </tr>
@@ -342,7 +376,7 @@
                         </tr>
                 <tr>
                     <td class="col-md-4">
-                        <div class="io-description"><p>Whether the autocomplete should be active or not </p>
+                        <div class="io-description"><p>Whether the autocomplete should be active or not</p>
 </div>
                     </td>
                 </tr>
@@ -374,7 +408,7 @@
                         </tr>
                 <tr>
                     <td class="col-md-4">
-                        <div class="io-description"><p>Custom placeholder </p>
+                        <div class="io-description"><p>Custom placeholder</p>
 </div>
                     </td>
                 </tr>
@@ -406,7 +440,7 @@
                         </tr>
                 <tr>
                     <td class="col-md-4">
-                        <div class="io-description"><p>Debounce delay between autocomplete queries </p>
+                        <div class="io-description"><p>Debounce delay between autocomplete queries</p>
 </div>
                     </td>
                 </tr>
@@ -433,7 +467,7 @@
                         </tr>
                 <tr>
                     <td class="col-md-4">
-                        <div class="io-description"><p>Name of the Suggest Query to be used </p>
+                        <div class="io-description"><p>Name of the Suggest Query to be used</p>
 </div>
                     </td>
                 </tr>
@@ -486,27 +520,32 @@
         </table>
 </section>
             <section>
-    <h3>HostBindings</h3>        <table class="table table-sm table-bordered">
-            <tbody>
+    <h3>HostBindings</h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attr.placeholder"></a>
+                    <span class="name">
+                        <span ><b>attr.placeholder</b></span>
+                        <a href="#attr.placeholder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="attr.placeholder"></a>
-                        <span class="name">
-                            <b>
-                            attr.placeholder</b>
-                            <a href="#attr.placeholder"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
                     </td>
                 </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">autocomplete/autocomplete.directive.ts:94</a></div>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">autocomplete/autocomplete.directive.ts:94</a></div>
+                        </td>
+                    </tr>
 
 
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 </section>
 
             <section>
@@ -526,11 +565,6 @@
             <tr>
                 <td class="col-md-4">
                     <i>Arguments : </i><code>'$event' </code>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>blur(event: FocusEvent)</code>
                 </td>
             </tr>
 
@@ -565,11 +599,6 @@
                     </span>
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-4">
-<code>click()</code>
-                </td>
-            </tr>
 
 
             <tr>
@@ -582,10 +611,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>The following are event listeners applied to the <input> host component
-onto which this directive is applied.
-The events affect the state of the autocomplete, which triggers
-various actions (call to suggest API, etc.).</p>
+                    <div class="io-description"><p>Listens to click events on the <input> host</p>
 </div>
 
                 </td>
@@ -603,11 +629,6 @@ various actions (call to suggest API, etc.).</p>
                         </b>
                         <a href="#focus"><span class="icon ion-ios-link"></span></a>
                     </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>focus()</code>
                 </td>
             </tr>
 
@@ -647,11 +668,6 @@ various actions (call to suggest API, etc.).</p>
                     <i>Arguments : </i><code>'$event' </code>
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-4">
-<code>input(event: <a href="../interfaces/Event.html">Event</a>)</code>
-                </td>
-            </tr>
 
 
             <tr>
@@ -668,6 +684,30 @@ various actions (call to suggest API, etc.).</p>
 according to the current state of the autocomplete</p>
 </div>
 
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -690,11 +730,6 @@ according to the current state of the autocomplete</p>
                     <i>Arguments : </i><code>'$event' </code>
                 </td>
             </tr>
-            <tr>
-                <td class="col-md-4">
-<code>keydown(event: KeyboardEvent)</code>
-                </td>
-            </tr>
 
 
             <tr>
@@ -711,6 +746,35 @@ according to the current state of the autocomplete</p>
 and select the autocomplete suggestions.</p>
 </div>
 
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>the keyboard</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -726,11 +790,6 @@ and select the autocomplete suggestions.</p>
                         </b>
                         <a href="#touchstart"><span class="icon ion-ios-link"></span></a>
                     </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>touchstart()</code>
                 </td>
             </tr>
 
@@ -762,12 +821,180 @@ and select the autocomplete suggestions.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="blur"></a>
+                    <span class="name">
+                        <span ><b>blur</b></span>
+                        <a href="#blur"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>blur(event: FocusEvent)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;blur&#x27;, [&#x27;$event&#x27;])<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="402"
+                            class="link-to-prism">autocomplete/autocomplete.directive.ts:402</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Listens to blur events (out of focus) on the <input> host</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>FocusEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="click"></a>
+                    <span class="name">
+                        <span ><b>click</b></span>
+                        <a href="#click"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>click()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;click&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="378"
+                            class="link-to-prism">autocomplete/autocomplete.directive.ts:378</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Listens to click events on the <input> host</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="focus"></a>
+                    <span class="name">
+                        <span ><b>focus</b></span>
+                        <a href="#focus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>focus()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;focus&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="394"
+                            class="link-to-prism">autocomplete/autocomplete.directive.ts:394</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Listens to focus events on the <input> host</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getState"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            getState
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>getState</b></span>
                         <a href="#getState"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -794,8 +1021,171 @@ and select the autocomplete suggestions.</p>
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/enumerations.html#AutocompleteState" target="_self" >AutocompleteState</a></code>
+                        <b>Returns : </b>        <code><a href="../directives/Autocomplete.html" target="_self" >AutocompleteState</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="inputChanged"></a>
+                    <span class="name">
+                        <span ><b>inputChanged</b></span>
+                        <a href="#inputChanged"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>inputChanged(event: <a href="../interfaces/Event.html" target="_self">Event</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;input&#x27;, [&#x27;$event&#x27;])<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="412"
+                            class="link-to-prism">autocomplete/autocomplete.directive.ts:412</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Listen to any change in the <input> content and react
+according to the current state of the autocomplete</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="../interfaces/Event.html" target="_self" >Event</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="keydown"></a>
+                    <span class="name">
+                        <span ><b>keydown</b></span>
+                        <a href="#keydown"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>keydown(event: KeyboardEvent)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;keydown&#x27;, [&#x27;$event&#x27;])<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="436"
+                            class="link-to-prism">autocomplete/autocomplete.directive.ts:436</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Listen to user&#39;s keyboard actions in the <input>, in order to navigate
+and select the autocomplete suggestions.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                            <code>KeyboardEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>the keyboard</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -807,9 +1197,7 @@ and select the autocomplete suggestions.</p>
                 <td class="col-md-4">
                     <a name="ngOnChanges"></a>
                     <span class="name">
-                        <b>
-                            ngOnChanges
-                        </b>
+                        <span ><b>ngOnChanges</b></span>
                         <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -836,6 +1224,7 @@ and select the autocomplete suggestions.</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -879,9 +1268,7 @@ and select the autocomplete suggestions.</p>
                 <td class="col-md-4">
                     <a name="ngOnDestroy"></a>
                     <span class="name">
-                        <b>
-                            ngOnDestroy
-                        </b>
+                        <span ><b>ngOnDestroy</b></span>
                         <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -920,9 +1307,7 @@ and select the autocomplete suggestions.</p>
                 <td class="col-md-4">
                     <a name="ngOnInit"></a>
                     <span class="name">
-                        <b>
-                            ngOnInit
-                        </b>
+                        <span ><b>ngOnInit</b></span>
                         <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -954,6 +1339,87 @@ selection events</p>
                     </div>
                 </td>
             </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="touchstart"></a>
+                    <span class="name">
+                        <span ><b>touchstart</b></span>
+                        <a href="#touchstart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>touchstart()</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@HostListener(&#x27;touchstart&#x27;)<br /></code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="386"
+                            class="link-to-prism">autocomplete/autocomplete.directive.ts:386</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Listens to touchstart events (mobile clicks) on the <input> host</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_placeholder"></a>
+                    <span class="name">
+                        <span ><b>_placeholder</b></span>
+                        <a href="#_placeholder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @HostBinding(&#x27;attr.placeholder&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">autocomplete/autocomplete.directive.ts:94</a></div>
+                        </td>
+                    </tr>
+
+
         </tbody>
     </table>
 </section>
@@ -1448,14 +1914,14 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
 
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -1467,6 +1933,15 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'directive';
@@ -1476,9 +1951,9 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -43,7 +44,9 @@
 
 <ol class="breadcrumb">
   <li>Interfaces</li>
-  <li>HighlightCategoryFilterState</li>
+  <li
+  >
+  HighlightCategoryFilterState</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -66,6 +69,7 @@
 
 
 
+
         <section>
             <h3 id="index">Index</h3>
             <table class="table table-sm table-bordered index-table">
@@ -79,10 +83,16 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#choice">choice</a>
+                                        <a href="#choice" 
+>
+                                            choice
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#filterValue">filterValue</a>
+                                        <a href="#filterValue" 
+>
+                                            filterValue
+                                        </a>
                                 </li>
                             </ul>
                         </td>
@@ -100,7 +110,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="choice"></a>
-                                        <span class="name"><b>choice</b><a href="#choice"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>choice</b>
+                                            <a href="#choice">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -129,7 +143,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="filterValue"></a>
-                                        <span class="name"><b>filterValue</b><a href="#filterValue"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>filterValue</b>
+                                            <a href="#filterValue">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -210,8 +228,13 @@ export class PreviewDocument {
     constructor(element: ElementRef | Document){
         if (element instanceof ElementRef) {
             this._window &#x3D; element?.nativeElement?.contentWindow;
-            if (this._window?.frames &amp;&amp; this._window.frames[&quot;frSheet&quot;]) {
-                this._window &#x3D; this._window.frames[&quot;frSheet&quot;];  // aspose xls preview
+            try {
+                // prevents Ungaught DOMException: Blocked a frame with origin ... from accessing a cross-origin frame.
+                if (this._window?.frames &amp;&amp; this._window.frames[&quot;frSheet&quot;]) {
+                    this._window &#x3D; this._window.frames[&quot;frSheet&quot;];  // aspose xls preview
+                }
+            } catch (error) {
+                console.warn(error);
             }
         } else {
             this._document &#x3D; element;
@@ -259,6 +282,12 @@ export class PreviewDocument {
         let text &#x3D; &quot;&quot;;
         forEach(nodes, n &#x3D;&gt; text +&#x3D; (n[&#x27;innerHTML&#x27;] || n.textContent));
         return text;
+    }
+    
+    public getHighlightPos(categoryId: string, index: number): DOMRect | null{
+        const nodes &#x3D; this.document.querySelectorAll(&quot;#&quot;+categoryId+&quot;_&quot;+index);
+        if(!nodes || nodes.length &#x3D;&#x3D;&#x3D; 0) return null;
+        return nodes[0].getBoundingClientRect();
     }
 
     /**
@@ -542,14 +571,14 @@ export class PreviewDocument {
 </div>
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -561,6 +590,15 @@ export class PreviewDocument {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
@@ -570,9 +608,9 @@ export class PreviewDocument {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

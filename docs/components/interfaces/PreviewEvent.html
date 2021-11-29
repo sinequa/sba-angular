@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -43,7 +44,9 @@
 
 <ol class="breadcrumb">
   <li>Interfaces</li>
-  <li>PreviewEvent</li>
+  <li
+  >
+  PreviewEvent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -66,6 +69,7 @@
 
 
 
+
         <section>
             <h3 id="index">Index</h3>
             <table class="table table-sm table-bordered index-table">
@@ -79,14 +83,23 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#query">query</a>
+                                        <a href="#query" 
+>
+                                            query
+                                        </a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#record">record</a>
+                                        <a href="#record" 
+>
+                                            record
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#type">type</a>
+                                        <a href="#type" 
+>
+                                            type
+                                        </a>
                                 </li>
                             </ul>
                         </td>
@@ -104,7 +117,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="query"></a>
-                                        <span class="name"><b>query</b><a href="#query"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>query</b>
+                                            <a href="#query">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -133,7 +150,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="record"></a>
-                                        <span class="name"><b>record</b><a href="#record"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>record</b>
+                                            <a href="#record">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -167,7 +188,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="type"></a>
-                                        <span class="name"><b>type</b><a href="#type"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>type</b>
+                                            <a href="#type">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -206,6 +231,8 @@ import {JsonObject, Utils} from &quot;@sinequa/core/base&quot;;
 import {ModalService} from &quot;@sinequa/core/modal&quot;;
 import {SearchService} from &quot;@sinequa/components/search&quot;;
 import {RecentDocumentsService} from &#x27;@sinequa/components/saved-queries&#x27;;
+import { PreviewDocument } from &quot;./preview-document&quot;;
+import { DomSanitizer, SafeHtml } from &quot;@angular/platform-browser&quot;;
 
 export const enum PreviewEventType {
     Data &#x3D; &quot;Preview_Data&quot;,
@@ -222,6 +249,12 @@ export interface PreviewEvent {
 
 export const PREVIEW_MODAL &#x3D; new InjectionToken&lt;Type&lt;any&gt;&gt;(&quot;PREVIEW_MODAL&quot;);
 
+export class Extract {
+    text: SafeHtml; // Sanitized HTML text
+    startIndex : number; // this is the start index of the extracts within the Document Text  
+    relevanceIndex : number; // 0 the most relevant to N the less relevant
+    textIndex : number; // index of the extract in the text. e.g 0 is the first extract displayed in the document
+}
 
 @Injectable({
     providedIn: &quot;root&quot;
@@ -240,7 +273,8 @@ export class PreviewService {
         private searchService: SearchService,
         private modalService: ModalService,
         private recentDocumentsService: RecentDocumentsService,
-        public exprBuilder: ExprBuilder) {
+        public exprBuilder: ExprBuilder,
+        private domSanitizer: DomSanitizer) {
 
         // Subscribe to own events and add documents to the recent documents service
         this.events.subscribe(event &#x3D;&gt; {
@@ -406,19 +440,58 @@ export class PreviewService {
     public getHtmlPreview(url:string) {
         return this.previewWebService.getHtmlPreview(url);
     }
+
+    /**
+     * Returns the list of relevant extracts enriched with their index in the document
+     * and the actual text of the extract
+     * @param extracts 
+     * @param previewDocument 
+     * @returns 
+     */
+    public getExtracts(previewData: PreviewData, previewDocument?: PreviewDocument): Extract[] {
+        //Extract locations Array ordered by &quot;relevance&quot;
+        const extracts &#x3D; previewData.highlightsPerCategory[&quot;extractslocations&quot;]?.values?.[0]?.locations || [];
+        
+        return extracts.map((el,i) &#x3D;&gt; ({start: el.start, i}))
+            // Sorting by start index (text position)
+            .sort((a, b) &#x3D;&gt; a.start - b.start)
+    
+            // next sort the array by startIndex to extract the correct extract&#x27;s text
+            // and set the textIndex
+            .map((el,i) &#x3D;&gt; ({
+                startIndex: el.start,
+                textIndex: i,
+                relevanceIndex: el.i,
+                text: this.sanitize(previewDocument?.getHighlightText(&quot;extractslocations&quot;, i))
+            }))
+            
+            // do not take item without text (only when the preview doc actually exists)
+            .filter(el &#x3D;&gt; previewDocument? el.text !&#x3D;&#x3D; &#x27;&#x27; : true)
+    
+            // finally sort extracts by relevance
+            .sort((a,b) &#x3D;&gt; a.relevanceIndex - b.relevanceIndex);
+    }
+    
+    /**
+     * Sanitize the text of a HTML formatted extract
+     * @param text
+     */
+    private sanitize(text?: string): SafeHtml | string {
+        return text? this.domSanitizer.bypassSecurityTrustHtml(text.replace(/sq\-current/, &quot;&quot;)) : &quot;&quot;;
+    }
 }</code></pre>
     </div>
 </div>
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -430,6 +503,15 @@ export class PreviewService {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
@@ -439,9 +521,9 @@ export class PreviewService {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

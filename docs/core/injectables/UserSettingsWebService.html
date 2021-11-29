@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -38,7 +39,7 @@
 
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li>UserSettingsWebService</li>
+  <li >UserSettingsWebService</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -58,6 +59,7 @@
         <p class="comment">
             <code>web-services/user-settings.web.service.ts</code>
         </p>
+
 
             <p class="comment">
                 <h3>Description</h3>
@@ -88,10 +90,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#reviver">reviver</a>
+                                <a href="#reviver" >reviver</a>
                             </li>
                             <li>
-                                <a href="#timezone">timezone</a>
+                                <a href="#timezone" >timezone</a>
                             </li>
                         </ul>
                     </td>
@@ -107,36 +109,36 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#getUserSettings">getUserSettings</a>
+                                <a href="#getUserSettings" class="deprecated-name">getUserSettings</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#load">load</a>
+                                <a href="#load" >load</a>
                             </li>
                             <li>
-                                <a href="#ngOnDestroy">ngOnDestroy</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Public</span>
-                                <a href="#patch">patch</a>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#readUserSetting">readUserSetting</a>
+                                <a href="#patch" >patch</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#reset">reset</a>
+                                <a href="#readUserSetting" >readUserSetting</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#save">save</a>
+                                <a href="#reset" >reset</a>
                             </li>
                             <li>
-                                <a href="#makeParams">makeParams</a>
+                                    <span class="modifier">Public</span>
+                                <a href="#save" >save</a>
                             </li>
                             <li>
-                                <a href="#makeUrl">makeUrl</a>
+                                <a href="#makeParams" >makeParams</a>
+                            </li>
+                            <li>
+                                <a href="#makeUrl" >makeUrl</a>
                             </li>
                         </ul>
                     </td>
@@ -155,10 +157,10 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                    <a href="#events">events</a>
+                                    <a href="#events" >events</a>
                                 </li>
                                 <li>
-                                    <a href="#userSettings">userSettings</a>
+                                    <a href="#userSettings" >userSettings</a>
                                 </li>
                             </ul>
                         </td>
@@ -173,7 +175,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(startConfig: <a href="../interfaces/StartConfig.html">StartConfig</a>, httpClient: <a href="../injectables/SqHttpClient.html">SqHttpClient</a>)</code>
+<code>constructor(startConfig: <a href="../interfaces/StartConfig.html" target="_self">StartConfig</a>, httpClient: <a href="../injectables/SqHttpClient.html" target="_self">SqHttpClient</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -239,12 +241,15 @@
                 <td class="col-md-4">
                     <a name="getUserSettings"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            getUserSettings
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span class="deprecated-name"><b>getUserSettings</b></span>
                         <a href="#getUserSettings"><span class="icon ion-ios-link"></span></a>
                     </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4 deprecated">
+                    use "userSettings" get property to retrieve the user settings
                 </td>
             </tr>
             <tr>
@@ -286,10 +291,8 @@
                 <td class="col-md-4">
                     <a name="load"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            load
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>load</b></span>
                         <a href="#load"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -330,9 +333,7 @@ Sets the userSettings member and issues the &quot;changed&quot; event</p>
                 <td class="col-md-4">
                     <a name="ngOnDestroy"></a>
                     <span class="name">
-                        <b>
-                            ngOnDestroy
-                        </b>
+                        <span ><b>ngOnDestroy</b></span>
                         <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -369,10 +370,8 @@ Sets the userSettings member and issues the &quot;changed&quot; event</p>
                 <td class="col-md-4">
                     <a name="patch"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            patch
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>patch</b></span>
                         <a href="#patch"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -380,7 +379,7 @@ Sets the userSettings member and issues the &quot;changed&quot; event</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>patch(userSettings: <a href="../interfaces/UserSettings.html">UserSettings</a>, auditEvents?: <a href="../interfaces/AuditEvent.html">AuditEvents</a>)</code>
+                    <code>patch(userSettings: <a href="../interfaces/UserSettings.html" target="_self">UserSettings</a>, auditEvents?: <a href="../interfaces/AuditEvent.html" target="_self">AuditEvents</a>)</code>
                 </td>
             </tr>
 
@@ -401,6 +400,7 @@ object is used to update the user settings on the server according to <a href="h
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -465,10 +465,8 @@ object is used to update the user settings on the server according to <a href="h
                 <td class="col-md-4">
                     <a name="readUserSetting"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            readUserSetting
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>readUserSetting</b></span>
                         <a href="#readUserSetting"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -496,6 +494,7 @@ object is used to update the user settings on the server according to <a href="h
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -544,10 +543,8 @@ object is used to update the user settings on the server according to <a href="h
                 <td class="col-md-4">
                     <a name="reset"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            reset
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>reset</b></span>
                         <a href="#reset"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -574,7 +571,7 @@ object is used to update the user settings on the server according to <a href="h
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;void&gt;</code>
 
                     </div>
                 </td>
@@ -587,10 +584,8 @@ object is used to update the user settings on the server according to <a href="h
                 <td class="col-md-4">
                     <a name="save"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            save
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>save</b></span>
                         <a href="#save"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -598,7 +593,7 @@ object is used to update the user settings on the server according to <a href="h
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>save(auditEvents?: <a href="../interfaces/AuditEvent.html">AuditEvents</a>)</code>
+                    <code>save(auditEvents?: <a href="../interfaces/AuditEvent.html" target="_self">AuditEvents</a>)</code>
                 </td>
             </tr>
 
@@ -618,6 +613,7 @@ object is used to update the user settings on the server according to <a href="h
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -661,16 +657,14 @@ object is used to update the user settings on the server according to <a href="h
                 <td class="col-md-4">
                     <a name="makeParams"></a>
                     <span class="name">
-                        <b>
-                            makeParams
-                        </b>
+                        <span ><b>makeParams</b></span>
                         <a href="#makeParams"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>makeParams(params: <a href="../interfaces/MapOf.html">MapOf<string | boolean | number | Date | object | undefined></a>)</code>
+<code>makeParams(params: <a href="../interfaces/MapOf.html" target="_self">MapOf&lt;string | boolean | number | Date | object | undefined&gt;</a>)</code>
                 </td>
             </tr>
 
@@ -696,6 +690,7 @@ object is used to update the user settings on the server according to <a href="h
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -744,9 +739,7 @@ object is used to update the user settings on the server according to <a href="h
                 <td class="col-md-4">
                     <a name="makeUrl"></a>
                     <span class="name">
-                        <b>
-                            makeUrl
-                        </b>
+                        <span ><b>makeUrl</b></span>
                         <a href="#makeUrl"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -780,6 +773,7 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -825,75 +819,73 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
 </section>
             <section>
     
-        <h3 id="inputs">
-            Properties
-        </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reviver"></a>
+                    <span class="name">
+                        <span ><b>reviver</b></span>
+                        <a href="#reviver"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="reviver"></a>
-                        <span class="name">
-                            <b>
-                            reviver</b>
-                            <a href="#reviver"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
-
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">web-services/user-settings.web.service.ts:51</a></div>
                         </td>
                     </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">web-services/user-settings.web.service.ts:51</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>A reviver function that, if set, will be called on the user settings when they are loaded</p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>A reviver function that, if set, will be called on the user settings when they are loaded</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="timezone"></a>
+                    <span class="name">
+                        <span ><b>timezone</b></span>
+                        <a href="#timezone"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <a name="timezone"></a>
-                        <span class="name">
-                            <b>
-                            timezone</b>
-                            <a href="#timezone"><span class="icon ion-ios-link"></span></a>
-                        </span>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">web-services/user-settings.web.service.ts:47</a></div>
                         </td>
                     </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">web-services/user-settings.web.service.ts:47</a></div>
-                            </td>
-                        </tr>
 
-                <tr>
-                    <td class="col-md-4">
-                        <div class="io-description"><p>The timezone for the user</p>
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The timezone for the user</p>
 </div>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </tbody>
-        </table>
+        </tbody>
+    </table>
 </section>
 
             <section>
@@ -966,7 +958,7 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
 
                 <tr>
                     <td class="col-md-4">
-                        <span class="accessor"><b>set</b><code>userSettings(value)</code></span>
+                        <span class="accessor"><b>set</b><code>userSettings(value: <a href="../interfaces/UserSettings.html" target="_self">UserSettings | undefined</a>)</code></span>
                     </td>
                 </tr>
                             <tr>
@@ -985,6 +977,7 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
                                             <thead>
                                                 <tr>
                                                     <td>Name</td>
+                                                        <td>Type</td>
                                                     <td>Optional</td>
                                                 </tr>
                                             </thead>
@@ -992,6 +985,9 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
                                                     <tr>
                                                             <td>value</td>
                                                     
+                                                            <td>
+                                                                            <code><a href="../interfaces/UserSettings.html" target="_self" >UserSettings | undefined</a></code>
+                                                            </td>
                                                     
                                                         <td>
                                                                 No
@@ -1227,14 +1223,14 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
 
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -1246,6 +1242,15 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
@@ -1255,9 +1260,9 @@ export class UserSettingsWebService extends HttpService implements OnDestroy {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 
