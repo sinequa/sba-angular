@@ -279,7 +279,7 @@ export interface MatchLocationsPerPartname {
  */
 export interface RelevantExtract {
     partname?: string;
-    value: string;
+    highlighted: string;
     locations: string;
     originalLocations: string;
     score: number;
