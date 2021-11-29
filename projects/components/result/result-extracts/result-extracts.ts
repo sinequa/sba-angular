@@ -37,8 +37,8 @@ export class ResultExtracts implements OnChanges {
         else {
             if (this.showLongExtracts && this.record.extracts) {
                 this.longExtracts = this.record.extracts
-                    .filter((extract,i) => (!this.maxLongExtracts || i < this.maxLongExtracts) && !!extract.value) // Note: keep only extracts with 11.7 format - older format not supported
-                    .map(extract => extract.value.replace(/\{b\}/g, "<strong>").replace(/\{nb\}/g, "</strong>"));
+                    .filter((extract,i) => (!this.maxLongExtracts || i < this.maxLongExtracts) && !!extract.highlighted) // Note: keep only extracts with 11.7 format - older format not supported
+                    .map(extract => extract.highlighted.replace(/\{b\}/g, "<strong>").replace(/\{nb\}/g, "</strong>"));
                 this.extractsClass = "sq-long-extracts";
             }
             else if (this.record.relevantExtracts) {
