@@ -6,9 +6,9 @@
             <!-- Application logo -->
             <a [routerLink]="['/home']" title="Home">
                 <img id="logo" src="assets/sinequa-logo-light-lg.png" alt="sinequa logo" width="160px" *ngIf="!isDark() && ui.screenSizeIsGreater('md')">
-                <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="30px" *ngIf="!isDark() && ui.screenSizeIsLessOrEqual('md')">
+                <img id="logo" src="assets/sinequa-logo-light-sm.png" alt="sinequa logo" width="40px" *ngIf="!isDark() && ui.screenSizeIsLessOrEqual('md')">
                 <img id="logo" src="assets/sinequa-logo-dark-lg.png" alt="sinequa logo" width="160px" *ngIf="isDark() && ui.screenSizeIsGreater('md')">
-                <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="30px" *ngIf="isDark() && ui.screenSizeIsLessOrEqual('md')">
+                <img id="logo" src="assets/sinequa-logo-dark-sm.png" alt="sinequa logo" width="40px" *ngIf="isDark() && ui.screenSizeIsLessOrEqual('md')">
             </a>
 
             <!-- Button to toggle the visibility of facets on small screens -->
