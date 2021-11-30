@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
+import { Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { GridsterComponent } from 'angular-gridster2';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
@@ -13,8 +15,6 @@ import { PreviewService } from '@sinequa/components/preview';
 import { Action } from '@sinequa/components/action';
 import { FACETS, METADATA, FEATURES } from '../../config';
 import { DashboardService, MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, PREVIEW_WIDGET, HEATMAP_WIDGET, TAGCLOUD_WIDGET, MONEYTIMELINE_WIDGET, MONEYCLOUD_WIDGET } from '../dashboard/dashboard.service';
-import { GridsterComponent } from 'angular-gridster2';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search',
@@ -27,7 +27,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   public multiFacetIcon? = "fas fa-filter fa-fw";
   public multiFacetTitle = "msg#facet.filters.title";
 
-  public resultsStream$: Observable<Results | undefined>;
+  public results$: Observable<Results | undefined>;
   private _loginSubscription: Subscription;
 
   focusElementIndex:number;
@@ -59,17 +59,15 @@ export class SearchComponent implements OnInit, OnDestroy {
   ) {
 
     // Subscribe to the search service to update the page title based on the searched text
-    this.resultsStream$ = this.searchService.resultsStream
+    this.results$ = this.searchService.resultsStream
       .pipe(
-        map(results => {
+        tap(_ => {
           this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
 
           // Hack to fix an issue with change detection...
           setTimeout(() => {
             this.cdRef.detectChanges();
           }, 0);
-
-          return results;
         })
       );
 

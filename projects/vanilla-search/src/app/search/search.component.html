@@ -30,7 +30,7 @@
                     <sq-baskets-menu *ngSwitchCase="'baskets'" [icon]="'fas fa-inbox'"></sq-baskets-menu>
                     <sq-saved-queries-menu *ngSwitchCase="'saved-queries'"></sq-saved-queries-menu>
                     <sq-alerts-menu *ngSwitchCase="'alerts'"></sq-alerts-menu>
-                    <sq-labels-menu *ngSwitchCase="'labels'" [results]="searchService.resultsStream | async"></sq-labels-menu>
+                    <sq-labels-menu *ngSwitchCase="'labels'" [results]="results$ | async"></sq-labels-menu>
                 </ng-container>
                 <sq-user-menu></sq-user-menu>
             </ul>
@@ -47,7 +47,7 @@
 
 <!-- Main interface -->
 <div class="container-xl main" *ngIf="loginService.complete">
-    <div class="row" *ngIf="resultsStream$ | async; let results">
+    <div class="row" *ngIf="results$ | async; let results">
 
         <!-- Left facet bar -->
         <div class="col-md-4 col-lg-3 col-xl-2" *ngIf="showFilters" [sqSticky]="{top: 70, bottom: 80}">
@@ -134,6 +134,5 @@
             </sq-facet-card>
 
         </div>
-
     </div>
 </div>

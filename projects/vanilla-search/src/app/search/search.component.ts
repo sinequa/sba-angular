@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { Action } from '@sinequa/components/action';
 import { FacetConfig } from '@sinequa/components/facet';
 import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
@@ -36,7 +36,7 @@ export class SearchComponent implements OnInit {
   // Whether the menu is shown on small screens
   public _showMenu = false;
 
-  public resultsStream$: Observable<Results | undefined>;
+  public results$: Observable<Results | undefined>;
 
   constructor(
     private previewService: PreviewService,
@@ -72,16 +72,14 @@ export class SearchComponent implements OnInit {
 
     // mutate results/records if desired, convert to switchMap or mergeMap if additional calls need to be chained
     // consult RxJS documentation for additional functionality like combineLatest, etc.
-    this.resultsStream$ = this.searchService.resultsStream
+    this.results$ = this.searchService.resultsStream
       .pipe(
-        map(results => {
+        tap(_ => {
           this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
           if (!this.showResults) {
             this.openedDoc = undefined;
             this._showFilters = false;
           }
-
-          return results;
         })
       );
   }
