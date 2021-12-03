@@ -43,7 +43,7 @@ export class BsFacetTagCloud extends AbstractFacet implements OnChanges {
 
     aggregationsData: Aggregation[] = [];
     tagCloudData: TagCloudItem[] = [];
-    private filtered: AggregationItem[] = [];
+    filtered: AggregationItem[] = [];
 
     // Actions enabled within the facet
     private readonly clearFilters: Action;
