@@ -1,6 +1,9 @@
-import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, DoCheck, Optional } from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, DoCheck, Optional, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { Utils } from '@sinequa/core/base';
+import {Subject} from 'rxjs';
+import {distinctUntilChanged, filter} from 'rxjs/operators';
+
+import {Utils} from '@sinequa/core/base';
 import { AppService } from '@sinequa/core/app-utils';
 import { AbstractFacet, BsFacetCard, FacetService } from '@sinequa/components/facet';
 import { Results, ListAggregation, AggregationItem } from '@sinequa/core/web-services';
@@ -8,13 +11,14 @@ import { SearchService } from '@sinequa/components/search';
 import { Action } from '@sinequa/components/action';
 import { UserPreferences } from '@sinequa/components/user-settings';
 import { SelectionService } from '@sinequa/components/selection';
-import { HeatmapItem } from './heatmap.component';
+
+import {HeatmapItem} from './heatmap.component';
 
 @Component({
     selector: "sq-facet-heatmap",
     templateUrl: './facet-heatmap.component.html'
 })
-export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges, DoCheck {
+export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges, DoCheck, OnDestroy {
     @Input() results: Results;
     @Input() aggregation= "Heatmap";
     @Input() name?: string;
@@ -63,6 +67,9 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     // A flag to wait for the parent component to actually display this child, since creating
     // the heatmap component without displaying causes strange bugs...
     ready = false;
+    
+    // HeatmapItem user's click stream
+    private _source$ = new Subject<HeatmapItem>();
 
     constructor(
         public appService: AppService,
@@ -99,6 +106,17 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
                 }
             }
         });
+        
+        
+        // prevent multiple subscriptions at one time
+        this._source$.pipe(
+            filter(() => this.aggregationData !== undefined),
+            distinctUntilChanged((prev, curr) => prev.value === curr.value),
+        )
+        .subscribe(item => {
+            this.facetService.addFilterSearch(this._name, this.aggregationData!, item, {forceAdd: true});
+        });
+
     }
 
     // The name of the heatmap is used to identify it in the list of breadcrumbs and the user preferences
@@ -121,6 +139,12 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
         // We check that the parent component (if any) as been expanded at least once so that the fusioncharts
         // gets created when it is visible (otherwise, there can be visual bugs...)
         this.ready = !this.cardComponent?._collapsed;
+    }
+    
+    ngOnDestroy() {
+        // unsubscribe to avoid memory leaks
+        this._source$.complete();
+        this._source$.unsubscribe();
     }
 
     
@@ -311,10 +335,8 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
      * Callback when a heatmap time is clicked
      * @param item 
      */
-    onItemClicked(item: HeatmapItem){
-        if(this.aggregationData){
-            this.facetService.addFilterSearch(this._name, this.aggregationData, item);
-        }
+    onItemClicked(item: HeatmapItem) {
+        this._source$.next(item);
     }
 
     /**
