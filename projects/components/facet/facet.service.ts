@@ -31,6 +31,7 @@ export interface AddFilterOptions {
     and?: boolean;
     not?: boolean;
     replaceCurrent?: boolean;
+    forceAdd?: boolean; // force a new select creation instead of append it into the current one
 }
 
 // Audit Events (from models/Audit)
@@ -283,36 +284,49 @@ export class FacetService {
         if (!items) {
             return false;
         }
+        
+        // if options.forceAdd is true, we add the filter as a new "select"
+        // if options.replaceCurrent is true, previous "select" is remove first
+        // otherwise, we try to append new filter to previous "select"
         if (options.replaceCurrent) {
             query.removeSelect(facetName);
-        }
+        } else if (breadcrumbs?.activeSelects.length && !options.forceAdd) {
+            // here, we try to add a filter to the previous selection
+            
+            const existingExpr = breadcrumbs.findSelect(facetName);
+            const existingSelectIndex = breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === existingExpr || select.expr === existingExpr?.parent));
+            
+            /* if items is not an array (just a single selection filter),
+             * just append it to the existing filter.
+             * so, we are assuming that new filter selection is the same 'select" as previous one.
+            */
+            const isSameSelect = (!Array.isArray(items)) ? true : (options.and ? "AND" : "OR") === (existingExpr?.and ? "AND" : "OR") && (options.not ? "YES" : "NO") === (existingExpr?.not ? "YES" : "NO");
 
-        if (breadcrumbs?.activeSelects.length && !options.replaceCurrent) {
-            const expr = breadcrumbs.findSelect(facetName);
-            const index = breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === expr || select.expr === expr?.parent));
-            const same = (!Array.isArray(items)) ? true : (options.and ? "AND" : "OR") === (expr?.and ? "AND" : "OR") && (options.not ? "YES" : "NO") === (expr?.not ? "YES" : "NO");
-
-            if (expr && same && index !== -1){
+            /* if an expression is found and same is true, we just add the new item to the existing expression
+             * to do this, we re-construct the expression and add it to the query
+             */
+            if (existingExpr && isSameSelect && existingSelectIndex !== -1){
                 let _items: AggregationItem[];
-                if (expr?.operands) {
-                    _items = this.exprToAggregationItem(expr.operands, aggregation.valuesAreExpressions).concat(items);
+                if (existingExpr?.operands) {
+                    _items = this.exprToAggregationItem(existingExpr.operands, aggregation.valuesAreExpressions).concat(items);
                 } else {
                     // previous selection is a single value
-                    _items = this.exprToAggregationItem(expr as Expr, aggregation.valuesAreExpressions).concat(items);
+                    _items = this.exprToAggregationItem(existingExpr as Expr, aggregation.valuesAreExpressions).concat(items);
                 }
                 // MUST reset $excluded property otherwise expression is misunderstood
                 _items.forEach(item => item.$excluded = undefined);
                 // overrides options settings with expression if any
-                let _expr = this.exprBuilder.makeAggregationExpr(aggregation, _items, options.and || expr.and);
-                if (options.not || expr.not) {
+                let _expr = this.exprBuilder.makeAggregationExpr(aggregation, _items, options.and || existingExpr.and);
+                if (options.not || existingExpr.not) {
                     _expr = this.exprBuilder.makeNotExpr(_expr);
                 }
                 if (_expr) {
-                    query.replaceSelect(index, {expression: _expr, facet: facetName});
+                    query.replaceSelect(existingSelectIndex, {expression: _expr, facet: facetName});
                     return true;
                 }
-            }
+            }            
         }
+        
         let expr = this.exprBuilder.makeAggregationExpr(aggregation, items, options.and);
         if (options.not) {
             expr = this.exprBuilder.makeNotExpr(expr);
