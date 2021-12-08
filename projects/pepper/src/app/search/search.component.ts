@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Observable, Subscription } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { filter, takeUntil, tap } from 'rxjs/operators';
 import { GridsterComponent } from 'angular-gridster2';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
@@ -29,6 +29,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   public results$: Observable<Results | undefined>;
   private _loginSubscription: Subscription;
+
+  private destroy$ = new Subject();
 
   focusElementIndex:number;
 
@@ -109,7 +111,9 @@ export class SearchComponent implements OnInit, OnDestroy {
     // this allow us to display dropdown menu on top of the gridster
     this.dropdownService.events
       .pipe(
-        filter((event) => event.type === "active" )
+        filter(() => this.gridster !== undefined),
+        filter((event) => event.type === "active"),
+        takeUntil(this.destroy$)
       )
       .subscribe(event => {
         // when dropdown is active, disable gridster's overflow
@@ -122,7 +126,6 @@ export class SearchComponent implements OnInit, OnDestroy {
           this.gridster.el.style.top = "";
         }
       });
-
   }
 
 
@@ -136,7 +139,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   /**
    * Unsubscribe from the search service
    */
-  ngOnDestroy(){
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
     this._loginSubscription.unsubscribe();
   }
 
