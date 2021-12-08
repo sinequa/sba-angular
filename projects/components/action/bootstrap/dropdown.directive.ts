@@ -87,7 +87,8 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
         const isActive = this.dropdownMenu && this.dropdownMenu.classList.contains(gClassName.SHOW);
 
         this.dropdownService.raiseClear();
-
+        // send dropdown's active state to the service
+        this.dropdownService.raiseActive(!isActive);
         if (isActive) {
             return;
         }
