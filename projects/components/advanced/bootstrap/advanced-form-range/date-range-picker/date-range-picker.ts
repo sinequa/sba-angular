@@ -20,17 +20,17 @@ export interface DateRangePickerOptions extends DatePickerOptions {
 @Component({
     selector: "sq-date-range-picker",
     template: `
-        <div *ngIf="options.closedRange" class="sq-date-range-picker form-row">
+        <div *ngIf="options.closedRange" class="sq-date-range-picker">
             <div class="col">
                 <input type="text" autocomplete="off" class="form-control" bsDaterangepicker triggers="click" #fromTo="bsDaterangepicker" [bsConfig]="bsFromToConfig()" [ngModel]="value" (ngModelChange)="updateFromTo($event)" [placeholder]="dateFormat"/>
             </div>
         </div>
-        <div *ngIf="!options.closedRange" class="sq-date-range-picker form-row">
-            <div class="col-auto">
+        <div *ngIf="!options.closedRange" class="d-flex align-items-center justify-content-between gap-2 sq-date-range-picker">
+            <div class="flex-grow-1">
                 <input type="text" autocomplete="off" [id]="fromName" class="form-control sq-range-from" bsDatepicker triggers="click" #from="bsDatepicker" [bsConfig]="bsFromConfig()" [ngModel]="value[0]" (ngModelChange)="updateFrom($event)" [placeholder]="dateFormat"/>
             </div>
-            <div class="col-auto sq-separator">{{'msg#advanced.dateRangePicker.separator' | sqMessage}}</div>
-            <div class="col-auto">
+            <div class="sq-separator">{{'msg#advanced.dateRangePicker.separator' | sqMessage}}</div>
+            <div class="flex-grow-1">
                 <input type="text" autocomplete="off" [id]="toName" class="form-control sq-range-to" bsDatepicker triggers="click" #to="bsDatepicker" [bsConfig]="bsToConfig()" [ngModel]="value[1]" (ngModelChange)="updateTo($event)" [placeholder]="dateFormat"/>
             </div>
         </div>

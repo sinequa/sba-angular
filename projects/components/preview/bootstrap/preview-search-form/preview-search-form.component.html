@@ -1,16 +1,10 @@
 <form novalidate [formGroup]="form">
     <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <label for="search-input" class="input-group-text">{{ 'msg#preview.search' | sqMessage }}</label>
-        </div>
-
+        <label for="search-input" class="input-group-text">{{ 'msg#preview.search' | sqMessage }}</label>
         <input id="search-input" type="text" placeholder="{{ 'msg#searchForm.searchFor' | sqMessage }}" formControlName="search" class="form-control" sqAutofocus>
 
-        <div class="input-group-append">
-            <button class="btn btn-primary" type="submit" (click)="search()" 
-                title="{{ 'msg#searchForm.search' | sqMessage }}">
-                <i class="fas fa-fw fa-search"></i>
-            </button>
-        </div>
+        <button class="btn btn-outline-primary" type="submit" (click)="search()" title="{{ 'msg#searchForm.search' | sqMessage }}">
+            <i class="fas fa-fw fa-search"></i>
+        </button>
     </div>
 </form>

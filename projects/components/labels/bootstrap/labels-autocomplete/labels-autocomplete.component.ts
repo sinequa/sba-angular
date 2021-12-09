@@ -64,6 +64,14 @@ import { AutocompleteItem } from "@sinequa/components/autocomplete";
             :host input:focus {
                 outline: none;
             }
+            /* simulate the input focus on the parent control of the input*/
+            :host .form-control:focus-within {
+                color: rgb(33, 37, 41);
+                background-color: rgb(255, 255, 255);
+                box-shadow: rgba(13, 110, 253, 0.25) 0px 0px 0px 0.25rem;
+                border-color: rgb(134, 183, 254);
+                outline: 0px;
+            }
         `,
     ],
 })

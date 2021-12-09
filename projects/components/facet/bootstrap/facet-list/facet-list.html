@@ -1,6 +1,6 @@
 <div *ngIf="!isHidden()" class="list-group list-group-flush">
-    <div *ngIf="displayActions && actions" class="d-flex pb-2 pr-2">
-        <div class="btn-group ml-auto"
+    <div *ngIf="displayActions && actions" class="d-flex pb-2 pe-2">
+        <div class="btn-group ms-auto"
             [sq-action-buttons]="{items: actions, size: 'sm'}">
         </div>
     </div>
@@ -21,12 +21,12 @@
         [title]="'msg#facet.selectedValue' | sqMessage"
         (click)="filterItem(item, $event)">
 
-        <a href="#" class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
+        <a href="#" class="text-truncate me-auto">{{item | sqValue:item.$column}}</a>
 
-        <span *ngIf="showCount && item.count" class="ml-2 text-muted small">{{item.count | sqNumber}}</span>
+        <span *ngIf="showCount && item.count" class="ms-2 text-muted small">{{item.count | sqNumber}}</span>
         <span class="fa-stack cursor-pointer">
-            <i class="ml-2 far fa-minus-square fa-stack-1x icons icon-hover rotate"></i>
-            <i class="ml-2 far fa-check-square fa-stack-1x icons icon-default rotate"></i>
+            <i class="ms-2 far fa-minus-square fa-stack-1x icons icon-hover rotate"></i>
+            <i class="ms-2 far fa-check-square fa-stack-1x icons icon-default rotate"></i>
         </span>
 
     </div>
@@ -39,9 +39,9 @@
 
         <a  href="#" (click)="filterItem(item, $event)"
             [title]="'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)}"
-            class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
+            class="text-truncate me-auto">{{item | sqValue:item.$column}}</a>
         
-        <span *ngIf="showCount && item.count" class="ml-2 text-muted small">{{item.count | sqNumber}}</span>
+        <span *ngIf="showCount && item.count" class="ms-2 text-muted small">{{item.count | sqNumber}}</span>
     </div>
 
     <!--- suggestions items -->
@@ -53,9 +53,9 @@
         <a  href="#" (click)="filterItem(suggest, $event)"
             role="button" 
             title="{{ 'msg#facet.filterItem' | sqMessage:{'terme':(suggest | sqValue:suggest.$column)} }}"
-            class="text-truncate mr-auto">{{suggest | sqValue:suggest.$column}}</a>                
+            class="text-truncate me-auto">{{suggest | sqValue:suggest.$column}}</a>                
 
-        <span *ngIf="showCount && suggest.count" class="ml-2 text-muted small" style="z-index: 1;">{{suggest.count | sqNumber}}</span>
+        <span *ngIf="showCount && suggest.count" class="ms-2 text-muted small" style="z-index: 1;">{{suggest.count | sqNumber}}</span>
     
     </div>
     <span *ngIf="noResults" class="d-block text-center text-muted small py-1"><i>{{'msg#facet.searchNoResult' | sqMessage}}</i></span>
@@ -72,9 +72,9 @@
             <div class="d-flex justify-content-between align-items-baseline">
                 <a  href="#" (click)="filterItem(item, $event)" style="z-index: 1;"
                     [title]="'msg#facet.filterItem' | sqMessage:{'terme':(item | sqValue:item.$column)}"
-                    class="text-truncate mr-auto">{{item | sqValue:item.$column}}</a>
+                    class="text-truncate me-auto">{{item | sqValue:item.$column}}</a>
 
-                <span *ngIf="showCount && item.count" class="ml-2 text-muted small" style="z-index: 1;">{{item.count | sqNumber}}</span>
+                <span *ngIf="showCount && item.count" class="ms-2 text-muted small" style="z-index: 1;">{{item.count | sqNumber}}</span>
             </div>
         </div>
 

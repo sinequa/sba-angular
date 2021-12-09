@@ -31,7 +31,7 @@ export class BsDropdownMenu implements OnInit {
         return this._options;
     }
     
-    @HostBinding("class.dropdown-menu-right") rightAligned;
+    @HostBinding("class.dropdown-menu-end") rightAligned;
 
     constructor(
         private elementRef: ElementRef) {

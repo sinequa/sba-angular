@@ -1,7 +1,7 @@
 <sq-modal [title]="model.column">
-    <div class="custom-control custom-checkbox mb-2">
-        <input type="checkbox" class="custom-control-input" id="format-popup" [(ngModel)]="formatContent" (ngModelChange)="updateData()">
-        <label class="custom-control-label" for="format-popup">{{'msg#grid.formatData' | sqMessage}}</label>
+    <div class="form-check mb-2">
+        <input type="checkbox" class="form-check-input" id="format-popup" [(ngModel)]="formatContent" (ngModelChange)="updateData()">
+        <label class="form-check-label" for="format-popup" role="button">{{'msg#grid.formatData' | sqMessage}}</label>
     </div>
 
     <pre class="border mb-0 p-1">{{data}}</pre>

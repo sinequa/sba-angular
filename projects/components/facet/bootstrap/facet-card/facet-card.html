@@ -1,9 +1,9 @@
 <div class="card" (click)="$event.stopPropagation()">
-    <div class="card-header cursor-default pl-3 pr-2 py-1">
+    <div class="card-header cursor-default ps-3 pe-2 py-1">
         <div class="d-flex">
-            <div class="d-flex align-items-center text-truncate mr-auto" [title]="(tooltip || title) | sqMessage">
-                <div *ngIf="!!icon" class="card-icon {{icon}} mr-2" aria-hidden="true"></div>
-                <div *ngIf="title" class="card-title text-truncate mb-0 py-1 mr-auto">{{title | sqMessage }}</div>
+            <div class="d-flex align-items-center text-truncate me-auto" [title]="(tooltip || title) | sqMessage">
+                <div *ngIf="!!icon" class="card-icon {{icon}} me-2" aria-hidden="true"></div>
+                <div *ngIf="title" class="card-title text-truncate mb-0 py-1 me-auto">{{title | sqMessage }}</div>
             </div>
             <ng-container *ngIf="facetComponent && facetComponent.headerTpl" [ngTemplateOutlet]="facetComponent.headerTpl">
             </ng-container>

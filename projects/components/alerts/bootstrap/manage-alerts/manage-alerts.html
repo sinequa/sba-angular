@@ -1,21 +1,21 @@
 <form name="manageAlerts" novalidate>
     <sq-modal [title]="'msg#manageAlerts.title'" [buttons]="buttons">
-        <div *ngIf="model.alerts.length" class="form-group clearfix">
+        <div *ngIf="model.alerts.length" class="mb-3 clearfix">
             <button type="button" class="btn btn-secondary float-right" (click)="reorder()">{{(reordering ? "msg#manageAlerts.edit" : "msg#manageAlerts.reorder") | sqMessage}}</button>
         </div>
-        <div class="form-group">
-            <div class="list-group" cdkDropList [cdkDropListData]="model.alerts" [cdkDropListDisabled]="!reordering" (cdkDropListDropped)="dropped($event)">
-                <a *ngFor="let alert of model.alerts; let $index = index" href="#" (click)="editAlert(alert)" cdkDrag 
-                    [ngClass]="['list-group-item list-group-item-action d-flex w-auto-unimportant', reordering ? 'cursor-move': '']">
+        <div class="mb-3">
+            <ul class="list-group" cdkDropList [cdkDropListData]="model.alerts" [cdkDropListDisabled]="!reordering" (cdkDropListDropped)="dropped($event)">
+                <li *ngFor="let alert of model.alerts; let $index = index" (click)="editAlert(alert)" cdkDrag
+                    role="button"
+                    class="list-group-item list-group-item-action d-flex user-select-none"
+                    [ngClass]="{'cursor-move': reordering}">
                     <div [ngClass]="{'sq-active': !reordering, 'sq-alert-text': true}">{{alert.name}}</div>
-                    <div class="ml-auto">
-                        <a *ngIf="!reordering" class="ml-2" href="#" (click)="remove(alert, $index)" title="{{'msg#manageAlerts.remove' | sqMessage}}">
-                            <span class="fas fa-times sq-remove"></span>
-                        </a>
-                        <span *ngIf="reordering" class="ml-2 fas fa-bars sq-move"></span>
+                    <div class="ms-auto">
+                        <i *ngIf="!reordering" class="fas fa-times sq-remove ms-2" (click)="remove(alert, $index)" title="{{'msg#manageAlerts.remove' | sqMessage}}"></i>
+                        <i *ngIf="reordering" class="ms-2 fas fa-bars sq-move"></i>
                     </div>
-                </a>
-            </div>
+                </li>
+            </ul>
         </div>
         <sq-alert-message footer [message]="'msg#editAlert.lossDataMessage' | sqMessage" style="flex: 0 1 100%" *ngIf="showDirtyMessage"></sq-alert-message>
     </sq-modal>

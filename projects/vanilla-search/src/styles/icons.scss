@@ -159,3 +159,7 @@ $sq-icon-families: ("s", "b", "r", "l") !default;
 .sq-logo:before {
     content: url('../assets/favicon.png');
 }
+.sq-logo {
+    height: 1rem;
+    align-self: center;
+}

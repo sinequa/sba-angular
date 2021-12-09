@@ -11,19 +11,27 @@
 .clickable:hover {
     opacity: 85%;
 }
-.multi-entry {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    height: unset !important;
+
+.cursor-default {
+    cursor: default;
 }
 :host input {
     border: none;
-    flex-grow: 1;
-    flex-basis: 100px;
-    min-width: 100px;
 }
 :host input:focus {
     outline: none;
+}
+
+/* simulate the input focus on the parent control of the input*/
+:host .form-control:focus-within {
+    color: rgb(33, 37, 41);
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(13, 110, 253, 0.25) 0px 0px 0px 0.25rem;
+    border-color: rgb(134, 183, 254);
+    outline: 0px;
+}
+
+:host .form-control.is-valid:focus-within {
+    box-shadow: rgba(25, 135, 84, 0.25) 0px 0px 0px 0.25rem;
+    border-color: rgb(25, 135, 84);
 }

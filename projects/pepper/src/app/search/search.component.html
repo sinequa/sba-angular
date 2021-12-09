@@ -24,15 +24,14 @@
             <sq-user-menu></sq-user-menu>
         </ul>
 
-        <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ml-1" *ngIf="loginService.complete">
-        </sq-feedback-menu>
+        <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1" *ngIf="loginService.complete"></sq-feedback-menu>
 
     </div>
 
     <ng-container *ngIf="loginService.complete">
         <div class="container-fluid justify-content-start px-0" *ngIf="results$ | async as results">
-            <span class="text-muted mr-2"><i class="fas fa-filter"></i> {{ 'msg#search.filters' | sqMessage }}: </span>
-            <sq-facet-filters [results]="results" [facets]="facets" class="mr-auto"></sq-facet-filters>
+            <span class="text-muted me-2"><i class="fas fa-filter"></i> {{ 'msg#search.filters' | sqMessage }}: </span>
+            <sq-facet-filters [results]="results" [facets]="facets" class="me-auto"></sq-facet-filters>
 
             <div class="btn-group dashboard-actions" [sq-action-buttons]="{items: dashboardActions, style: 'primary', rightAligned: true}"></div>
         </div>
@@ -71,7 +70,7 @@
                 <sq-tabs [results]="results"></sq-tabs>
 
                 <!-- Toolbar -->
-                <div class="d-flex flex-row" [ngClass]="{'mr-2': !results.tabs}"> <!-- margin right when no tab, due to results toggle button -->
+                <div class="d-flex flex-row" [ngClass]="{'me-2': !results.tabs}"> <!-- margin right when no tab, due to results toggle button -->
                     <sq-facet-mysearch [results]="results" [allowDeletion]="true" class="flex-grow-1 flex-basis-0"></sq-facet-mysearch>
                     <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
                     <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-sort-selector>
@@ -90,16 +89,15 @@
                     [sqScrollIntoView]="{active: record.id === lastSelectedId, first: i === 0}">
                     <div class="flex-grow-1 overflow-hidden">
                         <div class="d-flex align-items-center">
-                            <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')" [record]="record" class="ml-1"></sq-result-selector>
+                            <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')" [record]="record" class="ms-1"></sq-result-selector>
                             <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
                         </div>
                         <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
                         <sq-result-extracts [record]="record"></sq-result-extracts>
                         <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
-                        <div class="d-inline">
-                          <sq-labels [record]="record" [public]="true" class="d-inline"></sq-labels>
-                          <sq-labels [record]="record" [public]="false" class="d-inline"></sq-labels>
-                        </div>
+
+                        <sq-labels [record]="record" [public]="true"></sq-labels>
+                        <sq-labels [record]="record" [public]="false"></sq-labels>
                     </div>
                     <sq-result-thumbnail [record]="record" [thumbnailColumn]="'sourcevarchar4'" [linkBehavior]="'action'"
                         *ngIf="ui.screenSizeIsGreater('xs')" class="align-self-center">
@@ -139,6 +137,6 @@
     </div>
 </ng-container>
 
-<div *ngIf="!(results$ | async)" class="align-self-center my-auto text-center">
+<div *ngIf="(results$ | async) === undefined" class="align-self-center my-auto text-center">
     <img src="assets/pepper-lg.png" height="350px">
 </div>

@@ -65,6 +65,7 @@ body.dark {
     .list-group {
 
         .list-group-item {
+            color: $dark-color;
             background-color: inherit;
         }
 
@@ -129,7 +130,7 @@ body.dark {
     }
 
     @include media-breakpoint-up(sm) {
-        .navbar-right, .dropdown-menu-right {
+        .navbar-right, .dropdown-menu-end {
             .dropdown-submenu > a:before {
                 border-right-color: rgba(255, 255, 255, 0.5);
             }

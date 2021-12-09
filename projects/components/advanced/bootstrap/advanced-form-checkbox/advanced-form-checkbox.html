@@ -1,14 +1,13 @@
-<div class="form-group" [formGroup]="form">
+<div class="mb-3" [formGroup]="form">
     <div class="form-check">
-        <label class="custom-control custom-checkbox">
-            <input
-                class="custom-control-input"
-                type="checkbox"
-                sqAdvancedFormValidation
-                [field]="field"
-                [validationForm]="form"
-                [formControlName]="field">
-            <span class="custom-control-label">{{label | sqMessage}}</span>
-        </label>
+        <input
+            id="check_{{field}}"
+            class="form-check-input"
+            type="checkbox"
+            sqAdvancedFormValidation
+            [field]="field"
+            [validationForm]="form"
+            [formControlName]="field">
+        <label role="button" for="check_{{field}}" class="form-check-label">{{label | sqMessage}}</label>
     </div>
 </div>

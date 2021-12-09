@@ -12,7 +12,7 @@
             </a>
 
             <!-- Button to toggle the visibility of facets on small screens -->
-            <button *ngIf="ui.screenSizeIsLessOrEqual('md')" class="ml-2 btn btn-lg btn-{{isDark()? 'dark' : 'light'}}" title="{{ 'msg#search.showFilters' | sqMessage }}"
+            <button *ngIf="ui.screenSizeIsLessOrEqual('md')" class="ms-2 btn btn-lg btn-light" title="{{ 'msg#search.showFilters' | sqMessage }}"
                 (click)="toggleFilters()">
                 <i class="fas fa-filter text-muted"></i>
             </button>
@@ -21,7 +21,7 @@
             <app-search-form class="flex-grow-1 flex-basis-0 mx-3" *ngIf="showForm"></app-search-form>
 
             <!-- User menu which visibility can be toggled with a button on small screens -->
-            <button *ngIf="ui.screenSizeIsLess('sm') && !showFilters" class="btn btn-lg btn-{{isDark()? 'dark' : 'light'}}" title="{{ 'msg#search.showMenu' | sqMessage }}"
+            <button *ngIf="ui.screenSizeIsLess('sm') && !showFilters" class="btn btn-lg btn-light" title="{{ 'msg#search.showMenu' | sqMessage }}"
                 (click)="toggleMenu()">
                 <i class="fas fa-bars text-muted"></i>
             </button>
@@ -35,8 +35,7 @@
                 <sq-user-menu></sq-user-menu>
             </ul>
 
-            <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ml-1" *ngIf="loginService.complete">
-            </sq-feedback-menu>
+            <sq-feedback-menu [style]="'primary'" [rightAligned]="true" class="ms-1" *ngIf="loginService.complete"></sq-feedback-menu>
 
         </div>
     </nav>
@@ -51,18 +50,18 @@
 
         <!-- Left facet bar -->
         <div class="col-md-4 col-lg-3 col-xl-2" *ngIf="showFilters" [sqSticky]="{top: 70, bottom: 80}">
-            <sq-facet-card [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'" [collapsible]="false" [buttonsStyle]="isDark()? 'dark' : 'light'">
+            <sq-facet-card class="d-block mt-3" [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'" [collapsible]="false">
                 <sq-facet-tree #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-tree>
             </sq-facet-card>
-            <sq-facet-card [title]="multiFacetTitle" [icon]="multiFacetIcon" [collapsible]="false" [buttonsStyle]="isDark()? 'dark' : 'light'" class="d-block mt-3">
+            <sq-facet-card [title]="multiFacetTitle" [icon]="multiFacetIcon" [collapsible]="false" class="d-block mt-3">
                 <sq-facet-multi #facet [results]="results" [facets]="facets" [showProgressBar]="false" (events)="facetChanged($event)"></sq-facet-multi>
             </sq-facet-card>
         </div>
 
         <!-- Result selection toolbar -->
-        <div class="card text-white bg-primary position-fixed action-bar" *ngIf="ui.screenSizeIsGreater('sm')">
-            <div class="card-header">
-                <sq-results-selector [style]="isDark()? 'dark' : 'primary'"></sq-results-selector>
+        <div class="card-action-bar rounded text-white bg-primary position-fixed w-auto" *ngIf="ui.screenSizeIsGreater('sm')">
+            <div class="p-2">
+                <sq-results-selector [style]="'primary'"></sq-results-selector>
             </div>
         </div>
 
@@ -76,7 +75,7 @@
             <div class="d-flex">
                 <sq-facet-mysearch [results]="results" [allowDeletion]="true" class="flex-grow-1 flex-basis-0"></sq-facet-mysearch>
                 <sq-results-counter [rowCount]="searchService.rowCount" class="mx-2"></sq-results-counter>
-                <sq-sort-selector [results]="results" [rightAligned]="true" [style]="isDark()? 'dark' : 'light'"></sq-sort-selector>
+                <sq-sort-selector [results]="results" [rightAligned]="true"></sq-sort-selector>
             </div>
 
             <!-- Did you mean -->
@@ -91,16 +90,15 @@
                 [ngClass]="{'selected': record.$selected || record === openedDoc}">
                 <div class="flex-grow-1 overflow-hidden">
                     <div class="d-flex align-items-center">
-                        <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')" [record]="record" class="ml-1"></sq-result-selector>
+                        <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')" [record]="record" class="ms-1"></sq-result-selector>
                         <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
                     </div>
                     <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
                     <sq-result-extracts [record]="record"></sq-result-extracts>
                     <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
-                    <div class="d-inline">
-                        <sq-labels [record]="record" [public]="true" class="d-inline"></sq-labels>
-                        <sq-labels [record]="record" [public]="false" class="d-inline"></sq-labels>
-                    </div>
+                    
+                    <sq-labels [record]="record" [public]="true"></sq-labels>
+                    <sq-labels [record]="record" [public]="false"></sq-labels>
                 </div>
                 <sq-result-thumbnail [record]="record" [thumbnailColumn]="'sourcevarchar4'" [linkBehavior]="'action'"
                     *ngIf="ui.screenSizeIsGreater('xs')" class="align-self-center">
@@ -119,7 +117,6 @@
 
             <!-- Scaled-down preview -->
             <sq-facet-card *ngIf="openedDoc" [collapsible]="false" class="d-block mb-3 facet-preview"
-                [buttonsStyle]="isDark()? 'dark' : 'light'"
                 [actionsSize]="''">
                 <sq-facet-preview-2 #facet
                     [record]="openedDoc"

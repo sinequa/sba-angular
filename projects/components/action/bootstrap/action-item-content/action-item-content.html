@@ -2,18 +2,20 @@
 
 <ng-template #in_dropdown_menu>
     <ng-container *ngIf="!!item.component" (click)="componentClick($event)"[sqLoadComponent]="{component: item.component, inputs: item.componentInputs }"></ng-container>
-    <div *ngIf="!!!item.component" class="d-flex flex-row sq-action-item-content-container">
-        <div *ngIf="item.showSelected"><span class="fas fa-check {{item.selected ? '' : 'invisible'}}" aria-hidden="true"></span></div>
-        <div *ngIf="!!item.icon"><span class="{{item.icon}}" aria-hidden="true"></span></div>
+    <div *ngIf="!!!item.component" class="d-flex align-items-baseline sq-action-item-content-container">
+        <div *ngIf="item.showSelected">
+            <i class="fas fa-check {{item.selected ? '' : 'invisible'}}" aria-hidden="true"></i>
+        </div>
+        <i *ngIf="!!item.icon" class="{{item.icon}} me-1" aria-hidden="true"></i>
         <div>{{text | sqMessage:item.messageParams}}</div>
-        <div *ngIf="!!item.iconAfter" class="ml-auto"><span class="{{item.iconAfter}}" aria-hidden="true"></span></div>
+        <div *ngIf="!!item.iconAfter" class="ms-auto">
+            <i class="{{item.iconAfter}}" aria-hidden="true"></i>
+        </div>
     </div>
 </ng-template>
 
 <ng-template #not_in_dropdown_menu>
-    <span [ngClass]="item.styles || ''">
-        <span *ngIf="!!item.icon" class="{{item.icon}}" aria-hidden="true"></span>
-        {{text | sqMessage:item.messageParams}}
-        <span *ngIf="!!item.iconAfter" class="{{item.iconAfter}}" aria-hidden="true"></span>
-    </span>
+    <i  *ngIf="!!item.icon" class="{{item.styles}} {{item.icon}}" aria-hidden="true"></i>
+    {{text | sqMessage:item.messageParams}}
+    <i *ngIf="!!item.iconAfter" [ngClass]="item.iconAfter" aria-hidden="true"></i>
 </ng-template>
