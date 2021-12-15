@@ -2,10 +2,10 @@
     <thead>
         <tr>
             <th class="sq-grid-view-checkbox">
-                <label class="custom-control custom-checkbox" title="{{(haveSelectedRecords ? 'msg#results.resultsGridView.unselectDocuments' : 'msg#results.resultsGridView.selectDocuments') | sqMessage}}">
-                    <input class="custom-control-input" type="checkbox" [checked]="haveSelectedRecords" (change)="toggleSelectedRecords()">
-                    <span class="custom-control-label">&#8203;</span>
-                </label>            
+                <div class="form-check" title="{{(haveSelectedRecords ? 'msg#results.resultsGridView.unselectDocuments' : 'msg#results.resultsGridView.selectDocuments') | sqMessage}}">
+                    <input class="form-check-input" type="checkbox" id="selected_document" [checked]="haveSelectedRecords" (change)="toggleSelectedRecords()">
+                    <label role="button" for="selected_documents" class="form-check-label">&#8203;</label>
+                </div>            
             </th>
             <th *ngFor="let columnData of columnsData" scope="col" [ngClass]="{'sq-clickable': isSortable(columnData)}" (click)="setSort(columnData)">{{columnData.config.title | sqMessage}}{{columnData.sortIndicator}}<span *ngIf="isSortable(columnData)" class="{{columnData.sortIcon}}"></span></th>
         </tr>

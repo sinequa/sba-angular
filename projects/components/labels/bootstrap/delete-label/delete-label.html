@@ -1,17 +1,17 @@
 <form name="deleteLabel" novalidate>
     <sq-modal [title]="title" [buttons]="buttons" [isProcessingState]="isProcessing">
-        <div class="form-group sq-form-group">
+        <div class="mb-3 sq-form-group">
             <div class="alert" [ngClass]="{'alert-danger': model.properties.action === 3, 'alert-warning': model.properties.action === 5}" role="alert">
                 {{alert | sqMessage}}
             </div>
-            <section>
-                <div *ngFor="let item of model.properties.radioButtons" class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" class="custom-control-input" id="{{item.id}}" name="nature" value="{{item.value}}"
+            <section class="mb-3">
+                <div *ngFor="let item of model.properties.radioButtons" class="form-check">
+                    <input type="radio" class="form-check-input" id="{{item.id}}" name="nature" value="{{item.value}}"
                         [checked]="item.checked" [disabled]="item.disabled" (click)="updateLabelsNature(item.value)" [ngClass]="{'disabled': item.disabled, 'clickable': !item.disabled}">
-                    <label class="custom-control-label" for="{{item.id}}">{{ item.name | sqMessage }}</label>
+                    <label role="button" class="form-check-label" for="{{item.id}}">{{ item.name | sqMessage }}</label>
                 </div>
             </section>
-            <b><label for="label">{{'msg#labels.labels' | sqMessage}}</label></b>
+            <label class="form-label fw-bold" for="label">{{'msg#labels.labels' | sqMessage}}</label>
             <sq-labels-autocomplete
                 (labelsUpdate)="onLabelsChanged($event)"
                 [public]="model.properties.public"

@@ -2,10 +2,10 @@
     <div class="card-body">
         <div class="d-flex align-items-center mb-1">
             <ng-container *ngTemplateOutlet="nodeTpl; context:{$implicit: fromNode}"></ng-container>
-            <span class="mr-2">-</span>
+            <span class="me-2">-</span>
             <ng-container *ngTemplateOutlet="nodeTpl; context:{$implicit: toNode}"></ng-container>
 
-            <button class="btn btn-sm ml-auto" title="{{ (expanded? 'msg#network.infocards.collapse' : 'msg#network.infocards.expand') | sqMessage }}" (click)="expanded = !expanded">
+            <button class="btn btn-sm ms-auto" title="{{ (expanded? 'msg#network.infocards.collapse' : 'msg#network.infocards.expand') | sqMessage }}" (click)="expanded = !expanded">
                 <i class="fas fa-chevron-{{ expanded? 'up' : 'down' }}"></i>
             </button>
             <button class="btn btn-sm" title="{{ 'msg#network.infocards.close' | sqMessage }}" (click)="closed = true">
@@ -23,8 +23,8 @@
 </div>
 
 <ng-template #nodeTpl let-node>
-    <span *ngIf="node['image']"><img src="{{node['image']}}" class="circular-image mr-2"></span>
-    <span *ngIf="!node['image'] && node['icon']" [ngStyle]="{color: node['icon']['color']}" class="fa mr-2">{{node['icon']['code']}}</span>
-    <span class="mr-2">{{node.label}}</span>
-    <span *ngIf="node.count > 0" class="mr-2 text-muted" title="{{ 'msg#network.infocards.count' | sqMessage }}">({{node.count}})</span>
+    <span *ngIf="node['image']"><img src="{{node['image']}}" class="circular-image me-2"></span>
+    <span *ngIf="!node['image'] && node['icon']" [ngStyle]="{color: node['icon']['color']}" class="fa me-2">{{node['icon']['code']}}</span>
+    <span class="me-2">{{node.label}}</span>
+    <span *ngIf="node.count > 0" class="me-2 text-muted" title="{{ 'msg#network.infocards.count' | sqMessage }}">({{node.count}})</span>
 </ng-template>

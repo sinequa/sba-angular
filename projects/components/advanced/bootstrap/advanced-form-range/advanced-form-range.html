@@ -1,12 +1,12 @@
-<div class="form-group" [formGroup]="form">
-    <label for="{{forName}}">{{label | sqMessage}}</label>
+<div class="mb-3" [formGroup]="form">
+    <label class="form-label" for="{{forName}}">{{label | sqMessage}}</label>
     <div *ngIf="!isDate"
-        class="sq-advanced-form-range form-row"
+        class="d-flex align-items-center justify-content-between gap-2 sq-advanced-form-range"
         sqAdvancedFormValidation
         [field]="field"
         [validationForm]="form"
         [id]="field">
-        <div class="col-auto d-flex flex-column">
+        <div class="flex-grow-1">
             <input
                 type="text"
                 autocomplete="off"
@@ -17,8 +17,8 @@
                 (ngModelChange)="updateFrom($event)"
                 [ngModelOptions]="{standalone: true}"/>
         </div>
-        <div class="col-auto sq-separator">{{'msg#advanced.rangeSeparator' | sqMessage}}</div>
-        <div class="col-auto d-flex flex-column">
+        <div class="sq-separator">{{'msg#advanced.rangeSeparator' | sqMessage}}</div>
+        <div class="flex-grow-1">
             <input
                 type="text"
                 autocomplete="off"

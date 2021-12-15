@@ -3,14 +3,14 @@
         [title]="'msg#exportQuery.dialogTitle'"
         [buttons]="buttons"
         [isProcessingState]="isDownloading">
-        <div class="form-group sq-form-group">
-            <label for="format">{{ 'msg#exportQuery.dialogOutputFormat' | sqMessage }}</label>
-            <select [sqValidation]="form" class="form-control custom-select" formControlName="format" id="format" sqAutofocus>
+        <div class="mb-3 sq-form-group">
+            <label class="form-label" for="format">{{ 'msg#exportQuery.dialogOutputFormat' | sqMessage }}</label>
+            <select [sqValidation]="form" class="form-select" formControlName="format" id="format" sqAutofocus>
                 <option [value]="format" *ngFor="let format of supportedFormats">{{ outputFormats[format].toUpperCase() }}</option>
             </select>
         </div>
-        <div class="form-group sq-form-group">
-            <label
+        <div class="mb-3 sq-form-group">
+            <label class="form-label"
                 for="exportedColumns"
                 title="{{ 'msg#exportQuery.exportedColumnsLabelTooltip' | sqMessage }}"
             >
@@ -20,30 +20,30 @@
                 id="exportedColumns"
                 formControlName="exportedColumns"
                 [sqValidation]="form"
-                class="form-control custom-select"
+                class="form-select"
                 sqAutofocus multiple
             >
                 <option [value]="column" *ngFor="let column of exportableColumns">{{ column }}</option>
             </select>
         </div>
-        <div class="form-group sq-form-group">
-            <label 
+        <div class="mb-3 sq-form-group">
+            <label class="form-label"
                 for="maxCount"
                 title="{{ 'msg#exportQuery.dialogMaxCountTooltip' | sqMessage:{values: {count: maxCount} } }}"
             >{{ 'msg#exportQuery.dialogMaxCount' | sqMessage }}&nbsp;&#9432;</label>
             <input [sqValidation]="form" type="number" class="form-control" id="maxCount" formControlName="maxCount" autocomplete="off" spellcheck="off">
         </div>
-        <div class="form-group sq-form-group" *ngIf="showSourceChooser()">
-            <label for="export">{{ 'msg#exportQuery.dialogSourceType' | sqMessage }}</label>
+        <div class="mb-3 sq-form-group" *ngIf="showSourceChooser()">
+            <label class="form-label" for="export">{{ 'msg#exportQuery.dialogSourceType' | sqMessage }}</label>
             <div>
                 <div class="form-check form-check-inline">
-                    <label class="form-check-label">
+                    <label role="button" class="form-check-label">
                         <input class="form-check-input" type="radio" [checked]="sourceChosen(sourceTypes.Result)" (change)="sourceChanged($event, sourceTypes.Result)" >
                         {{ 'msg#exportQuery.dialogResult' | sqMessage }}
                     </label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <label class="form-check-label">
+                    <label [attr.role]="hasSelectedRecords() ? 'button' : ''" class="form-check-label" [ngClass]="{'text-muted': !hasSelectedRecords()}">
                         <input class="form-check-input" type="radio" [checked]="sourceChosen(sourceTypes.Selection)" (change)="sourceChanged($event, sourceTypes.Selection)"
                         [disabled]="!hasSelectedRecords()" >
                         {{ 'msg#exportQuery.dialogSelection' | sqMessage }}

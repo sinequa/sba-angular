@@ -30,16 +30,16 @@ export const gClassName = {
     DISABLED        : 'disabled',
     SHOW            : 'show',
     DROPUP          : 'dropup',
-    DROPRIGHT       : 'dropright',
-    DROPLEFT        : 'dropleft',
-    MENURIGHT       : 'dropdown-menu-right',
-    MENULEFT        : 'dropdown-menu-left',
+    DROPRIGHT       : 'dropend',
+    DROPLEFT        : 'dropstart',
+    MENURIGHT       : 'dropdown-menu-end',
+    MENULEFT        : 'dropdown-menu-start',
     POSITION_STATIC : 'position-static'
 };
 
 export const gSelector = {
     DROPDOWN      : '.dropdown',
-    DATA_TOGGLE   : '[data-toggle="dropdown"]',
+    DATA_TOGGLE   : '[data-bs-toggle="dropdown"]',
     FORM_CHILD    : '.dropdown form',
     MENU          : '.dropdown-menu',
     NAVBAR_NAV    : '.navbar-nav',

@@ -1,15 +1,15 @@
 <div class="d-inline">
     <label>{{label | sqMessage}}</label>
     <section class="sq-dropdown-form">
-        <div class="form-control multi-entry"
+        <div class="form-control d-flex flex-wrap gap-1 align-items-baseline"
             sqAdvancedFormValidation
             [field]="field"
             [validationForm]="form">
             <span
                 *ngFor="let item of items"
-                class="badge badge-pill badge-secondary align-self-center mr-1" [ngClass]="item.category">
+                class="badge rounded-pill bg-secondary me-1 cursor-default" [ngClass]="item.category">
                 {{ item.display }}
-                <span class="fas fa-times-circle clickable" (click)="removeItem(item)"></span>
+                <span class="fas fa-times-circle ms-1 clickable" (click)="removeItem(item)"></span>
             </span>
             <input
                 class="input-autocomplete flex-grow-1"

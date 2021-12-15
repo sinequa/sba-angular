@@ -63,7 +63,7 @@ $metadata : (
     color: map-get($item, "color");
     background-color: map-get($item, "background-color");
     @if ($link) {
-        @include hover-focus {
+        &:hover, &:focus, &:active {
             background-color: darken(map-get($item, "background-color"), 10%);
         }
     }

@@ -4,7 +4,7 @@ sq-metadata-item .sq-metadata-item {
         background-color: lightgrey;
         color: lighten(black, 10%);
 
-        @include hover-focus {
+        &:hover, &:focus {
             background-color: darken(lightgrey, 10%);
             color: black;
         }

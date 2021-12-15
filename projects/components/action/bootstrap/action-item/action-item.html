@@ -10,7 +10,7 @@
         </div>
     </ng-template>
     <ng-template #unflattened>
-        <button class="btn {{styleClass}} dropdown-toggle {{sizeClass}}" type="button" data-toggle="dropdown" sqTooltip="{{itemTitle | sqMessage:itemMessageParams}}" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams" (touchstart)="touchstart()" (mousedown)="mousedown()" (focusin)="focusin()">
+        <button class="btn {{styleClass}} dropdown-toggle {{sizeClass}}" type="button" data-bs-toggle="dropdown" sqTooltip="{{itemTitle | sqMessage:itemMessageParams}}" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams" (touchstart)="touchstart()" (mousedown)="mousedown()" (focusin)="focusin()">
             <sq-action-item-content *ngIf="!hasAction" [item]="options.item" [text]="itemText"></sq-action-item-content>
         </button>
         <ul *ngIf="showDropdown" [sq-dropdown-menu]="dropdownMenuOptions"></ul>
@@ -20,7 +20,7 @@
 <sq-action-item-content *ngIf="isButton" [item]="options.item" [text]="itemText"></sq-action-item-content>
 <!-- dropdown list item -->
 <ng-container *ngIf="isDropdownListItem">
-    <a href="javascript:void(0)" (click)="click($event)" class="{{options.inMenu ? 'nav-link' : 'dropdown-item'}} dropdown-toggle {{options.item.disabled ? 'disabled' : ''}}" data-toggle="dropdown" role="button" title="{{itemTitle | sqMessage:itemMessageParams}}" aria-haspopup="true" aria-expanded="false" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams">
+    <a href="javascript:void(0)" (click)="click($event)" [ngClass]="{'nav-link': options.inMenu, 'dropdown-item': !options.inMenu, 'disabled': options.item.disabled}" class="dropdown-toggle" data-bs-toggle="dropdown" role="button" title="{{itemTitle | sqMessage:itemMessageParams}}" aria-haspopup="true" aria-expanded="false" [attr.aria-label]="itemTitle | sqMessage:itemMessageParams">
         <sq-action-item-content [item]="options.item" [text]="itemText"></sq-action-item-content>
     </a>
     <ul [sq-dropdown-menu]="dropdownMenuOptions"></ul>   

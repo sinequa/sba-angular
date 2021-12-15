@@ -48,7 +48,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
 
         if (!this.facetService.defaultFacets) {
             this.facetService.defaultFacets = [];
-            for (let facet of this.facets) this.facetService.defaultFacets.push({name: facet.name, position: 0, hidden: false, expanded: true, view: ""});
+            for (const facet of this.facets) this.facetService.defaultFacets.push({name: facet.name, position: 0, hidden: false, expanded: true, view: ""});
         }
 
         if (!this.facetService.allFacets) this.facetService.allFacets = this.facets;
@@ -115,14 +115,14 @@ export class BsFacetFilters implements OnInit, OnChanges {
     }
 
     private addFacetMenu() {
-        let outFacets: Action[] = [];
+        const outFacets: Action[] = [];
 
         outFacets.push(new Action({
             name: `add_remove_all`,
             text: this.userFacets.length < this.facets.length ? "msg#facet.filters.addAll" : "msg#facet.filters.removeAll",
             icon: this.hasFacetSelected ? 
-                    (this.userFacets.length < this.facets.length ? "far fa-minus-square mr-1" : "far fa-check-square mr-1")
-                    : "far fa-square mr-1",
+                    (this.userFacets.length < this.facets.length ? "far fa-minus-square me-1" : "far fa-check-square me-1")
+                    : "far fa-square me-1",
             title: this.userFacets.length < this.facets.length ? "msg#facet.filters.addAll" : "msg#facet.filters.removeAll",
             action: () => {
                 if (this.hasFacetSelected && this.userFacets.length === this.facets.length) this.facetService.removeAllFacet();
@@ -131,7 +131,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
             }
         }));
 
-        for (let facet of this.facets) {
+        for (const facet of this.facets) {
             outFacets.push(new Action({
                 name: `add_remove_${facet.name}`,
                 text: facet.title,
@@ -146,7 +146,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
             }));
         }
 
-        let add_action = new Action({
+        const add_action = new Action({
             name: "facets_config",
             icon: "fas fa-cog",
             title: "msg#facet.filters.customizeFacets",
@@ -160,11 +160,11 @@ export class BsFacetFilters implements OnInit, OnChanges {
         
         if (!this.enableCustomization) return filtered;
         
-        let new_facets: FacetConfig[] = [];
+        const new_facets: FacetConfig[] = [];
 
         if (this.userFacets) {
-            for (let facet of filtered) {
-                let pos = this.userFacets.findIndex((userFacet) => userFacet.name === facet.name);
+            for (const facet of filtered) {
+                const pos = this.userFacets.findIndex((userFacet) => userFacet.name === facet.name);
                 if (pos >= 0) new_facets.push(facet);
             }
         }
@@ -177,7 +177,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
 
     get hasFacetSelected() {
         if (this.userFacets.length === 0) return false;
-        for (let facet of this.facets) {
+        for (const facet of this.facets) {
             if (this.userFacets.find(userFacet => userFacet.name === facet.name)) return true;
         }
         return false;

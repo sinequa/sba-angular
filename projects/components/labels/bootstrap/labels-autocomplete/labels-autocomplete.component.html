@@ -3,7 +3,7 @@
         <div class="form-control">
             <span
                 *ngFor="let item of labelsItems"
-                class="badge badge-pill badge-info align-self-center"
+                class="badge rounded-pill align-self-center"
                 [ngClass]="{'label-public': public, 'label-private': !public}">
                 {{ item.display }}
                 <span class="fas fa-times-circle clickable" (click)="removeItem(item)"></span>

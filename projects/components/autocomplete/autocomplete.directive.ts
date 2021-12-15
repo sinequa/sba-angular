@@ -376,7 +376,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * Listens to click events on the <input> host
      */
     @HostListener("click") click() {
-        //console.log("input clicked");
+        // console.log("input clicked");
         this.startOrActive();
     }
 
@@ -384,7 +384,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * Listens to touchstart events (mobile clicks) on the <input> host
      */
     @HostListener("touchstart") touchstart() {
-        //console.log("input touchstart");
+        // console.log("input touchstart");
         this.startOrActive();
     }
 
@@ -392,7 +392,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
      * Listens to focus events on the <input> host
      */
     @HostListener("focus") focus() {
-        //console.log("input focus gained");
+        // console.log("input focus gained");
         this.start();
     }
 

@@ -1,11 +1,13 @@
 <div *ngIf="showLabels" class="d-inline">
-    <span *ngFor="let label of labels; let $index = index" class="d-inline">
-        <div class="badge badge-pill badge-info align-self-center mr-1 d-inline" [ngClass]="{'sq-labels-public': public, 'sq-labels-private': !public}"
-            title="{{(public ? 'msg#labels.selectPublicLabelTitle' : 'msg#labels.selectPrivateLabelTitle') | sqMessage}}">
-            <span (click)="select(label)">{{label | sqLabel:public}}</span>
-            <i class="sq-label-remove fas fa-times-circle clickable" (click)="remove($index)" *ngIf="canRemove()"
-                title="{{(public ? 'msg#labels.removePublicLabelTitle' : 'msg#labels.removePrivateLabelTitle') | sqMessage}}">
-            </i>
-        </div>
-    </span>
+    <div *ngFor="let label of labels; let $index = index"
+        class="badge rounded-pill me-1" 
+        [ngClass]="{'sq-labels-public': public, 'sq-labels-private': !public}"
+        title="{{(public ? 'msg#labels.selectPublicLabelTitle' : 'msg#labels.selectPrivateLabelTitle') | sqMessage}}">
+        <span (click)="select(label)">{{label | sqLabel:public}}</span>
+        <i *ngIf="canRemove()"
+            class="sq-label-remove fas fa-times-circle clickable"
+            (click)="remove($index)"
+            title="{{(public ? 'msg#labels.removePublicLabelTitle' : 'msg#labels.removePrivateLabelTitle') | sqMessage}}">
+        </i>
+    </div>
 </div>

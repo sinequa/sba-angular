@@ -1,15 +1,15 @@
 <div *ngIf="!isEmpty" class="sq-metadata-item {{itemClasses}}">
     <!-- Icon -->
-    <span *ngIf="showIcon && !!item" class="sq-metadata-item-icon sq-icon-{{item}} {{docFormatIconClass}} fa-fw pr-2"
+    <span *ngIf="showIcon && !!item" class="sq-metadata-item-icon sq-icon-{{item}} {{docFormatIconClass}} fa-fw pe-2"
         [title]="label | sqMessage">
     </span>
 
     <!-- Label (title)-->
-    <span *ngIf="showTitle && !!item" class="sq-metadata-item-label pr-2">{{'msg#metadata.item.label' | sqMessage:itemLabelMessageParams}}</span>
+    <span *ngIf="showTitle && !!item" class="sq-metadata-item-label pe-2">{{'msg#metadata.item.label' | sqMessage:itemLabelMessageParams}}</span>
     
     <span class="sq-metadata-item-values" [ngClass]="{collapsed: !!collapsed}" #values>
         <!-- Collapse button -->
-        <a *ngIf="collapseRows && needsCollapse" href="#" (click)="toggleCollapse()" class="collapse-button mr-1">
+        <a *ngIf="collapseRows && needsCollapse" href="#" (click)="toggleCollapse()" class="collapse-button me-1">
             <i class="fas fa-fw fa-chevron-{{collapsed? 'right' : 'down'}}"></i>
         </a>
         
@@ -24,7 +24,7 @@
                 <ng-container *ngFor="let valueItem of valueItems; let $index = index">
                     <ol class="breadcrumb" *ngIf="!!valueItem.parts && valueItem.parts.length > 0">
                         <li *ngFor="let part of valueItem.parts; let $subIndex = index">
-                            <a    *ngIf="clickable"  class="badge badge-pill" [ngClass]="'sq-metadata-item-' + item" href="#" (click)="select($index, $subIndex)">{{part | sqValue:column}}</a>
+                            <a    *ngIf="clickable"  class="badge rounded-pill" [ngClass]="'sq-metadata-item-' + item" href="#" (click)="select($index, $subIndex)">{{part | sqValue:column}}</a>
                             <span *ngIf="!clickable" [ngClass]="'sq-metadata-item-' + item">{{part | sqValue:column}}</span>
                             <span *ngIf="$subIndex < valueItem.parts.length - 1" class="sq-metadata-item-tree-node-separator">{{'msg#metadata.item.treeNodeSeparator' | sqMessage}}</span>
                         </li>
@@ -38,14 +38,14 @@
                 <ng-container *ngIf="clickable; else notTreeNonClickable">
                     <!-- Clickable -->
                     <a  *ngFor="let valueItem of valueItems; let $index = index"
-                        class="badge badge-pill {{'sq-metadata-item-' + item}} mr-1"
+                        class="badge rounded-pill {{'sq-metadata-item-' + item}} me-1"
                         href="#"
                         (click)="select($index)"
                         [attr.title]="(showTitle || entityTooltip)? null : (label | sqMessage)"
                         [sqTooltip]="entityTooltip"
                         [sqTooltipData]="valueItem">{{valueItem | sqValue:column}}
                         <span *ngIf="showCounts && valueItem.count"
-                            class="counter badge badge-light ml-1"
+                            class="counter badge bg-light ms-1"
                             [title]="valueItem.count + ' occurrences in document'">{{valueItem.count}}</span>
                     </a>
                 </ng-container>

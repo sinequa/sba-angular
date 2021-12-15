@@ -7,7 +7,7 @@
         <div class="input-group">
             <!-- Input with autocomplete -->
             <div
-                class="form-control d-flex pr-1"
+                class="form-control d-flex pe-1"
                 [title]="parseResult?.error || ''"
                 [ngClass]="{'is-invalid': !!parseResult?.error}">
 
@@ -54,7 +54,7 @@
 
                 <!-- scroll right -->
                 <button type="button"
-                    class="btn btn-focus p-0 mr-2"
+                    class="btn btn-focus p-0 me-2"
                     *ngIf="hasScroll"
                     [sqTooltip]="'msg#searchForm.scrollRight' | sqMessage"
                     [disabled]="!loginService.complete  ? '' : null"
@@ -66,7 +66,7 @@
                 <!-- Clear Button -->
                 <button type="button"
                     *ngIf="hasContent()"
-                    class="btn btn-focus p-0 mr-2"
+                    class="btn btn-focus p-0 me-2"
                     [sqTooltip]="'msg#searchForm.clear' | sqMessage"
                     [disabled]="!loginService.complete ? '' : null"
                     (click)="clearForm()">
@@ -76,7 +76,7 @@
                 <!-- Keep Filters Button -->
                 <button type="button"
                     *ngIf="isFiltering && enableKeepFilters"
-                    class="btn btn-focus p-0 mr-2"
+                    class="btn btn-focus p-0 me-2"
                     [sqTooltip]="keepFiltersTitle | sqMessage"
                     [disabled]="!loginService.complete ? '' : null"
                     (click)="toggleKeepFilters()">
@@ -86,7 +86,7 @@
                 <!-- Toggle voice recognition -->
                 <button *ngIf="voiceService.available && enableVoiceRecognition"
                     type="button"
-                    class="btn btn-focus p-0 mr-2"
+                    class="btn btn-focus p-0 me-2"
                     [sqTooltip]="'msg#searchForm.voiceRecognition' | sqMessage"
                     (click)="toggleVoice()">
                     <i class="fas fa-microphone"[ngClass]="voiceRecognitionState ? 'light-green' : 'text-muted'"></i>
@@ -95,7 +95,7 @@
                 <!-- Toggle advanced search -->
                 <button type="button"
                     *ngIf="enableAdvancedForm"
-                    class="btn p-0 pr-1"
+                    class="btn p-0 pe-1"
                     [sqTooltip]="'msg#searchForm.advancedSearch' | sqMessage"
                     [disabled]="!loginService.complete ? '' : null"
                     (click)="toggleAdvancedSearch()">
@@ -108,21 +108,19 @@
             </div>
 
             <!-- Search buttons -->
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="button" (click)="search()"
-                    [sqTooltip]="'msg#searchForm.search' | sqMessage"
-                    [disabled]="!loginService.complete || !form.valid ? '' : null">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
+            <button class="btn btn-primary" type="button" (click)="search()"
+                [sqTooltip]="'msg#searchForm.search' | sqMessage"
+                [disabled]="!loginService.complete || !form.valid ? '' : null">
+                <i class="fas fa-search"></i>
+            </button>
         </div>
 
         <!-- Card displaying advanced-search -->
         <div class="card advanced-search" *ngIf="showAdvancedSearch">
-            <div class="card-header pl-3 pr-2 py-1">
+            <div class="card-header ps-3 pe-2 py-1">
               <div class="d-flex justify-content-between">
                 <span class=" mb-0 py-1">
-                    <i class="fab fa-searchengin mr-2"></i>
+                    <i class="fab fa-searchengin me-2"></i>
                     {{'msg#searchForm.advancedSearch' | sqMessage}}
                 </span>
                 <button
@@ -134,10 +132,10 @@
                 </button>
               </div>
             </div>
-            <div *ngIf="!firstPageService.firstPage" class="d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
+            <div *ngIf="!firstPageService.firstPage" class="d-flex flex-column align-items-stretch ps-3 pe-2 py-1">
                 <span class="fas fa-sync fa-spin fa-fw"></span>
             </div>
-            <div *ngIf="firstPageService.firstPage" class="d-flex flex-column align-items-stretch pl-3 pr-2 py-1">
+            <div *ngIf="firstPageService.firstPage" class="d-flex flex-column align-items-stretch ps-3 pe-2 py-1">
                 <sq-advanced-form-select [form]="form" [field]="'treepath'" [multiple]="true"></sq-advanced-form-select>
                 <sq-advanced-form-select [form]="form" [field]="'authors'" [multiple]="true"></sq-advanced-form-select>
                 <sq-advanced-form-range [form]="form" [field]="'size'"></sq-advanced-form-range>
@@ -154,7 +152,7 @@
             <div class="autocomplete-item p-2">
                 <i class="{{autocompleteIcon(item.category)}}"></i><!--
                 --><span class="mx-2" [innerHTML]="item.displayHtml || item.display"></span><!--
-                --><small *ngIf="item.category" class="autocomplete-category ml-2">{{(item.label || item.category) | sqMessage}}</small>
+                --><small *ngIf="item.category" class="autocomplete-category ms-2">{{(item.label || item.category) | sqMessage}}</small>
             </div>
         </ng-template>
 
