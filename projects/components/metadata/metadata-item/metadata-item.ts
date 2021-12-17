@@ -183,7 +183,8 @@ export class MetadataItem implements OnChanges {
         return false; // prevent default
     }
 
-    toggleCollapse() {
+    toggleCollapse(event: Event) {
+        event.stopImmediatePropagation();
         this.collapsed = !this.collapsed;
         return false;
     }
