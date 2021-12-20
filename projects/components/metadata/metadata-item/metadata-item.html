@@ -45,7 +45,7 @@
                         [sqTooltip]="entityTooltip"
                         [sqTooltipData]="valueItem">{{valueItem | sqValue:column}}
                         <span *ngIf="showCounts && valueItem.count"
-                            class="counter badge rounded-pill bg-light text-black ms-1"
+                            class="counter rounded-pill bg-light text-black ms-1"
                             [title]="valueItem.count + ' occurrences in document'">{{valueItem.count}}</span>
                     </a>
                 </ng-container>
