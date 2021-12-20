@@ -657,6 +657,35 @@ describe("FacetService", () => {
 				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(0, {expression: expectedExpr, facet: "Geo"});
 				expect(searchService.query.removeSelect).not.toHaveBeenCalledWith(0);
 			});
+			
+			it("sould append filter to query with options.forceAdd", () => {
+				// breadcrumps: IRAQ
+				// expected breadcrumps: IRAQ / IOWA
+				// Given
+				spyOn(searchService.query, "addSelect");
+				spyOn(searchService.query, "replaceSelect");
+
+				searchService.breadcrumbs = {
+					activeIndex: 0,
+					activeSelects: [{}],
+					removeItem: (item) => (item),
+					findSelect: (facetName) => ({
+						and: true,
+						operands: [
+							{value: 'IRAQ', display: 'Iraq'}
+						]
+					})
+				} as Breadcrumbs;
+				spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
+
+				// When
+				service.addFilter('Geo', aggregation["geo"], aggregation["geo"].items![2], {forceAdd: true}); // IOWA
+
+				// Then
+				const expectedExpr = 'geo: (`Iowa`:`IOWA`)';
+				expect(searchService.query.replaceSelect).not.toHaveBeenCalled()
+				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, "Geo");
+			})
 
 		});
 

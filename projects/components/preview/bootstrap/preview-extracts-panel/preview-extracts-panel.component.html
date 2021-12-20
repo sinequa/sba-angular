@@ -17,8 +17,8 @@
     </div>
     
     <ng-template #extractsTpl>
-        <cdk-virtual-scroll-viewport #scrollViewport [itemSize]="64" style="height: 100%;">
-            <div *cdkVirtualFor="let extract of extracts; let i = index" class="pl-2 pr-2">
+        <cdk-virtual-scroll-viewport #scrollViewport [itemSize]="64" class="h-100">
+            <div *cdkVirtualFor="let extract of extracts; let i = index" class="ps-2 pe-2">
                 <a  href="#" 
                     class="card my-1 list-group-item-action"
                     [ngClass]="{'active': i === currentIndex}"

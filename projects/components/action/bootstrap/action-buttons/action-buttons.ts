@@ -13,7 +13,13 @@ export interface ActionButtonsOptions {
 
 @Component({
     selector: "[sq-action-buttons]",
-    templateUrl: "./action-buttons.html"
+    templateUrl: "./action-buttons.html",
+    styles: [`
+    :host-context(.dark)
+        button.btn-light {
+            filter: invert(0.76);
+        }
+    `]
 })
 export class BsActionButtons {
     private _options: ActionButtonsOptions;

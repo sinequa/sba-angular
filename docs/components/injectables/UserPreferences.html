@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -38,7 +39,7 @@
 
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li>UserPreferences</li>
+  <li >UserPreferences</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -58,6 +59,7 @@
         <p class="comment">
             <code>user-settings/user-preferences.ts</code>
         </p>
+
 
             <p class="comment">
                 <h3>Description</h3>
@@ -89,19 +91,19 @@ this.userPreferences.sync()</p>
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#delete">delete</a>
+                                <a href="#delete" >delete</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#get">get</a>
+                                <a href="#get" >get</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#set">set</a>
+                                <a href="#set" >set</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#sync">sync</a>
+                                <a href="#sync" >sync</a>
                             </li>
                         </ul>
                     </td>
@@ -175,10 +177,8 @@ this.userPreferences.sync()</p>
                 <td class="col-md-4">
                     <a name="delete"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            delete
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>delete</b></span>
                         <a href="#delete"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -206,6 +206,7 @@ this.userPreferences.sync()</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -270,10 +271,8 @@ this.userPreferences.sync()</p>
                 <td class="col-md-4">
                     <a name="get"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            get
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>get</b></span>
                         <a href="#get"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -301,6 +300,7 @@ this.userPreferences.sync()</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -349,10 +349,8 @@ this.userPreferences.sync()</p>
                 <td class="col-md-4">
                     <a name="set"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            set
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>set</b></span>
                         <a href="#set"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -380,6 +378,7 @@ this.userPreferences.sync()</p>
 
                     <div class="io-description">
                         <b>Parameters :</b>
+                        
                         <table class="params">
                             <thead>
                                 <tr>
@@ -460,10 +459,8 @@ this.userPreferences.sync()</p>
                 <td class="col-md-4">
                     <a name="sync"></a>
                     <span class="name">
-                        <b>
-                            <span class="modifier">Public</span>
-                            sync
-                        </b>
+                        <span class="modifier">Public</span>
+                        <span ><b>sync</b></span>
                         <a href="#sync"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
@@ -586,14 +583,14 @@ export class UserPreferences {
 
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -605,6 +602,15 @@ export class UserPreferences {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
@@ -614,9 +620,9 @@ export class UserPreferences {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

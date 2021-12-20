@@ -5,7 +5,7 @@ import { FieldSearchItemsContainer } from '../autocomplete-field-search.directiv
 @Component({
     selector: "sq-field-search-items",
     template: `
-<span *ngFor="let item of items" class="badge badge-pill badge-info align-self-center mr-1" [ngClass]="item.category">
+<span *ngFor="let item of items" class="badge rounded-pill bg-info align-self-center me-1" [ngClass]="item.category">
     {{item.display}} <span class="fas fa-times-circle clickable" (click)="removeItem(item)"></span>
 </span>
 `,
@@ -27,6 +27,10 @@ export class BsFieldSearchItemsComponent implements FieldSearchItemsContainer {
     items: AutocompleteItem[] = [];
 
     constructor(protected changeDetectorRef: ChangeDetectorRef) {
+    }
+
+    hasItems(): boolean {
+        return !!this.items && this.items.length > 0;
     }
 
     update(items: AutocompleteItem[]): void {

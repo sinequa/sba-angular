@@ -11,26 +11,16 @@
     word-break: break-word; // WebKit needs this
 }
 
-.sq-move {
-    cursor: move;
-}
-
-span.sq-move {
+i.sq-move {
     color: gray;
 }
 
-.sq-remove {
-    cursor: pointer;
+i.sq-remove {
     color: lightgray;
 
     &:hover {
         color: darkred;
     }
-}
-
-// For IE (flex layout problem)
-.w-auto-unimportant {
-    width: auto;
 }
 
 .cursor-move {

@@ -1,11 +1,12 @@
-import {Injectable, OnDestroy, RendererFactory2, Renderer2} from "@angular/core";
+import {Injectable, OnDestroy, RendererFactory2, Renderer2, Inject} from "@angular/core";
 import {Subject, Observable} from "rxjs";
 import {Keys} from "@sinequa/core/base";
+import {DOCUMENT} from "@angular/common";
 
 // Based on  Bootstrap (v4.4.1): dropdown.js
 
 export interface DropdownEvent {
-    type: "clear" | "toggle";
+    type: "clear" | "toggle" | "active";
 }
 
 export interface DropdownClearEvent extends DropdownEvent {
@@ -18,22 +19,27 @@ export interface DropdownToggleEvent extends DropdownEvent {
     element: Element;
 }
 
-export type DropdownEvents = DropdownClearEvent | DropdownToggleEvent;
+export interface DropdownActiveEvent extends DropdownEvent {
+    type: "active";
+    value: boolean;
+}
+
+export type DropdownEvents = DropdownClearEvent | DropdownToggleEvent | DropdownActiveEvent;
 
 export const gClassName = {
     DISABLED        : 'disabled',
     SHOW            : 'show',
     DROPUP          : 'dropup',
-    DROPRIGHT       : 'dropright',
-    DROPLEFT        : 'dropleft',
-    MENURIGHT       : 'dropdown-menu-right',
-    MENULEFT        : 'dropdown-menu-left',
+    DROPRIGHT       : 'dropend',
+    DROPLEFT        : 'dropstart',
+    MENURIGHT       : 'dropdown-menu-end',
+    MENULEFT        : 'dropdown-menu-start',
     POSITION_STATIC : 'position-static'
 };
 
 export const gSelector = {
     DROPDOWN      : '.dropdown',
-    DATA_TOGGLE   : '[data-toggle="dropdown"]',
+    DATA_TOGGLE   : '[data-bs-toggle="dropdown"]',
     FORM_CHILD    : '.dropdown form',
     MENU          : '.dropdown-menu',
     NAVBAR_NAV    : '.navbar-nav',
@@ -60,16 +66,21 @@ export class BsDropdownService implements OnDestroy {
     protected renderer: Renderer2;
 
     constructor(
+        @Inject(DOCUMENT) public readonly document: Document,
         rendererFactory: RendererFactory2
     ) {
         this._events = new Subject<DropdownEvents>();
         this.renderer = rendererFactory.createRenderer(null, null);
         this.unlisteners = [];
-        this.unlisteners.push(this.renderer.listen(document, "keydown", this.dataApiKeydownHandler));
-        this.unlisteners.push(this.renderer.listen(document, "click", this.clearMenus));
-        this.unlisteners.push(this.renderer.listen(document, "keyup", this.clearMenus));
-        this.unlisteners.push(this.renderer.listen(document, "click", this.toggle));
-        this.unlisteners.push(this.renderer.listen(document, "click", this.formChildClick));
+        this.unlisteners.push(this.renderer.listen(this.document, "keydown", this.dataApiKeydownHandler));
+        this.unlisteners.push(this.renderer.listen(this.document, "click", this.clearMenus));
+        this.unlisteners.push(this.renderer.listen(this.document, "keyup", this.clearMenus));
+        this.unlisteners.push(this.renderer.listen(this.document, "click", this.toggle));
+        this.unlisteners.push(this.renderer.listen(this.document, "click", this.formChildClick));
+        this.unlisteners.push(this.renderer.listen(this.document, "wheel", () => {
+            this.raiseClear();
+            this.raiseActive(false);
+        }));
     }
 
     ngOnDestroy() {
@@ -129,7 +140,7 @@ export class BsDropdownService implements OnDestroy {
     }
 
     private dataApiKeydownHandler = (event: KeyboardEvent): boolean | void => {
-        const descendant = this.matchDescendant(document.documentElement, event, `${gSelector.DATA_TOGGLE},${gSelector.MENU}`);
+        const descendant = this.matchDescendant(this.document.documentElement, event, `${gSelector.DATA_TOGGLE},${gSelector.MENU}`);
         if (!descendant) {
             return;
         }
@@ -210,8 +221,8 @@ export class BsDropdownService implements OnDestroy {
         this._events.next({type: "clear", sourceEvent: event});
     }
 
-    private toggle = (event: UIEvent): boolean | void => {
-        const descendant = this.matchDescendant(document.documentElement, event, gSelector.DATA_TOGGLE);
+    private toggle = (event: MouseEvent): boolean | void => {
+        const descendant = this.matchDescendant(this.document.documentElement, event, gSelector.DATA_TOGGLE);
         if (!descendant) {
             return;
         }
@@ -220,8 +231,9 @@ export class BsDropdownService implements OnDestroy {
         this._events.next({type: "toggle", element: descendant});
     }
 
-    private formChildClick = (event: UIEvent): boolean | void => {
-        if (!this.matchDescendant(document.documentElement, event, gSelector.FORM_CHILD)) {
+    private formChildClick = (event: MouseEvent): boolean | void => {
+        this.raiseActive(false);
+        if (!this.matchDescendant(this.document.documentElement, event, gSelector.FORM_CHILD)) {
             return;
         }
         event.stopPropagation();
@@ -229,5 +241,9 @@ export class BsDropdownService implements OnDestroy {
 
     raiseClear() {
         this._events.next({type: "clear", sourceEvent: undefined});
+    }
+    
+    raiseActive(active: boolean) {
+        this._events.next({type: "active", value: active});
     }
 }

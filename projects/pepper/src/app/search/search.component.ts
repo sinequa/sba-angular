@@ -1,19 +1,20 @@
 import { Component, OnDestroy, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { filter, takeUntil, tap } from 'rxjs/operators';
+import { GridsterComponent } from 'angular-gridster2';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { Record } from '@sinequa/core/web-services';
+import { Record, Results } from '@sinequa/core/web-services';
 import { SelectionService } from '@sinequa/components/selection';
 import { SearchService } from '@sinequa/components/search';
 import { FacetConfig, FacetService } from '@sinequa/components/facet';
 import { UIService } from '@sinequa/components/utils';
 import { PreviewService } from '@sinequa/components/preview';
-import { Action } from '@sinequa/components/action';
+import { Action, BsDropdownService, DropdownActiveEvent } from '@sinequa/components/action';
 import { FACETS, METADATA, FEATURES } from '../../config';
 import { DashboardService, MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, PREVIEW_WIDGET, HEATMAP_WIDGET, TAGCLOUD_WIDGET, MONEYTIMELINE_WIDGET, MONEYCLOUD_WIDGET } from '../dashboard/dashboard.service';
-import { GridsterComponent } from 'angular-gridster2';
 
 @Component({
   selector: 'app-search',
@@ -26,8 +27,10 @@ export class SearchComponent implements OnInit, OnDestroy {
   public multiFacetIcon? = "fas fa-filter fa-fw";
   public multiFacetTitle = "msg#facet.filters.title";
 
-  private _searchServiceSubscription: Subscription;
+  public results$: Observable<Results | undefined>;
   private _loginSubscription: Subscription;
+
+  private destroy$ = new Subject();
 
   focusElementIndex:number;
 
@@ -54,18 +57,22 @@ export class SearchComponent implements OnInit, OnDestroy {
     public loginService: LoginService,
     public dashboardService: DashboardService,
     public ui: UIService,
-    public cdRef: ChangeDetectorRef
+    public cdRef: ChangeDetectorRef,
+    public dropdownService: BsDropdownService
   ) {
 
     // Subscribe to the search service to update the page title based on the searched text
-    this._searchServiceSubscription = this.searchService.resultsStream.subscribe(results => {
-      this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
+    this.results$ = this.searchService.resultsStream
+      .pipe(
+        tap(_ => {
+          this.titleService.setTitle(this.intlService.formatMessage("msg#search.pageTitle", {search: this.searchService.query.text || ""}));
 
-      // Hack to fix an issue with change detection...
-      setTimeout(() => {
-        this.cdRef.detectChanges();
-      }, 0);
-    });
+          // Hack to fix an issue with change detection...
+          setTimeout(() => {
+            this.cdRef.detectChanges();
+          }, 0);
+        })
+      );
 
     // Upon login (ie access to user settings) initialize the dashboard widgets and actions
     this._loginSubscription = this.loginService.events.subscribe(event => {
@@ -99,7 +106,26 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.dashboardService.options.fixedRowHeight = (window.innerHeight - 150) / 4;
       this.dashboardService.updateOptions(this.dashboardService.options);
     });
-
+    
+    // listen only on dropdown active event
+    // this allow us to display dropdown menu on top of the gridster
+    this.dropdownService.events
+      .pipe(
+        filter(() => this.gridster !== undefined),
+        filter((event) => event.type === "active"),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(event => {
+        // when dropdown is active, disable gridster's overflow
+        // with this, menu will be displayed on top of the gridster
+        if ((event as DropdownActiveEvent).value && this.gridster.el.style.overflow !== "initial") {
+            this.gridster.el.style.top = -this.gridster.el.scrollTop + "px";
+            this.gridster.el.style.overflow = "initial";
+        } else {
+          this.gridster.el.style.overflow = "";
+          this.gridster.el.style.top = "";
+        }
+      });
   }
 
 
@@ -113,8 +139,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   /**
    * Unsubscribe from the search service
    */
-  ngOnDestroy(){
-    this._searchServiceSubscription.unsubscribe();
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
     this._loginSubscription.unsubscribe();
   }
 

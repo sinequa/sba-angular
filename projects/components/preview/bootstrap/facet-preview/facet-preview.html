@@ -7,8 +7,8 @@
     <li *ngFor="let doc of similarDocuments" class="list-group-item d-flex justify-content-between align-items-center" style="background-color: transparent;">
         <sq-result-title [record]="doc" [titleLinkBehavior]="'open'"></sq-result-title>
         <div class="d-flex">
-            <span class="badge badge-pill badge-secondary" style="padding-top: 5px;">{{100*doc.globalrelevance | number:'1.0-0'}}</span>
-            <a href="#" (click)="openSimilarDoc(doc)" class="open-record ml-2" title="Open document in workspace">
+            <span class="badge rounded-pill bg-secondary pt-1">{{100*doc.globalrelevance | number:'1.0-0'}}</span>
+            <a href="#" (click)="openSimilarDoc(doc)" class="open-record ms-2" title="Open document in workspace">
                 <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>

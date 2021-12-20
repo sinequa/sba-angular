@@ -21,8 +21,8 @@
             <div class="col-6 slide-metadata">
                 <div class="slide-date">{{record.modified|date}}</div>
                 <div class="slide-title d-flex flex-nowrap align-items-center mt-2">
-                    <sq-result-title class="slide-title mr-auto" [record]="record"></sq-result-title>
-                    <span class="badge badge-light ml-1" title="Slide Number">{{record.id.split('#')[1]}}</span>
+                    <sq-result-title class="slide-title me-auto" [record]="record"></sq-result-title>
+                    <span class="badge bg-light ms-1" title="Slide Number">{{record.id.split('#')[1]}}</span>
                 </div>
                 <div *ngIf="ui.screenSizeIsGreater('md')" class="slide-treepath mt-2">{{record.treepath}}</div>
             </div>

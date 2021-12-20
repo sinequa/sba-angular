@@ -1,6 +1,6 @@
 import {Directive, OnInit, OnDestroy, AfterViewInit, ElementRef, HostListener} from "@angular/core";
 import {Subscription} from 'rxjs';
-import Popper from 'popper.js';
+import {createPopper} from '@popperjs/core';
 import {Keys} from "@sinequa/core/base";
 import {BsDropdownService, gClassName, gSelector, gAttachmentMap} from './dropdown.service';
 
@@ -9,12 +9,13 @@ import {BsDropdownService, gClassName, gSelector, gAttachmentMap} from './dropdo
 function noop() {}
 
 const gConfig = {
-    offset       : 0,
+    offset       : [0,2],
     flip         : true,
-    boundary     : 'scrollParent',
+    boundary     : 'clippingParents',
     reference    : 'toggle',
     display      : 'dynamic',
-    popperConfig : null
+    popperConfig: null,
+    autoClose: true
 };
 
 @Directive({
@@ -87,7 +88,8 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
         const isActive = this.dropdownMenu && this.dropdownMenu.classList.contains(gClassName.SHOW);
 
         this.dropdownService.raiseClear();
-
+        // send dropdown's active state to the service
+        this.dropdownService.raiseActive(!isActive);
         if (isActive) {
             return;
         }
@@ -117,31 +119,31 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
         return placement;
     }
 
-    private getOffset() {
-        return {
-            offset: gConfig.offset
-        };
-    }
-
     private getPopperConfig() {
         const popperConfig: any = {
             placement: this.getPlacement(),
-            modifiers: {
-                offset: this.getOffset(),
-                flip: {
-                    enabled: gConfig.flip
+            modifiers: [
+                {
+                    name: 'preventOverflow',
+                    options: {
+                        boundary: document.querySelector(gConfig.boundary)
+                    }
                 },
-                preventOverflow: {
-                    boundariesElement: gConfig.boundary
+                {
+                    name: 'offset',
+                    options: {
+                        offset: gConfig.offset
+                    }
                 }
-            }
+            ]
         };
 
         // Disable Popper.js if we have a static display
         if (gConfig.display === 'static') {
-            popperConfig.modifiers.applyStyle = {
+            popperConfig.modifiers.push({
+                name: 'applyStyle',
                 enabled: false
-            };
+            });
         }
 
         return popperConfig;
@@ -160,15 +162,7 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
         const parent = this.dropdown;
 
         // Disable totally Popper.js for Dropdown in Navbar
-        if (!this.inNavbar && usePopper) {
-            /**
-             * Check for Popper dependency
-             * Popper - https://popper.js.org
-             */
-            if (typeof Popper === 'undefined') {
-                throw new TypeError('Bootstrap\'s dropdowns require Popper.js (https://popper.js.org/)');
-            }
-
+        if (!this.inNavbar || usePopper) {
             let referenceElement = this.dropdownToggle;
 
             if (gConfig.reference === 'parent') {
@@ -178,10 +172,10 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
             // If boundary is not `scrollParent`, then set position to `static`
             // to allow the menu to "escape" the scroll parent's boundaries
             // https://github.com/twbs/bootstrap/issues/24251
-            if (gConfig.boundary !== 'scrollParent') {
+            if (gConfig.boundary !== 'clippingParents') {
                 parent.classList.add(gClassName.POSITION_STATIC);
             }
-            this.popper = new Popper(referenceElement, this.dropdownMenu, this.getPopperConfig());
+            this.popper = createPopper(referenceElement, this.dropdownMenu, this.getPopperConfig());
         }
 
         // If this is a touch-enabled device we add extra

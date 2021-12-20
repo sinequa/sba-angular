@@ -16,7 +16,14 @@ export function notificationAnimations(timings: number | string): AnimationTrigg
 @Component({
     selector: "sq-notification",
     templateUrl: "./notification.html",
-    animations: notificationAnimations(".15s ease-in-out")
+    animations: notificationAnimations(".15s ease-in-out"),
+    styles: [`
+        /* in dark mode, invert close button color */
+        :host-context(.dark)
+        button.btn-close {
+            filter: invert(1);
+        }
+    `]
 })
 export class BsNotification implements OnInit {
     @Input() notification: Notification;

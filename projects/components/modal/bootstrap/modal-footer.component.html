@@ -1,7 +1,7 @@
 <div class="modal-footer">
     <ng-container *ngIf="!isProcessingState">
         <section *ngFor="let button of buttons">
-            <button *ngIf="button.visible && !button.anchor" type="{{button.primary ? 'submit' : 'button'}}" class="btn {{button.primary ? 'btn-primary' : button.result < 0 ? '' : 'btn-secondary'}}" (click)="buttonClick(button)">{{button.getText() | sqMessage}}</button>
+            <button *ngIf="button.visible && !button.anchor" type="{{button.primary ? 'submit' : 'button'}}" class="btn {{button.primary ? 'btn-primary' : button.result < 0 ? 'btn-outline-secondary' : 'btn-secondary'}}" (click)="buttonClick(button)">{{button.getText() | sqMessage}}</button>
             <a *ngIf="button.visible && button.anchor"
                 href="#"
                 class="btn {{button.primary ? 'btn-primary' : button.result < 0 ? 'sq-anchor-btn' : 'btn-secondary'}}"

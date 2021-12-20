@@ -1,6 +1,6 @@
-<label class="sq-select-results-item custom-control custom-control-inline custom-checkbox"
+<div class="sq-select-results-item form-check"
     title="{{(record.$selected ? 'msg#resultSelector.unselectDocument' : 'msg#resultSelector.selectDocument') | sqMessage}}"
     [attr.aria-label]="(record.$selected ? 'msg#resultSelector.unselectDocument' : 'msg#resultSelector.selectDocument') | sqMessage">
-    <input type="checkbox" class="custom-control-input" [checked]="record.$selected" (change)="selectionService.toggleSelectedRecords(record, 'result')">
-    <span class="custom-control-label">&#8203;</span>
-</label>
+    <input type="checkbox" class="form-check-input" id="select_record_{{record.id}}" [checked]="record.$selected" (change)="selectionService.toggleSelectedRecords(record, 'result')">
+    <label for="select_record_{{record.id}}" role="button" class="form-check-label">&#8203;</label>
+</div>

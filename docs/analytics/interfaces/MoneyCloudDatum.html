@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -43,7 +44,9 @@
 
 <ol class="breadcrumb">
   <li>Interfaces</li>
-  <li>MoneyCloudDatum</li>
+  <li
+  >
+  MoneyCloudDatum</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -66,6 +69,7 @@
 
 
 
+
         <section>
             <h3 id="index">Index</h3>
             <table class="table table-sm table-bordered index-table">
@@ -79,22 +83,40 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#category">category</a>
+                                        <a href="#category" 
+>
+                                            category
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#count">count</a>
+                                        <a href="#count" 
+>
+                                            count
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#currency">currency</a>
+                                        <a href="#currency" 
+>
+                                            currency
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#i">i</a>
+                                        <a href="#i" 
+>
+                                            i
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#rawvalue">rawvalue</a>
+                                        <a href="#rawvalue" 
+>
+                                            rawvalue
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#value">value</a>
+                                        <a href="#value" 
+>
+                                            value
+                                        </a>
                                 </li>
                             </ul>
                         </td>
@@ -112,7 +134,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="category"></a>
-                                        <span class="name"><b>category</b><a href="#category"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>category</b>
+                                            <a href="#category">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -141,7 +167,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="count"></a>
-                                        <span class="name"><b>count</b><a href="#count"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>count</b>
+                                            <a href="#count">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -170,7 +200,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="currency"></a>
-                                        <span class="name"><b>currency</b><a href="#currency"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>currency</b>
+                                            <a href="#currency">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -199,7 +233,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="i"></a>
-                                        <span class="name"><b>i</b><a href="#i"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>i</b>
+                                            <a href="#i">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -228,7 +266,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="rawvalue"></a>
-                                        <span class="name"><b>rawvalue</b><a href="#rawvalue"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>rawvalue</b>
+                                            <a href="#rawvalue">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -257,7 +299,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="value"></a>
-                                        <span class="name"><b>value</b><a href="#value"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>value</b>
+                                            <a href="#value">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -292,6 +338,7 @@ import { AbstractFacet } from &quot;@sinequa/components/facet&quot;;
 import { SearchService } from &quot;@sinequa/components/search&quot;;
 import { SelectionService } from &quot;@sinequa/components/selection&quot;;
 import { ExprBuilder, FormatService, ValueItem } from &quot;@sinequa/core/app-utils&quot;;
+import { Utils } from &quot;@sinequa/core/base&quot;;
 import { AggregationItem, Results } from &quot;@sinequa/core/web-services&quot;;
 
 import * as d3 from &#x27;d3&#x27;;
@@ -604,27 +651,32 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
 
     onMouseEnterDatum(datum: MoneyCloudDatum) {
 
-        this.tooltipItem &#x3D; datum;
-
-        const x &#x3D; this.x(datum.category)! + this.x_inner(datum.i)!;
+        let x &#x3D; this.x(datum.category);
+        const x_inner &#x3D; this.x_inner(datum.i);
         const y &#x3D; this.y(datum.value);
         const r &#x3D; this.r(datum.count);
+
+        if(Utils.isUndefined(x) || Utils.isUndefined(x_inner) || Utils.isUndefined(r) || Utils.isUndefined(y)) return;
+
+        this.tooltipItem &#x3D; datum;
+
+        x +&#x3D; x_inner;
 
         // Since we use viewBox to auto-adjust the SVG to the container size, we have to
         // convert from the SVG coordinate system to the HTML coordinate system
         const actualWidth &#x3D; (this.el.nativeElement as HTMLElement).offsetWidth;
         const scale &#x3D; actualWidth / this.width;
-        const relativeX &#x3D; x! / this.width;
+        const relativeX &#x3D; x / this.width;
 
         // Tooltip to the right
         if(relativeX &lt; 0.5) {
             this.tooltipOrientation &#x3D; &quot;right&quot;;
-            this.tooltipLeft &#x3D; scale * (this.margin.left + x! + r);
+            this.tooltipLeft &#x3D; scale * (this.margin.left + x + r);
         }
         // Tooltip to the left
         else {
             this.tooltipOrientation &#x3D; &quot;left&quot;;
-            this.tooltipRight &#x3D; actualWidth - scale * (this.margin.left + x! - r);
+            this.tooltipRight &#x3D; actualWidth - scale * (this.margin.left + x - r);
         }
         this.tooltipTop &#x3D; scale * (this.margin.top + y); // Align tooltip arrow
     }
@@ -642,14 +694,14 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
 </div>
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -661,6 +713,15 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
@@ -670,9 +731,9 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

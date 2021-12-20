@@ -29,7 +29,7 @@
         <!-- Extracts/Pages panel -->
         <sq-preview-extracts-panel *ngIf="subpanel === 'extracts' && !pagesResults && !collapsedPanel"
             class="d-flex flex-column flex-grow-1" [previewData]="previewData" [downloadUrl]="currentUrl"
-            [previewDocument]="previewDocument" [style]="isDark()? 'dark' : 'light'">
+            [previewDocument]="previewDocument">
         </sq-preview-extracts-panel>
 
         <sq-preview-pages-panel *ngIf="subpanel === 'extracts' && pagesResults && !collapsedPanel"
@@ -37,7 +37,6 @@
             [previewData]="previewData"
             [previewDocument]="previewDocument"
             [pages]="pagesResults"
-            [style]="isDark()? 'dark' : 'light'"
             (gotopage)="gotoPage($event)">
         </sq-preview-pages-panel>
 
@@ -53,7 +52,6 @@
                 <sq-preview-entity-panel
                     [previewData]="previewData"
                     [previewDocument]="previewDocument"
-                    [style]="isDark()? 'dark' : 'light'"
                     [startUnchecked]="entitiesStartUnchecked"
                     (facetChecked)="entitiesChecked($event)">
                 </sq-preview-entity-panel>

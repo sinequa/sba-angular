@@ -1,37 +1,37 @@
 <form name="editAlert" novalidate [formGroup]="form">
     <sq-modal [title]="'msg#editAlert.title'" [buttons]="buttons">
-        <div class="form-group sq-form-group">
-            <label for="alertName">{{'msg#editAlert.name' | sqMessage}}</label>
+        <div class="mb-3 sq-form-group">
+            <label class="form-label" for="alertName">{{'msg#editAlert.name' | sqMessage}}</label>
             <input [sqValidation]="form" type="text" class="form-control" id="alertName" formControlName="alertName" autocomplete="off" spellcheck="off" sqAutofocus>
         </div>
-        <div class="form-group">
-            <label for="alertFrequency">{{'msg#editAlert.frequency' | sqMessage}}</label>
-            <select class="form-control custom-select" id="alertFrequency" formControlName="alertFrequency">
+        <div class="mb-3">
+            <label class="form-label" for="alertFrequency">{{'msg#editAlert.frequency' | sqMessage}}</label>
+            <select class="form-select" id="alertFrequency" formControlName="alertFrequency">
                 <option *ngFor="let frequencyValue of frequencies" [value]="frequencyValue">{{frequency[frequencyValue] | sqMessage}}</option>
             </select>
         </div>
-        <div class="form-group">
-            <label>{{'msg#editAlert.days' | sqMessage}}</label>
+        <div class="mb-3">
+            <label class="form-label">{{'msg#editAlert.days' | sqMessage}}</label>
             <div class="weekdays-grid">
-                <label *ngFor="let day of weekdays | keyvalue: originalOrder" class="custom-control custom-control-inline custom-checkbox">
-                    <input class="custom-control-input" type="checkbox" [checked]="dayChecked(day.value)" (change)="dayChange($event, day.value)">
-                    <span class="custom-control-label user-select-none cursor-pointer">{{ 'msg#editAlert.'+day.key | sqMessage}}</span>
-                </label>
+                <div *ngFor="let day of weekdays | keyvalue: originalOrder; let i = index" class="form-check">
+                    <input class="form-check-input" type="checkbox" id="day_{{day.value}}" [checked]="dayChecked(day.value)" (change)="dayChange($event, day.value)">
+                    <label role="button" for="day_{{day.value}}" class="form-check-label user-select-none cursor-pointer">{{ 'msg#editAlert.'+day.key | sqMessage}}</label>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="alertTimes">{{'msg#editAlert.times' | sqMessage}}</label>
+        <div class="mb-3">
+            <label class="form-label" for="alertTimes">{{'msg#editAlert.times' | sqMessage}}</label>
             <input type="text" class="form-control" id="alertTimes" formControlName="alertTimes" autocomplete="off" spellcheck="off">
         </div>
-        <div class="form-group">
-            <label class="custom-control custom-control-inline custom-checkbox">
-                <input class="custom-control-input" type="checkbox" id="alertActive" formControlName="alertActive">
-                <span class="custom-control-label user-select-none cursor-pointer">{{'msg#editAlert.active' | sqMessage}}</span>
-            </label>
-            <label *ngIf="canUpdateQuery" class="custom-control custom-control-inline custom-checkbox">
-                <input class="custom-control-input" type="checkbox" id="updateQuery" formControlName="updateQuery">
-                <span class="custom-control-label user-select-none cursor-pointer">{{'msg#editAlert.updateQuery' | sqMessage}}</span>
-            </label>
+        <div class="mb-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="alertActive" formControlName="alertActive">
+                <label role="button" for="alertActive" class="form-check-label user-select-none cursor-pointer">{{'msg#editAlert.active' | sqMessage}}</label>
+            </div>
+            <div *ngIf="canUpdateQuery" class="form-check">
+                <input class="form-check-input" type="checkbox" id="updateQuery" formControlName="updateQuery">
+                <label role="button" for="updateQuery" class="form-check-label user-select-none cursor-pointer">{{'msg#editAlert.updateQuery' | sqMessage}}</label>
+            </div>
         </div>
         <sq-alert-message footer [message]="'msg#editAlert.lossDataMessage' | sqMessage" style="flex: 0 1 100%" *ngIf="showDirtyMessage"></sq-alert-message>
     </sq-modal>

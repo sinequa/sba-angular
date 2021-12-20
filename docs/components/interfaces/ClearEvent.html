@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -43,7 +44,9 @@
 
 <ol class="breadcrumb">
   <li>Interfaces</li>
-  <li>ClearEvent</li>
+  <li
+  >
+  ClearEvent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -63,6 +66,7 @@
         <p class="comment">
             <code>search/search.service.ts</code>
         </p>
+
 
 
             <p class="comment">
@@ -86,10 +90,16 @@
                             <ul class="index-list">
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#path">path</a>
+                                        <a href="#path" 
+>
+                                            path
+                                        </a>
                                 </li>
                                 <li>
-                                        <a href="#type">type</a>
+                                        <a href="#type" 
+>
+                                            type
+                                        </a>
                                 </li>
                             </ul>
                         </td>
@@ -107,7 +117,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="path"></a>
-                                        <span class="name"><b>path</b><a href="#path"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>path</b>
+                                            <a href="#path">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -141,7 +155,11 @@
                                 <tr>
                                     <td class="col-md-4">
                                         <a name="type"></a>
-                                        <span class="name"><b>type</b><a href="#type"><span class="icon ion-ios-link"></span></a></span>
+                                        <span class="name "><b>type</b>
+                                            <a href="#type">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -167,10 +185,10 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, InjectionToken, Inject, Optional, OnDestroy} from &quot;@angular/core&quot;;
 import {Router, NavigationStart, NavigationEnd, Params} from &quot;@angular/router&quot;;
 import {Subject, BehaviorSubject, Observable, Subscription, of, throwError} from &quot;rxjs&quot;;
-import {map, catchError  } from &quot;rxjs/operators&quot;;
+import {map, switchMap} from &quot;rxjs/operators&quot;;
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
-    AuditEvents, AuditEventType, AuditEvent} from &quot;@sinequa/core/web-services&quot;;
+    AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch} from &quot;@sinequa/core/web-services&quot;;
 import {AppService, FormatService, ValueItem, Query, ExprParser, Expr, ExprBuilder} from &quot;@sinequa/core/app-utils&quot;;
 import {NotificationsService} from &quot;@sinequa/core/notification&quot;;
 import {LoginService} from &quot;@sinequa/core/login&quot;;
@@ -179,11 +197,18 @@ import {Utils} from &quot;@sinequa/core/base&quot;;
 import {Breadcrumbs, BreadcrumbsItem} from &#x27;./breadcrumbs&#x27;;
 
 export interface SearchOptions {
+    /** Name of routes for which we want the search service to work (incl. storing the query in the URL) */
     routes?: string[];
+    /** Name of routes for which we want the search service to work, but no actual search query to be performed. This can be used to perform custom actions on certain routes */
     skipSearchRoutes?: string[];
+    /** Name of the home route, if any */
     homeRoute?: string;
+    /** Deactivate the storing of the query in the URL (calling search() then directly triggers a search and causes no URL modification or routing event) */
     deactivateRouting?: boolean;
+    /** Force the global query to always be appService.ccquery */
     preventQueryNameChanges?: boolean;
+    /** Whether to detect query intents synchronously (blocking the execution of the query until we know the intent). By default, query intents are detected asynchronously. */
+    queryIntentsSync?: boolean;
 }
 
 export const SEARCH_OPTIONS &#x3D; new InjectionToken&lt;SearchOptions&gt;(&quot;SEARCH_OPTIONS&quot;);
@@ -216,7 +241,8 @@ export class SearchService implements OnDestroy {
         protected formatService: FormatService,
         protected auditService: AuditWebService,
         protected notificationsService: NotificationsService,
-        protected exprBuilder: ExprBuilder) {
+        protected exprBuilder: ExprBuilder,
+        protected queryIntentWebService: QueryIntentWebService) {
 
         if (!this.options) {
             this.options &#x3D; {
@@ -587,6 +613,7 @@ export class SearchService implements OnDestroy {
         if (!options) {
             options &#x3D; {};
         }
+        // We reuse the query intent analysis from previous results
         if (!options.analyzeQueryText &amp;&amp; this.results) {
             options.queryIntents &#x3D; this.results.queryIntents;
             options.queryAnalysis &#x3D; this.results.queryAnalysis;
@@ -773,12 +800,12 @@ export class SearchService implements OnDestroy {
         return undefined;
     }
 
-    protected handleNavigation(navigationOptions?: SearchService.NavigationOptions, audit?: AuditEvents): Promise&lt;boolean&gt; {
+    protected handleNavigation(navigationOptions?: SearchService.NavigationOptions, audit?: AuditEvents) {
         if (!this.loginService.complete) {
-            return Promise.resolve(false);
+            return
         }
         if (!this.appService.ccquery) {
-            return Promise.resolve(false);
+            return
         }
         let query &#x3D; this._query;
         if (this.routingActive) {
@@ -787,7 +814,7 @@ export class SearchService implements OnDestroy {
         this._events.next({type: &quot;update-query&quot;, query});
         this._queryStream.next(query);
         if (!query) {
-            return Promise.resolve(true);
+            return
         }
         if (this.routingActive) {
             const state &#x3D; this.getHistoryState();
@@ -798,28 +825,44 @@ export class SearchService implements OnDestroy {
         navigationOptions &#x3D; navigationOptions || {};
         const pathName &#x3D; navigationOptions.path ? navigationOptions.path : Utils.makeURL(this.router.url).pathname;
         if(navigationOptions.skipSearch || this.isSkipSearchRoute(pathName)) {
-            return Promise.resolve(true);
+            return
         }
+
         if (!audit) {
+            // Note: typically called on application startup when there&#x27;s no history state (ie. we don&#x27;t know where the search comes from)
             audit &#x3D; this.makeAuditEventFromCurrentQuery();
-            if (audit &amp;&amp; audit.type &#x3D;&#x3D;&#x3D; AuditEventType.Search_Text) {
+            if (audit?.type &#x3D;&#x3D;&#x3D; AuditEventType.Search_Text) {
                 delete navigationOptions.queryIntents;
                 delete navigationOptions.queryAnalysis;
             }
         }
-        let observable &#x3D; this.getResults(this.query, audit,
-            {
-                queryIntents: navigationOptions.queryIntents,
-                queryAnalysis: navigationOptions.queryAnalysis
-            });
-        Utils.subscribe(observable,
-            (results) &#x3D;&gt; {
-                navigationOptions &#x3D; navigationOptions || {};
-                this._setResults(results, {
-                    resuseBreadcrumbs: navigationOptions.reuseBreadcrumbs,
+
+        let obs &#x3D; of(false);
+
+        // Insert a call to the query intent web service (if any)
+        if(this.appService.ccquery?.queryIntentSet) {
+            // In synchronous mode, the query intents are executed before search
+            if(this.options.queryIntentsSync) {
+                obs &#x3D; this.pipeQueryIntent(obs);
+            }
+            // In asynchronous mode, the query intents are executed in parallel
+            else {
+                this.pipeQueryIntent(obs).subscribe();
+            }
+        }
+
+        // Get results (except if the search query is cancelled)
+        let observable &#x3D; obs.pipe(
+            switchMap(cancel &#x3D;&gt; {
+                if(cancel) return of(undefined);
+                return this.getResults(this.query, audit, {
+                    queryIntents: navigationOptions?.queryIntents,
+                    queryAnalysis: navigationOptions?.queryAnalysis
                 });
-                return results;
-            });
+            })
+        );
+
+        // This event allows customization of behavior when switching tabs (the observable property can be modified to get other results)
         if (navigationOptions.selectTab) {
             const afterSelectTabEvent: SearchService.AfterSelectTabEvent &#x3D; {
                 type: &quot;after-select-tab&quot;,
@@ -828,9 +871,43 @@ export class SearchService implements OnDestroy {
             this._events.next(afterSelectTabEvent);
             observable &#x3D; afterSelectTabEvent.observable;
         }
-        return observable.pipe(
-            map(() &#x3D;&gt; true),
-            catchError(() &#x3D;&gt; of(false))).toPromise();
+
+        // Set results if any
+        observable.subscribe(results &#x3D;&gt; {
+            if(results) {
+                navigationOptions &#x3D; navigationOptions || {};
+                this._setResults(results, {
+                    resuseBreadcrumbs: navigationOptions.reuseBreadcrumbs,
+                });
+            }
+        });
+    }
+
+    pipeQueryIntent(obs: Observable&lt;boolean&gt;): Observable&lt;boolean&gt; {
+        return obs.pipe(
+            switchMap(() &#x3D;&gt; this.queryIntentWebService.getQueryIntent(this.query)),
+            map(intents &#x3D;&gt; {
+                const event: SearchService.NewQueryIntentsEvent &#x3D; {
+                    type: &quot;new-query-intents&quot;,
+                    query: this.query,
+                    intents,
+                    cancelSearch: false
+                };
+                this._events.next(event);
+                if(intents.length &gt; 0) {
+                    const events &#x3D; intents.map(intent &#x3D;&gt; ({
+                        type: &quot;Search_QueryIntent_Detected&quot;,
+                        detail: {
+                            querytext: this.query.text,
+                            item: intent.name,
+                            detail: intent.globalEntities?.map(e &#x3D;&gt; e.value).join(&quot;;&quot;)
+                        }
+                    }));
+                    this.auditService.notify(events);
+                }
+                return event.cancelSearch;
+            })
+        );
     }
 
     search(navigationOptions?: SearchService.NavigationOptions, audit?: AuditEvents): Promise&lt;boolean&gt; {
@@ -843,8 +920,7 @@ export class SearchService implements OnDestroy {
         // Check for empty search preemptively to avoid clearing the current results in the most
         // common case of the user entering empty search text in the search box
         // The lower level check in getResults will handle less obvious cases (url editing etc)
-        if (this.appService.ccquery &amp;&amp; !this.appService.ccquery.allowEmptySearch &amp;&amp; !Utils.trim(this.query.text || &quot;&quot;)) {
-            this.notificationsService.info(&quot;msg#search.emptySearchNotification&quot;);
+        if (!this.checkEmptySearch(this.query)) {
             return Promise.resolve(false);
         }
         return this.search(
@@ -1099,7 +1175,7 @@ export module SearchService {
 
     export interface Event {
         type: &quot;new-query&quot; | &quot;update-query&quot; | &quot;make-query&quot; | &quot;before-new-results&quot; | &quot;new-results&quot; | &quot;make-query-intent-data&quot; |
-            &quot;process-query-intent-action&quot; | &quot;make-audit-event&quot; |
+            &quot;process-query-intent-action&quot; | &quot;make-audit-event&quot; | &quot;new-query-intents&quot; |
             &quot;before-select-tab&quot; | &quot;after-select-tab&quot; | &quot;clear&quot; | &quot;open-original-document&quot; | &quot;before-search&quot;;
     }
 
@@ -1153,7 +1229,7 @@ export module SearchService {
 
     export interface AfterSelectTabEvent extends Event {
         type: &quot;after-select-tab&quot;;
-        observable: Observable&lt;Results&gt;;
+        observable: Observable&lt;Results|undefined&gt;;
     }
 
     export interface ClearEvent extends Event {
@@ -1171,6 +1247,13 @@ export module SearchService {
         cancel?: boolean;
         cancelReasons?: string[];
     }
+    
+    export interface NewQueryIntentsEvent extends Event {
+        type: &quot;new-query-intents&quot;;
+        query: Query;
+        intents: QueryIntentMatch[];
+        cancelSearch: boolean;
+    }
 
     export type Events &#x3D;
         NewQueryEvent |
@@ -1185,7 +1268,8 @@ export module SearchService {
         AfterSelectTabEvent |
         ClearEvent |
         OpenOriginalDocument |
-        BeforeSearchEvent;
+        BeforeSearchEvent |
+        NewQueryIntentsEvent;
 
     export const DefaultPageSize &#x3D; 20;
 }
@@ -1194,14 +1278,14 @@ export module SearchService {
 </div>
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -1213,6 +1297,15 @@ export module SearchService {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
@@ -1222,9 +1315,9 @@ export module SearchService {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

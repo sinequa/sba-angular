@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	      <link rel="stylesheet" href="../styles/style.css">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
 
@@ -35,7 +36,9 @@
 
 <ol class="breadcrumb">
   <li>Components</li>
-  <li>TimelineLegendComponent</li>
+  <li
+  >
+  TimelineLegendComponent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -65,9 +68,10 @@
 
 
 
+
 <section>
     <h3>Metadata</h3>
-    <table class="table table-sm table-hover">
+    <table class="table table-sm table-hover metadata">
         <tbody>
 
 
@@ -161,19 +165,19 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#data">data</a>
+                                <a href="#data" >data</a>
                             </li>
                             <li>
-                                <a href="#events">events</a>
+                                <a href="#events" >events</a>
                             </li>
                             <li>
-                                <a href="#legendStyles">legendStyles</a>
+                                <a href="#legendStyles" >legendStyles</a>
                             </li>
                             <li>
-                                <a href="#orientation">orientation</a>
+                                <a href="#orientation" >orientation</a>
                             </li>
                             <li>
-                                <a href="#yOffset">yOffset</a>
+                                <a href="#yOffset" >yOffset</a>
                             </li>
                         </ul>
                     </td>
@@ -428,7 +432,7 @@ export class TimelineLegendComponent {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div class="legend d-flex flex-{{orientation}}" [ngStyle]="legendStyles">    <div *ngFor="let timeline of data" class="series mr-2">        <svg width="20" height="15">            <rect class="area" x="0" [attr.y]="yOffset" width="20" [attr.height]="13-yOffset" [ngStyle]="timeline.areaStyles"></rect>            <line class="line" x1="0" [attr.y1]="yOffset" x2="20" [attr.y2]="yOffset" [ngStyle]="timeline.lineStyles"></line>        </svg>        <span class="name ml-1">{{ timeline.name }}</span>    </div>    <div *ngFor="let event of events" class="event mr-2">        <svg width="20" height="15">            <path class="event" [attr.d]="\'M 10 1 l -7 11 l 14 0 z\'" [ngStyle]="event.styles"></path>        </svg>        <span class="name ml-1">{{ event.name }}</span>    </div></div></div>'
-    var COMPONENTS = [{'name': 'AgGridViewComponent', 'selector': 'sq-ag-grid-view'},{'name': 'BsEdgeInfoCard', 'selector': 'sq-edge-info-card'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetTimelineComponent', 'selector': 'sq-facet-timeline'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsNodeInfoCard', 'selector': 'sq-node-info-card'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsTimelineComponent', 'selector': 'sq-timeline'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'DataModalComponent', 'selector': 'sq-data-modal'},{'name': 'FacetNgxChart', 'selector': 'sq-facet-ngx-chart'},{'name': 'FusionChart', 'selector': 'sq-fusion-chart'},{'name': 'MapComponent', 'selector': 'sq-googlemaps'},{'name': 'MoneyCloudComponent', 'selector': 'sq-money-cloud'},{'name': 'MoneyTimelineComponent', 'selector': 'sq-money-timeline'},{'name': 'NetworkComponent', 'selector': 'sq-network'},{'name': 'NgxChart', 'selector': 'sq-ngx-chart'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'TimelineLegendComponent', 'selector': 'sq-timeline-legend'}];
+    var COMPONENTS = [{'name': 'AgGridViewComponent', 'selector': 'sq-ag-grid-view'},{'name': 'BsEdgeInfoCard', 'selector': 'sq-edge-info-card'},{'name': 'BsFacetHeatmapComponent', 'selector': 'sq-facet-heatmap'},{'name': 'BsFacetTimelineComponent', 'selector': 'sq-facet-timeline'},{'name': 'BsHeatmapComponent', 'selector': 'sq-heatmap'},{'name': 'BsNodeInfoCard', 'selector': 'sq-node-info-card'},{'name': 'BsResultsHeatmapView', 'selector': 'sq-results-heatmap-view'},{'name': 'BsTimelineComponent', 'selector': 'sq-timeline'},{'name': 'BsTooltipComponent', 'selector': 'sq-tooltip'},{'name': 'DataModalComponent', 'selector': 'sq-data-modal'},{'name': 'FacetNgxChart', 'selector': 'sq-facet-ngx-chart'},{'name': 'FacetWrapperComponent', 'selector': 'facet-wrapper'},{'name': 'FusionChart', 'selector': 'sq-fusion-chart'},{'name': 'MapComponent', 'selector': 'sq-googlemaps'},{'name': 'MoneyCloudComponent', 'selector': 'sq-money-cloud'},{'name': 'MoneyTimelineComponent', 'selector': 'sq-money-timeline'},{'name': 'NetworkComponent', 'selector': 'sq-network'},{'name': 'NgxChart', 'selector': 'sq-ngx-chart'},{'name': 'ResultTimeline', 'selector': 'sq-result-timeline'},{'name': 'TimelineLegendComponent', 'selector': 'sq-timeline-legend'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'TimelineLegendComponent'};
 </script>
@@ -443,14 +447,14 @@ export class TimelineLegendComponent {
 
 
 
-                   
+
 
 
 
 
                    </div><div class="search-results">
     <div class="has-results">
-        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
     </div>
     <div class="no-results">
@@ -462,6 +466,15 @@ export class TimelineLegendComponent {
            </div>
        </div>
 
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
@@ -471,9 +484,9 @@ export class TimelineLegendComponent {
 
        <script src="../js/libs/custom-elements.min.js"></script>
        <script src="../js/libs/lit-html.js"></script>
-       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
-       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+
        <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 

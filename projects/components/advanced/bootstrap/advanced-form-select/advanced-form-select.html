@@ -1,5 +1,5 @@
-<div class="form-group" [formGroup]="form">
-    <label for="{{field}}">{{label | sqMessage}}</label>
+<div class="mb-3" [formGroup]="form">
+    <label class="form-label" for="{{field}}">{{label | sqMessage}}</label>
     <sq-select
         [items]="items"
         [multiple]="multiple"
