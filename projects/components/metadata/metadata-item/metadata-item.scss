@@ -4,6 +4,14 @@
 }
 
 .sq-metadata-item-values {
+    --max-height: 1000px;
+    display: block;
+    overflow: hidden;
+
+    /* using var, animation can be played when collapsing and expanding */
+    max-height: var(--max-height);
+    transition: max-height 0.3s ease-in-out;
+
     & .breadcrumb {
         padding: 0;
         background-color: inherit;
@@ -19,17 +27,14 @@
     }
 
     .counter {
-        font-size: 83%; // grow the counter font size a bit, since it's a badge withing a badge
+        padding-left: 4px;
+        padding-right: 6px;
+        font-size: .7rem;
     }
 
     // Collapsed behavior
-    max-height: 15rem;
-    overflow: hidden;
-    transition: max-height 0.2s ease-in-out;
-
     &.collapsed {
-        display: block;
-        max-height: 1.7rem;
+        --max-height: 26px;
     }
     
     .collapse-button {
