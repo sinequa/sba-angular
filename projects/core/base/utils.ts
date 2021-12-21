@@ -589,7 +589,7 @@ export class Utils {
      * @param value The value to convert
      * @param quote If set, the returned string will be enclosed in single quotes for string and `Date` values
      */
-    static toSqlValue(value: FieldValue, quote?: boolean): string {
+    static toSqlValue(value: FieldValue, quote?: boolean): string{
         if (Utils.isNumber(value)) {
             return value + "";
         }
@@ -603,6 +603,9 @@ export class Utils {
         }
         if (Utils.isBoolean(value)) {
             return value ? "true" : "false";
+        }
+        if (value === null) {
+            return "null";
         }
         if (Utils.isArray(value)) {
             const ret: string[] = [];
