@@ -1,12 +1,23 @@
+:host {
+    /* fallback value */
+    --scroll-height: 1000px;
+    --has-count: -.1rem;
+}
 .sq-metadata-item-label {
     width: 1px;
     white-space: nowrap;
 }
 
 .sq-metadata-item-values {
-    --max-height: 1000px;
-    display: block;
+    --max-height: var(--scroll-height);
     overflow: hidden;
+    
+    /* metadata item alignment */
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: start;
+    gap: 2px;
 
     /* using var, animation can be played when collapsing and expanding */
     max-height: var(--max-height);
@@ -34,7 +45,8 @@
 
     // Collapsed behavior
     &.collapsed {
-        --max-height: 26px;
+        /* adjust max height when count exists */
+        --max-height: calc(1.45rem + var(--has-count));
     }
     
     .collapse-button {

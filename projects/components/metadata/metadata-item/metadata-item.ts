@@ -1,21 +1,28 @@
-import {Component, Input, Output, HostBinding, OnChanges, SimpleChanges, EventEmitter} from "@angular/core";
+import {Component, Input, Output, HostBinding, OnChanges, SimpleChanges, EventEmitter, ElementRef, ViewChild, AfterViewInit, ChangeDetectorRef} from "@angular/core";
+import {Observable, of} from "rxjs";
+import {map} from "rxjs/operators";
+
 import {Utils} from "@sinequa/core/base";
 import {AppService, FormatService, Query, ValueItem} from "@sinequa/core/app-utils";
 import {Record, EntityItem, DocumentAccessLists, CCColumn, TextChunksWebService, TextLocation} from "@sinequa/core/web-services";
+
 import {FacetService} from "@sinequa/components/facet";
-import {Observable, of} from "rxjs";
-import {map} from "rxjs/operators";
+import {UIService} from "@sinequa/components/utils";
 
 export interface TreeValueItem extends ValueItem {
     parts: ValueItem[];
 }
+
+// max height of the first metadata row
+// this size was found using HTML inspector
+const MAX_METADATA_ROW_HEIGHT = 21.6;
 
 @Component({
     selector: "sq-metadata-item",
     templateUrl: "./metadata-item.html",
     styleUrls: ['./metadata-item.scss']
 })
-export class MetadataItem implements OnChanges {
+export class MetadataItem implements OnChanges, AfterViewInit {
     @Input() record: Record;
     @Input() item: string;
     @Input() showTitle = true;
@@ -36,15 +43,48 @@ export class MetadataItem implements OnChanges {
     itemLabelMessageParams: any;
     collapsed: boolean;
     needsCollapse: boolean = false;
-    entityTooltip?: (entity: EntityItem) => Observable<string|undefined>;
-
+    entityTooltip?: (entity: EntityItem) => Observable<string | undefined>;
+    
+    // Needed to retrieve the scrollHeight value
+    @ViewChild('values', {static: false}) template: ElementRef;
+    
+    @Input() scrollHeight = 0;
+    get canExpand(): boolean {
+        if (!this.collapsed) return true;
+        return this.scrollHeight > MAX_METADATA_ROW_HEIGHT || false;
+    };
+    
     constructor(
+        private uiService: UIService,
+        private cd: ChangeDetectorRef,
+        private hostElement: ElementRef,
         public appService: AppService,
         public formatService: FormatService,
         public textChunkWebService: TextChunksWebService) {
         this.valueItems = [];
+        
+        // use of the UI Service to detect resize changes
+        this.uiService.resizeEvent.subscribe(() => {
+            this.scrollHeight = this.template?.nativeElement.scrollHeight;
+            
+            // check if collapse/expand button is needed:
+            // if  template is undefined or scroll height is 0, do nothing
+            // if value items length is 1 or 0, do nothing
+            if (this.scrollHeight === 0 || this.scrollHeight === undefined) return;
+            if (this.valueItems.length <= 1) return;
+            
+            // adjust collapse/expand button
+            if (this.scrollHeight < MAX_METADATA_ROW_HEIGHT) {
+                this.needsCollapse = false;
+            } else {
+                this.needsCollapse = true;
+            }
+            // the this css var to adjust animation while collapsing/expanding
+            this.hostElement.nativeElement.style.setProperty('--scroll-height', this.scrollHeight + 30 + 'px');
+            this.cd.detectChanges();    
+        });
     }
-
+  
     ensureScalarValue(value: any): any {
         if (Utils.isEmpty(value) && this.column) {
             if (AppService.isBoolean(this.column)) {
@@ -55,6 +95,19 @@ export class MetadataItem implements OnChanges {
             }
         }
         return value;
+    }
+
+    ngAfterViewInit() {
+        // To display or not the collapse/expand button, we need to ask for the scrollHeight's container
+        // It is available here, but settings the *ngIf value here trigger an NG0100 error
+        // To avoid this error, NG0100: Expression has changed after if was checked
+        // we need to trigger manually the detection changes.
+        this.scrollHeight = this.template?.nativeElement.scrollHeight;
+        // the this css var to adjust animation while collapsing/expanding
+        // first time, the metadata container is created. We keep a saving space of 100px (sometime, scrollHeight is wrong)
+        this.hostElement.nativeElement.style.setProperty('--scroll-height', this.scrollHeight + 100 + 'px');
+
+        this.cd.detectChanges();
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -106,12 +159,20 @@ export class MetadataItem implements OnChanges {
                 this.valueItems.push({value: value});
             }
         }
-        
+                
+        // when "counter" are displayed, row's height must be adapted, otherwise glitch could appears while zooming
+        // We are using css variable to fix that.
+        // When "count" exists, add 0.1rem to the initial height
+        const hasCount = this.valueItems.some(item => item.hasOwnProperty('count'));
+        this.hostElement.nativeElement.style.setProperty('--has-count', hasCount ? '0.05rem' : '-.1rem');
+
         const collapsable = (this.isEntity || this.isCsv) && !this.isTree; // Tree columns are multivalues, and therefore isCsv=true
         if (changes.collapseRows || this.collapsed === undefined) {
             this.collapsed = collapsable && this.collapseRows;
         }
-        this.needsCollapse = collapsable && this.collapseRows && this.tabular && this.valueItems.length > 1; // We display the collapse button as soon as the number of values is >1 which does not take into account the actualy width of each value...
+        
+        // We display the collapse button as soon as the number of values is >1 which does not take into account the actualy width of each value...
+        this.needsCollapse = collapsable && this.collapseRows && this.tabular && this.valueItems.length > 1;
     }
 
     public get isEmpty(): boolean {
@@ -203,7 +264,7 @@ export class MetadataItem implements OnChanges {
     }
 
     getHighlights(): string[] {
-        let preview = this.appService.app?.preview?.split(',')?.[0];
+        const preview = this.appService.app?.preview?.split(',')?.[0];
         if(preview) {
             return this.appService.getWebService<any>(preview)?.highlights?.split(",") || [];
         }
@@ -213,8 +274,8 @@ export class MetadataItem implements OnChanges {
     getEntityLocation(entity: EntityItem): TextLocation | undefined {
         const locations = entity.locations?.split(";")?.[0]?.split(",");
         if(!locations?.length) return;
-        const offset = parseInt(locations[0]);
-        const length = parseInt(locations[1]);
+        const offset = Number(locations[0]);
+        const length = Number(locations[1]);
         return {offset, length};
     }
 }
