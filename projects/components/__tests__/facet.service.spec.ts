@@ -9,14 +9,15 @@ import {AGGREGATION_GEO, FACETS, AGGREGATION_SIZE, AGGREGATION_BOOLEAN} from '@t
 import {FacetService, DEFAULT_FACETS, FacetEventType} from '../facet';
 import {SearchService, Breadcrumbs, BreadcrumbsItem} from '../search';
 import {SuggestService} from '../autocomplete';
-import {AGGREGATION_INTEGER} from "./mocks/aggregations";
+import {AGGREGATION_INTEGER, AGGREGATION_NULL} from "./mocks/aggregations";
 
 describe("FacetService", () => {
 	const aggregation = {
 		geo: AGGREGATION_GEO as Aggregation,
 		size: AGGREGATION_SIZE as unknown as Aggregation,
 		bool: AGGREGATION_BOOLEAN as Aggregation,
-		integer: AGGREGATION_INTEGER as Aggregation
+		integer: AGGREGATION_INTEGER as Aggregation,
+		null: AGGREGATION_NULL as Aggregation
 	};
 	let service: FacetService;
 	let searchService: SearchService;
@@ -714,6 +715,17 @@ describe("FacetService", () => {
 				// Then
 				expect(expr).toEqual("size`< 10 Ko`:(>= 0 AND < 10240)");
 			});
+			
+			it("should returns an Expr when value is null", () => {
+				// Given
+				const item: AggregationItem = {count: 0, value: null as any, display: "Still Open"};
+				
+				// When
+				const expr = exprBuilder.makeAggregationExpr(aggregation["null"], item);
+				
+				// Then
+				expect(expr).toEqual("modified: (`Still Open`:`null`)");
+			})
 
 		})
 	});

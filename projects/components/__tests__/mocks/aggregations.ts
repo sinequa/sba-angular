@@ -491,3 +491,17 @@ export const AGGREGATION_INTEGER = {
     }
   ]
 }
+
+export const AGGREGATION_NULL = {
+  "name": "null",
+  "column": "modified",
+  "valuesAreExpressions": true,
+  "isDistribution": true,
+  "Items": [
+    {
+      "value": null,
+      "display": "Still Open",
+      "count": 0
+    }
+  ]
+}
