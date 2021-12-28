@@ -188,6 +188,20 @@ sq-facet-tree {
     }
 }
 
+sq-facet-date {
+  sq-date-range-picker {
+      .sq-date-range-picker {
+          .col-auto {
+              width: 100% !important;
+          }
+      }
+  }
+}
+
+bs-datepicker-container {
+  top: -355px !important
+}
+
 // Flex basis classes
 .flex-basis-0 {
     flex-basis: 0;
