@@ -1,4 +1,4 @@
-import {Component, Input, Output, OnInit, OnDestroy, EventEmitter, ContentChild, HostBinding, AfterContentInit, ChangeDetectorRef, HostListener} from "@angular/core";
+import {Component, Input, Output, OnInit, OnDestroy, EventEmitter, ContentChild, HostBinding, AfterContentInit, ChangeDetectorRef, HostListener, DoCheck} from "@angular/core";
 import {Subscription} from "rxjs";
 import {Action} from "@sinequa/components/action";
 import {AbstractFacet} from "../../abstract-facet";
@@ -10,7 +10,7 @@ import {AbstractFacet} from "../../abstract-facet";
         .cursor-default {cursor: default;}
     `]
 })
-export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
+export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit, DoCheck {
 
     /**
      * Title of this facet (optional)
@@ -117,6 +117,8 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
 
     private actionChangedSubscription: Subscription;
 
+    private facetComponentActions: Action[] = [];
+
     constructor(
         private changeDetectorRef: ChangeDetectorRef
     ){
@@ -179,6 +181,10 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
         this.settingsAction.update();
     }
 
+    ngDoCheck() {
+        if(this.facetComponent) this.facetComponentActions = this.facetComponent.actions;
+    }
+
     ngAfterContentInit(){
         if(this.facetComponent) {
             this.actionChangedSubscription = this.facetComponent.actionsChanged.subscribe((actions) => {
@@ -203,7 +209,7 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
         if(this.actionsFirst) {
             actions.push(...this.actions);
         }
-        if(this.facetComponent) actions = actions.concat(this.facetComponent.actions);
+        actions = actions.concat(this.facetComponentActions);
         if(this.hasSettings) actions.push(this.settingsAction);
         if(this.expandable) actions.push(this.expandAction);
         if(this.collapsible) actions.push(this.collapseAction);
