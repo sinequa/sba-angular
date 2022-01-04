@@ -16,7 +16,7 @@ import { AppService, Expr, ExprBuilder, ExprOperator } from "@sinequa/core/app-u
 import { Utils } from "@sinequa/core/base";
 import { Aggregation, CCAggregation, Results } from "@sinequa/core/web-services";
 import { Subscription } from "rxjs";
-import { debounceTime, map } from "rxjs/operators";
+import { debounceTime, filter, map } from "rxjs/operators";
 import { BsFacetTimelineComponent, TimelineSeries } from ".";
 
 @Component({
@@ -90,7 +90,6 @@ export class BsFacetDate
               this.searchService.queryStream.subscribe(() => {
                   const value = this.getRangeValue();
                   this.dateRangeControl.setValue(value, {emitEvent: false});
-                  //this.selection = value
                   this.selection = (!value[0] && !value[1]) ? undefined : value;
               })
           );
@@ -98,13 +97,14 @@ export class BsFacetDate
           // Listen to form changes
           this.subscriptions.push(
               this.dateRangeControl.valueChanges
-                  .pipe(debounceTime(500))
+                  .pipe(
+                      debounceTime(500),
+                      filter( () => this.form.valid )
+                  )
                   .subscribe(
                       (value: (undefined | Date)[]) => {
-                          if (this.form.valid) {
-                              this.facetService.clearFiltersSearch(this.name, true);
-                              this.setCustomDateSelect(value);
-                          }
+                          this.facetService.clearFiltersSearch(this.name, true);
+                          this.setCustomDateSelect(value);
                       }
                   )
           );

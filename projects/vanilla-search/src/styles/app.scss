@@ -191,9 +191,7 @@ sq-facet-tree {
 sq-facet-date {
   sq-date-range-picker {
       .sq-date-range-picker {
-          .col-auto {
-              width: 100% !important;
-          }
+          flex-direction: column;
       }
   }
 }
