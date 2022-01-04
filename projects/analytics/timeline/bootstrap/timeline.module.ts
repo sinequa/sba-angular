@@ -12,6 +12,9 @@ import {BsHeatmapModule} from "@sinequa/analytics/heatmap";
 import {BsTimelineComponent} from "./timeline.component";
 import {BsFacetTimelineComponent} from "./facet-timeline.component";
 import { TimelineLegendComponent } from "./timeline-legend.component";
+import { BsFacetDate } from "./facet-date";
+import { BsAdvancedModule } from "@sinequa/components/advanced";
+import { BsFacetModule } from "@sinequa/components/facet";
 
 @NgModule({
     imports: [
@@ -22,17 +25,21 @@ import { TimelineLegendComponent } from "./timeline-legend.component";
         UtilsModule,
         BsSelectionModule,
         BsActionModule,
-        BsHeatmapModule // We need the heatmap module for the tooltip component
+        BsHeatmapModule, // We need the heatmap module for the tooltip component
+        BsAdvancedModule,
+        BsFacetModule
     ],
     declarations: [
         BsTimelineComponent,
         BsFacetTimelineComponent,
-        TimelineLegendComponent
+        TimelineLegendComponent,
+        BsFacetDate
     ],
     exports: [
         BsTimelineComponent,
         BsFacetTimelineComponent,
-        TimelineLegendComponent
+        TimelineLegendComponent,
+        BsFacetDate
     ]
 })
 export class BsTimelineModule {

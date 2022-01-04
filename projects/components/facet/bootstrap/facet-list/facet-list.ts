@@ -25,7 +25,9 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
     @Input() allowAnd: boolean = true; // Allow to search various items in AND mode
     @Input() displayEmptyDistributionIntervals: boolean = false; // If the aggregration is a distribution, then this property controls whether empty distribution intervals will be displayed
     @Input() displayActions = false;
-    @Input() showProgressBar = false;    // Allow to display item count as progress bar
+    @Input() showProgressBar = false; // Allow to display item count as progress bar
+    @Input() acceptNonAggregationItemFilter = true; // when false, filtered items which don't match an existing aggregation item, should not be added to filtered list
+    @Input() replaceCurrent = false; // if true, the previous "select" is removed first
 
     // Aggregation from the Results object
     data$ = new BehaviorSubject<Aggregation | undefined>(undefined)
@@ -42,7 +44,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
     noResults = false;
     searchActive = false;
     suggestions$: BehaviorSubject<AggregationItem[]> = new BehaviorSubject<AggregationItem[]>([]);
-    
+
     /** Sum of all items count value */
     sumOfCount: number;
 
@@ -51,7 +53,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
 
     /** Selected items that are not visible in the current aggregation (or suggestions in search mode) */
     hiddenSelected: AggregationItem[] = [];
-    
+
     /** List of excluded/filtered items */
     filtered: AggregationItem[] = [];
 
@@ -96,7 +98,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
             title: "msg#facet.filterItems",
             action: () => {
                 if (this.data()) {
-                    this.facetService.addFilterSearch(this.getName(), this.data() as Aggregation, this.selected);
+                    this.facetService.addFilterSearch(this.getName(), this.data() as Aggregation, this.selected, {replaceCurrent: this.replaceCurrent});
                 }
             }
         });
@@ -107,7 +109,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
             title: "msg#facet.filterItemsAnd",
             action: () => {
                 if (this.data()) {
-                    this.facetService.addFilterSearch(this.getName(), this.data() as Aggregation, this.selected, {and: true});
+                    this.facetService.addFilterSearch(this.getName(), this.data() as Aggregation, this.selected, {and: true, replaceCurrent: this.replaceCurrent});
                 }
             }
         });
@@ -118,7 +120,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
             title: "msg#facet.excludeItems",
             action: () => {
                 if (this.data()) {
-                    this.facetService.addFilterSearch(this.getName(), this.data() as Aggregation, this.selected, {not: true});
+                    this.facetService.addFilterSearch(this.getName(), this.data() as Aggregation, this.selected, {not: true, replaceCurrent: this.replaceCurrent});
                 }
             }
         });
@@ -248,7 +250,9 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
         const items = this.facetService.getAggregationItemsFiltered(this.getName(), data?.valuesAreExpressions);
         items.forEach(item => {
             if (!this.isFiltered(data, item)) {
-                this.filtered.push(item);
+                if (this.acceptNonAggregationItemFilter || (data?.items && this.facetService.filteredIndex(data, data?.items, item) !== -1)) {
+                    this.filtered.push(item);
+                }
             }
         });
 
@@ -307,7 +311,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
         if (data) {
             this.filtering = true;
             if (!this.isFiltered(data, item)) {
-                this.facetService.addFilterSearch(this.getName(), data, item);
+                this.facetService.addFilterSearch(this.getName(), data, item, {replaceCurrent: this.replaceCurrent});
             }
             else {
                 this.facetService.removeFilterSearch(this.getName(), data, item);
@@ -443,7 +447,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
     isHidden(): boolean {
         return !this.data();
     }
-    
+
     /**
      * Convert facet item count to percentage width
      * @param count item count
