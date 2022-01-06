@@ -543,7 +543,7 @@ export class FacetService {
             const aggregation = results.aggregations.find(agg => Utils.eqNC(agg.name, aggregationName))
             if (aggregation) {
                 this.setColumn(aggregation);    // Useful for formatting and i18n
-                this.setDisplayForNullValues(aggregation);
+                this.convertNullValueToString(aggregation);
                 if (aggregation.isTree && treeAggregationOptions) {
                     const expr = this.findFilter(treeAggregationOptions.facetName);
                     const expandPaths = expr ? expr.getValues(aggregation.column) : [];
@@ -755,12 +755,11 @@ export class FacetService {
         }
     }
     
-    protected setDisplayForNullValues(aggregation: Aggregation) {
+    protected convertNullValueToString(aggregation: Aggregation) {
         if(!aggregation.isTree && aggregation.items){
             aggregation.items.forEach((item: AggregationItem) => {
-                // convert null value to string without display
+                // convert null value without display property to string
                 if (item.value === null && !item.display) {
-                    // set a default display for null values without display
                     item.value = String(item.value);
                 }
             });
