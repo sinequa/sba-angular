@@ -756,7 +756,7 @@ export class FacetService {
     }
     
     protected convertNullValueToString(aggregation: Aggregation) {
-        if(!aggregation.isTree && aggregation.items){
+        if(!aggregation.isTree && !aggregation.valuesAreExpressions && aggregation.items){
             aggregation.items.forEach((item: AggregationItem) => {
                 // convert null value without display property to string
                 if (item.value === null && !item.display) {
