@@ -751,6 +751,7 @@ export class FacetService {
         if(!aggregation.isTree && aggregation.items){
             const column = this.appService.getColumn(aggregation.column);
             aggregation.items.forEach((value) => value.$column = column);
+            aggregation.column = this.appService.getColumnAlias(column);
         }
     }
 
