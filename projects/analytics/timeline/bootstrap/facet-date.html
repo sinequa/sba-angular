@@ -1,20 +1,19 @@
 <div class="d-flex flex-column">
   <span *ngIf="allowCustomRange" class="pb-1 px-2 text-muted">Predefined Date Range :</span>
-  <sq-facet-list #facet
-      [name]="name"
-      [results]="results"
-      [aggregation]="aggregation"
-      [showCount]="showCount"
-      [allowExclude]="allowExclude"
-      [allowOr]="allowOr"
-      [allowAnd]="allowAnd"
-      [searchable]="searchable"
-      [displayEmptyDistributionIntervals]="displayEmptyDistributionIntervals"
-      [showProgressBar]="showProgressBar"
-      [acceptNonAggregationItemFilter]="false"
-      [replaceCurrent]="replaceCurrent"
-  >
-  </sq-facet-list>
+
+    <div class="d-flex flex-wrap">
+        <button
+            *ngFor="let item of items"
+            type="button"
+            class="btn btn-outline-secondary btn-sm rounded-pill date-item ms-1 mb-1"
+            [ngClass]="{active: isFiltered(item)}"
+            (click)="filterItem(item, $event)">
+            {{item | sqValue:item.$column}}
+            <span *ngIf="showCount && item.count"
+            class="counter rounded-pill bg-light text-black ms-1"
+            [title]="item.count + ' occurrences in document'">{{item.count}}</span>
+        </button>
+    </div>
 
   <div class="d-flex py-1" *ngIf="allowCustomRange">
       <button type="button"
