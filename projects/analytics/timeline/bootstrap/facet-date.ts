@@ -3,7 +3,6 @@ import {
   OnInit,
   OnDestroy,
   Input,
-  ViewChild,
   OnChanges,
   SimpleChanges
 } from "@angular/core";
@@ -14,14 +13,15 @@ import { AbstractFacet, FacetService } from "@sinequa/components/facet";
 import { SearchService } from "@sinequa/components/search";
 import { AppService, Expr, ExprBuilder, ExprOperator } from "@sinequa/core/app-utils";
 import { Utils } from "@sinequa/core/base";
-import { Aggregation, CCAggregation, Results } from "@sinequa/core/web-services";
+import { Aggregation, AggregationItem, Results } from "@sinequa/core/web-services";
 import { Subscription } from "rxjs";
 import { debounceTime, filter, map } from "rxjs/operators";
 import { BsFacetTimelineComponent, TimelineSeries } from ".";
 
 @Component({
   selector: "sq-facet-date",
-  templateUrl: "./facet-date.html"
+  templateUrl: "./facet-date.html",
+  styleUrls: ["./facet-date.scss"]
 })
 export class BsFacetDate
   extends AbstractFacet
@@ -33,19 +33,12 @@ export class BsFacetDate
   @Input() field: string = 'modified';
   @Input() timelineAggregationName: string = 'Timeline';
   @Input() showCount: boolean = true; // Show the number of occurrences
-  @Input() allowExclude: boolean = true; // Allow to exclude selected items
-  @Input() allowOr: boolean = true; // Allow to search various items in OR mode
-  @Input() allowAnd: boolean = false; // Allow to search various items in AND mode
-  @Input() searchable: boolean = false; // Allow to search for items in the facet
   @Input() displayEmptyDistributionIntervals: boolean = true; // Display items with count === 0
-  @Input() showProgressBar = false; // will display or not item count as progress bar
   @Input() allowCustomRange = true; // will allow or not the use of datepickers and timeline for custom range selection
   @Input() showCustomRange = false; // will show/hide datepickers and timeline, once allowed
-  @Input() replaceCurrent = true; // if true, the previous "select" is removed first
-
-  @ViewChild("facet", {static: false}) public facetComponent: AbstractFacet;
 
   clearFiltersAction: Action;
+  items: AggregationItem[] = [];
 
   form: FormGroup;
   dateRangeControl: FormControl;
@@ -54,6 +47,7 @@ export class BsFacetDate
   selection: (Date|undefined)[]
 
   private subscriptions: Subscription[] = [];
+  private data: Aggregation | undefined;
 
   constructor(
           private facetService: FacetService,
@@ -112,8 +106,13 @@ export class BsFacetDate
   }
 
   ngOnChanges(changes: SimpleChanges) {
-      if((changes.timelineAggregationName || changes.results || changes.allowCustomRange) && this.allowCustomRange) {
+      if(this.allowCustomRange) {
           this.updateTimeSeries(this.timelineAggregationName);
+      }
+
+      if (changes.results) {
+            this.data = this.getAggregation(this.aggregation);
+            this.updateItems()
       }
   }
 
@@ -123,8 +122,6 @@ export class BsFacetDate
 
   get actions(): Action[] {
       const actions: Action[] = [];
-
-      actions.push(...this.facetActions);
       if (this.facetService.hasFiltered(this.name) && actions.length === 0) {
           actions.push(this.clearFiltersAction);
       }
@@ -132,24 +129,28 @@ export class BsFacetDate
 
   }
 
-  /**
-   * Return the actions of the child facet
-   */
-  get facetActions(): Action[] {
-      if(this.facetComponent){
-          return this.facetComponent.actions;
-      }
-      return [];
+
+  filterItem(item: AggregationItem, event) {
+    if (!this.isFiltered(item)) {
+        this.facetService.addFilterSearch(this.name, this.data!, item);
+    } else {
+        this.facetService.removeFilterSearch(this.name, this.data!, item);
+    }
+    event.preventDefault();
+}
+
+  private updateItems() {
+    this.items = this.displayEmptyDistributionIntervals ? this.data?.items || [] : this.data?.items?.filter(item => item.count > 0) || [];
   }
 
   private updateTimeSeries(aggregationName: string) {
       this.timeSeries = [];
-      const {aggregation, ccaggregation} = this.getAggregation(aggregationName);
-      this.timeSeries.push(BsFacetTimelineComponent.createTimeseries({aggregation: aggregationName, primary: true}, aggregation, ccaggregation));
+      const ccaggregation = this.appService.getCCAggregation(aggregationName);
+      const aggregation = this.getAggregation(aggregationName);
+      if (aggregation && ccaggregation) this.timeSeries.push(BsFacetTimelineComponent.createTimeseries({aggregation: aggregationName, primary: true}, aggregation, ccaggregation));
   }
 
-  private getAggregation(aggregationName: string): {aggregation: Aggregation, ccaggregation: CCAggregation} {
-      const ccaggregation = this.appService.getCCAggregation(aggregationName);
+  private getAggregation(aggregationName: string): Aggregation | undefined {
       let aggregation = this.facetService.getAggregation(aggregationName, this.results);
 
       if (!aggregation) {
@@ -160,7 +161,7 @@ export class BsFacetDate
           this.searchService.getResults(query, undefined, {searchInactive: true}).pipe(map(results => {aggregation = results.aggregations[0]}));
       }
 
-      return {aggregation: aggregation!, ccaggregation: ccaggregation!}
+      return aggregation
   }
 
   private setCustomDateSelect(range: (undefined | Date)[] | undefined) {
@@ -226,4 +227,9 @@ export class BsFacetDate
           this.setCustomDateSelect(range);
       }
   }
+
+  public isFiltered(item: AggregationItem): boolean {
+      const filtered = this.facetService.getAggregationItemsFiltered(this.name)
+      return this.facetService.filteredIndex(this.data, filtered, item) !== -1;
+}
 }
