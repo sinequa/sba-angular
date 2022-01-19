@@ -26,6 +26,7 @@ export class TooltipDirective<T> implements OnDestroy {
 
   private overlayRef: OverlayRef;
   private subscription?: Subscription;
+  private clearTimeout?: any;
 
   constructor(
     private overlay: Overlay,
@@ -42,6 +43,12 @@ export class TooltipDirective<T> implements OnDestroy {
   show(event: MouseEvent) {
     event.preventDefault();
     event.stopPropagation();
+
+    // The tooltip is already showing: just cancel the hiding
+    if(this.clearTimeout) {
+      clearTimeout(this.clearTimeout);
+      return;
+    }
 
     this.clearSubscription();
 
@@ -81,9 +88,11 @@ export class TooltipDirective<T> implements OnDestroy {
     this.clearSubscription();
   }
 
-  @HostListener("mouseleave")
-  hide() {
-    this.clearSubscription();
+  @HostListener("mouseleave", ['$event'])
+  hide(event: MouseEvent) {
+    if(!this.clearTimeout) {
+      this.clearTimeout = setTimeout(() => this.clearSubscription(), 10);
+    }
   }
 
   position(): ConnectedPosition {
@@ -128,6 +137,10 @@ export class TooltipDirective<T> implements OnDestroy {
    */
   private clearSubscription() {
     this.subscription?.unsubscribe();
+    if(this.clearTimeout) {
+      clearTimeout(this.clearTimeout);
+      this.clearTimeout = undefined;
+    }
     this.overlayRef?.detach();
   }
 }
