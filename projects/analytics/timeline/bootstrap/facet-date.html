@@ -1,7 +1,7 @@
 <div class="d-flex flex-column">
-  <span *ngIf="allowCustomRange" class="pb-1 px-2 text-muted">Predefined Date Range :</span>
+  <span *ngIf="allowCustomRange && allowPredefinedRange" class="pb-1 px-2 text-muted">Predefined Date Range :</span>
 
-    <div class="d-flex flex-wrap">
+    <div class="d-flex flex-wrap mt-1" *ngIf="allowPredefinedRange">
         <button
             *ngFor="let item of items"
             type="button"
@@ -15,7 +15,7 @@
         </button>
     </div>
 
-  <div class="d-flex py-1" *ngIf="allowCustomRange">
+  <div class="d-flex py-1" *ngIf="allowCustomRange && allowPredefinedRange">
       <button type="button"
           class="btn px-2 py-0"
           [sqTooltip]="showCustomRange ? ('msg#facetCard.collapse' | sqMessage) : ('msg#facetCard.expand' | sqMessage)"

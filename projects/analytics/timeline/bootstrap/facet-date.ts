@@ -34,6 +34,7 @@ export class BsFacetDate
   @Input() timelineAggregationName: string = 'Timeline';
   @Input() showCount: boolean = true; // Show the number of occurrences
   @Input() displayEmptyDistributionIntervals: boolean = true; // Display items with count === 0
+  @Input() allowPredefinedRange = true; // will allow or not the use of datepickers and timeline for custom range selection
   @Input() allowCustomRange = true; // will allow or not the use of datepickers and timeline for custom range selection
   @Input() showCustomRange = false; // will show/hide datepickers and timeline, once allowed
   @Input() replaceCurrent = true; // if true, the previous "select" is removed first
