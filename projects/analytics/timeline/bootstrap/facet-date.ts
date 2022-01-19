@@ -36,6 +36,7 @@ export class BsFacetDate
   @Input() displayEmptyDistributionIntervals: boolean = true; // Display items with count === 0
   @Input() allowCustomRange = true; // will allow or not the use of datepickers and timeline for custom range selection
   @Input() showCustomRange = false; // will show/hide datepickers and timeline, once allowed
+  @Input() replaceCurrent = true; // if true, the previous "select" is removed first
 
   clearFiltersAction: Action;
   items: AggregationItem[] = [];
@@ -129,10 +130,9 @@ export class BsFacetDate
 
   }
 
-
   filterItem(item: AggregationItem, event) {
     if (!this.isFiltered(item)) {
-        this.facetService.addFilterSearch(this.name, this.data!, item);
+        this.facetService.addFilterSearch(this.name, this.data!, item, {replaceCurrent: this.replaceCurrent});
     } else {
         this.facetService.removeFilterSearch(this.name, this.data!, item);
     }
