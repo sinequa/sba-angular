@@ -6,6 +6,11 @@
 .active {
     color: #0f5132;
     background-color: #d1e7dd;
+
+    &:hover {
+        background-color: #d1e7dd;
+        opacity: 0.8;
+    }
 }
 
 .counter {
