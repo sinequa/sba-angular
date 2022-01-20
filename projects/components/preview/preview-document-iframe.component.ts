@@ -1,5 +1,4 @@
 import { Component, Input, Output, ViewChild, ElementRef, EventEmitter, ContentChild, OnChanges, SimpleChanges, AfterViewInit, ChangeDetectorRef, OnInit, OnDestroy, ChangeDetectionStrategy } from "@angular/core";
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Utils } from "@sinequa/core/base";
 import { PreviewDocument } from "./preview-document";
 
@@ -29,7 +28,6 @@ import { PreviewDocument } from "./preview-document";
                 <iframe #documentFrame
                     loading="lazy"
                     [attr.sandbox]="_sandbox"
-                    [src]="sanitizedUrlSrc"
                     [style.--factor]="scalingFactor"
                     [ngStyle]="{'-ms-zoom': scalingFactor, '-moz-transform': 'scale(var(--factor))', '-o-transform': 'scale(var(--factor))', '-webkit-transform': 'scale(var(--factor))'}">
                 </iframe>`,
@@ -77,7 +75,6 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     @ContentChild('tooltip', {read: ElementRef, static: false}) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
     @ContentChild('minimap', {read: ElementRef, static: false}) minimap: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
-    public sanitizedUrlSrc: SafeResourceUrl;
     // Must be undefined by default, because if a default value is set, 
     // if we set it to undefined in the future, this new (undefined) value 
     // is not used by the iFrame as if it used the previous value
@@ -87,8 +84,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     readonly previewDocLoadHandler;
 
     constructor(
-        private cdr: ChangeDetectorRef,
-        private sanitizer: DomSanitizer) {
+        private cdr: ChangeDetectorRef) {
             this.previewDocLoadHandler = this.onPreviewDocLoad.bind(this);
     }
 
@@ -160,18 +156,16 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
             return;
         }
 
-        this.resetContent();
         if (simpleChanges.downloadUrl && simpleChanges.downloadUrl.currentValue !== undefined) {
             // set sandbox attribute only when downloadUrl is defined, so iframe is created without sandbox attribute
             // if sandbox is null, keep sandbox attribute to undefined
             // otherwise put sanbox value in the sanbox attribute or default sandbox value
             this._sandbox = (this.sandbox === null) ? undefined : Utils.isString(this.sandbox) ? this.sandbox : this.defaultSandbox;
-            this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl(this.downloadUrl);
+            this.documentFrame.nativeElement.src = this.downloadUrl;
         }
     }
 
     ngAfterViewInit() {
-        this.resetContent();
         this.iframeURLChange(this.documentFrame.nativeElement, (newURL: string) => {
             this.previewDocument = new PreviewDocument(this.documentFrame);
             this.pageChange.next(newURL);
@@ -214,9 +208,5 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
         });
 
         attachUnload();
-    }
-
-    resetContent() {
-        this.sanitizedUrlSrc = this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
     }
 }
