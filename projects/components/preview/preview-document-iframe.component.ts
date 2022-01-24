@@ -53,6 +53,8 @@ iframe {
     -moz-transform-origin: 0 0;
     -o-transform-origin: 0 0;
     -webkit-transform-origin: 0 0;
+    
+    transition: opacity 0.2s ease-in-out;
 }
 
 .spinner-grow {
@@ -71,7 +73,7 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
     // page could change when location.href change or when user click on a tab (sheet case)
     // when URL a string is sent otherwise a PreviewDocument
     @Output() pageChange = new EventEmitter<string | PreviewDocument>();
-    @ViewChild('documentFrame', {static: true}) documentFrame: ElementRef;  // Reference to the preview HTML in the iframe
+    @ViewChild('documentFrame', {static: true, read: ElementRef}) documentFrame: ElementRef;  // Reference to the preview HTML in the iframe
     @ContentChild('tooltip', {read: ElementRef, static: false}) tooltip: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
     @ContentChild('minimap', {read: ElementRef, static: false}) minimap: ElementRef; // see https://stackoverflow.com/questions/45343810/how-to-access-the-nativeelement-of-a-component-in-angular4
 
@@ -90,7 +92,11 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
 
     public onPreviewDocLoad() {
         
-        if(this.downloadUrl === undefined) return;
+        if (this.downloadUrl === undefined) return;
+        
+        // if document loaded in less than 2s, set opacity to 100%
+        this.documentFrame.nativeElement.style.opacity = "1";
+
         // previewDocument must be created here when document is fully loaded
         // because in case of sheet, PreviewDocument constructor change.
         this.previewDocument = new PreviewDocument(this.documentFrame);
@@ -156,16 +162,25 @@ export class PreviewDocumentIframe implements OnChanges, OnInit, OnDestroy, Afte
             return;
         }
 
+        // remove "virtually" the current IFrame's document
+        this.documentFrame.nativeElement.style.opacity = "0";
         if (simpleChanges.downloadUrl && simpleChanges.downloadUrl.currentValue !== undefined) {
             // set sandbox attribute only when downloadUrl is defined, so iframe is created without sandbox attribute
             // if sandbox is null, keep sandbox attribute to undefined
             // otherwise put sanbox value in the sanbox attribute or default sandbox value
             this._sandbox = (this.sandbox === null) ? undefined : Utils.isString(this.sandbox) ? this.sandbox : this.defaultSandbox;
             this.documentFrame.nativeElement.src = this.downloadUrl;
-        }
+            
+            // wait 2s before to set opacity to 100%
+            setTimeout(() => {
+                this.documentFrame.nativeElement.style.opacity = "1";
+            }, 2000);
+        }        
     }
 
     ngAfterViewInit() {
+        this.documentFrame.nativeElement.addEventListener("load", this.previewDocLoadHandler, true);
+
         this.iframeURLChange(this.documentFrame.nativeElement, (newURL: string) => {
             this.previewDocument = new PreviewDocument(this.documentFrame);
             this.pageChange.next(newURL);
