@@ -543,6 +543,7 @@ export class FacetService {
             const aggregation = results.aggregations.find(agg => Utils.eqNC(agg.name, aggregationName))
             if (aggregation) {
                 this.setColumn(aggregation);    // Useful for formatting and i18n
+                this.convertNullValueToString(aggregation);
                 if (aggregation.isTree && treeAggregationOptions) {
                     const expr = this.findFilter(treeAggregationOptions.facetName);
                     const expandPaths = expr ? expr.getValues(aggregation.column) : [];
@@ -754,6 +755,17 @@ export class FacetService {
             aggregation.column = this.appService.getColumnAlias(column);
         }
     }
+    
+    protected convertNullValueToString(aggregation: Aggregation) {
+        if(!aggregation.isTree && !aggregation.valuesAreExpressions && aggregation.items){
+            aggregation.items.forEach((item: AggregationItem) => {
+                // convert null value without display property to string
+                if (item.value === null && !item.display) {
+                    item.value = String(item.value);
+                }
+            });
+        }        
+    }
 
 
 
@@ -832,7 +844,7 @@ export class FacetService {
                     return ({count: 0, value, display: item.display, $column: item.column, $path: path, $excluded: (item?.not || item?.parent?.not)} as TreeAggregationNode);
                 }
                 if (item.column?.eType === EngineType.integer) {
-                    value = parseInt(item.value as string, 10);
+                    value = Number(item.value as string) || String(value);
                 }
                 return ({count: 0, value, display: item.display, $column: item.column, $excluded: (item?.not || item?.parent?.not)} as AggregationItem);
             },
