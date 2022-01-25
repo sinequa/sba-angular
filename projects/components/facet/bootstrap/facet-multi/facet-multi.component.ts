@@ -1,13 +1,13 @@
-import { Component, OnChanges, Input, Output, ViewChild, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, OnChanges, Input, Output, EventEmitter, ChangeDetectorRef, ComponentRef, SimpleChanges } from '@angular/core';
 import { Results } from '@sinequa/core/web-services';
 import { AbstractFacet } from '../../abstract-facet';
 import { Action } from '@sinequa/components/action';
 import { FacetService } from '../../facet.service';
-import { Utils } from '@sinequa/core/base';
+import { MapOf, Utils } from '@sinequa/core/base';
 
 export interface FacetConfig {
   name: string;
-  type: 'list' | 'tree';
+  type: 'list' | 'tree' | 'date';
   title: string;
   icon?: string;
   aggregation: string;
@@ -19,6 +19,14 @@ export interface FacetConfig {
   displayEmptyDistributionIntervals?: boolean;
   includedTabs?: string[];
   excludedTabs?: string[];
+
+  // used by facet-date
+  field?: string;
+  timelineAggregationName?: string;
+  allowPredefinedRange?: boolean;
+  allowCustomRange?: boolean;
+  showCustomRange?: boolean;
+  replaceCurrent?: boolean;
 
   // Parameters set by the component
   $count?: string;
@@ -36,11 +44,16 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 
   @Input() results: Results;
   @Input() facets: FacetConfig[];
+  @Input() facetComponents: MapOf<any> = {};
   @Input() showCount: boolean = true;
-  @Input() showProgressBar = false;    // will display or not item count as progress bar
+  @Input() showProgressBar: boolean = false;    // will display or not item count as progress bar
 
   @Output() events = new EventEmitter<FacetConfig>();
-  @ViewChild("facet", {static: false}) public facetComponent: AbstractFacet;
+
+  /**
+   * A reference to the facet child component
+   */
+  facetComponent: AbstractFacet |undefined;
 
   /**
    * The facet configuration to open
@@ -52,6 +65,8 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    */
   backAction: Action;
   clearAllFiltersAction: Action;
+
+  facetComponentInputs: MapOf<any>;
 
   constructor(
     public facetService: FacetService,
@@ -116,6 +131,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    */
   openFacet(facet: FacetConfig){
     this.openedFacet = facet;
+    this.facetComponentInputs = this.getFacetInputs();
     this.events.next(facet);
     this.changeDetectorRef.detectChanges();
   }
@@ -152,8 +168,9 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   /**
    * When the results change, actualize count, hasData and hasFiltered
    * which are displayed in the template.
+   * Also, update list of inputs passed to child facets
    */
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     this.facets.forEach(facet => {
       facet.$count = this.getFacetCount(facet);
       facet.$hasData = this.facetService.hasData(facet.aggregation, this.results);
@@ -162,7 +179,29 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
       // OR if there are excluded tabs and the current tab is in it.
       facet.$hidden = (facet.includedTabs && !facet.includedTabs.includes(this.results.tab)) || facet.excludedTabs?.includes(this.results.tab);
     });
+    // Update list of inputs used by child facet
+    // PS: attributes of openedFacet MUST have the same name as component's inputs name
+    if (!changes.facets) {
+        this.facetComponentInputs = {results: this.results, showProgressBar: this.showProgressBar, showCount: this.showCount}
+    } else {
+        this.facetComponentInputs = this.getFacetInputs();
+    }
     this.changeDetectorRef.detectChanges();
+  }
+
+  onFacetLoad(componentRef: {componentRef: ComponentRef<AbstractFacet> | undefined}) {
+        this.facetComponent = componentRef?.componentRef?.instance;
+  }
+
+  getFacetInputs(): MapOf<any> {
+      return {...this.openedFacet, results: this.results, showProgressBar: this.showProgressBar, showCount: this.showCount};
+  }
+
+  get component() {
+      if (this.facetComponents && this.openedFacet) {
+          return this.facetComponents[this.openedFacet['type']];
+      }
+      return undefined
   }
 
 }

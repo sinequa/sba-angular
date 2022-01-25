@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Action } from '@sinequa/components/action';
-import { FacetConfig } from '@sinequa/components/facet';
+import { BsFacetList, BsFacetTree, FacetConfig } from '@sinequa/components/facet';
 import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
@@ -13,6 +13,7 @@ import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
 import { AuditWebService, Record, Results } from '@sinequa/core/web-services';
 import { FACETS, FEATURES, METADATA } from '../../config';
+import { BsFacetDate } from '@sinequa/analytics/timeline';
 
 @Component({
   selector: 'app-search',
@@ -37,6 +38,12 @@ export class SearchComponent implements OnInit {
   public _showMenu = false;
 
   public results$: Observable<Results | undefined>;
+
+  public readonly facetComponents = {
+      "list": BsFacetList,
+      "tree": BsFacetTree,
+      "date": BsFacetDate
+  }
 
   constructor(
     private previewService: PreviewService,
