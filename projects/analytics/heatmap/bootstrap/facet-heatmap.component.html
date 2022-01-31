@@ -1,4 +1,4 @@
-<sq-heatmap *ngIf="data && ready"
+<sq-heatmap *ngIf="data && ready && !loading"
     [data]="data"
     [height]="heightPref"
     [width]="widthPref"
@@ -17,8 +17,12 @@
 >
 </sq-heatmap>
 
-<div class="text-center py-5 px-3" *ngIf="!data">
+<div class="text-center py-5 px-3" *ngIf="!data && !loading">
     <i>{{'msg#heatmap.nodata' | sqMessage}}</i>
+</div>
+
+<div class="text-center py-5 px-3" *ngIf="loading">
+    <i>{{'msg#heatmap.loading' | sqMessage}}</i>
 </div>
 
 <ng-template #settingsTpl>

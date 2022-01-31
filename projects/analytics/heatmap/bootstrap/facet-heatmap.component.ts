@@ -64,6 +64,9 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     // the heatmap component without displaying causes strange bugs...
     ready = false;
 
+    // A flag to check if the data is currently loading or not
+    loading = false;
+
     constructor(
         public appService: AppService,
         public searchService: SearchService,
@@ -147,6 +150,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
      * Updates the heatmap data
      */
     updateData() {
+        this.loading = true;
         if(this.results) {
             this.aggregationData = this.facetService.getAggregation(this.aggregation, this.results);
             if(!this.aggregationData){
@@ -158,6 +162,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
         }
         else {
             this.data = undefined;
+            this.loading = false;
         }
     }
 
@@ -254,6 +259,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
      * Transform an aggregation into a list of HeatmapItem objects
      */
     processAggregation(): HeatmapItem[] | undefined {
+        this.loading = false;
         if (!this.aggregationData || !this.aggregationData.items) {
             return undefined;
         }

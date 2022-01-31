@@ -2,6 +2,7 @@ export default {
     "heatmap": {
         "name": "Carte de chaleur",
         "nodata": "Pas de données à afficher",
+        "loading": "Chargement",
         "maxX": "Nombre maximum d'éléments sur l'axe X",
         "maxY": "Nombre maximum d'éléments sur l'axe Y",
         "rescale": "Redimensionner les axes",
