@@ -145,7 +145,7 @@ export const FACETS: FacetConfig[] = [
             allowAnd: false,
             displayEmptyDistributionIntervals: false
         }
-    } as FacetListConfig,
+    } as FacetListConfig
 ];
 
 export const METADATA: string[] = [
