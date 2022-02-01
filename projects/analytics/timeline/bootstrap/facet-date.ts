@@ -9,7 +9,7 @@ import {
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Action } from "@sinequa/components/action";
 import { AdvancedService } from "@sinequa/components/advanced";
-import { AbstractFacet, FacetService } from "@sinequa/components/facet";
+import { AbstractFacet, FacetConfig, FacetService } from "@sinequa/components/facet";
 import { SearchService } from "@sinequa/components/search";
 import {
     AppService,
@@ -26,6 +26,20 @@ import {
 import { Subscription } from "rxjs";
 import { debounceTime, filter, map } from "rxjs/operators";
 import { BsFacetTimelineComponent, TimelineSeries } from ".";
+
+export interface FacetDateConfig extends FacetConfig {
+    type: 'date';
+    parameters: {
+        showCount?: boolean;
+        field?: string;
+        timelineAggregationName?: string;
+        displayEmptyDistributionIntervals?: boolean;
+        allowPredefinedRange?: boolean;
+        allowCustomRange?: boolean;
+        showCustomRange?: boolean;
+        replaceCurrent?: boolean;
+    }
+}
 
 @Component({
     selector: "sq-facet-date",

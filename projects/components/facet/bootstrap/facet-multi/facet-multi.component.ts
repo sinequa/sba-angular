@@ -5,30 +5,19 @@ import { Action } from '@sinequa/components/action';
 import { FacetService } from '../../facet.service';
 import { MapOf, Utils } from '@sinequa/core/base';
 
-export interface FacetConfig {
+export interface BasicFacetConfig {
   name: string;
-  type: 'list' | 'tree' | 'date';
+  type: string;
   title: string;
-  icon?: string;
   aggregation: string;
-  showCount?: boolean;
-  searchable?: boolean;
-  allowExclude?: boolean;
-  allowOr?: boolean;
-  allowAnd?: boolean;
-  displayEmptyDistributionIntervals?: boolean;
+  icon?: string;
+}
+export interface FacetConfig extends BasicFacetConfig {
   includedTabs?: string[];
   excludedTabs?: string[];
+  parameters?: MapOf<any>;
 
-  // used by facet-date
-  field?: string;
-  timelineAggregationName?: string;
-  allowPredefinedRange?: boolean;
-  allowCustomRange?: boolean;
-  showCustomRange?: boolean;
-  replaceCurrent?: boolean;
-
-  // Parameters set by the component
+  // Properties internally setup by this component
   $count?: string;
   $hasData?: boolean;
   $hasFiltered?: boolean;
@@ -46,7 +35,6 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   @Input() facets: FacetConfig[];
   @Input() facetComponents: MapOf<any> = {};
   @Input() showCount: boolean = true;
-  @Input() showProgressBar: boolean = false;    // will display or not item count as progress bar
 
   @Output() events = new EventEmitter<FacetConfig>();
 
@@ -151,7 +139,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
     if (!agg?.items)
       return "";
     const count = this.facetService.getAggregationCount(facet.aggregation); // configured count (default: 10)
-    const aggItemCounter = (!agg.isDistribution || facet.displayEmptyDistributionIntervals)
+    const aggItemCounter = (!agg.isDistribution || facet?.parameters?.displayEmptyDistributionIntervals)
       ? agg.items.length
       : agg.items.filter(item => item.count > 0).length;
     return aggItemCounter >= count ? `${count}+` : `${aggItemCounter}`;
@@ -177,12 +165,12 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
       facet.$hasFiltered = this.hasFiltered(facet);
       // The facet is hidden if there are included tabs and the current tab is not in it
       // OR if there are excluded tabs and the current tab is in it.
-      facet.$hidden = (facet.includedTabs && !facet.includedTabs.includes(this.results.tab)) || facet.excludedTabs?.includes(this.results.tab);
+      facet.$hidden = (facet?.includedTabs && !facet?.includedTabs.includes(this.results.tab)) || facet?.excludedTabs?.includes(this.results.tab);
     });
     // Update list of inputs used by child facet
     // PS: attributes of openedFacet MUST have the same name as component's inputs name
     if (!changes.facets) {
-        this.facetComponentInputs = {results: this.results, showProgressBar: this.showProgressBar, showCount: this.showCount}
+        this.facetComponentInputs = {results: this.results}
     } else {
         this.facetComponentInputs = this.getFacetInputs();
     }
@@ -194,7 +182,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   }
 
   getFacetInputs(): MapOf<any> {
-      return {...this.openedFacet, results: this.results, showProgressBar: this.showProgressBar, showCount: this.showCount};
+      return {...this.flattenFacetConfig(this.openedFacet) , results: this.results};
   }
 
   get component() {
@@ -203,5 +191,20 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
       }
       return undefined
   }
+
+  private flattenFacetConfig = (obj) => {
+    let flattened = {}
+    if (obj) {
+        Object.keys(obj).forEach((key) => {
+            if (key === 'parameters') {
+                flattened = {...flattened, ...obj[key]};
+            } else {
+                flattened[key] = obj[key];
+            }
+        })
+    }
+    return flattened;
+  }
+
 
 }
