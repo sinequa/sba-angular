@@ -3,8 +3,7 @@ import {Results} from "@sinequa/core/web-services";
 import {FacetService} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
 import {FacetConfig} from '../facet-multi/facet-multi.component';
-import {BsFacetList} from '../facet-list/facet-list';
-import {BsFacetTree} from '../facet-tree/facet-tree';
+import { MapOf } from "@sinequa/core/base";
 
 @Component({
     selector: "sq-facet-filters",
@@ -14,6 +13,7 @@ import {BsFacetTree} from '../facet-tree/facet-tree';
 export class BsFacetFilters implements OnInit, OnChanges {
     @Input() results: Results;
     @Input() facets: FacetConfig[];
+    @Input() facetComponents: MapOf<any> = {};
     @Input() enableCustomization = false;
 
     @Input() autoAdjust: boolean = true;
@@ -72,8 +72,8 @@ export class BsFacetFilters implements OnInit, OnChanges {
 
             const children = [
                 new Action({
-                    component: (facet.type === 'list') ? BsFacetList : BsFacetTree,
-                    componentInputs: {results: this.results, name: facet.name, aggregation: facet.aggregation, searchable: facet.searchable, displayActions: true}
+                    component: this.facetComponents[facet['type']],
+                    componentInputs: {results: this.results, ...this.facetService.flattenFacetConfig(facet)}
                 })
             ];
 
@@ -120,7 +120,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
         outFacets.push(new Action({
             name: `add_remove_all`,
             text: this.userFacets.length < this.facets.length ? "msg#facet.filters.addAll" : "msg#facet.filters.removeAll",
-            icon: this.hasFacetSelected ? 
+            icon: this.hasFacetSelected ?
                     (this.userFacets.length < this.facets.length ? "far fa-minus-square me-1" : "far fa-check-square me-1")
                     : "far fa-square me-1",
             title: this.userFacets.length < this.facets.length ? "msg#facet.filters.addAll" : "msg#facet.filters.removeAll",
@@ -152,14 +152,14 @@ export class BsFacetFilters implements OnInit, OnChanges {
             title: "msg#facet.filters.customizeFacets",
             children: outFacets
         });
-        this.filters = [add_action, ...this.filters]; 
+        this.filters = [add_action, ...this.filters];
     }
 
     get filteredFacets() {
-        const filtered = this.facets.filter(facet => (!facet.includedTabs || facet.includedTabs.includes(this.results.tab)) && !facet.excludedTabs?.includes(this.results.tab))
-        
+        const filtered = this.facets.filter(facet => (!facet?.includedTabs || facet?.includedTabs.includes(this.results.tab)) && !facet?.excludedTabs?.includes(this.results.tab))
+
         if (!this.enableCustomization) return filtered;
-        
+
         const new_facets: FacetConfig[] = [];
 
         if (this.userFacets) {

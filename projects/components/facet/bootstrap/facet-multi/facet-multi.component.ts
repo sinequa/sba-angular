@@ -41,7 +41,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   /**
    * A reference to the facet child component
    */
-  facetComponent: AbstractFacet |undefined;
+  facetComponent?: AbstractFacet;
 
   /**
    * The facet configuration to open
@@ -182,7 +182,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   }
 
   getFacetInputs(): MapOf<any> {
-      return {...this.flattenFacetConfig(this.openedFacet) , results: this.results};
+      return {...this.facetService.flattenFacetConfig(this.openedFacet) , results: this.results};
   }
 
   get component() {
@@ -191,20 +191,5 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
       }
       return undefined
   }
-
-  private flattenFacetConfig = (obj) => {
-    let flattened = {}
-    if (obj) {
-        Object.keys(obj).forEach((key) => {
-            if (key === 'parameters') {
-                flattened = {...flattened, ...obj[key]};
-            } else {
-                flattened[key] = obj[key];
-            }
-        })
-    }
-    return flattened;
-  }
-
 
 }

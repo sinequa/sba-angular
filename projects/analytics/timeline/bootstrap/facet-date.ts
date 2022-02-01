@@ -165,8 +165,9 @@ export class BsFacetDate
         event.preventDefault();
     }
 
-    toggleCustomRange() {
+    toggleCustomRange(event) {
         this.showCustomRange = !this.showCustomRange;
+        event.stopPropagation();
     }
 
     private updateItems() {

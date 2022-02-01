@@ -19,7 +19,7 @@
         <button type="button"
             class="btn px-2 py-0"
             [sqTooltip]="showCustomRange ? ('msg#facetCard.collapse' | sqMessage) : ('msg#facetCard.expand' | sqMessage)"
-            (click)="toggleCustomRange(); $event.stopPropagation()">
+            (click)="toggleCustomRange($event);">
             <i class="text-muted fas fa-chevron-circle-{{showCustomRange ? 'up' : 'down'}}">
             </i>
         </button>
