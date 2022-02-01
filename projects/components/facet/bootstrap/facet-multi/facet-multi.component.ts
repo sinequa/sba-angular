@@ -5,18 +5,18 @@ import { Action } from '@sinequa/components/action';
 import { FacetService } from '../../facet.service';
 import { MapOf, Utils } from '@sinequa/core/base';
 
-export interface BasicFacetConfig {
+export interface FacetConfig {
   name: string;
   type: string;
   title: string;
   aggregation: string;
   icon?: string;
-}
-export interface FacetConfig extends BasicFacetConfig {
   includedTabs?: string[];
   excludedTabs?: string[];
   parameters?: MapOf<any>;
+}
 
+declare interface FacetMultiConfig extends FacetConfig {
   // Properties internally setup by this component
   $count?: string;
   $hasData?: boolean;
@@ -32,11 +32,11 @@ export interface FacetConfig extends BasicFacetConfig {
 export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 
   @Input() results: Results;
-  @Input() facets: FacetConfig[];
+  @Input() facets: FacetMultiConfig[];
   @Input() facetComponents: MapOf<any> = {};
   @Input() showCount: boolean = true;
 
-  @Output() events = new EventEmitter<FacetConfig>();
+  @Output() events = new EventEmitter<FacetMultiConfig>();
 
   /**
    * A reference to the facet child component
@@ -46,7 +46,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   /**
    * The facet configuration to open
    */
-  openedFacet: FacetConfig | undefined;
+  openedFacet?: FacetMultiConfig;
 
   /**
    * Action to switch back from an opened facet to the facet multi view
@@ -117,14 +117,14 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    * Open this sub facet
    * @param facet
    */
-  openFacet(facet: FacetConfig){
+  openFacet(facet: FacetMultiConfig){
     this.openedFacet = facet;
     this.facetComponentInputs = this.getFacetInputs();
     this.events.next(facet);
     this.changeDetectorRef.detectChanges();
   }
 
-  clearFacetFilters(facet: FacetConfig, e:Event) {
+  clearFacetFilters(facet: FacetMultiConfig, e:Event) {
     e.stopPropagation();
     this.facetService.clearFiltersSearch(facet.name, true);
     return false;
@@ -134,7 +134,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    * Return the number of items to display for a given facet
    * @param facet
    */
-  private getFacetCount(facet: FacetConfig): string {
+  private getFacetCount(facet: FacetMultiConfig): string {
     const agg = this.results.aggregations.find(agg => Utils.eqNC(agg.name, facet.aggregation)); // avoid calling getAggregation() which is costly for trees
     if (!agg?.items)
       return "";
@@ -149,7 +149,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    * Return whether a given facet has been used in the current context
    * @param facet
    */
-  private hasFiltered(facet: FacetConfig): boolean {
+  private hasFiltered(facet: FacetMultiConfig): boolean {
     return this.facetService.hasFiltered(facet.name);
   }
 
