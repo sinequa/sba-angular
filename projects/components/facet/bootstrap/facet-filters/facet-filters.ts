@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, OnInit} from "@angular/core";
 import {Results} from "@sinequa/core/web-services";
 import {FacetService} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
-import {FacetConfig} from '../facet-multi/facet-multi.component';
+import { FacetConfig } from "../../facet-config";
 import { MapOf } from "@sinequa/core/base";
 
 @Component({
@@ -48,7 +48,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
 
         if (!this.facetService.defaultFacets) {
             this.facetService.defaultFacets = [];
-            for (const facet of this.facets) this.facetService.defaultFacets.push({name: facet.name, position: 0, hidden: false, expanded: true, view: ""});
+            for (const facet of this.facets) this.facetService.defaultFacets.push({name: facet.name, position: 0, hidden: false, expanded: true});
         }
 
         if (!this.facetService.allFacets) this.facetService.allFacets = this.facets;
@@ -139,8 +139,8 @@ export class BsFacetFilters implements OnInit, OnChanges {
                 selected: !!this.userFacets?.find(userFacet => userFacet.name === facet.name),
                 title: !!this.userFacets?.find(userFacet => userFacet.name === facet.name) ? "msg#facet.filters.add" : "msg#facet.filters.remove",
                 action: () => {
-                    if (this.userFacets?.find(userFacet => userFacet.name === facet.name)) this.facetService.removeFacet({name: facet.name, position: 0, hidden: false, expanded: true, view: ""})
-                    else this.facetService.addFacet({name: facet.name, position: 0, hidden: false, expanded: true, view: ""});
+                    if (this.userFacets?.find(userFacet => userFacet.name === facet.name)) this.facetService.removeFacet({name: facet.name, position: 0, hidden: false, expanded: true})
+                    else this.facetService.addFacet({name: facet.name, position: 0, hidden: false, expanded: true});
                     this.buildFilters();
                 }
             }));

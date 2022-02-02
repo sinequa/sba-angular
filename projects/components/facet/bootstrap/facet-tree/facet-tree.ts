@@ -7,7 +7,7 @@ import {AbstractFacet} from "../../abstract-facet";
 import { FormControl, FormGroup } from "@angular/forms";
 import { Observable, of, Subscription } from "rxjs";
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from "rxjs/operators";
-import { FacetConfig } from "..";
+import { FacetConfig } from "../../facet-config";
 
 
 export interface FacetTreeConfig extends FacetConfig {

@@ -17,7 +17,6 @@ export interface FacetState {
     position: number; // eg 0 = left, 1 = right
     expanded: boolean;
     hidden: boolean;
-    view: string;
 }
 
 /**

@@ -1,20 +1,10 @@
 import { Component, OnChanges, Input, Output, EventEmitter, ChangeDetectorRef, ComponentRef, SimpleChanges } from '@angular/core';
 import { Results } from '@sinequa/core/web-services';
 import { AbstractFacet } from '../../abstract-facet';
+import { FacetConfig } from "../../facet-config";
 import { Action } from '@sinequa/components/action';
 import { FacetService } from '../../facet.service';
 import { MapOf, Utils } from '@sinequa/core/base';
-
-export interface FacetConfig {
-  name: string;
-  type: string;
-  title: string;
-  aggregation: string;
-  icon?: string;
-  includedTabs?: string[];
-  excludedTabs?: string[];
-  parameters?: MapOf<any>;
-}
 
 declare interface FacetMultiConfig extends FacetConfig {
   // Properties internally setup by this component
