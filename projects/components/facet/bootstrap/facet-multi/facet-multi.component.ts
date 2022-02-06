@@ -5,6 +5,8 @@ import { FacetConfig } from "../../facet-config";
 import { Action } from '@sinequa/components/action';
 import { FacetService } from '../../facet.service';
 import { MapOf, Utils } from '@sinequa/core/base';
+import { BsFacetList } from "../facet-list/facet-list";
+import { BsFacetTree } from "../facet-tree/facet-tree";
 
 declare interface FacetMultiConfig extends FacetConfig {
   // Properties internally setup by this component
@@ -23,7 +25,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 
   @Input() results: Results;
   @Input() facets: FacetMultiConfig[];
-  @Input() facetComponents: MapOf<any> = {};
+  @Input() facetComponents: MapOf<any> =  {"list": BsFacetList, "tree": BsFacetTree};
   @Input() showCount: boolean = true;
 
   @Output() events = new EventEmitter<FacetMultiConfig>();
@@ -159,11 +161,13 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
     });
     // Update list of inputs used by child facet
     // PS: attributes of openedFacet MUST have the same name as component's inputs name
-    if (!changes.facets) {
+    if (changes.results) {
         this.facetComponentInputs = {results: this.results}
-    } else {
+    }
+    if (changes.facets) {
         this.facetComponentInputs = this.getFacetInputs();
     }
+
     this.changeDetectorRef.detectChanges();
   }
 
@@ -172,7 +176,12 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   }
 
   getFacetInputs(): MapOf<any> {
-      return {...this.facetService.flattenFacetConfig(this.openedFacet) , results: this.results};
+      return {
+          ...(this.openedFacet?.parameters || {}),
+          results: this.results,
+          aggregation: this.openedFacet?.aggregation,
+          name: this.openedFacet?.name
+      };
   }
 
   get component() {

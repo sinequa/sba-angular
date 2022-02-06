@@ -4,6 +4,8 @@ import {FacetService} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
 import { FacetConfig } from "../../facet-config";
 import { MapOf } from "@sinequa/core/base";
+import { BsFacetList } from "../facet-list/facet-list";
+import { BsFacetTree } from "../facet-tree/facet-tree";
 
 @Component({
     selector: "sq-facet-filters",
@@ -13,7 +15,7 @@ import { MapOf } from "@sinequa/core/base";
 export class BsFacetFilters implements OnInit, OnChanges {
     @Input() results: Results;
     @Input() facets: FacetConfig[];
-    @Input() facetComponents: MapOf<any> = {};
+    @Input() facetComponents: MapOf<any> =  {"list": BsFacetList, "tree": BsFacetTree};
     @Input() enableCustomization = false;
 
     @Input() autoAdjust: boolean = true;
@@ -73,7 +75,12 @@ export class BsFacetFilters implements OnInit, OnChanges {
             const children = [
                 new Action({
                     component: this.facetComponents[facet['type']],
-                    componentInputs: {results: this.results, ...this.facetService.flattenFacetConfig(facet)}
+                    componentInputs: {
+                        results: this.results,
+                        aggregation: facet.aggregation,
+                        name: facet.name,
+                        ...(facet.parameters || {})
+                    }
                 })
             ];
 
@@ -156,7 +163,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
     }
 
     get filteredFacets() {
-        const filtered = this.facets.filter(facet => (!facet?.includedTabs || facet?.includedTabs.includes(this.results.tab)) && !facet?.excludedTabs?.includes(this.results.tab))
+        const filtered = this.facets.filter(facet => (!facet.includedTabs || facet.includedTabs.includes(this.results.tab)) && !facet.excludedTabs?.includes(this.results.tab))
 
         if (!this.enableCustomization) return filtered;
 

@@ -1024,20 +1024,6 @@ export class FacetService {
         return index;
     };
 
-    /**
-     * Utility function to flatten FacetConfig objects
-     * @param obj
-     * @returns
-     */
-    flattenFacetConfig = (obj) => {
-        if (Utils.isObject(obj)) {
-            const { parameters, ...others } = obj;
-            return {...(parameters ? parameters : {}), ...others };
-        } else {
-            return obj || {};
-        }
-    }
-
     private trimAllWhitespace = (value: FieldValue | undefined): FieldValue | undefined => {
         switch (typeof value) {
             case "string":

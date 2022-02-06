@@ -5,7 +5,8 @@ import { FacetConfig } from "../../facet-config";
 import { BsFacetCard } from "../facet-card/facet-card";
 import { AbstractFacet } from '../../abstract-facet';
 import { FacetService } from "../../facet.service";
-
+import { BsFacetList } from "../facet-list/facet-list";
+import { BsFacetTree } from "../facet-tree/facet-tree";
 @Component({
     selector: "sq-facet-bar",
     templateUrl: "./facet-bar.html",
@@ -13,7 +14,7 @@ import { FacetService } from "../../facet.service";
 export class BsFacetBar {
     @Input() results: Results;
     @Input() containerIndex: number = 0; // There could be various facet bars (but only one service and storage array)
-    @Input() facetComponents: MapOf<any> = {};
+    @Input() facetComponents: MapOf<any> =  {"list": BsFacetList, "tree": BsFacetTree};
 
     constructor(public facetService: FacetService) {}
 
@@ -29,8 +30,10 @@ export class BsFacetBar {
 
     getFacetInputs(facet: FacetConfig): MapOf<any> {
         return {
-            ...this.facetService.flattenFacetConfig(facet),
+            ...(facet.parameters || {}),
             results: this.results,
+            aggregation: facet.aggregation,
+            name: facet.name
         };
     }
 

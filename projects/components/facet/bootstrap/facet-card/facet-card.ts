@@ -101,7 +101,10 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
     /**
      * Reference to the child facet inserted by transclusion (ng-content)
      */
-    @ContentChild("facet", {static: false}) public facetComponent: AbstractFacet;
+    @ContentChild("facet", {static: false})
+    public set facetComponent(facet: AbstractFacet | undefined){
+        this._facetComponent = facet || this._facetComponent; // Allows overriding ContentChild (to avoid undefined facet)
+    }
 
     /**
      * Concluded reference to child facet inserted by transclusion AND which its content is also loaded by transclusion
@@ -113,7 +116,7 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
     @HostBinding('class.settings-opened') _settingsOpened: boolean;
 
     @HostBinding('hidden') get hidden(): boolean {
-        return !!this.facetComponentInstance && !!this.facetComponentInstance.isHidden && this.facetComponentInstance.isHidden();
+        return !!this.facetComponent?.isHidden?.()
     }
 
     private readonly collapseAction;
@@ -130,8 +133,8 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
             action: (action) => {
                 this._collapsed = !this._collapsed;
                 this.facetCollapsed.next(this._collapsed ? "collapsed" : "expanded");
-                if(!!this.facetComponentInstance){
-                    this.facetComponentInstance.onCollapse(this._collapsed);
+                if(!!this.facetComponent){
+                    this.facetComponent.onCollapse(this._collapsed);
                 }
                 action.update();
             },
@@ -145,8 +148,8 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
             action: (action) => {
                 this._expanded = !this._expanded;
                 this.facetExpanded.next(this._expanded ? "expanded" : "reduced");
-                if(!!this.facetComponentInstance){
-                    this.facetComponentInstance.onExpand(this._expanded);
+                if(!!this.facetComponent){
+                    this.facetComponent.onExpand(this._expanded);
                 }
                 action.update();
             },
@@ -160,8 +163,8 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
             action: (action) => {
                 this._settingsOpened = !this._settingsOpened;
                 this.settingsOpened.next(this._settingsOpened? "opened" : "saved");
-                if(!!this.facetComponentInstance){
-                    this.facetComponentInstance.onOpenSettings(this._settingsOpened);
+                if(!!this.facetComponent){
+                    this.facetComponent.onOpenSettings(this._settingsOpened);
                 }
                 action.update();
             },
@@ -185,8 +188,8 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
     }
 
     ngAfterContentInit(){
-        if(this.facetComponentInstance) {
-            this.actionChangedSubscription = this.facetComponentInstance.actionsChanged.subscribe((actions) => {
+        if(this.facetComponent) {
+            this.actionChangedSubscription = this.facetComponent.actionsChanged.subscribe((actions) => {
                 this.allActions.forEach(action => action.update());
                 this.changeDetectorRef.markForCheck();
             });
@@ -202,8 +205,8 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
         }
     }
 
-    get facetComponentInstance() {
-        return this.facetComponent ? this.facetComponent : this._facetComponent;
+    public get facetComponent(): AbstractFacet | undefined {
+        return this._facetComponent;
     }
 
     public get allActions() : Action[] {
@@ -212,7 +215,7 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
         if(this.actionsFirst) {
             actions.push(...this.actions);
         }
-        if(this.facetComponentInstance) actions = actions.concat(this.facetComponentInstance.actions);
+        if(this.facetComponent) actions = actions.concat(this.facetComponent.actions);
         if(this.hasSettings) actions.push(this.settingsAction);
         if(this.expandable) actions.push(this.expandAction);
         if(this.collapsible) actions.push(this.collapseAction);
@@ -223,7 +226,7 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
     }
 
     public get hasSettings(){
-        return !!this.facetComponentInstance && !!this.facetComponentInstance.settingsTpl;
+        return !!this.facetComponent?.settingsTpl;
     }
 
     @HostListener('window:click', ['$event'])

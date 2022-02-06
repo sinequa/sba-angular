@@ -17,6 +17,6 @@
             </ng-content>
         </ng-template>
     </sq-collapse>
-    <ng-container *ngIf="hasSettings && _settingsOpened" [ngTemplateOutlet]="facetComponent.settingsTpl"></ng-container>
+    <ng-container *ngIf="hasSettings && _settingsOpened" [ngTemplateOutlet]="facetComponent?.settingsTpl"></ng-container>
     <ng-container class="card-footer" *ngIf="facetComponent && facetComponent.footerTpl" [ngTemplateOutlet]="facetComponent.footerTpl"></ng-container>
 </div>
