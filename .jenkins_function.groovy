@@ -28,6 +28,8 @@ def set_sba_version(curBranch) {
 		} else {
 			sba_version = developNumber
 		}
+		// add the build number to have a unique version
+		sba_version = "${sba_version}.${env.BUILD_NUMBER}"
 	}
 	echo "sba_version: ${sba_version}"
 }
