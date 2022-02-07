@@ -30,6 +30,8 @@ import { BsFacetTimelineComponent, TimelineSeries } from ".";
 export interface FacetDateConfig extends FacetConfig {
     type: 'date';
     parameters: {
+        aggregation: string
+        name?: string
         showCount?: boolean;
         field?: string;
         timelineAggregationName?: string;

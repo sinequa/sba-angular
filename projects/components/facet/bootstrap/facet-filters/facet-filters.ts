@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit} from "@angular/core";
+import {Component, Input, OnChanges, OnInit, Type} from "@angular/core";
 import {Results} from "@sinequa/core/web-services";
 import {FacetService} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
@@ -15,7 +15,7 @@ import { BsFacetTree } from "../facet-tree/facet-tree";
 export class BsFacetFilters implements OnInit, OnChanges {
     @Input() results: Results;
     @Input() facets: FacetConfig[];
-    @Input() facetComponents: MapOf<any> =  {"list": BsFacetList, "tree": BsFacetTree};
+    @Input() facetComponents: MapOf<Type<any>> =  {"list": BsFacetList, "tree": BsFacetTree};
     @Input() enableCustomization = false;
 
     @Input() autoAdjust: boolean = true;
@@ -50,7 +50,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
 
         if (!this.facetService.defaultFacets) {
             this.facetService.defaultFacets = [];
-            for (const facet of this.facets) this.facetService.defaultFacets.push({name: facet.name, position: 0, hidden: false, expanded: true});
+            for (const facet of this.facets) this.facetService.defaultFacets.push({name: this.getName(facet), position: 0, hidden: false, expanded: true});
         }
 
         if (!this.facetService.allFacets) this.facetService.allFacets = this.facets;
@@ -62,6 +62,14 @@ export class BsFacetFilters implements OnInit, OnChanges {
 
         if(!this.results)
             this.hidden=true;
+    }
+
+    /**
+     * Name of the facet, used to retrieve selections
+     * through the facet service.
+     */
+     getName(facet: FacetConfig) : string {
+        return facet.parameters?.name || facet.parameters?.aggregation;
     }
 
     /**
@@ -77,18 +85,16 @@ export class BsFacetFilters implements OnInit, OnChanges {
                     component: this.facetComponents[facet['type']],
                     componentInputs: {
                         results: this.results,
-                        aggregation: facet.aggregation,
-                        name: facet.name,
                         ...(facet.parameters || {})
                     }
                 })
             ];
 
             const disabled = !this.hasData(facet);
-            const filtered = this.hasFiltered(facet.name);
+            const filtered = this.hasFiltered(this.getName(facet));
 
             return new Action({
-                name: facet.name,
+                name: this.getName(facet),
                 text: facet.title,
                 title: facet.title,
                 icon: facet.icon,
@@ -118,7 +124,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
      * @returns true if facet contains at least one item otherwise false
      */
     private hasData(facet: FacetConfig): boolean {
-        return this.facetService.hasData(facet.aggregation, this.results);
+        return this.facetService.hasData(facet.parameters?.aggregation, this.results);
     }
 
     private addFacetMenu() {
@@ -140,14 +146,14 @@ export class BsFacetFilters implements OnInit, OnChanges {
 
         for (const facet of this.facets) {
             outFacets.push(new Action({
-                name: `add_remove_${facet.name}`,
+                name: `add_remove_${this.getName(facet)}`,
                 text: facet.title,
                 icon: facet.icon,
-                selected: !!this.userFacets?.find(userFacet => userFacet.name === facet.name),
-                title: !!this.userFacets?.find(userFacet => userFacet.name === facet.name) ? "msg#facet.filters.add" : "msg#facet.filters.remove",
+                selected: !!this.userFacets?.find(userFacet => userFacet.name === this.getName(facet)),
+                title: !!this.userFacets?.find(userFacet => userFacet.name === this.getName(facet)) ? "msg#facet.filters.add" : "msg#facet.filters.remove",
                 action: () => {
-                    if (this.userFacets?.find(userFacet => userFacet.name === facet.name)) this.facetService.removeFacet({name: facet.name, position: 0, hidden: false, expanded: true})
-                    else this.facetService.addFacet({name: facet.name, position: 0, hidden: false, expanded: true});
+                    if (this.userFacets?.find(userFacet => userFacet.name === this.getName(facet))) this.facetService.removeFacet({name: this.getName(facet), position: 0, hidden: false, expanded: true})
+                    else this.facetService.addFacet({name: this.getName(facet), position: 0, hidden: false, expanded: true});
                     this.buildFilters();
                 }
             }));
@@ -171,7 +177,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
 
         if (this.userFacets) {
             for (const facet of filtered) {
-                const pos = this.userFacets.findIndex((userFacet) => userFacet.name === facet.name);
+                const pos = this.userFacets.findIndex((userFacet) => userFacet.name === this.getName(facet));
                 if (pos >= 0) new_facets.push(facet);
             }
         }
@@ -185,7 +191,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
     get hasFacetSelected() {
         if (this.userFacets.length === 0) return false;
         for (const facet of this.facets) {
-            if (this.userFacets.find(userFacet => userFacet.name === facet.name)) return true;
+            if (this.userFacets.find(userFacet => userFacet.name === this.getName(facet))) return true;
         }
         return false;
     }

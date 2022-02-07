@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input, Output, EventEmitter, ChangeDetectorRef, ComponentRef, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, Input, Output, EventEmitter, ChangeDetectorRef, ComponentRef, SimpleChanges, Type } from '@angular/core';
 import { Results } from '@sinequa/core/web-services';
 import { AbstractFacet } from '../../abstract-facet';
 import { FacetConfig } from "../../facet-config";
@@ -25,7 +25,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 
   @Input() results: Results;
   @Input() facets: FacetMultiConfig[];
-  @Input() facetComponents: MapOf<any> =  {"list": BsFacetList, "tree": BsFacetTree};
+  @Input() facetComponents: MapOf<Type<any>> =  {"list": BsFacetList, "tree": BsFacetTree};
   @Input() showCount: boolean = true;
 
   @Output() events = new EventEmitter<FacetMultiConfig>();
@@ -70,12 +70,20 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
       icon: "far fa-minus-square",
       title: "msg#facet.filters.clear",
       action: () => {
-        const facetsWithFiltered = this.facets.filter((facet) => facet.$hasFiltered).map(facet => facet.name);
+        const facetsWithFiltered = this.facets.filter((facet) => facet.$hasFiltered).map(facet => this.getName(facet));
         this.facetService.clearFiltersSearch(facetsWithFiltered, true);
       }
     });
 
   }
+
+    /**
+     * Name of the facet, used to retrieve selections
+     * through the facet service.
+     */
+    getName(facet: FacetMultiConfig) : string {
+        return facet.parameters?.name || facet.parameters?.aggregation;
+    }
 
   /**
    * If a sub-facet is opened, add a Back button and forward
@@ -118,7 +126,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 
   clearFacetFilters(facet: FacetMultiConfig, e:Event) {
     e.stopPropagation();
-    this.facetService.clearFiltersSearch(facet.name, true);
+    this.facetService.clearFiltersSearch(this.getName(facet), true);
     return false;
   }
 
@@ -127,10 +135,10 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    * @param facet
    */
   private getFacetCount(facet: FacetMultiConfig): string {
-    const agg = this.results.aggregations.find(agg => Utils.eqNC(agg.name, facet.aggregation)); // avoid calling getAggregation() which is costly for trees
+    const agg = this.results.aggregations.find(agg => Utils.eqNC(agg.name, facet.parameters?.aggregation)); // avoid calling getAggregation() which is costly for trees
     if (!agg?.items)
       return "";
-    const count = this.facetService.getAggregationCount(facet.aggregation); // configured count (default: 10)
+    const count = this.facetService.getAggregationCount(facet.parameters?.aggregation); // configured count (default: 10)
     const aggItemCounter = (!agg.isDistribution || facet?.parameters?.displayEmptyDistributionIntervals)
       ? agg.items.length
       : agg.items.filter(item => item.count > 0).length;
@@ -142,7 +150,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    * @param facet
    */
   private hasFiltered(facet: FacetMultiConfig): boolean {
-    return this.facetService.hasFiltered(facet.name);
+    return this.facetService.hasFiltered(this.getName(facet));
   }
 
   /**
@@ -153,7 +161,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     this.facets.forEach(facet => {
       facet.$count = this.getFacetCount(facet);
-      facet.$hasData = this.facetService.hasData(facet.aggregation, this.results);
+      facet.$hasData = this.facetService.hasData(facet.parameters?.aggregation, this.results);
       facet.$hasFiltered = this.hasFiltered(facet);
       // The facet is hidden if there are included tabs and the current tab is not in it
       // OR if there are excluded tabs and the current tab is in it.
@@ -178,9 +186,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   getFacetInputs(): MapOf<any> {
       return {
           ...(this.openedFacet?.parameters || {}),
-          results: this.results,
-          aggregation: this.openedFacet?.aggregation,
-          name: this.openedFacet?.name
+          results: this.results
       };
   }
 

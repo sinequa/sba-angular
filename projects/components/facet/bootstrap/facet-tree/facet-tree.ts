@@ -13,6 +13,8 @@ import { FacetConfig } from "../../facet-config";
 export interface FacetTreeConfig extends FacetConfig {
     type: 'tree';
     parameters: {
+        aggregation: string;
+        name?: string;
         showCount?: boolean;
         searchable?: boolean;
         allowExclude?: boolean;

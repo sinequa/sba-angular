@@ -12,6 +12,8 @@ import { FacetConfig } from "../../facet-config";
 export interface FacetListConfig extends FacetConfig {
     type: 'list';
     parameters: {
+        aggregation: string;
+        name?: string;
         showCount?: boolean;
         searchable?: boolean;
         allowExclude?: boolean;
