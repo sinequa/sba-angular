@@ -25,12 +25,14 @@ export interface DateRangePickerOptions extends DatePickerOptions {
                 <input type="text" autocomplete="off" class="form-control" bsDaterangepicker triggers="click" #fromTo="bsDaterangepicker" [bsConfig]="bsFromToConfig()" [ngModel]="value" (ngModelChange)="updateFromTo($event)" [placeholder]="dateFormat"/>
             </div>
         </div>
-        <div *ngIf="!options.closedRange" class="d-flex align-items-center justify-content-between gap-2 sq-date-range-picker">
-            <div class="flex-grow-1">
+        <div *ngIf="!options.closedRange" class="d-flex align-items-center justify-content-between gap-2 sq-date-range-picker" [ngClass]="{'flex-column': display === 'column'}">
+            <div class="flex-grow-1 d-flex align-items-center justify-content-between">
+                <div *ngIf="displayLabel" class="text-muted {{display === 'column' ? 'col-md-3 col-lg-3' : 'me-2'}}">{{'msg#advanced.dateRangePicker.from' | sqMessage}}</div>
                 <input type="text" autocomplete="off" [id]="fromName" class="form-control sq-range-from" bsDatepicker triggers="click" #from="bsDatepicker" [bsConfig]="bsFromConfig()" [ngModel]="value[0]" (ngModelChange)="updateFrom($event)" [placeholder]="dateFormat"/>
             </div>
-            <div class="sq-separator">{{'msg#advanced.dateRangePicker.separator' | sqMessage}}</div>
-            <div class="flex-grow-1">
+            <div *ngIf="displaySeparator" class="sq-separator">{{'msg#advanced.dateRangePicker.separator' | sqMessage}}</div>
+            <div class="flex-grow-1 d-flex align-items-center justify-content-between">
+                <div *ngIf="displayLabel" class="text-muted {{display === 'column' ? 'col-md-3 col-lg-3' : 'me-2'}}">{{'msg#advanced.dateRangePicker.to' | sqMessage}}</div>
                 <input type="text" autocomplete="off" [id]="toName" class="form-control sq-range-to" bsDatepicker triggers="click" #to="bsDatepicker" [bsConfig]="bsToConfig()" [ngModel]="value[1]" (ngModelChange)="updateTo($event)" [placeholder]="dateFormat"/>
             </div>
         </div>
@@ -42,6 +44,9 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
     private readonly SystemFormat: string = 'YYYY-MM-DD';
 
     @Input() options: DateRangePickerOptions;
+    @Input() display: 'row' | 'column' = 'row';
+    @Input() displaySeparator = true;
+    @Input() displayLabel = false;
     value: (Date | undefined)[];
     private onChangeCallback: (_: any) => void = () => {};
     private localeChange: Subscription;

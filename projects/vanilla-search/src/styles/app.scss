@@ -188,19 +188,6 @@ sq-facet-tree {
     }
 }
 
-sq-facet-date {
-  sq-date-range-picker {
-      .sq-date-range-picker {
-        flex-direction: column;
-        align-items: unset !important;
-      }
-
-      .sq-separator {
-          display: none;
-      }
-  }
-}
-
 bs-datepicker-container {
   top: -355px !important
 }

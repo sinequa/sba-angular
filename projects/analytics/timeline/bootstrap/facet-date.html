@@ -28,16 +28,14 @@
 
     <form [formGroup]="form" *ngIf="allowCustomRange && showCustomRange">
         <div class="d-flex flex-wrap pb-1 pt-2 px-3">
-            <section class="col-md-3 col-lg-3">
-                <div class="date-range-label text-muted">{{'msg#timeline.from' | sqMessage}}</div>
-                <div class="mt-2 date-range-label text-muted">{{'msg#timeline.to' | sqMessage}}</div>
-            </section>
             <sq-date-range-picker
-                class="col-md-9 col-lg-9"
                 [formControlName]="'dateRange'"
                 sqAdvancedFormValidation
                 [field]="'dateRange'"
-                [validationForm]="form">
+                [validationForm]="form"
+                [display]="'column'"
+                [displaySeparator]="false"
+                [displayLabel]="true">
             </sq-date-range-picker>
         </div>
     </form>
