@@ -50,7 +50,7 @@
 
         <!-- Left facet bar -->
         <div class="col-md-4 col-lg-3 col-xl-2" *ngIf="showFilters" [sqSticky]="{top: 70, bottom: 80}">
-            <sq-facet-card class="d-block mt-3" [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'" [collapsible]="false">
+            <sq-facet-card [title]="'msg#facet.treepath.title'" [icon]="'fas fa-sitemap'" [collapsible]="false">
                 <sq-facet-tree #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-tree>
             </sq-facet-card>
             <sq-facet-card [title]="multiFacetTitle" [icon]="multiFacetIcon" [collapsible]="false" class="d-block mt-3">
@@ -101,7 +101,7 @@
                     <sq-labels [record]="record" [public]="false"></sq-labels>
                 </div>
                 <sq-result-thumbnail [record]="record" [thumbnailColumn]="'sourcevarchar4'" [linkBehavior]="'action'"
-                    *ngIf="ui.screenSizeIsGreater('xs')" class="align-self-center">
+                    *ngIf="ui.screenSizeIsGreater('xs')" class="align-self-center ms-3">
                 </sq-result-thumbnail>
             </div>
 

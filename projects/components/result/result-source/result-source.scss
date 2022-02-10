@@ -1,40 +1,22 @@
-// host must be display: flex to allow click propagation
-// and no width must be defined to .sq-result-source
 :host {
-    display: flex !important;
-}
-
-.sq-result-source {
-    color: #006621;
     font-size: 0.9rem;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; 
-    display: inline-block;
+    text-overflow: ellipsis;
+    display: block;
 
-    .link {
-        cursor: pointer;
-
-        &::after{
-            content: " > ";
-            display: inline-block;
-            text-decoration: none;
-            white-space: pre;
-        }
-
-        &:last-of-type::after {
-            content: attr(data-url);
-            display: inline-block;
-            text-decoration: none;
-            white-space: pre;
-        }
-        
-        &:hover {
-            text-decoration: underline;
-        }
+    a,span {
+        color: #006621 !important;
     }
 
-    a {
-        color: inherit;
+    a.path:not(:last-child)::after{
+        content: " > ";
+        display: inline-block;
+        text-decoration: none;
+        white-space: pre;
+    }
+
+    a:hover {
+        text-decoration: underline;
     }
 }
