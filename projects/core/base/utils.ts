@@ -489,6 +489,18 @@ export class Utils {
         }
         return new Date(ms + new Date(ms).getTimezoneOffset() * 60000); // get date in UTC
     }
+    
+    /**
+     * Converts a Date in UTC to is previous state.
+     * The date is returned. If the string cannot be converted then `undefined` is returned
+     * @param str The string to convert
+     * @return The converted `Date` or `undefined`
+     */
+     static fromDate(date: Date): Date | undefined {
+        const ms = Date.parse(date.toString());
+        if (!ms && ms !== 0) return undefined;
+        return new Date(ms - date.getTimezoneOffset() * 60000);
+    }
 
     /**
      * Get the time component of a `Date` in milliseconds
