@@ -1,4 +1,5 @@
-import { FacetConfig } from '@sinequa/components/facet';
+import { FacetDateConfig } from '@sinequa/analytics/timeline';
+import { FacetConfig, FacetListConfig, FacetTreeConfig } from '@sinequa/components/facet';
 
 /**
  * This list is used by Vanilla Search to activate key features in the UI.
@@ -22,122 +23,142 @@ export const FEATURES: string[] = [
 
 export const FACETS: FacetConfig[] = [
     {
-        name: "treepath",
         title: "msg#facet.treepath.title",
         type: "tree",
-        aggregation: "Treepath",
         icon: "fas fa-sitemap",
-        showCount: true,
-        searchable: true,
-        allowExclude: true,
-        allowOr: true,
-        allowAnd: false,
-        displayEmptyDistributionIntervals: false,
-    },
+        parameters: {
+            name: "treepath",
+            aggregation: "Treepath",
+            showCount: true,
+            searchable: true,
+            allowExclude: true,
+            allowOr: true
+        }
+    } as FacetTreeConfig,
     {
-        name: "geo",
         title: "msg#facet.geo.title",
         type: "list",
-        aggregation: "Geo",
         icon: "fas fa-globe-americas",
-        showCount: true,
-        searchable: true,
-        allowExclude: true,
-        allowOr: true,
-        allowAnd: false,
-        displayEmptyDistributionIntervals: false,
-    },
+        parameters: {
+            name: "geo",
+            aggregation: "Geo",
+            showCount: true,
+            searchable: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false
+        }
+
+    } as FacetListConfig,
     {
-        name: "company",
         title: "msg#facet.company.title",
         type: "list",
-        aggregation: "Company",
         icon: "fas fa-building",
-        showCount: true,
-        searchable: true,
-        allowExclude: true,
-        allowOr: true,
-        allowAnd: false,
-        displayEmptyDistributionIntervals: false,
-    },
+        parameters: {
+            name: "company",
+            aggregation: "Company",
+            showCount: true,
+            searchable: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false
+        }
+
+    } as FacetListConfig,
     {
-        name: "person",
         title: "msg#facet.person.title",
         type: "list",
-        aggregation: "Person",
         icon: "fas fa-user",
-        showCount: true,
-        searchable: true,
-        allowExclude: true,
-        allowOr: true,
-        allowAnd: false,
-        displayEmptyDistributionIntervals: false,
-    },
+        parameters: {
+            name: "person",
+            aggregation: "Person",
+            showCount: true,
+            searchable: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false
+        }
+    } as FacetListConfig,
     {
-        name: "docformat",
         title: "msg#facet.docformat.title",
         type: "list",
-        aggregation: "DocFormat",
         icon: "far fa-file-word",
-        showCount: true,
-        searchable: true,
-        allowExclude: true,
-        allowOr: true,
-        allowAnd: false,
-        displayEmptyDistributionIntervals: false,
-    },
+        parameters: {
+            name: "docformat",
+            aggregation: "DocFormat",
+            showCount: true,
+            searchable: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false
+        }
+    } as FacetListConfig,
     {
-        name: "modified",
         title: "msg#facet.modified.title",
-        type: "list",
-        aggregation: "Modified",
+        type: "date",
         icon: "fas fa-calendar-day",
-        showCount: true,
-        searchable: false,
-        allowExclude: true,
-        allowOr: true,
-        allowAnd: false,
-        displayEmptyDistributionIntervals: false,
-    },
+        parameters: {
+            name: "modified",
+            aggregation: "Modified",
+            field: "modified",
+            timelineAggregationName: "Timeline",
+            showCount: true,
+            allowPredefinedRange: true,
+            allowCustomRange: true,
+            showCustomRange: true,
+            replaceCurrent: true,
+            displayEmptyDistributionIntervals: true
+        }
+    } as FacetDateConfig,
     {
-        name: "size",
         title: "msg#facet.size.title",
         type: "list",
-        aggregation: "Size",
         icon: "fas fa-sort-amount-up-alt",
-        showCount: true,
-        searchable: false,
-        allowExclude: true,
-        allowOr: true,
-        allowAnd: false,
-        displayEmptyDistributionIntervals: false,
-    },
+        parameters: {
+            name: "size",
+            aggregation: "Size",
+            showCount: true,
+            searchable: false,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false
+        }
+    } as FacetListConfig,
     {
-        name: "documentlanguages",
         title: "msg#facet.documentlanguages.title",
         type: "list",
-        aggregation: "DocumentLanguages",
         icon: "far fa-comment",
-        showCount: true,
-        searchable: true,
-        allowExclude: true,
-        allowOr: true,
-        allowAnd: false,
-        displayEmptyDistributionIntervals: false,
-    },
+        parameters: {
+            name: "documentlanguages",
+            aggregation: "DocumentLanguages",
+            showCount: true,
+            searchable: true,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false
+        }
+    } as FacetListConfig,
     {
-        name: "concepts",
         title: "msg#facet.concepts.title",
         type: "list",
-        aggregation: "Concepts",
         icon: "fas fa-comment-dots",
-        showCount: true,
-        searchable: false,
-        allowExclude: true,
-        allowOr: true,
-        allowAnd: false,
-        displayEmptyDistributionIntervals: false,
-    },
+        parameters: {
+            name: "concepts",
+            aggregation: "Concepts",
+            showCount: true,
+            searchable: false,
+            allowExclude: true,
+            allowOr: true,
+            allowAnd: false,
+            displayEmptyDistributionIntervals: false
+        }
+    } as FacetListConfig
 ];
 
 export const METADATA: string[] = [

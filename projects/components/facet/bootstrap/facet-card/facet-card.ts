@@ -101,14 +101,22 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
     /**
      * Reference to the child facet inserted by transclusion (ng-content)
      */
-    @ContentChild("facet", {static: false}) public facetComponent: AbstractFacet;
+    @ContentChild("facet", {static: false})
+    public set facetComponent(facet: AbstractFacet | undefined){
+        this._facetComponent = facet || this._facetComponent; // Allows overriding ContentChild (to avoid undefined facet)
+    }
+
+    /**
+     * Concluded reference to child facet inserted by transclusion AND which its content is also loaded by transclusion
+     */
+    public _facetComponent: AbstractFacet;
 
     @HostBinding('class.collapsed') _collapsed: boolean;
     @HostBinding('class.expanded') _expanded: boolean;
     @HostBinding('class.settings-opened') _settingsOpened: boolean;
 
     @HostBinding('hidden') get hidden(): boolean {
-        return !!this.facetComponent && !!this.facetComponent.isHidden && this.facetComponent.isHidden();
+        return !!this.facetComponent?.isHidden?.()
     }
 
     private readonly collapseAction;
@@ -197,6 +205,10 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
         }
     }
 
+    public get facetComponent(): AbstractFacet | undefined {
+        return this._facetComponent;
+    }
+
     public get allActions() : Action[] {
         if(this.hideActionsCollapsed && this._collapsed) return [this.collapseAction]; // Hide other actions if collapsed
         let actions = [] as Action[];
@@ -214,7 +226,7 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
     }
 
     public get hasSettings(){
-        return !!this.facetComponent && !!this.facetComponent.settingsTpl;
+        return !!this.facetComponent?.settingsTpl;
     }
 
     @HostListener('window:click', ['$event'])

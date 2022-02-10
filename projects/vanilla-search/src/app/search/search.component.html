@@ -54,7 +54,14 @@
                 <sq-facet-tree #facet [results]="results" [aggregation]="'Treepath'"></sq-facet-tree>
             </sq-facet-card>
             <sq-facet-card [title]="multiFacetTitle" [icon]="multiFacetIcon" [collapsible]="false" class="d-block mt-3">
-                <sq-facet-multi #facet [results]="results" [facets]="facets" [showProgressBar]="false" (events)="facetChanged($event)"></sq-facet-multi>
+                <sq-facet-multi
+                    #facet
+                    [results]="results"
+                    [facets]="facets"
+                    [facetComponents]="facetComponents"
+                    (events)="facetChanged($event)"
+                >
+                </sq-facet-multi>
             </sq-facet-card>
         </div>
 
@@ -96,7 +103,7 @@
                     <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
                     <sq-result-extracts [record]="record"></sq-result-extracts>
                     <sq-result-missing-terms [record]="record"></sq-result-missing-terms>
-                    
+
                     <sq-labels [record]="record" [public]="true"></sq-labels>
                     <sq-labels [record]="record" [public]="false"></sq-labels>
                 </div>

@@ -17,7 +17,6 @@ export interface FacetState {
     position: number; // eg 0 = left, 1 = right
     expanded: boolean;
     hidden: boolean;
-    view: string;
 }
 
 /**
@@ -284,7 +283,7 @@ export class FacetService {
         if (!items) {
             return false;
         }
-        
+
         // if options.forceAdd is true, we add the filter as a new "select"
         // if options.replaceCurrent is true, previous "select" is remove first
         // otherwise, we try to append new filter to previous "select"
@@ -292,10 +291,10 @@ export class FacetService {
             query.removeSelect(facetName);
         } else if (breadcrumbs?.activeSelects.length && !options.forceAdd) {
             // here, we try to add a filter to the previous selection
-            
+
             const existingExpr = breadcrumbs.findSelect(facetName);
             const existingSelectIndex = breadcrumbs.activeSelects.findIndex(select => select.facet === facetName && (select.expr === existingExpr || select.expr === existingExpr?.parent));
-            
+
             /* if items is not an array (just a single selection filter),
              * just append it to the existing filter.
              * so, we are assuming that new filter selection is the same 'select" as previous one.
@@ -324,9 +323,9 @@ export class FacetService {
                     query.replaceSelect(existingSelectIndex, {expression: _expr, facet: facetName});
                     return true;
                 }
-            }            
+            }
         }
-        
+
         let expr = this.exprBuilder.makeAggregationExpr(aggregation, items, options.and);
         if (options.not) {
             expr = this.exprBuilder.makeNotExpr(expr);
@@ -385,7 +384,7 @@ export class FacetService {
 
         if (breadcrumbs) {
             // if item is excluded, makeAggregation() should returns a NOT expression
-            
+
             // the expr to remove
             // from aggregation and item, create a expression string
             const stringExpr = item.$excluded ? this.exprBuilder.makeNotExpr(this.exprBuilder.makeAggregationExpr(aggregation, item)) : this.exprBuilder.makeAggregationExpr(aggregation, item);
@@ -410,7 +409,7 @@ export class FacetService {
                 // excludes 'item' object (from parameters) from aggregation items previously created
                 // only not removed filters stay on the array
                 items = items.filter(filter);
-                
+
                 // MUST reset $excluded property otherwise expression is misunderstood (mainly NOT expressions)
                 items.forEach(item => item.$excluded = undefined);
                 const {not, and} = breadcrumbs.selects[i].expr || {};
@@ -595,7 +594,7 @@ export class FacetService {
 
     /**
      * Returns the label associated to an aggregation, if any
-     * @param aggregationName 
+     * @param aggregationName
      */
     getAggregationLabel(aggregationName: string) : string {
         const ccagg = this.appService.getCCAggregation(aggregationName);
@@ -755,7 +754,7 @@ export class FacetService {
             aggregation.column = this.appService.getColumnAlias(column);
         }
     }
-    
+
     protected convertNullValueToString(aggregation: Aggregation) {
         if(!aggregation.isTree && !aggregation.valuesAreExpressions && aggregation.items){
             aggregation.items.forEach((item: AggregationItem) => {
@@ -764,7 +763,7 @@ export class FacetService {
                     item.value = String(item.value);
                 }
             });
-        }        
+        }
     }
 
 
@@ -997,7 +996,7 @@ export class FacetService {
             const value = this.trimAllWhitespace(item.value);
             const normalizedArr = arr.map(item => ({...item, value: this.trimAllWhitespace(item.value)})) || [];
             indx = normalizedArr.findIndex(it => it.value === value);
-            
+
             // fallback to display
             if (indx === -1 && item.display) {
                 indx= normalizedArr.findIndex(it => it.display === item.display);

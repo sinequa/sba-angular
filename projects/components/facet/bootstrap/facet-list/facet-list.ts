@@ -7,6 +7,25 @@ import {AbstractFacet} from "../../abstract-facet";
 import {BehaviorSubject, Observable, of, Subscription} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {FormControl, FormGroup} from '@angular/forms';
+import { FacetConfig } from "../../facet-config";
+
+export interface FacetListConfig extends FacetConfig {
+    type: 'list';
+    parameters: {
+        aggregation: string;
+        name?: string;
+        showCount?: boolean;
+        searchable?: boolean;
+        allowExclude?: boolean;
+        allowOr?: boolean;
+        allowAnd?: boolean;
+        displayEmptyDistributionIntervals?: boolean;
+        acceptNonAggregationItemFilter?: boolean;
+        displayActions?: boolean;
+        showProgressBar?: boolean;
+        replaceCurrent?: boolean;
+    }
+}
 
 @Component({
     selector: "sq-facet-list",

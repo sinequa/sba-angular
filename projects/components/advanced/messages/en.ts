@@ -2,7 +2,9 @@ export default {
     "advanced": {
         "rangeSeparator": " / ",
         "dateRangePicker": {
-            "separator": " / "
+            "separator": " / ",
+            "from": "From",
+            "to": "To"
         },
         "rangeInput": {
             "separator": "/"

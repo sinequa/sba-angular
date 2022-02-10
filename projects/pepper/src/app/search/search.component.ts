@@ -9,12 +9,13 @@ import { LoginService } from '@sinequa/core/login';
 import { Record, Results } from '@sinequa/core/web-services';
 import { SelectionService } from '@sinequa/components/selection';
 import { SearchService } from '@sinequa/components/search';
-import { FacetConfig, FacetService } from '@sinequa/components/facet';
+import { BsFacetList, BsFacetTree, FacetConfig, FacetService } from '@sinequa/components/facet';
 import { UIService } from '@sinequa/components/utils';
 import { PreviewService } from '@sinequa/components/preview';
 import { Action, BsDropdownService, DropdownActiveEvent } from '@sinequa/components/action';
 import { FACETS, METADATA, FEATURES } from '../../config';
 import { DashboardService, MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, PREVIEW_WIDGET, HEATMAP_WIDGET, TAGCLOUD_WIDGET, MONEYTIMELINE_WIDGET, MONEYCLOUD_WIDGET } from '../dashboard/dashboard.service';
+import { BsFacetDate } from '@sinequa/analytics/timeline';
 
 @Component({
   selector: 'app-search',
@@ -28,6 +29,11 @@ export class SearchComponent implements OnInit, OnDestroy {
   public multiFacetTitle = "msg#facet.filters.title";
 
   public results$: Observable<Results | undefined>;
+  public readonly facetComponents = {
+    "list": BsFacetList,
+    "tree": BsFacetTree,
+    "date": BsFacetDate
+  }
   private _loginSubscription: Subscription;
 
   private destroy$ = new Subject();
@@ -106,7 +112,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.dashboardService.options.fixedRowHeight = (window.innerHeight - 150) / 4;
       this.dashboardService.updateOptions(this.dashboardService.options);
     });
-    
+
     // listen only on dropdown active event
     // this allow us to display dropdown menu on top of the gridster
     this.dropdownService.events
@@ -183,7 +189,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
     else {
       this.multiFacetIcon = facet.icon;
-      this.multiFacetTitle = facet.title;
+      this.multiFacetTitle = facet.title || facet.parameters?.name || facet.parameters?.aggregation;
     }
   }
 

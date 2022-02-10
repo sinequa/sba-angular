@@ -2,11 +2,12 @@
     <div class="row">
         <ng-content></ng-content>
         <ng-container *ngFor="let f of facets">
-            <sq-facet-card [ngSwitch]="f.type" class="{{f['className']}}" [title]="f.title">
-                <sq-facet-list #facet *ngSwitchCase="'list'" [name]="f.name" [results]="results" [aggregation]="f.aggregations"></sq-facet-list>
-                <sq-facet-tree #facet *ngSwitchCase="'tree'" [name]="f.name" [results]="results" [aggregation]="f.aggregations"></sq-facet-tree>
-                <!-- Note: Removing the support for charts, but could be enabled back via a more generic ng-template approach (get all ng-template passed by transclusion and map them to a facet type) -->
+            <sq-facet-card #facetCard class="{{f['className']}}" [title]="f.title">
+                <ng-container
+                    [sqLoadComponent]="{component: getComponent(f.type), inputs: getFacetInputs(f)}"
+                    (sqLoadComponent)="onFacetLoad(facetCard, $event)">
+                </ng-container>
             </sq-facet-card>
-        </ng-container> 
+        </ng-container>
     </div>
 </div>

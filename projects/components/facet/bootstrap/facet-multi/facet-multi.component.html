@@ -20,27 +20,8 @@
     </ng-container>
 </div>
 
-<ng-container *ngIf="openedFacet">
-    <sq-facet-list #facet *ngIf="openedFacet.type==='list'"
-        [name]="openedFacet.name"
-        [results]="results"
-        [aggregation]="openedFacet.aggregation"
-        [showCount]="openedFacet.showCount"
-        [searchable]="openedFacet.searchable"
-        [allowExclude]="openedFacet.allowExclude"
-        [allowOr]="openedFacet.allowOr"
-        [allowAnd]="openedFacet.allowAnd"
-        [displayEmptyDistributionIntervals]="openedFacet.displayEmptyDistributionIntervals"
-        [showProgressBar]="showProgressBar"
-    >
-    </sq-facet-list>
-
-    <sq-facet-tree #facet *ngIf="openedFacet.type==='tree'"
-        [name]="openedFacet.name"
-        [results]="results"
-        [aggregation]="openedFacet.aggregation"
-        [showCount]="openedFacet.showCount"
-        [allowExclude]="openedFacet.allowExclude"
-        [allowOr]="openedFacet.allowOr">
-    </sq-facet-tree>
+<ng-container
+    *ngIf="openedFacet"
+    [sqLoadComponent]="{component: component, inputs: facetComponentInputs}"
+    (sqLoadComponent)="onFacetLoad($event)">
 </ng-container>

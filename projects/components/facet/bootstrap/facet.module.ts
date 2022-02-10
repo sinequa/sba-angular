@@ -23,6 +23,7 @@ import {BsFacetTree} from "./facet-tree/facet-tree";
 import {BsFacetFilters} from "./facet-filters/facet-filters";
 import {BsFacetMultiComponent} from "./facet-multi/facet-multi.component";
 import { BsFacetTagCloud } from './facet-tag-cloud/facet-tag-cloud';
+import { LoadComponentModule } from "@sinequa/core/load-component";
 
 @NgModule({
     imports: [
@@ -38,7 +39,8 @@ import { BsFacetTagCloud } from './facet-tag-cloud/facet-tag-cloud';
         BsSearchModule,
         BsAutocompleteModule,
 
-        Ng5SliderModule
+        Ng5SliderModule,
+        LoadComponentModule
     ],
     declarations: [
         BsFacetCard, BsFacetList, BsFacetTree,

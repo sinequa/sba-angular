@@ -7,6 +7,23 @@ import {AbstractFacet} from "../../abstract-facet";
 import { FormControl, FormGroup } from "@angular/forms";
 import { Observable, of, Subscription } from "rxjs";
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from "rxjs/operators";
+import { FacetConfig } from "../../facet-config";
+
+
+export interface FacetTreeConfig extends FacetConfig {
+    type: 'tree';
+    parameters: {
+        aggregation: string;
+        name?: string;
+        showCount?: boolean;
+        searchable?: boolean;
+        allowExclude?: boolean;
+        allowOr?: boolean;
+        expandedLevel?: number;
+        forceMaxHeight?: boolean;
+        displayActions?: boolean;
+    }
+}
 
 @Component({
     selector: "sq-facet-tree",
@@ -29,12 +46,12 @@ export class BsFacetTree extends AbstractFacet implements OnChanges, OnDestroy {
     // Aggregation from the Results object
     data: TreeAggregation | undefined;
     originalItems: AggregationItem[] | undefined;
-    
+
     private readonly subscriptions: Subscription[] = [];
 
     // Sets to keep track of selected/excluded/filtered items
     private readonly filtered = new Set<AggregationItem>();
-    
+
     readonly selected = new Map<string,TreeAggregationNode>();
 
     hiddenSelected: TreeAggregationNode[] = [];
@@ -47,7 +64,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges, OnDestroy {
     suggestDelay = 200;
     searchActive = false;
     noResults = false;
-    
+
     // Actions (displayed in facet menu)
     // All actions are built in the constructor
     private readonly filterItemsOr: Action;
@@ -64,7 +81,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges, OnDestroy {
             this.myGroup = new FormGroup({
                 searchQuery: new FormControl()
             });
-    
+
             this.searchQuery = this.myGroup.get("searchQuery") as FormControl;
             this.subscriptions["suggest"] = this.suggest$(this.searchQuery.valueChanges)
                 .subscribe(values => {
@@ -82,7 +99,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges, OnDestroy {
                         this.changeDetectorRef.markForCheck();
                     }
                 });
-    
+
             // Keep documents with ANY of the selected items
             this.filterItemsOr = new Action({
                 icon: "fas fa-filter",
@@ -193,7 +210,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges, OnDestroy {
         if(this.hasFiltered()) {
             actions.push(this.clearFilters);
         }
-        
+
         if(this.searchable){
             actions.push(this.searchItems);
         }
@@ -322,13 +339,13 @@ export class BsFacetTree extends AbstractFacet implements OnChanges, OnDestroy {
     }
 
 
-    // Search    
+    // Search
 
     clearSearch() {
         this.searchQuery.setValue(""); // Remove suggestions if some remain
         this.noResults = false;
     }
-    
+
     /**
      * Called on NgModel change (searchQuery)
      * Uses the suggestfield API to retrieve suggestions from the server
