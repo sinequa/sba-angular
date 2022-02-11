@@ -58,7 +58,7 @@ export class MetadataItem implements OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (!this.column) {
+        if (!this.column || changes.item) {
             this.column = this.appService.getColumn(this.item);
             this.itemLabelMessageParams = {values: {label: this.label}};
         }
