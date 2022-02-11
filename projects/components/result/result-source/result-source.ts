@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
 import {ValueItem} from "@sinequa/core/app-utils";
 import {Record} from "@sinequa/core/web-services";
 import {SearchService} from "@sinequa/components/search";
@@ -6,27 +6,27 @@ import {SearchService} from "@sinequa/components/search";
 @Component({
     selector: "sq-result-source",
     templateUrl: "./result-source.html",
-    styleUrls: ["./result-source.scss"]
+    styleUrls: ["./result-source.scss"],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ResultSource implements OnInit {
+export class ResultSource {
     @Input() record: Record;
+    @Input() treepathColumn = "treepath";
     @Input() displayTreepath: boolean;
     @Input() displayTreepathMinLevel = 0;
     @Input() displayTreepathMaxLevel: number;
+    @Input() urlColumn = "url1";
     @Input() displayUrl: boolean = true;
-
-    source: ValueItem[] = [];
-    url: string;
 
     constructor(
         public searchService: SearchService) {
     }
 
-    public ngOnInit() {
-        if(this.displayTreepath && !!this.record.treepath){
-            const treepath = this.record.treepath[0];
-            if(!!treepath && treepath.length >= 2){
-                this.source = treepath.substr(1, treepath.length-2).split('/')
+    get source(): ValueItem[] {
+        if(this.displayTreepath && this.record[this.treepathColumn]) {
+            const treepath = this.record[this.treepathColumn][0] as string;
+            if(treepath?.length >= 2) {
+                return treepath.substring(1, treepath.length-1).split('/')
                     .slice(this.displayTreepathMinLevel, this.displayTreepathMaxLevel)
                     .map((path,i,array) => ({
                             display: path,
@@ -34,15 +34,18 @@ export class ResultSource implements OnInit {
                         }));
             }
         }
-        if(this.displayUrl){
-            this.url = this.record.url1;
-        }
+        return [];
     }
 
-    select(item){
-        if(this.searchService.addFieldSelect("treepath", item)) {
+    get url(): string {
+        return this.displayUrl && this.record[this.urlColumn];
+    }
+
+    select(item: ValueItem){
+        if(this.searchService.addFieldSelect(this.treepathColumn, item)) {
             this.searchService.search();
         }
+        return false;
     }
 
 }
