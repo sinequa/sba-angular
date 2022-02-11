@@ -227,7 +227,10 @@ export class RecentQueriesService implements OnDestroy {
      * @returns an Observable which can be used to trigger further events
      */
     private patchRecentQueries(auditEvents?: AuditEvents) {
-        return this.userSettingsService.patch({recentQueries: this.recentqueries}, auditEvents)
+        // Do not forget to revert back the date conversion done when fetched
+        const recentQueries = this.recentqueries.map(query => ({...query, date: Utils.fromDate(query.date)}));
+        
+        return this.userSettingsService.patch({recentQueries}, auditEvents)
             .subscribe(
                 next => {
                     this._events.next({type: RecentQueryEventType.Patched});
