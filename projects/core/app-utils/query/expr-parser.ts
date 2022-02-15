@@ -2548,9 +2548,11 @@ export class ExprParser {
             case Token.not:
                 // Apply E := NOT E
                 e = this.expressions.pop();
-                if (!e) {
-                    return "syntax error";
-                }
+                const length = this.expressions.length;
+                if (!e) return "syntax error";
+                // e is not a field expression and no precedent expression exists (length === 0)
+                if (!e.field && length === 0) return "should be an field expression";
+                // when !e.field , works only if a precedent expression exists before "e" (length > 0)
                 e.not = !e.not;
                 this.expressions.push(e);
                 break;
