@@ -143,7 +143,7 @@ export class SuggestService {
         }
 
         // Format HTML display
-        let html = text;
+        let html = Utils.escapeHtml(text);
         for(let j=matches.length-1; j>=0; j--) { // decreasing order so the indices remain valid
             i = matches[j];
             html = html.slice(0, i).concat("<strong>", html.slice(i, i+query.length), "</strong>", html.slice(i+query.length));
