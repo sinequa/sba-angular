@@ -39,6 +39,7 @@ export class BsPreviewMinimapComponent {
   constructor(@Inject(DOCUMENT) document: Document) {}
 
   private extractAll() {
+    this.locations = [];
     if(this._extracts?.length > 0 && this._previewDocument) {
       const max = this.previewDocument.document.body.scrollHeight || 1;
 
