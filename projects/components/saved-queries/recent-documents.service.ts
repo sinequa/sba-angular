@@ -263,7 +263,9 @@ export class RecentDocumentsService implements OnDestroy {
      * @returns an Observable which can be used to trigger further events
      */
     private patchRecentDocuments(auditEvents?: AuditEvents) {
-        return this.userSettingsService.patch({recentDocuments: this.recentdocuments}, auditEvents)
+        // Do not forget to revert back the date conversion done when fetched
+        const recentDocuments = this.recentdocuments.map(doc => ({...doc, date: Utils.fromDate(doc.date)}));
+        return this.userSettingsService.patch({recentDocuments}, auditEvents)
             .subscribe(
                 next => {
                     this.events.next({type: RecentDocumentEventType.Patched});
