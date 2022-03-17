@@ -10,10 +10,6 @@ export interface DropdownMenuOptions {
 
 @Component({
     selector: "[sq-dropdown-menu]",
-    host: {
-        "class": "dropdown-menu",
-        "role": "menu"
-    },
     templateUrl: "./dropdown-menu.html",
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -31,6 +27,8 @@ export class BsDropdownMenu implements OnInit {
         return this._options;
     }
     
+    @HostBinding("attr.role") role = "menu";
+    @HostBinding("class.dropdown-menu") dropdown = true;
     @HostBinding("class.dropdown-menu-end") rightAligned;
 
     constructor(
@@ -58,26 +56,61 @@ export class BsDropdownMenu implements OnInit {
 
     click(item: Action, event: UIEvent) {
         if (!this.options.item.disabled) {
-            // Handle sub-menu opening
+            /**
+             * Nested dropdown structure
+             * -------------------------
+             *  ABC (1)
+             *    +--- 123
+             *    +--- 456
+             *  DEF
+             *  GHI
+             *  JKL (2)
+             *    +--- 789
+             *    +--- 321
+             * 
+             *
+             * <ul dropdown-menu>               // nested dropdown container
+             *   <li dropdown-submenu> (1)      // first nested menu
+             *      <ul dropdown-menu>
+             *         <li>...</i>
+             *         <li>...</i>
+             *      </ul>
+             *   </li>
+             *   <li>...</li>
+             *   <li>...</li>
+             *   <li dropdown-submenu> (2)      // second nested menu
+             *      <ul dropdown-menu>
+             *         <li>...</i>
+             *         <li>...</i>
+             *      </ul>
+             *   </li>
+             * <ul>
+             * 
+             */
+            
             let isOpen = false;
             const li = this.getLi(<HTMLElement>event.target);
             if (!!li && li.classList.contains("dropdown-submenu")) {
                 event.preventDefault();
                 event.stopPropagation();
-                isOpen = li.classList.contains(this.options.showMenuClass);
-                const ul = li.parentElement;
-                if (ul) {
-                    for (let i = 0, ic = ul.children.length; i < ic; i++) {
-                        const _li = ul.children[i];
-                        _li.classList.remove(this.options.showMenuClass);
-                    }
+                
+                // get the current's submenu 'show' status
+                const ul = li.getElementsByTagName("ul")[0];
+                isOpen = ul.classList.contains(this.options.showMenuClass);
+
+                // remove for each submenu the 'show' class
+                if (li.parentElement) {
+                    const els = li.parentElement.querySelectorAll('li > ul');
+                    els.forEach(el => el.classList.remove(this.options.showMenuClass));
                 }
-                // NB toggle's second param does not work on IE
-                // li.classList.toggle(this.options.showMenuClass, !isOpen);
+                
                 if (!isOpen) {
-                    li.classList.add(this.options.showMenuClass);
+                    ul.classList.add(this.options.showMenuClass);
                 }
+            } else {
+                li?.parentElement?.classList.remove(this.options.showMenuClass);
             }
+            
             if (item.action) {
                 item.action(item, event);
             }
