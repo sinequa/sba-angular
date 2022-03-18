@@ -2,7 +2,7 @@ import {NgModule, ModuleWithProviders} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
-import {Ng5SliderModule} from "ng5-slider";
+import {NgxSliderModule} from "@angular-slider/ngx-slider";
 
 import {IntlModule} from "@sinequa/core/intl";
 
@@ -39,7 +39,7 @@ import { LoadComponentModule } from "@sinequa/core/load-component";
         BsSearchModule,
         BsAutocompleteModule,
 
-        Ng5SliderModule,
+        NgxSliderModule,
         LoadComponentModule
     ],
     declarations: [

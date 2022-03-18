@@ -4,7 +4,7 @@ import {Utils} from "@sinequa/core/base";
 import {AppService, FormatService, Expr, ExprOperator, ExprBuilder} from "@sinequa/core/app-utils";
 import {IntlService} from "@sinequa/core/intl";
 import {CCColumn, Results, Aggregation} from "@sinequa/core/web-services";
-import {Options, LabelType, ChangeContext} from "ng5-slider";
+import {Options, LabelType, ChangeContext} from "@angular-slider/ngx-slider";
 import moment from "moment";
 import {FacetService} from "../../facet.service";
 import {SearchService} from "@sinequa/components/search";
