@@ -10,3 +10,4 @@ export * from "./ref";
 export * from "./pattern-matcher";
 export * from "./utils";
 export * from "./base.module";
+export * from "./strict-union";

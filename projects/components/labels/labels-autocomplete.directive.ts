@@ -232,7 +232,7 @@ export class LabelsAutocomplete extends Autocomplete implements OnInit, OnChange
 
         if (keydown === undefined) {
             //We can remove selections by typing <backspace> when the input is empty
-            if (event.keyCode === Keys.backspace) {
+            if (event.key === Keys.backspace) {
                 if (this.getInputValue() === "") {
                     this.labelsItems.pop();
                     this.updatePlaceholder();
@@ -240,7 +240,7 @@ export class LabelsAutocomplete extends Autocomplete implements OnInit, OnChange
                 }
             }
             /** Allow the selection one of new labels that not exists in the list */
-            if (event.keyCode === Keys.enter) {
+            if (event.key === Keys.enter) {
                 this._manageSetAutocompleteItem();
             }
         }

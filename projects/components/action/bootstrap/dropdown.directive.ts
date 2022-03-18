@@ -1,7 +1,7 @@
 import {Directive, OnInit, OnDestroy, AfterViewInit, ElementRef, HostListener} from "@angular/core";
 import {Subscription} from 'rxjs';
 import {createPopper} from '@popperjs/core';
-import {Keys} from "@sinequa/core/base";
+import {Keys, StrictUnion} from "@sinequa/core/base";
 import {BsDropdownService, gClassName, gSelector, gAttachmentMap} from './dropdown.service';
 
 // Based on  Bootstrap (v4.4.1): dropdown.js
@@ -45,7 +45,7 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit() {
         this.subscription = this.dropdownService.events.subscribe((event) => {
             if (event.type === "clear") {
-                this.clear(event.sourceEvent);
+                this.clear(event.sourceEvent as StrictUnion<KeyboardEvent | MouseEvent | undefined>);
             }
             else if (event.type === "toggle") {
                 this.toggle(event.element);
@@ -194,7 +194,7 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
         parent.classList.toggle(gClassName.SHOW);
     }
 
-    private clear(event: KeyboardEvent | MouseEvent | undefined) {
+    private clear(event: StrictUnion<KeyboardEvent | MouseEvent | undefined>) {
         if (!this.dropdownToggle || !this.dropdownMenu || !this.dropdown) {
             return;
         }
@@ -205,7 +205,7 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
         }
 
         if (event && (event.type === 'click' &&
-            /input|textarea/i.test((event.target as Element).tagName) || event.type === 'keyup' && event.which === Keys.tab) &&
+            /input|textarea/i.test((event.target as Element).tagName) || event.type === 'keyup' && event.key === Keys.tab) &&
             parent.contains(event.target as Node)) {
             return;
         }

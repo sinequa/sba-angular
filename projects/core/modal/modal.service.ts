@@ -337,7 +337,7 @@ export class ModalService {
             });
         }
         overlayRef.keydownEvents().subscribe((event) => {
-            if (event.keyCode === Keys.esc) {
+            if (event.key === Keys.esc) {
                 modalRef.close();
             }
         });
