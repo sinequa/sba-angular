@@ -377,7 +377,13 @@ export interface ActionButtonsOptions {
 
 @Component({
     selector: &quot;[sq-action-buttons]&quot;,
-    templateUrl: &quot;./action-buttons.html&quot;
+    templateUrl: &quot;./action-buttons.html&quot;,
+    styles: [&#x60;
+    :host-context(.dark)
+        button.btn-light {
+            filter: invert(0.76);
+        }
+    &#x60;]
 })
 export class BsActionButtons {
     private _options: ActionButtonsOptions;

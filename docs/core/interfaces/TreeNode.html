@@ -617,6 +617,18 @@ export class Utils {
         }
         return new Date(ms + new Date(ms).getTimezoneOffset() * 60000); // get date in UTC
     }
+    
+    /**
+     * Converts a Date in UTC to is previous state.
+     * The date is returned. If the string cannot be converted then &#x60;undefined&#x60; is returned
+     * @param str The string to convert
+     * @return The converted &#x60;Date&#x60; or &#x60;undefined&#x60;
+     */
+     static fromDate(date: Date): Date | undefined {
+        const ms &#x3D; Date.parse(date.toString());
+        if (!ms &amp;&amp; ms !&#x3D;&#x3D; 0) return undefined;
+        return new Date(ms - date.getTimezoneOffset() * 60000);
+    }
 
     /**
      * Get the time component of a &#x60;Date&#x60; in milliseconds
@@ -747,7 +759,7 @@ export class Utils {
      * @param value The value to convert
      * @param quote If set, the returned string will be enclosed in single quotes for string and &#x60;Date&#x60; values
      */
-    static toSqlValue(value: FieldValue, quote?: boolean): string {
+    static toSqlValue(value: FieldValue, quote?: boolean): string{
         if (Utils.isNumber(value)) {
             return value + &quot;&quot;;
         }
@@ -761,6 +773,9 @@ export class Utils {
         }
         if (Utils.isBoolean(value)) {
             return value ? &quot;true&quot; : &quot;false&quot;;
+        }
+        if (value &#x3D;&#x3D;&#x3D; null) {
+            return &quot;null&quot;;
         }
         if (Utils.isArray(value)) {
             const ret: string[] &#x3D; [];

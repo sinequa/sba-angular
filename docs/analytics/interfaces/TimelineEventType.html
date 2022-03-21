@@ -195,19 +195,19 @@ export interface TimelineEventType {
     template: &#x60;
 &lt;div class&#x3D;&quot;legend d-flex flex-{{orientation}}&quot; [ngStyle]&#x3D;&quot;legendStyles&quot;&gt;
 
-    &lt;div *ngFor&#x3D;&quot;let timeline of data&quot; class&#x3D;&quot;series mr-2&quot;&gt;
+    &lt;div *ngFor&#x3D;&quot;let timeline of data&quot; class&#x3D;&quot;series me-2&quot;&gt;
         &lt;svg width&#x3D;&quot;20&quot; height&#x3D;&quot;15&quot;&gt;
             &lt;rect class&#x3D;&quot;area&quot; x&#x3D;&quot;0&quot; [attr.y]&#x3D;&quot;yOffset&quot; width&#x3D;&quot;20&quot; [attr.height]&#x3D;&quot;13-yOffset&quot; [ngStyle]&#x3D;&quot;timeline.areaStyles&quot;&gt;&lt;/rect&gt;
             &lt;line class&#x3D;&quot;line&quot; x1&#x3D;&quot;0&quot; [attr.y1]&#x3D;&quot;yOffset&quot; x2&#x3D;&quot;20&quot; [attr.y2]&#x3D;&quot;yOffset&quot; [ngStyle]&#x3D;&quot;timeline.lineStyles&quot;&gt;&lt;/line&gt;
         &lt;/svg&gt;
-        &lt;span class&#x3D;&quot;name ml-1&quot;&gt;{{ timeline.name }}&lt;/span&gt;
+        &lt;span class&#x3D;&quot;name ms-1&quot;&gt;{{ timeline.name }}&lt;/span&gt;
     &lt;/div&gt;
 
-    &lt;div *ngFor&#x3D;&quot;let event of events&quot; class&#x3D;&quot;event mr-2&quot;&gt;
+    &lt;div *ngFor&#x3D;&quot;let event of events&quot; class&#x3D;&quot;event me-2&quot;&gt;
         &lt;svg width&#x3D;&quot;20&quot; height&#x3D;&quot;15&quot;&gt;
             &lt;path class&#x3D;&quot;event&quot; [attr.d]&#x3D;&quot;&#x27;M 10 1 l -7 11 l 14 0 z&#x27;&quot; [ngStyle]&#x3D;&quot;event.styles&quot;&gt;&lt;/path&gt;
         &lt;/svg&gt;
-        &lt;span class&#x3D;&quot;name ml-1&quot;&gt;{{ event.name }}&lt;/span&gt;
+        &lt;span class&#x3D;&quot;name ms-1&quot;&gt;{{ event.name }}&lt;/span&gt;
     &lt;/div&gt;
 
 &lt;/div&gt;

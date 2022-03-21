@@ -98,13 +98,16 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/BsTimelineModule.html" data-type="entity-link" >BsTimelineModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-BsTimelineModule-d87f37e5ed8358214ca7fcfea504a12b460a224251ca0d640d906e243a9fd90d38b00957dcbed845acba678d52f8bdfd619697e81e1412a1c5073eab433d8a69"' : 'data-target="#xs-components-links-module-BsTimelineModule-d87f37e5ed8358214ca7fcfea504a12b460a224251ca0d640d906e243a9fd90d38b00957dcbed845acba678d52f8bdfd619697e81e1412a1c5073eab433d8a69"' }>
+                                            'data-target="#components-links-module-BsTimelineModule-3fb5615b29a8091ba310acefd7e38c63ec8c74e5f906064eec406e42addb80d164f60130ef0d89563b01b09d03e141e0eed289f173047aea4a7e6739c84bcc91"' : 'data-target="#xs-components-links-module-BsTimelineModule-3fb5615b29a8091ba310acefd7e38c63ec8c74e5f906064eec406e42addb80d164f60130ef0d89563b01b09d03e141e0eed289f173047aea4a7e6739c84bcc91"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsTimelineModule-d87f37e5ed8358214ca7fcfea504a12b460a224251ca0d640d906e243a9fd90d38b00957dcbed845acba678d52f8bdfd619697e81e1412a1c5073eab433d8a69"' :
-                                            'id="xs-components-links-module-BsTimelineModule-d87f37e5ed8358214ca7fcfea504a12b460a224251ca0d640d906e243a9fd90d38b00957dcbed845acba678d52f8bdfd619697e81e1412a1c5073eab433d8a69"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsTimelineModule-3fb5615b29a8091ba310acefd7e38c63ec8c74e5f906064eec406e42addb80d164f60130ef0d89563b01b09d03e141e0eed289f173047aea4a7e6739c84bcc91"' :
+                                            'id="xs-components-links-module-BsTimelineModule-3fb5615b29a8091ba310acefd7e38c63ec8c74e5f906064eec406e42addb80d164f60130ef0d89563b01b09d03e141e0eed289f173047aea4a7e6739c84bcc91"' }>
+                                            <li class="link">
+                                                <a href="components/BsFacetDate.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >BsFacetDate</a>
+                                            </li>
                                             <li class="link">
                                                 <a href="components/BsFacetTimelineComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >BsFacetTimelineComponent</a>
                                             </li>

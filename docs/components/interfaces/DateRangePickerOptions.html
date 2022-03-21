@@ -171,17 +171,17 @@ export interface DateRangePickerOptions extends DatePickerOptions {
 @Component({
     selector: &quot;sq-date-range-picker&quot;,
     template: &#x60;
-        &lt;div *ngIf&#x3D;&quot;options.closedRange&quot; class&#x3D;&quot;sq-date-range-picker form-row&quot;&gt;
+        &lt;div *ngIf&#x3D;&quot;options.closedRange&quot; class&#x3D;&quot;sq-date-range-picker&quot;&gt;
             &lt;div class&#x3D;&quot;col&quot;&gt;
                 &lt;input type&#x3D;&quot;text&quot; autocomplete&#x3D;&quot;off&quot; class&#x3D;&quot;form-control&quot; bsDaterangepicker triggers&#x3D;&quot;click&quot; #fromTo&#x3D;&quot;bsDaterangepicker&quot; [bsConfig]&#x3D;&quot;bsFromToConfig()&quot; [ngModel]&#x3D;&quot;value&quot; (ngModelChange)&#x3D;&quot;updateFromTo($event)&quot; [placeholder]&#x3D;&quot;dateFormat&quot;/&gt;
             &lt;/div&gt;
         &lt;/div&gt;
-        &lt;div *ngIf&#x3D;&quot;!options.closedRange&quot; class&#x3D;&quot;sq-date-range-picker form-row&quot;&gt;
-            &lt;div class&#x3D;&quot;col-auto&quot;&gt;
+        &lt;div *ngIf&#x3D;&quot;!options.closedRange&quot; class&#x3D;&quot;d-flex align-items-center justify-content-between gap-2 sq-date-range-picker&quot;&gt;
+            &lt;div class&#x3D;&quot;flex-grow-1&quot;&gt;
                 &lt;input type&#x3D;&quot;text&quot; autocomplete&#x3D;&quot;off&quot; [id]&#x3D;&quot;fromName&quot; class&#x3D;&quot;form-control sq-range-from&quot; bsDatepicker triggers&#x3D;&quot;click&quot; #from&#x3D;&quot;bsDatepicker&quot; [bsConfig]&#x3D;&quot;bsFromConfig()&quot; [ngModel]&#x3D;&quot;value[0]&quot; (ngModelChange)&#x3D;&quot;updateFrom($event)&quot; [placeholder]&#x3D;&quot;dateFormat&quot;/&gt;
             &lt;/div&gt;
-            &lt;div class&#x3D;&quot;col-auto sq-separator&quot;&gt;{{&#x27;msg#advanced.dateRangePicker.separator&#x27; | sqMessage}}&lt;/div&gt;
-            &lt;div class&#x3D;&quot;col-auto&quot;&gt;
+            &lt;div class&#x3D;&quot;sq-separator&quot;&gt;{{&#x27;msg#advanced.dateRangePicker.separator&#x27; | sqMessage}}&lt;/div&gt;
+            &lt;div class&#x3D;&quot;flex-grow-1&quot;&gt;
                 &lt;input type&#x3D;&quot;text&quot; autocomplete&#x3D;&quot;off&quot; [id]&#x3D;&quot;toName&quot; class&#x3D;&quot;form-control sq-range-to&quot; bsDatepicker triggers&#x3D;&quot;click&quot; #to&#x3D;&quot;bsDatepicker&quot; [bsConfig]&#x3D;&quot;bsToConfig()&quot; [ngModel]&#x3D;&quot;value[1]&quot; (ngModelChange)&#x3D;&quot;updateTo($event)&quot; [placeholder]&#x3D;&quot;dateFormat&quot;/&gt;
             &lt;/div&gt;
         &lt;/div&gt;

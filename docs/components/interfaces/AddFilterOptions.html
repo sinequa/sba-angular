@@ -101,6 +101,13 @@ replaceCurrent: if true, the current filter is replaced</p>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
+                                        <a href="#forceAdd" 
+>
+                                            forceAdd
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#not" 
 >
                                             not
@@ -139,6 +146,44 @@ replaceCurrent: if true, the current filter is replaced</p>
                                 <tr>
                                     <td class="col-md-4">
                                         <code>and:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="forceAdd"></a>
+                                        <span class="name "><b>forceAdd</b>
+                                            <a href="#forceAdd">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>forceAdd:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -276,6 +321,7 @@ export interface AddFilterOptions {
     and?: boolean;
     not?: boolean;
     replaceCurrent?: boolean;
+    forceAdd?: boolean; // force a new select creation instead of append it into the current one
 }
 
 // Audit Events (from models/Audit)
@@ -528,36 +574,49 @@ export class FacetService {
         if (!items) {
             return false;
         }
+
+        // if options.forceAdd is true, we add the filter as a new &quot;select&quot;
+        // if options.replaceCurrent is true, previous &quot;select&quot; is remove first
+        // otherwise, we try to append new filter to previous &quot;select&quot;
         if (options.replaceCurrent) {
             query.removeSelect(facetName);
-        }
+        } else if (breadcrumbs?.activeSelects.length &amp;&amp; !options.forceAdd) {
+            // here, we try to add a filter to the previous selection
 
-        if (breadcrumbs?.activeSelects.length &amp;&amp; !options.replaceCurrent) {
-            const expr &#x3D; breadcrumbs.findSelect(facetName);
-            const index &#x3D; breadcrumbs.activeSelects.findIndex(select &#x3D;&gt; select.facet &#x3D;&#x3D;&#x3D; facetName &amp;&amp; (select.expr &#x3D;&#x3D;&#x3D; expr || select.expr &#x3D;&#x3D;&#x3D; expr?.parent));
-            const same &#x3D; (!Array.isArray(items)) ? true : (options.and ? &quot;AND&quot; : &quot;OR&quot;) &#x3D;&#x3D;&#x3D; (expr?.and ? &quot;AND&quot; : &quot;OR&quot;) &amp;&amp; (options.not ? &quot;YES&quot; : &quot;NO&quot;) &#x3D;&#x3D;&#x3D; (expr?.not ? &quot;YES&quot; : &quot;NO&quot;);
+            const existingExpr &#x3D; breadcrumbs.findSelect(facetName);
+            const existingSelectIndex &#x3D; breadcrumbs.activeSelects.findIndex(select &#x3D;&gt; select.facet &#x3D;&#x3D;&#x3D; facetName &amp;&amp; (select.expr &#x3D;&#x3D;&#x3D; existingExpr || select.expr &#x3D;&#x3D;&#x3D; existingExpr?.parent));
 
-            if (expr &amp;&amp; same &amp;&amp; index !&#x3D;&#x3D; -1){
+            /* if items is not an array (just a single selection filter),
+             * just append it to the existing filter.
+             * so, we are assuming that new filter selection is the same &#x27;select&quot; as previous one.
+            */
+            const isSameSelect &#x3D; (!Array.isArray(items)) ? true : (options.and ? &quot;AND&quot; : &quot;OR&quot;) &#x3D;&#x3D;&#x3D; (existingExpr?.and ? &quot;AND&quot; : &quot;OR&quot;) &amp;&amp; (options.not ? &quot;YES&quot; : &quot;NO&quot;) &#x3D;&#x3D;&#x3D; (existingExpr?.not ? &quot;YES&quot; : &quot;NO&quot;);
+
+            /* if an expression is found and same is true, we just add the new item to the existing expression
+             * to do this, we re-construct the expression and add it to the query
+             */
+            if (existingExpr &amp;&amp; isSameSelect &amp;&amp; existingSelectIndex !&#x3D;&#x3D; -1){
                 let _items: AggregationItem[];
-                if (expr?.operands) {
-                    _items &#x3D; this.exprToAggregationItem(expr.operands, aggregation.valuesAreExpressions).concat(items);
+                if (existingExpr?.operands) {
+                    _items &#x3D; this.exprToAggregationItem(existingExpr.operands, aggregation.valuesAreExpressions).concat(items);
                 } else {
                     // previous selection is a single value
-                    _items &#x3D; this.exprToAggregationItem(expr as Expr, aggregation.valuesAreExpressions).concat(items);
+                    _items &#x3D; this.exprToAggregationItem(existingExpr as Expr, aggregation.valuesAreExpressions).concat(items);
                 }
                 // MUST reset $excluded property otherwise expression is misunderstood
                 _items.forEach(item &#x3D;&gt; item.$excluded &#x3D; undefined);
                 // overrides options settings with expression if any
-                let _expr &#x3D; this.exprBuilder.makeAggregationExpr(aggregation, _items, options.and || expr.and);
-                if (options.not || expr.not) {
+                let _expr &#x3D; this.exprBuilder.makeAggregationExpr(aggregation, _items, options.and || existingExpr.and);
+                if (options.not || existingExpr.not) {
                     _expr &#x3D; this.exprBuilder.makeNotExpr(_expr);
                 }
                 if (_expr) {
-                    query.replaceSelect(index, {expression: _expr, facet: facetName});
+                    query.replaceSelect(existingSelectIndex, {expression: _expr, facet: facetName});
                     return true;
                 }
             }
         }
+
         let expr &#x3D; this.exprBuilder.makeAggregationExpr(aggregation, items, options.and);
         if (options.not) {
             expr &#x3D; this.exprBuilder.makeNotExpr(expr);
@@ -616,7 +675,7 @@ export class FacetService {
 
         if (breadcrumbs) {
             // if item is excluded, makeAggregation() should returns a NOT expression
-            
+
             // the expr to remove
             // from aggregation and item, create a expression string
             const stringExpr &#x3D; item.$excluded ? this.exprBuilder.makeNotExpr(this.exprBuilder.makeAggregationExpr(aggregation, item)) : this.exprBuilder.makeAggregationExpr(aggregation, item);
@@ -641,7 +700,7 @@ export class FacetService {
                 // excludes &#x27;item&#x27; object (from parameters) from aggregation items previously created
                 // only not removed filters stay on the array
                 items &#x3D; items.filter(filter);
-                
+
                 // MUST reset $excluded property otherwise expression is misunderstood (mainly NOT expressions)
                 items.forEach(item &#x3D;&gt; item.$excluded &#x3D; undefined);
                 const {not, and} &#x3D; breadcrumbs.selects[i].expr || {};
@@ -825,7 +884,7 @@ export class FacetService {
 
     /**
      * Returns the label associated to an aggregation, if any
-     * @param aggregationName 
+     * @param aggregationName
      */
     getAggregationLabel(aggregationName: string) : string {
         const ccagg &#x3D; this.appService.getCCAggregation(aggregationName);
@@ -982,6 +1041,7 @@ export class FacetService {
         if(!aggregation.isTree &amp;&amp; aggregation.items){
             const column &#x3D; this.appService.getColumn(aggregation.column);
             aggregation.items.forEach((value) &#x3D;&gt; value.$column &#x3D; column);
+            aggregation.column &#x3D; this.appService.resolveColumnAlias(aggregation.column);
         }
     }
 
@@ -1215,7 +1275,7 @@ export class FacetService {
             const value &#x3D; this.trimAllWhitespace(item.value);
             const normalizedArr &#x3D; arr.map(item &#x3D;&gt; ({...item, value: this.trimAllWhitespace(item.value)})) || [];
             indx &#x3D; normalizedArr.findIndex(it &#x3D;&gt; it.value &#x3D;&#x3D;&#x3D; value);
-            
+
             // fallback to display
             if (indx &#x3D;&#x3D;&#x3D; -1 &amp;&amp; item.display) {
                 indx&#x3D; normalizedArr.findIndex(it &#x3D;&gt; it.display &#x3D;&#x3D;&#x3D; item.display);

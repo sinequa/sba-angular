@@ -108,6 +108,12 @@ the fielded search items (basically the content of fieldSearchItems)</p>
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
+                                    <a href="#hasItems" 
+>
+                                        hasItems
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="#update" 
 >
                                         update
@@ -125,6 +131,45 @@ the fielded search items (basically the content of fieldSearchItems)</p>
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasItems"></a>
+                    <span class="name">
+                        <span ><b>hasItems</b></span>
+                        <a href="#hasItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>hasItems()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="22"
+                            class="link-to-prism">autocomplete/autocomplete-field-search.directive.ts:22</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Function showing if the component has items or not</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -263,6 +308,9 @@ export interface FieldSearchItemsContainer {
 
     /** Event triggered when the user removes an item from the container */
     itemRemoved: EventEmitter&lt;AutocompleteItem&gt;;
+
+    /** Function showing if the component has items or not */
+    hasItems(): boolean;
 }
 
 export interface ParseResult {

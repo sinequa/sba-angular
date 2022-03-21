@@ -1219,6 +1219,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/DeletedComment.html" data-type="entity-link" >DeletedComment</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/DropdownActiveEvent.html" data-type="entity-link" >DropdownActiveEvent</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/DropdownClearEvent.html" data-type="entity-link" >DropdownClearEvent</a>
                             </li>
                             <li class="link">

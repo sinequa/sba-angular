@@ -407,8 +407,8 @@ Update the data on the server.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="265"
-                            class="link-to-prism">saved-queries/recent-queries.service.ts:265</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="268"
+                            class="link-to-prism">saved-queries/recent-queries.service.ts:268</a></div>
                 </td>
             </tr>
 
@@ -444,8 +444,8 @@ Update the data on the server.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="261"
-                            class="link-to-prism">saved-queries/recent-queries.service.ts:261</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="264"
+                            class="link-to-prism">saved-queries/recent-queries.service.ts:264</a></div>
                 </td>
             </tr>
 
@@ -585,8 +585,8 @@ Update the data on the server.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="250"
-                            class="link-to-prism">saved-queries/recent-queries.service.ts:250</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="253"
+                            class="link-to-prism">saved-queries/recent-queries.service.ts:253</a></div>
                 </td>
             </tr>
 
@@ -1087,7 +1087,10 @@ export class RecentQueriesService implements OnDestroy {
      * @returns an Observable which can be used to trigger further events
      */
     private patchRecentQueries(auditEvents?: AuditEvents) {
-        return this.userSettingsService.patch({recentQueries: this.recentqueries}, auditEvents)
+        // Do not forget to revert back the date conversion done when fetched
+        const recentQueries &#x3D; this.recentqueries.map(query &#x3D;&gt; ({...query, date: Utils.fromDate(query.date)}));
+        
+        return this.userSettingsService.patch({recentQueries}, auditEvents)
             .subscribe(
                 next &#x3D;&gt; {
                     this._events.next({type: RecentQueryEventType.Patched});

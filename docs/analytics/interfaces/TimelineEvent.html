@@ -436,7 +436,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     @Input() data?: TimelineSeries[];
     @Input() events?: TimelineEvent[];
 
-    @Input() selection?: [Date, Date];
+    @Input() selection?: [Date|undefined, Date|undefined];
 
     // Initial scale (prior to any zoom)
     @Input() minDate?: Date;
@@ -455,7 +455,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     @Input() showTooltip &#x3D; true;
     @Input() theme: &quot;light&quot; | &quot;dark&quot; &#x3D; &quot;light&quot;;
 
-    @Output() selectionChange &#x3D; new EventEmitter&lt;Date[]&gt;();
+    @Output() selectionChange &#x3D; new EventEmitter&lt;(Date|undefined)[]&gt;();
     @Output() rangeInit &#x3D; new EventEmitter&lt;Date[]&gt;();
     @Output() rangeChange &#x3D; new EventEmitter&lt;Date[]&gt;();
 
@@ -477,19 +477,19 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     brushBehavior: d3.BrushBehavior&lt;any&gt;; // Read only
     zoomBehavior: d3.ZoomBehavior&lt;any,any&gt;; // Read/Write
     brushSelection: [number, number] | null;
-    currentSelection?: Date[]; // Read/Write
+    currentSelection?: (Date|undefined)[]; // Read/Write
 
     // Elements
     @ViewChild(&quot;xAxis&quot;) gx: ElementRef;
     @ViewChild(&quot;yAxis&quot;) gy: ElementRef;
     @ViewChild(&quot;brush&quot;) gbrush: ElementRef;
-    
+
     // Selections
     xAxis$: d3.Selection&lt;SVGGElement, Date, null, undefined&gt;;
     yAxis$: d3.Selection&lt;SVGGElement, number, null, undefined&gt;;
     brush$: d3.Selection&lt;SVGGElement, undefined, null, undefined&gt;;
     grips$: d3.Selection&lt;SVGGElement, {type: string}, SVGGElement, undefined&gt;;
-        
+
     // Tooltip
     tooltipItem: TimelineEvent[] | undefined;
     tooltipX: number | undefined;
@@ -503,7 +503,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     intlSubscription: Subscription;
     static counter &#x3D; 0;
     instance: number;
-    
+
     zooming: boolean;
     brushing: boolean;
 
@@ -514,9 +514,9 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     ){
         // When the locale changes, we rebuild the X scale and axis
         this.intlSubscription &#x3D; this.intlService.events.subscribe(e &#x3D;&gt; this.updateXAxis());
-        
+
         this.instance &#x3D; BsTimelineComponent.counter++;
-        
+
     }
 
     get innerWidth(): number {
@@ -531,7 +531,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     ngOnChanges(changes: SimpleChanges) {
 
         if(!this.x) {
-            
+
             // Scales
             this.x &#x3D; d3.scaleUtc()
                 .range([0, this.innerWidth]);
@@ -539,19 +539,19 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
             this.y &#x3D; d3.scaleLinear()
                 .range([this.innerHeight, 0]);
-                
+
             // Shapes
             this.area &#x3D; d3.area&lt;TimelineDate&gt;()
                 .curve(d3[this.curveType])
                 .x(d &#x3D;&gt; this.xt(d.date)!)
                 .y0(this.y(0)!)
                 .y1(d &#x3D;&gt; this.y(d.value)!);
-                
+
             this.line &#x3D; d3.line&lt;TimelineDate&gt;()
                 .curve(d3[this.curveType])
                 .x(d &#x3D;&gt; this.xt(d.date)!)
                 .y(d &#x3D;&gt; this.y(d.value)!);
-                
+
             // Behaviors
             this.brushBehavior &#x3D; d3.brushX()
                 .extent([[0, 0], [this.innerWidth, this.innerHeight]])
@@ -587,7 +587,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
         // If the parent changes the selection, we want to update it
         // If not, we keep the current selection as is
-        // (Important to keep this statement outside of the if bellow since 
+        // (Important to keep this statement outside of the if bellow since
         // the change of selection can be combined with a change of data)
         const selectionChanged &#x3D; changes[&quot;selection&quot;] &amp;&amp; this.updateSelection();
 
@@ -597,7 +597,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             this.updateChart();
         }
 
-        // If the parent changes the selection (even though the data hasn&#x27;t changed), 
+        // If the parent changes the selection (even though the data hasn&#x27;t changed),
         // we want to update the brush.
         // If not, we keep the current selection as is.
         // We can update the brush only if the view is initialized (viewInit).
@@ -608,7 +608,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         if(changes[&quot;events&quot;]) {
             this.updateEvents();
         }
-        
+
     }
 
     // Note: In onAfterViewInit we can access gx, gy, etc., obtained with @ViewChild.
@@ -624,7 +624,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             .call(this.brushBehavior)
             .on(&quot;mousemove&quot;, () &#x3D;&gt; this.onMousemove())
             .on(&quot;mouseout&quot;, () &#x3D;&gt; this.onMouseout());
-                        
+
         // Add 2 &quot;grips&quot; to the brush goup, on each side of the rectangle
         // Grips are inserted programmatically to appear on top the brush selection
         this.grips$ &#x3D; this.brush$.selectAll&lt;SVGGElement, {type: string}&gt;(&quot;.grip&quot;)
@@ -633,7 +633,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             .append(&quot;g&quot;)
             .attr(&quot;class&quot;, &quot;grip&quot;)
             .attr(&quot;display&quot;, &quot;none&quot;);
-            
+
         this.grips$.append(&quot;path&quot;)
             .attr(&quot;d&quot;, this.drawGrips);
 
@@ -670,7 +670,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
             // Update Axes
             this.updateAxes();
-            
+
             // Update Zoom
             this.updateZoom();
 
@@ -678,13 +678,13 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             this.updateBrush();
 
         }
-        
+
     }
 
 
     /**
      * Update the x &amp; y scales, based on the input data
-     * @param data 
+     * @param data
      */
     protected updateScales(data: TimelineSeries[]) {
 
@@ -693,7 +693,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         const allPrimaryDates &#x3D; ([] as TimelineDate[]).concat(...primarySeries.map(s &#x3D;&gt; s.dates));
 
         const xExtent &#x3D; d3.extent&lt;TimelineDate, Date&gt;(allPrimaryDates, d &#x3D;&gt; d.date);
-        const yMax &#x3D; d3.max&lt;TimelineSeries, number&gt;(data, 
+        const yMax &#x3D; d3.max&lt;TimelineSeries, number&gt;(data,
             s &#x3D;&gt; d3.max&lt;TimelineDate, number&gt;(s.dates, d &#x3D;&gt; d.value));
 
         // Check validity of data
@@ -728,7 +728,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         this.x.domain(xExtent);
         this.xt &#x3D; this.x;
         this.y.domain([0, yMax*1.1]);
-        
+
         // Fire an initial rangeInit event so that the parent can initialize the currentRange property
         // The setTimeout prevents &quot;expressionChangedAfterCheck&quot; error (since the parent then updates the min/max dates)
         setTimeout(() &#x3D;&gt; this.rangeInit.next(this.xt.domain()));
@@ -754,7 +754,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Update/reset the zoom behavior when new data comes in (and new scales, axes...)
      */
     protected updateZoom() {
-        
+
         if(!this.zoomable) {
             return;
         }
@@ -765,7 +765,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             this.zoomBehavior.on(&quot;end&quot;, null);
             this.zoomBehavior.transform(this.brush$, d3.zoomIdentity);
         }
-        
+
         // Compute the minimum and maximum zoom
         const xDomain &#x3D; this.x.domain();
         const scaleExtent &#x3D; (xDomain[1].getTime() - xDomain[0].getTime()) / 86400000; // current number of days on the scale
@@ -776,7 +776,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             .scaleExtent([scaleExtent/this.maxZoomDays, scaleExtent/this.minZoomDays])
             .on(&quot;zoom&quot;, () &#x3D;&gt; this.onZoom())
             .on(&quot;end&quot;, () &#x3D;&gt; this.onZoomEnd());
-        
+
         // Apply on to the brush element
         this.brush$
             .call(this.zoomBehavior)
@@ -784,16 +784,19 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             .on(&quot;touchstart.zoom&quot;, null)
             .on(&quot;touchmove.zoom&quot;, null)
             .on(&quot;touchend.zoom&quot;, null);
-        
+
     }
 
     /**
      * Updates the brush (or hides it if no currentSelection),
      * following a change of x scale.
+     * Number.MIN_VALUE and Number.MAX_VALUE are used to support semi-open intervals
      */
     protected updateBrush() {
         if(this.currentSelection) {
-            const selection: [number, number] &#x3D; [this.xt(this.currentSelection[0])!, this.xt(this.currentSelection[1])!];
+            const x0 &#x3D; this.currentSelection[0] ? this.xt(this.currentSelection[0])! : Number.MIN_VALUE;
+            const x1 &#x3D; this.currentSelection[1] ? this.xt(this.currentSelection[1])! : Number.MAX_VALUE;
+            const selection: [number, number] &#x3D; [x0,x1];
             this.brush$.call(this.brushBehavior.move, selection);
         }
         else {
@@ -814,11 +817,11 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     /**
      * Recreate the x scale and axes (in the event of a language change)
      */
-    protected updateXAxis(){        
+    protected updateXAxis(){
         this.x &#x3D; d3.scaleUtc()
             .domain(this.x.domain())
             .range(this.x.range());
-        
+
         this.xt &#x3D; d3.scaleUtc()
             .domain(this.xt.domain())
             .range(this.xt.range());
@@ -850,10 +853,11 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         this.yAxis$.call(yAxis);
         this.yAxis$.selectAll(&quot;.domain&quot;).remove(); // Remove the axis line
     }
-    
+
     /**
      * Updates the display of the brush&#x27;s grips when the brush has moved
-     * @param selection 
+     * When the selection is a semi-open interval, we don&#x27;t display the infinite border
+     * @param selection
      */
     protected updateGrips(selection: [number, number] | null) {
         if (!selection) {
@@ -861,10 +865,15 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         }
         else {
             this.grips$
-                .attr(&quot;display&quot;, null)
-                .attr(&quot;transform&quot;, (d, i) &#x3D;&gt; &quot;translate(&quot; + selection[i] + &quot;)&quot;);
+                .attr(&quot;display&quot;, (d, i) &#x3D;&gt; (selection[i] &#x3D;&#x3D;&#x3D; Number.MAX_VALUE || selection[i] &#x3D;&#x3D;&#x3D; Number.MIN_VALUE) ? &quot;none&quot; : null)
+                .attr(&quot;transform&quot;, (d, i) &#x3D;&gt; (selection[i] &#x3D;&#x3D;&#x3D; Number.MAX_VALUE || selection[i] &#x3D;&#x3D;&#x3D; Number.MIN_VALUE) ? null : &quot;translate(&quot; + selection[i] + &quot;)&quot;);
             this.grips$.selectAll&lt;SVGTextElement, {type:string}&gt;(&#x27;.grip-text&#x27;)
-                .text(d &#x3D;&gt; this.intlService.formatDate(this.xt.invert(selection[d.type &#x3D;&#x3D;&#x3D; &#x27;w&#x27;? 0 : 1])));
+                .text(
+                    (d) &#x3D;&gt; {
+                        const index &#x3D; d.type &#x3D;&#x3D;&#x3D; &#x27;w&#x27;? 0 : 1;
+                        return (selection[index] &#x3D;&#x3D;&#x3D; Number.MAX_VALUE || selection[index] &#x3D;&#x3D;&#x3D; Number.MIN_VALUE) ? null : this.intlService.formatDate(this.xt.invert(selection[index]))
+                    }
+                );
         }
     }
 
@@ -880,12 +889,14 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     onBrushEnd(){
         this.brushing &#x3D; false;
         this.onBrush();
-        const newSelection &#x3D; this.brushSelection?.sort((a,b)&#x3D;&gt;a-b).map(this.xt.invert);
+        const newSelection &#x3D; this.brushSelection
+            ?.sort((a,b)&#x3D;&gt;a-b)
+            .map(x &#x3D;&gt; (x &#x3D;&#x3D;&#x3D; Number.MAX_VALUE || x &#x3D;&#x3D;&#x3D; Number.MIN_VALUE) ? undefined : this.xt.invert(x));
         if(this.checkSelectionChange(this.currentSelection, newSelection)) {
             this.currentSelection &#x3D; newSelection;
             this.selectionChange.next(this.currentSelection);
         }
-    }    
+    }
 
     onZoom(){
 
@@ -899,10 +910,12 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
         // Redraw the axis
         this.drawXAxis();
-            
+
         // Update the brush position
         if(this.currentSelection){
-            const selection: [number, number] &#x3D; [this.xt(this.currentSelection[0])!, this.xt(this.currentSelection[1])!];
+            const x0 &#x3D; this.currentSelection[0] ? this.xt(this.currentSelection[0])! : Number.MIN_VALUE;
+            const x1 &#x3D; this.currentSelection[1] ? this.xt(this.currentSelection[1])! : Number.MAX_VALUE;
+            const selection: [number, number] &#x3D; [x0,x1];
             this.brushBehavior.move(this.brush$, selection);
         }
 
@@ -938,7 +951,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
     /**
      * Responds to a click on an event (triangle) by essentially turning tooltip on/off
-     * @param event 
+     * @param event
      */
     onEventClick(event: TimelineEvent[]) {
 
@@ -997,7 +1010,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Transforms the input list of events into a list of list, by grouping events within a bin
      * when their dates are close together. This closeness is measured in &quot;pixel per event&quot;.
      * Note: this currently uses a histogram-like algorithm, which could probably be improved (clustering?)
-     * @param pixPerEvent 
+     * @param pixPerEvent
      */
     protected groupEvents(pixPerEvent: number): TimelineEvent[][] {
         const events: TimelineEvent[][] &#x3D; [];
@@ -1032,12 +1045,12 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     /**
      * Return true if there are actual changes in the data
      * (in particular will ignore data refresh which change nothing)
-     * @param change 
+     * @param change
      */
     protected checkDataChanges(change: SimpleChange): boolean {
         const previousValue &#x3D; change.previousValue as TimelineSeries[] | undefined;
         const currentValue &#x3D; change.currentValue as TimelineSeries[] | undefined;
-        
+
         // Ignore null/undefined difference cause by | async
         // See: https://github.com/angular/angular/issues/16982
         if(currentValue &#x3D;&#x3D;&#x3D; null &amp;&amp; previousValue &#x3D;&#x3D;&#x3D; undefined || currentValue &#x3D;&#x3D;&#x3D; undefined &amp;&amp; previousValue &#x3D;&#x3D;&#x3D; null)
@@ -1046,14 +1059,14 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
         // Else, if one of them is null/undefined (or difference in length), there&#x27;s clearly a change
         if(!previousValue || !currentValue || previousValue.length !&#x3D;&#x3D; currentValue.length)
             return true;
-        
+
         // If both defined and same size, we need to compare the data piece by piece
         for(let i&#x3D;0; i&lt;currentValue.length; i++) {
 
             const previousSeries &#x3D; previousValue[i];
             const currentSeries &#x3D; currentValue[i];
-            if(previousSeries.name !&#x3D;&#x3D; currentSeries.name 
-                || previousSeries.primary !&#x3D;&#x3D; currentSeries.primary 
+            if(previousSeries.name !&#x3D;&#x3D; currentSeries.name
+                || previousSeries.primary !&#x3D;&#x3D; currentSeries.primary
                 || previousSeries.areaStyles !&#x3D;&#x3D; currentSeries.areaStyles
                 || previousSeries.lineStyles !&#x3D;&#x3D; currentSeries.lineStyles
                 || previousSeries.dates.length !&#x3D;&#x3D; currentSeries.dates.length) {
@@ -1063,26 +1076,25 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
                 if(previousSeries.dates[j].value !&#x3D;&#x3D; currentSeries.dates[j].value
                     || previousSeries.dates[j].date.getTime() !&#x3D;&#x3D; currentSeries.dates[j].date.getTime()){
                     return true;
-                }                
+                }
             }
         }
-        
+
         return false;
     }
 
     /**
      * Compare the date selections with a second of tolerance (to handle interpolation errors)
-     * @param selection1 
-     * @param selection2 
+     * @param selection1
+     * @param selection2
      */
-    protected checkSelectionChange(selection1: Date[] | undefined, selection2: Date[] | undefined): boolean {
+    protected checkSelectionChange(selection1: (Date|undefined)[] | undefined, selection2: (Date|undefined)[] | undefined): boolean {
         return !selection1 &amp;&amp; !!selection2 ||
-              !!selection1 &amp;&amp; !selection2 ||
-              !!selection1 &amp;&amp; !!selection2 &amp;&amp; 
-                (Math.floor((selection1[0].getTime() - selection2[0].getTime())/1000) !&#x3D;&#x3D; 0 ||
-                 Math.floor((selection1[1].getTime() - selection2[1].getTime())/1000) !&#x3D;&#x3D; 0);
+                !!selection1 &amp;&amp; !selection2 ||
+                !!selection1 &amp;&amp; !!selection2 &amp;&amp; (Math.floor(((selection1[0]?.getTime()||0) - (selection2[0]?.getTime()||0))/1000) !&#x3D;&#x3D; 0 ||
+                Math.floor(((selection1[1]?.getTime()||0) - (selection2[1]?.getTime()||0))/1000) !&#x3D;&#x3D; 0);
     }
-    
+
     /**
      * Returns a string containing the path coordinates of a &quot;grip&quot; to draw on each side of
      * the brush object
@@ -1107,7 +1119,7 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
     /**
      * Returns the size of the triangle drawn for one event (or a group of events)
-     * @param events 
+     * @param events
      */
     eventSize(events: TimelineEvent[]): number {
         if(events!&#x3D;&#x3D;this.tooltipItem) {
@@ -1120,8 +1132,8 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
 
     /**
      * Return a string containing the path coordinates of a triangle for a given event (or group of events)
-     * @param events 
-     * @param size 
+     * @param events
+     * @param size
      */
     drawEvents(events: TimelineEvent[], size: number): string {
         const x &#x3D; this.xt(events[0].date);
@@ -1129,7 +1141,8 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
             &#x27; l &#x27; + -size + &#x27; &#x27; + (3*size/2) +
             &#x27; l &#x27; + (2*size) + &#x27; &#x27; + 0 + &#x27; z &#x27;;
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
 

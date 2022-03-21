@@ -567,7 +567,7 @@ export class BsPreviewMinimapComponent {
   constructor(@Inject(DOCUMENT) document: Document) {}
 
   private extractAll() {
-    if(this._extracts &amp;&amp; this._previewDocument) {
+    if(this._extracts?.length &gt; 0 &amp;&amp; this._previewDocument) {
       const max &#x3D; this.previewDocument.document.body.scrollHeight || 1;
 
       // Init the extracts Array and storing the relevancy index &#x3D; i because extractsLocations is already ordered by relevance
