@@ -2,6 +2,7 @@ export default {
     "heatmap": {
         "name": "Heatmap",
         "nodata": "No data to display",
+        "loading": "Loading",
         "maxX": "Max items on X axis",
         "maxY": "Max items on Y axis",
         "rescale": "Re-scale axes",

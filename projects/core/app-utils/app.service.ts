@@ -633,16 +633,16 @@ export class AppService implements OnDestroy {
     /**
      * Get the {@link CCColumn} with the passed name. Aliases are resolved
      */
-    getColumn(name: string | null | undefined): CCColumn | undefined {
+    getColumn(name: string | null | undefined, ccquery = this.ccquery): CCColumn | undefined {
         if (!name) {
             return undefined;
         }
-        if (!this.ccquery) {
+        if (!ccquery) {
             return undefined;
         }
         // First, CCQuery specific aliases
         let column: CCColumn;
-        let columnAliases = this.columnsByQuery[Utils.toLowerCase(this.ccquery.name)];
+        let columnAliases = this.columnsByQuery[Utils.toLowerCase(ccquery.name)];
         if (columnAliases) {
             column = columnAliases[Utils.toLowerCase(name)];
             if (column) {
@@ -650,7 +650,7 @@ export class AppService implements OnDestroy {
             }
         }
         // Second, aliases by index
-        const indexes = Utils.split(this.ccquery.searchIndexes, [","]);
+        const indexes = Utils.split(ccquery.searchIndexes, [","]);
         const firstIndex = indexes.length === 0 ? undefined : this.getIndex(indexes[0]);
         if (indexes.length === 0 || (!!firstIndex && this.indexIsNormal(firstIndex))) {
             columnAliases = this.columnsByIndex._;
