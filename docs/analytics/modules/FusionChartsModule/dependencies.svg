@@ -14,13 +14,13 @@
 <title>cluster_FusionChartsModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 158,-230.8 158,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_FusionChartsModule_exports</title>
-<polygon fill="none" stroke="black" points="31,-170.8 31,-222.8 135,-222.8 135,-170.8 31,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_FusionChartsModule_declarations</title>
 <polygon fill="none" stroke="black" points="32,-40.8 32,-92.8 134,-92.8 134,-40.8 32,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_FusionChartsModule_exports</title>
+<polygon fill="none" stroke="black" points="31,-170.8 31,-222.8 135,-222.8 135,-170.8 31,-170.8"/>
 </g>
 <!-- FusionChart -->
 <g id="node1" class="node">

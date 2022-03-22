@@ -246,6 +246,8 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     @Input() theme: &quot;ag-theme-balham&quot; | &quot;ag-theme-alpine&quot; | &quot;ag-theme-balham-dark&quot; | &quot;ag-theme-alpine-dark&quot; &#x3D; &quot;ag-theme-alpine&quot;;
     /** Default column grid (possibly overriden by column definitions) */
     @Input() defaultColumnWidth &#x3D; 200;
+    /** Configure scrolling functionality */
+    @Input() rowModelType: string &#x3D; &#x27;infinite&#x27;;
 
     /** Default column definition */
     @Input()
@@ -275,6 +277,9 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
     gridActions: Action[];
     /** Action button allowing to toggle each column&#x27;s visibility */
     columnsAction: Action;
+
+    /** If rowModelType is &#x27;clientSide&#x27;, set rowData directly */
+    rowData: Record[] &#x3D; [];
 
     /** List of subscriptions to clean up on destroy */
     subscriptions: Subscription[] &#x3D; [];
@@ -349,7 +354,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             col.tooltipValueGetter &#x3D; col.tooltipValueGetter || this.tooltipValueGetter;
             col.headerName &#x3D; col.headerName || (col.$column?.label? this.intlService.formatMessage(col.$column?.label) : col.field);
             col.headerTooltip &#x3D; col.headerTooltip || col.headerName;
-            col.cellRenderer &#x3D; col.cellRenderer || this.renderCell;
+            col.cellRenderer &#x3D; col.cellRendererFramework ? undefined : col.cellRenderer || this.renderCell;
             col.sortable &#x3D; col.sortable || this.appService.isSortable(col.field);
             const hidePref &#x3D; this.prefs.get(&quot;ag-grid-hide-&quot;+col.field);
             col.hide &#x3D; hidePref &#x3D;&#x3D;&#x3D; undefined? col.hide : hidePref;
@@ -404,7 +409,7 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
      * Create the rows&#x27; datasource
      */
     createRows() {
-        if(this.gridApi &amp;&amp; this.gridColumnApi) {
+        if(this.gridApi &amp;&amp; this.gridColumnApi &amp;&amp; this.rowModelType &#x3D;&#x3D;&#x3D; &#x27;infinite&#x27;) {
             // Create a new datasource
             this.datasource &#x3D; this.makeDatasource();
             // Apply to the grid
@@ -412,6 +417,8 @@ export class AgGridViewComponent implements OnInit, OnChanges, OnDestroy {
             // The query that yielded this data may have active filters &amp; sort: we want the grid to reflect this
             this.updateFilterState(this.query || this.searchService.query);
             this.updateSortState(this.query || this.searchService.query);
+        } else if (this.rowModelType &#x3D;&#x3D;&#x3D; &#x27;clientSide&#x27;) {
+            this.rowData &#x3D; this.results?.records || [];
         }
     }
 

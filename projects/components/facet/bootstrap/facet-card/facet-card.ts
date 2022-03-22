@@ -119,9 +119,9 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
         return !!this.facetComponent?.isHidden?.()
     }
 
-    private readonly collapseAction;
-    private readonly expandAction;
-    private readonly settingsAction;
+    public readonly collapseAction;
+    public readonly expandAction;
+    public readonly settingsAction;
 
     private actionChangedSubscription: Subscription;
 

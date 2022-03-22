@@ -164,7 +164,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">action/bootstrap/dropdown.directive.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">action/bootstrap/dropdown.directive.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -240,8 +240,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:67</a></div>
                 </td>
             </tr>
 
@@ -281,8 +281,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:67</a></div>
                 </td>
             </tr>
 
@@ -350,8 +350,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:55</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:56</a></div>
                 </td>
             </tr>
 
@@ -387,8 +387,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:62</a></div>
                 </td>
             </tr>
 
@@ -424,8 +424,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:45</a></div>
                 </td>
             </tr>
 
@@ -461,8 +461,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="150"
-                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:150</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="152"
+                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:152</a></div>
                 </td>
             </tr>
 
@@ -532,7 +532,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">action/bootstrap/dropdown.directive.ts:37</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">action/bootstrap/dropdown.directive.ts:38</a></div>
                                 </td>
                             </tr>
 
@@ -546,7 +546,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Directive, OnInit, OnDestroy, AfterViewInit, ElementRef, HostListener} from &quot;@angular/core&quot;;
 import {Subscription} from &#x27;rxjs&#x27;;
-import Popper from &#x27;popper.js&#x27;;
+import {createPopper} from &#x27;@popperjs/core&#x27;;
 import {Keys} from &quot;@sinequa/core/base&quot;;
 import {BsDropdownService, gClassName, gSelector, gAttachmentMap} from &#x27;./dropdown.service&#x27;;
 
@@ -555,12 +555,13 @@ import {BsDropdownService, gClassName, gSelector, gAttachmentMap} from &#x27;./d
 function noop() {}
 
 const gConfig &#x3D; {
-    offset       : 0,
+    offset       : [0,2],
     flip         : true,
-    boundary     : &#x27;scrollParent&#x27;,
+    boundary     : &#x27;clippingParents&#x27;,
     reference    : &#x27;toggle&#x27;,
     display      : &#x27;dynamic&#x27;,
-    popperConfig : null
+    popperConfig: null,
+    autoClose: true
 };
 
 @Directive({
@@ -633,7 +634,8 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
         const isActive &#x3D; this.dropdownMenu &amp;&amp; this.dropdownMenu.classList.contains(gClassName.SHOW);
 
         this.dropdownService.raiseClear();
-
+        // send dropdown&#x27;s active state to the service
+        this.dropdownService.raiseActive(!isActive);
         if (isActive) {
             return;
         }
@@ -663,31 +665,31 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
         return placement;
     }
 
-    private getOffset() {
-        return {
-            offset: gConfig.offset
-        };
-    }
-
     private getPopperConfig() {
         const popperConfig: any &#x3D; {
             placement: this.getPlacement(),
-            modifiers: {
-                offset: this.getOffset(),
-                flip: {
-                    enabled: gConfig.flip
+            modifiers: [
+                {
+                    name: &#x27;preventOverflow&#x27;,
+                    options: {
+                        boundary: document.querySelector(gConfig.boundary)
+                    }
                 },
-                preventOverflow: {
-                    boundariesElement: gConfig.boundary
+                {
+                    name: &#x27;offset&#x27;,
+                    options: {
+                        offset: gConfig.offset
+                    }
                 }
-            }
+            ]
         };
 
         // Disable Popper.js if we have a static display
         if (gConfig.display &#x3D;&#x3D;&#x3D; &#x27;static&#x27;) {
-            popperConfig.modifiers.applyStyle &#x3D; {
+            popperConfig.modifiers.push({
+                name: &#x27;applyStyle&#x27;,
                 enabled: false
-            };
+            });
         }
 
         return popperConfig;
@@ -706,15 +708,7 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
         const parent &#x3D; this.dropdown;
 
         // Disable totally Popper.js for Dropdown in Navbar
-        if (!this.inNavbar &amp;&amp; usePopper) {
-            /**
-             * Check for Popper dependency
-             * Popper - https://popper.js.org
-             */
-            if (typeof Popper &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
-                throw new TypeError(&#x27;Bootstrap\&#x27;s dropdowns require Popper.js (https://popper.js.org/)&#x27;);
-            }
-
+        if (!this.inNavbar || usePopper) {
             let referenceElement &#x3D; this.dropdownToggle;
 
             if (gConfig.reference &#x3D;&#x3D;&#x3D; &#x27;parent&#x27;) {
@@ -724,10 +718,10 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
             // If boundary is not &#x60;scrollParent&#x60;, then set position to &#x60;static&#x60;
             // to allow the menu to &quot;escape&quot; the scroll parent&#x27;s boundaries
             // https://github.com/twbs/bootstrap/issues/24251
-            if (gConfig.boundary !&#x3D;&#x3D; &#x27;scrollParent&#x27;) {
+            if (gConfig.boundary !&#x3D;&#x3D; &#x27;clippingParents&#x27;) {
                 parent.classList.add(gClassName.POSITION_STATIC);
             }
-            this.popper &#x3D; new Popper(referenceElement, this.dropdownMenu, this.getPopperConfig());
+            this.popper &#x3D; createPopper(referenceElement, this.dropdownMenu, this.getPopperConfig());
         }
 
         // If this is a touch-enabled device we add extra

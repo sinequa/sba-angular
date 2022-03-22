@@ -52,6 +52,9 @@
             <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
         </li>
         <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
             <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
         </li>
 </ul>
@@ -90,6 +93,15 @@
             </tr>
 
 
+            <tr>
+                <td class="col-md-3">styles</td>
+                <td class="col-md-9"><code>
+    :host-context(.dark)
+        button.btn-light {
+            filter: invert(0.76);
+        }
+    </code></td>
+            </tr>
 
 
             <tr>
@@ -189,7 +201,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">action/bootstrap/action-buttons/action-buttons.ts:22</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">action/bootstrap/action-buttons/action-buttons.ts:28</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -223,8 +235,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">action/bootstrap/action-buttons/action-buttons.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">action/bootstrap/action-buttons/action-buttons.ts:48</a></div>
                 </td>
             </tr>
 
@@ -292,8 +304,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="46"
-                            class="link-to-prism">action/bootstrap/action-buttons/action-buttons.ts:46</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">action/bootstrap/action-buttons/action-buttons.ts:52</a></div>
                 </td>
             </tr>
 
@@ -375,7 +387,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">action/bootstrap/action-buttons/action-buttons.ts:25</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">action/bootstrap/action-buttons/action-buttons.ts:31</a></div>
                                 </td>
                             </tr>
 
@@ -386,7 +398,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">action/bootstrap/action-buttons/action-buttons.ts:22</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">action/bootstrap/action-buttons/action-buttons.ts:28</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -444,7 +456,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">action/bootstrap/action-buttons/action-buttons.ts:29</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">action/bootstrap/action-buttons/action-buttons.ts:35</a></div>
                                 </td>
                             </tr>
 
@@ -466,7 +478,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">action/bootstrap/action-buttons/action-buttons.ts:33</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">action/bootstrap/action-buttons/action-buttons.ts:39</a></div>
                                 </td>
                             </tr>
 
@@ -488,7 +500,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">action/bootstrap/action-buttons/action-buttons.ts:37</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">action/bootstrap/action-buttons/action-buttons.ts:43</a></div>
                                 </td>
                             </tr>
 
@@ -514,7 +526,13 @@ export interface ActionButtonsOptions {
 
 @Component({
     selector: &quot;[sq-action-buttons]&quot;,
-    templateUrl: &quot;./action-buttons.html&quot;
+    templateUrl: &quot;./action-buttons.html&quot;,
+    styles: [&#x60;
+    :host-context(.dark)
+        button.btn-light {
+            filter: invert(0.76);
+        }
+    &#x60;]
 })
 export class BsActionButtons {
     private _options: ActionButtonsOptions;
@@ -559,12 +577,29 @@ export class BsActionButtons {
         <pre class="line-numbers"><code class="language-html">&lt;ng-container *ngFor&#x3D;&quot;let item of itemsVisible&quot;&gt;
     &lt;a *ngIf&#x3D;&quot;item.href&quot; class&#x3D;&quot;btn-text&quot; [attr.href]&#x3D;&quot;!item.disabled ? item.href : null&quot; (click)&#x3D;&quot;itemClick(item, $event)&quot; [sq-action-item]&#x3D;&quot;getActionItemOptions(item)&quot;&gt;&lt;/a&gt;
     &lt;ng-container *ngIf&#x3D;&quot;!item.href&quot;&gt;
-        &lt;div *ngIf&#x3D;&quot;item.hasChildren&quot; class&#x3D;&quot;btn-group dropdown&quot; [sq-action-item]&#x3D;&quot;getActionItemOptions(item)&quot;&gt;&lt;/div&gt;
-        &lt;button *ngIf&#x3D;&quot;!item.hasChildren&quot; type&#x3D;&quot;button&quot; class&#x3D;&quot;btn {{styleClass}} {{sizeClass}} {{item.selected ? &#x27;active&#x27; : &#x27;&#x27;}} {{item.disabled ? &#x27;disabled&#x27; : &#x27;&#x27;}}&quot; [sq-action-item]&#x3D;&quot;getActionItemOptions(item)&quot; (click)&#x3D;&quot;itemClick(item, $event)&quot; sqTooltip&#x3D;&quot;{{item.title | sqMessage:item.messageParams}}&quot; placement&#x3D;&quot;{{item?.titlePlacement}}&quot; [attr.aria-label]&#x3D;&quot;item.title | sqMessage:item.messageParams&quot;&gt;&lt;/button&gt;
+        &lt;div *ngIf&#x3D;&quot;item.hasChildren&quot; class&#x3D;&quot;btn-group&quot; [sq-action-item]&#x3D;&quot;getActionItemOptions(item)&quot;&gt;&lt;/div&gt;
+        &lt;button *ngIf&#x3D;&quot;!item.hasChildren&quot; 
+            type&#x3D;&quot;button&quot; 
+            class&#x3D;&quot;btn {{styleClass}} {{sizeClass}}&quot;
+            [ngClass]&#x3D;&quot;{&#x27;active&#x27;: item.selected, &#x27;disabled&#x27;: item.disabled}&quot;
+            [sq-action-item]&#x3D;&quot;getActionItemOptions(item)&quot;
+            (click)&#x3D;&quot;itemClick(item, $event)&quot;
+            sqTooltip&#x3D;&quot;{{item.title | sqMessage:item.messageParams}}&quot; 
+            placement&#x3D;&quot;{{item?.titlePlacement}}&quot;
+            [attr.aria-label]&#x3D;&quot;item.title | sqMessage:item.messageParams&quot;&gt;&lt;/button&gt;
     &lt;/ng-container&gt;
 &lt;/ng-container&gt;</code></pre>
     </div>
 
+    <div class="tab-pane fade " id="c-styleData">
+            <pre class="line-numbers"><code class="language-scss">
+    :host-context(.dark)
+        button.btn-light {
+            filter: invert(0.76);
+        }
+    
+</code></pre>
+    </div>
 
     <div class="tab-pane fade " id="c-tree">
         <div id="tree-container"></div>
@@ -591,7 +626,7 @@ export class BsActionButtons {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><ng-container *ngFor="let item of itemsVisible">    <a *ngIf="item.href" class="btn-text" [attr.href]="!item.disabled ? item.href : null" (click)="itemClick(item, $event)" [sq-action-item]="getActionItemOptions(item)"></a>    <ng-container *ngIf="!item.href">        <div *ngIf="item.hasChildren" class="btn-group dropdown" [sq-action-item]="getActionItemOptions(item)"></div>        <button *ngIf="!item.hasChildren" type="button" class="btn {{styleClass}} {{sizeClass}} {{item.selected ? \'active\' : \'\'}} {{item.disabled ? \'disabled\' : \'\'}}" [sq-action-item]="getActionItemOptions(item)" (click)="itemClick(item, $event)" sqTooltip="{{item.title | sqMessage:item.messageParams}}" placement="{{item?.titlePlacement}}" [attr.aria-label]="item.title | sqMessage:item.messageParams"></button>    </ng-container></ng-container></div>'
+        var COMPONENT_TEMPLATE = '<div><ng-container *ngFor="let item of itemsVisible">    <a *ngIf="item.href" class="btn-text" [attr.href]="!item.disabled ? item.href : null" (click)="itemClick(item, $event)" [sq-action-item]="getActionItemOptions(item)"></a>    <ng-container *ngIf="!item.href">        <div *ngIf="item.hasChildren" class="btn-group" [sq-action-item]="getActionItemOptions(item)"></div>        <button *ngIf="!item.hasChildren"             type="button"             class="btn {{styleClass}} {{sizeClass}}"            [ngClass]="{\'active\': item.selected, \'disabled\': item.disabled}"            [sq-action-item]="getActionItemOptions(item)"            (click)="itemClick(item, $event)"            sqTooltip="{{item.title | sqMessage:item.messageParams}}"             placement="{{item?.titlePlacement}}"            [attr.aria-label]="item.title | sqMessage:item.messageParams"></button>    </ng-container></ng-container></div>'
     var COMPONENTS = [{'name': 'AbstractFacet', 'selector': ''},{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAddLabel', 'selector': 'sq-add-label'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormInput', 'selector': 'sq-advanced-form-input'},{'name': 'BsAdvancedFormMultiInput', 'selector': 'sq-advanced-form-multi-input'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertMessageComponent', 'selector': 'sq-alert-message'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDeleteLabel', 'selector': 'sq-delete-label'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditLabel', 'selector': 'sq-edit-label'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetFilters', 'selector': 'sq-facet-filters'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTagCloud', 'selector': 'sq-facet-tag-cloud'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFieldSearchItemsComponent', 'selector': 'sq-field-search-items'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsAutocompleteComponent', 'selector': 'sq-labels-autocomplete'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLoadMore', 'selector': 'sq-load-more'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMySearch', 'selector': 'sq-facet-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewMinimapComponent', 'selector': 'sq-preview-minimap'},{'name': 'BsPreviewPageFormComponent', 'selector': 'sq-preview-page-form'},{'name': 'BsPreviewPagesPanelComponent', 'selector': 'sq-preview-pages-panel'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsPrompt', 'selector': 'sq-prompt'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsScroller', 'selector': 'sq-scroller'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSelectionArranger', 'selector': 'sq-selection-arranger'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsThemeToggleComponent', 'selector': 'sq-theme-toggle'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'CommentsComponent', 'selector': 'sq-comments'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SlideBuilderComponent', 'selector': 'sq-slide-builder'},{'name': 'SlideListComponent', 'selector': 'sq-slide-list'},{'name': 'SlideTileComponent', 'selector': 'sq-slide-tile'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'StickyComponent', 'selector': '[sqSticky]'},{'name': 'TooltipComponent', 'selector': 'sqx-tooltip'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
     var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'AutocompleteFieldSearch', 'selector': '[sqAutocompleteFieldSearch]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sqAdvancedFormAutocomplete]'},{'name': 'BsAdvancedFormAutocompleteMultiInput', 'selector': '[sqAdvancedFormAutocompleteMultiInput]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sqAdvancedFormValidation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'FocusKeyListDirective', 'selector': '[sqFocusKeyList]'},{'name': 'FocusKeyListItemDirective', 'selector': '[sqFocusKeyListItem]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'ResizeEventDirective', 'selector': '[sqResize]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'},{'name': 'TooltipDirective', 'selector': '[sqTooltip]'}];
     var ACTUAL_COMPONENT = {'name': 'BsActionButtons'};

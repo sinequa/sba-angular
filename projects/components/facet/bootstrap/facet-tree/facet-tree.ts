@@ -50,8 +50,8 @@ export class BsFacetTree extends AbstractFacet implements OnChanges, OnDestroy {
     private readonly subscriptions: Subscription[] = [];
 
     // Sets to keep track of selected/excluded/filtered items
-    private readonly filtered = new Set<AggregationItem>();
-
+    readonly filtered = new Set<AggregationItem>();
+    
     readonly selected = new Map<string,TreeAggregationNode>();
 
     hiddenSelected: TreeAggregationNode[] = [];

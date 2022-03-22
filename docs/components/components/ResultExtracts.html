@@ -707,8 +707,8 @@ export class ResultExtracts implements OnChanges {
         else {
             if (this.showLongExtracts &amp;&amp; this.record.extracts) {
                 this.longExtracts &#x3D; this.record.extracts
-                    .filter((extract,i) &#x3D;&gt; (!this.maxLongExtracts || i &lt; this.maxLongExtracts) &amp;&amp; !!extract.value) // Note: keep only extracts with 11.7 format - older format not supported
-                    .map(extract &#x3D;&gt; extract.value.replace(/\{b\}/g, &quot;&lt;strong&gt;&quot;).replace(/\{nb\}/g, &quot;&lt;/strong&gt;&quot;));
+                    .filter((extract,i) &#x3D;&gt; (!this.maxLongExtracts || i &lt; this.maxLongExtracts) &amp;&amp; !!extract.highlighted) // Note: keep only extracts with 11.7 format - older format not supported
+                    .map(extract &#x3D;&gt; extract.highlighted.replace(/\{b\}/g, &quot;&lt;strong&gt;&quot;).replace(/\{nb\}/g, &quot;&lt;/strong&gt;&quot;));
                 this.extractsClass &#x3D; &quot;sq-long-extracts&quot;;
             }
             else if (this.record.relevantExtracts) {

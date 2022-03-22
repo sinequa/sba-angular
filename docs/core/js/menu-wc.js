@@ -52,23 +52,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         <ul class="links collapse " ${ isNormalMode ? 'id="modules-links"' : 'id="xs-modules-links"' }>
                             <li class="link">
                                 <a href="modules/AppUtilsModule.html" data-type="entity-link" >AppUtilsModule</a>
-                                <li class="chapter inner">
-                                    <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                        'data-target="#injectables-links-module-AppUtilsModule-5e3ddace33c59a0bf73948ab0e32378133a02fb883829d37c730fce16c93d8ad0d3f79a6947d016282945b2ec86c896ddfd6bfa1e8761f7a30753bb93c7650a0"' : 'data-target="#xs-injectables-links-module-AppUtilsModule-5e3ddace33c59a0bf73948ab0e32378133a02fb883829d37c730fce16c93d8ad0d3f79a6947d016282945b2ec86c896ddfd6bfa1e8761f7a30753bb93c7650a0"' }>
-                                        <span class="icon ion-md-arrow-round-down"></span>
-                                        <span>Injectables</span>
-                                        <span class="icon ion-ios-arrow-down"></span>
-                                    </div>
-                                    <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-AppUtilsModule-5e3ddace33c59a0bf73948ab0e32378133a02fb883829d37c730fce16c93d8ad0d3f79a6947d016282945b2ec86c896ddfd6bfa1e8761f7a30753bb93c7650a0"' :
-                                        'id="xs-injectables-links-module-AppUtilsModule-5e3ddace33c59a0bf73948ab0e32378133a02fb883829d37c730fce16c93d8ad0d3f79a6947d016282945b2ec86c896ddfd6bfa1e8761f7a30753bb93c7650a0"' }>
-                                        <li class="link">
-                                            <a href="injectables/AppService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AppService</a>
-                                        </li>
-                                        <li class="link">
-                                            <a href="injectables/FormatService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >FormatService</a>
-                                        </li>
-                                    </ul>
-                                </li>
                             </li>
                             <li class="link">
                                 <a href="modules/BaseModule.html" data-type="entity-link" >BaseModule</a>

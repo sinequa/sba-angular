@@ -774,7 +774,7 @@ export class SuggestService {
         }
 
         // Format HTML display
-        let html &#x3D; text;
+        let html &#x3D; Utils.escapeHtml(text);
         for(let j&#x3D;matches.length-1; j&gt;&#x3D;0; j--) { // decreasing order so the indices remain valid
             i &#x3D; matches[j];
             html &#x3D; html.slice(0, i).concat(&quot;&lt;strong&gt;&quot;, html.slice(i, i+query.length), &quot;&lt;/strong&gt;&quot;, html.slice(i+query.length));

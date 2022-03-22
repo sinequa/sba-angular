@@ -75,7 +75,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
     /**
      * Build filters bar actions
      */
-    private buildFilters() {
+    protected buildFilters() {
 
         // For each facet
         this.filters = this.filteredFacets.map((facet: FacetConfig) => {
@@ -113,7 +113,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
      *
      * @returns true if filters are sets otherwise false
      */
-    private hasFiltered(facetName): boolean {
+    protected hasFiltered(facetName): boolean {
         return this.facetService.hasFiltered(facetName);
     }
 
@@ -123,11 +123,11 @@ export class BsFacetFilters implements OnInit, OnChanges {
      *
      * @returns true if facet contains at least one item otherwise false
      */
-    private hasData(facet: FacetConfig): boolean {
+    protected hasData(facet: FacetConfig): boolean {
         return this.facetService.hasData(facet.parameters?.aggregation, this.results);
     }
 
-    private addFacetMenu() {
+    protected addFacetMenu() {
         const outFacets: Action[] = [];
 
         outFacets.push(new Action({

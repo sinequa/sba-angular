@@ -1764,8 +1764,14 @@ export class ExprBuilder {
         if(!Utils.isArray(items)) {
             items &#x3D; [items];
         }
-        if(aggregation.valuesAreExpressions) {
-            const exprs &#x3D; items.map(i &#x3D;&gt; i.value.toString()); // .toString() is to avoid typing issues. With valuesAreExpressions &#x3D; true, item.value is expected to be a string
+        if (aggregation.valuesAreExpressions) {
+            const exprs &#x3D; items
+                .map(i &#x3D;&gt; {
+                    // null value must be converted into field expression
+                    if (i.value &#x3D;&#x3D;&#x3D; null) return this.makeFieldExpr(aggregation.column, i, combineWithAnd);
+                    // .toString() is to avoid typing issues. With valuesAreExpressions &#x3D; true, item.value is expected to be a string
+                    return i.value.toString()
+                }); 
             return combineWithAnd? this.concatAndExpr(exprs) : this.concatOrExpr(exprs);
         }
         else {
