@@ -241,6 +241,8 @@ export class LoginService implements OnDestroy {
         Utils.subscribe(observable,
             (result) => {
                 console.log("loginService.login ok: ", result);
+                // send an audit event about login success
+                this.authenticationService.login();
                 this.setComplete();
                 if (appNeeded) {
                     this._events.next({type: "session-start"});
