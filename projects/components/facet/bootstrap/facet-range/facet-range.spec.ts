@@ -1,7 +1,7 @@
 import {CommonModule} from '@angular/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {Router} from '@angular/router';
-import {Ng5SliderModule} from 'ng5-slider';
+import {NgxSliderModule} from '@angular-slider/ngx-slider';
 
 import {IntlModule} from '@sinequa/core/intl';
 import {EngineType, EngineTypeModifier, Results, START_CONFIG} from '@sinequa/core/web-services';
@@ -28,7 +28,7 @@ describe('BsFacetRange', () => {
         CommonModule,
         IntlModule.forRoot(AppLocalesConfig),
         BsFacetModule.forRoot(),
-        Ng5SliderModule
+        NgxSliderModule
       ],
       providers: [
         AppService,

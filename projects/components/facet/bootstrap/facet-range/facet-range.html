@@ -1,13 +1,13 @@
 <ng-container *ngIf="data">
     <div #slider class="card-body">
-        <ng5-slider
+        <ngx-slider
             *ngIf="sliderActive"
             [(value)]="value"
             [(highValue)]="highValue"
             [options]="options"
             [manualRefresh]="manualRefresh"
             (userChangeEnd)="onUserChangeEnd($event)">
-        </ng5-slider>
+        </ngx-slider>
         <span *ngIf="!sliderActive">{{'msg#facet.range.unavailable' | sqMessage}}</span>
     </div>
 </ng-container>
