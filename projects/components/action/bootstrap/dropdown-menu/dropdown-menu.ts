@@ -94,9 +94,9 @@ export class BsDropdownMenu implements OnInit {
                 event.preventDefault();
                 event.stopPropagation();
                 
-                // get the current's submenu 'show' status
+                // get the current's submenu status: <ul class='... show'> 
                 const ul = li.getElementsByTagName("ul")[0];
-                isOpen = ul.classList.contains(this.options.showMenuClass);
+                if(ul !== undefined) isOpen = ul.classList.contains(this.options.showMenuClass);
 
                 // remove for each submenu the 'show' class
                 if (li.parentElement) {
