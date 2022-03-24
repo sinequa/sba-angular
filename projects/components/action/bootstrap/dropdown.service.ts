@@ -1,6 +1,6 @@
 import {Injectable, OnDestroy, RendererFactory2, Renderer2, Inject} from "@angular/core";
 import {Subject, Observable} from "rxjs";
-import {Keys} from "@sinequa/core/base";
+import {Keys, StrictUnion} from "@sinequa/core/base";
 import {DOCUMENT} from "@angular/common";
 
 // Based on  Bootstrap (v4.4.1): dropdown.js
@@ -152,9 +152,9 @@ export class BsDropdownService implements OnDestroy {
         //    - If key is not up or down => not a dropdown command
         //    - If trigger inside the menu => not a dropdown command
         if (/input|textarea/i.test((event.target as Element).tagName) ?
-            event.which === Keys.space || event.which !== Keys.esc &&
-            (event.which !== Keys.down && event.which !== Keys.up || (event.target as Element).closest(gSelector.MENU)) :
-            !(event.which === Keys.up || event.which === Keys.down || event.which === Keys.esc)) {
+            event.key === Keys.space || event.key !== Keys.esc &&
+            (event.key !== Keys.down && event.key !== Keys.up || (event.target as Element).closest(gSelector.MENU)) :
+            !(event.key === Keys.up || event.key === Keys.down || event.key === Keys.esc)) {
             return;
         }
 
@@ -168,12 +168,12 @@ export class BsDropdownService implements OnDestroy {
         const parent = this.getParentFromElement(descendant);
         const isActive = parent instanceof HTMLElement && parent.classList.contains(gClassName.SHOW);
 
-        if (!isActive && event.which === Keys.esc) {
+        if (!isActive && event.key === Keys.esc) {
             return;
         }
 
-        if (!isActive || isActive && (event.which === Keys.esc || event.which === Keys.space)) {
-            if (event.which === Keys.esc) {
+        if (!isActive || isActive && (event.key === Keys.esc || event.key === Keys.space)) {
+            if (event.key === Keys.esc) {
                 const toggle = parent instanceof Element && parent.querySelector(gSelector.DATA_TOGGLE);
                 if (toggle instanceof HTMLElement) {
                     // toggle.dispatchEvent(new Event("focus", {bubbles: true}));
@@ -198,11 +198,11 @@ export class BsDropdownService implements OnDestroy {
 
         let index = items.indexOf(event.target as HTMLElement);
 
-        if (event.which === Keys.up && index > 0) { // Up
+        if (event.key === Keys.up && index > 0) { // Up
             index--;
         }
 
-        if (event.which === Keys.down && index < items.length - 1) { // Down
+        if (event.key === Keys.down && index < items.length - 1) { // Down
             index++;
         }
 
@@ -213,9 +213,9 @@ export class BsDropdownService implements OnDestroy {
         items[index].focus();
     }
 
-    private clearMenus = (event: KeyboardEvent | MouseEvent): boolean | void => {
-        if (event && (event.which === 3 /*RIGHT_MOUSE_BUTTON_WHICH*/ ||
-            event.type === 'keyup' && event.which !== Keys.tab)) {
+    private clearMenus = (event: StrictUnion<KeyboardEvent | MouseEvent>): boolean | void => {
+        if (event && (event.button === 2 /*RIGHT_MOUSE_BUTTON_WHICH*/ ||
+            event.type === 'keyup' && event.key !== Keys.tab)) {
             return;
         }
         this._events.next({type: "clear", sourceEvent: event});

@@ -47,14 +47,14 @@ export class BsAdvancedFormAutocompleteMultiInput extends BsAdvancedFormAutocomp
 
         if (keydown === undefined) {
             /** We can remove selections by typing <backspace> when the input is empty */
-            if (event.keyCode === Keys.backspace) {
+            if (event.key === Keys.backspace) {
                 if (this.getInputValue() === "") {
                     this.items.pop();
                     this.itemsUpdate.next(this.items);
                 }
             }
             /** Allow the selection one of new item */
-            if (event.keyCode === Keys.enter) {
+            if (event.key === Keys.enter) {
                 this._manageSetAutocompleteItem();
             }
         }

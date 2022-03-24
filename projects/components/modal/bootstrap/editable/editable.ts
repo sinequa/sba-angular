@@ -76,7 +76,7 @@ export class BsEditable implements OnInit, OnDestroy {
     }
 
     inputKeydown(event: KeyboardEvent) {
-        switch (event.keyCode) {
+        switch (event.key) {
             case Keys.enter:
                 event.stopPropagation();
                 this.stopEditing();
@@ -91,7 +91,7 @@ export class BsEditable implements OnInit, OnDestroy {
 
     @HostListener("keydown", ["$event"])
     hostKeydown(event: KeyboardEvent) {
-        if (event.keyCode === Keys.enter) {
+        if (event.key === Keys.enter) {
             this.focusAfterEdit = true;
             this.startEditing();
             return false;

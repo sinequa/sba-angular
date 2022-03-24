@@ -436,7 +436,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
     @HostListener("keydown", ["$event"]) keydown(event: KeyboardEvent) {
         // Navigation in the opened dropdown
         if (this.getState() === AutocompleteState.OPENED) {
-            switch (event.keyCode) {
+            switch (event.key) {
                 case Keys.up:
                     this.dropdown.selectPrevious();
                     return false; // prevent default
@@ -464,7 +464,7 @@ export class Autocomplete implements OnInit, OnChanges, OnDestroy {
         }
 
         // If a search was triggered, restart the autocomplete
-        if(event.keyCode === Keys.enter) {
+        if(event.key === Keys.enter) {
             this.submit.next();
             this.start();
         }

@@ -366,7 +366,7 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
 
         if(keydown === undefined) {
             // In fielded search mode, we can remove selections by typing <backspace> when the input is empty
-            if(event.keyCode === Keys.backspace) {
+            if(event.key === Keys.backspace) {
                 if(this.fieldSearchMode === "selects" && this.getInputValue() === '') {
                     this.fieldSearchItems.pop();
                     this.updatePlaceholder();

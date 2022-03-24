@@ -77,7 +77,7 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
             return;
         }
         // arrow down
-        if ($event.keyCode === Keys.down) {
+        if ($event.key === Keys.down) {
             if (!this.isOpen) {
                 this.setOpen(true);
             }
@@ -89,7 +89,7 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
             $event.stopPropagation();
         }
         // arrow up
-        else if ($event.keyCode === Keys.up) {
+        else if ($event.key === Keys.up) {
             if (!this.isOpen) {
                 this.setOpen(true);
             }
@@ -101,14 +101,14 @@ export class BsSelectComponent implements ControlValueAccessor, OnInit {
             $event.stopPropagation();
         }
         // enter or space
-        else if (($event.keyCode === Keys.enter || $event.keyCode === Keys.space) &&
+        else if (($event.key === Keys.enter || $event.key === Keys.space) &&
             this.activeItem >= 0 && this.activeItem < this.items.length) {
             this.toggleItemSelected(this.activeItem);
             $event.preventDefault();
             $event.stopPropagation();
         }
         // escape
-        else if ($event.keyCode === Keys.esc && this.isOpen) {
+        else if ($event.key === Keys.esc && this.isOpen) {
             this.setOpen(false);
             $event.preventDefault();
             $event.stopPropagation();

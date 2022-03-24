@@ -86,7 +86,7 @@ export class BsAdvancedFormMultiInput implements OnChanges, OnDestroy {
 
     keydown(event: KeyboardEvent) {
         // Intercept tab and set focus to surrounding dropdown-item
-        if (event.keyCode === Keys.tab) {
+        if (event.key === Keys.tab) {
             const dropdownItem = this._getDropdownItem();
             if (dropdownItem) {
                 dropdownItem.focus();
@@ -98,7 +98,7 @@ export class BsAdvancedFormMultiInput implements OnChanges, OnDestroy {
     }
 
     keypress(event: KeyboardEvent) {
-        if (event.keyCode === Keys.enter) {
+        if (event.key === Keys.enter) {
             // Stop click event firing on surrounding anchor (Firefox)
             event.preventDefault();
             return false;
