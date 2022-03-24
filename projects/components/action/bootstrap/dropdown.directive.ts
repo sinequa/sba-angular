@@ -91,6 +91,10 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
         // send dropdown's active state to the service
         this.dropdownService.raiseActive(!isActive);
         if (isActive) {
+            // hide submenu if any on dropdown button
+            if (element.parentElement) {
+                this.closeSubmenus(element.parentElement)
+            }
             return;
         }
 
@@ -224,5 +228,18 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
 
         this.dropdownMenu.classList.remove(gClassName.SHOW);
         parent.classList.remove(gClassName.SHOW);
+        
+        // close all sub-menus with 'show' class
+        // here, 'parent' is the dropdown element
+        this.closeSubmenus(parent);
+    }
+    
+    /**
+     * It removes the class "show" from all submenus.
+     * @param {HTMLElement} element - The dropdown element.
+     */
+    private closeSubmenus(element: HTMLElement) {
+        const elements = element.querySelectorAll("ul");
+        elements.forEach(el => el.classList.remove(gClassName.SHOW));
     }
 }

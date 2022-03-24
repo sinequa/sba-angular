@@ -25,6 +25,7 @@ $action-menu-breakpoint: md !default;
 /* for submenus in bootstrap 4.x */
 .dropdown-submenu {
     position: relative;
+    user-select: none;
 
     &.show > .dropdown-menu {
         display: block;
