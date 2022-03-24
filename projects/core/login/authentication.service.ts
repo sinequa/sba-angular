@@ -370,13 +370,6 @@ export class AuthenticationService extends HttpService {
             }
         );
     }
-    
-    /**
-     * It calls the notifyLogin() method on the auditService.
-     */
-    login() {
-        this.auditService.notifyLogin();
-    }
 
     /**
      * Add the current user override information to the passed headers.
