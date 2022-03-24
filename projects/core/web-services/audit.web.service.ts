@@ -62,6 +62,7 @@ export const enum AuditEventType {
     Search_Exit_Logout = "Search_Exit_Logout",
     Search_Timeline_Usage = "Search_Timeline_Usage",
     Search_AutoComplete = "Search_Autocomplete",
+    Search_Login_Success = "Login_Success_Form",
 
     SavedQuery_Add = "SavedQuery_Add",
     SavedQuery_Delete = "SavedQuery_Delete",
@@ -280,7 +281,24 @@ export class AuditWebService extends HttpService {
 
         return this.notify(data);
     }
+    
+    /**
+     * It sends an audit event to the Audit Service.
+     * @returns An Observable<void>
+     */
+    notifyLogin() : Observable<void> {
+        const detail: JsonObject = {
+            app: this.appName,
+        };
 
+        const data: AuditEvent = {
+            type: AuditEventType.Search_Login_Success,
+            detail
+        };
+        
+        return this.notify(data)
+    }
+    
     /**
      * Notify the Sinequa server of a set of audit events
      *
