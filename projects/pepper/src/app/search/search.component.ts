@@ -189,7 +189,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
     else {
       this.multiFacetIcon = facet.icon;
-      this.multiFacetTitle = facet.title || facet.parameters?.name || facet.parameters?.aggregation;
+      this.multiFacetTitle = (facet.title || facet.parameters?.name || facet.parameters?.aggregation) as string;
     }
   }
 

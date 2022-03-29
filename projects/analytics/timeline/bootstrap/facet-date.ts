@@ -27,20 +27,21 @@ import { Subscription } from "rxjs";
 import { debounceTime, filter, map } from "rxjs/operators";
 import { BsFacetTimelineComponent, TimelineSeries } from ".";
 
-export interface FacetDateConfig extends FacetConfig {
+export interface FacetDateParams {
+    aggregation: string
+    name?: string
+    showCount?: boolean;
+    field?: string;
+    timelineAggregationName?: string;
+    displayEmptyDistributionIntervals?: boolean;
+    allowPredefinedRange?: boolean;
+    allowCustomRange?: boolean;
+    showCustomRange?: boolean;
+    replaceCurrent?: boolean;
+}
+
+export interface FacetDateConfig extends FacetConfig<FacetDateParams> {
     type: 'date';
-    parameters: {
-        aggregation: string
-        name?: string
-        showCount?: boolean;
-        field?: string;
-        timelineAggregationName?: string;
-        displayEmptyDistributionIntervals?: boolean;
-        allowPredefinedRange?: boolean;
-        allowCustomRange?: boolean;
-        showCustomRange?: boolean;
-        replaceCurrent?: boolean;
-    }
 }
 
 @Component({

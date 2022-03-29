@@ -69,7 +69,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
      * through the facet service.
      */
      getName(facet: FacetConfig) : string {
-        return facet.parameters?.name || facet.parameters?.aggregation;
+        return (facet.parameters?.name || facet.parameters?.aggregation) as string;
     }
 
     /**
@@ -124,7 +124,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
      * @returns true if facet contains at least one item otherwise false
      */
     protected hasData(facet: FacetConfig): boolean {
-        return this.facetService.hasData(facet.parameters?.aggregation, this.results);
+        return this.facetService.hasData(<string>facet.parameters?.aggregation, this.results);
     }
 
     protected addFacetMenu() {

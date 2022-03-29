@@ -1,5 +1,5 @@
-import { FacetDateConfig } from '@sinequa/analytics/timeline';
-import { FacetConfig, FacetListConfig } from '@sinequa/components/facet';
+import { FacetDateParams } from '@sinequa/analytics/timeline';
+import { FacetConfig } from '@sinequa/components/facet';
 
 /**
  * This list is used by Vanilla Search to activate key features in the UI.
@@ -21,7 +21,7 @@ export const FEATURES: string[] = [
     //"voice-recognition",            // Display a button to trigger voice recognition (supported only on Chrome-based browsers and uses Google servers for processing)
 ];
 
-export const FACETS: FacetConfig[] = [
+export const FACETS: FacetConfig<FacetDateParams>[] = [
     {
         title: "msg#facet.geo.title",
         type: "list",
@@ -36,8 +36,7 @@ export const FACETS: FacetConfig[] = [
             allowAnd: false,
             displayEmptyDistributionIntervals: false
         }
-
-    } as FacetListConfig,
+    },
     {
         title: "msg#facet.company.title",
         type: "list",
@@ -52,8 +51,7 @@ export const FACETS: FacetConfig[] = [
             allowAnd: false,
             displayEmptyDistributionIntervals: false
         }
-
-    } as FacetListConfig,
+    },
     {
         title: "msg#facet.person.title",
         type: "list",
@@ -68,7 +66,7 @@ export const FACETS: FacetConfig[] = [
             allowAnd: false,
             displayEmptyDistributionIntervals: false
         }
-    } as FacetListConfig,
+    },
     {
         title: "msg#facet.docformat.title",
         type: "list",
@@ -83,7 +81,7 @@ export const FACETS: FacetConfig[] = [
             allowAnd: false,
             displayEmptyDistributionIntervals: false
         }
-    } as FacetListConfig,
+    },
     {
         title: "msg#facet.modified.title",
         type: "date",
@@ -100,7 +98,7 @@ export const FACETS: FacetConfig[] = [
             replaceCurrent: true,
             displayEmptyDistributionIntervals: true
         }
-    } as FacetDateConfig,
+    },
     {
         title: "msg#facet.size.title",
         type: "list",
@@ -115,7 +113,7 @@ export const FACETS: FacetConfig[] = [
             allowAnd: false,
             displayEmptyDistributionIntervals: false
         }
-    } as FacetListConfig,
+    },
     {
         title: "msg#facet.documentlanguages.title",
         type: "list",
@@ -130,7 +128,7 @@ export const FACETS: FacetConfig[] = [
             allowAnd: false,
             displayEmptyDistributionIntervals: false
         }
-    } as FacetListConfig,
+    },
     {
         title: "msg#facet.concepts.title",
         type: "list",
@@ -145,7 +143,7 @@ export const FACETS: FacetConfig[] = [
             allowAnd: false,
             displayEmptyDistributionIntervals: false
         }
-    } as FacetListConfig
+    }
 ];
 
 export const METADATA: string[] = [
