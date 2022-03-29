@@ -2,7 +2,7 @@
 properties([
 	parameters([
 		string(name:"SBA_VERSION",  defaultValue: "", description: "Version of sba", trim: true),
-		string(name:"SBA_APP_LIST", defaultValue: "sba/sba-sinequa-analytics-internal,sba/sba-sesame", description: "App list to rebuild (comma separated)", trim: true),
+		string(name:"SBA_APP_LIST", defaultValue: "sba/sba-sinequa-analytics-internal", description: "App list to rebuild (comma separated)", trim: true),
 		string(name:"SBA_NODE",    defaultValue: "${env.SBA_NODE}", description: "Execution node name", trim: true)
 	]),
 	disableConcurrentBuilds()
