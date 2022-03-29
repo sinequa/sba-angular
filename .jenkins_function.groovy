@@ -19,17 +19,19 @@ def build_app(sba_version, jobToBuild, branch) {
 	}
 }
 
-// set the sba_version variable with the version
-// the version is calculated or is a parameter of the job
-def set_sba_version(curBranch) {
-	if (sba_version.length() == 0) {
-		if ( env.BRANCH_NAME.contains("release") ) {
-			sba_version = curBranch.split("%2F")[1].trim()
-		} else {
-			sba_version = developNumber
-		}
-	}
-	echo "sba_version: ${sba_version}"
+// function to get the package version in package.json file
+def get_pkg_version() {
+	def pkg_version = powershell(returnStdout: true, script: '''
+		$file = 'package.json'
+		$search = '.+"version":\\s"(.+)"'
+		$retval = (Select-String -path $file -pattern $search -Allmatches | % { $_.Matches.Groups[1].Value })
+		write-output $retval
+	''')
+	// remove CR/LF
+	pkg_version = pkg_version.trim()
+	pkg_version = "${pkg_version}${pkg_suffix}.${env.BUILD_NUMBER}"
+	echo "pkg_version: ${pkg_version}"
+	return pkg_version
 }
 
 // get the branch name and the version number from the right jenkins variable 
@@ -55,17 +57,6 @@ def findBranchNumber() {
 	theBranch = tmpBranch.replace("/", "%2F")
 	echo "Branch returned: ${theBranch}"
 	return theBranch
-}
-
-// function to check if we are in PR or another branch
-def buildOrMerge() {
-	def typeAction = ""
-	if (env.BRANCH_NAME.contains("PR-")) {
-		typeAction = "build"
-	} else {
-		typeAction = "merge"
-	}
-	return typeAction
 }
 
 // function to append lines to the end of a file
