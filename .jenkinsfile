@@ -126,20 +126,9 @@ node (params.SBA_NODE) {
 				bat  "npm run buildsqanalytics --sq_version=${sba_version}  --if-present"
 			}
 			
-			// publish packages on local npm server to be used by the app
-			stage('Publish sba-internal') {
-				echo "npm run publishsqcore --sq_version=${sba_version} --if-present"
-				bat  "npm run publishsqcore --sq_version=${sba_version} --if-present"
-				
-				echo "npm run publishsqcomponents --sq_version=${sba_version} --if-present"
-				bat  "npm run publishsqcomponents --sq_version=${sba_version} --if-present"
-				
-				echo "npm run publishsqanalytics --sq_version=${sba_version}  --if-present"
-				bat  "npm run publishsqanalytics --sq_version=${sba_version}  --if-present"
-			}
-			
+			// get the current branch version
 			def currentBranch = jf.findBranchNumber()
-
+			
 			// When merging, build a list of apps (param of the job) to be validated
 			// Start a job with the name in the list in parameter
 			// The job must exists before run
