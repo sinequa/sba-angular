@@ -85,8 +85,8 @@ node (params.SBA_NODE) {
 				bat  "npm run buildcomponents --if-present"
 			}
 			stage('Build Analytics') {
-				echo "npm run buildsqanalytics --if-present"
-				bat  "npm run buildsqanalytics --if-present"
+				echo "npm run buildanalytics --if-present"
+				bat  "npm run buildanalytics --if-present"
 			}			
 			stage('Test Components') {
 				echo "npm run test components -- --watch=false"
