@@ -17,19 +17,19 @@ import { UserPreferences } from '@sinequa/components/user-settings';
 })
 export class BsResultsHeatmapView extends BsFacetHeatmapComponent {
     @Input() selectView?: string;
-    @Input() theme: "light" | "dark" = "light";
+    @Input() override theme: "light" | "dark" = "light";
 
     settingsAction: Action;
     showSettings: boolean;
 
     constructor(
-        public appService: AppService,
-        public searchService: SearchService,
-        public facetService: FacetService,
-        public selectionService: SelectionService,
-        public formBuilder: FormBuilder,
-        public cdRef: ChangeDetectorRef,
-        public prefs: UserPreferences,
+        public override appService: AppService,
+        public override searchService: SearchService,
+        public override facetService: FacetService,
+        public override selectionService: SelectionService,
+        public override formBuilder: FormBuilder,
+        public override cdRef: ChangeDetectorRef,
+        public override prefs: UserPreferences,
         public resultsViewService : ResultsViewService
     ) {
         super(appService, searchService, facetService, selectionService, formBuilder, cdRef, prefs, undefined);
@@ -62,7 +62,7 @@ export class BsResultsHeatmapView extends BsFacetHeatmapComponent {
         return actions;
     }
 
-    onItemClicked(item: HeatmapItem){
+    override onItemClicked(item: HeatmapItem){
         if(this.aggregationData){
             this.facetService.addFilterSearch(this._name, this.aggregationData, item).then(_ => {
                 if(this.selectView){
@@ -72,7 +72,7 @@ export class BsResultsHeatmapView extends BsFacetHeatmapComponent {
         }
     }
 
-    onAxisClicked(item: {value: string, axis: 'x' | 'y'}){
+    override onAxisClicked(item: {value: string, axis: 'x' | 'y'}){
         this.searchService.addFieldSelect(item.axis === 'x'? this.fieldXPref : this.fieldYPref, item);
         this.searchService.search().then(_ => {
             if(this.selectView){

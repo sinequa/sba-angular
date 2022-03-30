@@ -22,7 +22,7 @@ export class AuthenticationOauthService extends OauthService {
         super(httpClient, sharedService, configService, popupService);
     }
 
-    authenticate<T extends object | string>(name: string, userData: any): Observable<T> {
+    override authenticate<T extends object | string>(name: string, userData: any): Observable<T> {
         const options = this.configService.options.providers[name];
         if (options.sqInitState) {
             return this.httpClient.get<{state: string}>(Utils.addUrl(this.startConfig.apiPath!, "oauth"), {

@@ -18,7 +18,7 @@ export class MemorySizePipe extends AbstractIntlPipe {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(key: number): void {
+    override updateValue(key: number): void {
         super.updateValue(key);
         this.value = this.formatService.formatMemorySize(key);
     }

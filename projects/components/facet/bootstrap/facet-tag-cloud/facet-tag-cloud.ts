@@ -220,7 +220,7 @@ export class BsFacetTagCloud extends AbstractFacet implements OnChanges {
     /**
      * Define the possible actions according to the actual context
      */
-    get actions(): Action[] {
+    override get actions(): Action[] {
         const actions: Action[] = [];
         if(this.isFiltering()) {
             actions.push(this.clearFilters);

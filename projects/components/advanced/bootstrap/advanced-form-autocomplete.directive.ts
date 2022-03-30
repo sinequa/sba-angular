@@ -25,14 +25,14 @@ export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
      * On initialization, we listen to the autocomplete component for
      * selection events
      */
-    ngOnInit() {
+    override ngOnInit() {
         this._dropdownSubscription = this.dropdown.clicked.subscribe((item) => {
             this.select(item, false); // An item was selected from the autocomplete => take the value
         });
         this.start();
     }
 
-    protected getSuggests() {
+    protected override getSuggests() {
         const value = this.getInputValue();
         if (value) {
             // If there is text, make a call to the suggest API
@@ -45,7 +45,7 @@ export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
         }
     }
 
-    protected processSuggests(obs: Observable<AutocompleteItem[]>){
+    protected override processSuggests(obs: Observable<AutocompleteItem[]>){
         obs.subscribe(
             suggests => {
                 if(this.getState() === AutocompleteState.ACTIVE || this.getState() === AutocompleteState.OPENED){
@@ -75,7 +75,7 @@ export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
             });
     }
 
-    protected setAutocompleteItem(item: AutocompleteItem): boolean {
+    protected override setAutocompleteItem(item: AutocompleteItem): boolean {
         if(item) {
             this.setInputValue(item.display);
             this.UpdateItem.next({
@@ -90,7 +90,7 @@ export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
     /**
      * Listen to blur events on the <input> host and overrides the autocomplete blur events
      */
-    @HostListener("blur", ["$event"]) blur(event: FocusEvent) {
+    @HostListener("blur", ["$event"]) override blur(event: FocusEvent) {
         /** If there is text in the <input/> and not selected from the dropdown ==> set the item manually */
         if (this.getState() !== AutocompleteState.SELECTED) {
             if (!!this.getInputValue() && this.getInputValue() !== "") {
@@ -111,7 +111,7 @@ export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
      * Overrides the parent inputChanged method, so that it is possible to reinitialize the autocomplete
      * @param event
      */
-    @HostListener("input", ["$event"]) inputChanged(event: Event) {
+    @HostListener("input", ["$event"]) override inputChanged(event: Event) {
         switch (this.getState()) {
             case AutocompleteState.OPENED:
                 this.suggest(); // Just request more data, but no state change

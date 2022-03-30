@@ -87,7 +87,7 @@ export class JsonMethodPluginService extends HttpService{
     return observable;
   }
 
-  makeUrl(api: string): string {
+  override makeUrl(api: string): string {
     return super.makeUrl('plugin/' + api);
   }
 }

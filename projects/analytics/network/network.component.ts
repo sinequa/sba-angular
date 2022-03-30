@@ -204,7 +204,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         this.updateActions();
     }
 
-    get actions(): Action[] {
+    override get actions(): Action[] {
         return this._actions;
     }
 
@@ -375,7 +375,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
      * panel is opened or closed
      * @param opened whether settings are opened or closed
      */
-    onOpenSettings(opened: boolean){
+    override onOpenSettings(opened: boolean){
         if(opened) {
             const springLengthControl = new FormControl(this.springLengthPref);
             const springConstantControl = new FormControl(this.springConstantPref);

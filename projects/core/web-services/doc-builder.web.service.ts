@@ -12,7 +12,7 @@ export class DocBuilderWebService extends HttpService {
     private static readonly endpoint = "OriginalDocMerge";
 
     constructor(
-        @Inject(START_CONFIG) public startConfig: StartConfig,
+        @Inject(START_CONFIG) public override startConfig: StartConfig,
         private httpClient: SqHttpClient,
         public downloadService: DownloadWebService
     ){

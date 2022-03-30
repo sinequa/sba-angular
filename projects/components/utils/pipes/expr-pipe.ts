@@ -11,7 +11,7 @@ export class ExprPipe extends AbstractIntlPipe {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(key: Expr | string, params: ExprMessageOptions): void {
+    override updateValue(key: Expr | string, params: ExprMessageOptions): void {
         super.updateValue(key, params);
         if (key instanceof Expr) {
             const message = key.toMessage(params);

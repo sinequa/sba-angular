@@ -19,11 +19,11 @@ export class SelectedRecordsProvider extends RecordsProvider {
     selectionSubscription: Subscription;
 
     constructor(
-        public name = "Selected documents",
-        protected nodeType: NodeType,
-        protected edgeTypes: StructuralEdgeType[],
+        public override name = "Selected documents",
+        protected override nodeType: NodeType,
+        protected override edgeTypes: StructuralEdgeType[],
         protected selectionService: SelectionService,
-        protected hideRecordNode = false
+        protected override hideRecordNode = false
     ){
         super(name, nodeType, edgeTypes, selectionService.getSelectedItems() as Record[], hideRecordNode);
 
@@ -39,13 +39,13 @@ export class SelectedRecordsProvider extends RecordsProvider {
 
     // NetworkProvider interface
 
-    getData(context: NetworkContext) {
+    override getData(context: NetworkContext) {
         this.context = context;
         this.updateDataset(this.selectionService.getSelectedItems() as Record[]);
         this.provider.next(this.dataset);
     }
     
-    onDestroy() {
+    override onDestroy() {
         this.selectionSubscription?.unsubscribe();
     }
 

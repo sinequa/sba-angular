@@ -25,7 +25,7 @@ export class BsAdvancedFormAutocompleteMultiInput extends BsAdvancedFormAutocomp
      * Autocomplete Item.
      * @returns false since we don't need trigger search at this point of time
      */
-    protected setAutocompleteItem(item: AutocompleteItem): boolean {
+    protected override setAutocompleteItem(item: AutocompleteItem): boolean {
         if (item) {
             // Store the autocomplete items that will be used to create a selection
             this.items.push(item);
@@ -42,7 +42,7 @@ export class BsAdvancedFormAutocompleteMultiInput extends BsAdvancedFormAutocomp
      * to remove items, enhance the enter key to support adding new items.
      * @param event the keyboard
      */
-    keydown(event: KeyboardEvent) {
+    override keydown(event: KeyboardEvent) {
         const keydown = super.keydown(event);
 
         if (keydown === undefined) {
@@ -64,7 +64,7 @@ export class BsAdvancedFormAutocompleteMultiInput extends BsAdvancedFormAutocomp
     /**
      * Listens to blur events (out of focus) on the <input> host and overrides the parent blur events
      */
-    @HostListener("blur", ["$event"]) blur(event: FocusEvent) {
+    @HostListener("blur", ["$event"]) override blur(event: FocusEvent) {
         this._manageSetAutocompleteItem();
         this.init();
     }

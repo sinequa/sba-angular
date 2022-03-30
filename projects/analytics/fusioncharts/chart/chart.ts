@@ -153,7 +153,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
     /**
      * Returns all the actions that are relevant in the current context
      */
-    get actions(): Action[] {
+    override get actions(): Action[] {
         const actions: Action[] = [];
         if(this.hasFiltered()) {
             actions.push(this.clearFilters);
@@ -212,7 +212,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
         });
     }
 
-    isHidden(): boolean {
+    override isHidden(): boolean {
         return this.autohide && !this.dataSource.data?.length;
     }
     

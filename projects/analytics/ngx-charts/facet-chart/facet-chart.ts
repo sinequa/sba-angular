@@ -95,7 +95,7 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
     /**
      * Returns all the actions that are relevant in the current context
      */
-    get actions(): Action[] {
+    override get actions(): Action[] {
         const actions: Action[] = [];
         if(this.hasFiltered()) {
             actions.push(this.clearFilters);
@@ -261,7 +261,7 @@ export class FacetNgxChart extends AbstractFacet implements OnInit, OnChanges, O
     }
 
     /* AbstractFacet abstract methods */
-    isHidden(): boolean {
+    override isHidden(): boolean {
         // Always display if multivalued
         return !this.aggregations && (!this.data || !this.dataPoints);
     }

@@ -74,7 +74,7 @@ export function isStructuralEdgeType(et: EdgeType): et is StructuralEdgeType {
 export class RecordsProvider extends BaseProvider {
 
     constructor(
-        public name = "Documents",
+        public override name = "Documents",
         protected nodeType: NodeType,
         protected edgeTypes: StructuralEdgeType[],
         protected records: Record[],
@@ -262,7 +262,7 @@ export class RecordsProvider extends BaseProvider {
 
     // NetworkProvider interface
 
-    getData(context: NetworkContext) {
+    override getData(context: NetworkContext) {
         this.context = context;
         // Plain records mode (may be none)
         this.updateDataset(this.records);
@@ -275,7 +275,7 @@ export class RecordsProvider extends BaseProvider {
      * are collapsed.
      * @param dataset The dataset resulting of the merge of all the datasets
      */
-    onDatasetsMerged(dataset: NetworkDataset) {
+    override onDatasetsMerged(dataset: NetworkDataset) {
         // Once the datasets are merged, we can update the visibility of nodes that should be shown only if they have more than one neighbor
         dataset.getNodes()
             .filter(node => node.type === this.nodeType)
@@ -302,7 +302,7 @@ export class RecordsProvider extends BaseProvider {
      * record node is clicked on.
      * @param node A node that was clicked
      */
-    onNodeClicked(node?: Node) {
+    override onNodeClicked(node?: Node) {
         if(this.active && node && node.type === this.nodeType) { // Note: we cannot test the provider property, since this node might have been merged with one from a different provider. However the node type should be a unique instance
             let update = false;
             this.dataset.getAdjacentEdges(node.id)
@@ -325,7 +325,7 @@ export class RecordsProvider extends BaseProvider {
         }
     }
 
-    getProviderActions(): Action[] {
+    override getProviderActions(): Action[] {
         return super.getProviderActions();
     }
 
@@ -337,7 +337,7 @@ export class RecordsProvider extends BaseProvider {
      * state.
      * @param node 
      */
-    getNodeActions(node: Node): Action[] {
+    override getNodeActions(node: Node): Action[] {
         const actions = super.getNodeActions(node);
         
         // Actions for exanding / collapsing a record node
