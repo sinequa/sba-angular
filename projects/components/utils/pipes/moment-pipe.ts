@@ -19,7 +19,7 @@ export class MomentPipe extends AbstractIntlPipe {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(key:moment.MomentInput, params: MomentParams = {}): void {
+    override updateValue(key:moment.MomentInput, params: MomentParams = {}): void {
         super.updateValue(key, params);
         const m = moment(key);
         if (params.format) {

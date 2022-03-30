@@ -74,7 +74,7 @@ export class BsFacetRecentQueries extends AbstractFacet  {
         return (this.page+1) * this.maxQueries;
     }
 
-    get actions(): Action[] {
+    override get actions(): Action[] {
         this.previousPage.update();
         this.nextPage.update();
         return [this.previousPage, this.nextPage];

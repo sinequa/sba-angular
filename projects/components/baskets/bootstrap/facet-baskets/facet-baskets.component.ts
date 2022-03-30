@@ -91,7 +91,7 @@ export class BsFacetBasketsComponent extends AbstractFacet {
     return true;
   }
 
-  get actions(): Action[] {
+  override get actions(): Action[] {
     this.previousPage.update();
     this.nextPage.update();
     return [this.createBasket, this.previousPage, this.nextPage, this.manageBasket];

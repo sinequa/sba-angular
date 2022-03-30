@@ -89,7 +89,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    * If a sub-facet is opened, add a Back button and forward
    * the actions of the facet.
    */
-  get actions(): Action[] {
+  override get actions(): Action[] {
     const actions: Action[] = [];
     if(this.openedFacet){
       actions.push(this.backAction);

@@ -9,7 +9,7 @@ export class NumberPipe extends AbstractIntlPipe {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(key: number | string, params: Intl.NumberFormatOptions): void {
+    override updateValue(key: number | string, params: Intl.NumberFormatOptions): void {
         super.updateValue(key, params);
         this.value = typeof key === "number" ? this.intlService.formatNumber(key, params) : key;
     }

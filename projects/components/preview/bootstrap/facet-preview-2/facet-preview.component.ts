@@ -118,7 +118,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
 
   }
 
-  get actions(): Action[] {
+  override get actions(): Action[] {
     const actions: Action[] = [];
     if(this.customActions){
       actions.push(...this.customActions);

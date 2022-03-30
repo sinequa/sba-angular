@@ -550,7 +550,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
         this.searchService.search();
     }
 
-    get actions(): Action[] {
+    override get actions(): Action[] {
         const actions: Action[] = [];
         if(this.rangeSelected){
             actions.push(this.applyFiltersAction);

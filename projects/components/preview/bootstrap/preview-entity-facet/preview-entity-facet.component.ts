@@ -77,7 +77,7 @@ export class BsPreviewEntityFacetComponent extends AbstractFacet implements OnIn
     });
   }
 
-  get actions(): Action[]{
+  override get actions(): Action[]{
     const actions: Action[] = [];
     if(this.previewDocument){
       actions.push(this.checkAction);

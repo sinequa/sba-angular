@@ -83,7 +83,7 @@ export class BsMySearch extends AbstractFacet implements OnChanges {
         return this.items.length === 0;
     }
 
-    get actions(): Action[] {
+    override get actions(): Action[] {
         const actions: Action[] = [];
         if (!this.isEmpty && this.allowDeletion) {
             actions.push(this.clearAction);

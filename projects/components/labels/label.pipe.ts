@@ -11,7 +11,7 @@ export class LabelPipe extends AbstractIntlPipe {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(value: string, _public?: boolean): void {
+    override updateValue(value: string, _public?: boolean): void {
         super.updateValue(value, _public);
         this.value = value;
         this.value = this.intlService.formatMessage(this.value);

@@ -50,7 +50,7 @@ export class AppComponent extends ComponentWithLogin {
      * This method may be called multiple times, before the login is actually complete,
      * hence the initDone and this.appService.app test
      */
-    onLoginComplete(){
+    override onLoginComplete(){
 
         if(!this.initDone && this.appService.app){
 

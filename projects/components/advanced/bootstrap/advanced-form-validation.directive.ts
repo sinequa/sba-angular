@@ -9,7 +9,7 @@ export class BsAdvancedFormValidation extends ValidationDirective implements OnI
     @Input() field: string;
     @Input() validationForm: FormGroup;
     
-    ngOnInit() {
+    override ngOnInit() {
         this.options = {
             form: this.validationForm,
             controlName: this.field,

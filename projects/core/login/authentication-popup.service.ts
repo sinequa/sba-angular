@@ -27,7 +27,7 @@ export class AuthenticationPopupService extends PopupService {
         super();
     }
 
-    open(url: string, options: any/*IOauth2Options | IOauth1Options*/, cordova: boolean | undefined): Observable<Window> {
+    override open(url: string, options: any/*IOauth2Options | IOauth1Options*/, cordova: boolean | undefined): Observable<Window> {
         if (Utils.startsWith(url, this.startConfig.apiPath!)) {
             return this.httpClient.get<{redirectUrl: string}>(url, {
                 params: Utils.makeHttpParams({
