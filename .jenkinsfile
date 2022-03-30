@@ -37,10 +37,6 @@ node (params.SBA_NODE) {
 		// load jenkins functions
 		def rootDir = pwd()
 		def jf = load "${rootDir}/.jenkins_function.groovy"
-		def currentBranch = jf.findBranchNumber()
-		// sba_version : releaseversion-DEV-build_number
-		sba_version = jf.get_pkg_version()
-		echo "sba_version: ${sba_version}"
 		
 		stage('Clean') {
 			// delete dependency modules 
@@ -74,24 +70,24 @@ node (params.SBA_NODE) {
 			bat "npm i"
 		}
 
-		// validate the build before merge
-		// build sinequa core modules
-		stage('Build Core') {
-			echo "npm run buildsqcore --sq_version=${sba_version} --if-present"
-			bat  "npm run buildsqcore --sq_version=${sba_version} --if-present"
-		}
-		stage('Build Components') {
-			echo "npm run buildsqcomponents --sq_version=${sba_version} --if-present"
-			bat  "npm run buildsqcomponents --sq_version=${sba_version} --if-present"
-		}
-		stage('Build Analytics') {
-			echo "npm run buildsqanalytics --sq_version=${sba_version}  --if-present"
-			bat  "npm run buildsqanalytics --sq_version=${sba_version}  --if-present"
-		}
-
 		// check if we are in standard case of build or merge/validation (case of PR)
 		def action = jf.buildOrMerge()
+
 		if ("${action}" == "build") {
+			// validate the build in a PR after a commit
+			// build sinequa core modules
+			stage('Build Core') {
+				echo "npm run buildcore --if-present"
+				bat  "npm run buildcore --if-present"
+			}
+			stage('Build Components') {
+				echo "npm run buildcomponents --if-present"
+				bat  "npm run buildcomponents --if-present"
+			}
+			stage('Build Analytics') {
+				echo "npm run buildsqanalytics --if-present"
+				bat  "npm run buildsqanalytics --if-present"
+			}			
 			stage('Test Components') {
 				echo "npm run test components -- --watch=false"
 				bat  "npm run test components -- --watch=false"
@@ -108,7 +104,28 @@ node (params.SBA_NODE) {
 				echo "npm run buildpepper --if-present"
 				bat  "npm run buildpepper --if-present"
 			}
+
 		} else {
+
+			// sba_version : releaseversion-DEV-build_number
+			sba_version = jf.get_pkg_version()
+			echo "sba_version: ${sba_version}"
+			
+			// validate the build before merge
+			// build sinequa core modules
+			stage('Build Core') {
+				echo "npm run buildsqcore --sq_version=${sba_version} --if-present"
+				bat  "npm run buildsqcore --sq_version=${sba_version} --if-present"
+			}
+			stage('Build Components') {
+				echo "npm run buildsqcomponents --sq_version=${sba_version} --if-present"
+				bat  "npm run buildsqcomponents --sq_version=${sba_version} --if-present"
+			}
+			stage('Build Analytics') {
+				echo "npm run buildsqanalytics --sq_version=${sba_version}  --if-present"
+				bat  "npm run buildsqanalytics --sq_version=${sba_version}  --if-present"
+			}
+			
 			// publish packages on local npm server to be used by the app
 			stage('Publish sba-internal') {
 				echo "npm run publishsqcore --sq_version=${sba_version} --if-present"
@@ -121,6 +138,8 @@ node (params.SBA_NODE) {
 				bat  "npm run publishsqanalytics --sq_version=${sba_version}  --if-present"
 			}
 			
+			def currentBranch = jf.findBranchNumber()
+
 			// When merging, build a list of apps (param of the job) to be validated
 			// Start a job with the name in the list in parameter
 			// The job must exists before run
@@ -135,6 +154,7 @@ node (params.SBA_NODE) {
 				echo "  app ${j}/${nbapp}: ${applist[i]}"
 				jf.build_app(sba_version, applist[i], currentBranch)
 			}
+		
 		}
 
 	} catch (err) {
