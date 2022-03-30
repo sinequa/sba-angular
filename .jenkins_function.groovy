@@ -36,6 +36,17 @@ def get_pkg_version() {
 	return pkg_version
 }
 
+// function to check if we are in PR or another branch
+def buildOrMerge() {
+	def typeAction = ""
+	if (env.BRANCH_NAME.contains("PR-")) {
+		typeAction = "build"
+	} else {
+		typeAction = "merge"
+	}
+	return typeAction
+}
+
 // get the branch name and the version number from the right jenkins variable 
 def findBranchNumber() {
 	def tmpBranch=""

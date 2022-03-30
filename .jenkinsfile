@@ -73,9 +73,9 @@ node (params.SBA_NODE) {
 			// get the dependency modules
 			bat "npm i"
 		}
-		
+
 		// validate the build before merge
-		// build sinequa core modules then start a list of apps (param of the job) to be build
+		// build sinequa core modules
 		stage('Build Core')       {
 			echo "npm run buildsqcore --sq_version=${sba_version} --if-present"
 			bat  "npm run buildsqcore --sq_version=${sba_version} --if-present"
@@ -88,19 +88,41 @@ node (params.SBA_NODE) {
 			echo "npm run buildsqanalytics --sq_version=${sba_version}  --if-present"
 			bat  "npm run buildsqanalytics --sq_version=${sba_version}  --if-present"
 		}
-		
-		// Start a job with the name in the list in parameter
-		// The job must exists before run
-		echo "Build apps ${sba_app_list}"
-		def applist = sba_app_list.split(',')
-		// echo "applist: ${applist}"
-		def nbapp = applist.size()
-		def j = 0
-		for (int i=0; i < nbapp ; i++) {
-			j = i + 1
-			// call the app job with the params: version and branch
-			echo "  app ${j}/${nbapp}: ${applist[i]}"
-			jf.build_app(sba_version, applist[i], currentBranch)
+
+		// check if we are in standard case of build or merge/validation (case of PR)
+		def action = jf.buildOrMerge()
+		if ("${action}" == "build") {
+			stage('Test Components')   {
+				echo "npm run test components -- --watch=false"
+				bat  "npm run test components -- --watch=false"
+			}
+			stage('Build HelloSearch') {
+				echo "npm run buildhellosearch --if-present"
+				bat  "npm run buildhellosearch --if-present"
+			}
+			stage('Build Vanilla')     {
+				echo "npm run buildvanilla --if-present"
+				bat  "npm run buildvanilla --if-present"
+			}
+			stage('Build Pepper')      {
+				echo "npm run buildpepper --if-present"
+				bat  "npm run buildpepper --if-present"
+			}
+		} else {
+			// When merging, build a list of apps (param of the job) to be validated
+			// Start a job with the name in the list in parameter
+			// The job must exists before run
+			echo "Build apps ${sba_app_list}"
+			def applist = sba_app_list.split(',')
+			// echo "applist: ${applist}"
+			def nbapp = applist.size()
+			def j = 0
+			for (int i=0; i < nbapp ; i++) {
+				j = i + 1
+				// call the app job with the params: version and branch
+				echo "  app ${j}/${nbapp}: ${applist[i]}"
+				jf.build_app(sba_version, applist[i], currentBranch)
+			}
 		}
 
 	} catch (err) {
