@@ -3,33 +3,48 @@
 // call a job to build an app
 def build_app(sba_version, jobToBuild, branch) {
 	stage("Build app ${jobToBuild}") {
-		try {
-			// is the job runnable ?
-			def enabled = Jenkins.instance.getItemByFullName(jobToBuild).isBuildable();
-			def jobnamebranch = "${jobToBuild}/${branch}"
-			echo "build app ${jobToBuild} in branch ${branch} with sba-internal version ${sba_version} ${jobnamebranch}"
-			if (enabled) {
-				def res = build job: jobnamebranch, wait : true, propagate : true, parameters: [string(name: 'SBA_VERSION', value: sba_version)]
+		// is the job runnable ?
+		def enabled = Jenkins.instance.getItemByFullName(jobToBuild).isBuildable();
+		def jobnamebranch = "${jobToBuild}/${branch}"
+		echo "build app ${jobToBuild} in branch ${branch} with sba-internal version ${sba_version} ${jobnamebranch}"
+		if (enabled) {
+			// start the job (without propagate error)
+			def resbuild = build job: jobnamebranch, wait: true, propagate: false, parameters: [string(name: 'SBA_VERSION', value: sba_version)]
+			def jobResult = resbuild.getResult()
+			echo "Build of ${jobnamebranch} returned result: ${jobResult}"
+			if (jobResult != 'SUCCESS') {
+				sendMessage("#CC0000", "Build failed when building ${jobToBuild} in branch ${branch} with sba-internal version ${sba_version}")
+				// set the current build as unstable (warning)
+				currentBuild.result = "UNSTABLE"
 			}
-		} catch (err) {
-			currentBuild.result = "FAILURE"
-			sendMessage("#CC0000", "Build failed when building ${jobToBuild} in branch ${branch} with sba-internal version ${sba_version}")
-			throw err
 		}
 	}
 }
 
-// set the sba_version variable with the version
-// the version is calculated or is a parameter of the job
-def set_sba_version(curBranch) {
-	if (sba_version.length() == 0) {
-		if ( env.BRANCH_NAME.contains("release") ) {
-			sba_version = curBranch.split("%2F")[1].trim()
-		} else {
-			sba_version = developNumber
-		}
+// function to get the package version in package.json file
+def get_pkg_version() {
+	def pkg_version = powershell(returnStdout: true, script: '''
+		$file = 'package.json'
+		$search = '.+"version":\\s"(.+)"'
+		$retval = (Select-String -path $file -pattern $search -Allmatches | % { $_.Matches.Groups[1].Value })
+		write-output $retval
+	''')
+	// remove CR/LF
+	pkg_version = pkg_version.trim()
+	pkg_version = "${pkg_version}${pkg_suffix}.${env.BUILD_NUMBER}"
+	echo "pkg_version: ${pkg_version}"
+	return pkg_version
+}
+
+// function to check if we are in PR or another branch
+def buildOrMerge() {
+	def typeAction = ""
+	if (env.BRANCH_NAME.contains("PR-")) {
+		typeAction = "build"
+	} else {
+		typeAction = "merge"
 	}
-	echo "sba_version: ${sba_version}"
+	return typeAction
 }
 
 // get the branch name and the version number from the right jenkins variable 
@@ -55,17 +70,6 @@ def findBranchNumber() {
 	theBranch = tmpBranch.replace("/", "%2F")
 	echo "Branch returned: ${theBranch}"
 	return theBranch
-}
-
-// function to check if we are in PR or another branch
-def buildOrMerge() {
-	def typeAction = ""
-	if (env.BRANCH_NAME.contains("PR-")) {
-		typeAction = "build"
-	} else {
-		typeAction = "merge"
-	}
-	return typeAction
 }
 
 // function to append lines to the end of a file
