@@ -76,7 +76,7 @@ node (params.SBA_NODE) {
 
 		// validate the build before merge
 		// build sinequa core modules
-		stage('Build Core')       {
+		stage('Build Core') {
 			echo "npm run buildsqcore --sq_version=${sba_version} --if-present"
 			bat  "npm run buildsqcore --sq_version=${sba_version} --if-present"
 		}
@@ -84,15 +84,15 @@ node (params.SBA_NODE) {
 			echo "npm run buildsqcomponents --sq_version=${sba_version} --if-present"
 			bat  "npm run buildsqcomponents --sq_version=${sba_version} --if-present"
 		}
-		stage('Build Analytics')  {
+		stage('Build Analytics') {
 			echo "npm run buildsqanalytics --sq_version=${sba_version}  --if-present"
 			bat  "npm run buildsqanalytics --sq_version=${sba_version}  --if-present"
 		}
 
 		// check if we are in standard case of build or merge/validation (case of PR)
 		def action = jf.buildOrMerge()
-		if ("${action}" != "build") {
-			stage('Test Components')   {
+		if ("${action}" == "build") {
+			stage('Test Components') {
 				echo "npm run test components -- --watch=false"
 				bat  "npm run test components -- --watch=false"
 			}
@@ -100,15 +100,27 @@ node (params.SBA_NODE) {
 				echo "npm run buildhellosearch --if-present"
 				bat  "npm run buildhellosearch --if-present"
 			}
-			stage('Build Vanilla')     {
+			stage('Build Vanilla') {
 				echo "npm run buildvanilla --if-present"
 				bat  "npm run buildvanilla --if-present"
 			}
-			stage('Build Pepper')      {
+			stage('Build Pepper') {
 				echo "npm run buildpepper --if-present"
 				bat  "npm run buildpepper --if-present"
 			}
 		} else {
+			// publish packages on local npm server to be used by the app
+			stage('Publish sba-internal') {
+				echo "npm run publishsqcore --sq_version=${sba_version} --if-present"
+				bat  "npm run publishsqcore --sq_version=${sba_version} --if-present"
+				
+				echo "npm run publishsqcomponents --sq_version=${sba_version} --if-present"
+				bat  "npm run publishsqcomponents --sq_version=${sba_version} --if-present"
+				
+				echo "npm run publishsqanalytics --sq_version=${sba_version}  --if-present"
+				bat  "npm run publishsqanalytics --sq_version=${sba_version}  --if-present"
+			}
+			
 			// When merging, build a list of apps (param of the job) to be validated
 			// Start a job with the name in the list in parameter
 			// The job must exists before run
