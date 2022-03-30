@@ -3,18 +3,20 @@
 // call a job to build an app
 def build_app(sba_version, jobToBuild, branch) {
 	stage("Build app ${jobToBuild}") {
-		try {
-			// is the job runnable ?
-			def enabled = Jenkins.instance.getItemByFullName(jobToBuild).isBuildable();
-			def jobnamebranch = "${jobToBuild}/${branch}"
-			echo "build app ${jobToBuild} in branch ${branch} with sba-internal version ${sba_version} ${jobnamebranch}"
-			if (enabled) {
-				def res = build job: jobnamebranch, wait : true, propagate : true, parameters: [string(name: 'SBA_VERSION', value: sba_version)]
+		// is the job runnable ?
+		def enabled = Jenkins.instance.getItemByFullName(jobToBuild).isBuildable();
+		def jobnamebranch = "${jobToBuild}/${branch}"
+		echo "build app ${jobToBuild} in branch ${branch} with sba-internal version ${sba_version} ${jobnamebranch}"
+		if (enabled) {
+			// start the job (without propagate error)
+			def resbuild = build job: jobnamebranch, wait: true, propagate: false, parameters: [string(name: 'SBA_VERSION', value: sba_version)]
+			def jobResult = resbuild.getResult()
+			echo "Build of ${jobnamebranch} returned result: ${jobResult}"
+			if (jobResult != 'SUCCESS') {
+				sendMessage("#CC0000", "Build failed when building ${jobToBuild} in branch ${branch} with sba-internal version ${sba_version}")
+				// set the current build as unstable (warning)
+				currentBuild.result = "UNSTABLE"
 			}
-		} catch (err) {
-			currentBuild.result = "FAILURE"
-			sendMessage("#CC0000", "Build failed when building ${jobToBuild} in branch ${branch} with sba-internal version ${sba_version}")
-			throw err
 		}
 	}
 }
