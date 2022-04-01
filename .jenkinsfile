@@ -2,7 +2,7 @@
 properties([
 	parameters([
 		string(name:"SBA_VERSION",  defaultValue: "", description: "Version of sba", trim: true),
-		string(name:"SBA_APP_LIST", defaultValue: "sba-sinequa-analytics-internal,sba-sesame", description: "App list to rebuild (comma separated)", trim: true),
+		string(name:"SBA_APP_LIST", defaultValue: "sba/sba-sinequa-analytics-internal", description: "App list to rebuild (comma separated)", trim: true),
 		string(name:"SBA_NODE",    defaultValue: "${env.SBA_NODE}", description: "Execution node name", trim: true)
 	]),
 	disableConcurrentBuilds()
@@ -14,12 +14,11 @@ npm_user      = "${env.NPM_USER}"
 npm_pass      = "${env.NPM_PASS}"
 npm_mail      = "${env.NPM_MAIL}"
 mailto        = "${env.NPM_MAILING_LIST}"
-// default version number of the develop branch
-developNumber = "${env.NPM_DEVELOP_NUMBER}"
 
 // get job variables from job parameters
 sba_version   = "${params.SBA_VERSION}"
 sba_app_list  = "${params.SBA_APP_LIST}"
+pkg_suffix    = "-DEV"
 
 // .npmrc variables for verdaccio connection
 scope  = "@sinequa"
@@ -38,8 +37,6 @@ node (params.SBA_NODE) {
 		// load jenkins functions
 		def rootDir = pwd()
 		def jf = load "${rootDir}/.jenkins_function.groovy"
-		def currentBranch = jf.findBranchNumber()
-		jf.set_sba_version(currentBranch)
 		
 		stage('Clean') {
 			// delete dependency modules 
@@ -72,45 +69,51 @@ node (params.SBA_NODE) {
 			// get the dependency modules
 			bat "npm i"
 		}
-		
+
 		// check if we are in standard case of build or merge/validation (case of PR)
 		def action = jf.buildOrMerge()
+
 		if ("${action}" == "build") {
-			// Build the app
-			stage('Build Core')        {
+			// validate the build in a PR after a commit
+			// build sinequa core modules
+			stage('Build Core') {
 				echo "npm run buildcore --if-present"
 				bat  "npm run buildcore --if-present"
 			}
-			stage('Build Components')  {
+			stage('Build Components') {
 				echo "npm run buildcomponents --if-present"
 				bat  "npm run buildcomponents --if-present"
 			}
-			stage('Test Components')   {
-				echo "npm run test components -- --watch=false"
-				bat  "npm run test components -- --watch=false"
-			}
-			stage('Build Analytics')   {
+			stage('Build Analytics') {
 				echo "npm run buildanalytics --if-present"
 				bat  "npm run buildanalytics --if-present"
+			}			
+			stage('Test Components') {
+				echo "npm run test components -- --watch=false"
+				bat  "npm run test components -- --watch=false"
 			}
 			stage('Build HelloSearch') {
 				echo "npm run buildhellosearch --if-present"
 				bat  "npm run buildhellosearch --if-present"
 			}
-			stage('Build Vanilla')     {
+			stage('Build Vanilla') {
 				echo "npm run buildvanilla --if-present"
 				bat  "npm run buildvanilla --if-present"
 			}
-			stage('Build Pepper')      {
+			stage('Build Pepper') {
 				echo "npm run buildpepper --if-present"
 				bat  "npm run buildpepper --if-present"
 			}
-				
+
 		} else {
-		
+
+			// sba_version : releaseversion-DEV-build_number
+			sba_version = jf.get_pkg_version()
+			echo "sba_version: ${sba_version}"
+			
 			// validate the build before merge
-			// build sinequa core modules then start a list of apps (param of the job) to be build
-			stage('Build Core')       {
+			// build sinequa core modules
+			stage('Build Core') {
 				echo "npm run buildsqcore --sq_version=${sba_version} --if-present"
 				bat  "npm run buildsqcore --sq_version=${sba_version} --if-present"
 			}
@@ -118,11 +121,15 @@ node (params.SBA_NODE) {
 				echo "npm run buildsqcomponents --sq_version=${sba_version} --if-present"
 				bat  "npm run buildsqcomponents --sq_version=${sba_version} --if-present"
 			}
-			stage('Build Analytics')  {
+			stage('Build Analytics') {
 				echo "npm run buildsqanalytics --sq_version=${sba_version}  --if-present"
 				bat  "npm run buildsqanalytics --sq_version=${sba_version}  --if-present"
 			}
 			
+			// get the current branch version
+			def currentBranch = jf.findBranchNumber()
+			
+			// When merging, build a list of apps (param of the job) to be validated
 			// Start a job with the name in the list in parameter
 			// The job must exists before run
 			echo "Build apps ${sba_app_list}"
@@ -136,6 +143,7 @@ node (params.SBA_NODE) {
 				echo "  app ${j}/${nbapp}: ${applist[i]}"
 				jf.build_app(sba_version, applist[i], currentBranch)
 			}
+		
 		}
 
 	} catch (err) {
