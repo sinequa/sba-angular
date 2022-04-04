@@ -15,7 +15,7 @@ export class ValidationErrorPipe extends AbstractIntlPipe {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(key: ValidationErrors, params: any): void {
+    override updateValue(key: ValidationErrors, params: any): void {
         super.updateValue(key, params);
         const text = this.validationService.getFirstErrorText(key);
         const info = this.validationService.getFirstErrorInfo(key);

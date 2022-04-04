@@ -65,7 +65,7 @@ export class AggregationProvider extends BaseProvider {
     readonly skips: {[aggregation: string]: number} = {};
 
     constructor(
-        public name: string,
+        public override name: string,
         protected edgeTypes: AggregationEdgeType[],
         protected query?: Query
     ) {
@@ -192,7 +192,7 @@ export class AggregationProvider extends BaseProvider {
     /** 
      * Retrieves the aggregation data synchronously or asynchronously, and updates the dataset with it.
      */
-    getData(context: NetworkContext) {
+    override getData(context: NetworkContext) {
         this.context = context;
         this.dataset.clear();
 
@@ -216,7 +216,7 @@ export class AggregationProvider extends BaseProvider {
      * clicked node.
      * @param node the clicked node
      */
-    onNodeClicked(node?: Node) {
+    override onNodeClicked(node?: Node) {
         if(this.active && node) {
             const types = this.edgeTypes.filter(type => type.trigger === "onclick" && type.nodeTypes[0] === node.type);
             if(types.length > 0) {
@@ -238,7 +238,7 @@ export class AggregationProvider extends BaseProvider {
      * We display actions allowing to add additional data for "source" edges
      * (either all the source edges at once, or each individually).
      */
-    getProviderActions(): Action[] {
+    override getProviderActions(): Action[] {
         const actions = super.getProviderActions();
         const types = this.edgeTypes.filter(type => type.trigger === "source");
         if(types.length > 0) {
@@ -275,7 +275,7 @@ export class AggregationProvider extends BaseProvider {
      * We display "expand" actions for the edges with a "manual" trigger.
      * @param node The clicked node
      */
-    getNodeActions(node: Node): Action[] {
+    override getNodeActions(node: Node): Action[] {
         const actions = super.getNodeActions(node);
         if(this.active) {
             const types = this.edgeTypes.filter(type => type.trigger === "manual" && type.nodeTypes[0] === node.type);

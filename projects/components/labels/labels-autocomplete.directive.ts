@@ -59,7 +59,7 @@ export class LabelsAutocomplete extends Autocomplete implements OnInit, OnChange
      * On initialization, we listen to the autocomplete component for
      * selection events
      */
-    ngOnInit() {
+    override ngOnInit() {
         this._dropdownSubscription = this.dropdown.clicked.subscribe((item) => {
             this.select(item, true); // An item was selected from the autocomplete => take the value
         });
@@ -70,7 +70,7 @@ export class LabelsAutocomplete extends Autocomplete implements OnInit, OnChange
      * If the inputs changes state, react accordingly
      * @param changes
      */
-    ngOnChanges(changes: SimpleChanges) {
+    override ngOnChanges(changes: SimpleChanges) {
         if (changes["labelsItems"]) {
             this.updatePlaceholder();
         }
@@ -96,7 +96,7 @@ export class LabelsAutocomplete extends Autocomplete implements OnInit, OnChange
      * The getSuggests() method from the original directive is overriden to
      * use the labelsService rather than suggest service.
      */
-    protected getSuggests() {
+    protected override getSuggests() {
         const value = this.getInputValue();
 
         if (value) {
@@ -194,7 +194,7 @@ export class LabelsAutocomplete extends Autocomplete implements OnInit, OnChange
      * Autocomplete Item.
      * @returns false since labels items don't need to be searched
      */
-    protected setAutocompleteItem(item: AutocompleteItem): boolean {
+    protected override setAutocompleteItem(item: AutocompleteItem): boolean {
         if (item) {
             // Store the autocomplete items that will be used to create a selection
             this.labelsItems.push(item);
@@ -209,7 +209,7 @@ export class LabelsAutocomplete extends Autocomplete implements OnInit, OnChange
      * The startOrActive() method from the original directive is overriden to
      * immediately switch to ACTIVE if it is not the case
      */
-    protected startOrActive(): void {
+    protected override startOrActive(): void {
         if (
             this.getState() !== AutocompleteState.ACTIVE &&
             this.getState() !== AutocompleteState.OPENED
@@ -227,7 +227,7 @@ export class LabelsAutocomplete extends Autocomplete implements OnInit, OnChange
      * to remove labels items, enhance the enter key to support adding new labels.
      * @param event the keyboard
      */
-    keydown(event: KeyboardEvent) {
+    override keydown(event: KeyboardEvent) {
         const keydown = super.keydown(event);
 
         if (keydown === undefined) {
@@ -255,7 +255,7 @@ export class LabelsAutocomplete extends Autocomplete implements OnInit, OnChange
      * If not empty input :
      * retrieve suggestions based on this input text
      */
-    @HostListener("focus") focus() {
+    @HostListener("focus") override focus() {
         this.start();
         this.active();
     }
@@ -263,7 +263,7 @@ export class LabelsAutocomplete extends Autocomplete implements OnInit, OnChange
     /**
      * Listens to blur events (out of focus) on the <input> host and overrides the parent blur events
      */
-    @HostListener("blur", ["$event"]) blur(event: FocusEvent) {
+    @HostListener("blur", ["$event"]) override blur(event: FocusEvent) {
         this._manageSetAutocompleteItem();
         this.init();
     }
@@ -272,7 +272,7 @@ export class LabelsAutocomplete extends Autocomplete implements OnInit, OnChange
      * Overrides the parent inputChanged method, so that it is possible to reinitialize the autocomplete
      * @param event
      */
-    @HostListener("input", ["$event"]) inputChanged(event: Event) {
+    @HostListener("input", ["$event"]) override inputChanged(event: Event) {
         switch (this.getState()) {
             case AutocompleteState.OPENED:
                 this.suggest(); // Just request more data, but no state change

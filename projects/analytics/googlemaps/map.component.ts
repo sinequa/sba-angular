@@ -88,7 +88,7 @@ export class MapComponent extends AbstractFacet implements OnChanges {
         });
     }
 
-    get actions(): Action[] {
+    override get actions(): Action[] {
         const actions = [] as Action[];
         if(this.facetService.hasFiltered(this.name)) {
             actions.push(this.clearFilters);

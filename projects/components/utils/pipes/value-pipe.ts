@@ -13,7 +13,7 @@ export class ValuePipe extends AbstractIntlPipe {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(key: ValueItem | FieldValue, params: CCColumn): void {
+    override updateValue(key: ValueItem | FieldValue, params: CCColumn): void {
         super.updateValue(key, params);
         this.value = this.formatService.formatFieldValue(key, params);
         this.value = Utils.replace(this.value, /;/g, "$&\u200B");

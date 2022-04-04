@@ -149,7 +149,7 @@ export class BsFacetDate
         this.subscriptions.map((item) => item.unsubscribe());
     }
 
-    get actions(): Action[] {
+    override get actions(): Action[] {
         const actions: Action[] = [];
         if (this.facetService.hasFiltered(this.name) && actions.length === 0) {
             actions.push(this.clearFiltersAction);

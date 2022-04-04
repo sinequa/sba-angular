@@ -63,7 +63,7 @@ export class SlideBuilderComponent extends AbstractFacet implements OnInit, OnDe
         this.selectionService.clearSelectedRecords();
     }
 
-    public get actions(): Action[] {
+    public override get actions(): Action[] {
         const actions: Action[] = [];
         if(this.selectionService.haveSelectedRecords) {
             actions.push(this.exportSlidesAction);

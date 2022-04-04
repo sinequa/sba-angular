@@ -49,7 +49,7 @@ export class AutocompleteExtended extends AutocompleteFieldSearch {
      * searches for matches in the User Settings objects (recent documents, recent queries, saved
      * queries, baskets)
      */
-    protected getSuggestsObs(value: string, fields?: string[]): Observable<AutocompleteItem[]> {
+    protected override getSuggestsObs(value: string, fields?: string[]): Observable<AutocompleteItem[]> {
     
         // Methods returning (observable of) suggestions from different sources
         let dataSources: Observable<AutocompleteItem[]>[];
@@ -93,7 +93,7 @@ export class AutocompleteExtended extends AutocompleteFieldSearch {
      * @param item
      * @param submit
      */
-    protected select(item: AutocompleteItem, submit?: boolean) {
+    protected override select(item: AutocompleteItem, submit?: boolean) {
         this.audit.notify({type: AuditEventType.Search_AutoComplete, detail:{display: item.display, category: item.category }})
 
         if(item.category === "recent-document"){

@@ -10,11 +10,11 @@ import { RecordsProvider, StructuralEdgeType } from './records-provider';
 export class AsyncRecordsProvider extends RecordsProvider {
 
     constructor(
-        public name: string,
-        protected nodeType: NodeType,
-        protected edgeTypes: StructuralEdgeType[],
+        public override name: string,
+        protected override nodeType: NodeType,
+        protected override edgeTypes: StructuralEdgeType[],
         protected query: Query,
-        protected hideRecordNode = false
+        protected override hideRecordNode = false
     ){
         super(name, nodeType, edgeTypes, [], hideRecordNode);
     }
@@ -35,7 +35,7 @@ export class AsyncRecordsProvider extends RecordsProvider {
     /**
      * Updates the dataset after an asynchronous call to retrieve the records.
      */
-    getData(context: NetworkContext) {
+    override getData(context: NetworkContext) {
         this.context = context;
         // Query mode
         this.context.searchService.getResults(this.query, undefined, {searchInactive: true})

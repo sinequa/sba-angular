@@ -39,9 +39,9 @@ export class DynamicNodeProvider extends RecordsProvider {
     protected nodeCache = new Map<string, Record>();
 
     constructor(
-        public name: string,
-        protected nodeType: DynamicNodeType,
-        protected edgeTypes: StructuralEdgeType[],
+        public override name: string,
+        protected override nodeType: DynamicNodeType,
+        protected override edgeTypes: StructuralEdgeType[],
         protected permanent: boolean,
         protected sourceProviders: NetworkProvider[]
     ){
@@ -196,7 +196,7 @@ export class DynamicNodeProvider extends RecordsProvider {
      * Process a clicked node, for dynamic node types with an "onclick" trigger
      * @param node The clicked node
      */
-    onNodeClicked(node?: RecordNode) {
+    override onNodeClicked(node?: RecordNode) {
         super.onNodeClicked(node);
         if(this.active && this.nodeType.trigger === "onclick" && node && node.type === this.nodeType && this.processedNodes.indexOf(node.id) === -1) {
             this.processNode(node);
@@ -208,7 +208,7 @@ export class DynamicNodeProvider extends RecordsProvider {
      * with a "manual" trigger.
      * @param node The clicked node
      */
-    getNodeActions(node: RecordNode): Action[] {
+    override getNodeActions(node: RecordNode): Action[] {
         const actions = super.getNodeActions(node);
         if(this.active && this.nodeType.trigger === "manual" && node && node.type === this.nodeType && this.processedNodes.indexOf(node.id) === -1) {
             actions.unshift(new Action({

@@ -91,7 +91,7 @@ export class MoneyTimelineComponent extends AbstractFacet implements OnChanges,A
         });
     }
 
-    get actions(): Action[] {
+    override get actions(): Action[] {
         const actions: Action[] = [];
         if(this.searchService.query.findSelect(this.name)){
             actions.push(this.clearFilters);

@@ -196,7 +196,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
      * instead of the heatmap.
      * @param opened if true settings are opened, if false they are closed
      */
-    onOpenSettings(opened: boolean){
+    override onOpenSettings(opened: boolean){
         if(opened) {
 
             const maxXControl = new FormControl(this.maxXPref);
@@ -247,7 +247,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     /**
      * Returns the list of actions to display for this facet component
      */
-    get actions(): Action[] {
+    override get actions(): Action[] {
         const actions: Action[] = [];
         if(this.facetService.hasFiltered(this._name)){
             actions.push(this.clearFilters);

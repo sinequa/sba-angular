@@ -232,7 +232,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
     /**
      * Returns all the actions that are relevant in the current context
      */
-    get actions(): Action[] {
+    override get actions(): Action[] {
 
         const actions: Action[] = [];
 
@@ -464,7 +464,7 @@ export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnD
     )
 
     /* AbstractFacet abstract methods */
-    isHidden(): boolean {
+    override isHidden(): boolean {
         return !this.data();
     }
 

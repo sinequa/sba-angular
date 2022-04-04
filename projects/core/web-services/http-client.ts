@@ -44,7 +44,7 @@ export class SqHttpClient extends HttpClient {
      * * to mitigate request flooding, a cache of pending response observables keyed by the request thumbprint is maintained.
      * An observable from the cache is returned if the incoming request is identical to one in the cache
      */
-    request(first: string | HttpRequest<any>, url?: string, options = {}): Observable<any> {
+    override request(first: string | HttpRequest<any>, url?: string, options = {}): Observable<any> {
         const requestHash = this.getRequestHash(first, url, options);
         let observable = this.responseCache.get(requestHash);
         if (!observable) {

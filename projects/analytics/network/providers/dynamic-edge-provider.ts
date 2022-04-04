@@ -58,7 +58,7 @@ export class DynamicEdgeProvider extends RecordsProvider {
     protected nodeCache = new Map<string, Results>();
 
     constructor(
-        public name: string,
+        public override name: string,
         protected edgeType: DynamicEdgeType,
         protected secondaryEdgeTypes: StructuralEdgeType[],
         protected permanent: boolean,
@@ -187,7 +187,7 @@ export class DynamicEdgeProvider extends RecordsProvider {
      * Process a clicked source node, if the trigger of the edge type is "onclick"
      * @param node The clicked node
      */
-    onNodeClicked(node?: Node) {
+    override onNodeClicked(node?: Node) {
         super.onNodeClicked(node);
         if(this.active && this.edgeType.trigger === "onclick" && node && node.type === this.edgeType.nodeTypes[0] && !this.dataset.hasNode(node.id)) {
             this.processNode(node);
@@ -199,7 +199,7 @@ export class DynamicEdgeProvider extends RecordsProvider {
      * is "manual".
      * @param node The clicked node
      */
-    getNodeActions(node: Node): Action[] {
+    override getNodeActions(node: Node): Action[] {
         const actions = super.getNodeActions(node);
         if(this.active && this.edgeType.trigger === "manual" && node && node.type === this.edgeType.nodeTypes[0] && !this.dataset.hasNode(node.id)) {            
             actions.push(new Action({

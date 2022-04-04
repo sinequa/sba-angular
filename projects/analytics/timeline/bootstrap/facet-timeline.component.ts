@@ -148,7 +148,7 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
         return this.currentRange? this.currentRange[1] : this.maxDate;
     }
 
-    get actions(): Action[] {
+    override get actions(): Action[] {
         const actions: Action[] = [];
         if(this.facetService.hasFiltered(this.name)){
             actions.push(this.clearFilters);

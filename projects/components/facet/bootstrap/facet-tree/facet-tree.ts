@@ -194,7 +194,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges, OnDestroy {
     /**
      * Returns all the actions that are relevant in the current context
      */
-    get actions(): Action[] {
+    override get actions(): Action[] {
 
         const actions: Action[] = [];
 
@@ -334,7 +334,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges, OnDestroy {
     }
 
     /* AbstractFacet abstract methods */
-    isHidden(): boolean {
+    override isHidden(): boolean {
         return !this.data;
     }
 

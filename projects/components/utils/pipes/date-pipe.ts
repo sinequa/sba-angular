@@ -9,7 +9,7 @@ export class DatePipe extends AbstractIntlPipe {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(key: number | Date, params: Intl.DateTimeFormatOptions): void {
+    override updateValue(key: number | Date, params: Intl.DateTimeFormatOptions): void {
         super.updateValue(key, params);
         this.value = this.intlService.formatDate(key, params);
     }

@@ -74,7 +74,7 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
      * If the off input changes state, react accordingly
      * @param changes
      */
-    ngOnChanges(changes: SimpleChanges){
+    override ngOnChanges(changes: SimpleChanges){
         super.ngOnChanges(changes);
 
         // Subscribe to the field search items's container
@@ -124,7 +124,7 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
     /**
      * Unsubscribe when destroying the component
      */
-    ngOnDestroy(){
+    override ngOnDestroy(){
         super.ngOnDestroy();
         if(this._fieldSearchSubscription){
             this._fieldSearchSubscription.unsubscribe();
@@ -197,7 +197,7 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
      * fielded search autocomplete.
      * @returns true if this autocomplete item should be searched
      */
-    protected setAutocompleteItem(item: AutocompleteItem): boolean {
+    protected override setAutocompleteItem(item: AutocompleteItem): boolean {
         if(item) {
             if(this.fieldSearchMode === "text") {
                 return this.insertAutocompleteItem(item);
@@ -264,7 +264,7 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
      * The suggestions are then fetched by getSuggestsObs() and processed
      * by processSuggests().
      */
-    protected getSuggests() {
+    protected override getSuggests() {
         let value = this.getInputValue();
         if(value) { // If there is text, make a call to the suggest API
             const parseResult = this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
@@ -306,7 +306,7 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
      * - Use changeDetectorRef to update display
      * @param obs an observable of AutocompleteItem suggestions
      */
-    protected processSuggests(obs: Observable<AutocompleteItem[]>){
+    protected override processSuggests(obs: Observable<AutocompleteItem[]>){
         obs.subscribe(
             suggests => {
                 if(this.getState() === AutocompleteState.ACTIVE || this.getState() === AutocompleteState.OPENED){
@@ -360,7 +360,7 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
      * to remove field search items.
      * @param event the keyboard
      */
-    keydown(event: KeyboardEvent) {
+    override keydown(event: KeyboardEvent) {
 
         const keydown = super.keydown(event);
 

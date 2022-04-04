@@ -95,7 +95,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
         this.selectionService.events.subscribe(e => this.updateSelectedItems());
     }
 
-    get actions(): Action[] {
+    override get actions(): Action[] {
         const actions: Action[] = [];
         if(this.searchService.query.findSelect(this.name)){
             actions.push(this.clearFilters);
