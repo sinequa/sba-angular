@@ -9,6 +9,22 @@ import { Action } from "@sinequa/components/action";
 import { FacetService } from "../../facet.service";
 import { Utils } from "@sinequa/core/base";
 import {AppService} from "@sinequa/core/app-utils";
+import { FacetConfig } from "../../facet-config";
+
+export interface FacetTagCloudParams {
+    aggregations: string | string[];
+    limit?: number;
+    uniformRepartition?: boolean;
+    showCount?: boolean;
+    proportionalWeight?: boolean;
+    countThreshold?: number;
+    shuffleData?: boolean;
+    isolateFacetFilters?: boolean;
+}
+
+export interface FacetTagCloudConfig extends FacetConfig {
+    type: 'tag-cloud';
+}
 
 export interface TagCloudItem {
     aggregation: Aggregation;
@@ -64,7 +80,7 @@ export class BsFacetTagCloud extends AbstractFacet implements OnChanges {
             action: () => {
                 if (Utils.isArray(this.aggregations)) {
                     for (const aggregation of this.aggregations) this.facetService.clearFiltersSearch(this.getName(aggregation), true);
-                } else { 
+                } else {
                     this.facetService.clearFiltersSearch(this.getName(this.aggregations), true);
                 }
             },
@@ -207,7 +223,7 @@ export class BsFacetTagCloud extends AbstractFacet implements OnChanges {
         }
         event.preventDefault();
     }
-    
+
     /**
      * Get a column's alias
      * @param column column name

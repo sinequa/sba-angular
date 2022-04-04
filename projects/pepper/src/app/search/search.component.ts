@@ -9,7 +9,7 @@ import { LoginService } from '@sinequa/core/login';
 import { Record, Results } from '@sinequa/core/web-services';
 import { SelectionService } from '@sinequa/components/selection';
 import { SearchService } from '@sinequa/components/search';
-import { BsFacetList, BsFacetTree, FacetConfig, FacetService } from '@sinequa/components/facet';
+import { default_facet_components, FacetConfig, FacetService } from '@sinequa/components/facet';
 import { UIService } from '@sinequa/components/utils';
 import { PreviewService } from '@sinequa/components/preview';
 import { Action, BsDropdownService, DropdownActiveEvent } from '@sinequa/components/action';
@@ -30,8 +30,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   public results$: Observable<Results | undefined>;
   public readonly facetComponents = {
-    "list": BsFacetList,
-    "tree": BsFacetTree,
+    ...default_facet_components,
     "date": BsFacetDate
   }
   private _loginSubscription: Subscription;

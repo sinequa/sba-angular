@@ -22,7 +22,6 @@ export interface FacetListParams {
     displayActions?: boolean;
     showProgressBar?: boolean;
     replaceCurrent?: boolean;
-
 }
 
 export interface FacetListConfig extends FacetConfig {

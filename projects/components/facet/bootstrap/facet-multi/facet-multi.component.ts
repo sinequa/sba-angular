@@ -1,12 +1,10 @@
 import { Component, OnChanges, Input, Output, EventEmitter, ChangeDetectorRef, ComponentRef, SimpleChanges, Type } from '@angular/core';
 import { Results } from '@sinequa/core/web-services';
 import { AbstractFacet } from '../../abstract-facet';
-import { FacetConfig } from "../../facet-config";
+import { FacetConfig, default_facet_components } from "../../facet-config";
 import { Action } from '@sinequa/components/action';
 import { FacetService } from '../../facet.service';
 import { MapOf, Utils } from '@sinequa/core/base';
-import { BsFacetList } from "../facet-list/facet-list";
-import { BsFacetTree } from "../facet-tree/facet-tree";
 
 declare interface FacetMultiConfig extends FacetConfig {
   // Properties internally setup by this component
@@ -25,7 +23,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 
   @Input() results: Results;
   @Input() facets: FacetMultiConfig[];
-  @Input() facetComponents: MapOf<Type<any>> =  {"list": BsFacetList, "tree": BsFacetTree};
+  @Input() facetComponents: MapOf<Type<any>> = default_facet_components;
   @Input() showCount: boolean = true;
 
   @Output() events = new EventEmitter<FacetMultiConfig>();

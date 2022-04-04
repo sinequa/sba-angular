@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Action } from '@sinequa/components/action';
-import { BsFacetList, BsFacetTree, FacetConfig } from '@sinequa/components/facet';
+import { default_facet_components, FacetConfig } from '@sinequa/components/facet';
 import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
@@ -40,8 +40,7 @@ export class SearchComponent implements OnInit {
   public results$: Observable<Results | undefined>;
 
   public readonly facetComponents = {
-      "list": BsFacetList,
-      "tree": BsFacetTree,
+      ...default_facet_components,
       "date": BsFacetDate
   }
 

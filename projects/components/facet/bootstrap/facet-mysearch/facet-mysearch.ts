@@ -3,6 +3,20 @@ import { Results } from "@sinequa/core/web-services";
 import { SearchService, BreadcrumbsItem } from "@sinequa/components/search";
 import { AbstractFacet } from "../../abstract-facet";
 import { Action } from "@sinequa/components/action";
+import { FacetConfig } from "../../facet-config";
+
+export interface FacetMySearchParams {
+    allowDeletion?: boolean;
+    displayFieldNames?: boolean;
+    collapsible?: boolean;
+    useBadges?: boolean;
+    ignoreText?: boolean;
+    excludedFacets?: (string | undefined)[];
+}
+
+export interface FacetMySearchConfig extends FacetConfig {
+    type: 'my-search';
+}
 
 @Component({
     selector: "sq-facet-mysearch",
@@ -23,7 +37,6 @@ export class BsMySearch extends AbstractFacet implements OnChanges {
     @Input() ignoreText: boolean = true;
     /** Items of those facets will be excluded  */
     @Input() excludedFacets: (string | undefined)[] = ["search-form"];
-
 
     collapsed = false;
     clearAction: Action;

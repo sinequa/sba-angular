@@ -2,10 +2,8 @@ import {Component, Input, OnChanges, OnInit, Type} from "@angular/core";
 import {Results} from "@sinequa/core/web-services";
 import {FacetService} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
-import { FacetConfig } from "../../facet-config";
+import { FacetConfig, default_facet_components } from "../../facet-config";
 import { MapOf } from "@sinequa/core/base";
-import { BsFacetList } from "../facet-list/facet-list";
-import { BsFacetTree } from "../facet-tree/facet-tree";
 
 @Component({
     selector: "sq-facet-filters",
@@ -15,7 +13,7 @@ import { BsFacetTree } from "../facet-tree/facet-tree";
 export class BsFacetFilters implements OnInit, OnChanges {
     @Input() results: Results;
     @Input() facets: FacetConfig[];
-    @Input() facetComponents: MapOf<Type<any>> =  {"list": BsFacetList, "tree": BsFacetTree};
+    @Input() facetComponents: MapOf<Type<any>> = default_facet_components;
     @Input() enableCustomization = false;
 
     @Input() autoAdjust: boolean = true;

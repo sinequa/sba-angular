@@ -5,6 +5,17 @@ import {Utils} from "@sinequa/core/base";
 import {SearchService} from "@sinequa/components/search";
 import {AbstractFacet} from "../../abstract-facet";
 import {ParseResult} from '@sinequa/components/autocomplete';
+import { FacetConfig } from "../../facet-config";
+
+export interface FacetRefineParams {
+    autocompleteEnabled?: boolean;
+    suggestQuery?: string;
+    suggestDelay?: number;
+}
+
+export interface FacetRefineConfig extends FacetConfig {
+    type: 'refine';
+}
 
 @Component({
     selector: "sq-refine",
