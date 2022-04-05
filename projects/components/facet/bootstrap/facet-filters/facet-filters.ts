@@ -2,10 +2,10 @@ import {Component, Input, OnChanges, OnInit, Type} from "@angular/core";
 import {Results} from "@sinequa/core/web-services";
 import {FacetService} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
-import { FacetConfig } from "../../facet-config";
+import { FacetConfig, default_facet_components } from "../../facet-config";
 import { MapOf } from "@sinequa/core/base";
-import { BsFacetList } from "../facet-list/facet-list";
-import { BsFacetTree } from "../facet-tree/facet-tree";
+
+declare interface FacetFiltersConfig extends FacetConfig<{name?: string, aggregation?: string}> {}
 
 @Component({
     selector: "sq-facet-filters",
@@ -14,8 +14,8 @@ import { BsFacetTree } from "../facet-tree/facet-tree";
 })
 export class BsFacetFilters implements OnInit, OnChanges {
     @Input() results: Results;
-    @Input() facets: FacetConfig[];
-    @Input() facetComponents: MapOf<Type<any>> =  {"list": BsFacetList, "tree": BsFacetTree};
+    @Input() facets: FacetFiltersConfig[];
+    @Input() facetComponents: MapOf<Type<any>> = default_facet_components;
     @Input() enableCustomization = false;
 
     @Input() autoAdjust: boolean = true;
@@ -68,8 +68,8 @@ export class BsFacetFilters implements OnInit, OnChanges {
      * Name of the facet, used to retrieve selections
      * through the facet service.
      */
-     getName(facet: FacetConfig) : string {
-        return facet.parameters?.name || facet.parameters?.aggregation;
+     getName(facet: FacetFiltersConfig) : string {
+        return (facet.parameters?.name || facet.parameters?.aggregation) as string;
     }
 
     /**
@@ -78,7 +78,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
     protected buildFilters() {
 
         // For each facet
-        this.filters = this.filteredFacets.map((facet: FacetConfig) => {
+        this.filters = this.filteredFacets.map((facet: FacetFiltersConfig) => {
 
             const children = [
                 new Action({
@@ -123,8 +123,8 @@ export class BsFacetFilters implements OnInit, OnChanges {
      *
      * @returns true if facet contains at least one item otherwise false
      */
-    protected hasData(facet: FacetConfig): boolean {
-        return this.facetService.hasData(facet.parameters?.aggregation, this.results);
+    protected hasData(facet: FacetFiltersConfig): boolean {
+        return this.facetService.hasData(<string>facet.parameters?.aggregation, this.results);
     }
 
     protected addFacetMenu() {
@@ -173,7 +173,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
 
         if (!this.enableCustomization) return filtered;
 
-        const new_facets: FacetConfig[] = [];
+        const new_facets: FacetFiltersConfig[] = [];
 
         if (this.userFacets) {
             for (const facet of filtered) {

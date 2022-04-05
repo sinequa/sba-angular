@@ -9,20 +9,20 @@ import { Observable, of, Subscription } from "rxjs";
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from "rxjs/operators";
 import { FacetConfig } from "../../facet-config";
 
+export interface FacetTreeParams {
+    aggregation: string;
+    name?: string;
+    showCount?: boolean;
+    searchable?: boolean;
+    allowExclude?: boolean;
+    allowOr?: boolean;
+    expandedLevel?: number;
+    forceMaxHeight?: boolean;
+    displayActions?: boolean;
+}
 
-export interface FacetTreeConfig extends FacetConfig {
+export interface FacetTreeConfig extends FacetConfig<FacetTreeParams> {
     type: 'tree';
-    parameters: {
-        aggregation: string;
-        name?: string;
-        showCount?: boolean;
-        searchable?: boolean;
-        allowExclude?: boolean;
-        allowOr?: boolean;
-        expandedLevel?: number;
-        forceMaxHeight?: boolean;
-        displayActions?: boolean;
-    }
 }
 
 @Component({
@@ -51,7 +51,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges, OnDestroy {
 
     // Sets to keep track of selected/excluded/filtered items
     readonly filtered = new Set<AggregationItem>();
-    
+
     readonly selected = new Map<string,TreeAggregationNode>();
 
     hiddenSelected: TreeAggregationNode[] = [];

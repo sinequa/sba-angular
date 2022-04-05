@@ -1,14 +1,12 @@
 import { Component, OnChanges, Input, Output, EventEmitter, ChangeDetectorRef, ComponentRef, SimpleChanges, Type } from '@angular/core';
 import { Results } from '@sinequa/core/web-services';
 import { AbstractFacet } from '../../abstract-facet';
-import { FacetConfig } from "../../facet-config";
+import { FacetConfig, default_facet_components } from "../../facet-config";
 import { Action } from '@sinequa/components/action';
 import { FacetService } from '../../facet.service';
 import { MapOf, Utils } from '@sinequa/core/base';
-import { BsFacetList } from "../facet-list/facet-list";
-import { BsFacetTree } from "../facet-tree/facet-tree";
 
-declare interface FacetMultiConfig extends FacetConfig {
+declare interface FacetMultiConfig extends FacetConfig<{name?: string, aggregation?: string, displayEmptyDistributionIntervals?: boolean}> {
   // Properties internally setup by this component
   $count?: string;
   $hasData?: boolean;
@@ -25,7 +23,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 
   @Input() results: Results;
   @Input() facets: FacetMultiConfig[];
-  @Input() facetComponents: MapOf<Type<any>> =  {"list": BsFacetList, "tree": BsFacetTree};
+  @Input() facetComponents: MapOf<Type<any>> = default_facet_components;
   @Input() showCount: boolean = true;
 
   @Output() events = new EventEmitter<FacetMultiConfig>();
@@ -82,7 +80,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
      * through the facet service.
      */
     getName(facet: FacetMultiConfig) : string {
-        return facet.parameters?.name || facet.parameters?.aggregation;
+        return (facet.parameters?.name || facet.parameters?.aggregation) as string;
     }
 
   /**
@@ -135,10 +133,10 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    * @param facet
    */
   private getFacetCount(facet: FacetMultiConfig): string {
-    const agg = this.results.aggregations.find(agg => Utils.eqNC(agg.name, facet.parameters?.aggregation)); // avoid calling getAggregation() which is costly for trees
+    const agg = this.results.aggregations.find(agg => Utils.eqNC(agg.name, <string>facet.parameters?.aggregation)); // avoid calling getAggregation() which is costly for trees
     if (!agg?.items)
       return "";
-    const count = this.facetService.getAggregationCount(facet.parameters?.aggregation); // configured count (default: 10)
+    const count = this.facetService.getAggregationCount(<string>facet.parameters?.aggregation); // configured count (default: 10)
     const aggItemCounter = (!agg.isDistribution || facet?.parameters?.displayEmptyDistributionIntervals)
       ? agg.items.length
       : agg.items.filter(item => item.count > 0).length;
@@ -161,7 +159,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     this.facets.forEach(facet => {
       facet.$count = this.getFacetCount(facet);
-      facet.$hasData = this.facetService.hasData(facet.parameters?.aggregation, this.results);
+      facet.$hasData = this.facetService.hasData(<string>facet.parameters?.aggregation, this.results);
       facet.$hasFiltered = this.hasFiltered(facet);
       // The facet is hidden if there are included tabs and the current tab is not in it
       // OR if there are excluded tabs and the current tab is in it.

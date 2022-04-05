@@ -12,6 +12,8 @@ import {UIService} from "@sinequa/components/utils";
 import {AbstractFacet} from "../../abstract-facet";
 import {AdvancedService} from "@sinequa/components/advanced";
 import { Action } from '@sinequa/components/action';
+import { FacetConfig } from "../../facet-config";
+
 
 export enum RoundTarget {
     number,
@@ -32,6 +34,18 @@ export interface StepDef {
     format: string;
     minRange: string;
     active: boolean;
+}
+
+export interface FacetRangeParams {
+    aggregation: string;
+    name?: string;
+    min?: string;
+    max?: string;
+    stepDefs?: StepDef[];
+}
+
+export interface FacetRangeConfig extends FacetConfig<FacetRangeParams> {
+    type: 'range';
 }
 
 @Component({

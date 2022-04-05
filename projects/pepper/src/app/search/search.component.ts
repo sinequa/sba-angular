@@ -9,11 +9,11 @@ import { LoginService } from '@sinequa/core/login';
 import { Record, Results } from '@sinequa/core/web-services';
 import { SelectionService } from '@sinequa/components/selection';
 import { SearchService } from '@sinequa/components/search';
-import { BsFacetList, BsFacetTree, FacetConfig, FacetService } from '@sinequa/components/facet';
+import { default_facet_components, FacetConfig, FacetService } from '@sinequa/components/facet';
 import { UIService } from '@sinequa/components/utils';
 import { PreviewService } from '@sinequa/components/preview';
 import { Action, BsDropdownService, DropdownActiveEvent } from '@sinequa/components/action';
-import { FACETS, METADATA, FEATURES } from '../../config';
+import { FACETS, METADATA, FEATURES, FacetParams } from '../../config';
 import { DashboardService, MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, PREVIEW_WIDGET, HEATMAP_WIDGET, TAGCLOUD_WIDGET, MONEYTIMELINE_WIDGET, MONEYCLOUD_WIDGET } from '../dashboard/dashboard.service';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 
@@ -30,8 +30,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   public results$: Observable<Results | undefined>;
   public readonly facetComponents = {
-    "list": BsFacetList,
-    "tree": BsFacetTree,
+    ...default_facet_components,
     "date": BsFacetDate
   }
   private _loginSubscription: Subscription;
@@ -156,8 +155,8 @@ export class SearchComponent implements OnInit, OnDestroy {
    * The configuration from the config.ts file can be overriden by configuration from
    * the app configuration on the server
    */
-   public get facets(): FacetConfig[] {
-    return this.appService.app?.data?.facets as any as FacetConfig[] || FACETS;
+   public get facets(): FacetConfig<FacetParams>[] {
+    return this.appService.app?.data?.facets as any as FacetConfig<FacetParams>[] || FACETS;
   }
 
   /**
@@ -182,14 +181,14 @@ export class SearchComponent implements OnInit, OnDestroy {
    * Responds to a change of facet in the multi facet
    * @param facet
    */
-  facetChanged(facet: FacetConfig){
+  facetChanged(facet: FacetConfig<FacetParams>){
     if(!facet) {
       this.multiFacetIcon = "fas fa-filter fa-fw";
       this.multiFacetTitle = "msg#facet.filters.title";
     }
     else {
       this.multiFacetIcon = facet.icon;
-      this.multiFacetTitle = facet.title || facet.parameters?.name || facet.parameters?.aggregation;
+      this.multiFacetTitle = (facet.title || facet.parameters?.name || facet.parameters?.aggregation) as string;
     }
   }
 

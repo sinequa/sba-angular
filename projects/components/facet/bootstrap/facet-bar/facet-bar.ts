@@ -1,12 +1,11 @@
 import { Component, ComponentRef, Input, Type } from "@angular/core";
 import { MapOf } from "@sinequa/core/base";
 import { Results } from "@sinequa/core/web-services";
-import { FacetConfig } from "../../facet-config";
+import { FacetConfig, default_facet_components } from "../../facet-config";
 import { BsFacetCard } from "../facet-card/facet-card";
 import { AbstractFacet } from '../../abstract-facet';
 import { FacetService } from "../../facet.service";
-import { BsFacetList } from "../facet-list/facet-list";
-import { BsFacetTree } from "../facet-tree/facet-tree";
+
 @Component({
     selector: "sq-facet-bar",
     templateUrl: "./facet-bar.html",
@@ -14,7 +13,7 @@ import { BsFacetTree } from "../facet-tree/facet-tree";
 export class BsFacetBar {
     @Input() results: Results;
     @Input() containerIndex: number = 0; // There could be various facet bars (but only one service and storage array)
-    @Input() facetComponents: MapOf<Type<any>> =  {"list": BsFacetList, "tree": BsFacetTree};
+    @Input() facetComponents: MapOf<Type<any>> = default_facet_components;
 
     constructor(public facetService: FacetService) {}
 
@@ -28,7 +27,7 @@ export class BsFacetBar {
         facetCard._facetComponent = componentRef?.componentRef?.instance!;
     }
 
-    getFacetInputs(facet: FacetConfig): MapOf<any> {
+    getFacetInputs(facet: FacetConfig<{}>): MapOf<any> {
         return {
             ...(facet.parameters || {}),
             results: this.results
