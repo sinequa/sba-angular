@@ -21,8 +21,8 @@ export const FEATURES: string[] = [
     //"voice-recognition",            // Display a button to trigger voice recognition (supported only on Chrome-based browsers and uses Google servers for processing)
 ];
 
-export const FACETS: FacetConfig<FacetListParams | FacetTreeParams | FacetMySearchParams | FacetRangeParams | FacetRefineParams | FacetTagCloudParams | FacetDateParams>[] =  [
-    {
+export type FacetParams = FacetListParams | FacetTreeParams | FacetMySearchParams | FacetRangeParams | FacetRefineParams | FacetTagCloudParams | FacetDateParams;
+export const FACETS: FacetConfig<FacetParams>[] = [    {
         title: "msg#facet.treepath.title",
         type: "tree",
         icon: "fas fa-sitemap",
