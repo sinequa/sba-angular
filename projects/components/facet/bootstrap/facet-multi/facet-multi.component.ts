@@ -6,7 +6,7 @@ import { Action } from '@sinequa/components/action';
 import { FacetService } from '../../facet.service';
 import { MapOf, Utils } from '@sinequa/core/base';
 
-declare interface FacetMultiConfig extends FacetConfig {
+declare interface FacetMultiConfig extends FacetConfig<{name?: string, aggregation?: string, displayEmptyDistributionIntervals?: boolean}> {
   // Properties internally setup by this component
   $count?: string;
   $hasData?: boolean;

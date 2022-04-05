@@ -9,13 +9,13 @@ import { LoginService } from '@sinequa/core/login';
 import { Record, Results } from '@sinequa/core/web-services';
 import { SelectionService } from '@sinequa/components/selection';
 import { SearchService } from '@sinequa/components/search';
-import { default_facet_components, FacetConfig, FacetService } from '@sinequa/components/facet';
+import { default_facet_components, FacetConfig, FacetListParams, FacetMySearchParams, FacetRangeParams, FacetRefineParams, FacetService, FacetTagCloudParams, FacetTreeParams } from '@sinequa/components/facet';
 import { UIService } from '@sinequa/components/utils';
 import { PreviewService } from '@sinequa/components/preview';
 import { Action, BsDropdownService, DropdownActiveEvent } from '@sinequa/components/action';
 import { FACETS, METADATA, FEATURES } from '../../config';
 import { DashboardService, MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, PREVIEW_WIDGET, HEATMAP_WIDGET, TAGCLOUD_WIDGET, MONEYTIMELINE_WIDGET, MONEYCLOUD_WIDGET } from '../dashboard/dashboard.service';
-import { BsFacetDate } from '@sinequa/analytics/timeline';
+import { BsFacetDate, FacetDateParams } from '@sinequa/analytics/timeline';
 
 @Component({
   selector: 'app-search',
@@ -155,8 +155,8 @@ export class SearchComponent implements OnInit, OnDestroy {
    * The configuration from the config.ts file can be overriden by configuration from
    * the app configuration on the server
    */
-   public get facets(): FacetConfig[] {
-    return this.appService.app?.data?.facets as any as FacetConfig[] || FACETS;
+   public get facets(): FacetConfig<FacetListParams | FacetTreeParams | FacetMySearchParams | FacetRangeParams | FacetRefineParams | FacetTagCloudParams | FacetDateParams>[] {
+    return this.appService.app?.data?.facets as any as FacetConfig<FacetListParams | FacetTreeParams | FacetMySearchParams | FacetRangeParams | FacetRefineParams | FacetTagCloudParams | FacetDateParams>[] || FACETS;
   }
 
   /**
@@ -181,7 +181,7 @@ export class SearchComponent implements OnInit, OnDestroy {
    * Responds to a change of facet in the multi facet
    * @param facet
    */
-  facetChanged(facet: FacetConfig){
+  facetChanged(facet: FacetConfig<FacetListParams | FacetTreeParams | FacetMySearchParams | FacetRangeParams | FacetRefineParams | FacetTagCloudParams | FacetDateParams>){
     if(!facet) {
       this.multiFacetIcon = "fas fa-filter fa-fw";
       this.multiFacetTitle = "msg#facet.filters.title";

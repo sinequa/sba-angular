@@ -22,7 +22,7 @@ export interface FacetTagCloudParams {
     isolateFacetFilters?: boolean;
 }
 
-export interface FacetTagCloudConfig extends FacetConfig {
+export interface FacetTagCloudConfig extends FacetConfig<FacetTagCloudParams> {
     type: 'tag-cloud';
 }
 

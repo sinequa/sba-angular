@@ -1,5 +1,5 @@
 import { FacetDateParams } from '@sinequa/analytics/timeline';
-import { FacetConfig } from '@sinequa/components/facet';
+import { FacetConfig, FacetListParams, FacetMySearchParams, FacetRangeParams, FacetRefineParams, FacetTagCloudParams, FacetTreeParams } from '@sinequa/components/facet';
 
 /**
  * This list is used by Vanilla Search to activate key features in the UI.
@@ -21,7 +21,7 @@ export const FEATURES: string[] = [
     //"voice-recognition",            // Display a button to trigger voice recognition (supported only on Chrome-based browsers and uses Google servers for processing)
 ];
 
-export const FACETS: FacetConfig<FacetDateParams>[] = [
+export const FACETS: FacetConfig<FacetListParams | FacetTreeParams | FacetMySearchParams | FacetRangeParams | FacetRefineParams | FacetTagCloudParams | FacetDateParams>[] = [
     {
         title: "msg#facet.geo.title",
         type: "list",

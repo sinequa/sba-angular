@@ -21,7 +21,7 @@ export interface FacetTreeParams {
     displayActions?: boolean;
 }
 
-export interface FacetTreeConfig extends FacetConfig {
+export interface FacetTreeConfig extends FacetConfig<FacetTreeParams> {
     type: 'tree';
 }
 

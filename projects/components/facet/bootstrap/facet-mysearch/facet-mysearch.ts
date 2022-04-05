@@ -14,7 +14,7 @@ export interface FacetMySearchParams {
     excludedFacets?: (string | undefined)[];
 }
 
-export interface FacetMySearchConfig extends FacetConfig {
+export interface FacetMySearchConfig extends FacetConfig<FacetMySearchParams> {
     type: 'my-search';
 }
 

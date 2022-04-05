@@ -27,7 +27,7 @@ export class BsFacetBar {
         facetCard._facetComponent = componentRef?.componentRef?.instance!;
     }
 
-    getFacetInputs(facet: FacetConfig): MapOf<any> {
+    getFacetInputs(facet: FacetConfig<{}>): MapOf<any> {
         return {
             ...(facet.parameters || {}),
             results: this.results

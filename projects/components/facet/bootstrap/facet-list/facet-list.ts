@@ -24,7 +24,7 @@ export interface FacetListParams {
     replaceCurrent?: boolean;
 }
 
-export interface FacetListConfig extends FacetConfig {
+export interface FacetListConfig extends FacetConfig<FacetListParams> {
     type: 'list';
 }
 

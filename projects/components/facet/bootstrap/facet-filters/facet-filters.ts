@@ -5,6 +5,8 @@ import {Action} from "@sinequa/components/action";
 import { FacetConfig, default_facet_components } from "../../facet-config";
 import { MapOf } from "@sinequa/core/base";
 
+declare interface FacetFiltersConfig extends FacetConfig<{name?: string, aggregation?: string}> {}
+
 @Component({
     selector: "sq-facet-filters",
     templateUrl: "./facet-filters.html",
@@ -12,7 +14,7 @@ import { MapOf } from "@sinequa/core/base";
 })
 export class BsFacetFilters implements OnInit, OnChanges {
     @Input() results: Results;
-    @Input() facets: FacetConfig[];
+    @Input() facets: FacetFiltersConfig[];
     @Input() facetComponents: MapOf<Type<any>> = default_facet_components;
     @Input() enableCustomization = false;
 
@@ -66,7 +68,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
      * Name of the facet, used to retrieve selections
      * through the facet service.
      */
-     getName(facet: FacetConfig) : string {
+     getName(facet: FacetFiltersConfig) : string {
         return (facet.parameters?.name || facet.parameters?.aggregation) as string;
     }
 
@@ -76,7 +78,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
     protected buildFilters() {
 
         // For each facet
-        this.filters = this.filteredFacets.map((facet: FacetConfig) => {
+        this.filters = this.filteredFacets.map((facet: FacetFiltersConfig) => {
 
             const children = [
                 new Action({
@@ -121,7 +123,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
      *
      * @returns true if facet contains at least one item otherwise false
      */
-    protected hasData(facet: FacetConfig): boolean {
+    protected hasData(facet: FacetFiltersConfig): boolean {
         return this.facetService.hasData(<string>facet.parameters?.aggregation, this.results);
     }
 
@@ -171,7 +173,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
 
         if (!this.enableCustomization) return filtered;
 
-        const new_facets: FacetConfig[] = [];
+        const new_facets: FacetFiltersConfig[] = [];
 
         if (this.userFacets) {
             for (const facet of filtered) {

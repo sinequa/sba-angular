@@ -8,12 +8,12 @@ import {ParseResult} from '@sinequa/components/autocomplete';
 import { FacetConfig } from "../../facet-config";
 
 export interface FacetRefineParams {
-    autocompleteEnabled?: boolean;
     suggestQuery?: string;
+    autocompleteEnabled?: boolean;
     suggestDelay?: number;
 }
 
-export interface FacetRefineConfig extends FacetConfig {
+export interface FacetRefineConfig extends FacetConfig<FacetRefineParams> {
     type: 'refine';
 }
 

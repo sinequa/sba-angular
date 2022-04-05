@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Action } from '@sinequa/components/action';
-import { default_facet_components, FacetConfig } from '@sinequa/components/facet';
+import { default_facet_components, FacetConfig, FacetListParams, FacetMySearchParams, FacetRangeParams, FacetRefineParams, FacetTagCloudParams, FacetTreeParams } from '@sinequa/components/facet';
 import { PreviewDocument, PreviewService } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
 import { SelectionService } from '@sinequa/components/selection';
@@ -13,7 +13,7 @@ import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
 import { AuditWebService, Record, Results } from '@sinequa/core/web-services';
 import { FACETS, FEATURES, METADATA } from '../../config';
-import { BsFacetDate } from '@sinequa/analytics/timeline';
+import { BsFacetDate, FacetDateParams } from '@sinequa/analytics/timeline';
 
 @Component({
   selector: 'app-search',
@@ -95,8 +95,8 @@ export class SearchComponent implements OnInit {
    * The configuration from the config.ts file can be overriden by configuration from
    * the app configuration on the server
    */
-  public get facets(): FacetConfig[] {
-    return this.appService.app?.data?.facets as any as FacetConfig[] || FACETS;
+  public get facets(): FacetConfig<FacetListParams | FacetTreeParams | FacetMySearchParams | FacetRangeParams | FacetRefineParams | FacetTagCloudParams | FacetDateParams>[] {
+    return this.appService.app?.data?.facets as any as FacetConfig<FacetListParams | FacetTreeParams | FacetMySearchParams | FacetRangeParams | FacetRefineParams | FacetTagCloudParams | FacetDateParams>[] || FACETS;
   }
 
   /**
@@ -121,7 +121,7 @@ export class SearchComponent implements OnInit {
    * Responds to a change of facet in the multi facet
    * @param facet
    */
-  facetChanged(facet: FacetConfig){
+  facetChanged(facet: FacetConfig<FacetListParams | FacetTreeParams | FacetMySearchParams | FacetRangeParams | FacetRefineParams | FacetTagCloudParams | FacetDateParams>){
     if(!facet) {
       this.multiFacetIcon = "fas fa-filter fa-fw";
       this.multiFacetTitle = "msg#facet.filters.title";

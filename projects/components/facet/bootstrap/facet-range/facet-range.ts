@@ -44,7 +44,7 @@ export interface FacetRangeParams {
     stepDefs?: StepDef[];
 }
 
-export interface FacetRangeConfig extends FacetConfig {
+export interface FacetRangeConfig extends FacetConfig<FacetRangeParams> {
     type: 'range';
 }
 
