@@ -542,6 +542,12 @@ export class FacetService {
                 const data = results.aggregations.find(a => Utils.eqNC(a.name, aggregation));
                 if (data) {
                     this.setColumn(data);   // Useful for formatting and i18n
+                    const max = this.appService.getCCAggregation(data.name)?.count || 10;
+                    if (data.items) {
+                        if (!data.isDistribution && data.items?.length > max) {
+                            data.items = data.items.slice(0, count);
+                        }
+                    }
                 }
                 return data;
             })
@@ -607,6 +613,16 @@ export class FacetService {
             if (aggregation) {
                 this.setColumn(aggregation);    // Useful for formatting and i18n
                 this.convertNullValueToString(aggregation);
+                
+                // set aggregation's count
+                const count = this.appService.getCCAggregation(aggregation.name)?.count || 10;
+                // adjust aggregation's items length
+                if (aggregation.items) {
+                    if (!aggregation.isDistribution && aggregation.items.length > count) {
+                        aggregation.items = aggregation.items?.slice(0, count);
+                    }
+                }
+                
                 if (aggregation.isTree && treeAggregationOptions) {
                     const expr = this.findFilter(treeAggregationOptions.facetName);
                     const expandPaths = expr ? expr.getValues(aggregation.column) : [];
