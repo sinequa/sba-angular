@@ -407,8 +407,8 @@ export class SearchService implements OnDestroy {
         return this.queryService.getResults(query, auditEvents,
             this.makeQueryIntentData({
                 tab: !!tab ? tab.name : undefined,
-                queryIntents: (query.spellingCorrectionMode != "dymonly") ? options.queryIntents : undefined,
-                queryAnalysis: (query.spellingCorrectionMode != "dymonly") ? options.queryAnalysis : undefined
+                queryIntents: (query.spellingCorrectionMode !== "dymonly") ? options.queryIntents : undefined,
+                queryAnalysis: (query.spellingCorrectionMode !== "dymonly") ? options.queryAnalysis : undefined
             })
         ).pipe(
             map((results) => {
