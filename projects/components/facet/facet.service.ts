@@ -615,9 +615,11 @@ export class FacetService {
                 this.convertNullValueToString(aggregation);
                 
                 // set aggregation's count
-                const count = this.appService.getCCAggregation(aggregation.name)?.count || 10;
+                const max = this.getAggregationCount(aggregationName);
+
                 // adjust aggregation's items length
                 if (aggregation.items) {
+                    const count = max < 0 ? aggregation.items.length : max;
                     if (!aggregation.isDistribution && aggregation.items.length > count) {
                         aggregation.items = aggregation.items?.slice(0, count);
                     }

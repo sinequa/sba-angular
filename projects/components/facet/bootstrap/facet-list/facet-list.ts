@@ -195,8 +195,10 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
         if (this.allowAnd === undefined) this.allowAnd = true;
 
         if (changes.results || changes.aggregation) {     // New data from the search service
+            const agg = this.facetService.getAggregation(this.aggregation, this.results);
             if(!this.count){
-                this.count = this.facetService.getAggregationCount(this.aggregation);
+                const max = this.facetService.getAggregationCount(this.aggregation);
+                this.count = max < 0 ? (agg?.items?.length || - 1) + 1 : max;
             }
             this.filtered.length = 0;
             this.selected.length = 0;
@@ -204,7 +206,7 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
             this.skip = 0;
             this.searchItems.selected = false;
             this.clearSearch();
-            this.data$.next(this.facetService.getAggregation(this.aggregation, this.results));
+            this.data$.next(agg);
         }
     }
 
