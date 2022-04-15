@@ -4,13 +4,15 @@ sq-modal ::ng-deep {
         display: table;
         min-width: 500px;
     }
-    button {
-        margin: 0.5em;
-        width: 126px;
-    }
-    sq-action-item-content > span > span {
+    // Increase icon size
+    sq-action-item-content > span > i {
         font-size: 5em;
         display: block;
         color: #7f939b;
     }
+}
+
+button {
+    margin: 0.5em;
+    width: 126px;
 }

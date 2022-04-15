@@ -22,12 +22,12 @@ export const FEATURES: string[] = [
 ];
 
 export type FacetParams = FacetListParams | FacetTreeParams | FacetMySearchParams | FacetRangeParams | FacetRefineParams | FacetTagCloudParams | FacetDateParams;
-export const FACETS: FacetConfig<FacetParams>[] = [    {
+export const FACETS: FacetConfig<FacetParams>[] = [{
+        name: "treepath",
         title: "msg#facet.treepath.title",
         type: "tree",
         icon: "fas fa-sitemap",
         parameters: {
-            name: "treepath",
             aggregation: "Treepath",
             showCount: true,
             searchable: true,
@@ -36,11 +36,11 @@ export const FACETS: FacetConfig<FacetParams>[] = [    {
         }
     },
     {
+        name: "geo",
         title: "msg#facet.geo.title",
         type: "list",
         icon: "fas fa-globe-americas",
         parameters: {
-            name: "geo",
             aggregation: "Geo",
             showCount: true,
             searchable: true,
@@ -51,11 +51,11 @@ export const FACETS: FacetConfig<FacetParams>[] = [    {
         }
     },
     {
+        name: "company",
         title: "msg#facet.company.title",
         type: "list",
         icon: "fas fa-building",
         parameters: {
-            name: "company",
             aggregation: "Company",
             showCount: true,
             searchable: true,
@@ -66,11 +66,11 @@ export const FACETS: FacetConfig<FacetParams>[] = [    {
         }
     },
     {
+        name: "person",
         title: "msg#facet.person.title",
         type: "list",
         icon: "fas fa-user",
         parameters: {
-            name: "person",
             aggregation: "Person",
             showCount: true,
             searchable: true,
@@ -81,11 +81,11 @@ export const FACETS: FacetConfig<FacetParams>[] = [    {
         }
     },
     {
+        name: "docformat",
         title: "msg#facet.docformat.title",
         type: "list",
         icon: "far fa-file-word",
         parameters: {
-            name: "docformat",
             aggregation: "DocFormat",
             showCount: true,
             searchable: true,
@@ -96,11 +96,11 @@ export const FACETS: FacetConfig<FacetParams>[] = [    {
         }
     },
     {
+        name: "modified",
         title: "msg#facet.modified.title",
         type: "date",
         icon: "fas fa-calendar-day",
         parameters: {
-            name: "modified",
             aggregation: "Modified",
             field: "modified",
             timelineAggregationName: "Timeline",
@@ -113,11 +113,11 @@ export const FACETS: FacetConfig<FacetParams>[] = [    {
         }
     },
     {
+        name: "size",
         title: "msg#facet.size.title",
         type: "list",
         icon: "fas fa-sort-amount-up-alt",
         parameters: {
-            name: "size",
             aggregation: "Size",
             showCount: true,
             searchable: false,
@@ -128,11 +128,11 @@ export const FACETS: FacetConfig<FacetParams>[] = [    {
         }
     },
     {
+        name: "documentlanguages",
         title: "msg#facet.documentlanguages.title",
         type: "list",
         icon: "far fa-comment",
         parameters: {
-            name: "documentlanguages",
             aggregation: "DocumentLanguages",
             showCount: true,
             searchable: true,
@@ -143,11 +143,11 @@ export const FACETS: FacetConfig<FacetParams>[] = [    {
         }
     },
     {
+        name: "concepts",
         title: "msg#facet.concepts.title",
         type: "list",
         icon: "fas fa-comment-dots",
         parameters: {
-            name: "concepts",
             aggregation: "Concepts",
             showCount: true,
             searchable: false,

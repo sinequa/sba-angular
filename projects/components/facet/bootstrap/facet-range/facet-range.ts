@@ -38,7 +38,6 @@ export interface StepDef {
 
 export interface FacetRangeParams {
     aggregation: string;
-    name?: string;
     min?: string;
     max?: string;
     stepDefs?: StepDef[];
@@ -52,7 +51,7 @@ export interface FacetRangeConfig extends FacetConfig<FacetRangeParams> {
     selector: "sq-facet-range",
     templateUrl: "./facet-range.html"
 })
-export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewInit, OnDestroy {
+export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnChanges, AfterViewInit, OnDestroy {
     @Input() name: string; // If ommited, the aggregation name is used
     @Input() results: Results;
     @Input() aggregation: string;

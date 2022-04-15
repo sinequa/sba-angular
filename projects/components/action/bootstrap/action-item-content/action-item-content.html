@@ -15,7 +15,9 @@
 </ng-template>
 
 <ng-template #not_in_dropdown_menu>
-    <i  *ngIf="!!item.icon" class="{{item.styles}} {{item.icon}}" aria-hidden="true"></i>
-    {{text | sqMessage:item.messageParams}}
-    <i *ngIf="!!item.iconAfter" [ngClass]="item.iconAfter" aria-hidden="true"></i>
+    <span [ngClass]="item.styles || ''">
+        <i  *ngIf="!!item.icon" class="{{item.icon}}" aria-hidden="true"></i>
+        {{text | sqMessage:item.messageParams}}
+        <i *ngIf="!!item.iconAfter" [ngClass]="item.iconAfter" aria-hidden="true"></i>
+    </span>
 </ng-template>

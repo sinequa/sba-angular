@@ -21,7 +21,7 @@ export interface FacetRefineConfig extends FacetConfig<FacetRefineParams> {
     selector: "sq-refine",
     templateUrl: "./facet-refine.html"
 })
-export class BsRefine extends AbstractFacet implements OnChanges {
+export class BsRefine extends AbstractFacet implements FacetRefineParams, OnChanges {
 
     /**
      * Results of the search page associated to this refine

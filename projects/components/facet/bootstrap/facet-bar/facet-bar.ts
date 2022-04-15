@@ -17,10 +17,9 @@ export class BsFacetBar {
 
     constructor(public facetService: FacetService) {}
 
-    get facets(): any[] {
+    get facets(): FacetConfig<{}>[] {
         // Which facets are actually displayed in this facet bar
-        const facets = this.facetService.getFacets(this.containerIndex);
-        return facets;
+        return this.facetService.getFacets(this.containerIndex, this.results);
     }
 
     onFacetLoad(facetCard: BsFacetCard, componentRef: {componentRef: ComponentRef<AbstractFacet> | undefined;}) {
@@ -29,7 +28,8 @@ export class BsFacetBar {
 
     getFacetInputs(facet: FacetConfig<{}>): MapOf<any> {
         return {
-            ...(facet.parameters || {}),
+            ...facet.parameters,
+            name: facet.name,
             results: this.results
         };
     }

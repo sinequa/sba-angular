@@ -1,6 +1,6 @@
 <!-- Navbar with app icon, search form, and menus -->
 <nav class="navbar navbar-expand flex-column pb-0" [ngClass]="{'navbar-light bg-light': !isDark(), 'navbar-dark bg-dark': isDark()}">
-    <div class="container-fluid pb-2 px-0">
+    <div class="container-fluid pb-2">
 
         <!-- Application logo -->
         <a [routerLink]="['/search']" title="Home">
@@ -29,7 +29,7 @@
     </div>
 
     <ng-container *ngIf="loginService.complete">
-        <div class="container-fluid justify-content-start px-0" *ngIf="results$ | async as results">
+        <div class="container-fluid text-nowrap" *ngIf="results$ | async as results">
             <span class="text-muted me-2"><i class="fas fa-filter"></i> {{ 'msg#search.filters' | sqMessage }}: </span>
             <sq-facet-filters [results]="results" [facets]="facets" [facetComponents]="facetComponents" class="me-auto"></sq-facet-filters>
 

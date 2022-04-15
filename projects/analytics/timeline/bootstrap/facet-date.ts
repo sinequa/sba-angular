@@ -5,6 +5,7 @@ import {
     Input,
     OnChanges,
     SimpleChanges,
+    ChangeDetectorRef,
 } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Action } from "@sinequa/components/action";
@@ -29,7 +30,6 @@ import { BsFacetTimelineComponent, TimelineSeries } from ".";
 
 export interface FacetDateParams {
     aggregation: string
-    name?: string
     showCount?: boolean;
     field?: string;
     timelineAggregationName?: string;
@@ -51,7 +51,7 @@ export interface FacetDateConfig extends FacetConfig<FacetDateParams> {
 })
 export class BsFacetDate
     extends AbstractFacet
-    implements OnInit, OnChanges, OnDestroy
+    implements FacetDateParams, OnInit, OnChanges, OnDestroy
 {
     @Input() name: string = "Date";
     @Input() results: Results;
@@ -74,16 +74,17 @@ export class BsFacetDate
     timeSeries: TimelineSeries[] = [];
     selection: (Date | undefined)[];
 
-    private subscriptions: Subscription[] = [];
-    private data: Aggregation | undefined;
+    protected subscriptions: Subscription[] = [];
+    protected data: Aggregation | undefined;
 
     constructor(
-        private facetService: FacetService,
-        private formBuilder: FormBuilder,
-        private exprBuilder: ExprBuilder,
-        private searchService: SearchService,
-        private advancedService: AdvancedService,
-        private appService: AppService
+        protected facetService: FacetService,
+        protected formBuilder: FormBuilder,
+        protected exprBuilder: ExprBuilder,
+        protected searchService: SearchService,
+        protected advancedService: AdvancedService,
+        protected appService: AppService,
+        public cdRef: ChangeDetectorRef
     ) {
         super();
 

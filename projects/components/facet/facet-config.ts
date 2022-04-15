@@ -8,11 +8,13 @@ import { BsRefine } from "./bootstrap/facet-refine/facet-refine";
 import { BsFacetTagCloud } from "./bootstrap/facet-tag-cloud/facet-tag-cloud";
 
 export interface FacetConfig<T extends {}> {
+    name: string;
     type: string;
     title?: string;
     icon?: string;
     includedTabs?: string[];
     excludedTabs?: string[];
+    className?: string;
     parameters?: StrictUnion<T>;
 }
 

@@ -11,7 +11,6 @@ import { FacetConfig } from "../../facet-config";
 
 export interface FacetListParams {
     aggregation: string;
-    name?: string;
     showCount?: boolean;
     searchable?: boolean;
     allowExclude?: boolean;
@@ -34,7 +33,7 @@ export interface FacetListConfig extends FacetConfig<FacetListParams> {
     styleUrls: ["./facet-list.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BsFacetList extends AbstractFacet implements OnChanges, OnInit, OnDestroy {
+export class BsFacetList extends AbstractFacet implements FacetListParams, OnChanges, OnInit, OnDestroy {
     @Input() name: string; // If ommited, the aggregation name is used
     @Input() results: Results;
     @Input() aggregation: string;

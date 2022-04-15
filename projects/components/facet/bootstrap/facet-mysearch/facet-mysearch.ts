@@ -23,7 +23,7 @@ export interface FacetMySearchConfig extends FacetConfig<FacetMySearchParams> {
     templateUrl: "./facet-mysearch.html",
     styleUrls: ["./facet-mysearch.scss"],
 })
-export class BsMySearch extends AbstractFacet implements OnChanges {
+export class BsMySearch extends AbstractFacet implements FacetMySearchParams, OnChanges {
     @Input() results: Results;
     /** Display icon to delete items */
     @Input() allowDeletion: boolean = true;
