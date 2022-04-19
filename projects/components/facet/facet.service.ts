@@ -196,19 +196,19 @@ export class FacetService {
     }
 
     public setDefaultFacets() {
-      this.facets.splice(0,this.facets.length);
-      if(!!this.defaultFacets) this.facets.push(...this.defaultFacets);
-      this.updateFacets(FacetEventType.SetDefaults);
+        this.facets.splice(0);
+        if(!!this.defaultFacets) this.facets.push(...this.defaultFacets);
+        this.updateFacets(FacetEventType.SetDefaults);
     }
 
     public addAllFacets() {
-      this.facets.splice(0,this.facets.length);
+        this.facets.splice(0);
         if(!!this.allFacets) this.allFacets.forEach(f => this.facets.push({name: f.name, position: 0}));
         this.updateFacets(FacetEventType.AddAll);
     }
 
     public removeAllFacets() {
-        this.facets.splice(0,this.facets.length);
+        this.facets.splice(0);
         this.updateFacets(FacetEventType.RemoveAll);
     }
 
