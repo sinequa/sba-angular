@@ -11,7 +11,6 @@ import { FacetConfig } from "../../facet-config";
 
 export interface FacetTreeParams {
     aggregation: string;
-    name?: string;
     showCount?: boolean;
     searchable?: boolean;
     allowExclude?: boolean;
@@ -31,7 +30,7 @@ export interface FacetTreeConfig extends FacetConfig<FacetTreeParams> {
     styleUrls: ["./facet-tree.scss"],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BsFacetTree extends AbstractFacet implements OnChanges, OnDestroy {
+export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnChanges, OnDestroy {
     @Input() name: string; // If ommited, the aggregation name is used
     @Input() results: Results;
     @Input() aggregation: string;

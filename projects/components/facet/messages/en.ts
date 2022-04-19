@@ -109,6 +109,7 @@ export default {
             "addAll": "Add all facets",
             "remove":"Remove facet",
             "removeAll": "Remove all facets",
+            "setDefaults": "Set Default facets",
             "clear":"Clear filter",
             "moreFilters":"",
             "showFilters":"Show filters",

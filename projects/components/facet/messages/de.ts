@@ -107,6 +107,7 @@ export default {
             "addAll": "Alle Facetten hinzufügen",
             "remove":"Filter entfernen",
             "removeAll": "Alle Facetten entfernen",
+            "setDefaults": "Standardfacetten",
             "clear":"Filter löschen",
             "moreFilters":"",
             "showFilters":"Filter einblenden",

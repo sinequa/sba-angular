@@ -3,7 +3,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {Utils} from "@sinequa/core/base";
 import {IntlService} from "@sinequa/core/intl";
-import {BsDaterangepickerDirective, BsDaterangepickerConfig, BsDatepickerDirective, BsDatepickerConfig} from "ngx-bootstrap/datepicker";
+import {BsDaterangepickerConfig, BsDatepickerDirective, BsDatepickerConfig} from "ngx-bootstrap/datepicker";
 import moment from "moment";
 import { DatePickerOptions } from '../date-picker/date-picker';
 
@@ -13,27 +13,18 @@ export const DATE_RANGE_PICKER_VALUE_ACCESSOR: any = {
     multi: true
 };
 
-export interface DateRangePickerOptions extends DatePickerOptions {
-    closedRange?: boolean;
-}
-
 @Component({
     selector: "sq-date-range-picker",
     template: `
-        <div *ngIf="options.closedRange" class="sq-date-range-picker">
-            <div class="col">
-                <input type="text" autocomplete="off" class="form-control" bsDaterangepicker triggers="click" #fromTo="bsDaterangepicker" [bsConfig]="bsFromToConfig()" [ngModel]="value" (ngModelChange)="updateFromTo($event)" [placeholder]="dateFormat"/>
-            </div>
-        </div>
-        <div *ngIf="!options.closedRange" class="d-flex align-items-center justify-content-between gap-2 sq-date-range-picker" [ngClass]="{'flex-column': display === 'column'}">
+        <div class="d-flex align-items-stretch justify-content-between gap-2 sq-date-range-picker" [ngClass]="{'flex-column': display === 'column'}">
             <div class="flex-grow-1 d-flex align-items-center justify-content-between">
                 <div *ngIf="displayLabel" class="text-muted {{display === 'column' ? 'col-md-3 col-lg-3' : 'me-2'}}">{{'msg#advanced.dateRangePicker.from' | sqMessage}}</div>
-                <input type="text" autocomplete="off" [id]="fromName" class="form-control sq-range-from" bsDatepicker triggers="click" #from="bsDatepicker" [bsConfig]="bsFromConfig()" [ngModel]="value[0]" (ngModelChange)="updateFrom($event)" [placeholder]="dateFormat"/>
+                <input type="text" autocomplete="off" [id]="fromName" class="form-control form-control-{{size}} sq-range-from" bsDatepicker triggers="click" #from="bsDatepicker" [bsConfig]="bsFromConfig()" [ngModel]="value[0]" (ngModelChange)="updateFrom($event)" [placeholder]="dateFormat"/>
             </div>
             <div *ngIf="displaySeparator" class="sq-separator">{{'msg#advanced.dateRangePicker.separator' | sqMessage}}</div>
             <div class="flex-grow-1 d-flex align-items-center justify-content-between">
                 <div *ngIf="displayLabel" class="text-muted {{display === 'column' ? 'col-md-3 col-lg-3' : 'me-2'}}">{{'msg#advanced.dateRangePicker.to' | sqMessage}}</div>
-                <input type="text" autocomplete="off" [id]="toName" class="form-control sq-range-to" bsDatepicker triggers="click" #to="bsDatepicker" [bsConfig]="bsToConfig()" [ngModel]="value[1]" (ngModelChange)="updateTo($event)" [placeholder]="dateFormat"/>
+                <input type="text" autocomplete="off" [id]="toName" class="form-control form-control-{{size}} sq-range-to" bsDatepicker triggers="click" #to="bsDatepicker" [bsConfig]="bsToConfig()" [ngModel]="value[1]" (ngModelChange)="updateTo($event)" [placeholder]="dateFormat"/>
             </div>
         </div>
     `,
@@ -43,14 +34,14 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
 
     private readonly SystemFormat: string = 'YYYY-MM-DD';
 
-    @Input() options: DateRangePickerOptions;
+    @Input() options: DatePickerOptions;
     @Input() display: 'row' | 'column' = 'row';
     @Input() displaySeparator = true;
     @Input() displayLabel = false;
+    @Input() size: '' | 'sm' | 'lg' = '';
     value: (Date | undefined)[];
     private onChangeCallback: (_: any) => void = () => {};
     private localeChange: Subscription;
-    @ViewChild("fromTo", {static: false}) fromToPicker: BsDaterangepickerDirective;
     @ViewChild("from", {static: false}) fromPicker: BsDatepickerDirective;
     @ViewChild("to", {static: false}) toPicker: BsDatepickerDirective;
     fromName: string;
@@ -77,10 +68,6 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
     }
 
     setLocale() {
-        if (!!this.fromToPicker && this.fromToPicker.isOpen) {
-            this.fromToPicker.hide();
-            this.fromToPicker.show();
-        }
         if (!!this.fromPicker && this.fromPicker.isOpen) {
             this.fromPicker.hide();
             this.fromPicker.show();
@@ -193,15 +180,10 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
                 value[0] = !!value[0] ? new Date(value[0]) : value[0];
                 value[1] = !!value[1] ? new Date(value[1]) : value[1];
             }
-            if (this.options.closedRange) {
-                this.value = value;
-                this.zeroTimes();
-            } else {
-                this.resetMinMaxDate();
-                this.value = value;
-                this.zeroTimes();
-                this.setMinMaxDate();
-            }
+            this.resetMinMaxDate();
+            this.value = value;
+            this.zeroTimes();
+            this.setMinMaxDate();
         }
     }
 

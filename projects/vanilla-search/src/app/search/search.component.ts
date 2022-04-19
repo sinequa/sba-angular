@@ -128,7 +128,7 @@ export class SearchComponent implements OnInit {
     }
     else {
       this.multiFacetIcon = facet.icon;
-      this.multiFacetTitle = (facet.title || facet.parameters?.name || facet.parameters?.aggregation) as string;
+      this.multiFacetTitle = facet.title || facet.name || facet.parameters?.aggregation || '';
     }
   }
 

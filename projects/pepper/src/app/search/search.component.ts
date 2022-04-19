@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { filter, takeUntil, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
 import { GridsterComponent } from 'angular-gridster2';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
@@ -24,23 +24,19 @@ import { BsFacetDate } from '@sinequa/analytics/timeline';
 })
 export class SearchComponent implements OnInit, OnDestroy {
 
-  // Dynamic display of facets titles/icons in the multi-facet component
-  public multiFacetIcon? = "fas fa-filter fa-fw";
-  public multiFacetTitle = "msg#facet.filters.title";
-
   public results$: Observable<Results | undefined>;
-  public readonly facetComponents = {
-    ...default_facet_components,
-    "date": BsFacetDate
-  }
-  private _loginSubscription: Subscription;
 
-  private destroy$ = new Subject();
+  private subscriptions: Subscription[] = [];
 
   focusElementIndex:number;
 
   darkAction: Action;
   dashboardActions: Action[] = [];
+
+  public readonly facetComponents = {
+    ...default_facet_components,
+    "date": BsFacetDate
+  }
 
   // Used to scroll (on the results list side) to the latest document selected in a widget
   lastSelectedId?: string;
@@ -80,7 +76,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       );
 
     // Upon login (ie access to user settings) initialize the dashboard widgets and actions
-    this._loginSubscription = this.loginService.events.subscribe(event => {
+    this.subscriptions.push(this.loginService.events.subscribe(event => {
       if (event.type === "session-start") {
 
         // Create the dashboard displayed "by default", prior to any user interaction
@@ -104,7 +100,7 @@ export class SearchComponent implements OnInit, OnDestroy {
           MONEYCLOUD_WIDGET
         ]);
       }
-    });
+    }));
 
     // When the screen is resized, we resize the dashboard row height, so that items keep fitting the screen height
     this.ui.addResizeListener(event => {
@@ -114,23 +110,22 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     // listen only on dropdown active event
     // this allow us to display dropdown menu on top of the gridster
-    this.dropdownService.events
+    this.subscriptions.push(this.dropdownService.events
       .pipe(
         filter(() => this.gridster !== undefined),
-        filter((event) => event.type === "active"),
-        takeUntil(this.destroy$)
+        filter((event) => event.type === "active")
       )
       .subscribe(event => {
         // when dropdown is active, disable gridster's overflow
         // with this, menu will be displayed on top of the gridster
         if ((event as DropdownActiveEvent).value && this.gridster.el.style.overflow !== "initial") {
-            this.gridster.el.style.top = -this.gridster.el.scrollTop + "px";
-            this.gridster.el.style.overflow = "initial";
+          this.gridster.el.style.top = -this.gridster.el.scrollTop + "px";
+          this.gridster.el.style.overflow = "initial";
         } else {
           this.gridster.el.style.overflow = "";
           this.gridster.el.style.top = "";
         }
-      });
+      }));
   }
 
 
@@ -145,9 +140,7 @@ export class SearchComponent implements OnInit, OnDestroy {
    * Unsubscribe from the search service
    */
   ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-    this._loginSubscription.unsubscribe();
+    this.subscriptions.forEach(s => s.unsubscribe());
   }
 
   /**
@@ -175,21 +168,6 @@ export class SearchComponent implements OnInit, OnDestroy {
    */
   public get metadata(): string[] {
     return this.appService.app?.data?.metadata as string[] || METADATA;
-  }
-
-  /**
-   * Responds to a change of facet in the multi facet
-   * @param facet
-   */
-  facetChanged(facet: FacetConfig<FacetParams>){
-    if(!facet) {
-      this.multiFacetIcon = "fas fa-filter fa-fw";
-      this.multiFacetTitle = "msg#facet.filters.title";
-    }
-    else {
-      this.multiFacetIcon = facet.icon;
-      this.multiFacetTitle = (facet.title || facet.parameters?.name || facet.parameters?.aggregation) as string;
-    }
   }
 
   /**

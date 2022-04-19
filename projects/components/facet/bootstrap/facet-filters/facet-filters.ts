@@ -1,18 +1,19 @@
-import {Component, Input, OnChanges, OnInit, Type} from "@angular/core";
+import {Component, Input, OnChanges, OnDestroy, Type} from "@angular/core";
 import {Results} from "@sinequa/core/web-services";
 import {FacetService} from "../../facet.service";
 import {Action} from "@sinequa/components/action";
 import { FacetConfig, default_facet_components } from "../../facet-config";
 import { MapOf } from "@sinequa/core/base";
+import { Subscription } from "rxjs";
 
-declare interface FacetFiltersConfig extends FacetConfig<{name?: string, aggregation?: string}> {}
+declare interface FacetFiltersConfig extends FacetConfig<{aggregation?: string}> {}
 
 @Component({
     selector: "sq-facet-filters",
     templateUrl: "./facet-filters.html",
     styleUrls: ["./facet-filters.scss"]
 })
-export class BsFacetFilters implements OnInit, OnChanges {
+export class BsFacetFilters implements OnChanges, OnDestroy {
     @Input() results: Results;
     @Input() facets: FacetFiltersConfig[];
     @Input() facetComponents: MapOf<Type<any>> = default_facet_components;
@@ -27,16 +28,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
     filters: Action[] = [];
     hidden: boolean = false;
 
-    facetStatus = {
-        add: {
-            title: "msg#facet.filters.add",
-            icon: "fas fa-plus"
-        },
-        remove: {
-            title: "msg#facet.filters.remove",
-            icon: "fas fa-minus"
-        }
-    };
+    sub: Subscription;
 
     constructor(
         private facetService: FacetService
@@ -45,31 +37,33 @@ export class BsFacetFilters implements OnInit, OnChanges {
         this.filters = [];
     }
 
-    ngOnInit() {
-        if (!this.enableCustomization) return;
+    ngOnChanges() {
+        if (this.enableCustomization) {
+            if (!this.facetService.defaultFacets) {
+                this.facetService.defaultFacets = this.facets.map(
+                    facet => ({name: facet.name, position: 0})
+                );
+            }
 
-        if (!this.facetService.defaultFacets) {
-            this.facetService.defaultFacets = [];
-            for (const facet of this.facets) this.facetService.defaultFacets.push({name: this.getName(facet), position: 0, hidden: false, expanded: true});
+            if (!this.facetService.allFacets) {
+                this.facetService.allFacets = this.facets;
+            }
         }
 
-        if (!this.facetService.allFacets) this.facetService.allFacets = this.facets;
-    }
-
-    ngOnChanges() {
-        if(!!this.results)
+        if(this.results) {
             this.buildFilters();
-
-        if(!this.results)
+        }
+        else {
             this.hidden=true;
+        }
+
+        if(!this.sub) {
+            this.sub = this.facetService.changes.subscribe(() => this.buildFilters());
+        }
     }
 
-    /**
-     * Name of the facet, used to retrieve selections
-     * through the facet service.
-     */
-     getName(facet: FacetFiltersConfig) : string {
-        return (facet.parameters?.name || facet.parameters?.aggregation) as string;
+    ngOnDestroy(): void {
+        this.sub.unsubscribe();
     }
 
     /**
@@ -82,29 +76,33 @@ export class BsFacetFilters implements OnInit, OnChanges {
 
             const children = [
                 new Action({
-                    component: this.facetComponents[facet['type']],
+                    component: this.facetComponents[facet.type],
                     componentInputs: {
+                        ...facet.parameters,
+                        name: facet.name,
                         results: this.results,
-                        ...(facet.parameters || {})
+                        displayActions: true
                     }
                 })
             ];
 
             const disabled = !this.hasData(facet);
-            const filtered = this.hasFiltered(this.getName(facet));
+            const filtered = this.hasFiltered(facet.name);
 
             return new Action({
-                name: this.getName(facet),
+                name: facet.name,
                 text: facet.title,
                 title: facet.title,
                 icon: facet.icon,
                 disabled,
-                styles: filtered? "filtered" : disabled? "disabled" : undefined,
+                styles: `${facet.className || ''} ${filtered? "filtered" : disabled? "disabled" : ''}`,
                 children: children
             });
         });
 
-        if (this.enableCustomization) this.addFacetMenu();
+        if (this.enableCustomization) {
+          this.filters.unshift(this.facetService.createFacetMenu());
+        }
     }
 
     /**
@@ -124,52 +122,13 @@ export class BsFacetFilters implements OnInit, OnChanges {
      * @returns true if facet contains at least one item otherwise false
      */
     protected hasData(facet: FacetFiltersConfig): boolean {
-        return this.facetService.hasData(<string>facet.parameters?.aggregation, this.results);
+        if(!facet.parameters?.aggregation) return false;
+        return this.facetService.hasData(facet.parameters.aggregation, this.results);
     }
 
-    protected addFacetMenu() {
-        const outFacets: Action[] = [];
-
-        outFacets.push(new Action({
-            name: `add_remove_all`,
-            text: this.userFacets.length < this.facets.length ? "msg#facet.filters.addAll" : "msg#facet.filters.removeAll",
-            icon: this.hasFacetSelected ?
-                    (this.userFacets.length < this.facets.length ? "far fa-minus-square me-1" : "far fa-check-square me-1")
-                    : "far fa-square me-1",
-            title: this.userFacets.length < this.facets.length ? "msg#facet.filters.addAll" : "msg#facet.filters.removeAll",
-            action: () => {
-                if (this.hasFacetSelected && this.userFacets.length === this.facets.length) this.facetService.removeAllFacet();
-                else this.facetService.addAllFacet();
-                this.buildFilters();
-            }
-        }));
-
-        for (const facet of this.facets) {
-            outFacets.push(new Action({
-                name: `add_remove_${this.getName(facet)}`,
-                text: facet.title,
-                icon: facet.icon,
-                selected: !!this.userFacets?.find(userFacet => userFacet.name === this.getName(facet)),
-                title: !!this.userFacets?.find(userFacet => userFacet.name === this.getName(facet)) ? "msg#facet.filters.add" : "msg#facet.filters.remove",
-                action: () => {
-                    if (this.userFacets?.find(userFacet => userFacet.name === this.getName(facet))) this.facetService.removeFacet({name: this.getName(facet), position: 0, hidden: false, expanded: true})
-                    else this.facetService.addFacet({name: this.getName(facet), position: 0, hidden: false, expanded: true});
-                    this.buildFilters();
-                }
-            }));
-        }
-
-        const add_action = new Action({
-            name: "facets_config",
-            icon: "fas fa-cog",
-            title: "msg#facet.filters.customizeFacets",
-            children: outFacets
-        });
-        this.filters = [add_action, ...this.filters];
-    }
 
     get filteredFacets() {
-        const filtered = this.facets.filter(facet => (!facet.includedTabs || facet.includedTabs.includes(this.results.tab)) && !facet.excludedTabs?.includes(this.results.tab))
+        const filtered = this.facets.filter(facet => this.facetService.isFacetIncluded(facet, this.results))
 
         if (!this.enableCustomization) return filtered;
 
@@ -177,7 +136,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
 
         if (this.userFacets) {
             for (const facet of filtered) {
-                const pos = this.userFacets.findIndex((userFacet) => userFacet.name === this.getName(facet));
+                const pos = this.userFacets.findIndex((userFacet) => userFacet.name === facet.name);
                 if (pos >= 0) new_facets.push(facet);
             }
         }
@@ -191,7 +150,7 @@ export class BsFacetFilters implements OnInit, OnChanges {
     get hasFacetSelected() {
         if (this.userFacets.length === 0) return false;
         for (const facet of this.facets) {
-            if (this.userFacets.find(userFacet => userFacet.name === this.getName(facet))) return true;
+            if (this.userFacets.find(userFacet => userFacet.name === facet.name)) return true;
         }
         return false;
     }

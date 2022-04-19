@@ -6,7 +6,7 @@ import { Action } from '@sinequa/components/action';
 import { FacetService } from '../../facet.service';
 import { MapOf, Utils } from '@sinequa/core/base';
 
-declare interface FacetMultiConfig extends FacetConfig<{name?: string, aggregation?: string, displayEmptyDistributionIntervals?: boolean}> {
+declare interface FacetMultiConfig extends FacetConfig<{aggregation?: string, displayEmptyDistributionIntervals?: boolean}> {
   // Properties internally setup by this component
   $count?: string;
   $hasData?: boolean;
@@ -80,7 +80,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
      * through the facet service.
      */
     getName(facet: FacetMultiConfig) : string {
-        return (facet.parameters?.name || facet.parameters?.aggregation) as string;
+      return facet.name || facet.parameters?.aggregation || '';
     }
 
   /**
@@ -163,7 +163,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
       facet.$hasFiltered = this.hasFiltered(facet);
       // The facet is hidden if there are included tabs and the current tab is not in it
       // OR if there are excluded tabs and the current tab is in it.
-      facet.$hidden = (facet?.includedTabs && !facet?.includedTabs.includes(this.results.tab)) || facet?.excludedTabs?.includes(this.results.tab);
+      facet.$hidden = !this.facetService.isFacetIncluded(facet, this.results);
     });
     // Update list of inputs used by child facet
     // PS: attributes of openedFacet MUST have the same name as component's inputs name
@@ -178,21 +178,22 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
   }
 
   onFacetLoad(componentRef: {componentRef: ComponentRef<AbstractFacet> | undefined}) {
-        this.facetComponent = componentRef?.componentRef?.instance;
+    this.facetComponent = componentRef?.componentRef?.instance;
   }
 
   getFacetInputs(): MapOf<any> {
-      return {
-          ...(this.openedFacet?.parameters || {}),
-          results: this.results
-      };
+    return {
+      ...this.openedFacet?.parameters,
+      name: this.openedFacet?.name,
+      results: this.results
+    };
   }
 
   get component() {
-      if (this.facetComponents && this.openedFacet) {
-          return this.facetComponents[this.openedFacet['type']];
-      }
-      return undefined
+    if (this.facetComponents && this.openedFacet) {
+      return this.facetComponents[this.openedFacet.type];
+    }
+    return undefined
   }
 
 }

@@ -27,9 +27,10 @@ import {enNetwork} from "@sinequa/analytics/network";
 import {enGooglemaps} from "@sinequa/analytics/googlemaps";
 import {enTheme} from "@sinequa/components/theme-toggle";
 import {enFinance} from "@sinequa/analytics/finance";
+import {enTimeline} from "@sinequa/analytics/timeline";
 
 const messages = Utils.merge({}, enCore, enUtils, enAdvanced, enAlerts, enBaskets, enFacet, enFeedback, enHeatmap, enLabels, enMetadata,
-    enNotification, enPreview, enResult, enResultsView, enSavedQueries, enSelection, enSearch, enStatusBar, enUserSettings, enNetwork, enGooglemaps, enFinance, appMessages,
+    enNotification, enPreview, enResult, enResultsView, enSavedQueries, enSelection, enSearch, enStatusBar, enUserSettings, enNetwork, enGooglemaps, enFinance, enTimeline, appMessages,
     enTheme);
 
 export default <LocaleData>{

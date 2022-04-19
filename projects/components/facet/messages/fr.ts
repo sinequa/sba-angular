@@ -109,6 +109,7 @@ export default {
             "addAll": "Ajouter toutes les facettes",
             "remove":"Retirer la facette",
             "removeAll": "Retirer toutes les facettes",
+            "setDefaults": "Facettes par défaut",
             "clear":"Réinitialiser",
             "moreFilters":"",
             "showFilters":"Montrer les filtres",

@@ -1,13 +1,12 @@
-<div class="container-fluid">
-    <div class="row">
-        <ng-content></ng-content>
-        <ng-container *ngFor="let f of facets">
-            <sq-facet-card #facetCard class="{{f['className']}}" [title]="f.title">
-                <ng-container
-                    [sqLoadComponent]="{component: getComponent(f.type), inputs: getFacetInputs(f)}"
-                    (sqLoadComponent)="onFacetLoad(facetCard, $event)">
-                </ng-container>
-            </sq-facet-card>
-        </ng-container>
-    </div>
-</div>
+<ng-content></ng-content>
+<sq-facet-card *ngFor="let f of facets"
+  #facetCard
+  [ngClass]="f.className" class="d-block mb-2"
+  [title]="f.title"
+  [icon]="f.icon">
+    <ng-container
+        [sqLoadComponent]="{component: getComponent(f.type), inputs: getFacetInputs(f)}"
+        (sqLoadComponent)="onFacetLoad(facetCard, $event)">
+    </ng-container>
+</sq-facet-card>
+<ng-content select="[bottom]"></ng-content>

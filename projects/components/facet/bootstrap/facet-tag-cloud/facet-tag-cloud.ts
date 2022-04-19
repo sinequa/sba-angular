@@ -37,7 +37,7 @@ export interface TagCloudItem {
     templateUrl: "./facet-tag-cloud.html",
     styleUrls: ["./facet-tag-cloud.scss"],
 })
-export class BsFacetTagCloud extends AbstractFacet implements OnChanges {
+export class BsFacetTagCloud extends AbstractFacet implements FacetTagCloudParams, OnChanges {
     /** search results */
     @Input() results: Results;
     /** list of aggregations to be considered in collecting tag-cloud data */

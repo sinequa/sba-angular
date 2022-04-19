@@ -10,13 +10,13 @@ import {Subject, Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {SearchService, BreadcrumbsItem, Breadcrumbs} from "@sinequa/components/search";
 import {SuggestService} from "@sinequa/components/autocomplete";
+import { FacetConfig } from "./facet-config";
+import { Action } from "@sinequa/components/action";
 
 // Facet interface (from models/UserSettings)
 export interface FacetState {
     name: string;
     position: number; // eg 0 = left, 1 = right
-    expanded: boolean;
-    hidden: boolean;
 }
 
 /**
@@ -40,6 +40,7 @@ export const enum FacetEventType {
     AddAll = "Facets_Added",
     Remove = "Facet_Removed",
     RemoveAll = "Facets_Removed",
+    SetDefaults = "Facets_SetDefaults",
 
     Patched = "Facet_Patched",
     ClearFilters = "Facet_ClearFilters",
@@ -52,7 +53,10 @@ export const enum FacetEventType {
 export const FACET_CHANGE_EVENTS = [
     FacetEventType.Loaded,
     FacetEventType.Add,
-    FacetEventType.Remove
+    FacetEventType.AddAll,
+    FacetEventType.Remove,
+    FacetEventType.RemoveAll,
+    FacetEventType.SetDefaults
 ];
 
 
@@ -62,7 +66,7 @@ export interface FacetChangeEvent {
     facet?: FacetState;
 }
 
-export const ALL_FACETS = new InjectionToken<any[]>('ALL_FACETS');
+export const ALL_FACETS = new InjectionToken<FacetConfig<any>[]>('ALL_FACETS');
 export const DEFAULT_FACETS = new InjectionToken<FacetState[]>('DEFAULT_FACETS');
 
 @Injectable({
@@ -81,7 +85,7 @@ export class FacetService {
         protected intlService: IntlService,
         protected formatService: FormatService,
         protected exprBuilder: ExprBuilder,
-        @Optional() @Inject(ALL_FACETS) public allFacets: any[],
+        @Optional() @Inject(ALL_FACETS) public allFacets: FacetConfig<{}>[],
         @Optional() @Inject(DEFAULT_FACETS) public defaultFacets: FacetState[]){
 
         // Listen to the user settings
@@ -131,12 +135,17 @@ export class FacetService {
      * Returns the list of facet config in the given container (position)
      * @param position (default to 0 if there is a single container)
      */
-    public getFacets(position: number = 0) : any[] {
+    public getFacets(position: number = 0, results: Results) : FacetConfig<{}>[] {
         if (!this.allFacets) {
             return [];
         }
         return this.facets.filter(f => f.position === position)
-            .map(f => this.allFacets.find(_f => _f.name === f.name));
+            .map(f => this.allFacets.find(_f => _f.name === f.name)!)
+            .filter(f => f && this.isFacetIncluded(f, results));
+    }
+
+    public isFacetIncluded(facet: FacetConfig<{}>, results: Results): boolean {
+      return !(facet.includedTabs && !facet.includedTabs.includes(results.tab)) && !facet.excludedTabs?.includes(results.tab)
     }
 
     /**
@@ -175,44 +184,99 @@ export class FacetService {
 
     public addFacet(facet: FacetState){
         this.facets.push(facet);
-        this.events.next({type : FacetEventType.Add, facet: facet});
-        this.patchFacets([{
-            type: FacetEventType.Add,
-            detail: {
-                facet: facet.name
-            }
-        }]);
+        this.updateFacets(FacetEventType.Add, facet);
     }
 
     public removeFacet(facet: FacetState){
         const i = this.facetIndex(facet.name);
         if(i !== -1){
             this.facets.splice(i,1);
-            this.events.next({type : FacetEventType.Remove, facet: facet});
-            this.patchFacets([{
-                type: FacetEventType.Remove,
-                detail: {
-                    facet: facet.name
-                }
-            }]);
+            this.updateFacets(FacetEventType.Remove, facet);
         }
     }
 
-    public addAllFacet() {
-        this.facets.splice(0,this.facets.length);
+    public setDefaultFacets() {
+        this.facets.splice(0);
         if(!!this.defaultFacets) this.facets.push(...this.defaultFacets);
-        this.events.next({type : FacetEventType.AddAll});
-        this.patchFacets([{
-            type: FacetEventType.AddAll
-        }]);
+        this.updateFacets(FacetEventType.SetDefaults);
     }
 
-    public removeAllFacet() {
-        this.facets.splice(0,this.facets.length);
-        this.events.next({type : FacetEventType.RemoveAll});
-        this.patchFacets([{
-            type: FacetEventType.RemoveAll
-        }]);
+    public addAllFacets() {
+        this.facets.splice(0);
+        if(!!this.allFacets) this.allFacets.forEach(f => this.facets.push({name: f.name, position: 0}));
+        this.updateFacets(FacetEventType.AddAll);
+    }
+
+    public removeAllFacets() {
+        this.facets.splice(0);
+        this.updateFacets(FacetEventType.RemoveAll);
+    }
+
+    public updateFacets(type: FacetEventType, facet?: FacetState) {
+        this.events.next({type, facet});
+        const detail = facet? { facet: facet?.name } : undefined
+        this.patchFacets([{type, detail}]);
+    }
+
+    public createFacetMenu(): Action {
+
+        const outFacets: Action[] = [];
+
+        outFacets.push(new Action({
+            name: `set_defaults`,
+            text: "msg#facet.filters.setDefaults",
+            title: "msg#facet.filters.setDefaults",
+            action: () => {
+                this.setDefaultFacets();
+            }
+        }));
+
+        outFacets.push(new Action({
+            name: `add_all`,
+            text: "msg#facet.filters.addAll",
+            title: "msg#facet.filters.addAll",
+            action: () => {
+                this.addAllFacets();
+            }
+        }));
+
+        outFacets.push(new Action({
+            name: `remove_all`,
+            text: "msg#facet.filters.removeAll",
+            title: "msg#facet.filters.removeAll",
+            action: () => {
+                this.removeAllFacets();
+            }
+        }));
+
+        outFacets.push(new Action({separator: true}));
+
+        for (const facet of this.allFacets) {
+            outFacets.push(new Action({
+                name: `add_remove_${facet.name}`,
+                text: facet.title,
+                icon: facet.icon,
+                selected: !!this.facets?.find(userFacet => userFacet.name === facet.name),
+                title: !!this.facets?.find(userFacet => userFacet.name === facet.name) ? "msg#facet.filters.add" : "msg#facet.filters.remove",
+                action: () => {
+                    const fs = this.facets?.find(userFacet => userFacet.name === facet.name);
+                    if (fs) {
+                      this.removeFacet(fs);
+                    }
+                    else {
+                      this.addFacet({name: facet.name, position: 0});
+                    }
+                }
+            }));
+        }
+
+        return new Action({
+            name: "facets_config",
+            icon: "fas fa-cog",
+            title: "msg#facet.filters.customizeFacets",
+            scrollable: true,
+            children: outFacets
+        });
     }
 
     /**

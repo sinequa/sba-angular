@@ -77,10 +77,6 @@ export class BsDropdownService implements OnDestroy {
         this.unlisteners.push(this.renderer.listen(this.document, "keyup", this.clearMenus));
         this.unlisteners.push(this.renderer.listen(this.document, "click", this.toggle));
         this.unlisteners.push(this.renderer.listen(this.document, "click", this.formChildClick));
-        this.unlisteners.push(this.renderer.listen(this.document, "wheel", () => {
-            this.raiseClear();
-            this.raiseActive(false);
-        }));
     }
 
     ngOnDestroy() {
@@ -242,7 +238,7 @@ export class BsDropdownService implements OnDestroy {
     raiseClear() {
         this._events.next({type: "clear", sourceEvent: undefined});
     }
-    
+
     raiseActive(active: boolean) {
         this._events.next({type: "active", value: active});
     }

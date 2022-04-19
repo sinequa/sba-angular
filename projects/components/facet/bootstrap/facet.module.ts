@@ -24,6 +24,7 @@ import {BsFacetFilters} from "./facet-filters/facet-filters";
 import {BsFacetMultiComponent} from "./facet-multi/facet-multi.component";
 import { BsFacetTagCloud } from './facet-tag-cloud/facet-tag-cloud';
 import { LoadComponentModule } from "@sinequa/core/load-component";
+import { FacetConfig } from "../facet-config";
 
 @NgModule({
     imports: [
@@ -60,7 +61,7 @@ import { LoadComponentModule } from "@sinequa/core/load-component";
     ],
 })
 export class BsFacetModule {
-    public static forRoot(allFacets: any[]|undefined = undefined, defaultFacets: FacetState[]|undefined = undefined): ModuleWithProviders<BsFacetModule> {
+    public static forRoot<T>(allFacets?: FacetConfig<T>[], defaultFacets?: FacetState[]): ModuleWithProviders<BsFacetModule> {
         return {
             ngModule: BsFacetModule,
             providers: [
