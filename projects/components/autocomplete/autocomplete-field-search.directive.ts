@@ -266,25 +266,27 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
      */
     protected override getSuggests() {
         let value = this.getInputValue();
-        if(value) { // If there is text, make a call to the suggest API
-            const parseResult = this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
+        if (value) { // If there is text, make a call to the suggest API
             let fields: string[] | undefined;
-            if(parseResult.result && this.fieldSearchMode !== "off"){
-                const position = this.getInputPosition(); // Position of the caret, if needed
-                const res = parseResult.result.findValue(position);
-                // Field Search suggest
-                if(!!res && !!res.field){
-                    fields = Utils.startsWith(res.field, "@") ? ["text"] : [res.field];
-                    value = res.value;
+            if (this.fieldSearchMode !== "off") {
+                const parseResult = this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
+                if(parseResult.result){
+                    const position = this.getInputPosition(); // Position of the caret, if needed
+                    const res = parseResult.result.findValue(position);
+                    // Field Search suggest
+                    if(!!res && !!res.field){
+                        fields = Utils.startsWith(res.field, "@") ? ["text"] : [res.field];
+                        value = res.value;
+                    }
+                    if(!!res && this.fieldSearchMode === "text") {
+                        value = res.value;
+                    }
                 }
-                if(!!res && this.fieldSearchMode === "text") {
-                    value = res.value;
-                }
-            }
-
-            if(parseResult.error && this.fieldSearchMode !== "off") {
-                this.processSuggests(of([])); // Empty autocomplete if parsing errors
-                return;
+    
+                if(parseResult.error) {
+                    this.processSuggests(of([])); // Empty autocomplete if parsing errors
+                    return;
+                }                
             }
 
             this.processSuggests(
