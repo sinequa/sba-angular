@@ -23,7 +23,10 @@ export default {
         "reorder": "Neu sortieren",
         "remove": "Entfernen",
         "removeAll": "Alle entfernen",
-        "name": "Name"
+        "name": "Name",
+        "tooltip": {
+            "export": "Exportieren sie diesen Korb"
+        }
     },
 
     "selectBasket": {

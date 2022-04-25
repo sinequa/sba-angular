@@ -23,7 +23,10 @@ export default {
         "reorder": "Reorder",
         "remove": "Remove",
         "removeAll": "Remove all",
-        "name": "Name"
+        "name": "Name",
+        "tooltip": {
+            "export": "Export this basket"
+        }
     },
 
     "selectBasket": {

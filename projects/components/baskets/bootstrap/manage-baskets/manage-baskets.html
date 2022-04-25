@@ -13,7 +13,7 @@
                     <sq-editable *ngIf="!reordering" [value]="basket.name" (valueChange)="setName(basket, $event)" name="msg#manageBaskets.name"
                         [model]="basket" [validators]="nameValidators"></sq-editable>
                     <div class="ms-auto">
-                        <i *ngIf="!reordering && appService.app?.queryExport" class="fas fa-download sq-export ms-2" (click)="export(basket)" title="Export this basket"></i>
+                        <i *ngIf="!reordering && appService.app?.queryExport" class="fas fa-download sq-export ms-2" (click)="export(basket)" title="{{ 'msg#manageBaskets.tooltip.export' | sqMessage }}"></i>
                         <i *ngIf="!reordering" class="fas fa-times sq-remove m-2" (click)="remove(basket, $index)" title="{{'msg#manageBaskets.remove' | sqMessage}}"></i>
                         <i *ngIf="reordering" class="ms-2 fas fa-bars sq-move"></i>
                     </div>
