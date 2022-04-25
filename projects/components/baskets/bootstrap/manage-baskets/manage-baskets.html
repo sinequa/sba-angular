@@ -1,7 +1,7 @@
 <form name="manageBaskets" novalidate>
     <sq-modal [title]="'msg#manageBaskets.title'" [buttons]="buttons">
         <div *ngIf="model.baskets.length" class="mb-3 clearfix">
-            <button type="button" class="btn btn-secondary float-right" (click)="reorder()">{{(reordering ? "msg#manageBaskets.edit" : "msg#manageBaskets.reorder") | sqMessage}}</button>
+            <button type="button" class="btn btn-secondary float-right" (click)="reorder()">{{(reordering ? "msg#manageBaskets.save" : "msg#manageBaskets.reorder") | sqMessage}}</button>
         </div>
         <div class="mb-3">
             <div class="list-group" cdkDropList [cdkDropListData]="model.baskets" [cdkDropListDisabled]="!reordering" (cdkDropListDropped)="dropped($event)">

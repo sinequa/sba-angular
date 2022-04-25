@@ -19,7 +19,7 @@ export default {
 
     "manageBaskets": {
         "title": "Gérer les paniers",
-        "edit": "Editer",
+        "save": "Enregistrer",
         "reorder": "Réorganiser",
         "remove": "Effacer",
         "removeAll": "Effacer tout",
