@@ -45,8 +45,8 @@ export default {
 
     "manageSavedQueries": {
         "title": "Gérer les requêtes sauvegardées",
-        "edit": "Editer",
-        "reorder": "Réorganiser",
+        "save": "Sauvegarder",
+        "reorder": "Enregistrer",
         "remove": "Effacer",
         "removeAll": "Effacer tout",
         "export": "Exporter",

@@ -45,7 +45,7 @@ export default {
 
     "manageSavedQueries": {
         "title": "Manage Saved Queries",
-        "edit": "Edit",
+        "save": "Save",
         "reorder": "Reorder",
         "remove": "Remove",
         "removeAll": "Remove all",

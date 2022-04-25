@@ -19,7 +19,7 @@ export default {
 
     "manageBaskets": {
         "title": "Ablagekörbe verwalten",
-        "edit": "Bearbeiten",
+        "save": "Aufzeichnung",
         "reorder": "Neu sortieren",
         "remove": "Entfernen",
         "removeAll": "Alle entfernen",

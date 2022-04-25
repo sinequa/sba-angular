@@ -19,7 +19,7 @@ export default {
 
     "manageBaskets": {
         "title": "Manage Baskets",
-        "edit": "Edit",
+        "save": "Save",
         "reorder": "Reorder",
         "remove": "Remove",
         "removeAll": "Remove all",

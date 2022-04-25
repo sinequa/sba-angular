@@ -1,7 +1,7 @@
 <form name="manageSavedQueries" novalidate>
     <sq-modal [title]="'msg#manageSavedQueries.title'" [buttons]="buttons">
         <div *ngIf="model.savedQueries.length" class="mb-3 clearfix">
-            <button type="button" class="btn btn-secondary float-right" (click)="reorder()">{{(reordering ? "msg#manageSavedQueries.edit" : "msg#manageSavedQueries.reorder") | sqMessage}}</button>
+            <button type="button" class="btn btn-secondary float-right" (click)="reorder()">{{(reordering ? "msg#manageSavedQueries.save" : "msg#manageSavedQueries.reorder") | sqMessage}}</button>
         </div>
         <div class="mb-3">
             <ul class="list-group" cdkDropList [cdkDropListData]="model.savedQueries" [cdkDropListDisabled]="!reordering" (cdkDropListDropped)="dropped($event)">
