@@ -50,7 +50,10 @@
     },
 
     "manageBaskets": {
-        "title": "Gérer les collections"
+        "title": "Gérer les collections",
+        "tooltip": {
+            "export": "Exporter cette collection"
+        }
     },
 
     "selectBasket": {
