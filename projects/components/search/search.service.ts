@@ -1,7 +1,7 @@
 import {Injectable, InjectionToken, Inject, Optional, OnDestroy} from "@angular/core";
 import {Router, NavigationStart, NavigationEnd, Params} from "@angular/router";
 import {Subject, BehaviorSubject, Observable, Subscription, of, throwError} from "rxjs";
-import {map, switchMap} from "rxjs/operators";
+import {catchError, map, switchMap} from "rxjs/operators";
 import {QueryWebService, AuditWebService, CCQuery, QueryIntentData, Results, Record, Tab, DidYouMeanKind,
     QueryIntentAction, QueryIntent, QueryAnalysis, IMulti, CCTab,
     AuditEvents, AuditEventType, AuditEvent, QueryIntentWebService, QueryIntentMatch} from "@sinequa/core/web-services";
@@ -414,6 +414,12 @@ export class SearchService implements OnDestroy {
             map((results) => {
                 this.searchActive = false;
                 return results;
+            }),
+            catchError((error) => {
+                // when an exception occurs, set the search active flag to false
+                // this will stop the loading bar
+                this.searchActive = false;
+                return throwError(error);
             })
         );
     }
