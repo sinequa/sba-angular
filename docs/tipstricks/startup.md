@@ -216,7 +216,7 @@ The Json key to use is:
 "help-folder-options": {
     "name": string,
     "path": string,
-    "indexFile": string, 
+    "indexFile": string,
     "useLocale": boolean,
     "useLocaleAsPrefix": boolean
 }
@@ -228,7 +228,7 @@ Where
     * default value is **/r/_sinequa/webpackages/help**
 * `indexFile` (optional): is the html file to open when the user click on the help menu action eg: index.html.
     * default value is: **olh-index.html**
-* `useLocale` (optional): default value is **true** 
+* `useLocale` (optional): default value is **true**
     * when **true**, help's folder should be put inside a locale sub-folder (en, fr, de, ...)
     * when **false**, no sub-folder will be used.
 * `useLocaleAsPrefix` (optional): default value is **true**
