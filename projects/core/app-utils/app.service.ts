@@ -1,5 +1,5 @@
 import {Injectable, Inject, OnDestroy} from "@angular/core";
-import {BehaviorSubject, Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {map} from "rxjs/operators";
 import {Utils, MapOf, PatternMatcher} from "@sinequa/core/base";
 import {IntlService} from "@sinequa/core/intl";
@@ -77,7 +77,7 @@ export class AppService implements OnDestroy {
     private _defaultCCQuery?: CCQuery;
     private _ccquery?: CCQuery;
 
-    protected _events = new BehaviorSubject<AppEvents>({type: "none"});
+    protected _events = new Subject<AppEvents>();
 
     private static toEngineType(type: string): EngineType {
         if (!type) {
