@@ -1,6 +1,7 @@
 ﻿import {Type} from "@angular/core";
 import {Utils} from "@sinequa/core/base";
 import {MessageParams} from "@sinequa/core/intl";
+import { Placement } from "@sinequa/components/utils";
 
 export abstract class IAction {
     name?: string;
@@ -17,8 +18,8 @@ export abstract class IAction {
     componentInputs?: any;
     data?: any;
     title?: string; // display as a tooltip
-    titlePlacement?: "top" | "bottom" | "right" | "left";  // tooltip placement, when undefined default is"bottom"
-    fallbackPlacements?: ("top" | "bottom" | "right" | "left") | ("top" | "bottom" | "right" | "left")[] // tooltip fallback placement(s)
+    titlePlacement?: Placement;  // tooltip placement, when undefined default is"bottom"
+    fallbackPlacements?: Placement | Placement[] // tooltip fallback placement(s)
     selected?: boolean;
     disabled?: boolean;
     hidden?: boolean;

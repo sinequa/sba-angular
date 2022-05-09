@@ -17,12 +17,14 @@ import { Utils } from "@sinequa/core/base";
 import { Observable, of, Subscription } from "rxjs";
 import { delay } from "rxjs/operators";
 
+export type Placement = "top" | "bottom" | "right" | "left";
+
 @Directive({selector: "[sqTooltip]"})
 export class TooltipDirective<T> implements OnDestroy {
   @Input("sqTooltip") text?: string | ((data?: T) => Observable<string|undefined>) = "";
   @Input("sqTooltipData") data?: T;
-  @Input() placement: "top" | "bottom" | "right" | "left" = "bottom";
-  @Input() fallbackPlacements: ("top" | "bottom" | "right" | "left") | ("top" | "bottom" | "right" | "left")[] = [];
+  @Input() placement: Placement = "bottom";
+  @Input() fallbackPlacements: Placement | Placement[] = [];
   @Input() delay = 300;
 
   private overlayRef: OverlayRef;
@@ -135,7 +137,7 @@ export class TooltipDirective<T> implements OnDestroy {
 
   fallbackPositions(): ConnectedPosition[] {
     return (Utils.isArray(this.fallbackPlacements) ? this.fallbackPlacements : [this.fallbackPlacements]).map(
-      (placement: "top" | "bottom" | "right" | "left") => this.position(placement)
+      (placement: Placement) => this.position(placement)
     )
   }
 
