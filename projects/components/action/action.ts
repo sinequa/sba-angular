@@ -18,6 +18,7 @@ export abstract class IAction {
     data?: any;
     title?: string; // display as a tooltip
     titlePlacement?: "top" | "bottom" | "right" | "left";  // tooltip placement, when undefined default is"bottom"
+    fallbackPlacements?: ("top" | "bottom" | "right" | "left") | ("top" | "bottom" | "right" | "left")[] // tooltip fallback placement(s)
     selected?: boolean;
     disabled?: boolean;
     hidden?: boolean;

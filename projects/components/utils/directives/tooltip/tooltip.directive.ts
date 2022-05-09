@@ -22,6 +22,7 @@ export class TooltipDirective<T> implements OnDestroy {
   @Input("sqTooltip") text?: string | ((data?: T) => Observable<string|undefined>) = "";
   @Input("sqTooltipData") data?: T;
   @Input() placement: "top" | "bottom" | "right" | "left" = "bottom";
+  @Input() fallbackPlacements: ("top" | "bottom" | "right" | "left") | ("top" | "bottom" | "right" | "left")[] = [];
   @Input() delay = 300;
 
   private overlayRef: OverlayRef;
@@ -68,14 +69,14 @@ export class TooltipDirective<T> implements OnDestroy {
       this.overlayRef?.detach();
 
       if(!text?.trim().length) return;
-  
+
       const positionStrategy = this.overlayPositionBuilder
       .flexibleConnectedTo(this.elementRef)
-      .withPositions([this.position()]);
-      
+      .withPositions([this.position(), ...this.fallbackPositions()]);
+
       const scrollStrategy = this.overlay.scrollStrategies.close();
       this.overlayRef = this.overlay.create({positionStrategy, scrollStrategy});
-      
+
       const tooltipRef = this.overlayRef.attach(new ComponentPortal(TooltipComponent));
       tooltipRef.instance.text = text;
     });
@@ -95,8 +96,8 @@ export class TooltipDirective<T> implements OnDestroy {
     }
   }
 
-  position(): ConnectedPosition {
-    switch (this.placement) {
+  position(placement = this.placement): ConnectedPosition {
+    switch (placement) {
       case "bottom":
         return {
           originX: "center",
@@ -130,6 +131,12 @@ export class TooltipDirective<T> implements OnDestroy {
           offsetY: -8
         };
     }
+  }
+
+  fallbackPositions(): ConnectedPosition[] {
+    return (Utils.isArray(this.fallbackPlacements) ? this.fallbackPlacements : [this.fallbackPlacements]).map(
+      (placement: "top" | "bottom" | "right" | "left") => this.position(placement)
+    )
   }
 
   /**
