@@ -10,6 +10,7 @@ export default {
         "logout": "Se déconnecter",
 
         "language": "Langue",
+        "help": "Aide",
         
         "resetUserSettings": {
             "menu": "Réinitialiser les paramètres utilisateur",

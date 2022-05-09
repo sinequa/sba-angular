@@ -187,6 +187,50 @@ These options must be injected in the list of **providers**:
         {provide: SELECTION_OPTIONS, useValue: mySelectionOptions},
 ```
 
+### Help folder settings
+
+The folder settings allow to customize the help's folder to use within the application. When omitted, 'vanilla-search' will be used as default.
+
+```ts
+@NgModule()({
+  ...
+  providers: [
+    { provide: APP_HELP_FOLDER_OPTIONS, useValue: { name: 'vanilla-search' } },
+```
+
+* `useValue` expect an object of type`FolderOptions`
+```ts
+export type FolderOptions = {
+  name: string,
+  indexFile: string,
+  useLocale: boolean,
+  useLocaleAsPrefix: boolean
+}
+```
+
+We can instead provide this settings using the custom JSON configuration associated with the application in the administration page: `Search-Based-Applications/Apps/<app_name>`
+
+The Json key to use is:
+```json
+"help-folder-options": {
+    "name": string,
+    "indexFile": string, 
+    "useLocale": boolean,
+    "useLocaleAsPrefix": boolean
+}
+```
+
+Where
+* `name` the folder name should exists in:`Ressources/_sinequa/webpackages/help/<name>`
+* `indexFile` is the html file to open when the user click on the help menu action eg: index.html.
+Default value is: **olh-index.html**
+* `useLocale` 
+    * when true, help's folder should be put inside a locale sub-folder (en, fr, de, ...)
+    * when false, no sub-folder will be used.
+* `useLocaleAsPrefix` 
+    * when true, index file is prefixed by the locale followed by a dot character eg: **en.**
+    * when false, only `indexFile` is used to identify the file to open or  the `indexFile` default value if not provided.
+
 ### Results Views
 
 Results views can be configured to display search results in different ways. The configuration is described in the [documentation]({{site.baseurl}}modules/components/results-view.html) of the Results Views module.
@@ -251,7 +295,7 @@ In the `AppModule`, we see typically three types of providers:
     - The [`AuditInterceptor`]({{site.baseurl}}core/interceptors/AuditInterceptor.html) takes care of normalizing the Audit event messages sent to the server via any web service call. It can be overriden to customize all the audit events accross the app. See [Auditing applications](audit.html).
     - The [`NotificationsInterceptor`]({{site.baseurl}}core/interceptors/NotificationsInterceptor.html) takes care of displaying notifications coming from the server (Notifications can be included via a `$notifications` array appended to the JSON response).
 
-3. Global configuration: As seen above, some configuration must sometimes be injected via the list of providers (`SCREEN_SIZE_RULES`, `SELECTION_OPTIONS`, `LocationStrategy`)
+3. Global configuration: As seen above, some configuration must sometimes be injected via the list of providers (`SCREEN_SIZE_RULES`, `SELECTION_OPTIONS`, `LocationStrategy, APP_HELP_FOLDER_OPTIONS`)
 
 ## AppComponent
 

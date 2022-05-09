@@ -928,4 +928,11 @@ export class AppService implements OnDestroy {
     get adminUrl(): string {
         return this.updateUrlForCors(Utils.addUrl(this.startConfig.applicationPath!, "admin"));
     }
+    
+    /**
+     * Return the url to the sinequa help
+     */
+    helpUrl(path): string {
+        return this.updateUrlForCors(Utils.addUrl(this.startConfig.applicationPath!, "/r/_sinequa/webpackages/help/", path));
+    }
 }
