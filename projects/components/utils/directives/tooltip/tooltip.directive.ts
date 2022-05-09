@@ -17,11 +17,14 @@ import { Utils } from "@sinequa/core/base";
 import { Observable, of, Subscription } from "rxjs";
 import { delay } from "rxjs/operators";
 
+export type Placement = "top" | "bottom" | "right" | "left";
+
 @Directive({selector: "[sqTooltip]"})
 export class TooltipDirective<T> implements OnDestroy {
   @Input("sqTooltip") text?: string | ((data?: T) => Observable<string|undefined>) = "";
   @Input("sqTooltipData") data?: T;
-  @Input() placement: "top" | "bottom" | "right" | "left" = "bottom";
+  @Input() placement: Placement = "bottom";
+  @Input() fallbackPlacements: Placement | Placement[] = [];
   @Input() delay = 300;
 
   private overlayRef: OverlayRef;
@@ -68,14 +71,14 @@ export class TooltipDirective<T> implements OnDestroy {
       this.overlayRef?.detach();
 
       if(!text?.trim().length) return;
-  
+
       const positionStrategy = this.overlayPositionBuilder
       .flexibleConnectedTo(this.elementRef)
-      .withPositions([this.position()]);
-      
+      .withPositions([this.position(), ...this.fallbackPositions()]);
+
       const scrollStrategy = this.overlay.scrollStrategies.close();
       this.overlayRef = this.overlay.create({positionStrategy, scrollStrategy});
-      
+
       const tooltipRef = this.overlayRef.attach(new ComponentPortal(TooltipComponent));
       tooltipRef.instance.text = text;
     });
@@ -95,8 +98,8 @@ export class TooltipDirective<T> implements OnDestroy {
     }
   }
 
-  position(): ConnectedPosition {
-    switch (this.placement) {
+  position(placement = this.placement): ConnectedPosition {
+    switch (placement) {
       case "bottom":
         return {
           originX: "center",
@@ -130,6 +133,12 @@ export class TooltipDirective<T> implements OnDestroy {
           offsetY: -8
         };
     }
+  }
+
+  fallbackPositions(): ConnectedPosition[] {
+    return (Utils.isArray(this.fallbackPlacements) ? this.fallbackPlacements : [this.fallbackPlacements]).map(
+      (placement: Placement) => this.position(placement)
+    )
   }
 
   /**
