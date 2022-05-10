@@ -26,6 +26,8 @@ export class BsTabs implements OnChanges {
      */
     @Input() iconMap: {[key: string]: string} = {};
 
+    @Input() showCounts = true;
+
     /**
      * Emits an event when a tab is selected
      */
