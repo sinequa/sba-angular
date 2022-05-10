@@ -31,8 +31,7 @@ import { BsFacetTimelineComponent, TimelineSeries } from ".";
 export interface FacetDateParams {
     aggregation: string
     showCount?: boolean;
-    field?: string;
-    timelineAggregationName?: string;
+    timelineAggregation?: string;
     displayEmptyDistributionIntervals?: boolean;
     allowPredefinedRange?: boolean;
     allowCustomRange?: boolean;
@@ -56,8 +55,8 @@ export class BsFacetDate
     @Input() name: string = "Date";
     @Input() results: Results;
     @Input() aggregation: string = "Modified";
-    @Input() field: string = "modified";
-    @Input() timelineAggregationName: string = "Timeline";
+    @Input() timelineAggregation: string = "Timeline";
+    @Input("field") _field?: string;
     @Input() showCount: boolean = true; // Show the number of occurrences
     @Input() displayEmptyDistributionIntervals: boolean = true; // Display items with count === 0
     @Input() allowPredefinedRange = true; // will allow or not the use of datepickers and timeline for custom range selection
@@ -76,6 +75,8 @@ export class BsFacetDate
 
     protected subscriptions: Subscription[] = [];
     protected data: Aggregation | undefined;
+
+    get field(): string {return this._field || this.data?.column || ''}
 
     constructor(
         protected facetService: FacetService,
@@ -137,7 +138,7 @@ export class BsFacetDate
 
     ngOnChanges(changes: SimpleChanges) {
         if (this.allowCustomRange) {
-            this.updateTimeSeries(this.timelineAggregationName);
+            this.updateTimeSeries(this.timelineAggregation);
         }
 
         if (changes.results) {
