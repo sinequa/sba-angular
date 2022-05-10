@@ -130,7 +130,9 @@ export class BsFacetCard implements OnInit, OnDestroy, AfterContentInit {
     ){
 
         this.collapseAction = new Action({
-            action: (action) => {
+            action: (action, event) => {
+                // stop propagation to avoid the click outside event to be triggered
+                event.stopPropagation();
                 this._collapsed = !this._collapsed;
                 this.facetCollapsed.next(this._collapsed ? "collapsed" : "expanded");
                 if(!!this.facetComponent){
