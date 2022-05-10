@@ -90,8 +90,7 @@ export const FACETS: FacetConfig<FacetParams>[] = [
         icon: "fas fa-calendar-day",
         parameters: {
             aggregation: "Modified",
-            field: "modified",
-            timelineAggregationName: "Timeline",
+            timelineAggregation: "Timeline",
             showCount: true,
             allowPredefinedRange: true,
             allowCustomRange: true,
