@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, AfterViewInit, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef} from "@angular/core";
+import {Component, Input, OnInit, AfterViewInit, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, Renderer2} from "@angular/core";
 import {Action} from "../../action";
 import {UIService} from "@sinequa/components/utils";
 import {DropdownMenuOptions} from "../dropdown-menu/dropdown-menu";
@@ -28,10 +28,15 @@ export class BsActionItem implements OnInit, AfterViewInit {
     autoAdjustBreakpoint?: string;
     showDropdown: boolean;
 
+    unlisten: () => void;
+
     constructor(
         private uiService: UIService,
         private elementRef: ElementRef,
-        private cdRef: ChangeDetectorRef) {
+        private cdRef: ChangeDetectorRef,
+        renderer: Renderer2) {
+        // Prevent Bootstrap javascript from interfering with our own dropdown implementation
+        this.unlisten = renderer.listen(elementRef.nativeElement, 'show.bs.dropdown', e => e.preventDefault());
     }
 
     get haveItem(): boolean {
@@ -117,7 +122,7 @@ export class BsActionItem implements OnInit, AfterViewInit {
     get styleClass(): string {
         return this.options.style ? `btn-${this.options.style}` : "btn-light";
     }
-    
+
     get dropdownMenuOptions(): DropdownMenuOptions {
         return ({...this.options, showMenuClass: 'show'});
     }
@@ -140,6 +145,7 @@ export class BsActionItem implements OnInit, AfterViewInit {
         if (this.options.item.destroy) {
             this.options.item.destroy(this.options.item);
         }
+        this.unlisten();
     }
 
     click(event: UIEvent) {
