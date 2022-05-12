@@ -1,5 +1,5 @@
 <div class="list-group list-group-flush">
-    <a *ngFor="let query of recentQueriesService.recentqueries | slice:startIndex:endIndex" 
+    <a *ngFor="let query of recentQueriesService.recentqueries | slice:startIndex:endIndex"
         class="recent-query-item list-group-item list-group-item-action d-flex align-items-center"
         [routerLink]="[searchRoute]" [queryParams]="getQueryParams(query.query)" [state]="getRouterState(query.query)"
         (click)="openRecentQuery(query)">
@@ -8,7 +8,7 @@
         <i *ngIf="enableSave" class="query-save ms-2 far fa-save" [title]="'msg#recentQueries.save' | sqMessage" (click)="saveQuery(query, $event)"></i>
         <i *ngIf="enableDelete"class="query-delete ms-2 fas fa-times" [title]="'msg#recentQueries.delete' | sqMessage" (click)="deleteQuery(query, $event)"></i>
     </a>
-    <div *ngIf="recentQueriesService.recentqueries.length === 0" class="list-group-item text-center text-muted font-italic small py-5">
+    <div *ngIf="recentQueriesService.recentqueries.length === 0" class="list-group-item text-center text-muted fst-italic small py-5">
         {{ 'msg#recentQueries.noRecentQuery' | sqMessage }}
     </div>
 </div>
