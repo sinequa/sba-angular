@@ -1,7 +1,7 @@
 <div *ngIf="comments" class="comments" [ngClass]="theme">
     <ng-container *ngTemplateOutlet="commentsTpl; context:{$implicit: comments}"></ng-container>
 
-    <div *ngIf="comments.length === 0" class="font-italic text-center my-4">
+    <div *ngIf="comments.length === 0" class="fst-italic text-center my-4">
         {{ 'msg#comments.noComment' | sqMessage }}
     </div>
 
@@ -27,8 +27,8 @@
         <div class="message ps-2 py-1 pe-2">
             <div class="mt-2 d-flex" [ngClass]="{'text-muted':comment.deleted}" (click)="comment.$collapsed = !comment.$collapsed">
                 <i class="fas fa-user-circle me-1"></i>
-                <span class="text-truncate small font-weight-bold me-2" *ngIf="!comment.deleted">{{comment.username}}</span>
-                <span class="text-truncate small font-weight-bold me-2" *ngIf="comment.deleted">{{ 'msg#comments.deleted' | sqMessage }}</span>
+                <span class="text-truncate small fw-bold me-2" *ngIf="!comment.deleted">{{comment.username}}</span>
+                <span class="text-truncate small fw-bold me-2" *ngIf="comment.deleted">{{ 'msg#comments.deleted' | sqMessage }}</span>
                 <span class="small text-muted ms-auto" [title]="comment | sqCreationDate">{{comment.modified | sqRelativeTime}}<ng-container *ngIf="comment.modified !== comment.creation">*</ng-container></span>
                 <sq-collapse-button [collapsed]="comment.$collapsed" (state)="comment.$collapsed = $event" (click)="$event.stopPropagation()" class="ms-1 small"></sq-collapse-button>
             </div>
@@ -36,10 +36,10 @@
             <sq-collapse [collapsed]="comment.$collapsed">
 
                 <ng-template>
-            
+
                     <div class="message-body" *ngIf="!comment.deleted" [innerHTML]="comment.message | sqMarkdown"></div>
                     <div class="text-muted" *ngIf="comment.deleted">{{ 'msg#comments.deleted' | sqMessage }}</div>
-            
+
                     <div class="d-flex justify-content-end">
                         <div class="btn-group" role="group" *ngIf="!comment.deleted" (click)="$event.stopPropagation()">
                             <button class="btn btn-sm" (click)="likeComment(comment)" [ngClass]="{'btn-success': comment.likedByUser, 'btn-outline-secondary': !comment.likedByUser}">
@@ -61,7 +61,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                 </ng-template>
 
             </sq-collapse>

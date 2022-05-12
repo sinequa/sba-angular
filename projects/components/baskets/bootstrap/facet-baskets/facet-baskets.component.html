@@ -7,7 +7,7 @@
         <span *ngIf="basket.ids" class="basket-count ms-2 text-muted small">{{ basket.ids.length }}</span>
         <i *ngIf="enableDelete" class="basket-delete ms-2 fas fa-times" [title]="'msg#baskets.delete' | sqMessage" (click)="deleteBasket(basket, $event)"></i>
     </a>
-    <div *ngIf="basketsService.baskets.length === 0" class="list-group-item text-center text-muted font-italic small py-5">
+    <div *ngIf="basketsService.baskets.length === 0" class="list-group-item text-center text-muted fst-italic small py-5">
         {{ 'msg#baskets.noBasket' | sqMessage }}
     </div>
 </div>
