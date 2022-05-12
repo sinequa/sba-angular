@@ -19,6 +19,8 @@ mailto        = "${env.NPM_MAILING_LIST}"
 sba_version   = "${params.SBA_VERSION}"
 sba_app_list  = "${params.SBA_APP_LIST}"
 pkg_suffix    = "-DEV"
+sba_tag       = ""
+tag_prefix    = "rel_"
 
 // .npmrc variables for verdaccio connection
 scope  = "@sinequa"
@@ -110,20 +112,22 @@ node (params.SBA_NODE) {
 			// sba_version : releaseversion-DEV-build_number
 			sba_version = jf.get_pkg_version()
 			echo "sba_version: ${sba_version}"
+			sba_tag = jf.get_pkg_tag(sba_version)
+			echo "sba_tag: ${sba_tag}"
 			
 			// validate the build before merge
 			// build sinequa core modules
 			stage('Build Core') {
-				echo "npm run buildsqcore --sq_version=${sba_version} --if-present"
-				bat  "npm run buildsqcore --sq_version=${sba_version} --if-present"
+				echo "npm run buildsqcore --sq_version=${sba_version} --sq_tag=${sba_tag} --if-present"
+				bat  "npm run buildsqcore --sq_version=${sba_version} --sq_tag=${sba_tag} --if-present"
 			}
 			stage('Build Components') {
-				echo "npm run buildsqcomponents --sq_version=${sba_version} --if-present"
-				bat  "npm run buildsqcomponents --sq_version=${sba_version} --if-present"
+				echo "npm run buildsqcomponents --sq_version=${sba_version} --sq_tag=${sba_tag} --if-present"
+				bat  "npm run buildsqcomponents --sq_version=${sba_version} --sq_tag=${sba_tag} --if-present"
 			}
 			stage('Build Analytics') {
-				echo "npm run buildsqanalytics --sq_version=${sba_version}  --if-present"
-				bat  "npm run buildsqanalytics --sq_version=${sba_version}  --if-present"
+				echo "npm run buildsqanalytics --sq_version=${sba_version} --sq_tag=${sba_tag}  --if-present"
+				bat  "npm run buildsqanalytics --sq_version=${sba_version} --sq_tag=${sba_tag}  --if-present"
 			}
 			
 			// get the current branch version
