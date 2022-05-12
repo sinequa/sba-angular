@@ -4,10 +4,10 @@
         [routerLink]="[searchRoute]" [queryParams]="getQueryParams(query)" [state]="getRouterState(query)"
         (click)="openSavedQuery(query)">
         <span class="query-name me-auto text-truncate" [title]="query.name">{{ query.name }}</span>
-        <span *ngIf="query.query.text" class="query-text text-muted small font-italic text-right text-truncate ms-2">"{{ query.query.text }}"</span>
+        <span *ngIf="query.query.text" class="query-text text-muted small fst-italic text-right text-truncate ms-2">"{{ query.query.text }}"</span>
         <i *ngIf="enableDelete" class="query-delete ms-2 fas fa-times" [title]="'msg#savedQueries.delete' | sqMessage" (click)="deleteQuery(query, $event)"></i>
     </a>
-    <div *ngIf="savedQueriesService.savedqueries.length === 0" class="list-group-item text-center text-muted font-italic small py-5">
+    <div *ngIf="savedQueriesService.savedqueries.length === 0" class="list-group-item text-center text-muted fst-italic small py-5">
         {{ 'msg#savedQueries.noSavedQuery' | sqMessage }}
     </div>
 </div>
