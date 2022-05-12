@@ -59,6 +59,12 @@ export interface DashboardItemOption {
     defaultCols: number;
 }
 
+export interface DashboardEvent {
+    type: 'SET_DASHBOARD' | 'CHANGE_WIDGET_CONFIG' | 'ADD_WIDGET' | 'REMOVE_WIDGET',
+    dashboard: Dashboard;
+    item?: DashboardItem;
+}
+
 // Name of the "default dashboard" (displayed prior to any user customization)
 export const defaultDashboardName = "<default>";
 
@@ -98,7 +104,7 @@ export class DashboardService {
     setDefaultAction: Action;
 
     /** A subject firing events when the dashboard changes */
-    dashboardChanged = new Subject<Dashboard>();
+    dashboardChanged = new Subject<DashboardEvent>();
 
     constructor(
         public modalService: ModalService,
@@ -264,7 +270,7 @@ export class DashboardService {
      */
     public setDashboardItems(items: DashboardItem[], name = defaultDashboardName) {
         this.dashboard = { name, items };
-        this.dashboardChanged.next(this.dashboard);
+        this.dashboardChanged.next({type: 'SET_DASHBOARD', dashboard: this.dashboard});
     }
 
     /**
@@ -282,7 +288,7 @@ export class DashboardService {
      * @param item
      */
     public notifyItemChange(item: DashboardItem) {
-        this.dashboardChanged.next(this.dashboard);
+        this.dashboardChanged.next({type: 'CHANGE_WIDGET_CONFIG', dashboard: this.dashboard, item});
     }
 
     /**
@@ -303,7 +309,7 @@ export class DashboardService {
      * @param cols the number of columns that this widget should take in the dashboard (default to 2)
      */
     public addWidget(option: DashboardItemOption, dashboard: Dashboard = this.dashboard, rows = option.defaultRows, cols = option.defaultCols): DashboardItem {
-        dashboard.items.push({
+        const item = {
             x: 0,
             y: 0,
             rows,
@@ -311,9 +317,10 @@ export class DashboardService {
             type: option.type,
             icon: option.icon,
             title: option.text
-        });
-        this.dashboardChanged.next(dashboard);
-        return dashboard.items[dashboard.items.length - 1];
+        };
+        dashboard.items.push(item);
+        this.dashboardChanged.next({type: 'ADD_WIDGET', dashboard: this.dashboard, item});
+        return item;
     }
 
     /**
@@ -322,7 +329,7 @@ export class DashboardService {
      */
     public removeItem(item: DashboardItem) {
         this.dashboard.items.splice(this.dashboard.items.indexOf(item), 1);
-        this.notifyItemChange(item);
+        this.dashboardChanged.next({type: 'REMOVE_WIDGET', dashboard: this.dashboard, item});
     }
 
     /**
