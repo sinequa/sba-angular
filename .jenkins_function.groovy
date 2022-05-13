@@ -36,6 +36,15 @@ def get_pkg_version() {
 	return pkg_version
 }
 
+// function to build the package tag from the version
+def get_pkg_tag(sba_version) {
+	def pkg_tag = sba_version.split(pkg_suffix)[0]
+	pkg_tag = pkg_tag.trim()
+	pkg_tag = "${tag_prefix}${pkg_tag}"
+	echo "pkg_tag: ${pkg_tag}"
+	return pkg_tag
+}
+
 // function to check if we are in PR or another branch
 def buildOrMerge() {
 	def typeAction = ""
