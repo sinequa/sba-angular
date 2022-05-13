@@ -38,7 +38,7 @@ def get_pkg_version() {
 
 // function to build the package tag from the version
 def get_pkg_tag(sba_version) {
-	def pkg_tag = sba_version.split(${pkg_suffix})[0]
+	def pkg_tag = sba_version.split(pkg_suffix)[0]
 	pkg_tag = pkg_tag.trim()
 	pkg_tag = "${tag_prefix}${pkg_tag}"
 	echo "pkg_tag: ${pkg_tag}"
