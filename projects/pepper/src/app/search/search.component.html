@@ -30,7 +30,7 @@
 
     <ng-container *ngIf="loginService.complete">
         <div class="container-fluid text-nowrap" *ngIf="results$ | async as results">
-            <span class="text-muted me-2"><i class="fas fa-filter"></i> {{ 'msg#search.filters' | sqMessage }}: </span>
+            <span class="text-muted align-self-start m-2 ms-0"><i class="fas fa-filter"></i> {{ 'msg#search.filters' | sqMessage }}: </span>
             <sq-facet-filters [results]="results" [facets]="facets" [facetComponents]="facetComponents" class="me-auto"></sq-facet-filters>
 
             <div class="btn-group dashboard-actions" [sq-action-buttons]="{items: dashboardActions, style: 'primary', rightAligned: true}"></div>
