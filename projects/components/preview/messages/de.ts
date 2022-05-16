@@ -40,7 +40,8 @@ export default {
             "minimize": "Rauszoomen",
             "maximize": "hineinzoomen",
             "toggleExtracts": "Schalten Sie die Hervorhebung relevanter Auszüge um",
-            "toggleEntities": "Schalten Sie die Hervorhebung von Objekten"
+            "toggleEntities": "Schalten Sie die Hervorhebung von Objekten",
+            "downloadPdf": "PDF-Version herunterladen",
         }
     }
 };

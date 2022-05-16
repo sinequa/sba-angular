@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { filter} from 'rxjs/operators';
 
 import { LoginService } from '@sinequa/core/login';
-import { PreviewData, Results } from '@sinequa/core/web-services';
+import { AuditEventType, PreviewData, Results } from '@sinequa/core/web-services';
 import { Query } from '@sinequa/core/app-utils';
 import { Action } from '@sinequa/components/action';
 import { PreviewService, PreviewDocument } from '@sinequa/components/preview';
@@ -57,7 +57,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   downloadUrl?: string;
   currentUrl?: string;
   sandbox?: string | null;
-  
+
   loading = false;
 
   // Set when the preview has finished loading and initializing
@@ -281,11 +281,25 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   /**
+   * @returns URL of the original document, if any
+   */
+  getOriginalDocUrl(): string | undefined {
+    return this.previewData?.record.url1 || this.previewData?.record.originalUrl;
+  }
+
+  /**
    * Notification for the audit service
    */
-  openOriginalDoc(){
+  notifyOriginalDoc(){
     if (this.previewData) {
-      this.searchService.notifyOpenOriginalDocument(this.previewData.record);
+      const type = this.previewData?.record.url1? AuditEventType.Doc_Url1 : AuditEventType.Doc_CacheOriginal;
+      this.searchService.notifyOpenOriginalDocument(this.previewData.record, undefined, type);
+    }
+  }
+
+  notifyPdf() {
+    if (this.previewData) {
+      this.searchService.notifyOpenOriginalDocument(this.previewData.record, undefined, AuditEventType.Doc_CachePdf);
     }
   }
 
@@ -297,7 +311,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     const containerid = this.previewData?.record.containerid;
     if(containerid) {
       const id = `${containerid}/#${page}#`;
-      
+
       // we needs surround router.navigate() as we navigate outside Angular
       // if an error occurs, this allow page navigation, broken otherwise
       this.zone.run(() => {

@@ -11,6 +11,10 @@ p, ul {
     color: #676767;
     font-size: 0.9em;
 }
+.extracts-text {
+    white-space: break-spaces;
+    word-break: break-word;
+}
     `]
 })
 export class ResultExtracts implements OnChanges {

@@ -601,7 +601,15 @@ export interface Record {
     /**
      * The URL of the document's thumbnail
      */
-    thumbnailUrl: string;
+    thumbnailUrl?: string;
+    /**
+     * The URL of the original document, if it exists
+     */
+    originalUrl?: string;
+    /**
+     * The URL of the PDF version of the document, if it exists
+     */
+    pdfUrl?: string;
     /**
      * Indicates whether RFM has been enabled for this document
      */

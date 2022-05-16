@@ -42,7 +42,8 @@ export default {
             "minimize": "Réduire",
             "maximize": "Agrandir",
             "toggleExtracts": "Surlignage des extraits pertinents",
-            "toggleEntities": "Surlignage des entités"
+            "toggleEntities": "Surlignage des entités",
+            "downloadPdf": "Télécharger la version PDF"
         }
     }
 };

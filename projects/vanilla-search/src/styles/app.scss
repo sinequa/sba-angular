@@ -39,6 +39,10 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
     }
 }
 
+.btn-link {
+  text-decoration: none;
+}
+
 // CDK drag & drop
 .cdk-drag-preview {
     z-index: 2000 !important;
