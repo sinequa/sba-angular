@@ -1,11 +1,12 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, HostBinding, AfterViewChecked } from "@angular/core";
 import { SafeResourceUrl } from "@angular/platform-browser";
 import { Query } from '@sinequa/core/app-utils';
-import { Record, PreviewData } from "@sinequa/core/web-services";
+import { Record, PreviewData, AuditEventType } from "@sinequa/core/web-services";
 import { PreviewService } from "../../preview.service";
 import { PreviewDocument, HighlightFilters } from "../../preview-document";
 import { AbstractFacet } from '@sinequa/components/facet';
 import { Action } from '@sinequa/components/action';
+import { SearchService } from "@sinequa/components/search";
 
 @Component({
   selector: 'sq-facet-preview-2',
@@ -37,6 +38,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   private toggleExtractsAction: Action;
   private minimizeAction: Action;
   private maximizeAction: Action;
+  private pdfDownloadAction: Action;
 
   data?: PreviewData;
   document?: PreviewDocument;
@@ -46,7 +48,9 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   private readonly scaleFactorThreshold = 0.1;
 
   constructor(
-      private previewService: PreviewService) {
+      private previewService: PreviewService,
+      private searchService: SearchService
+  ) {
 
     super();
 
@@ -116,12 +120,21 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       }
     });
 
+    this.pdfDownloadAction = new Action({
+      icon: "fas fa-file-pdf",
+      title: "msg#facet.preview.downloadPdf",
+      action: () => this.searchService.notifyOpenOriginalDocument(this.record, undefined, AuditEventType.Doc_CachePdf)
+    })
+
   }
 
   override get actions(): Action[] {
     const actions: Action[] = [];
     if(this.customActions){
       actions.push(...this.customActions);
+    }
+    if(this.record.pdfUrl) {
+      actions.push(this.pdfDownloadAction);
     }
     if(this.highlightActions) {
       actions.push(this.toggleExtractsAction, this.toggleEntitiesAction);
@@ -148,6 +161,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       this.data = undefined;
       this.document = undefined;
       this.loading = true;
+      this.pdfDownloadAction.href = this.record.pdfUrl;
     }
     if(changes["height"] || changes["scalingFactor"]) {
       this._height = this.height;
