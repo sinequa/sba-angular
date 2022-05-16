@@ -79,12 +79,12 @@ export class AggregationProvider extends BaseProvider {
      * @param sourceNode if provided, will compute the aggregation with a select to compute the aggregation for documents referencing that node
      */
     protected fetchAggregations(types: AggregationEdgeType[], sourceNode?: Node) {
-        
+
         const query = Utils.copy(this.query || this.context.searchService.query);
         query.action = "aggregate";
         query.aggregations = {};
         types.forEach(type => query.aggregations[type.aggregation] = {
-            skip: this.skips[type.aggregation+(sourceNode?.id || "")], 
+            skip: this.skips[type.aggregation+(sourceNode?.id || "")],
             count: type.count || 10
         });
 
@@ -104,7 +104,7 @@ export class AggregationProvider extends BaseProvider {
                 this.updateDataset(results.aggregations, types, sourceNode);
             }
         );
-        
+
     }
 
     /**
@@ -166,7 +166,7 @@ export class AggregationProvider extends BaseProvider {
                     values: [this.getNodeValue(sourceNode), item.value.toString()],
                     displays: [sourceNode.label, item.display || item.value.toString()]
                 };
-            }                        
+            }
         }
 
         if(rawData) {
@@ -189,7 +189,7 @@ export class AggregationProvider extends BaseProvider {
 
     // NetworkProvider interface
 
-    /** 
+    /**
      * Retrieves the aggregation data synchronously or asynchronously, and updates the dataset with it.
      */
     override getData(context: NetworkContext) {
@@ -205,7 +205,7 @@ export class AggregationProvider extends BaseProvider {
         if(this.active && types.length > 0) {
             this.fetchAggregations(types);
         }
-        else {            
+        else {
             this.provider.next(this.dataset); // avoid undefined dataset when edge trigger !== source
         }
     }
@@ -255,10 +255,11 @@ export class AggregationProvider extends BaseProvider {
                 separator: true
             }));
             types.forEach(type => {
+                const agg =  this.getAggregationLabel(type.aggregation);
                 actions.push(new Action({
                     icon: "fas fa-plus-circle fa-fw",
-                    title: this.context.intlService.formatMessage("msg#network.actions.fetchMoreAgg", {agg: type.aggregation}),
-                    text: type.aggregation,
+                    title: this.context.intlService.formatMessage("msg#network.actions.fetchMoreAgg", {agg}),
+                    text: agg,
                     action: () => {
                         this.fetchAggregations([type]);
                     },
@@ -292,7 +293,7 @@ export class AggregationProvider extends BaseProvider {
         }
         return actions;
     }
-    
+
     /**
      * Convenience method to generate an expand action for a given node
      * and given edge type.
@@ -301,8 +302,9 @@ export class AggregationProvider extends BaseProvider {
      * @param withtext Whether or not the action should have text (or just an icon)
      */
     protected createExpandAction(type: AggregationEdgeType, node: Node, withtext?: boolean): Action {
-        const title = this.context.intlService.formatMessage("msg#network.actions.expandNodeWith", {agg: type.aggregation});
-        return new Action({
+      const agg =  this.getAggregationLabel(type.aggregation);
+      const title = this.context.intlService.formatMessage("msg#network.actions.expandNodeWith", {agg});
+      return new Action({
             icon: "fas fa-plus-circle fa-fw",
             title: title,
             text: withtext? title : undefined,
@@ -316,6 +318,14 @@ export class AggregationProvider extends BaseProvider {
                 this.fetchAggregations([type], node);
             },
         })
+    }
+
+    protected getAggregationLabel(aggregation: string) {
+      const cc = this.context.appService.getCCAggregation(aggregation);
+      return cc?.column.split('/')
+        .map(col => this.context.appService.getPluralLabel(col))
+        .map(col => this.context.intlService.formatMessage(col))
+        .join('/') || aggregation;
     }
 
 }
