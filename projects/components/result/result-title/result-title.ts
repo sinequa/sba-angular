@@ -1,6 +1,6 @@
 import {ViewEncapsulation, Component, Input, OnChanges, Output, EventEmitter} from "@angular/core";
 import {Utils} from "@sinequa/core/base";
-import {Record} from "@sinequa/core/web-services";
+import {AuditEventType, Record} from "@sinequa/core/web-services";
 import {SearchService} from "@sinequa/components/search";
 
 
@@ -51,7 +51,7 @@ export class ResultTitle implements OnChanges {
     }
 
     get hasLinkBehaviour(): boolean {
-        return this.titleLinkBehavior === "open" || (this.titleLinkBehavior === "open-if-url" && this.hasUrl);
+        return this.titleLinkBehavior === "open" || (this.titleLinkBehavior === "open-if-url" && !!this.url);
     }
 
     /**
@@ -59,19 +59,19 @@ export class ResultTitle implements OnChanges {
      * A link is shown in all other cases (even in "open" mode with no url, which is equivalent to "action" mode)
      */
     get hasSpanBehaviour(): boolean {
-        return this.titleLinkBehavior === "display" || (this.titleLinkBehavior === "open-if-url" && !this.hasUrl);
+        return this.titleLinkBehavior === "display" || (this.titleLinkBehavior === "open-if-url" && !this.url);
     }
 
     public get href(): string {
-        return (this.hasLinkBehaviour && this.record[this.urlColumn]) || "#";
+        return (this.hasLinkBehaviour && this.url) || "#";
     }
 
     public get target(): string {
-        return (this.hasLinkBehaviour && this.record[this.urlColumn]) ? this.originalDocTarget || '_blank' : "_self";
+        return (this.hasLinkBehaviour && this.url) ? this.originalDocTarget || '_blank' : "_self";
     }
-    
-    public get hasUrl(): boolean {
-        return !!this.record[this.urlColumn];
+
+    public get url(): string | undefined {
+        return this.record[this.urlColumn] || this.record.originalUrl;
     }
 
     private getTitle(): string {
@@ -81,9 +81,11 @@ export class ResultTitle implements OnChanges {
     }
 
     public click() : boolean {
-        const isLink = this.hasLinkBehaviour && !!this.record[this.urlColumn]; // true if this is a regular link (performs the default action)
-        if(isLink)
-            this.searchService.notifyOpenOriginalDocument(this.record);
+        const isLink = this.hasLinkBehaviour && !!this.url; // true if this is a regular link (performs the default action)
+        if(isLink) {
+          const type = this.record[this.urlColumn]? AuditEventType.Click_ResultLink : AuditEventType.Doc_CacheOriginal;
+          this.searchService.notifyOpenOriginalDocument(this.record, undefined, type);
+        }
         this.titleClicked.emit(isLink); // Can be use to trigger actions
         return isLink;
     }

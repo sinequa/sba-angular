@@ -64,6 +64,11 @@
         "extracts": "Extrakte",
         "entities": "Entitäten",
         "searchText": "Suche \"{text}\" im Dokument",
-        "pageTitle": "Dokument-Navigator - {title}"
+        "pageTitle": "Dokument-Navigator - {title}",
+        "expand": "Erweitern",
+        "back": "Zurück",
+        "home": "Startseite",
+        "downloadPdf": "PDF-Version herunterladen",
+        "original": "Originaldokument"
     }
 }

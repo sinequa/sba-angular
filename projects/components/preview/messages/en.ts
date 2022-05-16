@@ -42,7 +42,8 @@ export default {
             "minimize": "Zoom out",
             "maximize": "Zoom in",
             "toggleExtracts": "Toggle relevant extracts highlighting",
-            "toggleEntities": "Toggle entities highlighting"
+            "toggleEntities": "Toggle entities highlighting",
+            "downloadPdf": "Download PDF version"
         }
     }
 };

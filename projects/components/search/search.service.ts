@@ -929,14 +929,14 @@ export class SearchService implements OnDestroy {
         return undefined;
     }
 
-    notifyOpenOriginalDocument(record: Record, resultId?: string): void {
+    notifyOpenOriginalDocument(record: Record, resultId?: string, type = AuditEventType.Click_ResultLink): void {
         const results = this.results && this.results.records && this.results.records.includes(record) ? this.results : undefined;
         this._events.next({ type: "open-original-document", record });
         const querylang = this.results?.queryAnalysis?.queryLanguage
             || this.query?.questionLanguage
             || this.appService?.ccquery?.questionLanguage;
         this.auditService.notifyDocument(
-            AuditEventType.Click_ResultLink,
+            type,
             record,
             results || resultId || "",
             {
@@ -1069,7 +1069,7 @@ export module SearchService {
         cancel?: boolean;
         cancelReasons?: string[];
     }
-    
+
     export interface NewQueryIntentsEvent extends Event {
         type: "new-query-intents";
         query: Query;
