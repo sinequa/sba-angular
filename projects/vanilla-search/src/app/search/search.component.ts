@@ -11,7 +11,7 @@ import { UIService } from '@sinequa/components/utils';
 import { AppService } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 import { LoginService } from '@sinequa/core/login';
-import { AuditWebService, Record, Results } from '@sinequa/core/web-services';
+import { Answer, AuditWebService, Record, Results } from '@sinequa/core/web-services';
 import { FacetParams, FACETS, FEATURES, METADATA } from '../../config';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
 
@@ -31,6 +31,7 @@ export class SearchComponent implements OnInit {
 
   // Custom action for the preview facet (open the preview route)
   public previewCustomActions: Action[];
+  public showPassagesAction: Action;
 
   // Whether the left facet bar is shown
   public _showFilters = this.ui.screenSizeIsEqual('md');
@@ -67,7 +68,19 @@ export class SearchComponent implements OnInit {
       }
     });
 
-    this.previewCustomActions = [ expandPreviewAction ];
+    // Display Neural Search passages, when they exist
+    this.showPassagesAction = new Action({
+      text: "Passages",
+      title: "Show/hide passages extracted by Neural Search",
+      action: action => {
+        action.selected = !action.selected
+      },
+      updater: action => {
+        action.hidden = !this.openedDoc?.matchingpassages?.passages.length;
+      }
+    });
+
+    this.previewCustomActions = [ this.showPassagesAction, expandPreviewAction ];
   }
 
   /**
@@ -139,10 +152,15 @@ export class SearchComponent implements OnInit {
    */
   onDocumentClicked(record: Record, event: Event) {
     if(!this.isClickAction(event)){
-      this.openedDoc = record;
-      if(this.ui.screenSizeIsLessOrEqual('md')){
-        this._showFilters = false; // Hide filters on small screens if a document gets opened
-      }
+      this.openMiniPreview(record);
+    }
+  }
+
+  openMiniPreview(record: Record) {
+    this.openedDoc = record;
+    this.showPassagesAction.update();
+    if(this.ui.screenSizeIsLessOrEqual('md')){
+      this._showFilters = false; // Hide filters on small screens if a document gets opened
     }
   }
 
@@ -254,5 +272,15 @@ export class SearchComponent implements OnInit {
    */
   isDark(): boolean {
     return document.body.classList.contains("dark");
+  }
+
+  get showPassages(): boolean {
+    return !this.showPassagesAction?.hidden && !!this.showPassagesAction?.selected;
+  }
+
+  onAnswerOpened(answer: Answer) {
+    // Important to retrieve the "real" record if possible, as the one in the answer misses some metadata
+    const record = this.searchService.results?.records.find(r => r.id === answer.record.id);
+    this.openMiniPreview(record || answer.record);
   }
 }
