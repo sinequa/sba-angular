@@ -102,14 +102,16 @@ export class DashboardItemComponent implements OnChanges {
         this.maximizeAction = new Action({
             icon: "fas fa-expand-alt",
             title: "msg#dashboard.maximizeTitle",
-            action: (action) => {
+            action: () => {
                 this.toggleMaximizedView();
-                action.icon = this.gridsterItemComponent.el.classList.contains('widget-maximized-view')
-                              ? "fas fa-compress-alt"
-                              : "fas fa-expand-alt";
-                action.title = this.gridsterItemComponent.el.classList.contains('widget-maximized-view')
-                              ? "msg#dashboard.minimizeTitle"
-                              : "msg#dashboard.maximizeTitle";
+            },
+            updater: (action) => {
+                action.icon = this.isMaximized()
+                    ? "fas fa-compress-alt"
+                    : "fas fa-expand-alt";
+                action.title = this.isMaximized()
+                    ? "msg#dashboard.minimizeTitle"
+                    : "msg#dashboard.maximizeTitle";
             }
         });
     }
@@ -226,13 +228,17 @@ export class DashboardItemComponent implements OnChanges {
         }
     }
 
+    isMaximized(): boolean {
+      return this.gridsterItemComponent.el.classList.contains('widget-maximized-view');
+    }
+
     toggleMaximizedView(): void {
         const elem = this.gridsterItemComponent.el;
 
         elem.classList.toggle('widget-maximized-view'); // allow container of gridsterItem to full-fill its direct parent dimensions
         elem.parentElement?.classList.toggle('no-scroll'); // disable the direct parent scroll
 
-        if (elem.classList.contains('widget-maximized-view')) { // update component defined in gridsterItem to full-fill its maximized space
+        if (this.isMaximized()) { // update component defined in gridsterItem to full-fill its maximized space
             this.config.height = elem.parentElement?.clientHeight!;
             this.config.width = elem.parentElement?.clientWidth!;
         } else { // update height/width to the dimensions of the gridsterItemComponent
@@ -242,8 +248,10 @@ export class DashboardItemComponent implements OnChanges {
 
         // update related full-screen actions since they can not be performed in maximized mode
         if (this.fullScreenExpandable) {
-            this.fullScreenAction.disabled = elem.classList.contains('widget-maximized-view');
+            this.fullScreenAction.disabled = this.isMaximized();
         }
+
+        this.maximizeAction.update();
     }
 
     // Specific callback methods for the CHART widget
