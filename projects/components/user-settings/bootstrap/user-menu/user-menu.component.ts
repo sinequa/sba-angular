@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef, Input, OnDestroy, InjectionToken, Inject, Optional } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Action } from '@sinequa/components/action';
 import { PrincipalWebService, UserSettingsWebService } from '@sinequa/core/web-services';
-import { AuthenticationService, LoginService, SessionEvent, UserOverride } from '@sinequa/core/login';
+import { AuthenticationService, LoginService, UserOverride } from '@sinequa/core/login';
 import { IntlService, Locale } from '@sinequa/core/intl';
 import { Utils } from '@sinequa/core/base';
 import { BsOverrideUser } from '@sinequa/components/modal';
@@ -11,24 +11,25 @@ import { ModalService, ModalResult, ConfirmType, ModalButton } from '@sinequa/co
 import { AppService } from '@sinequa/core/app-utils';
 import { NotificationsService, NotificationType } from '@sinequa/core/notification';
 
-/** A token that is used to inject the help folder options. 
- *  
+/** A token that is used to inject the help folder options.
+ *
  * Expects a {@link HelpFolderOptions} object.
 */
 export const APP_HELP_FOLDER_OPTIONS = new InjectionToken<HelpFolderOptions>('APP_HELP_FOLDER_OPTIONS');
 /**
  * `HelpFolderOptions` is an object with four properties: `name`, `indexFile`, `useLocale`, and
  * `useLocaleAsPrefix`.
- * 
+ *
  * @property name - The name of the folder.
  * @property indexFile - The name of the file that will be used as the index file for the folder.
  * @property useLocale - If true, the locale will be used to determine the folder to use.
  * @property useLocaleAsPrefix - If true, the locale will be used as a prefix for the help
- * folder. For example, if the locale is "en-US", the help folder will be inside "en-US/" folder. 
+ * folder. For example, if the locale is "en-US", the help folder will be inside "en-US/" folder.
  * If false, no locale will be used as a prefix.
  */
 export type HelpFolderOptions = {
   name: string,
+  path: string,
   indexFile: string,
   useLocale: boolean,
   useLocaleAsPrefix: boolean
@@ -65,22 +66,17 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
   guideInterfaceTourAction: Action;
   guideSearchTourAction: Action;
   helpAction: Action;
-  
+
   /** keep track of the help folder options, usefull when locale settings change */
-  private helpFolderOptions: HelpFolderOptions;
-  private helpDefaultFolderOptions: HelpFolderOptions = {
-    name: 'vanilla-search',
-    indexFile: 'olh-index.html',
-    useLocale: true,
-    useLocaleAsPrefix: true
-  }
-  
+  private helpFolderOptions: HelpFolderOptions | null = null;
+
   /** helper function to retrieve the help html file accordingly with the current locale */
-  private getHelpIndexFile = (locale: string , options: HelpFolderOptions) => {
+  private getHelpIndexFile = (locale: string, options: HelpFolderOptions | null) => {
+    if (options === null) return;
     const localeFolder = options.useLocale ? `${locale}/` : null;
     const indexFile = options.useLocaleAsPrefix ? `${locale}.${options.indexFile}` : options.indexFile;
 
-    return `/${options.name}/${localeFolder ? localeFolder : ''}${indexFile}`;
+    return `${options.path}/${options.name}/${localeFolder ? localeFolder : ''}${indexFile}`;
   };
 
   constructor(
@@ -93,7 +89,7 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
     public userSettingsService: UserSettingsWebService,
     public notificationsService: NotificationsService,
     public changeDetectorRef: ChangeDetectorRef,
-    @Optional() @Inject(APP_HELP_FOLDER_OPTIONS) helpFolderOptions) {
+    @Optional() @Inject(APP_HELP_FOLDER_OPTIONS) helpDefaultFolderOptions: Partial<HelpFolderOptions>) {
 
     // Actions objects are initialized in the constructor
 
@@ -186,7 +182,7 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
       action: () => {
         this.modalService.confirm({
           title: "msg#userMenu.resetUserSettings.modalTitle",
-          message: "msg#userMenu.resetUserSettings.modalMessage", 
+          message: "msg#userMenu.resetUserSettings.modalMessage",
           buttons: [
             new ModalButton({result: ModalResult.OK, text: "msg#userMenu.resetUserSettings.modalConfirmButton"}),
             new ModalButton({result: ModalResult.Cancel, primary: true})
@@ -223,58 +219,60 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
       icon: "sq-logo"
     });
 
-    // retrieve locale name to set help url accordingly
-    
-    // if folderName not provided, DI returns 'null', in this case use default configuration
-    this.loginService.events
-      .pipe(filter((event: SessionEvent) => event.type === "session-start"))
-      .subscribe(() => {
-        if (this.loginService.complete) {
-          /*
-           * first value: set using custom JSON in Apps/<app_name> administration's page
-           * second value: set using HELP_FOLDER_OPTIONS token
-           */
-          this.helpFolderOptions = {
-            ...this.helpDefaultFolderOptions,
-            ...((this.appService.app?.data["help-folder-options"] as HelpFolderOptions) || helpFolderOptions),
-          };
-          this.helpAction.update();
-        }
-      });
-    
     this.helpAction = new Action({
       text: "msg#userMenu.help",
       target: "_blank",
       updater: (action) => {
-        const { name } = intlService.currentLocale;
-        action.href = this.appService.helpUrl(this.getHelpIndexFile(name, this.helpFolderOptions))
+        action.disabled = true;
+        if (this.helpFolderOptions !== null) {
+          const { name } = intlService.currentLocale;
+          action.href = this.appService.helpUrl(this.getHelpIndexFile(name, this.helpFolderOptions));
+          action.disabled = false;
+          this.changeDetectorRef.markForCheck();
+        }
       }
-    });      
-    
+    });
+
     // update help url with locale when current locale change
-    intlService.events.subscribe(() => this.helpAction.update() );
+    intlService.events.subscribe(() => this.helpAction.update());
+
+    const sessionOrApp$ = combineLatest([this.loginService.events.pipe(filter(event => event.type === "session-start")), this.appService.events]);
+    sessionOrApp$.subscribe(([login, app]) => {
+      if (this.loginService.complete) {
+
+        const options = this.appService.app?.data["help-folder-options"] as HelpFolderOptions || null;
+
+        if (options === null && helpDefaultFolderOptions === null) {
+          this.helpFolderOptions = null;
+        } else {
+
+          this.helpFolderOptions = {
+            ...helpDefaultFolderOptions,
+            ...options,
+          };
+        }
+
+        this.helpAction.update();
+      }
+    });
   }
 
   ngOnInit() {
     this.updateMenu();
-    this._loginSubscription = this.loginService.events.subscribe(event => {
-      if(event.type === "session-changed"){
-        this.updateMenu();
-      }
-    });
-    this._principalSubscription = this.principalService.events.subscribe(event => {
-      this.updateMenu();
-    });
+
+    // whenever login service's events (only session-changed) or principal service's events triggers, update menu
+    const combine$ = combineLatest([this.loginService.events.pipe(filter(event => event.type === "session-changed")), this.principalService.events]);
+    this.sessionOrPrincipal$ = combine$.subscribe(_ => this.updateMenu());
   }
 
-  private _loginSubscription: Subscription;
-  private _principalSubscription: Subscription;
+  private sessionOrPrincipal$: Subscription;
+  private sessionOrApp$: Subscription;
   ngOnDestroy(){
-    if(this._loginSubscription){
-      this._loginSubscription.unsubscribe();
+    if(this.sessionOrPrincipal$){
+      this.sessionOrPrincipal$.unsubscribe();
     }
-    if(this._principalSubscription){
-      this._principalSubscription.unsubscribe();
+    if(this.sessionOrApp$){
+      this.sessionOrApp$.unsubscribe();
     }
   }
 
@@ -347,11 +345,11 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
     }
     return actions;
   }
-  
+
   getHelpActions(): Action[] {
     return [this.helpAction];
   }
-  
+
   /**
    * Whether the UI is in dark or light mode
    */

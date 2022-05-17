@@ -202,6 +202,7 @@ The folder settings allow to customize the help's folder to use within the appli
 ```ts
 export type FolderOptions = {
   name: string,
+  path: string,
   indexFile: string,
   useLocale: boolean,
   useLocaleAsPrefix: boolean
@@ -214,6 +215,7 @@ The Json key to use is:
 ```json
 "help-folder-options": {
     "name": string,
+    "path": string,
     "indexFile": string, 
     "useLocale": boolean,
     "useLocaleAsPrefix": boolean
@@ -221,15 +223,17 @@ The Json key to use is:
 ```
 
 Where
-* `name` the folder name should exists in:`Ressources/_sinequa/webpackages/help/<name>`
-* `indexFile` is the html file to open when the user click on the help menu action eg: index.html.
-Default value is: **olh-index.html**
-* `useLocale` 
-    * when true, help's folder should be put inside a locale sub-folder (en, fr, de, ...)
-    * when false, no sub-folder will be used.
-* `useLocaleAsPrefix` 
-    * when true, index file is prefixed by the locale followed by a dot character eg: **en.**
-    * when false, only `indexFile` is used to identify the file to open or  the `indexFile` default value if not provided.
+* `name` (required): the folder name should exists in:`Ressources/_sinequa/webpackages/help/<name>`
+* `path` (optional): the full pathname where the help's files are located.
+    * default value is **/r/_sinequa/webpackages/help**
+* `indexFile` (optional): is the html file to open when the user click on the help menu action eg: index.html.
+    * default value is: **olh-index.html**
+* `useLocale` (optional): default value is **true** 
+    * when **true**, help's folder should be put inside a locale sub-folder (en, fr, de, ...)
+    * when **false**, no sub-folder will be used.
+* `useLocaleAsPrefix` (optional): default value is **true**
+    * when **true**, index file is prefixed by the locale followed by a dot character eg: **en.**
+    * when **false**, only `indexFile` is used to identify the file to open or  the `indexFile` default value if not provided.
 
 ### Results Views
 

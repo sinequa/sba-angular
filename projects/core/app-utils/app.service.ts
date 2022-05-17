@@ -1,5 +1,5 @@
 import {Injectable, Inject, OnDestroy} from "@angular/core";
-import {Observable, Subject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {Utils, MapOf, PatternMatcher} from "@sinequa/core/base";
 import {IntlService} from "@sinequa/core/intl";
@@ -29,8 +29,7 @@ export interface QueryChangedEvent extends AppEvent {
 /**
  * A union of the different events that the {@link AppService} can generate
  */
-export type AppEvents = QueryChangedEvent;
-
+export type AppEvents = QueryChangedEvent | { type: "none" };
 /**
  * A service to manage the Sinequa SBA configuration
  */
@@ -78,7 +77,7 @@ export class AppService implements OnDestroy {
     private _defaultCCQuery?: CCQuery;
     private _ccquery?: CCQuery;
 
-    protected _events = new Subject<AppEvents>();
+    protected _events = new BehaviorSubject<AppEvents>({type: "none"});
 
     private static toEngineType(type: string): EngineType {
         if (!type) {
@@ -335,9 +334,7 @@ export class AppService implements OnDestroy {
                 return response;
             }
         );
-        return observable.pipe(map((value) => {
-            return this.app;
-        }));
+        return observable.pipe(map(_ => this.app));
     }
 
     /**
@@ -928,11 +925,11 @@ export class AppService implements OnDestroy {
     get adminUrl(): string {
         return this.updateUrlForCors(Utils.addUrl(this.startConfig.applicationPath!, "admin"));
     }
-    
+
     /**
      * Return the url to the sinequa help
      */
     helpUrl(path): string {
-        return this.updateUrlForCors(Utils.addUrl(this.startConfig.applicationPath!, "/r/_sinequa/webpackages/help/", path));
+        return this.updateUrlForCors(Utils.addUrl(this.startConfig.applicationPath!, path));
     }
 }
