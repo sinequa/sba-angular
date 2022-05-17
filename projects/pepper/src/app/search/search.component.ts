@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Observable, Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
@@ -16,6 +16,7 @@ import { Action, BsDropdownService, DropdownActiveEvent } from '@sinequa/compone
 import { FACETS, METADATA, FEATURES, FacetParams } from '../../config';
 import { DashboardService, MAP_WIDGET, TIMELINE_WIDGET, NETWORK_WIDGET, CHART_WIDGET, PREVIEW_WIDGET, HEATMAP_WIDGET, TAGCLOUD_WIDGET, MONEYTIMELINE_WIDGET, MONEYCLOUD_WIDGET } from '../dashboard/dashboard.service';
 import { BsFacetDate } from '@sinequa/analytics/timeline';
+import { DashboardItemComponent } from '../dashboard/dashboard-item.component';
 
 @Component({
   selector: 'app-search',
@@ -46,6 +47,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   showResults = true;
   toggleResultsTitle = "msg#search.hideResults";
   @ViewChild('gridster') gridster!: GridsterComponent;
+
+  @ViewChildren(DashboardItemComponent) items: QueryList<DashboardItemComponent>;
 
   constructor(
     public searchService: SearchService,
@@ -102,6 +105,8 @@ export class SearchComponent implements OnInit, OnDestroy {
       }
     }));
 
+
+
     // When the screen is resized, we resize the dashboard row height, so that items keep fitting the screen height
     this.ui.addResizeListener(event => {
       this.dashboardService.options.fixedRowHeight = (window.innerHeight - 150) / 4;
@@ -126,6 +131,12 @@ export class SearchComponent implements OnInit, OnDestroy {
           this.gridster.el.style.top = "";
         }
       }));
+
+    this.subscriptions.push(this.dashboardService.dashboardChanged.subscribe(event => {
+      if(event.type === 'ADD_WIDGET') {
+        this.toggleMaximized();
+      }
+    }));
   }
 
 
@@ -187,6 +198,10 @@ export class SearchComponent implements OnInit, OnDestroy {
         this.lastClickedId = record.id;
       }
     }
+  }
+
+  toggleMaximized() {
+    this.items.find(item => item.isMaximized())?.toggleMaximizedView();
   }
 
   /**

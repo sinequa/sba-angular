@@ -6,8 +6,12 @@
         max-width: 400px;
     }
 
-    .navbar-nav > li.dropdown:not(:first-child) {
-        margin-left: 0.5em;
+    .navbar-nav {
+      flex-wrap: wrap;
+
+      & > li.dropdown:not(:last-child) {
+        margin-right: 0.5em;
+      }
     }
 
     sq-action-item-content {
