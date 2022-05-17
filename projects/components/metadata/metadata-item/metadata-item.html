@@ -6,13 +6,13 @@
 
     <!-- Label (title)-->
     <span *ngIf="showTitle && !!item" class="sq-metadata-item-label pe-2">{{'msg#metadata.item.label' | sqMessage:itemLabelMessageParams}}</span>
-    
+
     <span class="sq-metadata-item-values" [ngClass]="{collapsed: !!collapsed}" #values>
         <!-- Collapse button -->
         <a *ngIf="collapseRows && needsCollapse" href="#" (click)="toggleCollapse($event)" class="collapse-button me-1">
             <i class="fas fa-fw fa-chevron-{{collapsed? 'right' : 'down'}}"></i>
         </a>
-        
+
         <!-- Access list metadata -->
         <sq-metadata-access-lists-item *ngIf="isAccessLists; else default" [accessLists]="accessListsData">
         </sq-metadata-access-lists-item>
@@ -55,10 +55,10 @@
                         <span class="{{'sq-metadata-item-' + item}}"
                             [attr.title]="(showTitle || entityTooltip)? null : (label | sqMessage)"
                             [sqTooltip]="entityTooltip"
-                            [sqTooltipData]="valueItem">{{valueItem | sqValue:column}}
-                            <span *ngIf="showCounts && valueItem.count"
+                            [sqTooltipData]="valueItem">{{valueItem | sqValue:column}}<!-- This comment is here to avoid including an extra space in the span
+                         --><span *ngIf="showCounts && valueItem.count"
                                 class="small"
-                                [title]="valueItem.count + ' occurrences in document'">({{valueItem.count}})</span>
+                                [title]="valueItem.count + ' occurrences in document'"> ({{valueItem.count}})</span>
                         </span>
                         <span *ngIf="$index < valueItems.length - 1" class="sq-metadata-item-list-separator">{{'msg#metadata.item.listSeparator' | sqMessage}}</span>
                     </ng-container>

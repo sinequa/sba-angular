@@ -151,7 +151,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes["record"]) {
+    if (changes.record) {
       this.previewService.getPreviewData(this.record.id, this.query).subscribe(
         previewData => {
           this.data = previewData;
@@ -163,8 +163,11 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
       this.loading = true;
       this.pdfDownloadAction.href = this.record.pdfUrl;
     }
-    if(changes["height"] || changes["scalingFactor"]) {
+    if(changes.height || changes.scalingFactor) {
       this._height = this.height;
+    }
+    if(changes.filters && this.filters) {
+      this.document?.filterHighlights(this.filters);
     }
   }
 
