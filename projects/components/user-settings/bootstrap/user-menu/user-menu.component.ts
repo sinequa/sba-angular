@@ -3,7 +3,7 @@ import { merge, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Action } from '@sinequa/components/action';
 import { PrincipalWebService, UserSettingsWebService } from '@sinequa/core/web-services';
-import { AuthenticationService, LoginService, SessionEvent, UserOverride } from '@sinequa/core/login';
+import { AuthenticationService, LoginService, UserOverride } from '@sinequa/core/login';
 import { IntlService, Locale } from '@sinequa/core/intl';
 import { Utils } from '@sinequa/core/base';
 import { BsOverrideUser } from '@sinequa/components/modal';
