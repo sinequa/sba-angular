@@ -32,7 +32,8 @@ export class LoginInterceptor implements HttpInterceptor {
         @Optional() @Inject(HTTP_REQUEST_INITIALIZERS) private requestInitializers: HttpRequestInitializer[],
         private notificationsService: NotificationsService,
         private loginService: LoginService,
-        private authService: AuthenticationService) {}
+        private authService: AuthenticationService
+    ) {}
 
     private processRequestInitializers(request: HttpRequest<any>) {
         if (this.requestInitializers) {
@@ -170,10 +171,8 @@ export class LoginInterceptor implements HttpInterceptor {
             catchError((error, caught) => {
                 this.notificationsService.leave("network");
                 if (error instanceof HttpErrorResponse) {
-                    switch (error.status) {
-                        case 401: {
-                            return this.handle401Error(error, _request, next, options, caught);
-                        }
+                    if (error.status === 401) {
+                        return this.handle401Error(error, _request, next, options, caught);
                     }
                 }
                 if (!noNotify) {
@@ -193,25 +192,22 @@ export class LoginInterceptor implements HttpInterceptor {
 
     private handle401Error(err: HttpErrorResponse, req: HttpRequest<any>, next: HttpHandler, options: Options, caught: Observable<HttpEvent<any>>): Observable<HttpEvent<any>> {
         if (!options.noAutoAuthentication) {
-            if (options.userOverrideActive) {
-                if (this.authService.userOverrideActive) {
-                    this.authService.deactivateUserOverride();
-                    this.authService.userOverrideFailed = true;
-                    this.notificationsService.error("msg#error.userOverrideFailure");
-                }
-                return throwError(err);
+          if (options.userOverrideActive) {
+            if (this.authService.userOverrideActive) {
+              this.authService.deactivateUserOverride();
+              this.authService.userOverrideFailed = true;
+              this.notificationsService.error("msg#error.userOverrideFailure");
             }
+            return throwError(err);
+          }
 
-            return from(this.getCredentials(err, !options.hadCredentials))
-                .pipe(
-                    switchMap(value => {
-                        const {headers} = this.authService.addAuthentication(req);
-                        return next.handle(req.clone({headers}));
-                    }),
-                    catchError(err => 
-                        // in case of an Http error, 'caught' must be returned to be catched by the interceptor
-                        err instanceof HttpErrorResponse ? caught : throwError(err)
-                    ));
+          return from(this.getCredentials(err, !options.hadCredentials)).pipe(
+            switchMap(_ => {
+              const { headers } = this.authService.addAuthentication(req);
+              return next.handle(req.clone({ headers }));
+            }),
+            catchError((error) => throwError(error))
+          );
         }
 
         return throwError(err);
