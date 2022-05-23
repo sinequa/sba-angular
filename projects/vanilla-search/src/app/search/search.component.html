@@ -98,7 +98,7 @@
             <div *ngFor="let record of results.records" class="record d-flex"
                 (click)="onDocumentClicked(record, $event)"
                 [ngClass]="{'selected': record.$selected || record === openedDoc}">
-                <div class="flex-grow-1 overflow-hidden">
+                <div class="flex-grow-1">
                     <div class="d-flex align-items-center">
                         <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')" [record]="record" class="ms-1"></sq-result-selector>
                         <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>

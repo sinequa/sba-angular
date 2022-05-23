@@ -70,7 +70,7 @@ export class SearchComponent implements OnInit {
 
     // Display Neural Search passages, when they exist
     this.showPassagesAction = new Action({
-      text: "Passages",
+      icon: "fas fa-brain",
       title: "Show/hide passages extracted by Neural Search",
       action: action => {
         action.selected = !action.selected
@@ -80,7 +80,7 @@ export class SearchComponent implements OnInit {
       }
     });
 
-    this.previewCustomActions = [ this.showPassagesAction, expandPreviewAction ];
+    this.previewCustomActions = [ expandPreviewAction, this.showPassagesAction ];
   }
 
   /**

@@ -47,6 +47,8 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
 
   private readonly scaleFactorThreshold = 0.1;
 
+  hightlights = ["matchlocations", "extractslocations", "matchingpassages"];
+
   constructor(
       private previewService: PreviewService,
       private searchService: SearchService
@@ -81,7 +83,7 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
         action.selected = !action.selected;
         if(this.data?.highlightsPerCategory) {
           Object.keys(this.data.highlightsPerCategory)
-            .filter(value => value !== "extractslocations" && value !== "matchlocations")
+            .filter(value => !this.hightlights.includes(value))
             .forEach(cat =>
               this.document?.toggleHighlight(cat, action.selected!)
             );
@@ -95,8 +97,9 @@ export class BsFacetPreviewComponent2 extends AbstractFacet implements OnChanges
         selected: true,
         action: (action) => {
             action.selected = !action.selected;
-            this.document?.toggleHighlight("matchlocations", action.selected);
-            this.document?.toggleHighlight("extractslocations", action.selected);
+            for(let highlight of this.hightlights) {
+              this.document?.toggleHighlight(highlight, action.selected);
+            }
         }
     });
 
