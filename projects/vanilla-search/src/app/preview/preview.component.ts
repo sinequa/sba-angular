@@ -70,6 +70,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
   subpanels = ["extracts", "entities"];
   subpanel = 'extracts';
   previewSearchable = true;
+  minimapType = "extractslocations"
 
   // Page management for splitted documents
   pagesResults: Results;
@@ -228,6 +229,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
           if(this.appService.isNeural() && !this.subpanels.includes("passages")) {
             this.subpanels.unshift("passages");
             this.subpanel = "passages";
+            this.minimapType = "matchingpassages";
           }
           // Manage splitted documents
           const pageNumber = this.previewService.getPageNumber(previewData.record);
@@ -272,6 +274,18 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
       const mostRelevantExtract = extracts[0].textIndex;
       previewDocument.selectHighlight(type, mostRelevantExtract); // Scroll to most relevant extract
       return true;
+    }
+    return false;
+  }
+
+  openPanel(panel: string) {
+    this.subpanel = panel;
+    // Change the type of extract highlighted by the minimap in function of the current tab
+    if(panel === "passages") {
+      this.minimapType = "matchingpassages";
+    }
+    if(panel === "extracts") {
+      this.minimapType = "extractslocations";
     }
     return false;
   }

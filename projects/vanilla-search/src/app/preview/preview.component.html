@@ -19,7 +19,7 @@
                 <!-- Navigation between the active sub panels -->
                 <ul class="nav nav-pills justify-content-center mb-1">
                     <li class="nav-item" *ngFor="let panel of subpanels">
-                        <a class="nav-link" href="#" [ngClass]="{active: subpanel === panel}" (click)="subpanel = panel; false">
+                        <a class="nav-link" href="#" [ngClass]="{active: subpanel === panel}" (click)="openPanel(panel)">
                             {{ ('msg#preview.'+panel) | sqMessage }}
                         </a>
                     </li>
@@ -99,11 +99,19 @@
                 (pageChange)="onPreviewPageChange($event)">
 
                 <!-- Tooltip injected in the preview -->
-                <sq-preview-tooltip #tooltip [previewDocument]="previewDocument" [previewData]="previewData"
-                    [entityActions]="tooltipEntityActions" [selectedTextActions]="tooltipTextActions"
+                <sq-preview-tooltip #tooltip
+                    [previewDocument]="previewDocument"
+                    [previewData]="previewData"
+                    [entityActions]="tooltipEntityActions"
+                    [selectedTextActions]="tooltipTextActions"
                     [scalingFactor]="scaleFactor">
                 </sq-preview-tooltip>
-                <sq-preview-minimap #minimap [previewDocument]="previewDocument" [previewData]="previewData"></sq-preview-minimap>
+
+                <sq-preview-minimap #minimap
+                    [previewDocument]="previewDocument"
+                    [previewData]="previewData"
+                    [type]="minimapType">
+                </sq-preview-minimap>
 
             </sq-preview-document-iframe>
         </div>
