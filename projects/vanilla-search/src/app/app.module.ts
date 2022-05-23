@@ -53,9 +53,9 @@ import { HELP_DEFAULT_FOLDER_OPTIONS } from "../config";
 
 // Initialization of @sinequa/core
 export const startConfig: StartConfig = {
-    app: "DemoNS_vanilla-search",
+    app: "training",
     production: environment.production,
-    //autoSAMLProvider: environment.autoSAMLProvider,
+    autoSAMLProvider: environment.autoSAMLProvider,
     auditEnabled: true
 };
 
