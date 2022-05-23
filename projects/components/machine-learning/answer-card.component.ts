@@ -9,8 +9,17 @@ import { SearchService } from "@sinequa/components/search";
   template: `
 <div class="card" *ngIf="answers.length">
     <div class="card-body">
-        <h3>{{answer.text}}</h3>
-        <p [innerHtml]="answer.passage.text" class="mb-0"></p>
+        <div class="d-flex">
+            <h3 class="me-auto">{{answer.text}}</h3>
+
+            <button class="btn btn-link" (click)="likeAnswer()" sqTooltip="This answer is helpful">
+                <i class="far fa-thumbs-up" [ngClass]="{fas: answer.$liked}"></i>
+            </button>
+            <button class="btn btn-link" (click)="dislikeAnswer()" sqTooltip="This answer is wrong">
+                <i class="far fa-thumbs-down" [ngClass]="{fas: answer.$liked === false}"></i>
+            </button>
+        </div>
+        <p [innerHtml]="answer.passage.highlightedAnswer"></p>
         <ng-container *ngIf="answer.record as record">
             <sq-result-title [record]="record" titleLinkBehavior="action" (titleClicked)="openAnswer()" class="d-block text-truncate"></sq-result-title>
             <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
@@ -21,12 +30,6 @@ import { SearchService } from "@sinequa/components/search";
             <i class="fas fa-chevron-left"></i>
         </button>
         answer {{selectedAnswer+1}}/{{answers.length}}
-        <button class="btn btn-sm btn-link" (click)="likeAnswer()" sqTooltip="This answer is helpful">
-            <i class="far fa-thumbs-up" [ngClass]="{fas: answer.$liked}"></i>
-        </button>
-        <button class="btn btn-sm btn-link" (click)="dislikeAnswer()" sqTooltip="This answer is incorrect">
-            <i class="far fa-thumbs-down" [ngClass]="{fas: answer.$liked === false}"></i>
-        </button>
         <button class="btn btn-sm btn-link" (click)="selectedAnswer = (selectedAnswer+1) % answers.length" *ngIf="answers.length > 1">
             <i class="fas fa-chevron-right"></i>
         </button>
@@ -34,8 +37,14 @@ import { SearchService } from "@sinequa/components/search";
 </div>
   `,
   styles: [`
+  .card-body {
+    padding-bottom: .25em;
+  }
   p {
     white-space: break-spaces;
+    max-height: 15em;
+    overflow: auto;
+    margin-bottom: 0;
   }
   `]
 })
@@ -95,7 +104,7 @@ export class AnswerCardComponent implements OnChanges {
       detail: {
           text: this.searchService.query.text,
           message: this.answer.text,
-          detail: this.answer.passage.text,
+          detail: this.answer.passage.highlightedAnswer,
           resultcount: this.answers.length,
           rank: this.selectedAnswer
       }

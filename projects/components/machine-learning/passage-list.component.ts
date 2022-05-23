@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
-import { Passage, Record } from "@sinequa/core/web-services";
+import { MatchingPassage, Record } from "@sinequa/core/web-services";
 
 @Component({
   selector: 'sq-passage-list',
@@ -8,9 +8,7 @@ import { Passage, Record } from "@sinequa/core/web-services";
   <div class="list-group-item list-group-item-action" [ngClass]="{expanded: passage.$expanded}"
       *ngFor="let passage of record.matchingpassages?.passages|slice:0:maxPassages"
       (click)="expand(passage)">
-      <p>
-          {{passage.text}}
-      </p>
+      <p [innerHtml]="passage.highlightedText"></p>
   </div>
 </div>
   `,
@@ -33,7 +31,7 @@ import { Passage, Record } from "@sinequa/core/web-services";
 })
 export class PassageListComponent implements OnChanges {
   @Input() record: Record;
-  @Input() maxPassages = 5;
+  @Input() maxPassages?: number;
 
   ngOnChanges(changes: SimpleChanges): void {
     const passages = this.record.matchingpassages?.passages;
@@ -42,9 +40,9 @@ export class PassageListComponent implements OnChanges {
     }
   }
 
-  expand(passage: Passage) {
-    const state = !passage['$expanded'];
-    this.record.matchingpassages?.passages.forEach(p => delete p['$expanded']);
-    passage['$expanded'] = state;
+  expand(passage: MatchingPassage) {
+    const state = !passage.$expanded;
+    this.record.matchingpassages?.passages.forEach(p => delete p.$expanded);
+    passage.$expanded = state;
   }
 }

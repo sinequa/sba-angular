@@ -7,7 +7,7 @@ import { filter} from 'rxjs/operators';
 
 import { LoginService } from '@sinequa/core/login';
 import { AuditEventType, PreviewData, Results } from '@sinequa/core/web-services';
-import { Query } from '@sinequa/core/app-utils';
+import { AppService, Query } from '@sinequa/core/app-utils';
 import { Action } from '@sinequa/components/action';
 import { PreviewService, PreviewDocument } from '@sinequa/components/preview';
 import { SearchService } from '@sinequa/components/search';
@@ -97,6 +97,7 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
     protected intlService: IntlService,
     protected previewService: PreviewService,
     protected searchService: SearchService,
+    public appService: AppService,
     public prefs: UserPreferences,
     public ui: UIService,
     protected activatedRoute: ActivatedRoute,
@@ -224,6 +225,10 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
         previewData => {
           this.previewData = previewData;
           const url = previewData?.documentCachedContentUrl;
+          if(this.appService.isNeural() && !this.subpanels.includes("passages")) {
+            this.subpanels.unshift("passages");
+            this.subpanel = "passages";
+          }
           // Manage splitted documents
           const pageNumber = this.previewService.getPageNumber(previewData.record);
           if(pageNumber) {
@@ -255,10 +260,20 @@ export class PreviewComponent implements OnInit, OnChanges, OnDestroy {
         .map(item => previewDocument.toggleHighlight(item.entity, false));
 
       this.previewDocument = previewDocument;
-      const extracts = this.previewService.getExtracts(this.previewData);
-      const mostRelevantExtract = extracts[0]?.textIndex || 0;
-      this.previewDocument.selectHighlight("extractslocations", mostRelevantExtract); // Scroll to most relevant extract
+      if(!this.highlightMostRelevant(this.previewData, this.previewDocument, "matchingpassages")) {
+        this.highlightMostRelevant(this.previewData, this.previewDocument, "extractslocations");
+      }
     }
+  }
+
+  highlightMostRelevant(previewData: PreviewData, previewDocument: PreviewDocument, type: string): boolean {
+    const extracts = this.previewService.getExtracts(previewData, undefined, type);
+    if(extracts[0]) {
+      const mostRelevantExtract = extracts[0].textIndex;
+      previewDocument.selectHighlight(type, mostRelevantExtract); // Scroll to most relevant extract
+      return true;
+    }
+    return false;
   }
 
   onPreviewPageChange(event: string | PreviewDocument) {

@@ -6,6 +6,7 @@
 
 $extracts-color: lemonchiffon !default;
 $extractslocations-color: $extracts-color !default;
+$passages-color: #fcf2eb;
 $matchlocations-color: yellow !default;
 $matchlocations-border: 1px solid rgba(0,0,0, 0.125);
 
@@ -20,6 +21,11 @@ $extracts-highlights:(
         background-color: $extractslocations-color,
         color: black,
         border: $matchlocations-border
+    ),
+    matchingpassages: (
+      main-color: $passages-color,
+      background-color: $passages-color,
+      color: black
     )
 );
 
@@ -143,7 +149,7 @@ body.bd {
             margin-bottom: 16px;
             margin-right: 16px;
         }
-    
+
     }
 }
 
@@ -155,7 +161,7 @@ sq-preview-minimap {
         right: 3px;
         height: 100%;
         z-index: 100;
-        
+
         .minimap-section {
             width: 100%;
             height: 1px;
@@ -272,7 +278,7 @@ line.sq-svg {
     }
 
     --left: 50%;
-    
+
     &::after {
         content: " ";
         position: absolute;
@@ -286,7 +292,7 @@ line.sq-svg {
         bottom: 100%; /* At the top of the tooltip */
         border-color: transparent transparent #4c4c4c transparent;
     }
-    
+
     &.sq-top-tooltip::after {
         top: 100%; /* At the bottom of the tooltip */
         border-color: #4c4c4c transparent transparent transparent;

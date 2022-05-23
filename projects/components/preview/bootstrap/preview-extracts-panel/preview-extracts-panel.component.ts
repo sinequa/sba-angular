@@ -1,7 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
-import {DOCUMENT} from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
-import {Subscription} from 'rxjs';
 
 import { PreviewData } from '@sinequa/core/web-services';
 import {Action} from "@sinequa/components/action";
@@ -16,10 +14,11 @@ import { PreviewService, Extract } from '../../preview.service';
   styleUrls: ['./preview-extracts-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
+export class BsPreviewExtractsPanelComponent implements OnChanges {
   @Input() previewData: PreviewData;
   @Input() previewDocument: PreviewDocument;
   @Input() downloadUrl: string;
+  @Input() type = "extractslocations";
   @Input() style: "light" | "dark" = "light";
   @ViewChild("scrollViewport") cdkScrollViewport: CdkVirtualScrollViewport;
 
@@ -27,19 +26,11 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
   extracts: Extract[] = [];
   currentIndex = -1;
   loading = false;
-  loadCompleteSubscription: Subscription;
 
   constructor(
-    @Inject(DOCUMENT) document: Document,
     private previewService: PreviewService,
     private cdr: ChangeDetectorRef) { }
 
-  ngOnDestroy() {
-    if(this.loadCompleteSubscription) {
-      this.loadCompleteSubscription.unsubscribe();
-    }
-  }
-    
   /**
    * Extracts the list of extracts from the preview document
    */
@@ -61,27 +52,27 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
       }
     }
   }
-  
+
   private createDocument(value: string): PreviewDocument {
     const doc = document.implementation.createHTMLDocument("");
     doc.write(value);
     doc.close();
     let previewDocument = new PreviewDocument(doc);
 
-    const count = previewDocument.document.querySelectorAll("[id^='extractslocations']").length;
+    const count = previewDocument.document.querySelectorAll(`[id^='${this.type}']`).length;
     if (count === 0 && this.previewDocument) {
       // use previous document to retrieve extracts
       previewDocument = this.previewDocument;
     }
-    
+
     return previewDocument;
   }
 
   private extractAll(previewData: PreviewData, previewDocument: PreviewDocument) {
-    this.extracts = this.previewService.getExtracts(previewData, previewDocument);
+    this.extracts = this.previewService.getExtracts(previewData, previewDocument, this.type);
 
     this.buildSortAction();
-          
+
     this.loading = false;
     this.currentIndex = -1;
     this.cdr.detectChanges();
@@ -89,7 +80,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
 
   /**
    * Build Sort Action for Extracts
-   * @param i 
+   * @param i
    */
   buildSortAction(){
     this.sortAction = new Action({
@@ -135,7 +126,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
 
     if (this.previewDocument) {
       // extracts are always at textIndex position whatever the sort
-      this.previewDocument.selectHighlight("extractslocations", extract.textIndex);
+      this.previewDocument.selectHighlight(this.type, extract.textIndex);
     }
     return false;
   }
@@ -156,7 +147,7 @@ export class BsPreviewExtractsPanelComponent implements OnChanges, OnDestroy {
     this.currentIndex++;
     this.scrollTo();
   }
-  
+
   private scrollTo() {
     this.cdkScrollViewport.scrollToIndex(this.currentIndex);
     const extract = this.extracts[this.currentIndex];

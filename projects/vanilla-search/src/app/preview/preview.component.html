@@ -8,55 +8,71 @@
         <!-- Navigation buttons/links (template below) -->
         <ng-container *ngTemplateOutlet="nav"></ng-container>
 
-        <div class="border-top border-bottom p-2" *ngIf="!collapsedPanel">
-            <!-- Search form allowing the search preview -->
-            <sq-preview-search-form *ngIf="previewSearchable" [query]="query" (searchText)="searchText($event)"></sq-preview-search-form>
+        <ng-container *ngIf="!collapsedPanel" [ngSwitch]="subpanel">
+            <div class="border-top border-bottom p-2">
+                <!-- Search form allowing the search preview -->
+                <sq-preview-search-form *ngIf="previewSearchable" [query]="query" (searchText)="searchText($event)"></sq-preview-search-form>
 
-            <!-- Page form allowing to go to an arbitrary page number (when the document is splitted)-->
-            <sq-preview-page-form [pageNumber]="previewData?.record?.$page" (gotopage)="gotoPage($event)"></sq-preview-page-form>
+                <!-- Page form allowing to go to an arbitrary page number (when the document is splitted)-->
+                <sq-preview-page-form [pageNumber]="previewData?.record?.$page" (gotopage)="gotoPage($event)"></sq-preview-page-form>
 
-            <!-- Navigation between the active sub panels -->
-            <ul class="nav nav-pills justify-content-center mb-1">
-                <li class="nav-item" *ngFor="let panel of subpanels">
-                    <a class="nav-link" href="#" [ngClass]="{active: subpanel === panel}" (click)="subpanel = panel; false">
-                        {{ ('msg#preview.'+panel) | sqMessage }}
-                    </a>
-                </li>
-            </ul>
-        </div>
+                <!-- Navigation between the active sub panels -->
+                <ul class="nav nav-pills justify-content-center mb-1">
+                    <li class="nav-item" *ngFor="let panel of subpanels">
+                        <a class="nav-link" href="#" [ngClass]="{active: subpanel === panel}" (click)="subpanel = panel; false">
+                            {{ ('msg#preview.'+panel) | sqMessage }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-        <!-- Expanded panel different subpanels available -->
-        <!-- Extracts/Pages panel -->
-        <sq-preview-extracts-panel *ngIf="subpanel === 'extracts' && !pagesResults && !collapsedPanel"
-            class="d-flex flex-column flex-grow-1" [previewData]="previewData" [downloadUrl]="currentUrl"
-            [previewDocument]="previewDocument">
-        </sq-preview-extracts-panel>
+            <ng-container *ngSwitchCase="'extracts'">
 
-        <sq-preview-pages-panel *ngIf="subpanel === 'extracts' && pagesResults && !collapsedPanel"
-            class="overflow-auto"
-            [previewData]="previewData"
-            [previewDocument]="previewDocument"
-            [pages]="pagesResults"
-            (gotopage)="gotoPage($event)">
-        </sq-preview-pages-panel>
+                <!-- Expanded panel different subpanels available -->
+                <!-- Extracts/Pages panel -->
+                <sq-preview-extracts-panel *ngIf="!pagesResults"
+                    class="d-flex flex-column flex-grow-1"
+                    [previewData]="previewData"
+                    [downloadUrl]="currentUrl"
+                    [previewDocument]="previewDocument">
+                </sq-preview-extracts-panel>
 
-        <div *ngIf="subpanel !== 'extracts' && !collapsedPanel" class="overflow-auto">
-
-            <!-- Legacy preview highlights -->
-            <sq-preview-highlights *ngIf="subpanel === 'highlights' && !!previewData" class="my-2"
-                [previewData]="previewData" [previewDocument]="previewDocument">
-            </sq-preview-highlights>
-
-            <!-- Entities panel -->
-            <div *ngIf="subpanel === 'entities'" class="p-2">
-                <sq-preview-entity-panel
+                <sq-preview-pages-panel *ngIf="pagesResults"
+                    class="overflow-auto"
                     [previewData]="previewData"
                     [previewDocument]="previewDocument"
-                    [startUnchecked]="entitiesStartUnchecked"
-                    (facetChecked)="entitiesChecked($event)">
-                </sq-preview-entity-panel>
-            </div>
-        </div>
+                    [pages]="pagesResults"
+                    (gotopage)="gotoPage($event)">
+                </sq-preview-pages-panel>
+
+            </ng-container>
+
+            <!-- Neural Search preview passages -->
+            <sq-preview-extracts-panel *ngSwitchCase="'passages'"
+                class="d-flex flex-column flex-grow-1"
+                [downloadUrl]="currentUrl"
+                [previewData]="previewData"
+                [previewDocument]="previewDocument"
+                type="matchingpassages">
+            </sq-preview-extracts-panel>
+
+            <!-- Entities panel -->
+            <sq-preview-entity-panel *ngSwitchCase="'entities'"
+                class="overflow-auto px-2"
+                [previewData]="previewData"
+                [previewDocument]="previewDocument"
+                [startUnchecked]="entitiesStartUnchecked"
+                (facetChecked)="entitiesChecked($event)">
+            </sq-preview-entity-panel>
+
+            <!-- Legacy preview highlights -->
+            <sq-preview-highlights *ngSwitchCase="'highlights'"
+                class="overflow-auto my-2"
+                [previewData]="previewData"
+                [previewDocument]="previewDocument">
+            </sq-preview-highlights>
+
+        </ng-container>
 
     </div>
 

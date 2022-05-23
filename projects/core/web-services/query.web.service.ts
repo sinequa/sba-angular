@@ -644,7 +644,7 @@ export interface Record {
      * List of matching passages for that document returned by the passage ranking ML model
      */
     matchingpassages?: {
-      passages: Passage[];
+      passages: MatchingPassage[];
     }
 }
 
@@ -710,14 +710,23 @@ export interface QueryIntentData {
 /**
  * A passage returned by ML Passage Ranking model
  */
-export interface Passage {
-    id: number;
-    text: string;
-    location: number[];
-    rlocation: number[];
-    /** Score of this matching passage */
-    score?: number;
-    $expanded?: boolean;
+export interface MatchingPassage {
+  id: number;
+  /** text of the passage with matchlocations highlighted with <b> tags */
+  highlightedText: string;
+  location: number[];
+  rlocation: number[];
+  /** Score of this matching passage */
+  score: number;
+  $expanded?: boolean;
+}
+
+export interface AnswerPassage {
+  id: number;
+  /** text of the passage with answer highlighted with <b> tags */
+  highlightedAnswer: string;
+  location: number[];
+  rlocation: number[];
 }
 
 /**
@@ -726,7 +735,7 @@ export interface Passage {
 export interface Answer {
     text: string;
     score: number;
-    passage: Passage;
+    passage: AnswerPassage;
     /** Record from which this answer was extracted */
     record: Record;
     $liked: undefined | boolean;
