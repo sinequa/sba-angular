@@ -32,14 +32,21 @@
         </g>
 
         <!-- Tooltip line -->
-        <ng-container *ngIf="showTooltip && tooltipX && !zooming && !brushing && !currentSelection">
-            <line [attr.x1]="tooltipX" [attr.x2]="tooltipX" y1="0" [attr.y2]="innerHeight" class="tooltip-line"></line>
+        <g class="tooltip-line" [attr.clip-path]="'url(#clip'+instance+')'" *ngIf="showTooltip && tooltipX && !zooming && !brushing && !currentSelection">
+            <line [attr.x1]="tooltipX" [attr.x2]="tooltipX" y1="0" [attr.y2]="innerHeight"></line>
             <text [attr.x]="tooltipX < innerWidth*0.75 ? tooltipX + 5 : tooltipX - 5" y="10"
                 [attr.text-anchor]="tooltipX < innerWidth*0.75 ? 'start' : 'end'" class="tooltip-text">
                 {{ xt.invert(tooltipX) | sqDate }}
             </text>
-        </ng-container>
-        
+            <ng-container *ngFor="let point of tooltipDatapoints; let i=index">
+                <ng-container *ngIf="point">
+                    <circle r="5" [attr.cx]="xt(point.date)" [attr.cy]="y(point.value)" class="line" [ngStyle]="data![i].lineStyles"></circle>
+                    <text *ngIf="y(point.value) as yMarker" [attr.x]="xt(point.date)" [attr.y]="yMarker > innerHeight*.25? yMarker - 8 : yMarker + 15"
+                      text-anchor="middle" class="tooltip-text">{{point.value}}</text>
+                </ng-container>
+            </ng-container>
+        </g>
+
         <!-- X Axis (built in the controler) -->
         <g #xAxis class="x axis" [attr.transform]="'translate(0,'+ innerHeight +')'"></g>
 

@@ -68,7 +68,7 @@ Which displays:
 
 ![Simple timeline]({{site.baseurl}}assets/modules/timeline/timeline1.png){: .d-block .mx-auto }
 
-Additionally, the `timeseries` object (of type [`TimelineSeries`]({{site.baseurl}}analytics/interfaces/TimelineSeries.html)) can take 2 additional parameters: `lineStyles` and `areaStyles` which allow to style the chart with css-like rules (SVG rules passed via `ngStyle`).
+Additionally, the `timeseries` object (of type [`TimelineSeries`]({{site.baseurl}}analytics/interfaces/TimelineSeries.html)) can take 3 additional parameters: `lineStyles` and `areaStyles` which allow to style the chart with css-like rules (SVG rules passed via `ngStyle`), and `showDatapoints` which allows to visualize the data points when hovering the timeline with the mouse.
 
 ```ts
 this.timeseries = [
@@ -79,7 +79,8 @@ this.timeseries = [
         ],
         primary: true,
         lineStyles: {'stroke': 'red', 'stroke-width': '3px'},
-        areaStyles: {'fill': 'none'}
+        areaStyles: {'fill': 'none'},
+        showDatapoints: true
     }
 ];
 ```
@@ -101,7 +102,8 @@ this.timeseries = [
         ],
         primary: true,
         lineStyles: {'stroke': 'red'},
-        areaStyles: {'fill': 'none'}
+        areaStyles: {'fill': 'none'},
+        showDatapoints: true
     },
     {
         name: 'series 2',
@@ -114,7 +116,8 @@ this.timeseries = [
         ],
         primary: true,
         lineStyles: {'stroke': 'green'},
-        areaStyles: {'fill': 'none'}
+        areaStyles: {'fill': 'none'},
+        showDatapoints: true
     },
     {
         name: 'series 3',
@@ -127,7 +130,8 @@ this.timeseries = [
         ],
         primary: false,
         lineStyles: {'stroke': 'blue'},
-        areaStyles: {'fill': 'none'}
+        areaStyles: {'fill': 'none'},
+        showDatapoints: true
     }
 ];
 ```
@@ -287,15 +291,16 @@ this.rawTimeseries = {
         {date: new Date('2020-04-01'), value: 3.1},
         {date: new Date('2020-05-01'), value: 34.3},
     ],
-    primary: true
+    primary: true,
+    showDatapoints: true
 }
 
 // TimelineCombinedAggregation
 const aggregations = [
-    {name:'timeline', aggregation:'TimelineYears', primary:true},
-    {name:'timeline', aggregation:'TimelineMonths', primary:true},
-    {name:'timeline', aggregation:'TimelineWeeks', primary:true},
-    {name:'timeline', aggregation:'TimelineDays', primary:true}
+    {name:'timeline', aggregation:'TimelineYears', primary:true, showDatapoints: true},
+    {name:'timeline', aggregation:'TimelineMonths', primary:true, showDatapoints: true},
+    {name:'timeline', aggregation:'TimelineWeeks', primary:true, showDatapoints: true},
+    {name:'timeline', aggregation:'TimelineDays', primary:true, showDatapoints: true}
 ]
 
 this.combinedAggregation = {
@@ -311,6 +316,7 @@ this.otherAggregation = {
     primary: false,
     lineStyles: {stroke: 'lightGreen'},
     areaStyles: {fill: 'lightGreen'},
+    showDatapoints: true
 }
 ```
 
@@ -324,7 +330,7 @@ We have already seen the structure and options of [`TimelineSeries`]({{site.base
 - `aggregation`: The name of the aggregation configured in the Query web service.
 - `primary`: Whether this is a primary series or not.
 
-Additionally, the following parameters from [`TimelineSeries`]({{site.baseurl}}analytics/interfaces/TimelineSeries.html) are optional and work in the same way (see above): `name`, `areaStyles` and `lineStyles`.
+Additionally, the following parameters from [`TimelineSeries`]({{site.baseurl}}analytics/interfaces/TimelineSeries.html) are optional and work in the same way (see above): `name`, `areaStyles`, `lineStyles` and `showDatapoints`.
 
 [`TimelineCombinedAggregations`]({{site.baseurl}}analytics/interfaces/TimelineCombinedAggregations.html) requires the following parameters:
 

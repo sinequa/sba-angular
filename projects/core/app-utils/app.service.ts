@@ -30,7 +30,6 @@ export interface QueryChangedEvent extends AppEvent {
  * A union of the different events that the {@link AppService} can generate
  */
 export type AppEvents = QueryChangedEvent;
-
 /**
  * A service to manage the Sinequa SBA configuration
  */
@@ -335,9 +334,7 @@ export class AppService implements OnDestroy {
                 return response;
             }
         );
-        return observable.pipe(map((value) => {
-            return this.app;
-        }));
+        return observable.pipe(map(_ => this.app));
     }
 
     /**
@@ -927,5 +924,11 @@ export class AppService implements OnDestroy {
      */
     get adminUrl(): string {
         return this.updateUrlForCors(Utils.addUrl(this.startConfig.applicationPath!, "admin"));
+    }
+    /**
+     * Return the url to the sinequa help
+     */
+    helpUrl(path): string {
+        return this.updateUrlForCors(Utils.addUrl(this.startConfig.applicationPath!, path));
     }
 }

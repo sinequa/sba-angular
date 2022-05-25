@@ -26,7 +26,7 @@ import { BsAlertsModule } from '@sinequa/components/alerts';
 import { BsSavedQueriesModule } from '@sinequa/components/saved-queries';
 import { UtilsModule, SCREEN_SIZE_RULES } from '@sinequa/components/utils';
 import { BsLabelsModule } from '@sinequa/components/labels';
-import { BsUserSettingsModule } from '@sinequa/components/user-settings';
+import { APP_HELP_FOLDER_OPTIONS, BsUserSettingsModule } from '@sinequa/components/user-settings';
 import { ResultModule } from '@sinequa/components/result';
 import { BsFeedbackModule } from '@sinequa/components/feedback';
 import { BsPreviewModule } from '@sinequa/components/preview';
@@ -45,6 +45,9 @@ import { AutocompleteExtended } from './search-form/autocomplete-extended.direct
 
 // Environment
 import { environment } from "../environments/environment";
+
+// Help folder options
+import { HELP_DEFAULT_FOLDER_OPTIONS } from "../config";
 
 
 // Initialization of @sinequa/core
@@ -173,7 +176,11 @@ export const breakpoints = {
         // member of the response body to any Sinequa web service requests.
         {provide: HTTP_INTERCEPTORS, useClass: NotificationsInterceptor, multi: true},
 
-        {provide: SCREEN_SIZE_RULES, useValue: breakpoints}
+        { provide: SCREEN_SIZE_RULES, useValue: breakpoints },
+        
+        // Provides default help's folder options
+        // this options can be overriden by the custom json configuration from the administration panel
+        { provide: APP_HELP_FOLDER_OPTIONS, useValue: HELP_DEFAULT_FOLDER_OPTIONS }
     ],
     bootstrap: [
         AppComponent

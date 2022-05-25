@@ -1,5 +1,6 @@
 import { FacetDateParams } from '@sinequa/analytics/timeline';
 import { FacetConfig, FacetListParams, FacetMySearchParams, FacetRangeParams, FacetRefineParams, FacetTagCloudParams, FacetTreeParams } from '@sinequa/components/facet';
+import { HelpFolderOptions } from '@sinequa/components/user-settings';
 
 /**
  * This list is used by Vanilla Search to activate key features in the UI.
@@ -149,3 +150,11 @@ export const FACETS: FacetConfig<FacetParams>[] = [
 export const METADATA: string[] = [
     "authors", "docformat", "modified", "size", "treepath", "filename"
 ];
+
+export const HELP_DEFAULT_FOLDER_OPTIONS: HelpFolderOptions = {
+    folder: 'vanilla-search',
+    path: '/r/_sinequa/webpackages/help',
+    indexFile: 'olh-index.html',
+    useLocale: true,
+    useLocaleAsPrefix: true
+}

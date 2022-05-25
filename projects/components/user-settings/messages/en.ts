@@ -10,6 +10,7 @@ export default {
         "logout": "Logout",
 
         "language": "Language",
+        "help": "Help",
         
         "resetUserSettings": {
             "menu": "Reset user settings",
