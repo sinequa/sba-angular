@@ -19,6 +19,7 @@ export interface TimelineAggregation {
     primary: boolean;
     areaStyles?: {[key: string]: any};
     lineStyles?: {[key: string]: any};
+    showDatapoints?: boolean;
 }
 
 export interface TimelineCombinedAggregations {
@@ -495,11 +496,9 @@ export class BsFacetTimelineComponent extends AbstractFacet implements OnChanges
      */
     static createTimeseries(config: TimelineAggregation, aggregation: Aggregation, ccaggregation: CCAggregation, range?: [Date, Date]): TimelineSeries {
         return {
+            ...config,
             name: config.name || aggregation.name,
-            primary: config.primary,
             dates: this.createDatapoints(aggregation.items, ccaggregation?.mask, range),
-            lineStyles: config.lineStyles,
-            areaStyles: config.areaStyles
         }
     }
 
