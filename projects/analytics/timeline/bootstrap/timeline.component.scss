@@ -5,7 +5,7 @@
 }
 
 // Note: ::ng-deep is deprecated, but currently no better alternative
-.areas {
+.areas, .tooltip-line {
 
     .area {
         fill: lightblue;
@@ -30,7 +30,7 @@
     }
 }
 
-.tooltip-line {
+.tooltip-line line {
     stroke: darkgrey;
     stroke-dasharray: 4;
 }

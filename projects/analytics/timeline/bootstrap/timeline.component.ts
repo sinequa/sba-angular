@@ -17,6 +17,7 @@ export interface TimelineSeries {
     primary: boolean;
     lineStyles?: {[key:string]: any};
     areaStyles?:  {[key:string]: any};
+    showDatapoints?: boolean;
 }
 
 export interface TimelineEvent {
@@ -96,10 +97,12 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     // Tooltip
     tooltipItem: TimelineEvent[] | undefined;
     tooltipX: number | undefined;
+    tooltipDatapoints?: (TimelineDate|undefined)[];
     tooltipOrientation: "left" | "right";
     tooltipTop: number;
     tooltipRight: number;
     tooltipLeft: number;
+    bisectDate = d3.bisector<TimelineDate,Date>(d => { return d.date; }).left;
 
     // Misc
     viewInit: boolean;
@@ -540,6 +543,15 @@ export class BsTimelineComponent implements OnChanges, AfterViewInit, OnDestroy 
     onMousemove() {
         if(!this.tooltipItem && this.showTooltip) {
             this.tooltipX = d3.mouse(this.gbrush.nativeElement)[0];
+            const date = this.xt.invert(this.tooltipX);
+            this.tooltipDatapoints = this.data?.map(series => {
+              if(!series.showDatapoints) return;
+              const i = this.bisectDate(series.dates, date);
+              const d0 = series.dates[i - 1];
+              const d1 = series.dates[i];
+              if(!d0 || !d1) return;
+              return date.getTime() - d0.date.getTime() > d1.date.getTime() - date.getTime() ? d1 : d0;
+            });
         }
     }
 
