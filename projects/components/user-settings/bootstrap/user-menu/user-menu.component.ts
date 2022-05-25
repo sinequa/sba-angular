@@ -63,8 +63,6 @@ export class BsUserMenuComponent implements OnInit, OnDestroy {
   resetUserSettings: Action;
   darkModeAction: Action;
   creditAction: Action;
-  guideInterfaceTourAction: Action;
-  guideSearchTourAction: Action;
   helpAction: Action;
 
 
