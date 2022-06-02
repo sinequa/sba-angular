@@ -666,11 +666,11 @@ export class FacetService {
     }
 
     /**
-     * Returns the count parameter of the given aggregation (default is 10)
+     * Returns the count parameter of the given aggregation (default is -1 === return all items)
      * @param aggregationName
      */
     getAggregationCount(aggregationName: string) : number {
-        return this.appService.getCCAggregation(aggregationName)?.count || 10;
+        return this.appService.getCCAggregation(aggregationName)?.count || -1;
     }
 
     /**
