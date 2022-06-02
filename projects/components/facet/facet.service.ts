@@ -670,7 +670,8 @@ export class FacetService {
      * @param aggregationName
      */
     getAggregationCount(aggregationName: string) : number {
-        return this.appService.getCCAggregation(aggregationName)?.count || -1;
+        const cc = this.appService.getCCAggregation(aggregationName);
+        return cc ? cc.count || 10 : -1;
     }
 
     /**
