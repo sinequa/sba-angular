@@ -42,7 +42,7 @@ export class PassageListComponent implements OnChanges {
 
   expand(passage: MatchingPassage) {
     const state = !passage.$expanded;
-    this.record.matchingpassages?.passages.forEach(p => delete p.$expanded);
+    this.record.matchingpassages?.passages.forEach(p => p.$expanded = false);
     passage.$expanded = state;
   }
 }
