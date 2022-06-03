@@ -6,36 +6,7 @@ import { SearchService } from "@sinequa/components/search";
 
 @Component({
   selector: 'sq-answer-card',
-  template: `
-<div class="card" *ngIf="answers.length">
-    <div class="card-body">
-        <div class="d-flex">
-            <h3 class="me-auto">{{answer.text}}</h3>
-
-            <button class="btn btn-link" (click)="likeAnswer()" sqTooltip="This answer is helpful">
-                <i class="far fa-thumbs-up" [ngClass]="{fas: answer.$liked}"></i>
-            </button>
-            <button class="btn btn-link" (click)="dislikeAnswer()" sqTooltip="This answer is wrong">
-                <i class="far fa-thumbs-down" [ngClass]="{fas: answer.$liked === false}"></i>
-            </button>
-        </div>
-        <p [innerHtml]="answer.highlightedAnswer"></p>
-        <ng-container *ngIf="answer.record as record">
-            <sq-result-title [record]="record" titleLinkBehavior="action" (titleClicked)="openAnswer()" class="d-block text-truncate"></sq-result-title>
-            <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
-        </ng-container>
-    </div>
-    <div class="d-flex justify-content-center align-items-center small text-muted">
-        <button class="btn btn-sm btn-link" (click)="selectedAnswer = (selectedAnswer+answers.length-1) % answers.length" *ngIf="answers.length > 1">
-            <i class="fas fa-chevron-left"></i>
-        </button>
-        answer {{selectedAnswer+1}}/{{answers.length}}
-        <button class="btn btn-sm btn-link" (click)="selectedAnswer = (selectedAnswer+1) % answers.length" *ngIf="answers.length > 1">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-    </div>
-</div>
-  `,
+  templateUrl: './answer-card.component.html',
   styles: [`
   .card-body {
     padding-bottom: .25em;
