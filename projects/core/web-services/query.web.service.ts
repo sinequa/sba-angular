@@ -707,26 +707,22 @@ export interface QueryIntentData {
     queryAnalysis?: QueryAnalysis;
 }
 
+export interface Passage {
+  id: number;
+  location: number[];
+  rlocation: number[];
+}
+
 /**
  * A passage returned by ML Passage Ranking model
  */
-export interface MatchingPassage {
-  id: number;
+export interface MatchingPassage extends Passage {
   /** text of the passage with matchlocations highlighted with <b> tags */
   highlightedText: string;
-  location: number[];
-  rlocation: number[];
   /** Score of this matching passage */
   score: number;
+  /** Front end parameter to store the state of expansion/collapse of this passage */
   $expanded?: boolean;
-}
-
-export interface AnswerPassage {
-  id: number;
-  /** text of the passage with answer highlighted with <b> tags */
-  highlightedAnswer: string;
-  location: number[];
-  rlocation: number[];
 }
 
 /**
@@ -735,7 +731,9 @@ export interface AnswerPassage {
 export interface Answer {
     text: string;
     score: number;
-    passage: AnswerPassage;
+    passage: Passage;
+    /** text of the passage with answer highlighted with <b> tags */
+    highlightedAnswer: string;
     /** Record from which this answer was extracted */
     record: Record;
     $liked: undefined | boolean;

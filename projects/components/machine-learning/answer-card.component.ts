@@ -19,7 +19,7 @@ import { SearchService } from "@sinequa/components/search";
                 <i class="far fa-thumbs-down" [ngClass]="{fas: answer.$liked === false}"></i>
             </button>
         </div>
-        <p [innerHtml]="answer.passage.highlightedAnswer"></p>
+        <p [innerHtml]="answer.highlightedAnswer"></p>
         <ng-container *ngIf="answer.record as record">
             <sq-result-title [record]="record" titleLinkBehavior="action" (titleClicked)="openAnswer()" class="d-block text-truncate"></sq-result-title>
             <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>
@@ -104,7 +104,7 @@ export class AnswerCardComponent implements OnChanges {
       detail: {
           text: this.searchService.query.text,
           message: this.answer.text,
-          detail: this.answer.passage.highlightedAnswer,
+          detail: this.answer.highlightedAnswer,
           resultcount: this.answers.length,
           rank: this.selectedAnswer
       }
