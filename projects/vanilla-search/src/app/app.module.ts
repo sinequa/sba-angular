@@ -34,6 +34,7 @@ import { MetadataModule } from '@sinequa/components/metadata';
 import { BsSelectionModule } from '@sinequa/components/selection';
 import { BsAdvancedModule } from '@sinequa/components/advanced';
 import { BsTimelineModule } from '@sinequa/analytics/timeline';
+import { MLModule } from '@sinequa/components/machine-learning';
 
 // Components
 import { AppComponent } from "./app.component";
@@ -142,7 +143,8 @@ export const breakpoints = {
         MetadataModule,
         BsSelectionModule,
         BsAdvancedModule,
-        BsTimelineModule
+        BsTimelineModule,
+        MLModule
     ],
     declarations: [
         AppComponent,

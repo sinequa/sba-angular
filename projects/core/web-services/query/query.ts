@@ -165,4 +165,8 @@ export interface IQuery {
      * Specifies a value for the `GROUP BY` clause of the query
      */
     groupBy?: string;
+    /**
+     * Whether to activate neural search or not (default is true, if neural search is available)
+     */
+    neuralSearch?: boolean;
 }

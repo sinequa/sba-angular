@@ -12,26 +12,26 @@ p, ul {
     font-size: 0.9em;
 }
 .extracts-text {
-    white-space: break-spaces;
     word-break: break-word;
+}
+.sq-matching-passage {
+    max-height: 6em;
+    overflow: hidden;
 }
     `]
 })
 export class ResultExtracts implements OnChanges {
     @Input() record: Record;
-    @Input() limitLinesDisplayed: boolean;
-    @Input() showLinesExpander: boolean;
     @Input() showTextAlways: boolean;
     @Input() showLongExtracts: boolean;
     @Input() hideDate: boolean;
     @Input() maxLongExtracts: number;
     @Input() dateFormat: Intl.DateTimeFormatOptions = {year: 'numeric', month: 'short', day: 'numeric'};
-    collapsed: boolean = true;
     text: string | undefined;
     longExtracts: string[] | undefined;
     extractsClass: string;
 
-    setup() {
+    ngOnChanges() {
         this.text = undefined;
         this.longExtracts = undefined;
         if (this.showTextAlways) {
@@ -45,6 +45,10 @@ export class ResultExtracts implements OnChanges {
                     .map(extract => extract.highlighted.replace(/\{b\}/g, "<strong>").replace(/\{nb\}/g, "</strong>"));
                 this.extractsClass = "sq-long-extracts";
             }
+            else if (this.record.matchingpassages?.passages?.[0]) {
+              this.text = this.record.matchingpassages.passages?.[0].highlightedText;
+              this.extractsClass = "sq-matching-passage";
+            }
             else if (this.record.relevantExtracts) {
                 this.text = this.record.relevantExtracts;
                 this.extractsClass = "sq-relevant-extracts";
@@ -55,18 +59,6 @@ export class ResultExtracts implements OnChanges {
             }
         }
 
-        if (!this.limitLinesDisplayed || !this.collapsed) {
-            this.extractsClass += " sq-show-all";
-        }
     }
 
-    ngOnChanges() {
-        this.setup();
-    }
-
-    collapseClick(event: Event) {
-        this.collapsed = !this.collapsed;
-        this.setup();
-        event.preventDefault();
-    }
 }
