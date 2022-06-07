@@ -385,9 +385,10 @@ export class BsFacetList extends AbstractFacet implements FacetListParams, OnCha
     /**
      * Returns true if this facet can get more data from the server
      * (The only way to guess is to check if the facet is "full", it capacity being the (skip+)count)
+     * In case the aggregation items are calculated using a distrbution, no limit can be applied and MUST always return the whole list
      */
     get hasMore(): boolean {
-        return this.resultsLength >= this.skip + this.count;
+        return (this.resultsLength >= this.skip + this.count) && !this.data()?.isDistribution;
     }
 
     get resultsLength() {
