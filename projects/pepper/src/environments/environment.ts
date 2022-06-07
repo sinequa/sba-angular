@@ -5,8 +5,10 @@
 export const environment = {
   url: "https://localhost:4200",
   autoSAMLProvider: "identity-dev",
+  autoOAuthProvider:  "azure",
   production: false
 };
+
 
   /*
    * For easier debugging in development mode, you can import the following file

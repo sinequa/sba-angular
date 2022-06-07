@@ -1,0 +1,19 @@
+{
+    "/api": {
+      "target": "http://localhost",
+      "secure": false,
+      "changeOrigin": true
+    },
+    
+    "/xdownload": {
+        "target": "http://localhost",
+        "secure": false,
+        "changeOrigin": true
+    },
+    
+    "/saml/redirect": {
+        "target": "http://localhost",
+        "secure": false,
+        "changeOrigin": true
+    }
+}
