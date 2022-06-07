@@ -119,7 +119,7 @@ const messages = Utils.merge({}, ..., enSlideBuilder, appMessages);
 
 ### Slide Builder component
 
-The [`sq-slide-builder`]({{site.baseurl}}components/modules/SlideBuilderComponent.html) component displays a list of selected slides. The component actually uses the `SelectionService` from the [Selection Module](selection.html) as a data model for the selected slides. The Drag & Drop capability is actually directly based on the [`sq-selection-arranger`](selection.html#selection-arranger) component.
+The [`sq-slide-builder`]({{site.baseurl}}components/components/SlideBuilderComponent.html) component displays a list of selected slides. The component actually uses the `SelectionService` from the [Selection Module](selection.html) as a data model for the selected slides. The Drag & Drop capability is actually directly based on the [`sq-selection-arranger`](selection.html#selection-arranger) component.
 
 ![Slide arranger]({{site.baseurl}}assets/modules/slide-builder/slide-arranger.png)
 
