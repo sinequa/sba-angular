@@ -83,6 +83,16 @@
                     <i class="fas fa-filter" [ngClass]="keepFilters ? 'light-green' : 'text-muted'"></i>
                 </button>
 
+                <!-- Keep Filters Button -->
+                <button type="button"
+                    *ngIf="appService.isNeural()"
+                    class="btn btn-focus p-0 me-2"
+                    [sqTooltip]="neuralSearch? 'Neural Search is activated' : 'Neural Search is off'"
+                    [disabled]="!loginService.complete"
+                    (click)="toggleNeuralSearch()">
+                    <i class="fas fa-brain" [ngClass]="neuralSearch ? 'light-green' : 'text-muted'"></i>
+                </button>
+
                 <!-- Toggle voice recognition -->
                 <button *ngIf="voiceService.available && enableVoiceRecognition"
                     type="button"

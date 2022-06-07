@@ -35,6 +35,7 @@ export class Query implements IQuery {
     aggregations: MapOf<AggregationOptions> | string[];
     orderBy?: string;
     groupBy?: string;
+    neuralSearch?: boolean;
 
     /**
      * Return a copy of the passed query

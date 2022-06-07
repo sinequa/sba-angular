@@ -16,6 +16,11 @@
     padding: 0.5em 15px;
     margin: 0 -15px;
     cursor: pointer;
+    overflow: hidden;
+
+    .flex-grow-1 {
+      min-width: 0; // force the flex item to shrink to the parent size
+    }
 }
 
 .full-width {

@@ -598,6 +598,13 @@ export class AppService implements OnDestroy {
     }
 
     /**
+     * @returns true if the current query web service supports Neural Search
+     */
+    isNeural() {
+      return !!this.ccquery?.isNeural;
+    }
+
+    /**
      * Return the fields defined on the current {@link CCQuery}
      */
     get fields(): string[] {

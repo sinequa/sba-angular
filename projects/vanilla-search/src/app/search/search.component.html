@@ -91,11 +91,14 @@
             <!-- Sponsored links -->
             <sq-sponsored-results [query]="searchService.query"></sq-sponsored-results>
 
+            <!-- Answer card -->
+            <sq-answer-card [results]="results" (answerOpened)="onAnswerOpened($event)"></sq-answer-card>
+
             <!-- List of documents (for loop) -->
             <div *ngFor="let record of results.records" class="record d-flex"
                 (click)="onDocumentClicked(record, $event)"
                 [ngClass]="{'selected': record.$selected || record === openedDoc}">
-                <div class="flex-grow-1 overflow-hidden">
+                <div class="flex-grow-1">
                     <div class="d-flex align-items-center">
                         <sq-result-selector *ngIf="ui.screenSizeIsGreaterOrEqual('md')" [record]="record" class="ms-1"></sq-result-selector>
                         <sq-result-title [record]="record" (titleClicked)="openPreviewIfNoUrl(record, $event)"></sq-result-title>
@@ -126,6 +129,7 @@
             <sq-facet-card *ngIf="openedDoc" [collapsible]="false" class="d-block mb-3 facet-preview"
                 [actionsSize]="''">
                 <sq-facet-preview-2 #facet
+                    [hidden]="showPassages"
                     [record]="openedDoc"
                     [query]="searchService.query"
                     [height]="750"
@@ -135,6 +139,7 @@
                     (recordClosed)="closeDocument()"
                     (previewLoaded)="previewReady($event)">
                 </sq-facet-preview-2>
+                <sq-passage-list [record]="openedDoc" *ngIf="showPassages"></sq-passage-list>
             </sq-facet-card>
 
         </div>

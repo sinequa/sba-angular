@@ -39,6 +39,8 @@ export class BsPreviewEntityPanelComponent implements OnChanges {
    */
   @Input() entities: string[];
 
+  @Input() ignored = ["extractslocations", "matchingpassages"];
+
   /**
    * Triggers an event when check all / check none is use in a facet
    */
@@ -56,7 +58,8 @@ export class BsPreviewEntityPanelComponent implements OnChanges {
       this._entities = this.entities;
     }
     else if(this.previewData){ // The list of entities is deduced from the preview data
-      this._entities = Object.keys(this.previewData.highlightsPerCategory).filter(value => value !== "extractslocations");
+      this._entities = Object.keys(this.previewData.highlightsPerCategory)
+        .filter(value => !this.ignored.includes(value));
     }
     else {  // No entity to show
       this._entities = [];

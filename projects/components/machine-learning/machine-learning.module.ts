@@ -1,38 +1,24 @@
-import {NgModule, APP_BOOTSTRAP_LISTENER} from "@angular/core";
+import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {BsSearchModule} from "@sinequa/components/search";
-import {HTTP_REQUEST_INITIALIZERS} from "@sinequa/core/login";
+import { AnswerCardComponent } from "./answer-card.component";
+import { PassageListComponent } from "./passage-list.component";
+import { ResultModule } from "@sinequa/components/result";
+import { UtilsModule } from "@sinequa/components/utils";
 
-import {MlAuditService} from "./ml-audit.service";
-import {DwellTime} from "./dwell-time.directive";
 
-
-// Initialization that needs to be done once the app component has been created
-export function AppBootstrapListener(mlAuditService: MlAuditService) {
-    return () => {
-        mlAuditService.init();
-    };
-}
-
-export function HttpRequestListener(mlAuditService: MlAuditService) {
-    return mlAuditService.requestInitializer;
-}
-
-// See https://github.com/angular/angular/issues/19698
-// @dynamic
 @NgModule({
     imports: [
         CommonModule,
-        BsSearchModule
+        ResultModule,
+        UtilsModule
     ],
     declarations: [
-        DwellTime
+        AnswerCardComponent,
+        PassageListComponent
     ],
     exports: [
-    ],
-    providers: [
-        {provide: APP_BOOTSTRAP_LISTENER, useFactory: AppBootstrapListener, deps: [MlAuditService], multi: true},
-        {provide: HTTP_REQUEST_INITIALIZERS, useFactory: HttpRequestListener, deps: [MlAuditService], multi: true},
+        AnswerCardComponent,
+        PassageListComponent
     ]
 })
 export class MLModule {
