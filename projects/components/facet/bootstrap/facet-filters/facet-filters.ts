@@ -73,7 +73,19 @@ export class BsFacetFilters implements OnInit, OnChanges {
             const children = [
                 new Action({
                     component: (facet.type === 'list') ? BsFacetList : BsFacetTree,
-                    componentInputs: {results: this.results, name: facet.name, aggregation: facet.aggregation, searchable: facet.searchable, displayActions: true}
+                    componentInputs: {
+                        results: this.results, 
+                        name: facet.name, 
+                        aggregation: facet.aggregation, 
+                        searchable: facet.searchable, 
+                        displayActions: true,
+                        showCount: facet.showCount,
+                        allowExclude: facet.allowExclude,
+                        allowOr: facet.allowOr,
+                        allowAnd: facet.allowAnd,
+                        displayEmptyDistributionIntervals:
+                          facet.displayEmptyDistributionIntervals
+                    }
                 })
             ];
 
