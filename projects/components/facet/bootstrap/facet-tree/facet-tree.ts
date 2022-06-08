@@ -21,7 +21,7 @@ export class BsFacetTree extends AbstractFacet implements OnChanges, OnDestroy {
     @Input() showCount: boolean = true; // Show the number of occurrences
     @Input() allowExclude: boolean = true; // Allow to exclude selected items
     @Input() allowOr: boolean = true; // Allow to search various items in OR mode
-    @Input() allowAnd: boolean = true; // Allow to search various items in OR mode
+    @Input() allowAnd: boolean = false; // Allow to search various items in OR mode
     @Input() searchable: boolean = true; // Allow to search for items in the facet
     @Input() expandedLevel: number = 2;
     @Input() forceMaxHeight: boolean = true; // Allow to display a scrollbar automatically on long list items
