@@ -143,7 +143,7 @@ This component requires at least a [`Results`]({{site.baseurl}}core/interfaces/R
 
 ### Multiple-type Facet
 
-The "multiple-type" facet [`sq-facet-multi`]({{site.baseurl}}components/components/BsFacetMulti.html) displays multiple types of metadata in the same facet. The user selects the type of metadata, which then changes the view of the facet into one of the classical views above.
+The "multiple-type" facet [`sq-facet-multi`]({{site.baseurl}}components/components/BsFacetMultiComponent.html) displays multiple types of metadata in the same facet. The user selects the type of metadata, which then changes the view of the facet into one of the classical views above.
 
 ![Multi facet]({{site.baseurl}}assets/modules/facet/facet-multi.png){: .d-block .mx-auto}
 
