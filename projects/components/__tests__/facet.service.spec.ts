@@ -9,11 +9,12 @@ import {AGGREGATION_GEO, FACETS, AGGREGATION_SIZE, AGGREGATION_BOOLEAN} from '@t
 import {FacetService, DEFAULT_FACETS, FacetEventType} from '../facet';
 import {SearchService, Breadcrumbs, BreadcrumbsItem} from '../search';
 import {SuggestService} from '../autocomplete';
-import {AGGREGATION_INTEGER, AGGREGATION_NULL} from "./mocks/aggregations";
+import {AGGREGATION_INTEGER, AGGREGATION_NULL, AGGREGATION_TREEPATH} from "./mocks/aggregations";
 
 describe("FacetService", () => {
 	const aggregation = {
 		geo: AGGREGATION_GEO as Aggregation,
+		treepath: AGGREGATION_TREEPATH as Aggregation,
 		size: AGGREGATION_SIZE as unknown as Aggregation,
 		bool: AGGREGATION_BOOLEAN as Aggregation,
 		integer: AGGREGATION_INTEGER as Aggregation,
@@ -132,7 +133,7 @@ describe("FacetService", () => {
 				expect(service.addFilter).toHaveBeenCalledWith("Geo", aggregation["geo"], items, {});
 				expect(service.events.next).toHaveBeenCalledWith({type: FacetEventType.AddFilter, facet: undefined});
 			})
-			
+
 			it("should not trigger an event", () => {
 				// Given
 				const items = aggregation["geo"].items![0];
@@ -658,7 +659,7 @@ describe("FacetService", () => {
 				expect(searchService.query.replaceSelect).toHaveBeenCalledWith(0, {expression: expectedExpr, facet: "Geo"});
 				expect(searchService.query.removeSelect).not.toHaveBeenCalledWith(0);
 			});
-			
+
 			it("sould append filter to query with options.forceAdd", () => {
 				// breadcrumps: IRAQ
 				// expected breadcrumps: IRAQ / IOWA
@@ -688,6 +689,36 @@ describe("FacetService", () => {
 				expect(searchService.query.addSelect).toHaveBeenCalledWith(expectedExpr, "Geo");
 			})
 
+			it('should append filter to query by default when facet is a Treepath', () => {
+				// breadcrumbs: Huffington Post
+				// expected breadcrumbs: Huffington Post / Web
+
+				spyOn(searchService.query, "addSelect");
+				spyOn(searchService.query, "replaceSelect");
+
+				// Given
+				searchService.breadcrumbs = {
+					activeIndex: 0,
+					activeSelects: [{}],
+					removeItem: (item) => (item),
+					findSelect: (facetName) => ({
+						and: false,
+						operands: [
+							{value: 'Huffington Post', display: 'Huffington Post'}
+						]
+					})
+				} as Breadcrumbs;
+				spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(0);
+
+				// When
+				service.addFilter('Treepath', aggregation['treepath'], aggregation["treepath"].items![0]); // Web
+
+				// Then
+				const exptectedExpr = 'treepath: (`Web`:`/Web/*`)';
+				expect(searchService.query.replaceSelect).not.toHaveBeenCalled();
+				expect(searchService.query.addSelect).toHaveBeenCalledWith(exptectedExpr, "Treepath");
+			})
+
 		});
 
 		describe("makeAggregationExpr", () => {
@@ -715,14 +746,14 @@ describe("FacetService", () => {
 				// Then
 				expect(expr).toEqual("size`< 10 Ko`:(>= 0 AND < 10240)");
 			});
-			
+
 			it("should returns an Expr when value is null", () => {
 				// Given
 				const item: AggregationItem = {count: 0, value: null as any, display: "Still Open"};
-				
+
 				// When
 				const expr = exprBuilder.makeAggregationExpr(aggregation["null"], item);
-				
+
 				// Then
 				expect(expr).toEqual("modified: (`Still Open`:`null`)");
 			})
@@ -1024,7 +1055,7 @@ describe("FacetService", () => {
 			expect(aggItems[0]).toEqual({count: 0, value: false, display: undefined, $column: jasmine.anything(), $excluded: undefined});
 			expect(aggItems[1]).toEqual({count: 0, value: true, display: undefined, $column: jasmine.anything(), $excluded: undefined});
 		})
-		
+
 		it("should returns aggregationItems as integer value", () => {
 			// Given
 			const facetName = "integer";
