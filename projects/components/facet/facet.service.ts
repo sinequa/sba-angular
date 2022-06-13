@@ -290,7 +290,7 @@ export class FacetService {
         // otherwise, we try to append new filter to previous "select"
         if (options.replaceCurrent) {
             query.removeSelect(facetName);
-        } else if (breadcrumbs?.activeSelects.length && !options.forceAdd) {
+        } else if (!aggregation.isTree && breadcrumbs?.activeSelects.length && !options.forceAdd) {
             // here, we try to add a filter to the previous selection
 
             const existingExpr = breadcrumbs.findSelect(facetName);
