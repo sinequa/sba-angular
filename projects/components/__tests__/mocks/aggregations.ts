@@ -497,11 +497,40 @@ export const AGGREGATION_NULL = {
   "column": "modified",
   "valuesAreExpressions": true,
   "isDistribution": true,
-  "Items": [
+  "items": [
     {
-      "value": null,
+      "value": "null",
       "display": "Still Open",
       "count": 0
+    }
+  ]
+}
+
+export const AGGREGATION_TREEPATH = {
+  "name": "Treepath",
+  "column": "treepath",
+  "count": 987,
+  "isTree": true,
+  "items": [
+    {
+      "value": "Web",
+      "count": 987,
+      "hasChildren": true,
+      "$path": "/Web/",
+      "items": [
+        {
+          "value": "Huffington Post",
+          "count": 61,
+          "hasChildren": false,
+          "$path": "/Web/Huffington Post/"
+        },
+        {
+          "value": "Wiki",
+          "count": 926,
+          "hasChildren": false,
+          "$path": "/Web/Wiki/"
+        }
+      ]
     }
   ]
 }
