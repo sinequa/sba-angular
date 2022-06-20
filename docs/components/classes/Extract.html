@@ -258,7 +258,7 @@ export const PREVIEW_MODAL &#x3D; new InjectionToken&lt;Type&lt;any&gt;&gt;(&quo
 
 export class Extract {
     text: SafeHtml; // Sanitized HTML text
-    startIndex : number; // this is the start index of the extracts within the Document Text  
+    startIndex : number; // this is the start index of the extracts within the Document Text
     relevanceIndex : number; // 0 the most relevant to N the less relevant
     textIndex : number; // index of the extract in the text. e.g 0 is the first extract displayed in the document
 }
@@ -390,7 +390,7 @@ export class PreviewService {
     /**
      * Get the page number of a splitted document&#x27;s record or undefined if
      * it is not in fact splitted. Stores the page number in the record itself ($page property)
-     * @param record 
+     * @param record
      */
     getPageNumber(record: Record): number | undefined {
         const containerid: string | undefined &#x3D; record.containerid;
@@ -438,10 +438,10 @@ export class PreviewService {
             fileext: record?.fileext,
         }
     }
-    
+
     /**
      * returns document&#x27;s preview HTML
-     * @param url 
+     * @param url
      * @returns document&#x27;s preview HTML
      */
     public getHtmlPreview(url:string) {
@@ -451,34 +451,34 @@ export class PreviewService {
     /**
      * Returns the list of relevant extracts enriched with their index in the document
      * and the actual text of the extract
-     * @param extracts 
-     * @param previewDocument 
-     * @returns 
+     * @param extracts
+     * @param previewDocument
+     * @returns
      */
-    public getExtracts(previewData: PreviewData, previewDocument?: PreviewDocument): Extract[] {
+    public getExtracts(previewData: PreviewData, previewDocument?: PreviewDocument, type &#x3D; &quot;extractslocations&quot;): Extract[] {
         //Extract locations Array ordered by &quot;relevance&quot;
-        const extracts &#x3D; previewData.highlightsPerCategory[&quot;extractslocations&quot;]?.values?.[0]?.locations || [];
-        
+        const extracts &#x3D; previewData.highlightsPerCategory[type]?.values?.[0]?.locations || [];
+
         return extracts.map((el,i) &#x3D;&gt; ({start: el.start, i}))
             // Sorting by start index (text position)
             .sort((a, b) &#x3D;&gt; a.start - b.start)
-    
+
             // next sort the array by startIndex to extract the correct extract&#x27;s text
             // and set the textIndex
             .map((el,i) &#x3D;&gt; ({
                 startIndex: el.start,
                 textIndex: i,
                 relevanceIndex: el.i,
-                text: this.sanitize(previewDocument?.getHighlightText(&quot;extractslocations&quot;, i))
+                text: this.sanitize(previewDocument?.getHighlightText(type, i))
             }))
-            
+
             // do not take item without text (only when the preview doc actually exists)
             .filter(el &#x3D;&gt; previewDocument? el.text !&#x3D;&#x3D; &#x27;&#x27; : true)
-    
+
             // finally sort extracts by relevance
             .sort((a,b) &#x3D;&gt; a.relevanceIndex - b.relevanceIndex);
     }
-    
+
     /**
      * Sanitize the text of a HTML formatted extract
      * @param text
@@ -486,7 +486,8 @@ export class PreviewService {
     private sanitize(text?: string): SafeHtml | string {
         return text? this.domSanitizer.bypassSecurityTrustHtml(text.replace(/sq\-current/, &quot;&quot;)) : &quot;&quot;;
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
 

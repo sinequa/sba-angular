@@ -99,6 +99,7 @@ for example &quot;126432&quot; into &quot;126 kB&quot;.</p>
                 <td class="col-md-4">
                     <a name="updateValue"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>updateValue</b></span>
                         <a href="#updateValue"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -106,7 +107,8 @@ for example &quot;126432&quot; into &quot;126 kB&quot;.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateValue(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateValue(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
@@ -188,7 +190,7 @@ export class MemorySizePipe extends AbstractIntlPipe {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(key: number): void {
+    override updateValue(key: number): void {
         super.updateValue(key);
         this.value &#x3D; this.formatService.formatMemorySize(key);
     }

@@ -896,6 +896,10 @@ export interface CCQuery extends CCWebService {
      */
     queryIntentSet: string;
     /**
+     * Whether Neural Search is available for this query web service
+     */
+    isNeural: boolean;
+    /**
      * The &#x60;PatternMatcher&#x60; instance created on the client using the &#x60;partnameFieldsIncluded&#x60; and &#x60;partnameFieldsExcluded&#x60; values.
      */
     $partnameFieldsPattern: PatternMatcher;

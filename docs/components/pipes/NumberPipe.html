@@ -90,6 +90,7 @@
                 <td class="col-md-4">
                     <a name="updateValue"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>updateValue</b></span>
                         <a href="#updateValue"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -97,7 +98,8 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateValue(key: number | string, params: Intl.NumberFormatOptions)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateValue(key: number | string, params: Intl.NumberFormatOptions)</code>
                 </td>
             </tr>
 
@@ -182,7 +184,7 @@ export class NumberPipe extends AbstractIntlPipe {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(key: number | string, params: Intl.NumberFormatOptions): void {
+    override updateValue(key: number | string, params: Intl.NumberFormatOptions): void {
         super.updateValue(key, params);
         this.value &#x3D; typeof key &#x3D;&#x3D;&#x3D; &quot;number&quot; ? this.intlService.formatNumber(key, params) : key;
     }

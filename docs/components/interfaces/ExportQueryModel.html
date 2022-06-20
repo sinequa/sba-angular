@@ -834,10 +834,12 @@ export class SavedQueriesService implements OnDestroy {
             return Promise.resolve(ModalResult.Cancel);
         }
 
+        const defaultQueryWebService &#x3D; this.appService.app.queryExport.split(&#x27;,&#x27;)[0];
+
         const model: ExportQueryModel &#x3D; {
             format: ExportOutputFormat.Csv,
             export: exportType,
-            webService: this.appService.app.queryExport
+            webService: defaultQueryWebService
         };
 
         if (savedQuery &amp;&amp; exportType &#x3D;&#x3D;&#x3D; ExportSourceType.SavedQuery) {

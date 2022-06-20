@@ -387,7 +387,7 @@ export class AggregationProvider extends BaseProvider {
     readonly skips: {[aggregation: string]: number} &#x3D; {};
 
     constructor(
-        public name: string,
+        public override name: string,
         protected edgeTypes: AggregationEdgeType[],
         protected query?: Query
     ) {
@@ -401,12 +401,12 @@ export class AggregationProvider extends BaseProvider {
      * @param sourceNode if provided, will compute the aggregation with a select to compute the aggregation for documents referencing that node
      */
     protected fetchAggregations(types: AggregationEdgeType[], sourceNode?: Node) {
-        
+
         const query &#x3D; Utils.copy(this.query || this.context.searchService.query);
         query.action &#x3D; &quot;aggregate&quot;;
         query.aggregations &#x3D; {};
         types.forEach(type &#x3D;&gt; query.aggregations[type.aggregation] &#x3D; {
-            skip: this.skips[type.aggregation+(sourceNode?.id || &quot;&quot;)], 
+            skip: this.skips[type.aggregation+(sourceNode?.id || &quot;&quot;)],
             count: type.count || 10
         });
 
@@ -426,7 +426,7 @@ export class AggregationProvider extends BaseProvider {
                 this.updateDataset(results.aggregations, types, sourceNode);
             }
         );
-        
+
     }
 
     /**
@@ -488,7 +488,7 @@ export class AggregationProvider extends BaseProvider {
                     values: [this.getNodeValue(sourceNode), item.value.toString()],
                     displays: [sourceNode.label, item.display || item.value.toString()]
                 };
-            }                        
+            }
         }
 
         if(rawData) {
@@ -511,10 +511,10 @@ export class AggregationProvider extends BaseProvider {
 
     // NetworkProvider interface
 
-    /** 
+    /**
      * Retrieves the aggregation data synchronously or asynchronously, and updates the dataset with it.
      */
-    getData(context: NetworkContext) {
+    override getData(context: NetworkContext) {
         this.context &#x3D; context;
         this.dataset.clear();
 
@@ -527,7 +527,7 @@ export class AggregationProvider extends BaseProvider {
         if(this.active &amp;&amp; types.length &gt; 0) {
             this.fetchAggregations(types);
         }
-        else {            
+        else {
             this.provider.next(this.dataset); // avoid undefined dataset when edge trigger !&#x3D;&#x3D; source
         }
     }
@@ -538,7 +538,7 @@ export class AggregationProvider extends BaseProvider {
      * clicked node.
      * @param node the clicked node
      */
-    onNodeClicked(node?: Node) {
+    override onNodeClicked(node?: Node) {
         if(this.active &amp;&amp; node) {
             const types &#x3D; this.edgeTypes.filter(type &#x3D;&gt; type.trigger &#x3D;&#x3D;&#x3D; &quot;onclick&quot; &amp;&amp; type.nodeTypes[0] &#x3D;&#x3D;&#x3D; node.type);
             if(types.length &gt; 0) {
@@ -560,7 +560,7 @@ export class AggregationProvider extends BaseProvider {
      * We display actions allowing to add additional data for &quot;source&quot; edges
      * (either all the source edges at once, or each individually).
      */
-    getProviderActions(): Action[] {
+    override getProviderActions(): Action[] {
         const actions &#x3D; super.getProviderActions();
         const types &#x3D; this.edgeTypes.filter(type &#x3D;&gt; type.trigger &#x3D;&#x3D;&#x3D; &quot;source&quot;);
         if(types.length &gt; 0) {
@@ -577,10 +577,11 @@ export class AggregationProvider extends BaseProvider {
                 separator: true
             }));
             types.forEach(type &#x3D;&gt; {
+                const agg &#x3D;  this.getAggregationLabel(type.aggregation);
                 actions.push(new Action({
                     icon: &quot;fas fa-plus-circle fa-fw&quot;,
-                    title: this.context.intlService.formatMessage(&quot;msg#network.actions.fetchMoreAgg&quot;, {agg: type.aggregation}),
-                    text: type.aggregation,
+                    title: this.context.intlService.formatMessage(&quot;msg#network.actions.fetchMoreAgg&quot;, {agg}),
+                    text: agg,
                     action: () &#x3D;&gt; {
                         this.fetchAggregations([type]);
                     },
@@ -597,7 +598,7 @@ export class AggregationProvider extends BaseProvider {
      * We display &quot;expand&quot; actions for the edges with a &quot;manual&quot; trigger.
      * @param node The clicked node
      */
-    getNodeActions(node: Node): Action[] {
+    override getNodeActions(node: Node): Action[] {
         const actions &#x3D; super.getNodeActions(node);
         if(this.active) {
             const types &#x3D; this.edgeTypes.filter(type &#x3D;&gt; type.trigger &#x3D;&#x3D;&#x3D; &quot;manual&quot; &amp;&amp; type.nodeTypes[0] &#x3D;&#x3D;&#x3D; node.type);
@@ -614,7 +615,7 @@ export class AggregationProvider extends BaseProvider {
         }
         return actions;
     }
-    
+
     /**
      * Convenience method to generate an expand action for a given node
      * and given edge type.
@@ -623,8 +624,9 @@ export class AggregationProvider extends BaseProvider {
      * @param withtext Whether or not the action should have text (or just an icon)
      */
     protected createExpandAction(type: AggregationEdgeType, node: Node, withtext?: boolean): Action {
-        const title &#x3D; this.context.intlService.formatMessage(&quot;msg#network.actions.expandNodeWith&quot;, {agg: type.aggregation});
-        return new Action({
+      const agg &#x3D;  this.getAggregationLabel(type.aggregation);
+      const title &#x3D; this.context.intlService.formatMessage(&quot;msg#network.actions.expandNodeWith&quot;, {agg});
+      return new Action({
             icon: &quot;fas fa-plus-circle fa-fw&quot;,
             title: title,
             text: withtext? title : undefined,
@@ -638,6 +640,14 @@ export class AggregationProvider extends BaseProvider {
                 this.fetchAggregations([type], node);
             },
         })
+    }
+
+    protected getAggregationLabel(aggregation: string) {
+      const cc &#x3D; this.context.appService.getCCAggregation(aggregation);
+      return cc?.column.split(&#x27;/&#x27;)
+        .map(col &#x3D;&gt; this.context.appService.getPluralLabel(col))
+        .map(col &#x3D;&gt; this.context.intlService.formatMessage(col))
+        .join(&#x27;/&#x27;) || aggregation;
     }
 
 }

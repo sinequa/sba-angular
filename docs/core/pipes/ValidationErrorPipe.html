@@ -97,6 +97,7 @@
                 <td class="col-md-4">
                     <a name="updateValue"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>updateValue</b></span>
                         <a href="#updateValue"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -104,7 +105,8 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateValue(key: <a href="https://angular.io/api/forms/ValidationErrors" target="_blank">ValidationErrors</a>, params: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateValue(key: <a href="https://angular.io/api/forms/ValidationErrors" target="_blank">ValidationErrors</a>, params: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
@@ -195,7 +197,7 @@ export class ValidationErrorPipe extends AbstractIntlPipe {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(key: ValidationErrors, params: any): void {
+    override updateValue(key: ValidationErrors, params: any): void {
         super.updateValue(key, params);
         const text &#x3D; this.validationService.getFirstErrorText(key);
         const info &#x3D; this.validationService.getFirstErrorInfo(key);

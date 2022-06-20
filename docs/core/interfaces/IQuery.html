@@ -146,6 +146,13 @@
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
+                                        <a href="#neuralSearch" 
+>
+                                            neuralSearch
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#open" 
 >
                                             open
@@ -628,6 +635,50 @@ to provide aggregation results on a home page or to retrieve values to be used i
                             <tr>
                                 <td class="col-md-4">
                                     <div class="io-description"><p>The name of the query web service configuration object</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="neuralSearch"></a>
+                                        <span class="name "><b>neuralSearch</b>
+                                            <a href="#neuralSearch">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>neuralSearch:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Whether to activate neural search or not (default is true, if neural search is available)</p>
 </div>
                                 </td>
                             </tr>
@@ -1602,6 +1653,10 @@ export interface IQuery {
      * Specifies a value for the &#x60;GROUP BY&#x60; clause of the query
      */
     groupBy?: string;
+    /**
+     * Whether to activate neural search or not (default is true, if neural search is available)
+     */
+    neuralSearch?: boolean;
 }
 </code></pre>
     </div>

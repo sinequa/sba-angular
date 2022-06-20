@@ -18,13 +18,13 @@
 <title>cluster_BsThemeToggleModule_declarations</title>
 <polygon fill="none" stroke="black" points="126,-40.8 126,-92.8 316,-92.8 316,-40.8 126,-40.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_BsThemeToggleModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 118,-92.8 118,-40.8 16,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_BsThemeToggleModule_exports</title>
 <polygon fill="none" stroke="black" points="69,-170.8 69,-222.8 263,-222.8 263,-170.8 69,-170.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_BsThemeToggleModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 118,-92.8 118,-40.8 16,-40.8"/>
 </g>
 <!-- BsThemeToggleComponent -->
 <g id="node1" class="node">

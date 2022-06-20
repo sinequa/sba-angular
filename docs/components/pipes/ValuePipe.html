@@ -90,6 +90,7 @@
                 <td class="col-md-4">
                     <a name="updateValue"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>updateValue</b></span>
                         <a href="#updateValue"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -97,7 +98,8 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateValue(key: <a href="../classes/Item.html" target="_self">ValueItem | FieldValue</a>, params: <a href="../interfaces/Column.html" target="_self">CCColumn</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateValue(key: <a href="../classes/Item.html" target="_self">ValueItem | FieldValue</a>, params: <a href="../interfaces/Column.html" target="_self">CCColumn</a>)</code>
                 </td>
             </tr>
 
@@ -186,7 +188,7 @@ export class ValuePipe extends AbstractIntlPipe {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(key: ValueItem | FieldValue, params: CCColumn): void {
+    override updateValue(key: ValueItem | FieldValue, params: CCColumn): void {
         super.updateValue(key, params);
         this.value &#x3D; this.formatService.formatFieldValue(key, params);
         this.value &#x3D; Utils.replace(this.value, /;/g, &quot;$&amp;\u200B&quot;);

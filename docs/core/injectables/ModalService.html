@@ -1337,7 +1337,7 @@ export class ModalService {
             });
         }
         overlayRef.keydownEvents().subscribe((event) &#x3D;&gt; {
-            if (event.keyCode &#x3D;&#x3D;&#x3D; Keys.esc) {
+            if (event.key &#x3D;&#x3D;&#x3D; Keys.esc) {
                 modalRef.close();
             }
         });

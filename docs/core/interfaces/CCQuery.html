@@ -144,6 +144,12 @@
                                         </a>
                                 </li>
                                 <li>
+                                        <a href="#isNeural" 
+>
+                                            isNeural
+                                        </a>
+                                </li>
+                                <li>
                                         <a href="#pageSize" 
 >
                                             pageSize
@@ -553,6 +559,45 @@ in fielded search expressions.</p>
                             <tr>
                                 <td class="col-md-4">
                                     <div class="io-description"><p>Defines the distance to use for the <code>NEAR</code> operator when no value is specified</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="isNeural"></a>
+                                        <span class="name "><b>isNeural</b>
+                                            <a href="#isNeural">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>isNeural:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Whether Neural Search is available for this query web service</p>
 </div>
                                 </td>
                             </tr>
@@ -1580,6 +1625,10 @@ export interface CCQuery extends CCWebService {
      * Query intent set configured for this query
      */
     queryIntentSet: string;
+    /**
+     * Whether Neural Search is available for this query web service
+     */
+    isNeural: boolean;
     /**
      * The &#x60;PatternMatcher&#x60; instance created on the client using the &#x60;partnameFieldsIncluded&#x60; and &#x60;partnameFieldsExcluded&#x60; values.
      */

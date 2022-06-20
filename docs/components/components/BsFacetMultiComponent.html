@@ -146,14 +146,18 @@
                                 <a href="#clearAllFiltersAction" >clearAllFiltersAction</a>
                             </li>
                             <li>
-                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
                                 <a href="#facetComponent" >facetComponent</a>
+                            </li>
+                            <li>
+                                <a href="#facetComponentInputs" >facetComponentInputs</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#facetService" >facetService</a>
                             </li>
                             <li>
+                                    <span class="modifier">Optional</span>
                                 <a href="#openedFacet" >openedFacet</a>
                             </li>
                             <li>
@@ -192,7 +196,16 @@
                                 <a href="#clearFacetFilters" >clearFacetFilters</a>
                             </li>
                             <li>
+                                <a href="#getFacetInputs" >getFacetInputs</a>
+                            </li>
+                            <li>
+                                <a href="#getName" >getName</a>
+                            </li>
+                            <li>
                                 <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#onFacetLoad" >onFacetLoad</a>
                             </li>
                             <li>
                                 <a href="#openFacet" >openFacet</a>
@@ -226,6 +239,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#facetComponents" >facetComponents</a>
+                            </li>
+                            <li>
                                 <a href="#facets" >facets</a>
                             </li>
                             <li>
@@ -233,9 +249,6 @@
                             </li>
                             <li>
                                 <a href="#showCount" >showCount</a>
-                            </li>
-                            <li>
-                                <a href="#showProgressBar" >showProgressBar</a>
                             </li>
                         </ul>
                     </td>
@@ -275,6 +288,9 @@
                                 <li>
                                     <a href="#facetActions" >facetActions</a>
                                 </li>
+                                <li>
+                                    <a href="#component" >component</a>
+                                </li>
                             </ul>
                         </td>
                     </tr>
@@ -293,7 +309,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:47</a></div>
                             </td>
                         </tr>
 
@@ -349,19 +365,45 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
+                        <a name="facetComponents"></a>
+                        <b>facetComponents</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MapOf&lt;Type&lt;any&gt;&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>default_facet_components</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:26</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
                         <a name="facets"></a>
                         <b>facets</b>
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../interfaces/FacetConfig.html" target="_self" >FacetConfig[]</a></code>
+                        <i>Type : </i>        <code><a href="../interfaces/FacetMultiConfig.html" target="_self" >FacetMultiConfig[]</a></code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:38</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:25</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -376,13 +418,13 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../interfaces/Results.html" target="_self" >Results</a></code>
+                        <i>Type : </i>    <code>Results</code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:37</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:24</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -408,33 +450,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:39</a></div>
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="showProgressBar"></a>
-                        <b>showProgressBar</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>false</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:40</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:27</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -452,13 +468,13 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+                        <i>Type : </i>        <code><a href="../interfaces/Event.html" target="_self" >EventEmitter</a></code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:42</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:29</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -473,7 +489,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+                        <i>Type : </i>        <code><a href="../interfaces/Event.html" target="_self" >EventEmitter</a></code>
 
                     </td>
                 </tr>
@@ -518,15 +534,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>clearFacetFilters(facet: <a href="../interfaces/FacetConfig.html" target="_self">FacetConfig</a>, e: <a href="../interfaces/Event.html" target="_self">Event</a>)</code>
+<code>clearFacetFilters(facet: <a href="../interfaces/FacetMultiConfig.html" target="_self">FacetMultiConfig</a>, e: <a href="../interfaces/Event.html" target="_self">Event</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="123"
-                            class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:123</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="125"
+                            class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:125</a></div>
                 </td>
             </tr>
 
@@ -549,7 +565,7 @@
                                 <tr>
                                     <td>facet</td>
                                     <td>
-                                                <code><a href="../interfaces/FacetConfig.html" target="_self" >FacetConfig</a></code>
+                                                <code><a href="../interfaces/FacetMultiConfig.html" target="_self" >FacetMultiConfig</a></code>
                                     </td>
 
                                     <td>
@@ -590,6 +606,115 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getFacetInputs"></a>
+                    <span class="name">
+                        <span ><b>getFacetInputs</b></span>
+                        <a href="#getFacetInputs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getFacetInputs()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="185"
+                            class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:185</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>MapOf&lt;any&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getName"></a>
+                    <span class="name">
+                        <span ><b>getName</b></span>
+                        <a href="#getName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getName(facet: <a href="../interfaces/FacetMultiConfig.html" target="_self">FacetMultiConfig</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:82</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Name of the facet, used to retrieve selections
+through the facet service.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>facet</td>
+                                    <td>
+                                                <code><a href="../interfaces/FacetMultiConfig.html" target="_self" >FacetMultiConfig</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="ngOnChanges"></a>
                     <span class="name">
                         <span ><b>ngOnChanges</b></span>
@@ -599,15 +724,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>ngOnChanges()</code>
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="156"
-                            class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:156</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="160"
+                            class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:160</a></div>
                 </td>
             </tr>
 
@@ -615,12 +740,114 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-description"><p>When the results change, actualize count, hasData and hasFiltered
-which are displayed in the template.</p>
+which are displayed in the template.
+Also, update list of inputs passed to child facets</p>
 </div>
 
                     <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onFacetLoad"></a>
+                    <span class="name">
+                        <span ><b>onFacetLoad</b></span>
+                        <a href="#onFacetLoad"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onFacetLoad(componentRef: literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="181"
+                            class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:181</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>componentRef</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -639,15 +866,15 @@ which are displayed in the template.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>openFacet(facet: <a href="../interfaces/FacetConfig.html" target="_self">FacetConfig</a>)</code>
+<code>openFacet(facet: <a href="../interfaces/FacetMultiConfig.html" target="_self">FacetMultiConfig</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="117"
-                            class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:117</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:118</a></div>
                 </td>
             </tr>
 
@@ -672,7 +899,7 @@ which are displayed in the template.</p>
                                 <tr>
                                     <td>facet</td>
                                     <td>
-                                                <code><a href="../interfaces/FacetConfig.html" target="_self" >FacetConfig</a></code>
+                                                <code><a href="../interfaces/FacetMultiConfig.html" target="_self" >FacetMultiConfig</a></code>
                                     </td>
 
                                     <td>
@@ -1006,7 +1233,7 @@ which are displayed in the template.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:53</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:44</a></div>
                         </td>
                     </tr>
 
@@ -1038,7 +1265,7 @@ which are displayed in the template.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -1051,7 +1278,7 @@ which are displayed in the template.</p>
                 <td class="col-md-4">
                     <a name="facetComponent"></a>
                     <span class="name">
-                            <span class="modifier">Public</span>
+                            <span class="modifier">Optional</span>
                         <span ><b>facetComponent</b></span>
                         <a href="#facetComponent"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1063,18 +1290,41 @@ which are displayed in the template.</p>
 
                     </td>
                 </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:34</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>A reference to the facet child component</p>
+</div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="facetComponentInputs"></a>
+                    <span class="name">
+                        <span ><b>facetComponentInputs</b></span>
+                        <a href="#facetComponentInputs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
                 <tr>
                     <td class="col-md-4">
-                        <b>Decorators : </b>
-                        <br />
-                        <code>
-                            @ViewChild(&#x27;facet&#x27;, {static: false})<br />
-                        </code>
+                        <i>Type : </i>    <code>MapOf&lt;any&gt;</code>
+
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:47</a></div>
                         </td>
                     </tr>
 
@@ -1101,7 +1351,7 @@ which are displayed in the template.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:50</a></div>
                         </td>
                     </tr>
 
@@ -1114,6 +1364,7 @@ which are displayed in the template.</p>
                 <td class="col-md-4">
                     <a name="openedFacet"></a>
                     <span class="name">
+                            <span class="modifier">Optional</span>
                         <span ><b>openedFacet</b></span>
                         <a href="#openedFacet"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1121,13 +1372,13 @@ which are displayed in the template.</p>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../interfaces/FacetConfig.html" target="_self" >FacetConfig | undefined</a></code>
+                        <i>Type : </i>        <code><a href="../interfaces/FacetMultiConfig.html" target="_self" >FacetMultiConfig</a></code>
 
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -1362,7 +1613,7 @@ which are displayed in the template.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:89</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:90</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1372,7 +1623,7 @@ the actions of the facet.</p>
 </div>
 
                                 <div class="io-description">
-                                    <b>Returns : </b>        <code><a href="../classes/Action.html" target="_self" >Action[]</a></code>
+                                    <b>Returns : </b>        <code><a href="../interfaces/Action.html" target="_self" >Action[]</a></code>
 
                                 </div>
                         </td>
@@ -1396,7 +1647,7 @@ the actions of the facet.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:106</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="107" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:107</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1405,11 +1656,33 @@ the actions of the facet.</p>
 </div>
 
                                 <div class="io-description">
-                                    <b>Returns : </b>        <code><a href="../classes/Action.html" target="_self" >Action[]</a></code>
+                                    <b>Returns : </b>        <code><a href="../interfaces/Action.html" target="_self" >Action[]</a></code>
 
                                 </div>
                         </td>
                     </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="component"></a>
+                        <span class="name"><b>component</b><a href="#component"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>component()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="193" class="link-to-prism">facet/bootstrap/facet-multi/facet-multi.component.ts:193</a></div>
+                                </td>
+                            </tr>
 
             </tbody>
         </table>
@@ -1418,29 +1691,16 @@ the actions of the facet.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnChanges, Input, Output, ViewChild, EventEmitter, ChangeDetectorRef } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnChanges, Input, Output, EventEmitter, ChangeDetectorRef, ComponentRef, SimpleChanges, Type } from &#x27;@angular/core&#x27;;
 import { Results } from &#x27;@sinequa/core/web-services&#x27;;
 import { AbstractFacet } from &#x27;../../abstract-facet&#x27;;
+import { FacetConfig, default_facet_components } from &quot;../../facet-config&quot;;
 import { Action } from &#x27;@sinequa/components/action&#x27;;
 import { FacetService } from &#x27;../../facet.service&#x27;;
-import { Utils } from &#x27;@sinequa/core/base&#x27;;
+import { MapOf, Utils } from &#x27;@sinequa/core/base&#x27;;
 
-export interface FacetConfig {
-  name: string;
-  type: &#x27;list&#x27; | &#x27;tree&#x27;;
-  title: string;
-  icon?: string;
-  aggregation: string;
-  showCount?: boolean;
-  searchable?: boolean;
-  allowExclude?: boolean;
-  allowOr?: boolean;
-  allowAnd?: boolean;
-  displayEmptyDistributionIntervals?: boolean;
-  includedTabs?: string[];
-  excludedTabs?: string[];
-
-  // Parameters set by the component
+declare interface FacetMultiConfig extends FacetConfig&lt;{aggregation?: string, displayEmptyDistributionIntervals?: boolean}&gt; {
+  // Properties internally setup by this component
   $count?: string;
   $hasData?: boolean;
   $hasFiltered?: boolean;
@@ -1455,23 +1715,29 @@ export interface FacetConfig {
 export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 
   @Input() results: Results;
-  @Input() facets: FacetConfig[];
+  @Input() facets: FacetMultiConfig[];
+  @Input() facetComponents: MapOf&lt;Type&lt;any&gt;&gt; &#x3D; default_facet_components;
   @Input() showCount: boolean &#x3D; true;
-  @Input() showProgressBar &#x3D; false;    // will display or not item count as progress bar
 
-  @Output() events &#x3D; new EventEmitter&lt;FacetConfig&gt;();
-  @ViewChild(&quot;facet&quot;, {static: false}) public facetComponent: AbstractFacet;
+  @Output() events &#x3D; new EventEmitter&lt;FacetMultiConfig&gt;();
+
+  /**
+   * A reference to the facet child component
+   */
+  facetComponent?: AbstractFacet;
 
   /**
    * The facet configuration to open
    */
-  openedFacet: FacetConfig | undefined;
+  openedFacet?: FacetMultiConfig;
 
   /**
    * Action to switch back from an opened facet to the facet multi view
    */
   backAction: Action;
   clearAllFiltersAction: Action;
+
+  facetComponentInputs: MapOf&lt;any&gt;;
 
   constructor(
     public facetService: FacetService,
@@ -1495,18 +1761,26 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
       icon: &quot;far fa-minus-square&quot;,
       title: &quot;msg#facet.filters.clear&quot;,
       action: () &#x3D;&gt; {
-        const facetsWithFiltered &#x3D; this.facets.filter((facet) &#x3D;&gt; facet.$hasFiltered).map(facet &#x3D;&gt; facet.name);
+        const facetsWithFiltered &#x3D; this.facets.filter((facet) &#x3D;&gt; facet.$hasFiltered).map(facet &#x3D;&gt; this.getName(facet));
         this.facetService.clearFiltersSearch(facetsWithFiltered, true);
       }
     });
 
   }
 
+    /**
+     * Name of the facet, used to retrieve selections
+     * through the facet service.
+     */
+    getName(facet: FacetMultiConfig) : string {
+      return facet.name || facet.parameters?.aggregation || &#x27;&#x27;;
+    }
+
   /**
    * If a sub-facet is opened, add a Back button and forward
    * the actions of the facet.
    */
-  get actions(): Action[] {
+  override get actions(): Action[] {
     const actions: Action[] &#x3D; [];
     if(this.openedFacet){
       actions.push(this.backAction);
@@ -1534,15 +1808,16 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    * Open this sub facet
    * @param facet
    */
-  openFacet(facet: FacetConfig){
+  openFacet(facet: FacetMultiConfig){
     this.openedFacet &#x3D; facet;
+    this.facetComponentInputs &#x3D; this.getFacetInputs();
     this.events.next(facet);
     this.changeDetectorRef.detectChanges();
   }
 
-  clearFacetFilters(facet: FacetConfig, e:Event) {
+  clearFacetFilters(facet: FacetMultiConfig, e:Event) {
     e.stopPropagation();
-    this.facetService.clearFiltersSearch(facet.name, true);
+    this.facetService.clearFiltersSearch(this.getName(facet), true);
     return false;
   }
 
@@ -1550,12 +1825,13 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    * Return the number of items to display for a given facet
    * @param facet
    */
-  private getFacetCount(facet: FacetConfig): string {
-    const agg &#x3D; this.results.aggregations.find(agg &#x3D;&gt; Utils.eqNC(agg.name, facet.aggregation)); // avoid calling getAggregation() which is costly for trees
-    if (!agg?.items)
-      return &quot;&quot;;
-    const count &#x3D; this.facetService.getAggregationCount(facet.aggregation); // configured count (default: 10)
-    const aggItemCounter &#x3D; (!agg.isDistribution || facet.displayEmptyDistributionIntervals)
+  private getFacetCount(facet: FacetMultiConfig): string {
+    const agg &#x3D; this.results.aggregations.find(agg &#x3D;&gt; Utils.eqNC(agg.name, &lt;string&gt;facet.parameters?.aggregation)); // avoid calling getAggregation() which is costly for trees
+    if (!agg?.items) return &quot;&quot;;
+    
+    const max &#x3D; this.facetService.getAggregationCount(&lt;string&gt;facet.parameters?.aggregation); // configured count (default: 10)
+    const count &#x3D; max &lt; 0 ? agg.items.length : max;
+    const aggItemCounter &#x3D; (!agg.isDistribution || facet?.parameters?.displayEmptyDistributionIntervals)
       ? agg.items.length
       : agg.items.filter(item &#x3D;&gt; item.count &gt; 0).length;
     return aggItemCounter &gt;&#x3D; count ? &#x60;${count}+&#x60; : &#x60;${aggItemCounter}&#x60;;
@@ -1565,24 +1841,53 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
    * Return whether a given facet has been used in the current context
    * @param facet
    */
-  private hasFiltered(facet: FacetConfig): boolean {
-    return this.facetService.hasFiltered(facet.name);
+  private hasFiltered(facet: FacetMultiConfig): boolean {
+    return this.facetService.hasFiltered(this.getName(facet));
   }
 
   /**
    * When the results change, actualize count, hasData and hasFiltered
    * which are displayed in the template.
+   * Also, update list of inputs passed to child facets
    */
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     this.facets.forEach(facet &#x3D;&gt; {
       facet.$count &#x3D; this.getFacetCount(facet);
-      facet.$hasData &#x3D; this.facetService.hasData(facet.aggregation, this.results);
+      facet.$hasData &#x3D; this.facetService.hasData(&lt;string&gt;facet.parameters?.aggregation, this.results);
       facet.$hasFiltered &#x3D; this.hasFiltered(facet);
       // The facet is hidden if there are included tabs and the current tab is not in it
       // OR if there are excluded tabs and the current tab is in it.
-      facet.$hidden &#x3D; (facet.includedTabs &amp;&amp; !facet.includedTabs.includes(this.results.tab)) || facet.excludedTabs?.includes(this.results.tab);
+      facet.$hidden &#x3D; !this.facetService.isFacetIncluded(facet, this.results);
     });
+    // Update list of inputs used by child facet
+    // PS: attributes of openedFacet MUST have the same name as component&#x27;s inputs name
+    if (changes.results) {
+        this.facetComponentInputs &#x3D; {results: this.results}
+    }
+    if (changes.facets) {
+        this.facetComponentInputs &#x3D; this.getFacetInputs();
+    }
+
     this.changeDetectorRef.detectChanges();
+  }
+
+  onFacetLoad(componentRef: {componentRef: ComponentRef&lt;AbstractFacet&gt; | undefined}) {
+    this.facetComponent &#x3D; componentRef?.componentRef?.instance;
+  }
+
+  getFacetInputs(): MapOf&lt;any&gt; {
+    return {
+      ...this.openedFacet?.parameters,
+      name: this.openedFacet?.name,
+      results: this.results
+    };
+  }
+
+  get component() {
+    if (this.facetComponents &amp;&amp; this.openedFacet) {
+      return this.facetComponents[this.openedFacet.type];
+    }
+    return undefined
   }
 
 }
@@ -1592,7 +1897,7 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div *ngIf&#x3D;&quot;!openedFacet&quot; class&#x3D;&quot;list-group list-group-flush&quot;&gt;
     &lt;ng-container *ngFor&#x3D;&quot;let facet of facets&quot;&gt;
-        &lt;div *ngIf&#x3D;&quot;!facet.$hidden&quot; (click)&#x3D;&quot;openFacet(facet)&quot;
+        &lt;div *ngIf&#x3D;&quot;!facet.$hidden&quot; [ngClass]&#x3D;&quot;facet.className&quot; (click)&#x3D;&quot;openFacet(facet)&quot;
             class&#x3D;&quot;open-facet d-flex flex-row list-group-item border-0 list-group-item-action px-3 py-1 align-items-center&quot;
             [ngClass]&#x3D;&quot;{&#x27;list-group-item-success&#x27;:facet.$hasFiltered, &#x27;disabled&#x27;:!facet.$hasData }&quot;&gt;
             &lt;span class&#x3D;&quot;flex-grow-1&quot;&gt;{{ facet.title | sqMessage }}&lt;/span&gt;
@@ -1612,29 +1917,10 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
     &lt;/ng-container&gt;
 &lt;/div&gt;
 
-&lt;ng-container *ngIf&#x3D;&quot;openedFacet&quot;&gt;
-    &lt;sq-facet-list #facet *ngIf&#x3D;&quot;openedFacet.type&#x3D;&#x3D;&#x3D;&#x27;list&#x27;&quot;
-        [name]&#x3D;&quot;openedFacet.name&quot;
-        [results]&#x3D;&quot;results&quot;
-        [aggregation]&#x3D;&quot;openedFacet.aggregation&quot;
-        [showCount]&#x3D;&quot;openedFacet.showCount&quot;
-        [searchable]&#x3D;&quot;openedFacet.searchable&quot;
-        [allowExclude]&#x3D;&quot;openedFacet.allowExclude&quot;
-        [allowOr]&#x3D;&quot;openedFacet.allowOr&quot;
-        [allowAnd]&#x3D;&quot;openedFacet.allowAnd&quot;
-        [displayEmptyDistributionIntervals]&#x3D;&quot;openedFacet.displayEmptyDistributionIntervals&quot;
-        [showProgressBar]&#x3D;&quot;showProgressBar&quot;
-    &gt;
-    &lt;/sq-facet-list&gt;
-
-    &lt;sq-facet-tree #facet *ngIf&#x3D;&quot;openedFacet.type&#x3D;&#x3D;&#x3D;&#x27;tree&#x27;&quot;
-        [name]&#x3D;&quot;openedFacet.name&quot;
-        [results]&#x3D;&quot;results&quot;
-        [aggregation]&#x3D;&quot;openedFacet.aggregation&quot;
-        [showCount]&#x3D;&quot;openedFacet.showCount&quot;
-        [allowExclude]&#x3D;&quot;openedFacet.allowExclude&quot;
-        [allowOr]&#x3D;&quot;openedFacet.allowOr&quot;&gt;
-    &lt;/sq-facet-tree&gt;
+&lt;ng-container
+    *ngIf&#x3D;&quot;openedFacet&quot;
+    [sqLoadComponent]&#x3D;&quot;{component: component, inputs: facetComponentInputs}&quot;
+    (sqLoadComponent)&#x3D;&quot;onFacetLoad($event)&quot;&gt;
 &lt;/ng-container&gt;
 </code></pre>
     </div>
@@ -1702,9 +1988,9 @@ export class BsFacetMultiComponent extends AbstractFacet implements OnChanges {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div *ngIf="!openedFacet" class="list-group list-group-flush">    <ng-container *ngFor="let facet of facets">        <div *ngIf="!facet.$hidden" (click)="openFacet(facet)"            class="open-facet d-flex flex-row list-group-item border-0 list-group-item-action px-3 py-1 align-items-center"            [ngClass]="{\'list-group-item-success\':facet.$hasFiltered, \'disabled\':!facet.$hasData }">            <span class="flex-grow-1">{{ facet.title | sqMessage }}</span>            <span class="fa-stack icons-group" sqTooltip="{{ \'msg#facet.filters.clear\' | sqMessage }}" (click)="clearFacetFilters(facet, $event)" *ngIf="facet.$hasFiltered">                <i class="ms-2 far fa-minus-square fa-stack-1x icons icon-hover"></i>                <i class="ms-2 far fa-check-square fa-stack-1x icons icon-default"></i>            </span>            <span                *ngIf="showCount"                class="mx-2 text-muted small"                title="{{ \'msg#facet.filterItemCountTooltip\' | sqMessage:{ values: { count: facet.$count } } }}"            >                {{ facet.$count | sqNumber }}            </span>            <i class="fas fa-caret-right"></i>        </div>    </ng-container></div><ng-container *ngIf="openedFacet">    <sq-facet-list #facet *ngIf="openedFacet.type===\'list\'"        [name]="openedFacet.name"        [results]="results"        [aggregation]="openedFacet.aggregation"        [showCount]="openedFacet.showCount"        [searchable]="openedFacet.searchable"        [allowExclude]="openedFacet.allowExclude"        [allowOr]="openedFacet.allowOr"        [allowAnd]="openedFacet.allowAnd"        [displayEmptyDistributionIntervals]="openedFacet.displayEmptyDistributionIntervals"        [showProgressBar]="showProgressBar"    >    </sq-facet-list>    <sq-facet-tree #facet *ngIf="openedFacet.type===\'tree\'"        [name]="openedFacet.name"        [results]="results"        [aggregation]="openedFacet.aggregation"        [showCount]="openedFacet.showCount"        [allowExclude]="openedFacet.allowExclude"        [allowOr]="openedFacet.allowOr">    </sq-facet-tree></ng-container></div>'
-    var COMPONENTS = [{'name': 'AbstractFacet', 'selector': ''},{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAddLabel', 'selector': 'sq-add-label'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormInput', 'selector': 'sq-advanced-form-input'},{'name': 'BsAdvancedFormMultiInput', 'selector': 'sq-advanced-form-multi-input'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertMessageComponent', 'selector': 'sq-alert-message'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDeleteLabel', 'selector': 'sq-delete-label'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditLabel', 'selector': 'sq-edit-label'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetFilters', 'selector': 'sq-facet-filters'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTagCloud', 'selector': 'sq-facet-tag-cloud'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFieldSearchItemsComponent', 'selector': 'sq-field-search-items'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsAutocompleteComponent', 'selector': 'sq-labels-autocomplete'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLoadMore', 'selector': 'sq-load-more'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMySearch', 'selector': 'sq-facet-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewMinimapComponent', 'selector': 'sq-preview-minimap'},{'name': 'BsPreviewPageFormComponent', 'selector': 'sq-preview-page-form'},{'name': 'BsPreviewPagesPanelComponent', 'selector': 'sq-preview-pages-panel'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsPrompt', 'selector': 'sq-prompt'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsScroller', 'selector': 'sq-scroller'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSelectionArranger', 'selector': 'sq-selection-arranger'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsThemeToggleComponent', 'selector': 'sq-theme-toggle'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'CommentsComponent', 'selector': 'sq-comments'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SlideBuilderComponent', 'selector': 'sq-slide-builder'},{'name': 'SlideListComponent', 'selector': 'sq-slide-list'},{'name': 'SlideTileComponent', 'selector': 'sq-slide-tile'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'StickyComponent', 'selector': '[sqSticky]'},{'name': 'TooltipComponent', 'selector': 'sqx-tooltip'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
-    var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'AutocompleteFieldSearch', 'selector': '[sqAutocompleteFieldSearch]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sqAdvancedFormAutocomplete]'},{'name': 'BsAdvancedFormAutocompleteMultiInput', 'selector': '[sqAdvancedFormAutocompleteMultiInput]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sqAdvancedFormValidation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'DwellTime', 'selector': '[sqDwellTime]'},{'name': 'FocusKeyListDirective', 'selector': '[sqFocusKeyList]'},{'name': 'FocusKeyListItemDirective', 'selector': '[sqFocusKeyListItem]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'ResizeEventDirective', 'selector': '[sqResize]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'},{'name': 'TooltipDirective', 'selector': '[sqTooltip]'}];
+        var COMPONENT_TEMPLATE = '<div><div *ngIf="!openedFacet" class="list-group list-group-flush">    <ng-container *ngFor="let facet of facets">        <div *ngIf="!facet.$hidden" [ngClass]="facet.className" (click)="openFacet(facet)"            class="open-facet d-flex flex-row list-group-item border-0 list-group-item-action px-3 py-1 align-items-center"            [ngClass]="{\'list-group-item-success\':facet.$hasFiltered, \'disabled\':!facet.$hasData }">            <span class="flex-grow-1">{{ facet.title | sqMessage }}</span>            <span class="fa-stack icons-group" sqTooltip="{{ \'msg#facet.filters.clear\' | sqMessage }}" (click)="clearFacetFilters(facet, $event)" *ngIf="facet.$hasFiltered">                <i class="ms-2 far fa-minus-square fa-stack-1x icons icon-hover"></i>                <i class="ms-2 far fa-check-square fa-stack-1x icons icon-default"></i>            </span>            <span                *ngIf="showCount"                class="mx-2 text-muted small"                title="{{ \'msg#facet.filterItemCountTooltip\' | sqMessage:{ values: { count: facet.$count } } }}"            >                {{ facet.$count | sqNumber }}            </span>            <i class="fas fa-caret-right"></i>        </div>    </ng-container></div><ng-container    *ngIf="openedFacet"    [sqLoadComponent]="{component: component, inputs: facetComponentInputs}"    (sqLoadComponent)="onFacetLoad($event)"></ng-container></div>'
+    var COMPONENTS = [{'name': 'AbstractFacet', 'selector': ''},{'name': 'AnswerCardComponent', 'selector': 'sq-answer-card'},{'name': 'BsActionButtons', 'selector': '[sq-action-buttons]'},{'name': 'BsActionItem', 'selector': '[sq-action-item]'},{'name': 'BsActionItemContent', 'selector': 'sq-action-item-content'},{'name': 'BsActionMenu', 'selector': 'sq-action-menu'},{'name': 'BsAddLabel', 'selector': 'sq-add-label'},{'name': 'BsAdvancedFormCheckbox', 'selector': 'sq-advanced-form-checkbox'},{'name': 'BsAdvancedFormInput', 'selector': 'sq-advanced-form-input'},{'name': 'BsAdvancedFormMultiInput', 'selector': 'sq-advanced-form-multi-input'},{'name': 'BsAdvancedFormRange', 'selector': 'sq-advanced-form-range'},{'name': 'BsAdvancedFormSelect', 'selector': 'sq-advanced-form-select'},{'name': 'BsAlertMessageComponent', 'selector': 'sq-alert-message'},{'name': 'BsAlertsMenuComponent', 'selector': 'sq-alerts-menu'},{'name': 'BsAutocompleteList', 'selector': 'sq-autocomplete-list'},{'name': 'BsBasketsMenuComponent', 'selector': 'sq-baskets-menu'},{'name': 'BsBreadcrumbs', 'selector': 'sq-breadcrumbs'},{'name': 'BsConfirm', 'selector': 'sq-confirm'},{'name': 'BsDatePicker', 'selector': 'sq-date-picker'},{'name': 'BsDateRangePicker', 'selector': 'sq-date-range-picker'},{'name': 'BsDeleteLabel', 'selector': 'sq-delete-label'},{'name': 'BsDidYouMean', 'selector': 'sq-did-you-mean'},{'name': 'BsDropdownMenu', 'selector': '[sq-dropdown-menu]'},{'name': 'BsEditable', 'selector': 'sq-editable'},{'name': 'BsEditAlert', 'selector': 'sq-edit-alert'},{'name': 'BsEditBasket', 'selector': 'sq-edit-basket'},{'name': 'BsEditLabel', 'selector': 'sq-edit-label'},{'name': 'BsEditSavedQuery', 'selector': 'sq-edit-saved-query'},{'name': 'BsEditUserSettings', 'selector': 'sq-edit-user-settings'},{'name': 'BsExportQuery', 'selector': 'sq-export-query'},{'name': 'BsFacetBar', 'selector': 'sq-facet-bar'},{'name': 'BsFacetBasketsComponent', 'selector': 'sq-facet-baskets'},{'name': 'BsFacetCard', 'selector': 'sq-facet-card'},{'name': 'BsFacetFilters', 'selector': 'sq-facet-filters'},{'name': 'BsFacetList', 'selector': 'sq-facet-list'},{'name': 'BsFacetMultiComponent', 'selector': 'sq-facet-multi'},{'name': 'BsFacetPreview', 'selector': 'sq-facet-preview'},{'name': 'BsFacetPreviewComponent2', 'selector': 'sq-facet-preview-2'},{'name': 'BsFacetRange', 'selector': 'sq-facet-range'},{'name': 'BsFacetRecentDocuments', 'selector': 'sq-facet-recent-documents'},{'name': 'BsFacetRecentQueries', 'selector': 'sq-facet-recent-queries'},{'name': 'BsFacetSavedQueries', 'selector': 'sq-facet-saved-queries'},{'name': 'BsFacetTagCloud', 'selector': 'sq-facet-tag-cloud'},{'name': 'BsFacetTree', 'selector': 'sq-facet-tree'},{'name': 'BsFeedbackMenu', 'selector': 'sq-feedback-menu'},{'name': 'BsFieldSearchItemsComponent', 'selector': 'sq-field-search-items'},{'name': 'BsFullscreenActivator', 'selector': 'sq-fullscreen-activator'},{'name': 'BsHelp', 'selector': 'sq-help'},{'name': 'BsLabelsAutocompleteComponent', 'selector': 'sq-labels-autocomplete'},{'name': 'BsLabelsMenuComponent', 'selector': 'sq-labels-menu'},{'name': 'BsLoadingBar', 'selector': 'sq-loading-bar'},{'name': 'BsLoadMore', 'selector': 'sq-load-more'},{'name': 'BsLogin', 'selector': 'sq-login'},{'name': 'BsManageAlerts', 'selector': 'sq-manage-alerts'},{'name': 'BsManageBaskets', 'selector': 'sq-manage-baskets'},{'name': 'BsManageSavedQueries', 'selector': 'sq-manage-saved-queries'},{'name': 'BsModal', 'selector': 'sq-modal'},{'name': 'BsModalFooter', 'selector': 'sq-modal-footer'},{'name': 'BsModalHeader', 'selector': 'sq-modal-header'},{'name': 'BsMySearch', 'selector': 'sq-facet-mysearch'},{'name': 'BsNetworkActivity', 'selector': 'sq-network-activity'},{'name': 'BsNotification', 'selector': 'sq-notification'},{'name': 'BsNotifications', 'selector': 'sq-notifications'},{'name': 'BsNotificationsManager', 'selector': 'sq-notifications-manager'},{'name': 'BsOverrideUser', 'selector': 'sq-override-user'},{'name': 'BsPager', 'selector': 'sq-pager'},{'name': 'BsPageSizeSelector', 'selector': 'sq-page-size-selector'},{'name': 'BsPreviewEntityFacetComponent', 'selector': 'sq-preview-entity-facet'},{'name': 'BsPreviewEntityPanelComponent', 'selector': 'sq-preview-entity-panel'},{'name': 'BsPreviewExtractsPanelComponent', 'selector': 'sq-preview-extracts-panel'},{'name': 'BsPreviewHighlights', 'selector': 'sq-preview-highlights'},{'name': 'BsPreviewLinks', 'selector': 'sq-preview-links'},{'name': 'BsPreviewMinimapComponent', 'selector': 'sq-preview-minimap'},{'name': 'BsPreviewPageFormComponent', 'selector': 'sq-preview-page-form'},{'name': 'BsPreviewPagesPanelComponent', 'selector': 'sq-preview-pages-panel'},{'name': 'BsPreviewPanel', 'selector': 'sq-preview-panel'},{'name': 'BsPreviewPopup', 'selector': 'sq-preview-popup'},{'name': 'BsPreviewSearchFormComponent', 'selector': 'sq-preview-search-form'},{'name': 'BsPrompt', 'selector': 'sq-prompt'},{'name': 'BsQueryExporter', 'selector': 'sq-query-exporter'},{'name': 'BsRefine', 'selector': 'sq-refine'},{'name': 'BsRenameLabel', 'selector': 'sq-rename-label'},{'name': 'BsResultBaskets', 'selector': 'sq-result-baskets'},{'name': 'BsResultLinkPreview', 'selector': 'sq-result-link-preview'},{'name': 'BsResultSelector', 'selector': 'sq-result-selector'},{'name': 'BsResultsGridView', 'selector': 'sq-results-grid-view'},{'name': 'BsResultsSelector', 'selector': 'sq-results-selector'},{'name': 'BsResultsViewSelector', 'selector': 'sq-results-view-selector'},{'name': 'BsRfmAction', 'selector': 'sq-rfm-action'},{'name': 'BsSavedQueriesMenuComponent', 'selector': 'sq-saved-queries-menu'},{'name': 'BsScroller', 'selector': 'sq-scroller'},{'name': 'BsSelectBasket', 'selector': 'sq-select-basket'},{'name': 'BsSelectComponent', 'selector': 'sq-select'},{'name': 'BsSelectionArranger', 'selector': 'sq-selection-arranger'},{'name': 'BsSimilarDocuments', 'selector': 'sq-similar-documents'},{'name': 'BsSortSelector', 'selector': 'sq-sort-selector'},{'name': 'BsTabs', 'selector': 'sq-tabs'},{'name': 'BsThemeToggleComponent', 'selector': 'sq-theme-toggle'},{'name': 'BsUserMenuComponent', 'selector': 'sq-user-menu'},{'name': 'BsUserSettingsEditor', 'selector': 'sq-user-settings-editor'},{'name': 'Collapse', 'selector': 'sq-collapse'},{'name': 'CollapseButton', 'selector': 'sq-collapse-button'},{'name': 'CollapseLink', 'selector': 'sq-collapse-link'},{'name': 'CommentsComponent', 'selector': 'sq-comments'},{'name': 'Labels', 'selector': 'sq-labels'},{'name': 'Metadata', 'selector': 'sq-metadata'},{'name': 'MetadataAccessListsItem', 'selector': 'sq-metadata-access-lists-item'},{'name': 'MetadataAccessListsItemSingleAccessList', 'selector': 'sq-metadata-access-lists-item-single-access-list'},{'name': 'MetadataItem', 'selector': 'sq-metadata-item'},{'name': 'PassageListComponent', 'selector': 'sq-passage-list'},{'name': 'PreviewDocumentIframe', 'selector': 'sq-preview-document-iframe'},{'name': 'PreviewTooltip', 'selector': 'sq-preview-tooltip'},{'name': 'ResultExtracts', 'selector': 'sq-result-extracts'},{'name': 'ResultIcon', 'selector': 'sq-result-icon'},{'name': 'ResultLabels', 'selector': 'sq-result-labels'},{'name': 'ResultMissingTerms', 'selector': 'sq-result-missing-terms'},{'name': 'ResultsCounter', 'selector': 'sq-results-counter'},{'name': 'ResultSource', 'selector': 'sq-result-source'},{'name': 'ResultThumbnail', 'selector': 'sq-result-thumbnail'},{'name': 'ResultTitle', 'selector': 'sq-result-title'},{'name': 'SlideBuilderComponent', 'selector': 'sq-slide-builder'},{'name': 'SlideListComponent', 'selector': 'sq-slide-list'},{'name': 'SlideTileComponent', 'selector': 'sq-slide-tile'},{'name': 'SponsoredResults', 'selector': 'sq-sponsored-results'},{'name': 'StickyComponent', 'selector': '[sqSticky]'},{'name': 'TooltipComponent', 'selector': 'sqx-tooltip'},{'name': 'UserRating', 'selector': 'sq-user-rating'}];
+    var DIRECTIVES = [{'name': 'Autocomplete', 'selector': '[sqAutocomplete]'},{'name': 'AutocompleteFieldSearch', 'selector': '[sqAutocompleteFieldSearch]'},{'name': 'Autofocus', 'selector': '[sqAutofocus]'},{'name': 'BsAdvancedFormAutocomplete', 'selector': '[sqAdvancedFormAutocomplete]'},{'name': 'BsAdvancedFormAutocompleteMultiInput', 'selector': '[sqAdvancedFormAutocompleteMultiInput]'},{'name': 'BsAdvancedFormValidation', 'selector': '[sqAdvancedFormValidation]'},{'name': 'BsDropdownDirective', 'selector': 'gSelector.DATA_TOGGLE'},{'name': 'ClickOutside', 'selector': '[sqClickOutside]'},{'name': 'FocusKeyListDirective', 'selector': '[sqFocusKeyList]'},{'name': 'FocusKeyListItemDirective', 'selector': '[sqFocusKeyListItem]'},{'name': 'LabelsAutocomplete', 'selector': '[sqAutocompleteLabels]'},{'name': 'ResizeEventDirective', 'selector': '[sqResize]'},{'name': 'ScrollIntoView', 'selector': '[sqScrollIntoView]'},{'name': 'TooltipDirective', 'selector': '[sqTooltip]'}];
     var ACTUAL_COMPONENT = {'name': 'BsFacetMultiComponent'};
 </script>
 <script src="../js/tree.js"></script>

@@ -148,7 +148,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(startConfig: <a href="../interfaces/StartConfig.html" target="_self">StartConfig</a>, loginModal: Type<any>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, appService: <a href="../injectables/AppService.html" target="_self">AppService</a>, principalService: <a href="../injectables/PrincipalWebService.html" target="_self">PrincipalWebService</a>, userSettingsService: <a href="../injectables/UserSettingsWebService.html" target="_self">UserSettingsWebService</a>, modalService: <a href="../injectables/ModalService.html" target="_self">ModalService</a>, notificationsService: <a href="../injectables/NotificationsService.html" target="_self">NotificationsService</a>, authenticationService: <a href="../injectables/AuthenticationService.html" target="_self">AuthenticationService</a>)</code>
+<code>constructor(startConfig: <a href="../interfaces/StartConfig.html" target="_self">StartConfig</a>, loginModal: Type<any>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, appService: <a href="../injectables/AppService.html" target="_self">AppService</a>, principalService: <a href="../injectables/PrincipalWebService.html" target="_self">PrincipalWebService</a>, userSettingsService: <a href="../injectables/UserSettingsWebService.html" target="_self">UserSettingsWebService</a>, modalService: <a href="../injectables/ModalService.html" target="_self">ModalService</a>, notificationsService: <a href="../injectables/NotificationsService.html" target="_self">NotificationsService</a>, authenticationService: <a href="../injectables/AuthenticationService.html" target="_self">AuthenticationService</a>, auditService: <a href="../injectables/AuditWebService.html" target="_self">AuditWebService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -278,6 +278,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>auditService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuditWebService.html" target="_self" >AuditWebService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -312,8 +324,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="280"
-                            class="link-to-prism">login/login.service.ts:280</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="284"
+                            class="link-to-prism">login/login.service.ts:284</a></div>
                 </td>
             </tr>
 
@@ -413,8 +425,8 @@ redirected to the OAuth/SAML redirect url</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="172"
-                            class="link-to-prism">login/login.service.ts:172</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="174"
+                            class="link-to-prism">login/login.service.ts:174</a></div>
                 </td>
             </tr>
 
@@ -458,8 +470,8 @@ token.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="128"
-                            class="link-to-prism">login/login.service.ts:128</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">login/login.service.ts:130</a></div>
                 </td>
             </tr>
 
@@ -500,8 +512,8 @@ The <code>session-end</code> event is emitted</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">login/login.service.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">login/login.service.ts:89</a></div>
                 </td>
             </tr>
 
@@ -537,8 +549,8 @@ The <code>session-end</code> event is emitted</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="145"
-                            class="link-to-prism">login/login.service.ts:145</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="147"
+                            class="link-to-prism">login/login.service.ts:147</a></div>
                 </td>
             </tr>
 
@@ -655,7 +667,7 @@ is permitted to do this. They can revert to the normal login by calling this met
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">login/login.service.ts:95</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">login/login.service.ts:97</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -688,7 +700,7 @@ is permitted to do this. They can revert to the normal login by calling this met
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">login/login.service.ts:104</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">login/login.service.ts:106</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -719,7 +731,7 @@ import {BehaviorSubject, Observable, forkJoin, of, throwError} from &quot;rxjs&q
 import {flatMap} from &quot;rxjs/operators&quot;;
 import {Utils, SqError, SqErrorCode} from &quot;@sinequa/core/base&quot;;
 import {START_CONFIG, StartConfig, CCApp, PrincipalWebService, Principal,
-    UserSettingsWebService, UserSettings} from &quot;@sinequa/core/web-services&quot;;
+    UserSettingsWebService, UserSettings, AuditWebService} from &quot;@sinequa/core/web-services&quot;;
 import {ModalService, ModalResult} from &quot;@sinequa/core/modal&quot;;
 import {NotificationsService} from &quot;@sinequa/core/notification&quot;;
 import {AppService} from &quot;@sinequa/core/app-utils&quot;;
@@ -789,7 +801,9 @@ export class LoginService implements OnDestroy {
         protected userSettingsService: UserSettingsWebService,
         protected modalService: ModalService,
         protected notificationsService: NotificationsService,
-        protected authenticationService: AuthenticationService) {
+        protected authenticationService: AuthenticationService,
+        protected auditService: AuditWebService
+    ) {
         // NB unload doesn&#x27;t fire reliably so we listen for beforeunload
         window.addEventListener(&quot;beforeunload&quot;, this.beforeUnloadEventListener);
     }
@@ -955,6 +969,8 @@ export class LoginService implements OnDestroy {
         Utils.subscribe(observable,
             (result) &#x3D;&gt; {
                 console.log(&quot;loginService.login ok: &quot;, result);
+                // send an audit event about login success
+                this.auditService.notifyLogin();
                 this.setComplete();
                 if (appNeeded) {
                     this._events.next({type: &quot;session-start&quot;});

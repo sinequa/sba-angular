@@ -92,6 +92,7 @@ to prevent multiple subscribers from causing multiple requests to be issued and 
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#request" >request</a>
                             </li>
                         </ul>
@@ -166,6 +167,7 @@ to prevent multiple subscribers from causing multiple requests to be issued and 
                 <td class="col-md-4">
                     <a name="request"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>request</b></span>
                         <a href="#request"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -173,7 +175,8 @@ to prevent multiple subscribers from causing multiple requests to be issued and 
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>request(first: string | HttpRequest<any>, url?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, options: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>request(first: string | HttpRequest<any>, url?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, options: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>)</code>
                 </td>
             </tr>
 
@@ -320,7 +323,7 @@ export class SqHttpClient extends HttpClient {
      * * to mitigate request flooding, a cache of pending response observables keyed by the request thumbprint is maintained.
      * An observable from the cache is returned if the incoming request is identical to one in the cache
      */
-    request(first: string | HttpRequest&lt;any&gt;, url?: string, options &#x3D; {}): Observable&lt;any&gt; {
+    override request(first: string | HttpRequest&lt;any&gt;, url?: string, options &#x3D; {}): Observable&lt;any&gt; {
         const requestHash &#x3D; this.getRequestHash(first, url, options);
         let observable &#x3D; this.responseCache.get(requestHash);
         if (!observable) {

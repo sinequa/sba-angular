@@ -264,7 +264,7 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
      * If the off input changes state, react accordingly
      * @param changes
      */
-    ngOnChanges(changes: SimpleChanges){
+    override ngOnChanges(changes: SimpleChanges){
         super.ngOnChanges(changes);
 
         // Subscribe to the field search items&#x27;s container
@@ -314,7 +314,7 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
     /**
      * Unsubscribe when destroying the component
      */
-    ngOnDestroy(){
+    override ngOnDestroy(){
         super.ngOnDestroy();
         if(this._fieldSearchSubscription){
             this._fieldSearchSubscription.unsubscribe();
@@ -387,7 +387,7 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
      * fielded search autocomplete.
      * @returns true if this autocomplete item should be searched
      */
-    protected setAutocompleteItem(item: AutocompleteItem): boolean {
+    protected override setAutocompleteItem(item: AutocompleteItem): boolean {
         if(item) {
             if(this.fieldSearchMode &#x3D;&#x3D;&#x3D; &quot;text&quot;) {
                 return this.insertAutocompleteItem(item);
@@ -454,27 +454,29 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
      * The suggestions are then fetched by getSuggestsObs() and processed
      * by processSuggests().
      */
-    protected getSuggests() {
+    protected override getSuggests() {
         let value &#x3D; this.getInputValue();
-        if(value) { // If there is text, make a call to the suggest API
-            const parseResult &#x3D; this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
+        if (value) { // If there is text, make a call to the suggest API
             let fields: string[] | undefined;
-            if(parseResult.result &amp;&amp; this.fieldSearchMode !&#x3D;&#x3D; &quot;off&quot;){
-                const position &#x3D; this.getInputPosition(); // Position of the caret, if needed
-                const res &#x3D; parseResult.result.findValue(position);
-                // Field Search suggest
-                if(!!res &amp;&amp; !!res.field){
-                    fields &#x3D; Utils.startsWith(res.field, &quot;@&quot;) ? [&quot;text&quot;] : [res.field];
-                    value &#x3D; res.value;
+            if (this.fieldSearchMode !&#x3D;&#x3D; &quot;off&quot;) {
+                const parseResult &#x3D; this.parseQuery(); // If using fieldSearch, the result can be used to detect an active field
+                if(parseResult.result){
+                    const position &#x3D; this.getInputPosition(); // Position of the caret, if needed
+                    const res &#x3D; parseResult.result.findValue(position);
+                    // Field Search suggest
+                    if(!!res &amp;&amp; !!res.field){
+                        fields &#x3D; Utils.startsWith(res.field, &quot;@&quot;) ? [&quot;text&quot;] : [res.field];
+                        value &#x3D; res.value;
+                    }
+                    if(!!res &amp;&amp; this.fieldSearchMode &#x3D;&#x3D;&#x3D; &quot;text&quot;) {
+                        value &#x3D; res.value;
+                    }
                 }
-                if(!!res &amp;&amp; this.fieldSearchMode &#x3D;&#x3D;&#x3D; &quot;text&quot;) {
-                    value &#x3D; res.value;
-                }
-            }
-
-            if(parseResult.error &amp;&amp; this.fieldSearchMode !&#x3D;&#x3D; &quot;off&quot;) {
-                this.processSuggests(of([])); // Empty autocomplete if parsing errors
-                return;
+    
+                if(parseResult.error) {
+                    this.processSuggests(of([])); // Empty autocomplete if parsing errors
+                    return;
+                }                
             }
 
             this.processSuggests(
@@ -496,7 +498,7 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
      * - Use changeDetectorRef to update display
      * @param obs an observable of AutocompleteItem suggestions
      */
-    protected processSuggests(obs: Observable&lt;AutocompleteItem[]&gt;){
+    protected override processSuggests(obs: Observable&lt;AutocompleteItem[]&gt;){
         obs.subscribe(
             suggests &#x3D;&gt; {
                 if(this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.ACTIVE || this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.OPENED){
@@ -550,13 +552,13 @@ export class AutocompleteFieldSearch extends Autocomplete implements OnChanges, 
      * to remove field search items.
      * @param event the keyboard
      */
-    keydown(event: KeyboardEvent) {
+    override keydown(event: KeyboardEvent) {
 
         const keydown &#x3D; super.keydown(event);
 
         if(keydown &#x3D;&#x3D;&#x3D; undefined) {
             // In fielded search mode, we can remove selections by typing &lt;backspace&gt; when the input is empty
-            if(event.keyCode &#x3D;&#x3D;&#x3D; Keys.backspace) {
+            if(event.key &#x3D;&#x3D;&#x3D; Keys.backspace) {
                 if(this.fieldSearchMode &#x3D;&#x3D;&#x3D; &quot;selects&quot; &amp;&amp; this.getInputValue() &#x3D;&#x3D;&#x3D; &#x27;&#x27;) {
                     this.fieldSearchItems.pop();
                     this.updatePlaceholder();

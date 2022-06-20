@@ -100,6 +100,7 @@ contains the fields &quot;Microsoft&quot; and &quot;Bill Gates&quot;).</p>
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
+                                    <span class="modifier"></span>
                                 <a href="#name" >name</a>
                             </li>
                             <li>
@@ -142,18 +143,23 @@ contains the fields &quot;Microsoft&quot; and &quot;Bill Gates&quot;).</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#getData" >getData</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#getNodeActions" >getNodeActions</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#getProviderActions" >getProviderActions</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#onDatasetsMerged" >onDatasetsMerged</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#onNodeClicked" >onNodeClicked</a>
                             </li>
                             <li>
@@ -291,6 +297,7 @@ contains the fields &quot;Microsoft&quot; and &quot;Bill Gates&quot;).</p>
                     <a name="name"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
+                            <span class="modifier"></span>
                         <span ><b>name</b></span>
                         <a href="#name"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -558,6 +565,7 @@ contains the fields &quot;Microsoft&quot; and &quot;Bill Gates&quot;).</p>
                 <td class="col-md-4">
                     <a name="getData"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>getData</b></span>
                         <a href="#getData"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -565,7 +573,8 @@ contains the fields &quot;Microsoft&quot; and &quot;Bill Gates&quot;).</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getData(context: <a href="../interfaces/NetworkContext.html" target="_self">NetworkContext</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getData(context: <a href="../interfaces/NetworkContext.html" target="_self">NetworkContext</a>)</code>
                 </td>
             </tr>
 
@@ -633,6 +642,7 @@ contains the fields &quot;Microsoft&quot; and &quot;Bill Gates&quot;).</p>
                 <td class="col-md-4">
                     <a name="getNodeActions"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>getNodeActions</b></span>
                         <a href="#getNodeActions"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -640,7 +650,8 @@ contains the fields &quot;Microsoft&quot; and &quot;Bill Gates&quot;).</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getNodeActions(node: <a href="../interfaces/Node.html" target="_self">Node</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getNodeActions(node: <a href="../interfaces/Node.html" target="_self">Node</a>)</code>
                 </td>
             </tr>
 
@@ -714,6 +725,7 @@ state.</p>
                 <td class="col-md-4">
                     <a name="getProviderActions"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>getProviderActions</b></span>
                         <a href="#getProviderActions"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -721,7 +733,8 @@ state.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getProviderActions()</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getProviderActions()</code>
                 </td>
             </tr>
 
@@ -757,6 +770,7 @@ state.</p>
                 <td class="col-md-4">
                     <a name="onDatasetsMerged"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>onDatasetsMerged</b></span>
                         <a href="#onDatasetsMerged"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -764,7 +778,8 @@ state.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onDatasetsMerged(dataset: <a href="../classes/NetworkDataset.html" target="_self">NetworkDataset</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onDatasetsMerged(dataset: <a href="../classes/NetworkDataset.html" target="_self">NetworkDataset</a>)</code>
                 </td>
             </tr>
 
@@ -841,6 +856,7 @@ are collapsed.</p>
                 <td class="col-md-4">
                     <a name="onNodeClicked"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>onNodeClicked</b></span>
                         <a href="#onNodeClicked"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -848,7 +864,8 @@ are collapsed.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onNodeClicked(node?: <a href="../interfaces/Node.html" target="_self">Node</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onNodeClicked(node?: <a href="../interfaces/Node.html" target="_self">Node</a>)</code>
                 </td>
             </tr>
 
@@ -1326,7 +1343,7 @@ export function isStructuralEdgeType(et: EdgeType): et is StructuralEdgeType {
 export class RecordsProvider extends BaseProvider {
 
     constructor(
-        public name &#x3D; &quot;Documents&quot;,
+        public override name &#x3D; &quot;Documents&quot;,
         protected nodeType: NodeType,
         protected edgeTypes: StructuralEdgeType[],
         protected records: Record[],
@@ -1514,7 +1531,7 @@ export class RecordsProvider extends BaseProvider {
 
     // NetworkProvider interface
 
-    getData(context: NetworkContext) {
+    override getData(context: NetworkContext) {
         this.context &#x3D; context;
         // Plain records mode (may be none)
         this.updateDataset(this.records);
@@ -1527,7 +1544,7 @@ export class RecordsProvider extends BaseProvider {
      * are collapsed.
      * @param dataset The dataset resulting of the merge of all the datasets
      */
-    onDatasetsMerged(dataset: NetworkDataset) {
+    override onDatasetsMerged(dataset: NetworkDataset) {
         // Once the datasets are merged, we can update the visibility of nodes that should be shown only if they have more than one neighbor
         dataset.getNodes()
             .filter(node &#x3D;&gt; node.type &#x3D;&#x3D;&#x3D; this.nodeType)
@@ -1554,7 +1571,7 @@ export class RecordsProvider extends BaseProvider {
      * record node is clicked on.
      * @param node A node that was clicked
      */
-    onNodeClicked(node?: Node) {
+    override onNodeClicked(node?: Node) {
         if(this.active &amp;&amp; node &amp;&amp; node.type &#x3D;&#x3D;&#x3D; this.nodeType) { // Note: we cannot test the provider property, since this node might have been merged with one from a different provider. However the node type should be a unique instance
             let update &#x3D; false;
             this.dataset.getAdjacentEdges(node.id)
@@ -1577,7 +1594,7 @@ export class RecordsProvider extends BaseProvider {
         }
     }
 
-    getProviderActions(): Action[] {
+    override getProviderActions(): Action[] {
         return super.getProviderActions();
     }
 
@@ -1589,7 +1606,7 @@ export class RecordsProvider extends BaseProvider {
      * state.
      * @param node 
      */
-    getNodeActions(node: Node): Action[] {
+    override getNodeActions(node: Node): Action[] {
         const actions &#x3D; super.getNodeActions(node);
         
         // Actions for exanding / collapsing a record node

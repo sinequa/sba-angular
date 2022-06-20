@@ -279,7 +279,7 @@ export class BsExportQuery implements OnInit, OnDestroy {
         }
 
         if (this.appService.app) {
-            const queryExportConfig &#x3D; this.getDefaultQueryExportConfig(this.appService.app);
+            const queryExportConfig &#x3D; this.getQueryExportConfig(this.appService.app);
             const columns &#x3D; (queryExportConfig.columns &amp;&amp; queryExportConfig.columns[&#x27;column$&#x27;]) || [];
             for (const column of columns) {
                 this.exportableColumns.push(column.title);
@@ -357,12 +357,8 @@ export class BsExportQuery implements OnInit, OnDestroy {
         }
     }
 
-    private getDefaultQueryExportConfig(app: CCApp): CCQueryExport {
-        let queryExport &#x3D; app.queryExport;
-        if (queryExport.indexOf(&#x27;,&#x27;) !&#x3D;&#x3D; -1) {
-            queryExport &#x3D; queryExport.substring(0, queryExport.indexOf(&#x27;,&#x27;));
-        }
-        return &lt;CCQueryExport&gt;Utils.getField(app.webServices, queryExport);
+    private getQueryExportConfig(app: CCApp): CCQueryExport {
+        return &lt;CCQueryExport&gt;Utils.getField(app.webServices, this.model.webService);
     }
 
     /**

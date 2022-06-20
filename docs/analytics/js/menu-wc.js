@@ -98,13 +98,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/BsTimelineModule.html" data-type="entity-link" >BsTimelineModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-BsTimelineModule-3fb5615b29a8091ba310acefd7e38c63ec8c74e5f906064eec406e42addb80d164f60130ef0d89563b01b09d03e141e0eed289f173047aea4a7e6739c84bcc91"' : 'data-target="#xs-components-links-module-BsTimelineModule-3fb5615b29a8091ba310acefd7e38c63ec8c74e5f906064eec406e42addb80d164f60130ef0d89563b01b09d03e141e0eed289f173047aea4a7e6739c84bcc91"' }>
+                                            'data-target="#components-links-module-BsTimelineModule-e8d506982ae1fa42563bbc3a73fb104258f81fbe95429917fb4b99f8726cfed6bb5b7ae79c79c4dc60748fcef079d28922c93b1ac8347e39a7515145b2d6a1e5"' : 'data-target="#xs-components-links-module-BsTimelineModule-e8d506982ae1fa42563bbc3a73fb104258f81fbe95429917fb4b99f8726cfed6bb5b7ae79c79c4dc60748fcef079d28922c93b1ac8347e39a7515145b2d6a1e5"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsTimelineModule-3fb5615b29a8091ba310acefd7e38c63ec8c74e5f906064eec406e42addb80d164f60130ef0d89563b01b09d03e141e0eed289f173047aea4a7e6739c84bcc91"' :
-                                            'id="xs-components-links-module-BsTimelineModule-3fb5615b29a8091ba310acefd7e38c63ec8c74e5f906064eec406e42addb80d164f60130ef0d89563b01b09d03e141e0eed289f173047aea4a7e6739c84bcc91"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsTimelineModule-e8d506982ae1fa42563bbc3a73fb104258f81fbe95429917fb4b99f8726cfed6bb5b7ae79c79c4dc60748fcef079d28922c93b1ac8347e39a7515145b2d6a1e5"' :
+                                            'id="xs-components-links-module-BsTimelineModule-e8d506982ae1fa42563bbc3a73fb104258f81fbe95429917fb4b99f8726cfed6bb5b7ae79c79c4dc60748fcef079d28922c93b1ac8347e39a7515145b2d6a1e5"' }>
                                             <li class="link">
                                                 <a href="components/BsFacetDate.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >BsFacetDate</a>
                                             </li>
@@ -332,6 +332,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/FacetChartDataPoint.html" data-type="entity-link" >FacetChartDataPoint</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/FacetDateConfig.html" data-type="entity-link" >FacetDateConfig</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/FacetDateParams.html" data-type="entity-link" >FacetDateParams</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/HeatmapItem.html" data-type="entity-link" >HeatmapItem</a>

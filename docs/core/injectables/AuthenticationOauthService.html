@@ -91,6 +91,7 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#authenticate" >authenticate</a>
                             </li>
                         </ul>
@@ -213,6 +214,7 @@
                 <td class="col-md-4">
                     <a name="authenticate"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>authenticate</b></span>
                         <a href="#authenticate"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -220,7 +222,8 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>authenticate(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, userData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>authenticate(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, userData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
@@ -326,7 +329,7 @@ export class AuthenticationOauthService extends OauthService {
         super(httpClient, sharedService, configService, popupService);
     }
 
-    authenticate&lt;T extends object | string&gt;(name: string, userData: any): Observable&lt;T&gt; {
+    override authenticate&lt;T extends object | string&gt;(name: string, userData: any): Observable&lt;T&gt; {
         const options &#x3D; this.configService.options.providers[name];
         if (options.sqInitState) {
             return this.httpClient.get&lt;{state: string}&gt;(Utils.addUrl(this.startConfig.apiPath!, &quot;oauth&quot;), {

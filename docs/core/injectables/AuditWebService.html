@@ -100,6 +100,9 @@
                                 <a href="#notifyDocumentById" >notifyDocumentById</a>
                             </li>
                             <li>
+                                <a href="#notifyLogin" >notifyLogin</a>
+                            </li>
+                            <li>
                                 <a href="#notifyLogout" >notifyLogout</a>
                             </li>
                             <li>
@@ -134,7 +137,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">web-services/audit.web.service.ts:145</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="146" class="link-to-prism">web-services/audit.web.service.ts:146</a></div>
                             </td>
                         </tr>
 
@@ -209,8 +212,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="289"
-                            class="link-to-prism">web-services/audit.web.service.ts:289</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="307"
+                            class="link-to-prism">web-services/audit.web.service.ts:307</a></div>
                 </td>
             </tr>
 
@@ -285,8 +288,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="190"
-                            class="link-to-prism">web-services/audit.web.service.ts:190</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="191"
+                            class="link-to-prism">web-services/audit.web.service.ts:191</a></div>
                 </td>
             </tr>
 
@@ -425,8 +428,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="241"
-                            class="link-to-prism">web-services/audit.web.service.ts:241</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="242"
+                            class="link-to-prism">web-services/audit.web.service.ts:242</a></div>
                 </td>
             </tr>
 
@@ -533,6 +536,51 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="notifyLogin"></a>
+                    <span class="name">
+                        <span ><b>notifyLogin</b></span>
+                        <a href="#notifyLogin"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>notifyLogin()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="289"
+                            class="link-to-prism">web-services/audit.web.service.ts:289</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>It sends an audit event to the Audit Service.</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;void&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>An Observable<void></p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="notifyLogout"></a>
                     <span class="name">
                         <span ><b>notifyLogout</b></span>
@@ -549,8 +597,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="271"
-                            class="link-to-prism">web-services/audit.web.service.ts:271</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="272"
+                            class="link-to-prism">web-services/audit.web.service.ts:272</a></div>
                 </td>
             </tr>
 
@@ -588,8 +636,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="161"
-                            class="link-to-prism">web-services/audit.web.service.ts:161</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="162"
+                            class="link-to-prism">web-services/audit.web.service.ts:162</a></div>
                 </td>
             </tr>
 
@@ -927,6 +975,7 @@ export const enum AuditEventType {
     Search_Exit_Logout &#x3D; &quot;Search_Exit_Logout&quot;,
     Search_Timeline_Usage &#x3D; &quot;Search_Timeline_Usage&quot;,
     Search_AutoComplete &#x3D; &quot;Search_Autocomplete&quot;,
+    Search_Login_Success &#x3D; &quot;Login_Success_Form&quot;,
 
     SavedQuery_Add &#x3D; &quot;SavedQuery_Add&quot;,
     SavedQuery_Delete &#x3D; &quot;SavedQuery_Delete&quot;,
@@ -1145,7 +1194,24 @@ export class AuditWebService extends HttpService {
 
         return this.notify(data);
     }
+    
+    /**
+     * It sends an audit event to the Audit Service.
+     * @returns An Observable&lt;void&gt;
+     */
+    notifyLogin() : Observable&lt;void&gt; {
+        const detail: JsonObject &#x3D; {
+            app: this.appName,
+        };
 
+        const data: AuditEvent &#x3D; {
+            type: AuditEventType.Search_Login_Success,
+            detail
+        };
+        
+        return this.notify(data)
+    }
+    
     /**
      * Notify the Sinequa server of a set of audit events
      *

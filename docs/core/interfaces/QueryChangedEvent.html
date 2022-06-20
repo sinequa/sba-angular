@@ -266,7 +266,6 @@ export interface QueryChangedEvent extends AppEvent {
  * A union of the different events that the {@link AppService} can generate
  */
 export type AppEvents &#x3D; QueryChangedEvent;
-
 /**
  * A service to manage the Sinequa SBA configuration
  */
@@ -571,9 +570,7 @@ export class AppService implements OnDestroy {
                 return response;
             }
         );
-        return observable.pipe(map((value) &#x3D;&gt; {
-            return this.app;
-        }));
+        return observable.pipe(map(_ &#x3D;&gt; this.app));
     }
 
     /**
@@ -834,6 +831,13 @@ export class AppService implements OnDestroy {
             console.warn(&#x60;AppService.setCCQuery - query &#x27;${name}&#x27; does not exist&#x60;);
             return false;
         }
+    }
+
+    /**
+     * @returns true if the current query web service supports Neural Search
+     */
+    isNeural() {
+      return !!this.ccquery?.isNeural;
     }
 
     /**
@@ -1164,7 +1168,14 @@ export class AppService implements OnDestroy {
     get adminUrl(): string {
         return this.updateUrlForCors(Utils.addUrl(this.startConfig.applicationPath!, &quot;admin&quot;));
     }
-}</code></pre>
+    /**
+     * Return the url to the sinequa help
+     */
+    helpUrl(path): string {
+        return this.updateUrlForCors(Utils.addUrl(this.startConfig.applicationPath!, path));
+    }
+}
+</code></pre>
     </div>
 </div>
 

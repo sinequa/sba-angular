@@ -291,6 +291,7 @@ import { TimelineLegendComponent } from &quot;./timeline-legend.component&quot;;
 import { BsFacetDate } from &quot;./facet-date&quot;;
 import { BsAdvancedModule } from &quot;@sinequa/components/advanced&quot;;
 import { BsFacetModule } from &quot;@sinequa/components/facet&quot;;
+import { CollapseModule } from &quot;@sinequa/components/collapse&quot;;
 
 @NgModule({
     imports: [
@@ -303,7 +304,8 @@ import { BsFacetModule } from &quot;@sinequa/components/facet&quot;;
         BsActionModule,
         BsHeatmapModule, // We need the heatmap module for the tooltip component
         BsAdvancedModule,
-        BsFacetModule
+        BsFacetModule,
+        CollapseModule,
     ],
     declarations: [
         BsTimelineComponent,

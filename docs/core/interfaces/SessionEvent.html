@@ -156,7 +156,7 @@ import {BehaviorSubject, Observable, forkJoin, of, throwError} from &quot;rxjs&q
 import {flatMap} from &quot;rxjs/operators&quot;;
 import {Utils, SqError, SqErrorCode} from &quot;@sinequa/core/base&quot;;
 import {START_CONFIG, StartConfig, CCApp, PrincipalWebService, Principal,
-    UserSettingsWebService, UserSettings} from &quot;@sinequa/core/web-services&quot;;
+    UserSettingsWebService, UserSettings, AuditWebService} from &quot;@sinequa/core/web-services&quot;;
 import {ModalService, ModalResult} from &quot;@sinequa/core/modal&quot;;
 import {NotificationsService} from &quot;@sinequa/core/notification&quot;;
 import {AppService} from &quot;@sinequa/core/app-utils&quot;;
@@ -226,7 +226,9 @@ export class LoginService implements OnDestroy {
         protected userSettingsService: UserSettingsWebService,
         protected modalService: ModalService,
         protected notificationsService: NotificationsService,
-        protected authenticationService: AuthenticationService) {
+        protected authenticationService: AuthenticationService,
+        protected auditService: AuditWebService
+    ) {
         // NB unload doesn&#x27;t fire reliably so we listen for beforeunload
         window.addEventListener(&quot;beforeunload&quot;, this.beforeUnloadEventListener);
     }
@@ -392,6 +394,8 @@ export class LoginService implements OnDestroy {
         Utils.subscribe(observable,
             (result) &#x3D;&gt; {
                 console.log(&quot;loginService.login ok: &quot;, result);
+                // send an audit event about login success
+                this.auditService.notifyLogin();
                 this.setComplete();
                 if (appNeeded) {
                     this._events.next({type: &quot;session-start&quot;});

@@ -260,7 +260,7 @@ import {Utils} from &quot;@sinequa/core/base&quot;;
 import {AppService, FormatService, Expr, ExprOperator, ExprBuilder} from &quot;@sinequa/core/app-utils&quot;;
 import {IntlService} from &quot;@sinequa/core/intl&quot;;
 import {CCColumn, Results, Aggregation} from &quot;@sinequa/core/web-services&quot;;
-import {Options, LabelType, ChangeContext} from &quot;ng5-slider&quot;;
+import {Options, LabelType, ChangeContext} from &quot;@angular-slider/ngx-slider&quot;;
 import moment from &quot;moment&quot;;
 import {FacetService} from &quot;../../facet.service&quot;;
 import {SearchService} from &quot;@sinequa/components/search&quot;;
@@ -268,6 +268,8 @@ import {UIService} from &quot;@sinequa/components/utils&quot;;
 import {AbstractFacet} from &quot;../../abstract-facet&quot;;
 import {AdvancedService} from &quot;@sinequa/components/advanced&quot;;
 import { Action } from &#x27;@sinequa/components/action&#x27;;
+import { FacetConfig } from &quot;../../facet-config&quot;;
+
 
 export enum RoundTarget {
     number,
@@ -290,11 +292,22 @@ export interface StepDef {
     active: boolean;
 }
 
+export interface FacetRangeParams {
+    aggregation: string;
+    min?: string;
+    max?: string;
+    stepDefs?: StepDef[];
+}
+
+export interface FacetRangeConfig extends FacetConfig&lt;FacetRangeParams&gt; {
+    type: &#x27;range&#x27;;
+}
+
 @Component({
     selector: &quot;sq-facet-range&quot;,
     templateUrl: &quot;./facet-range.html&quot;
 })
-export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewInit, OnDestroy {
+export class BsFacetRange extends AbstractFacet implements FacetRangeParams, OnChanges, AfterViewInit, OnDestroy {
     @Input() name: string; // If ommited, the aggregation name is used
     @Input() results: Results;
     @Input() aggregation: string;
@@ -806,7 +819,7 @@ export class BsFacetRange extends AbstractFacet implements OnChanges, AfterViewI
         this.searchService.search();
     }
 
-    get actions(): Action[] {
+    override get actions(): Action[] {
         const actions: Action[] &#x3D; [];
         if(this.rangeSelected){
             actions.push(this.applyFiltersAction);

@@ -97,12 +97,15 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#blur" >blur</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#inputChanged" >inputChanged</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#ngOnInit" >ngOnInit</a>
                             </li>
                         </ul>
@@ -283,7 +286,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+                        <i>Type : </i>        <code><a href="../interfaces/Event.html" target="_self" >EventEmitter</a></code>
 
                     </td>
                 </tr>
@@ -407,6 +410,7 @@
                 <td class="col-md-4">
                     <a name="blur"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>blur</b></span>
                         <a href="#blur"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -414,7 +418,8 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>blur(event: FocusEvent)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>blur(event: <a href="../interfaces/Event.html" target="_self">FocusEvent</a>)</code>
                 </td>
             </tr>
 
@@ -454,7 +459,7 @@
                                 <tr>
                                     <td>event</td>
                                     <td>
-                                            <code>FocusEvent</code>
+                                                <code><a href="../interfaces/Event.html" target="_self" >FocusEvent</a></code>
                                     </td>
 
                                     <td>
@@ -485,6 +490,7 @@
                 <td class="col-md-4">
                     <a name="inputChanged"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>inputChanged</b></span>
                         <a href="#inputChanged"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -492,7 +498,8 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>inputChanged(event: <a href="../interfaces/Event.html" target="_self">Event</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>inputChanged(event: <a href="../interfaces/Event.html" target="_self">Event</a>)</code>
                 </td>
             </tr>
 
@@ -563,6 +570,7 @@
                 <td class="col-md-4">
                     <a name="ngOnInit"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>ngOnInit</b></span>
                         <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -570,7 +578,8 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>ngOnInit()</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ngOnInit()</code>
                 </td>
             </tr>
 
@@ -632,14 +641,14 @@ export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
      * On initialization, we listen to the autocomplete component for
      * selection events
      */
-    ngOnInit() {
+    override ngOnInit() {
         this._dropdownSubscription &#x3D; this.dropdown.clicked.subscribe((item) &#x3D;&gt; {
             this.select(item, false); // An item was selected from the autocomplete &#x3D;&gt; take the value
         });
         this.start();
     }
 
-    protected getSuggests() {
+    protected override getSuggests() {
         const value &#x3D; this.getInputValue();
         if (value) {
             // If there is text, make a call to the suggest API
@@ -652,7 +661,7 @@ export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
         }
     }
 
-    protected processSuggests(obs: Observable&lt;AutocompleteItem[]&gt;){
+    protected override processSuggests(obs: Observable&lt;AutocompleteItem[]&gt;){
         obs.subscribe(
             suggests &#x3D;&gt; {
                 if(this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.ACTIVE || this.getState() &#x3D;&#x3D;&#x3D; AutocompleteState.OPENED){
@@ -682,7 +691,7 @@ export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
             });
     }
 
-    protected setAutocompleteItem(item: AutocompleteItem): boolean {
+    protected override setAutocompleteItem(item: AutocompleteItem): boolean {
         if(item) {
             this.setInputValue(item.display);
             this.UpdateItem.next({
@@ -697,7 +706,7 @@ export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
     /**
      * Listen to blur events on the &lt;input&gt; host and overrides the autocomplete blur events
      */
-    @HostListener(&quot;blur&quot;, [&quot;$event&quot;]) blur(event: FocusEvent) {
+    @HostListener(&quot;blur&quot;, [&quot;$event&quot;]) override blur(event: FocusEvent) {
         /** If there is text in the &lt;input/&gt; and not selected from the dropdown &#x3D;&#x3D;&gt; set the item manually */
         if (this.getState() !&#x3D;&#x3D; AutocompleteState.SELECTED) {
             if (!!this.getInputValue() &amp;&amp; this.getInputValue() !&#x3D;&#x3D; &quot;&quot;) {
@@ -718,7 +727,7 @@ export class BsAdvancedFormAutocomplete extends Autocomplete implements OnInit {
      * Overrides the parent inputChanged method, so that it is possible to reinitialize the autocomplete
      * @param event
      */
-    @HostListener(&quot;input&quot;, [&quot;$event&quot;]) inputChanged(event: Event) {
+    @HostListener(&quot;input&quot;, [&quot;$event&quot;]) override inputChanged(event: Event) {
         switch (this.getState()) {
             case AutocompleteState.OPENED:
                 this.suggest(); // Just request more data, but no state change

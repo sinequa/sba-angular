@@ -154,7 +154,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from &quot;@angular/forms&quot;
 import {Subscription} from &quot;rxjs&quot;;
 import {Utils} from &quot;@sinequa/core/base&quot;;
 import {IntlService} from &quot;@sinequa/core/intl&quot;;
-import {BsDaterangepickerDirective, BsDaterangepickerConfig, BsDatepickerDirective, BsDatepickerConfig} from &quot;ngx-bootstrap/datepicker&quot;;
+import {BsDaterangepickerConfig, BsDatepickerDirective, BsDatepickerConfig, BsDaterangepickerDirective} from &quot;ngx-bootstrap/datepicker&quot;;
 import moment from &quot;moment&quot;;
 import { DatePickerOptions } from &#x27;../date-picker/date-picker&#x27;;
 
@@ -165,7 +165,7 @@ export const DATE_RANGE_PICKER_VALUE_ACCESSOR: any &#x3D; {
 };
 
 export interface DateRangePickerOptions extends DatePickerOptions {
-    closedRange?: boolean;
+  closedRange?: boolean;
 }
 
 @Component({
@@ -176,13 +176,15 @@ export interface DateRangePickerOptions extends DatePickerOptions {
                 &lt;input type&#x3D;&quot;text&quot; autocomplete&#x3D;&quot;off&quot; class&#x3D;&quot;form-control&quot; bsDaterangepicker triggers&#x3D;&quot;click&quot; #fromTo&#x3D;&quot;bsDaterangepicker&quot; [bsConfig]&#x3D;&quot;bsFromToConfig()&quot; [ngModel]&#x3D;&quot;value&quot; (ngModelChange)&#x3D;&quot;updateFromTo($event)&quot; [placeholder]&#x3D;&quot;dateFormat&quot;/&gt;
             &lt;/div&gt;
         &lt;/div&gt;
-        &lt;div *ngIf&#x3D;&quot;!options.closedRange&quot; class&#x3D;&quot;d-flex align-items-center justify-content-between gap-2 sq-date-range-picker&quot;&gt;
-            &lt;div class&#x3D;&quot;flex-grow-1&quot;&gt;
-                &lt;input type&#x3D;&quot;text&quot; autocomplete&#x3D;&quot;off&quot; [id]&#x3D;&quot;fromName&quot; class&#x3D;&quot;form-control sq-range-from&quot; bsDatepicker triggers&#x3D;&quot;click&quot; #from&#x3D;&quot;bsDatepicker&quot; [bsConfig]&#x3D;&quot;bsFromConfig()&quot; [ngModel]&#x3D;&quot;value[0]&quot; (ngModelChange)&#x3D;&quot;updateFrom($event)&quot; [placeholder]&#x3D;&quot;dateFormat&quot;/&gt;
+        &lt;div *ngIf&#x3D;&quot;!options.closedRange&quot; class&#x3D;&quot;d-flex align-items-stretch justify-content-between gap-2 sq-date-range-picker&quot; [ngClass]&#x3D;&quot;{&#x27;flex-column&#x27;: display &#x3D;&#x3D;&#x3D; &#x27;column&#x27;}&quot;&gt;
+            &lt;div class&#x3D;&quot;flex-grow-1 d-flex align-items-center justify-content-between&quot;&gt;
+                &lt;div *ngIf&#x3D;&quot;displayLabel&quot; class&#x3D;&quot;text-muted {{display &#x3D;&#x3D;&#x3D; &#x27;column&#x27; ? &#x27;col-md-3 col-lg-3&#x27; : &#x27;me-2&#x27;}}&quot;&gt;{{&#x27;msg#advanced.dateRangePicker.from&#x27; | sqMessage}}&lt;/div&gt;
+                &lt;input type&#x3D;&quot;text&quot; autocomplete&#x3D;&quot;off&quot; [id]&#x3D;&quot;fromName&quot; class&#x3D;&quot;form-control form-control-{{size}} sq-range-from&quot; bsDatepicker triggers&#x3D;&quot;click&quot; #from&#x3D;&quot;bsDatepicker&quot; [bsConfig]&#x3D;&quot;bsFromConfig()&quot; [ngModel]&#x3D;&quot;value[0]&quot; (ngModelChange)&#x3D;&quot;updateFrom($event)&quot; [placeholder]&#x3D;&quot;dateFormat&quot;/&gt;
             &lt;/div&gt;
-            &lt;div class&#x3D;&quot;sq-separator&quot;&gt;{{&#x27;msg#advanced.dateRangePicker.separator&#x27; | sqMessage}}&lt;/div&gt;
-            &lt;div class&#x3D;&quot;flex-grow-1&quot;&gt;
-                &lt;input type&#x3D;&quot;text&quot; autocomplete&#x3D;&quot;off&quot; [id]&#x3D;&quot;toName&quot; class&#x3D;&quot;form-control sq-range-to&quot; bsDatepicker triggers&#x3D;&quot;click&quot; #to&#x3D;&quot;bsDatepicker&quot; [bsConfig]&#x3D;&quot;bsToConfig()&quot; [ngModel]&#x3D;&quot;value[1]&quot; (ngModelChange)&#x3D;&quot;updateTo($event)&quot; [placeholder]&#x3D;&quot;dateFormat&quot;/&gt;
+            &lt;div *ngIf&#x3D;&quot;displaySeparator&quot; class&#x3D;&quot;sq-separator&quot;&gt;{{&#x27;msg#advanced.dateRangePicker.separator&#x27; | sqMessage}}&lt;/div&gt;
+            &lt;div class&#x3D;&quot;flex-grow-1 d-flex align-items-center justify-content-between&quot;&gt;
+                &lt;div *ngIf&#x3D;&quot;displayLabel&quot; class&#x3D;&quot;text-muted {{display &#x3D;&#x3D;&#x3D; &#x27;column&#x27; ? &#x27;col-md-3 col-lg-3&#x27; : &#x27;me-2&#x27;}}&quot;&gt;{{&#x27;msg#advanced.dateRangePicker.to&#x27; | sqMessage}}&lt;/div&gt;
+                &lt;input type&#x3D;&quot;text&quot; autocomplete&#x3D;&quot;off&quot; [id]&#x3D;&quot;toName&quot; class&#x3D;&quot;form-control form-control-{{size}} sq-range-to&quot; bsDatepicker triggers&#x3D;&quot;click&quot; #to&#x3D;&quot;bsDatepicker&quot; [bsConfig]&#x3D;&quot;bsToConfig()&quot; [ngModel]&#x3D;&quot;value[1]&quot; (ngModelChange)&#x3D;&quot;updateTo($event)&quot; [placeholder]&#x3D;&quot;dateFormat&quot;/&gt;
             &lt;/div&gt;
         &lt;/div&gt;
     &#x60;,
@@ -193,12 +195,16 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
     private readonly SystemFormat: string &#x3D; &#x27;YYYY-MM-DD&#x27;;
 
     @Input() options: DateRangePickerOptions;
+    @Input() display: &#x27;row&#x27; | &#x27;column&#x27; &#x3D; &#x27;row&#x27;;
+    @Input() displaySeparator &#x3D; true;
+    @Input() displayLabel &#x3D; false;
+    @Input() size: &#x27;&#x27; | &#x27;sm&#x27; | &#x27;lg&#x27; &#x3D; &#x27;&#x27;;
     value: (Date | undefined)[];
     private onChangeCallback: (_: any) &#x3D;&gt; void &#x3D; () &#x3D;&gt; {};
     private localeChange: Subscription;
-    @ViewChild(&quot;fromTo&quot;, {static: false}) fromToPicker: BsDaterangepickerDirective;
-    @ViewChild(&quot;from&quot;, {static: false}) fromPicker: BsDatepickerDirective;
-    @ViewChild(&quot;to&quot;, {static: false}) toPicker: BsDatepickerDirective;
+    @ViewChild(&quot;fromTo&quot;, {static: false}) fromToPicker?: BsDaterangepickerDirective;
+    @ViewChild(&quot;from&quot;, {static: false}) fromPicker?: BsDatepickerDirective;
+    @ViewChild(&quot;to&quot;, {static: false}) toPicker?: BsDatepickerDirective;
     fromName: string;
     toName: string;
 
@@ -223,15 +229,15 @@ export class BsDateRangePicker implements OnInit, AfterViewInit, OnDestroy, Cont
     }
 
     setLocale() {
-        if (!!this.fromToPicker &amp;&amp; this.fromToPicker.isOpen) {
+        if (this.fromToPicker?.isOpen) {
             this.fromToPicker.hide();
             this.fromToPicker.show();
         }
-        if (!!this.fromPicker &amp;&amp; this.fromPicker.isOpen) {
+        if (this.fromPicker?.isOpen) {
             this.fromPicker.hide();
             this.fromPicker.show();
         }
-        if (!!this.toPicker &amp;&amp; this.toPicker.isOpen) {
+        if (this.toPicker?.isOpen) {
             this.toPicker.hide();
             this.toPicker.show();
         }

@@ -46,7 +46,7 @@
   <li>Interfaces</li>
   <li
   >
-  DwellTimeOptions</li>
+  FacetMySearchConfig</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -64,11 +64,17 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>machine-learning/dwell-time.directive.ts</code>
+            <code>facet/bootstrap/facet-mysearch/facet-mysearch.ts</code>
         </p>
 
 
 
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../interfaces/FacetConfig.html" target="_self" >FacetConfig</a></code>
+            </p>
 
         <section>
             <h3 id="index">Index</h3>
@@ -83,15 +89,9 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#actionType" 
+                                        <a href="#type" 
 >
-                                            actionType
-                                        </a>
-                                </li>
-                                <li>
-                                        <a href="#docId" 
->
-                                            docId
+                                            type
                                         </a>
                                 </li>
                             </ul>
@@ -109,9 +109,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="actionType"></a>
-                                        <span class="name "><b>actionType</b>
-                                            <a href="#actionType">
+                                        <a name="type"></a>
+                                        <span class="name "><b>type</b>
+                                            <a href="#type">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -119,51 +119,12 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>actionType:         <code><a href="../injectables/MlAuditService.html" target="_self" >MlAuditService.ActionType</a></code>
+                                        <code>type:     <code></code>
 </code>
                                     </td>
                                 </tr>
 
 
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../injectables/MlAuditService.html" target="_self" >MlAuditService.ActionType</a></code>
-
-                                        </td>
-                                    </tr>
-
-
-
-
-
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="docId"></a>
-                                        <span class="name "><b>docId</b>
-                                            <a href="#docId">
-                                                <span class="icon ion-ios-link"></span>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>docId:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                                        </td>
-                                    </tr>
 
 
 
@@ -176,63 +137,119 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Directive, Input, HostListener, OnInit, OnDestroy} from &quot;@angular/core&quot;;
-import {MlAuditService} from &quot;./ml-audit.service&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnChanges, SimpleChanges } from &quot;@angular/core&quot;;
+import { Results } from &quot;@sinequa/core/web-services&quot;;
+import { SearchService, BreadcrumbsItem } from &quot;@sinequa/components/search&quot;;
+import { AbstractFacet } from &quot;../../abstract-facet&quot;;
+import { Action } from &quot;@sinequa/components/action&quot;;
+import { FacetConfig } from &quot;../../facet-config&quot;;
 
-export interface DwellTimeOptions {
-    actionType: MlAuditService.ActionType;
-    docId: string;
+export interface FacetMySearchParams {
+    allowDeletion?: boolean;
+    displayFieldNames?: boolean;
+    collapsible?: boolean;
+    useBadges?: boolean;
+    ignoreText?: boolean;
+    excludedFacets?: (string | undefined)[];
 }
 
-@Directive({
-    selector: &quot;[sqDwellTime]&quot;
+export interface FacetMySearchConfig extends FacetConfig&lt;FacetMySearchParams&gt; {
+    type: &#x27;my-search&#x27;;
+}
+
+@Component({
+    selector: &quot;sq-facet-mysearch&quot;,
+    templateUrl: &quot;./facet-mysearch.html&quot;,
+    styleUrls: [&quot;./facet-mysearch.scss&quot;],
 })
-export class DwellTime implements OnInit, OnDestroy {
-    @Input(&quot;sqDwellTime&quot;) options: DwellTimeOptions;
-    action: MlAuditService.Action | undefined;
+export class BsMySearch extends AbstractFacet implements FacetMySearchParams, OnChanges {
+    @Input() results: Results;
+    /** Display icon to delete items */
+    @Input() allowDeletion: boolean &#x3D; true;
+    /** Display each item&#x27;s field */
+    @Input() displayFieldNames: boolean &#x3D; false;
+    /** Make the div collapsible */
+    @Input() collapsible: boolean &#x3D; false;
+    /** Add a badge likely style to items */
+    @Input() useBadges: boolean &#x3D; false;
+    /** Wether we Ignore text and fielded search */
+    @Input() ignoreText: boolean &#x3D; true;
+    /** Items of those facets will be excluded  */
+    @Input() excludedFacets: (string | undefined)[] &#x3D; [&quot;search-form&quot;];
 
-    constructor(
-        protected mlAuditService: MlAuditService) {
+    collapsed &#x3D; false;
+    clearAction: Action;
+    items: BreadcrumbsItem[] &#x3D; [];
+    fields: string[] &#x3D; [];
+
+    constructor(public searchService: SearchService) {
+        super();
+
+        this.clearAction &#x3D; new Action({
+            icon: &quot;far fa-minus-square&quot;,
+            title: &quot;msg#facet.filters.clear&quot;,
+            action: () &#x3D;&gt; this.clear(),
+        });
     }
 
-    ngOnInit() {
-        if (this.options.actionType &#x3D;&#x3D;&#x3D; &quot;preview&quot;) {
-            this.action &#x3D; this.mlAuditService.newAction(this.options.actionType, this.options.docId);
-            this.action.subType &#x3D; &quot;start&quot;;
-            this.mlAuditService.notifyEvent(this.action);
-            this.action.timestamp &#x3D; this.mlAuditService.newTimestamp();
+    ngOnChanges(changes: SimpleChanges) {
+        if (!!changes[&quot;results&quot;]) {
+            /** Initialize items based on input values */
+            this.items &#x3D; this.ignoreText
+                ? this.searchService.breadcrumbs?.items.filter(
+                        (item: BreadcrumbsItem) &#x3D;&gt;
+                            item.expr &amp;&amp; !(item.expr &amp;&amp; !item.expr.field &amp;&amp; !item.expr.isStructured) &amp;&amp; !this.excludedFacets.includes(item.facet)
+                    ) || []
+                : this.searchService.breadcrumbs?.items || [];
+
+            /** Retrieve the field name of each item */
+            this.fields &#x3D; [];
+            for (const item of this.items) {
+                this.fields.push(this.getField(item))
+            }
+
         }
     }
 
-    ngOnDestroy() {
-        if (this.options.actionType &#x3D;&#x3D;&#x3D; &quot;preview&quot;) {
-            if (this.action) {
-                this.mlAuditService.endAction(this.action);
-                this.action &#x3D; undefined;
+    protected getField(item: BreadcrumbsItem): string {
+        if (item.expr) {
+            if (item.expr.field) {
+                return item.expr.field;
+            } else {
+                if (!item.expr.isStructured) {
+                    return &quot;text&quot;;
+                } else {
+                    const fields &#x3D; item.expr.getFields();
+                    return fields.join(&quot;-&quot;);
+                }
             }
         }
+        return &quot;unknown&quot;;
     }
 
-    @HostListener(&quot;mouseenter&quot;, [&quot;$event&quot;])
-    onMouseEnter(event: MouseEvent) {
-        if (this.options.actionType &#x3D;&#x3D;&#x3D; &quot;over&quot;) {
-            this.action &#x3D; this.mlAuditService.newAction(this.options.actionType, this.options.docId);
-            this.action.timestamp &#x3D; this.mlAuditService.newTimestamp();
-        }
+    removeItem(item: BreadcrumbsItem) {
+        this.searchService.removeBreadcrumbsItem(item);
     }
 
-    @HostListener(&quot;mouseleave&quot;, [&quot;$event&quot;])
-    onMouseLeave(event: MouseEvent) {
-        if (this.options.actionType &#x3D;&#x3D;&#x3D; &quot;over&quot;) {
-            if (this.action) {
-                this.action.dwellTime &#x3D; this.mlAuditService.calcDwellTime(this.action);
-                this.action.timestamp &#x3D; undefined;
-                this.mlAuditService.notifyEvent(this.action);
-                this.action &#x3D; undefined;
-            }
+    get isEmpty() {
+        return this.items.length &#x3D;&#x3D;&#x3D; 0;
+    }
+
+    override get actions(): Action[] {
+        const actions: Action[] &#x3D; [];
+        if (!this.isEmpty &amp;&amp; this.allowDeletion) {
+            actions.push(this.clearAction);
+        }
+        return actions;
+    }
+
+    protected clear() {
+        for (const item of this.items) {
+            this.searchService.removeBreadcrumbsItem(item);
         }
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
 
@@ -268,7 +285,7 @@ export class DwellTime implements OnInit, OnDestroy {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
-            var COMPODOC_CURRENT_PAGE_URL = 'DwellTimeOptions.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'FacetMySearchConfig.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

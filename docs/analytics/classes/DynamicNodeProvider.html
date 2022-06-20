@@ -106,6 +106,7 @@ provider accordingly.</p>
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
+                                    <span class="modifier"></span>
                                 <a href="#name" >name</a>
                             </li>
                             <li>
@@ -148,18 +149,23 @@ provider accordingly.</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#getNodeActions" >getNodeActions</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#onNodeClicked" >onNodeClicked</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#getData" >getData</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#getProviderActions" >getProviderActions</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#onDatasetsMerged" >onDatasetsMerged</a>
                             </li>
                             <li>
@@ -298,6 +304,7 @@ provider accordingly.</p>
                     <a name="name"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
+                            <span class="modifier"></span>
                         <span ><b>name</b></span>
                         <a href="#name"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -560,6 +567,7 @@ provider accordingly.</p>
                 <td class="col-md-4">
                     <a name="getNodeActions"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>getNodeActions</b></span>
                         <a href="#getNodeActions"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -567,7 +575,8 @@ provider accordingly.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getNodeActions(node: <a href="../interfaces/RecordNode.html" target="_self">RecordNode</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getNodeActions(node: <a href="../interfaces/RecordNode.html" target="_self">RecordNode</a>)</code>
                 </td>
             </tr>
 
@@ -643,6 +652,7 @@ with a &quot;manual&quot; trigger.</p>
                 <td class="col-md-4">
                     <a name="onNodeClicked"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>onNodeClicked</b></span>
                         <a href="#onNodeClicked"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -650,7 +660,8 @@ with a &quot;manual&quot; trigger.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onNodeClicked(node?: <a href="../interfaces/RecordNode.html" target="_self">RecordNode</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onNodeClicked(node?: <a href="../interfaces/RecordNode.html" target="_self">RecordNode</a>)</code>
                 </td>
             </tr>
 
@@ -725,6 +736,7 @@ with a &quot;manual&quot; trigger.</p>
                 <td class="col-md-4">
                     <a name="getData"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>getData</b></span>
                         <a href="#getData"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -732,7 +744,8 @@ with a &quot;manual&quot; trigger.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getData(context: <a href="../interfaces/NetworkContext.html" target="_self">NetworkContext</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getData(context: <a href="../interfaces/NetworkContext.html" target="_self">NetworkContext</a>)</code>
                 </td>
             </tr>
 
@@ -800,6 +813,7 @@ with a &quot;manual&quot; trigger.</p>
                 <td class="col-md-4">
                     <a name="getProviderActions"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>getProviderActions</b></span>
                         <a href="#getProviderActions"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -807,7 +821,8 @@ with a &quot;manual&quot; trigger.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getProviderActions()</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getProviderActions()</code>
                 </td>
             </tr>
 
@@ -843,6 +858,7 @@ with a &quot;manual&quot; trigger.</p>
                 <td class="col-md-4">
                     <a name="onDatasetsMerged"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>onDatasetsMerged</b></span>
                         <a href="#onDatasetsMerged"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -850,7 +866,8 @@ with a &quot;manual&quot; trigger.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onDatasetsMerged(dataset: <a href="../classes/NetworkDataset.html" target="_self">NetworkDataset</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onDatasetsMerged(dataset: <a href="../classes/NetworkDataset.html" target="_self">NetworkDataset</a>)</code>
                 </td>
             </tr>
 
@@ -1293,9 +1310,9 @@ export class DynamicNodeProvider extends RecordsProvider {
     protected nodeCache &#x3D; new Map&lt;string, Record&gt;();
 
     constructor(
-        public name: string,
-        protected nodeType: DynamicNodeType,
-        protected edgeTypes: StructuralEdgeType[],
+        public override name: string,
+        protected override nodeType: DynamicNodeType,
+        protected override edgeTypes: StructuralEdgeType[],
         protected permanent: boolean,
         protected sourceProviders: NetworkProvider[]
     ){
@@ -1450,7 +1467,7 @@ export class DynamicNodeProvider extends RecordsProvider {
      * Process a clicked node, for dynamic node types with an &quot;onclick&quot; trigger
      * @param node The clicked node
      */
-    onNodeClicked(node?: RecordNode) {
+    override onNodeClicked(node?: RecordNode) {
         super.onNodeClicked(node);
         if(this.active &amp;&amp; this.nodeType.trigger &#x3D;&#x3D;&#x3D; &quot;onclick&quot; &amp;&amp; node &amp;&amp; node.type &#x3D;&#x3D;&#x3D; this.nodeType &amp;&amp; this.processedNodes.indexOf(node.id) &#x3D;&#x3D;&#x3D; -1) {
             this.processNode(node);
@@ -1462,7 +1479,7 @@ export class DynamicNodeProvider extends RecordsProvider {
      * with a &quot;manual&quot; trigger.
      * @param node The clicked node
      */
-    getNodeActions(node: RecordNode): Action[] {
+    override getNodeActions(node: RecordNode): Action[] {
         const actions &#x3D; super.getNodeActions(node);
         if(this.active &amp;&amp; this.nodeType.trigger &#x3D;&#x3D;&#x3D; &quot;manual&quot; &amp;&amp; node &amp;&amp; node.type &#x3D;&#x3D;&#x3D; this.nodeType &amp;&amp; this.processedNodes.indexOf(node.id) &#x3D;&#x3D;&#x3D; -1) {
             actions.unshift(new Action({

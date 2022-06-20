@@ -18,13 +18,13 @@
 <title>cluster_BsUserSettingsModule_declarations</title>
 <polygon fill="none" stroke="black" points="386,-40.8 386,-92.8 856,-92.8 856,-40.8 386,-40.8"/>
 </g>
-<g id="clust6" class="cluster">
-<title>cluster_BsUserSettingsModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 378,-92.8 378,-40.8 16,-40.8"/>
-</g>
 <g id="clust7" class="cluster">
 <title>cluster_BsUserSettingsModule_exports</title>
 <polygon fill="none" stroke="black" points="142,-170.8 142,-222.8 623,-222.8 623,-170.8 142,-170.8"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_BsUserSettingsModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 378,-92.8 378,-40.8 16,-40.8"/>
 </g>
 <!-- BsEditUserSettings -->
 <g id="node1" class="node">
