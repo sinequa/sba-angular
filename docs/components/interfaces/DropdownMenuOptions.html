@@ -278,10 +278,6 @@ export interface DropdownMenuOptions {
 
 @Component({
     selector: &quot;[sq-dropdown-menu]&quot;,
-    host: {
-        &quot;class&quot;: &quot;dropdown-menu&quot;,
-        &quot;role&quot;: &quot;menu&quot;
-    },
     templateUrl: &quot;./dropdown-menu.html&quot;,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -299,6 +295,8 @@ export class BsDropdownMenu implements OnInit {
         return this._options;
     }
     
+    @HostBinding(&quot;attr.role&quot;) role &#x3D; &quot;menu&quot;;
+    @HostBinding(&quot;class.dropdown-menu&quot;) dropdown &#x3D; true;
     @HostBinding(&quot;class.dropdown-menu-end&quot;) rightAligned;
 
     constructor(
@@ -326,26 +324,61 @@ export class BsDropdownMenu implements OnInit {
 
     click(item: Action, event: UIEvent) {
         if (!this.options.item.disabled) {
-            // Handle sub-menu opening
+            /**
+             * Nested dropdown structure
+             * -------------------------
+             *  ABC (1)
+             *    +--- 123
+             *    +--- 456
+             *  DEF
+             *  GHI
+             *  JKL (2)
+             *    +--- 789
+             *    +--- 321
+             * 
+             *
+             * &lt;ul dropdown-menu&gt;               // nested dropdown container
+             *   &lt;li dropdown-submenu&gt; (1)      // first nested menu
+             *      &lt;ul dropdown-menu&gt;
+             *         &lt;li&gt;...&lt;/i&gt;
+             *         &lt;li&gt;...&lt;/i&gt;
+             *      &lt;/ul&gt;
+             *   &lt;/li&gt;
+             *   &lt;li&gt;...&lt;/li&gt;
+             *   &lt;li&gt;...&lt;/li&gt;
+             *   &lt;li dropdown-submenu&gt; (2)      // second nested menu
+             *      &lt;ul dropdown-menu&gt;
+             *         &lt;li&gt;...&lt;/i&gt;
+             *         &lt;li&gt;...&lt;/i&gt;
+             *      &lt;/ul&gt;
+             *   &lt;/li&gt;
+             * &lt;ul&gt;
+             * 
+             */
+            
             let isOpen &#x3D; false;
             const li &#x3D; this.getLi(&lt;HTMLElement&gt;event.target);
             if (!!li &amp;&amp; li.classList.contains(&quot;dropdown-submenu&quot;)) {
                 event.preventDefault();
                 event.stopPropagation();
-                isOpen &#x3D; li.classList.contains(this.options.showMenuClass);
-                const ul &#x3D; li.parentElement;
-                if (ul) {
-                    for (let i &#x3D; 0, ic &#x3D; ul.children.length; i &lt; ic; i++) {
-                        const _li &#x3D; ul.children[i];
-                        _li.classList.remove(this.options.showMenuClass);
-                    }
+                
+                // get the current&#x27;s submenu status: &lt;ul class&#x3D;&#x27;... show&#x27;&gt; 
+                const ul &#x3D; li.getElementsByTagName(&quot;ul&quot;)[0];
+                if(ul !&#x3D;&#x3D; undefined) isOpen &#x3D; ul.classList.contains(this.options.showMenuClass);
+
+                // remove for each submenu the &#x27;show&#x27; class
+                if (li.parentElement) {
+                    const els &#x3D; li.parentElement.querySelectorAll(&#x27;li &gt; ul&#x27;);
+                    els.forEach(el &#x3D;&gt; el.classList.remove(this.options.showMenuClass));
                 }
-                // NB toggle&#x27;s second param does not work on IE
-                // li.classList.toggle(this.options.showMenuClass, !isOpen);
+                
                 if (!isOpen) {
-                    li.classList.add(this.options.showMenuClass);
+                    ul.classList.add(this.options.showMenuClass);
                 }
+            } else {
+                li?.parentElement?.classList.remove(this.options.showMenuClass);
             }
+            
             if (item.action) {
                 item.action(item, event);
             }

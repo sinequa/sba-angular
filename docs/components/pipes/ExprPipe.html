@@ -90,6 +90,7 @@
                 <td class="col-md-4">
                     <a name="updateValue"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>updateValue</b></span>
                         <a href="#updateValue"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -97,7 +98,8 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateValue(key: Expr | string, params: ExprMessageOptions)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateValue(key: Expr | string, params: ExprMessageOptions)</code>
                 </td>
             </tr>
 
@@ -184,7 +186,7 @@ export class ExprPipe extends AbstractIntlPipe {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(key: Expr | string, params: ExprMessageOptions): void {
+    override updateValue(key: Expr | string, params: ExprMessageOptions): void {
         super.updateValue(key, params);
         if (key instanceof Expr) {
             const message &#x3D; key.toMessage(params);

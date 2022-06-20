@@ -112,6 +112,7 @@
                                 <a href="#get" >get</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#makeUrl" >makeUrl</a>
                             </li>
                             <li>
@@ -422,6 +423,7 @@
                 <td class="col-md-4">
                     <a name="makeUrl"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>makeUrl</b></span>
                         <a href="#makeUrl"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -429,7 +431,8 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>makeUrl(api: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>makeUrl(api: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -810,7 +813,7 @@ export class JsonMethodPluginService extends HttpService{
     return observable;
   }
 
-  makeUrl(api: string): string {
+  override makeUrl(api: string): string {
     return super.makeUrl(&#x27;plugin/&#x27; + api);
   }
 }</code></pre>

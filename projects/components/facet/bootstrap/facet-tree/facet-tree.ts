@@ -37,10 +37,12 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
     @Input() showCount: boolean = true; // Show the number of occurrences
     @Input() allowExclude: boolean = true; // Allow to exclude selected items
     @Input() allowOr: boolean = true; // Allow to search various items in OR mode
+    @Input() allowAnd: boolean = false; // Allow to search various items in OR mode
     @Input() searchable: boolean = true; // Allow to search for items in the facet
     @Input() expandedLevel: number = 2;
     @Input() forceMaxHeight: boolean = true; // Allow to display a scrollbar automatically on long list items
     @Input() displayActions = false;
+    @Input() replaceCurrent = false; // if true, the previous "select" is removed first
 
     // Aggregation from the Results object
     data: TreeAggregation | undefined;
@@ -67,6 +69,7 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
     // Actions (displayed in facet menu)
     // All actions are built in the constructor
     private readonly filterItemsOr: Action;
+    private readonly filterItemsAnd: Action;
     private readonly excludeItems: Action;
     private readonly clearFilters: Action;
     public readonly searchItems: Action;
@@ -109,6 +112,17 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
                     }
                 }
             });
+
+            // Keep documents with ALL the selected items
+            this.filterItemsAnd = new Action({
+                icon: "fas fa-bullseye",
+                title: "msg#facet.filterItemsAnd",
+                action: () => {
+                    if (this.data) {
+                        this.facetService.addFilterSearch(this.getName(), this.data as Aggregation, this.getSelectedItems(), {and: true, replaceCurrent: this.replaceCurrent});
+                }
+            }
+        });
 
             // Exclude document with selected items
             this.excludeItems = new Action({
@@ -163,6 +177,7 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
         if (this.searchable === undefined) this.searchable = true;
         if (this.allowExclude === undefined) this.allowExclude = true;
         if (this.allowOr === undefined) this.allowOr = true;
+        if (this.allowAnd === undefined) this.allowAnd = false;
 
         if (changes.results || changes.aggregation) {     // New data from the search service
             this.filtered.clear();
@@ -200,6 +215,9 @@ export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnCha
         if(this.selected.size > 0) {
             if(this.allowOr){
                 actions.push(this.filterItemsOr);
+            }
+            if(this.allowAnd && (this.filtered.size + this.selected.size) > 1){
+                actions.push(this.filterItemsAnd);
             }
             if(this.allowExclude){
                 actions.push(this.excludeItems);

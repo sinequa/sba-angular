@@ -97,6 +97,7 @@ directly, but instead fetched from the server via a given Query object.</p>
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
+                                    <span class="modifier"></span>
                                 <a href="#name" >name</a>
                             </li>
                             <li>
@@ -139,6 +140,7 @@ directly, but instead fetched from the server via a given Query object.</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#getData" >getData</a>
                             </li>
                             <li>
@@ -146,15 +148,19 @@ directly, but instead fetched from the server via a given Query object.</p>
                                 <a href="#setQuery" >setQuery</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#getNodeActions" >getNodeActions</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#getProviderActions" >getProviderActions</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#onDatasetsMerged" >onDatasetsMerged</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#onNodeClicked" >onNodeClicked</a>
                             </li>
                             <li>
@@ -292,6 +298,7 @@ directly, but instead fetched from the server via a given Query object.</p>
                     <a name="name"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
+                            <span class="modifier"></span>
                         <span ><b>name</b></span>
                         <a href="#name"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -554,6 +561,7 @@ directly, but instead fetched from the server via a given Query object.</p>
                 <td class="col-md-4">
                     <a name="getData"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>getData</b></span>
                         <a href="#getData"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -561,7 +569,8 @@ directly, but instead fetched from the server via a given Query object.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getData(context: <a href="../interfaces/NetworkContext.html" target="_self">NetworkContext</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getData(context: <a href="../interfaces/NetworkContext.html" target="_self">NetworkContext</a>)</code>
                 </td>
             </tr>
 
@@ -710,6 +719,7 @@ It will be used on the next call to getData()</p>
                 <td class="col-md-4">
                     <a name="getNodeActions"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>getNodeActions</b></span>
                         <a href="#getNodeActions"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -717,7 +727,8 @@ It will be used on the next call to getData()</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getNodeActions(node: <a href="../interfaces/Node.html" target="_self">Node</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getNodeActions(node: <a href="../interfaces/Node.html" target="_self">Node</a>)</code>
                 </td>
             </tr>
 
@@ -791,6 +802,7 @@ state.</p>
                 <td class="col-md-4">
                     <a name="getProviderActions"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>getProviderActions</b></span>
                         <a href="#getProviderActions"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -798,7 +810,8 @@ state.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getProviderActions()</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getProviderActions()</code>
                 </td>
             </tr>
 
@@ -834,6 +847,7 @@ state.</p>
                 <td class="col-md-4">
                     <a name="onDatasetsMerged"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>onDatasetsMerged</b></span>
                         <a href="#onDatasetsMerged"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -841,7 +855,8 @@ state.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onDatasetsMerged(dataset: <a href="../classes/NetworkDataset.html" target="_self">NetworkDataset</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onDatasetsMerged(dataset: <a href="../classes/NetworkDataset.html" target="_self">NetworkDataset</a>)</code>
                 </td>
             </tr>
 
@@ -918,6 +933,7 @@ are collapsed.</p>
                 <td class="col-md-4">
                     <a name="onNodeClicked"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>onNodeClicked</b></span>
                         <a href="#onNodeClicked"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -925,7 +941,8 @@ are collapsed.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onNodeClicked(node?: <a href="../interfaces/Node.html" target="_self">Node</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onNodeClicked(node?: <a href="../interfaces/Node.html" target="_self">Node</a>)</code>
                 </td>
             </tr>
 
@@ -1339,11 +1356,11 @@ import { RecordsProvider, StructuralEdgeType } from &#x27;./records-provider&#x2
 export class AsyncRecordsProvider extends RecordsProvider {
 
     constructor(
-        public name: string,
-        protected nodeType: NodeType,
-        protected edgeTypes: StructuralEdgeType[],
+        public override name: string,
+        protected override nodeType: NodeType,
+        protected override edgeTypes: StructuralEdgeType[],
         protected query: Query,
-        protected hideRecordNode &#x3D; false
+        protected override hideRecordNode &#x3D; false
     ){
         super(name, nodeType, edgeTypes, [], hideRecordNode);
     }
@@ -1364,7 +1381,7 @@ export class AsyncRecordsProvider extends RecordsProvider {
     /**
      * Updates the dataset after an asynchronous call to retrieve the records.
      */
-    getData(context: NetworkContext) {
+    override getData(context: NetworkContext) {
         this.context &#x3D; context;
         // Query mode
         this.context.searchService.getResults(this.query, undefined, {searchInactive: true})

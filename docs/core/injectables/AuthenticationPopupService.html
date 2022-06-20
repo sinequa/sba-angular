@@ -99,6 +99,7 @@ redirect url outside of the popup</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#open" >open</a>
                             </li>
                         </ul>
@@ -185,6 +186,7 @@ redirect url outside of the popup</p>
                 <td class="col-md-4">
                     <a name="open"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>open</b></span>
                         <a href="#open"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -192,7 +194,8 @@ redirect url outside of the popup</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>open(url: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, options: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, cordova: boolean | undefined)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>open(url: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, options: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, cordova: boolean | undefined)</code>
                 </td>
             </tr>
 
@@ -307,7 +310,7 @@ export class AuthenticationPopupService extends PopupService {
         super();
     }
 
-    open(url: string, options: any/*IOauth2Options | IOauth1Options*/, cordova: boolean | undefined): Observable&lt;Window&gt; {
+    override open(url: string, options: any/*IOauth2Options | IOauth1Options*/, cordova: boolean | undefined): Observable&lt;Window&gt; {
         if (Utils.startsWith(url, this.startConfig.apiPath!)) {
             return this.httpClient.get&lt;{redirectUrl: string}&gt;(url, {
                 params: Utils.makeHttpParams({

@@ -158,7 +158,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>type:         <code><a href="../miscellaneous/typealiases.html#EventType" target="_self" >FacetEventType</a></code>
+                                        <code>type:         <code><a href="../interfaces/Event.html" target="_self" >FacetEventType</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -166,7 +166,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#EventType" target="_self" >FacetEventType</a></code>
+                                            <i>Type : </i>        <code><a href="../interfaces/Event.html" target="_self" >FacetEventType</a></code>
 
                                         </td>
                                     </tr>
@@ -194,14 +194,13 @@ import {Subject, Observable} from &quot;rxjs&quot;;
 import {map} from &quot;rxjs/operators&quot;;
 import {SearchService, BreadcrumbsItem, Breadcrumbs} from &quot;@sinequa/components/search&quot;;
 import {SuggestService} from &quot;@sinequa/components/autocomplete&quot;;
+import { FacetConfig } from &quot;./facet-config&quot;;
+import { Action } from &quot;@sinequa/components/action&quot;;
 
 // Facet interface (from models/UserSettings)
 export interface FacetState {
     name: string;
     position: number; // eg 0 &#x3D; left, 1 &#x3D; right
-    expanded: boolean;
-    hidden: boolean;
-    view: string;
 }
 
 /**
@@ -225,6 +224,7 @@ export const enum FacetEventType {
     AddAll &#x3D; &quot;Facets_Added&quot;,
     Remove &#x3D; &quot;Facet_Removed&quot;,
     RemoveAll &#x3D; &quot;Facets_Removed&quot;,
+    SetDefaults &#x3D; &quot;Facets_SetDefaults&quot;,
 
     Patched &#x3D; &quot;Facet_Patched&quot;,
     ClearFilters &#x3D; &quot;Facet_ClearFilters&quot;,
@@ -237,7 +237,10 @@ export const enum FacetEventType {
 export const FACET_CHANGE_EVENTS &#x3D; [
     FacetEventType.Loaded,
     FacetEventType.Add,
-    FacetEventType.Remove
+    FacetEventType.AddAll,
+    FacetEventType.Remove,
+    FacetEventType.RemoveAll,
+    FacetEventType.SetDefaults
 ];
 
 
@@ -247,7 +250,7 @@ export interface FacetChangeEvent {
     facet?: FacetState;
 }
 
-export const ALL_FACETS &#x3D; new InjectionToken&lt;any[]&gt;(&#x27;ALL_FACETS&#x27;);
+export const ALL_FACETS &#x3D; new InjectionToken&lt;FacetConfig&lt;any&gt;[]&gt;(&#x27;ALL_FACETS&#x27;);
 export const DEFAULT_FACETS &#x3D; new InjectionToken&lt;FacetState[]&gt;(&#x27;DEFAULT_FACETS&#x27;);
 
 @Injectable({
@@ -266,7 +269,7 @@ export class FacetService {
         protected intlService: IntlService,
         protected formatService: FormatService,
         protected exprBuilder: ExprBuilder,
-        @Optional() @Inject(ALL_FACETS) public allFacets: any[],
+        @Optional() @Inject(ALL_FACETS) public allFacets: FacetConfig&lt;{}&gt;[],
         @Optional() @Inject(DEFAULT_FACETS) public defaultFacets: FacetState[]){
 
         // Listen to the user settings
@@ -316,12 +319,17 @@ export class FacetService {
      * Returns the list of facet config in the given container (position)
      * @param position (default to 0 if there is a single container)
      */
-    public getFacets(position: number &#x3D; 0) : any[] {
+    public getFacets(position: number &#x3D; 0, results: Results) : FacetConfig&lt;{}&gt;[] {
         if (!this.allFacets) {
             return [];
         }
         return this.facets.filter(f &#x3D;&gt; f.position &#x3D;&#x3D;&#x3D; position)
-            .map(f &#x3D;&gt; this.allFacets.find(_f &#x3D;&gt; _f.name &#x3D;&#x3D;&#x3D; f.name));
+            .map(f &#x3D;&gt; this.allFacets.find(_f &#x3D;&gt; _f.name &#x3D;&#x3D;&#x3D; f.name)!)
+            .filter(f &#x3D;&gt; f &amp;&amp; this.isFacetIncluded(f, results));
+    }
+
+    public isFacetIncluded(facet: FacetConfig&lt;{}&gt;, results: Results): boolean {
+      return !(facet.includedTabs &amp;&amp; !facet.includedTabs.includes(results.tab)) &amp;&amp; !facet.excludedTabs?.includes(results.tab)
     }
 
     /**
@@ -360,44 +368,99 @@ export class FacetService {
 
     public addFacet(facet: FacetState){
         this.facets.push(facet);
-        this.events.next({type : FacetEventType.Add, facet: facet});
-        this.patchFacets([{
-            type: FacetEventType.Add,
-            detail: {
-                facet: facet.name
-            }
-        }]);
+        this.updateFacets(FacetEventType.Add, facet);
     }
 
     public removeFacet(facet: FacetState){
         const i &#x3D; this.facetIndex(facet.name);
         if(i !&#x3D;&#x3D; -1){
             this.facets.splice(i,1);
-            this.events.next({type : FacetEventType.Remove, facet: facet});
-            this.patchFacets([{
-                type: FacetEventType.Remove,
-                detail: {
-                    facet: facet.name
-                }
-            }]);
+            this.updateFacets(FacetEventType.Remove, facet);
         }
     }
 
-    public addAllFacet() {
-        this.facets.splice(0,this.facets.length);
+    public setDefaultFacets() {
+        this.facets.splice(0);
         if(!!this.defaultFacets) this.facets.push(...this.defaultFacets);
-        this.events.next({type : FacetEventType.AddAll});
-        this.patchFacets([{
-            type: FacetEventType.AddAll
-        }]);
+        this.updateFacets(FacetEventType.SetDefaults);
     }
 
-    public removeAllFacet() {
-        this.facets.splice(0,this.facets.length);
-        this.events.next({type : FacetEventType.RemoveAll});
-        this.patchFacets([{
-            type: FacetEventType.RemoveAll
-        }]);
+    public addAllFacets() {
+        this.facets.splice(0);
+        if(!!this.allFacets) this.allFacets.forEach(f &#x3D;&gt; this.facets.push({name: f.name, position: 0}));
+        this.updateFacets(FacetEventType.AddAll);
+    }
+
+    public removeAllFacets() {
+        this.facets.splice(0);
+        this.updateFacets(FacetEventType.RemoveAll);
+    }
+
+    public updateFacets(type: FacetEventType, facet?: FacetState) {
+        this.events.next({type, facet});
+        const detail &#x3D; facet? { facet: facet?.name } : undefined
+        this.patchFacets([{type, detail}]);
+    }
+
+    public createFacetMenu(): Action {
+
+        const outFacets: Action[] &#x3D; [];
+
+        outFacets.push(new Action({
+            name: &#x60;set_defaults&#x60;,
+            text: &quot;msg#facet.filters.setDefaults&quot;,
+            title: &quot;msg#facet.filters.setDefaults&quot;,
+            action: () &#x3D;&gt; {
+                this.setDefaultFacets();
+            }
+        }));
+
+        outFacets.push(new Action({
+            name: &#x60;add_all&#x60;,
+            text: &quot;msg#facet.filters.addAll&quot;,
+            title: &quot;msg#facet.filters.addAll&quot;,
+            action: () &#x3D;&gt; {
+                this.addAllFacets();
+            }
+        }));
+
+        outFacets.push(new Action({
+            name: &#x60;remove_all&#x60;,
+            text: &quot;msg#facet.filters.removeAll&quot;,
+            title: &quot;msg#facet.filters.removeAll&quot;,
+            action: () &#x3D;&gt; {
+                this.removeAllFacets();
+            }
+        }));
+
+        outFacets.push(new Action({separator: true}));
+
+        for (const facet of this.allFacets) {
+            outFacets.push(new Action({
+                name: &#x60;add_remove_${facet.name}&#x60;,
+                text: facet.title,
+                icon: facet.icon,
+                selected: !!this.facets?.find(userFacet &#x3D;&gt; userFacet.name &#x3D;&#x3D;&#x3D; facet.name),
+                title: !!this.facets?.find(userFacet &#x3D;&gt; userFacet.name &#x3D;&#x3D;&#x3D; facet.name) ? &quot;msg#facet.filters.add&quot; : &quot;msg#facet.filters.remove&quot;,
+                action: () &#x3D;&gt; {
+                    const fs &#x3D; this.facets?.find(userFacet &#x3D;&gt; userFacet.name &#x3D;&#x3D;&#x3D; facet.name);
+                    if (fs) {
+                      this.removeFacet(fs);
+                    }
+                    else {
+                      this.addFacet({name: facet.name, position: 0});
+                    }
+                }
+            }));
+        }
+
+        return new Action({
+            name: &quot;facets_config&quot;,
+            icon: &quot;fas fa-cog&quot;,
+            title: &quot;msg#facet.filters.customizeFacets&quot;,
+            scrollable: true,
+            children: outFacets
+        });
     }
 
     /**
@@ -474,7 +537,7 @@ export class FacetService {
         // otherwise, we try to append new filter to previous &quot;select&quot;
         if (options.replaceCurrent) {
             query.removeSelect(facetName);
-        } else if (breadcrumbs?.activeSelects.length &amp;&amp; !options.forceAdd) {
+        } else if (!aggregation.isTree &amp;&amp; breadcrumbs?.activeSelects.length &amp;&amp; !options.forceAdd) {
             // here, we try to add a filter to the previous selection
 
             const existingExpr &#x3D; breadcrumbs.findSelect(facetName);
@@ -663,6 +726,12 @@ export class FacetService {
                 const data &#x3D; results.aggregations.find(a &#x3D;&gt; Utils.eqNC(a.name, aggregation));
                 if (data) {
                     this.setColumn(data);   // Useful for formatting and i18n
+                    const max &#x3D; this.appService.getCCAggregation(data.name)?.count || 10;
+                    if (data.items) {
+                        if (!data.isDistribution &amp;&amp; data.items?.length &gt; max) {
+                            data.items &#x3D; data.items.slice(0, count);
+                        }
+                    }
                 }
                 return data;
             })
@@ -727,6 +796,18 @@ export class FacetService {
             const aggregation &#x3D; results.aggregations.find(agg &#x3D;&gt; Utils.eqNC(agg.name, aggregationName))
             if (aggregation) {
                 this.setColumn(aggregation);    // Useful for formatting and i18n
+                this.convertNullValueToString(aggregation);
+
+                // adjust aggregation&#x27;s items length except for treepath aggregation
+                if (!aggregation.isTree &amp;&amp; aggregation.items) {
+                    // set aggregation&#x27;s count
+                    const max &#x3D; this.getAggregationCount(aggregationName);
+                    const count &#x3D; max &lt; 0 ? aggregation.items.length : max;
+                    if (!aggregation.isDistribution &amp;&amp; aggregation.items.length &gt; count) {
+                        aggregation.items &#x3D; aggregation.items?.slice(0, count);
+                    }
+                }
+
                 if (aggregation.isTree &amp;&amp; treeAggregationOptions) {
                     const expr &#x3D; this.findFilter(treeAggregationOptions.facetName);
                     const expandPaths &#x3D; expr ? expr.getValues(aggregation.column) : [];
@@ -769,11 +850,12 @@ export class FacetService {
     }
 
     /**
-     * Returns the count parameter of the given aggregation (default is 10)
+     * Returns the count parameter of the given aggregation (default is -1 &#x3D;&#x3D;&#x3D; return all items)
      * @param aggregationName
      */
     getAggregationCount(aggregationName: string) : number {
-        return this.appService.getCCAggregation(aggregationName)?.count || 10;
+        const cc &#x3D; this.appService.getCCAggregation(aggregationName);
+        return cc ? (!!cc.count ? cc.count : 10) : -1;
     }
 
     /**
@@ -939,6 +1021,17 @@ export class FacetService {
         }
     }
 
+    protected convertNullValueToString(aggregation: Aggregation) {
+        if(!aggregation.isTree &amp;&amp; !aggregation.valuesAreExpressions &amp;&amp; aggregation.items){
+            aggregation.items.forEach((item: AggregationItem) &#x3D;&gt; {
+                // convert null value without display property to string
+                if (item.value &#x3D;&#x3D;&#x3D; null &amp;&amp; !item.display) {
+                    item.value &#x3D; String(item.value);
+                }
+            });
+        }
+    }
+
 
 
     // static methods
@@ -1016,7 +1109,7 @@ export class FacetService {
                     return ({count: 0, value, display: item.display, $column: item.column, $path: path, $excluded: (item?.not || item?.parent?.not)} as TreeAggregationNode);
                 }
                 if (item.column?.eType &#x3D;&#x3D;&#x3D; EngineType.integer) {
-                    value &#x3D; parseInt(item.value as string, 10);
+                    value &#x3D; Number(item.value as string) || String(value);
                 }
                 return ({count: 0, value, display: item.display, $column: item.column, $excluded: (item?.not || item?.parent?.not)} as AggregationItem);
             },

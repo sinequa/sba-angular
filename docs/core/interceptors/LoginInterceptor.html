@@ -224,8 +224,8 @@ the Sinequa administration console.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="127"
-                            class="link-to-prism">login/login.interceptor.ts:127</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">login/login.interceptor.ts:128</a></div>
                 </td>
             </tr>
 
@@ -343,7 +343,8 @@ export class LoginInterceptor implements HttpInterceptor {
         @Optional() @Inject(HTTP_REQUEST_INITIALIZERS) private requestInitializers: HttpRequestInitializer[],
         private notificationsService: NotificationsService,
         private loginService: LoginService,
-        private authService: AuthenticationService) {}
+        private authService: AuthenticationService
+    ) {}
 
     private processRequestInitializers(request: HttpRequest&lt;any&gt;) {
         if (this.requestInitializers) {
@@ -481,10 +482,8 @@ export class LoginInterceptor implements HttpInterceptor {
             catchError((error, caught) &#x3D;&gt; {
                 this.notificationsService.leave(&quot;network&quot;);
                 if (error instanceof HttpErrorResponse) {
-                    switch (error.status) {
-                        case 401: {
-                            return this.handle401Error(error, _request, next, options, caught);
-                        }
+                    if (error.status &#x3D;&#x3D;&#x3D; 401) {
+                        return this.handle401Error(error, _request, next, options, caught);
                     }
                 }
                 if (!noNotify) {
@@ -504,25 +503,22 @@ export class LoginInterceptor implements HttpInterceptor {
 
     private handle401Error(err: HttpErrorResponse, req: HttpRequest&lt;any&gt;, next: HttpHandler, options: Options, caught: Observable&lt;HttpEvent&lt;any&gt;&gt;): Observable&lt;HttpEvent&lt;any&gt;&gt; {
         if (!options.noAutoAuthentication) {
-            if (options.userOverrideActive) {
-                if (this.authService.userOverrideActive) {
-                    this.authService.deactivateUserOverride();
-                    this.authService.userOverrideFailed &#x3D; true;
-                    this.notificationsService.error(&quot;msg#error.userOverrideFailure&quot;);
-                }
-                return throwError(err);
+          if (options.userOverrideActive) {
+            if (this.authService.userOverrideActive) {
+              this.authService.deactivateUserOverride();
+              this.authService.userOverrideFailed &#x3D; true;
+              this.notificationsService.error(&quot;msg#error.userOverrideFailure&quot;);
             }
+            return throwError(err);
+          }
 
-            return from(this.getCredentials(err, !options.hadCredentials))
-                .pipe(
-                    switchMap(value &#x3D;&gt; {
-                        const {headers} &#x3D; this.authService.addAuthentication(req);
-                        return next.handle(req.clone({headers}));
-                    }),
-                    catchError(err &#x3D;&gt; 
-                        // in case of an Http error, &#x27;caught&#x27; must be returned to be catched by the interceptor
-                        err instanceof HttpErrorResponse ? caught : throwError(err)
-                    ));
+          return from(this.getCredentials(err, !options.hadCredentials)).pipe(
+            switchMap(_ &#x3D;&gt; {
+              const { headers } &#x3D; this.authService.addAuthentication(req);
+              return next.handle(req.clone({ headers }));
+            }),
+            catchError((error) &#x3D;&gt; throwError(error))
+          );
         }
 
         return throwError(err);

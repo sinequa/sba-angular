@@ -18,13 +18,13 @@
 <title>cluster_BsResultsViewModule_declarations</title>
 <polygon fill="none" stroke="black" points="401,-40.8 401,-92.8 711,-92.8 711,-40.8 401,-40.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_BsResultsViewModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 393,-92.8 393,-40.8 16,-40.8"/>
-</g>
 <g id="clust6" class="cluster">
 <title>cluster_BsResultsViewModule_exports</title>
 <polygon fill="none" stroke="black" points="165,-170.8 165,-222.8 483,-222.8 483,-170.8 165,-170.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_BsResultsViewModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 393,-92.8 393,-40.8 16,-40.8"/>
 </g>
 <!-- BsResultsGridView -->
 <g id="node1" class="node">

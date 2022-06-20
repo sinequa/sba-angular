@@ -228,6 +228,7 @@
                                 <a href="#ngOnDestroy" >ngOnDestroy</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#onOpenSettings" >onOpenSettings</a>
                             </li>
                             <li>
@@ -806,6 +807,7 @@ and the NetworkService can be used.</p>
                 <td class="col-md-4">
                     <a name="onOpenSettings"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>onOpenSettings</b></span>
                         <a href="#onOpenSettings"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -813,7 +815,8 @@ and the NetworkService can be used.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onOpenSettings(opened: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>onOpenSettings(opened: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
@@ -2085,7 +2088,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
         this.updateActions();
     }
 
-    get actions(): Action[] {
+    override get actions(): Action[] {
         return this._actions;
     }
 
@@ -2256,7 +2259,7 @@ export class NetworkComponent extends AbstractFacet implements OnChanges, OnDest
      * panel is opened or closed
      * @param opened whether settings are opened or closed
      */
-    onOpenSettings(opened: boolean){
+    override onOpenSettings(opened: boolean){
         if(opened) {
             const springLengthControl &#x3D; new FormControl(this.springLengthPref);
             const springConstantControl &#x3D; new FormControl(this.springConstantPref);

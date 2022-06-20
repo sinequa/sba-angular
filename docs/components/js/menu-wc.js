@@ -250,13 +250,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/BsFacetModule.html" data-type="entity-link" >BsFacetModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-BsFacetModule-57f7ef1315635dfd94b9f6cd3296b13448f912e7b10e1bb7e57f9b351ebae159addfd497c0b36ec71b828312e0876bf3f9ab8ff3c37728dd7d0ddc30b2af6bfa"' : 'data-target="#xs-components-links-module-BsFacetModule-57f7ef1315635dfd94b9f6cd3296b13448f912e7b10e1bb7e57f9b351ebae159addfd497c0b36ec71b828312e0876bf3f9ab8ff3c37728dd7d0ddc30b2af6bfa"' }>
+                                            'data-target="#components-links-module-BsFacetModule-da13923a63d56dc8776234d98ffebfb713e57ffa1a2eb717a8f8d6aa085b5b77f42216cc004a542a1c98486fc872a5f84a0b32426b8fbe89839d035dae603bed"' : 'data-target="#xs-components-links-module-BsFacetModule-da13923a63d56dc8776234d98ffebfb713e57ffa1a2eb717a8f8d6aa085b5b77f42216cc004a542a1c98486fc872a5f84a0b32426b8fbe89839d035dae603bed"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsFacetModule-57f7ef1315635dfd94b9f6cd3296b13448f912e7b10e1bb7e57f9b351ebae159addfd497c0b36ec71b828312e0876bf3f9ab8ff3c37728dd7d0ddc30b2af6bfa"' :
-                                            'id="xs-components-links-module-BsFacetModule-57f7ef1315635dfd94b9f6cd3296b13448f912e7b10e1bb7e57f9b351ebae159addfd497c0b36ec71b828312e0876bf3f9ab8ff3c37728dd7d0ddc30b2af6bfa"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-BsFacetModule-da13923a63d56dc8776234d98ffebfb713e57ffa1a2eb717a8f8d6aa085b5b77f42216cc004a542a1c98486fc872a5f84a0b32426b8fbe89839d035dae603bed"' :
+                                            'id="xs-components-links-module-BsFacetModule-da13923a63d56dc8776234d98ffebfb713e57ffa1a2eb717a8f8d6aa085b5b77f42216cc004a542a1c98486fc872a5f84a0b32426b8fbe89839d035dae603bed"' }>
                                             <li class="link">
                                                 <a href="components/BsFacetBar.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >BsFacetBar</a>
                                             </li>
@@ -794,20 +794,23 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="modules/MLModule.html" data-type="entity-link" >MLModule</a>
-                                <li class="chapter inner">
-                                    <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                        'data-target="#directives-links-module-MLModule-8b7dadb23da1e72a84610397bc8a0cb9ae7470ab24526cd43c83e7cd8ed5595f1466c5f8a19e02c1c30dd3e14d2bea0b568f7dcaff22e3ae40653e9d2250669c"' : 'data-target="#xs-directives-links-module-MLModule-8b7dadb23da1e72a84610397bc8a0cb9ae7470ab24526cd43c83e7cd8ed5595f1466c5f8a19e02c1c30dd3e14d2bea0b568f7dcaff22e3ae40653e9d2250669c"' }>
-                                        <span class="icon ion-md-code-working"></span>
-                                        <span>Directives</span>
-                                        <span class="icon ion-ios-arrow-down"></span>
-                                    </div>
-                                    <ul class="links collapse" ${ isNormalMode ? 'id="directives-links-module-MLModule-8b7dadb23da1e72a84610397bc8a0cb9ae7470ab24526cd43c83e7cd8ed5595f1466c5f8a19e02c1c30dd3e14d2bea0b568f7dcaff22e3ae40653e9d2250669c"' :
-                                        'id="xs-directives-links-module-MLModule-8b7dadb23da1e72a84610397bc8a0cb9ae7470ab24526cd43c83e7cd8ed5595f1466c5f8a19e02c1c30dd3e14d2bea0b568f7dcaff22e3ae40653e9d2250669c"' }>
-                                        <li class="link">
-                                            <a href="directives/DwellTime.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >DwellTime</a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                    <li class="chapter inner">
+                                        <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
+                                            'data-target="#components-links-module-MLModule-a9cf33d74183f7b47000b4dac8c460694545453c22afed0b7754bf934d07b9faa6fca83fd9f3afc61d344499fe3bf3405f56bb0096ed613c0c7d83ca75cd293e"' : 'data-target="#xs-components-links-module-MLModule-a9cf33d74183f7b47000b4dac8c460694545453c22afed0b7754bf934d07b9faa6fca83fd9f3afc61d344499fe3bf3405f56bb0096ed613c0c7d83ca75cd293e"' }>
+                                            <span class="icon ion-md-cog"></span>
+                                            <span>Components</span>
+                                            <span class="icon ion-ios-arrow-down"></span>
+                                        </div>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-MLModule-a9cf33d74183f7b47000b4dac8c460694545453c22afed0b7754bf934d07b9faa6fca83fd9f3afc61d344499fe3bf3405f56bb0096ed613c0c7d83ca75cd293e"' :
+                                            'id="xs-components-links-module-MLModule-a9cf33d74183f7b47000b4dac8c460694545453c22afed0b7754bf934d07b9faa6fca83fd9f3afc61d344499fe3bf3405f56bb0096ed613c0c7d83ca75cd293e"' }>
+                                            <li class="link">
+                                                <a href="components/AnswerCardComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AnswerCardComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/PassageListComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >PassageListComponent</a>
+                                            </li>
+                                        </ul>
+                                    </li>
                             </li>
                             <li class="link">
                                 <a href="modules/PreviewModule.html" data-type="entity-link" >PreviewModule</a>
@@ -1074,9 +1077,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <a href="injectables/LabelsService.html" data-type="entity-link" >LabelsService</a>
                                 </li>
                                 <li class="link">
-                                    <a href="injectables/MlAuditService.html" data-type="entity-link" >MlAuditService</a>
-                                </li>
-                                <li class="link">
                                     <a href="injectables/PreviewService.html" data-type="entity-link" >PreviewService</a>
                                 </li>
                                 <li class="link">
@@ -1126,13 +1126,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/Action.html" data-type="entity-link" >Action</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/Action-1.html" data-type="entity-link" >Action</a>
-                            </li>
-                            <li class="link">
                                 <a href="interfaces/ActionButtonsOptions.html" data-type="entity-link" >ActionButtonsOptions</a>
-                            </li>
-                            <li class="link">
-                                <a href="interfaces/ActionInitializer.html" data-type="entity-link" >ActionInitializer</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/ActionItemOptions.html" data-type="entity-link" >ActionItemOptions</a>
@@ -1234,9 +1228,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/DropdownToggleEvent.html" data-type="entity-link" >DropdownToggleEvent</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/DwellTimeOptions.html" data-type="entity-link" >DwellTimeOptions</a>
-                            </li>
-                            <li class="link">
                                 <a href="interfaces/Entry.html" data-type="entity-link" >Entry</a>
                             </li>
                             <li class="link">
@@ -1244,9 +1235,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/Event.html" data-type="entity-link" >Event</a>
-                            </li>
-                            <li class="link">
-                                <a href="interfaces/Event-1.html" data-type="entity-link" >Event</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/ExportQueryModel.html" data-type="entity-link" >ExportQueryModel</a>
@@ -1258,7 +1246,49 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/FacetConfig.html" data-type="entity-link" >FacetConfig</a>
                             </li>
                             <li class="link">
+                                <a href="interfaces/FacetFiltersConfig.html" data-type="entity-link" >FacetFiltersConfig</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/FacetListConfig.html" data-type="entity-link" >FacetListConfig</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/FacetListParams.html" data-type="entity-link" >FacetListParams</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/FacetMultiConfig.html" data-type="entity-link" >FacetMultiConfig</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/FacetMySearchConfig.html" data-type="entity-link" >FacetMySearchConfig</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/FacetMySearchParams.html" data-type="entity-link" >FacetMySearchParams</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/FacetRangeConfig.html" data-type="entity-link" >FacetRangeConfig</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/FacetRangeParams.html" data-type="entity-link" >FacetRangeParams</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/FacetRefineConfig.html" data-type="entity-link" >FacetRefineConfig</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/FacetRefineParams.html" data-type="entity-link" >FacetRefineParams</a>
+                            </li>
+                            <li class="link">
                                 <a href="interfaces/FacetState.html" data-type="entity-link" >FacetState</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/FacetTagCloudConfig.html" data-type="entity-link" >FacetTagCloudConfig</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/FacetTagCloudParams.html" data-type="entity-link" >FacetTagCloudParams</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/FacetTreeConfig.html" data-type="entity-link" >FacetTreeConfig</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/FacetTreeParams.html" data-type="entity-link" >FacetTreeParams</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/FieldSearchItemsContainer.html" data-type="entity-link" >FieldSearchItemsContainer</a>
@@ -1342,9 +1372,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="interfaces/ProcessQueryIntentActionEvent.html" data-type="entity-link" >ProcessQueryIntentActionEvent</a>
                             </li>
                             <li class="link">
-                                <a href="interfaces/Query.html" data-type="entity-link" >Query</a>
-                            </li>
-                            <li class="link">
                                 <a href="interfaces/RangeInput.html" data-type="entity-link" >RangeInput</a>
                             </li>
                             <li class="link">
@@ -1358,9 +1385,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/RecentQueryChangeEvent.html" data-type="entity-link" >RecentQueryChangeEvent</a>
-                            </li>
-                            <li class="link">
-                                <a href="interfaces/Results.html" data-type="entity-link" >Results</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/ResultsView.html" data-type="entity-link" >ResultsView</a>
@@ -1406,9 +1430,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/SelectionOptions.html" data-type="entity-link" >SelectionOptions</a>
-                            </li>
-                            <li class="link">
-                                <a href="interfaces/Session.html" data-type="entity-link" >Session</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/SetResultsOptions.html" data-type="entity-link" >SetResultsOptions</a>

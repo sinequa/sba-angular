@@ -80,6 +80,9 @@
                             <a href="#AGGREGATION_TIMELINE" title="__tests__/mocks/aggregations.ts" ><b>AGGREGATION_TIMELINE</b>&nbsp;&nbsp;&nbsp;(__tests__/.../aggregations.ts)</a>
                         </li>
                         <li>
+                            <a href="#AGGREGATION_TREEPATH" title="__tests__/mocks/aggregations.ts" ><b>AGGREGATION_TREEPATH</b>&nbsp;&nbsp;&nbsp;(__tests__/.../aggregations.ts)</a>
+                        </li>
+                        <li>
                             <a href="#ALERT_CHANGE_EVENTS" title="alerts/alerts.service.ts" ><b>ALERT_CHANGE_EVENTS</b>&nbsp;&nbsp;&nbsp;(alerts/.../alerts.service.ts)</a>
                         </li>
                         <li>
@@ -87,6 +90,9 @@
                         </li>
                         <li>
                             <a href="#ALL_FACETS" title="facet/facet.service.ts" ><b>ALL_FACETS</b>&nbsp;&nbsp;&nbsp;(facet/.../facet.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#APP_HELP_FOLDER_OPTIONS" title="user-settings/bootstrap/user-menu/user-menu.component.ts" ><b>APP_HELP_FOLDER_OPTIONS</b>&nbsp;&nbsp;&nbsp;(user-settings/.../user-menu.component.ts)</a>
                         </li>
                         <li>
                             <a href="#AppServiceStub" title="__tests__/stubs/appService.stub.ts" ><b>AppServiceStub</b>&nbsp;&nbsp;&nbsp;(__tests__/.../appService.stub.ts)</a>
@@ -126,6 +132,9 @@
                         </li>
                         <li>
                             <a href="#deFacet" title="facet/messages/index.ts" ><b>deFacet</b>&nbsp;&nbsp;&nbsp;(facet/.../index.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#default_facet_components" title="facet/facet-config.ts" ><b>default_facet_components</b>&nbsp;&nbsp;&nbsp;(facet/.../facet-config.ts)</a>
                         </li>
                         <li>
                             <a href="#DEFAULT_FACETS" title="facet/facet.service.ts" ><b>DEFAULT_FACETS</b>&nbsp;&nbsp;&nbsp;(facet/.../facet.service.ts)</a>
@@ -785,9 +794,9 @@
   &quot;column&quot;: &quot;modified&quot;,
   &quot;valuesAreExpressions&quot;: true,
   &quot;isDistribution&quot;: true,
-  &quot;Items&quot;: [
+  &quot;items&quot;: [
     {
-      &quot;value&quot;: null,
+      &quot;value&quot;: &quot;null&quot;,
       &quot;display&quot;: &quot;Still Open&quot;,
       &quot;count&quot;: 0
     }
@@ -1043,6 +1052,59 @@
 
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AGGREGATION_TREEPATH"></a>
+                    <span class="name">
+                        <span ><b>AGGREGATION_TREEPATH</b></span>
+                        <a href="#AGGREGATION_TREEPATH"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  &quot;name&quot;: &quot;Treepath&quot;,
+  &quot;column&quot;: &quot;treepath&quot;,
+  &quot;count&quot;: 987,
+  &quot;isTree&quot;: true,
+  &quot;items&quot;: [
+    {
+      &quot;value&quot;: &quot;Web&quot;,
+      &quot;count&quot;: 987,
+      &quot;hasChildren&quot;: true,
+      &quot;$path&quot;: &quot;/Web/&quot;,
+      &quot;items&quot;: [
+        {
+          &quot;value&quot;: &quot;Huffington Post&quot;,
+          &quot;count&quot;: 61,
+          &quot;hasChildren&quot;: false,
+          &quot;$path&quot;: &quot;/Web/Huffington Post/&quot;
+        },
+        {
+          &quot;value&quot;: &quot;Wiki&quot;,
+          &quot;count&quot;: 926,
+          &quot;hasChildren&quot;: false,
+          &quot;$path&quot;: &quot;/Web/Wiki/&quot;
+        }
+      ]
+    }
+  ]
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
 </section>
     <h3>alerts/alerts.service.ts</h3>
     <section>
@@ -1133,7 +1195,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>new InjectionToken&lt;any[]&gt;(&#x27;ALL_FACETS&#x27;)</code>
+                        <i>Default value : </i><code>new InjectionToken&lt;FacetConfig&lt;any&gt;[]&gt;(&#x27;ALL_FACETS&#x27;)</code>
                     </td>
                 </tr>
 
@@ -1182,11 +1244,44 @@
                         <i>Default value : </i><code>[
     FacetEventType.Loaded,
     FacetEventType.Add,
-    FacetEventType.Remove
+    FacetEventType.AddAll,
+    FacetEventType.Remove,
+    FacetEventType.RemoveAll,
+    FacetEventType.SetDefaults
 ]</code>
                     </td>
                 </tr>
 
+
+        </tbody>
+    </table>
+</section>
+    <h3>user-settings/bootstrap/user-menu/user-menu.component.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="APP_HELP_FOLDER_OPTIONS"></a>
+                    <span class="name">
+                        <span ><b>APP_HELP_FOLDER_OPTIONS</b></span>
+                        <a href="#APP_HELP_FOLDER_OPTIONS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken&lt;HelpFolderOptions&gt;(&#x27;APP_HELP_FOLDER_OPTIONS&#x27;)</code>
+                    </td>
+                </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>A token that is used to inject the help folder options.</p>
+<p>Expects a <a href="../miscellaneous/typealiases.html#HelpFolderOptions">HelpFolderOptions</a> object.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1734,6 +1829,42 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>Utils.merge({}, _frFacet, frSearch, frSelection, frCollapse)</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>facet/facet-config.ts</h3>
+    <section>
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="default_facet_components"></a>
+                    <span class="name">
+                        <span ><b>default_facet_components</b></span>
+                        <a href="#default_facet_components"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MapOf&lt;Type&lt;any&gt;&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    &quot;list&quot;: BsFacetList,
+    &quot;tree&quot;: BsFacetTree,
+    &quot;my-search&quot;: BsMySearch,
+    &quot;range&quot;: BsFacetRange,
+    &quot;refine&quot;: BsRefine,
+    &quot;tag-cloud&quot;: BsFacetTagCloud
+}</code>
                     </td>
                 </tr>
 

@@ -1,0 +1,590 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li
+  >
+  FacetTreeConfig</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>facet/bootstrap/facet-tree/facet-tree.ts</code>
+        </p>
+
+
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../interfaces/FacetConfig.html" target="_self" >FacetConfig</a></code>
+            </p>
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#type" 
+>
+                                            type
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="type"></a>
+                                        <span class="name "><b>type</b>
+                                            <a href="#type">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>type:     <code></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input, OnChanges, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy} from &quot;@angular/core&quot;;
+import {Results, TreeAggregation, AggregationItem, TreeAggregationNode, Aggregation} from &quot;@sinequa/core/web-services&quot;;
+import {Utils} from &quot;@sinequa/core/base&quot;;
+import {FacetService} from &quot;../../facet.service&quot;;
+import {Action} from &quot;@sinequa/components/action&quot;;
+import {AbstractFacet} from &quot;../../abstract-facet&quot;;
+import { FormControl, FormGroup } from &quot;@angular/forms&quot;;
+import { Observable, of, Subscription } from &quot;rxjs&quot;;
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from &quot;rxjs/operators&quot;;
+import { FacetConfig } from &quot;../../facet-config&quot;;
+
+export interface FacetTreeParams {
+    aggregation: string;
+    showCount?: boolean;
+    searchable?: boolean;
+    allowExclude?: boolean;
+    allowOr?: boolean;
+    expandedLevel?: number;
+    forceMaxHeight?: boolean;
+    displayActions?: boolean;
+}
+
+export interface FacetTreeConfig extends FacetConfig&lt;FacetTreeParams&gt; {
+    type: &#x27;tree&#x27;;
+}
+
+@Component({
+    selector: &quot;sq-facet-tree&quot;,
+    templateUrl: &quot;./facet-tree.html&quot;,
+    styleUrls: [&quot;./facet-tree.scss&quot;],
+    changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class BsFacetTree extends AbstractFacet implements FacetTreeParams, OnChanges, OnDestroy {
+    @Input() name: string; // If ommited, the aggregation name is used
+    @Input() results: Results;
+    @Input() aggregation: string;
+    @Input() showCount: boolean &#x3D; true; // Show the number of occurrences
+    @Input() allowExclude: boolean &#x3D; true; // Allow to exclude selected items
+    @Input() allowOr: boolean &#x3D; true; // Allow to search various items in OR mode
+    @Input() searchable: boolean &#x3D; true; // Allow to search for items in the facet
+    @Input() expandedLevel: number &#x3D; 2;
+    @Input() forceMaxHeight: boolean &#x3D; true; // Allow to display a scrollbar automatically on long list items
+    @Input() displayActions &#x3D; false;
+
+    // Aggregation from the Results object
+    data: TreeAggregation | undefined;
+    originalItems: AggregationItem[] | undefined;
+
+    private readonly subscriptions: Subscription[] &#x3D; [];
+
+    // Sets to keep track of selected/excluded/filtered items
+    readonly filtered &#x3D; new Set&lt;AggregationItem&gt;();
+
+    readonly selected &#x3D; new Map&lt;string,TreeAggregationNode&gt;();
+
+    hiddenSelected: TreeAggregationNode[] &#x3D; [];
+    // TODO keep track of excluded terms and display them with specific color private
+    // readonly filtered &#x3D; new Set&lt;AggregationItem&gt;();
+
+    // Search
+    myGroup: FormGroup;
+    searchQuery: FormControl; // ngModel for textarea
+    suggestDelay &#x3D; 200;
+    searchActive &#x3D; false;
+    noResults &#x3D; false;
+
+    // Actions (displayed in facet menu)
+    // All actions are built in the constructor
+    private readonly filterItemsOr: Action;
+    private readonly excludeItems: Action;
+    private readonly clearFilters: Action;
+    public readonly searchItems: Action;
+
+
+    constructor(
+        private facetService: FacetService,
+        private changeDetectorRef: ChangeDetectorRef){
+            super();
+
+            this.myGroup &#x3D; new FormGroup({
+                searchQuery: new FormControl()
+            });
+
+            this.searchQuery &#x3D; this.myGroup.get(&quot;searchQuery&quot;) as FormControl;
+            this.subscriptions[&quot;suggest&quot;] &#x3D; this.suggest$(this.searchQuery.valueChanges)
+                .subscribe(values &#x3D;&gt; {
+                    if(this.data) {
+                        const items &#x3D; this.searchQuery.value? values : this.originalItems;
+                        this.data &#x3D; {
+                            column: this.data.column,
+                            name: this.data.name,
+                            isTree: true,
+                            items
+                        }
+                        // Refresh hiddenSelected list when the list of items is updated
+                        this.refreshHiddenSelected();
+                        this.searchActive &#x3D; false;
+                        this.changeDetectorRef.markForCheck();
+                    }
+                });
+
+            // Keep documents with ANY of the selected items
+            this.filterItemsOr &#x3D; new Action({
+                icon: &quot;fas fa-filter&quot;,
+                title: &quot;msg#facet.filterItems&quot;,
+                action: () &#x3D;&gt; {
+                    if (this.data) {
+                        this.facetService.addFilterSearch(this.getName(), this.data, this.getSelectedItems());
+                    }
+                }
+            });
+
+            // Exclude document with selected items
+            this.excludeItems &#x3D; new Action({
+                icon: &quot;fas fa-times&quot;,
+                title: &quot;msg#facet.excludeItems&quot;,
+                action: () &#x3D;&gt; {
+                    if (this.data) {
+                        this.facetService.addFilterSearch(this.getName(), this.data, this.getSelectedItems(), {not: true});
+                    }
+                }
+            });
+
+            // Clear the current filters
+            this.clearFilters &#x3D; new Action({
+                icon: &quot;far fa-minus-square&quot;,
+                title: &quot;msg#facet.clearSelects&quot;,
+                action: () &#x3D;&gt; {
+                    this.facetService.clearFiltersSearch(this.getName(), true);
+                }
+            });
+
+            // Search for a value in this list
+            this.searchItems &#x3D; new Action({
+                icon: &quot;fas fa-search&quot;,
+                title: &quot;msg#facet.searchItems&quot;,
+                action: (item, event) &#x3D;&gt; {
+                    item.selected &#x3D; !item.selected;
+                    if(!item.selected){
+                        this.clearSearch();
+                    }
+                    event.stopPropagation();
+                    this.changeDetectorRef.markForCheck();
+                }
+            });
+    }
+
+    /**
+     * Name of the facet, used to create and retrieve selections
+     * through the facet service.
+     */
+    getName() : string {
+        return this.name || this.aggregation;
+    }
+
+    /**
+     * OnChanges listener awaits new results from the search service
+     * This completely resets the display
+     * @param changes
+     */
+    ngOnChanges(changes: SimpleChanges) {
+        if (this.showCount &#x3D;&#x3D;&#x3D; undefined) this.showCount &#x3D; true;
+        if (this.searchable &#x3D;&#x3D;&#x3D; undefined) this.searchable &#x3D; true;
+        if (this.allowExclude &#x3D;&#x3D;&#x3D; undefined) this.allowExclude &#x3D; true;
+        if (this.allowOr &#x3D;&#x3D;&#x3D; undefined) this.allowOr &#x3D; true;
+
+        if (changes.results || changes.aggregation) {     // New data from the search service
+            this.filtered.clear();
+            this.selected.clear();
+            this.hiddenSelected.length &#x3D; 0;
+            this.data &#x3D; this.facetService.getAggregation(this.aggregation, this.results, {
+                facetName: this.getName(),
+                levelCallback: this.initNodes
+            });
+            this.originalItems &#x3D; this.data?.items;
+            this.searchItems.selected &#x3D; false;
+            this.clearSearch();
+        }
+    }
+
+    // For each new node, set up properties necessary for display
+    // This callback could also be used to filter or sorts nodes, etc.
+    @Input()
+    initNodes &#x3D; (nodes: TreeAggregationNode[], level: number, node: TreeAggregationNode) &#x3D;&gt; {
+        if(node.$filtered){
+            this.filtered.add(node);
+        }
+        if(node.hasChildren &amp;&amp; !node.$opened &amp;&amp; node.items &amp;&amp; node.items.length &gt;&#x3D; 0 &amp;&amp; level &lt;&#x3D; this.expandedLevel){
+            node.$opened &#x3D; true;
+        }
+    }
+
+    /**
+     * Returns all the actions that are relevant in the current context
+     */
+    override get actions(): Action[] {
+
+        const actions: Action[] &#x3D; [];
+
+        if(this.selected.size &gt; 0) {
+            if(this.allowOr){
+                actions.push(this.filterItemsOr);
+            }
+            if(this.allowExclude){
+                actions.push(this.excludeItems);
+            }
+        }
+
+        if(this.hasFiltered()) {
+            actions.push(this.clearFilters);
+        }
+
+        if(this.searchable){
+            actions.push(this.searchItems);
+        }
+
+        return actions;
+    }
+
+
+    // Filtered items
+
+    /**
+     * Returns true if the given AggregationItem is filtered
+     * @param item
+     */
+    isFiltered(data: Aggregation | undefined, item: AggregationItem): boolean {
+        const agg &#x3D; Array.from(this.filtered);
+        return this.facetService.filteredIndex(data, agg, item) !&#x3D;&#x3D; -1
+    }
+
+    /**
+     * Returns true if there is an active selection (or exclusion) from this facet
+     */
+    hasFiltered(): boolean {
+        return this.facetService.hasFiltered(this.getName());
+    }
+
+    /**
+     * Called when clicking on a facet item text
+     * @param item
+     * @param event
+     */
+    filterItem(item: AggregationItem, event) : boolean {
+        if (this.data) {
+            if(!this.isFiltered(this.data, item)) {
+                this.facetService.addFilterSearch(this.getName(), this.data, item);
+            }
+            else {
+                this.facetService.removeFilterSearch(this.getName(), this.data, item);
+            }
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        return false;   // Stop the propagation of the event (link inside link)
+    }
+
+
+    // Selected items
+
+    /**
+     * Returns true if the given AggregationItem is selected
+     * @param item
+     */
+    isSelected(item: TreeAggregationNode) : boolean {
+        return this.selected.has(item.$path!);
+    }
+
+    /**
+     * Returns all the selected items
+     */
+    getSelectedItems(): TreeAggregationNode[] {
+        return Array.from(this.selected.values());
+    }
+
+    /**
+     * Called when selecting/unselecting an item in the facet
+     * @param item
+     */
+    selectItem(item: TreeAggregationNode, event: Event): boolean {
+        event.stopImmediatePropagation();
+        if(!this.isFiltered(this.data, item)){
+            if(this.selected.has(item.$path!)) {
+                this.selected.delete(item.$path!);
+            }
+            else {
+                this.selected.set(item.$path!, item);
+            }
+            this.refreshHiddenSelected();
+        }
+        return false;
+    }
+
+    refreshHiddenSelected() {
+        this.hiddenSelected &#x3D; this.getSelectedItems()
+            .filter(item &#x3D;&gt; !this.find(this.data?.items as TreeAggregationNode[], item));
+    }
+
+    find(items: TreeAggregationNode[] | undefined, item: TreeAggregationNode) {
+        if(items) {
+            for(const i of items) {
+                if(i.$path &#x3D;&#x3D;&#x3D; item.$path || (i.$opened &amp;&amp; this.find(i.items, item))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Expand/Collapse a Tree node (the data may need to downloaded from the server)
+     * @param item
+     */
+    open(item: TreeAggregationNode, event: Event){
+        if (item.hasChildren) {
+            item.$opened &#x3D; !item.$opened;
+            if (!item.items || item.items.length &#x3D;&#x3D;&#x3D; 0) {
+                item[&#x27;$opening&#x27;] &#x3D; true;
+                if (this.data) {
+                    Utils.subscribe(this.facetService.open(this.getName(), this.data, item, this.initNodes),
+                        (results) &#x3D;&gt; {
+                            item[&#x27;$opening&#x27;]&#x3D; false;
+                            this.refreshHiddenSelected();
+                            this.changeDetectorRef.markForCheck();
+                        });
+                }
+            }
+            this.refreshHiddenSelected();
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        return false; // Prevent default action
+    }
+
+    /* AbstractFacet abstract methods */
+    override isHidden(): boolean {
+        return !this.data;
+    }
+
+
+    // Search
+
+    clearSearch() {
+        this.searchQuery.setValue(&quot;&quot;); // Remove suggestions if some remain
+        this.noResults &#x3D; false;
+    }
+
+    /**
+     * Called on NgModel change (searchQuery)
+     * Uses the suggestfield API to retrieve suggestions from the server
+     * The suggestions &quot;override&quot; the data from the distribution (until search results are cleared)
+     */
+    suggest$ &#x3D; (text$: Observable&lt;string&gt;) &#x3D;&gt; text$.pipe(
+        debounceTime(this.suggestDelay),
+        distinctUntilChanged(),
+        switchMap(term &#x3D;&gt; {
+            if (term.trim() &#x3D;&#x3D;&#x3D; &quot;&quot;) {
+                this.noResults &#x3D; false;
+                return of([]);
+            }
+            this.changeDetectorRef.markForCheck();
+            this.searchActive &#x3D; true;
+            return this.facetService.suggest(term, this.data?.column || &#x27;&#x27;).pipe(
+                catchError(err &#x3D;&gt; {
+                    console.log(err);
+                    this.noResults &#x3D; false;
+                    return of([]);
+                }),
+                map(suggests &#x3D;&gt; {
+                    const items &#x3D; this.facetService.suggestionsToTreeAggregationNodes(suggests, term, this.data);
+                    this.noResults &#x3D; items.length &#x3D;&#x3D;&#x3D; 0 &amp;&amp; term.trim() !&#x3D;&#x3D; &quot;&quot;;
+                    return items;
+                })
+            )
+        })
+    )
+
+    ngOnDestroy() {
+        this.subscriptions.forEach(subscription &#x3D;&gt; subscription.unsubscribe());
+    }
+
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'FacetTreeConfig.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -14,13 +14,13 @@
 <title>cluster_BsLabelsModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 1689,-230.8 1689,-32.8 8,-32.8"/>
 </g>
-<g id="clust10" class="cluster">
-<title>cluster_BsLabelsModule_exports</title>
-<polygon fill="none" stroke="black" points="260,-170.8 260,-222.8 1264,-222.8 1264,-170.8 260,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_BsLabelsModule_declarations</title>
 <polygon fill="none" stroke="black" points="817,-40.8 817,-92.8 1681,-92.8 1681,-40.8 817,-40.8"/>
+</g>
+<g id="clust10" class="cluster">
+<title>cluster_BsLabelsModule_exports</title>
+<polygon fill="none" stroke="black" points="260,-170.8 260,-222.8 1264,-222.8 1264,-170.8 260,-170.8"/>
 </g>
 <g id="clust9" class="cluster">
 <title>cluster_BsLabelsModule_imports</title>

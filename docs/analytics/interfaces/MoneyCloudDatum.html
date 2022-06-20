@@ -429,7 +429,7 @@ export class MoneyCloudComponent extends AbstractFacet implements OnChanges,Afte
         this.selectionService.events.subscribe(e &#x3D;&gt; this.updateSelectedItems());
     }
 
-    get actions(): Action[] {
+    override get actions(): Action[] {
         const actions: Action[] &#x3D; [];
         if(this.searchService.query.findSelect(this.name)){
             actions.push(this.clearFilters);

@@ -461,8 +461,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="152"
-                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:152</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="156"
+                            class="link-to-prism">action/bootstrap/dropdown.directive.ts:156</a></div>
                 </td>
             </tr>
 
@@ -547,7 +547,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Directive, OnInit, OnDestroy, AfterViewInit, ElementRef, HostListener} from &quot;@angular/core&quot;;
 import {Subscription} from &#x27;rxjs&#x27;;
 import {createPopper} from &#x27;@popperjs/core&#x27;;
-import {Keys} from &quot;@sinequa/core/base&quot;;
+import {Keys, StrictUnion} from &quot;@sinequa/core/base&quot;;
 import {BsDropdownService, gClassName, gSelector, gAttachmentMap} from &#x27;./dropdown.service&#x27;;
 
 // Based on  Bootstrap (v4.4.1): dropdown.js
@@ -591,7 +591,7 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
     ngOnInit() {
         this.subscription &#x3D; this.dropdownService.events.subscribe((event) &#x3D;&gt; {
             if (event.type &#x3D;&#x3D;&#x3D; &quot;clear&quot;) {
-                this.clear(event.sourceEvent);
+                this.clear(event.sourceEvent as StrictUnion&lt;KeyboardEvent | MouseEvent | undefined&gt;);
             }
             else if (event.type &#x3D;&#x3D;&#x3D; &quot;toggle&quot;) {
                 this.toggle(event.element);
@@ -637,6 +637,10 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
         // send dropdown&#x27;s active state to the service
         this.dropdownService.raiseActive(!isActive);
         if (isActive) {
+            // hide submenu if any on dropdown button
+            if (element.parentElement) {
+                this.closeSubmenus(element.parentElement)
+            }
             return;
         }
 
@@ -740,7 +744,7 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
         parent.classList.toggle(gClassName.SHOW);
     }
 
-    private clear(event: KeyboardEvent | MouseEvent | undefined) {
+    private clear(event: StrictUnion&lt;KeyboardEvent | MouseEvent | undefined&gt;) {
         if (!this.dropdownToggle || !this.dropdownMenu || !this.dropdown) {
             return;
         }
@@ -751,7 +755,7 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
         }
 
         if (event &amp;&amp; (event.type &#x3D;&#x3D;&#x3D; &#x27;click&#x27; &amp;&amp;
-            /input|textarea/i.test((event.target as Element).tagName) || event.type &#x3D;&#x3D;&#x3D; &#x27;keyup&#x27; &amp;&amp; event.which &#x3D;&#x3D;&#x3D; Keys.tab) &amp;&amp;
+            /input|textarea/i.test((event.target as Element).tagName) || event.type &#x3D;&#x3D;&#x3D; &#x27;keyup&#x27; &amp;&amp; event.key &#x3D;&#x3D;&#x3D; Keys.tab) &amp;&amp;
             parent.contains(event.target as Node)) {
             return;
         }
@@ -770,6 +774,19 @@ export class BsDropdownDirective implements OnInit, OnDestroy, AfterViewInit {
 
         this.dropdownMenu.classList.remove(gClassName.SHOW);
         parent.classList.remove(gClassName.SHOW);
+        
+        // close all sub-menus with &#x27;show&#x27; class
+        // here, &#x27;parent&#x27; is the dropdown element
+        this.closeSubmenus(parent);
+    }
+    
+    /**
+     * It removes the class &quot;show&quot; from all submenus.
+     * @param {HTMLElement} element - The dropdown element.
+     */
+    private closeSubmenus(element: HTMLElement) {
+        const elements &#x3D; element.querySelectorAll(&quot;ul&quot;);
+        elements.forEach(el &#x3D;&gt; el.classList.remove(gClassName.SHOW));
     }
 }
 </code></pre>

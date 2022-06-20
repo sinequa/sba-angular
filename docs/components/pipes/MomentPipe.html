@@ -90,6 +90,7 @@
                 <td class="col-md-4">
                     <a name="updateValue"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>updateValue</b></span>
                         <a href="#updateValue"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -97,7 +98,8 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateValue(key: moment.MomentInput, params: <a href="../interfaces/MomentParams.html" target="_self">MomentParams</a>)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateValue(key: moment.MomentInput, params: <a href="../interfaces/MomentParams.html" target="_self">MomentParams</a>)</code>
                 </td>
             </tr>
 
@@ -198,7 +200,7 @@ export class MomentPipe extends AbstractIntlPipe {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(key:moment.MomentInput, params: MomentParams &#x3D; {}): void {
+    override updateValue(key:moment.MomentInput, params: MomentParams &#x3D; {}): void {
         super.updateValue(key, params);
         const m &#x3D; moment(key);
         if (params.format) {

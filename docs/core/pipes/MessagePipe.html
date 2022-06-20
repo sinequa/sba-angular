@@ -120,7 +120,7 @@ export class MessagePipe extends AbstractIntlPipe {
         super(intlService, changeDetectorRef);
     }
 
-    protected updateValue(value: any, params: MessageParams): void {
+    protected override updateValue(value: any, params: MessageParams): void {
         if (!Utils.isEmpty(value)) {
             // coerce to string (eg sys date strings get converted to dates so if this happens to a title we will break otherwise)
             value &#x3D; value + &quot;&quot;;

@@ -213,6 +213,13 @@
                                         </a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#matchingpassages" 
+>
+                                            matchingpassages
+                                        </a>
+                                </li>
+                                <li>
                                         <a href="#matchlocations" 
 >
                                             matchlocations
@@ -228,6 +235,20 @@
                                         <a href="#modified" 
 >
                                             modified
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#originalUrl" 
+>
+                                            originalUrl
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#pdfUrl" 
+>
+                                            pdfUrl
                                         </a>
                                 </li>
                                 <li>
@@ -274,6 +295,7 @@
                                         </a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#thumbnailUrl" 
 >
                                             thumbnailUrl
@@ -1119,6 +1141,50 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
+                                        <a name="matchingpassages"></a>
+                                        <span class="name "><b>matchingpassages</b>
+                                            <a href="#matchingpassages">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>matchingpassages:     <code>literal type</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>literal type</code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>List of matching passages for that document returned by the passage ranking ML model</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
                                         <a name="matchlocations"></a>
                                         <span class="name "><b>matchlocations</b>
                                             <a href="#matchlocations">
@@ -1227,6 +1293,94 @@
                             <tr>
                                 <td class="col-md-4">
                                     <div class="io-description"><p>The modified date and time of the document</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="originalUrl"></a>
+                                        <span class="name "><b>originalUrl</b>
+                                            <a href="#originalUrl">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>originalUrl:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The URL of the original document, if it exists</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="pdfUrl"></a>
+                                        <span class="name "><b>pdfUrl</b>
+                                            <a href="#pdfUrl">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>pdfUrl:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>The URL of the PDF version of the document, if it exists</p>
 </div>
                                 </td>
                             </tr>
@@ -1537,6 +1691,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -1852,6 +2011,12 @@ export interface Results {
      * SQL statements executed by the query web service
      */
     statements: string[];
+    /**
+     * Answers generated by the Answer Finder ML model
+     */
+    answers?: {
+      answers: Answer[]
+    }
 }
 
 /**
@@ -2352,7 +2517,15 @@ export interface Record {
     /**
      * The URL of the document&#x27;s thumbnail
      */
-    thumbnailUrl: string;
+    thumbnailUrl?: string;
+    /**
+     * The URL of the original document, if it exists
+     */
+    originalUrl?: string;
+    /**
+     * The URL of the PDF version of the document, if it exists
+     */
+    pdfUrl?: string;
     /**
      * Indicates whether RFM has been enabled for this document
      */
@@ -2377,6 +2550,12 @@ export interface Record {
      * Page number of this document (for splitted documents). Added by the front-end
      */
     $page?: number;
+    /**
+     * List of matching passages for that document returned by the passage ranking ML model
+     */
+    matchingpassages?: {
+      passages: MatchingPassage[];
+    }
 }
 
 /**
@@ -2436,6 +2615,38 @@ export interface QueryIntentData {
      * Analysis of the current query
      */
     queryAnalysis?: QueryAnalysis;
+}
+
+export interface Passage {
+  id: number;
+  location: number[];
+  rlocation: number[];
+}
+
+/**
+ * A passage returned by ML Passage Ranking model
+ */
+export interface MatchingPassage extends Passage {
+  /** text of the passage with matchlocations highlighted with &lt;b&gt; tags */
+  highlightedText: string;
+  /** Score of this matching passage */
+  score: number;
+  /** Front end parameter to store the state of expansion/collapse of this passage */
+  $expanded?: boolean;
+}
+
+/**
+ * An answer returned by the ML Answer Finder model
+ */
+export interface Answer {
+    text: string;
+    score: number;
+    passage: Passage;
+    /** text of the passage with answer highlighted with &lt;b&gt; tags */
+    highlightedAnswer: string;
+    /** Record from which this answer was extracted */
+    record: Record;
+    $liked: undefined | boolean;
 }
 
 /**

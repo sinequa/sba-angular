@@ -90,6 +90,7 @@
                 <td class="col-md-4">
                     <a name="updateValue"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>updateValue</b></span>
                         <a href="#updateValue"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -97,7 +98,8 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateValue(key: string | number | Date | undefined, params)</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateValue(key: string | number | Date | undefined, params)</code>
                 </td>
             </tr>
 
@@ -181,7 +183,7 @@ export class RelativeTimePipe extends AbstractIntlPipe {
         super(intlService, changeDetectorRef);
     }
 
-    updateValue(key: string |number | Date | undefined, params: {unit: Intl.RelativeTimeUnit} &amp; Intl.RelativeTimeFormatOptions &amp; { format?: string }): void {
+    override updateValue(key: string |number | Date | undefined, params: {unit: Intl.RelativeTimeUnit} &amp; Intl.RelativeTimeFormatOptions &amp; { format?: string }): void {
         super.updateValue(key, params);
         this.value &#x3D; this.intlService.formatRelativeTime(key, params ? params.unit : undefined, params);
     }

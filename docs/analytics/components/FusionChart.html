@@ -206,6 +206,7 @@
                                 <a href="#isFiltered" >isFiltered</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="#isHidden" >isHidden</a>
                             </li>
                             <li>
@@ -1101,6 +1102,7 @@ through the facet service.</p>
                 <td class="col-md-4">
                     <a name="isHidden"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>isHidden</b></span>
                         <a href="#isHidden"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1108,7 +1110,8 @@ through the facet service.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>isHidden()</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isHidden()</code>
                 </td>
             </tr>
 
@@ -1864,7 +1867,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
     /**
      * Returns all the actions that are relevant in the current context
      */
-    get actions(): Action[] {
+    override get actions(): Action[] {
         const actions: Action[] &#x3D; [];
         if(this.hasFiltered()) {
             actions.push(this.clearFilters);
@@ -1923,7 +1926,7 @@ export class FusionChart extends AbstractFacet implements OnChanges, OnDestroy, 
         });
     }
 
-    isHidden(): boolean {
+    override isHidden(): boolean {
         return this.autohide &amp;&amp; !this.dataSource.data?.length;
     }
     

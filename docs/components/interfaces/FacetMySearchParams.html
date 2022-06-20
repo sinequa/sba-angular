@@ -46,7 +46,7 @@
   <li>Interfaces</li>
   <li
   >
-  Action</li>
+  FacetMySearchParams</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>rfm/rfm.service.ts</code>
+            <code>facet/bootstrap/facet-mysearch/facet-mysearch.ts</code>
         </p>
 
 
@@ -83,39 +83,45 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#actionEnabled" 
+                                            <span class="modifier">Optional</span>
+                                        <a href="#allowDeletion" 
 >
-                                            actionEnabled
+                                            allowDeletion
                                         </a>
                                 </li>
                                 <li>
-                                        <a href="#displayUnrated" 
+                                            <span class="modifier">Optional</span>
+                                        <a href="#collapsible" 
 >
-                                            displayUnrated
+                                            collapsible
                                         </a>
                                 </li>
                                 <li>
-                                        <a href="#enabled" 
+                                            <span class="modifier">Optional</span>
+                                        <a href="#displayFieldNames" 
 >
-                                            enabled
+                                            displayFieldNames
                                         </a>
                                 </li>
                                 <li>
-                                        <a href="#name" 
+                                            <span class="modifier">Optional</span>
+                                        <a href="#excludedFacets" 
 >
-                                            name
+                                            excludedFacets
                                         </a>
                                 </li>
                                 <li>
-                                        <a href="#negAvailable" 
+                                            <span class="modifier">Optional</span>
+                                        <a href="#ignoreText" 
 >
-                                            negAvailable
+                                            ignoreText
                                         </a>
                                 </li>
                                 <li>
-                                        <a href="#noMenu" 
+                                            <span class="modifier">Optional</span>
+                                        <a href="#useBadges" 
 >
-                                            noMenu
+                                            useBadges
                                         </a>
                                 </li>
                             </ul>
@@ -133,9 +139,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="actionEnabled"></a>
-                                        <span class="name "><b>actionEnabled</b>
-                                            <a href="#actionEnabled">
+                                        <a name="allowDeletion"></a>
+                                        <span class="name "><b>allowDeletion</b>
+                                            <a href="#allowDeletion">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -143,7 +149,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>actionEnabled:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                        <code>allowDeletion:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -156,6 +162,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -166,9 +177,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="displayUnrated"></a>
-                                        <span class="name "><b>displayUnrated</b>
-                                            <a href="#displayUnrated">
+                                        <a name="collapsible"></a>
+                                        <span class="name "><b>collapsible</b>
+                                            <a href="#collapsible">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -176,7 +187,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>displayUnrated:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                        <code>collapsible:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -189,6 +200,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -199,9 +215,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="enabled"></a>
-                                        <span class="name "><b>enabled</b>
-                                            <a href="#enabled">
+                                        <a name="displayFieldNames"></a>
+                                        <span class="name "><b>displayFieldNames</b>
+                                            <a href="#displayFieldNames">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -209,7 +225,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>enabled:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                        <code>displayFieldNames:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -222,6 +238,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -232,9 +253,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="name"></a>
-                                        <span class="name "><b>name</b>
-                                            <a href="#name">
+                                        <a name="excludedFacets"></a>
+                                        <span class="name "><b>excludedFacets</b>
+                                            <a href="#excludedFacets">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -242,7 +263,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>name:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                        <code>excludedFacets:     <code>(string | undefined)[]</code>
 </code>
                                     </td>
                                 </tr>
@@ -250,44 +271,16 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <i>Type : </i>    <code>(string | undefined)[]</code>
 
                                         </td>
                                     </tr>
-
-
-
-
-
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="negAvailable"></a>
-                                        <span class="name "><b>negAvailable</b>
-                                            <a href="#negAvailable">
-                                                <span class="icon ion-ios-link"></span>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>negAvailable:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-</code>
-                                    </td>
-                                </tr>
-
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
+                                            <i>Optional</i>
                                         </td>
                                     </tr>
-
 
 
 
@@ -298,9 +291,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="noMenu"></a>
-                                        <span class="name "><b>noMenu</b>
-                                            <a href="#noMenu">
+                                        <a name="ignoreText"></a>
+                                        <span class="name "><b>ignoreText</b>
+                                            <a href="#ignoreText">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -308,7 +301,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>noMenu:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                        <code>ignoreText:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -321,6 +314,49 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="useBadges"></a>
+                                        <span class="name "><b>useBadges</b>
+                                            <a href="#useBadges">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>useBadges:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -332,178 +368,115 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, OnDestroy} from &quot;@angular/core&quot;;
-import {RfmWebService, AuditWebService, Results, Record, RFMDisplay} from &quot;@sinequa/core/web-services&quot;;
-import {AppService} from &quot;@sinequa/core/app-utils&quot;;
-import {Utils} from &quot;@sinequa/core/base&quot;;
-import {SearchService} from &quot;@sinequa/components/search&quot;;
-import {Subject, Observable, Subscription} from &#x27;rxjs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnChanges, SimpleChanges } from &quot;@angular/core&quot;;
+import { Results } from &quot;@sinequa/core/web-services&quot;;
+import { SearchService, BreadcrumbsItem } from &quot;@sinequa/components/search&quot;;
+import { AbstractFacet } from &quot;../../abstract-facet&quot;;
+import { Action } from &quot;@sinequa/components/action&quot;;
+import { FacetConfig } from &quot;../../facet-config&quot;;
 
-export type RFMType &#x3D; &quot;important&quot; | &quot;click&quot; | &quot;like&quot;;
-
-export interface CCRFM {
-    name: string;
-    click: CCRFM.Action;
-    like: CCRFM.Action;
-    important: CCRFM.Action;
+export interface FacetMySearchParams {
+    allowDeletion?: boolean;
+    displayFieldNames?: boolean;
+    collapsible?: boolean;
+    useBadges?: boolean;
+    ignoreText?: boolean;
+    excludedFacets?: (string | undefined)[];
 }
 
-export declare module CCRFM {
-    interface Action {
-        name: string;
-        enabled: boolean;
-        actionEnabled: boolean;
-        noMenu: boolean;
-        displayUnrated: boolean;
-        negAvailable: boolean;
-    }
+export interface FacetMySearchConfig extends FacetConfig&lt;FacetMySearchParams&gt; {
+    type: &#x27;my-search&#x27;;
 }
 
-export enum RFMEventType {
-    ClickSet &#x3D; &quot;RFM_ClickSet&quot;,
-    ClickReset &#x3D; &quot;RFM_ClickReset&quot;,
-    Like &#x3D; &quot;RFM_Like&quot;,
-    LikeReset &#x3D; &quot;RFM_LikeReset&quot;,
-    Dislike &#x3D; &quot;RFM_Dislike&quot;,
-    Important &#x3D; &quot;RFM_Important&quot;,
-    ImportantReset &#x3D; &quot;RFM_ImportantReset&quot;,
-    Ban &#x3D; &quot;RFM_Ban&quot;
-}
-
-export interface RFMEvent {
-    type: &quot;updated&quot;;
-}
-
-@Injectable({
-    providedIn: &#x27;root&#x27;,
+@Component({
+    selector: &quot;sq-facet-mysearch&quot;,
+    templateUrl: &quot;./facet-mysearch.html&quot;,
+    styleUrls: [&quot;./facet-mysearch.scss&quot;],
 })
-export class RFMService implements OnDestroy {
+export class BsMySearch extends AbstractFacet implements FacetMySearchParams, OnChanges {
+    @Input() results: Results;
+    /** Display icon to delete items */
+    @Input() allowDeletion: boolean &#x3D; true;
+    /** Display each item&#x27;s field */
+    @Input() displayFieldNames: boolean &#x3D; false;
+    /** Make the div collapsible */
+    @Input() collapsible: boolean &#x3D; false;
+    /** Add a badge likely style to items */
+    @Input() useBadges: boolean &#x3D; false;
+    /** Wether we Ignore text and fielded search */
+    @Input() ignoreText: boolean &#x3D; true;
+    /** Items of those facets will be excluded  */
+    @Input() excludedFacets: (string | undefined)[] &#x3D; [&quot;search-form&quot;];
 
-    private _events &#x3D; new Subject&lt;RFMEvent&gt;();
-    private _subscription: Subscription;
+    collapsed &#x3D; false;
+    clearAction: Action;
+    items: BreadcrumbsItem[] &#x3D; [];
+    fields: string[] &#x3D; [];
 
-    constructor(
-        public appService: AppService,
-        public rfmService: RfmWebService,
-        public searchService: SearchService,
-        public auditService: AuditWebService
-    ){
-        this._subscription &#x3D; this.searchService.resultsStream.subscribe(results &#x3D;&gt; {
-            this.updateRfm(results);
+    constructor(public searchService: SearchService) {
+        super();
+
+        this.clearAction &#x3D; new Action({
+            icon: &quot;far fa-minus-square&quot;,
+            title: &quot;msg#facet.filters.clear&quot;,
+            action: () &#x3D;&gt; this.clear(),
         });
     }
 
-    get events(): Observable&lt;RFMEvent&gt; {
-        return this._events;
+    ngOnChanges(changes: SimpleChanges) {
+        if (!!changes[&quot;results&quot;]) {
+            /** Initialize items based on input values */
+            this.items &#x3D; this.ignoreText
+                ? this.searchService.breadcrumbs?.items.filter(
+                        (item: BreadcrumbsItem) &#x3D;&gt;
+                            item.expr &amp;&amp; !(item.expr &amp;&amp; !item.expr.field &amp;&amp; !item.expr.isStructured) &amp;&amp; !this.excludedFacets.includes(item.facet)
+                    ) || []
+                : this.searchService.breadcrumbs?.items || [];
+
+            /** Retrieve the field name of each item */
+            this.fields &#x3D; [];
+            for (const item of this.items) {
+                this.fields.push(this.getField(item))
+            }
+
+        }
     }
 
-    ngOnDestroy(){
-        this._events.complete();
-        this._subscription.unsubscribe();
+    protected getField(item: BreadcrumbsItem): string {
+        if (item.expr) {
+            if (item.expr.field) {
+                return item.expr.field;
+            } else {
+                if (!item.expr.isStructured) {
+                    return &quot;text&quot;;
+                } else {
+                    const fields &#x3D; item.expr.getFields();
+                    return fields.join(&quot;-&quot;);
+                }
+            }
+        }
+        return &quot;unknown&quot;;
     }
 
-    public getMenuActions(config: CCRFM.Action): RFMDisplay[] {
-        const actions &#x3D; [RFMDisplay.positiveRate, RFMDisplay.unrate];
-        if(config.negAvailable)
-            actions.push(RFMDisplay.negativeRate);
+    removeItem(item: BreadcrumbsItem) {
+        this.searchService.removeBreadcrumbsItem(item);
+    }
+
+    get isEmpty() {
+        return this.items.length &#x3D;&#x3D;&#x3D; 0;
+    }
+
+    override get actions(): Action[] {
+        const actions: Action[] &#x3D; [];
+        if (!this.isEmpty &amp;&amp; this.allowDeletion) {
+            actions.push(this.clearAction);
+        }
         return actions;
     }
 
-    public static getActionName(rfmDisplay: RFMDisplay): string {
-        switch (rfmDisplay) {
-            case RFMDisplay.positiveRate:
-                return &quot;pos&quot;;
-            case RFMDisplay.mainlyPosRate:
-                return &quot;mpos&quot;;
-            case RFMDisplay.unrate:
-                return &quot;unrated&quot;;
-            case RFMDisplay.mainlyNegRate:
-                return &quot;mneg&quot;;
-            case RFMDisplay.negativeRate:
-                return &quot;neg&quot;;
-            default:
-                return &quot;none&quot;;
-        }
-    }
-
-
-    public static toAuditEventType(action : RFMType, evt: RFMDisplay): RFMEventType | undefined {
-        let aet: RFMEventType | undefined;
-        switch (action) {
-            case &quot;important&quot;:
-                switch (evt) {
-                    case RFMDisplay.positiveRate:
-                        aet &#x3D; RFMEventType.Important;
-                        break;
-                    case RFMDisplay.unrate:
-                        aet &#x3D; RFMEventType.ImportantReset;
-                        break;
-                    case RFMDisplay.negativeRate:
-                        aet &#x3D; RFMEventType.Ban;
-                        break;
-                }
-                break;
-            case &quot;like&quot;:
-                switch (evt) {
-                    case RFMDisplay.positiveRate:
-                        aet &#x3D; RFMEventType.Like;
-                        break;
-                    case RFMDisplay.unrate:
-                        aet &#x3D; RFMEventType.LikeReset;
-                        break;
-                    case RFMDisplay.negativeRate:
-                        aet &#x3D; RFMEventType.Dislike;
-                        break;
-                }
-                break;
-            case &quot;click&quot;:
-                switch (evt) {
-                    case RFMDisplay.positiveRate:
-                        aet &#x3D; RFMEventType.ClickSet;
-                        break;
-                    case RFMDisplay.unrate:
-                        aet &#x3D; RFMEventType.ClickReset;
-                        break;
-                    //case RFMDisplay.negativeRate:
-                    //aet &#x3D; AuditEventType.RFM_Dislike;
-                    //break;
-                }
-                break;
-        }
-        return aet;
-    }
-
-    public notifyRfmAction(rfmEvent: any, record: Record, results: Results) {
-        this.auditService.notifyDocument(rfmEvent, record, results, undefined, {
-            queryhash: this.searchService.results ? this.searchService.results.rfmQueryHash : undefined,
-            querytext: this.searchService.query.text,
-            querylang: this.searchService.query.questionLanguage || (this.appService.ccquery &amp;&amp; this.appService.ccquery.questionLanguage)
-        });
-    }
-
-
-    /**
-     * Called every time new results come in.
-     * Performs a request for
-     * @param results
-     */
-    private updateRfm(results: Results | undefined) {
-        if (results &amp;&amp; results.records) {
-            const ccquery &#x3D; this.appService.ccquery;
-            if (ccquery &amp;&amp; ccquery.rFM) {
-                Utils.subscribe(this.rfmService.getRfmData(ccquery.rFM, results),
-                    (value) &#x3D;&gt; {
-                        if (value) {
-                            for (const record of results.records) {
-                                const rfmData &#x3D; value[record.id];
-                                if (!!rfmData) {
-                                    record.rfm &#x3D; rfmData;
-                                }
-                            }
-                            this._events.next({type: &quot;updated&quot;});
-                        }
-                    });
-            }
+    protected clear() {
+        for (const item of this.items) {
+            this.searchService.removeBreadcrumbsItem(item);
         }
     }
 }
@@ -543,7 +516,7 @@ export class RFMService implements OnDestroy {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
-            var COMPODOC_CURRENT_PAGE_URL = 'Action-1.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'FacetMySearchParams.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

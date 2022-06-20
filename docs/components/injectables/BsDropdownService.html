@@ -217,8 +217,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="122"
-                            class="link-to-prism">action/bootstrap/dropdown.service.ts:122</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">action/bootstrap/dropdown.service.ts:118</a></div>
                 </td>
             </tr>
 
@@ -286,8 +286,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">action/bootstrap/dropdown.service.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">action/bootstrap/dropdown.service.ts:82</a></div>
                 </td>
             </tr>
 
@@ -323,8 +323,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="246"
-                            class="link-to-prism">action/bootstrap/dropdown.service.ts:246</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="242"
+                            class="link-to-prism">action/bootstrap/dropdown.service.ts:242</a></div>
                 </td>
             </tr>
 
@@ -392,8 +392,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="242"
-                            class="link-to-prism">action/bootstrap/dropdown.service.ts:242</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="238"
+                            class="link-to-prism">action/bootstrap/dropdown.service.ts:238</a></div>
                 </td>
             </tr>
 
@@ -474,7 +474,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">action/bootstrap/dropdown.service.ts:91</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">action/bootstrap/dropdown.service.ts:87</a></div>
                                 </td>
                             </tr>
 
@@ -487,7 +487,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, OnDestroy, RendererFactory2, Renderer2, Inject} from &quot;@angular/core&quot;;
 import {Subject, Observable} from &quot;rxjs&quot;;
-import {Keys} from &quot;@sinequa/core/base&quot;;
+import {Keys, StrictUnion} from &quot;@sinequa/core/base&quot;;
 import {DOCUMENT} from &quot;@angular/common&quot;;
 
 // Based on  Bootstrap (v4.4.1): dropdown.js
@@ -564,10 +564,6 @@ export class BsDropdownService implements OnDestroy {
         this.unlisteners.push(this.renderer.listen(this.document, &quot;keyup&quot;, this.clearMenus));
         this.unlisteners.push(this.renderer.listen(this.document, &quot;click&quot;, this.toggle));
         this.unlisteners.push(this.renderer.listen(this.document, &quot;click&quot;, this.formChildClick));
-        this.unlisteners.push(this.renderer.listen(this.document, &quot;wheel&quot;, () &#x3D;&gt; {
-            this.raiseClear();
-            this.raiseActive(false);
-        }));
     }
 
     ngOnDestroy() {
@@ -639,9 +635,9 @@ export class BsDropdownService implements OnDestroy {
         //    - If key is not up or down &#x3D;&gt; not a dropdown command
         //    - If trigger inside the menu &#x3D;&gt; not a dropdown command
         if (/input|textarea/i.test((event.target as Element).tagName) ?
-            event.which &#x3D;&#x3D;&#x3D; Keys.space || event.which !&#x3D;&#x3D; Keys.esc &amp;&amp;
-            (event.which !&#x3D;&#x3D; Keys.down &amp;&amp; event.which !&#x3D;&#x3D; Keys.up || (event.target as Element).closest(gSelector.MENU)) :
-            !(event.which &#x3D;&#x3D;&#x3D; Keys.up || event.which &#x3D;&#x3D;&#x3D; Keys.down || event.which &#x3D;&#x3D;&#x3D; Keys.esc)) {
+            event.key &#x3D;&#x3D;&#x3D; Keys.space || event.key !&#x3D;&#x3D; Keys.esc &amp;&amp;
+            (event.key !&#x3D;&#x3D; Keys.down &amp;&amp; event.key !&#x3D;&#x3D; Keys.up || (event.target as Element).closest(gSelector.MENU)) :
+            !(event.key &#x3D;&#x3D;&#x3D; Keys.up || event.key &#x3D;&#x3D;&#x3D; Keys.down || event.key &#x3D;&#x3D;&#x3D; Keys.esc)) {
             return;
         }
 
@@ -655,12 +651,12 @@ export class BsDropdownService implements OnDestroy {
         const parent &#x3D; this.getParentFromElement(descendant);
         const isActive &#x3D; parent instanceof HTMLElement &amp;&amp; parent.classList.contains(gClassName.SHOW);
 
-        if (!isActive &amp;&amp; event.which &#x3D;&#x3D;&#x3D; Keys.esc) {
+        if (!isActive &amp;&amp; event.key &#x3D;&#x3D;&#x3D; Keys.esc) {
             return;
         }
 
-        if (!isActive || isActive &amp;&amp; (event.which &#x3D;&#x3D;&#x3D; Keys.esc || event.which &#x3D;&#x3D;&#x3D; Keys.space)) {
-            if (event.which &#x3D;&#x3D;&#x3D; Keys.esc) {
+        if (!isActive || isActive &amp;&amp; (event.key &#x3D;&#x3D;&#x3D; Keys.esc || event.key &#x3D;&#x3D;&#x3D; Keys.space)) {
+            if (event.key &#x3D;&#x3D;&#x3D; Keys.esc) {
                 const toggle &#x3D; parent instanceof Element &amp;&amp; parent.querySelector(gSelector.DATA_TOGGLE);
                 if (toggle instanceof HTMLElement) {
                     // toggle.dispatchEvent(new Event(&quot;focus&quot;, {bubbles: true}));
@@ -685,11 +681,11 @@ export class BsDropdownService implements OnDestroy {
 
         let index &#x3D; items.indexOf(event.target as HTMLElement);
 
-        if (event.which &#x3D;&#x3D;&#x3D; Keys.up &amp;&amp; index &gt; 0) { // Up
+        if (event.key &#x3D;&#x3D;&#x3D; Keys.up &amp;&amp; index &gt; 0) { // Up
             index--;
         }
 
-        if (event.which &#x3D;&#x3D;&#x3D; Keys.down &amp;&amp; index &lt; items.length - 1) { // Down
+        if (event.key &#x3D;&#x3D;&#x3D; Keys.down &amp;&amp; index &lt; items.length - 1) { // Down
             index++;
         }
 
@@ -700,9 +696,9 @@ export class BsDropdownService implements OnDestroy {
         items[index].focus();
     }
 
-    private clearMenus &#x3D; (event: KeyboardEvent | MouseEvent): boolean | void &#x3D;&gt; {
-        if (event &amp;&amp; (event.which &#x3D;&#x3D;&#x3D; 3 /*RIGHT_MOUSE_BUTTON_WHICH*/ ||
-            event.type &#x3D;&#x3D;&#x3D; &#x27;keyup&#x27; &amp;&amp; event.which !&#x3D;&#x3D; Keys.tab)) {
+    private clearMenus &#x3D; (event: StrictUnion&lt;KeyboardEvent | MouseEvent&gt;): boolean | void &#x3D;&gt; {
+        if (event &amp;&amp; (event.button &#x3D;&#x3D;&#x3D; 2 /*RIGHT_MOUSE_BUTTON_WHICH*/ ||
+            event.type &#x3D;&#x3D;&#x3D; &#x27;keyup&#x27; &amp;&amp; event.key !&#x3D;&#x3D; Keys.tab)) {
             return;
         }
         this._events.next({type: &quot;clear&quot;, sourceEvent: event});
@@ -729,7 +725,7 @@ export class BsDropdownService implements OnDestroy {
     raiseClear() {
         this._events.next({type: &quot;clear&quot;, sourceEvent: undefined});
     }
-    
+
     raiseActive(active: boolean) {
         this._events.next({type: &quot;active&quot;, value: active});
     }

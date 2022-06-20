@@ -120,7 +120,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>auditEvents:     <code>AuditEvent[]</code>
+                                        <code>auditEvents:         <code><a href="../interfaces/Event.html" target="_self" >AuditEvent[]</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -128,7 +128,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>    <code>AuditEvent[]</code>
+                                            <i>Type : </i>        <code><a href="../interfaces/Event.html" target="_self" >AuditEvent[]</a></code>
 
                                         </td>
                                     </tr>
@@ -158,7 +158,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>savedQueries:     <code>SavedQuery[]</code>
+                                        <code>savedQueries:         <code><a href="../interfaces/SavedQuery.html" target="_self" >SavedQuery[]</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -166,7 +166,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>    <code>SavedQuery[]</code>
+                                            <i>Type : </i>        <code><a href="../interfaces/SavedQuery.html" target="_self" >SavedQuery[]</a></code>
 
                                         </td>
                                     </tr>
@@ -666,10 +666,12 @@ export class SavedQueriesService implements OnDestroy {
             return Promise.resolve(ModalResult.Cancel);
         }
 
+        const defaultQueryWebService &#x3D; this.appService.app.queryExport.split(&#x27;,&#x27;)[0];
+
         const model: ExportQueryModel &#x3D; {
             format: ExportOutputFormat.Csv,
             export: exportType,
-            webService: this.appService.app.queryExport
+            webService: defaultQueryWebService
         };
 
         if (savedQuery &amp;&amp; exportType &#x3D;&#x3D;&#x3D; ExportSourceType.SavedQuery) {

@@ -88,6 +88,7 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                    <span class="modifier"></span>
                                 <a href="#startConfig" >startConfig</a>
                             </li>
                         </ul>
@@ -1124,6 +1125,7 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
                     <a name="startConfig"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
+                            <span class="modifier"></span>
                         <span ><b>startConfig</b></span>
                         <a href="#startConfig"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1173,7 +1175,7 @@ export class DocBuilderWebService extends HttpService {
     private static readonly endpoint &#x3D; &quot;OriginalDocMerge&quot;;
 
     constructor(
-        @Inject(START_CONFIG) public startConfig: StartConfig,
+        @Inject(START_CONFIG) public override startConfig: StartConfig,
         private httpClient: SqHttpClient,
         public downloadService: DownloadWebService
     ){

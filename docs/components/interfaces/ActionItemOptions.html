@@ -434,8 +434,8 @@ export class BsActionItem implements OnInit, AfterViewInit {
     constructor(
         private uiService: UIService,
         private elementRef: ElementRef,
-        private cdRef: ChangeDetectorRef) {
-    }
+        private cdRef: ChangeDetectorRef
+    ) {}
 
     get haveItem(): boolean {
         return !!this.options.item;
@@ -520,7 +520,7 @@ export class BsActionItem implements OnInit, AfterViewInit {
     get styleClass(): string {
         return this.options.style ? &#x60;btn-${this.options.style}&#x60; : &quot;btn-light&quot;;
     }
-    
+
     get dropdownMenuOptions(): DropdownMenuOptions {
         return ({...this.options, showMenuClass: &#x27;show&#x27;});
     }
@@ -570,7 +570,8 @@ export class BsActionItem implements OnInit, AfterViewInit {
     focusin() {
         this.showDropdown &#x3D; true;
     }
-}</code></pre>
+}
+</code></pre>
     </div>
 </div>
 

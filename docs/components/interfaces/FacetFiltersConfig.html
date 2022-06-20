@@ -1,0 +1,311 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Components</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Components</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li
+  >
+  FacetFiltersConfig</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>facet/bootstrap/facet-filters/facet-filters.ts</code>
+        </p>
+
+
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../interfaces/FacetConfig.html" target="_self" >FacetConfig</a></code>
+            </p>
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Component, Input, OnChanges, OnDestroy, Type} from &quot;@angular/core&quot;;
+import {Results} from &quot;@sinequa/core/web-services&quot;;
+import {FacetService} from &quot;../../facet.service&quot;;
+import {Action} from &quot;@sinequa/components/action&quot;;
+import { FacetConfig, default_facet_components } from &quot;../../facet-config&quot;;
+import { MapOf } from &quot;@sinequa/core/base&quot;;
+import { Subscription } from &quot;rxjs&quot;;
+
+declare interface FacetFiltersConfig extends FacetConfig&lt;{aggregation?: string}&gt; {}
+
+@Component({
+    selector: &quot;sq-facet-filters&quot;,
+    templateUrl: &quot;./facet-filters.html&quot;,
+    styleUrls: [&quot;./facet-filters.scss&quot;]
+})
+export class BsFacetFilters implements OnChanges, OnDestroy {
+    @Input() results: Results;
+    @Input() facets: FacetFiltersConfig[];
+    @Input() facetComponents: MapOf&lt;Type&lt;any&gt;&gt; &#x3D; default_facet_components;
+    @Input() enableCustomization &#x3D; false;
+
+    @Input() autoAdjust: boolean &#x3D; true;
+    @Input() autoAdjustBreakpoint: string &#x3D; &#x27;xl&#x27;;
+    @Input() collapseBreakpoint: string &#x3D; &#x27;sm&#x27;;
+    @Input() rightAligned: boolean &#x3D; false;
+    @Input() size: string;
+
+    filters: Action[] &#x3D; [];
+    hidden: boolean &#x3D; false;
+
+    sub: Subscription;
+
+    constructor(
+        private facetService: FacetService
+    ) {
+        this.hidden &#x3D; false;
+        this.filters &#x3D; [];
+    }
+
+    ngOnChanges() {
+        if (this.enableCustomization) {
+            if (!this.facetService.defaultFacets) {
+                this.facetService.defaultFacets &#x3D; this.facets.map(
+                    facet &#x3D;&gt; ({name: facet.name, position: 0})
+                );
+            }
+
+            if (!this.facetService.allFacets) {
+                this.facetService.allFacets &#x3D; this.facets;
+            }
+        }
+
+        if(this.results) {
+            this.buildFilters();
+        }
+        else {
+            this.hidden&#x3D;true;
+        }
+
+        if(!this.sub) {
+            this.sub &#x3D; this.facetService.changes.subscribe(() &#x3D;&gt; this.buildFilters());
+        }
+    }
+
+    ngOnDestroy(): void {
+        this.sub.unsubscribe();
+    }
+
+    /**
+     * Build filters bar actions
+     */
+    protected buildFilters() {
+
+        // For each facet
+        this.filters &#x3D; this.filteredFacets.map((facet: FacetFiltersConfig) &#x3D;&gt; {
+
+            const children &#x3D; [
+                new Action({
+                    component: this.facetComponents[facet.type],
+                    componentInputs: {
+                        ...facet.parameters,
+                        name: facet.name,
+                        results: this.results,
+                        displayActions: true
+                    }
+                })
+            ];
+
+            const disabled &#x3D; !this.hasData(facet);
+            const filtered &#x3D; this.hasFiltered(facet.name);
+
+            return new Action({
+                name: facet.name,
+                text: facet.title,
+                title: facet.title,
+                icon: facet.icon,
+                disabled,
+                styles: &#x60;${facet.className || &#x27;&#x27;} ${filtered? &quot;filtered&quot; : disabled? &quot;disabled&quot; : &#x27;&#x27;}&#x60;,
+                children: children
+            });
+        });
+
+        if (this.enableCustomization) {
+          this.filters.unshift(this.facetService.createFacetMenu());
+        }
+    }
+
+    /**
+     * Use to outline facet when filters are sets
+     * @param facetName facet name
+     *
+     * @returns true if filters are sets otherwise false
+     */
+    protected hasFiltered(facetName): boolean {
+        return this.facetService.hasFiltered(facetName);
+    }
+
+    /**
+     * Use to disable menu item when no items in a facet
+     * @param facet facet to check
+     *
+     * @returns true if facet contains at least one item otherwise false
+     */
+    protected hasData(facet: FacetFiltersConfig): boolean {
+        if(!facet.parameters?.aggregation) return false;
+        return this.facetService.hasData(facet.parameters.aggregation, this.results);
+    }
+
+
+    get filteredFacets() {
+        const filtered &#x3D; this.facets.filter(facet &#x3D;&gt; this.facetService.isFacetIncluded(facet, this.results))
+
+        if (!this.enableCustomization) return filtered;
+
+        const new_facets: FacetFiltersConfig[] &#x3D; [];
+
+        if (this.userFacets) {
+            for (const facet of filtered) {
+                const pos &#x3D; this.userFacets.findIndex((userFacet) &#x3D;&gt; userFacet.name &#x3D;&#x3D;&#x3D; facet.name);
+                if (pos &gt;&#x3D; 0) new_facets.push(facet);
+            }
+        }
+        return new_facets;
+    }
+
+    get userFacets() {
+        return this.facetService.facets;
+    }
+
+    get hasFacetSelected() {
+        if (this.userFacets.length &#x3D;&#x3D;&#x3D; 0) return false;
+        for (const facet of this.facets) {
+            if (this.userFacets.find(userFacet &#x3D;&gt; userFacet.name &#x3D;&#x3D;&#x3D; facet.name)) return true;
+        }
+        return false;
+    }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'FacetFiltersConfig.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

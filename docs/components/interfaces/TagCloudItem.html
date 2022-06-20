@@ -226,6 +226,22 @@ import { Action } from &quot;@sinequa/components/action&quot;;
 import { FacetService } from &quot;../../facet.service&quot;;
 import { Utils } from &quot;@sinequa/core/base&quot;;
 import {AppService} from &quot;@sinequa/core/app-utils&quot;;
+import { FacetConfig } from &quot;../../facet-config&quot;;
+
+export interface FacetTagCloudParams {
+    aggregations: string | string[];
+    limit?: number;
+    uniformRepartition?: boolean;
+    showCount?: boolean;
+    proportionalWeight?: boolean;
+    countThreshold?: number;
+    shuffleData?: boolean;
+    isolateFacetFilters?: boolean;
+}
+
+export interface FacetTagCloudConfig extends FacetConfig&lt;FacetTagCloudParams&gt; {
+    type: &#x27;tag-cloud&#x27;;
+}
 
 export interface TagCloudItem {
     aggregation: Aggregation;
@@ -238,7 +254,7 @@ export interface TagCloudItem {
     templateUrl: &quot;./facet-tag-cloud.html&quot;,
     styleUrls: [&quot;./facet-tag-cloud.scss&quot;],
 })
-export class BsFacetTagCloud extends AbstractFacet implements OnChanges {
+export class BsFacetTagCloud extends AbstractFacet implements FacetTagCloudParams, OnChanges {
     /** search results */
     @Input() results: Results;
     /** list of aggregations to be considered in collecting tag-cloud data */
@@ -281,7 +297,7 @@ export class BsFacetTagCloud extends AbstractFacet implements OnChanges {
             action: () &#x3D;&gt; {
                 if (Utils.isArray(this.aggregations)) {
                     for (const aggregation of this.aggregations) this.facetService.clearFiltersSearch(this.getName(aggregation), true);
-                } else { 
+                } else {
                     this.facetService.clearFiltersSearch(this.getName(this.aggregations), true);
                 }
             },
@@ -424,7 +440,7 @@ export class BsFacetTagCloud extends AbstractFacet implements OnChanges {
         }
         event.preventDefault();
     }
-    
+
     /**
      * Get a column&#x27;s alias
      * @param column column name
@@ -437,7 +453,7 @@ export class BsFacetTagCloud extends AbstractFacet implements OnChanges {
     /**
      * Define the possible actions according to the actual context
      */
-    get actions(): Action[] {
+    override get actions(): Action[] {
         const actions: Action[] &#x3D; [];
         if(this.isFiltering()) {
             actions.push(this.clearFilters);
