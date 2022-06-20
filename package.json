@@ -85,7 +85,7 @@
     "lodash": "^4.17.15",
     "marked": "^4.0.10",
     "matchmedia-polyfill": "^0.3.2",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "ng2-ui-auth": "^10.0.1",
     "ng5-slider": "^1.2.4",
     "ngx-bootstrap": "^8.0.0",
