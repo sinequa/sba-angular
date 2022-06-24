@@ -18,7 +18,7 @@ import {AuthenticationService, ProcessedCredentials, Credentials, UserOverride} 
  * * `session-changed`: emitted whenever the login state changes - login, logout and user override
  */
 export interface SessionEvent {
-    type: "session-start" | "session-end" | "session-changed";
+    type: "session-start" | "session-end" | "session-changed" | "login-complete" | "login-failed" | "logout-complete";
 }
 
 
@@ -128,13 +128,16 @@ export class LoginService implements OnDestroy {
      * The `session-end` event is emitted
      */
     logout() {
-        this._events.next({type: "session-end"});
-        this.appService.clear();
-        this.principalService.principal = undefined;
-        this.userSettingsService.userSettings = undefined;
-        this.authenticationService.deactivateUserOverride();
-        this.authenticationService.logout();
-        this.setComplete();
+        if (this.complete) {
+            this._events.next({ type: "session-end" });
+            this.appService.clear();
+            this.principalService.principal = undefined;
+            this.userSettingsService.userSettings = undefined;
+            this.authenticationService.deactivateUserOverride();
+            this.authenticationService.logout();
+            this.setComplete();
+            this._events.next({ type: "logout-complete" });
+        }
     }
 
     /**
@@ -149,8 +152,9 @@ export class LoginService implements OnDestroy {
         this.appService.clear();
         this.principalService.principal = undefined;
         this.userSettingsService.userSettings = undefined;
-        this.setComplete();
-        Utils.delay().then(() => this.login());
+
+        this.complete = false;
+        this.login();
     }
 
     private switchPrincipal(principal: Principal) {
@@ -249,9 +253,11 @@ export class LoginService implements OnDestroy {
                 if (appNeeded) {
                     this._events.next({type: "session-start"});
                 }
+                this._events.next({ type: "login-complete" });
             },
             (error) => {
                 console.log("loginService.login failed: ", error);
+                this._events.next({ type: "login-failed" });
                 // proceed to logout to clean process
                 this.logout();
                 return throwError(error);
