@@ -1,9 +1,13 @@
-import {Injectable, InjectionToken, Optional, Inject, OnDestroy} from "@angular/core";
-import {Router} from "@angular/router";
-import {SearchService} from "./search.service";
-import {Subscription, Observable, of} from 'rxjs';
-import {Utils} from "@sinequa/core/base";
-import {AuditEventType, Results} from "@sinequa/core/web-services";
+import { Inject, Injectable, InjectionToken, OnDestroy, Optional } from "@angular/core";
+import { Router } from "@angular/router";
+import { Observable, of, Subscription } from 'rxjs';
+import { filter, switchMap, tap } from "rxjs/operators";
+
+import { Utils } from "@sinequa/core/base";
+import { LoginService } from "@sinequa/core/login";
+import { AuditEventType, Results } from "@sinequa/core/web-services";
+
+import { SearchService } from "./search.service";
 
 export interface FirstPageOptions {
     displayOnHomePage?: boolean;
@@ -15,33 +19,40 @@ export const FIRST_PAGE_OPTIONS = new InjectionToken<FirstPageOptions>("FIRST_PA
     providedIn: "root"
 })
 export class FirstPageService implements OnDestroy {
-    private searchSubscription: Subscription;
-    firstPage: Results;
+    private subscriptions: Subscription = new Subscription();
+    firstPage?: Results;
 
     constructor(
         @Optional() @Inject(FIRST_PAGE_OPTIONS) protected options: FirstPageOptions,
         protected searchService: SearchService,
+        protected loginService: LoginService,
         protected router: Router
     ) {
         if (!this.options) {
             this.options = {};
         }
-        this.searchSubscription = this.searchService.events.subscribe(
-            (event) => {
-                if (event.type === "clear") {
-                    if (this.displayOnHomePage(event.path)) {
-                        Utils.subscribe(this.getFirstPage(),
-                            (results) => {
-                                this.searchService.setResults(results);
-                            });
-                    }
-                }
-            }
+        this.subscriptions.add(
+            this.searchService.events
+                .pipe(
+                    filter(event => event.type === "clear"),
+                    filter(event => this.displayOnHomePage((event as SearchService.ClearEvent).path)),
+                    switchMap(_ => this.getFirstPage())
+                ).subscribe()
+        );
+
+        // when session changed, on login complete, cache results must be cleared before to get the first page query
+        this.subscriptions.add(
+            this.loginService.events
+                .pipe(
+                    filter(event => event.type === "login-complete"),
+                    tap(_ => this.firstPage = undefined),
+                    switchMap(_ => this.getFirstPage())
+                ).subscribe()
         );
     }
 
     ngOnDestroy() {
-        this.searchSubscription.unsubscribe();
+        this.subscriptions.unsubscribe();
     }
 
     /**
@@ -74,22 +85,22 @@ export class FirstPageService implements OnDestroy {
         }
     }
 
+    /**
+     * "If the first page is already cached, return it as an observable, otherwise,
+     * make a query, set the isFirstPage flag to true, and then return the results
+     * as an observable."
+     *
+     * @returns Observable<Results>
+     */
     getFirstPage(): Observable<Results> {
         if (this.firstPage) {
-            return of<Results>(this.firstPage);
+            return of(this.firstPage);
         }
         const query = this.searchService.makeQuery();
         query.isFirstPage = true;
-        const observable = this.searchService.getResults(query, {
-            type: AuditEventType.Search_FirstPage
-        }, {
-            searchInactive: true
-        });
-        Utils.subscribe(observable,
-            (results) => {
-                this.firstPage = results;
-                return results;
-            });
-        return observable;
+
+        // side effect, set cache results, then return "results" as observable
+        return this.searchService.getResults(query, { type: AuditEventType.Search_FirstPage }, { searchInactive: true })
+            .pipe(tap(results => this.firstPage = results))
     }
 }

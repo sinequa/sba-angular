@@ -62,7 +62,7 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
   @ViewChild('searchContainer') searchContainer: ElementRef;
   private timeout: any;
 
-  private subscriptions: Subscription[] = [];
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     public voiceService: VoiceRecognitionService,
@@ -77,7 +77,7 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
 
     this.voiceService.init();
 
-    this.subscriptions.push(...[
+    this.subscriptions.add(...[
         this.voiceService.started.subscribe(state => {
         this.voiceRecognitionState = state;
       }),
@@ -98,7 +98,7 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
     });
 
     // Every time the query changes, we want to update the search form
-    this.subscriptions.push(this.searchService.queryStream.subscribe(query => {
+    this.subscriptions.add(this.searchService.queryStream.subscribe(query => {
       // Update main search bar
       this.searchControl.setValue(this.searchService.query?.text || '');
       this.fieldSearchExpression = query?.findSelect("search-form")?.expression;
@@ -123,15 +123,22 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
     }));
 
     // Initialize the search form options (either now, or when login is complete)
-    if(this.appService.app) {
+    if (this.appService.app) {
       this.setOptions();
     }
     else {
-      this.subscriptions.push(this.loginService.events.subscribe(event => {
-        if(this.appService.app) {
-          this.setOptions();
-        }
-      }));
+      this.subscriptions.add(this.loginService.events.subscribe(
+        (event) => {
+          if (event.type === "login-complete") {
+            if (this.appService.app) {
+              this.setOptions();
+            }
+          }
+          if (event.type === "logout-complete") {
+            this.showAdvancedSearch = false;
+          }
+        })
+      );
     }
   }
 
@@ -141,7 +148,7 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.map(item => item.unsubscribe());
+    this.subscriptions.unsubscribe();
   }
 
   setOptions() {
