@@ -1,5 +1,7 @@
-import {TestBed} from "@angular/core/testing";
-import {Router} from "@angular/router";
+import { TestBed } from "@angular/core/testing";
+import { LocationStrategy } from "@angular/common";
+import { MockLocationStrategy } from "@angular/common/testing";
+import { Router } from "@angular/router";
 
 import {AuditWebService, QueryIntentWebService, QueryWebService, Results, Tab} from "@sinequa/core/web-services";
 import {AppService, FormatService, Query} from "@sinequa/core/app-utils";
@@ -41,7 +43,8 @@ describe("SearchService", () => {
         {provide: NotificationsService, useFactory: NotificationsServiceFactory},
         {provide: LoginService, useFactory: LoginServiceFactory},
         {provide: IntlService, useValue: {}},
-        {provide: QueryIntentWebService, useFactory: QueryIntentWebServiceFactory}
+        {provide: QueryIntentWebService, useFactory: QueryIntentWebServiceFactory},
+        {provide: LocationStrategy, useClass: MockLocationStrategy}
       ]
     });
 
