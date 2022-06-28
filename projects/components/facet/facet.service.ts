@@ -999,8 +999,11 @@ export class FacetService {
     suggestionsToTreeAggregationNodes(suggests: Suggestion[], searchTerm: string, aggregation: Aggregation | undefined): TreeAggregationNode[] {
         const suggestions: TreeAggregationNode[] = [];
         if(suggests.length > 0) {
-            const path2node = new Map<string,TreeAggregationNode>();
-            const searchPattern = new RegExp(`\\b${searchTerm}`, 'i');
+            const path2node = new Map<string, TreeAggregationNode>();
+
+            // searchTerm should be escaped
+            const term = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const searchPattern = new RegExp(`\\b${term}`, 'i');
             const column = this.appService.getColumn(aggregation?.column);
             suggests.forEach(suggest => {
                 if(suggest.display.length > 1) {

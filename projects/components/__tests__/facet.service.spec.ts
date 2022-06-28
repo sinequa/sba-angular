@@ -1,7 +1,7 @@
 import {TestBed} from "@angular/core/testing";
 import {HttpHandler} from '@angular/common/http';
 
-import {UserSettingsWebService, Aggregation, AggregationItem, START_CONFIG, EngineType} from '@sinequa/core/web-services';
+import {UserSettingsWebService, Aggregation, AggregationItem, START_CONFIG, EngineType, Suggestion, TreeAggregationNode} from '@sinequa/core/web-services';
 import {AppService, FormatService, Expr, ExprValueInitializer, ExprOperandsInitializer, ExprOperator, Query, ExprBuilder} from '@sinequa/core/app-utils';
 import {IntlService} from '@sinequa/core/intl';
 
@@ -228,7 +228,7 @@ describe("FacetService", () => {
 				spyOn(searchService.query, "replaceSelect");
 				//spyOn<any>(service, "makeExpr").and.callThrough();
 
-				Object.assign(item2.expr, {parent: {operands: [item.expr, item2.expr]}});
+				Object.assign(item2.expr!, {parent: {operands: [item.expr, item2.expr]}});
 				spyOn<any>(service, "findItemFilter").and.returnValue(item2.expr);
 				spyOn<any>(searchService.breadcrumbs?.activeSelects, "findIndex").and.returnValue(1);
 
@@ -660,7 +660,7 @@ describe("FacetService", () => {
 				expect(searchService.query.removeSelect).not.toHaveBeenCalledWith(0);
 			});
 
-			it("sould append filter to query with options.forceAdd", () => {
+			it("should append filter to query with options.forceAdd", () => {
 				// breadcrumps: IRAQ
 				// expected breadcrumps: IRAQ / IOWA
 				// Given
@@ -1091,6 +1091,90 @@ describe("FacetService", () => {
 			const aggItems = service.exprToAggregationItem(result, aggregation[facetName].valuesAreExpressions);
 			expect(aggItems.length).toEqual(1);
 			expect(aggItems[0]).toEqual({count: 0, value: 344091, display: undefined, $column: jasmine.anything(), $excluded: undefined});
+		})
+
+	})
+
+	describe("suggestionsToTreeAggregationNodes", () => {
+		it("should return a list of suggestions", () => {
+			const suggests: Suggestion[] = [
+				{
+					category: "category",
+					display: "/Wiki (test)/",
+					frequency: "123"
+				},
+				{
+					category: "category 2",
+					display: "/Wiki (abc)/"
+				},
+			];
+
+			const term = "Wiki";
+			const agg = aggregation.treepath;
+
+			const nodes: TreeAggregationNode[] = service.suggestionsToTreeAggregationNodes(suggests, term, agg);
+			expect(nodes.length).toEqual(2);
+			expect(nodes[0].value).toEqual("Wiki (test)");
+			expect(nodes[0].$path).toEqual("/Wiki (test)/");
+			expect(nodes[0].count).toEqual(123);
+
+			expect(nodes[1].value).toEqual("Wiki (abc)");
+			expect(nodes[1].$path).toEqual("/Wiki (abc)/");
+			expect(nodes[1].count).toEqual(0);
+		})
+
+		it("should return a list of suggestions where search term contains special characters", () => {
+			const suggests: Suggestion[] = [
+				{
+					category: "category",
+					display: "/Wiki (test)/",
+					frequency: "123"
+				},
+				{
+					category: "category 2",
+					display: "/Wiki (abc)/"
+				},
+			];
+
+			const term = "Wiki (";
+			const agg = aggregation.treepath;
+
+			const nodes: TreeAggregationNode[] = service.suggestionsToTreeAggregationNodes(suggests, term, agg);
+			expect(nodes.length).toEqual(2);
+			expect(nodes[0].value).toEqual("Wiki (test)");
+			expect(nodes[0].$path).toEqual("/Wiki (test)/");
+			expect(nodes[0].count).toEqual(123);
+
+			expect(nodes[1].value).toEqual("Wiki (abc)");
+			expect(nodes[1].$path).toEqual("/Wiki (abc)/");
+			expect(nodes[1].count).toEqual(0);
+		})
+
+		it("should return a list of suggestions where search term contains special characters", () => {
+			const suggests: Suggestion[] = [
+				{
+					category: "category",
+					display: "/Wiki (test)/",
+					frequency: "123"
+				},
+				{
+					category: "category 2",
+					display: "/Wiki (abc)/"
+				},
+			];
+
+			const term = "Wiki [*.)/\[**+(";
+			const agg = aggregation.treepath;
+
+			const nodes: TreeAggregationNode[] = service.suggestionsToTreeAggregationNodes(suggests, term, agg);
+			expect(nodes.length).toEqual(2);
+			expect(nodes[0].value).toEqual("Wiki (test)");
+			expect(nodes[0].$path).toEqual("/Wiki (test)/");
+			expect(nodes[0].count).toEqual(123);
+
+			expect(nodes[1].value).toEqual("Wiki (abc)");
+			expect(nodes[1].$path).toEqual("/Wiki (abc)/");
+			expect(nodes[1].count).toEqual(0);
 		})
 
 	})
