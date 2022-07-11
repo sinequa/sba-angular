@@ -12,12 +12,12 @@
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/core/tsconfig.lib.json",
+            "tsConfig": "tsconfig.build.json",
             "project": "projects/core/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/core/tsconfig.lib.prod.json"
+              "tsConfig": "tsconfig.build.json"
             }
           }
         },
@@ -43,18 +43,18 @@
     "components": {
       "projectType": "library",
       "root": "projects/components",
-      "sourceRoot": "projects/components",
-      "prefix": "lib",
+      "sourceRoot": "projects/components/src",
+      "prefix": "sq",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/components/tsconfig.lib.json",
+            "tsConfig": "tsconfig.build.json",
             "project": "projects/components/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/components/tsconfig.lib.prod.json"
+              "tsConfig": "tsconfig.build.json"
             }
           }
         },
@@ -91,7 +91,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist-debug/hello-search",
+            "outputPath": "dist/hello-search",
             "index": "projects/hello-search/src/index.html",
             "main": "projects/hello-search/src/main.ts",
             "polyfills": "projects/hello-search/src/polyfills.ts",
@@ -289,7 +289,7 @@
               ]
             },
             "development" : {
-              "outputPath": "dist-debug/vanilla-search",
+              "outputPath": "dist/vanilla-search",
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -435,7 +435,7 @@
               ]
             },
             "development": {
-              "outputPath": "dist-debug/pepper",
+              "outputPath": "dist/pepper",
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -513,19 +513,19 @@
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "projects/analytics/tsconfig.lib.json",
+            "tsConfig": "tsconfig.build.json",
             "project": "projects/analytics/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/analytics/tsconfig.lib.prod.json"
+              "tsConfig": "tsconfig.build.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/analytics/src/test.ts",
+            "main": "projects/analytics/test.ts",
             "tsConfig": "projects/analytics/tsconfig.spec.json",
             "karmaConfig": "projects/analytics/karma.conf.js"
           }
@@ -534,7 +534,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/analytics/tsconfig.lib.json",
+              "projects/analytics/tsconfig.json",
               "projects/analytics/tsconfig.spec.json"
             ],
             "exclude": [
@@ -544,6 +544,5 @@
         }
       }
     }
-  },
-  "defaultProject": "core"
+  }
 }

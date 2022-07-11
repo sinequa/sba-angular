@@ -1,19 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../../out-tsc/spec",
-    "types": [
-      "jasmine",
-      "node"
-    ],
-    "paths": {
-      "@sinequa/core": ["projects/core/public-api"],
-      "@sinequa/core/*": ["projects/core/*"],
-      "@sinequa/components": ["projects/components/public-api"],
-      "@sinequa/components/*": ["projects/components/*"],
-      "@testing/*": ["projects/components/__tests__/*"]
-    }
-  },
+  "extends": "../../tsconfig.spec.json",
   "files": [
     "test.ts"
   ],

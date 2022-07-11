@@ -19,22 +19,25 @@
     "noUnusedLocals": true,
     "strictFunctionTypes": true,
     "strictNullChecks": true,
+    "incremental": true,
     "noImplicitOverride": true,
     "typeRoots": [
       "node_modules/@types",
-      "projects/core/@types"
+      "projects/core/@types",
+      "projects/core/base/strict-union"
     ],
     "lib": [
       "es2018",
       "dom"
     ],
     "paths": {
-      "@sinequa/core": ["dist/core"],
-      "@sinequa/core/*": ["dist/core/*"],
-      "@sinequa/components": ["dist/components"],
-      "@sinequa/components/*": ["dist/components/*"],
-      "@sinequa/analytics": ["dist/analytics"],
-      "@sinequa/analytics/*": ["dist/analytics/*"]
+      "@sinequa/core": ["projects/core"],
+      "@sinequa/core/*": ["projects/core/*"],
+      "@sinequa/components": ["projects/components"],
+      "@sinequa/components/*": ["projects/components/*"],
+      "@sinequa/analytics": ["projects/analytics"],
+      "@sinequa/analytics/*": ["projects/analytics/*"],
+      "@testing/*": ["projects/components/__tests__/*"]
     }
   },
   "angularCompilerOptions": {

@@ -23,6 +23,7 @@
     "exclude": [
         "e2e",
         "src/environments/*",
-        "**/*.spec.ts"
+        "**/*.spec.ts",
+        "test.ts"
     ]
 }

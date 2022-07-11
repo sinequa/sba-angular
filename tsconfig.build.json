@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["projects/**/*.ts"],
+  "exclude":["projects/**/test.ts","**/*.spec.ts"],
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "declaration": true,
+    "sourceMap": true,
+    "inlineSourceMap": true,
+    "inlineSources": true,
+    "paths": {
+      "@sinequa/core": ["./dist/core"],
+      "@sinequa/core/*": ["./dist/core/*"],
+      "@sinequa/components": ["./dist/components"],
+      "@sinequa/components/*": ["./dist/components/*"],
+      "@sinequa/analytics": ["./dist/analytics"],
+      "@sinequa/analytics/*": ["./dist/analytics/*"]
+    }
+  },
+}
