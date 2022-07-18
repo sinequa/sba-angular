@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { AppService } from "@sinequa/core/app-utils";
 import { Locale, IntlService } from "@sinequa/core/intl";
 import {MapOf} from "@sinequa/core/base";
@@ -19,7 +19,7 @@ import {JsonInfo} from './jsonInfo.model';
 })
 export class BsUserSettingsEditor implements OnInit {
 
-    @Input() public form: FormGroup;
+    @Input() public form: UntypedFormGroup;
     @Input() public model: MapOf<any>;
     @Input() public layout: MapOf<JsonInfo.Entry>;
     @Input() showUILanguageSelector: boolean;
@@ -28,7 +28,7 @@ export class BsUserSettingsEditor implements OnInit {
     constructor(
         private appService: AppService,
         private intlService: IntlService,
-        private formBuilder: FormBuilder
+        private formBuilder: UntypedFormBuilder
     ) {
     }
 

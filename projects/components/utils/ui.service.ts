@@ -190,7 +190,7 @@ export class UIService implements OnDestroy {
         return false;
     }
 
-    getContentRect(element: HTMLElement): ClientRect {
+    getContentRect(element: HTMLElement): DOMRect {
         const rect = element.getBoundingClientRect();
         const computedStyle = window.getComputedStyle(element);
         const borderLeft = parseFloat(computedStyle.borderLeft);
@@ -207,7 +207,10 @@ export class UIService implements OnDestroy {
             bottom: rect.bottom - borderBottom - paddingBottom,
             left: rect.left + borderLeft + paddingLeft,
             width: rect.width - borderLeft - paddingLeft - paddingRight - borderRight,
-            height: rect.height - borderTop - paddingTop - paddingBottom - borderBottom
+            height: rect.height - borderTop - paddingTop - paddingBottom - borderBottom,
+            x: rect.left + borderLeft + paddingLeft,
+            y: rect.top + borderTop + paddingTop,
+            toJSON: () => ''
         };
     }
 
@@ -401,7 +404,7 @@ export class UIService implements OnDestroy {
     removeElementResizeListener(element: HTMLElement, listener: (this: HTMLElement) => void) {
         this.elementResizeDetector.removeListener(element, listener);
     }
-    
+
     copyToClipboard(data: string, maxLength = 30) {
         if (!navigator?.clipboard) {
             // Note: CDK seems to struggle with large chunks of text

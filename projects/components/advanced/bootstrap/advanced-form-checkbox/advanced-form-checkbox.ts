@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from "@angular/core";
-import { FormGroup } from "@angular/forms";
+import { UntypedFormGroup } from "@angular/forms";
 import { AppService } from '@sinequa/core/app-utils';
 
 @Component({
@@ -7,7 +7,7 @@ import { AppService } from '@sinequa/core/app-utils';
     templateUrl: "./advanced-form-checkbox.html",
 })
 export class BsAdvancedFormCheckbox implements OnChanges {
-    @Input() form: FormGroup;
+    @Input() form: UntypedFormGroup;
     @Input() field: string;
     @Input() label: string;
 

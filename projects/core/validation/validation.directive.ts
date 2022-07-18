@@ -1,5 +1,5 @@
 import {Directive, Input, OnInit, DoCheck, InjectionToken, Type, Inject, ViewContainerRef} from "@angular/core";
-import {FormGroup, AbstractControl} from "@angular/forms";
+import {UntypedFormGroup, AbstractControl} from "@angular/forms";
 import {Utils, MapOf} from "@sinequa/core/base";
 import {LoadComponentService, LoadedComponent} from "@sinequa/core/load-component";
 import {ValidationService} from "./validation.service";
@@ -11,7 +11,7 @@ export interface ValidationOptions {
     /**
      * The `FormGroup` container.
      */
-    form: FormGroup;
+    form: UntypedFormGroup;
     /**
      * Identifies the control to validate. Defaults to the value of the `formControlName`
      * attribute on the element to which the `ValidationDirective` is attached.
@@ -54,9 +54,9 @@ export const VALIDATION_MESSAGE_COMPONENT = new InjectionToken<Type<any>>("VALID
     selector: "[sqValidation]"
 })
 export class ValidationDirective implements OnInit, DoCheck {
-    @Input("sqValidation") options: FormGroup | ValidationOptions;
+    @Input("sqValidation") options: UntypedFormGroup | ValidationOptions;
     private element: HTMLElement;
-    private form: FormGroup;
+    private form: UntypedFormGroup;
     private control: AbstractControl;
     private validClass?: string;
     private invalidClass?: string;
@@ -83,7 +83,7 @@ export class ValidationDirective implements OnInit, DoCheck {
             return;
         }
         let controlName;
-        if (this.options instanceof FormGroup) {
+        if (this.options instanceof UntypedFormGroup) {
             this.form = this.options;
         }
         else {

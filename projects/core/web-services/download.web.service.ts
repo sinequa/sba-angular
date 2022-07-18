@@ -25,10 +25,11 @@ export class DownloadWebService {
                 const header = response.headers.get('content-disposition');
                 const fileName = header ? header.split('filename=')[1].replace('"', '').replace('"', '') : "";
 
+                if (response.body === null) return response;
                 if (window.navigator && window.navigator.msSaveOrOpenBlob) {
                     // For IE
                     window.navigator.msSaveOrOpenBlob(response.body, fileName);
-                } else {
+                } else  {
                     const link = document.createElement('a');
                     document.body.appendChild(link);
                     const blobUrl = window.URL.createObjectURL(response.body);

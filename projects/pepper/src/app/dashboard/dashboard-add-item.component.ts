@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { ModalButton, ModalResult } from '@sinequa/core/modal';
 import { Action } from '@sinequa/components/action';
 import { MODAL_MODEL } from '@sinequa/core/modal';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { DashboardItemOption } from './dashboard.service';
 
 export interface DashboardAddItemModel {
@@ -55,7 +55,7 @@ export class DashboardAddItemComponent {
             new ModalButton({
                 result: ModalResult.OK,
                 primary: true,
-                validation: this.validation as FormGroup
+                validation: this.validation as UntypedFormGroup
             }),
             new ModalButton({
                 result: ModalResult.Cancel

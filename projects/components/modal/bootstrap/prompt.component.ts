@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from "@angular/core";
-import { FormControl, FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormBuilder, Validators, UntypedFormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { MODAL_MODEL, PromptOptions, ModalResult, ModalRef, ModalButton} from "@sinequa/core/modal";
 import { Utils } from '@sinequa/core/base';
@@ -20,19 +20,19 @@ import { Utils } from '@sinequa/core/base';
     `
 })
 export class BsPrompt implements OnInit, OnDestroy {
-    inputControl: FormControl;
-    form: FormGroup;
+    inputControl: UntypedFormControl;
+    form: UntypedFormGroup;
     formChanges: Subscription;
     buttons: ModalButton[];
 
     constructor(
         @Inject(MODAL_MODEL) public model: PromptOptions,
         protected modalRef: ModalRef,
-        protected formBuilder: FormBuilder) {
+        protected formBuilder: UntypedFormBuilder) {
     }
 
     ngOnInit() {
-        this.inputControl = new FormControl(this.model.output, this.model.validators || Validators.required);
+        this.inputControl = new UntypedFormControl(this.model.output, this.model.validators || Validators.required);
         this.form = this.formBuilder.group({
             input: this.inputControl
         });

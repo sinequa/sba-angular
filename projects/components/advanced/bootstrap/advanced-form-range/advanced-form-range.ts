@@ -4,7 +4,7 @@ import {
     OnInit,
     OnDestroy,
 } from "@angular/core";
-import { FormGroup, AbstractControl } from "@angular/forms";
+import { UntypedFormGroup, AbstractControl } from "@angular/forms";
 import { Subscription } from "rxjs";
 import { Utils } from "@sinequa/core/base";
 import { CCColumn } from "@sinequa/core/web-services";
@@ -15,7 +15,7 @@ import { AppService } from "@sinequa/core/app-utils";
     templateUrl: "./advanced-form-range.html"
 })
 export class BsAdvancedFormRange implements OnInit, OnDestroy {
-    @Input() form: FormGroup;
+    @Input() form: UntypedFormGroup;
     @Input() field: string;
     @Input() min: Date | number | string;
     @Input() max: Date | number | string;

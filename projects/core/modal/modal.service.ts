@@ -1,5 +1,5 @@
 import {Injectable, Inject, Type, Injector, InjectionToken} from "@angular/core";
-import {FormGroup, ValidatorFn} from "@angular/forms";
+import {UntypedFormGroup, ValidatorFn} from "@angular/forms";
 import {Overlay, OverlayConfig, OverlayRef} from '@angular/cdk/overlay';
 import {ComponentPortal} from '@angular/cdk/portal';
 import {Utils, Keys} from "@sinequa/core/base";
@@ -160,7 +160,7 @@ export interface IModalButton {
      * The validation `FormGroup` that should be tested when the button is clicked.
      * The button will only perform its `action` when the validation is `valid`.
      */
-    validation?: FormGroup;
+    validation?: UntypedFormGroup;
     /**
      * Indicats whether the button should be rendered with an `<a>` tag rather than
      * a `<button>` tag.
@@ -198,7 +198,7 @@ export class ModalButton implements IModalButton {
      * The validation `FormGroup` that should be tested when the button is clicked.
      * The button will only perform its `action` when the validation is `valid`.
      */
-    validation: FormGroup;
+    validation: UntypedFormGroup;
     /**
      * Indicats whether the button should be rendered with an `<a>` tag rather than
      * a `<button>` tag.

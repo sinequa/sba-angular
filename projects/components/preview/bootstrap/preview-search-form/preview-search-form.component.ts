@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Query } from '@sinequa/core/app-utils';
 
 @Component({
@@ -12,13 +12,13 @@ export class BsPreviewSearchFormComponent implements OnChanges {
   @Output() searchText = new EventEmitter<string>();
 
   // Search form
-  readonly form: FormGroup;
-  readonly searchControl: FormControl;
+  readonly form: UntypedFormGroup;
+  readonly searchControl: UntypedFormControl;
 
   constructor(
-    private formBuilder: FormBuilder) {
+    private formBuilder: UntypedFormBuilder) {
 
-    this.searchControl = new FormControl('');
+    this.searchControl = new UntypedFormControl('');
     this.form = this.formBuilder.group({
       search: this.searchControl
     });

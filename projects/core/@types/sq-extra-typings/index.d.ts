@@ -69,8 +69,8 @@ declare module AutoScroller {
     export interface AutoScroll {
         destroy: () => void
     }
-        
-    export interface AutoScrollerFactory {    
+
+    export interface AutoScrollerFactory {
         (elements: Element[], options: any): AutoScroll
     }
 }
@@ -128,3 +128,7 @@ declare namespace Intl {
         format(value: number, unit: RelativeTimeUnit);
     }
 }
+
+interface Navigator {
+    msSaveOrOpenBlob: (Blob: Blob | string, filename: string) => void;
+  }

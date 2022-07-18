@@ -9,7 +9,7 @@ import { ValidationService } from "@sinequa/core/validation";
 import { START_CONFIG, CCColumn } from "@sinequa/core/web-services";
 import { HttpHandler } from "@angular/common/http";
 import { IntlService, LOCALES_CONFIG } from "@sinequa/core/intl";
-import { FormControl } from "@angular/forms";
+import { UntypedFormControl } from "@angular/forms";
 import { MODAL_LOGIN } from '@sinequa/core/login';
 import { MODAL_CONFIRM, MODAL_PROMPT } from '@sinequa/core/modal';
 import { AuthService } from 'ng2-ui-auth';
@@ -67,7 +67,7 @@ describe("AdvancedService", () => {
   describe("advanced validators", () => {
     it("min", () => {
       const validator = service.validators.min(10, "toto");
-      const control = new FormControl("control", [validator]);
+      const control = new UntypedFormControl("control", [validator]);
       control.setValue(1);
       expect(control.errors?.min).toBeDefined();
       expect(control.valid).toBeFalsy();
@@ -75,7 +75,7 @@ describe("AdvancedService", () => {
 
     it("max", () => {
       const validator = service.validators.max(10, "toto");
-      const control = new FormControl("control", [validator]);
+      const control = new UntypedFormControl("control", [validator]);
       control.setValue(11);
       expect(control.errors?.max).toBeDefined();
       expect(control.valid).toBeFalsy();
@@ -83,7 +83,7 @@ describe("AdvancedService", () => {
 
     it("required", () => {
       const validator = service.validators.required;
-      const control = new FormControl("control", [validator]);
+      const control = new UntypedFormControl("control", [validator]);
       control.setValue(null);
       expect(control.errors?.required).toBeDefined();
       expect(control.valid).toBeFalsy();
@@ -91,7 +91,7 @@ describe("AdvancedService", () => {
 
     it("email", () => {
       const validator = service.validators.email;
-      const control = new FormControl("control", [validator]);
+      const control = new UntypedFormControl("control", [validator]);
       control.setValue("test");
       expect(control.errors?.email).toBeDefined();
       expect(control.valid).toBeFalsy();
@@ -99,7 +99,7 @@ describe("AdvancedService", () => {
 
     it("pattern", () => {
       const validator = service.validators.pattern("^[0-9]+$");
-      const control = new FormControl("control", [validator]);
+      const control = new UntypedFormControl("control", [validator]);
       control.setValue("abc");
       expect(control.errors?.pattern).toBeDefined();
       expect(control.valid).toBeFalsy();
@@ -107,7 +107,7 @@ describe("AdvancedService", () => {
 
     it("integer", () => {
       const validator = service.validators.integer("toto");
-      const control = new FormControl("control", [validator]);
+      const control = new UntypedFormControl("control", [validator]);
       control.setValue(1.8);
       expect(control.errors?.integer).toBeDefined();
       expect(control.valid).toBeFalsy();
@@ -115,7 +115,7 @@ describe("AdvancedService", () => {
 
     it("number", () => {
       const validator = service.validators.number("toto");
-      const control = new FormControl("control", [validator]);
+      const control = new UntypedFormControl("control", [validator]);
       control.setValue("test");
       expect(control.errors?.number).toBeDefined();
       expect(control.valid).toBeFalsy();
@@ -123,7 +123,7 @@ describe("AdvancedService", () => {
 
     it("range", () => {
       const validator = service.validators.range("toto");
-      const control = new FormControl("control", [validator]);
+      const control = new UntypedFormControl("control", [validator]);
       control.setValue(["b", "a"]);
       expect(control.errors?.range).toBeDefined();
       expect(control.valid).toBeFalsy();
@@ -131,7 +131,7 @@ describe("AdvancedService", () => {
 
     it("date", () => {
       const validator = service.validators.date("toto");
-      const control = new FormControl("control", [validator]);
+      const control = new UntypedFormControl("control", [validator]);
       control.setValue("10");
       expect(control.errors?.date).toBeDefined();
       expect(control.valid).toBeFalsy();

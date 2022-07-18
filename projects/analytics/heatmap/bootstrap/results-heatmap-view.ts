@@ -7,7 +7,7 @@ import { SearchService } from "@sinequa/components/search";
 import { BsFacetHeatmapComponent } from './facet-heatmap.component';
 import { FacetService } from '@sinequa/components/facet';
 import { SelectionService } from '@sinequa/components/selection';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { UserPreferences } from '@sinequa/components/user-settings';
 
 
@@ -27,7 +27,7 @@ export class BsResultsHeatmapView extends BsFacetHeatmapComponent {
         public override searchService: SearchService,
         public override facetService: FacetService,
         public override selectionService: SelectionService,
-        public override formBuilder: FormBuilder,
+        public override formBuilder: UntypedFormBuilder,
         public override cdRef: ChangeDetectorRef,
         public override prefs: UserPreferences,
         public resultsViewService : ResultsViewService

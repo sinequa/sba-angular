@@ -1,5 +1,5 @@
 import {Component, HostBinding, OnInit, OnDestroy, Inject} from "@angular/core";
-import {FormBuilder, FormGroup, FormControl, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {START_CONFIG, StartConfig} from "@sinequa/core/web-services";
 import {ModalService, MODAL_MODEL, ModalRef, ModalButton, ModalResult} from "@sinequa/core/modal";
@@ -12,10 +12,10 @@ import {AuthenticationService, Credentials} from "@sinequa/core/login";
 })
 export class BsLogin implements OnInit, OnDestroy {
     @HostBinding("class.sq-login") true;
-    userNameControl: FormControl;
-    passwordControl: FormControl;
-    providerNameControl: FormControl;
-    form: FormGroup;
+    userNameControl: UntypedFormControl;
+    passwordControl: UntypedFormControl;
+    providerNameControl: UntypedFormControl;
+    form: UntypedFormGroup;
     formChanges: Subscription;
     buttons: ModalButton[];
     providers: any[];
@@ -25,15 +25,15 @@ export class BsLogin implements OnInit, OnDestroy {
         @Inject(MODAL_MODEL) protected model: Credentials,
         protected modalService: ModalService,
         protected modalRef: ModalRef,
-        protected formBuilder: FormBuilder,
+        protected formBuilder: UntypedFormBuilder,
         @Inject(START_CONFIG) protected startConfig: StartConfig,
         protected authenticationService: AuthenticationService) {
     }
 
     ngOnInit() {
-        this.userNameControl = new FormControl(this.model.userName, Validators.required);
-        this.passwordControl = new FormControl(this.model.password, Validators.required);
-        this.providerNameControl = new FormControl();
+        this.userNameControl = new UntypedFormControl(this.model.userName, Validators.required);
+        this.passwordControl = new UntypedFormControl(this.model.password, Validators.required);
+        this.providerNameControl = new UntypedFormControl();
         this.form = this.formBuilder.group({
             userName: this.userNameControl,
             password: this.passwordControl,

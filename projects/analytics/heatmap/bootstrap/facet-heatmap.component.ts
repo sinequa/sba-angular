@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, ChangeDetectorRef, SimpleChanges, DoCheck, Optional, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import {Subject} from 'rxjs';
 import {distinctUntilChanged, filter} from 'rxjs/operators';
 
@@ -59,7 +59,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     clearFilters: Action;
 
     // Settings form
-    form: FormGroup;
+    form: UntypedFormGroup;
 
     // Selected items
     readonly selectedItems = new Set<string>();
@@ -79,7 +79,7 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
         public searchService: SearchService,
         public facetService: FacetService,
         public selectionService: SelectionService,
-        public formBuilder: FormBuilder,
+        public formBuilder: UntypedFormBuilder,
         public cdRef: ChangeDetectorRef,
         public prefs: UserPreferences,
         @Optional() public cardComponent?: BsFacetCard
@@ -199,10 +199,10 @@ export class BsFacetHeatmapComponent extends AbstractFacet implements OnChanges,
     override onOpenSettings(opened: boolean){
         if(opened) {
 
-            const maxXControl = new FormControl(this.maxXPref);
-            const maxYControl = new FormControl(this.maxYPref);
-            const rescaleControl = new FormControl(!!this.prefs.get(this._name+'-rescale'));
-            const colorControl = new FormControl(this.colorSchemePref);
+            const maxXControl = new UntypedFormControl(this.maxXPref);
+            const maxYControl = new UntypedFormControl(this.maxYPref);
+            const rescaleControl = new UntypedFormControl(!!this.prefs.get(this._name+'-rescale'));
+            const colorControl = new UntypedFormControl(this.colorSchemePref);
 
             this.form = this.formBuilder.group({
                 maxX: maxXControl,

@@ -18,8 +18,5 @@
   },
   "dependencies": {
     "@sinequa/components": "^0.0.1"
-  },
-  "devDependencies": {
-    "@types/googlemaps": "^3.39.12"
   }
 }

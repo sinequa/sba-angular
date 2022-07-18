@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ModalButton, ModalResult } from "@sinequa/core/modal";
 import { UserSettingsWebService } from "@sinequa/core/web-services";
 import { MapOf, Utils } from "@sinequa/core/base";
@@ -22,13 +22,13 @@ export class BsEditUserSettings implements OnInit {
 
     public model: MapOf<any>;
     public layout: MapOf<JsonInfo.Entry>;
-    public form: FormGroup;
+    public form: UntypedFormGroup;
     public buttons: ModalButton[];
 
     constructor(
         private userSettingsService: UserSettingsWebService,
         private intlService: IntlService,
-        private formBuilder: FormBuilder,
+        private formBuilder: UntypedFormBuilder,
     ) {
     }
 

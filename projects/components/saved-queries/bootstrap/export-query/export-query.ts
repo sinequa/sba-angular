@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Inject, ChangeDetectorRef} from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ValidationService } from "@sinequa/core/validation";
 import { NotificationsService } from "@sinequa/core/notification";
@@ -29,7 +29,7 @@ export class BsExportQuery implements OnInit, OnDestroy {
     public readonly outputFormats: typeof ExportOutputFormat = ExportOutputFormat;
     public readonly sourceTypes: typeof ExportSourceType = ExportSourceType;
 
-    public form: FormGroup;
+    public form: UntypedFormGroup;
     public savedQueries: string[] = [];
     public buttons: ModalButton[] = [];
     public isDownloading = false;
@@ -41,7 +41,7 @@ export class BsExportQuery implements OnInit, OnDestroy {
 
     constructor(
         @Inject(MODAL_MODEL) public model: ExportQueryModel,
-        private formBuilder: FormBuilder,
+        private formBuilder: UntypedFormBuilder,
         private appService: AppService,
         private selectionService: SelectionService,
         private savedQueriesService: SavedQueriesService,

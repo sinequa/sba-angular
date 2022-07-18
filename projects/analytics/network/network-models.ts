@@ -2,9 +2,8 @@
 import { Subject } from 'rxjs';
 import { Action } from '@sinequa/components/action';
 import { Utils } from '@sinequa/core/base';
-import { DataSet } from "vis-data/peer/esm/vis-data";
 import { SearchService } from '@sinequa/components/search';
-import { VisNetworkService } from 'ngx-vis';
+import { DataSet, VisNetworkService } from 'ngx-vis';
 import { AppService, ExprBuilder } from '@sinequa/core/app-utils';
 import { IntlService } from '@sinequa/core/intl';
 
@@ -58,7 +57,7 @@ export interface Edge {
     // Custom properties
     type: EdgeType;
     provider: NetworkProvider;
-    visible: boolean;    
+    visible: boolean;
     /** count is a property representing the strength of an edge, which scales the count of adjacent nodes*/
     count: number;
     /** A field value may be provided to filter search based on the edge field type */
@@ -104,7 +103,7 @@ export interface NetworkProvider {
 
     /** Retrieve the list of action for a given node, and this provider. */
     getNodeActions(node: Node): Action[];
-    
+
     /** Retrieve the list of action for a given edge, and this provider. */
     getEdgeActions(edge: Edge): Action[];
 
@@ -142,7 +141,7 @@ export class NetworkDataset {
     public hasNode(id: string): boolean {
         return this.nodeIdx.has(id);
     }
-    
+
     /** Returns whether this edge exists */
     public hasEdge(id: string): boolean {
         return this.edgeIdx.has(id);
@@ -166,7 +165,7 @@ export class NetworkDataset {
     /** Get the list of edges */
     public getEdges(): Edge[] {
         return Array.from(this.edgeIdx.values());
-    }    
+    }
 
     /** Get the list of visible nodes */
     public getVisibleNodes(): Node[] {
@@ -187,7 +186,7 @@ export class NetworkDataset {
     public getEdgeIds(): string[] {
         return Array.from(this.edgeIdx.keys());
     }
-    
+
     /** Clears this dataset */
     public clear() {
         this.nodeIdx.clear();
@@ -238,15 +237,15 @@ export class NetworkDataset {
     }
 
     /**
-     * Merge this dataset with another one. 
-     * 
+     * Merge this dataset with another one.
+     *
      * When duplicates nodes or edges are found:
      * - The existing item is kept and updated
      * - Their 'count' properties are added
      * - Their 'visible' properties are ORed
      * - Their nodeOptions and edgeOptions are updated
-     * 
-     * @param dataset 
+     *
+     * @param dataset
      */
     public merge(dataset: NetworkDataset): NetworkDataset {
 
@@ -322,14 +321,14 @@ export class NetworkDataset {
         edges.update(this.getVisibleEdges());
     }
 
-    
+
     private addNode(node: Node) {
         if(this.hasNode(node.id)) {
             throw new Error(`Node '${node.id}' already in dataset`);
         }
         this.nodeIdx.set(node.id, node);
     }
-    
+
     private addEdge(edge: Edge) {
         if(this.hasEdge(edge.id)) {
             throw new Error(`Edge '${edge.id}' already in dataset`);

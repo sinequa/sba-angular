@@ -1,7 +1,7 @@
 /* Dépendences fonctionnelles internes d'Angular */
 import { Injectable } from "@angular/core";
 import {
-    FormControl,
+    UntypedFormControl,
     ValidatorFn,
     AsyncValidatorFn,
     Validators,
@@ -94,7 +94,7 @@ export class AdvancedService {
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[],
         query = this.searchService.query
-    ): FormControl {
+    ): UntypedFormControl {
         const value = this.getValue(field, query);
         return this.createControl(value, validators, asyncValidators);
     }
@@ -111,7 +111,7 @@ export class AdvancedService {
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[],
         query = this.searchService.query
-    ): FormControl {
+    ): UntypedFormControl {
         const value = this.getRangeValue(field, query);
         return this.createControl(value, validators, asyncValidators);
     }
@@ -128,7 +128,7 @@ export class AdvancedService {
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[],
         query = this.searchService.query
-    ): FormControl {
+    ): UntypedFormControl {
         const value = this.getValue(field, query);
         return this.createControl(value, validators, asyncValidators);
     }
@@ -145,7 +145,7 @@ export class AdvancedService {
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[],
         query = this.searchService.query
-    ): FormControl {
+    ): UntypedFormControl {
         const value = this.getValue(field, query);
         return this.createControl(value, validators, asyncValidators);
     }
@@ -162,7 +162,7 @@ export class AdvancedService {
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[],
         query = this.searchService.query
-    ): FormControl {
+    ): UntypedFormControl {
         const value = this.getBooleanValue(field, query);
         return this.createControl(value, validators, asyncValidators);
     }
@@ -591,8 +591,8 @@ export class AdvancedService {
         value: AdvancedValue | ValueItem | ValueItem[],
         validators?: ValidatorFn[],
         asyncValidators?: AsyncValidatorFn[]
-    ): FormControl {
-        return new FormControl(
+    ): UntypedFormControl {
+        return new UntypedFormControl(
             {
                 value,
                 disabled: false,

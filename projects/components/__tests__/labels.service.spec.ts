@@ -14,7 +14,7 @@ import { AppLocalesConfig } from './mocks/app.locales.config';
 import { LabelsService, LABELS_COMPONENTS, defaultLabelComponents, ModalProperties, BsRenameLabel, BsDeleteLabel, BsAddLabel, BsEditLabel } from '../labels';
 import { NotificationsService } from '@sinequa/core/notification';
 import { SelectionService, SELECTION_OPTIONS } from '../selection';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { VALIDATION_MESSAGE_COMPONENT } from '@sinequa/core/validation';
 import { UIService } from '../utils';
 import {
@@ -60,7 +60,7 @@ describe("LabelsService", () => {
         { provide: LABELS_COMPONENTS, useValue: defaultLabelComponents },
         { provide: SELECTION_OPTIONS, useValue: {} },
         LabelsWebService,
-        FormBuilder,
+        UntypedFormBuilder,
         { provide: VALIDATION_MESSAGE_COMPONENT, useValue: {} },
         { provide: UIService, useFactory: UIServiceFactory },
       ],

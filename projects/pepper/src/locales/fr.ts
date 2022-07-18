@@ -2,7 +2,7 @@ import {LocaleData} from "@sinequa/core/intl";
 import "moment/locale/fr";
 import d3Format from "d3-format/locale/fr-FR.json";
 import d3Time from "d3-time-format/locale/fr-FR.json";
-import {frCore} from "@sinequa/core";
+import {frCore} from "@sinequa/core/messages";
 import appMessages from "./messages/fr.json";
 import "intl/locale-data/jsonp/fr-FR"; // Safari
 import "@formatjs/intl-relativetimeformat/dist/locale-data/fr";

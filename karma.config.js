@@ -13,6 +13,9 @@ module.exports = function (config, path = '') {
       require('karma-mocha-reporter'),
       require('@angular-devkit/build-angular/plugins/karma')
     ],
+    files: [
+      require('path').join(__dirname, 'polyfill.js')
+    ],
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },

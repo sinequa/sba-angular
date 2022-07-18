@@ -1,5 +1,5 @@
 import { Directive, Input, OnInit } from "@angular/core";
-import { FormGroup } from "@angular/forms";
+import { UntypedFormGroup } from "@angular/forms";
 import { ValidationDirective } from "@sinequa/core/validation";
 
 @Directive({
@@ -7,7 +7,7 @@ import { ValidationDirective } from "@sinequa/core/validation";
 })
 export class BsAdvancedFormValidation extends ValidationDirective implements OnInit {
     @Input() field: string;
-    @Input() validationForm: FormGroup;
+    @Input() validationForm: UntypedFormGroup;
     
     override ngOnInit() {
         this.options = {

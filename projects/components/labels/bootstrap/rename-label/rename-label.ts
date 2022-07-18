@@ -6,9 +6,9 @@ import {
     ChangeDetectorRef,
 } from "@angular/core";
 import {
-    FormBuilder,
-    FormGroup,
-    FormControl,
+    UntypedFormBuilder,
+    UntypedFormGroup,
+    UntypedFormControl,
     Validators,
 } from "@angular/forms";
 import { Subscription } from "rxjs";
@@ -36,8 +36,8 @@ import { ModalProperties, LabelsService } from "../../labels.service";
     ],
 })
 export class BsRenameLabel implements OnInit, OnDestroy {
-    public labelControl: FormControl;
-    public form: FormGroup;
+    public labelControl: UntypedFormControl;
+    public form: UntypedFormGroup;
     public formChanges: Subscription;
     public buttons: ModalButton[];
     public isProcessing: boolean = false;
@@ -49,14 +49,14 @@ export class BsRenameLabel implements OnInit, OnDestroy {
             newValue: string,
             properties: ModalProperties
         },
-        private formBuilder: FormBuilder,
+        private formBuilder: UntypedFormBuilder,
         private labelsService: LabelsService,
         private changeDetectorRef: ChangeDetectorRef,
         private modalRef: ModalRef
     ) {}
 
     ngOnInit() {
-        this.labelControl = new FormControl(
+        this.labelControl = new UntypedFormControl(
             this.model.newValue,
             Validators.required
         );
