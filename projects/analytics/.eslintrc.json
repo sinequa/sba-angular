@@ -10,7 +10,7 @@
       ],
       "parserOptions": {
         "project": [
-          "projects/analytics/tsconfig.lib.json",
+          "tsconfig.json",
           "projects/analytics/tsconfig.spec.json"
         ],
         "createDefaultProgram": true
