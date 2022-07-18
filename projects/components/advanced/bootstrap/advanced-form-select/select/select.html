@@ -1,6 +1,6 @@
 <div class="dropdown">
     <!-- item-list toggle -->
-    <button #button [ngClass]="{'disabled': disabled}" class="btn btn-light dropdown-toggle form-control" data-bs-toggle="dropdown" type="button" role="button" (click)="toggleOpen()" (blur)="blur($event)" (keydown)="keydown($event)" tabindex="0"><span class="sq-button-text">{{buttonTitle | sqMessage:buttonTitleMessageParams}}</span></button>
+    <button #button [ngClass]="{'disabled': disabled}" class="btn btn-outline-secondary dropdown-toggle form-control" data-bs-toggle="dropdown" type="button" role="button" (click)="toggleOpen()" (blur)="blur($event)" (keydown)="keydown($event)" tabindex="0"><span class="sq-button-text">{{buttonTitle | sqMessage:buttonTitleMessageParams}}</span></button>
     <!-- item-list view -->
     <div *ngIf="opened" [hidden]="!isOpen" class="dropdown-menu dropdown-menu-end show" [style.max-height]="itemListHeight" role="combobox" (mousedown)="mousedown($event)">
         <!-- items -->
