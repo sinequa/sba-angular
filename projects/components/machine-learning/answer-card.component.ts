@@ -1,25 +1,17 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
+import { Component, EventEmitter, HostBinding, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
+import { SearchService } from "@sinequa/components/search";
 import { AppService } from "@sinequa/core/app-utils";
 import { NotificationsService } from "@sinequa/core/notification";
 import { Answer, AuditEvent, AuditWebService, Results } from "@sinequa/core/web-services";
-import { SearchService } from "@sinequa/components/search";
 
 @Component({
   selector: 'sq-answer-card',
-  templateUrl: './answer-card.component.html',
-  styles: [`
-  .card-body {
-    padding-bottom: .25em;
-  }
-  p {
-    white-space: break-spaces;
-    max-height: 15em;
-    overflow: auto;
-    margin-bottom: 0;
-  }
-  `]
+  templateUrl: 'answer-card.component.html',
+  styleUrls: ['answer-card.component.scss']
 })
-export class AnswerCardComponent implements OnChanges {
+export class AnswerCardComponent implements OnChanges, OnInit {
+  @HostBinding('class.sq-collapsed') collapsed: boolean;
+
   @Input() results: Results;
   @Output() answerOpened = new EventEmitter<Answer>();
   selectedAnswer: number;
@@ -37,10 +29,15 @@ export class AnswerCardComponent implements OnChanges {
     public appService: AppService,
     public auditService: AuditWebService,
     public notificationsService: NotificationsService
-  ){}
+  ) {}
+
+  ngOnInit(): void {
+    this.collapsed = true;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.selectedAnswer = 0;
+    this.collapsed = true;
   }
 
   openAnswer() {
@@ -56,7 +53,7 @@ export class AnswerCardComponent implements OnChanges {
   }
 
   setLiked(liked: boolean) {
-    let type = liked? "Answer_Liked" : "Answer_Disliked";
+    const type = liked? "Answer_Liked" : "Answer_Disliked";
     if(this.answer.$liked === liked) {
       this.answer.$liked = undefined;
       this.auditService.notify(this.makeAuditEvent(type+"_Cancelled"))

@@ -10,7 +10,7 @@
               <i class="far fa-thumbs-down" [ngClass]="{fas: answer.$liked === false}"></i>
           </button>
       </div>
-      <p [innerHtml]="answer.highlightedAnswer"></p>
+      <p [innerHtml]="answer.highlightedAnswer" class="sq-blockquote sq-text-ellipsis" (click)="collapsed = !collapsed"></p>
       <ng-container *ngIf="answer.record as record">
           <sq-result-title [record]="record" titleLinkBehavior="action" (titleClicked)="openAnswer()" class="d-block text-truncate"></sq-result-title>
           <sq-result-source [record]="record" [displayTreepath]="true"></sq-result-source>

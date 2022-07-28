@@ -1,0 +1,26 @@
+<h4>{{ 'msg#machine-learning.mostRelevantPassages' | sqMessage }}</h4>
+<ul class="list-group" [style.--line-clamp]="configuration.lineClamp">
+	<li
+		*ngFor="let passage of passages; let index = index;"
+		class="list-group-item list-group-item-action sq-passage"
+		[ngClass]="{'sq-passage--expanded': selected === index, 'list-group-item-primary': selected === index}"
+		(click)="expand(index)"
+	>
+		<div class="d-flex flex-row-reverse">
+			<div class="d-flex flex-column flex-grow-1 sq-passage-wrapper">
+				<sq-result-title *ngIf="configuration.showTitle" (click)="titleClicked($event, index, passage.record)" [record]="passage.record"></sq-result-title>
+				<sq-result-source *ngIf="configuration.showSource" [record]="passage.record" [displayTreepath]="true"></sq-result-source>
+
+				<span class="sq-text-ellipsis" #psg [innerHTML]="passage.text"></span>
+			</div>
+			<i
+				class="fas btn-toggle me-2"
+				[attr.data-height]="MIN_HEIGHT"
+				[ngClass]="{
+          'fa-chevron-down': selected !== index,
+          'fa-chevron-up': selected === index ,
+          'btn-toggle--hidden': psg.scrollHeight <= MIN_HEIGHT }"
+			></i>
+		</div>
+	</li>
+</ul>
