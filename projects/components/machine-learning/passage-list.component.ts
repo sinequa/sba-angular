@@ -4,30 +4,15 @@ import { MatchingPassage, Record } from "@sinequa/core/web-services";
 @Component({
   selector: 'sq-passage-list',
   template: `
-<div class="list-group list-group-flush" *ngIf="record.matchingpassages?.passages?.length">
-  <div class="list-group-item list-group-item-action" [ngClass]="{expanded: passage.$expanded}"
+<ol class="list-group list-group-flush list-group-numbered" *ngIf="record.matchingpassages?.passages?.length">
+  <li class="list-group-item list-group-item-action sq-passage" [ngClass]="{expanded: passage.$expanded}"
       *ngFor="let passage of record.matchingpassages?.passages|slice:0:maxPassages"
       (click)="expand(passage)">
-      <p [innerHtml]="passage.highlightedText"></p>
-  </div>
-</div>
+      <span class="sq-passage-text" [innerHtml]="passage.highlightedText || passage.text"></span>
+  </li>
+</ol>
   `,
-  styles: [`
-
-  .list-group-item {
-    cursor: pointer;
-    p {
-        max-height: 1.7rem;
-        transition: max-height .3s ease-in-out;
-        overflow: hidden;
-        margin-bottom: 0;
-        white-space: break-spaces;
-    }
-    &.expanded p {
-        max-height: 15rem;
-    }
-  }
-  `]
+  styleUrls: ['passage-list.component.scss']
 })
 export class PassageListComponent implements OnChanges {
   @Input() record: Record;
@@ -35,9 +20,8 @@ export class PassageListComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     const passages = this.record.matchingpassages?.passages;
-    if(passages) {
-      passages[0].$expanded = true;
-    }
+    // invalidate all $expanded property except for the first passage
+    passages?.forEach((p,index) => p.$expanded = index === 0);
   }
 
   expand(passage: MatchingPassage) {

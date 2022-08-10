@@ -1,0 +1,20 @@
+.list-group-item {
+  cursor: pointer;
+
+  max-height: 2.7rem;
+  line-height: 1.8rem;
+  font-weight: 300;
+  transition: max-height .3s ease-in;
+  overflow: hidden;
+  margin-bottom: 0;
+  white-space: break-spaces;
+
+  &.expanded {
+    max-height: 30rem;
+  }
+}
+
+.list-group-item::before {
+  font-size: medium;
+  font-weight: bold;
+}

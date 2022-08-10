@@ -94,6 +94,9 @@
             <!-- Answer card -->
             <sq-answer-card [results]="results" (answerOpened)="onAnswerOpened($event)"></sq-answer-card>
 
+            <!-- nth top pasages -->
+            <sq-top-passages class="d-block mt-2 mb-2" [results]="results" [config]="{showTitle: true, lineClamp: 3}" (onClick)="onTopPassageClick($event)"></sq-top-passages>
+
             <!-- List of documents (for loop) -->
             <div *ngFor="let record of results.records" class="record d-flex"
                 (click)="onDocumentClicked(record, $event)"
