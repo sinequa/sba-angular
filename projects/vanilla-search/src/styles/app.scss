@@ -198,6 +198,17 @@ sq-facet-tree {
     }
 }
 
+.sq-passage {
+    &::before {
+        color: var(--bs-primary);
+    }
+    .sq-passage-text {
+        b {
+            font-weight: 700;
+        }
+    }
+}
+
 // Flex basis classes
 .flex-basis-0 {
     flex-basis: 0;
