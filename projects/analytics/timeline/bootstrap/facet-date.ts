@@ -27,6 +27,7 @@ import {
 import { Subscription } from "rxjs";
 import { debounceTime, filter, map } from "rxjs/operators";
 import { BsFacetTimelineComponent, TimelineSeries } from ".";
+import moment from "moment";
 
 export interface FacetDateParams {
     aggregation: string
@@ -116,7 +117,10 @@ export class BsFacetDate
             this.subscriptions.push(
                 this.searchService.queryStream.subscribe(() => {
                     const value = this.getRangeValue();
-                    this.dateRangeControl.setValue(value, { emitEvent: false });
+                    this.dateRangeControl.setValue([
+                        !value[0] ? undefined : moment(value[0]),
+                        !value[1] ? undefined : moment(value[1])
+                      ], { emitEvent: false });
                     this.selection = !value[0] && !value[1] ? undefined : value;
                 })
             );
