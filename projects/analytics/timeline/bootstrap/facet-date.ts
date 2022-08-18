@@ -72,7 +72,7 @@ export class BsFacetDate
     dateRangeControl: FormControl;
 
     timeSeries: TimelineSeries[] = [];
-    selection: (Date | undefined)[];
+    selection: (Date | undefined)[] | undefined;
 
     protected subscriptions: Subscription[] = [];
     protected data: Aggregation | undefined;
@@ -117,11 +117,10 @@ export class BsFacetDate
             this.subscriptions.push(
                 this.searchService.queryStream.subscribe(() => {
                     const value = this.getRangeValue();
-                    this.dateRangeControl.setValue([
-                        !value[0] ? undefined : moment(value[0]),
-                        !value[1] ? undefined : moment(value[1])
-                      ], { emitEvent: false });
-                    this.selection = !value[0] && !value[1] ? undefined : value;
+                    const from = !value[0] ? undefined : moment(value[0]).toDate();
+                    const to = !value[1] ? undefined : moment(value[1]).toDate()
+                    this.dateRangeControl.setValue([from, to], { emitEvent: false });
+                    this.selection = !value[0] && !value[1] ? undefined : [from, to];
                 })
             );
 
