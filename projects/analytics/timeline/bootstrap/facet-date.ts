@@ -228,17 +228,13 @@ export class BsFacetDate
             const to = range[1];
 
             // ommit time part of the Date in order to remove display dates with hh:mm:ss in the breadcrumb
-            if (!!from) {
-                from.setHours(0);
-                from.setMinutes(0);
-                from.setSeconds(0);
-            }
+              from?.setHours(0);
+              from?.setMinutes(0);
+              from?.setSeconds(0);
 
-            if (!!to) {
-                to.setHours(0);
-                to.setMinutes(0);
-                to.setSeconds(0);
-            }
+              to?.setHours(0);
+              to?.setMinutes(0);
+              to?.setSeconds(0);
 
             // update search query with current selection
             if (from && to) {
