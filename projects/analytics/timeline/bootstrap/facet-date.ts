@@ -228,7 +228,7 @@ export class BsFacetDate
             const from = range[0];
             const to = range[1];
 
-            // ommit time part of the Date
+            // ommit time part of the Date in order to remove display dates with hh:mm:ss in the breadcrumb
             if (!!from) {
                 from.setHours(0);
                 from.setMinutes(0);
