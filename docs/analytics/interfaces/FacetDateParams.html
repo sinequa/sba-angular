@@ -481,6 +481,7 @@ import {
 import { Subscription } from &quot;rxjs&quot;;
 import { debounceTime, filter, map } from &quot;rxjs/operators&quot;;
 import { BsFacetTimelineComponent, TimelineSeries } from &quot;.&quot;;
+import moment from &quot;moment&quot;;
 
 export interface FacetDateParams {
     aggregation: string
@@ -525,7 +526,7 @@ export class BsFacetDate
     dateRangeControl: FormControl;
 
     timeSeries: TimelineSeries[] &#x3D; [];
-    selection: (Date | undefined)[];
+    selection: (Date | undefined)[] | undefined;
 
     protected subscriptions: Subscription[] &#x3D; [];
     protected data: Aggregation | undefined;
@@ -570,8 +571,10 @@ export class BsFacetDate
             this.subscriptions.push(
                 this.searchService.queryStream.subscribe(() &#x3D;&gt; {
                     const value &#x3D; this.getRangeValue();
-                    this.dateRangeControl.setValue(value, { emitEvent: false });
-                    this.selection &#x3D; !value[0] &amp;&amp; !value[1] ? undefined : value;
+                    const from &#x3D; !value[0] ? undefined : moment(value[0]).toDate();
+                    const to &#x3D; !value[1] ? undefined : moment(value[1]).toDate()
+                    this.dateRangeControl.setValue([from, to], { emitEvent: false });
+                    this.selection &#x3D; !value[0] &amp;&amp; !value[1] ? undefined : [from, to];
                 })
             );
 
@@ -677,6 +680,17 @@ export class BsFacetDate
         if (range) {
             const from &#x3D; range[0];
             const to &#x3D; range[1];
+
+            // ommit time part of the Date in order to remove display dates with hh:mm:ss in the breadcrumb
+              from?.setHours(0);
+              from?.setMinutes(0);
+              from?.setSeconds(0);
+
+              to?.setHours(0);
+              to?.setMinutes(0);
+              to?.setSeconds(0);
+
+            // update search query with current selection
             if (from &amp;&amp; to) {
                 expr &#x3D; this.exprBuilder.makeRangeExpr(this.field, from, to);
             } else if (from) {

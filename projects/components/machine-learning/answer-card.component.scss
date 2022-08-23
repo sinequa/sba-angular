@@ -1,0 +1,38 @@
+.card-body {
+  padding-bottom: .25em;
+}
+
+p {
+  position: relative;
+  padding: 0 1.2rem 0;
+  width: 100%;
+  margin: 1rem auto 1rem;
+
+  &.sq-blockquote {
+    cursor: pointer;
+    padding-left: 1em;
+    border-left: 0.2em solid #039be5;
+    line-height: 1.5em;
+    font-weight: 100;
+  }
+
+  &.sq-text-ellipsis {
+    --line-clamp: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box !important;
+    -webkit-line-clamp: var(--line-clamp);
+    -webkit-box-orient: vertical;
+    white-space: normal;
+  }
+}
+
+:host {
+  &.sq-collapsed {
+    p {
+      &.sq-text-ellipsis {
+        --line-clamp: 5;
+      }
+    }
+  }
+}

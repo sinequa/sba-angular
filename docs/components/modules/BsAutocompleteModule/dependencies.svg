@@ -14,13 +14,13 @@
 <title>cluster_BsAutocompleteModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 788,-230.8 788,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_BsAutocompleteModule_declarations</title>
-<polygon fill="none" stroke="black" points="126,-40.8 126,-92.8 780,-92.8 780,-40.8 126,-40.8"/>
-</g>
 <g id="clust8" class="cluster">
 <title>cluster_BsAutocompleteModule_exports</title>
 <polygon fill="none" stroke="black" points="65,-170.8 65,-222.8 732,-222.8 732,-170.8 65,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_BsAutocompleteModule_declarations</title>
+<polygon fill="none" stroke="black" points="126,-40.8 126,-92.8 780,-92.8 780,-40.8 126,-40.8"/>
 </g>
 <g id="clust7" class="cluster">
 <title>cluster_BsAutocompleteModule_imports</title>

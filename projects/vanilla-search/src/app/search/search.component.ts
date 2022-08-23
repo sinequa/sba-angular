@@ -283,4 +283,10 @@ export class SearchComponent implements OnInit {
     const record = this.searchService.results?.records.find(r => r.id === answer.record.id);
     this.openMiniPreview(record || answer.record);
   }
+
+  onTopPassageClick(passageRecord: Record) {
+    // Important to retrieve the "real" record if possible, as the one in the answer misses some metadata
+    const record = this.searchService.results?.records.find(r => r.id === passageRecord.id);
+    this.openMiniPreview(record || passageRecord);
+  }
 }
