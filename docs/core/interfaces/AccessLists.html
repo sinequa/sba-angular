@@ -91,7 +91,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="663" class="link-to-prism">web-services/query.web.service.ts:663</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="668" class="link-to-prism">web-services/query.web.service.ts:668</a></div>
                             </td>
                         </tr>
                 <tr>
@@ -118,6 +118,7 @@ import {IQuery} from &quot;./query/query&quot;;
 import {AuditEvents} from &quot;./audit.web.service&quot;;
 import {CCColumn, SpellingCorrectionMode} from &quot;./config/ccapp&quot;;
 
+import { TopPassage } from &quot;./models/top-passage&quot;;
 /**
  * Describes the results of a call to the query web service
  */
@@ -216,6 +217,10 @@ export interface Results {
      */
     answers?: {
       answers: Answer[]
+    }
+
+    topPassages?: {
+        passages?: TopPassage[]
     }
 }
 

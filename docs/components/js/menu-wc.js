@@ -796,18 +796,21 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/MLModule.html" data-type="entity-link" >MLModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-MLModule-a9cf33d74183f7b47000b4dac8c460694545453c22afed0b7754bf934d07b9faa6fca83fd9f3afc61d344499fe3bf3405f56bb0096ed613c0c7d83ca75cd293e"' : 'data-target="#xs-components-links-module-MLModule-a9cf33d74183f7b47000b4dac8c460694545453c22afed0b7754bf934d07b9faa6fca83fd9f3afc61d344499fe3bf3405f56bb0096ed613c0c7d83ca75cd293e"' }>
+                                            'data-target="#components-links-module-MLModule-598df8aa23a8c40193b8cc3ac8f4f5224cd091c8a42fac7c78f8bd19d59e0bcc8fc39ca3533b51d81dcb5f30500998c16daae3d9d862bd933cd2402407392e72"' : 'data-target="#xs-components-links-module-MLModule-598df8aa23a8c40193b8cc3ac8f4f5224cd091c8a42fac7c78f8bd19d59e0bcc8fc39ca3533b51d81dcb5f30500998c16daae3d9d862bd933cd2402407392e72"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-MLModule-a9cf33d74183f7b47000b4dac8c460694545453c22afed0b7754bf934d07b9faa6fca83fd9f3afc61d344499fe3bf3405f56bb0096ed613c0c7d83ca75cd293e"' :
-                                            'id="xs-components-links-module-MLModule-a9cf33d74183f7b47000b4dac8c460694545453c22afed0b7754bf934d07b9faa6fca83fd9f3afc61d344499fe3bf3405f56bb0096ed613c0c7d83ca75cd293e"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-MLModule-598df8aa23a8c40193b8cc3ac8f4f5224cd091c8a42fac7c78f8bd19d59e0bcc8fc39ca3533b51d81dcb5f30500998c16daae3d9d862bd933cd2402407392e72"' :
+                                            'id="xs-components-links-module-MLModule-598df8aa23a8c40193b8cc3ac8f4f5224cd091c8a42fac7c78f8bd19d59e0bcc8fc39ca3533b51d81dcb5f30500998c16daae3d9d862bd933cd2402407392e72"' }>
                                             <li class="link">
                                                 <a href="components/AnswerCardComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AnswerCardComponent</a>
                                             </li>
                                             <li class="link">
                                                 <a href="components/PassageListComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >PassageListComponent</a>
+                                            </li>
+                                            <li class="link">
+                                                <a href="components/TopPassagesComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >TopPassagesComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -1439,6 +1442,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/TagCloudItem.html" data-type="entity-link" >TagCloudItem</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/TopPassageConfig.html" data-type="entity-link" >TopPassageConfig</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/TreeValueItem.html" data-type="entity-link" >TreeValueItem</a>

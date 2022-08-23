@@ -225,6 +225,7 @@ import {IQuery} from &quot;./query/query&quot;;
 import {AuditEvents} from &quot;./audit.web.service&quot;;
 import {CCColumn, SpellingCorrectionMode} from &quot;./config/ccapp&quot;;
 
+import { TopPassage } from &quot;./models/top-passage&quot;;
 /**
  * Describes the results of a call to the query web service
  */
@@ -323,6 +324,10 @@ export interface Results {
      */
     answers?: {
       answers: Answer[]
+    }
+
+    topPassages?: {
+        passages?: TopPassage[]
     }
 }
 

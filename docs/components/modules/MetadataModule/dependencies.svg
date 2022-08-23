@@ -14,6 +14,10 @@
 <title>cluster_MetadataModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 911,-230.8 911,-32.8 8,-32.8"/>
 </g>
+<g id="clust8" class="cluster">
+<title>cluster_MetadataModule_exports</title>
+<polygon fill="none" stroke="black" points="450,-170.8 450,-222.8 653,-222.8 653,-170.8 450,-170.8"/>
+</g>
 <g id="clust7" class="cluster">
 <title>cluster_MetadataModule_imports</title>
 <polygon fill="none" stroke="black" points="674,-40.8 674,-92.8 903,-92.8 903,-40.8 674,-40.8"/>
@@ -21,10 +25,6 @@
 <g id="clust2" class="cluster">
 <title>cluster_MetadataModule_declarations</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 666,-92.8 666,-40.8 16,-40.8"/>
-</g>
-<g id="clust8" class="cluster">
-<title>cluster_MetadataModule_exports</title>
-<polygon fill="none" stroke="black" points="450,-170.8 450,-222.8 653,-222.8 653,-170.8 450,-170.8"/>
 </g>
 <!-- Metadata -->
 <g id="node1" class="node">
