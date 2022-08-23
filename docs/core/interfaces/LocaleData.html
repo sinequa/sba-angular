@@ -1040,7 +1040,7 @@ export class IntlService implements OnDestroy {
      */
     formatDate(value: string | number | Date, options: Intl.DateTimeFormatOptions &amp; { format?: string } &#x3D; {}): string {
         const {format} &#x3D; options;
-        const date &#x3D; value instanceof Date ? value : new Date(value);
+        const date &#x3D; value instanceof Date ? value : moment(value).toDate();
         const defaults &#x3D; (format &amp;&amp; this.getNamedFormat(&quot;date&quot;, format)) || {};
         const filteredOptions &#x3D; this.filterProps(options, DATE_TIME_FORMAT_OPTIONS, defaults);
         try {

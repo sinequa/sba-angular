@@ -1,4 +1,6 @@
 import { TestBed } from "@angular/core/testing";
+import { LocationStrategy } from "@angular/common";
+import { MockLocationStrategy } from "@angular/common/testing";
 import { RouterTestingModule } from '@angular/router/testing';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { AppService, Query } from "@sinequa/core/app-utils";
@@ -50,6 +52,7 @@ describe("LabelsService", () => {
         { provide: IntlService, useFactory: IntlServiceFactory },
         { provide: AuthService, useFactory: AuthServiceFactory },
         { provide: LOCALES_CONFIG, useClass: AppLocalesConfig },
+        { provide: LocationStrategy, useClass: MockLocationStrategy },
         ModalService,
         PrincipalWebService,
         NotificationsService,

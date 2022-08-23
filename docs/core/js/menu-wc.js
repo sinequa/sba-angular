@@ -52,6 +52,23 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         <ul class="links collapse " ${ isNormalMode ? 'id="modules-links"' : 'id="xs-modules-links"' }>
                             <li class="link">
                                 <a href="modules/AppUtilsModule.html" data-type="entity-link" >AppUtilsModule</a>
+                                <li class="chapter inner">
+                                    <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
+                                        'data-target="#injectables-links-module-AppUtilsModule-5e3ddace33c59a0bf73948ab0e32378133a02fb883829d37c730fce16c93d8ad0d3f79a6947d016282945b2ec86c896ddfd6bfa1e8761f7a30753bb93c7650a0"' : 'data-target="#xs-injectables-links-module-AppUtilsModule-5e3ddace33c59a0bf73948ab0e32378133a02fb883829d37c730fce16c93d8ad0d3f79a6947d016282945b2ec86c896ddfd6bfa1e8761f7a30753bb93c7650a0"' }>
+                                        <span class="icon ion-md-arrow-round-down"></span>
+                                        <span>Injectables</span>
+                                        <span class="icon ion-ios-arrow-down"></span>
+                                    </div>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-AppUtilsModule-5e3ddace33c59a0bf73948ab0e32378133a02fb883829d37c730fce16c93d8ad0d3f79a6947d016282945b2ec86c896ddfd6bfa1e8761f7a30753bb93c7650a0"' :
+                                        'id="xs-injectables-links-module-AppUtilsModule-5e3ddace33c59a0bf73948ab0e32378133a02fb883829d37c730fce16c93d8ad0d3f79a6947d016282945b2ec86c896ddfd6bfa1e8761f7a30753bb93c7650a0"' }>
+                                        <li class="link">
+                                            <a href="injectables/AppService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AppService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/FormatService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >FormatService</a>
+                                        </li>
+                                    </ul>
+                                </li>
                             </li>
                             <li class="link">
                                 <a href="modules/BaseModule.html" data-type="entity-link" >BaseModule</a>
@@ -276,6 +293,74 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="modules/WebServicesModule.html" data-type="entity-link" >WebServicesModule</a>
+                                <li class="chapter inner">
+                                    <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
+                                        'data-target="#injectables-links-module-WebServicesModule-c0ba9583f52731dfdfee459675e2237babadf88e778bef19c64b1ef3839a2c37c27f929b3b82c6d967d7b74d06580b77ee3498e5a32f2e7b0b620a9539bd94fe"' : 'data-target="#xs-injectables-links-module-WebServicesModule-c0ba9583f52731dfdfee459675e2237babadf88e778bef19c64b1ef3839a2c37c27f929b3b82c6d967d7b74d06580b77ee3498e5a32f2e7b0b620a9539bd94fe"' }>
+                                        <span class="icon ion-md-arrow-round-down"></span>
+                                        <span>Injectables</span>
+                                        <span class="icon ion-ios-arrow-down"></span>
+                                    </div>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-WebServicesModule-c0ba9583f52731dfdfee459675e2237babadf88e778bef19c64b1ef3839a2c37c27f929b3b82c6d967d7b74d06580b77ee3498e5a32f2e7b0b620a9539bd94fe"' :
+                                        'id="xs-injectables-links-module-WebServicesModule-c0ba9583f52731dfdfee459675e2237babadf88e778bef19c64b1ef3839a2c37c27f929b3b82c6d967d7b74d06580b77ee3498e5a32f2e7b0b620a9539bd94fe"' }>
+                                        <li class="link">
+                                            <a href="injectables/AppWebService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AppWebService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/AuditWebService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AuditWebService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/DownloadWebService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >DownloadWebService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/JsonMethodPluginService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >JsonMethodPluginService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/LabelsWebService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >LabelsWebService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/PreviewWebService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >PreviewWebService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/PrincipalWebService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >PrincipalWebService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/QueryExportWebService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >QueryExportWebService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/QueryWebService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >QueryWebService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/RecentQueriesWebService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >RecentQueriesWebService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/RfmWebService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >RfmWebService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/SimilarDocumentsWebService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >SimilarDocumentsWebService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/SponsoredLinksWebService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >SponsoredLinksWebService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/SqHttpClient.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >SqHttpClient</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/StartConfigWebService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >StartConfigWebService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/SuggestFieldWebService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >SuggestFieldWebService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/SuggestQueryWebService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >SuggestQueryWebService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/UserRatingsWebService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >UserRatingsWebService</a>
+                                        </li>
+                                        <li class="link">
+                                            <a href="injectables/UserSettingsWebService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >UserSettingsWebService</a>
+                                        </li>
+                                    </ul>
+                                </li>
                             </li>
                 </ul>
                 </li>
@@ -911,6 +996,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/ToJsonOptions.html" data-type="entity-link" >ToJsonOptions</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/TopPassage.html" data-type="entity-link" >TopPassage</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/TreeAggregationNode.html" data-type="entity-link" >TreeAggregationNode</a>

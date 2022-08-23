@@ -14,323 +14,323 @@
 <title>cluster_BsFacetModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 1836,-230.8 1836,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_BsFacetModule_declarations</title>
-<polygon fill="none" stroke="black" points="685,-40.8 685,-92.8 1828,-92.8 1828,-40.8 685,-40.8"/>
-</g>
 <g id="clust14" class="cluster">
 <title>cluster_BsFacetModule_exports</title>
-<polygon fill="none" stroke="black" points="351,-170.8 351,-222.8 1527,-222.8 1527,-170.8 351,-170.8"/>
+<polygon fill="none" stroke="black" points="318,-170.8 318,-222.8 1494,-222.8 1494,-170.8 318,-170.8"/>
 </g>
 <g id="clust13" class="cluster">
 <title>cluster_BsFacetModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 677,-92.8 677,-40.8 16,-40.8"/>
+<polygon fill="none" stroke="black" points="1167,-40.8 1167,-92.8 1828,-92.8 1828,-40.8 1167,-40.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_BsFacetModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 1159,-92.8 1159,-40.8 16,-40.8"/>
 </g>
 <!-- BsFacetBar -->
 <g id="node1" class="node">
 <title>BsFacetBar</title>
-<polygon fill="#ffffb3" stroke="black" points="1819.81,-84.8 1738.19,-84.8 1738.19,-48.8 1819.81,-48.8 1819.81,-84.8"/>
-<text text-anchor="middle" x="1779" y="-62.6" font-family="Times,serif" font-size="14.00">BsFacetBar</text>
+<polygon fill="#ffffb3" stroke="black" points="1150.81,-84.8 1069.19,-84.8 1069.19,-48.8 1150.81,-48.8 1150.81,-84.8"/>
+<text text-anchor="middle" x="1110" y="-62.6" font-family="Times,serif" font-size="14.00">BsFacetBar</text>
 </g>
 <!-- BsFacetModule -->
 <g id="node11" class="node">
 <title>BsFacetModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="981.15,-149.8 978.15,-153.8 957.15,-153.8 954.15,-149.8 876.85,-149.8 876.85,-113.8 981.15,-113.8 981.15,-149.8"/>
-<text text-anchor="middle" x="929" y="-127.6" font-family="Times,serif" font-size="14.00">BsFacetModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="948.15,-149.8 945.15,-153.8 924.15,-153.8 921.15,-149.8 843.85,-149.8 843.85,-113.8 948.15,-113.8 948.15,-149.8"/>
+<text text-anchor="middle" x="896" y="-127.6" font-family="Times,serif" font-size="14.00">BsFacetModule</text>
 </g>
 <!-- BsFacetBar&#45;&gt;BsFacetModule -->
 <g id="edge1" class="edge">
 <title>BsFacetBar&#45;&gt;BsFacetModule</title>
-<path fill="none" stroke="black" d="M1779,-85.11C1779,-104.95 1779,-133.8 1779,-133.8 1779,-133.8 991.21,-133.8 991.21,-133.8"/>
-<polygon fill="black" stroke="black" points="991.21,-130.3 981.21,-133.8 991.21,-137.3 991.21,-130.3"/>
+<path fill="none" stroke="black" d="M1123.71,-85.04C1123.71,-100.37 1123.71,-119.8 1123.71,-119.8 1123.71,-119.8 958.24,-119.8 958.24,-119.8"/>
+<polygon fill="black" stroke="black" points="958.24,-116.3 948.24,-119.8 958.24,-123.3 958.24,-116.3"/>
 </g>
 <!-- BsFacetCard -->
 <g id="node2" class="node">
 <title>BsFacetCard</title>
-<polygon fill="#ffffb3" stroke="black" points="1720.31,-84.8 1631.69,-84.8 1631.69,-48.8 1720.31,-48.8 1720.31,-84.8"/>
-<text text-anchor="middle" x="1676" y="-62.6" font-family="Times,serif" font-size="14.00">BsFacetCard</text>
+<polygon fill="#ffffb3" stroke="black" points="1051.31,-84.8 962.69,-84.8 962.69,-48.8 1051.31,-48.8 1051.31,-84.8"/>
+<text text-anchor="middle" x="1007" y="-62.6" font-family="Times,serif" font-size="14.00">BsFacetCard</text>
 </g>
 <!-- BsFacetCard&#45;&gt;BsFacetModule -->
 <g id="edge2" class="edge">
 <title>BsFacetCard&#45;&gt;BsFacetModule</title>
-<path fill="none" stroke="black" d="M1676,-84.97C1676,-103.89 1676,-130.8 1676,-130.8 1676,-130.8 991.23,-130.8 991.23,-130.8"/>
-<polygon fill="black" stroke="black" points="991.23,-127.3 981.23,-130.8 991.23,-134.3 991.23,-127.3"/>
+<path fill="none" stroke="black" d="M1007,-84.85C1007,-99.17 1007,-116.8 1007,-116.8 1007,-116.8 958.25,-116.8 958.25,-116.8"/>
+<polygon fill="black" stroke="black" points="958.25,-113.3 948.25,-116.8 958.25,-120.3 958.25,-113.3"/>
 </g>
 <!-- BsFacetFilters -->
 <g id="node3" class="node">
 <title>BsFacetFilters</title>
-<polygon fill="#ffffb3" stroke="black" points="1613.37,-84.8 1516.63,-84.8 1516.63,-48.8 1613.37,-48.8 1613.37,-84.8"/>
-<text text-anchor="middle" x="1565" y="-62.6" font-family="Times,serif" font-size="14.00">BsFacetFilters</text>
+<polygon fill="#ffffb3" stroke="black" points="944.37,-84.8 847.63,-84.8 847.63,-48.8 944.37,-48.8 944.37,-84.8"/>
+<text text-anchor="middle" x="896" y="-62.6" font-family="Times,serif" font-size="14.00">BsFacetFilters</text>
 </g>
 <!-- BsFacetFilters&#45;&gt;BsFacetModule -->
 <g id="edge3" class="edge">
 <title>BsFacetFilters&#45;&gt;BsFacetModule</title>
-<path fill="none" stroke="black" d="M1566.42,-85.1C1566.42,-103.07 1566.42,-127.8 1566.42,-127.8 1566.42,-127.8 991.16,-127.8 991.16,-127.8"/>
-<polygon fill="black" stroke="black" points="991.16,-124.3 981.16,-127.8 991.16,-131.3 991.16,-124.3"/>
+<path fill="none" stroke="black" d="M896,-84.91C896,-84.91 896,-103.79 896,-103.79"/>
+<polygon fill="black" stroke="black" points="892.5,-103.79 896,-113.79 899.5,-103.79 892.5,-103.79"/>
 </g>
 <!-- BsFacetList -->
 <g id="node4" class="node">
 <title>BsFacetList</title>
-<polygon fill="#ffffb3" stroke="black" points="1498.38,-84.8 1415.62,-84.8 1415.62,-48.8 1498.38,-48.8 1498.38,-84.8"/>
-<text text-anchor="middle" x="1457" y="-62.6" font-family="Times,serif" font-size="14.00">BsFacetList</text>
+<polygon fill="#ffffb3" stroke="black" points="829.38,-84.8 746.62,-84.8 746.62,-48.8 829.38,-48.8 829.38,-84.8"/>
+<text text-anchor="middle" x="788" y="-62.6" font-family="Times,serif" font-size="14.00">BsFacetList</text>
 </g>
 <!-- BsFacetList&#45;&gt;BsFacetModule -->
 <g id="edge4" class="edge">
 <title>BsFacetList&#45;&gt;BsFacetModule</title>
-<path fill="none" stroke="black" d="M1425.75,-84.84C1425.75,-101.53 1425.75,-123.8 1425.75,-123.8 1425.75,-123.8 991.22,-123.8 991.22,-123.8"/>
-<polygon fill="black" stroke="black" points="991.22,-120.3 981.22,-123.8 991.22,-127.3 991.22,-120.3"/>
+<path fill="none" stroke="black" d="M800.63,-84.85C800.63,-99.17 800.63,-116.8 800.63,-116.8 800.63,-116.8 833.85,-116.8 833.85,-116.8"/>
+<polygon fill="black" stroke="black" points="833.85,-120.3 843.85,-116.8 833.85,-113.3 833.85,-120.3"/>
 </g>
 <!-- BsFacetMultiComponent -->
 <g id="node5" class="node">
 <title>BsFacetMultiComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="1397.55,-84.8 1240.45,-84.8 1240.45,-48.8 1397.55,-48.8 1397.55,-84.8"/>
-<text text-anchor="middle" x="1319" y="-62.6" font-family="Times,serif" font-size="14.00">BsFacetMultiComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="728.55,-84.8 571.45,-84.8 571.45,-48.8 728.55,-48.8 728.55,-84.8"/>
+<text text-anchor="middle" x="650" y="-62.6" font-family="Times,serif" font-size="14.00">BsFacetMultiComponent</text>
 </g>
 <!-- BsFacetMultiComponent&#45;&gt;BsFacetModule -->
 <g id="edge5" class="edge">
 <title>BsFacetMultiComponent&#45;&gt;BsFacetModule</title>
-<path fill="none" stroke="black" d="M1273.71,-85.08C1273.71,-100.75 1273.71,-120.8 1273.71,-120.8 1273.71,-120.8 991.35,-120.8 991.35,-120.8"/>
-<polygon fill="black" stroke="black" points="991.35,-117.3 981.35,-120.8 991.35,-124.3 991.35,-117.3"/>
+<path fill="none" stroke="black" d="M681.24,-85.04C681.24,-100.37 681.24,-119.8 681.24,-119.8 681.24,-119.8 833.74,-119.8 833.74,-119.8"/>
+<polygon fill="black" stroke="black" points="833.74,-123.3 843.74,-119.8 833.74,-116.3 833.74,-123.3"/>
 </g>
 <!-- BsFacetRange -->
 <g id="node6" class="node">
 <title>BsFacetRange</title>
-<polygon fill="#ffffb3" stroke="black" points="1222.36,-84.8 1125.64,-84.8 1125.64,-48.8 1222.36,-48.8 1222.36,-84.8"/>
-<text text-anchor="middle" x="1174" y="-62.6" font-family="Times,serif" font-size="14.00">BsFacetRange</text>
+<polygon fill="#ffffb3" stroke="black" points="553.36,-84.8 456.64,-84.8 456.64,-48.8 553.36,-48.8 553.36,-84.8"/>
+<text text-anchor="middle" x="505" y="-62.6" font-family="Times,serif" font-size="14.00">BsFacetRange</text>
 </g>
 <!-- BsFacetRange&#45;&gt;BsFacetModule -->
 <g id="edge6" class="edge">
 <title>BsFacetRange&#45;&gt;BsFacetModule</title>
-<path fill="none" stroke="black" d="M1157.38,-84.92C1157.38,-99.58 1157.38,-117.8 1157.38,-117.8 1157.38,-117.8 991.39,-117.8 991.39,-117.8"/>
-<polygon fill="black" stroke="black" points="991.39,-114.3 981.39,-117.8 991.39,-121.3 991.39,-114.3"/>
+<path fill="none" stroke="black" d="M539.66,-84.83C539.66,-101.2 539.66,-122.8 539.66,-122.8 539.66,-122.8 833.8,-122.8 833.8,-122.8"/>
+<polygon fill="black" stroke="black" points="833.8,-126.3 843.8,-122.8 833.8,-119.3 833.8,-126.3"/>
 </g>
 <!-- BsFacetTagCloud -->
 <g id="node7" class="node">
 <title>BsFacetTagCloud</title>
-<polygon fill="#ffffb3" stroke="black" points="1107.59,-84.8 990.41,-84.8 990.41,-48.8 1107.59,-48.8 1107.59,-84.8"/>
-<text text-anchor="middle" x="1049" y="-62.6" font-family="Times,serif" font-size="14.00">BsFacetTagCloud</text>
+<polygon fill="#ffffb3" stroke="black" points="438.59,-84.8 321.41,-84.8 321.41,-48.8 438.59,-48.8 438.59,-84.8"/>
+<text text-anchor="middle" x="380" y="-62.6" font-family="Times,serif" font-size="14.00">BsFacetTagCloud</text>
 </g>
 <!-- BsFacetTagCloud&#45;&gt;BsFacetModule -->
 <g id="edge7" class="edge">
 <title>BsFacetTagCloud&#45;&gt;BsFacetModule</title>
-<path fill="none" stroke="black" d="M990.42,-66.8C982.4,-66.8 976.85,-66.8 976.85,-66.8 976.85,-66.8 976.85,-103.69 976.85,-103.69"/>
-<polygon fill="black" stroke="black" points="973.35,-103.69 976.85,-113.69 980.35,-103.69 973.35,-103.69"/>
+<path fill="none" stroke="black" d="M427.32,-84.82C427.32,-102.17 427.32,-125.8 427.32,-125.8 427.32,-125.8 833.6,-125.8 833.6,-125.8"/>
+<polygon fill="black" stroke="black" points="833.6,-129.3 843.6,-125.8 833.6,-122.3 833.6,-129.3"/>
 </g>
 <!-- BsFacetTree -->
 <g id="node8" class="node">
 <title>BsFacetTree</title>
-<polygon fill="#ffffb3" stroke="black" points="972.24,-84.8 885.76,-84.8 885.76,-48.8 972.24,-48.8 972.24,-84.8"/>
-<text text-anchor="middle" x="929" y="-62.6" font-family="Times,serif" font-size="14.00">BsFacetTree</text>
+<polygon fill="#ffffb3" stroke="black" points="303.24,-84.8 216.76,-84.8 216.76,-48.8 303.24,-48.8 303.24,-84.8"/>
+<text text-anchor="middle" x="260" y="-62.6" font-family="Times,serif" font-size="14.00">BsFacetTree</text>
 </g>
 <!-- BsFacetTree&#45;&gt;BsFacetModule -->
 <g id="edge8" class="edge">
 <title>BsFacetTree&#45;&gt;BsFacetModule</title>
-<path fill="none" stroke="black" d="M929,-84.91C929,-84.91 929,-103.79 929,-103.79"/>
-<polygon fill="black" stroke="black" points="925.5,-103.79 929,-113.79 932.5,-103.79 925.5,-103.79"/>
+<path fill="none" stroke="black" d="M260,-85.07C260,-103.36 260,-128.8 260,-128.8 260,-128.8 833.68,-128.8 833.68,-128.8"/>
+<polygon fill="black" stroke="black" points="833.68,-132.3 843.68,-128.8 833.68,-125.3 833.68,-132.3"/>
 </g>
 <!-- BsMySearch -->
 <g id="node9" class="node">
 <title>BsMySearch</title>
-<polygon fill="#ffffb3" stroke="black" points="867.31,-84.8 778.69,-84.8 778.69,-48.8 867.31,-48.8 867.31,-84.8"/>
-<text text-anchor="middle" x="823" y="-62.6" font-family="Times,serif" font-size="14.00">BsMySearch</text>
+<polygon fill="#ffffb3" stroke="black" points="198.31,-84.8 109.69,-84.8 109.69,-48.8 198.31,-48.8 198.31,-84.8"/>
+<text text-anchor="middle" x="154" y="-62.6" font-family="Times,serif" font-size="14.00">BsMySearch</text>
 </g>
 <!-- BsMySearch&#45;&gt;BsFacetModule -->
 <g id="edge9" class="edge">
 <title>BsMySearch&#45;&gt;BsFacetModule</title>
-<path fill="none" stroke="black" d="M867.37,-66.8C875.33,-66.8 881.15,-66.8 881.15,-66.8 881.15,-66.8 881.15,-103.69 881.15,-103.69"/>
-<polygon fill="black" stroke="black" points="877.65,-103.69 881.15,-113.69 884.65,-103.69 877.65,-103.69"/>
+<path fill="none" stroke="black" d="M154,-84.91C154,-104.14 154,-131.8 154,-131.8 154,-131.8 833.82,-131.8 833.82,-131.8"/>
+<polygon fill="black" stroke="black" points="833.82,-135.3 843.82,-131.8 833.82,-128.3 833.82,-135.3"/>
 </g>
 <!-- BsRefine -->
 <g id="node10" class="node">
 <title>BsRefine</title>
-<polygon fill="#ffffb3" stroke="black" points="761.1,-84.8 692.9,-84.8 692.9,-48.8 761.1,-48.8 761.1,-84.8"/>
-<text text-anchor="middle" x="727" y="-62.6" font-family="Times,serif" font-size="14.00">BsRefine</text>
+<polygon fill="#ffffb3" stroke="black" points="92.1,-84.8 23.9,-84.8 23.9,-48.8 92.1,-48.8 92.1,-84.8"/>
+<text text-anchor="middle" x="58" y="-62.6" font-family="Times,serif" font-size="14.00">BsRefine</text>
 </g>
 <!-- BsRefine&#45;&gt;BsFacetModule -->
 <g id="edge10" class="edge">
 <title>BsRefine&#45;&gt;BsFacetModule</title>
-<path fill="none" stroke="black" d="M727,-84.92C727,-99.58 727,-117.8 727,-117.8 727,-117.8 866.72,-117.8 866.72,-117.8"/>
-<polygon fill="black" stroke="black" points="866.72,-121.3 876.72,-117.8 866.72,-114.3 866.72,-121.3"/>
+<path fill="none" stroke="black" d="M58,-85.02C58,-105.17 58,-134.8 58,-134.8 58,-134.8 833.58,-134.8 833.58,-134.8"/>
+<polygon fill="black" stroke="black" points="833.58,-138.3 843.58,-134.8 833.58,-131.3 833.58,-138.3"/>
 </g>
 <!-- BsFacetBar  -->
 <g id="node17" class="node">
 <title>BsFacetBar </title>
-<polygon fill="#fb8072" stroke="black" points="1519.31,-214.8 1434.69,-214.8 1434.69,-178.8 1519.31,-178.8 1519.31,-214.8"/>
-<text text-anchor="middle" x="1477" y="-192.6" font-family="Times,serif" font-size="14.00">BsFacetBar </text>
+<polygon fill="#fb8072" stroke="black" points="1486.31,-214.8 1401.69,-214.8 1401.69,-178.8 1486.31,-178.8 1486.31,-214.8"/>
+<text text-anchor="middle" x="1444" y="-192.6" font-family="Times,serif" font-size="14.00">BsFacetBar </text>
 </g>
 <!-- BsFacetModule&#45;&gt;BsFacetBar  -->
 <g id="edge16" class="edge">
 <title>BsFacetModule&#45;&gt;BsFacetBar </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M981.52,-136.8C1116.77,-136.8 1466.52,-136.8 1466.52,-136.8 1466.52,-136.8 1466.52,-168.8 1466.52,-168.8"/>
-<polygon fill="black" stroke="black" points="1463.02,-168.8 1466.52,-178.8 1470.02,-168.8 1463.02,-168.8"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M948.26,-137.8C1087.96,-137.8 1459.53,-137.8 1459.53,-137.8 1459.53,-137.8 1459.53,-168.78 1459.53,-168.78"/>
+<polygon fill="black" stroke="black" points="1456.03,-168.78 1459.53,-178.78 1463.03,-168.78 1456.03,-168.78"/>
 </g>
 <!-- BsFacetCard  -->
 <g id="node18" class="node">
 <title>BsFacetCard </title>
-<polygon fill="#fb8072" stroke="black" points="1416.81,-214.8 1325.19,-214.8 1325.19,-178.8 1416.81,-178.8 1416.81,-214.8"/>
-<text text-anchor="middle" x="1371" y="-192.6" font-family="Times,serif" font-size="14.00">BsFacetCard </text>
+<polygon fill="#fb8072" stroke="black" points="1383.81,-214.8 1292.19,-214.8 1292.19,-178.8 1383.81,-178.8 1383.81,-214.8"/>
+<text text-anchor="middle" x="1338" y="-192.6" font-family="Times,serif" font-size="14.00">BsFacetCard </text>
 </g>
 <!-- BsFacetModule&#45;&gt;BsFacetCard  -->
 <g id="edge17" class="edge">
 <title>BsFacetModule&#45;&gt;BsFacetCard </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M981.16,-140.8C1096.18,-140.8 1361.43,-140.8 1361.43,-140.8 1361.43,-140.8 1361.43,-168.77 1361.43,-168.77"/>
-<polygon fill="black" stroke="black" points="1357.93,-168.77 1361.43,-178.77 1364.93,-168.77 1357.93,-168.77"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M948.44,-140.8C1065.52,-140.8 1338,-140.8 1338,-140.8 1338,-140.8 1338,-168.77 1338,-168.77"/>
+<polygon fill="black" stroke="black" points="1334.5,-168.77 1338,-178.77 1341.5,-168.77 1334.5,-168.77"/>
 </g>
 <!-- BsFacetFilters  -->
 <g id="node19" class="node">
 <title>BsFacetFilters </title>
-<polygon fill="#fb8072" stroke="black" points="1307.37,-214.8 1206.63,-214.8 1206.63,-178.8 1307.37,-178.8 1307.37,-214.8"/>
-<text text-anchor="middle" x="1257" y="-192.6" font-family="Times,serif" font-size="14.00">BsFacetFilters </text>
+<polygon fill="#fb8072" stroke="black" points="1274.37,-214.8 1173.63,-214.8 1173.63,-178.8 1274.37,-178.8 1274.37,-214.8"/>
+<text text-anchor="middle" x="1224" y="-192.6" font-family="Times,serif" font-size="14.00">BsFacetFilters </text>
 </g>
 <!-- BsFacetModule&#45;&gt;BsFacetFilters  -->
 <g id="edge18" class="edge">
 <title>BsFacetModule&#45;&gt;BsFacetFilters </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M981.39,-143.8C1063.84,-143.8 1214.62,-143.8 1214.62,-143.8 1214.62,-143.8 1214.62,-168.56 1214.62,-168.56"/>
-<polygon fill="black" stroke="black" points="1211.12,-168.56 1214.62,-178.56 1218.12,-168.56 1211.12,-168.56"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M948.17,-143.8C1035.91,-143.8 1203.54,-143.8 1203.54,-143.8 1203.54,-143.8 1203.54,-168.56 1203.54,-168.56"/>
+<polygon fill="black" stroke="black" points="1200.04,-168.56 1203.54,-178.56 1207.04,-168.56 1200.04,-168.56"/>
 </g>
 <!-- BsFacetList  -->
 <g id="node20" class="node">
 <title>BsFacetList </title>
-<polygon fill="#fb8072" stroke="black" points="1189.38,-214.8 1102.62,-214.8 1102.62,-178.8 1189.38,-178.8 1189.38,-214.8"/>
-<text text-anchor="middle" x="1146" y="-192.6" font-family="Times,serif" font-size="14.00">BsFacetList </text>
+<polygon fill="#fb8072" stroke="black" points="1156.38,-214.8 1069.62,-214.8 1069.62,-178.8 1156.38,-178.8 1156.38,-214.8"/>
+<text text-anchor="middle" x="1113" y="-192.6" font-family="Times,serif" font-size="14.00">BsFacetList </text>
 </g>
 <!-- BsFacetModule&#45;&gt;BsFacetList  -->
 <g id="edge19" class="edge">
 <title>BsFacetModule&#45;&gt;BsFacetList </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M981.25,-146.8C1036.74,-146.8 1116.56,-146.8 1116.56,-146.8 1116.56,-146.8 1116.56,-168.75 1116.56,-168.75"/>
-<polygon fill="black" stroke="black" points="1113.06,-168.75 1116.56,-178.75 1120.06,-168.75 1113.06,-168.75"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M948.22,-146.8C1007.71,-146.8 1096.76,-146.8 1096.76,-146.8 1096.76,-146.8 1096.76,-168.75 1096.76,-168.75"/>
+<polygon fill="black" stroke="black" points="1093.26,-168.75 1096.76,-178.75 1100.26,-168.75 1093.26,-168.75"/>
 </g>
 <!-- BsFacetMultiComponent  -->
 <g id="node21" class="node">
 <title>BsFacetMultiComponent </title>
-<polygon fill="#fb8072" stroke="black" points="1084.55,-214.8 923.45,-214.8 923.45,-178.8 1084.55,-178.8 1084.55,-214.8"/>
-<text text-anchor="middle" x="1004" y="-192.6" font-family="Times,serif" font-size="14.00">BsFacetMultiComponent </text>
+<polygon fill="#fb8072" stroke="black" points="1051.55,-214.8 890.45,-214.8 890.45,-178.8 1051.55,-178.8 1051.55,-214.8"/>
+<text text-anchor="middle" x="971" y="-192.6" font-family="Times,serif" font-size="14.00">BsFacetMultiComponent </text>
 </g>
 <!-- BsFacetModule&#45;&gt;BsFacetMultiComponent  -->
 <g id="edge20" class="edge">
 <title>BsFacetModule&#45;&gt;BsFacetMultiComponent </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M952.4,-149.91C952.4,-149.91 952.4,-168.79 952.4,-168.79"/>
-<polygon fill="black" stroke="black" points="948.9,-168.79 952.4,-178.79 955.9,-168.79 948.9,-168.79"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M919.4,-149.91C919.4,-149.91 919.4,-168.79 919.4,-168.79"/>
+<polygon fill="black" stroke="black" points="915.9,-168.79 919.4,-178.79 922.9,-168.79 915.9,-168.79"/>
 </g>
 <!-- BsFacetRange  -->
 <g id="node22" class="node">
 <title>BsFacetRange </title>
-<polygon fill="#fb8072" stroke="black" points="905.36,-214.8 804.64,-214.8 804.64,-178.8 905.36,-178.8 905.36,-214.8"/>
-<text text-anchor="middle" x="855" y="-192.6" font-family="Times,serif" font-size="14.00">BsFacetRange </text>
+<polygon fill="#fb8072" stroke="black" points="872.36,-214.8 771.64,-214.8 771.64,-178.8 872.36,-178.8 872.36,-214.8"/>
+<text text-anchor="middle" x="822" y="-192.6" font-family="Times,serif" font-size="14.00">BsFacetRange </text>
 </g>
 <!-- BsFacetModule&#45;&gt;BsFacetRange  -->
 <g id="edge21" class="edge">
 <title>BsFacetModule&#45;&gt;BsFacetRange </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M890.93,-149.91C890.93,-149.91 890.93,-168.79 890.93,-168.79"/>
-<polygon fill="black" stroke="black" points="887.43,-168.79 890.93,-178.79 894.43,-168.79 887.43,-168.79"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M857.93,-149.91C857.93,-149.91 857.93,-168.79 857.93,-168.79"/>
+<polygon fill="black" stroke="black" points="854.43,-168.79 857.93,-178.79 861.43,-168.79 854.43,-168.79"/>
 </g>
 <!-- BsFacetTagCloud  -->
 <g id="node23" class="node">
 <title>BsFacetTagCloud </title>
-<polygon fill="#fb8072" stroke="black" points="787.09,-214.8 666.91,-214.8 666.91,-178.8 787.09,-178.8 787.09,-214.8"/>
-<text text-anchor="middle" x="727" y="-192.6" font-family="Times,serif" font-size="14.00">BsFacetTagCloud </text>
+<polygon fill="#fb8072" stroke="black" points="754.09,-214.8 633.91,-214.8 633.91,-178.8 754.09,-178.8 754.09,-214.8"/>
+<text text-anchor="middle" x="694" y="-192.6" font-family="Times,serif" font-size="14.00">BsFacetTagCloud </text>
 </g>
 <!-- BsFacetModule&#45;&gt;BsFacetTagCloud  -->
 <g id="edge22" class="edge">
 <title>BsFacetModule&#45;&gt;BsFacetTagCloud </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M876.73,-146.8C834.86,-146.8 783.07,-146.8 783.07,-146.8 783.07,-146.8 783.07,-168.75 783.07,-168.75"/>
-<polygon fill="black" stroke="black" points="779.57,-168.75 783.07,-178.75 786.57,-168.75 779.57,-168.75"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M843.45,-146.8C801.75,-146.8 750.43,-146.8 750.43,-146.8 750.43,-146.8 750.43,-168.75 750.43,-168.75"/>
+<polygon fill="black" stroke="black" points="746.93,-168.75 750.43,-178.75 753.93,-168.75 746.93,-168.75"/>
 </g>
 <!-- BsFacetTree  -->
 <g id="node24" class="node">
 <title>BsFacetTree </title>
-<polygon fill="#fb8072" stroke="black" points="649.24,-214.8 558.76,-214.8 558.76,-178.8 649.24,-178.8 649.24,-214.8"/>
-<text text-anchor="middle" x="604" y="-192.6" font-family="Times,serif" font-size="14.00">BsFacetTree </text>
+<polygon fill="#fb8072" stroke="black" points="616.24,-214.8 525.76,-214.8 525.76,-178.8 616.24,-178.8 616.24,-214.8"/>
+<text text-anchor="middle" x="571" y="-192.6" font-family="Times,serif" font-size="14.00">BsFacetTree </text>
 </g>
 <!-- BsFacetModule&#45;&gt;BsFacetTree  -->
 <g id="edge23" class="edge">
 <title>BsFacetModule&#45;&gt;BsFacetTree </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M876.78,-143.8C784.91,-143.8 604,-143.8 604,-143.8 604,-143.8 604,-168.56 604,-168.56"/>
-<polygon fill="black" stroke="black" points="600.5,-168.56 604,-178.56 607.5,-168.56 600.5,-168.56"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M843.68,-143.8C757.15,-143.8 593.67,-143.8 593.67,-143.8 593.67,-143.8 593.67,-168.56 593.67,-168.56"/>
+<polygon fill="black" stroke="black" points="590.17,-168.56 593.67,-178.56 597.17,-168.56 590.17,-168.56"/>
 </g>
 <!-- BsMySearch  -->
 <g id="node25" class="node">
 <title>BsMySearch </title>
-<polygon fill="#fb8072" stroke="black" points="540.81,-214.8 449.19,-214.8 449.19,-178.8 540.81,-178.8 540.81,-214.8"/>
-<text text-anchor="middle" x="495" y="-192.6" font-family="Times,serif" font-size="14.00">BsMySearch </text>
+<polygon fill="#fb8072" stroke="black" points="507.81,-214.8 416.19,-214.8 416.19,-178.8 507.81,-178.8 507.81,-214.8"/>
+<text text-anchor="middle" x="462" y="-192.6" font-family="Times,serif" font-size="14.00">BsMySearch </text>
 </g>
 <!-- BsFacetModule&#45;&gt;BsMySearch  -->
 <g id="edge24" class="edge">
 <title>BsFacetModule&#45;&gt;BsMySearch </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M876.65,-140.8C764.03,-140.8 508.91,-140.8 508.91,-140.8 508.91,-140.8 508.91,-168.77 508.91,-168.77"/>
-<polygon fill="black" stroke="black" points="505.41,-168.77 508.91,-178.77 512.41,-168.77 505.41,-168.77"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M843.6,-140.8C732.26,-140.8 482.24,-140.8 482.24,-140.8 482.24,-140.8 482.24,-168.77 482.24,-168.77"/>
+<polygon fill="black" stroke="black" points="478.74,-168.77 482.24,-178.77 485.74,-168.77 478.74,-168.77"/>
 </g>
 <!-- BsRefine  -->
 <g id="node26" class="node">
 <title>BsRefine </title>
-<polygon fill="#fb8072" stroke="black" points="430.6,-214.8 359.4,-214.8 359.4,-178.8 430.6,-178.8 430.6,-214.8"/>
-<text text-anchor="middle" x="395" y="-192.6" font-family="Times,serif" font-size="14.00">BsRefine </text>
+<polygon fill="#fb8072" stroke="black" points="397.6,-214.8 326.4,-214.8 326.4,-178.8 397.6,-178.8 397.6,-214.8"/>
+<text text-anchor="middle" x="362" y="-192.6" font-family="Times,serif" font-size="14.00">BsRefine </text>
 </g>
 <!-- BsFacetModule&#45;&gt;BsRefine  -->
 <g id="edge25" class="edge">
 <title>BsFacetModule&#45;&gt;BsRefine </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M876.66,-136.8C744.54,-136.8 407.99,-136.8 407.99,-136.8 407.99,-136.8 407.99,-168.8 407.99,-168.8"/>
-<polygon fill="black" stroke="black" points="404.49,-168.8 407.99,-178.8 411.49,-168.8 404.49,-168.8"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M843.83,-137.8C709.46,-137.8 362,-137.8 362,-137.8 362,-137.8 362,-168.78 362,-168.78"/>
+<polygon fill="black" stroke="black" points="358.5,-168.78 362,-178.78 365.5,-168.78 358.5,-168.78"/>
 </g>
 <!-- BsActionModule -->
 <g id="node12" class="node">
 <title>BsActionModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="669.43,-84.8 666.43,-88.8 645.43,-88.8 642.43,-84.8 556.57,-84.8 556.57,-48.8 669.43,-48.8 669.43,-84.8"/>
-<text text-anchor="middle" x="613" y="-62.6" font-family="Times,serif" font-size="14.00">BsActionModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1820.43,-84.8 1817.43,-88.8 1796.43,-88.8 1793.43,-84.8 1707.57,-84.8 1707.57,-48.8 1820.43,-48.8 1820.43,-84.8"/>
+<text text-anchor="middle" x="1764" y="-62.6" font-family="Times,serif" font-size="14.00">BsActionModule</text>
 </g>
 <!-- BsActionModule&#45;&gt;BsFacetModule -->
 <g id="edge11" class="edge">
 <title>BsActionModule&#45;&gt;BsFacetModule</title>
-<path fill="none" stroke="black" d="M657.91,-85.08C657.91,-100.75 657.91,-120.8 657.91,-120.8 657.91,-120.8 866.73,-120.8 866.73,-120.8"/>
-<polygon fill="black" stroke="black" points="866.73,-124.3 876.73,-120.8 866.73,-117.3 866.73,-124.3"/>
+<path fill="none" stroke="black" d="M1764,-85.02C1764,-105.17 1764,-134.8 1764,-134.8 1764,-134.8 958.34,-134.8 958.34,-134.8"/>
+<polygon fill="black" stroke="black" points="958.34,-131.3 948.34,-134.8 958.34,-138.3 958.34,-131.3"/>
 </g>
 <!-- BsAutocompleteModule -->
 <g id="node13" class="node">
 <title>BsAutocompleteModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="538.64,-84.8 535.64,-88.8 514.64,-88.8 511.64,-84.8 385.36,-84.8 385.36,-48.8 538.64,-48.8 538.64,-84.8"/>
-<text text-anchor="middle" x="462" y="-62.6" font-family="Times,serif" font-size="14.00">BsAutocompleteModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1689.64,-84.8 1686.64,-88.8 1665.64,-88.8 1662.64,-84.8 1536.36,-84.8 1536.36,-48.8 1689.64,-48.8 1689.64,-84.8"/>
+<text text-anchor="middle" x="1613" y="-62.6" font-family="Times,serif" font-size="14.00">BsAutocompleteModule</text>
 </g>
 <!-- BsAutocompleteModule&#45;&gt;BsFacetModule -->
 <g id="edge12" class="edge">
 <title>BsAutocompleteModule&#45;&gt;BsFacetModule</title>
-<path fill="none" stroke="black" d="M479,-84.84C479,-101.53 479,-123.8 479,-123.8 479,-123.8 866.5,-123.8 866.5,-123.8"/>
-<polygon fill="black" stroke="black" points="866.5,-127.3 876.5,-123.8 866.5,-120.3 866.5,-127.3"/>
+<path fill="none" stroke="black" d="M1613,-84.91C1613,-104.14 1613,-131.8 1613,-131.8 1613,-131.8 958.43,-131.8 958.43,-131.8"/>
+<polygon fill="black" stroke="black" points="958.43,-128.3 948.43,-131.8 958.43,-135.3 958.43,-128.3"/>
 </g>
 <!-- BsSearchModule -->
 <g id="node14" class="node">
 <title>BsSearchModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="367.42,-84.8 364.42,-88.8 343.42,-88.8 340.42,-84.8 254.58,-84.8 254.58,-48.8 367.42,-48.8 367.42,-84.8"/>
-<text text-anchor="middle" x="311" y="-62.6" font-family="Times,serif" font-size="14.00">BsSearchModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1518.42,-84.8 1515.42,-88.8 1494.42,-88.8 1491.42,-84.8 1405.58,-84.8 1405.58,-48.8 1518.42,-48.8 1518.42,-84.8"/>
+<text text-anchor="middle" x="1462" y="-62.6" font-family="Times,serif" font-size="14.00">BsSearchModule</text>
 </g>
 <!-- BsSearchModule&#45;&gt;BsFacetModule -->
 <g id="edge13" class="edge">
 <title>BsSearchModule&#45;&gt;BsFacetModule</title>
-<path fill="none" stroke="black" d="M363.2,-85.1C363.2,-103.07 363.2,-127.8 363.2,-127.8 363.2,-127.8 866.79,-127.8 866.79,-127.8"/>
-<polygon fill="black" stroke="black" points="866.79,-131.3 876.79,-127.8 866.79,-124.3 866.79,-131.3"/>
+<path fill="none" stroke="black" d="M1432.66,-85.07C1432.66,-103.36 1432.66,-128.8 1432.66,-128.8 1432.66,-128.8 958.43,-128.8 958.43,-128.8"/>
+<polygon fill="black" stroke="black" points="958.43,-125.3 948.43,-128.8 958.43,-132.3 958.43,-125.3"/>
 </g>
 <!-- CollapseModule -->
 <g id="node15" class="node">
 <title>CollapseModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="237.04,-84.8 234.04,-88.8 213.04,-88.8 210.04,-84.8 128.96,-84.8 128.96,-48.8 237.04,-48.8 237.04,-84.8"/>
-<text text-anchor="middle" x="183" y="-62.6" font-family="Times,serif" font-size="14.00">CollapseModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1388.04,-84.8 1385.04,-88.8 1364.04,-88.8 1361.04,-84.8 1279.96,-84.8 1279.96,-48.8 1388.04,-48.8 1388.04,-84.8"/>
+<text text-anchor="middle" x="1334" y="-62.6" font-family="Times,serif" font-size="14.00">CollapseModule</text>
 </g>
 <!-- CollapseModule&#45;&gt;BsFacetModule -->
 <g id="edge14" class="edge">
 <title>CollapseModule&#45;&gt;BsFacetModule</title>
-<path fill="none" stroke="black" d="M183,-84.97C183,-103.89 183,-130.8 183,-130.8 183,-130.8 866.84,-130.8 866.84,-130.8"/>
-<polygon fill="black" stroke="black" points="866.84,-134.3 876.84,-130.8 866.84,-127.3 866.84,-134.3"/>
+<path fill="none" stroke="black" d="M1285.91,-84.82C1285.91,-102.17 1285.91,-125.8 1285.91,-125.8 1285.91,-125.8 958.18,-125.8 958.18,-125.8"/>
+<polygon fill="black" stroke="black" points="958.18,-122.3 948.18,-125.8 958.18,-129.3 958.18,-122.3"/>
 </g>
 <!-- UtilsModule -->
 <g id="node16" class="node">
 <title>UtilsModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="110.27,-84.8 107.27,-88.8 86.27,-88.8 83.27,-84.8 23.73,-84.8 23.73,-48.8 110.27,-48.8 110.27,-84.8"/>
-<text text-anchor="middle" x="67" y="-62.6" font-family="Times,serif" font-size="14.00">UtilsModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1261.27,-84.8 1258.27,-88.8 1237.27,-88.8 1234.27,-84.8 1174.73,-84.8 1174.73,-48.8 1261.27,-48.8 1261.27,-84.8"/>
+<text text-anchor="middle" x="1218" y="-62.6" font-family="Times,serif" font-size="14.00">UtilsModule</text>
 </g>
 <!-- UtilsModule&#45;&gt;BsFacetModule -->
 <g id="edge15" class="edge">
 <title>UtilsModule&#45;&gt;BsFacetModule</title>
-<path fill="none" stroke="black" d="M67,-85.11C67,-104.95 67,-133.8 67,-133.8 67,-133.8 866.7,-133.8 866.7,-133.8"/>
-<polygon fill="black" stroke="black" points="866.7,-137.3 876.7,-133.8 866.7,-130.3 866.7,-137.3"/>
+<path fill="none" stroke="black" d="M1232.46,-84.83C1232.46,-101.2 1232.46,-122.8 1232.46,-122.8 1232.46,-122.8 958.2,-122.8 958.2,-122.8"/>
+<polygon fill="black" stroke="black" points="958.2,-119.3 948.2,-122.8 958.2,-126.3 958.2,-119.3"/>
 </g>
 </g>
 </svg>

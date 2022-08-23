@@ -1234,8 +1234,8 @@ Triggers an internal event and an Audit Event</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1073"
-                            class="link-to-prism">facet/facet.service.ts:1073</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1076"
+                            class="link-to-prism">facet/facet.service.ts:1076</a></div>
                 </td>
             </tr>
 
@@ -2206,8 +2206,8 @@ Can be used to read or alter the properties of the nodes (opening, closing), or 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="1062"
-                            class="link-to-prism">facet/facet.service.ts:1062</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="1065"
+                            class="link-to-prism">facet/facet.service.ts:1065</a></div>
                 </td>
             </tr>
 
@@ -3906,7 +3906,7 @@ On boolean type, convert <code>value</code> property to boolean</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="1098" class="link-to-prism">facet/facet.service.ts:1098</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="1101" class="link-to-prism">facet/facet.service.ts:1101</a></div>
                         </td>
                     </tr>
 
@@ -5065,8 +5065,11 @@ export class FacetService {
     suggestionsToTreeAggregationNodes(suggests: Suggestion[], searchTerm: string, aggregation: Aggregation | undefined): TreeAggregationNode[] {
         const suggestions: TreeAggregationNode[] &#x3D; [];
         if(suggests.length &gt; 0) {
-            const path2node &#x3D; new Map&lt;string,TreeAggregationNode&gt;();
-            const searchPattern &#x3D; new RegExp(&#x60;\\b${searchTerm}&#x60;, &#x27;i&#x27;);
+            const path2node &#x3D; new Map&lt;string, TreeAggregationNode&gt;();
+
+            // searchTerm should be escaped
+            const term &#x3D; searchTerm.replace(/[.*+?^${}()|[\]\\]/g, &#x27;\\$&amp;&#x27;);
+            const searchPattern &#x3D; new RegExp(&#x60;\\b${term}&#x60;, &#x27;i&#x27;);
             const column &#x3D; this.appService.getColumn(aggregation?.column);
             suggests.forEach(suggest &#x3D;&gt; {
                 if(suggest.display.length &gt; 1) {

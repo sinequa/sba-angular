@@ -8,6 +8,7 @@ import {IQuery} from "./query/query";
 import {AuditEvents} from "./audit.web.service";
 import {CCColumn, SpellingCorrectionMode} from "./config/ccapp";
 
+import { TopPassage } from "./models/top-passage";
 /**
  * Describes the results of a call to the query web service
  */
@@ -106,6 +107,10 @@ export interface Results {
      */
     answers?: {
       answers: Answer[]
+    }
+
+    topPassages?: {
+        passages?: TopPassage[]
     }
 }
 

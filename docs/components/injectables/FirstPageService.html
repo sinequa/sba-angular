@@ -77,6 +77,7 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Optional</span>
                                 <a href="#firstPage" >firstPage</a>
                             </li>
                         </ul>
@@ -132,12 +133,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(options: <a href="../interfaces/FirstPageOptions.html" target="_self">FirstPageOptions</a>, searchService: <a href="../injectables/SearchService.html" target="_self">SearchService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
+<code>constructor(options: <a href="../interfaces/FirstPageOptions.html" target="_self">FirstPageOptions</a>, searchService: <a href="../injectables/SearchService.html" target="_self">SearchService</a>, loginService: LoginService, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">search/first-page.service.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">search/first-page.service.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -171,6 +172,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/SearchService.html" target="_self" >SearchService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>loginService</td>
+                                                  
+                                                        <td>
+                                                                    <code>LoginService</code>
                                                         </td>
                                                   
                                                     <td>
@@ -224,8 +237,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">search/first-page.service.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">search/first-page.service.ts:70</a></div>
                 </td>
             </tr>
 
@@ -293,17 +306,27 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">search/first-page.service.ts:77</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="95"
+                            class="link-to-prism">search/first-page.service.ts:95</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>&quot;If the first page is already cached, return it as an observable, otherwise,
+make a query, set the isFirstPage flag to true, and then return the results
+as an observable.&quot;</p>
+</div>
 
+                    <div>
+                    </div>
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;Results&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Observable<Results></p>
 
                     </div>
                 </td>
@@ -330,8 +353,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">search/first-page.service.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">search/first-page.service.ts:54</a></div>
                 </td>
             </tr>
 
@@ -359,6 +382,7 @@
                 <td class="col-md-4">
                     <a name="firstPage"></a>
                     <span class="name">
+                            <span class="modifier">Optional</span>
                         <span ><b>firstPage</b></span>
                         <a href="#firstPage"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -372,7 +396,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">search/first-page.service.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">search/first-page.service.ts:23</a></div>
                         </td>
                     </tr>
 
@@ -401,7 +425,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">search/first-page.service.ts:55</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">search/first-page.service.ts:66</a></div>
                                 </td>
                             </tr>
 
@@ -412,12 +436,16 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, InjectionToken, Optional, Inject, OnDestroy} from &quot;@angular/core&quot;;
-import {Router} from &quot;@angular/router&quot;;
-import {SearchService} from &quot;./search.service&quot;;
-import {Subscription, Observable, of} from &#x27;rxjs&#x27;;
-import {Utils} from &quot;@sinequa/core/base&quot;;
-import {AuditEventType, Results} from &quot;@sinequa/core/web-services&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, InjectionToken, OnDestroy, Optional } from &quot;@angular/core&quot;;
+import { Router } from &quot;@angular/router&quot;;
+import { Observable, of, Subscription } from &#x27;rxjs&#x27;;
+import { filter, switchMap, tap } from &quot;rxjs/operators&quot;;
+
+import { Utils } from &quot;@sinequa/core/base&quot;;
+import { LoginService } from &quot;@sinequa/core/login&quot;;
+import { AuditEventType, Results } from &quot;@sinequa/core/web-services&quot;;
+
+import { SearchService } from &quot;./search.service&quot;;
 
 export interface FirstPageOptions {
     displayOnHomePage?: boolean;
@@ -429,33 +457,40 @@ export const FIRST_PAGE_OPTIONS &#x3D; new InjectionToken&lt;FirstPageOptions&gt
     providedIn: &quot;root&quot;
 })
 export class FirstPageService implements OnDestroy {
-    private searchSubscription: Subscription;
-    firstPage: Results;
+    private subscriptions: Subscription &#x3D; new Subscription();
+    firstPage?: Results;
 
     constructor(
         @Optional() @Inject(FIRST_PAGE_OPTIONS) protected options: FirstPageOptions,
         protected searchService: SearchService,
+        protected loginService: LoginService,
         protected router: Router
     ) {
         if (!this.options) {
             this.options &#x3D; {};
         }
-        this.searchSubscription &#x3D; this.searchService.events.subscribe(
-            (event) &#x3D;&gt; {
-                if (event.type &#x3D;&#x3D;&#x3D; &quot;clear&quot;) {
-                    if (this.displayOnHomePage(event.path)) {
-                        Utils.subscribe(this.getFirstPage(),
-                            (results) &#x3D;&gt; {
-                                this.searchService.setResults(results);
-                            });
-                    }
-                }
-            }
+        this.subscriptions.add(
+            this.searchService.events
+                .pipe(
+                    filter(event &#x3D;&gt; event.type &#x3D;&#x3D;&#x3D; &quot;clear&quot;),
+                    filter(event &#x3D;&gt; this.displayOnHomePage((event as SearchService.ClearEvent).path)),
+                    switchMap(_ &#x3D;&gt; this.getFirstPage())
+                ).subscribe()
+        );
+
+        // when session changed, on login complete, cache results must be cleared before to get the first page query
+        this.subscriptions.add(
+            this.loginService.events
+                .pipe(
+                    filter(event &#x3D;&gt; event.type &#x3D;&#x3D;&#x3D; &quot;login-complete&quot;),
+                    tap(_ &#x3D;&gt; this.firstPage &#x3D; undefined),
+                    switchMap(_ &#x3D;&gt; this.getFirstPage())
+                ).subscribe()
         );
     }
 
     ngOnDestroy() {
-        this.searchSubscription.unsubscribe();
+        this.subscriptions.unsubscribe();
     }
 
     /**
@@ -488,23 +523,23 @@ export class FirstPageService implements OnDestroy {
         }
     }
 
+    /**
+     * &quot;If the first page is already cached, return it as an observable, otherwise,
+     * make a query, set the isFirstPage flag to true, and then return the results
+     * as an observable.&quot;
+     *
+     * @returns Observable&lt;Results&gt;
+     */
     getFirstPage(): Observable&lt;Results&gt; {
         if (this.firstPage) {
-            return of&lt;Results&gt;(this.firstPage);
+            return of(this.firstPage);
         }
         const query &#x3D; this.searchService.makeQuery();
         query.isFirstPage &#x3D; true;
-        const observable &#x3D; this.searchService.getResults(query, {
-            type: AuditEventType.Search_FirstPage
-        }, {
-            searchInactive: true
-        });
-        Utils.subscribe(observable,
-            (results) &#x3D;&gt; {
-                this.firstPage &#x3D; results;
-                return results;
-            });
-        return observable;
+
+        // side effect, set cache results, then return &quot;results&quot; as observable
+        return this.searchService.getResults(query, { type: AuditEventType.Search_FirstPage }, { searchInactive: true })
+            .pipe(tap(results &#x3D;&gt; this.firstPage &#x3D; results))
     }
 }
 </code></pre>
