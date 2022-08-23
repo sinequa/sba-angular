@@ -142,7 +142,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="748" class="link-to-prism">web-services/query.web.service.ts:748</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="753" class="link-to-prism">web-services/query.web.service.ts:753</a></div>
                             </td>
                         </tr>
 
@@ -219,8 +219,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="791"
-                            class="link-to-prism">web-services/query.web.service.ts:791</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="796"
+                            class="link-to-prism">web-services/query.web.service.ts:796</a></div>
                 </td>
             </tr>
 
@@ -313,8 +313,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="764"
-                            class="link-to-prism">web-services/query.web.service.ts:764</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="769"
+                            class="link-to-prism">web-services/query.web.service.ts:769</a></div>
                 </td>
             </tr>
 
@@ -592,7 +592,7 @@ held on the <a href="../interfaces/StartConfig.html">StartConfig</a></p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="751" class="link-to-prism">web-services/query.web.service.ts:751</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="756" class="link-to-prism">web-services/query.web.service.ts:756</a></div>
                         </td>
                     </tr>
 
@@ -615,6 +615,7 @@ import {IQuery} from &quot;./query/query&quot;;
 import {AuditEvents} from &quot;./audit.web.service&quot;;
 import {CCColumn, SpellingCorrectionMode} from &quot;./config/ccapp&quot;;
 
+import { TopPassage } from &quot;./models/top-passage&quot;;
 /**
  * Describes the results of a call to the query web service
  */
@@ -713,6 +714,10 @@ export interface Results {
      */
     answers?: {
       answers: Answer[]
+    }
+
+    topPassages?: {
+        passages?: TopPassage[]
     }
 }
 

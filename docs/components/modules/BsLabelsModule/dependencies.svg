@@ -14,251 +14,251 @@
 <title>cluster_BsLabelsModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 1689,-230.8 1689,-32.8 8,-32.8"/>
 </g>
+<g id="clust9" class="cluster">
+<title>cluster_BsLabelsModule_imports</title>
+<polygon fill="none" stroke="black" points="888,-40.8 888,-92.8 1681,-92.8 1681,-40.8 888,-40.8"/>
+</g>
 <g id="clust2" class="cluster">
 <title>cluster_BsLabelsModule_declarations</title>
-<polygon fill="none" stroke="black" points="817,-40.8 817,-92.8 1681,-92.8 1681,-40.8 817,-40.8"/>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 880,-92.8 880,-40.8 16,-40.8"/>
 </g>
 <g id="clust10" class="cluster">
 <title>cluster_BsLabelsModule_exports</title>
-<polygon fill="none" stroke="black" points="260,-170.8 260,-222.8 1264,-222.8 1264,-170.8 260,-170.8"/>
-</g>
-<g id="clust9" class="cluster">
-<title>cluster_BsLabelsModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 809,-92.8 809,-40.8 16,-40.8"/>
+<polygon fill="none" stroke="black" points="332,-170.8 332,-222.8 1336,-222.8 1336,-170.8 332,-170.8"/>
 </g>
 <!-- BsAddLabel -->
 <g id="node1" class="node">
 <title>BsAddLabel</title>
-<polygon fill="#ffffb3" stroke="black" points="1673.26,-84.8 1586.74,-84.8 1586.74,-48.8 1673.26,-48.8 1673.26,-84.8"/>
-<text text-anchor="middle" x="1630" y="-62.6" font-family="Times,serif" font-size="14.00">BsAddLabel</text>
+<polygon fill="#ffffb3" stroke="black" points="872.26,-84.8 785.74,-84.8 785.74,-48.8 872.26,-48.8 872.26,-84.8"/>
+<text text-anchor="middle" x="829" y="-62.6" font-family="Times,serif" font-size="14.00">BsAddLabel</text>
 </g>
 <!-- BsLabelsModule -->
 <g id="node7" class="node">
 <title>BsLabelsModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="867.65,-149.8 864.65,-153.8 843.65,-153.8 840.65,-149.8 756.35,-149.8 756.35,-113.8 867.65,-113.8 867.65,-149.8"/>
-<text text-anchor="middle" x="812" y="-127.6" font-family="Times,serif" font-size="14.00">BsLabelsModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="939.65,-149.8 936.65,-153.8 915.65,-153.8 912.65,-149.8 828.35,-149.8 828.35,-113.8 939.65,-113.8 939.65,-149.8"/>
+<text text-anchor="middle" x="884" y="-127.6" font-family="Times,serif" font-size="14.00">BsLabelsModule</text>
 </g>
 <!-- BsAddLabel&#45;&gt;BsLabelsModule -->
 <g id="edge1" class="edge">
 <title>BsAddLabel&#45;&gt;BsLabelsModule</title>
-<path fill="none" stroke="black" d="M1630,-85.11C1630,-104.95 1630,-133.8 1630,-133.8 1630,-133.8 877.9,-133.8 877.9,-133.8"/>
-<polygon fill="black" stroke="black" points="877.9,-130.3 867.9,-133.8 877.9,-137.3 877.9,-130.3"/>
+<path fill="none" stroke="black" d="M850.28,-84.91C850.28,-84.91 850.28,-103.79 850.28,-103.79"/>
+<polygon fill="black" stroke="black" points="846.78,-103.79 850.28,-113.79 853.78,-103.79 846.78,-103.79"/>
 </g>
 <!-- BsDeleteLabel -->
 <g id="node2" class="node">
 <title>BsDeleteLabel</title>
-<polygon fill="#ffffb3" stroke="black" points="1568.69,-84.8 1469.31,-84.8 1469.31,-48.8 1568.69,-48.8 1568.69,-84.8"/>
-<text text-anchor="middle" x="1519" y="-62.6" font-family="Times,serif" font-size="14.00">BsDeleteLabel</text>
+<polygon fill="#ffffb3" stroke="black" points="767.69,-84.8 668.31,-84.8 668.31,-48.8 767.69,-48.8 767.69,-84.8"/>
+<text text-anchor="middle" x="718" y="-62.6" font-family="Times,serif" font-size="14.00">BsDeleteLabel</text>
 </g>
 <!-- BsDeleteLabel&#45;&gt;BsLabelsModule -->
 <g id="edge2" class="edge">
 <title>BsDeleteLabel&#45;&gt;BsLabelsModule</title>
-<path fill="none" stroke="black" d="M1519,-85.02C1519,-103.63 1519,-129.8 1519,-129.8 1519,-129.8 877.77,-129.8 877.77,-129.8"/>
-<polygon fill="black" stroke="black" points="877.77,-126.3 867.77,-129.8 877.77,-133.3 877.77,-126.3"/>
+<path fill="none" stroke="black" d="M762.69,-84.92C762.69,-99.58 762.69,-117.8 762.69,-117.8 762.69,-117.8 818.32,-117.8 818.32,-117.8"/>
+<polygon fill="black" stroke="black" points="818.32,-121.3 828.32,-117.8 818.32,-114.3 818.32,-121.3"/>
 </g>
 <!-- BsEditLabel -->
 <g id="node3" class="node">
 <title>BsEditLabel</title>
-<polygon fill="#ffffb3" stroke="black" points="1450.99,-84.8 1365.01,-84.8 1365.01,-48.8 1450.99,-48.8 1450.99,-84.8"/>
-<text text-anchor="middle" x="1408" y="-62.6" font-family="Times,serif" font-size="14.00">BsEditLabel</text>
+<polygon fill="#ffffb3" stroke="black" points="649.99,-84.8 564.01,-84.8 564.01,-48.8 649.99,-48.8 649.99,-84.8"/>
+<text text-anchor="middle" x="607" y="-62.6" font-family="Times,serif" font-size="14.00">BsEditLabel</text>
 </g>
 <!-- BsEditLabel&#45;&gt;BsLabelsModule -->
 <g id="edge3" class="edge">
 <title>BsEditLabel&#45;&gt;BsLabelsModule</title>
-<path fill="none" stroke="black" d="M1408,-84.82C1408,-102.17 1408,-125.8 1408,-125.8 1408,-125.8 877.8,-125.8 877.8,-125.8"/>
-<polygon fill="black" stroke="black" points="877.8,-122.3 867.8,-125.8 877.8,-129.3 877.8,-122.3"/>
+<path fill="none" stroke="black" d="M619.1,-84.81C619.1,-100.85 619.1,-121.8 619.1,-121.8 619.1,-121.8 818.15,-121.8 818.15,-121.8"/>
+<polygon fill="black" stroke="black" points="818.15,-125.3 828.15,-121.8 818.15,-118.3 818.15,-125.3"/>
 </g>
 <!-- BsLabelsAutocompleteComponent -->
 <g id="node4" class="node">
 <title>BsLabelsAutocompleteComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="1347.24,-84.8 1134.76,-84.8 1134.76,-48.8 1347.24,-48.8 1347.24,-84.8"/>
-<text text-anchor="middle" x="1241" y="-62.6" font-family="Times,serif" font-size="14.00">BsLabelsAutocompleteComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="546.24,-84.8 333.76,-84.8 333.76,-48.8 546.24,-48.8 546.24,-84.8"/>
+<text text-anchor="middle" x="440" y="-62.6" font-family="Times,serif" font-size="14.00">BsLabelsAutocompleteComponent</text>
 </g>
 <!-- BsLabelsAutocompleteComponent&#45;&gt;BsLabelsModule -->
 <g id="edge4" class="edge">
 <title>BsLabelsAutocompleteComponent&#45;&gt;BsLabelsModule</title>
-<path fill="none" stroke="black" d="M1141.49,-84.81C1141.49,-100.85 1141.49,-121.8 1141.49,-121.8 1141.49,-121.8 877.89,-121.8 877.89,-121.8"/>
-<polygon fill="black" stroke="black" points="877.89,-118.3 867.89,-121.8 877.89,-125.3 877.89,-118.3"/>
+<path fill="none" stroke="black" d="M502.18,-84.82C502.18,-102.17 502.18,-125.8 502.18,-125.8 502.18,-125.8 818.07,-125.8 818.07,-125.8"/>
+<polygon fill="black" stroke="black" points="818.07,-129.3 828.07,-125.8 818.07,-122.3 818.07,-129.3"/>
 </g>
 <!-- BsLabelsMenuComponent -->
 <g id="node5" class="node">
 <title>BsLabelsMenuComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="1117.09,-84.8 950.91,-84.8 950.91,-48.8 1117.09,-48.8 1117.09,-84.8"/>
-<text text-anchor="middle" x="1034" y="-62.6" font-family="Times,serif" font-size="14.00">BsLabelsMenuComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="316.09,-84.8 149.91,-84.8 149.91,-48.8 316.09,-48.8 316.09,-84.8"/>
+<text text-anchor="middle" x="233" y="-62.6" font-family="Times,serif" font-size="14.00">BsLabelsMenuComponent</text>
 </g>
 <!-- BsLabelsMenuComponent&#45;&gt;BsLabelsModule -->
 <g id="edge5" class="edge">
 <title>BsLabelsMenuComponent&#45;&gt;BsLabelsModule</title>
-<path fill="none" stroke="black" d="M989.35,-84.92C989.35,-99.58 989.35,-117.8 989.35,-117.8 989.35,-117.8 878.11,-117.8 878.11,-117.8"/>
-<polygon fill="black" stroke="black" points="878.11,-114.3 868.11,-117.8 878.11,-121.3 878.11,-114.3"/>
+<path fill="none" stroke="black" d="M233,-85.02C233,-103.63 233,-129.8 233,-129.8 233,-129.8 818.21,-129.8 818.21,-129.8"/>
+<polygon fill="black" stroke="black" points="818.21,-133.3 828.21,-129.8 818.21,-126.3 818.21,-133.3"/>
 </g>
 <!-- BsRenameLabel -->
 <g id="node6" class="node">
 <title>BsRenameLabel</title>
-<polygon fill="#ffffb3" stroke="black" points="933.03,-84.8 824.97,-84.8 824.97,-48.8 933.03,-48.8 933.03,-84.8"/>
-<text text-anchor="middle" x="879" y="-62.6" font-family="Times,serif" font-size="14.00">BsRenameLabel</text>
+<polygon fill="#ffffb3" stroke="black" points="132.03,-84.8 23.97,-84.8 23.97,-48.8 132.03,-48.8 132.03,-84.8"/>
+<text text-anchor="middle" x="78" y="-62.6" font-family="Times,serif" font-size="14.00">BsRenameLabel</text>
 </g>
 <!-- BsRenameLabel&#45;&gt;BsLabelsModule -->
 <g id="edge6" class="edge">
 <title>BsRenameLabel&#45;&gt;BsLabelsModule</title>
-<path fill="none" stroke="black" d="M846.28,-84.91C846.28,-84.91 846.28,-103.79 846.28,-103.79"/>
-<polygon fill="black" stroke="black" points="842.78,-103.79 846.28,-113.79 849.78,-103.79 842.78,-103.79"/>
+<path fill="none" stroke="black" d="M78,-85.11C78,-104.95 78,-133.8 78,-133.8 78,-133.8 818.28,-133.8 818.28,-133.8"/>
+<polygon fill="black" stroke="black" points="818.28,-137.3 828.28,-133.8 818.28,-130.3 818.28,-137.3"/>
 </g>
 <!-- BsAddLabel  -->
 <g id="node14" class="node">
 <title>BsAddLabel </title>
-<polygon fill="#fb8072" stroke="black" points="1256.26,-214.8 1165.74,-214.8 1165.74,-178.8 1256.26,-178.8 1256.26,-214.8"/>
-<text text-anchor="middle" x="1211" y="-192.6" font-family="Times,serif" font-size="14.00">BsAddLabel </text>
+<polygon fill="#fb8072" stroke="black" points="1328.26,-214.8 1237.74,-214.8 1237.74,-178.8 1328.26,-178.8 1328.26,-214.8"/>
+<text text-anchor="middle" x="1283" y="-192.6" font-family="Times,serif" font-size="14.00">BsAddLabel </text>
 </g>
 <!-- BsLabelsModule&#45;&gt;BsAddLabel  -->
 <g id="edge13" class="edge">
 <title>BsLabelsModule&#45;&gt;BsAddLabel </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M867.9,-137.8C977.71,-137.8 1211,-137.8 1211,-137.8 1211,-137.8 1211,-168.78 1211,-168.78"/>
-<polygon fill="black" stroke="black" points="1207.5,-168.78 1211,-178.78 1214.5,-168.78 1207.5,-168.78"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M939.8,-137.8C1042.57,-137.8 1251.39,-137.8 1251.39,-137.8 1251.39,-137.8 1251.39,-168.78 1251.39,-168.78"/>
+<polygon fill="black" stroke="black" points="1247.89,-168.78 1251.39,-178.78 1254.89,-168.78 1247.89,-168.78"/>
 </g>
 <!-- BsDeleteLabel  -->
 <g id="node15" class="node">
 <title>BsDeleteLabel </title>
-<polygon fill="#fb8072" stroke="black" points="1148.19,-214.8 1045.81,-214.8 1045.81,-178.8 1148.19,-178.8 1148.19,-214.8"/>
-<text text-anchor="middle" x="1097" y="-192.6" font-family="Times,serif" font-size="14.00">BsDeleteLabel </text>
+<polygon fill="#fb8072" stroke="black" points="1220.19,-214.8 1117.81,-214.8 1117.81,-178.8 1220.19,-178.8 1220.19,-214.8"/>
+<text text-anchor="middle" x="1169" y="-192.6" font-family="Times,serif" font-size="14.00">BsDeleteLabel </text>
 </g>
 <!-- BsLabelsModule&#45;&gt;BsDeleteLabel  -->
 <g id="edge14" class="edge">
 <title>BsLabelsModule&#45;&gt;BsDeleteLabel </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M867.81,-141.8C946.7,-141.8 1081.35,-141.8 1081.35,-141.8 1081.35,-141.8 1081.35,-168.79 1081.35,-168.79"/>
-<polygon fill="black" stroke="black" points="1077.85,-168.79 1081.35,-178.79 1084.85,-168.79 1077.85,-168.79"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M939.76,-141.8C1027.06,-141.8 1186.11,-141.8 1186.11,-141.8 1186.11,-141.8 1186.11,-168.79 1186.11,-168.79"/>
+<polygon fill="black" stroke="black" points="1182.61,-168.79 1186.11,-178.79 1189.61,-168.79 1182.61,-168.79"/>
 </g>
 <!-- BsEditLabel  -->
 <g id="node16" class="node">
 <title>BsEditLabel </title>
-<polygon fill="#fb8072" stroke="black" points="1027.99,-214.8 938.01,-214.8 938.01,-178.8 1027.99,-178.8 1027.99,-214.8"/>
-<text text-anchor="middle" x="983" y="-192.6" font-family="Times,serif" font-size="14.00">BsEditLabel </text>
+<polygon fill="#fb8072" stroke="black" points="1099.99,-214.8 1010.01,-214.8 1010.01,-178.8 1099.99,-178.8 1099.99,-214.8"/>
+<text text-anchor="middle" x="1055" y="-192.6" font-family="Times,serif" font-size="14.00">BsEditLabel </text>
 </g>
 <!-- BsLabelsModule&#45;&gt;BsEditLabel  -->
 <g id="edge15" class="edge">
 <title>BsLabelsModule&#45;&gt;BsEditLabel </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M867.85,-145.8C904.09,-145.8 944.61,-145.8 944.61,-145.8 944.61,-145.8 944.61,-168.68 944.61,-168.68"/>
-<polygon fill="black" stroke="black" points="941.11,-168.68 944.61,-178.68 948.11,-168.68 941.11,-168.68"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M940.08,-145.8C989.56,-145.8 1053.84,-145.8 1053.84,-145.8 1053.84,-145.8 1053.84,-168.68 1053.84,-168.68"/>
+<polygon fill="black" stroke="black" points="1050.34,-168.68 1053.84,-178.68 1057.34,-168.68 1050.34,-168.68"/>
 </g>
 <!-- BsLabelsAutocompleteComponent  -->
 <g id="node17" class="node">
 <title>BsLabelsAutocompleteComponent </title>
-<polygon fill="#fb8072" stroke="black" points="920.24,-214.8 703.76,-214.8 703.76,-178.8 920.24,-178.8 920.24,-214.8"/>
-<text text-anchor="middle" x="812" y="-192.6" font-family="Times,serif" font-size="14.00">BsLabelsAutocompleteComponent </text>
+<polygon fill="#fb8072" stroke="black" points="992.24,-214.8 775.76,-214.8 775.76,-178.8 992.24,-178.8 992.24,-214.8"/>
+<text text-anchor="middle" x="884" y="-192.6" font-family="Times,serif" font-size="14.00">BsLabelsAutocompleteComponent </text>
 </g>
 <!-- BsLabelsModule&#45;&gt;BsLabelsAutocompleteComponent  -->
 <g id="edge16" class="edge">
 <title>BsLabelsModule&#45;&gt;BsLabelsAutocompleteComponent </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M812,-149.91C812,-149.91 812,-168.79 812,-168.79"/>
-<polygon fill="black" stroke="black" points="808.5,-168.79 812,-178.79 815.5,-168.79 808.5,-168.79"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M884,-149.91C884,-149.91 884,-168.79 884,-168.79"/>
+<polygon fill="black" stroke="black" points="880.5,-168.79 884,-178.79 887.5,-168.79 880.5,-168.79"/>
 </g>
 <!-- BsLabelsMenuComponent  -->
 <g id="node18" class="node">
 <title>BsLabelsMenuComponent </title>
-<polygon fill="#fb8072" stroke="black" points="685.59,-214.8 516.41,-214.8 516.41,-178.8 685.59,-178.8 685.59,-214.8"/>
-<text text-anchor="middle" x="601" y="-192.6" font-family="Times,serif" font-size="14.00">BsLabelsMenuComponent </text>
+<polygon fill="#fb8072" stroke="black" points="757.59,-214.8 588.41,-214.8 588.41,-178.8 757.59,-178.8 757.59,-214.8"/>
+<text text-anchor="middle" x="673" y="-192.6" font-family="Times,serif" font-size="14.00">BsLabelsMenuComponent </text>
 </g>
 <!-- BsLabelsModule&#45;&gt;BsLabelsMenuComponent  -->
 <g id="edge17" class="edge">
 <title>BsLabelsModule&#45;&gt;BsLabelsMenuComponent </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M756.08,-145.8C719.44,-145.8 678.31,-145.8 678.31,-145.8 678.31,-145.8 678.31,-168.68 678.31,-168.68"/>
-<polygon fill="black" stroke="black" points="674.81,-168.68 678.31,-178.68 681.81,-168.68 674.81,-168.68"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M828.04,-145.8C778.2,-145.8 713.1,-145.8 713.1,-145.8 713.1,-145.8 713.1,-168.68 713.1,-168.68"/>
+<polygon fill="black" stroke="black" points="709.6,-168.68 713.1,-178.68 716.6,-168.68 709.6,-168.68"/>
 </g>
 <!-- BsRenameLabel  -->
 <g id="node19" class="node">
 <title>BsRenameLabel </title>
-<polygon fill="#fb8072" stroke="black" points="498.02,-214.8 385.98,-214.8 385.98,-178.8 498.02,-178.8 498.02,-214.8"/>
-<text text-anchor="middle" x="442" y="-192.6" font-family="Times,serif" font-size="14.00">BsRenameLabel </text>
+<polygon fill="#fb8072" stroke="black" points="570.02,-214.8 457.98,-214.8 457.98,-178.8 570.02,-178.8 570.02,-214.8"/>
+<text text-anchor="middle" x="514" y="-192.6" font-family="Times,serif" font-size="14.00">BsRenameLabel </text>
 </g>
 <!-- BsLabelsModule&#45;&gt;BsRenameLabel  -->
 <g id="edge18" class="edge">
 <title>BsLabelsModule&#45;&gt;BsRenameLabel </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M756.15,-141.8C648.99,-141.8 425.04,-141.8 425.04,-141.8 425.04,-141.8 425.04,-168.79 425.04,-168.79"/>
-<polygon fill="black" stroke="black" points="421.54,-168.79 425.04,-178.79 428.54,-168.79 421.54,-168.79"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M828.22,-141.8C734.41,-141.8 555.19,-141.8 555.19,-141.8 555.19,-141.8 555.19,-168.79 555.19,-168.79"/>
+<polygon fill="black" stroke="black" points="551.69,-168.79 555.19,-178.79 558.69,-168.79 551.69,-168.79"/>
 </g>
 <!-- LabelsModule  -->
 <g id="node20" class="node">
 <title>LabelsModule </title>
-<polygon fill="#fb8072" stroke="black" points="368.37,-214.8 267.63,-214.8 267.63,-178.8 368.37,-178.8 368.37,-214.8"/>
-<text text-anchor="middle" x="318" y="-192.6" font-family="Times,serif" font-size="14.00">LabelsModule </text>
+<polygon fill="#fb8072" stroke="black" points="440.37,-214.8 339.63,-214.8 339.63,-178.8 440.37,-178.8 440.37,-214.8"/>
+<text text-anchor="middle" x="390" y="-192.6" font-family="Times,serif" font-size="14.00">LabelsModule </text>
 </g>
 <!-- BsLabelsModule&#45;&gt;LabelsModule  -->
 <g id="edge19" class="edge">
 <title>BsLabelsModule&#45;&gt;LabelsModule </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M756.32,-137.8C630.42,-137.8 334.73,-137.8 334.73,-137.8 334.73,-137.8 334.73,-168.78 334.73,-168.78"/>
-<polygon fill="black" stroke="black" points="331.23,-168.78 334.73,-178.78 338.23,-168.78 331.23,-168.78"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M828.29,-137.8C699.1,-137.8 390,-137.8 390,-137.8 390,-137.8 390,-168.78 390,-168.78"/>
+<polygon fill="black" stroke="black" points="386.5,-168.78 390,-178.78 393.5,-168.78 386.5,-168.78"/>
 </g>
 <!-- BsActionModule -->
 <g id="node8" class="node">
 <title>BsActionModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="801.43,-84.8 798.43,-88.8 777.43,-88.8 774.43,-84.8 688.57,-84.8 688.57,-48.8 801.43,-48.8 801.43,-84.8"/>
-<text text-anchor="middle" x="745" y="-62.6" font-family="Times,serif" font-size="14.00">BsActionModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1673.43,-84.8 1670.43,-88.8 1649.43,-88.8 1646.43,-84.8 1560.57,-84.8 1560.57,-48.8 1673.43,-48.8 1673.43,-84.8"/>
+<text text-anchor="middle" x="1617" y="-62.6" font-family="Times,serif" font-size="14.00">BsActionModule</text>
 </g>
 <!-- BsActionModule&#45;&gt;BsLabelsModule -->
 <g id="edge7" class="edge">
 <title>BsActionModule&#45;&gt;BsLabelsModule</title>
-<path fill="none" stroke="black" d="M778.7,-84.91C778.7,-84.91 778.7,-103.79 778.7,-103.79"/>
-<polygon fill="black" stroke="black" points="775.2,-103.79 778.7,-113.79 782.2,-103.79 775.2,-103.79"/>
+<path fill="none" stroke="black" d="M1617,-85.11C1617,-104.95 1617,-133.8 1617,-133.8 1617,-133.8 949.7,-133.8 949.7,-133.8"/>
+<polygon fill="black" stroke="black" points="949.7,-130.3 939.7,-133.8 949.7,-137.3 949.7,-130.3"/>
 </g>
 <!-- BsAutocompleteModule -->
 <g id="node9" class="node">
 <title>BsAutocompleteModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="670.64,-84.8 667.64,-88.8 646.64,-88.8 643.64,-84.8 517.36,-84.8 517.36,-48.8 670.64,-48.8 670.64,-84.8"/>
-<text text-anchor="middle" x="594" y="-62.6" font-family="Times,serif" font-size="14.00">BsAutocompleteModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1542.64,-84.8 1539.64,-88.8 1518.64,-88.8 1515.64,-84.8 1389.36,-84.8 1389.36,-48.8 1542.64,-48.8 1542.64,-84.8"/>
+<text text-anchor="middle" x="1466" y="-62.6" font-family="Times,serif" font-size="14.00">BsAutocompleteModule</text>
 </g>
 <!-- BsAutocompleteModule&#45;&gt;BsLabelsModule -->
 <g id="edge8" class="edge">
 <title>BsAutocompleteModule&#45;&gt;BsLabelsModule</title>
-<path fill="none" stroke="black" d="M594,-84.92C594,-99.58 594,-117.8 594,-117.8 594,-117.8 746.14,-117.8 746.14,-117.8"/>
-<polygon fill="black" stroke="black" points="746.14,-121.3 756.14,-117.8 746.14,-114.3 746.14,-121.3"/>
+<path fill="none" stroke="black" d="M1466,-85.02C1466,-103.63 1466,-129.8 1466,-129.8 1466,-129.8 949.8,-129.8 949.8,-129.8"/>
+<polygon fill="black" stroke="black" points="949.8,-126.3 939.8,-129.8 949.8,-133.3 949.8,-126.3"/>
 </g>
 <!-- BsModalModule -->
 <g id="node10" class="node">
 <title>BsModalModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="499.38,-84.8 496.38,-88.8 475.38,-88.8 472.38,-84.8 388.62,-84.8 388.62,-48.8 499.38,-48.8 499.38,-84.8"/>
-<text text-anchor="middle" x="444" y="-62.6" font-family="Times,serif" font-size="14.00">BsModalModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1371.38,-84.8 1368.38,-88.8 1347.38,-88.8 1344.38,-84.8 1260.62,-84.8 1260.62,-48.8 1371.38,-48.8 1371.38,-84.8"/>
+<text text-anchor="middle" x="1316" y="-62.6" font-family="Times,serif" font-size="14.00">BsModalModule</text>
 </g>
 <!-- BsModalModule&#45;&gt;BsLabelsModule -->
 <g id="edge9" class="edge">
 <title>BsModalModule&#45;&gt;BsLabelsModule</title>
-<path fill="none" stroke="black" d="M461.53,-84.81C461.53,-100.85 461.53,-121.8 461.53,-121.8 461.53,-121.8 746.08,-121.8 746.08,-121.8"/>
-<polygon fill="black" stroke="black" points="746.08,-125.3 756.08,-121.8 746.08,-118.3 746.08,-125.3"/>
+<path fill="none" stroke="black" d="M1294.34,-84.82C1294.34,-102.17 1294.34,-125.8 1294.34,-125.8 1294.34,-125.8 949.77,-125.8 949.77,-125.8"/>
+<polygon fill="black" stroke="black" points="949.77,-122.3 939.77,-125.8 949.77,-129.3 949.77,-122.3"/>
 </g>
 <!-- BsSelectionModule -->
 <g id="node11" class="node">
 <title>BsSelectionModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="370.43,-84.8 367.43,-88.8 346.43,-88.8 343.43,-84.8 243.57,-84.8 243.57,-48.8 370.43,-48.8 370.43,-84.8"/>
-<text text-anchor="middle" x="307" y="-62.6" font-family="Times,serif" font-size="14.00">BsSelectionModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1242.43,-84.8 1239.43,-88.8 1218.43,-88.8 1215.43,-84.8 1115.57,-84.8 1115.57,-48.8 1242.43,-48.8 1242.43,-84.8"/>
+<text text-anchor="middle" x="1179" y="-62.6" font-family="Times,serif" font-size="14.00">BsSelectionModule</text>
 </g>
 <!-- BsSelectionModule&#45;&gt;BsLabelsModule -->
 <g id="edge10" class="edge">
 <title>BsSelectionModule&#45;&gt;BsLabelsModule</title>
-<path fill="none" stroke="black" d="M301.27,-84.82C301.27,-102.17 301.27,-125.8 301.27,-125.8 301.27,-125.8 745.88,-125.8 745.88,-125.8"/>
-<polygon fill="black" stroke="black" points="745.88,-129.3 755.88,-125.8 745.88,-122.3 745.88,-129.3"/>
+<path fill="none" stroke="black" d="M1151.89,-84.81C1151.89,-100.85 1151.89,-121.8 1151.89,-121.8 1151.89,-121.8 949.83,-121.8 949.83,-121.8"/>
+<polygon fill="black" stroke="black" points="949.83,-118.3 939.83,-121.8 949.83,-125.3 949.83,-118.3"/>
 </g>
 <!-- LabelsModule -->
 <g id="node12" class="node">
 <title>LabelsModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="225.37,-84.8 222.37,-88.8 201.37,-88.8 198.37,-84.8 128.63,-84.8 128.63,-48.8 225.37,-48.8 225.37,-84.8"/>
-<text text-anchor="middle" x="177" y="-62.6" font-family="Times,serif" font-size="14.00">LabelsModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1097.37,-84.8 1094.37,-88.8 1073.37,-88.8 1070.37,-84.8 1000.63,-84.8 1000.63,-48.8 1097.37,-48.8 1097.37,-84.8"/>
+<text text-anchor="middle" x="1049" y="-62.6" font-family="Times,serif" font-size="14.00">LabelsModule</text>
 </g>
 <!-- LabelsModule&#45;&gt;BsLabelsModule -->
 <g id="edge11" class="edge">
 <title>LabelsModule&#45;&gt;BsLabelsModule</title>
-<path fill="none" stroke="black" d="M177,-85.02C177,-103.63 177,-129.8 177,-129.8 177,-129.8 746.2,-129.8 746.2,-129.8"/>
-<polygon fill="black" stroke="black" points="746.2,-133.3 756.2,-129.8 746.2,-126.3 746.2,-133.3"/>
+<path fill="none" stroke="black" d="M1005.41,-84.92C1005.41,-99.58 1005.41,-117.8 1005.41,-117.8 1005.41,-117.8 949.73,-117.8 949.73,-117.8"/>
+<polygon fill="black" stroke="black" points="949.73,-114.3 939.73,-117.8 949.73,-121.3 949.73,-114.3"/>
 </g>
 <!-- UtilsModule -->
 <g id="node13" class="node">
 <title>UtilsModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="110.27,-84.8 107.27,-88.8 86.27,-88.8 83.27,-84.8 23.73,-84.8 23.73,-48.8 110.27,-48.8 110.27,-84.8"/>
-<text text-anchor="middle" x="67" y="-62.6" font-family="Times,serif" font-size="14.00">UtilsModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="982.27,-84.8 979.27,-88.8 958.27,-88.8 955.27,-84.8 895.73,-84.8 895.73,-48.8 982.27,-48.8 982.27,-84.8"/>
+<text text-anchor="middle" x="939" y="-62.6" font-family="Times,serif" font-size="14.00">UtilsModule</text>
 </g>
 <!-- UtilsModule&#45;&gt;BsLabelsModule -->
 <g id="edge12" class="edge">
 <title>UtilsModule&#45;&gt;BsLabelsModule</title>
-<path fill="none" stroke="black" d="M67,-85.11C67,-104.95 67,-133.8 67,-133.8 67,-133.8 746.31,-133.8 746.31,-133.8"/>
-<polygon fill="black" stroke="black" points="746.31,-137.3 756.31,-133.8 746.31,-130.3 746.31,-137.3"/>
+<path fill="none" stroke="black" d="M917.72,-84.91C917.72,-84.91 917.72,-103.79 917.72,-103.79"/>
+<polygon fill="black" stroke="black" points="914.22,-103.79 917.72,-113.79 921.22,-103.79 914.22,-103.79"/>
 </g>
 </g>
 </svg>

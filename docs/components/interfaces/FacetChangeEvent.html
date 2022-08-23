@@ -1183,8 +1183,11 @@ export class FacetService {
     suggestionsToTreeAggregationNodes(suggests: Suggestion[], searchTerm: string, aggregation: Aggregation | undefined): TreeAggregationNode[] {
         const suggestions: TreeAggregationNode[] &#x3D; [];
         if(suggests.length &gt; 0) {
-            const path2node &#x3D; new Map&lt;string,TreeAggregationNode&gt;();
-            const searchPattern &#x3D; new RegExp(&#x60;\\b${searchTerm}&#x60;, &#x27;i&#x27;);
+            const path2node &#x3D; new Map&lt;string, TreeAggregationNode&gt;();
+
+            // searchTerm should be escaped
+            const term &#x3D; searchTerm.replace(/[.*+?^${}()|[\]\\]/g, &#x27;\\$&amp;&#x27;);
+            const searchPattern &#x3D; new RegExp(&#x60;\\b${term}&#x60;, &#x27;i&#x27;);
             const column &#x3D; this.appService.getColumn(aggregation?.column);
             suggests.forEach(suggest &#x3D;&gt; {
                 if(suggest.display.length &gt; 1) {
