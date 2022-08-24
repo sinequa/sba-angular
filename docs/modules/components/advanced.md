@@ -292,4 +292,4 @@ In this section, we will go through the main keys of how to easily instantiate a
 
 The example built in the packaged sample looks like this :
 
-![Labels]({{site.baseurl}}assets/modules/advanced/advanced-search.png){: .d-block .mx-auto }
+![Labels]({{site.baseurl}}assets/modules/advanced/advanced-search.PNG){: .d-block .mx-auto }
