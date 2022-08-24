@@ -242,7 +242,7 @@ The `AdvancedModule` embeds its own directives to handle custom features of the 
 
   This directive also emits an `itemsUpdate` event which is needed to synchronize the search terms in the parent component.
 
-- The [`BsAdvancedFormValidation`]({{site.baseurl}}components/directives/BsAdvancedFormValidation.html) provides the `sqAdvancedFormValidation` directive. It extends and overrides the main [`sqValidation`]({{site.baseurl}}components/directives/ValidationDirective.html) directive.
+- The [`BsAdvancedFormValidation`]({{site.baseurl}}components/directives/BsAdvancedFormValidation.html) provides the `sqAdvancedFormValidation` directive. It extends and overrides the main [`sqValidation`]({{site.baseurl}}core/directives/ValidationDirective.html) directive.
 
   The inputs of the directive are :
 

@@ -22,7 +22,7 @@ This module provides the `NotificationService` that helps to create user notific
 
 ## Import
 
-You do not need to import this module because it is imported and overridden by the [Components Notification module]({{site.baseurl}}components/modules/NotificationModule.html).
+You do not need to import this module because it is imported and overridden by the [Components Notification module]({{site.baseurl}}components/modules/BsNotificationModule.html).
 
 Whenever you want to emit user notifications in your component, inject the [`NotificationsService`]({{site.baseurl}}core/injectables/NotificationsService.html) into your component.
 

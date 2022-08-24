@@ -10,13 +10,13 @@ nav_order: 16
 
 ## Reference documentation
 
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/ResultsViewModule.html) auto-generated from source code.
+Please checkout the [reference documentation]({{site.baseurl}}components/modules/BsResultsViewModule.html) auto-generated from source code.
 
 ## Features
 
 This module provides a way to manage multiple views of the search results. At the core, the [`ResultsViewService`]({{site.baseurl}}components/injectables/ResultsViewService.html) keeps track of the current active view, and the list of all available views. This service persists the view name in the URL, and manages the navigation and interactions with the [SearchService]({{site.baseurl}}components/injectables/SearchService.html).
 
-The module includes a component (coupled to the service) to select a view (among the list of all views), and a sample "grid" results view, that can be used as an alternative to a standard "list" results view. Other modules include other types of views, such as the [heatmap results view](heatmap.html).
+The module includes a component (coupled to the service) to select a view (among the list of all views), and a sample "grid" results view, that can be used as an alternative to a standard "list" results view. Other modules include other types of views, such as the [heatmap results view]({{site.baseurl}}modules/analytics/heatmap.html).
 
 ## Import
 
