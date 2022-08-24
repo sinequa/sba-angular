@@ -60,12 +60,12 @@ const routes: Routes = [
 
 With this in place, you should notice the *Lazy chunk files*, while compiling your application. Those are simply referring to our lazy loaded module
 
-![Lazy loading preview]({{site.baseurl}}assets/tipstricks/lazy-loading.png){: .d-block .mx-auto }
+![Lazy loading preview]({{site.baseurl}}assets/tipstricks/lazy-loading.PNG){: .d-block .mx-auto }
 
 
 ## Module Federation
 
-Historically, build tools ( Webpack … ) assume that the entire program code is available when compiling. 
+Historically, build tools (Webpack,…) assume that the entire program code is available when compiling. 
 Lazy loading is possible, but only from areas that were split off during compilation.
 
 This was the main motivation behind the creation of *Module Federation* as a new feature of *Webpack 5*. Hence, it allows loading separately compiled and deployed code (also called micro front-ends or plugins) into an application.
@@ -171,7 +171,7 @@ declare module 'mfe/Module';
 
 Once starting both applications side by side (`ng serve shell` and `ng serve mfe`), you should notice, **at runtime**, that shell loads the mfe from its own URL
 
-![Loading remotes]({{site.baseurl}}assets/tipstricks/loading-remote.png){: .d-block .mx-auto }
+![Loading remotes]({{site.baseurl}}assets/tipstricks/loading-remote.PNG){: .d-block .mx-auto }
 
 ### Dynamic federation
 
