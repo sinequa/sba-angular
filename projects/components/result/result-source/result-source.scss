@@ -6,11 +6,11 @@
     display: block;
 
     a,span {
-        color: #006621 !important;
+        color: #006621;
     }
 
     a.path:not(:last-child)::after{
-        content: " > ";
+        content: " ❯ ";
         display: inline-block;
         text-decoration: none;
         white-space: pre;
