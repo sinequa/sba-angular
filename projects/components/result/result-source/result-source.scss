@@ -1,22 +1,22 @@
 :host {
-    font-size: 0.9rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
 
-    a,span {
-        color: #006621;
-    }
+a,span {
+  color: #006621;
+}
 
-    a.path:not(:last-child)::after{
-        content: " ❯ ";
-        display: inline-block;
-        text-decoration: none;
-        white-space: pre;
-    }
+a.path:not(:last-child)::after{
+  content: " ❯ ";
+  display: inline-block;
+  text-decoration: none;
+  white-space: pre;
+}
 
-    a:hover {
-        text-decoration: underline;
-    }
+a:hover {
+  text-decoration: underline;
 }
