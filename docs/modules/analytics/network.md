@@ -90,7 +90,7 @@ A natural next step is to customize these samples by copying and modifying their
 
 At some point, you may feel restricted by what is shown in these samples. We recommend looking into the code of the factory itself (`provider-factory.ts`), to learn how to further customize node types, edge types and providers.
 
-Finally, keep in mind that nothing prevents you from programming your own providers. Have a look at the existing ones, and try using inheritance when possible (at the very least, extending the [`BaseProvider`]({{site.baseurl}}analytics/class/BaseProvider.html)).
+Finally, keep in mind that nothing prevents you from programming your own providers. Have a look at the existing ones, and try using inheritance when possible (at the very least, extending the [`BaseProvider`]({{site.baseurl}}analytics/classes/BaseProvider.html)).
 
 ## Network Component
 

@@ -5,6 +5,9 @@
     <form novalidate [formGroup]="form">
 
         <div class="input-group">
+
+            <sq-scope [query]="searchService.query" *ngIf="appService.ccquery?.scopesActive"></sq-scope>
+
             <!-- Input with autocomplete -->
             <div
                 class="form-control d-flex pe-1"

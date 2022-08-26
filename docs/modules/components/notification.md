@@ -10,7 +10,7 @@ nav_order: 14
 
 ## Reference documentation
 
-Please checkout the [reference documentation]({{site.baseurl}}components/modules/NotificationModule.html) auto-generated from source code.
+Please checkout the [reference documentation]({{site.baseurl}}components/modules/BsNotificationModule.html) auto-generated from source code.
 
 ## Features
 
