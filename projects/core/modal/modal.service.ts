@@ -132,7 +132,7 @@ export interface PromptOptions extends ConfirmOptions {
     /**
      * If omitted, a single-line input is displayed. If specified, a textarea with the
      * given number of rows is displayed
-     */    
+     */
     rowCount?: number;
 }
 
@@ -322,6 +322,12 @@ export class ModalService {
         const overlayComponent = this.attachDialogContainer(component, overlayRef, modalConfig, modalRef);
         modalRef.componentInstance = overlayComponent;
         overlayRef.hostElement.classList.add("sq-modal-host");
+        if(modalConfig.width) {
+          overlayRef.hostElement.style.setProperty("--modal-width", modalConfig.width);
+        }
+        if(modalConfig.height) {
+          overlayRef.hostElement.style.setProperty("--modal-height", modalConfig.height);
+        }
         if (modalConfig.closeOnBackdropClick) {
             // NB backdropClick will not fire if pointer-events are enabled on modal-host
             overlayRef.backdropClick().subscribe(() => modalRef.close());
@@ -369,7 +375,7 @@ export class ModalService {
             providers:[
                 {provide: ModalRef, useValue: modalRef},
                 {provide: MODAL_MODEL, useValue: config.model}
-            ], 
+            ],
             parent:this.injector
         });
         const containerPortal = new ComponentPortal(component, null, injector);

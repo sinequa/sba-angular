@@ -24,13 +24,20 @@ $zindex-modal-backdrop: 1040;
     pointer-events: none !important;
 }
 
-.sq-modal-fullscreen {
-    .modal-dialog, .modal-content, * > form {
-        height: 100%;
+.modal-dialog {
+    max-width: var(--modal-width, 500px);
+    height: var(--modal-height, auto);
+    .modal-content {
+        height: 100%; // modal-content should respect its modal-dialog height (this is not a problem when height: auto, the default)
+        .modal-body {
+            overflow: auto; // When the modal has a defined height and/or width, make the body scroll in case of overflow
+        }
     }
+}
+
+.sq-modal-fullscreen {
 
     .modal-dialog {
-        max-width: none;
         margin: 0;
     }
 }
