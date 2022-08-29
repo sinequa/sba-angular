@@ -48,5 +48,9 @@ export default {
 
     "queryIntent": {
         "externalServiceTimeoutError": "Cette page de résultat est incomplète due à un délai d'attente interne dépassé. S'il vous plaît, réessayez plus tard."
+    },
+
+    "scopes": {
+        "allScopes": "Toutes les sources"
     }
 };

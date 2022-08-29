@@ -4,6 +4,8 @@
 // were the input.
 :host {
   width: 13em;
+  border-radius: 0.25rem; // Necessary for the box-shadow to render properly
+  box-shadow: 0px 0px 7px 2px rgba(0,0,0,.08);
 }
 .search-form-control {
   width: 100%;
@@ -33,6 +35,7 @@
     border-color: #80bdff;
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    z-index: 3;
 }
 .form-control.is-invalid:focus-within {
     border-color: #dc3545;

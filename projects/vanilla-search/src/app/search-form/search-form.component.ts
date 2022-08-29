@@ -182,6 +182,7 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
 
       /** Store relevant filters (tab ...)*/
       const queryTab = this.searchService.query.tab;
+      const queryScope = this.searchService.query.scope;
 
       /** If this.keepFilters = false, clear the query and reset all its filters. */
       if (!this.keepFilters) {
@@ -219,6 +220,10 @@ export class SearchFormComponent implements OnInit, DoCheck, OnDestroy {
       // if this.keepTab, stay on the same tab even after a new search
       if (this.keepTab && !!queryTab) {
         this.searchService.query.tab = queryTab;
+      }
+
+      if(this.appService.ccquery?.scopesActive && queryScope) {
+        this.searchService.query.scope = queryScope;
       }
 
       if (!this.neuralSearch) {

@@ -246,3 +246,31 @@ We are using the [`Observer API`](https://https://developer.mozilla.org/en-US/do
 ```html
 <sq-scroller></sq-scroller>
 ```
+
+### Scope selector
+
+The [`sq-scope`]({{site.baseurl}}components/components/BsScopeComponent.html) component allows users to select a subset of sources, much like the tabs but with additional flexibility for defining the WHERE-clause returning the documents. 
+
+The scope configuration is defined in the query web service (Result Page tab):
+
+![Scope config]({{site.baseurl}}assets/modules/search/scope-config.png)
+
+![Scope rules]({{site.baseurl}}assets/modules/search/scope-rules.png)
+
+The scope selector is typically displayed in the search bar, although this is not an obligation.
+
+![Scope selector]({{site.baseurl}}assets/modules/search/scope.png)
+
+Selecting a scope updates the [`Query`]({{site.baseurl}}core/classes/Query.html) object, without triggering a new search (if this behavior is required, it is possible to trigger a new search by listening to the `(queryChange)` event emited by this component).
+
+A complete implementation could look like this:
+
+```html
+<sq-scope 
+  *ngIf="appService.ccquery?.scopesActive"
+  [query]="searchService.query"
+  (queryChange)="searchService.search()">
+</sq-scope>
+```
+
+(Note that, unlike with the tabs, the query web service does not support counting the number of elements in each scope for a given query. Therefore, scopes could be displayed in the form of tabs, but without tab counters.)

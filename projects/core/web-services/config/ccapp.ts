@@ -256,20 +256,20 @@ export interface CCScope {
     /**
      * The description of the scope
      */
-    description: string;
+    description?: string;
     /**
      * The display value to be used when rendering the scope
      */
-    display: string;
+    display?: string;
     /**
      * Determines whether the scope is active or not
      */
-    isActive: boolean;
+    isActive?: boolean;
     /**
      * Determines whether the scope should be considered the default scope
      * when a scope is not specified in a query
      */
-    isDefault: boolean;
+    isDefault?: boolean;
 }
 
 /**

@@ -19,7 +19,7 @@ The application has **three routes** made of **five components** (of course, the
 - A **Preview** route, allowing users to see the details of a document and navigate its relevant extracts and entities.
 - Additionally, a **Search Form** component (which includes the autocomplete) is used within both the Home and Search routes.
 
-The routes are configured in the [`app.module.ts`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/app-module.ts) file:
+The routes are configured in the [`app.module.ts`](https://github.com/sinequa/sba-angular/blob/master/projects/vanilla-search/src/app/app.module.ts) file:
 
 ```ts
 export const routes: Routes = [
@@ -183,7 +183,7 @@ The [`sqAutocompleteExtended`](https://github.com/sinequa/sba-angular/blob/maste
 
 Furthermore, the search form displays the following options (when focused or hovered), to enrich the search experience :
 
-![Search form]({{site.baseurl}}assets/modules/search-form-options.png){: .d-block .mx-auto }
+![Search form]({{site.baseurl}}assets/modules/search-form-options.PNG){: .d-block .mx-auto }
 
 - The `clear` button allows users to reset the content of the search input (text and/or fielded search items).
 - The `filter` button provides the ability to decide wether the applied search criteria should be kept while searching for new text.
