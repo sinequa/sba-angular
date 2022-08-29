@@ -101,9 +101,7 @@
               "projects/hello-search/src/favicon.ico",
               "projects/hello-search/src/assets"
             ],
-            "styles": [
-              "projects/hello-search/src/styles/app.scss"
-            ],
+            "styles": ["projects/hello-search/src/styles/app.scss"],
             "scripts": [],
             "allowedCommonJsDependencies": [
               "hammerjs",
@@ -185,9 +183,7 @@
               "projects/hello-search/src/favicon.ico",
               "projects/hello-search/src/assets"
             ],
-            "styles": [
-              "projects/hello-search/src/styles/app.scss"
-            ],
+            "styles": ["projects/hello-search/src/styles/app.scss"],
             "scripts": []
           }
         },
@@ -288,8 +284,8 @@
                 }
               ]
             },
-            "development" : {
-              "outputPath": "dist/vanilla-search",
+            "development": {
+              "outputPath": "dist-debug/vanilla-search",
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -329,9 +325,7 @@
               "projects/vanilla-search/src/favicon.ico",
               "projects/vanilla-search/src/assets"
             ],
-            "styles": [
-              "projects/vanilla-search/src/styles/app.scss"
-            ],
+            "styles": ["projects/vanilla-search/src/styles/app.scss"],
             "scripts": []
           }
         },
@@ -435,7 +429,7 @@
               ]
             },
             "development": {
-              "outputPath": "dist/pepper",
+              "outputPath": "dist-debug/pepper",
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -475,9 +469,7 @@
               "projects/pepper/src/favicon.ico",
               "projects/pepper/src/assets"
             ],
-            "styles": [
-              "projects/pepper/src/styles/app.scss"
-            ],
+            "styles": ["projects/pepper/src/styles/app.scss"],
             "scripts": []
           }
         },
@@ -537,9 +529,7 @@
               "projects/analytics/tsconfig.json",
               "projects/analytics/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
