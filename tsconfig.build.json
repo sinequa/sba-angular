@@ -17,4 +17,10 @@
       "@sinequa/analytics/*": ["./dist/analytics/*"]
     }
   },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
+    "enableResourceInlining": true,
+    "compilationMode": "partial"
+  }
 }
